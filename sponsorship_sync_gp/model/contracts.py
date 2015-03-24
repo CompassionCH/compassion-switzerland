@@ -54,7 +54,8 @@ class contracts(orm.Model):
         return self.browse(cr, uid, con_id, '', '', context).months_paid
 
     _columns = {
-        'months_paid': fields.function(_get_number_months_paid, type='int')
+        'months_paid': fields.function(_get_number_months_paid,
+                                       type='integer', string='Months paid')
     }
 
     def create(self, cr, uid, vals, context=None):

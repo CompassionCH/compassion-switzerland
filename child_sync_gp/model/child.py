@@ -70,12 +70,13 @@ class child_pictures(orm.Model):
             child = child_obj.browse(cr, uid, vals['child_id'], context)
             # In GP, pictures are linked to Case Study
             if not child.case_study_ids:
-                child_obj._get_case_study(cr, uid, child, context)
-                child = child_obj.browse(cr, uid, child.id, context)
+                # Don't update an old case study with a new picture
+                return pic_id
+
             date_cs = child.case_study_ids[0].info_date.replace('-', '')
-            gp_pic_path = "{}{}/".format(config.get('gp_pictures'),
-                                         child.code[:2])
-            file_name = "{}_{}.jpg".format(child.code, date_cs)
+            gp_pic_path = "{0}{1}/".format(config.get('gp_pictures'),
+                                           child.code[:2])
+            file_name = "{0}_{1}.jpg".format(child.code, date_cs)
             picture_file = TemporaryFile()
             picture_file.write(base64.b64decode(pic_data))
             picture_file.flush()
