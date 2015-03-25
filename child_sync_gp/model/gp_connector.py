@@ -127,16 +127,13 @@ class GPConnect(mysql_connector):
 
     def upsert_project(self, uid, project):
         """Update a given Compassion project in GP."""
-        location_en = project.community_name + ', ' + project.country_id.name
-        location_fr = project.community_name + ', ' + \
-            project.country_id.name_fr if project.country_id.name_fr else \
-            project.country_id.name
-        location_de = project.community_name + ', ' + \
-            project.country_id.name_de if project.country_id.name_de else \
-            project.country_id.name
-        location_it = project.community_name + ', ' + \
-            project.country_id.name_it if project.country_id.name_it else \
-            project.country_id.name
+        distance_from_closest_city_ids = project.distance_from_closest_city_ids
+
+        location_en = distance_from_closest_city_ids.value_en
+        location_fr = distance_from_closest_city_ids.value_fr or location_en
+        location_de = distance_from_closest_city_ids.value_fr or location_en
+        location_it = distance_from_closest_city_ids.value_fr or location_en
+
         vals = {
             'CODE_PROJET': project.code,
             'DESCRIPTION_FR': project.description_fr or '',
