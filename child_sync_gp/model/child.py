@@ -52,65 +52,52 @@ class child_compassion(orm.Model):
         return res
 
 
-class child_pictures(orm.Model):
-    _inherit = 'compassion.child.pictures'
-
-    def create(self, cr, uid, vals, context=None):
-        """Push a new picture to GP."""
-        pic_id = super(child_pictures, self).create(cr, uid, vals, context)
-        pic_data = self.get_picture(cr, uid, [pic_id], 'fullshot', '',
-                                    context)[pic_id]
-
-        if pic_data:
-            # Retrieve configuration
-            smb_user = config.get('smb_user')
-            smb_pass = config.get('smb_pwd')
-            smb_ip = config.get('smb_ip')
-            child_obj = self.pool.get('compassion.child')
-            child = child_obj.browse(cr, uid, vals['child_id'], context)
-            # In GP, pictures are linked to Case Study
-            if not child.case_study_ids:
-                # Don't update an old case study with a new picture
-                return pic_id
-
-            date_cs = child.case_study_ids[0].info_date.replace('-', '')
-            gp_pic_path = "{0}{1}/".format(config.get('gp_pictures'),
-                                           child.code[:2])
-            file_name = "{0}_{1}.jpg".format(child.code, date_cs)
-            picture_file = TemporaryFile()
-            picture_file.write(base64.b64decode(pic_data))
-            picture_file.flush()
-            picture_file.seek(0)
-
-            # Upload file to shared folder
-            smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
-            if smb_conn.connect(smb_ip, 139):
-                try:
-                    smb_conn.storeFile(
-                        'GP', gp_pic_path + file_name, picture_file)
-                except OperationFailure:
-                    # Directory may not exist
-                    smb_conn.createDirectory('GP', gp_pic_path)
-                    smb_conn.storeFile(
-                        'GP', gp_pic_path + file_name, picture_file)
-
-        return pic_id
-
-
 class child_property(orm.Model):
     """ Upsert Case Studies """
     _inherit = 'compassion.child.property'
-
-    def create(self, cr, uid, vals, context=None):
-        new_id = super(child_property, self).create(cr, uid, vals, context)
-        case_study = self.browse(cr, uid, new_id, context)
-        gp_connect = gp_connector.GPConnect()
-        gp_connect.upsert_case_study(uid, case_study)
-        return new_id
 
     def write(self, cr, uid, ids, vals, context=None):
         gp_connect = gp_connector.GPConnect()
         super(child_property, self).write(cr, uid, ids, vals, context)
         for case_study in self.browse(cr, uid, ids, context):
-            gp_connect.upsert_case_study(uid, case_study)
+            # We only push case studies with a picture attached to it
+            if case_study.pictures_id:
+                create = 'pictures_id' in vals
+                gp_connect.upsert_case_study(uid, case_study, create)
         return True
+
+    def attach_pictures(self, cr, uid, ids, pictures_id, context=None):
+        """ Push the new picture. """
+        res = super(child_property, self).attach_pictures(
+            cr, uid, ids, pictures_id, context)
+
+        pictures = self.pool.get('compassion.child.pictures').browse(
+            cr, uid, pictures_id, context)
+
+        # Retrieve configuration
+        smb_user = config.get('smb_user')
+        smb_pass = config.get('smb_pwd')
+        smb_ip = config.get('smb_ip')
+        child = pictures.child_id
+
+        date_pic = pictures.date.replace('-', '')
+        gp_pic_path = "{0}{1}/".format(config.get('gp_pictures'),
+                                       child.code[:2])
+        file_name = "{0}_{1}.jpg".format(child.code, date_pic)
+        picture_file = TemporaryFile()
+        picture_file.write(base64.b64decode(pictures.fullshot))
+        picture_file.flush()
+        picture_file.seek(0)
+
+        # Upload file to shared folder
+        smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
+        if smb_conn.connect(smb_ip, 139):
+            try:
+                smb_conn.storeFile(
+                    'GP', gp_pic_path + file_name, picture_file)
+            except OperationFailure:
+                # Directory may not exist
+                smb_conn.createDirectory('GP', gp_pic_path)
+                smb_conn.storeFile(
+                    'GP', gp_pic_path + file_name, picture_file)
+        return res

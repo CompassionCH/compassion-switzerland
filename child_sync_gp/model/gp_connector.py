@@ -62,11 +62,10 @@ class GPConnect(mysql_connector):
             vals['ID_MOTIF_FIN'] = int(child.gp_exit_reason)
         return self.upsert("Enfants", vals)
 
-    def upsert_case_study(self, uid, case_study):
+    def upsert_case_study(self, uid, case_study, create=False):
         """Push or update latest Case Study in GP."""
         id_fichier = False
         vals = {
-            'DATE_PHOTO': case_study.info_date,
             'COMMENTAIRE_FR': case_study.desc_fr or
             case_study.child_id.desc_fr or '',
             'COMMENTAIRE_DE': case_study.desc_de or
@@ -78,8 +77,11 @@ class GPConnect(mysql_connector):
             'IDUSER': self._get_gp_uid(uid),
             'CODE': case_study.code,
             'DATE_INFO': case_study.info_date,
-            'DATE_IMPORTATION': datetime.today().strftime(DF),
         }
+        if create:
+            vals.update({
+                'DATE_PHOTO': case_study.pictures_id.date,
+                'DATE_IMPORTATION': datetime.today().strftime(DF)})
         if self.upsert("Fichiersenfants", vals):
             id_fichier = self.selectOne(
                 "SELECT MAX(Id_Fichier_Enfant) AS id FROM Fichiersenfants "
