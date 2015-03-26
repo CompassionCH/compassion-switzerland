@@ -66,19 +66,22 @@ class GPConnect(mysql_connector):
         """Push or update latest Case Study in GP."""
         id_fichier = False
         vals = {
-            'COMMENTAIRE_FR': case_study.desc_fr or
-            case_study.child_id.desc_fr or '',
-            'COMMENTAIRE_DE': case_study.desc_de or
-            case_study.child_id.desc_de or '',
-            'COMMENTAIRE_ITA': case_study.desc_it or
-            case_study.child_id.desc_it or '',
-            'COMMENTAIRE_EN': case_study.desc_en or
-            case_study.child_id.desc_en or '',
+            'COMMENTAIRE_FR': case_study.desc_fr or '',
+            'COMMENTAIRE_DE': case_study.desc_de or '',
+            'COMMENTAIRE_ITA': case_study.desc_it or '',
+            'COMMENTAIRE_EN': case_study.desc_en or '',
             'IDUSER': self._get_gp_uid(uid),
             'CODE': case_study.code,
             'DATE_INFO': case_study.info_date,
         }
         if create:
+            info_date_gp = self.selectOne(
+                "SELECT MAX(DATE_INFO) AS date FROM Fichiersenfants "
+                "WHERE CODE = %s", case_study.code).get('date', '1970-01-01')
+            if info_date_gp == case_study.info_date:
+                # Case study already exists on GP ->
+                # Don't upsert it
+                return False
             vals.update({
                 'DATE_PHOTO': case_study.pictures_id.date,
                 'DATE_IMPORTATION': datetime.today().strftime(DF)})
@@ -96,9 +99,9 @@ class GPConnect(mysql_connector):
 
     def set_child_sponsor_state(self, child):
         update_string = "UPDATE Enfants SET %s WHERE code='%s'"
-        update_fields = "situation='{}'".format(child.state)
+        update_fields = "situation='{0}'".format(child.state)
         if child.sponsor_id:
-            update_fields += ", codega='{}'".format(child.sponsor_id.ref)
+            update_fields += ", codega='{0}'".format(child.sponsor_id.ref)
 
         if child.state == 'F':
             # If the child is sponsored, mark the sponsorship as terminated in
@@ -106,12 +109,12 @@ class GPConnect(mysql_connector):
             end_reason = child.gp_exit_reason or \
                 self.transfer_mapping[child.transfer_country_id.code] \
                 if child.transfer_country_id else 'NULL'
-            update_fields += ", id_motif_fin={}".format(end_reason)
+            update_fields += ", id_motif_fin={0}".format(end_reason)
             # We don't put a child transfer in ending reason of a sponsorship
             if not child.transfer_country_id:
                 pole_sql = "UPDATE Poles SET TYPEP = IF(TYPEP = 'C', " \
-                           "'A', 'F'), id_motif_fin={}, datefin=curdate() " \
-                           "WHERE codespe='{}' AND TYPEP NOT IN " \
+                           "'A', 'F'), id_motif_fin={0}, datefin=curdate() " \
+                           "WHERE codespe='{1}' AND TYPEP NOT IN " \
                            "('F','A')".format(end_reason, child.code)
                 logger.info(pole_sql)
                 self.query(pole_sql)

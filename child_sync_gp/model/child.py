@@ -63,7 +63,12 @@ class child_property(orm.Model):
             # We only push case studies with a picture attached to it
             if case_study.pictures_id:
                 create = 'pictures_id' in vals
-                gp_connect.upsert_case_study(uid, case_study, create)
+                res = gp_connect.upsert_case_study(uid, case_study, create)
+                if not res:
+                    # Don't put contract in biennial state if case study was
+                    # not upserted in GP.
+                    for contract in case_study.child_id.contract_ids:
+                        contract.write({'gmc_state': False})
         return True
 
     def attach_pictures(self, cr, uid, ids, pictures_id, context=None):
