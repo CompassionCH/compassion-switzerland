@@ -16,9 +16,6 @@ class delegate_child_wizard(orm.TransientModel):
     _inherit = 'delegate.child.wizard'
 
     def delegate(self, cr, uid, ids, context=None):
-        res = super(delegate_child_wizard, self).delegate(
-            cr, uid, ids, context)
-
         child_ids = self._default_child_ids(cr, uid, context)
         child_obj = self.pool.get('compassion.child')
 
@@ -31,4 +28,6 @@ class delegate_child_wizard(orm.TransientModel):
             res = child_obj.child_remove_from_typo3(
                 cr, uid, typo3_to_remove_ids, context)
 
+        res = super(delegate_child_wizard, self).delegate(
+            cr, uid, ids, context)
         return res or Sync_typo3.typo3_index_error(cr, uid, self, context)

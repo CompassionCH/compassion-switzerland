@@ -38,6 +38,9 @@
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['sponsorship_compassion'],
+    'external_dependencies': {
+        'python': ['pysftp'],
+    },
     'data': [
         'view/child_on_typo3_wizard.xml',
         'view/child_remove_from_typo3.xml',
