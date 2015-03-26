@@ -19,6 +19,7 @@ class end_sponsorship_wizard(orm.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
         child = wizard.child_id
 
+        res = True
         if child.state == 'I':
             res = child.child_remove_from_typo3()
 
