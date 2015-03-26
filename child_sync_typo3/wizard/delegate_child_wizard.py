@@ -23,7 +23,7 @@ class delegate_child_wizard(orm.TransientModel):
         for child in child_obj.browse(cr, uid, child_ids, context):
             if (child.state == 'I'):
                 typo3_to_remove_ids.append(child.id)
-
+        res = True
         if typo3_to_remove_ids:
             res = child_obj.child_remove_from_typo3(
                 cr, uid, typo3_to_remove_ids, context)
