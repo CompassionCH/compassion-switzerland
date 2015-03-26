@@ -23,6 +23,6 @@ class end_sponsorship_wizard(orm.TransientModel):
             res = child.child_remove_from_typo3()
 
         res = super(end_sponsorship_wizard, self).child_depart(
-            cr, uid, ids, context)
+            cr, uid, ids, context) and res
 
         return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
