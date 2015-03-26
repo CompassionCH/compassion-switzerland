@@ -29,5 +29,6 @@ class delegate_child_wizard(orm.TransientModel):
                 cr, uid, typo3_to_remove_ids, context)
 
         res = super(delegate_child_wizard, self).delegate(
-            cr, uid, ids, context)
+            cr, uid, ids, context) and res
+
         return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
