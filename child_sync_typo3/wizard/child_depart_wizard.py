@@ -16,13 +16,13 @@ class end_sponsorship_wizard(orm.TransientModel):
     _inherit = 'end.sponsorship.wizard'
 
     def child_depart(self, cr, uid, ids, context=None):
-        res = super(end_sponsorship_wizard, self).child_depart(
-            cr, uid, ids, context)
-
         wizard = self.browse(cr, uid, ids[0], context)
         child = wizard.child_id
 
         if child.state == 'I':
             res = child.child_remove_from_typo3()
+            
+        res = super(end_sponsorship_wizard, self).child_depart(
+                    cr, uid, ids, context)
 
         return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
