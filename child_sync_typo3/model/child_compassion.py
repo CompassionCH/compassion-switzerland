@@ -86,8 +86,9 @@ class compassion_child(orm.Model):
                 " consignment_date, tstamp, crdate, consignment_expiry_date,"
                 " l10n_parent,image,child_birth_date,"
                 " child_unsponsored_since_date,project) "
-                "values ('{}','{}','{}','{}','{}','{}',"
-                "        '{}','{}','{}','{}','{}','{}','{}',{});".format(
+                "values ('{0}','{1}','{2}','{3}','{4}','{5}',"
+                "        '{6}','{7}','{8}','{9}','{10}','{11}',"
+                "        '{12}',{13});".format(
                     child.code, child.name, child.firstname,
                     child_gender, child_desc_de,
                     today_ts, today_ts, today_ts, today_ts + consign_ts,
@@ -104,8 +105,9 @@ class compassion_child(orm.Model):
                 " crdate,consignment_expiry_date,l10n_parent,image," \
                 " child_birth_date,child_unsponsored_since_date," \
                 " project,sys_language_uid) " \
-                "values ('{}','{}','{}','{}','{}','{}','{}'," \
-                "        '{}','{}','{}','{}','{}','{}',{},1);".format(
+                "values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}'," \
+                "        '{7}','{8}','{9}','{10}'," \
+                "        '{11}','{12}',{13},1);".format(
                     child.code, child.name, child.firstname,
                     child_gender, child_desc_fr,
                     today_ts, today_ts, today_ts, today_ts + consign_ts,
@@ -120,7 +122,7 @@ class compassion_child(orm.Model):
             query += "insert into " \
                 "tx_drechildpoolmanagement_childpools_children_mm" \
                 "(uid_foreign,sorting) " \
-                "values ({},{})".format(parent_id, max_sorting)
+                "values ({0},{1})".format(parent_id, max_sorting)
 
             Sync_typo3.request_to_typo3(query, 'upd')
 
@@ -135,9 +137,9 @@ class compassion_child(orm.Model):
             child_uid = self._get_typo3_child_id(cr, uid, child.code)
             Sync_typo3.request_to_typo3(
                 "delete from tx_drechildpoolmanagement_childpools_children_mm"
-                " where uid_foreign={};"
+                " where uid_foreign={0};"
                 "delete from tx_drechildpoolmanagement_domain_model_children "
-                "where child_key='{}';".format(child_uid, child.code), 'upd')
+                "where child_key='{1}';".format(child_uid, child.code), 'upd')
             state = 'R' if child.has_been_sponsored else 'N'
             child.write({'state': state})
             child_codes.append(child.code)

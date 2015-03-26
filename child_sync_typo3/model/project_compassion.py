@@ -71,7 +71,7 @@ class compassion_project(orm.Model):
                 "tx_drechildpoolmanagement_domain_model_projects"
                 "(project_key, country, description,"
                 "tstamp, crdate, l10n_parent) "
-                "values ('{}','{}','{}','{}','{}','{}');".format(
+                "values ('{0}','{1}','{2}','{3}','{4}','{5}');".format(
                     project.code, project.country_id.name,
                     project_desc_de, today_ts,
                     today_ts, 0), 'upd')
@@ -86,7 +86,7 @@ class compassion_project(orm.Model):
                 "tx_drechildpoolmanagement_domain_model_projects"
                 "(project_key, country, description,"
                 "tstamp, crdate, l10n_parent, sys_language_uid) "
-                "values ('{}','{}','{}','{}','{}','{}',1);".format(
+                "values ('{0}','{1}','{2}','{3}','{4}','{5}',1);".format(
                     project.code, project.country_id.name,
                     project_desc_fr, today_ts,
                     today_ts, parent_id), 'upd')
