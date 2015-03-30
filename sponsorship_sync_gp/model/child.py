@@ -10,9 +10,10 @@
 ##############################################################################
 
 from openerp.osv import orm
-from openerp.tools.config import config
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 
 from . import gp_connector
+from datetime import datetime
 
 
 class child_compassion(orm.Model):
@@ -43,15 +44,20 @@ class child_property(orm.Model):
     """ Upsert Case Studies """
     _inherit = 'compassion.child.property'
 
-    def _upsert_gp(self, uid, case_study, create_mode):
+    def attach_pictures(self, cr, uid, ids, pictures_id, context=None):
+        """ Don't put contract in biennial state if biennial is more
+            recent than cs. """
         gp_connect = gp_connector.GPConnect()
-        res = super(child_property, self)._upsert_gp(uid, case_study,
-                                                     create_mode)
+        res = super(child_property, self).attach_pictures(
+            cr, uid, ids, pictures_id, context)
+        if not isinstance(ids, list):
+            ids = [ids]
+
+        case_study = self.browse(cr, uid, ids, context)[0]
         for contract in case_study.child_id.contract_ids:
             last_biennial = gp_connect.get_last_biennial(contract)
-            # Don't put contract in biennial state if case study was
-            # not upserted in GP or if biennial is more recent than cs.
-            if not res or last_biennial >= case_study.info_date:
+            if last_biennial and last_biennial >= datetime.strptime(
+                    case_study.info_date, DF).date():
                 contract.write({'gmc_state': False})
 
         return res

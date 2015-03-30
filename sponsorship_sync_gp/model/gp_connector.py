@@ -315,11 +315,11 @@ class GPConnect(mysql_connector):
         con_ids_string = ','.join([str(c) for c in con_ids])
         sql_query = "UPDATE Poles SET CODESPE = %s WHERE id_erp IN (%s)"
         return self.query(sql_query, [child_code, con_ids_string])
-        
+
     def get_last_biennial(self, contract):
         """ Get the date at which we did the last Biennial in GP. """
         return self.selectOne(
             "SELECT MAX(DATE) AS DATE FROM Histoenfant "
             "WHERE TYPE = 'RB' AND CODE = %s AND CODEGA = %s",
-            contract.child_code, contract.partner_id.ref).get("DATE",
-                                                              "0000-00-00")
+            [contract.child_code, contract.partner_id.ref]).get("DATE",
+                                                                "0000-00-00")

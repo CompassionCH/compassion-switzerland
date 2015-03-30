@@ -51,7 +51,7 @@ class child_property(orm.Model):
         super(child_property, self).write(cr, uid, ids, vals, context)
         for case_study in self.browse(cr, uid, ids, context):
             create_mode = 'pictures_id' in vals
-            self._upsert_gp(case_study, create_mode)
+            self._upsert_gp(uid, case_study, create_mode)
         return True
 
     def _upsert_gp(self, uid, case_study, create_mode):
@@ -59,6 +59,7 @@ class child_property(orm.Model):
         gp_connect = gp_connector.GPConnect()
         if case_study.pictures_id:
             return gp_connect.upsert_case_study(uid, case_study, create_mode)
+        return False
 
     def attach_pictures(self, cr, uid, ids, pictures_id, context=None):
         """ Push the new picture. """
