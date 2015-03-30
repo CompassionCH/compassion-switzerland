@@ -97,37 +97,6 @@ class GPConnect(mysql_connector):
                 self.upsert("Enfants", vals)
         return id_fichier
 
-    def set_child_sponsor_state(self, child):
-        update_string = "UPDATE Enfants SET %s WHERE code='%s'"
-        update_fields = "situation='{0}'".format(child.state)
-        if child.sponsor_id:
-            update_fields += ", codega='{0}'".format(child.sponsor_id.ref)
-
-        if child.state == 'F':
-            # If the child is sponsored, mark the sponsorship as terminated in
-            # GP and set the child exit reason in tables Poles and Enfant
-            end_reason = child.gp_exit_reason or \
-                self.transfer_mapping[child.transfer_country_id.code] \
-                if child.transfer_country_id else 'NULL'
-            update_fields += ", id_motif_fin={0}".format(end_reason)
-            # We don't put a child transfer in ending reason of a sponsorship
-            if not child.transfer_country_id:
-                pole_sql = "UPDATE Poles SET TYPEP = IF(TYPEP = 'C', " \
-                           "'A', 'F'), id_motif_fin={0}, datefin=curdate() " \
-                           "WHERE codespe='{1}' AND TYPEP NOT IN " \
-                           "('F','A')".format(end_reason, child.code)
-                logger.info(pole_sql)
-                self.query(pole_sql)
-
-        if child.state == 'P':
-            # Remove delegation and end_reason, if any was set
-            update_fields += ", datedelegue=NULL, codedelegue=''" \
-                             ", id_motif_fin=NULL"
-
-        sql_query = update_string % (update_fields, child.code)
-        logger.info(sql_query)
-        return self.query(sql_query)
-
     def upsert_project(self, uid, project):
         """Update a given Compassion project in GP."""
         distance_from_closest_city_ids = project.distance_from_closest_city_ids
@@ -177,9 +146,3 @@ class GPConnect(mysql_connector):
         elif project.status == 'T':
             gp_state = 'Terminé'
         return gp_state
-
-    def update_child_sponsorship(self, child_code, con_ids):
-        """ Updates the child code of a sponsorship """
-        con_ids_string = ','.join([str(c) for c in con_ids])
-        sql_query = "UPDATE Poles SET CODESPE = %s WHERE id_erp IN (%s)"
-        return self.query(sql_query, [child_code, con_ids_string])

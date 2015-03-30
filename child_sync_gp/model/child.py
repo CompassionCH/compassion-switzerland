@@ -39,15 +39,6 @@ class child_compassion(orm.Model):
 
         for child in self.browse(cr, uid, ids, context):
             gp_connect.upsert_child(uid, child)
-            if 'state' in vals:
-                gp_connect.set_child_sponsor_state(child)
-            if 'code' in vals:
-                # Update the Sponsorships related to this child in GP
-                con_obj = self.pool.get('recurring.contract')
-                con_ids = con_obj.search(
-                    cr, uid, [('child_id', '=', child.id)], context=context)
-                if con_ids:
-                    gp_connect.update_child_sponsorship(child.code, con_ids)
 
         return res
 
@@ -57,19 +48,17 @@ class child_property(orm.Model):
     _inherit = 'compassion.child.property'
 
     def write(self, cr, uid, ids, vals, context=None):
-        gp_connect = gp_connector.GPConnect()
         super(child_property, self).write(cr, uid, ids, vals, context)
         for case_study in self.browse(cr, uid, ids, context):
-            # We only push case studies with a picture attached to it
-            if case_study.pictures_id:
-                create = 'pictures_id' in vals
-                res = gp_connect.upsert_case_study(uid, case_study, create)
-                if not res:
-                    # Don't put contract in biennial state if case study was
-                    # not upserted in GP.
-                    for contract in case_study.child_id.contract_ids:
-                        contract.write({'gmc_state': False})
+            create_mode = 'pictures_id' in vals
+            self._upsert_gp(case_study, create_mode)
         return True
+
+    def _upsert_gp(self, uid, case_study, create_mode):
+        # We only push case studies with a picture attached to it
+        gp_connect = gp_connector.GPConnect()
+        if case_study.pictures_id:
+            return gp_connect.upsert_case_study(uid, case_study, create_mode)
 
     def attach_pictures(self, cr, uid, ids, pictures_id, context=None):
         """ Push the new picture. """
