@@ -19,6 +19,11 @@ from .contracts import SPONSORSHIP_TYPES
 class account_invoice(orm.Model):
     _inherit = 'account.invoice'
 
+    # Add a field to know if we sent the receipt for a paid invoice
+    _columns = {
+        'receipt_id': fields.many2one('mail.thread', _('Receipt'))
+    }
+
     def action_cancel(self, cr, uid, ids, context=None):
         """ If an invoice was cancelled, update the situation in GP. """
         for invoice in self.browse(cr, uid, ids, {'lang': 'en_US'}):
