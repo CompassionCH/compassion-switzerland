@@ -78,7 +78,7 @@ class account_invoice(orm.Model):
                 ('last_payment', '>=', from_date),
                 ('last_payment', '<=', to_date),
                 ('contract_id', '=', False),
-                ('price_subtotal', '>' 8)],
+                ('price_subtotal', '>', 8)],
             context=context)
 
         return list(set([invl.invoice_id.id for invl in
