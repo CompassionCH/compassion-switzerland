@@ -62,24 +62,29 @@ class GPConnect(mysql_connector):
             vals['ID_MOTIF_FIN'] = int(child.gp_exit_reason)
         return self.upsert("Enfants", vals)
 
-    def upsert_case_study(self, uid, case_study):
+    def upsert_case_study(self, uid, case_study, create=False):
         """Push or update latest Case Study in GP."""
         id_fichier = False
         vals = {
-            'DATE_PHOTO': case_study.info_date,
-            'COMMENTAIRE_FR': case_study.desc_fr or
-            case_study.child_id.desc_fr or '',
-            'COMMENTAIRE_DE': case_study.desc_de or
-            case_study.child_id.desc_de or '',
-            'COMMENTAIRE_ITA': case_study.desc_it or
-            case_study.child_id.desc_it or '',
-            'COMMENTAIRE_EN': case_study.desc_en or
-            case_study.child_id.desc_en or '',
+            'COMMENTAIRE_FR': case_study.desc_fr or '',
+            'COMMENTAIRE_DE': case_study.desc_de or '',
+            'COMMENTAIRE_ITA': case_study.desc_it or '',
+            'COMMENTAIRE_EN': case_study.desc_en or '',
             'IDUSER': self._get_gp_uid(uid),
             'CODE': case_study.code,
             'DATE_INFO': case_study.info_date,
-            'DATE_IMPORTATION': datetime.today().strftime(DF),
         }
+        if create:
+            info_date_gp = self.selectOne(
+                "SELECT MAX(DATE_INFO) AS date FROM Fichiersenfants "
+                "WHERE CODE = %s", case_study.code).get('date', '1970-01-01')
+            if info_date_gp == case_study.info_date:
+                # Case study already exists on GP ->
+                # Don't upsert it
+                return False
+            vals.update({
+                'DATE_PHOTO': case_study.pictures_id.date,
+                'DATE_IMPORTATION': datetime.today().strftime(DF)})
         if self.upsert("Fichiersenfants", vals):
             id_fichier = self.selectOne(
                 "SELECT MAX(Id_Fichier_Enfant) AS id FROM Fichiersenfants "
@@ -92,49 +97,16 @@ class GPConnect(mysql_connector):
                 self.upsert("Enfants", vals)
         return id_fichier
 
-    def set_child_sponsor_state(self, child):
-        update_string = "UPDATE Enfants SET %s WHERE code='%s'"
-        update_fields = "situation='{}'".format(child.state)
-        if child.sponsor_id:
-            update_fields += ", codega='{}'".format(child.sponsor_id.ref)
-
-        if child.state == 'F':
-            # If the child is sponsored, mark the sponsorship as terminated in
-            # GP and set the child exit reason in tables Poles and Enfant
-            end_reason = child.gp_exit_reason or \
-                self.transfer_mapping[child.transfer_country_id.code] \
-                if child.transfer_country_id else 'NULL'
-            update_fields += ", id_motif_fin={}".format(end_reason)
-            # We don't put a child transfer in ending reason of a sponsorship
-            if not child.transfer_country_id:
-                pole_sql = "UPDATE Poles SET TYPEP = IF(TYPEP = 'C', " \
-                           "'A', 'F'), id_motif_fin={}, datefin=curdate() " \
-                           "WHERE codespe='{}' AND TYPEP NOT IN " \
-                           "('F','A')".format(end_reason, child.code)
-                logger.info(pole_sql)
-                self.query(pole_sql)
-
-        if child.state == 'P':
-            # Remove delegation and end_reason, if any was set
-            update_fields += ", datedelegue=NULL, codedelegue=''" \
-                             ", id_motif_fin=NULL"
-
-        sql_query = update_string % (update_fields, child.code)
-        logger.info(sql_query)
-        return self.query(sql_query)
-
     def upsert_project(self, uid, project):
         """Update a given Compassion project in GP."""
-        location_en = project.community_name + ', ' + project.country_id.name
-        location_fr = project.community_name + ', ' + \
-            project.country_id.name_fr if project.country_id.name_fr else \
-            project.country_id.name
-        location_de = project.community_name + ', ' + \
-            project.country_id.name_de if project.country_id.name_de else \
-            project.country_id.name
-        location_it = project.community_name + ', ' + \
-            project.country_id.name_it if project.country_id.name_it else \
-            project.country_id.name
+        closest_city = project.distance_from_closest_city_ids and \
+            project.distance_from_closest_city_ids[0]
+
+        location_en = closest_city and closest_city.value_en
+        location_fr = closest_city and closest_city.value_fr or location_en
+        location_de = closest_city and closest_city.value_de or location_en
+        location_it = closest_city and closest_city.value_it or location_en
+
         vals = {
             'CODE_PROJET': project.code,
             'DESCRIPTION_FR': project.description_fr or '',
@@ -175,9 +147,3 @@ class GPConnect(mysql_connector):
         elif project.status == 'T':
             gp_state = 'Terminé'
         return gp_state
-
-    def update_child_sponsorship(self, child_code, con_ids):
-        """ Updates the child code of a sponsorship """
-        con_ids_string = ','.join([str(c) for c in con_ids])
-        sql_query = "UPDATE Poles SET CODESPE = %s WHERE id_erp IN (%s)"
-        return self.query(sql_query, [child_code, con_ids_string])

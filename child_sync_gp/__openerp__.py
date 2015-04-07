@@ -38,9 +38,8 @@ can be seen from GP.
     """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_compassion',
+    'depends': ['child_compassion',
                 'mysql_connector',
-                'account_voucher',
                 ],
     'external_dependencies': {
         'python': ['smb'],

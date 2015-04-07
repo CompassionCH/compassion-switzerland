@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 from . import gp_connector
@@ -18,6 +18,11 @@ from .contracts import SPONSORSHIP_TYPES
 
 class account_invoice(orm.Model):
     _inherit = 'account.invoice'
+
+    # Add a field to know if we sent the receipt for a paid invoice
+    _columns = {
+        'receipt_id': fields.many2one('mail.message', _('Receipt'))
+    }
 
     def action_cancel(self, cr, uid, ids, context=None):
         """ If an invoice was cancelled, update the situation in GP. """
@@ -61,3 +66,19 @@ class account_invoice(orm.Model):
                                 _("GP Sync Error"),
                                 _("Please contact an IT person."))
         return res
+
+    def get_funds_paid(self, cr, uid, from_date, to_date, context=None):
+        """ Search invoices paid in the given period which are not
+            sponsorships and return the ids. """
+        invl_obj = self.pool.get('account.invoice.line')
+        invl_ids = invl_obj.search(
+            cr, uid, [
+                ('state', '=', 'paid'),
+                ('last_payment', '>=', from_date),
+                ('last_payment', '<=', to_date),
+                ('contract_id', '=', False),
+                ('price_subtotal', '>', 8)],
+            context=context)
+
+        return list(set([invl.invoice_id.id for invl in
+                         invl_obj.browse(cr, uid, invl_ids, context)]))

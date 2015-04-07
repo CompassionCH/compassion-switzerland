@@ -278,3 +278,48 @@ class GPConnect(mysql_connector):
         return self.query(
             "DELETE FROM Poles WHERE id_erp IN (%s)", ",".join(
                 str(id) for id in ids))
+
+    def set_child_sponsor_state(self, child):
+        update_string = "UPDATE Enfants SET %s WHERE code='%s'"
+        update_fields = "situation='{0}'".format(child.state)
+        if child.sponsor_id:
+            update_fields += ", codega='{0}'".format(child.sponsor_id.ref)
+
+        if child.state == 'F':
+            # If the child is sponsored, mark the sponsorship as terminated in
+            # GP and set the child exit reason in tables Poles and Enfant
+            end_reason = child.gp_exit_reason or \
+                self.transfer_mapping[child.transfer_country_id.code] \
+                if child.transfer_country_id else 'NULL'
+            update_fields += ", id_motif_fin={0}".format(end_reason)
+            # We don't put a child transfer in ending reason of a sponsorship
+            if not child.transfer_country_id:
+                pole_sql = "UPDATE Poles SET TYPEP = IF(TYPEP = 'C', " \
+                           "'A', 'F'), id_motif_fin={0}, datefin=curdate() " \
+                           "WHERE codespe='{1}' AND TYPEP NOT IN " \
+                           "('F','A')".format(end_reason, child.code)
+                logger.info(pole_sql)
+                self.query(pole_sql)
+
+        if child.state == 'P':
+            # Remove delegation and end_reason, if any was set
+            update_fields += ", datedelegue=NULL, codedelegue=''" \
+                             ", id_motif_fin=NULL"
+
+        sql_query = update_string % (update_fields, child.code)
+        logger.info(sql_query)
+        return self.query(sql_query)
+
+    def update_child_sponsorship(self, child_code, con_ids):
+        """ Updates the child code of a sponsorship """
+        con_ids_string = ','.join([str(c) for c in con_ids])
+        sql_query = "UPDATE Poles SET CODESPE = %s WHERE id_erp IN (%s)"
+        return self.query(sql_query, [child_code, con_ids_string])
+
+    def get_last_biennial(self, contract):
+        """ Get the date at which we did the last Biennial in GP. """
+        return self.selectOne(
+            "SELECT MAX(DATE) AS DATE FROM Histoenfant "
+            "WHERE TYPE = 'RB' AND CODE = %s AND CODEGA = %s",
+            [contract.child_code, contract.partner_id.ref]).get("DATE",
+                                                                "0000-00-00")

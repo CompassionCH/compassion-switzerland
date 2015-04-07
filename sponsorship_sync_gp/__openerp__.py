@@ -30,7 +30,7 @@
 
 {
     'name': 'Sync Compassion Sponsorships with GP',
-    'version': '1.1',
+    'version': '1.4',
     'category': 'Other',
     'description': """
 This module syncs all contracts with GP so that the information can be seen
@@ -38,8 +38,8 @@ from GP.
     """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_compassion',
-                'mysql_connector',
+    'depends': ['child_sync_gp',
+                'message_center_compassion',
                 'account_voucher',
                 ],
     'data': [],
@@ -47,5 +47,3 @@ from GP.
     'installable': True,
     'auto_install': False,
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
