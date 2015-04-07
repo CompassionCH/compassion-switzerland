@@ -73,6 +73,11 @@ class child_property(orm.Model):
         smb_user = config.get('smb_user')
         smb_pass = config.get('smb_pwd')
         smb_ip = config.get('smb_ip')
+        smb_port = config.get('smb_port')
+        if not (smb_user and smb_pass and smb_ip and smb_port):
+            raise orm.except_orm(
+                'Config Error',
+                'Missing Samba configuration in conf file.')
         child = pictures.child_id
 
         date_pic = pictures.date.replace('-', '')
@@ -86,7 +91,7 @@ class child_property(orm.Model):
 
         # Upload file to shared folder
         smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
-        if smb_conn.connect(smb_ip, 139):
+        if smb_conn.connect(smb_ip, smb_port):
             try:
                 smb_conn.storeFile(
                     'GP', gp_pic_path + file_name, picture_file)

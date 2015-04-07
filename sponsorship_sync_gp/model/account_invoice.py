@@ -67,8 +67,7 @@ class account_invoice(orm.Model):
                                 _("Please contact an IT person."))
         return res
 
-    def get_funds_paid(self, cr, uid, from_date, to_date,
-                                     context=None):
+    def get_funds_paid(self, cr, uid, from_date, to_date, context=None):
         """ Search invoices paid in the given period which are not
             sponsorships and return the ids. """
         invl_obj = self.pool.get('account.invoice.line')
