@@ -53,11 +53,11 @@ class child_property(orm.Model):
         if not isinstance(ids, list):
             ids = [ids]
 
-        case_study = self.browse(cr, uid, ids, context)[0]
-        for contract in case_study.child_id.contract_ids:
-            last_biennial = gp_connect.get_last_biennial(contract)
-            if last_biennial and last_biennial >= datetime.strptime(
-                    case_study.info_date, DF).date():
-                contract.write({'gmc_state': False})
+        for case_study in self.browse(cr, uid, ids, context):
+            for contract in case_study.child_id.contract_ids:
+                last_biennial = gp_connect.get_last_biennial(contract)
+                if last_biennial and last_biennial >= datetime.strptime(
+                        case_study.info_date, DF).date():
+                    contract.write({'gmc_state': False})
 
         return res
