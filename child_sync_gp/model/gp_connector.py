@@ -102,7 +102,7 @@ class GPConnect(mysql_connector):
         closest_city = project.distance_from_closest_city_ids and \
             project.distance_from_closest_city_ids[0]
 
-        location_en = closest_city and closest_city.value_en
+        location_en = closest_city and closest_city.value_en or ''
         location_fr = closest_city and closest_city.value_fr or location_en
         location_de = closest_city and closest_city.value_de or location_en
         location_it = closest_city and closest_city.value_it or location_en
