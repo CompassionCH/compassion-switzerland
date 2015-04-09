@@ -102,10 +102,16 @@ class GPConnect(mysql_connector):
         closest_city = project.distance_from_closest_city_ids and \
             project.distance_from_closest_city_ids[0]
 
-        location_en = closest_city and closest_city.value_en or ''
-        location_fr = closest_city and closest_city.value_fr or location_en
-        location_de = closest_city and closest_city.value_de or location_en
-        location_it = closest_city and closest_city.value_it or location_en
+        location = ''
+        if project.community_name:
+            location = project.community_name + ', '
+        location_en = location + (closest_city and closest_city.value_en or '')
+        location_fr = location + (closest_city and closest_city.value_fr or
+                                  location_en)
+        location_de = location + (closest_city and closest_city.value_de or
+                                  location_en)
+        location_it = location + (closest_city and closest_city.value_it or
+                                  location_en)
 
         vals = {
             'CODE_PROJET': project.code,
@@ -126,10 +132,10 @@ class GPConnect(mysql_connector):
             'ProgramImplementorTypeCode': project.type,
             'StartDate': project.start_date,
             'LastReviewDate': project.last_update_date,
-            'OrganizationName': project.local_church_name,
-            'WesternDenomination': project.western_denomination,
-            'CountryDenomination': project.country_denomination,
-            'CommunityName': project.community_name,
+            'OrganizationName': project.local_church_name or '',
+            'WesternDenomination': project.western_denomination or '',
+            'CountryDenomination': project.country_denomination or '',
+            'CommunityName': project.community_name or '',
             'disburse_gifts': project.disburse_gifts,
         }
         return self.upsert("Projet", vals)
