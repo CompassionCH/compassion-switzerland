@@ -103,15 +103,18 @@ class GPConnect(mysql_connector):
             project.distance_from_closest_city_ids[0]
 
         location = ''
+        closest_city_en = closest_city and closest_city.value_en or ''
         if project.community_name:
-            location = project.community_name + ', '
-        location_en = location + (closest_city and closest_city.value_en or '')
+            location = project.community_name
+        if closest_city_en:
+            location += ', '
+        location_en = location + closest_city_en
         location_fr = location + (closest_city and closest_city.value_fr or
-                                  location_en)
+                                  closest_city_en)
         location_de = location + (closest_city and closest_city.value_de or
-                                  location_en)
+                                  closest_city_en)
         location_it = location + (closest_city and closest_city.value_it or
-                                  location_en)
+                                  closest_city_en)
 
         vals = {
             'CODE_PROJET': project.code,
