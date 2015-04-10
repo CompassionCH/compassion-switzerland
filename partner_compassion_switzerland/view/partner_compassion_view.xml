@@ -38,6 +38,11 @@
                         </group>
                     </page>
                 </xpath>
+                
+                <!-- Make title required -->
+                <field name="title" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
 
             </field>
         </record>
