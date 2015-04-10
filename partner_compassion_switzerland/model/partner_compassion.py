@@ -12,10 +12,6 @@ from openerp.osv import fields, orm
 from openerp.tools.translate import _
 from . import gp_connector
 
-# fields that are synced if 'use_parent_address' is checked
-ADDRESS_FIELDS = (
-    'street', 'street2', 'street3', 'zip', 'city', 'state_id', 'country_id')
-
 
 class ResPartner(orm.Model):
     """ This class upgrade the partners to match Compassion needs.
@@ -24,49 +20,13 @@ class ResPartner(orm.Model):
 
     _inherit = 'res.partner'
 
-    def _lang_get(self, cr, uid, context=None):
-        lang_obj = self.pool.get('res.lang')
-        ids = lang_obj.search(cr, uid, [], context=context)
-        res = lang_obj.read(cr, uid, ids, ['code', 'name'], context)
-        return [(r['code'], r['name']) for r in res]
-
-    def _is_church(self, cr, uid, ids, field_name, arg, context=None):
-        """ Tell if the given Partners are Church Partners
-            (by looking at their categories). """
-        # Set the default return value to False
-        res = dict.fromkeys(ids, False)
-
-        # Retrieve all the categories and check if one is Church
-        for record in self.browse(cr, uid, ids, context):
-            for category in record.category_id:
-                if category.name.upper() in ('CHURCH', 'EGLISE', 'KIRCHE'):
-                    res[record.id] = True
-
-        return res
-
-    def _get_church_partner(self, cr, uid, ids, context=None):
-        """ Used to recompute the 'is_church' field when a partner's
-            categories are modified. """
-        return ids
-
     def _get_receipt_types(self, cursor, uid, context=None):
         """ Display values for the receipt selection fields. """
-        lang = self.pool.get('res.users').browse(cursor, uid, uid).lang
-        if (lang == 'fr_FR') or (lang == 'fr_CH'):
-            res = (
-                ('no', 'Pas de reçu'),
-                ('default', 'Par défaut'),
-                ('email', 'Par e-mail'),
-                ('paper', 'Version papier')
-            )
-        else:
-            res = (
-                ('no', 'No receipt'),
-                ('default', 'Default'),
-                ('email', 'By e-mail'),
-                ('paper', 'On paper')
-            )
-        return res
+        return [
+            ('no', _('No receipt')),
+            ('default', _('Default')),
+            ('email', _('By e-mail')),
+            ('paper', _('On paper'))]
 
     def create(self, cr, uid, vals, context=None):
         """ We override the create method so that each partner creation will
@@ -281,22 +241,6 @@ class ResPartner(orm.Model):
     #                        NEW PARTNER FIELDS                              #
     ##########################################################################
     _columns = {
-        'street3': fields.char("Street3", size=128),
-        'member_ids': fields.one2many(
-            'res.partner', 'church_id', 'Members',
-            domain=[('active', '=', True)]),
-        'is_church': fields.function(
-            _is_church, type='boolean', method=True, string="Is a Church",
-            store={'res.partner': (_get_church_partner, ['category_id'], 10)}
-        ),
-        'church_id': fields.many2one(
-            'res.partner', 'Church', domain=[('is_church', '=', True)]),
-        'church_unlinked': fields.char(
-            _("Church (N/A)"),
-            help=_("Use this field if the church of the partner"
-                   " can not correctly be determined and linked.")),
-        'deathdate': fields.date(_('Death date')),
-        'birthdate': fields.date(_('Birthdate')),
         'nbmag': fields.integer(_('Number of Magazines'), size=2,
                                 required=True),
         'tax_certificate': fields.selection(
@@ -319,16 +263,11 @@ class ResPartner(orm.Model):
             _('Abroad/Only e-mail'),
             help=_("Indicates if the partner is abroad and should only be "
                    "updated by e-mail")),
-        'lang': fields.selection(
-            _lang_get,
-            'Language',
-            required=True,
-            help="If the selected language is loaded in the system, all "
-            "documents related to this contact will be printed in this "
-            "language. If not, it will be English."),
     }
 
     _defaults = {
+        # Reference is managed by GP
+        'ref': False,
         'nbmag': 0,
         'tax_certificate': 'default',
         'thankyou_letter': 'default',
@@ -368,46 +307,6 @@ class ResPartner(orm.Model):
             vals['church_id'] = record.church_id  # TODO Bug !
             vals['church_unlinked'] = record.church_unlinked
             vals['date'] = record.date
-
-    def _address_fields(self, cr, uid, context=None):
-        """ Returns the list of address fields that are synced from the parent
-        when the `use_parent_address` flag is set. """
-        return list(ADDRESS_FIELDS)
-
-    def _display_address(self, cr, uid, address, without_company=False,
-                         context=None):
-        """ Build and return an address formatted accordingly to
-        Compassion standards.
-
-        :param address: browse record of the res.partner to format
-        :returns: the address formatted in a display that fit its country
-                  habits (or the default ones if not country is specified)
-        :rtype: string
-        """
-
-        # get the information that will be injected into the display format
-        # get the address format
-        address_format = "%(street)s\n%(street2)s\n%(street3)s\n%(city)s " \
-                         "%(state_code)s %(zip)s\n%(country_name)s"
-        args = {
-            'state_code': address.state_id and address.state_id.code or '',
-            'state_name': address.state_id and address.state_id.name or '',
-            'country_code':
-            address.country_id and address.country_id.code or '',
-            'country_name':
-            address.country_id and address.country_id.name or '',
-            'company_name':
-            address.parent_id and address.parent_id.name or '',
-        }
-
-        for field in self._address_fields(cr, uid, context=context):
-            args[field] = getattr(address, field) or ''
-
-        if without_company:
-            args['company_name'] = ''
-        elif address.parent_id:
-            address_format = '%(company_name)s\n' + address_format
-        return address_format % args
 
     def unlink(self, cr, uid, ids, context=None):
         """ We want to perform some checks before deleting a partner ! """
