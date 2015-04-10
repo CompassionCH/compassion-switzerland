@@ -30,19 +30,12 @@
 
 {
     'name': 'Add partner fields for Compassion Suisse',
-    'version': '1.1.0',
+    'version': '1.5',
     'category': 'Partner',
     'sequence': 150,
     'description': """
-            A. Upgrade Partners to Compassion standards :
-                1. Three lines for the address
-                2. Mandatory reference sequence (CODEGA)
-                3. Church members relation between Partners
-                4. Birthdate and Deathdate
-                5. Number of magazines
-                6. Import new contact titles
-                7. Import Partner Categories
-                8. Add correspondance information
+            A. Upgrade Partners to Compassion Switzerland standards :
+                - Add correspondance information
 
             B. Synchronize all Partner modifications with the MySQL Database
                used by Gestion Parrainages Compassion Suisse.
@@ -52,12 +45,9 @@
     """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['base', 'partner_firstname', 'base_location',
-                'email_template', 'mysql_connector'],
+    'depends': ['partner_compassion', 'mysql_connector'],
     'data': [
         'view/partner_compassion_view.xml',
-        'data/partner_title_data.xml',
-        'data/partner_category_data.xml',
     ],
     'demo': [],
     'installable': True,
