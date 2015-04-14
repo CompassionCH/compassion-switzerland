@@ -165,7 +165,7 @@ class compassion_child(orm.Model):
 
     def child_sponsored(self, cr, uid, ids, context=None):
         res = super(compassion_child, self).child_sponsored(
-            self, cr, uid, ids, context)
+            cr, uid, ids, context)
 
         """ Remove children from the website when they are sponsored. """
         to_remove_from_web = []
