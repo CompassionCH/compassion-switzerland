@@ -41,7 +41,7 @@ class GPConnect(mysql_connector):
     def upsert_child(self, uid, child):
         """Push or update child in GP after converting all relevant
         information in the destination structure."""
-        name = trim(child.name.replace(child.firstname, '', 1))
+        name = strip(child.name.replace(child.firstname, '', 1))
         vals = {
             'CODE': child.code,
             'NOM': name,
