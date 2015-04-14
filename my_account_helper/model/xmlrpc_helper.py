@@ -44,6 +44,6 @@ class xmlrpc_helper(orm.Model):
                 child['desc_it'] = contract.child_id.desc_it
                 child['desc_de'] = contract.child_id.desc_de
                 child['desc_en'] = contract.child_id.desc_en
-                childs.append(child)
+                children.append(child)
 
         return children
