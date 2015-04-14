@@ -22,7 +22,8 @@ class account_invoice(Model):
     _inherit = "account.invoice"
 
     _columns = {
-        'bvr_reference': fields.char("BVR REF.", size=32,)
+        'bvr_reference': fields.char("BVR REF.", size=32,
+                                     track_visibility='onchange')
     }
 
     def _check_bvr_ref(self, cr, uid, ids, context=None):
