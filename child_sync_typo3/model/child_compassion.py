@@ -9,6 +9,7 @@
 #
 ##############################################################################
 import sys
+import os
 import json
 import calendar
 import base64
@@ -162,6 +163,8 @@ class compassion_child(orm.Model):
             file_fullshot.close()
 
             Sync_typo3.add_child_photos(head_image, full_image)
+            os.remove(head_image)
+            os.remove(full_image)
 
     def child_sponsored(self, cr, uid, ids, context=None):
         res = super(compassion_child, self).child_sponsored(
