@@ -41,7 +41,6 @@ class GPConnect(mysql_connector):
         'NZ': '40',
         'US': '21',
         'NO': '42',
-    }
 
     # Mapping for determining type of payment in GP
     terms_mapping = {
