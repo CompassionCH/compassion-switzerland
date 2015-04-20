@@ -21,6 +21,8 @@ class project_compassion(orm.Model):
         """Update Project in GP."""
         res = super(project_compassion, self).write(cr, uid, ids, vals,
                                                     context)
+        if not isinstance(ids, list):
+            ids = [ids]
         gp_connect = gp_connector.GPConnect()
         for project in self.browse(cr, uid, ids, context):
             gp_connect.upsert_project(uid, project)
