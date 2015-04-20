@@ -32,7 +32,18 @@
     'version': '1.0',
     'category': 'Mailing',
     'description': """
-            Small add-on in order to log notes from GP easily.
+Mail Thread for Compassion
+==========================
+
+Small add-on in order to log notes from GP easily.
+
+Credits
+=======
+
+Contributors
+------------
+
+* Emanuel Cino <ecino@compassion.ch>
     """,
     'author': 'Emanuel Cino',
     'website': 'http://www.compassion.ch',
