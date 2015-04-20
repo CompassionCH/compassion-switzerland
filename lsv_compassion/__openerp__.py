@@ -42,11 +42,34 @@
     ],
     'demo': [],
     'description': '''
-        Customize LSV-DD to fit Compassion needs.
-        Adds filters by payment term in direct debit orders.
-        Note : fr_CH, it_IT, de_DE, en_US and es_ES locales have to be
-               installed on your openerp server. You can see which locales
-               are installed by typing locale -a.
+LSV-DD Compassion
+=================
+
+Customize LSV-DD to fit Compassion needs.
+Adds filters by payment term in direct debit orders.
+
+Installation
+============
+This modules requires en_US, fr_CH, de_DE, it_IT and es_ES to be installed
+on the server.
+
+To check installed locales:
+
+* locale -a
+
+To add a new locale :
+
+* /usr/share/locales/install-language-pack <ISO-locale-name>
+* dpkg-reconfigure locales
+
+Credits
+=======
+
+Contributors
+------------
+
+* Cyril Sester <cyril.sester@outlook.com>
+* Emanuel Cino <ecino@compassion.ch>
     ''',
     'active': False,
     'installable': True,
