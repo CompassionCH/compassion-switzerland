@@ -24,6 +24,7 @@ class GPConnect(mysql_connector):
     """ Contains all the utility methods needed to talk with the MySQL server
         used by GP, as well as all mappings
         from OpenERP fields to corresponding MySQL fields. """
+
     # Mapping for child transfers to exit_reason_code in GP
     transfer_mapping = {
         'AU': '15',
@@ -38,16 +39,6 @@ class GPConnect(mysql_connector):
         'NZ': '40',
         'US': '21',
         'NO': '42',
-    }
-
-    # Mapping for determining frequency of payment in GP
-    freq_mapping = {
-        'monthly': 1,
-        'bimonthly': 2,
-        'quarterly': 3,
-        'fourmonthly': 4,
-        'biannual': 6,
-        'annual': 12
     }
 
     # Mapping for determining type of payment in GP
@@ -98,7 +89,7 @@ class GPConnect(mysql_connector):
             'base': contract.total_amount,
             'typevers': typevers,
             'iduser': self._get_gp_uid(uid),
-            'freqpaye': self.freq_mapping[contract.group_id.advance_billing],
+            'freqpaye': contract.group_id.advance_billing_months,
             'ref': contract.group_id.bvr_reference or
             contract.group_id.compute_partner_bvr_ref(),
             'num_pol_ga': contract.num_pol_ga,

@@ -181,7 +181,7 @@ class test_contracts(common.TransactionCase):
         self.assertEqual(gp_contract.get('BASE'), contract.total_amount)
         self.assertEqual(
             gp_contract.get('FREQPAYE'),
-            self.gp_connect.freq_mapping[contract.group_id.advance_billing])
+            contract.group_id.advance_billing_months)
         self.assertEqual(gp_contract.get('MOIS'), month_paid)
 
     def _generate_invoices(self, contract_group):
