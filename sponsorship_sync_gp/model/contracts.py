@@ -25,13 +25,6 @@ SPONSORSHIP_TYPES = ['Sponsorship', 'LDP Sponsorship']
 class contracts(orm.Model):
     _inherit = 'recurring.contract'
 
-    def _get_gmc_states(self, cr, uid, context=None):
-        """ Adds a new gmc state for tracking sponsorships for which we have
-        to order the new picture of the child. """
-        states = super(contracts, self)._get_gmc_states(cr, uid, context)
-        states.insert(2, ('order_picture', _('Order picture')))
-        return states
-
     def _get_number_months_paid(self, cr, uid, ids, field_name, args,
                                 context=None):
         """This is a query returning the number of months paid for a
@@ -245,10 +238,6 @@ class contracts(orm.Model):
         gp_connect = gp_connector.GPConnect()
         for line_id in invoice_lines.keys():
             gp_connect.remove_affectat(line_id)
-
-    def new_biennial(self, cr, uid, ids, context=None):
-        """ Called when new picture and new case study is available. """
-        self.write(cr, uid, ids, {'gmc_state': 'order_picture'}, context)
 
 
 class contract_group(orm.Model):
