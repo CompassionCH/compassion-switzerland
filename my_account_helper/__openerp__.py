@@ -32,12 +32,11 @@
     'version': '1.0',
     'category': 'XMLRPC-Helper',
     'sequence': 150,
-    'description': """Compassion CRM - XMLRPC-Helper
-==============================================================================
+    'description': """
+Compassion CRM - XMLRPC-Helper
+==============================
 
 This module helps Compassion CH to manage myAccount.
-
- * Description
 """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',

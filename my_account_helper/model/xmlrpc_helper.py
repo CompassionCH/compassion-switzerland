@@ -15,21 +15,20 @@ class xmlrpc_helper(orm.Model):
 
     _inherit = "res.partner"
 
-    # return all child information for all childs from a partner_id specified
     def get_children_from_partner(self, cr, uid, partner_id, context=None):
-
-        # get the Singleton instance of the recurring.contract model from the
-        # registry pool for the database in use
+        """
+        return all child informations for all
+        children from a partner_id specified
+        """
         contract_obj = self.pool.get('recurring.contract')
 
-        # get all contract_id from a partner_id
         contract_ids = contract_obj.search(
-            cr, uid, [('partner_id', '=', partner_id)], context=None)
+            cr, uid, [('partner_id', '=', partner_id)], context=context)
 
         # get all child informations from each contract_id for each child
         children = list()
         for contract in contract_obj.browse(cr, uid, contract_ids, context):
-            #contract must be linked to a child
+            # contract must be linked to a child
             if contract.child_id:
                 child = dict()
                 child['id'] = contract.child_id.id
@@ -47,3 +46,33 @@ class xmlrpc_helper(orm.Model):
                 children.append(child)
 
         return children
+
+    def get_partner_from_user(self, cr, uid, context=None):
+        """
+        Attempt to login with username and password
+        return all partner informations and user informations from
+        """
+
+        user_obj = self.pool.get('res.users')
+
+        user = user_obj.browse(cr, uid, uid, context)
+
+        partner = dict()
+        partner['user_id'] = user.id
+        partner['login'] = user.login
+        partner['partner_id'] = user.partner_id.partner_id
+        partner['ref'] = user.partner_id.ref
+        partner['title'] = user.partner_id.title
+        partner['is_company'] = user.partner_id.is_company
+        partner['email'] = user.partner_id.email
+        partner['phone'] = user.partner_id.phone
+        partner['city'] = user.partner_id.city
+        partner['zip'] = user.partner_id.zip
+        partner['street'] = user.partner_id.street
+        partner['street2'] = user.partner_id.street2
+        partner['street3'] = user.partner_id.street3
+        partner['firstname'] = user.partner_id.firstname
+        partner['lastname'] = user.partner_id.lastname
+        partner['lang'] = user.partner_id.lang
+
+        return partner
