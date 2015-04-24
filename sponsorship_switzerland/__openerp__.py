@@ -43,6 +43,7 @@ This module adds specific behaviours of sponsorships for Switzerland.
     'data': [
         'view/contracts_view.xml',
         'data/install.xml'],
+    'js': ['static/src/js/sponsorship_tracking_kanban.js'],
     'demo': [],
     'installable': True,
     'auto_install': False,

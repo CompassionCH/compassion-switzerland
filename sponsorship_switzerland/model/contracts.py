@@ -46,6 +46,16 @@ class contracts(orm.Model):
                               context)
         return True
 
+    def button_reset_gmc_state(self, cr, uid, value, context=None):
+        """ Button called from Kanban view on all contracts of one group. """
+        ids = self.search(cr, uid, [
+            ('gmc_state', '=', value)], context=context)
+        return self.reset_gmc_state(cr, uid, ids, context)
+
+    def reset_gmc_state(self, cr, uid, ids, context=None):
+        """ Useful for manually unset GMC State. """
+        return self.write(cr, uid, ids, {'gmc_state': False})
+
     # Called only at module installation
     def migrate_contracts(self, cr, uid, context=None):
         """ Remove no more used gmc_states. """
