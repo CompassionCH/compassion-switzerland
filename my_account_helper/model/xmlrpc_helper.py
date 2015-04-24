@@ -30,24 +30,25 @@ class xmlrpc_helper(orm.Model):
         for contract in contract_obj.browse(cr, uid, contract_ids, context):
             # contract must be linked to a child
             if contract.child_id:
-                child = dict()
-                child['id'] = contract.child_id.id
-                child['code'] = contract.child_id.code
-                child['type'] = contract.child_id.type
-                child['state'] = contract.child_id.state
-                child['firstname'] = contract.child_id.firstname
-                child['name'] = contract.child_id.name
-                child['gender'] = contract.child_id.gender
-                child['birthdate'] = contract.child_id.birthdate
-                child['desc_fr'] = contract.child_id.desc_fr
-                child['desc_it'] = contract.child_id.desc_it
-                child['desc_de'] = contract.child_id.desc_de
-                child['desc_en'] = contract.child_id.desc_en
+                child = {
+                    'id': contract.child_id.id,
+                    'code': contract.child_id.code,
+                    'type': contract.child_id.type,
+                    'state': contract.child_id.state,
+                    'firstname': contract.child_id.firstname,
+                    'name': contract.child_id.name,
+                    'gender': contract.child_id.gender,
+                    'birthdate': contract.child_id.birthdate,
+                    'desc_fr': contract.child_id.desc_fr,
+                    'desc_it': contract.child_id.desc_it,
+                    'desc_de': contract.child_id.desc_de,
+                    'desc_en': contract.child_id.desc_en
+                }
                 children.append(child)
 
         return children
 
-    def get_partner_from_user(self, cr, uid, context=None):
+    def get_partner_from_user(self, cr, uid, args, context=None):
         """
         Attempt to login with username and password
         return all partner informations and user informations from
@@ -57,22 +58,23 @@ class xmlrpc_helper(orm.Model):
 
         user = user_obj.browse(cr, uid, uid, context)
 
-        partner = dict()
-        partner['user_id'] = user.id
-        partner['login'] = user.login
-        partner['partner_id'] = user.partner_id.partner_id
-        partner['ref'] = user.partner_id.ref
-        partner['title'] = user.partner_id.title
-        partner['is_company'] = user.partner_id.is_company
-        partner['email'] = user.partner_id.email
-        partner['phone'] = user.partner_id.phone
-        partner['city'] = user.partner_id.city
-        partner['zip'] = user.partner_id.zip
-        partner['street'] = user.partner_id.street
-        partner['street2'] = user.partner_id.street2
-        partner['street3'] = user.partner_id.street3
-        partner['firstname'] = user.partner_id.firstname
-        partner['lastname'] = user.partner_id.lastname
-        partner['lang'] = user.partner_id.lang
+        partner = {
+            'user_id': user.id,
+            'login': user.login,
+            'partner_id': user.partner_id.id,
+            'ref': user.partner_id.ref,
+            'title': user.partner_id.title.name,
+            'is_company': user.partner_id.is_company,
+            'email': user.partner_id.email,
+            'phone': user.partner_id.phone,
+            'city': user.partner_id.city,
+            'zip': user.partner_id.zip,
+            'street': user.partner_id.street,
+            'street2': user.partner_id.street2,
+            'street3': user.partner_id.street3,
+            'firstname': user.partner_id.firstname,
+            'lastname': user.partner_id.lastname,
+            'lang': user.partner_id.lang
+        }
 
         return partner
