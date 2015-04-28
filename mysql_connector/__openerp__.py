@@ -82,7 +82,6 @@ Contributors
 ------------
 
 * Emanuel Cino <ecino@compassion.ch>
-Warning : This module 
 """,
     'data': [],
     'demo': [],

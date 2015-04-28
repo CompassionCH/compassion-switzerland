@@ -42,6 +42,11 @@ class child_compassion(orm.Model):
 
         return res
 
+    def get_portrait(self, cr, uid, child_id, context=None):
+        """ Returns the portrait of a child. """
+        child = self.browse(cr, uid, child_id, context)
+        return child.portrait
+
 
 class child_property(orm.Model):
     """ Upsert Case Studies """
