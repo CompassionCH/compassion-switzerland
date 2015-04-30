@@ -59,6 +59,7 @@ class ResPartner(orm.Model):
     _defaults = {
         # Reference is managed by GP
         'ref': False,
+        'lang': False,
         'nbmag': 0,
         'tax_certificate': 'default',
         'thankyou_letter': 'default',
