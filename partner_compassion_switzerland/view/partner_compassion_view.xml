@@ -13,17 +13,28 @@
                     <field name="calendar"/>
                 </xpath>
 
+                <!-- Move reference field -->
+                <field name="parent_id" position="after">
+                    <label for="ref"/>
+                    <field name="ref" readonly="1"/>
+                </field>
+                
+                <!-- Move lang field -->
+                <label string="Address" position="before">
+                    <field name="lang"/>
+                </label>
+
                 <!-- Redefine correspondance tab -->
                 <xpath expr="//page[@string='Correspondance']" position="replace">
                     <page string="Correspondance">
                         <group>
                             <group>
-                                <field name="ref" readonly="1"/>
-                                <field name="lang"/>
-                            </group>
-                            <group>
                                 <field name="tax_certificate"/>
                                 <field name="thankyou_letter"/>                                      
+                            </group>
+                            <group>
+                                <field name="abroad"/>
+                                <field name="opt_out"/>
                             </group>
                             <group>
                                 <field name="nbmag"/>
@@ -31,10 +42,7 @@
                                 <field name="christmas_card"/>
                                 <field name="birthday_reminder"/>
                             </group>
-                            <group>
-                                <field name="abroad"/>
-                                <field name="opt_out"/>
-                            </group>
+                            <group/>
                         </group>
                     </page>
                 </xpath>
