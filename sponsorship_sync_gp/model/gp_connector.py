@@ -13,7 +13,6 @@ from openerp.osv import orm
 from openerp.tools.translate import _
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from mysql_connector.model.mysql_connector import mysql_connector
-from sponsorship_compassion.model.product import GIFT_TYPES
 from datetime import datetime, date
 import logging
 
@@ -201,7 +200,7 @@ class GPConnect(mysql_connector):
         product = invoice_line.product_id
 
         # Determine the nature of the payment (sponsorship, fund)
-        if product.name in GIFT_TYPES + ['Sponsorship', 'LDP Sponsorship']:
+        if product.categ_name == 'Sponsorship':
             if not contract:
                 raise orm.except_orm(
                     _('Missing sponsorship'),
@@ -225,10 +224,17 @@ class GPConnect(mysql_connector):
         # Determine if payment was a gift for a supported child
         cadeau = 0
         typecadeau = 0
+        gift_bvr_ref = {
+            'Birthday Gift': 1,
+            'General Gift': 2,
+            'Family Gift': 3,
+            'Project Gift': 4,
+            'Graduation Gift': 5
+        }
         libcadeau = ""
-        if product.name in GIFT_TYPES:
+        if product.categ_name == 'Sponsorship gifts':
             cadeau = 1
-            typecadeau = GIFT_TYPES.index(product.name) + 1
+            typecadeau = gift_bvr_ref[product.name]
             libcadeau = invoice_line.name
 
         payment_term = self._find_typevers(
