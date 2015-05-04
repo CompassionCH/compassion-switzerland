@@ -13,13 +13,10 @@ from openerp.osv import orm, fields
 from openerp.tools.translate import _
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 
-from sponsorship_compassion.model.product import GIFT_TYPES
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from . import gp_connector
-
-SPONSORSHIP_TYPES = ['Sponsorship', 'LDP Sponsorship']
 
 
 class contracts(orm.Model):
@@ -126,7 +123,7 @@ class contracts(orm.Model):
         compatible = True
         for line in contract.contract_line_ids:
             compatible = compatible and (
-                line.product_id.name in SPONSORSHIP_TYPES+GIFT_TYPES or
+                line.product_id.categ_name == 'Sponsorship' or
                 line.product_id.gp_fund_id > 0)
         return compatible
 
@@ -197,9 +194,9 @@ class contracts(orm.Model):
                     gp_connect.remove_affectat(line.id)
                 contract = line.contract_id
                 if contract:
-                    to_update = (line.product_id.name in
-                                 SPONSORSHIP_TYPES) and (contract.id
-                                                         not in contract_ids)
+                    to_update = (line.product_id.categ_name ==
+                                 'Sponsorship') and (contract.id
+                                                     not in contract_ids)
                     if last_pay_date and to_update:
                         contract_ids.add(contract.id)
                         # Set the months_paid to months_paid+1, as the new
