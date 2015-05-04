@@ -12,8 +12,8 @@ from openerp.osv import orm
 from ..model.sync_typo3 import Sync_typo3
 
 
-class end_sponsorship_wizard(orm.TransientModel):
-    _inherit = 'end.sponsorship.wizard'
+class child_depart_wizard(orm.TransientModel):
+    _inherit = 'child.depart.wizard'
 
     def child_depart(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
@@ -23,7 +23,7 @@ class end_sponsorship_wizard(orm.TransientModel):
         if child.state == 'I':
             res = child.child_remove_from_typo3()
 
-        res = super(end_sponsorship_wizard, self).child_depart(
+        res = super(child_depart_wizard, self).child_depart(
             cr, uid, ids, context) and res
 
         return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
