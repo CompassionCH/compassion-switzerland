@@ -29,7 +29,7 @@ class xmlrpc_helper(orm.Model):
         children = list()
         for contract in contract_obj.browse(cr, uid, contract_ids, context):
             # contract must be linked to a child
-            if contract.child_id:
+            if contract.type == 'S':
                 child = {
                     'id': contract.child_id.id,
                     'code': contract.child_id.code,
