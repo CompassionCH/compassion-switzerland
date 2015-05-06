@@ -191,7 +191,6 @@ class contracts(orm.Model):
             if not gp_connect.finish_contract(uid, contract):
                 raise orm.except_orm(
                     _("GP Sync Error"),
-                    _("The sponsorship could not be terminated.") +
                     _("Please contact an IT person."))
 
     def _write_contract_in_gp(self, uid, gp_connect, contract):
