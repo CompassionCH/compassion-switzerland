@@ -225,7 +225,7 @@ class GPConnect(mysql_connector):
         product = invoice_line.product_id
 
         # Determine the nature of the payment (sponsorship, fund)
-        if product.categ_name == 'Sponsorship':
+        if product.categ_name in ('Sponsorship', 'Sponsor gifts'):
             if not contract:
                 raise orm.except_orm(
                     _('Missing sponsorship'),
@@ -257,7 +257,7 @@ class GPConnect(mysql_connector):
             'Graduation Gift': 5
         }
         libcadeau = ""
-        if product.categ_name == 'Sponsorship gifts':
+        if product.categ_name == 'Sponsor gifts':
             cadeau = 1
             typecadeau = gift_bvr_ref[product.name]
             libcadeau = invoice_line.name
