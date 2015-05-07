@@ -54,7 +54,7 @@ class child_property(orm.Model):
             ids = [ids]
 
         for case_study in self.browse(cr, uid, ids, context):
-            for contract in case_study.child_id.contract_ids:
+            for contract in case_study.child_id.sponsorship_ids:
                 last_biennial = gp_connect.get_last_biennial(contract)
                 if last_biennial and last_biennial >= datetime.strptime(
                         case_study.info_date, DF).date():
