@@ -22,22 +22,6 @@ class GPConnect(mysql_connector):
         used by GP, as well as all mappings
         from OpenERP fields to corresponding MySQL fields. """
 
-    # Mapping for child transfers to exit_reason_code in GP
-    transfer_mapping = {
-        'AU': '15',
-        'CA': '16',
-        'DE': '17',
-        'ES': '38',
-        'FR': '18',
-        'GB': '20',
-        'IT': '19',
-        'KR': '37',
-        'NL': '35',
-        'NZ': '40',
-        'US': '21',
-        'NO': '42',
-    }
-
     def upsert_child(self, uid, child):
         """Push or update child in GP after converting all relevant
         information in the destination structure."""
