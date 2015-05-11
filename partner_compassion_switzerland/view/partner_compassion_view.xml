@@ -49,7 +49,7 @@
                 
                 <!-- Make title required -->
                 <field name="title" position="attributes">
-                    <attribute name="required">1</attribute>
+                    <attribute name="attrs">{'required': [('is_company', '=', False)]}</attribute>
                 </field>
 
             </field>
