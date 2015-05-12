@@ -60,7 +60,7 @@ class GPConnect(mysql_connector):
         typevers = self._find_typevers(
             contract.group_id.payment_term_id.name, 'OP')
         origin = self._find_origin(contract)
-        typeprojet = 'P' if contract.type == 'S' else 'T'
+        typeprojet = 'P' if 'S' in contract.type else 'T'
         codespe = self._find_codespe(contract)
         if len(codespe) > 1:
             raise orm.except_orm(
@@ -115,7 +115,7 @@ class GPConnect(mysql_connector):
         - Fund donation : returns a list of the corresponding CODESPE for
                           each contract_line.
         """
-        if contract.type == 'S':
+        if 'S' in contract.type:
             return [contract.child_code]
         else:
             find_fund_query = 'SELECT CODESPE FROM Libspe '\
@@ -172,7 +172,7 @@ class GPConnect(mysql_connector):
                 "UPDATE Poles SET typep=%s, datefin=curdate(), "
                 "id_motif_fin=%s WHERE id_erp = %s",
                 [state, end_reason, contract.id])
-            if contract.type == 'S':
+            if 'S' in contract.type:
                 res = res and self.query("UPDATE Enfants SET id_motif_fin=%s "
                                          "WHERE code=%s",
                                          [end_reason, contract.child_id.code])

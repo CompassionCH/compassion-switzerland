@@ -95,7 +95,7 @@ class contracts(orm.Model):
         if vals.get('next_invoice_date'):
             new_date = datetime.strptime(vals['next_invoice_date'], DF)
             for contract in self.browse(cr, uid, ids, context=ctx):
-                if contract.type == 'S':
+                if 'S' in contract.type:
                     old_date = datetime.strptime(contract.next_invoice_date,
                                                  DF)
                     month_diff = relativedelta(new_date, old_date).months
@@ -139,7 +139,7 @@ class contracts(orm.Model):
         super(contracts, self).contract_waiting(cr, uid, ids, context)
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
-            if contract.type == 'S':
+            if 'S' in contract.type:
                 if not gp_connect.validate_contract(contract):
                     raise orm.except_orm(
                         _("GP Sync Error"),
@@ -152,7 +152,7 @@ class contracts(orm.Model):
         super(contracts, self).contract_cancelled(cr, uid, ids, context)
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
-            if contract.type == 'S':
+            if 'S' in contract.type:
                 if not gp_connect.finish_contract(contract):
                     raise orm.except_orm(
                         _("GP Sync Error"),
@@ -165,7 +165,7 @@ class contracts(orm.Model):
         super(contracts, self).contract_terminated(cr, uid, ids)
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
-            if contract.type == 'S':
+            if 'S' in contract.type:
                 if not gp_connect.finish_contract(contract):
                     raise orm.except_orm(
                         _("GP Sync Error"),
@@ -182,7 +182,7 @@ class contracts(orm.Model):
                 raise orm.except_orm(
                     _("GP Sync Error"),
                     _("Please contact an IT person."))
-        elif contract.type == 'S':
+        elif 'S' in contract.type:
             raise orm.except_orm(
                 _("Not compatible with GP"),
                 _("You selected some products that are not available "
@@ -190,7 +190,7 @@ class contracts(orm.Model):
 
     def _is_gp_compatible(self, contract):
         """ Tells if the contract is compatible with GP. """
-        compatible = contract.type == 'S'
+        compatible = 'S' in contract.type
         if compatible:
             for line in contract.contract_line_ids:
                 compatible = compatible and (
@@ -203,7 +203,7 @@ class contracts(orm.Model):
         super(contracts, self)._on_contract_active(cr, uid, ids, context)
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
-            if contract.type == 'S':
+            if 'S' in contract.type:
                 if not gp_connect.activate_contract(contract):
                     raise orm.except_orm(
                         _("GP Sync Error"),
@@ -227,7 +227,7 @@ class contracts(orm.Model):
                 else:   # Invoice will go back in open state
                     gp_connect.remove_affectat(line.id)
                 contract = line.contract_id
-                if contract and contract.type == 'S':
+                if contract and 'S' in contract.type:
                     to_update = (line.product_id.categ_name ==
                                  'Sponsorship') and (contract.id
                                                      not in contract_ids)
@@ -272,7 +272,7 @@ class contract_group(orm.Model):
         gp_connect = gp_connector.GPConnect()
         for group in self.browse(cr, uid, ids, context):
             for contract in group.contract_ids:
-                if contract.type == 'S':
+                if 'S' in contract.type:
                     if not gp_connect.upsert_contract(uid, contract):
                         raise orm.except_orm(
                             _("GP Sync Error"),
