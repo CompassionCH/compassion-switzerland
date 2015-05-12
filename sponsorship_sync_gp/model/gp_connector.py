@@ -186,7 +186,7 @@ class GPConnect(mysql_connector):
         typep = '+' if contract.total_amount > 42 else 'S'
         return self.query(sql_query, [typep, contract.activation_date])
 
-    def finish_contract(self, contract):
+    def finish_contract(self, uid, contract):
         state = 'F' if contract.state == 'terminated' else 'A'
         end_reason = contract.end_reason
         res = True
@@ -197,6 +197,16 @@ class GPConnect(mysql_connector):
                 "UPDATE Poles SET typep=%s, datefin=curdate(), "
                 "id_motif_fin=%s WHERE id_erp = %s",
                 [state, end_reason, contract.id])
+            # Log a note in GP
+            log_vals = {
+                'CODE': contract.child_code,
+                'CODEGA': contract.partner_codega,
+                'TYPE': 'AP',    # Annulation parrain
+                'DATE': datetime.today().strftime(DF),
+                'INFO_COMPLEMENT': end_reason,
+                'IDUSER': self._get_gp_uid(uid),
+            }
+            self.upsert('Histoenfant', log_vals)
             if contract.child_id:
                 res = res and self.query("UPDATE Enfants SET id_motif_fin=%s "
                                          "WHERE code=%s",

@@ -149,7 +149,7 @@ class contracts(orm.Model):
         super(contracts, self).contract_cancelled(cr, uid, ids, context)
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
-            if not gp_connect.finish_contract(contract):
+            if not gp_connect.finish_contract(uid, contract):
                 raise orm.except_orm(
                     _("GP Sync Error"),
                     _("The sponsorship could not be terminated.") +
@@ -161,7 +161,7 @@ class contracts(orm.Model):
         super(contracts, self).contract_terminated(cr, uid, ids)
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
-            if not gp_connect.finish_contract(contract):
+            if not gp_connect.finish_contract(uid, contract):
                 raise orm.except_orm(
                     _("GP Sync Error"),
                     _("The sponsorship could not be terminated.") +
