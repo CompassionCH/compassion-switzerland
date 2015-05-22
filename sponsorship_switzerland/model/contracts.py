@@ -64,3 +64,27 @@ class contracts(orm.Model):
             WHERE gmc_state IN ('picture', 'casestudy')
         """)
         return True
+
+    def _cancel_confirm_invoices(self, cr, uid, cancel_ids, confirm_ids,
+                                 context=None):
+        """ For LSV/DD contracts, free the invoices before cancelling them.
+        """
+        if context is None:
+            ctx = dict()
+        else:
+            ctx = context.copy()
+        inv_obj = self.pool.get('account.invoice')
+        ctx['active_ids'] = cancel_ids
+        try:
+            order_id = inv_obj.cancel_payment_lines(cr, uid, cancel_ids, ctx)
+            order_obj = self.pool.get('payment.order')
+            order_obj.unlink(cr, uid, order_id, context)
+            # I don't know why payment lines are not automatically deleted...
+            payment_line_obj = self.pool.get('payment.line')
+            line_ids = payment_line_obj.search(cr, uid, [
+                ('order_id', '=', order_id)], context=context)
+            payment_line_obj.unlink(cr, uid, line_ids, context)
+        except orm.except_orm:  # An error is raised if no invoice was to free
+            pass
+        super(contracts, self)._cancel_confirm_invoices(
+            cr, uid, cancel_ids, confirm_ids, context)
