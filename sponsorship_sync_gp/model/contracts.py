@@ -38,10 +38,11 @@ class contracts(orm.Model):
             "FROM recurring_contract c left join ("
             # Open invoices to find how many months are due
             "   select contract_id, count(distinct invoice_id) as total "
-            "   from account_invoice_line"
+            "   from account_invoice_line l join product_product p on "
+            "       l.product_id = p.id "
             "   where state='open' and "
             # Exclude gifts from count
-            "   product_id not in (43,44,45,46,47)"
+            "   categ_name != 'Sponsor gifts'"
             "   group by contract_id"
             ") due on due.contract_id = c.id "
             "WHERE c.id in (%s)" % ",".join([str(id) for id in ids])
@@ -149,33 +150,39 @@ class contracts(orm.Model):
 
     def contract_cancelled(self, cr, uid, ids, context=None):
         """ When contract is cancelled, update it in GP. """
-        super(contracts, self).contract_cancelled(cr, uid, ids, context)
-        gp_connect = gp_connector.GPConnect()
-        for contract in self.browse(cr, uid, ids, context):
-            if 'S' in contract.type:
-                if not gp_connect.finish_contract(contract):
-                    raise orm.except_orm(
-                        _("GP Sync Error"),
-                        _("The sponsorship could not be terminated.") +
-                        _("Please contact an IT person."))
+        self._finish_contract(cr, uid, ids, 'cancel', context)
         return True
 
     def contract_terminated(self, cr, uid, ids, context=None):
         """ When contract is terminated, update it in GP. """
-        super(contracts, self).contract_terminated(cr, uid, ids)
-        gp_connect = gp_connector.GPConnect()
-        for contract in self.browse(cr, uid, ids, context):
-            if 'S' in contract.type:
-                if not gp_connect.finish_contract(contract):
-                    raise orm.except_orm(
-                        _("GP Sync Error"),
-                        _("The sponsorship could not be terminated.") +
-                        _("Please contact an IT person."))
+        self._finish_contract(cr, uid, ids, 'terminate', context)
         return True
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
+    def _finish_contract(self, cr, uid, ids, finish_type, context=None):
+        """ When contract is finished, update it in GP. """
+        if context is None:
+            context = dict()
+        ctx = context.copy()
+        # Avoid useless syncs of Affectats when a contract is terminated
+        ctx['skip_invoice_sync'] = True
+
+        if finish_type == 'cancel':
+            super(contracts, self).contract_cancelled(cr, uid, ids, ctx)
+        elif finish_type == 'terminate':
+            super(contracts, self).contract_terminated(cr, uid, ids, ctx)
+
+        gp_connect = gp_connector.GPConnect()
+        for contract in self.browse(cr, uid, ids, context):
+            if 'S' in contract.type:
+                if not gp_connect.finish_contract(contract):
+                    raise orm.except_orm(
+                        _("GP Sync Error"),
+                        _("The sponsorship could not be terminated.") +
+                        _("Please contact an IT person."))
+
     def _write_contract_in_gp(self, uid, gp_connect, contract):
         if self._is_gp_compatible(contract):
             if not gp_connect.upsert_contract(uid, contract):
@@ -215,7 +222,8 @@ class contracts(orm.Model):
     def _invoice_paid(self, cr, uid, invoice, context=None):
         """ When a customer invoice is paid, synchronize GP. """
         super(contracts, self)._invoice_paid(cr, uid, invoice, context)
-        if invoice.type == 'out_invoice':
+        if invoice.type == 'out_invoice' and not \
+                context.get('skip_invoice_sync'):
             gp_connect = gp_connector.GPConnect()
             last_pay_date = max([move_line.date
                                  for move_line in invoice.payment_ids
@@ -258,9 +266,10 @@ class contracts(orm.Model):
         """
         super(contracts, self)._on_invoice_line_removal(
             cr, uid, invoice_lines, context)
-        gp_connect = gp_connector.GPConnect()
-        for line_id in invoice_lines.keys():
-            gp_connect.remove_affectat(line_id)
+        if not context.get('skip_invoice_sync'):
+            gp_connect = gp_connector.GPConnect()
+            for line_id in invoice_lines.keys():
+                gp_connect.remove_affectat(line_id)
 
 
 class contract_group(orm.Model):

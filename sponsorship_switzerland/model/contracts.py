@@ -66,7 +66,7 @@ class contracts(orm.Model):
         return True
 
     def _cancel_confirm_invoices(self, cr, uid, cancel_ids, confirm_ids,
-                                 context=None):
+                                 context=None, keep_lines=None):
         """ For LSV/DD contracts, free the invoices before cancelling them.
         """
         if context is None:
@@ -87,4 +87,4 @@ class contracts(orm.Model):
         except orm.except_orm:  # An error is raised if no invoice was to free
             pass
         super(contracts, self)._cancel_confirm_invoices(
-            cr, uid, cancel_ids, confirm_ids, context)
+            cr, uid, cancel_ids, confirm_ids, context, keep_lines)
