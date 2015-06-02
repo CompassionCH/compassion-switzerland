@@ -12,6 +12,7 @@ import logging
 
 from openerp.osv.orm import Model, fields
 from openerp.tools import mod10r
+import pdb
 
 logger = logging.getLogger(__name__)
 
@@ -60,8 +61,10 @@ class account_move_line(Model):
         if move_line.invoice.bvr_reference:
             return move_line.invoice.bvr_reference
         else:
-            return super(account_move_line, self).get_bvr_ref(
+            bvr_ref = super(account_move_line, self).get_bvr_ref(
                 cursor, uid, move_line_id, context)
+            move_line.invoice.write({'bvr_reference': bvr_ref})
+            return bvr_ref
 
 
 class account_move(Model):
