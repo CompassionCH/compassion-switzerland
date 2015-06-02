@@ -67,7 +67,7 @@ Contributors
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['child_sync_gp',
-                'message_center_compassion',
+                'sponsorship_switzerland',
                 'account_voucher',
                 ],
     'data': [],

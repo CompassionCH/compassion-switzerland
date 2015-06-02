@@ -88,3 +88,13 @@ class contracts(orm.Model):
             pass
         super(contracts, self)._cancel_confirm_invoices(
             cr, uid, cancel_ids, confirm_ids, context, keep_lines)
+
+    def _on_sponsorship_finished(self, cr, uid, ids, context=None):
+        """ When a sponsorship is terminated, we clean ALL open invoices
+        because we don't want to ask the sponsor to pay what is still due.
+        """
+        super(contracts, self)._on_sponsorship_finished(cr, uid, ids, context)
+        for sponsorship in self.browse(cr, uid, ids, context):
+            sponsorship.clean_invoices(since_date=sponsorship.start_date,
+                                       to_date=sponsorship.end_date,
+                                       clean_invoices_paid=False)

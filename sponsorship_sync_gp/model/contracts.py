@@ -162,11 +162,11 @@ class contracts(orm.Model):
     #                             PRIVATE METHODS                            #
     ##########################################################################
     def _finish_contract(self, cr, uid, ids, finish_type, context=None):
-        """ When contract is finished, update it in GP. """
+        """ Avoid useless syncs of Affectats when a contract is terminated.
+        """
         if context is None:
             context = dict()
         ctx = context.copy()
-        # Avoid useless syncs of Affectats when a contract is terminated
         ctx['skip_invoice_sync'] = True
 
         if finish_type == 'cancel':
@@ -174,14 +174,15 @@ class contracts(orm.Model):
         elif finish_type == 'terminate':
             super(contracts, self).contract_terminated(cr, uid, ids, ctx)
 
+    def _on_sponsorship_finished(self, cr, uid, ids, context=None):
+        """ When contract is finished, update it in GP. """
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
-            if 'S' in contract.type:
-                if not gp_connect.finish_contract(contract):
-                    raise orm.except_orm(
-                        _("GP Sync Error"),
-                        _("The sponsorship could not be terminated.") +
-                        _("Please contact an IT person."))
+            if not gp_connect.finish_contract(contract):
+                raise orm.except_orm(
+                    _("GP Sync Error"),
+                    _("The sponsorship could not be terminated.") +
+                    _("Please contact an IT person."))
 
     def _write_contract_in_gp(self, uid, gp_connect, contract):
         if self._is_gp_compatible(contract):
