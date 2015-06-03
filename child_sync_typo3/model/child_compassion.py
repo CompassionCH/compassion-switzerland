@@ -167,15 +167,13 @@ class compassion_child(orm.Model):
             os.remove(full_image)
 
     def child_sponsored(self, cr, uid, ids, context=None):
-        res = super(compassion_child, self).child_sponsored(
-            cr, uid, ids, context)
-
         """ Remove children from the website when they are sponsored. """
-        to_remove_from_web = []
-        for child in self.browse(cr, uid, ids, context):
-            if child.state == 'I':
-                to_remove_from_web.append(child.id)
+        to_remove_from_web = [c.id for c in self.browse(cr, uid, ids,
+                                                        context)
+                              if c.state == 'I']
         if to_remove_from_web:
             self.child_remove_from_typo3(cr, uid, to_remove_from_web,
                                          context)
-        return res
+
+        return super(compassion_child, self).child_sponsored(
+            cr, uid, ids, context)
