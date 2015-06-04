@@ -37,9 +37,7 @@ This module adds specific behaviours of sponsorships for Switzerland.
     """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['message_center_compassion',
-                'sponsorship_tracking',
-                ],
+    'depends': ['sponsorship_tracking'],
     'data': [
         'view/contracts_view.xml',
         'data/install.xml'],

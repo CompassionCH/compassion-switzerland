@@ -96,14 +96,20 @@ class GPConnect(mysql_connector):
             'id_erp': contract.id,
         }
 
+        if contract.state in ('draft', 'waiting', 'mandate'):
+            # Fields when contract is not yet active
+            vals.update({
+                'codespe': codespe[0],
+                'origine': origin,
+                'typeprojet': typeprojet,
+            })
         if contract.state == 'draft':
             # Fields updated only in draft state
             vals.update({
                 'typep': 'C',
-                'codespe': codespe[0],
-                'origine': origin,
                 'datecreation': contract.start_date,
                 'datedebut': contract.next_invoice_date,
+                'mois': datetime.today().month,
                 'typeprojet': typeprojet,
             })
 

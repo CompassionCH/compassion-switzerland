@@ -6,21 +6,7 @@
 -->
 <openerp>
 	<data>
-        <!-- Search Filters -->
-        <record id="contract_tracking_switzerland_filter" model="ir.ui.view">
-			<field name="name">contract.tracking.switzerland.select</field>
-			<field name="model">recurring.contract</field>
-            <field name="inherit_id" ref="sponsorship_tracking.contract_tracking_filter"/>
-			<field name="arch" type="xml">
-                <field name="project_state" position="after">
-                    <field name="gmc_state"/>
-                </field>
-                <xpath expr="//filter[@string='Project Status']" position="after">
-                    <filter string="GMC Update" domain="[]"  context="{'group_by':'gmc_state'}"/>
-                </xpath>
-            </field>
-        </record>
-        
+        <!-- Search Filters -->        
         <record id="view_recurring_contract_compassion_filter" model="ir.ui.view">
 			<field name="name">recurring.contract.compassion.select</field>
 			<field name="model">recurring.contract</field>
@@ -41,9 +27,6 @@
 			<field name="inherit_id" ref="sponsorship_tracking.view_follow_contract_kanban_compassion" />
 			<field name="arch" type="xml">
                 <data>
-                    <xpath expr="//div[@class='oe_kanban_footer_left']" position="before">
-                        <div>GMC State : <field name="gmc_state"/></div>
-                    </xpath>
                     <xpath expr="//span[@class='oe_kanban_status oe_kanban_status_red']" position="after">
                         <span t-if="record.gmc_state.raw_value === 'order_picture'" class="oe_e" style="position:relative;top:6px;" string="Biennial">6</span>
                         <span t-if="record.gmc_state.raw_value === 'biennial'" class="oe_e" style="color:red;position:relative;top:6px;" string="Biennial">6</span>

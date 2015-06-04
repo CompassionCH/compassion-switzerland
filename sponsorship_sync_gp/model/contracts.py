@@ -223,6 +223,10 @@ class contracts(orm.Model):
     def _invoice_paid(self, cr, uid, invoice, context=None):
         """ When a customer invoice is paid, synchronize GP. """
         super(contracts, self)._invoice_paid(cr, uid, invoice, context)
+        if invoice.payment_ids:
+            # Retrieve the id of the person which reconciled the invoice
+            uid = invoice.payment_ids[0].reconcile_id.perm_read()[0][
+                'create_uid'][0]
         if invoice.type == 'out_invoice' and not \
                 context.get('skip_invoice_sync'):
             gp_connect = gp_connector.GPConnect()
