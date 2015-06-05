@@ -13,6 +13,13 @@
 			<field name="inherit_id" ref="message_center_compassion.view_gmc_contract_filter" />
 			<field name="arch" type="xml">
 				<data>
+                    <filter name="finished" position="after">
+                        <separator/>
+                        <filter name="french" string="French" domain="[('partner_id.lang','=', 'fr_CH')]"/>
+                        <filter name="german" string="German" domain="[('partner_id.lang','=', 'de_DE')]"/>
+                        <filter name="italian" string="Italian" domain="[('partner_id.lang','=', 'it_IT')]"/>
+                    </filter>
+                    
                     <filter name="biennial" position="before">
                         <filter string="Order picture" domain="[('gmc_state', '=', 'order_picture')]"/>
                     </filter>
