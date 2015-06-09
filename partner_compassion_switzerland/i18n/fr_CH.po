@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0-20140602-231022\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-10 14:27+0000\n"
-"PO-Revision-Date: 2015-04-10 16:28+0100\n"
+"POT-Creation-Date: 2015-06-09 11:46+0000\n"
+"PO-Revision-Date: 2015-06-09 15:04+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -54,7 +54,7 @@ msgid "Default"
 msgstr "Par défaut"
 
 #. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:279
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:280
 #, python-format
 msgid ""
 "You cannot more than one contact with same address than the company. GP does "
@@ -106,15 +106,14 @@ msgid "Correspondance"
 msgstr "Correspondance"
 
 #. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:278
-#, python-format
-msgid "Partner Error"
-msgstr "Erreur Partenaire"
-
-#. module: partner_compassion_switzerland
 #: model:ir.model,name:partner_compassion_switzerland.model_res_partner
 msgid "Partner"
 msgstr "Partenaire"
+
+#. module: partner_compassion_switzerland
+#: view:res.partner:0
+msgid "Address"
+msgstr "Adresse"
 
 #. module: partner_compassion_switzerland
 #: code:addons/partner_compassion_switzerland/model/partner_compassion.py:43
@@ -133,3 +132,14 @@ msgstr "Rappel anniversaire"
 #, python-format
 msgid "Calendar"
 msgstr "Calendrier"
+
+#. module: partner_compassion_switzerland
+#: view:res.partner:0
+msgid "{'required': [('is_company', '=', False)]}"
+msgstr "{'required': [('is_company', '=', False)]}"
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:279
+#, python-format
+msgid "Partner Error"
+msgstr "Erreur Partenaire"
