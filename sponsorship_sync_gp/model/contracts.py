@@ -178,7 +178,7 @@ class contracts(orm.Model):
         """ When contract is finished, update it in GP. """
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
-            if not gp_connect.finish_contract(contract):
+            if not gp_connect.finish_contract(uid, contract):
                 raise orm.except_orm(
                     _("GP Sync Error"),
                     _("The sponsorship could not be terminated.") +
