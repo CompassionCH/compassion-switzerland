@@ -148,6 +148,15 @@ class contracts(orm.Model):
                         _("Please contact an IT person."))
         return True
 
+    def action_sds_active(self, cr, uid, ids, context=None):
+        """ Log a note in GP when welcome is sent and SDS is state becomes
+        active. """
+        gp_connect = gp_connector.GPConnect()
+        for contract in self.browse(cr, uid, ids, context):
+            gp_connect.log_welcome_sent(contract)
+        return self.write(cr, uid, ids, {
+            'sds_state': 'active', 'color': 0}, context)
+
     def contract_cancelled(self, cr, uid, ids, context=None):
         """ When contract is cancelled, update it in GP. """
         self._finish_contract(cr, uid, ids, 'cancel', context)

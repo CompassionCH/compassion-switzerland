@@ -329,6 +329,22 @@ class GPConnect(mysql_connector):
                 logger.info(pole_sql)
                 self.query(pole_sql)
 
+                sponsorship = child.sponsorship_ids and \
+                    child.sponsorship_ids[0]
+                today = datetime.today().strftime(DF)
+                if sponsorship and sponsorship.end_date == today:
+                    # Log a note in GP
+                    log_vals = {
+                        'CODE': child.code,
+                        'CODEGA': sponsorship.partner_codega,
+                        'TYPE': 'AC',    # Annulation compassion
+                        'DATE': today,
+                        'INFO_COMPLEMENT': end_reason,
+                        'IDUSER': self._get_gp_uid(
+                            child.perm_read()[0]['create_uid'][0]),
+                    }
+                    self.upsert('Histoenfant', log_vals)
+
         if child.state == 'P':
             # Remove delegation and end_reason, if any was set
             update_fields += ", datedelegue=NULL, codedelegue=''" \
@@ -351,3 +367,16 @@ class GPConnect(mysql_connector):
             "WHERE TYPE = 'RB' AND CODE = %s AND CODEGA = %s",
             [contract.child_code, contract.partner_id.ref]).get("DATE",
                                                                 "0000-00-00")
+
+    def log_welcome_sent(self, contract):
+        """ Put a note in GP when welcome is sent. """
+        log_vals = {
+            'CODE': contract.child_code,
+            'CODEGA': contract.partner_codega,
+            'TYPE': 'EC',    # Envoi Courrier
+            'DATE': datetime.today().strftime(DF),
+            'INFO_COMPLEMENT': 'Welcome Letter',
+            'IDUSER': self._get_gp_uid(
+                contract.perm_read()[0]['create_uid'][0]),
+        }
+        self.upsert('Histoenfant', log_vals)
