@@ -14,6 +14,9 @@ from openerp.tools.translate import _
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from mysql_connector.model.mysql_connector import mysql_connector
 from datetime import datetime, date
+
+from sponsorship_compassion.model.product import GIFT_CATEGORY, GIFT_NAMES, \
+    SPONSORSHIP_CATEGORY
 import logging
 
 logger = logging.getLogger(__name__)
@@ -231,7 +234,7 @@ class GPConnect(mysql_connector):
         product = invoice_line.product_id
 
         # Determine the nature of the payment (sponsorship, fund)
-        if product.categ_name in ('Sponsorship', 'Sponsor gifts'):
+        if product.categ_name in (SPONSORSHIP_CATEGORY, GIFT_CATEGORY):
             if not contract:
                 raise orm.except_orm(
                     _('Missing sponsorship'),
@@ -255,17 +258,10 @@ class GPConnect(mysql_connector):
         # Determine if payment was a gift for a supported child
         cadeau = 0
         typecadeau = 0
-        gift_bvr_ref = {
-            'Birthday Gift': 1,
-            'General Gift': 2,
-            'Family Gift': 3,
-            'Project Gift': 4,
-            'Graduation Gift': 5
-        }
         libcadeau = ""
-        if product.categ_name == 'Sponsor gifts':
+        if product.categ_name == GIFT_CATEGORY:
             cadeau = 1
-            typecadeau = gift_bvr_ref[product.name]
+            typecadeau = GIFT_NAMES.index(product.name) + 1
             libcadeau = invoice_line.name
 
         payment_term = self._find_typevers(
@@ -329,6 +325,22 @@ class GPConnect(mysql_connector):
                 logger.info(pole_sql)
                 self.query(pole_sql)
 
+                sponsorship = child.sponsorship_ids and \
+                    child.sponsorship_ids[0]
+                today = datetime.today().strftime(DF)
+                if sponsorship and sponsorship.end_date == today:
+                    # Log a note in GP
+                    log_vals = {
+                        'CODE': child.code,
+                        'CODEGA': sponsorship.partner_codega,
+                        'TYPE': 'AC',    # Annulation compassion
+                        'DATE': today,
+                        'INFO_COMPLEMENT': end_reason,
+                        'IDUSER': self._get_gp_uid(
+                            child.perm_read()[0]['create_uid'][0]),
+                    }
+                    self.upsert('Histoenfant', log_vals)
+
         if child.state == 'P':
             # Remove delegation and end_reason, if any was set
             update_fields += ", datedelegue=NULL, codedelegue=''" \
@@ -351,3 +363,16 @@ class GPConnect(mysql_connector):
             "WHERE TYPE = 'RB' AND CODE = %s AND CODEGA = %s",
             [contract.child_code, contract.partner_id.ref]).get("DATE",
                                                                 "0000-00-00")
+
+    def log_welcome_sent(self, contract):
+        """ Put a note in GP when welcome is sent. """
+        log_vals = {
+            'CODE': contract.child_code,
+            'CODEGA': contract.partner_codega,
+            'TYPE': 'EC',    # Envoi Courrier
+            'DATE': datetime.today().strftime(DF),
+            'INFO_COMPLEMENT': 'Welcome Letter',
+            'IDUSER': self._get_gp_uid(
+                contract.perm_read()[0]['create_uid'][0]),
+        }
+        self.upsert('Histoenfant', log_vals)
