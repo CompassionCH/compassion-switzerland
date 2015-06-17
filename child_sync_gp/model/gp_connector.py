@@ -22,28 +22,12 @@ class GPConnect(mysql_connector):
         used by GP, as well as all mappings
         from OpenERP fields to corresponding MySQL fields. """
 
-    # Mapping for child transfers to exit_reason_code in GP
-    transfer_mapping = {
-        'AU': '15',
-        'CA': '16',
-        'DE': '17',
-        'ES': '38',
-        'FR': '18',
-        'GB': '20',
-        'IT': '19',
-        'KR': '37',
-        'NL': '35',
-        'NZ': '40',
-        'US': '21',
-        'NO': '42',
-    }
-
     def upsert_child(self, uid, child):
         """Push or update child in GP after converting all relevant
         information in the destination structure."""
-        name = child.name
-        if child.firstname and name.endswith(child.firstname):
-            name = name[:-len(child.firstname)]
+        name = ''
+        if child.name:
+            name = child.name.replace(child.firstname, '', 1).strip()
         vals = {
             'CODE': child.code,
             'NOM': name,
@@ -102,10 +86,19 @@ class GPConnect(mysql_connector):
         closest_city = project.distance_from_closest_city_ids and \
             project.distance_from_closest_city_ids[0]
 
-        location_en = closest_city and closest_city.value_en
-        location_fr = closest_city and closest_city.value_fr or location_en
-        location_de = closest_city and closest_city.value_de or location_en
-        location_it = closest_city and closest_city.value_it or location_en
+        location = ''
+        closest_city_en = closest_city and closest_city.value_en or ''
+        if project.community_name:
+            location = project.community_name
+        if closest_city_en:
+            location += ', '
+        location_en = location + closest_city_en
+        location_fr = location + (closest_city and closest_city.value_fr or
+                                  closest_city_en)
+        location_de = location + (closest_city and closest_city.value_de or
+                                  closest_city_en)
+        location_it = location + (closest_city and closest_city.value_it or
+                                  closest_city_en)
 
         vals = {
             'CODE_PROJET': project.code,
@@ -126,10 +119,10 @@ class GPConnect(mysql_connector):
             'ProgramImplementorTypeCode': project.type,
             'StartDate': project.start_date,
             'LastReviewDate': project.last_update_date,
-            'OrganizationName': project.local_church_name,
-            'WesternDenomination': project.western_denomination,
-            'CountryDenomination': project.country_denomination,
-            'CommunityName': project.community_name,
+            'OrganizationName': project.local_church_name or '',
+            'WesternDenomination': project.western_denomination or '',
+            'CountryDenomination': project.country_denomination or '',
+            'CommunityName': project.community_name or '',
             'disburse_gifts': project.disburse_gifts,
         }
         return self.upsert("Projet", vals)

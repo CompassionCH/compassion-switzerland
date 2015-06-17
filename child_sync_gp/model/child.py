@@ -42,6 +42,11 @@ class child_compassion(orm.Model):
 
         return res
 
+    def get_portrait(self, cr, uid, child_id, context=None):
+        """ Returns the portrait of a child. """
+        child = self.browse(cr, uid, child_id, context)
+        return child.portrait
+
 
 class child_property(orm.Model):
     """ Upsert Case Studies """
@@ -73,7 +78,7 @@ class child_property(orm.Model):
         smb_user = config.get('smb_user')
         smb_pass = config.get('smb_pwd')
         smb_ip = config.get('smb_ip')
-        smb_port = config.get('smb_port')
+        smb_port = int(config.get('smb_port', 0))
         if not (smb_user and smb_pass and smb_ip and smb_port):
             raise orm.except_orm(
                 'Config Error',

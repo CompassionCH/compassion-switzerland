@@ -33,10 +33,36 @@
     'version': '1.0.0',
     'category': 'Other',
     'description': """
+Password Pusher for Compassion
+==============================
+
 Pushes Passwords from Users to the MySQL Database of GP, so that GP users can
 access OpenERP with their account.
 
-Warning : This module requires python-MySQLdb to be installed on the server.
+Installation
+============
+
+To install this module, you need to install dependencies:
+
+* requires python-MySQLdb to be installed on the server.
+
+Configuration
+=============
+
+To configure this module, you need to add settings in .conf file of Odoo:
+
+* mysql_host = <mysql host of gp>
+* mysql_db = <mysql database of gp>
+* mysql_user = <mysql user of gp>
+* mysql_pw = <mysql password of gp>
+
+Credits
+=======
+
+Contributors
+------------
+
+* Emanuel Cino <ecino@compassion.ch>
     """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',

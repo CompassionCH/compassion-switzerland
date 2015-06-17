@@ -23,7 +23,7 @@ class res_users(orm.Model):
 
     def set_pw2(self, cr, uid, id, name, value, args, context):
         if value:
-            gp = gp_connector.GPConnect(cr, uid)
+            gp = gp_connector.GPConnect()
             gp.pushPassword(id, value)
             super(res_users, self).set_pw(
                 cr, uid, id, name, value, args, context)

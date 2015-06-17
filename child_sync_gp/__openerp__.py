@@ -33,8 +33,34 @@
     'version': '1.4',
     'category': 'Other',
     'description': """
+Sync Compassion Children with GP
+================================
+
 This module syncs all children and projects with GP so that the information
 can be seen from GP.
+
+Configuration
+=============
+
+To configure this module, you need to add settings in .conf file of Odoo:
+
+* mysql_host = <mysql host of gp>
+* mysql_db = <mysql database of gp>
+* mysql_user = <mysql user of gp>
+* mysql_pw = <mysql password of gp>
+* smb_user = <samba user for pushing child pictures on the NAS>
+* smb_pwd = <samba password>
+* smb_ip = <IP Address of the NAS>
+* smb_port = <Samba Port>
+* gp_pictures = <Path to the folder of child pictures on the NAS>
+
+Credits
+=======
+
+Contributors
+------------
+
+* Emanuel Cino <ecino@compassion.ch>
     """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',

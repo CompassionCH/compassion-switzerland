@@ -22,7 +22,8 @@ class account_invoice(Model):
     _inherit = "account.invoice"
 
     _columns = {
-        'bvr_reference': fields.char("BVR REF.", size=32,)
+        'bvr_reference': fields.char("BVR REF.", size=32,
+                                     track_visibility='onchange')
     }
 
     def _check_bvr_ref(self, cr, uid, ids, context=None):
@@ -59,8 +60,10 @@ class account_move_line(Model):
         if move_line.invoice.bvr_reference:
             return move_line.invoice.bvr_reference
         else:
-            return super(account_move_line, self).get_bvr_ref(
+            bvr_ref = super(account_move_line, self).get_bvr_ref(
                 cursor, uid, move_line_id, context)
+            move_line.invoice.write({'bvr_reference': bvr_ref})
+            return bvr_ref
 
 
 class account_move(Model):

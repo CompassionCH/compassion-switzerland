@@ -9,6 +9,7 @@
 #
 ##############################################################################
 
+import sys
 from mysql_connector.model.mysql_connector import mysql_connector
 
 
@@ -23,7 +24,6 @@ class GPConnect(mysql_connector):
     # The commented mappings are treated specifically by a method that needs
     # to read several fields value in order to perform a correct mapping.
     colMapping = {
-        'id': 'erp_id',
         'lang': 'langue_parrain',
         'street': 'rue',
         'street2': 'rue2',
@@ -42,6 +42,7 @@ class GPConnect(mysql_connector):
         # 'ref' : 'codega',
         'lastname': 'nom',
         'firstname': 'prenom',
+        'name': 'raissociale',
         'church_id': 'eglise',
         'church_unlinked': 'eglise',
         'deathdate': 'datedeces',
@@ -99,8 +100,7 @@ class GPConnect(mysql_connector):
         'Friends of Compassion': '11'
     }
 
-    def createPartner(self, uid, vals, record, id, titleName=None,
-                      churchRef=None, categories=None, countryCode=None):
+    def createPartner(self, uid, vals, record, categories=None):
         """ Export a new partner into the MySQL Address table. If the
         reference is a new number, it inserts a line in the MySQL Address
         Table and then call the update method to set properly all the fields.
@@ -111,16 +111,8 @@ class GPConnect(mysql_connector):
             vals (dict): the fields values of the new partner. The accepted
                          values are listed in the 'colMapping' dictionary.
             record (res.partner): the current res.partner object that is
-                                  created.
-            id (long) : the partner id that will be referenced in the
-                        MySQL Address table.
-            *titleName (string): full title name of the partner,
-                                 must be given in english.
-            *churchRef (string): reference number (CODEGA) of the partner's
-                                 church.
+                                  created, must be read in english.
             *categories (list): full names of the partner's categories.
-            *countryCode (string): two letters country code of the partner's
-                                   country.
 
         Returns:
             The result of the execution of the MySQL query.
@@ -130,18 +122,17 @@ class GPConnect(mysql_connector):
             field names or values.
         """
         sql = "INSERT INTO Adresses (CODEGA, id_erp, DATECREATION, IDUSER) " \
-              "VALUES (%s,%s, NOW(), (SELECT ID FROM login WHERE " \
-              "ERP_ID = %s)) on duplicate key UPDATE id_erp=values(id_erp)"
-        if self.query(sql, (vals['ref'], id, uid)):
+              "VALUES (%s,%s, NOW(), %s) on duplicate key UPDATE "\
+              "id_erp=values(id_erp)"
+        if self.query(sql, (vals['ref'], vals['id'], self._get_gp_uid(uid))):
             # Remove unset fields
             for name in vals.keys():
                 if not vals[name] and not name == 'opt_out':
                     del(vals[name])
-            return self.updatePartner(uid, vals, record, titleName, churchRef,
-                                      categories, countryCode, False)
+            return self.updatePartner(uid, vals, record, categories, False)
 
-    def updatePartner(self, uid, vals, record, titleName=None, churchRef=None,
-                      categories=None, countryCode=None, deleteAbsent=True):
+    def updatePartner(self, uid, vals, record, categories=None,
+                      deleteAbsent=True):
         """ Synchronize the MySQL Address table with the partner in Odoo,
         by updating values provided in vals and in optional arguments.
 
@@ -151,14 +142,7 @@ class GPConnect(mysql_connector):
                              'colMapping' dictionary.
                 record (res.partner): the current res.partner object
                                       that is updated.
-                *titleName (string): full title name of the partner,
-                                     must be given in english.
-                *churchRef (string): reference number (CODEGA) of the
-                                     partner's church.
-                *lang (string): the spoken language of the partner.
                 *categories (list): of full names of the partner's categories.
-                *countryCode (string): two letters country code of the
-                                       partner's country.
                 *deleteAbsent (boolean): if set to false, no category will be
                                          deleted even if it is absent in Odoo.
 
@@ -169,15 +153,12 @@ class GPConnect(mysql_connector):
                 Some errors if the query contains errors due to invalid
                 field names or values.
         """
-
-        sqlQuery = "UPDATE Adresses SET {0} WHERE CODEGA = '" + \
-            record.ref + "' OR id_erp = " + str(record.id)
+        # Solve the encoding problems
+        reload(sys)
+        sys.setdefaultencoding('UTF8')
+        sqlQuery = "UPDATE Adresses SET {0} WHERE id_erp = " + str(vals['id'])
         # Holds the SQL string that will list the updates to perform.
         fieldsUpdate = ""
-
-        # If it is a company, we change the name mapping
-        if record.is_company:
-            self.colMapping['lastname'] = 'raissociale'
 
         for name, value in vals.iteritems():
             # Holds the converted value to insert in the MySQL table.
@@ -191,12 +172,12 @@ class GPConnect(mysql_connector):
                 mString = "'"
             # Convert the country code (use the code instead of the id)
             elif name == 'country_id':
-                mVal = countryCode
+                mVal = record.country_id.code
                 mString = "'"
             # These are the fields that need no particular transformation
             elif name in ('city', 'zip', 'function', 'email', 'website',
                           'fax', 'phone', 'date', 'mobile', 'lastname',
-                          'firstname', 'street', 'street2', 'street3',
+                          'name', 'firstname', 'street', 'street2', 'street3',
                           'deathdate', 'birthdate', 'church_unlinked'):
                 mVal = value
                 mString = "'"
@@ -206,11 +187,11 @@ class GPConnect(mysql_connector):
                 mVal = str(value)
             # Convert the title (use the correct ids found in the MySQL
             # database)
-            elif name == 'title' and titleName:
-                mVal = self.titleMapping[titleName]
+            elif name == 'title':
+                mVal = self.titleMapping[record.title.name]
             # Convert the church (use the reference number instead of the id)
             elif name == 'church_id':
-                mVal = churchRef
+                mVal = record.church_id.ref
             # Convert the categories (insert the correct ids found
             # in the MySQL database)
             elif name == 'category_id':
@@ -250,8 +231,7 @@ class GPConnect(mysql_connector):
 
         # Execute the final query, if there is any update to perform.
         if fieldsUpdate:
-            fieldsUpdate += "IDUSER = (SELECT ID " \
-                            "FROM login WHERE ERP_ID = {0})".format(uid)
+            fieldsUpdate += "IDUSER = '{0}'".format(self._get_gp_uid(uid))
             sqlQuery = sqlQuery.format(fieldsUpdate).encode("ISO-8859-1")
             return self.query(sqlQuery)
 
@@ -341,9 +321,9 @@ class GPConnect(mysql_connector):
                                    in MySQL
             contact_id (long) : the id of the contact in OpenERP
         """
-        return self.query("UPDATE Adresses SET id_erp = %s, IDUSER = "
-                          "(SELECT ID FROM login WHERE ERP_ID = %s) "
-                          "WHERE CODEGA = %s", (contact_id, uid, company_ref))
+        return self.query("UPDATE Adresses SET id_erp = %s, IDUSER = %s "
+                          "WHERE CODEGA = %s",
+                          (contact_id, self._get_gp_uid(uid), company_ref))
 
     def unlinkContact(self, uid, company, company_categories):
         """ Unlink a contact from a company and use two different addresses
@@ -355,11 +335,11 @@ class GPConnect(mysql_connector):
                                         the categories of the contact.
         """
         sql = "UPDATE Adresses SET id_erp = {0}, PRENOM='', NOM='', " \
-              "TITRE=NULL, TELMOBILE='', LANGUE_PARRAIN='{2}', IDUSER = (" \
-              "SELECT ID FROM login WHERE ERP_ID = {3}) " \
+              "TITRE=NULL, TELMOBILE='', LANGUE_PARRAIN='{2}', "\
+              "IDUSER = '{3}' " \
               "WHERE CODEGA = '{1}'".format(company.id, company.ref,
                                             self.langMapping[company.lang],
-                                            uid)
+                                            self._get_gp_uid(uid))
         self.query(sql)
         self._updateCategories(company.ref, company_categories)
         self._updateBooleanCategory(
@@ -368,30 +348,30 @@ class GPConnect(mysql_connector):
 
     def unlink(self, uid, id):
         """ Unlink a partner in MySQL. """
-        return self.query("UPDATE Adresses SET id_erp=NULL, IDUSER = ("
-                          "SELECT ID FROM login WHERE ERP_ID = {0}) "
-                          "WHERE id_erp={1}".format(uid, id))
+        return self.query("UPDATE Adresses SET id_erp=NULL, IDUSER = '{0}' "
+                          "WHERE id_erp={1}".format(self._get_gp_uid(uid),
+                                                    id))
 
-    def changeToCompany(self, uid, ref, name):
+    def changeToCompany(self, uid, partner_id, name):
         """ Changes the selected partner in MySQL so that it becomes a
         company.
         Args:
             ref (string) : the reference of the partner in MySQL
         """
         return self.query("UPDATE Adresses SET PRENOM='', NOM='', TITRE=NULL,"
-                          "RAISSOCIALE = '{2}', IDUSER = (SELECT ID "
-                          "FROM login WHERE ERP_ID = {0}) "
-                          "WHERE CODEGA='{1}'".format(uid, ref, name))
+                          "RAISSOCIALE = '{2}', IDUSER = '{0}' "
+                          "WHERE ID_ERP={1}".format(self._get_gp_uid(uid),
+                                                    partner_id, name))
 
-    def changeToPrivate(self, uid, ref):
+    def changeToPrivate(self, uid, partner_id):
         """ Changes the selected partner in MySQL so that it is no
         more a company.
         Args:
             ref (string) : the reference of the partner in MySQL
         """
-        return self.query("UPDATE Adresses SET RAISSOCIALE='', IDUSER = ("
-                          "SELECT ID FROM login WHERE ERP_ID = {0}) "
-                          "WHERE CODEGA='{1}'".format(uid, ref))
+        return self.query("UPDATE Adresses SET RAISSOCIALE='', IDUSER = '{0}'"
+                          " WHERE ID_ERP={1}".format(self._get_gp_uid(uid),
+                                                     partner_id))
 
     def getRefContact(self, id):
         """ Returns the reference of the partner in MySQL that has"

@@ -1,0 +1,58 @@
+<openerp>
+    <data>
+        <record id="view_partner_form_compassion_ch" model="ir.ui.view">
+            <field name="name">res.partner.form.compassion.switzerland</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion"/>
+            <field name="arch" type="xml">
+                <!-- Add all necessary fields in inner contact form of child_ids -->
+                <xpath expr="//form[@string='Contact']/sheet/group[2]" position="inside">
+                    <field name="tax_certificate"/>
+                    <field name="thankyou_letter"/>
+                    <field name="nbmag"/>
+                    <field name="calendar"/>
+                </xpath>
+
+                <!-- Move reference field -->
+                <field name="parent_id" position="after">
+                    <label for="ref"/>
+                    <field name="ref" readonly="1"/>
+                </field>
+                
+                <!-- Move lang field -->
+                <label string="Address" position="before">
+                    <field name="lang"/>
+                </label>
+
+                <!-- Redefine correspondance tab -->
+                <xpath expr="//page[@string='Correspondance']" position="replace">
+                    <page string="Correspondance">
+                        <group>
+                            <group>
+                                <field name="tax_certificate"/>
+                                <field name="thankyou_letter"/>                                      
+                            </group>
+                            <group>
+                                <field name="abroad"/>
+                                <field name="opt_out"/>
+                            </group>
+                            <group>
+                                <field name="nbmag"/>
+                                <field name="calendar"/>
+                                <field name="christmas_card"/>
+                                <field name="birthday_reminder"/>
+                            </group>
+                            <group/>
+                        </group>
+                    </page>
+                </xpath>
+                
+                <!-- Make title required -->
+                <field name="title" position="attributes">
+                    <attribute name="attrs">{'required': [('is_company', '=', False)]}</attribute>
+                </field>
+
+            </field>
+        </record>
+    </data>
+</openerp>
