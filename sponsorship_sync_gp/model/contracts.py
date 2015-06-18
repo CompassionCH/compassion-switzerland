@@ -215,9 +215,9 @@ class contracts(orm.Model):
                     line.product_id.gp_fund_id > 0)
         return compatible
 
-    def _on_contract_active(self, cr, uid, ids, context=None):
+    def contract_active(self, cr, uid, ids, context=None):
         """ When contract is active, update it in GP. """
-        super(contracts, self)._on_contract_active(cr, uid, ids, context)
+        super(contracts, self).contract_active(cr, uid, ids, context)
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
             if 'S' in contract.type:
@@ -228,6 +228,7 @@ class contracts(orm.Model):
                         _("Please contact an IT person."))
                 # Update the months paid in GP
                 gp_connect.register_payment(contract.id, contract.months_paid)
+        return True
 
     def _invoice_paid(self, cr, uid, invoice, context=None):
         """ When a customer invoice is paid, synchronize GP. """
@@ -313,3 +314,8 @@ class contract_group(orm.Model):
         ctx['lang'] = 'en_US'   # Generate everything in english
         super(contract_group, self)._generate_invoice_lines(
             cr, uid, contract, invoice_id, ctx)
+
+        # Update months of Correspondence Contracts
+        if contract.type == 'SC':
+            gp_connector.GPConnect().register_payment(contract.id,
+                                                      contract.months_paid)
