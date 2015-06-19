@@ -185,6 +185,7 @@ class contracts(orm.Model):
 
     def _on_sponsorship_finished(self, cr, uid, ids, context=None):
         """ When contract is finished, update it in GP. """
+        super(contracts, self)._on_sponsorship_finished(cr, uid, ids, context)
         gp_connect = gp_connector.GPConnect()
         for contract in self.browse(cr, uid, ids, context):
             if not gp_connect.finish_contract(uid, contract):
