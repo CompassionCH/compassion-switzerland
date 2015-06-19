@@ -16,6 +16,14 @@ from openerp.tools.translate import _
 class contracts(orm.Model):
     _inherit = 'recurring.contract'
 
+    def create(self, cr, uid, vals, context=None):
+        """ Sponsor Demaurex needs cancel_gifts_on_termination. """
+        demaurex_ids = self.pool.get('res.partner').search(cr, uid, [
+            ('ref', '=', '1502623')], context=context)
+        if vals.get('partner_id') in demaurex_ids:
+            vals['cancel_gifts_on_termination'] = True
+        return super(contracts, self).create(cr, uid, vals, context)
+
     def _get_gmc_states(self, cr, uid, context=None):
         """ Adds a new gmc state for tracking sponsorships for which we have
         to order the new picture of the child. Remove 'casestudy' and
