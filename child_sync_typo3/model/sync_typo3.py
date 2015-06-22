@@ -92,7 +92,7 @@ class Sync_typo3:
     @classmethod
     def typo3_index_error(self, cr, uid, src_obj, context=None):
         """ Opens the wizard showing typo3 index update error. """
-        wizard_name = 'child.on.internet.wizard'
+        wizard_name = 'child.on.typo3.wizard'
         wizard_id = src_obj.pool.get(wizard_name).create(cr, uid, {
             'state': 'error'}, context)
         return {
