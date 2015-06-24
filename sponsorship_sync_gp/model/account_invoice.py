@@ -78,7 +78,8 @@ class account_invoice(orm.Model):
                 ('contract_id', '=', False),
                 ('price_subtotal', '>', 8),
                 ('product_id.name', 'not in', ('The 4th Musketeer Fund',
-                                               'Child gift'))],
+                                               'Child gift',
+                                               'Muskathlon'))],
             context=context)
 
         return list(set([invl.invoice_id.id for invl in
