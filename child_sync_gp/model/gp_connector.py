@@ -10,8 +10,10 @@
 ##############################################################################
 
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
+from openerp.tools.config import config
 from mysql_connector.model.mysql_connector import mysql_connector
 from datetime import datetime
+from smb.SMBConnection import SMBConnection
 import logging
 
 logger = logging.getLogger(__name__)
@@ -126,6 +128,33 @@ class GPConnect(mysql_connector):
             'disburse_gifts': project.disburse_gifts,
         }
         return self.upsert("Projet", vals)
+
+    def transfer(self, uid, old_code, new_code):
+        """ Sync a child transfer with GP: rename pictures and log a note. """
+        # Retrieve configuration
+        smb_user = config.get('smb_user')
+        smb_pass = config.get('smb_pwd')
+        smb_ip = config.get('smb_ip')
+        smb_port = int(config.get('smb_port', 0))
+        if not (smb_user and smb_pass and smb_ip and smb_port):
+            return False
+
+        # Rename files in shared folder
+        smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
+        if smb_conn.connect(smb_ip, smb_port):
+            gp_old_pic_path = "{0}{1}/".format(config.get('gp_pictures'),
+                                               old_code[:2])
+            gp_new_pic_path = "{0}{1}/".format(config.get('gp_pictures'),
+                                               new_code[:2])
+            pic_files = smb_conn.listPath('GP', gp_old_pic_path)
+            for file in pic_files:
+                filename = file.filename
+                if filename.startswith(old_code):
+                    new_name = filename.replace(old_code, new_code)
+                    smb_conn.rename('GP', gp_old_pic_path + filename,
+                                    gp_new_pic_path + new_name)
+
+        return True
 
     def _get_project_state(self, project):
         """ Returns the state of a project in GP format. """

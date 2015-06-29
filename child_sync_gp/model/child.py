@@ -32,10 +32,14 @@ class child_compassion(orm.Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         """Update GP with the last information of the child."""
-        res = super(child_compassion, self).write(cr, uid, ids, vals, context)
         if not isinstance(ids, list):
             ids = [ids]
         gp_connect = gp_connector.GPConnect()
+        if 'code' in vals:
+            for child in self.browse(cr, uid, ids, context):
+                gp_connect.transfer(uid, child.code, vals['code'])
+
+        res = super(child_compassion, self).write(cr, uid, ids, vals, context)
 
         for child in self.browse(cr, uid, ids, context):
             gp_connect.upsert_child(uid, child)
