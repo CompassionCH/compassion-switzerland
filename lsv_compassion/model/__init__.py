@@ -10,6 +10,7 @@
 ##############################################################################
 from . import lsv_export_wizard
 from . import dd_export_wizard
+from . import payment_order
 from . import payment_order_create
 from . import payment_mode
 from . import invoice_line

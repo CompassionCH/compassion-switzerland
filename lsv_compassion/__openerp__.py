@@ -38,7 +38,8 @@
     'depends': ['l10n_ch_lsv_dd', 'account_banking_payment_export'],
     'external_dependencies': {},
     'data': [
-        'view/payment_mode.xml'
+        'view/payment_mode.xml',
+        'data/payment_workflow.xml',
     ],
     'demo': [],
     'description': '''
