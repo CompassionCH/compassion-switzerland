@@ -41,7 +41,7 @@ class compassion_child(orm.Model):
         return res
 
     def child_add_to_typo3(self, cr, uid, ids, context=None):
-        self._recompute_unsponsored(cr, uid, ids, context)
+        self._set_unsponsored_since(cr, uid, ids, context)
 
         # Solve the encoding problems on child's descriptions
         reload(sys)
