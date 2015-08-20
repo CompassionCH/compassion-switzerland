@@ -70,7 +70,10 @@ Contributors
                 'sponsorship_switzerland',
                 'account_voucher',
                 ],
-    'data': ['workflow/sds_workflow.xml'],
+    'data': [
+        'workflow/sds_workflow.xml',
+        'data/product.xml',
+    ],
     'demo': [],
     'installable': True,
     'auto_install': False,
