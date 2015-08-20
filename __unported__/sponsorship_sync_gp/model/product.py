@@ -9,8 +9,16 @@
 #
 ##############################################################################
 
-from . import gp_connector
-from . import child
-from . import contracts
-from . import account_invoice
-from . import product
+from openerp import models, fields
+
+
+class product_template(models.Model):
+    _inherit = 'product.template'
+
+    gp_fund_id = fields.Integer('GP Fund id', size=4)
+
+
+class product(models.Model):
+    _inherit = 'product.product'
+
+    gp_fund_id = fields.Integer('GP Fund id', size=4)
