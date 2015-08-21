@@ -9,17 +9,14 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class payment_mode(orm.Model):
+class payment_mode(models.Model):
     _inherit = "payment.mode"
 
-    _columns = {
-        'payment_term_ids': fields.many2many(
-            'account.payment.term', 'account_payment_order_terms_rel',
-            'mode_id', 'term_id', 'Payment terms',
-            help=('Limit selected invoices to invoices with these payment '
-                  'terms')
-        ),
-    }
+    payment_term_ids = fields.Many2many(
+        'account.payment.term', 'account_payment_order_terms_rel',
+        'mode_id', 'term_id', 'Payment terms',
+        help='Limit selected invoices to invoices with these payment terms'
+    )

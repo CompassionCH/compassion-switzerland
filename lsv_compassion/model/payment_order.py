@@ -9,34 +9,31 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
-from openerp.tools.translate import _
+from openerp import models, _
 
 
-class payment_order(orm.Model):
+class payment_order(models.Model):
     _inherit = "payment.order"
 
-    def action_open(self, cr, uid, ids, context=None):
+    def action_open(self):
         """ Logs a note in invoices when imported in payment order """
-        for order in self.browse(cr, uid, ids, context):
+        for order in self:
             for line in order.line_ids:
-                self.pool.get('mail.thread').message_post(
-                    cr, uid, line.ml_inv_ref.id,
+                self.env['mail.thread'].message_post(
+                    line.ml_inv_ref.id,
                     _("The invoice has been imported in a payment order."),
-                    _("Invoice Collected for LSV/DD"), 'comment',
-                    context={'thread_model': 'account.invoice'})
+                    _("Invoice Collected for LSV/DD"), 'comment')
 
-        return super(payment_order, self).action_open(cr, uid, ids, context)
+        return super(payment_order, self).action_open()
 
-    def action_cancel(self, cr, uid, ids, context=None):
+    def action_cancel(self):
         """ Logs a note in invoices when order is cancelled. """
-        self.write(cr, uid, ids, {'state': 'cancel'}, context)
-        for order in self.browse(cr, uid, ids, context):
+        self.write({'state': 'cancel'})
+        for order in self:
             for line in order.line_ids:
-                self.pool.get('mail.thread').message_post(
-                    cr, uid, line.ml_inv_ref.id,
+                self.env['mail.thread'].message_post(
+                    line.ml_inv_ref.id,
                     _("The LSV/DD Order has been cancelled."),
-                    _("Payment Order Cancelled"), 'comment',
-                    context={'thread_model': 'account.invoice'})
+                    _("Payment Order Cancelled"), 'comment')
 
         return True

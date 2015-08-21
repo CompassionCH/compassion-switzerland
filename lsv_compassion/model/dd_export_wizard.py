@@ -10,24 +10,21 @@
 ##############################################################################
 import logging
 from export_tools import export_tools
-from openerp.osv import orm
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
 
 logger = logging.getLogger(__name__)
 
 
-class post_dd_export_wizard(orm.TransientModel):
+class post_dd_export_wizard(models.TransientModel):
     _inherit = 'post.dd.export.wizard'
 
-    def _get_communications(self, cr, uid, line, context=None):
-        return export_tools.get_communications(self, cr, uid, line, context)
+    def _get_communications(self, line):
+        return export_tools.get_communications(self, line)
 
-    def _customize_records(self, cr, uid, records, properties, context=None):
+    def _customize_records(self, records, properties):
         ''' We try to group lines if possible. '''
         # See get_communication for languages explanations
-        if not context:
-            context = {}
-        lang_backup = context.get('lang', '')
+        lang_backup = self.env.context.get('lang')
 
         grouped_lines = [records[0][1]]
         deb_account = records[1][1][72:81]
@@ -63,7 +60,7 @@ class post_dd_export_wizard(orm.TransientModel):
                 nb_grouped = 1
             else:
                 # Set partner language for communication generation
-                context['lang'] = pay_line.partner_id.lang
+                self.env.context['lang'] = pay_line.partner_id.lang
                 nb_grouped += 1
                 new_amount = float(
                     new_line[53:66]) / 100 + float(line[53:66]) / 100
@@ -76,5 +73,5 @@ class post_dd_export_wizard(orm.TransientModel):
         grouped_lines.append(new_line)
         properties['nb_transactions'] = nb_transactions
 
-        context['lang'] = lang_backup
+        self.env.context['lang'] = lang_backup
         return grouped_lines

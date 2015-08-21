@@ -11,12 +11,13 @@
 
 import locale
 import collections
+import operator
+
 from unidecode import unidecode
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-import operator
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
-from openerp.tools.translate import _
+from openerp import _
 
 
 class export_tools():
@@ -35,7 +36,7 @@ class export_tools():
         return res
 
     @classmethod
-    def get_communications(cls, wizard, cr, uid, line, context=None):
+    def get_communications(cls, wizard, line):
         ''' We look for products in invoices to generate an appropriate
             communication. If we have enough space, add period informations.
         '''
@@ -48,11 +49,10 @@ class export_tools():
         # Beside of this, we also set the locale to the partner language, in #
         # order to get the month name in the correct language.               #
         ######################################################################
-        if not context:
-            context = {}
-        lang_backup = context.get('lang', '')
-        context['lang'] = line.partner_id.lang
-        locale.setlocale(locale.LC_ALL, [context.get('lang'), 'utf8'])
+        lang_backup = wizard.env.context.get('lang', '')
+        wizard.env.context['lang'] = line.partner_id.lang
+        locale.setlocale(locale.LC_ALL,
+                         [wizard.env.context.get('lang'), 'utf8'])
         ######################################################################
         # We don't use move_line_id.invoice because it's really slow (the    #
         # invoice field is in fact a function field with some stuff not used #
@@ -61,23 +61,23 @@ class export_tools():
         # level SQL query, but the gain isn't important enough. We prefer    #
         # keep the code clean and lose 3 seconds on 1'000 payment lines.     #
         ######################################################################
-        invoice_obj = wizard.pool.get('account.invoice')
+        invoice_obj = wizard.env['account.invoice']
         ids = invoice_obj.search(
-            cr, uid, [('move_id', '=', line.move_line_id.move_id.id)])
+            [('move_id', '=', line.move_line_id.move_id.id)])
         if not ids:
-            context['lang'] = lang_backup
+            wizard.env.context['lang'] = lang_backup
             return ''
 
-        invoice = invoice_obj.browse(cr, uid, ids[0], context)
+        invoice = invoice_obj.browse(ids[0])
         products = [(l.product_id.product_tmpl_id.name, l.quantity,
                      l.child_name) for l in invoice.invoice_line
                     if l.product_id.name_template and
                     (l.child_name and
                      'sponsorship' in l.product_id.name_template.lower() or
                      'gift' in l.product_id.name_template.lower()) or not
-                    l.child_name]
+                     l.child_name]
         if not products:
-            context['lang'] = lang_backup
+            wizard.env.context['lang'] = lang_backup
             return ''
 
         # Reduction on keys -> Dict with total per product
@@ -138,5 +138,5 @@ class export_tools():
                 _('%d other engagements') %
                 sum([tup[1] for tup in prod_dict_sort[3:]]), 35)
 
-        context['lang'] = lang_backup
+        wizard.env.context['lang'] = lang_backup
         return communication
