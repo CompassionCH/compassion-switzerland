@@ -35,7 +35,9 @@
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'category': 'Other',
-    'depends': ['l10n_ch_lsv_dd', 'account_banking_payment_export'],
+    'depends': ['l10n_ch_lsv_dd',
+                'account_banking_payment_export',
+                'contract_compassion'],
     'external_dependencies': {},
     'data': [
         'view/payment_mode.xml',
@@ -71,6 +73,7 @@ Contributors
 
 * Cyril Sester <cyril.sester@outlook.com>
 * Emanuel Cino <ecino@compassion.ch>
+* Nicolas Tran <nox.tran@gmail.com>
     ''',
     'active': False,
     'installable': True,

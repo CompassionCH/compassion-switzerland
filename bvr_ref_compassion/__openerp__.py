@@ -49,6 +49,7 @@ Contributors
 ------------
 
 * Cyril Sester <cyril.sester@outlook.com>
+* Nicolas Tran <nox.tran@gmail.com>
     ''',
     'active': False,
     'installable': True,
