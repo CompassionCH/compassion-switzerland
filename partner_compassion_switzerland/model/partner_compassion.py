@@ -8,12 +8,12 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp.osv import fields, orm
-from openerp.tools.translate import _
+from openerp import api, fields, models, _
+from openerp.osv import orm
 from . import gp_connector
 
 
-class ResPartner(orm.Model):
+class ResPartner(models.Model):
     """ This class upgrade the partners to match Compassion needs.
         It also synchronize all changes with the MySQL server of GP.
     """
@@ -30,44 +30,30 @@ class ResPartner(orm.Model):
 
     ##########################################################################
     #                        NEW PARTNER FIELDS                              #
-    ##########################################################################
-    _columns = {
-        'nbmag': fields.integer(_('Number of Magazines'), size=2,
-                                required=True),
-        'tax_certificate': fields.selection(
-            _get_receipt_types, _('Tax certificate'), required=True),
-        'thankyou_letter': fields.selection(
-            _get_receipt_types, _('Thank you letter'), required=True),
-        'calendar': fields.boolean(
-            _('Calendar'),
-            help=_("Indicates if the partner wants to receive the Compassion "
-                   "calendar.")),
-        'christmas_card': fields.boolean(
-            _('Christmas Card'),
-            help=_("Indicates if the partner wants to receive the "
-                   "christmas card.")),
-        'birthday_reminder': fields.boolean(
-            _('Birthday Reminder'),
-            help=_("Indicates if the partner wants to receive a birthday "
-                   "reminder of his child.")),
-        'abroad': fields.boolean(
-            _('Abroad/Only e-mail'),
-            help=_("Indicates if the partner is abroad and should only be "
-                   "updated by e-mail")),
-    }
-
-    _defaults = {
-        # Reference is managed by GP
-        'ref': False,
-        'lang': False,
-        'nbmag': 0,
-        'tax_certificate': 'default',
-        'thankyou_letter': 'default',
-        'calendar': True,
-        'christmas_card': True,
-        'birthday_reminder': True,
-        'opt_out': True,
-    }
+    # ########################################################################
+    ref = fields.Char(default=False)
+    lang = fields.Selection(default=False)
+    opt_out = fields.Boolean(default=True)
+    nbmag = fields.integer('Number of Magazines', size=2,
+                           required=True, default=0)
+    tax_certificate = fields.selection(
+        _get_receipt_types, required=True, default='default')
+    thankyou_letter = fields.selection(
+        _get_receipt_types, _('Thank you letter'),
+        required=True, default='default')
+    calendar = fields.boolean(
+        help=_("Indicates if the partner wants to receive the Compassion "
+               "calendar."), default=True)
+    christmas_card = fields.boolean(
+        help=_("Indicates if the partner wants to receive the "
+               "christmas card."), default=True)
+    birthday_reminder = fields.boolean(
+        help=_("Indicates if the partner wants to receive a birthday "
+               "reminder of his child."), default=True)
+    abroad = fields.boolean(
+        'Abroad/Only e-mail',
+        help=_("Indicates if the partner is abroad and should only be "
+               "updated by e-mail"))
 
     ##########################################################################
     #                           PUBLIC METHODS                               #
