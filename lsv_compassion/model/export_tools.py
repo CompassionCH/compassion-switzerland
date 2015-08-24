@@ -75,11 +75,11 @@ class export_tools():
                     if l.product_id.name_template and
                     (l.child_name and
                      'sponsorship' in l.product_id.name_template.lower() or
-                     'gift' in l.product_id.name_template.lower()) or 
+                     'gift' in l.product_id.name_template.lower()) or
                     l.child_name]
         if not products:
             return ''
-        
+
         # Reduction on keys -> Dict with total per product
         prod_dict = collections.defaultdict(int)
         qties = collections.defaultdict(list)
