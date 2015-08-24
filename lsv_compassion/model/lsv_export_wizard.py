@@ -24,9 +24,6 @@ class lsv_export_wizard(models.TransientModel):
 
     def _customize_lines(self, lsv_lines, properties):
         ''' We try to group lines if possible. '''
-        # See get_communication for languages explanations
-        # lang_backup = self.env.context.get('lang', '')
-
         grouped_lines = []
         deb_iban = lsv_lines[0][1][237:271]
         treatment_date = lsv_lines[0][1][5:13]
@@ -36,7 +33,6 @@ class lsv_export_wizard(models.TransientModel):
         nb_grouped = 1
 
         for tuple in lsv_lines[1:-1]:
-            # pay_line = tuple[0]
             line = tuple[1]
             if line[237:271] != deb_iban or line[5:13] != treatment_date or \
                     line[552:579] != ref:
@@ -50,8 +46,7 @@ class lsv_export_wizard(models.TransientModel):
                     new_line[43:]
                 nb_grouped = 1
             else:
-                # Set partner language for communication generation
-                # self.env.context['lang'] = pay_line.partner_id.lang
+
                 nb_grouped += 1
                 new_amount = float(
                     new_line[51:63].replace(',', '.')) + \
@@ -69,5 +64,4 @@ class lsv_export_wizard(models.TransientModel):
             lsv_lines[-1][1][24:])
         properties['seq_nb'] = seq_nb
 
-        # self.env.context['lang'] = lang_backup
         return grouped_lines

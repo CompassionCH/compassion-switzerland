@@ -75,8 +75,8 @@ class export_tools():
                     if l.product_id.name_template and
                     (l.child_name and
                      'sponsorship' in l.product_id.name_template.lower() or
-                     'gift' in l.product_id.name_template.lower()) or
-                    l.child_name]
+                     'gift' in l.product_id.name_template.lower() or not
+                    l.child_name)]
         if not products:
             return ''
 
