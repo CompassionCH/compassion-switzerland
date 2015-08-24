@@ -23,9 +23,6 @@ class post_dd_export_wizard(models.TransientModel):
 
     def _customize_records(self, records, properties):
         ''' We try to group lines if possible. '''
-        # See get_communication for languages explanations
-        # lang_backup = self.env.context.get('lang')
-
         grouped_lines = [records[0][1]]
         deb_account = records[1][1][72:81]
         ref = records[1][1][87:114]
@@ -59,8 +56,6 @@ class post_dd_export_wizard(models.TransientModel):
                     str(trans_id).zfill(6) + new_line[43:]
                 nb_grouped = 1
             else:
-                # Set partner language for communication generation
-                # self.env.context['lang'] = pay_line.partner_id.lang
                 nb_grouped += 1
                 new_amount = float(
                     new_line[53:66]) / 100 + float(line[53:66]) / 100
@@ -73,5 +68,4 @@ class post_dd_export_wizard(models.TransientModel):
         grouped_lines.append(new_line)
         properties['nb_transactions'] = nb_transactions
 
-        # self.env.context['lang'] = lang_backup
         return grouped_lines
