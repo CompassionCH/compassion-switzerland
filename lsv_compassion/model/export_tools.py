@@ -64,12 +64,11 @@ class export_tools():
         ######################################################################
         invoice_obj = wizard.env['account.invoice'].with_context(
             lang=line.partner_id.lang)
-        ids = invoice_obj.search(
-            [('move_id', '=', line.move_line_id.move_id.id)])
-        if not ids:
+        invoice = invoice_obj.search(
+            [('move_id', '=', line.move_line_id.move_id.id)], limit=1)
+        if not invoice:
             return ''
 
-        invoice = ids[0]
         products = [(l.product_id.product_tmpl_id.name, l.quantity,
                      l.child_name) for l in invoice.invoice_line
                     if l.product_id.name_template and

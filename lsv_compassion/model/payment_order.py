@@ -9,30 +9,30 @@
 #
 ##############################################################################
 
-from openerp import models, _
+from openerp import models, api, _
 
 
 class payment_order(models.Model):
     _inherit = "payment.order"
 
+    @api.multi
     def action_open(self):
         """ Logs a note in invoices when imported in payment order """
         for order in self:
             for line in order.line_ids:
-                self.env['mail.thread'].message_post(
-                    line.ml_inv_ref.id,
+                line.ml_inv_ref.message_post(
                     _("The invoice has been imported in a payment order."),
                     _("Invoice Collected for LSV/DD"), 'comment')
 
         return super(payment_order, self).action_open()
 
+    @api.multi
     def action_cancel(self):
         """ Logs a note in invoices when order is cancelled. """
         self.write({'state': 'cancel'})
         for order in self:
             for line in order.line_ids:
-                self.env['mail.thread'].message_post(
-                    line.ml_inv_ref.id,
+                line.ml_inv_ref.message_post(
                     _("The LSV/DD Order has been cancelled."),
                     _("Payment Order Cancelled"), 'comment')
 
