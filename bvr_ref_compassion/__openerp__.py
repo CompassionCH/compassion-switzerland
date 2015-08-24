@@ -39,18 +39,6 @@
     'data': [
     ],
     'demo': [],
-    'description': '''
-BVR reference Compassion
-========================
-This module change the BVR ref field in invoices from fields.function
-to fields.char. This is because we want to set arbitrary BVR ref.
-
-Contributors
-------------
-
-* Cyril Sester <cyril.sester@outlook.com>
-* Nicolas Tran <nox.tran@gmail.com>
-    ''',
     'active': False,
     'installable': True,
 }
