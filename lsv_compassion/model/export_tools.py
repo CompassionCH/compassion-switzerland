@@ -49,8 +49,9 @@ class export_tools():
         # Beside of this, we also set the locale to the partner language, in #
         # order to get the month name in the correct language.               #
         ######################################################################
-        lang_backup = wizard.env.context.get('lang', '')
-        wizard.env.context['lang'] = line.partner_id.lang
+
+        # use with_context pour l'objet qui utilise le context
+        # is ca sera -> invoice_obj = wit...[].with_context({lang= lin..}
         locale.setlocale(locale.LC_ALL,
                          [wizard.env.context.get('lang'), 'utf8'])
         ######################################################################
@@ -61,25 +62,24 @@ class export_tools():
         # level SQL query, but the gain isn't important enough. We prefer    #
         # keep the code clean and lose 3 seconds on 1'000 payment lines.     #
         ######################################################################
-        invoice_obj = wizard.env['account.invoice']
+        invoice_obj = wizard.env['account.invoice'].with_context(
+            lang=line.partner_id.lang)
         ids = invoice_obj.search(
             [('move_id', '=', line.move_line_id.move_id.id)])
         if not ids:
-            wizard.env.context['lang'] = lang_backup
             return ''
 
-        invoice = invoice_obj.browse(ids[0])
+        invoice = ids[0]
         products = [(l.product_id.product_tmpl_id.name, l.quantity,
                      l.child_name) for l in invoice.invoice_line
                     if l.product_id.name_template and
                     (l.child_name and
                      'sponsorship' in l.product_id.name_template.lower() or
-                     'gift' in l.product_id.name_template.lower()) or not
-                     l.child_name]
+                     'gift' in l.product_id.name_template.lower()) or 
+                    l.child_name]
         if not products:
-            wizard.env.context['lang'] = lang_backup
             return ''
-
+        
         # Reduction on keys -> Dict with total per product
         prod_dict = collections.defaultdict(int)
         qties = collections.defaultdict(list)
@@ -138,5 +138,4 @@ class export_tools():
                 _('%d other engagements') %
                 sum([tup[1] for tup in prod_dict_sort[3:]]), 35)
 
-        wizard.env.context['lang'] = lang_backup
         return communication
