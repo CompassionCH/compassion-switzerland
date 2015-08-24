@@ -80,7 +80,6 @@ class account_invoice(orm.Model):
                 ('product_id.name', 'not in', ('The 4th Musketeer Fund',
                                                'Child gift',
                                                'Muskathlon'))],
-            context=context)
 
         return list(set([invl.invoice_id.id for invl in
                          invl_obj.browse(cr, uid, invl_ids, context)]))

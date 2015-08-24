@@ -12,6 +12,7 @@ import logging
 
 from openerp.osv.orm import Model, fields
 from openerp.tools import mod10r
+import pdb
 
 logger = logging.getLogger(__name__)
 
