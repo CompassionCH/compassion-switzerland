@@ -10,7 +10,7 @@
 ##############################################################################
 import logging
 
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions
 from openerp.tools import mod10r
 
 logger = logging.getLogger(__name__)
@@ -33,12 +33,15 @@ class account_invoice(models.Model):
             clean_ref = data.bvr_reference.replace(' ', '')
             if not clean_ref.isdigit() or len(clean_ref) > 27:
                 raise exceptions.ValidationError('Error: BVR ref should only' +
-                    'contain number (max. 27) and spaces.')
+                                                 'contain number (max. 27) ' +
+                                                 'and spaces.')
             clean_ref = clean_ref.rjust(27, '0')  # Add zeros to the left
             if not clean_ref == mod10r(clean_ref[0:26]):
                 raise exceptions.ValidationError('Error: BVR ref should only' +
-                    'contain number (max. 27) and spaces.')
+                                                 'contain number (max. 27) ' +
+                                                 'and spaces.')
         return True
+
 
 class account_move_line(models.Model):
     _inherit = 'account.move.line'

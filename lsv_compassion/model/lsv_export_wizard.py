@@ -11,7 +11,7 @@
 
 import logging
 from export_tools import export_tools
-from openerp import models, fields, _
+from openerp import models, _
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class lsv_export_wizard(models.TransientModel):
     def _customize_lines(self, lsv_lines, properties):
         ''' We try to group lines if possible. '''
         # See get_communication for languages explanations
-        lang_backup = context.get('lang', '')
+        #lang_backup = self.env.context.get('lang', '')
 
         grouped_lines = []
         deb_iban = lsv_lines[0][1][237:271]
@@ -51,7 +51,7 @@ class lsv_export_wizard(models.TransientModel):
                 nb_grouped = 1
             else:
                 # Set partner language for communication generation
-                self.env.context['lang'] = pay_line.partner_id.lang
+                #self.env.context['lang'] = pay_line.partner_id.lang
                 nb_grouped += 1
                 new_amount = float(
                     new_line[51:63].replace(',', '.')) + \
@@ -69,5 +69,5 @@ class lsv_export_wizard(models.TransientModel):
             lsv_lines[-1][1][24:])
         properties['seq_nb'] = seq_nb
 
-        self.env.context['lang'] = lang_backup
+        #self.env.context['lang'] = lang_backup
         return grouped_lines
