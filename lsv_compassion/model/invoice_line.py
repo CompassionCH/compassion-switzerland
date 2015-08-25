@@ -9,13 +9,10 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class invoice_line(orm.Model):
+class invoice_line(models.Model):
     _inherit = 'account.invoice.line'
 
-    _columns = {
-        'child_name': fields.related(
-            'contract_id', 'child_name', string='Child name', type='char')
-    }
+    child_name = fields.Char(related='contract_id.child_name')

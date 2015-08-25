@@ -8,7 +8,6 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-09 11:46+0000\n"
 "PO-Revision-Date: 2015-06-09 15:04+0100\n"
-"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
 "MIME-Version: 1.0\n"
@@ -114,8 +113,6 @@ msgstr "Partenaire"
 #: view:res.partner:0
 msgid "Address"
 msgstr "Adresse"
-
-#. module: partner_compassion_switzerland
 #: code:addons/partner_compassion_switzerland/model/partner_compassion.py:43
 #, python-format
 msgid "Indicates if the partner wants to receive the Compassion calendar."

@@ -11,25 +11,19 @@
 
 import logging
 from export_tools import export_tools
-from openerp.osv import orm
-from openerp.tools.translate import _
+from openerp import models, _
 
 logger = logging.getLogger(__name__)
 
 
-class lsv_export_wizard(orm.TransientModel):
+class lsv_export_wizard(models.TransientModel):
     _inherit = 'lsv.export.wizard'
 
-    def _get_communications(self, cr, uid, line, context=None):
-        return export_tools.get_communications(self, cr, uid, line, context)
+    def _get_communications(self, line):
+        return export_tools.get_communications(self, line)
 
-    def _customize_lines(self, cr, uid, lsv_lines, properties, context=None):
+    def _customize_lines(self, lsv_lines, properties):
         ''' We try to group lines if possible. '''
-        # See get_communication for languages explanations
-        if not context:
-            context = {}
-        lang_backup = context.get('lang', '')
-
         grouped_lines = []
         deb_iban = lsv_lines[0][1][237:271]
         treatment_date = lsv_lines[0][1][5:13]
@@ -39,7 +33,6 @@ class lsv_export_wizard(orm.TransientModel):
         nb_grouped = 1
 
         for tuple in lsv_lines[1:-1]:
-            pay_line = tuple[0]
             line = tuple[1]
             if line[237:271] != deb_iban or line[5:13] != treatment_date or \
                     line[552:579] != ref:
@@ -53,8 +46,7 @@ class lsv_export_wizard(orm.TransientModel):
                     new_line[43:]
                 nb_grouped = 1
             else:
-                # Set partner language for communication generation
-                context['lang'] = pay_line.partner_id.lang
+
                 nb_grouped += 1
                 new_amount = float(
                     new_line[51:63].replace(',', '.')) + \
@@ -72,5 +64,4 @@ class lsv_export_wizard(orm.TransientModel):
             lsv_lines[-1][1][24:])
         properties['seq_nb'] = seq_nb
 
-        context['lang'] = lang_backup
         return grouped_lines
