@@ -23,6 +23,31 @@ class account_invoice(orm.Model):
         'receipt_id': fields.many2one('mail.message', _('Receipt'))
     }
 
+    def confirm_paid(self, cr, uid, ids, context=None):
+        """ Insert Affectat into GP. """
+        res = super(account_invoice, self).confirm_paid(cr, uid, ids, context)
+        gp_connect = gp_connector.GPConnect()
+        for invoice in self.browse(cr, uid, ids, context):
+            uid = invoice.payment_ids[0].reconcile_id.create_uid
+            last_pay_date = max([move_line.date
+                                 for move_line in invoice.payment_ids
+                                 if move_line.credit > 0] or [False])
+            if invoice.type == 'out_invoice':
+                for line in invoice.invoice_line:
+                    gp_connect.insert_affectat(uid, line, last_pay_date)
+        return res
+
+    def action_reopen(self, cr, uid, ids, context=None):
+        """ Remove Affectat from GP. """
+        res = super(account_invoice, self).action_reopen(
+            cr, uid, ids, context)
+        gp_connect = gp_connector.GPConnect()
+        for invoice in self.browse(cr, uid, ids, context):
+            if invoice.type == 'out_invoice':
+                for line in invoice.invoice_line:
+                    gp_connect.remove_affectat(line.id)
+        return res
+
     def action_cancel(self, cr, uid, ids, context=None):
         """ If an invoice was cancelled, update the situation in GP. """
         for invoice in self.browse(cr, uid, ids, {'lang': 'en_US'}):
