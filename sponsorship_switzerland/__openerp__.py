@@ -32,9 +32,6 @@
     'name': 'Tailor Sponsorships to Compassion CH needs',
     'version': '1.0',
     'category': 'Other',
-    'description': """
-This module adds specific behaviours of sponsorships for Switzerland.
-    """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['sponsorship_tracking'],

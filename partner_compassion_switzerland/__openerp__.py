@@ -33,16 +33,6 @@
     'version': '1.5',
     'category': 'Partner',
     'sequence': 150,
-    'description': """
-            A. Upgrade Partners to Compassion Switzerland standards :
-                - Add correspondance information
-
-            B. Synchronize all Partner modifications with the MySQL Database
-               used by Gestion Parrainages Compassion Suisse.
-
-            Warning : This module requires python-MySQLdb to be installed on
-                      the server.
-    """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['partner_compassion', 'mysql_connector'],
