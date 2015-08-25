@@ -11,7 +11,8 @@
 
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from openerp.tools.config import config
-from mysql_connector.model.mysql_connector import mysql_connector
+from openerp.addons.mysql_connector.model.mysql_connector \
+    import mysql_connector
 from datetime import datetime
 from smb.SMBConnection import SMBConnection
 import logging

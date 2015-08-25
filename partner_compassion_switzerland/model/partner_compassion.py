@@ -209,9 +209,10 @@ class ResPartner(models.Model):
 
         return super(ResPartner, self).unlink()
 
-    @api.one
+    @api.multi
     def get_unreconciled_amount(self):
         """Returns the amount of unreconciled credits in Account 1050"""
+        self.ensure_one()
         mv_line_obj = self.env['account.move.line']
         move_line_ids = mv_line_obj.search([
             ('partner_id', '=', self.id),
@@ -261,7 +262,6 @@ class ResPartner(models.Model):
                 _("You cannot more than one contact with same address than "
                   "the company. GP does not handle that!"))
 
-    @api.one
     def _get_category_names(self):
         """ Get a list of the category names of all linked partners.
 
@@ -273,17 +273,19 @@ class ResPartner(models.Model):
             A list of strings containing the category names of the current
             partner, his parent and children.
         """
-        categories_name = self.mapped('category_id.name')
+        categories_name = self.with_context(
+            lang='en_US').mapped('category_id.name')
 
-        parent_category_names = self.filtered(
+        parent_category_names = self.with_context(lang='en_US').filtered(
             lambda partner: partner.use_parent_address).mapped(
-            'parent_id.category.name').with_context(lang='en_US')
-        child_category_names = self.child_ids.filtered(
+            'parent_id.category_id.name')
+        child_category_names = self.with_context(
+            lang='en_US').child_ids.filtered(
             lambda partner: partner.use_parent_address).mapped(
-                'category.name').with_context(lang='en_US')
+                'category_id.name')
 
-        categories_name.append(parent_category_names)
-        categories_name.append(child_category_names)
+        categories_name.extend(parent_category_names)
+        categories_name.extend(child_category_names)
 
         return categories_name
 

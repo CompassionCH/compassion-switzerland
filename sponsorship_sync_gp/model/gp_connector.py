@@ -12,11 +12,13 @@
 from openerp.osv import orm
 from openerp.tools.translate import _
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
-from mysql_connector.model.mysql_connector import mysql_connector
 from datetime import datetime, date
 
-from sponsorship_compassion.model.product import GIFT_CATEGORY, GIFT_NAMES, \
-    SPONSORSHIP_CATEGORY
+from openerp.addons.mysql_connector.model.mysql_connector \
+    import mysql_connector
+from openerp.addons.sponsorship_compassion.model.product \
+    import GIFT_CATEGORY, GIFT_NAMES, SPONSORSHIP_CATEGORY
+
 import logging
 
 logger = logging.getLogger(__name__)
