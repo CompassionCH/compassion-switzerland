@@ -47,6 +47,7 @@ class contracts(models.Model):
             return self.write({'gmc_state': event.lower()})
         return True
 
+    @api.multi
     def button_reset_gmc_state(self, value):
         """ Button called from Kanban view on all contracts of one group. """
 
@@ -60,6 +61,7 @@ class contracts(models.Model):
         return self.write({'gmc_state': False})
 
     # Called only at module installation
+    @api.model
     def migrate_contracts(self):
         """ Remove no more used gmc_states. """
         self.env.cr.execute("""
@@ -86,6 +88,7 @@ class contracts(models.Model):
             lines.unlink()
         # An error is raised if no invoice was to free
         except exceptions.Warning:
-            pass
+            super(contracts, self)._cancel_confirm_invoices(
+            invoice_cancel, invoice_confirm, keep_lines)
         super(contracts, self)._cancel_confirm_invoices(
             invoice_cancel, invoice_confirm, keep_lines)
