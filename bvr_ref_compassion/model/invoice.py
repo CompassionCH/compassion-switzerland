@@ -41,6 +41,7 @@ class account_invoice(models.Model):
                                                  'Please check the number.')
         return True
 
+
 class account_move(models.Model):
     _inherit = 'account.move'
 
