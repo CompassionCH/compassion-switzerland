@@ -33,23 +33,23 @@ class ResPartner(models.Model):
     ref = fields.Char(default=False)
     lang = fields.Selection(default=False)
     opt_out = fields.Boolean(default=True)
-    nbmag = fields.integer('Number of Magazines', size=2,
+    nbmag = fields.Integer('Number of Magazines', size=2,
                            required=True, default=0)
-    tax_certificate = fields.selection(
+    tax_certificate = fields.Selection(
         _get_receipt_types, required=True, default='default')
-    thankyou_letter = fields.selection(
+    thankyou_letter = fields.Selection(
         _get_receipt_types, _('Thank you letter'),
         required=True, default='default')
-    calendar = fields.boolean(
+    calendar = fields.Boolean(
         help=_("Indicates if the partner wants to receive the Compassion "
                "calendar."), default=True)
-    christmas_card = fields.boolean(
+    christmas_card = fields.Boolean(
         help=_("Indicates if the partner wants to receive the "
                "christmas card."), default=True)
-    birthday_reminder = fields.boolean(
+    birthday_reminder = fields.Boolean(
         help=_("Indicates if the partner wants to receive a birthday "
                "reminder of his child."), default=True)
-    abroad = fields.boolean(
+    abroad = fields.Boolean(
         'Abroad/Only e-mail',
         help=_("Indicates if the partner is abroad and should only be "
                "updated by e-mail"))
@@ -57,7 +57,7 @@ class ResPartner(models.Model):
     ##########################################################################
     #                           PUBLIC METHODS                               #
     ##########################################################################
-    @api.multi
+    @api.model
     def create_from_gp(self, vals):
         """ Simple create method that skips MySQL insertion, since it is
             called from GP in order to export the addresses. """
