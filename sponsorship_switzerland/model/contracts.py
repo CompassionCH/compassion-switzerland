@@ -89,6 +89,6 @@ class contracts(models.Model):
         # An error is raised if no invoice was to free
         except exceptions.Warning:
             super(contracts, self)._cancel_confirm_invoices(
-            invoice_cancel, invoice_confirm, keep_lines)
+                invoice_cancel, invoice_confirm, keep_lines)
         super(contracts, self)._cancel_confirm_invoices(
             invoice_cancel, invoice_confirm, keep_lines)
