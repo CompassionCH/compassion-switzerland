@@ -230,25 +230,37 @@ class contracts(orm.Model):
                 gp_connect.register_payment(contract.id, contract.months_paid)
         return True
 
-    def _invoice_paid(self, cr, uid, invoice, context=None):
+    def invoice_unpaid(self, cr, uid, ids, invoice, context=None):
+        """ Syncrhonize GP when invoice is unpaid. """
+        super(contracts, self).invoice_unpaid(cr, uid, invoice, context)
+        if invoice.type == 'out_invoice':
+            gp_connect = gp_connector.GPConnect()
+            contract_ids = set()
+            for line in invoice.invoice_line:
+                contract = line.contract_id
+                if contract and 'S' in contract.type and (
+                        line.product_id.categ_name == 'Sponsorship') and (
+                        contract.id not in contract_ids):
+                    contract_ids.add(contract.id)
+                    if not gp_connect.undo_payment(contract.id):
+                        raise orm.except_orm(
+                            _("GP Sync Error"),
+                            _("The payment could not be removed "
+                              "from GP.") + _("Please contact an IT "
+                                              "person."))
+
+    def invoice_paid(self, cr, uid, ids, invoice, context=None):
         """ When a customer invoice is paid, synchronize GP. """
-        super(contracts, self)._invoice_paid(cr, uid, invoice, context)
-        if invoice.payment_ids:
-            # Retrieve the id of the person which reconciled the invoice
-            uid = invoice.payment_ids[0].reconcile_id.perm_read()[0][
-                'create_uid'][0]
-        if invoice.type == 'out_invoice' and not \
-                context.get('skip_invoice_sync'):
+        super(contracts, self).invoice_paid(cr, uid, ids, invoice, context)
+        # Retrieve the id of the person which reconciled the invoice
+        uid = invoice.payment_ids[0].reconcile_id.create_uid
+        if invoice.type == 'out_invoice':
             gp_connect = gp_connector.GPConnect()
             last_pay_date = max([move_line.date
                                  for move_line in invoice.payment_ids
                                  if move_line.credit > 0] or [False])
             contract_ids = set()
             for line in invoice.invoice_line:
-                if last_pay_date:
-                    gp_connect.insert_affectat(uid, line, last_pay_date)
-                else:   # Invoice will go back in open state
-                    gp_connect.remove_affectat(line.id)
                 contract = line.contract_id
                 if contract and 'S' in contract.type:
                     to_update = (line.product_id.categ_name ==
@@ -265,14 +277,6 @@ class contracts(orm.Model):
                                 _("GP Sync Error"),
                                 _("The payment could not be registered into "
                                   "GP.") + _("Please contact an IT person."))
-                    elif to_update:
-                        contract_ids.add(contract.id)
-                        if not gp_connect.undo_payment(contract.id):
-                            raise orm.except_orm(
-                                _("GP Sync Error"),
-                                _("The payment could not be removed "
-                                  "from GP.") + _("Please contact an IT "
-                                                  "person."))
 
     def _on_invoice_line_removal(self, cr, uid, invoice_lines, context=None):
         """ Removes the corresponding Affectats in GP.

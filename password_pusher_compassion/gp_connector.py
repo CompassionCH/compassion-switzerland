@@ -9,7 +9,8 @@
 #
 ##############################################################################
 
-from mysql_connector.model.mysql_connector import mysql_connector
+from openerp.addons.mysql_connector.model.mysql_connector \
+    import mysql_connector
 
 
 class GPConnect(mysql_connector):
