@@ -1,6 +1,12 @@
 # Config file .travis.yml
 sudo: false
 
+addons:
+  apt:
+    packages:
+        - expect-dev
+        - python-lxml
+
 language: python
 
 python:
