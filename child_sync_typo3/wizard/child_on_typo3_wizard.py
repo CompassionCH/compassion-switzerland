@@ -38,7 +38,7 @@ class child_on_typo3_wizard(orm.TransientModel):
             ('default', 'Default'),
             ('error', 'Error')), 'state'),
         'child_ids': fields.function(
-            _get_active_ids, type='one2many',
+            _get_active_ids, type='many2many',
             obj='compassion.child',
             string=_('Selected childs')),
     }
