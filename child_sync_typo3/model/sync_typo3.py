@@ -14,6 +14,7 @@ import requests
 from openerp.osv import orm
 from openerp.tools.config import config
 from openerp.tools.translate import _
+import pdb
 
 
 class Sync_typo3:
@@ -56,6 +57,7 @@ class Sync_typo3:
             raise orm.except_orm(
                 _("Typo3 Error"),
                 _("Impossible to communicate  with Typo3") + '\n' + r.text)
+        pdb.set_trace()
         return r.text
 
     @classmethod
