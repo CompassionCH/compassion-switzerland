@@ -12,7 +12,7 @@ install:
 script:
   - test_flake8
   - travis/travis_header.sh
-  - test_server
+  - travis_run_tests
 
 notifications:
   email: false
