@@ -45,6 +45,7 @@ class account_invoice(models.Model):
 class account_move(models.Model):
     _inherit = 'account.move'
 
+    @api.model
     def create(self, vals):
         invoice = self.env.context.get('invoice')
         if invoice and invoice.bvr_reference:

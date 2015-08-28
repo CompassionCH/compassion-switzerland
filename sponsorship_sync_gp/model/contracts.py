@@ -232,7 +232,7 @@ class contracts(orm.Model):
 
     def invoice_unpaid(self, cr, uid, ids, invoice, context=None):
         """ Syncrhonize GP when invoice is unpaid. """
-        super(contracts, self).invoice_unpaid(cr, uid, invoice, context)
+        super(contracts, self).invoice_unpaid(cr, uid, ids, invoice, context)
         if invoice.type == 'out_invoice':
             gp_connect = gp_connector.GPConnect()
             contract_ids = set()
