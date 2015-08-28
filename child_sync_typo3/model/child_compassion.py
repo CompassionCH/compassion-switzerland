@@ -177,3 +177,15 @@ class compassion_child(orm.Model):
 
         return super(compassion_child, self).child_sponsored(
             cr, uid, ids, context)
+
+    def depart(self, cr, uid, ids, args, context):
+        """ add child remove from typo3 (formerly child_depart_wizard.py) """
+        child = self.browse(args.get('object_id'))
+        res = True
+        if child.state == 'I':
+            res = child.child_remove_from_typo3()
+
+        res = super(compassion_child, self).depart(
+            cr, uid, ids, args, context) and res
+
+        return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
