@@ -36,7 +36,7 @@ class child_remove_from_typo3(orm.TransientModel):
 
     _columns = {
         'child_ids': fields.function(
-            _get_active_ids, type='one2many',
+            _get_active_ids, type='many2many',
             obj='compassion.child',
             string=_('Selected childs')),
     }
