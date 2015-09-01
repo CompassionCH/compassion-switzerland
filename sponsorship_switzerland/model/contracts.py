@@ -71,15 +71,14 @@ class contracts(models.Model):
         self.env.invalidate_all()
         return True
 
-    @api.multi
+    @api.model
     def _cancel_confirm_invoices(self, invoice_cancel, invoice_confirm,
                                  keep_lines=None):
         """ For LSV/DD contracts, free the invoices before cancelling them.
         """
-        self.env.context = self.with_context(
-            active_id=invoice_cancel.ids).env.context
         try:
-            order = invoice_cancel.cancel_payment_lines()
+            order = invoice_cancel.with_context(
+                active_ids=invoice_cancel.ids).cancel_payment_lines()
             order_id = order.id
             order.unlink()
             # I don't know why payment lines are not automatically deleted...
