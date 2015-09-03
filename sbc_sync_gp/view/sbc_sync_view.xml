@@ -1,0 +1,25 @@
+<openerp>
+    <data>
+        <record id="view_popup_modul_sbc_sync_gp_installation" model="ir.ui.view">
+            <field name="name">res.config.installer.form</field>
+            <field name="model">res.config.installer</field>
+            <field name="arch" type="xml">
+                <form string="test" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="test"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="aaaaaa" model="ir.actions.act_window">
+            <field name="name">Correspondence</field>
+            <field name="res_model">sbc.sync</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</openerp>
