@@ -157,32 +157,9 @@ class contracts(orm.Model):
         return self.write(cr, uid, ids, {
             'sds_state': 'active', 'color': 0}, context)
 
-    def contract_cancelled(self, cr, uid, ids, context=None):
-        """ When contract is cancelled, update it in GP. """
-        self._finish_contract(cr, uid, ids, 'cancel', context)
-        return True
-
-    def contract_terminated(self, cr, uid, ids, context=None):
-        """ When contract is terminated, update it in GP. """
-        self._finish_contract(cr, uid, ids, 'terminate', context)
-        return True
-
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _finish_contract(self, cr, uid, ids, finish_type, context=None):
-        """ Avoid useless syncs of Affectats when a contract is terminated.
-        """
-        if context is None:
-            context = dict()
-        ctx = context.copy()
-        ctx['skip_invoice_sync'] = True
-
-        if finish_type == 'cancel':
-            super(contracts, self).contract_cancelled(cr, uid, ids, ctx)
-        elif finish_type == 'terminate':
-            super(contracts, self).contract_terminated(cr, uid, ids, ctx)
-
     def _on_sponsorship_finished(self, cr, uid, ids, context=None):
         """ When contract is finished, update it in GP. """
         super(contracts, self)._on_sponsorship_finished(cr, uid, ids, context)
@@ -285,10 +262,9 @@ class contracts(orm.Model):
         """
         super(contracts, self)._on_invoice_line_removal(
             cr, uid, invoice_lines, context)
-        if not context.get('skip_invoice_sync'):
-            gp_connect = gp_connector.GPConnect()
-            for line_id in invoice_lines.keys():
-                gp_connect.remove_affectat(line_id)
+        gp_connect = gp_connector.GPConnect()
+        for line_id in invoice_lines.keys():
+            gp_connect.remove_affectat(line_id)
 
 
 class contract_group(orm.Model):
