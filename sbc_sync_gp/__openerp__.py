@@ -40,7 +40,20 @@
 Sync spoken languages with GP
 ================================
 
-This module syncs all spoken languages from countries and partners with GP.
+This module import all GP spoken languages from countries and partners
+in odoo 8.0.
+Spoken languages are iso 639-3
+
+Partners spoken languages:
+Select all spoken_langs with Partner CODEGA in GP (table `langueparlee`)
+and import in odoo where partner_id is found
+
+Countries spoken languages:
+Select all spoken_langs with Country ISO3166 in GP (table `langueparlee`)
+and import in odoo where country_id is found
+
+All ids not found in odoo are displayed on a text field and stored in DB
+
 
 Configuration
 =============
