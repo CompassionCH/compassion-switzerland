@@ -11,8 +11,7 @@
                 </form>
                 <footer position="replace">
                 <footer>
-                    <button name="action_close_popup" type="object" string="Continue" class="oe_highlight" attrs="{'invisible': [('next_visibility', '=', False)]}"/>
-                    <field name="next_visibility" attrs="{'invisible': 'true'}"/>
+                    <button name="action_close_popup" type="object" string="Continue" class="oe_highlight"/>
                 </footer>
                 </footer>
                 <separator string="title" position="replace">
@@ -24,12 +23,6 @@
                         <button name="import_countries_spoken_languages" type="object" string="Synchronize"/>
                         <label string="Import partners spoken languages (GP -> Odoo)"/>
                         <button name="import_partners_spoken_languages" type="object" string="Synchronize"/>
-                    </group>
-                    <group>
-                        <field name="partners_import_errors_visibility" attrs="{'invisible': 'true'}"/>
-                        <field name="countries_import_errors_visibility" attrs="{'invisible': 'true'}"/>
-                        <field name="partners_import_errors" attrs="{'invisible': [('partners_import_errors_visibility', '=', False)]}"/>
-                        <field name="countries_import_errors" attrs="{'invisible': [('countries_import_errors_visibility', '=', False)]}"/>
                     </group>
                 </separator>
             </field>
