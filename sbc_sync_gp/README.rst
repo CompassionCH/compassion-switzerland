@@ -21,15 +21,15 @@ Configuration
 =============
 To configure this module, you need to add settings in .conf file of Odoo:
 
-    mysql_host =
-    mysql_db =
-    mysql_user =
-    mysql_pw =
-    smb_user =
-    smb_pwd =
-    smb_ip =
-    smb_port =
-    gp_pictures =
+* mysql_host = <mysql host of gp>
+* mysql_db = <mysql database of gp>
+* mysql_user = <mysql user of gp>
+* mysql_pw = <mysql password of gp>
+* smb_user = <samba user for pushing child pictures on the NAS>
+* smb_pwd = <samba password>
+* smb_ip = <IP Address of the NAS>
+* smb_port = <Samba Port>
+* gp_pictures = <Path to the folder of child pictures on the NAS>
 
 	
 
