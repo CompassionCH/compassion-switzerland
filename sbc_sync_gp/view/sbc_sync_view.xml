@@ -62,8 +62,8 @@
                         <group>
                             <field name="partners_import_errors_visibility" attrs="{'invisible': 'true'}"/>
                             <field name="countries_import_errors_visibility" attrs="{'invisible': 'true'}"/>
-                            <field name="partners_import_errors" attrs="{'invisible': [('partners_import_errors_visibility', '=', False)]}"/>
-                            <field name="countries_import_errors" attrs="{'invisible': [('countries_import_errors_visibility', '=', False)]}"/>
+                            <field name="partners_import_informations" attrs="{'invisible': [('partners_import_errors_visibility', '=', False)]}"/>
+                            <field name="countries_import_informations" attrs="{'invisible': [('countries_import_errors_visibility', '=', False)]}"/>
                         </group>
                     </sheet>
                 </form>
