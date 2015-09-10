@@ -15,6 +15,11 @@ from openerp.addons.mysql_connector.model.mysql_connector \
 
 
 class sbcSync(models.Model):
+
+    """ This class upgrade the countries and partners to add spoken languages
+    to match Compassion needs.
+    """
+
     _inherit = 'res.config.installer'
     _name = 'sbc.sync'
 
@@ -37,7 +42,7 @@ class sbcSync(models.Model):
         countries_spoken_langs_query = "SELECT `IDLANGUES`, `ISO3166` FROM\
         `langueparlee` INNER JOIN `pays` ON\
         `langueparlee`.`CODEGA` = `pays`.`ISO3166`"
-        countries_spoken_langs = mySql_connector.selectAll(
+        countries_spoken_langs_ids = mySql_connector.selectAll(
             countries_spoken_langs_query)
         # to display informations
         # [0] = Number of tuple country - language successfully imported
@@ -46,16 +51,16 @@ class sbcSync(models.Model):
         # [2] = Number of iso languages reccords not found in odoo
         # [3] = Number of country not found in odoo (tuple partner - language)
         import_informations_local = [[] for x in range(4)]
-        # upsert Countries spoken_langs
-        for spoken_lang in countries_spoken_langs:
+        # upsert Countries spoken_langs_ids
+        for spoken_lang in countries_spoken_langs_ids:
             country = self.env['compassion.country'].search([(
                 'iso_code', '=', spoken_lang['ISO3166'])], limit=1)
             if country:
                 lang_to_insert = self.env['res.lang.compassion'].search([(
-                    'ISO_code', '=', spoken_lang['IDLANGUES'])], limit=1)
+                    'code_iso', '=', spoken_lang['IDLANGUES'])], limit=1)
                 if lang_to_insert:
-                    if lang_to_insert not in country.spoken_langs:
-                        country.spoken_langs += lang_to_insert
+                    if lang_to_insert not in country.spoken_langs_ids:
+                        country.spoken_langs_ids += lang_to_insert
                         import_informations_local[0].append(lang_to_insert)
                     else:
                         import_informations_local[1].append(lang_to_insert)
@@ -68,7 +73,7 @@ class sbcSync(models.Model):
                     spoken_lang['IDLANGUES']) + '\n')
         # Display importation informations on countries_import_informations
         self.countries_import_informations = "Number of tuple country \
-- language in GP : " + str(len(countries_spoken_langs)) + '\n'
+- language in GP : " + str(len(countries_spoken_langs_ids)) + '\n'
         self.countries_import_informations += "Number of tuple country \
 - language successfully imported in odoo : " + str(
             len(import_informations_local[0])) + '\n'
@@ -113,7 +118,7 @@ found in odoo (tuple country - language) : " + str(
         `langueparlee` INNER JOIN `adresses` ON\
         `langueparlee`.`CODEGA` = `adresses`.`CODEGA` WHERE\
         `adresses`.`id_erp` IS NOT NULL"
-        partners_spoken_langs = mySql_connector.selectAll(
+        partners_spoken_langs_ids = mySql_connector.selectAll(
             partners_spoken_langs_query)
         # to display informations
         # [0] = Number of tuple partner - language successfully imported in
@@ -122,16 +127,16 @@ found in odoo (tuple country - language) : " + str(
         # [2] = Number of iso languages reccords not found in odoo
         # [3] = Number of partner not found in odoo (tuple partner - language)
         import_informations_local = [[] for x in range(4)]
-        # upsert Partners spoken_langs
-        for spoken_lang in partners_spoken_langs:
+        # upsert Partners spoken_langs_ids
+        for spoken_lang in partners_spoken_langs_ids:
             partner = self.env['res.partner'].search([(
                 'id', '=', spoken_lang['id_erp'])], limit=1)
             if partner:
                 lang_to_insert = self.env['res.lang.compassion'].search([(
-                    'ISO_code', '=', spoken_lang['IDLANGUES'])], limit=1)
+                    'code_iso', '=', spoken_lang['IDLANGUES'])], limit=1)
                 if lang_to_insert:
-                    if lang_to_insert not in partner.spoken_langs:
-                        partner.spoken_langs += lang_to_insert
+                    if lang_to_insert not in partner.spoken_langs_ids:
+                        partner.spoken_langs_ids += lang_to_insert
                         import_informations_local[0].append(lang_to_insert)
                     else:
                         import_informations_local[1].append(lang_to_insert)
@@ -144,7 +149,7 @@ found in odoo (tuple country - language) : " + str(
                     spoken_lang['IDLANGUES']) + '\n')
         # Display importation informations on countries_import_informations
         self.partners_import_informations = "Number of tuple partner \
-- language in GP : " + str(len(partners_spoken_langs)) + '\n'
+- language in GP : " + str(len(partners_spoken_langs_ids)) + '\n'
         self.partners_import_informations += "Number of tuple partner \
 - language successfully imported in odoo : " + str(
             len(import_informations_local[0])) + '\n'
