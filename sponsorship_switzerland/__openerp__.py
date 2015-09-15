@@ -37,7 +37,9 @@
     'depends': ['sponsorship_tracking'],
     'data': [
         'view/contracts_view.xml',
-        'data/install.xml'],
+        'data/install.xml',
+        'workflow/sds_workflow.xml',
+    ],
     'js': ['static/src/js/sponsorship_tracking_kanban.js'],
     'demo': [],
     'installable': True,
