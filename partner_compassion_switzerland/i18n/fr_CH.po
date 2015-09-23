@@ -6,8 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0-20140602-231022\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-09 11:46+0000\n"
-"PO-Revision-Date: 2015-06-09 15:04+0100\n"
+"POT-Creation-Date: 2015-09-23 15:33+0000\n"
+"PO-Revision-Date: 2015-09-23 17:34+0100\n"
+"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
 "MIME-Version: 1.0\n"
@@ -17,43 +18,83 @@ msgstr ""
 "X-Generator: Poedit 1.6.4\n"
 
 #. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:54
-#, python-format
-msgid "Abroad/Only e-mail"
-msgstr "A l'étranger"
+#: view:res.partner:partner_compassion_switzerland.view_partner_form_compassion_ch
+msgid "Address"
+msgstr "Adresse"
 
 #. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:35
-#, python-format
-msgid "Number of Magazines"
-msgstr "Nombre de magazines"
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:26
-#, python-format
-msgid "No receipt"
-msgstr "Pas de reçu"
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:29
-#, python-format
-msgid "On paper"
-msgstr "Par papier"
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:28
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:27
 #, python-format
 msgid "By e-mail"
 msgstr "Par e-mail"
 
 #. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:27
+#: view:res.partner:partner_compassion_switzerland.view_partner_form_compassion_ch
+msgid "Correspondance"
+msgstr "Correspondance"
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:26
 #, python-format
 msgid "Default"
 msgstr "Par défaut"
 
 #. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:280
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:54
+#, python-format
+msgid "Indicates if the partner is abroad and should only be updated by e-mail"
+msgstr "Le partenaire ne sera contacté que par e-mail"
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:50
+#, python-format
+msgid ""
+"Indicates if the partner wants to receive a birthday reminder of his child."
+msgstr "Indique si le partenaire veut recevoir les rappels anniversaires"
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:44
+#, python-format
+msgid "Indicates if the partner wants to receive the Compassion calendar."
+msgstr "Indique si le partenaire veut recevoir le calendrier."
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:47
+#, python-format
+msgid "Indicates if the partner wants to receive the christmas card."
+msgstr "Indique si le partenaire veut recevoir la carte de Noël"
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:25
+#, python-format
+msgid "No receipt"
+msgstr "Pas de reçu"
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:28
+#, python-format
+msgid "On paper"
+msgstr "Par papier"
+
+#. module: partner_compassion_switzerland
+#: model:ir.model,name:partner_compassion_switzerland.model_res_partner
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:261
+#, python-format
+msgid "Partner Error"
+msgstr "Erreur Partenaire"
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:41
+#, python-format
+msgid "Thank you letter"
+msgstr "Lettre de remerciement"
+
+#. module: partner_compassion_switzerland
+#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:262
 #, python-format
 msgid ""
 "You cannot more than one contact with same address than the company. GP does "
@@ -63,80 +104,24 @@ msgstr ""
 "ne supporte pas cela, il est capricieux."
 
 #. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:55
-#, python-format
-msgid "Indicates if the partner is abroad and should only be updated by e-mail"
-msgstr "Le partenaire ne sera contacté que par e-mail"
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:40
-#, python-format
-msgid "Thank you letter"
-msgstr "Lettre de remerciement"
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:51
-#, python-format
-msgid ""
-"Indicates if the partner wants to receive a birthday reminder of his child."
-msgstr "Indique si le partenaire veut recevoir les rappels anniversaires"
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:47
-#, python-format
-msgid "Indicates if the partner wants to receive the christmas card."
-msgstr "Indique si le partenaire veut recevoir la carte de Noël"
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:46
-#, python-format
-msgid "Christmas Card"
-msgstr "Carte de Noël"
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:38
-#, python-format
-msgid "Tax certificate"
-msgstr "Attestation de dons"
-
-#. module: partner_compassion_switzerland
-#: view:res.partner:0
-msgid "Correspondance"
-msgstr "Correspondance"
-
-#. module: partner_compassion_switzerland
-#: model:ir.model,name:partner_compassion_switzerland.model_res_partner
-msgid "Partner"
-msgstr "Partenaire"
-
-#. module: partner_compassion_switzerland
-#: view:res.partner:0
-msgid "Address"
-msgstr "Adresse"
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:43
-#, python-format
-msgid "Indicates if the partner wants to receive the Compassion calendar."
-msgstr "Indique si le partenaire veut recevoir le calendrier."
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:50
-#, python-format
-msgid "Birthday Reminder"
-msgstr "Rappel anniversaire"
-
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:42
-#, python-format
-msgid "Calendar"
-msgstr "Calendrier"
-
-#. module: partner_compassion_switzerland
-#: view:res.partner:0
+#: view:res.partner:partner_compassion_switzerland.view_partner_form_compassion_ch
 msgid "{'required': [('is_company', '=', False)]}"
 msgstr "{'required': [('is_company', '=', False)]}"
 
-#. module: partner_compassion_switzerland
-#: code:addons/partner_compassion_switzerland/model/partner_compassion.py:279
-#, python-format
-msgid "Partner Error"
-msgstr "Erreur Partenaire"
+#~ msgid "Abroad/Only e-mail"
+#~ msgstr "A l'étranger"
+
+#~ msgid "Number of Magazines"
+#~ msgstr "Nombre de magazines"
+
+#~ msgid "Christmas Card"
+#~ msgstr "Carte de Noël"
+
+#~ msgid "Tax certificate"
+#~ msgstr "Attestation de dons"
+
+#~ msgid "Birthday Reminder"
+#~ msgstr "Rappel anniversaire"
+
+#~ msgid "Calendar"
+#~ msgstr "Calendrier"

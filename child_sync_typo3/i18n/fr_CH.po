@@ -1,0 +1,189 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* child_sync_typo3
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-15 15:46+0000\n"
+"PO-Revision-Date: 2015-09-17 10:39+0100\n"
+"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.6.4\n"
+"Language: fr_CH\n"
+
+#. module: child_sync_typo3
+#: view:child.on.typo3.wizard:child_sync_typo3.child_on_internet_wizard_view
+#: view:child.remove.from.typo3:child_sync_typo3.child_remove_from_typo3_view
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: child_sync_typo3
+#: code:addons/child_sync_typo3/model/child_compassion.py:39
+#, python-format
+msgid "Child %s not found on typo3"
+msgstr "L'enfant %s n'est pas sur typo3"
+
+#. module: child_sync_typo3
+#: code:addons/child_sync_typo3/wizard/child_on_typo3_wizard.py:75
+#, python-format
+msgid "Child has no picture"
+msgstr "L'enfant n'a pas d'images"
+
+#. module: child_sync_typo3
+#: view:child.on.typo3.wizard:child_sync_typo3.child_on_internet_wizard_view
+msgid "Close"
+msgstr "Fermer"
+
+#. module: child_sync_typo3
+#: field:child.on.typo3.wizard,create_uid:0
+#: field:child.remove.from.typo3,create_uid:0
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: child_sync_typo3
+#: field:child.on.typo3.wizard,create_date:0
+#: field:child.remove.from.typo3,create_date:0
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: child_sync_typo3
+#: selection:child.on.typo3.wizard,state:0
+msgid "Default"
+msgstr "Défaut"
+
+#. module: child_sync_typo3
+#: field:child.on.typo3.wizard,child_ids:0
+#: field:child.remove.from.typo3,child_ids:0
+msgid "Enfants sélectionnés"
+msgstr "Enfants sélectionnés"
+
+#. module: child_sync_typo3
+#: selection:child.on.typo3.wizard,state:0
+msgid "Error"
+msgstr "Erreur"
+
+#. module: child_sync_typo3
+#: field:child.on.typo3.wizard,id:0 field:child.remove.from.typo3,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: child_sync_typo3
+#: code:addons/child_sync_typo3/model/sync_typo3.py:58
+#, python-format
+msgid "Impossible to communicate  with Typo3"
+msgstr "Impossible de communiquer avec Typo3"
+
+#. module: child_sync_typo3
+#: field:child.on.typo3.wizard,write_uid:0
+#: field:child.remove.from.typo3,write_uid:0
+msgid "Last Updated by"
+msgstr "Modifié par"
+
+#. module: child_sync_typo3
+#: field:child.on.typo3.wizard,write_date:0
+#: field:child.remove.from.typo3,write_date:0
+msgid "Last Updated on"
+msgstr "Modifié le"
+
+#. module: child_sync_typo3
+#: code:addons/child_sync_typo3/wizard/child_on_typo3_wizard.py:60
+#, python-format
+msgid "Missing descriptions for child %s"
+msgstr "Descriptions manquantes pour %s"
+
+#. module: child_sync_typo3
+#: code:addons/child_sync_typo3/wizard/child_on_typo3_wizard.py:65
+#, python-format
+msgid "Missing descriptions for project %s"
+msgstr "Descriptions manquantes pour le centre %s"
+
+#. module: child_sync_typo3
+#: model:ir.actions.act_window,name:child_sync_typo3.action_child_on_typo3_wizard
+msgid "On internet"
+msgstr "Sur Internet"
+
+#. module: child_sync_typo3
+#: code:addons/child_sync_typo3/wizard/child_on_typo3_wizard.py:84
+#: view:child.on.typo3.wizard:child_sync_typo3.child_on_internet_wizard_view
+#, python-format
+msgid "Put child on internet"
+msgstr "Mettre sur Internet"
+
+#. module: child_sync_typo3
+#: view:child.remove.from.typo3:child_sync_typo3.child_remove_from_typo3_view
+msgid "Remove child from internet"
+msgstr "Enlever d'Internet"
+
+#. module: child_sync_typo3
+#: model:ir.actions.act_window,name:child_sync_typo3.action_child_remove_from_typo3_wizard
+msgid "Remove from internet"
+msgstr "Enlever d'Internet"
+
+#. module: child_sync_typo3
+#: code:addons/child_sync_typo3/wizard/child_on_typo3_wizard.py:43
+#: code:addons/child_sync_typo3/wizard/child_remove_from_typo3.py:41
+#, python-format
+msgid "Selected childs"
+msgstr "Enfants sélectionnés"
+
+#. module: child_sync_typo3
+#: view:child.on.typo3.wizard:child_sync_typo3.child_on_internet_wizard_view
+msgid ""
+"There was an error when updating Typo3 Index. Please do it by opening the "
+"following URL:"
+msgstr ""
+"Erreur de synchronisation Typo3. Veuillez s.v.p. cliquer sur le lien ci-"
+"dessous pour syncrhoniser Typo3 :"
+
+#. module: child_sync_typo3
+#: code:addons/child_sync_typo3/model/child_compassion.py:38
+#: code:addons/child_sync_typo3/model/sync_typo3.py:57
+#, python-format
+msgid "Typo3 Error"
+msgstr "Erreur Typo3"
+
+#. module: child_sync_typo3
+#: view:child.on.typo3.wizard:child_sync_typo3.child_on_internet_wizard_view
+msgid "Update index"
+msgstr "Mettre à jour l'Index"
+
+#. module: child_sync_typo3
+#: view:child.on.typo3.wizard:child_sync_typo3.child_on_internet_wizard_view
+#: view:child.remove.from.typo3:child_sync_typo3.child_remove_from_typo3_view
+msgid "Validate"
+msgstr "Valider"
+
+#. module: child_sync_typo3
+#: view:child.on.typo3.wizard:child_sync_typo3.child_on_internet_wizard_view
+msgid "Validate this to put the selected child on the website."
+msgstr "Validez la sélection à mettre sur le site Internet."
+
+#. module: child_sync_typo3
+#: view:child.remove.from.typo3:child_sync_typo3.child_remove_from_typo3_view
+msgid "Validate this to remove the selected child from the website."
+msgstr "Validez la sélection à enlever d'Internet."
+
+#. module: child_sync_typo3
+#: code:addons/child_sync_typo3/wizard/child_on_typo3_wizard.py:59
+#: code:addons/child_sync_typo3/wizard/child_on_typo3_wizard.py:64
+#: code:addons/child_sync_typo3/wizard/child_on_typo3_wizard.py:75
+#, python-format
+msgid "Warning"
+msgstr "Avertissement"
+
+#. module: child_sync_typo3
+#: view:child.on.typo3.wizard:child_sync_typo3.child_on_internet_wizard_view
+#: view:child.remove.from.typo3:child_sync_typo3.child_remove_from_typo3_view
+msgid "or"
+msgstr "ou"
+
+#. module: child_sync_typo3
+#: field:child.on.typo3.wizard,state:0
+msgid "state"
+msgstr "Etat"
