@@ -16,8 +16,10 @@ import operator
 from unidecode import unidecode
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+
 from openerp import _
+from openerp.addons.l10n_ch_lsv_dd.wizard import export_utils
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
 class export_tools():
@@ -29,10 +31,10 @@ class export_tools():
                 line = _('%d %s') % (qty, prod_name)
             else:
                 line = _('%d %ss') % (qty, prod_name)
-            res = wizard._complete_line(line, 35)
+            res = export_utils.complete_line(35, line)
 
         else:
-            res = wizard._complete_line(prod_name, 35)
+            res = export_utils.complete_line(35, prod_name)
         return res
 
     @classmethod
@@ -118,13 +120,13 @@ class export_tools():
                     if names[prod_name] and prod_dict[prod_name] == 1:
                         line2 += str(unidecode(names[prod_name]))
 
-                    communication += wizard._complete_line(line2, 35)
+                    communication += export_utils.complete_line(35, line2)
                 else:
                     beg_date = cur_date - relativedelta(months=mx - 1)
-                    communication += wizard._complete_line(
-                        _('period: %s to %s') %
+                    communication += export_utils.complete_line(
+                        35, _('period: %s to %s') %
                         (beg_date.strftime("%B").decode('utf-8'),
-                         cur_date.strftime("%B").decode('utf-8')), 35)
+                         cur_date.strftime("%B").decode('utf-8')))
         elif nb_products in [3, 4]:
             for prod_name, qty in prod_dict_sort:
                 communication += cls.get_line1(wizard, prod_name, qty,
@@ -133,8 +135,8 @@ class export_tools():
             for prod_name, qty in prod_dict_sort[:3]:
                 communication += cls.get_line1(wizard, prod_name, qty,
                                                names[prod_name])
-            communication += wizard._complete_line(
-                _('%d other engagements') %
-                sum([tup[1] for tup in prod_dict_sort[3:]]), 35)
+            communication += export_utils.complete_line(
+                35, _('%d other engagements') %
+                sum([tup[1] for tup in prod_dict_sort[3:]]))
 
         return communication

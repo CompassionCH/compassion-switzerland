@@ -11,6 +11,7 @@
 import logging
 from export_tools import export_tools
 from openerp import models, _
+from openerp.addons.l10n_ch_lsv_dd.wizard import export_utils
 
 logger = logging.getLogger(__name__)
 
@@ -60,8 +61,8 @@ class post_dd_export_wizard(models.TransientModel):
                 new_amount = float(
                     new_line[53:66]) / 100 + float(line[53:66]) / 100
                 new_amount = self._format_number(new_amount, 13)
-                new_com = self._complete_line(
-                    _('debit for %d period(s)') % nb_grouped, 140)
+                new_com = export_utils.complete_line(
+                    140, _('debit for %d period(s)') % nb_grouped)
                 new_line = new_line[:53] + new_amount + \
                     new_line[66:402] + new_com + new_line[542:]
 
