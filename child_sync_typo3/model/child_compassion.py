@@ -56,7 +56,7 @@ class compassion_child(orm.Model):
                 project = project_obj.project_add_to_typo3(
                     cr, uid, [child.project_id.id], context)[0]
 
-            child_gender = self._get_gender(cr, uid, child.gender, context)
+            child_gender = 1 if child.gender == 'M' else 2
             child_image = child.code + "_f.jpg," + child.code + "_h.jpg"
 
             today_ts = calendar.timegm(
