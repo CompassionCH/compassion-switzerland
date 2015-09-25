@@ -110,7 +110,7 @@ class mysql_connector:
     def _get_gp_uid(self, uid):
         """Returns the GP user id given the Odoo user id."""
         iduser = self.selectOne('SELECT ID FROM login WHERE ERP_ID = %s;',
-                                uid)
+                                [uid])
         return iduser.get('ID', 'XX')
 
     def upsert(self, table, vals):
