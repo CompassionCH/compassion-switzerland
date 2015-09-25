@@ -10,6 +10,7 @@
 ##############################################################################
 
 from openerp import api, exceptions, models, _
+from openerp.osv.orm import except_orm
 
 
 class contracts(models.Model):
@@ -79,15 +80,8 @@ class contracts(models.Model):
         try:
             order = invoice_cancel.with_context(
                 active_ids=invoice_cancel.ids).cancel_payment_lines()
-            order_id = order.id
-            order.unlink()
-            # I don't know why payment lines are not automatically deleted...
-            lines = self.env['payment.line'].search([
-                ('order_id', '=', order_id)])
-            lines.unlink()
-        # An error is raised if no invoice was to free
-        except exceptions.Warning:
-            super(contracts, self)._cancel_confirm_invoices(
-                invoice_cancel, invoice_confirm, keep_lines)
+        # A warning is raised if no invoice was to free
+        except (exceptions.Warning, except_orm):
+            pass
         super(contracts, self)._cancel_confirm_invoices(
             invoice_cancel, invoice_confirm, keep_lines)

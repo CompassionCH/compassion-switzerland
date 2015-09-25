@@ -343,7 +343,7 @@ class GPConnect(mysql_connector):
                         'DATE': today,
                         'INFO_COMPLEMENT': end_reason,
                         'IDUSER': self._get_gp_uid(
-                            child.perm_read()[0]['create_uid'][0]),
+                            child.create_uid.id),
                     }
                     self.upsert('Histoenfant', log_vals)
 
@@ -379,6 +379,6 @@ class GPConnect(mysql_connector):
             'DATE': datetime.today().strftime(DF),
             'INFO_COMPLEMENT': 'Welcome Letter',
             'IDUSER': self._get_gp_uid(
-                contract.perm_read()[0]['create_uid'][0]),
+                contract.create_uid.id),
         }
         self.upsert('Histoenfant', log_vals)
