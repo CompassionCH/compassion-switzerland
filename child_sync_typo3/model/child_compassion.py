@@ -180,7 +180,7 @@ class compassion_child(orm.Model):
 
     def depart(self, cr, uid, ids, args, context):
         """ add child remove from typo3 (formerly child_depart_wizard.py) """
-        child = self.browse(args.get('object_id'))
+        child = self.browse(cr, uid, args.get('object_id'), context)
         res = True
         if child.state == 'I':
             res = child.child_remove_from_typo3()
