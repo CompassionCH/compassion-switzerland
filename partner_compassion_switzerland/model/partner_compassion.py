@@ -61,7 +61,8 @@ class ResPartner(models.Model):
     def create_from_gp(self, vals):
         """ Simple create method that skips MySQL insertion, since it is
             called from GP in order to export the addresses. """
-        return super(ResPartner, self).create(vals)
+        partner = super(ResPartner, self).create(vals)
+        return partner.id
 
     @api.multi
     def write_from_gp(self, vals):
