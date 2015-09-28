@@ -74,6 +74,8 @@ class mysql_connector:
               ex : {'SELECT_1':'VALUE_1', ... , 'SELECT_N':'VALUE_N'}
             - Empty dict if the query didn't return a result.
         """
+        if not isinstance(args, (list, tuple, dict)):
+            args = [args]
         with self._con:
             self._cur.execute(statement, args)
             return self._cur.fetchone() or dict()
@@ -95,6 +97,8 @@ class mysql_connector:
                     ...]
             - Empty list if the query didn't return a result.
         """
+        if not isinstance(args, (list, tuple, dict)):
+            args = [args]
         with self._con:
             self._cur.execute(statement, args)
             return self._cur.fetchall() or list()
