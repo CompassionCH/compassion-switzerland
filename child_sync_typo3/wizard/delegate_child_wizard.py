@@ -16,11 +16,10 @@ class delegate_child_wizard(orm.TransientModel):
     _inherit = 'delegate.child.wizard'
 
     def delegate(self, cr, uid, ids, context=None):
-        child_ids = self._default_child_ids(cr, uid, context)
         child_obj = self.pool.get('compassion.child')
 
         typo3_to_remove_ids = list()
-        for child in child_obj.browse(cr, uid, child_ids, context):
+        for child in self.child_ids:
             if (child.state == 'I'):
                 typo3_to_remove_ids.append(child.id)
         res = True
