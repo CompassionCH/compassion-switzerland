@@ -18,12 +18,14 @@ from tempfile import TemporaryFile
 
 from . import gp_connector
 import base64
+import pdb
 
 
 class child_compassion(orm.Model):
     _inherit = 'compassion.child'
 
     def create(self, cr, uid, vals, context=None):
+        pdb.set_trace()
         new_id = super(child_compassion, self).create(cr, uid, vals, context)
         child = self.browse(cr, uid, new_id, context)
         gp_connect = gp_connector.GPConnect()
@@ -32,6 +34,7 @@ class child_compassion(orm.Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         """Update GP with the last information of the child."""
+        pdb.set_trace()
         if not isinstance(ids, list):
             ids = [ids]
         gp_connect = gp_connector.GPConnect()
