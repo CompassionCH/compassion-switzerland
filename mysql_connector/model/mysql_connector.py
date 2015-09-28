@@ -53,7 +53,7 @@ class mysql_connector:
         Returns:
             - long integer rows affected, if any, True otherwise.
         """
-        if not isinstance(args, (list, tuple, dict)):
+        if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
         with self._con:
             res = self._cur.execute(statement, args)
@@ -76,7 +76,7 @@ class mysql_connector:
               ex : {'SELECT_1':'VALUE_1', ... , 'SELECT_N':'VALUE_N'}
             - Empty dict if the query didn't return a result.
         """
-        if not isinstance(args, (list, tuple, dict)):
+        if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
         with self._con:
             self._cur.execute(statement, args)
@@ -99,7 +99,7 @@ class mysql_connector:
                     ...]
             - Empty list if the query didn't return a result.
         """
-        if not isinstance(args, (list, tuple, dict)):
+        if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
         with self._con:
             self._cur.execute(statement, args)
