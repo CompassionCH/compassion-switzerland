@@ -258,7 +258,7 @@ class ResPartner(models.Model):
                 vals.pop('title', None)
                 count += 1
         if count > 1:
-            raise exceptions.Wraning(
+            raise exceptions.Warning(
                 _("Partner Error"),
                 _("You cannot more than one contact with same address than "
                   "the company. GP does not handle that!"))
