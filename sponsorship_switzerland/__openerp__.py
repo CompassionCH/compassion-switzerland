@@ -39,6 +39,7 @@
         'view/contracts_view.xml',
         'data/install.xml',
         'workflow/sds_workflow.xml',
+        'security/ir.model.access.csv',
     ],
     'js': ['static/src/js/sponsorship_tracking_kanban.js'],
     'demo': [],
