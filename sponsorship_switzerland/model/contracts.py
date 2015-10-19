@@ -78,8 +78,9 @@ class contracts(models.Model):
         """ For LSV/DD contracts, free the invoices before cancelling them.
         """
         try:
-            invoice_cancel.with_context(
+            cancel_pay_order = invoice_cancel.with_context(
                 active_ids=invoice_cancel.ids).cancel_payment_lines()
+            cancel_pay_order.unlink()
         # A warning is raised if no invoice was to free
         except (exceptions.Warning, except_orm):
             pass
