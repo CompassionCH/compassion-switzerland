@@ -129,9 +129,13 @@ class GPConnect(mysql_connector):
         return default
 
     def _find_origin(self, contract):
-        channel = self.channel_mapping[contract.channel]
-        origin = self.origin_mapping[contract.origin_id.type]
-        return channel + origin
+        channel = ''
+        origin = ''
+        if contract.channel:
+            channel = self.channel_mapping[contract.channel]
+        if contract.origin_id:
+            origin = self.origin_mapping[contract.origin_id.type]
+        return channel + origin or 'DD'
 
     def _find_codespe(self, contract):
         """ Finds the given CODESPE from GP given the nature of the contract.
