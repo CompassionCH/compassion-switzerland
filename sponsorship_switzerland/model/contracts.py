@@ -9,8 +9,7 @@
 #
 ##############################################################################
 
-from openerp import api, exceptions, models, _
-from openerp.osv.orm import except_orm
+from openerp import api, models, _
 
 
 class contracts(models.Model):
@@ -72,17 +71,27 @@ class contracts(models.Model):
         self.env.invalidate_all()
         return True
 
-    @api.model
-    def _cancel_confirm_invoices(self, invoice_cancel, invoice_confirm,
-                                 keep_lines=None):
-        """ For LSV/DD contracts, free the invoices before cancelling them.
+    def _get_invoice_lines_to_clean(self, since_date, to_date):
+        """ For LSV/DD contracts, don't clean invoices that are in a
+            Payment Order.
         """
-        try:
-            cancel_pay_order = invoice_cancel.with_context(
-                active_ids=invoice_cancel.ids).cancel_payment_lines()
-            cancel_pay_order.unlink()
-        # A warning is raised if no invoice was to free
-        except (exceptions.Warning, except_orm):
-            pass
-        super(contracts, self)._cancel_confirm_invoices(
-            invoice_cancel, invoice_confirm, keep_lines)
+        invoice_lines = super(contracts, self)._get_invoice_lines_to_clean(
+            since_date, to_date)
+        invoices = invoice_lines.mapped('invoice_id')
+        lsv_dd_invoices = self.env['account.invoice']
+        for invoice in invoices:
+            pay_line = self.env['payment.line'].search([
+                ('move_line_id', 'in', invoice.move_id.line_id.ids),
+                ('order_id.state', 'in', ('open', 'done'))])
+            if pay_line:
+                lsv_dd_invoices += invoice
+
+            # If a draft payment order exitst, we remove the payment line.
+            pay_line = self.env['payment.line'].search([
+                ('move_line_id', 'in', invoice.move_id.line_id.ids),
+                ('order_id.state', '=', 'draft')])
+            if pay_line:
+                pay_line.unlink()
+
+        return invoice_lines.filtered(
+            lambda ivl: ivl.invoice_id not in lsv_dd_invoices)
