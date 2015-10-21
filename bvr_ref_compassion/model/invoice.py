@@ -50,4 +50,5 @@ class account_move(models.Model):
         invoice = self.env.context.get('invoice')
         if invoice and invoice.bvr_reference:
             vals['ref'] = invoice.bvr_reference
+            vals['transaction_ref'] = invoice.bvr_reference
         return super(account_move, self).create(vals)
