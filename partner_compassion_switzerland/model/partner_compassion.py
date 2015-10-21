@@ -187,6 +187,7 @@ class ResPartner(models.Model):
 
         return result
 
+    @api.multi
     def unlink(self):
         """ We want to perform some checks before deleting a partner ! """
         uid = self.env.user.id
