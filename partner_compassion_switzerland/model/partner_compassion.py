@@ -58,16 +58,20 @@ class ResPartner(models.Model):
     #                           PUBLIC METHODS                               #
     ##########################################################################
     @api.model
-    def create_from_gp(self, vals):
+    def gp_create(self, vals):
         """ Simple create method that skips MySQL insertion, since it is
             called from GP in order to export the addresses. """
         partner = super(ResPartner, self).create(vals)
         return partner.id
 
     @api.multi
-    def write_from_gp(self, vals):
+    def gp_write(self, vals):
         """ Simple write method that skips MySQL insertion, since it is
-        called from GP in order to export the addresses. """
+        called from GP in order to export the addresses, and to cast
+        integers which are not properly passed by GP. """
+        for key in vals.iterkeys():
+            if key.endswith('_id'):
+                vals[key] = int(vals[key])
         return super(ResPartner, self).write(vals)
 
     @api.model
@@ -77,6 +81,9 @@ class ResPartner(models.Model):
             called by GP with XMLRPC, so that the Odoo holds all the logic
             to sync the two databases.
         """
+        for key in vals.iterkeys():
+            if key.endswith('_id'):
+                vals[key] = int(vals[key])
         uid = self.env.user.id
         gp = gp_connector.GPConnect()
         fieldsUpdate = vals.keys()
