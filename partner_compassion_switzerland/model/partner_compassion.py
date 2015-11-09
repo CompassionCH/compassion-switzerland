@@ -108,6 +108,10 @@ class ResPartner(models.Model):
         categories = partner._get_category_names()
         partner._update_vals_with_gp_partner(vals)
 
+        # Don't put lastnames for companies
+        if vals.get('is_company'):
+            del vals['lastname']
+
         gp.createPartner(uid, vals, partner, categories)
 
         return partner
@@ -232,6 +236,17 @@ class ResPartner(models.Model):
         for move_line in move_line_ids:
             res += move_line.credit
         return res
+
+    ##########################################################################
+    #                             VIEW CALLBACKS                             #
+    ##########################################################################
+    @api.onchange('is_company')
+    def onchange_is_company(self):
+        """ Put title 'Friends of Compassion for companies. """
+        for partner in self:
+            if not partner.title:
+                partner.title = self.env.ref(
+                    'partner_compassion.res_partner_title_friends').id
 
     ##########################################################################
     #                           PRIVATE METHODS                              #

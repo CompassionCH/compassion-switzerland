@@ -13,6 +13,7 @@ import os
 import json
 import calendar
 import base64
+import logging
 
 from openerp.osv import orm
 from openerp.tools.translate import _
@@ -20,6 +21,9 @@ from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 
 from sync_typo3 import Sync_typo3
 from datetime import datetime, timedelta
+
+
+logger = logging.getLogger(__name__)
 
 
 class compassion_child(orm.Model):
@@ -135,12 +139,16 @@ class compassion_child(orm.Model):
         child_codes = list()
 
         for child in self.browse(cr, uid, ids, context):
-            child_uid = self._get_typo3_child_id(cr, uid, child.code)
-            Sync_typo3.request_to_typo3(
-                "delete from tx_drechildpoolmanagement_childpools_children_mm"
-                " where uid_foreign={0};"
-                "delete from tx_drechildpoolmanagement_domain_model_children "
-                "where child_key='{1}';".format(child_uid, child.code), 'upd')
+            try:
+                child_uid = self._get_typo3_child_id(cr, uid, child.code)
+                Sync_typo3.request_to_typo3(
+                    "delete from tx_drechildpoolmanagement_childpools_"
+                    "children_mm where uid_foreign={0};"
+                    "delete from tx_drechildpoolmanagement_domain_model_"
+                    "children where child_key='{1}';".format(
+                        child_uid, child.code), 'upd')
+            except orm.except_orm:
+                logger.error("Child %s is not on internet" % child.code)
             state = 'R' if child.has_been_sponsored else 'N'
             child.write({'state': state})
             child_codes.append(child.code)

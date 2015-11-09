@@ -21,21 +21,20 @@ from datetime import datetime
 class compassion_project(orm.Model):
     _inherit = 'compassion.project'
 
-    def _get_suspension_state(self, cr, uid, ids, field_name, args,
-                              context=None):
-        res = super(compassion_project, self)._get_suspension_state(
-            cr, uid, ids, field_name, args, context)
-        for project in self.browse(cr, uid, ids, context):
-            if res[project.id] in ['suspended', 'fund-suspended']:
+    def _set_suspension_state(self, cr, uid, ids, context=None):
+        for project in self.read(cr, uid, ids, ['code', 'suspension'],
+                                 context):
+            if project['suspension'] in ['suspended', 'fund-suspended']:
                 # Remove children from internet
                 child_obj = self.pool.get('compassion.child')
                 child_ids = child_obj.search(cr, uid, [
-                    ('code', 'like', project.code),
+                    ('code', 'like', project['code']),
                     ('state', '=', 'I')], context=context)
                 if child_ids:
                     child_obj.child_remove_from_typo3(cr, uid, child_ids,
                                                       context)
-        return res
+        super(compassion_project, self)._set_suspension_state(
+            cr, uid, ids, context)
 
     def get_project_from_typo3(self, cr, uid, project_code):
         res = json.loads(Sync_typo3.request_to_typo3(
