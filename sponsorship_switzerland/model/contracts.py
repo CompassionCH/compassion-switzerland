@@ -47,7 +47,7 @@ class contracts(models.Model):
             return self.write({'gmc_state': event.lower()})
         return True
 
-    @api.multi
+    @api.model
     def button_reset_gmc_state(self, value):
         """ Button called from Kanban view on all contracts of one group. """
 
