@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Cyril Sester <cyril.sester@outlook.com>
 #
@@ -50,5 +50,15 @@ class account_move(models.Model):
         invoice = self.env.context.get('invoice')
         if invoice and invoice.bvr_reference:
             vals['ref'] = invoice.bvr_reference
-            vals['transaction_ref'] = invoice.bvr_reference
         return super(account_move, self).create(vals)
+
+
+class account_move_line(models.Model):
+    _inherit = 'account.move.line'
+
+    @api.model
+    def create(self, vals):
+        invoice = self.env.context.get('invoice')
+        if invoice and invoice.bvr_reference:
+            vals['transaction_ref'] = invoice.bvr_reference
+        return super(account_move_line, self).create(vals)
