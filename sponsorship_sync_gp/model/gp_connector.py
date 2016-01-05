@@ -252,12 +252,12 @@ class GPConnect(mysql_connector):
             typeprojet = "P"
             id_pole = self.selectOne(
                 "Select id_pole FROM Poles WHERE id_erp=%s",
-                contract.id).get("id_pole")
+                [contract.id]).get("id_pole")
         else:   # Fund donation
             gp_fund_id = product.gp_fund_id
             codespe = self.selectOne(
                 "SELECT Codespe FROM Libspe WHERE ID_CODE_SPE = %s",
-                gp_fund_id).get("Codespe", "")
+                [gp_fund_id]).get("Codespe", "")
             typeprojet = "T"
             id_pole = 0
 
