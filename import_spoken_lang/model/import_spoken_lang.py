@@ -48,13 +48,16 @@ class ImportSpokenLang(models.TransientModel):
 
         # Import spoken languages for countries
         _logger.info("Import spoken languages for countries...")
-        sql = "SELECT lp.CODEGA as country_iso, lp.IDLANGUES as language_iso " \
-              "FROM langueparlee lp JOIN pays p ON lp.CODEGA = p.ISO3166"
+        sql = "SELECT lp.CODEGA as country_iso, lp.IDLANGUES as language_iso"\
+              " FROM langueparlee lp JOIN pays p ON lp.CODEGA = p.ISO3166"
         for row in mysql.selectAll(sql):
             self._add_country_language(row['country_iso'], row['language_iso'])
         _logger.info("Import spoken languages for countries: done!")
 
         _logger.info("Language import successful!")
+
+        # Update preferred language for all sponsorships
+        self.env['recurring.contract'].search([]).onchange_relationship()
 
     def _create_language_dict(self):
         """ Retrieve language table and keep mapping
@@ -69,7 +72,7 @@ class ImportSpokenLang(models.TransientModel):
         if partner:
             if language_iso in self._language_iso_to_id:
                 language_id = self._language_iso_to_id[language_iso]
-                partner.write({'spoken_langs_ids': [(4, language_id)]})
+                partner.write({'spoken_lang_ids': [(4, language_id)]})
             else:
                 _logger.warning("language not found: {}".format(language_iso))
         else:
@@ -81,7 +84,7 @@ class ImportSpokenLang(models.TransientModel):
         if country:
             if language_iso in self._language_iso_to_id:
                 language_id = self._language_iso_to_id[language_iso]
-                country.write({'spoken_langs_ids': [(4, language_id)]})
+                country.write({'spoken_lang_ids': [(4, language_id)]})
             else:
                 _logger.warning("language not found: {}".format(language_iso))
         else:
