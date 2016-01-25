@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Form view -->
+        <record id="view_template_list_form" model="ir.ui.view">
+            <field name="name">sponsorship.templatelist.form</field>
+            <field name="model">sponsorship.templatelist</field>
+            <field name="arch" type="xml">
+                <form string="Templates">
+                    <sheet>
+                        <group colspan="2" col="2">
+                            <field name="name_id"/>
+                            <field name="lang"/>
+                            <field name="layout_template_id"/>
+                            <field name="text_template_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record id="view_template_list_tree" model="ir.ui.view">
+            <field name="name">sponsorship.templatelist.tree</field>
+            <field name="model">sponsorship.templatelist</field>
+            <field name="arch" type="xml">
+                <tree string="Emails">
+                    <field name="name_id"/>
+                    <field name="lang"/>
+                    <field name="layout_template_id"/>
+                    <field name="text_template_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action opening the tree view -->
+        <record id="open_view_template_list_tree" model="ir.actions.act_window">
+            <field name="name">Email Language Templates</field>
+            <field name="res_model">sponsorship.templatelist</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="view_template_list_tree"/>
+        </record>
+
+        <menuitem id="menu_sendgrid_template_list" parent="sbc_compassion.menu_sponsorship_correspondence"
+                  name="Email Language Templates"
+                  action="sbc_email.open_view_template_list_tree"/>
+
+    </data>
+</openerp>
