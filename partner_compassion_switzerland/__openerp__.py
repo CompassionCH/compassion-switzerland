@@ -35,7 +35,7 @@
     'sequence': 150,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['partner_compassion', 'mysql_connector'],
+    'depends': ['sbc_compassion', 'mysql_connector'],
     'data': [
         'view/partner_compassion_view.xml',
     ],
