@@ -36,6 +36,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/template_list_view.xml',
+        'data/email_text_templates.xml',
     ],
     'demo': [],
     'installable': True,
