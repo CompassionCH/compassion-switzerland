@@ -8,6 +8,11 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import sponsorship_correspondence
-from . import template_list
-from . import template_name
+
+from openerp import models, fields
+
+
+class TemplateName(models.Model):
+    _name = 'sponsorship.templatename'
+
+    name = fields.Char()

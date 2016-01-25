@@ -15,6 +15,7 @@ from openerp import models, fields
 class TemplateList(models.Model):
     _name = 'sponsorship.templatelist'
 
+    name_id = fields.Many2one('sponsorship.templatename', 'Name')
     lang = fields.Char()
     layout_template_id = fields.Many2one('sendgrid.template')
     text_template_id = fields.Many2one('email.template')

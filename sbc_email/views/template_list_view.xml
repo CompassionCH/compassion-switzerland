@@ -9,6 +9,7 @@
                 <form string="Templates">
                     <sheet>
                         <group colspan="2" col="2">
+                            <field name="name_id"/>
                             <field name="lang"/>
                             <field name="layout_template_id"/>
                             <field name="text_template_id"/>
@@ -24,6 +25,7 @@
             <field name="model">sponsorship.templatelist</field>
             <field name="arch" type="xml">
                 <tree string="Emails">
+                    <field name="name_id"/>
                     <field name="lang"/>
                     <field name="layout_template_id"/>
                     <field name="text_template_id"/>
