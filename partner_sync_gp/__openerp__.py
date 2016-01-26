@@ -29,16 +29,14 @@
 
 
 {
-    'name': 'Change Partner view for Compassion Suisse',
+    'name': 'Partner Sync with GP for Compassion Suisse',
     'version': '1.5',
     'category': 'Partner',
     'sequence': 150,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sbc_compassion'],
-    'data': [
-        'view/partner_compassion_view.xml',
-    ],
+    'depends': ['partner_compassion_switzerland', 'mysql_connector'],
+    'data': [],
     'demo': [],
     'installable': True,
     'auto_install': False,

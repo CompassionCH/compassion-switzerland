@@ -9,3 +9,4 @@
 #
 ##############################################################################
 from . import partner_compassion
+from . import gp_connector
