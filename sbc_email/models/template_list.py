@@ -9,7 +9,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, api, fields
+from cgi import escape
 
 
 class TemplateList(models.Model):
@@ -19,3 +20,17 @@ class TemplateList(models.Model):
     lang = fields.Char()
     layout_template_id = fields.Many2one('sendgrid.template')
     text_template_id = fields.Many2one('email.template')
+    intro = fields.Char()
+    tweet = fields.Char()
+
+    @api.model
+    def create(self, vals):
+        if 'tweet' in vals:
+            vals['tweet'] = escape(vals['tweet'])
+        return super(TemplateList, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        if 'tweet' in vals:
+            vals['tweet'] = escape(vals['tweet'])
+        return super(TemplateList, self).write(vals)

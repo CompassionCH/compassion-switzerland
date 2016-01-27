@@ -50,6 +50,8 @@ class SponsorshipCorrespondence(models.Model):
                 'substitution_ids': [
                     (0, _, {'key': 'child', 'value': child}),
                     (0, _, {'key': 'letter_url', 'value': self.read_url}),
+                    (0, _, {'key': 'intro', 'value': template.intro or ''}),
+                    (0, _, {'key': 'tweet', 'value': template.tweet or ''}),
                 ],
             })
             # Automatically send letters, except for the first one

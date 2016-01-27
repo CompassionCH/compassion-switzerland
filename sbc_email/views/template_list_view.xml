@@ -13,6 +13,8 @@
                             <field name="lang"/>
                             <field name="layout_template_id"/>
                             <field name="text_template_id"/>
+                            <field name="intro"/>
+                            <field name="tweet"/>
                         </group>
                     </sheet>
                 </form>
