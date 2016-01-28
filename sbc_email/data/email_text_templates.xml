@@ -114,8 +114,39 @@
                 <p>Non esitate a contattarci per ogni domanda riguardo queste modifiche.</p>
             </field>
         </record>
+
+
+        <!-- Ticket for changing send_original -->
+        <record id="ticket_send_original" model="email.template">
+            <field name="name">[TICKET] Original letters request</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Change supporter delivery preference (digital to physical)</field>
+            <field name="body_html" type="html">
+                <p>We would like to change the preference of supporter with constituent id {supporter} : the supporter wants to receive the original letters from its children.</p>
+                <p>Can you please make the change? Thanks</p>
+            </field>
+        </record>
+        <record id="ticket_block_original" model="email.template">
+            <field name="name">[TICKET] Stop sending original letters</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Change supporter delivery preference (physical to digital)</field>
+            <field name="body_html">
+                We would like to change the preference of supporter with constituent id {supporter} : the supporter doesn't want to receive the original letters from its children anymore. Can you please make the change? Thanks.
+            </field>
+        </record>
         
         
+        <!-- Ticket for changing sponsorship reading language -->
+        <record id="ticket_change_language" model="email.template">
+            <field name="name">[TICKET] Change commitment language preference</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Change commitment language preference</field>
+            <field name="body_html">
+                We would like to change the preferred language of commitment {supporter} - {child}: the preferred language should be {language}. Can you please make the change? Thanks.
+            </field>
+        </record>
+
+
         <!-- Sendgrid templates -->
         <record id="general_fr" model="sendgrid.template">
             <field name="remote_id">2eaba30f-052a-4acd-ab2e-b8f7a8abfb76</field>
