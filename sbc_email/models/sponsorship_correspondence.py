@@ -15,7 +15,7 @@ from openerp import models, fields, api, _
 class SponsorshipCorrespondence(models.Model):
     _inherit = 'sponsorship.correspondence'
 
-    email_id = fields.Many2one('sendgrid.email')
+    email_id = fields.Many2one('mail.mail')
     email_sent_date = fields.Datetime(
         related='email_id.sent_date', store=True)
 
@@ -43,7 +43,7 @@ class SponsorshipCorrespondence(models.Model):
                 ('lang', '=', partner.lang)])
             child = self.child_id.firstname
             # Create and send email
-            self.email_id = self.env['sendgrid.email'].create({
+            self.email_id = self.env['mail.mail'].create({
                 'email_to': partner.email,
                 'layout_template_id': template.layout_template_id.id,
                 'text_template_id': template.text_template_id.id,
@@ -53,10 +53,12 @@ class SponsorshipCorrespondence(models.Model):
                     (0, _, {'key': 'intro', 'value': template.intro or ''}),
                     (0, _, {'key': 'tweet', 'value': template.tweet or ''}),
                 ],
+                'model': 'res.partner',
+                'res_id': self.correspondant_id.id,
             })
             # Automatically send letters, except for the first one
             if not self.is_first_letter:
-                self.email_id.send()
+                self.email_id.send_sendgrid()
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

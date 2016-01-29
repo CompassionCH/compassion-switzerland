@@ -46,7 +46,7 @@ class ResPartner(models.Model):
                 text_template = self.env.ref(
                     'sbc_email.ticket_block_original')
             # Create and send email
-            self.env['sendgrid.email'].create({
+            self.env['mail.mail'].create({
                 'email_to': TICKET_TO,
                 'email_from': TICKET_FROM,
                 'cc_address': TICKET_CC,
@@ -54,4 +54,4 @@ class ResPartner(models.Model):
                 'substitution_ids': [
                     (0, False, {'key': 'supporter', 'value': partner.ref}),
                 ],
-            }).send()
+            }).send_sendgrid()

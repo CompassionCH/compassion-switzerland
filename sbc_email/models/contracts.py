@@ -47,7 +47,7 @@ class RecurringContract(models.Model):
         for contract in self:
             text_template = self.env.ref('sbc_email.ticket_change_language')
             # Create and send email
-            self.env['sendgrid.email'].create({
+            self.env['mail.mail'].create({
                 'email_to': TICKET_TO,
                 'email_from': TICKET_FROM,
                 'cc_address': TICKET_CC,
@@ -60,4 +60,4 @@ class RecurringContract(models.Model):
                     (0, False, {'key': 'language',
                                 'value': contract.reading_language.name}),
                 ],
-            }).send()
+            }).send_sendgrid()
