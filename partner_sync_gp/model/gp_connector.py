@@ -129,10 +129,14 @@ class GPConnect(mysql_connector):
             # Convert the title (use the correct ids found in the MySQL
             # database)
             elif field_name == 'title':
-                value = self.titleMapping[partner.title.name]
+                value = self.titleMapping.get(partner.title.name, '11')
             # Convert the church (use the reference number instead of the id)
             elif field_name == 'church_id':
                 value = partner.church_id.ref
+            # Sometimes create_date is missing
+            elif field_name == 'create_date':
+                if not value:
+                    value = partner.date or fields.Date.context_today()
             # Convert the receipts
             elif field_name in ('tax_certificate', 'thankyou_letter'):
                 if value == 'no':
