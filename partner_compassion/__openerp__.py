@@ -29,14 +29,16 @@
 
 
 {
-    'name': 'Change Partner view for Compassion Suisse',
-    'version': '8.0.1',
+    'name': 'Upgrade Partners for Compassion Suisse',
+    'version': '8.0.2',
     'category': 'Partner',
     'sequence': 150,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sbc_compassion'],
+    'depends': ['sbc_compassion', 'partner_firstname', 'email_template'],
     'data': [
+        'data/partner_category_data.xml',
+        'data/partner_title_data.xml',
         'view/partner_compassion_view.xml',
     ],
     'demo': [],

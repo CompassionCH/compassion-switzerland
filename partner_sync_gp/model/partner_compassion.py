@@ -8,7 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp import api, models
+from openerp import api, fields, models
 from . import gp_connector
 
 
@@ -18,6 +18,9 @@ class ResPartner(models.Model):
     """
 
     _inherit = 'res.partner'
+
+    # Reference is managed by GP
+    ref = fields.Char(default=False, readonly=True)
 
     ##########################################################################
     #                           PUBLIC METHODS                               #

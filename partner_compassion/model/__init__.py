@@ -8,4 +8,6 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+from . import account_banking_mandate_compassion
+from . import partner_bank_compassion
 from . import partner_compassion
