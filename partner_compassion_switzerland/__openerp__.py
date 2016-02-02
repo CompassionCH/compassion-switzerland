@@ -30,7 +30,7 @@
 
 {
     'name': 'Change Partner view for Compassion Suisse',
-    'version': '1.5',
+    'version': '8.0.1',
     'category': 'Partner',
     'sequence': 150,
     'author': 'Compassion CH',

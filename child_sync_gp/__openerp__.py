@@ -30,7 +30,7 @@
 
 {
     'name': 'Sync Compassion Children with GP',
-    'version': '1.4',
+    'version': '8.0.1',
     'category': 'Other',
     'description': """
 Sync Compassion Children with GP

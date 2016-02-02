@@ -29,7 +29,7 @@
 
 {
     'name': 'OpenERP MySQL Connector',
-    'version': '1.0.0',
+    'version': '8.0.1',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',

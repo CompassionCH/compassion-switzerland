@@ -29,7 +29,7 @@
 
 {
     'name': 'Sync Compassion Children with Typo3 website',
-    'version': '1.4',
+    'version': '8.0.1',
     'category': 'Other',
     'description': """
         This module manage upload of children
