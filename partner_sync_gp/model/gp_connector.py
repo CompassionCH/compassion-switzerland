@@ -54,6 +54,7 @@ class GPConnect(mysql_connector):
         'calendar': 'calendrier',
         'christmas_card': 'carte_noel',
         'birthday_reminder': 'rappel_anniversaire',
+        'id': 'id_erp',
     }
 
     # This gives the MySQL Sponsor Category ids corresponding to the Category
@@ -125,7 +126,7 @@ class GPConnect(mysql_connector):
                 value = self.langMapping[value]
             # Convert the country code (use the code instead of the id)
             elif field_name == 'country_id':
-                value = partner.country_id.code
+                value = partner.country_id.code or 'CH'
             # Convert the title (use the correct ids found in the MySQL
             # database)
             elif field_name == 'title':
@@ -140,13 +141,13 @@ class GPConnect(mysql_connector):
             # Convert the receipts
             elif field_name in ('tax_certificate', 'thankyou_letter'):
                 if value == 'no':
-                    value = 0
+                    value = '0'
                 elif value == 'paper':
-                    value = 1
+                    value = '1'
                 elif value == 'email':
-                    value = 2
-                elif value == 'default':
-                    value = 3
+                    value = '2'
+                else:
+                    value = '3'
 
             if value or isinstance(partner._fields[field_name],
                                    fields.Boolean):
