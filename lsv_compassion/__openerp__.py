@@ -30,7 +30,7 @@
 {
     'name': 'LSV-DD Compassion',
     'summary': 'Customize LSV-DD to fit Compassion needs',
-    'version': '1.0',
+    'version': '8.0.1',
     'license': 'AGPL-3',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',

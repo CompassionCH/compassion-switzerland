@@ -26,7 +26,7 @@
 
                 <!-- Redefine correspondance tab -->
                 <xpath expr="//page[@string='Correspondence']" position="replace">
-                    <page string="Correspondance">
+                    <page string="Correspondence">
                         <group>
                             <group>
                                 <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}"/>

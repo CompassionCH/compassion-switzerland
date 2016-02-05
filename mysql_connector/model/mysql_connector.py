@@ -31,7 +31,7 @@ class mysql_connector:
         self._con = False
         try:
             self._con = mdb.connect(mysql_host, mysql_user, mysql_pw,
-                                    mysql_db)
+                                    mysql_db, charset='utf8')
             self._cur = self._con.cursor(mdb.cursors.DictCursor)
         except mdb.Error, e:
             logger.debug("Error %d: %s" % (e.args[0], e.args[1]))

@@ -1,0 +1,216 @@
+<openerp>
+    <data>
+        <!-- First letter system changed -->
+        <record id="change_system_fr" model="email.template">
+            <field name="name">First letter system changed FR</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Une nouvelle lettre de {child} est arrivée !</field>
+            <field name="body_html" type="html">
+                <p>Nous nous réjouissons de vous transmettre, ci-joint, une nouvelle lettre de {child} !</p>
+                <br/>
+                <p>Téléchargez votre lettre en cliquant sur ce lien: <a href='{letter_url}'>{letter_url}</a></p>
+                <br/>
+                <p>Avez-vous remarqué une différence? Cette lettre est la toute première depuis que nous avons instauré le nouveau système d'acheminement du courrier. Ce que vous voyez est une numérisation de ce que {child} a écrit. Si vous le désirez, nous pouvons imprimer le document dans notre bureau et vous le transmettre par poste. Veuillez nous contacter pour nous le signaler.</p>
+                <br/>
+                <p>Grâce à ces changements, quelques semaines suffisent dorénavant pour qu'un courrier soit remis à son destinataire. Nous espérons que cela facilitera les échanges avec {child}, et que cela soit une motivation pour écrire régulièrement et approfondir votre relation. De votre côté, vous pouvez écrire en ligne sur notre site internet sous la rubrique écrire.</p>
+                <br/>
+                <p>La lettre originale de {child} est archivée dans le bureau national de son pays, cela réduit ainsi les coûts de logistique. Si vous tenez à recevoir également l'original, veuillez nous le communiquer et nous ferons la demande au bureau national. Toutefois la lettre vous parviendra bien après la version électronique.</p>
+                <br/>
+                <p>N'hésitez pas à prendre contact avec nous pour toute question face à ces modifications!</p>
+                <br/>
+                <p>Nous vous souhaitons une très bonne lecture!</p>
+            </field>
+        </record>
+        <record id="change_system_de" model="email.template">
+            <field name="name">First letter system changed DE</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Sie haben einen neuen Brief von {child} erhalten!!</field>
+            <field name="body_html" type="html">
+                <p>Wir freuen uns, Ihnen im Anhang einen neuen Brief von Ihrem Patenkind {child} zu senden.</p>
+                <br/>
+                <p>Download link: <a href='{letter_url}'>{letter_url}</a></p>
+                <br/>
+                <p>Ist Ihnen etwas aufgefallen? Wir haben ein neues System der Postsendung eingeführt und Sie erhalten heute den ersten Brief. Und zwar ist es ein Scan des Briefes von {child}, den wir direkt vom Land Ihres Patenkindes per E-Mail bekommen haben.</p>
+                <br/>
+                <p>Wenn Sie möchten, können wir Ihnen den Brief in unserem Büro ausdrucken und Ihnen per Post zuschicken. In diesem Fall bitten wir Sie uns zu kontaktieren. Sie können ebenfalls über unsere Website die Briefe online schreiben: www.compassion.ch / „Schreiben“.</p>
+                <br/>
+                <p>Dank diesen Änderungen werden Briefe in nur einigen Wochen bei ihren Empfängern ankommen. Wir hoffen, dass dies den Austausch mit {child} erleichtern wird und für Sie ein Motivationsschub ist, Ihrem Patenkind regelmässig zu schreiben und Ihre Beziehung zum Kind zu vertiefen.</p>
+                <br/>
+                <p>Der Originalbrief von {child} wird im Landesbüro archiviert, was auch die Logistikkosten reduziert. Wenn Sie den Originalbrief aber gerne erhalten möchten, können wir eine spezielle Anfrage machen. (Der Brief wird allerdings nach der elektronischen Version ankommen.)</p>
+                <br/>
+                <p>Gerne sind wir für Sie da, falls Sie Fragen betreffend diesen Änderungen haben.</p>
+                <br/>
+                <p>Wir wünschen Ihnen viel Spass beim Lesen des Briefes Ihres Patenkindes!</p>
+            </field>
+        </record>
+        <record id="change_system_it" model="email.template">
+            <field name="name">First letter system changed IT</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Una nuova lettera del vostro bambino è arrivata!</field>
+            <field name="body_html" type="html">
+                <p>Siamo grati di trasmettervi allegato a questa lettera, una nuova lettera di {child}.</p>
+                <br/>
+                <p>Download link: <a href='{letter_url}'>{letter_url}</a></p>
+                <br/>
+                <p>Avete Notato una differenza? Questa lettera è la prima da quando abbiamo avviato il nuovo sistema di inoltro della corrispondenza. Quello che vedete è una scannerizzazione di quello che ha scritto. Se lo desiderate, possiamo stampare il documento nel nostro ufficio e trasmettervelo per posta. Vi preghiamo, in questo caso, di contattarci per segnalarcelo.</p>
+                <br/>
+                <p>Grazie a questi cambiamenti, poche settimane saranno sufficienti per la consegna della posta al destinatario. Speriamo che questo nuovo metodo possa facilitare gli scambi con il bambino che sostenete, e che possa essere una motivazione per scrivere regolarmente e approfondire la vostra relazione. Dalla vostra parte, potete scrivere online al bambino, sul nostro sito internet nella rubrica “scrivere”. </p>
+                <br/>
+                <p>La lettera originale è archiviata nell’ufficio nazionale del suo paese, questo riduce anche i costi di logistica. Se desiderate ricevere anche l'originale, possiamo fare una richiesta speciale (la lettera vi sarà tuttavia trasmessa dopo la versione elettronica).</p>
+                <br/>
+                <p>Non esitate a contattarci per ogni domanda riguardo queste modifiche.</p>
+            </field>
+        </record>
+
+
+        <!-- New letter -->
+        <record id="new_letter_fr" model="email.template">
+            <field name="name">New letter FR</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Une nouvelle lettre de {child} est arrivée !</field>
+            <field name="body_html" type="html">
+                <p>Nous nous réjouissons de vous transmettre, ci-joint, une nouvelle lettre de {child} !</p>
+                <br/>
+                <p>Téléchargez votre lettre en cliquant sur ce lien: <a href='{letter_url}'>{letter_url}</a></p>
+                <br/>
+                <p>Si vous le désirez, nous pouvons imprimer le document dans notre bureau et vous le transmettre par poste. Veuillez nous contacter pour nous le signaler.</p>
+                <br/>
+                <p>De votre côté, vous pouvez écrire en ligne sur notre site internet sous la rubrique écrire.</p>
+                <br/>
+                <p>N'hésitez pas à prendre contact avec nous pour toute question relative aux échanges de courriers!</p>
+                <br/>
+                <p>Nous vous souhaitons une très bonne lecture!</p>
+            </field>
+        </record>
+        <record id="new_letter_de" model="email.template">
+            <field name="name">New letter DE</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Sie haben einen neuen Brief von {child} erhalten!!</field>
+            <field name="body_html" type="html">
+                <p>Wir freuen uns, Ihnen im Anhang einen neuen Brief von Ihrem Patenkind {child} zu senden.</p>
+                <br/>
+                <p>Download link: <a href='{letter_url}'>{letter_url}</a></p>
+                <br/>
+                <p>Wenn Sie möchten, können wir Ihnen den Brief in unserem Büro ausdrucken und Ihnen per Post zuschicken. In diesem Fall bitten wir Sie uns zu kontaktieren. Sie können ebenfalls über unsere Website die Briefe online schreiben: www.compassion.ch / „Schreiben“.</p>
+                <br/>
+                <p>Gerne sind wir für Sie da, falls Sie Fragen betreffend diesen Änderungen haben.</p>
+                <br/>
+                <p>Wir wünschen Ihnen viel Spass beim Lesen des Briefes Ihres Patenkindes!</p>
+            </field>
+        </record>
+        <record id="new_letter_it" model="email.template">
+            <field name="name">New letter IT</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Una nuova lettera del vostro bambino è arrivata!</field>
+            <field name="body_html" type="html">
+                <p>Siamo grati di trasmettervi allegato a questa lettera, una nuova lettera di {child}.</p>
+                <br/>
+                <p>Download link: <a href='{letter_url}'>{letter_url}</a></p>
+                <br/>
+                <p>Se lo desiderate, possiamo stampare il documento nel nostro ufficio e trasmettervelo per posta. Vi preghiamo, in questo caso, di contattarci per segnalarcelo.</p>
+                <br/>
+                <p>Dalla vostra parte, potete scrivere online al bambino, sul nostro sito internet nella rubrica “scrivere”.</p>
+                <br/>
+                <p>Non esitate a contattarci per ogni domanda riguardo queste modifiche.</p>
+            </field>
+        </record>
+
+
+        <!-- Ticket for changing send_original -->
+        <record id="ticket_send_original" model="email.template">
+            <field name="name">[TICKET] Original letters request</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Change supporter delivery preference (digital to physical)</field>
+            <field name="body_html" type="html">
+                <p>We would like to change the preference of supporter with constituent id {supporter} : the supporter wants to receive the original letters from its children.</p>
+                <p>Can you please make the change? Thanks</p>
+            </field>
+        </record>
+        <record id="ticket_block_original" model="email.template">
+            <field name="name">[TICKET] Stop sending original letters</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Change supporter delivery preference (physical to digital)</field>
+            <field name="body_html">
+                We would like to change the preference of supporter with constituent id {supporter} : the supporter doesn't want to receive the original letters from its children anymore. Can you please make the change? Thanks.
+            </field>
+        </record>
+        
+        
+        <!-- Ticket for changing sponsorship reading language -->
+        <record id="ticket_change_language" model="email.template">
+            <field name="name">[TICKET] Change commitment language preference</field>
+            <field name="model_id" search="[('model','=','sendgrid.email')]"/>
+            <field name="subject">Change commitment language preference</field>
+            <field name="body_html">
+                We would like to change the preferred language of commitment {supporter} - {child}: the preferred language should be {language}. Can you please make the change? Thanks.
+            </field>
+        </record>
+
+
+        <!-- Sendgrid templates -->
+        <record id="general_fr" model="sendgrid.template">
+            <field name="remote_id">2eaba30f-052a-4acd-ab2e-b8f7a8abfb76</field>
+            <field name="name">General FR</field>
+        </record>
+        <record id="general_de" model="sendgrid.template">
+            <field name="remote_id">d7d1d2e3-9dd0-48cf-a29d-91f7b9f3f618</field>
+            <field name="name">General DE</field>
+        </record>
+        <record id="general_it" model="sendgrid.template">
+            <field name="remote_id">35856fa5-45f2-461e-bae0-59783af5e2c9</field>
+            <field name="name">General IT</field>
+        </record>
+
+        
+        <!-- Template list -->
+        <record id="first_letter_templatename" model="sponsorship.templatename">
+            <field name="name">First Letter System Changed</field>
+        </record>
+        <record id="new_letter_templatename" model="sponsorship.templatename">
+            <field name="name">New Letter</field>
+        </record>
+        
+        <record id="first_letter_template_fr" model="sponsorship.templatelist">
+            <field name="name_id" ref="first_letter_templatename"/>
+            <field name="lang">fr_CH</field>
+            <field name="layout_template_id" ref="general_fr"/>
+            <field name="text_template_id" ref="change_system_fr"/>
+            <field name="intro">Une lettre est un précieux cadeau. </field>
+            <field name="tweet">Une+nouvelle+lettre+de+mon+filleul+!</field>
+        </record>
+        <record id="first_letter_template_de" model="sponsorship.templatelist">
+            <field name="name_id" ref="first_letter_templatename"/>
+            <field name="lang">de_CH</field>
+            <field name="layout_template_id" ref="general_de"/>
+            <field name="text_template_id" ref="change_system_de"/>
+        </record>
+        <record id="first_letter_template_it" model="sponsorship.templatelist">
+            <field name="name_id" ref="first_letter_templatename"/>
+            <field name="lang">it_IT</field>
+            <field name="layout_template_id" ref="general_it"/>
+            <field name="text_template_id" ref="change_system_it"/>
+        </record>
+        
+        <record id="new_letter_template_fr" model="sponsorship.templatelist">
+            <field name="name_id" ref="new_letter_templatename"/>
+            <field name="lang">fr_CH</field>
+            <field name="layout_template_id" ref="general_fr"/>
+            <field name="text_template_id" ref="new_letter_fr"/>
+            <field name="intro">Une lettre est un précieux cadeau. </field>
+            <field name="tweet">Une+nouvelle+lettre+de+mon+filleul+!</field>
+        </record>
+        <record id="new_letter_template_de" model="sponsorship.templatelist">
+            <field name="name_id" ref="new_letter_templatename"/>
+            <field name="lang">de_CH</field>
+            <field name="layout_template_id" ref="general_de"/>
+            <field name="text_template_id" ref="new_letter_de"/>
+        </record>
+        <record id="new_letter_template_it" model="sponsorship.templatelist">
+            <field name="name_id" ref="new_letter_templatename"/>
+            <field name="lang">it_IT</field>
+            <field name="layout_template_id" ref="general_it"/>
+            <field name="text_template_id" ref="new_letter_it"/>
+        </record>
+        
+    </data>
+</openerp>

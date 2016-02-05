@@ -29,7 +29,7 @@
 
 {
     'name': 'Mail Thread for Compassion',
-    'version': '1.0',
+    'version': '8.0.1',
     'category': 'Mailing',
     'description': """
 Mail Thread for Compassion

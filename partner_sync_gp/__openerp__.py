@@ -27,62 +27,15 @@
 #
 ##############################################################################
 
+
 {
-    'name': 'OpenERP MySQL Connector',
+    'name': 'Partner Sync with GP for Compassion Suisse',
     'version': '8.0.1',
-    'category': 'Other',
+    'category': 'Partner',
+    'sequence': 150,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': [],
-    'external_dependencies': {
-        'python': ['MySQLdb'],
-    },
-    'description': """
-OpenERP MySQL Connector
-=========================
-
-Utility module that enables other modules that depends on it to access a
-MySQL server that is defined a settings screen.
-
-
-Installation
-============
-
-To install this module, you need to install dependencies:
-
-* requires python-MySQLdb to be installed on the server.
-
-Configuration
-=============
-
-To configure this module, you need to add settings in .conf file of Odoo:
-
-* mysql_host = <mysql host>
-* mysql_db = <mysql database>
-* mysql_user = <mysql user>
-* mysql_pw = <mysql password>
-
-Usage
-=====
-
-You can use this module directly from code:
-
-* from mysql_connector.model.mysql_connector import mysql_connector
-* con = mysql_connector()
-* res_query = mysql_connector.selectAll(sql, args)
-* mysql_connector.upsert(table, vals)
-
-See file mysql_connector.py for all supported methods. You can as well
-inherit to expand the functionalities.
-
-Credits
-=======
-
-Contributors
-------------
-
-* Emanuel Cino <ecino@compassion.ch>
-""",
+    'depends': ['partner_compassion_switzerland', 'mysql_connector'],
     'data': [],
     'demo': [],
     'installable': True,
