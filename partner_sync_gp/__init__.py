@@ -8,4 +8,4 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import partner_compassion
+from . import model

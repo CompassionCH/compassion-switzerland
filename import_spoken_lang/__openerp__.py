@@ -29,7 +29,7 @@
 
 {
     'name': 'Import spoken languages from GP',
-    'version': '0.1',
+    'version': '8.0.1',
     'category': 'Uncategorized',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',

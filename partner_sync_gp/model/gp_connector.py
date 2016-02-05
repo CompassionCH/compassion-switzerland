@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-import sys
+from openerp import fields
 from openerp.addons.mysql_connector.model.mysql_connector \
     import mysql_connector
 
@@ -25,6 +25,7 @@ class GPConnect(mysql_connector):
     # The commented mappings are treated specifically by a method that needs
     # to read several fields value in order to perform a correct mapping.
     colMapping = {
+        'ref': 'codega',
         'lang': 'langue_parrain',
         'street': 'rue',
         'street2': 'rue2',
@@ -38,26 +39,22 @@ class GPConnect(mysql_connector):
         'website': 'web',
         'fax': 'numfax',
         'phone': 'teldom',
-        'date': 'datecreation',
+        'create_date': 'datecreation',
+        'write_date': 'datemodif',
         'mobile': 'telmobile',
-        # 'ref' : 'codega',
         'lastname': 'nom',
         'firstname': 'prenom',
-        'name': 'raissociale',
         'church_id': 'eglise',
         'church_unlinked': 'eglise',
         'deathdate': 'datedeces',
         'nbmag': 'nbsel',
         'birthdate': 'anneenaissance',
-        # 'category_id' : '',         --- not directly translated to a field,
-        #                                 but to several rows in another table
         'tax_certificate': 'recu_annuel',
         'thankyou_letter': 'recu_immediat',
         'calendar': 'calendrier',
         'christmas_card': 'carte_noel',
         'birthday_reminder': 'rappel_anniversaire',
-        # 'abroad': '',               --- treated with the categories
-        # 'opt_out': '',              --- treated with the categories
+        'id': 'id_erp',
     }
 
     # This gives the MySQL Sponsor Category ids corresponding to the Category
@@ -101,147 +98,75 @@ class GPConnect(mysql_connector):
         'Friends of Compassion': '11'
     }
 
-    def createPartner(self, uid, vals, record, categories=None):
-        """ Export a new partner into the MySQL Address table. If the
-        reference is a new number, it inserts a line in the MySQL Address
-        Table and then call the update method to set properly all the fields.
-        Otherwise, it updates the MySQL Address table so that the partner is
-        linked to the corresponding reference.
+    def upsert_partner(self, partner, categories, uid):
+        """ Update fields in GP given the partner.
 
-        Args:
-            vals (dict): the fields values of the new partner. The accepted
-                         values are listed in the 'colMapping' dictionary.
-            record (res.partner): the current res.partner object that is
-                                  created, must be read in english.
-            *categories (list): full names of the partner's categories.
-
-        Returns:
-            The result of the execution of the MySQL query.
-
-        Raises:
-            Some errors if the query contains errors due to invalid
-            field names or values.
+            :param: categories (list): full names of the partner's
+                                       categories.
         """
-        sql = "INSERT INTO Adresses (CODEGA, id_erp, DATECREATION, IDUSER) " \
-              "VALUES (%s,%s, NOW(), %s) on duplicate key UPDATE "\
-              "id_erp=values(id_erp)"
-        if self.query(sql, (vals['ref'], vals['id'], self._get_gp_uid(uid))):
-            # Remove unset fields
-            for name in vals.keys():
-                if not vals[name] and not name == 'opt_out':
-                    del(vals[name])
-            return self.updatePartner(uid, vals, record, categories, False)
+        gp_vals = {'IDUSER': self._get_gp_uid(uid)}
+        mapping = self.colMapping.copy()
+        parent = False
+        if partner.is_company:
+            if partner.child_ids:
+                parent = True
+                # Only update the Company name, all other info are in the
+                # contact partner
+                mapping = {
+                    'ref': 'codega',
+                    'lastname': 'raissociale'}
+            else:
+                del mapping['firstname']
+                mapping['lastname'] = 'raissociale'
 
-    def updatePartner(self, uid, vals, record, categories=None,
-                      deleteAbsent=True):
-        """ Synchronize the MySQL Address table with the partner in Odoo,
-        by updating values provided in vals and in optional arguments.
-
-            Args:
-                vals (dict): the fields values of the new partner.
-                             The accepted values are listed in the
-                             'colMapping' dictionary.
-                record (res.partner): the current res.partner object
-                                      that is updated.
-                *categories (list): of full names of the partner's categories.
-                *deleteAbsent (boolean): if set to false, no category will be
-                                         deleted even if it is absent in Odoo.
-
-            Returns:
-                The result of the execution of the MySQL query.
-
-            Raises:
-                Some errors if the query contains errors due to invalid
-                field names or values.
-        """
-        # Solve the encoding problems
-        reload(sys)
-        sys.setdefaultencoding('UTF8')
-        sqlQuery = "UPDATE Adresses SET {0} WHERE id_erp = " + str(vals['id'])
-        # Holds the SQL string that will list the updates to perform.
-        fieldsUpdate = ""
-
-        for name, value in vals.iteritems():
-            # Holds the converted value to insert in the MySQL table.
-            mVal = ""
-            # Used to add an escape character to string values (')
-            mString = ""
-
+        for field_name in mapping.iterkeys():
+            value = getattr(partner, field_name)
             # Convert the language
-            if name == 'lang':
-                mVal = self.langMapping[value]
-                mString = "'"
+            if field_name == 'lang':
+                value = self.langMapping[value]
             # Convert the country code (use the code instead of the id)
-            elif name == 'country_id':
-                mVal = record.country_id.code
-                mString = "'"
-            # These are the fields that need no particular transformation
-            elif name in ('city', 'zip', 'function', 'email', 'website',
-                          'fax', 'phone', 'date', 'mobile', 'lastname',
-                          'name', 'firstname', 'street', 'street2', 'street3',
-                          'deathdate', 'birthdate', 'church_unlinked'):
-                mVal = value
-                mString = "'"
-            # Non string fields that need no particular transformation
-            elif name in ('nbmag', 'calendar', 'birthday_reminder',
-                          'christmas_card'):
-                mVal = str(value)
+            elif field_name == 'country_id':
+                value = partner.country_id.code or 'CH'
             # Convert the title (use the correct ids found in the MySQL
             # database)
-            elif name == 'title':
-                mVal = self.titleMapping[record.title.name]
+            elif field_name == 'title':
+                value = self.titleMapping.get(partner.title.name, '11')
             # Convert the church (use the reference number instead of the id)
-            elif name == 'church_id':
-                mVal = record.church_id.ref
-            # Convert the categories (insert the correct ids found
-            # in the MySQL database)
-            elif name == 'category_id':
-                self._updateCategories(record.ref, categories, deleteAbsent)
-            # Convert the 'abroad' Category
-            elif name == 'abroad':
-                self._updateBooleanCategory(record.ref, 'Abroad', value)
-            # Convert the 'opt_out' (Mailing complet) Category
-            elif name == 'opt_out':
-                # Add the category if the value is False !
-                self._updateBooleanCategory(
-                    record.ref, 'Complete Mailing', not value)
+            elif field_name == 'church_id':
+                value = partner.church_id.ref
+            # Sometimes create_date is missing
+            elif field_name == 'create_date':
+                if not value:
+                    value = partner.date or fields.Date.context_today()
             # Convert the receipts
-            elif name in ('tax_certificate', 'thankyou_letter'):
+            elif field_name in ('tax_certificate', 'thankyou_letter'):
                 if value == 'no':
-                    mVal = "0"
+                    value = '0'
                 elif value == 'paper':
-                    mVal = "1"
+                    value = '1'
                 elif value == 'email':
-                    mVal = "2"
-                elif value == 'default':
-                    mVal = "3"
+                    value = '2'
+                else:
+                    value = '3'
 
-            # Construct the statement with the converted value, if there is
-            # any.
-            if mVal:
-                fieldsUpdate += self.colMapping[name] + "=" + \
-                    mString + mVal.replace("'", "\\'") + mString + ", "
-            # Happens if a string field is deleted.
-            elif mString:
-                # Avoid deleting name fields.
-                if name not in ('lastname', 'name', 'firstname'):
-                    fieldsUpdate += self.colMapping[name] + "='', "
-            # Happens if a non string field is deleted.
-            elif name in self.colMapping:
-                fieldsUpdate += self.colMapping[name] + "=Null, "
+            if value or isinstance(partner._fields[field_name],
+                                   fields.Boolean):
+                gp_vals[mapping[field_name]] = value
+            else:
+                gp_vals[mapping[field_name]] = '' if isinstance(
+                    partner._fields[field_name], fields.Char) else None
 
-        # Execute the final query, if there is any update to perform.
-        if fieldsUpdate:
-            fieldsUpdate += "IDUSER = '{0}'".format(self._get_gp_uid(uid))
-            sqlQuery = sqlQuery.format(fieldsUpdate).encode("ISO-8859-1")
-            return self.query(sqlQuery)
+        self.upsert("Adresses", gp_vals)
 
-    def _checkExists(self, ref):
-        """ Check that a given reference (CODEGA) exists in the MySQL
-        Address Table. """
-        res = self.selectOne(
-            "SELECT COUNT(*) AS NB FROM Adresses WHERE CODEGA = %s", (ref))
-        return (res["NB"] > 0) if res else False
+        # Update the categories in GP
+        if not parent:
+            self._updateCategories(partner.ref, categories)
+            self._updateBooleanCategory(partner.ref, 'Abroad', partner.abroad)
+            self._updateBooleanCategory(
+                partner.ref, 'Complete Mailing', not partner.opt_out)
+            self._update_spoken_langs(partner)
+
+        return True
 
     def _updateCategories(self, ref, categories, deleteAbsent=True):
         """ Given a partner reference and his category names, update the
@@ -303,6 +228,15 @@ class GPConnect(mysql_connector):
             sql = "UPDATE Categories_adresses SET DATE_FIN = NOW() " \
                   "WHERE CODEGA = %s AND ID_CAT = %s"
         return self.query(sql, (ref, catId))
+
+    def _update_spoken_langs(self, partner):
+        """ Update the langs of a partner in GP. """
+        self.query("Delete from langueparlee where codega = %s",
+                   [partner.ref])
+        for lang in partner.spoken_lang_ids:
+            self.query(
+                "insert into langueparlee(codega, idlangues) values(%s, %s)",
+                [partner.ref, lang.code_iso])
 
     def nextRef(self):
         """ Gives the next valid value for the CODEGA sequence field """

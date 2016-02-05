@@ -30,7 +30,7 @@
 
 {
     'name': 'Sync Compassion Sponsorships with GP',
-    'version': '1.5',
+    'version': '8.0.1',
     'category': 'Other',
     'description': """
 Sync Compassion Sponsorships with GP

@@ -25,9 +25,16 @@
                 </label>
 
                 <!-- Redefine correspondance tab -->
-                <xpath expr="//page[@string='Correspondance']" position="replace">
-                    <page string="Correspondance">
+                <xpath expr="//page[@string='Correspondence']" position="replace">
+                    <page string="Correspondence">
                         <group>
+                            <group>
+                                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}"/>
+                                <field name="delivery_preference"/>
+                                <field name="send_original"/>
+                                <field name="mandatory_review"/>
+                            </group>
+                            <group/>
                             <group>
                                 <field name="tax_certificate"/>
                                 <field name="thankyou_letter"/>                                      
