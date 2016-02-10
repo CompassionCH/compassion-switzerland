@@ -121,7 +121,7 @@
                 <!-- Move lang field -->
                 <label string="Address" position="before">
                     <field name="lang"/>
-                    <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}"/>
+                    <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}"/>
                 </label>
                 
                 <!-- Remove fax -->
