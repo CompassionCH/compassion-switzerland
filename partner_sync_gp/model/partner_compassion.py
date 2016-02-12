@@ -105,7 +105,7 @@ class ResPartner(models.Model):
                             partner.parent_id._get_category_names())
                         # Link with contact in GP and sync or create new
                         # contact if it doesn't exist.
-                        ref = gp.getRefContact(uid, partner.id)
+                        ref = gp.getRefContact(partner.id)
                         if ref < 0:
                             ref = str(gp.nextRef())
                         vals['ref'] = ref
