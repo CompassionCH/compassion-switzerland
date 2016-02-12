@@ -15,6 +15,9 @@ from openerp import api, models, _
 class contracts(models.Model):
     _inherit = 'recurring.contract'
 
+    ##########################################################################
+    #                             FIELDS METHODS                             #
+    ##########################################################################
     @api.model
     def _get_gmc_states(self):
         """ Adds a new gmc state for tracking sponsorships for which we have
@@ -26,6 +29,9 @@ class contracts(models.Model):
             ('depart', _('Child Departed')),
             ('transfer', _('Child Transfer'))]
 
+    ##########################################################################
+    #                             PUBLIC METHODS                             #
+    ##########################################################################
     @api.multi
     def new_biennial(self):
         """ Called when new picture and new case study is available. """
@@ -47,6 +53,9 @@ class contracts(models.Model):
             return self.write({'gmc_state': event.lower()})
         return True
 
+    ##########################################################################
+    #                             VIEW CALLBACKS                             #
+    ##########################################################################
     @api.model
     def button_reset_gmc_state(self, value):
         """ Button called from Kanban view on all contracts of one group. """
@@ -71,6 +80,25 @@ class contracts(models.Model):
         self.env.invalidate_all()
         return True
 
+    ##########################################################################
+    #                            WORKFLOW METHODS                            #
+    ##########################################################################
+    @api.multi
+    def contract_active(self):
+        """ Hook for doing something when contract is activated.
+        Update partner to add the 'Sponsor' category
+        """
+        super(contracts, self).contract_active()
+        sponsor_cat_id = self.env.ref(
+            'partner_compassion.res_partner_category_sponsor').id
+        sponsorships = self.filtered(lambda c: 'S' in c.type)
+        add_sponsor_vals = {'category_id': [(4, sponsor_cat_id)]}
+        sponsorships.mapped('partner_id').write(add_sponsor_vals)
+        sponsorships.mapped('correspondant_id').write(add_sponsor_vals)
+
+    ##########################################################################
+    #                             PRIVATE METHODS                            #
+    ##########################################################################
     def _get_invoice_lines_to_clean(self, since_date, to_date):
         """ For LSV/DD contracts, don't clean invoices that are in a
             Payment Order.
@@ -95,3 +123,43 @@ class contracts(models.Model):
 
         return invoice_lines.filtered(
             lambda ivl: ivl.invoice_id not in lsv_dd_invoices)
+
+    @api.multi
+    def _on_sponsorship_finished(self):
+        """ Called when a sponsorship is terminated or cancelled:
+            Remove sponsor category if sponsor has no other active
+            sponsorships.
+        """
+        super(contracts, self)._on_sponsorship_finished()
+        sponsor_cat_id = self.env.ref(
+            'partner_compassion.res_partner_category_sponsor').id
+        old_sponsor_cat_id = self.env.ref(
+            'partner_compassion.res_partner_category_old').id
+
+        for sponsorship in self:
+            partner_id = sponsorship.partner_id.id
+            correspondant_id = sponsorship.correspondant_id.id
+            # Partner
+            contract_count = self.search_count([
+                '|',
+                ('correspondant_id', '=', partner_id),
+                ('partner_id', '=', partner_id),
+                ('state', '=', 'active'),
+                ('type', 'like', 'S')])
+            if not contract_count:
+                # Replace sponsor category by old sponsor category
+                sponsorship.partner_id.write({
+                    'category_id': [(3, sponsor_cat_id),
+                                    (4, old_sponsor_cat_id)]})
+            # Correspondant
+            contract_count = self.search_count([
+                '|',
+                ('correspondant_id', '=', correspondant_id),
+                ('partner_id', '=', correspondant_id),
+                ('state', '=', 'active'),
+                ('type', 'like', 'S')])
+            if not contract_count:
+                # Replace sponsor category by old sponsor category
+                sponsorship.correspondant_id.write({
+                    'category_id': [(3, sponsor_cat_id),
+                                    (4, old_sponsor_cat_id)]})

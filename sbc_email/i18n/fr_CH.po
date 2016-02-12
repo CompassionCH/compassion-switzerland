@@ -1,0 +1,484 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sbc_email
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-12 07:14+0000\n"
+"PO-Revision-Date: 2016-02-12 08:49+0100\n"
+"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.6.4\n"
+"Language: fr_CH\n"
+
+#. module: sbc_email
+#: model:email.template,body_html:sbc_email.ticket_block_original
+msgid ""
+"\n"
+"                We would like to change the preference of supporter with "
+"constituent id {supporter} : the supporter doesn't want to receive the "
+"original letters from its children anymore. Can you please make the change? "
+"Thanks.\n"
+"            "
+msgstr ""
+"\n"
+"                We would like to change the preference of supporter with "
+"constituent id {supporter} : the supporter doesn't want to receive the "
+"original letters from its children anymore. Can you please make the change? "
+"Thanks.\n"
+"            "
+
+#. module: sbc_email
+#: model:email.template,body_html:sbc_email.ticket_change_language
+msgid ""
+"\n"
+"                We would like to change the preferred language of commitment "
+"{supporter} - {child}: the preferred language should be {language}. Can you "
+"please make the change? Thanks.\n"
+"            "
+msgstr ""
+"\n"
+"                We would like to change the preferred language of commitment "
+"{supporter} - {child}: the preferred language should be {language}. Can you "
+"please make the change? Thanks.\n"
+"            "
+
+#. module: sbc_email
+#: model:email.template,body_html:sbc_email.change_system_fr
+msgid ""
+"<p>Nous nous réjouissons de vous transmettre, ci-joint, une nouvelle lettre "
+"de {child} !</p>\n"
+"                <br/>\n"
+"                <p>Téléchargez votre lettre en cliquant sur ce lien: <a href="
+"\"{letter_url}\">{letter_url}</a></p>\n"
+"                <br/>\n"
+"                <p>Avez-vous remarqué une différence? Cette lettre est la "
+"toute première depuis que nous avons instauré le nouveau système "
+"d'acheminement du courrier. Ce que vous voyez est une numérisation de ce que "
+"{child} a écrit. Si vous le désirez, nous pouvons imprimer le document dans "
+"notre bureau et vous le transmettre par poste. Veuillez nous contacter pour "
+"nous le signaler.</p>\n"
+"                <br/>\n"
+"                <p>Grâce à ces changements, quelques semaines suffisent "
+"dorénavant pour qu'un courrier soit remis à son destinataire. Nous espérons "
+"que cela facilitera les échanges avec {child}, et que cela soit une "
+"motivation pour écrire régulièrement et approfondir votre relation. De votre "
+"côté, vous pouvez écrire en ligne sur notre site internet sous la rubrique "
+"écrire.</p>\n"
+"                <br/>\n"
+"                <p>N'hésitez pas à prendre contact avec nous pour toute "
+"question face à ces modifications!</p>\n"
+"                <br/>\n"
+"                <p>Nous vous souhaitons une très bonne lecture!</p>\n"
+"            "
+msgstr ""
+"<p>Nous nous réjouissons de vous transmettre, ci-joint, une nouvelle lettre "
+"de {child} !</p>\n"
+"                <br/>\n"
+"                <p>Téléchargez votre lettre en cliquant sur ce lien: <a href="
+"\"{letter_url}\">{letter_url}</a></p>\n"
+"                <br/>\n"
+"                <p>Avez-vous remarqué une différence? Cette lettre est la "
+"toute première depuis que nous avons instauré le nouveau système "
+"d'acheminement du courrier. Ce que vous voyez est une numérisation de ce que "
+"{child} a écrit. Si vous le désirez, nous pouvons imprimer le document dans "
+"notre bureau et vous le transmettre par poste. Veuillez nous contacter pour "
+"nous le signaler.</p>\n"
+"                <br/>\n"
+"                <p>Grâce à ces changements, quelques semaines suffisent "
+"dorénavant pour qu'un courrier soit remis à son destinataire. Nous espérons "
+"que cela facilitera les échanges avec {child}, et que cela soit une "
+"motivation pour écrire régulièrement et approfondir votre relation. De votre "
+"côté, vous pouvez écrire en ligne sur notre site internet sous la rubrique "
+"écrire.</p>\n"
+"                <br/>\n"
+"                <p>N'hésitez pas à prendre contact avec nous pour toute "
+"question face à ces modifications!</p>\n"
+"                <br/>\n"
+"                <p>Nous vous souhaitons une très bonne lecture!</p>\n"
+"            "
+
+#. module: sbc_email
+#: model:email.template,body_html:sbc_email.new_letter_fr
+msgid ""
+"<p>Nous nous réjouissons de vous transmettre, ci-joint, une nouvelle lettre "
+"de {child} !</p>\n"
+"                <br/>\n"
+"                <p>Téléchargez votre lettre en cliquant sur ce lien: <a href="
+"\"{letter_url}\">{letter_url}</a></p>\n"
+"                <br/>\n"
+"                <p>Si vous le désirez, nous pouvons imprimer le document "
+"dans notre bureau et vous le transmettre par poste. Veuillez nous contacter "
+"pour nous le signaler.</p>\n"
+"                <br/>\n"
+"                <p>De votre côté, vous pouvez écrire en ligne sur notre site "
+"internet sous la rubrique écrire.</p>\n"
+"                <br/>\n"
+"                <p>N'hésitez pas à prendre contact avec nous pour toute "
+"question relative aux échanges de courriers!</p>\n"
+"                <br/>\n"
+"                <p>Nous vous souhaitons une très bonne lecture!</p>\n"
+"            "
+msgstr ""
+"<p>Nous nous réjouissons de vous transmettre, ci-joint, une nouvelle lettre "
+"de {child} !</p>\n"
+"                <br/>\n"
+"                <p>Téléchargez votre lettre en cliquant sur ce lien: <a href="
+"\"{letter_url}\">{letter_url}</a></p>\n"
+"                <br/>\n"
+"                <p>Si vous le désirez, nous pouvons imprimer le document "
+"dans notre bureau et vous le transmettre par poste. Veuillez nous contacter "
+"pour nous le signaler.</p>\n"
+"                <br/>\n"
+"                <p>De votre côté, vous pouvez écrire en ligne sur notre site "
+"internet sous la rubrique écrire.</p>\n"
+"                <br/>\n"
+"                <p>N'hésitez pas à prendre contact avec nous pour toute "
+"question relative aux échanges de courriers!</p>\n"
+"                <br/>\n"
+"                <p>Nous vous souhaitons une très bonne lecture!</p>\n"
+"            "
+
+#. module: sbc_email
+#: model:email.template,body_html:sbc_email.change_system_it
+msgid ""
+"<p>Siamo grati di trasmettervi allegato a questa lettera, una nuova lettera "
+"di {child}.</p>\n"
+"                <br/>\n"
+"                <p>Download link: <a href=\"{letter_url}\">{letter_url}</a></"
+"p>\n"
+"                <br/>\n"
+"                <p>Avete Notato una differenza? Questa lettera è la prima da "
+"quando abbiamo avviato il nuovo sistema di inoltro della corrispondenza. "
+"Quello che vedete è una scannerizzazione di quello che ha scritto. Se lo "
+"desiderate, possiamo stampare il documento nel nostro ufficio e "
+"trasmettervelo per posta. Vi preghiamo, in questo caso, di contattarci per "
+"segnalarcelo.</p>\n"
+"                <br/>\n"
+"                <p>Grazie a questi cambiamenti, poche settimane saranno "
+"sufficienti per la consegna della posta al destinatario. Speriamo che questo "
+"nuovo metodo possa facilitare gli scambi con il bambino che sostenete, e che "
+"possa essere una motivazione per scrivere regolarmente e approfondire la "
+"vostra relazione. Dalla vostra parte, potete scrivere online al bambino, sul "
+"nostro sito internet nella rubrica “scrivere”. </p>\n"
+"                <br/>\n"
+"                <p>Non esitate a contattarci per ogni domanda riguardo "
+"queste modifiche.</p>\n"
+"            "
+msgstr ""
+"<p>Siamo grati di trasmettervi allegato a questa lettera, una nuova lettera "
+"di {child}.</p>\n"
+"                <br/>\n"
+"                <p>Download link: <a href=\"{letter_url}\">{letter_url}</a></"
+"p>\n"
+"                <br/>\n"
+"                <p>Avete Notato una differenza? Questa lettera è la prima da "
+"quando abbiamo avviato il nuovo sistema di inoltro della corrispondenza. "
+"Quello che vedete è una scannerizzazione di quello che ha scritto. Se lo "
+"desiderate, possiamo stampare il documento nel nostro ufficio e "
+"trasmettervelo per posta. Vi preghiamo, in questo caso, di contattarci per "
+"segnalarcelo.</p>\n"
+"                <br/>\n"
+"                <p>Grazie a questi cambiamenti, poche settimane saranno "
+"sufficienti per la consegna della posta al destinatario. Speriamo che questo "
+"nuovo metodo possa facilitare gli scambi con il bambino che sostenete, e che "
+"possa essere una motivazione per scrivere regolarmente e approfondire la "
+"vostra relazione. Dalla vostra parte, potete scrivere online al bambino, sul "
+"nostro sito internet nella rubrica “scrivere”. </p>\n"
+"                <br/>\n"
+"                <p>Non esitate a contattarci per ogni domanda riguardo "
+"queste modifiche.</p>\n"
+"            "
+
+#. module: sbc_email
+#: model:email.template,body_html:sbc_email.new_letter_it
+msgid ""
+"<p>Siamo grati di trasmettervi allegato a questa lettera, una nuova lettera "
+"di {child}.</p>\n"
+"                <br/>\n"
+"                <p>Download link: <a href=\"{letter_url}\">{letter_url}</a></"
+"p>\n"
+"                <br/>\n"
+"                <p>Se lo desiderate, possiamo stampare il documento nel "
+"nostro ufficio e trasmettervelo per posta. Vi preghiamo, in questo caso, di "
+"contattarci per segnalarcelo.</p>\n"
+"                <br/>\n"
+"                <p>Dalla vostra parte, potete scrivere online al bambino, "
+"sul nostro sito internet nella rubrica “scrivere”.</p>\n"
+"                <br/>\n"
+"                <p>Non esitate a contattarci per ogni domanda riguardo "
+"queste modifiche.</p>\n"
+"            "
+msgstr ""
+"<p>Siamo grati di trasmettervi allegato a questa lettera, una nuova lettera "
+"di {child}.</p>\n"
+"                <br/>\n"
+"                <p>Download link: <a href=\"{letter_url}\">{letter_url}</a></"
+"p>\n"
+"                <br/>\n"
+"                <p>Se lo desiderate, possiamo stampare il documento nel "
+"nostro ufficio e trasmettervelo per posta. Vi preghiamo, in questo caso, di "
+"contattarci per segnalarcelo.</p>\n"
+"                <br/>\n"
+"                <p>Dalla vostra parte, potete scrivere online al bambino, "
+"sul nostro sito internet nella rubrica “scrivere”.</p>\n"
+"                <br/>\n"
+"                <p>Non esitate a contattarci per ogni domanda riguardo "
+"queste modifiche.</p>\n"
+"            "
+
+#. module: sbc_email
+#: model:email.template,body_html:sbc_email.ticket_send_original
+msgid ""
+"<p>We would like to change the preference of supporter with constituent id "
+"{supporter} : the supporter wants to receive the original letters from its "
+"children.</p>\n"
+"                <p>Can you please make the change? Thanks</p>\n"
+"            "
+msgstr ""
+"<p>We would like to change the preference of supporter with constituent id "
+"{supporter} : the supporter wants to receive the original letters from its "
+"children.</p>\n"
+"                <p>Can you please make the change? Thanks</p>\n"
+"            "
+
+#. module: sbc_email
+#: model:email.template,body_html:sbc_email.change_system_de
+msgid ""
+"<p>Wir freuen uns, Ihnen im Anhang einen neuen Brief von Ihrem Patenkind "
+"{child} zu senden.</p>\n"
+"                <br/>\n"
+"                <p>Download link: <a href=\"{letter_url}\">{letter_url}</a></"
+"p>\n"
+"                <br/>\n"
+"                <p>Ist Ihnen etwas aufgefallen? Wir haben ein neues System "
+"der Postsendung eingeführt und Sie erhalten heute den ersten Brief. Und zwar "
+"ist es ein Scan des Briefes von {child}, den wir direkt vom Land Ihres "
+"Patenkindes per E-Mail bekommen haben.</p>\n"
+"                <br/>\n"
+"                <p>Wenn Sie möchten, können wir Ihnen den Brief in unserem "
+"Büro ausdrucken und Ihnen per Post zuschicken. In diesem Fall bitten wir Sie "
+"uns zu kontaktieren. Sie können ebenfalls über unsere Website die Briefe "
+"online schreiben: www.compassion.ch / „Schreiben“.</p>\n"
+"                <br/>\n"
+"                <p>Dank diesen Änderungen werden Briefe in nur einigen "
+"Wochen bei ihren Empfängern ankommen. Wir hoffen, dass dies den Austausch "
+"mit {child} erleichtern wird und für Sie ein Motivationsschub ist, Ihrem "
+"Patenkind regelmässig zu schreiben und Ihre Beziehung zum Kind zu vertiefen."
+"</p>\n"
+"                <br/>\n"
+"                <p>Gerne sind wir für Sie da, falls Sie Fragen betreffend "
+"diesen Änderungen haben.</p>\n"
+"                <br/>\n"
+"                <p>Wir wünschen Ihnen viel Spass beim Lesen des Briefes "
+"Ihres Patenkindes!</p>\n"
+"            "
+msgstr ""
+"<p>Wir freuen uns, Ihnen im Anhang einen neuen Brief von Ihrem Patenkind "
+"{child} zu senden.</p>\n"
+"                <br/>\n"
+"                <p>Download link: <a href=\"{letter_url}\">{letter_url}</a></"
+"p>\n"
+"                <br/>\n"
+"                <p>Ist Ihnen etwas aufgefallen? Wir haben ein neues System "
+"der Postsendung eingeführt und Sie erhalten heute den ersten Brief. Und zwar "
+"ist es ein Scan des Briefes von {child}, den wir direkt vom Land Ihres "
+"Patenkindes per E-Mail bekommen haben.</p>\n"
+"                <br/>\n"
+"                <p>Wenn Sie möchten, können wir Ihnen den Brief in unserem "
+"Büro ausdrucken und Ihnen per Post zuschicken. In diesem Fall bitten wir Sie "
+"uns zu kontaktieren. Sie können ebenfalls über unsere Website die Briefe "
+"online schreiben: www.compassion.ch / „Schreiben“.</p>\n"
+"                <br/>\n"
+"                <p>Dank diesen Änderungen werden Briefe in nur einigen "
+"Wochen bei ihren Empfängern ankommen. Wir hoffen, dass dies den Austausch "
+"mit {child} erleichtern wird und für Sie ein Motivationsschub ist, Ihrem "
+"Patenkind regelmässig zu schreiben und Ihre Beziehung zum Kind zu vertiefen."
+"</p>\n"
+"                <br/>\n"
+"                <p>Gerne sind wir für Sie da, falls Sie Fragen betreffend "
+"diesen Änderungen haben.</p>\n"
+"                <br/>\n"
+"                <p>Wir wünschen Ihnen viel Spass beim Lesen des Briefes "
+"Ihres Patenkindes!</p>\n"
+"            "
+
+#. module: sbc_email
+#: model:email.template,body_html:sbc_email.new_letter_de
+msgid ""
+"<p>Wir freuen uns, Ihnen im Anhang einen neuen Brief von Ihrem Patenkind "
+"{child} zu senden.</p>\n"
+"                <br/>\n"
+"                <p>Download link: <a href=\"{letter_url}\">{letter_url}</a></"
+"p>\n"
+"                <br/>\n"
+"                <p>Wenn Sie möchten, können wir Ihnen den Brief in unserem "
+"Büro ausdrucken und Ihnen per Post zuschicken. In diesem Fall bitten wir Sie "
+"uns zu kontaktieren. Sie können ebenfalls über unsere Website die Briefe "
+"online schreiben: www.compassion.ch / „Schreiben“.</p>\n"
+"                <br/>\n"
+"                <p>Gerne sind wir für Sie da, falls Sie Fragen betreffend "
+"diesen Änderungen haben.</p>\n"
+"                <br/>\n"
+"                <p>Wir wünschen Ihnen viel Spass beim Lesen des Briefes "
+"Ihres Patenkindes!</p>\n"
+"            "
+msgstr ""
+"<p>Wir freuen uns, Ihnen im Anhang einen neuen Brief von Ihrem Patenkind "
+"{child} zu senden.</p>\n"
+"                <br/>\n"
+"                <p>Download link: <a href=\"{letter_url}\">{letter_url}</a></"
+"p>\n"
+"                <br/>\n"
+"                <p>Wenn Sie möchten, können wir Ihnen den Brief in unserem "
+"Büro ausdrucken und Ihnen per Post zuschicken. In diesem Fall bitten wir Sie "
+"uns zu kontaktieren. Sie können ebenfalls über unsere Website die Briefe "
+"online schreiben: www.compassion.ch / „Schreiben“.</p>\n"
+"                <br/>\n"
+"                <p>Gerne sind wir für Sie da, falls Sie Fragen betreffend "
+"diesen Änderungen haben.</p>\n"
+"                <br/>\n"
+"                <p>Wir wünschen Ihnen viel Spass beim Lesen des Briefes "
+"Ihres Patenkindes!</p>\n"
+"            "
+
+#. module: sbc_email
+#: model:email.template,subject:sbc_email.ticket_change_language
+msgid "Change commitment language preference"
+msgstr "Change commitment language preference"
+
+#. module: sbc_email
+#: model:email.template,subject:sbc_email.ticket_send_original
+msgid "Change supporter delivery preference (digital to physical)"
+msgstr "Change supporter delivery preference (digital to physical)"
+
+#. module: sbc_email
+#: model:email.template,subject:sbc_email.ticket_block_original
+msgid "Change supporter delivery preference (physical to digital)"
+msgstr "Change supporter delivery preference (physical to digital)"
+
+#. module: sbc_email
+#: model:ir.model,name:sbc_email.model_recurring_contract
+msgid "Contract for recurring invoicing"
+msgstr "Contract for recurring invoicing"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,create_uid:0
+#: field:sponsorship.templatename,create_uid:0
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,create_date:0
+#: field:sponsorship.templatename,create_date:0
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: sbc_email
+#: model:ir.actions.act_window,name:sbc_email.open_view_template_list_tree
+#: model:ir.ui.menu,name:sbc_email.menu_sendgrid_template_list
+msgid "Email Language Templates"
+msgstr "Modèles e-mail"
+
+#. module: sbc_email
+#: model:ir.model,name:sbc_email.model_sponsorship_correspondence
+msgid "Email Thread"
+msgstr "Email Thread"
+
+#. module: sbc_email
+#: field:sponsorship.correspondence,email_id:0
+msgid "Email id"
+msgstr "Email id"
+
+#. module: sbc_email
+#: model:ir.ui.menu,name:sbc_email.menu_mail_mail
+#: view:sponsorship.templatelist:sbc_email.view_template_list_tree
+msgid "Emails"
+msgstr "Emails"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,id:0 field:sponsorship.templatename,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,intro:0
+msgid "Intro"
+msgstr "Intro"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,lang:0
+msgid "Lang"
+msgstr "Langue"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,write_uid:0
+#: field:sponsorship.templatename,write_uid:0
+msgid "Last Updated by"
+msgstr "Modifié par"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,write_date:0
+#: field:sponsorship.templatename,write_date:0
+msgid "Last Updated on"
+msgstr "Modifié le"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,layout_template_id:0
+msgid "Layout template id"
+msgstr "Gabarit"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,name_id:0
+#: field:sponsorship.templatename,name:0
+msgid "Name"
+msgstr "Nom"
+
+#. module: sbc_email
+#: model:ir.model,name:sbc_email.model_res_partner
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: sbc_email
+#: field:sponsorship.correspondence,email_sent_date:0
+msgid "Sent date"
+msgstr "Envoyé"
+
+#. module: sbc_email
+#: model:email.template,subject:sbc_email.change_system_de
+#: model:email.template,subject:sbc_email.new_letter_de
+msgid "Sie haben einen neuen Brief von {child} erhalten!!"
+msgstr "Sie haben einen neuen Brief von {child} erhalten!!"
+
+#. module: sbc_email
+#: view:sponsorship.templatelist:sbc_email.view_template_list_form
+msgid "Templates"
+msgstr "Modèles"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,text_template_id:0
+msgid "Text template id"
+msgstr "Modèles de texte"
+
+#. module: sbc_email
+#: field:sponsorship.templatelist,tweet:0
+msgid "Tweet"
+msgstr "Tweet"
+
+#. module: sbc_email
+#: model:email.template,subject:sbc_email.change_system_it
+#: model:email.template,subject:sbc_email.new_letter_it
+msgid "Una nuova lettera del vostro bambino è arrivata!"
+msgstr "Una nuova lettera del vostro bambino è arrivata!"
+
+#. module: sbc_email
+#: model:email.template,subject:sbc_email.change_system_fr
+#: model:email.template,subject:sbc_email.new_letter_fr
+msgid "Une nouvelle lettre de {child} est arrivée !"
+msgstr "Une nouvelle lettre de {child} est arrivée !"
