@@ -16,7 +16,7 @@
                 <!-- Move title field and add it in inner contact form -->
                 <field name="title" position="replace"/>
                 <field name="lastname" position="before">
-                    <field name="title" required="1"/>
+                    <field name="title" attrs="{'required': [('is_company', '=', False)]}"/>
                 </field>
                 <xpath expr="//form[@string='Contact']/sheet//field[@name='lastname']" position="before">
                     <field name="title" />
@@ -115,7 +115,7 @@
                 <!-- Move reference field -->
                 <field name="parent_id" position="after">
                     <label for="ref"/>
-                    <field name="ref" readonly="1"/>
+                    <field name="ref" readonly="1" required="0"/>
                 </field>
                 
                 <!-- Move lang field -->

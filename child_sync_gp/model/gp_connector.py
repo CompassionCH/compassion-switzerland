@@ -16,6 +16,7 @@ from openerp.addons.mysql_connector.model.mysql_connector \
 from datetime import datetime
 from smb.SMBConnection import SMBConnection
 import logging
+import sys
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +87,9 @@ class GPConnect(mysql_connector):
 
     def upsert_project(self, uid, project):
         """Update a given Compassion project in GP."""
+        # Solve the encoding problems on child's descriptions
+        reload(sys)
+        sys.setdefaultencoding('UTF8')
         closest_city = project.distance_from_closest_city_ids and \
             project.distance_from_closest_city_ids[0]
 
