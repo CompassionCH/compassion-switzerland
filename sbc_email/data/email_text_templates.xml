@@ -174,7 +174,7 @@
         </record>
         <record id="first_letter_template_de" model="sponsorship.templatelist">
             <field name="name_id" ref="first_letter_templatename"/>
-            <field name="lang">de_CH</field>
+            <field name="lang">de_DE</field>
             <field name="layout_template_id" ref="general_de"/>
             <field name="text_template_id" ref="change_system_de"/>
         </record>
@@ -195,7 +195,7 @@
         </record>
         <record id="new_letter_template_de" model="sponsorship.templatelist">
             <field name="name_id" ref="new_letter_templatename"/>
-            <field name="lang">de_CH</field>
+            <field name="lang">de_DE</field>
             <field name="layout_template_id" ref="general_de"/>
             <field name="text_template_id" ref="new_letter_de"/>
         </record>

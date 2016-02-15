@@ -60,7 +60,8 @@ class SponsorshipCorrespondence(models.Model):
             })
             # Automatically send letters, except for the first one
             if not self.is_first_letter and self.destination_language_id in \
-                    self.supporter_languages_ids:
+                    self.supporter_languages_ids and \
+                    self.sponsorship_id.state == 'active':
                 self.email_id.send_sendgrid()
 
     def get_image(self, user=None):
