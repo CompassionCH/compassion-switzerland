@@ -46,18 +46,25 @@ class RecurringContract(models.Model):
         """
         for contract in self:
             text_template = self.env.ref('sbc_email.ticket_change_language')
-            # Create and send email
-            self.env['mail.mail'].create({
-                'email_to': TICKET_TO,
-                'email_from': TICKET_FROM,
-                'cc_address': TICKET_CC,
-                'text_template_id': text_template.id,
-                'substitution_ids': [
-                    (0, False, {'key': 'supporter',
-                                'value': contract.partner_codega}),
-                    (0, False, {'key': 'child',
-                                'value': contract.child_code}),
-                    (0, False, {'key': 'language',
-                                'value': contract.reading_language.name}),
-                ],
-            }).send_sendgrid()
+            change_text = '<p>{},{},{}</p>'.format(
+                contract.partner_codega,
+                contract.child_code,
+                contract.reading_language.name)
+            # Find outgoing email
+            email_obj = self.env['mail.mail']
+            email = email_obj.search([
+                ('text_template_id', '=', text_template.id),
+                ('state', '=', 'outgoing')])
+            if not email:
+                # Create email
+                email = email_obj.create({
+                    'email_to': TICKET_TO,
+                    'email_from': TICKET_FROM,
+                    'cc_address': TICKET_CC,
+                    'text_template_id': text_template.id,
+                    'substitution_ids': [
+                        (0, False, {'key': 'changes', 'value': ''}),
+                    ],
+                })
+            content = email.substitution_ids[0]
+            content.value = content.value + change_text

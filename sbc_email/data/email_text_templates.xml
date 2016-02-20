@@ -135,8 +135,12 @@
             <field name="name">[TICKET] Change commitment language preference</field>
             <field name="model_id" search="[('model','=','sendgrid.email')]"/>
             <field name="subject">Change commitment language preference</field>
-            <field name="body_html">
-                We would like to change the preferred language of commitment {supporter} - {child}: the preferred language should be {language}. Can you please make the change? Thanks.
+            <field name="body_html" type="html">
+                <p>We would like to change the Supporter Correspondence Language of the following commitments (supportedId,childId,language):</p>
+                <br/>
+                <div>{changes}</div>
+                <br/>
+                <p>Can you please make the change? Thanks.</p>
             </field>
         </record>
 
