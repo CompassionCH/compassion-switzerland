@@ -35,16 +35,6 @@ class ResPartner(models.Model):
         partner = super(ResPartner, self).create(vals)
         return partner.id
 
-    @api.multi
-    def gp_write(self, vals):
-        """ Simple write method that skips MySQL insertion, since it is
-        called from GP in order to export the addresses, and to cast
-        integers which are not properly passed by GP. """
-        for key in vals.iterkeys():
-            if key.endswith('_id'):
-                vals[key] = int(vals[key])
-        return super(ResPartner, self).write(vals)
-
     @api.model
     def create(self, vals):
         """ We override the create method so that each partner creation will
