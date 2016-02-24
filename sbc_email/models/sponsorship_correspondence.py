@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api
 
 
 class SponsorshipCorrespondence(models.Model):
@@ -30,34 +30,25 @@ class SponsorshipCorrespondence(models.Model):
         super(SponsorshipCorrespondence, self).process_letter()
         partner = self.correspondant_id
         if partner.email and partner.delivery_preference == 'digital':
+            template = False
             if self.partner_needs_explanations():
-                template_name = self.env.ref(
-                    'sbc_email.first_letter_templatename')
+                template = self.env.ref('sbc_email.change_system')
             else:
-                template_name = self.env.ref(
-                    'sbc_email.new_letter_templatename')
+                template = self.env.ref('sbc_email.new_letter')
 
-            template = self.env['sponsorship.templatelist'].search([
-                ('name_id', '=', template_name.id),
-                ('lang', '=', partner.lang)])
-            child = self.child_id.firstname
-            # Create and send email
-            email_obj = self.env['mail.mail']
-            self.email_id = email_obj.create({
-                'email_from': email_obj.get_default_from(),
-                'reply_to': False,
-                'email_to': partner.email,
-                'layout_template_id': template.layout_template_id.id,
-                'text_template_id': template.text_template_id.id,
-                'substitution_ids': [
-                    (0, _, {'key': 'child', 'value': child}),
-                    (0, _, {'key': 'letter_url', 'value': self.read_url}),
-                    (0, _, {'key': 'intro', 'value': template.intro or ''}),
-                    (0, _, {'key': 'tweet', 'value': template.tweet or ''}),
-                ],
-                'model': 'res.partner',
-                'res_id': self.correspondant_id.id,
-            })
+            # Create email
+            from_address = self.env['ir.config_parameter'].get_param(
+                'sbc_email.from_address')
+            self.email_id = self.env['mail.compose.message'].with_context(
+                lang=partner.lang).create_emails(
+                    template, self.id, {
+                        'email_to': partner.email,
+                        'email_from': from_address
+                    })
+            # Add message in partner
+            self.correspondant_id.write({
+                'message_ids': [(4, self.email_id.mail_message_id.id)]})
+
             # Automatically send letters, except for the first one
             if not self.is_first_letter and self.destination_language_id in \
                     self.supporter_languages_ids and \

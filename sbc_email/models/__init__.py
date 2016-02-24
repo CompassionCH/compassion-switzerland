@@ -9,7 +9,5 @@
 #
 ##############################################################################
 from . import sponsorship_correspondence
-from . import template_list
-from . import template_name
 from . import contracts
 from . import partner_compassion

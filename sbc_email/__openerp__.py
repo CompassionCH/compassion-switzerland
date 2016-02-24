@@ -32,11 +32,10 @@
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sbc_compassion', 'sendgrid'],
+    'depends': ['sbc_compassion', 'mail_sendgrid'],
     'data': [
-        'security/ir.model.access.csv',
-        'views/template_list_view.xml',
         'data/email_text_templates.xml',
+        'views/sbc_email_view.xml',
     ],
     'demo': [],
     'installable': True,

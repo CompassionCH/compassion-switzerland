@@ -27,7 +27,7 @@ class RecurringContract(models.Model):
         german = self.env.ref('sbc_compassion.lang_compassion_german')
         for contract in self:
             if contract.reading_language != german:
-                contract._send_ticket()
+                contract.sudo(contract.create_uid)._send_ticket()
         return res
 
     @api.multi
@@ -45,26 +45,26 @@ class RecurringContract(models.Model):
         """ Send ticket to GMC for changing sponsorship language.
         """
         for contract in self:
-            text_template = self.env.ref('sbc_email.ticket_change_language')
-            change_text = '<p>{},{},{}</p>'.format(
+            template = self.env.ref('sbc_email.ticket_change_language')
+            change_text = '<p>{},{},{}</p><br/>'.format(
                 contract.partner_codega,
                 contract.child_code,
                 contract.reading_language.name)
             # Find outgoing email
             email_obj = self.env['mail.mail']
             email = email_obj.search([
-                ('text_template_id', '=', text_template.id),
+                ('subject', '=', template.subject),
                 ('state', '=', 'outgoing')])
             if not email:
                 # Create email
-                email = email_obj.create({
-                    'email_to': TICKET_TO,
-                    'email_from': TICKET_FROM,
-                    'cc_address': TICKET_CC,
-                    'text_template_id': text_template.id,
-                    'substitution_ids': [
-                        (0, False, {'key': 'changes', 'value': ''}),
-                    ],
-                })
+                email = self.env['mail.compose.message'].create_emails(
+                    template, contract.id, {
+                        'email_to': TICKET_TO,
+                        'email_from': TICKET_FROM,
+                        'email_cc': TICKET_CC,
+                        'substitution_ids': [
+                            (0, False, {'key': '{changes}', 'value': ''}),
+                        ]
+                    })
             content = email.substitution_ids[0]
             content.value = content.value + change_text

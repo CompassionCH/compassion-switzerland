@@ -8,11 +8,4 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-
-from openerp import models, fields
-
-
-class TemplateName(models.Model):
-    _name = 'sponsorship.templatename'
-
-    name = fields.Char()
+from . import mail_compose_message

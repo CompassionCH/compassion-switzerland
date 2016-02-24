@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Add Emails entry in Sponsorship Settings-->
+        <menuitem name="Emails" id="menu_mail_mail" parent="child_compassion.menu_configuration" action="mail.action_view_mail_mail" sequence="2"/>
+        
+        <!-- Change tree view of e-mails -->
+        <record model="ir.ui.view" id="view_mail_tree">
+            <field name="name">mail.mail.tree.compassion</field>
+            <field name="model">mail.mail</field>
+            <field name="inherit_id" ref="mail.view_mail_tree"/>
+            <field name="arch" type="xml">
+                <tree string="Emails" position="attributes">
+                    <attribute name="colors">grey:state in ('received', 'cancel');blue:state=='outgoing';red:state=='exception';black:state=='sent'</attribute>
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>
