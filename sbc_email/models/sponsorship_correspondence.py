@@ -39,10 +39,14 @@ class SponsorshipCorrespondence(models.Model):
             # Create email
             from_address = self.env['ir.config_parameter'].get_param(
                 'sbc_email.from_address')
+            to_address = partner.email
+            # EXCEPTION FOR DEMAUREX : send to Delafontaine
+            if partner.ref == '1502623':
+                to_address = 'eric.delafontaine@aligro.ch'
             self.email_id = self.env['mail.compose.message'].with_context(
                 lang=partner.lang).create_emails(
                     template, self.id, {
-                        'email_to': partner.email,
+                        'email_to': to_address,
                         'email_from': from_address
                     })
             # Add message in partner
