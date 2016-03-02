@@ -71,7 +71,7 @@ class Account_Banking_Mandate(models.Model):
         return True
 
     @api.multi
-    def back2draft(self, cr, uid, ids, context=None):
+    def back2draft(self):
         """
         Override function to notify cancellation in a message on partner feed
         """
@@ -83,7 +83,7 @@ class Account_Banking_Mandate(models.Model):
         return True
 
     @api.multi
-    def unlink(self, cr, uid, ids, context):
+    def unlink(self):
         """
         Override function to notify removal in a message on partner feed
         """
