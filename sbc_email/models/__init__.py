@@ -11,3 +11,4 @@
 from . import sponsorship_correspondence
 from . import contracts
 from . import partner_compassion
+from . import email
