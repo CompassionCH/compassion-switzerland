@@ -10,11 +10,11 @@
 ##############################################################################
 import pdb
 
-from openerp import models, fields, api
+from openerp import models, api
 
 
 class SponsorshipCorrespondence(models.Model):
-    """ This class intecept a letter befor it can be sending and sending 
+    """ This class intecept a letter befor it can be sending and sending
     to local translate plateforme"""
 
     _inherit = 'sponsorship.correspondence'
