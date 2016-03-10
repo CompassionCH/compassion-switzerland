@@ -15,8 +15,9 @@ from openerp import models, fields, api
 class SponsorshipCorrespondence(models.Model):
     _inherit = 'sponsorship.correspondence'
 
-    email_id = fields.Many2one('mail.mail')
+    email_id = fields.Many2one('mail.mail', 'E-mail')
     email_sent_date = fields.Datetime(
+        'E-mail sent',
         related='email_id.sent_date', store=True)
 
     ##########################################################################
@@ -29,7 +30,8 @@ class SponsorshipCorrespondence(models.Model):
         """
         super(SponsorshipCorrespondence, self).process_letter()
         partner = self.correspondant_id
-        if partner.email and partner.delivery_preference == 'digital':
+        if partner.email and partner.delivery_preference == 'digital' and not\
+                self.email_id:
             template = False
             if self.partner_needs_explanations():
                 template = self.env.ref('sbc_email.change_system')
@@ -37,22 +39,21 @@ class SponsorshipCorrespondence(models.Model):
                 template = self.env.ref('sbc_email.new_letter')
 
             # Create email
-            from_address = self.env['ir.config_parameter'].get_param(
-                'sbc_email.from_address')
+            email_vals = {
+                'email_from': self.env['ir.config_parameter'].get_param(
+                    'sbc_email.from_address'),
+                'recipient_ids': [(4, partner.id)],
+            }
+            # EXCEPTION FOR DEMAUREX : send to Delafontaine
+            if partner.ref == '1502623':
+                email_vals['email_to'] = 'eric.delafontaine@aligro.ch'
+                del email_vals['recipient_ids']
+
             self.email_id = self.env['mail.compose.message'].with_context(
                 lang=partner.lang).create_emails(
-                    template, self.id, {
-                        'email_to': partner.email,
-                        'email_from': from_address
-                    })
-            # Add message in partner
-            self.correspondant_id.write({
-                'message_ids': [(4, self.email_id.mail_message_id.id)]})
+                template, self.id, email_vals)
 
-            # Automatically send letters, except for the first one
-            if not self.is_first_letter and self.destination_language_id in \
-                    self.supporter_languages_ids and \
-                    self.sponsorship_id.state == 'active':
+            if self._can_auto_send():
                 self.email_id.send_sendgrid()
 
     def get_image(self, user=None):
@@ -82,3 +83,18 @@ class SponsorshipCorrespondence(models.Model):
             ('direction', '=', 'Beneficiary To Supporter'),
             ('id', '!=', self.id)])
         return (activation_date < transition_date and not other_letters)
+
+    ##########################################################################
+    #                             PRIVATE METHODS                            #
+    ##########################################################################
+    def _can_auto_send(self):
+        """ Tells if we can automatically send the letter by e-mail or should
+        require manual validation before.
+        """
+        self.ensure_one()
+        valid = not self.is_first_letter and self.destination_language_id in \
+            self.supporter_languages_ids and \
+            self.sponsorship_id.state == 'active'
+        if self.destination_language_id != self.original_language_id:
+            valid = valid and self.translated_text
+        return valid
