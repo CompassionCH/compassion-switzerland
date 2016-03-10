@@ -8,14 +8,14 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-import pdb
 
 from openerp import models, api
 
 
 class SponsorshipCorrespondence(models.Model):
-    """ This class intecept a letter befor it can be sending and sending
-    to local translate plateforme"""
+    """ This class intecepts a letter before it is sent to GMC.
+        Letters are pushed to local translation platform if needed.
+        """
 
     _inherit = 'sponsorship.correspondence'
 
@@ -24,13 +24,15 @@ class SponsorshipCorrespondence(models.Model):
     ##########################################################################
     @api.model
     def create(self, vals):
-        """ Create a message for sending the CommKit. """
-        pdb.set_trace()
+        """ Create a message for sending the CommKit only if the preferred
+            language is the same as the letter's language else send the letter
+            on the local translate plaforme.
+            """
+
         sponsorship = self.env['recurring.contract'].browse(
             vals['sponsorship_id'])
         if sponsorship.reading_language.id == vals['original_language_id']:
-            letter = super(SponsorshipCorrespondence, self.with_context(
-                no_comm_kit=False)).create(vals)
+            letter = super(SponsorshipCorrespondence, self).create(vals)
         else:
             letter = super(SponsorshipCorrespondence, self.with_context(
                 no_comm_kit=True)).create(vals)
