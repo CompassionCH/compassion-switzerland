@@ -46,7 +46,7 @@ class RecurringContract(models.Model):
         """
         for contract in self:
             template = self.env.ref('sbc_email.ticket_change_language')
-            change_text = '<p>{},{},{}</p><br/>'.format(
+            change_text = '{},{},{}<br/>'.format(
                 contract.partner_codega,
                 contract.child_code,
                 contract.reading_language.name)
