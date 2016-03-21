@@ -9,3 +9,4 @@
 #
 ##############################################################################
 from . import sponsorship_correspondence
+from . import translate_connector
