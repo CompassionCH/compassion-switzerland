@@ -34,7 +34,7 @@
     'maintainer': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['onramp_compassion'],
-    'data': [],
+    'data': ['data/nas_parameters.xml'],
     'demo': [],
     'test': [],
     'installable': True,
