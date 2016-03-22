@@ -25,7 +25,7 @@ class TranslateConnect(mysql_connector):
                                                'mysql_translate_user',
                                                'mysql_translate_pw',
                                                'mysql_translate_db')
-        self.current_time =datetime.datetime.now()
+        self.current_time = datetime.datetime.now()
 
     def upsert_text(self, sponsorship, letter):
         """Push or update text (db table) on local translate plateforme
@@ -39,6 +39,11 @@ class TranslateConnect(mysql_connector):
 
         src_lang_id = self.getLanguageId(letter.original_language_id.code_iso)
         aim_lang_id = self.getLanguageId(sponsorship.reading_language.code_iso)
+
+        priority_id = 1  # Not urgent, default
+
+        text_type_id = 2 if letter.direction == 'Supporter To Beneficiary'\
+            else 1
 
         vals = {
             'src_lang_id': src_lang_id,
@@ -56,10 +61,12 @@ class TranslateConnect(mysql_connector):
             'kid_gender': child.gender,
             'createdat': self.current_time,
             'updatedat': self.current_time,
+            'priority_id': priority_id,
+            'text_type_id': text_type_id,
         }
         return self.upsert("text", vals)
 
-    def upsert_translation(self, text_id):
+    def upsert_translation(self, text_id, letter):
         """Push or update translation (db table) on local translate plateforme
         """
 
@@ -69,6 +76,7 @@ class TranslateConnect(mysql_connector):
             'createdat': self.current_time,
             'updatedat': self.current_time,
             'toDo_id': 0,
+            'letter_odoo_id': letter.id,
         }
         return self.upsert("translation", vals)
 

@@ -64,7 +64,7 @@ class Correspondence(models.Model):
         # Insert the letter in the mysql data base
         tc = translate_connector.TranslateConnect()
         text_id = tc.upsert_text(sponsorship, letter)
-        translation_id = tc.upsert_translation(text_id)
+        translation_id = tc.upsert_translation(text_id, letter)
         # 1 is the state'id 'A traduire'
         state_id = 1
         tc.upsert_translation_status(translation_id, state_id)
@@ -91,12 +91,13 @@ class Correspondence(models.Model):
                 config_obj = self.env['ir.config_parameter']
                 nas_share_name = (config_obj.search(
                     [('key', '=', 'sbc_translation.nas_share_name')])[0]).value
-                
+
                 child = sponsorship.child_id
                 sponsor = sponsorship.partner_id
-                letter_name = "_".join((child.code, sponsor.ref, str(letter.id)))
-                letter_name = ".".join((letter_name, 'pdf'))    
-                    
+                letter_name = "_".join(
+                    (child.code, sponsor.ref, str(letter.id)))
+                letter_name = ".".join((letter_name, 'pdf'))
+
                 nas_letters_store_path = (config_obj.search(
                     [('key', '=', 'sbc_translation.nas_letters_store_path')])
                     [0]).value + letter_name
