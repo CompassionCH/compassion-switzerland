@@ -21,6 +21,8 @@ from smb.SMBConnection import SMBConnection
 import logging
 logger = logging.getLogger(__name__)
 
+import pdb
+
 
 class Correspondence(models.Model):
     """ This class intercepts a letter before it is sent to GMC.
@@ -39,9 +41,11 @@ class Correspondence(models.Model):
             language is the same as the letter's language else send the letter
             on the local translate plaforme.
             """
+        self.check_local_translation_done()
         sponsorship = self.env['recurring.contract'].browse(
             vals['sponsorship_id'])
 
+        # Check the needed languages
         letter_lang_id = vals['original_language_id']
         sponsor_lang_id = sponsorship.reading_language.id
         english_lang_id = self.env['res.lang.compassion']\
@@ -108,3 +112,29 @@ class Correspondence(models.Model):
                             .format(letter.letter_image.name))
         else:
             raise Exception('Connection to NAS failed')
+
+    def check_local_translation_done(self):
+        tc = translate_connector.TranslateConnect()
+        letters_to_update = tc.get_translated_letters()
+
+        pdb.set_trace()
+
+        if letters_to_update == -1:
+            logger.info("NO SPONSORSHIP CORRESPPONDENCE LETTERS TO UPDATE")
+        else:
+            for letter in letters_to_update:
+                # Maybe a little bad for extract the sponsorship_id...
+                sponshorship_id = letter["letter_odoo_id"]
+                logger.info("sponshorship id : {}\ntraduction {}".
+                            format(letter["letter_odoo_id"], letter["text"]))
+
+                # UPDATE Odoo Database
+                self.browse(sponshorship_id).write(
+                    {'original_text': letter["text"]})
+
+                # Send to GMC
+                action_id = self.env.ref('onramp_compassion.create_commkit').id
+                self.env['gmc.message.pool'].create({
+                    'action_id': action_id,
+                    'object_id': letter["letter_odoo_id"]
+                })

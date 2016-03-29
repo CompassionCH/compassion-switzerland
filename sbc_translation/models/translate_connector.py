@@ -28,7 +28,7 @@ class TranslateConnect(mysql_connector):
         self.current_time = datetime.datetime.now()
 
     def upsert_text(self, sponsorship, letter):
-        """Push or update text (db table) on local translate plateforme
+        """Push or update text (db table) on local translate plateform
         """
 
         child = sponsorship.child_id
@@ -37,8 +37,10 @@ class TranslateConnect(mysql_connector):
         self.letter_name = "_".join((child.code, sponsor.ref, str(letter.id)))
         child_age = datetime.date.today().year - int(child.birthdate[:4])
 
-        src_lang_id = self.getLanguageId(letter.original_language_id.code_iso)
-        aim_lang_id = self.getLanguageId(sponsorship.reading_language.code_iso)
+        src_lang_id = self.get_language_id(
+            letter.original_language_id.code_iso)
+        aim_lang_id = self.get_language_id(
+            sponsorship.reading_language.code_iso)
 
         priority_id = 1  # Not urgent, default
 
@@ -82,7 +84,7 @@ class TranslateConnect(mysql_connector):
 
     def upsert_translation_status(self, translation_id, status):
         """Push or update translation_status (db table) on local translate
-        plateforme
+        plateform
         """
 
         vals = {
@@ -93,10 +95,28 @@ class TranslateConnect(mysql_connector):
         }
         return self.upsert("translation_status", vals)
 
-    def getLanguageId(self, language_iso_code):
-        """ Returns the reference of the partner in MySQL that has"
-        id_erp pointing to the id given (returns -1 if not found). """
+    def get_language_id(self, language_iso_code):
+        """ Returns the language's id in MySQL that has  GP_Libel pointing
+         to the iso_code given (returns -1 if not found). """
         res = self.selectOne(
             "SELECT id FROM language WHERE GP_Libel LIKE '{}'"
             .format(language_iso_code))
         return res['id'] if res else -1
+
+    def get_translated_letters(self):
+        """ Returns a list for dictionaries with translation and filename
+        (sponsorship_id is in the file name...) in MySQL translation_test
+        database that has translation_status to 'Traduit" (id = 3)
+        (returns -1 if not found). """
+        res = self.selectAll(
+            #             "SELECT tr.text, tr.file FROM translation AS tr, \
+            #             translation_status AS trs WHERE trs.status_id = 3 AND \
+            #             trs.letter_odoo_is != NULL"
+            "SELECT tr.letter_odoo_id, tr.text\
+            FROM translation_status trs\
+            INNER JOIN translation tr\
+            ON trs.translation_id = tr.id\
+            WHERE tr.letter_odoo_id IS NOT NULL\
+            AND trs.status_id = 3"
+        )
+        return res if res else -1
