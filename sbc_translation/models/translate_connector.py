@@ -30,7 +30,6 @@ class TranslateConnect(mysql_connector):
     def upsert_text(self, sponsorship, letter):
         """Push or update text (db table) on local translate platform
         """
-
         child = sponsorship.child_id
         sponsor = sponsorship.partner_id
 
@@ -39,10 +38,21 @@ class TranslateConnect(mysql_connector):
 
         src_lang_id = self.get_language_id(
             letter.original_language_id.code_iso)
-        aim_lang_id = self.get_language_id(
-            sponsorship.reading_language.code_iso)
 
-        priority_id = 1  # Not urgent, default
+        # Define the target language
+        child_lang = sponsorship.child_id.project_id.country_id\
+            .spoken_lang_ids
+        # eng, fra, deu, spa, por, ita
+        translate_language = [1, 2, 3, 4, 5, 14]
+        target_language_id = list(
+            set(child_lang.ids).intersection(set(translate_language)))[-1]
+
+        # Get code iso
+        for lang in child_lang:
+            if lang.id == target_language_id:
+                code_iso = lang.code_iso
+
+        aim_lang_id = self.get_language_id(code_iso)
 
         text_type_id = 2 if letter.direction == 'Supporter To Beneficiary'\
             else 1
@@ -63,7 +73,7 @@ class TranslateConnect(mysql_connector):
             'kid_gender': child.gender,
             'createdat': self.current_time,
             'updatedat': self.current_time,
-            'priority_id': priority_id,
+            'priority_id': 1,  # Not urgent, default
             'text_type_id': text_type_id,
         }
         return self.upsert("text", vals)
@@ -82,14 +92,14 @@ class TranslateConnect(mysql_connector):
         }
         return self.upsert("translation", vals)
 
-    def upsert_translation_status(self, translation_id, status):
+    def upsert_translation_status(self, translation_id):
         """Push or update translation_status (db table) on local translate
         platform
         """
-
+        to_translate = 1
         vals = {
             'translation_id': translation_id,
-            'status_id': status,
+            'status_id': to_translate,
             'createdat': self.current_time,
             'updatedat': self.current_time,
         }
@@ -109,7 +119,11 @@ class TranslateConnect(mysql_connector):
         database that has translation_status to 'Traduit" (id = 3)
         (returns -1 if not found). """
         res = self.selectAll(
+<<<<<<< HEAD
             "SELECT tr.id, tr.letter_odoo_id, tr.text\
+=======
+            "SELECT tr.letter_odoo_id, tr.text\
+>>>>>>> 616b50f... Check and set the good destination language
             FROM translation_status trs\
             INNER JOIN translation tr\
             ON trs.translation_id = tr.id\

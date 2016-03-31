@@ -44,7 +44,7 @@ class Correspondence(models.Model):
         sponsorship = self.env['recurring.contract'].browse(
             vals['sponsorship_id'])
 
-        # Check the needed languages
+        # Get languages
         letter_lang_id = vals['original_language_id']
         sponsor_lang_id = sponsorship.reading_language.id
         english_lang_id = self.env['res.lang.compassion']\
@@ -66,11 +66,10 @@ class Correspondence(models.Model):
     def send_local_translate(self, letter, sponsorship):
         # Insert the letter in the mysql data base
         tc = translate_connector.TranslateConnect()
+        # Send letter to local translate platform
         text_id = tc.upsert_text(sponsorship, letter)
         translation_id = tc.upsert_translation(text_id, letter)
-        # 1 is the state'id 'A traduire'
-        state_id = 1
-        tc.upsert_translation_status(translation_id, state_id)
+        tc.upsert_translation_status(translation_id)
 
         # Transfert file on the NAS
 
@@ -123,7 +122,7 @@ class Correspondence(models.Model):
     def check_local_translation_done(self):
         tc = translate_connector.TranslateConnect()
         letters_to_update = tc.get_translated_letters()
-
+        
         logger.info("CRON TASK check_local_translation_done CALL")
 
         if letters_to_update == -1:
