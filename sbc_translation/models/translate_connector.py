@@ -28,7 +28,7 @@ class TranslateConnect(mysql_connector):
         self.current_time = datetime.datetime.now()
 
     def upsert_text(self, sponsorship, letter):
-        """Push or update text (db table) on local translate plateform
+        """Push or update text (db table) on local translate platform
         """
 
         child = sponsorship.child_id
@@ -69,7 +69,7 @@ class TranslateConnect(mysql_connector):
         return self.upsert("text", vals)
 
     def upsert_translation(self, text_id, letter):
-        """Push or update translation (db table) on local translate plateforme
+        """Push or update translation (db table) on local translate platform
         """
 
         vals = {
@@ -84,7 +84,7 @@ class TranslateConnect(mysql_connector):
 
     def upsert_translation_status(self, translation_id, status):
         """Push or update translation_status (db table) on local translate
-        plateform
+        platform
         """
 
         vals = {
@@ -109,10 +109,7 @@ class TranslateConnect(mysql_connector):
         database that has translation_status to 'Traduit" (id = 3)
         (returns -1 if not found). """
         res = self.selectAll(
-            #             "SELECT tr.text, tr.file FROM translation AS tr, \
-            #             translation_status AS trs WHERE trs.status_id = 3 AND \
-            #             trs.letter_odoo_is != NULL"
-            "SELECT tr.letter_odoo_id, tr.text\
+            "SELECT tr.id, tr.letter_odoo_id, tr.text\
             FROM translation_status trs\
             INNER JOIN translation tr\
             ON trs.translation_id = tr.id\
@@ -120,3 +117,22 @@ class TranslateConnect(mysql_connector):
             AND trs.status_id = 3"
         )
         return res if res else -1
+
+    def remove_from_translation_status(self, translation_id):
+        """ Delete a translation_status record for the translation_id given """
+        self.query("DELETE FROM translation_status WHERE translation_id={}"
+                   .format(translation_id))
+
+    def remove_from_translation(self, translation_id):
+        """ Delete a translation record for the translation_id given
+            Return the text_id corresponding to this record"""
+        res = self.selectOne("SELECT text_id FROM translation WHERE id={}"
+                             .format(translation_id))
+        self.query("DELETE FROM translation WHERE id={}"
+                   .format(translation_id))
+        return res['text_id']
+
+    def remove_from_text(self, text_id):
+        """ Delete a text record for the text_id given """
+        self.query("DELETE FROM text WHERE id={}"
+                   .format(text_id))

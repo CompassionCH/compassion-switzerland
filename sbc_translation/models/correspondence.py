@@ -8,6 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import sys
 import base64
 import tempfile
 
@@ -17,11 +18,10 @@ from openerp import models, api
 from openerp.tools.config import config
 
 from smb.SMBConnection import SMBConnection
+from openerp.tools.translate import _
 
 import logging
 logger = logging.getLogger(__name__)
-
-import pdb
 
 
 class Correspondence(models.Model):
@@ -41,7 +41,6 @@ class Correspondence(models.Model):
             language is the same as the letter's language else send the letter
             on the local translate plaforme.
             """
-        self.check_local_translation_done()
         sponsorship = self.env['recurring.contract'].browse(
             vals['sponsorship_id'])
 
@@ -110,27 +109,37 @@ class Correspondence(models.Model):
 
                 logger.info('File {} store on NAS with success'
                             .format(letter.letter_image.name))
+
+                ##############################################################
+                #             DOESN'T WORK !!!                               #
+                ##############################################################
+                letter.state = 'local translation on local platform'
         else:
             raise Exception('Connection to NAS failed')
 
+    # CRON Methods
+    ##############
+    @api.model
     def check_local_translation_done(self):
         tc = translate_connector.TranslateConnect()
         letters_to_update = tc.get_translated_letters()
 
-        pdb.set_trace()
+        logger.info("CRON TASK check_local_translation_done CALL")
 
         if letters_to_update == -1:
             logger.info("NO SPONSORSHIP CORRESPPONDENCE LETTERS TO UPDATE")
         else:
             for letter in letters_to_update:
-                # Maybe a little bad for extract the sponsorship_id...
-                sponshorship_id = letter["letter_odoo_id"]
+                sponsorship_id = letter["letter_odoo_id"]
+                reload(sys)
+                sys.setdefaultencoding('UTF8')
                 logger.info("sponshorship id : {}\ntraduction {}".
                             format(letter["letter_odoo_id"], letter["text"]))
 
                 # UPDATE Odoo Database
-                self.browse(sponshorship_id).write(
-                    {'original_text': letter["text"]})
+                self.browse(sponsorship_id).write(
+                    {'original_text': letter["text"], 'state':
+                     'Received in the system'})
 
                 # Send to GMC
                 action_id = self.env.ref('onramp_compassion.create_commkit').id
@@ -138,3 +147,18 @@ class Correspondence(models.Model):
                     'action_id': action_id,
                     'object_id': letter["letter_odoo_id"]
                 })
+
+                # REMOVE translation from local platform translation
+                tc.remove_from_translation_status(letter["id"])
+                text_id = tc.remove_from_translation(letter["id"])
+                tc.remove_from_text(text_id)
+
+    @api.model
+    def get_s2b_states(self):
+        logger.info('State Local Translation done')
+        """ Supporter to Beneficiary states """
+        states = super(SponsorshipCorrespondence, self).get_s2b_states()
+        states.insert(1,
+                      ('local translation on local platform',
+                       _('Local Translation')))
+        return states
