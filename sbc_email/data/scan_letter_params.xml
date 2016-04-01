@@ -1,0 +1,18 @@
+<openerp>
+	<data noupdate="1">
+		<record id="sbc_compassion.share_on_nas" model="ir.config_parameter">
+			<field name="key">sbc_compassion.share_on_nas</field>
+			<field name="value">Public</field>
+		</record>
+
+		<record id="sbc_compassion.scan_letter_imports" model="ir.config_parameter">
+			<field name="key">sbc_compassion.scan_letter_imported</field>
+			<field name="value">/Scan Lettres S2B/Imports/</field>
+		</record>
+
+		<record id="sbc_compassion.scan_letter_done" model="ir.config_parameter">
+			<field name="key">sbc_compassion.scan_letter_done</field>
+			<field name="value">/Scan Lettres S2B/Done/</field>
+		</record>
+	</data>
+</openerp>
