@@ -122,23 +122,34 @@ class Correspondence(models.Model):
     def check_local_translation_done(self):
         tc = translate_connector.TranslateConnect()
         letters_to_update = tc.get_translated_letters()
-        
+
         logger.info("CRON TASK check_local_translation_done CALL")
 
         if letters_to_update == -1:
             logger.info("NO SPONSORSHIP CORRESPPONDENCE LETTERS TO UPDATE")
         else:
             for letter in letters_to_update:
-                sponsorship_id = letter["letter_odoo_id"]
+                sponsorship = self.browse(letter["letter_odoo_id"])
                 reload(sys)
                 sys.setdefaultencoding('UTF8')
                 logger.info("sponshorship id : {}\ntraduction {}".
-                            format(letter["letter_odoo_id"], letter["text"]))
+                            format(sponsorship.id, letter["text"]))
+                tg_lang = letter["target_lang"]
+                target_lang_id = self.env['res.lang.compassion'].search(
+                    [('code_iso', '=', tg_lang)]).id
+                # find the good text to writte
+                if tg_lang == 'eng':
+                    target_text = 'english_text'
+                elif tg_lang in self.get_child_langs_code(sponsorship):
+                    target_text = 'translated_text'
+                else:
+                    logger.error("Correspondence letters language no match")
 
                 # UPDATE Odoo Database
-                self.browse(sponsorship_id).write(
-                    {'original_text': letter["text"], 'state':
-                     'Received in the system'})
+                sponsorship.write(
+                    {target_text: letter["text"],
+                     'state': 'Received in the system',
+                     'destination_language_id': target_lang_id})
 
                 # Send to GMC
                 action_id = self.env.ref('onramp_compassion.create_commkit').id
@@ -154,10 +165,18 @@ class Correspondence(models.Model):
 
     @api.model
     def get_s2b_states(self):
-        logger.info('State Local Translation done')
         """ Supporter to Beneficiary states """
+        logger.info('State Local Translation done')
         states = super(SponsorshipCorrespondence, self).get_s2b_states()
         states.insert(1,
                       ('local translation on local platform',
                        _('Local Translation')))
         return states
+
+    def get_child_langs_code(self, sponsorship):
+        """ Return children's code iso """
+        codes = []
+        for lang_id in sponsorship.child_id.project_id.country_id.\
+                spoken_lang_ids:
+            codes.append(lang_id.code_iso)
+        return codes

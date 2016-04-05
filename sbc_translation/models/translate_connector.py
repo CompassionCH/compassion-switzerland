@@ -40,8 +40,7 @@ class TranslateConnect(mysql_connector):
             letter.original_language_id.code_iso)
 
         # Define the target language
-        child_lang = sponsorship.child_id.project_id.country_id\
-            .spoken_lang_ids
+        child_lang = child.project_id.country_id.spoken_lang_ids
         # eng, fra, deu, spa, por, ita
         translate_language = [1, 2, 3, 4, 5, 14]
         target_language_id = list(
@@ -119,14 +118,14 @@ class TranslateConnect(mysql_connector):
         database that has translation_status to 'Traduit" (id = 3)
         (returns -1 if not found). """
         res = self.selectAll(
-<<<<<<< HEAD
-            "SELECT tr.id, tr.letter_odoo_id, tr.text\
-=======
-            "SELECT tr.letter_odoo_id, tr.text\
->>>>>>> 616b50f... Check and set the good destination language
+            "SELECT tr.id, tr.letter_odoo_id, tr.text, l.GP_libel target_lang\
             FROM translation_status trs\
             INNER JOIN translation tr\
             ON trs.translation_id = tr.id\
+            INNER JOIN text txt\
+            ON tr.text_id = txt.id\
+            INNER JOIN language l\
+            ON txt.aim_lang_id = l.id\
             WHERE tr.letter_odoo_id IS NOT NULL\
             AND trs.status_id = 3"
         )
