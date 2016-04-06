@@ -73,8 +73,8 @@ class Correspondence(models.Model):
         self.ensure_one()
         partner_id = self.correspondant_id.id
         oldest_sponsorship = self.env['recurring.contract'].search([
-                ('correspondant_id', '=', partner_id),
-                ('type', 'like', 'S')], order='activation_date asc', limit=1)
+            ('correspondant_id', '=', partner_id),
+            ('type', 'like', 'S')], order='activation_date asc', limit=1)
         activation_date = fields.Date.from_string(
             oldest_sponsorship.activation_date)
         transition_date = fields.Date.from_string('2016-01-25')

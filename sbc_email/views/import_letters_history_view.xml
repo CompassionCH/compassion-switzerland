@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Form Redefinition -->
+        <record id="import_letters_history_nas_option_form" model="ir.ui.view">
+            <field name="name">import.letters.history.form.compassion.switzerland</field>
+            <field name="model">import.letters.history</field>
+            <field name="inherit_id" ref="sbc_compassion.import_letters_history_form"/>
+            <field name="arch" type="xml">
+            	
+            	<!-- add checkbox for select import from nas -->
+                <label for="data" position="before">
+                	<field name="from_imports_nas_folder" states="draft"/>
+                </label>
+                
+                <!-- add attributes to hide this field when checkbox select -->
+                <field name="data" position="attributes">
+                	<attribute name="attrs">{'invisible':[('from_imports_nas_folder', '==', True)]}</attribute>
+                </field>
+                
+                <!-- Replace button import -->
+                <button name="button_import" position="replace"/>
+                <field name="nber_letters" position="before">
+                	<separator/>
+                    <button name="button_import" string="Load Files" type="object"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

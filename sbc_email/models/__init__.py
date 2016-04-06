@@ -12,3 +12,4 @@ from . import correspondence
 from . import contracts
 from . import partner_compassion
 from . import email
+from . import import_letters_history
