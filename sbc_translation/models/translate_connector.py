@@ -42,9 +42,9 @@ class TranslateConnect(mysql_connector):
         # Define the target language
         child_lang = child.project_id.country_id.spoken_lang_ids
         # eng, fra, deu, spa, por, ita
-        translate_language = [1, 2, 3, 4, 5, 14]
+        translate_language_ids = [1, 2, 3, 4, 5, 14]
         target_language_id = list(
-            set(child_lang.ids).intersection(set(translate_language)))[-1]
+            set(child_lang.ids).intersection(set(translate_language_ids)))[-1]
 
         # Get code iso
         for lang in child_lang:
@@ -130,22 +130,28 @@ class TranslateConnect(mysql_connector):
             AND trs.status_id = 3"
         )
         return res if res else -1
+    
+    def remove_letter(self, id):
+        """ Delete a letter record with the translation_id given """
+        self.remove_from_translation_status(id)
+        text_id = self.remove_from_translation(id)
+        self.remove_from_text(text_id)
 
-    def remove_from_translation_status(self, translation_id):
+    def remove_from_translation_status(self, id):
         """ Delete a translation_status record for the translation_id given """
         self.query("DELETE FROM translation_status WHERE translation_id={}"
-                   .format(translation_id))
+                   .format(id))
 
-    def remove_from_translation(self, translation_id):
+    def remove_from_translation(self, id):
         """ Delete a translation record for the translation_id given
             Return the text_id corresponding to this record"""
         res = self.selectOne("SELECT text_id FROM translation WHERE id={}"
-                             .format(translation_id))
+                             .format(id))
         self.query("DELETE FROM translation WHERE id={}"
-                   .format(translation_id))
+                   .format(id))
         return res['text_id']
 
-    def remove_from_text(self, text_id):
+    def remove_from_text(self, id):
         """ Delete a text record for the text_id given """
         self.query("DELETE FROM text WHERE id={}"
-                   .format(text_id))
+                   .format(id))

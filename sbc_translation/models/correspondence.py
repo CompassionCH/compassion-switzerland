@@ -112,7 +112,7 @@ class Correspondence(models.Model):
                 ##############################################################
                 #             DOESN'T WORK !!!                               #
                 ##############################################################
-                letter.state = 'local translation on local platform'
+                letter.state = 'Global Partner translation queue'
         else:
             raise Exception('Connection to NAS failed')
 
@@ -158,20 +158,7 @@ class Correspondence(models.Model):
                     'object_id': letter["letter_odoo_id"]
                 })
 
-                # REMOVE translation from local platform translation
-                tc.remove_from_translation_status(letter["id"])
-                text_id = tc.remove_from_translation(letter["id"])
-                tc.remove_from_text(text_id)
-
-    @api.model
-    def get_s2b_states(self):
-        """ Supporter to Beneficiary states """
-        logger.info('State Local Translation done')
-        states = super(SponsorshipCorrespondence, self).get_s2b_states()
-        states.insert(1,
-                      ('local translation on local platform',
-                       _('Local Translation')))
-        return states
+                tc.remove_letter(letter["id"])
 
     def get_child_langs_code(self, sponsorship):
         """ Return children's code iso """
