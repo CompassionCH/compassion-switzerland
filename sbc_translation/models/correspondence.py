@@ -37,30 +37,21 @@ class Correspondence(models.Model):
 
     @api.model
     def create(self, vals):
-        """ Create a message for sending the CommKit only if the preferred
-            language is the same as the letter's language else send the letter
-            on the local translate plaforme.
-            """
+        """ Create a message for sending the CommKit after be translated on
+             the local translate plaforme.
+        """
         sponsorship = self.env['recurring.contract'].browse(
             vals['sponsorship_id'])
 
-        # Get languages
         letter_lang_id = vals['original_language_id']
-        sponsor_lang_id = sponsorship.reading_language.id
-        english_lang_id = self.env['res.lang.compassion']\
-            .search([('name', '=', 'English')]).id
-        child_lang_ids = sponsorship.child_id.project_id.country_id\
-            .spoken_lang_ids.ids
-        valid_lang = child_lang_ids + [english_lang_id, sponsor_lang_id]
-        # if the letter's language is english, default correspondence language
-        # or the child's country's languages the letter is directly sending to
-        # GMC.
-        if letter_lang_id in valid_lang:
-            letter = super(Correspondence, self).create(vals)
-        else:
+
+        if letter_lang_id.translatable:
             letter = super(Correspondence, self.with_context(
                 no_comm_kit=True)).create(vals)
             self.send_local_translate(letter, sponsorship)
+        else:
+            letter = super(SponsorshipCorrespondence, self).create(vals)
+
         return letter
 
     def send_local_translate(self, letter, sponsorship):
