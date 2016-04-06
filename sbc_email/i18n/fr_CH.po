@@ -150,7 +150,7 @@ msgid "Contract for recurring invoicing"
 msgstr ""
 
 #. module: sbc_email
-#: model:ir.model,name:sbc_email.model_sponsorship_correspondence
+#: model:ir.model,name:sbc_email.model_correspondence
 msgid "Email Thread"
 msgstr ""
 
@@ -160,7 +160,7 @@ msgid "Email composition wizard"
 msgstr ""
 
 #. module: sbc_email
-#: field:sponsorship.correspondence,email_id:0
+#: field:correspondence,email_id:0
 msgid "Email id"
 msgstr ""
 
@@ -176,7 +176,7 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #. module: sbc_email
-#: field:sponsorship.correspondence,email_sent_date:0
+#: field:correspondence,email_sent_date:0
 msgid "Sent date"
 msgstr "Date d'envoi"
 

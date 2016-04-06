@@ -12,8 +12,8 @@
 from openerp import models, fields, api
 
 
-class SponsorshipCorrespondence(models.Model):
-    _inherit = 'sponsorship.correspondence'
+class Correspondence(models.Model):
+    _inherit = 'correspondence'
 
     email_id = fields.Many2one('mail.mail', 'E-mail')
     email_sent_date = fields.Datetime(
@@ -28,7 +28,7 @@ class SponsorshipCorrespondence(models.Model):
         """ Method called when B2S letter is Published. This will send the
             letter to the sponsor via Sendgrid e-mail.
         """
-        super(SponsorshipCorrespondence, self).process_letter()
+        super(Correspondence, self).process_letter()
         partner = self.correspondant_id
         if partner.email and partner.delivery_preference == 'digital' and not\
                 self.email_id:
@@ -58,7 +58,7 @@ class SponsorshipCorrespondence(models.Model):
 
     def get_image(self, user=None):
         """ Mark the e-mail as read. """
-        data = super(SponsorshipCorrespondence, self).get_image(user)
+        data = super(Correspondence, self).get_image(user)
         # User is None if the sponsor called the service.
         if self.email_id and self.email_id.state == 'sent' and user is None:
             self.email_id.state = 'received'

@@ -12,12 +12,12 @@
 from openerp import models, api
 
 
-class SponsorshipCorrespondence(models.Model):
-    """ This class intecepts a letter before it is sent to GMC.
+class Correspondence(models.Model):
+    """ This class intercepts a letter before it is sent to GMC.
         Letters are pushed to local translation platform if needed.
         """
 
-    _inherit = 'sponsorship.correspondence'
+    _inherit = 'correspondence'
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -32,9 +32,9 @@ class SponsorshipCorrespondence(models.Model):
         sponsorship = self.env['recurring.contract'].browse(
             vals['sponsorship_id'])
         if sponsorship.reading_language.id == vals['original_language_id']:
-            letter = super(SponsorshipCorrespondence, self).create(vals)
+            letter = super(Correspondence, self).create(vals)
         else:
-            letter = super(SponsorshipCorrespondence, self.with_context(
+            letter = super(Correspondence, self.with_context(
                 no_comm_kit=True)).create(vals)
             self.alternative()
         return letter

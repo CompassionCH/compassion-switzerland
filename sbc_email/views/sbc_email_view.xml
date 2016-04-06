@@ -17,10 +17,10 @@
         </record>
         
         <!-- Add e-mail in correspondence views -->
-        <record id="view_sponsorship_correspondence_form_email" model="ir.ui.view">
-            <field name="name">sponsorship.correspondence.form.email</field>
-            <field name="model">sponsorship.correspondence</field>
-            <field name="inherit_id" ref="sbc_compassion.view_sponsorship_correspondence_form" />
+        <record id="view_correspondence_form_email" model="ir.ui.view">
+            <field name="name">correspondence.form.email</field>
+            <field name="model">correspondence</field>
+            <field name="inherit_id" ref="sbc_compassion.view_correspondence_form" />
             <field name="arch" type="xml">
                 <field name="rework_comments" position="after">
                     <field name="email_id" />
@@ -29,10 +29,10 @@
             </field>
         </record>
         
-        <record id="view_sponsorship_correspondence_tree_email" model="ir.ui.view">
-            <field name="name">sponsorship.correspondence.tree.email</field>
-            <field name="model">sponsorship.correspondence</field>
-            <field name="inherit_id" ref="onramp_compassion.view_sponsorship_correspondence_tree_compassion" />
+        <record id="view_correspondence_tree_email" model="ir.ui.view">
+            <field name="name">correspondence.tree.email</field>
+            <field name="model">correspondence</field>
+            <field name="inherit_id" ref="onramp_compassion.view_correspondence_tree_compassion" />
             <field name="arch" type="xml">
                 <field name="last_read" position="before">
                     <field name="email_sent_date" />
