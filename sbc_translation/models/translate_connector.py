@@ -21,10 +21,12 @@ class TranslateConnect(mysql_connector):
     """
 
     def __init__(self):
-        super(TranslateConnect, self).__init__('mysql_translate_host',
-                                               'mysql_translate_user',
-                                               'mysql_translate_pw',
-                                               'mysql_translate_db')
+        super(TranslateConnect, self).__init__(
+            'mysql_translate_host',
+            'mysql_translate_user',
+            'mysql_translate_pw',
+            'mysql_translate_db')
+
         self.current_time = datetime.datetime.now()
 
     def upsert_text(self, sponsorship, letter):

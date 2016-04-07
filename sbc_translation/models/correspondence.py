@@ -10,6 +10,7 @@
 ##############################################################################
 import sys
 import base64
+import pdb
 
 from io import BytesIO
 from . import translate_connector
@@ -42,24 +43,25 @@ class Correspondence(models.Model):
         sponsorship = self.env['recurring.contract'].browse(
             vals['sponsorship_id'])
 
-        original_lang_id = self.env['res.lang.compassion'].browse(
+        original_lang = self.env['res.lang.compassion'].browse(
             vals['original_language_id'])
 
-        if original_lang_id.translatable:
+        if original_lang.translatable and original_lang.id not in sponsorship\
+                .child_id.project_id.country_id.spoken_lang_ids.mapped('id'):
             letter = super(Correspondence, self.with_context(
                 no_comm_kit=True)).create(vals)
-            self.send_local_translate(letter, sponsorship)
+            letter.send_local_translate()
         else:
             letter = super(Correspondence, self).create(vals)
 
         return letter
 
-    def send_local_translate(self, letter, sponsorship):
+    def send_local_translate(self):
         # Insert the letter in the mysql data base
         tc = translate_connector.TranslateConnect()
         # Send letter to local translate platform
-        text_id = tc.upsert_text(sponsorship, letter)
-        translation_id = tc.upsert_translation(text_id, letter)
+        text_id = tc.upsert_text(self.sponsorship_id, self)
+        translation_id = tc.upsert_translation(text_id, self)
         tc.upsert_translation_status(translation_id)
 
         # Transfert file on the NAS
@@ -76,16 +78,16 @@ class Correspondence(models.Model):
         smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
         if smb_conn.connect(smb_ip, smb_port):
             file_ = BytesIO(base64.b64decode(
-                letter.letter_image.with_context(
+                self.letter_image.with_context(
                     bin_size=False).datas))
             config_obj = self.env['ir.config_parameter']
             nas_share_name = (config_obj.search(
                 [('key', '=', 'sbc_translation.nas_share_name')])[0]).value
 
-            child = sponsorship.child_id
-            sponsor = sponsorship.partner_id
+            child = self.sponsorship_id.child_id
+            sponsor = self.sponsorship_id.partner_id
             letter_name = "_".join(
-                (child.code, sponsor.ref, str(letter.id)))
+                (child.code, sponsor.ref, str(self.id)))
             letter_name = ".".join((letter_name, 'pdf'))
 
             nas_letters_store_path = (config_obj.search(
@@ -95,9 +97,9 @@ class Correspondence(models.Model):
                                nas_letters_store_path, file_)
 
             logger.info('File {} store on NAS with success'
-                        .format(letter.letter_image.name))
+                        .format(self.letter_image.name))
 
-            letter.state = 'Global Partner translation queue'
+            self.state = 'Global Partner translation queue'
         else:
             raise Exception('Connection to NAS failed')
 
@@ -105,14 +107,14 @@ class Correspondence(models.Model):
     ##############
     @api.model
     def check_local_translation_done(self):
+        reload(sys)
+        sys.setdefaultencoding('UTF8')
         tc = translate_connector.TranslateConnect()
         letters_to_update = tc.get_translated_letters()
 
         if not letters_to_update == -1:
             for letter in letters_to_update:
                 correspondence = self.browse(letter["letter_odoo_id"])
-                reload(sys)
-                sys.setdefaultencoding('UTF8')
 
                 tg_lang = letter["target_lang"]
                 target_lang_id = self.env['res.lang.compassion'].search(
@@ -120,10 +122,11 @@ class Correspondence(models.Model):
                 # find the good text to writte
                 if tg_lang == 'eng':
                     target_text = 'english_text'
-                elif tg_lang in self.get_child_langs_code(correspondence):
+                elif tg_lang in correspondence.child_id.project_id\
+                        .country_id.spoken_lang_ids.mapped('code_iso'):
                     target_text = 'translated_text'
                 else:
-                    logger.error("Correspondence letters language no match")
+                    raise AssertionError('The letter does not exist in odoo')
 
                 # UPDATE Odoo Database
                 correspondence.write(
@@ -133,6 +136,7 @@ class Correspondence(models.Model):
 
                 # Send to GMC
                 if correspondence.direction == 'Supporter To Beneficiary':
+                    pdb.set_trace()
                     action_id = self.env.ref(
                         'onramp_compassion.create_commkit').id
                     self.env['gmc.message.pool'].create({
@@ -141,11 +145,3 @@ class Correspondence(models.Model):
                     })
 
                 tc.remove_letter(letter["id"])
-
-    def get_child_langs_code(self, sponsorship):
-        """ Return children's code iso """
-        codes = []
-        for lang_id in sponsorship.child_id.project_id.country_id.\
-                spoken_lang_ids:
-            codes.append(lang_id.code_iso)
-        return codes
