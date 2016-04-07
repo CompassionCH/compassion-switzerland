@@ -3,7 +3,7 @@
         <!-- First letter system changed -->
         <record id="change_system" model="email.template">
             <field name="name">First letter system changed</field>
-            <field name="model_id" search="[('model','=','sponsorship.correspondence')]"/>
+            <field name="model_id" search="[('model','=','correspondence')]"/>
             <field name="subject">You received a letter from ${object.child_id.firstname}!</field>
             <field name="body_html" type="html">
                 <p>We are pleased to send you a new letter from your sponsored child ${object.child_id.firstname}!</p>
@@ -19,7 +19,7 @@
         <!-- New letter -->
         <record id="new_letter" model="email.template">
             <field name="name">New letter</field>
-            <field name="model_id" search="[('model','=','sponsorship.correspondence')]"/>
+            <field name="model_id" search="[('model','=','correspondence')]"/>
             <field name="subject">You received a letter from ${object.child_id.firstname}!</field>
             <field name="body_html" type="html">
                 <p>We are pleased to send you a new letter from your sponsored child ${object.child_id.firstname}!</p>

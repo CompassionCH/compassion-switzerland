@@ -8,7 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import sponsorship_correspondence
+from . import correspondence
 from . import contracts
 from . import partner_compassion
 from . import email
