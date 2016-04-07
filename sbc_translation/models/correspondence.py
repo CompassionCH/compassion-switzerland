@@ -10,15 +10,14 @@
 ##############################################################################
 import sys
 import base64
-import tempfile
 
+from io import BytesIO
 from . import translate_connector
 
 from openerp import models, api
 from openerp.tools.config import config
 
 from smb.SMBConnection import SMBConnection
-from openerp.tools.translate import _
 
 import logging
 logger = logging.getLogger(__name__)
@@ -43,14 +42,15 @@ class Correspondence(models.Model):
         sponsorship = self.env['recurring.contract'].browse(
             vals['sponsorship_id'])
 
-        letter_lang_id = vals['original_language_id']
+        original_lang_id = self.env['res.lang.compassion'].browse(
+            vals['original_language_id'])
 
-        if letter_lang_id.translatable:
+        if original_lang_id.translatable:
             letter = super(Correspondence, self.with_context(
                 no_comm_kit=True)).create(vals)
             self.send_local_translate(letter, sponsorship)
         else:
-            letter = super(SponsorshipCorrespondence, self).create(vals)
+            letter = super(Correspondence, self).create(vals)
 
         return letter
 
@@ -75,35 +75,29 @@ class Correspondence(models.Model):
         # Copy file in the imported letter folder
         smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
         if smb_conn.connect(smb_ip, smb_port):
-            with tempfile.NamedTemporaryFile(suffix='.pdf') as file_:
-                file_.write(base64.b64decode(
-                    letter.letter_image.with_context(
-                        bin_size=False).datas))
-                file_.flush()
-                file_.seek(0)
-                config_obj = self.env['ir.config_parameter']
-                nas_share_name = (config_obj.search(
-                    [('key', '=', 'sbc_translation.nas_share_name')])[0]).value
+            file_ = BytesIO(base64.b64decode(
+                letter.letter_image.with_context(
+                    bin_size=False).datas))
+            config_obj = self.env['ir.config_parameter']
+            nas_share_name = (config_obj.search(
+                [('key', '=', 'sbc_translation.nas_share_name')])[0]).value
 
-                child = sponsorship.child_id
-                sponsor = sponsorship.partner_id
-                letter_name = "_".join(
-                    (child.code, sponsor.ref, str(letter.id)))
-                letter_name = ".".join((letter_name, 'pdf'))
+            child = sponsorship.child_id
+            sponsor = sponsorship.partner_id
+            letter_name = "_".join(
+                (child.code, sponsor.ref, str(letter.id)))
+            letter_name = ".".join((letter_name, 'pdf'))
 
-                nas_letters_store_path = (config_obj.search(
-                    [('key', '=', 'sbc_translation.nas_letters_store_path')])
-                    [0]).value + letter_name
-                smb_conn.storeFile(nas_share_name,
-                                   nas_letters_store_path, file_)
+            nas_letters_store_path = (config_obj.search(
+                [('key', '=', 'sbc_translation.nas_letters_store_path')])
+                [0]).value + letter_name
+            smb_conn.storeFile(nas_share_name,
+                               nas_letters_store_path, file_)
 
-                logger.info('File {} store on NAS with success'
-                            .format(letter.letter_image.name))
+            logger.info('File {} store on NAS with success'
+                        .format(letter.letter_image.name))
 
-                ##############################################################
-                #             DOESN'T WORK !!!                               #
-                ##############################################################
-                letter.state = 'Global Partner translation queue'
+            letter.state = 'Global Partner translation queue'
         else:
             raise Exception('Connection to NAS failed')
 
@@ -139,7 +133,8 @@ class Correspondence(models.Model):
 
                 # Send to GMC
                 if correspondence.direction == 'Supporter To Beneficiary':
-                    action_id = self.env.ref('onramp_compassion.create_commkit').id
+                    action_id = self.env.ref(
+                        'onramp_compassion.create_commkit').id
                     self.env['gmc.message.pool'].create({
                         'action_id': action_id,
                         'object_id': letter["letter_odoo_id"]

@@ -14,7 +14,7 @@
             <field name="interval_type">minutes</field>
             <field name="numbercall">-1</field> <!-- don't limit the number of calls -->
             <field name="doall" eval="False"/>
-            <field name="model" eval="'sponsorship.correspondence'"/>
+            <field name="model" eval="'correspondence'"/>
             <field name="function" eval="'check_local_translation_done'" />
             <field name="args" eval="'()'"/>
         </record>

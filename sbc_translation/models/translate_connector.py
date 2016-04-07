@@ -130,7 +130,7 @@ class TranslateConnect(mysql_connector):
             AND trs.status_id = 3"
         )
         return res if res else -1
-    
+
     def remove_letter(self, id):
         """ Delete a letter record with the translation_id given """
         self.remove_from_translation_status(id)
