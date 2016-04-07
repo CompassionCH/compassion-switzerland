@@ -114,40 +114,36 @@ class Correspondence(models.Model):
         tc = translate_connector.TranslateConnect()
         letters_to_update = tc.get_translated_letters()
 
-        logger.info("CRON TASK check_local_translation_done CALL")
-
-        if letters_to_update == -1:
-            logger.info("NO SPONSORSHIP CORRESPPONDENCE LETTERS TO UPDATE")
-        else:
+        if not letters_to_update == -1:
             for letter in letters_to_update:
-                sponsorship = self.browse(letter["letter_odoo_id"])
+                correspondence = self.browse(letter["letter_odoo_id"])
                 reload(sys)
                 sys.setdefaultencoding('UTF8')
-                logger.info("sponshorship id : {}\ntraduction {}".
-                            format(sponsorship.id, letter["text"]))
+
                 tg_lang = letter["target_lang"]
                 target_lang_id = self.env['res.lang.compassion'].search(
                     [('code_iso', '=', tg_lang)]).id
                 # find the good text to writte
                 if tg_lang == 'eng':
                     target_text = 'english_text'
-                elif tg_lang in self.get_child_langs_code(sponsorship):
+                elif tg_lang in self.get_child_langs_code(correspondence):
                     target_text = 'translated_text'
                 else:
                     logger.error("Correspondence letters language no match")
 
                 # UPDATE Odoo Database
-                sponsorship.write(
+                correspondence.write(
                     {target_text: letter["text"],
                      'state': 'Received in the system',
                      'destination_language_id': target_lang_id})
 
                 # Send to GMC
-                action_id = self.env.ref('onramp_compassion.create_commkit').id
-                self.env['gmc.message.pool'].create({
-                    'action_id': action_id,
-                    'object_id': letter["letter_odoo_id"]
-                })
+                if correspondence.direction == 'Supporter To Beneficiary':
+                    action_id = self.env.ref('onramp_compassion.create_commkit').id
+                    self.env['gmc.message.pool'].create({
+                        'action_id': action_id,
+                        'object_id': letter["letter_odoo_id"]
+                    })
 
                 tc.remove_letter(letter["id"])
 

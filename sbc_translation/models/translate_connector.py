@@ -16,7 +16,7 @@ from openerp.addons.mysql_connector.model.mysql_connector \
 
 class TranslateConnect(mysql_connector):
     """ Contains all the utility methods needed to talk with the MySQL server
-        used by GP, as well as all mappings
+        used by translate platform, as well as all mappings
         from OpenERP fields to corresponding MySQL fields.
     """
 
