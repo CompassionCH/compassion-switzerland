@@ -47,13 +47,13 @@ class Correspondence(models.Model):
 
         if original_lang.translatable and original_lang not in sponsorship\
                 .child_id.project_id.country_id.spoken_lang_ids:
-            letter = super(Correspondence, self.with_context(
+            correspondence = super(Correspondence, self.with_context(
                 no_comm_kit=True)).create(vals)
-            letter.send_local_translate()
+            correspondence.send_local_translate()
         else:
-            letter = super(Correspondence, self).create(vals)
+            correspondence = super(Correspondence, self).create(vals)
 
-        return letter
+        return correspondence
 
     def send_local_translate(self):
         # Insert the letter in the mysql data base
@@ -61,11 +61,11 @@ class Correspondence(models.Model):
 
         child = self.sponsorship_id.child_id
         sponsor = self.sponsorship_id.partner_id
-        letter_name = "_".join(
+        file_name = "_".join(
             (child.code, sponsor.ref, str(self.id))) + '.pdf'
 
         # Send letter to local translate platform
-        text_id = tc.upsert_text(self, letter_name)
+        text_id = tc.upsert_text(self, file_name)
         translation_id = tc.upsert_translation(text_id, self)
         tc.upsert_translation_status(translation_id)
 
@@ -89,7 +89,7 @@ class Correspondence(models.Model):
                 'sbc_translation.nas_share_name').value
 
             nas_letters_store_path = self.env.ref(
-                'sbc_translation.nas_letters_store_path').value + letter_name
+                'sbc_translation.nas_letters_store_path').value + file_name
             smb_conn.storeFile(nas_share_name,
                                nas_letters_store_path, file_)
 
@@ -123,8 +123,8 @@ class Correspondence(models.Model):
                 target_text = 'translated_text'
             else:
                 raise AssertionError(
-                    'letter correspondence.kit_identifier was translated in\
-                    a wrong language: {}'.format(tg_lang))
+                    'letter {} was translated in\
+                    a wrong language: {}'.format(correspondence.id, tg_lang))
 
             # UPDATE Odoo Database
             correspondence.write(

@@ -29,23 +29,23 @@ class TranslateConnect(mysql_connector):
 
         self.current_time = datetime.datetime.now()
 
-    def upsert_text(self, letter, letter_name):
+    def upsert_text(self, correspondence, file_name):
         """Push or update text (db table) on local translate platform
         """
-        child = letter.sponsorship_id.child_id
-        sponsor = letter.sponsorship_id.partner_id
+        child = correspondence.child_id
+        sponsor = correspondence.correspondant_id
 
-        self.letter_name = letter_name
+        self.letter_name = file_name
         child_age = datetime.date.today().year - int(child.birthdate[:4])
 
         src_lang_id = self.get_language_id(
-            letter.original_language_id.code_iso)
+            correspondence.original_language_id.code_iso)
 
         # Define the target language
         child_lang = child.project_id.country_id.spoken_lang_ids
         # eng, fra, deu, spa, por, ita
-        translate_language_ids = letter.env['res.lang.compassion'].search(
-            [('translatable', '=', True)]).ids
+        translate_language_ids = correspondence.env['res.lang.compassion']\
+            .search([('translatable', '=', True)]).ids
         target_language_id = list(
             set(child_lang.ids).intersection(set(translate_language_ids)))[-1]
 
@@ -56,8 +56,8 @@ class TranslateConnect(mysql_connector):
 
         aim_lang_id = self.get_language_id(code_iso)
 
-        text_type_id = 2 if letter.direction == 'Supporter To Beneficiary'\
-            else 1
+        text_type_id = 2 if correspondence.direction ==\
+            'Supporter To Beneficiary' else 1
 
         vals = {
             'src_lang_id': src_lang_id,
