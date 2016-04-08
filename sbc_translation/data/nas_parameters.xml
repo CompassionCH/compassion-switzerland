@@ -1,11 +1,11 @@
 <openerp>
   <data noupdate="1">
-    <record id="sbc_translation.nas_share_name" model="ir.config_parameter">
+    <record id="nas_share_name" model="ir.config_parameter">
       <field name="key">sbc_translation.nas_share_name</field>
       <field name="value">GP</field>
     </record>
     
-    <record id="sbc_translation.nas_letters_store_path" model="ir.config_parameter">
+    <record id="nas_letters_store_path" model="ir.config_parameter">
       <field name="key">sbc_translation.nas_letters_store_path</field>
       <field name="value">/Plateforme_traduction/translate_online_test/</field>
     </record>

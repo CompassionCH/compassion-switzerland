@@ -29,13 +29,13 @@ class TranslateConnect(mysql_connector):
 
         self.current_time = datetime.datetime.now()
 
-    def upsert_text(self, sponsorship, letter):
+    def upsert_text(self, letter, letter_name):
         """Push or update text (db table) on local translate platform
         """
-        child = sponsorship.child_id
-        sponsor = sponsorship.partner_id
+        child = letter.sponsorship_id.child_id
+        sponsor = letter.sponsorship_id.partner_id
 
-        self.letter_name = "_".join((child.code, sponsor.ref, str(letter.id)))
+        self.letter_name = letter_name
         child_age = datetime.date.today().year - int(child.birthdate[:4])
 
         src_lang_id = self.get_language_id(
@@ -44,7 +44,8 @@ class TranslateConnect(mysql_connector):
         # Define the target language
         child_lang = child.project_id.country_id.spoken_lang_ids
         # eng, fra, deu, spa, por, ita
-        translate_language_ids = [1, 2, 3, 4, 5, 14]
+        translate_language_ids = letter.env['res.lang.compassion'].search(
+            [('translatable', '=', True)]).ids
         target_language_id = list(
             set(child_lang.ids).intersection(set(translate_language_ids)))[-1]
 
@@ -84,7 +85,7 @@ class TranslateConnect(mysql_connector):
         """
 
         vals = {
-            'file': self.letter_name + '.tif',
+            'file': self.letter_name + '.rtf',
             'text_id': text_id,
             'createdat': self.current_time,
             'updatedat': self.current_time,
@@ -131,7 +132,7 @@ class TranslateConnect(mysql_connector):
             WHERE tr.letter_odoo_id IS NOT NULL\
             AND trs.status_id = 3"
         )
-        return res if res else -1
+        return res
 
     def remove_letter(self, id):
         """ Delete a letter record with the translation_id given """
