@@ -9,3 +9,4 @@
 #
 ##############################################################################
 from . import correspondence
+from . import translate_connector
