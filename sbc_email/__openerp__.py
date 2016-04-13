@@ -36,6 +36,7 @@
     'data': [
         'data/email_text_templates.xml',
         'data/scan_letter_params.xml',
+        'views/import_config_view.xml',
         'views/import_letters_history_view.xml',
         'views/sbc_email_view.xml',
     ],

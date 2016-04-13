@@ -11,12 +11,21 @@
             	
             	<!-- add checkbox for select import from nas -->
                 <label for="data" position="before">
-                	<field name="from_imports_nas_folder" states="draft"/>
+                	<field name="manual_import" states="draft"/>
                 </label>
                 
-                <!-- add attributes to hide this field when checkbox select -->
+                <!-- add attributes to show this field when checkbox select -->
                 <field name="data" position="attributes">
-                	<attribute name="attrs">{'invisible':[('from_imports_nas_folder', '==', True)]}</attribute>
+                	<attribute name="attrs">{'invisible':[('manual_import', '==', False)]}</attribute>
+                </field>
+                
+                <!-- add attributes to hide this field when checkbox select -->
+                <field name="config_id" position="attributes">
+                	<attribute name="attrs">{'invisible':[('manual_import', '==', True)]}</attribute>
+                </field>
+                <!-- add attributes to hide this field when checkbox select -->
+                <field name="is_encourager" position="attributes">
+                	<attribute name="attrs">{'invisible':[('manual_import', '==', True)]}</attribute>
                 </field>
                 
                 <!-- Replace button import -->
@@ -24,6 +33,11 @@
                 <field name="nber_letters" position="before">
                 	<separator/>
                     <button name="button_import" string="Load Files" type="object"/>
+                </field>
+                
+                 <!-- add text edit for import folder path -->
+                <field name="template_id" position="after">
+                	<field name="import_folder_path" attrs="{'invisible':[('manual_import', '==', True)]}"/>
                 </field>
             </field>
         </record>

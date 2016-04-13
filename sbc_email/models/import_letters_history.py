@@ -22,6 +22,7 @@ from openerp import fields, models, api, _, exceptions
 from io import BytesIO
 from openerp.tools.config import config
 from smb.SMBConnection import SMBConnection
+from smb.smb_structs import OperationFailure
 
 from openerp.addons.connector.session import ConnectorSession
 from openerp.addons.sbc_compassion.models import import_letters_history as ilh
@@ -32,23 +33,23 @@ logger = logging.getLogger(__name__)
 class ImportLettersHistory(models.Model):
     """
     Keep history of imported letters.
-    This class allows the user to import some letters (individually or in a
-    zip file) in the database by doing an automatic analysis.
+    This class add to is parent the possibility to select letters to import
+    from a specify config.
     The code is reading QR codes in order to detect child and partner codes
     for every letter, using the zxing library for code detection.
     """
-    _inherit = "import.letters.history"
+    _name = 'import.letters.history'
+    _inherit = ['import.letters.history', 'import.letter.config']
 
-    from_imports_nas_folder = fields.Boolean(
-        string="Import all content from NAS Imports folder",
-        default=True)
+    manual_import = fields.Boolean(
+        string="Manual import",
+        default=False)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    @api.multi
-    @api.onchange(
-        "data", "import_line_ids", "letters_ids", "from_imports_nas_folder")
+    @api.one
+    @api.onchange("data", "import_folder_path")
     def _count_nber_letters(self):
         """
         Counts the number of scans. If a zip file is given, the number of
@@ -56,13 +57,12 @@ class ImportLettersHistory(models.Model):
         """
         self.ensure_one()
 
-        if not self.from_imports_nas_folder or (
+        if self.manual_import or (
                 self.state and self.state != 'draft'):
             super(ImportLettersHistory, self)._count_nber_letters()
         else:
             # files are not selected by user so we find them on NAS
-            # folder 'Imports'
-            # counter
+            # folder 'Imports' counter
             tmp = 0
             # Retrieve configuration
             smb_user = config.get('smb_user')
@@ -77,13 +77,19 @@ class ImportLettersHistory(models.Model):
             share_nas = (config_obj.search(
                 [('key', '=', 'sbc_email.share_on_nas')])
                 [0]).value
-            imported_letter_path = (config_obj.search(
-                [('key', '=', 'sbc_email.scan_letter_imported'
-                  )])[0]).value
-            if smb_conn.connect(smb_ip, smb_port):
-                listPaths = smb_conn.listPath(
-                    share_nas,
-                    imported_letter_path)
+            imported_letter_path = self.import_folder_path
+
+            if smb_conn.connect(smb_ip, smb_port) and imported_letter_path:
+                imported_letter_path = self.check_path(imported_letter_path)
+
+                try:
+                    listPaths = smb_conn.listPath(
+                        share_nas,
+                        imported_letter_path)
+                except OperationFailure:
+                    logger.info('--------------- PATH NO CORRECT -----------')
+                    listPaths = []
+
                 for sharedFile in listPaths:
                     if func.check_file(sharedFile.filename) == 1:
                         tmp += 1
@@ -128,9 +134,9 @@ class ImportLettersHistory(models.Model):
     @api.multi
     def button_import(self):
         """
-        Analyze the attachment in order to create the letter's lines
+        Analyze the imports in order to create the letter's lines
         """
-        if self.from_imports_nas_folder:
+        if not self.manual_import:
             # when letters are in a folder on NAS redefine method
             for letters_import in self:
                 letters_import.state = 'pending'
@@ -172,8 +178,6 @@ class ImportLettersHistory(models.Model):
         config_obj = self.env['ir.config_parameter']
         share_nas = (config_obj.search(
             [('key', '=', 'sbc_email.share_on_nas')])[0]).value
-        imported_letter_path = (config_obj.search(
-            [('key', '=', 'sbc_email.scan_letter_imported')])[0]).value
 
         # Retrieve SMB configuration
         smb_user = config.get('smb_user')
@@ -184,8 +188,9 @@ class ImportLettersHistory(models.Model):
             return False
         smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
 
-        if self.from_imports_nas_folder:
+        if not self.manual_import:
             if smb_conn.connect(smb_ip, smb_port):
+                imported_letter_path = self.check_path(self.import_folder_path)
                 listPaths = smb_conn.listPath(share_nas, imported_letter_path)
                 for sharedFile in listPaths:
                     if func.check_file(sharedFile.filename) == 1:
@@ -240,19 +245,28 @@ class ImportLettersHistory(models.Model):
                 emplacement: {}'.format(
                     imported_letter_path))
         else:
-            super(ImportLettersHistory, self)._run_analyze()
-            # if NAS contains zip file on Imports folder, delete them
+            # attachment data are unlink on super method so saving zip filename
+            # to delete after treatment
+            list_zip_to_delete = []
             for attachment in self.data:
                 if func.check_file(attachment.name) == 2:
-                    try:
-                        if smb_conn.connect(smb_ip, smb_port):
-                            smb_conn.deleteFiles(
-                                share_nas,
-                                imported_letter_path +
-                                attachment.name)
-                    except Exception as inst:
-                        logger.info('Failed to delete zip file \
-                        on NAS: {}'.format(inst))
+                    list_zip_to_delete.append(attachment.name)
+
+            super(ImportLettersHistory, self)._run_analyze()
+
+            # delete saving zip filename
+            imported_letter_path = (config_obj.search(
+                [('key', '=', 'sbc_email.scan_letter_imported')])[0]).value
+            for filename in list_zip_to_delete:
+                try:
+                    if smb_conn.connect(smb_ip, smb_port):
+                        smb_conn.deleteFiles(
+                            share_nas,
+                            imported_letter_path +
+                            filename)
+                except Exception as inst:
+                    logger.info('Failed to delete zip file \
+                    on NAS: {}'.format(inst))
 
         # remove all the files (now they are inside import_line_ids)
         self.data.unlink()
@@ -296,9 +310,16 @@ class ImportLettersHistory(models.Model):
             config_obj = self.env['ir.config_parameter']
             share_nas = (config_obj.search(
                 [('key', '=', 'sbc_email.share_on_nas')])[0]).value
-            imported_letter_path = (config_obj.search(
-                [('key', '=', 'sbc_email.scan_letter_imported')])
-                [0]).value + attachment.name
+
+            imported_letter_path = ""
+            if self.manual_import:
+                imported_letter_path = (config_obj.search(
+                    [('key', '=', 'sbc_email.scan_letter_imported')])
+                    [0]).value + attachment.name
+            else:
+                imported_letter_path = self.check_path(
+                    self.import_folder_path) + attachment.name
+
             smb_conn.storeFile(share_nas, imported_letter_path, file_)
             smb_conn.close()
         return True
@@ -330,9 +351,6 @@ class ImportLettersHistory(models.Model):
             config_obj = self.env['ir.config_parameter']
             share_nas = (config_obj.search(
                 [('key', '=', 'sbc_email.share_on_nas')])[0]).value
-            imported_letter_path = (config_obj.search(
-                [('key', '=', 'sbc_email.scan_letter_imported')])
-                [0]).value + filename
 
             done_letter_path = (config_obj.search(
                 [('key', '=', 'sbc_email.scan_letter_done')])
@@ -342,6 +360,15 @@ class ImportLettersHistory(models.Model):
 
             # Delete file in the imported letter folder
             if deleteFile:
+                imported_letter_path = ""
+                if self.manual_import:
+                    imported_letter_path = (config_obj.search(
+                        [('key', '=', 'sbc_email.scan_letter_imported')])
+                        [0]).value + filename
+                else:
+                    imported_letter_path = self.check_path(
+                        self.import_folder_path) + filename
+
                 try:
                     smb_conn.deleteFiles(share_nas, imported_letter_path)
                 except Exception as inst:
@@ -350,3 +377,8 @@ class ImportLettersHistory(models.Model):
 
             smb_conn.close()
         return True
+
+    def check_path(self, path):
+        if not path[-1] == '/':
+            path = path + "/"
+        return path
