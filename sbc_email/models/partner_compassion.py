@@ -26,7 +26,7 @@ class ResPartner(models.Model):
     def create(self, vals):
         partner = super(ResPartner, self).create(vals)
         if partner.send_original:
-            partner._send_ticket()
+            partner._send_ticket(partner.send_original)
         return partner
 
     @api.multi
