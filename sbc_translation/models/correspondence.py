@@ -39,33 +39,62 @@ class Correspondence(models.Model):
         """ Create a message for sending the CommKit after be translated on
              the local translate plaforme.
         """
-        sponsorship = self.env['recurring.contract'].browse(
-            vals['sponsorship_id'])
-
-        original_lang = self.env['res.lang.compassion'].browse(
-            vals['original_language_id'])
-
-        if original_lang.translatable and original_lang not in sponsorship\
-                .child_id.project_id.country_id.spoken_lang_ids:
-            correspondence = super(Correspondence, self.with_context(
-                no_comm_kit=True)).create(vals)
-            correspondence.send_local_translate()
-        else:
+        if vals.get('direction') == "Beneficiary To Supporter":
             correspondence = super(Correspondence, self).create(vals)
+        else:
+            sponsorship = self.env['recurring.contract'].browse(
+                vals['sponsorship_id'])
+
+            original_lang = self.env['res.lang.compassion'].browse(
+                vals.get('original_language_id'))
+
+            if original_lang.translatable and original_lang not in sponsorship\
+                    .child_id.project_id.country_id.spoken_lang_ids:
+                correspondence = super(Correspondence, self.with_context(
+                    no_comm_kit=True)).create(vals)
+                correspondence.send_local_translate()
+            else:
+                correspondence = super(Correspondence, self).create(vals)
 
         return correspondence
 
-    def send_local_translate(self):
-        # Insert the letter in the mysql data base
-        tc = translate_connector.TranslateConnect()
+    def process_letter(self):
+        """ Overloading method """
+        super(Correspondence, self).process_letter()
+        if self.destination_language_id not in self.supporter_languages_ids:
+            self.send_local_translate()
 
+    def send_local_translate(self):
         child = self.sponsorship_id.child_id
+
+        # Specify the src and dst language
+        src_lang_id = False
+        dst_lang_id = False
+        if self.direction == 'Supporter To Beneficiary':
+            # Source language
+            src_lang_id = self.original_language_id
+            # Define the destination language
+            child_langs = child.project_id.country_id.spoken_lang_ids
+            translate_langs = self.env['res.lang.compassion']\
+                .search([('translatable', '=', True)])
+            dst_lang_id = (child_langs & translate_langs)[-1]
+        elif self.direction == 'Beneficiary To Supporter':
+            src_lang_id = self.destination_language_id
+            dst_lang_id = self.sponsorship_id.reading_language
+        else:
+            raise Exception('Direction not define')
+
+        # File name
         sponsor = self.sponsorship_id.partner_id
         file_name = "_".join(
             (child.code, sponsor.ref, str(self.id))) + '.pdf'
 
         # Send letter to local translate platform
-        text_id = tc.upsert_text(self, file_name)
+        tc = translate_connector.TranslateConnect()
+        text_id = tc.upsert_text(self, file_name,
+                                 tc.get_lang_id(src_lang_id),
+                                 tc.get_lang_id(dst_lang_id),
+                                 )
         translation_id = tc.upsert_translation(text_id, self)
         tc.upsert_translation_status(translation_id)
 
@@ -111,26 +140,37 @@ class Correspondence(models.Model):
 
         for letter in letters_to_update:
             correspondence = self.browse(letter["letter_odoo_id"])
+            if not correspondence.exists():
+                logger.warning(("The correspondence id {} doesn't exist in the"
+                                "Odoo DB. Remove it manually on MySQL DB.")
+                               .format(correspondence.id))
+                continue
 
-            tg_lang = letter["target_lang"]
-            target_lang_id = self.env['res.lang.compassion'].search(
-                [('code_iso', '=', tg_lang)]).id
-            # find the good text to writte
-            if tg_lang == 'eng':
-                target_text = 'english_text'
-            elif tg_lang in correspondence.child_id.project_id\
-                    .country_id.spoken_lang_ids.mapped('code_iso'):
-                target_text = 'translated_text'
+            translate_lang = letter["target_lang"]
+            translate_lang_id = self.env['res.lang.compassion'].search(
+                [('code_iso', '=', translate_lang)]).id
+
+            # Writte in the good text field
+            if correspondence.direction == 'Supporter To Beneficiary':
+                state = 'Received in the system'
+                if translate_lang == 'eng':
+                    target_text = 'english_text'
+                elif translate_lang in correspondence.child_id.project_id\
+                        .country_id.spoken_lang_ids.mapped('code_iso'):
+                    target_text = 'translated_text'
+                else:
+                    raise AssertionError(
+                        'letter {} was translated in a wrong language: {}'
+                        .format(correspondence.id, translate_lang))
             else:
-                raise AssertionError(
-                    'letter {} was translated in\
-                    a wrong language: {}'.format(correspondence.id, tg_lang))
+                state = 'Published to Global Partner'
+                target_text = 'translated_text'
 
             # UPDATE Odoo Database
             correspondence.write(
                 {target_text: letter["text"],
-                 'state': 'Received in the system',
-                 'destination_language_id': target_lang_id})
+                 'state': state,
+                 'destination_language_id': translate_lang_id})
 
             # Send to GMC
             if correspondence.direction == 'Supporter To Beneficiary':

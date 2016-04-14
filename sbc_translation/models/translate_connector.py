@@ -29,7 +29,8 @@ class TranslateConnect(mysql_connector):
 
         self.current_time = datetime.datetime.now()
 
-    def upsert_text(self, correspondence, file_name):
+    def upsert_text(self, correspondence, file_name,
+                    src_lang_id, dst_lang_iso):
         """Push or update text (db table) on local translate platform
         """
         child = correspondence.child_id
@@ -38,32 +39,14 @@ class TranslateConnect(mysql_connector):
         self.letter_name = file_name
         child_age = datetime.date.today().year - int(child.birthdate[:4])
 
-        src_lang_id = self.get_language_id(
-            correspondence.original_language_id.code_iso)
-
-        # Define the target language
-        child_lang = child.project_id.country_id.spoken_lang_ids
-        # eng, fra, deu, spa, por, ita
-        translate_language_ids = correspondence.env['res.lang.compassion']\
-            .search([('translatable', '=', True)]).ids
-        target_language_id = list(
-            set(child_lang.ids).intersection(set(translate_language_ids)))[-1]
-
-        # Get code iso
-        for lang in child_lang:
-            if lang.id == target_language_id:
-                code_iso = lang.code_iso
-
-        aim_lang_id = self.get_language_id(code_iso)
-
         text_type_id = 2 if correspondence.direction ==\
             'Supporter To Beneficiary' else 1
 
         vals = {
             'src_lang_id': src_lang_id,
-            'aim_lang_id': aim_lang_id,
+            'aim_lang_id': dst_lang_iso,
             'title': self.letter_name,
-            'file': self.letter_name + '.pdf',
+            'file': self.letter_name,
             'codega': sponsor.ref,
             'gender': sponsor.title.name,
             'name': sponsor.name,
@@ -85,7 +68,7 @@ class TranslateConnect(mysql_connector):
         """
 
         vals = {
-            'file': self.letter_name + '.rtf',
+            'file': self.letter_name[0:-4] + '.rtf',
             'text_id': text_id,
             'createdat': self.current_time,
             'updatedat': self.current_time,
@@ -107,12 +90,12 @@ class TranslateConnect(mysql_connector):
         }
         return self.upsert("translation_status", vals)
 
-    def get_language_id(self, language_iso_code):
+    def get_lang_id(self, lang_compassion_id):
         """ Returns the language's id in MySQL that has  GP_Libel pointing
          to the iso_code given (returns -1 if not found). """
         res = self.selectOne(
             "SELECT id FROM language WHERE GP_Libel LIKE '{}'"
-            .format(language_iso_code))
+            .format(lang_compassion_id.code_iso))
         return res['id'] if res else -1
 
     def get_translated_letters(self):
