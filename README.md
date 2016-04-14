@@ -16,6 +16,11 @@ partner_compassion_switzerland
 
 Partner Sync with GP for Compassion Suisse.
 
+sbc_email
+---------
+
+allows to send child letters to sponsors through email.
+
 sponsorship_switzerland
 -----------------------
 
