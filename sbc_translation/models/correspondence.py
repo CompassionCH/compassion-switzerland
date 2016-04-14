@@ -150,7 +150,7 @@ class Correspondence(models.Model):
             translate_lang_id = self.env['res.lang.compassion'].search(
                 [('code_iso', '=', translate_lang)]).id
 
-            # Writte in the good text field
+            # Write in the good text field
             if correspondence.direction == 'Supporter To Beneficiary':
                 state = 'Received in the system'
                 if translate_lang == 'eng':
@@ -180,5 +180,8 @@ class Correspondence(models.Model):
                     'action_id': action_id,
                     'object_id': letter["letter_odoo_id"]
                 })
+            else:
+                # Compose the letter image
+                correspondence.compose_letter_image()
 
             tc.remove_letter(letter["id"])
