@@ -55,8 +55,6 @@ class ImportLettersHistory(models.Model):
         Counts the number of scans. If a zip file is given, the number of
         scans inside is counted.
         """
-        self.ensure_one()
-
         if self.manual_import or (
                 self.state and self.state != 'draft'):
             super(ImportLettersHistory, self)._count_nber_letters()
@@ -64,22 +62,14 @@ class ImportLettersHistory(models.Model):
             # files are not selected by user so we find them on NAS
             # folder 'Imports' counter
             tmp = 0
-            # Retrieve configuration
-            smb_user = config.get('smb_user')
-            smb_pass = config.get('smb_pwd')
-            smb_ip = config.get('smb_ip')
-            smb_port = int(config.get('smb_port', 0))
-            if not (smb_user and smb_pass and smb_ip and smb_port):
-                return False
 
-            smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
-            config_obj = self.env['ir.config_parameter']
-            share_nas = (config_obj.search(
-                [('key', '=', 'sbc_email.share_on_nas')])
-                [0]).value
+            smb_conn = self._get_smb_connection()
+            share_nas = self.env.ref('sbc_email.share_on_nas').value
             imported_letter_path = self.import_folder_path
 
-            if smb_conn.connect(smb_ip, smb_port) and imported_letter_path:
+            if smb_conn and smb_conn.connect(
+                SmbConfig.smb_ip, SmbConfig.smb_port) and \
+                    imported_letter_path:
                 imported_letter_path = self.check_path(imported_letter_path)
 
                 try:
@@ -175,21 +165,13 @@ class ImportLettersHistory(models.Model):
         progress = 1
 
         # Case where letters are in 'Imports' folder on the NAS
-        config_obj = self.env['ir.config_parameter']
-        share_nas = (config_obj.search(
-            [('key', '=', 'sbc_email.share_on_nas')])[0]).value
+        share_nas = self.env.ref('sbc_email.share_on_nas').value
 
-        # Retrieve SMB configuration
-        smb_user = config.get('smb_user')
-        smb_pass = config.get('smb_pwd')
-        smb_ip = config.get('smb_ip')
-        smb_port = int(config.get('smb_port', 0))
-        if not (smb_user and smb_pass and smb_ip and smb_port):
-            return False
-        smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
+        smb_conn = self._get_smb_connection()
 
         if not self.manual_import:
-            if smb_conn.connect(smb_ip, smb_port):
+            if smb_conn and smb_conn.connect(
+                    SmbConfig.smb_ip, SmbConfig.smb_port):
                 imported_letter_path = self.check_path(self.import_folder_path)
                 listPaths = smb_conn.listPath(share_nas, imported_letter_path)
                 for sharedFile in listPaths:
@@ -255,11 +237,11 @@ class ImportLettersHistory(models.Model):
             super(ImportLettersHistory, self)._run_analyze()
 
             # delete saving zip filename
-            imported_letter_path = (config_obj.search(
-                [('key', '=', 'sbc_email.scan_letter_imported')])[0]).value
+            imported_letter_path = self.env.ref(
+                'sbc_email.scan_letter_imported').value
             for filename in list_zip_to_delete:
                 try:
-                    if smb_conn.connect(smb_ip, smb_port):
+                    if smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
                         smb_conn.deleteFiles(
                             share_nas,
                             imported_letter_path +
@@ -291,31 +273,20 @@ class ImportLettersHistory(models.Model):
         Done by Michael Sandoz 02.2016
         """
         """ Store letter on a shared folder on the NAS: """
-        # Retrieve configuration
-        smb_user = config.get('smb_user')
-        smb_pass = config.get('smb_pwd')
-        smb_ip = config.get('smb_ip')
-        smb_port = int(config.get('smb_port', 0))
-        if not (smb_user and smb_pass and smb_ip and smb_port):
-            return False
-
         # Copy file in the imported letter folder
-        smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
-        if smb_conn.connect(smb_ip, smb_port):
+        smb_conn = self._get_smb_connection()
+        if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
             logger.info("Try to save file {} !".format(attachment.name))
 
             file_ = BytesIO(base64.b64decode(
                             attachment.with_context(bin_size=False).datas))
 
-            config_obj = self.env['ir.config_parameter']
-            share_nas = (config_obj.search(
-                [('key', '=', 'sbc_email.share_on_nas')])[0]).value
+            share_nas = self.env.ref('sbc_email.share_on_nas').value
 
             imported_letter_path = ""
             if self.manual_import:
-                imported_letter_path = (config_obj.search(
-                    [('key', '=', 'sbc_email.scan_letter_imported')])
-                    [0]).value + attachment.name
+                imported_letter_path = self.env.ref(
+                    'sbc_email.scan_letter_imported').value + attachment.name
             else:
                 imported_letter_path = self.check_path(
                     self.import_folder_path) + attachment.name
@@ -335,26 +306,15 @@ class ImportLettersHistory(models.Model):
               copy
         Done by Michael Sandoz 02.2016
         """
-        # Retrieve configuration
-        smb_user = config.get('smb_user')
-        smb_pass = config.get('smb_pwd')
-        smb_ip = config.get('smb_ip')
-        smb_port = int(config.get('smb_port', 0))
-        if not (smb_user and smb_pass and smb_ip and smb_port):
-            return False
-
-        smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
-        if smb_conn.connect(smb_ip, smb_port):
+        smb_conn = self._get_smb_connection()
+        if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
             logger.info("Try to copy file {} !".format(filename))
 
             # Copy file in attachment in the done letter folder
-            config_obj = self.env['ir.config_parameter']
-            share_nas = (config_obj.search(
-                [('key', '=', 'sbc_email.share_on_nas')])[0]).value
+            share_nas = self.env.ref('sbc_email.share_on_nas').value
 
-            done_letter_path = (config_obj.search(
-                [('key', '=', 'sbc_email.scan_letter_done')])
-                [0]).value + filename
+            done_letter_path = self.env.ref(
+                'sbc_email.scan_letter_done').value + filename
 
             smb_conn.storeFile(share_nas, done_letter_path, file_to_copy)
 
@@ -362,9 +322,8 @@ class ImportLettersHistory(models.Model):
             if deleteFile:
                 imported_letter_path = ""
                 if self.manual_import:
-                    imported_letter_path = (config_obj.search(
-                        [('key', '=', 'sbc_email.scan_letter_imported')])
-                        [0]).value + filename
+                    imported_letter_path = self.env.ref(
+                        'sbc_email.scan_letter_imported').value + filename
                 else:
                     imported_letter_path = self.check_path(
                         self.import_folder_path) + filename
@@ -379,6 +338,24 @@ class ImportLettersHistory(models.Model):
         return True
 
     def check_path(self, path):
+        """" Add / at end of path if not contains ever one """
         if not path[-1] == '/':
             path = path + "/"
         return path
+
+    def _get_smb_connection(self):
+        """" Retrieve configuration SMB """
+        if not (SmbConfig.smb_user and SmbConfig.smb_pass and
+                SmbConfig.smb_ip and SmbConfig.smb_port):
+            return False
+        else:
+            return SMBConnection(
+                SmbConfig.smb_user, SmbConfig.smb_pass, 'openerp', 'nas')
+
+
+class SmbConfig():
+    """" Little class who contains SMB configuration """
+    smb_user = config.get('smb_user')
+    smb_pass = config.get('smb_pwd')
+    smb_ip = config.get('smb_ip')
+    smb_port = int(config.get('smb_port', 0))

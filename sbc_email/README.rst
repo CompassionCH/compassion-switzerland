@@ -5,6 +5,8 @@ Sponsor to beneficiary email communication
 ==========================================
 
 This module allows to send child letters to sponsors through email.
+It adds option to import letters with import configuration and option to select
+multiple letters on import.
 
 Usage
 =====

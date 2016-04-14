@@ -29,10 +29,6 @@
 {
     'name': "multi_attachment_switzerland",
     'summary': """ Upload multi-attachment""",
-    'description': """ Upload multi-attachment:
-         - specify in qweb.xml models where multiple selection is possible
-         - sync_mail_multi_attach module must be in addons on server
-           https://www.odoo.com/apps/modules/8.0/sync_mail_multi_attach/""",
     'author': "Michael Sandoz",
     'website': "http://www.compassion.ch",
 

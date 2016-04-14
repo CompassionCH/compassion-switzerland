@@ -5,7 +5,7 @@
 			<field name="value">Public</field>
 		</record>
 
-		<record id="scan_letter_imports" model="ir.config_parameter">
+		<record id="scan_letter_imported" model="ir.config_parameter">
 			<field name="key">sbc_email.scan_letter_imported</field>
 			<field name="value">/Scan Lettres S2B/Imports/</field>
 		</record>

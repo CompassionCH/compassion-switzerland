@@ -35,6 +35,7 @@
     'depends': ['sbc_compassion', 'mail_sendgrid'],
     'data': [
         'data/email_text_templates.xml',
+        'data/import_config_templates.xml',
         'data/scan_letter_params.xml',
         'views/import_config_view.xml',
         'views/import_letters_history_view.xml',
