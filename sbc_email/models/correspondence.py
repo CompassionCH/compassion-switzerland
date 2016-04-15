@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Roman Zoller, Emanuel Cino
+#    @author: Roman Zoller, Emanuel Cino, Michael Sandoz
 #
 #    The licence is in the file __openerp__.py
 #
@@ -96,9 +96,11 @@ class Correspondence(models.Model):
         require manual validation before.
         """
         self.ensure_one()
+
         valid = not self.is_first_letter and self.destination_language_id in \
             self.supporter_languages_ids and \
-            self.sponsorship_id.state == 'active'
+            self.sponsorship_id.state == 'active' and \
+            self.communication_type_ids.name != 'Final Letter'
         if self.destination_language_id != self.original_language_id:
             valid = valid and self.translated_text
         return valid
