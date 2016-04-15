@@ -10,7 +10,7 @@
 #                            in Jesus' name
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
-#    @author: Roman Zoller
+#    @author: Roman Zoller, Emanuel Cino, Michaël Sandoz
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -32,7 +32,7 @@
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sbc_compassion', 'mail_sendgrid'],
+    'depends': ['onramp_compassion', 'mail_sendgrid'],
     'data': [
         'data/email_text_templates.xml',
         'data/import_config_templates.xml',

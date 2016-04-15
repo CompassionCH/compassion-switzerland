@@ -58,12 +58,21 @@ class Correspondence(models.Model):
 
         return correspondence
 
+    ##########################################################################
+    #                             PUBLIC METHODS                             #
+    ##########################################################################
     def process_letter(self):
-        """ Overloading method """
-        super(Correspondence, self).process_letter()
-        if self.destination_language_id not in self.supporter_languages_ids:
-            self.send_local_translate()
+        """ Called when B2S letter is Published. Check if translation is
+         needed and upload to translation platform. """
+        for letter in self:
+            if letter.destination_language_id not in \
+                    letter.supporter_languages_ids:
+                letter.download_attach_letter_image()
+                letter.send_local_translate()
+            else:
+                super(Correspondence, letter).process_letter()
 
+    @api.one
     def send_local_translate(self):
         child = self.sponsorship_id.child_id
 
@@ -98,7 +107,7 @@ class Correspondence(models.Model):
         translation_id = tc.upsert_translation(text_id, self)
         tc.upsert_translation_status(translation_id)
 
-        # Transfert file on the NAS
+        # Transfer file on the NAS
 
         # Retrieve configuration
         smb_user = config.get('smb_user')
@@ -129,6 +138,51 @@ class Correspondence(models.Model):
         else:
             raise Exception('Connection to NAS failed')
 
+    @api.one
+    def update_translation(self, translate_lang, translate_text):
+        """
+        Puts the translated text into the correspondence.
+        :param translate_lang: code_iso of the language of the translation
+        :param translate_text: text of the translation
+        :return: None
+        """
+        translate_lang_id = self.env['res.lang.compassion'].search(
+            [('code_iso', '=', translate_lang)]).id
+
+        if self.direction == 'Supporter To Beneficiary':
+            state = 'Received in the system'
+            # Write in the good text field
+            if translate_lang == 'eng':
+                target_text = 'english_text'
+            elif translate_lang in self.child_id.project_id \
+                    .country_id.spoken_lang_ids.mapped('code_iso'):
+                target_text = 'translated_text'
+            else:
+                raise AssertionError(
+                    'letter {} was translated in a wrong language: {}'
+                    .format(self.id, translate_lang))
+        else:
+            state = 'Published to Global Partner'
+            target_text = 'translated_text'
+
+        self.write(
+            {target_text: translate_text,
+             'state': state,
+             'destination_language_id': translate_lang_id})
+
+        # Send to GMC
+        if self.direction == 'Supporter To Beneficiary':
+            action_id = self.env.ref(
+                'onramp_compassion.create_commkit').id
+            self.env['gmc.message.pool'].create({
+                'action_id': action_id,
+                'object_id': self.id
+            })
+        else:
+            # Compose the letter image and process letter
+            self.compose_letter_image()
+            super(Correspondence, self).process_letter(download_image=False)
+
     # CRON Methods
     ##############
     @api.model
@@ -146,39 +200,6 @@ class Correspondence(models.Model):
                                .format(correspondence.id))
                 continue
 
-            translate_lang = letter["target_lang"]
-            translate_lang_id = self.env['res.lang.compassion'].search(
-                [('code_iso', '=', translate_lang)]).id
-
-            # Writte in the good text field
-            if correspondence.direction == 'Supporter To Beneficiary':
-                state = 'Received in the system'
-                if translate_lang == 'eng':
-                    target_text = 'english_text'
-                elif translate_lang in correspondence.child_id.project_id\
-                        .country_id.spoken_lang_ids.mapped('code_iso'):
-                    target_text = 'translated_text'
-                else:
-                    raise AssertionError(
-                        'letter {} was translated in a wrong language: {}'
-                        .format(correspondence.id, translate_lang))
-            else:
-                state = 'Published to Global Partner'
-                target_text = 'translated_text'
-
-            # UPDATE Odoo Database
-            correspondence.write(
-                {target_text: letter["text"],
-                 'state': state,
-                 'destination_language_id': translate_lang_id})
-
-            # Send to GMC
-            if correspondence.direction == 'Supporter To Beneficiary':
-                action_id = self.env.ref(
-                    'onramp_compassion.create_commkit').id
-                self.env['gmc.message.pool'].create({
-                    'action_id': action_id,
-                    'object_id': letter["letter_odoo_id"]
-                })
-
+            correspondence.update_translation(letter["target_lang"],
+                                              letter["text"])
             tc.remove_letter(letter["id"])
