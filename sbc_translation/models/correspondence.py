@@ -62,11 +62,17 @@ class Correspondence(models.Model):
     #                             PUBLIC METHODS                             #
     ##########################################################################
     def process_letter(self):
-        """ Overloading method """
-        super(Correspondence, self).process_letter()
-        if self.destination_language_id not in self.supporter_languages_ids:
-            self.send_local_translate()
+        """ Called when B2S letter is Published. Check if translation is
+         needed and upload to translation platform. """
+        for letter in self:
+            if letter.destination_language_id not in \
+                    letter.supporter_languages_ids:
+                letter.download_attach_letter_image()
+                letter.send_local_translate()
+            else:
+                super(Correspondence, letter).process_letter()
 
+    @api.one
     def send_local_translate(self):
         child = self.sponsorship_id.child_id
 
@@ -101,7 +107,7 @@ class Correspondence(models.Model):
         translation_id = tc.upsert_translation(text_id, self)
         tc.upsert_translation_status(translation_id)
 
-        # Transfert file on the NAS
+        # Transfer file on the NAS
 
         # Retrieve configuration
         smb_user = config.get('smb_user')
@@ -173,8 +179,9 @@ class Correspondence(models.Model):
                 'object_id': self.id
             })
         else:
-            # Compose the letter image
+            # Compose the letter image and process letter
             self.compose_letter_image()
+            super(Correspondence, self).process_letter(download_image=False)
 
     # CRON Methods
     ##############

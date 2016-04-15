@@ -33,7 +33,7 @@
     'author': 'Compassion CH',
     'maintainer': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['onramp_compassion'],
+    'depends': ['sbc_email'],
     'data': ['data/nas_parameters.xml',
              'data/local_letters_cron.xml'],
     'demo': [],

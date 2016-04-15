@@ -3,7 +3,7 @@
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Roman Zoller
+#    @author: Roman Zoller, Emanuel Cino
 #
 #    The licence is in the file __openerp__.py
 #
@@ -24,11 +24,15 @@ class Correspondence(models.Model):
     #                             PUBLIC METHODS                             #
     ##########################################################################
     @api.one
-    def process_letter(self):
+    def process_letter(self, download_image=True):
         """ Method called when B2S letter is Published. This will send the
             letter to the sponsor via Sendgrid e-mail.
+
+            :param: download_image: Set to False to avoid downloading the
+                                    letter image from GMC and attaching it.
         """
-        super(Correspondence, self).process_letter()
+        if download_image:
+            super(Correspondence, self).process_letter()
         partner = self.correspondant_id
         if partner.email and partner.delivery_preference == 'digital' and not\
                 self.email_id:
