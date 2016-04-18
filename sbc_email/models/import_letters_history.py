@@ -339,7 +339,7 @@ class ImportLettersHistory(models.Model):
 
     def check_path(self, path):
         """" Add / at end of path if not contains ever one """
-        if not path[-1] == '/':
+        if path and not path[-1] == '/':
             path = path + "/"
         return path
 
