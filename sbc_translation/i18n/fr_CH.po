@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.6.4\n"
 
 #. module: sbc_translation
-#: code:addons/sbc_translation/models/sponsorship_correspondence.py:154
+#: code:addons/sbc_translation/models/correspondence.py:154
 #, python-format
 msgid "Local Translation"
 msgstr "Traduction locale"
