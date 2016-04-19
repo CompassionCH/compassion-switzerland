@@ -100,7 +100,8 @@ class Correspondence(models.Model):
         valid = not self.is_first_letter and self.destination_language_id in \
             self.supporter_languages_ids and \
             self.sponsorship_id.state == 'active' and \
-            self.communication_type_ids.name != 'Final Letter'
+            self.communication_type_ids.name != 'Final Letter' and \
+            self.correspondant_id.ref != '1502623'  # Demaurex
         if self.destination_language_id != self.original_language_id:
             valid = valid and self.translated_text
         return valid
