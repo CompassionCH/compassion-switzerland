@@ -42,7 +42,7 @@ class ImportLettersHistory(models.Model):
     _inherit = ['import.letters.history', 'import.letter.config']
 
     manual_import = fields.Boolean(
-        string="Manual import",
+        string=_("Manual import"),
         default=False)
 
     ##########################################################################

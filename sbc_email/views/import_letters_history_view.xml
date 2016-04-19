@@ -32,7 +32,7 @@
                 <button name="button_import" position="replace"/>
                 <field name="nber_letters" position="before">
                 	<separator/>
-                    <button name="button_import" string="Load Files" type="object"/>
+                    <button name="button_import" string="Load Files" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
                 </field>
                 
                  <!-- add text edit for import folder path -->

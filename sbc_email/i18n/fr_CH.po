@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-23 13:21+0000\n"
-"PO-Revision-Date: 2016-04-19 07:24+0200\n"
+"POT-Creation-Date: 2016-04-19 13:30+0200\n"
+"PO-Revision-Date: 2016-04-19 13:33+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -150,7 +150,17 @@ msgid "Contract for recurring invoicing"
 msgstr "Contrat pour un payement permanent "
 
 #. module: sbc_email
-#: model:ir.model,name:sbc_email.model_correspondence
+#: field:correspondence,email_id:0
+msgid "E-mail"
+msgstr "E-mail"
+
+#. module: sbc_email
+#: field:correspondence,email_sent_date:0
+msgid "E-mail sent"
+msgstr "E-mail envoyé"
+
+#. module: sbc_email
+#: model:ir.model,name:sbc_email.model_sponsorship_correspondence
 msgid "Email Thread"
 msgstr "Email Thread"
 
@@ -160,25 +170,46 @@ msgid "Email composition wizard"
 msgstr "Assistant de composition d'e-mail"
 
 #. module: sbc_email
-#: field:correspondence,email_id:0
-msgid "Email id"
-msgstr "Identifiant d'e-mail"
-
-#. module: sbc_email
 #: model:ir.ui.menu,name:sbc_email.menu_mail_mail
 #: view:mail.mail:sbc_email.view_mail_tree
 msgid "Emails"
 msgstr "Emails"
 
 #. module: sbc_email
+#: model:ir.model,name:sbc_email.model_import_letters_history
+msgid ""
+"History of the letters imported from a zip\n"
+"    or a PDF/TIFF"
+msgstr ""
+"Historique des lettres importées depuis un zip\n"
+"   ou un PDF/TIFF"
+
+#. module: sbc_email
+#: model:ir.model,name:sbc_email.model_correspondence
+msgid "Letter"
+msgstr "Lettre"
+
+#. module: sbc_email
+#: view:import.letters.history:sbc_email.import_letters_history_nas_option_form
+msgid "Load Files"
+msgstr "Charger les fichiers"
+
+#. module: sbc_email
+#: code:addons/sbc_email/models/import_letters_history.py:45
+#: field:import.letters.history,manual_import:0
+#, python-format
+msgid "Manual import"
+msgstr "Import manuel"
+
+#. module: sbc_email
+#: model:ir.model,name:sbc_email.model_mail_mail
+msgid "Outgoing Mails"
+msgstr "Mails sortant"
+
+#. module: sbc_email
 #: model:ir.model,name:sbc_email.model_res_partner
 msgid "Partner"
 msgstr "Partenaire"
-
-#. module: sbc_email
-#: field:correspondence,email_sent_date:0
-msgid "Sent date"
-msgstr "Date d'envoi"
 
 #. module: sbc_email
 #: model:email.template,subject:sbc_email.change_system
@@ -187,11 +218,39 @@ msgid "You received a letter from ${object.child_id.firstname}!"
 msgstr "Une nouvelle lettre de ${object.child_id.firstname} est arrivée !"
 
 #. module: sbc_email
+#: code:addons/sbc_email/models/import_letters_history.py:107
+#, python-format
+msgid "Zip file corrupted ()"
+msgstr "Fichier zip corrompu ()"
+
+#. module: sbc_email
+#: code:addons/sbc_email/models/import_letters_history.py:111
+#, python-format
+msgid "Zip64 is not supported()"
+msgstr "Zip64 n'est pas supporté"
+
+#. module: sbc_email
 #: view:mail.mail:sbc_email.view_mail_tree
 msgid ""
 "grey:state in ('received', 'cancel');blue:state=='outgoing';red:"
 "state=='exception';black:state=='sent'"
 msgstr ""
+
+#. module: sbc_email
+#: view:import.letters.history:sbc_email.import_letters_history_nas_option_form
+msgid "{'invisible':[('manual_import', '==', False)]}"
+msgstr ""
+
+#. module: sbc_email
+#: view:import.letters.history:sbc_email.import_letters_history_nas_option_form
+msgid "{'invisible':[('manual_import', '==', True)]}"
+msgstr ""
+
+#~ msgid "Email id"
+#~ msgstr "Identifiant d'e-mail"
+
+#~ msgid "Sent date"
+#~ msgstr "Date d'envoi"
 
 #~ msgid ""
 #~ "<p>We are pleased to send you a new letter from your sponsored child "
