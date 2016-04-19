@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-23 13:21+0000\n"
-"PO-Revision-Date: 2016-02-23 14:24+0100\n"
+"PO-Revision-Date: 2016-04-19 07:24+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #. module: sbc_email
 #: model:email.template,body_html:sbc_email.ticket_block_original
@@ -132,43 +132,43 @@ msgstr ""
 #. module: sbc_email
 #: model:email.template,subject:sbc_email.ticket_change_language
 msgid "Change commitment language preference"
-msgstr ""
+msgstr "Changer les préférence de langue du parrainage"
 
 #. module: sbc_email
 #: model:email.template,subject:sbc_email.ticket_send_original
 msgid "Change supporter delivery preference (digital to physical)"
-msgstr ""
+msgstr "Changer les préférences d'envoie du parrain (de numérique à papier)"
 
 #. module: sbc_email
 #: model:email.template,subject:sbc_email.ticket_block_original
 msgid "Change supporter delivery preference (physical to digital)"
-msgstr ""
+msgstr "Changer les préférences d'envoie du parrain (de papier à numérique)"
 
 #. module: sbc_email
 #: model:ir.model,name:sbc_email.model_recurring_contract
 msgid "Contract for recurring invoicing"
-msgstr ""
+msgstr "Contrat pour un payement permanent "
 
 #. module: sbc_email
 #: model:ir.model,name:sbc_email.model_correspondence
 msgid "Email Thread"
-msgstr ""
+msgstr "Email Thread"
 
 #. module: sbc_email
 #: model:ir.model,name:sbc_email.model_mail_compose_message
 msgid "Email composition wizard"
-msgstr ""
+msgstr "Assistant de composition d'e-mail"
 
 #. module: sbc_email
 #: field:correspondence,email_id:0
 msgid "Email id"
-msgstr ""
+msgstr "Identifiant d'e-mail"
 
 #. module: sbc_email
 #: model:ir.ui.menu,name:sbc_email.menu_mail_mail
 #: view:mail.mail:sbc_email.view_mail_tree
 msgid "Emails"
-msgstr ""
+msgstr "Emails"
 
 #. module: sbc_email
 #: model:ir.model,name:sbc_email.model_res_partner
