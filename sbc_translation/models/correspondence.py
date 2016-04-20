@@ -151,23 +151,24 @@ class Correspondence(models.Model):
 
         if self.direction == 'Supporter To Beneficiary':
             state = 'Received in the system'
-# Until release R4
-#             # Write in the good text field
-#             if translate_lang == 'eng':
-#                 target_text = 'english_text'
-#             elif translate_lang in self.child_id.project_id \
-#                     .country_id.spoken_lang_ids.mapped('code_iso'):
-#                 target_text = 'translated_text'
-#             else:
-#                 raise AssertionError(
-#                     'letter {} was translated in a wrong language: {}'
-#                     .format(self.id, translate_lang))
+
+            # Write in the good text field
+            if translate_lang == 'eng':
+                target_text = 'english_text'
+            elif translate_lang in self.child_id.project_id \
+                    .country_id.spoken_lang_ids.mapped('code_iso'):
+                # After release R4 replace with 'translated_text'
+                target_text = 'english_text'
+            else:
+                raise AssertionError(
+                    'letter {} was translated in a wrong language: {}'
+                    .format(self.id, translate_lang))
         else:
             state = 'Published to Global Partner'
-#             target_text = 'translated_text'
+            target_text = 'translated_text'
 
         self.write(
-            {'english_text': translate_text,
+            {target_text: translate_text,
              'state': state,
              'destination_language_id': translate_lang_id})
 
