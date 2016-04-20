@@ -56,10 +56,8 @@ class mysql_connector(object):
         if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
         with self._con:
-            res = self._cur.execute(statement, args)
-            if res == 0:
-                res = True
-            return self._cur.lastrowid
+            self._cur.execute(statement, args)
+            return self._cur.lastrowid or True
 
     def selectOne(self, statement, args=None):
         """ Performs a MySQL SELECT statement and returns one single row.
