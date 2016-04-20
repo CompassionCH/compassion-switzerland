@@ -8,7 +8,6 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-
 import MySQLdb as mdb
 import logging
 from openerp.tools.config import config
@@ -16,22 +15,23 @@ from openerp.tools.config import config
 logger = logging.getLogger(__name__)
 
 
-class mysql_connector:
+class mysql_connector(object):
 
     """ Contains all the utility methods needed to talk with a MySQL server
     which connection settings are stored in the object mysql.config.settings.
     """
 
-    def __init__(self):
-        """Establishes the connection to the MySQL server used by GP."""
-        mysql_host = config.get('mysql_host')
-        mysql_user = config.get('mysql_user')
-        mysql_pw = config.get('mysql_pw')
-        mysql_db = config.get('mysql_db')
+    def __init__(self, mysql_host='mysql_host', mysql_user='mysql_user',
+                 mysql_pw='mysql_pw', mysql_db='mysql_db'):
+        """Establishes the connection to the MySQL server used."""
+        mh = config.get(mysql_host)
+        mu = config.get(mysql_user)
+        mp = config.get(mysql_pw)
+        md = config.get(mysql_db)
         self._con = False
         try:
-            self._con = mdb.connect(mysql_host, mysql_user, mysql_pw,
-                                    mysql_db, charset='utf8')
+            self._con = mdb.connect(mh, mu, mp,
+                                    md, charset='utf8')
             self._cur = self._con.cursor(mdb.cursors.DictCursor)
         except mdb.Error, e:
             logger.debug("Error %d: %s" % (e.args[0], e.args[1]))
@@ -59,7 +59,7 @@ class mysql_connector:
             res = self._cur.execute(statement, args)
             if res == 0:
                 res = True
-            return res
+            return self._cur.lastrowid
 
     def selectOne(self, statement, args=None):
         """ Performs a MySQL SELECT statement and returns one single row.

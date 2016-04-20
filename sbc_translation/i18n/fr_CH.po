@@ -1,0 +1,24 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* sbc_translation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20140602-231022\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-30 15:30+0000\n"
+"PO-Revision-Date: 2016-03-30 16:00+0100\n"
+"Last-Translator: Michael Sandoz <michaelsandoz87@gmail.com>\n"
+"Language-Team: \n"
+"Language: fr_CH\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.6.4\n"
+
+#. module: sbc_translation
+#: code:addons/sbc_translation/models/correspondence.py:154
+#, python-format
+msgid "Local Translation"
+msgstr "Traduction locale"

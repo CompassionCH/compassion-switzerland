@@ -1,0 +1,18 @@
+<openerp>
+	<data noupdate="1">
+		<record id="share_on_nas" model="ir.config_parameter">
+			<field name="key">sbc_email.share_on_nas</field>
+			<field name="value">Public</field>
+		</record>
+
+		<record id="scan_letter_imported" model="ir.config_parameter">
+			<field name="key">sbc_email.scan_letter_imported</field>
+			<field name="value">/Scan Lettres S2B/Imports/</field>
+		</record>
+
+		<record id="scan_letter_done" model="ir.config_parameter">
+			<field name="key">sbc_email.scan_letter_done</field>
+			<field name="value">/Scan Lettres S2B/Done/</field>
+		</record>
+	</data>
+</openerp>

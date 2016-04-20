@@ -10,7 +10,7 @@
 #                            in Jesus' name
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
-#    @author: Roman Zoller, Emanuel Cino, Michaël Sandoz
+#    @author: Stephane Eicher
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,20 +27,17 @@
 #
 ##############################################################################
 {
-    'name': 'Sponsor to beneficiary email communication',
+    'name': 'Sponsor to beneficiary communication translation',
     'version': '8.0.1',
-    'category': 'Other',
+    'category': 'Misc',
     'author': 'Compassion CH',
+    'maintainer': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['onramp_compassion', 'mail_sendgrid'],
-    'data': [
-        'data/email_text_templates.xml',
-        'data/import_config_templates.xml',
-        'data/scan_letter_params.xml',
-        'views/import_config_view.xml',
-        'views/import_letters_history_view.xml',
-        'views/sbc_email_view.xml',
-    ],
+    'depends': ['sbc_email'],
+    'data': ['data/nas_parameters.xml',
+             'data/local_letters_cron.xml'],
     'demo': [],
+    'test': [],
     'installable': True,
+    'application': True,
 }

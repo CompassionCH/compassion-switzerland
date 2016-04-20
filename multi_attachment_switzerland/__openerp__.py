@@ -9,8 +9,8 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
-#    @author: Roman Zoller, Emanuel Cino, Michaël Sandoz
+#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
+#    @author: Michael Sandoz <sandozmichael@hotmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,20 +27,20 @@
 #
 ##############################################################################
 {
-    'name': 'Sponsor to beneficiary email communication',
-    'version': '8.0.1',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'website': 'http://www.compassion.ch',
-    'depends': ['onramp_compassion', 'mail_sendgrid'],
-    'data': [
-        'data/email_text_templates.xml',
-        'data/import_config_templates.xml',
-        'data/scan_letter_params.xml',
-        'views/import_config_view.xml',
-        'views/import_letters_history_view.xml',
-        'views/sbc_email_view.xml',
-    ],
-    'demo': [],
-    'installable': True,
+    'name': "multi_attachment_switzerland",
+    'summary': """ Upload multi-attachment""",
+    'author': "Michael Sandoz",
+    'website': "http://www.compassion.ch",
+
+    # Categories can be used to filter modules in modules listing
+    # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/
+    # module/module_data.xml
+    # for the full list
+    'category': 'Social Network',
+    'version': '0.1',
+
+    # WARNING sync_mail_multi_attach module necessary for this one
+    # to work correctly
+    'depends': ['sync_mail_multi_attach'],
+    'qweb': ['static/src/xml/qweb.xml'],
 }
