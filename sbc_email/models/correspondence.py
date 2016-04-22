@@ -19,6 +19,22 @@ class Correspondence(models.Model):
     email_sent_date = fields.Datetime(
         'E-mail sent',
         related='email_id.sent_date', store=True)
+    email_read = fields.Boolean(
+        compute='_compute_email_read', store=True
+    )
+
+    ##########################################################################
+    #                             FIELDS METHODS                             #
+    ##########################################################################
+    @api.multi
+    @api.depends('email_id.state')
+    def _compute_email_read(self):
+        for letter in self:
+            email = letter.email_id
+            if email and email.state == 'received':
+                letter.email_read = True
+            else:
+                letter.email_read = False
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
