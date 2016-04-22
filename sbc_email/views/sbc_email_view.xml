@@ -25,6 +25,7 @@
                 <field name="rework_comments" position="after">
                     <field name="email_id" />
                     <field name="email_sent_date" />
+                    <field name="email_read" />
                 </field>
             </field>
         </record>
@@ -36,6 +37,7 @@
             <field name="arch" type="xml">
                 <field name="last_read" position="before">
                     <field name="email_sent_date" />
+                    <field name="email_read" />
                 </field>
             </field>
         </record>
