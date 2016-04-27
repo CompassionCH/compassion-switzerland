@@ -40,15 +40,14 @@ class Correspondence(models.Model):
     #                             PUBLIC METHODS                             #
     ##########################################################################
     @api.one
-    def process_letter(self, download_image=True):
+    def process_letter(self):
         """ Method called when B2S letter is Published. This will send the
             letter to the sponsor via Sendgrid e-mail.
 
             :param: download_image: Set to False to avoid downloading the
                                     letter image from GMC and attaching it.
         """
-        if download_image:
-            super(Correspondence, self).process_letter()
+        super(Correspondence, self).process_letter()
         partner = self.correspondant_id
         if partner.email and partner.delivery_preference == 'digital' and not\
                 self.email_id:
