@@ -12,9 +12,11 @@ import sys
 import base64
 
 from io import BytesIO
+from openerp.exceptions import Warning
+
 from . import translate_connector
 
-from openerp import models, api
+from openerp import models, api, _
 from openerp.tools.config import config
 
 from smb.SMBConnection import SMBConnection
@@ -80,6 +82,10 @@ class Correspondence(models.Model):
         src_lang_id = False
         dst_lang_id = False
         if self.direction == 'Supporter To Beneficiary':
+            # Check that the letter is not yet sent to GMC
+            if self.kit_identifier:
+                raise Warning(_("Letter already sent to GMC cannot be "
+                                "translated! [%s]") % self.kit_identifier)
             # Source language
             src_lang_id = self.original_language_id
             # Define the destination language
@@ -91,7 +97,7 @@ class Correspondence(models.Model):
             src_lang_id = self.destination_language_id
             dst_lang_id = self.sponsorship_id.reading_language
         else:
-            raise Exception('Direction not define')
+            raise Warning('Direction not defined')
 
         # File name
         sponsor = self.sponsorship_id.partner_id
@@ -136,7 +142,7 @@ class Correspondence(models.Model):
 
             self.state = 'Global Partner translation queue'
         else:
-            raise Exception('Connection to NAS failed')
+            raise Warning(_('Connection to NAS failed'))
 
     @api.one
     def update_translation(self, translate_lang, translate_text):
@@ -181,9 +187,9 @@ class Correspondence(models.Model):
                 'object_id': self.id
             })
         else:
-            # Compose the letter image and process letter
-            self.compose_letter_image()
-            super(Correspondence, self).process_letter(download_image=False)
+            # Recompose the letter image and process letter
+            self.letter_image.unlink()
+            super(Correspondence, self).process_letter()
 
     # CRON Methods
     ##############
