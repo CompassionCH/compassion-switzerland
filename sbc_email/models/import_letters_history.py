@@ -379,6 +379,31 @@ class ImportLettersHistory(models.Model):
             return SMBConnection(
                 SmbConfig.smb_user, SmbConfig.smb_pass, 'openerp', 'nas')
 
+    @api.model
+    def import_web_letter(self):
+        """
+        Call when a letter is set on web site:
+            - add web letter to an import set with import letter config
+              'Web letter'
+        """
+        import_web_letter = self.search([
+            ('config_id.name', '=', 'Web Letter'),
+            ('state', '!=', 'done')])
+
+        if import_web_letter:
+            logger.info('Import letter with config Web Letter existence')
+        else:
+            logger.info('NO IMPORT letter with config Web Letter')
+            import_config = self.env['import.letter.config'].search(
+                [('name', '=', 'Web Letter')], limit=1)
+            import_web_letter = self.create({
+                'config_id': import_config.id,
+                'state': 'open'})
+
+        # TODO Create import letter
+
+        return True
+
 
 class SmbConfig():
     """" Little class who contains SMB configuration """
