@@ -145,7 +145,7 @@ class Correspondence(models.Model):
             raise Warning(_('Connection to NAS failed'))
 
     @api.one
-    def update_translation(self, translate_lang, translate_text):
+    def update_translation(self, translate_lang, translate_text, translator):
         """
         Puts the translated text into the correspondence.
         :param translate_lang: code_iso of the language of the translation
@@ -154,6 +154,8 @@ class Correspondence(models.Model):
         """
         translate_lang_id = self.env['res.lang.compassion'].search(
             [('code_iso', '=', translate_lang)]).id
+        translator_partner = self.env['res.partner'].search([
+            ('ref', '=', translator)])
 
         if self.direction == 'Supporter To Beneficiary':
             state = 'Received in the system'
@@ -173,10 +175,11 @@ class Correspondence(models.Model):
             state = 'Published to Global Partner'
             target_text = 'translated_text'
 
-        self.write(
-            {target_text: translate_text,
-             'state': state,
-             'translation_language_id': translate_lang_id})
+        self.write({
+            target_text: translate_text,
+            'state': state,
+            'translation_language_id': translate_lang_id,
+            'translator_id': translator_partner.id})
 
         # Send to GMC
         if self.direction == 'Supporter To Beneficiary':

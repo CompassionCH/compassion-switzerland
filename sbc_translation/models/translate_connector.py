@@ -104,20 +104,22 @@ class TranslateConnect(mysql_connector):
         database that has translation_status to 'Traduit" (id = 3) and
         toDo_id to 'Pret' (id = 4)
         (returns -1 if not found). """
-        res = self.selectAll(
-            "SELECT tr.id, tr.letter_odoo_id, tr.text, tr.number,\
-            l.GP_libel target_lang\
-            FROM translation_status trs\
-            INNER JOIN translation tr\
-            ON trs.translation_id = tr.id\
-            INNER JOIN text txt\
-            ON tr.text_id = txt.id\
-            INNER JOIN language l\
-            ON txt.aim_lang_id = l.id\
-            WHERE tr.letter_odoo_id IS NOT NULL\
-            AND trs.status_id = 3 \
-            AND tr.toDo_id = 3"
-        )
+        res = self.selectAll("""
+            SELECT tr.id, tr.letter_odoo_id, tr.text,
+            l.GP_libel target_lang, usr.number as translator
+            FROM translation_status trs
+            INNER JOIN translation tr
+            ON trs.translation_id = tr.id
+            INNER JOIN user usr
+            ON tr.user_id = usr.id
+            INNER JOIN text txt
+            ON tr.text_id = txt.id
+            INNER JOIN language l
+            ON txt.aim_lang_id = l.id
+            WHERE tr.letter_odoo_id IS NOT NULL
+            AND trs.status_id = 3
+            AND tr.toDo_id = 3
+        """)
         return res
 
     def remove_letter(self, id):

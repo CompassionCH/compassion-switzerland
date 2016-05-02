@@ -379,29 +379,26 @@ class ImportLettersHistory(models.Model):
             return SMBConnection(
                 SmbConfig.smb_user, SmbConfig.smb_pass, 'openerp', 'nas')
 
-    def import_web_letter(self, cr, uid, context=None):
+    @api.model
+    def import_web_letter(self):
         """
         Call when a letter is set on web site:
             - add web letter to an import set with import letter config
               'Web letter'
         """
-        import_web_letter_reccord = self.search(
-            cr, uid, [('config_id', '=', 'Web Letter')])
+        import_web_letter = self.search([
+            ('config_id.name', '=', 'Web Letter'),
+            ('state', '!=', 'done')])
 
-        if import_web_letter_reccord:
-            logger.info('Import letter with config Web Letter existance')
+        if import_web_letter:
+            logger.info('Import letter with config Web Letter existence')
         else:
             logger.info('NO IMPORT letter with config Web Letter')
-            model_import_config = self.pool.get('import.letter.config')
-            id = model_import_config.search(
-                cr, uid, [('name', '=', 'Web Letter')])
-            if id:
-                for i in id:
-                    logger.info("id found {}".format(i))
-                import_web_letter_reccord = self.create(
-                    cr, uid, {'config_id': id[0]}, context=context)
-            else:
-                logger.info('NO ID found for impor_letter_config Web Letter')
+            import_config = self.env['import.letter.config'].search(
+                [('name', '=', 'Web Letter')], limit=1)
+            import_web_letter = self.create({
+                'config_id': import_config.id,
+                'state': 'open'})
 
         # TODO Create import letter
 
