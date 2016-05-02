@@ -67,7 +67,7 @@ class Correspondence(models.Model):
         """ Called when B2S letter is Published. Check if translation is
          needed and upload to translation platform. """
         for letter in self:
-            if letter.destination_language_id not in \
+            if letter.translation_language_id not in \
                     letter.supporter_languages_ids:
                 letter.download_attach_letter_image()
                 letter.send_local_translate()
@@ -94,7 +94,7 @@ class Correspondence(models.Model):
                 .search([('translatable', '=', True)])
             dst_lang_id = (child_langs & translate_langs)[-1]
         elif self.direction == 'Beneficiary To Supporter':
-            src_lang_id = self.destination_language_id
+            src_lang_id = self.translation_language_id
             dst_lang_id = self.sponsorship_id.reading_language
         else:
             raise Warning('Direction not defined')
@@ -176,7 +176,7 @@ class Correspondence(models.Model):
         self.write(
             {target_text: translate_text,
              'state': state,
-             'destination_language_id': translate_lang_id})
+             'translation_language_id': translate_lang_id})
 
         # Send to GMC
         if self.direction == 'Supporter To Beneficiary':
