@@ -209,5 +209,6 @@ class Correspondence(models.Model):
                 continue
 
             correspondence.update_translation(letter["target_lang"],
-                                              letter["text"])
+                                              letter["text"],
+                                              letter["translator"])
             tc.remove_letter(letter["id"])
