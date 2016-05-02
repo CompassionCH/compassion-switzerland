@@ -164,7 +164,6 @@ class ImportLettersHistory(models.Model):
         logger.info("Imported letters analysis started...")
         progress = 1
 
-        # Case where letters are in 'Imports' folder on the NAS
         share_nas = self.env.ref('sbc_email.share_on_nas').value
 
         smb_conn = self._get_smb_connection()
@@ -210,61 +209,21 @@ class ImportLettersHistory(models.Model):
                                 "Analyzing letter {}/{}".format(
                                     progress, self.nber_letters))
 
-                            self._analyze_attachment(zip_.read(f), f, True)
+                            self._analyze_attachment(zip_.read(f), f)
                             progress += 1
-                        # delete zip file on 'Imports' folder on the NAS
-                        try:
-                            smb_conn.deleteFiles(
-                                share_nas,
-                                imported_letter_path +
-                                sharedFile.filename)
-                        except Exception as inst:
-                            logger.info('Failed to delete zip file on NAS: {}'
-                                        .format(inst))
                 smb_conn.close()
             else:
                 logger.info('Failed to list files in Imports on the NAS in \
                 emplacement: {}'.format(
                     imported_letter_path))
         else:
-            # attachment data are unlink on super method so saving zip filename
-            # to delete after treatment
-            list_zip_to_delete = []
-            for attachment in self.data:
-                if func.check_file(attachment.name) == 2:
-                    list_zip_to_delete.append(attachment.name)
-
             super(ImportLettersHistory, self)._run_analyze()
-
-            # delete saving zip filename
-            imported_letter_path = self.env.ref(
-                'sbc_email.scan_letter_imported').value
-            for filename in list_zip_to_delete:
-                try:
-                    if smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
-                        smb_conn.deleteFiles(
-                            share_nas,
-                            imported_letter_path +
-                            filename)
-                except Exception as inst:
-                    logger.info('Failed to delete zip file \
-                    on NAS: {}'.format(inst))
 
         # remove all the files (now they are inside import_line_ids)
         self.data.unlink()
+        self._manage_all_imported_files()
         self.import_completed = True
         logger.info("Imported letters analysis completed.")
-
-    def _analyze_attachment(self, file_data, file_name, is_zipfile=False):
-        super(ImportLettersHistory, self)._analyze_attachment(
-            file_data, file_name, is_zipfile)
-
-        # save imported letter to a shared NAS folder
-        file_to_copy = BytesIO(file_data)
-        self._copy_imported_to_done_letter(
-            file_name,
-            file_to_copy,
-            not is_zipfile)
 
     def _save_imported_letter(self, attachment):
         """
@@ -295,6 +254,69 @@ class ImportLettersHistory(models.Model):
             smb_conn.close()
         return True
 
+    def _manage_all_imported_files(self):
+        """
+        File management at the end of correct import:
+            - Save files in their final location on the NAS
+            - Delete files from their import location on the NAS
+        Done by Michael Sandoz 02.2016
+        """
+        share_nas = self.env.ref('sbc_email.share_on_nas').value
+        # to delete after treatment
+        list_zip_to_delete = []
+        imported_letter_path = ""
+        if self.manual_import:
+            imported_letter_path = self.env.ref(
+                'sbc_email.scan_letter_imported').value
+        else:
+            imported_letter_path = self.check_path(self.import_folder_path)
+
+        smb_conn = self._get_smb_connection()
+        if smb_conn and smb_conn.connect(
+                SmbConfig.smb_ip, SmbConfig.smb_port):
+
+            listPaths = smb_conn.listPath(share_nas, imported_letter_path)
+            for sharedFile in listPaths:
+                if func.check_file(sharedFile.filename) == 1:
+                    file_obj = BytesIO()
+                    smb_conn.retrieveFile(
+                        share_nas,
+                        imported_letter_path +
+                        sharedFile.filename,
+                        file_obj)
+                    file_obj.seek(0)
+                    self._copy_imported_to_done_letter(
+                        sharedFile.filename, file_obj, True)
+                elif func.isZIP(sharedFile.filename):
+                    list_zip_to_delete.append(sharedFile.filename)
+                    zip_file = BytesIO()
+
+                    smb_conn.retrieveFile(
+                        share_nas,
+                        imported_letter_path +
+                        sharedFile.filename,
+                        zip_file)
+                    zip_file.seek(0)
+                    zip_ = zipfile.ZipFile(
+                        zip_file, 'r')
+
+                    # loop over files inside zip
+                    for f in zip_.namelist():
+                        self._copy_imported_to_done_letter(
+                            f, BytesIO(zip_.read(f)), False)
+
+            # delete zip file from origin import folder on the NAS
+            for filename in list_zip_to_delete:
+                try:
+                    smb_conn.deleteFiles(
+                        share_nas,
+                        imported_letter_path +
+                        filename)
+                except Exception as inst:
+                    logger.info('Failed to delete zip file on NAS: {}'
+                                .format(inst))
+            smb_conn.close()
+
     def _copy_imported_to_done_letter(
             self, filename, file_to_copy, deleteFile):
         """
@@ -313,8 +335,13 @@ class ImportLettersHistory(models.Model):
             # Copy file in attachment in the done letter folder
             share_nas = self.env.ref('sbc_email.share_on_nas').value
 
+            # Add end path corresponding to the end of the import folder path
+            end_path = ""
+            if self.import_folder_path:
+                end_path = self.check_path(self.import_folder_path)
+                end_path = end_path.split("\\")[-2] + "\\"
             done_letter_path = self.env.ref(
-                'sbc_email.scan_letter_done').value + filename
+                'sbc_email.scan_letter_done').value + end_path + filename
 
             smb_conn.storeFile(share_nas, done_letter_path, file_to_copy)
 
@@ -338,9 +365,9 @@ class ImportLettersHistory(models.Model):
         return True
 
     def check_path(self, path):
-        """" Add / at end of path if not contains ever one """
-        if path and not path[-1] == '/':
-            path = path + "/"
+        """" Add \ at end of path if not contains ever one """
+        if path and not path[-1] == '\\':
+            path = path + "\\"
         return path
 
     def _get_smb_connection(self):
@@ -351,6 +378,34 @@ class ImportLettersHistory(models.Model):
         else:
             return SMBConnection(
                 SmbConfig.smb_user, SmbConfig.smb_pass, 'openerp', 'nas')
+
+    def import_web_letter(self, cr, uid, context=None):
+        """
+        Call when a letter is set on web site:
+            - add web letter to an import set with import letter config
+              'Web letter'
+        """
+        import_web_letter_reccord = self.search(
+            cr, uid, [('config_id', '=', 'Web Letter')])
+
+        if import_web_letter_reccord:
+            logger.info('Import letter with config Web Letter existance')
+        else:
+            logger.info('NO IMPORT letter with config Web Letter')
+            model_import_config = self.pool.get('import.letter.config')
+            id = model_import_config.search(
+                cr, uid, [('name', '=', 'Web Letter')])
+            if id:
+                for i in id:
+                    logger.info("id found {}".format(i))
+                import_web_letter_reccord = self.create(
+                    cr, uid, {'config_id': id[0]}, context=context)
+            else:
+                logger.info('NO ID found for impor_letter_config Web Letter')
+
+        # TODO Create import letter
+
+        return True
 
 
 class SmbConfig():

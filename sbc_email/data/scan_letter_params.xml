@@ -1,18 +1,32 @@
 <openerp>
 	<data noupdate="1">
+		<!-- test config (preprod, local user machine) -->
 		<record id="share_on_nas" model="ir.config_parameter">
 			<field name="key">sbc_email.share_on_nas</field>
-			<field name="value">Public</field>
+			<field name="value">it</field>
 		</record>
-
 		<record id="scan_letter_imported" model="ir.config_parameter">
 			<field name="key">sbc_email.scan_letter_imported</field>
-			<field name="value">/Scan Lettres S2B/Imports/</field>
+			<field name="value">\devel\Scans\Imports\</field>
 		</record>
 
 		<record id="scan_letter_done" model="ir.config_parameter">
 			<field name="key">sbc_email.scan_letter_done</field>
-			<field name="value">/Scan Lettres S2B/Done/</field>
+			<field name="value">\devel\Scans\Done\</field>
 		</record>
+		<!-- production config
+		<record id="share_on_nas" model="ir.config_parameter">
+			<field name="key">sbc_email.share_on_nas</field>
+			<field name="value">Public</field>
+		</record>
+		<record id="scan_letter_imported" model="ir.config_parameter">
+			<field name="key">sbc_email.scan_letter_imported</field>
+			<field name="value">\Scan Lettres S2B\Imports\</field>
+		</record>
+		<record id="scan_letter_done" model="ir.config_parameter">
+			<field name="key">sbc_email.scan_letter_done</field>
+			<field name="value">\Scan Lettres S2B\Done\</field>
+		</record>
+		-->
 	</data>
 </openerp>

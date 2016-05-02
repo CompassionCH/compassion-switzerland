@@ -101,10 +101,12 @@ class TranslateConnect(mysql_connector):
     def get_translated_letters(self):
         """ Returns a list for dictionaries with translation and filename
         (sponsorship_id is in the file name...) in MySQL translation_test
-        database that has translation_status to 'Traduit" (id = 3)
+        database that has translation_status to 'Traduit" (id = 3) and
+        toDo_id to 'Pret' (id = 4)
         (returns -1 if not found). """
         res = self.selectAll(
-            "SELECT tr.id, tr.letter_odoo_id, tr.text, l.GP_libel target_lang\
+            "SELECT tr.id, tr.letter_odoo_id, tr.text, tr.number,\
+            l.GP_libel target_lang\
             FROM translation_status trs\
             INNER JOIN translation tr\
             ON trs.translation_id = tr.id\
@@ -113,7 +115,8 @@ class TranslateConnect(mysql_connector):
             INNER JOIN language l\
             ON txt.aim_lang_id = l.id\
             WHERE tr.letter_odoo_id IS NOT NULL\
-            AND trs.status_id = 3"
+            AND trs.status_id = 3 \
+            AND tr.toDo_id = 3"
         )
         return res
 
