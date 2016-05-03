@@ -76,28 +76,14 @@ class Correspondence(models.Model):
 
     @api.one
     def send_local_translate(self):
+        """
+        Sends the letter to the local translation platform.
+        :return: None
+        """
         child = self.sponsorship_id.child_id
 
         # Specify the src and dst language
-        src_lang_id = False
-        dst_lang_id = False
-        if self.direction == 'Supporter To Beneficiary':
-            # Check that the letter is not yet sent to GMC
-            if self.kit_identifier:
-                raise Warning(_("Letter already sent to GMC cannot be "
-                                "translated! [%s]") % self.kit_identifier)
-            # Source language
-            src_lang_id = self.original_language_id
-            # Define the destination language
-            child_langs = child.project_id.country_id.spoken_lang_ids
-            translate_langs = self.env['res.lang.compassion']\
-                .search([('translatable', '=', True)])
-            dst_lang_id = (child_langs & translate_langs)[-1]
-        elif self.direction == 'Beneficiary To Supporter':
-            src_lang_id = self.translation_language_id
-            dst_lang_id = self.sponsorship_id.reading_language
-        else:
-            raise Warning('Direction not defined')
+        src_lang_id, dst_lang_id = self._get_translation_langs()
 
         # File name
         sponsor = self.sponsorship_id.partner_id
@@ -106,43 +92,15 @@ class Correspondence(models.Model):
 
         # Send letter to local translate platform
         tc = translate_connector.TranslateConnect()
-        text_id = tc.upsert_text(self, file_name,
-                                 tc.get_lang_id(src_lang_id),
-                                 tc.get_lang_id(dst_lang_id),
-                                 )
+        text_id = tc.upsert_text(
+            self, file_name, tc.get_lang_id(src_lang_id),
+            tc.get_lang_id(dst_lang_id))
         translation_id = tc.upsert_translation(text_id, self)
         tc.upsert_translation_status(translation_id)
 
         # Transfer file on the NAS
-
-        # Retrieve configuration
-        smb_user = config.get('smb_user')
-        smb_pass = config.get('smb_pwd')
-        smb_ip = config.get('smb_ip')
-        smb_port = int(config.get('smb_port', 0))
-        if not (smb_user and smb_pass and smb_ip and smb_port):
-            raise Exception('No config SMB in file .conf')
-
-        # Copy file in the imported letter folder
-        smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
-        if smb_conn.connect(smb_ip, smb_port):
-            file_ = BytesIO(base64.b64decode(
-                self.letter_image.with_context(
-                    bin_size=False).datas))
-            nas_share_name = self.env.ref(
-                'sbc_translation.nas_share_name').value
-
-            nas_letters_store_path = self.env.ref(
-                'sbc_translation.nas_letters_store_path').value + file_name
-            smb_conn.storeFile(nas_share_name,
-                               nas_letters_store_path, file_)
-
-            logger.info('File {} store on NAS with success'
-                        .format(self.letter_image.name))
-
-            self.state = 'Global Partner translation queue'
-        else:
-            raise Warning(_('Connection to NAS failed'))
+        self._transfer_file_on_nas(file_name)
+        self.state = 'Global Partner translation queue'
 
     @api.one
     def update_translation(self, translate_lang, translate_text, translator):
@@ -176,7 +134,7 @@ class Correspondence(models.Model):
             target_text = 'translated_text'
 
         self.write({
-            target_text: translate_text,
+            target_text: translate_text.replace('\r', ''),
             'state': state,
             'translation_language_id': translate_lang_id,
             'translator_id': translator_partner.id})
@@ -193,6 +151,89 @@ class Correspondence(models.Model):
             # Recompose the letter image and process letter
             self.letter_image.unlink()
             super(Correspondence, self).process_letter()
+
+    ##########################################################################
+    #                             PRIVATE METHODS                            #
+    ##########################################################################
+    def _get_translation_langs(self):
+        """
+        Finds the source_language et destination_language suited for
+        translation of the given letter.
+
+        S2B:
+            - src_lang is the original language of the letter
+            - dst_lang is the lang of the child if translatable, else
+              english
+
+        B2S:
+            - src_lang is the original language if translatable, else the
+              current translated language of the letter (mostly english)
+            - dst_lang is the main language of the sponsor
+        :return: src_lang, dst_lang
+        :rtype: res.lang.compassion, res.lang.compassion
+        """
+        self.ensure_one()
+        src_lang_id = False
+        dst_lang_id = False
+        if self.direction == 'Supporter To Beneficiary':
+            # Check that the letter is not yet sent to GMC
+            if self.kit_identifier:
+                raise Warning(_("Letter already sent to GMC cannot be "
+                                "translated! [%s]") % self.kit_identifier)
+
+            src_lang_id = self.original_language_id
+            child_langs = self.beneficiary_language_ids.filtered(
+                'translatable')
+            if child_langs:
+                dst_lang_id = child_langs[-1]
+            else:
+                dst_lang_id = self.env.ref(
+                    'sbc_compassion.lang_compassion_english')
+
+        elif self.direction == 'Beneficiary To Supporter':
+            if self.original_language_id and \
+                    self.original_language_id.translatable:
+                src_lang_id = self.original_language_id
+            else:
+                src_lang_id = self.translation_language_id
+            dst_lang_id = self.supporter_languages_ids.filtered(
+                lambda lang: lang.lang_id and lang.lang_id.iso_code ==
+                self.correspondant_id.lang)
+
+        return src_lang_id, dst_lang_id
+
+    def _transfer_file_on_nas(self, file_name):
+        """
+        Puts the letter file on the NAS folder for the translation platform.
+        :return: None
+        """
+        self.ensure_one()
+        # Retrieve configuration
+        smb_user = config.get('smb_user')
+        smb_pass = config.get('smb_pwd')
+        smb_ip = config.get('smb_ip')
+        smb_port = int(config.get('smb_port', 0))
+        if not (smb_user and smb_pass and smb_ip and smb_port):
+            raise Exception('No config SMB in file .conf')
+
+        # Copy file in the imported letter folder
+        smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
+        if smb_conn.connect(smb_ip, smb_port):
+            file_ = BytesIO(base64.b64decode(
+                self.letter_image.with_context(
+                    bin_size=False).datas))
+            nas_share_name = self.env.ref(
+                'sbc_translation.nas_share_name').value
+
+            nas_letters_store_path = self.env.ref(
+                'sbc_translation.nas_letters_store_path').value + file_name
+            smb_conn.storeFile(nas_share_name,
+                               nas_letters_store_path, file_)
+
+            logger.info('File {} store on NAS with success'
+                        .format(self.letter_image.name))
+        else:
+            raise Warning(_('Connection to NAS failed'))
 
     # CRON Methods
     ##############
@@ -215,3 +256,4 @@ class Correspondence(models.Model):
                                               letter["text"],
                                               letter["translator"])
             tc.remove_letter(letter["id"])
+            return True
