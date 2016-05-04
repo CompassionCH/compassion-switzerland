@@ -197,7 +197,7 @@ class Correspondence(models.Model):
             else:
                 src_lang_id = self.translation_language_id
             dst_lang_id = self.supporter_languages_ids.filtered(
-                lambda lang: lang.lang_id and lang.lang_id.iso_code ==
+                lambda lang: lang.lang_id and lang.lang_id.code ==
                 self.correspondant_id.lang)
 
         return src_lang_id, dst_lang_id
