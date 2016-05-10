@@ -21,6 +21,10 @@
             <field name="physical_attachments">sent_by_mail</field>
             <field name="import_folder_path">\devel\Scans\No_Standard_With_Attachments</field>
         </record>
+        <record id="web_letter" model="import.letter.config">
+            <field name="name">Web Letter</field>
+            <field name="source">website</field>
+        </record>
         
         <!-- production config
         <record id="standard" model="import.letter.config">
@@ -41,6 +45,10 @@
             <field name="name">No Standard with attachment</field>
             <field name="template_id" ref="sbc_compassion.default_template"/>
             <field name="physical_attachments">sent_by_mail</field>
-            <field name="import_folder_path">\Scan Lettres S2B\No_Standard_With_Attachments</field> -->
+            <field name="import_folder_path">\Scan Lettres S2B\No_Standard_With_Attachments</field> 
+        <record id="web_letter" model="import.letter.config">
+            <field name="name">Web Letter</field>
+            <field name="source">website</field>
+        </record>-->
     </data>
 </openerp>
