@@ -457,7 +457,8 @@ class ImportLettersHistory(models.Model):
                     'partner_id': sponsor_id,
                     'child_id': child_id,
                     'letter_language_id': lang_id,
-                    'original_text': original_text
+                    'original_text': original_text,
+                    'source': 'website'
                 })
                 letters_line = self.env[
                     'import.letter.line'].create(line_vals[i])
