@@ -19,6 +19,8 @@ import time
 
 from openerp.addons.sbc_compassion.tools import import_letter_functions as func
 from openerp import fields, models, api, _, exceptions
+from pyPdf import PdfFileWriter, PdfFileReader
+from pyPdf.pdf import PageObject
 
 from io import BytesIO
 from openerp.tools.config import config
@@ -441,14 +443,15 @@ class ImportLettersHistory(models.Model):
 
         # save_letter pdf
         if pdf_letter:
-            file_pdf = BytesIO(base64.b64decode(pdf_letter))
 
             filename = 'WEB_' + sponsor_ref + '_' + \
                 child_code + '_' + str(time.time())[:10] + '.pdf'
 
+            pdf_letter = self.analyze_webletter(base64.b64decode(pdf_letter))
+
             # analyze attachment to check template and create image preview
             line_vals, document_vals = func.analyze_attachment(
-                self.env, base64.b64decode(pdf_letter), filename,
+                self.env, pdf_letter, filename,
                 template)
 
             for i in xrange(0, len(line_vals)):
@@ -477,6 +480,7 @@ class ImportLettersHistory(models.Model):
             done_letter_path = self.env.ref(
                 'sbc_email.scan_letter_done').value + filename
 
+            file_pdf = BytesIO(pdf_letter)
             smb_conn = self._get_smb_connection()
             if smb_conn and smb_conn.connect(
                     SmbConfig.smb_ip, SmbConfig.smb_port):
@@ -487,6 +491,30 @@ class ImportLettersHistory(models.Model):
             return True
         else:
             return False
+
+    def analyze_webletter(self, pdf_letter):
+        """
+        Look if the web letter has a minimum of 2 page.
+        If not add one blank page.
+        """
+        pdf = PdfFileReader(BytesIO(pdf_letter))
+
+        if pdf.numPages < 2:
+            final_pdf = PdfFileWriter()
+            final_pdf.addPage(pdf.getPage(0))
+
+            width = float(pdf.getPage(0).mediaBox.getWidth())
+            height = float(pdf.getPage(0).mediaBox.getHeight())
+
+            new_page = PageObject.createBlankPage(None, width, height)
+            final_pdf.addPage(new_page)
+
+            output_stream = BytesIO()
+            final_pdf.write(output_stream)
+            output_stream.seek(0)
+            pdf_letter = output_stream.read()
+            output_stream.close()
+        return pdf_letter
 
 
 class SmbConfig():
