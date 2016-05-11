@@ -123,7 +123,7 @@ class Correspondence(models.Model):
                 target_text = 'english_text'
             elif translate_lang in self.child_id.project_id \
                     .country_id.spoken_lang_ids.mapped('code_iso'):
-                # After release R4 replace with 'translated_text'
+                # TODO After release R4 replace with 'translated_text'
                 target_text = 'english_text'
             else:
                 raise AssertionError(
@@ -141,6 +141,10 @@ class Correspondence(models.Model):
 
         # Send to GMC
         if self.direction == 'Supporter To Beneficiary':
+            # TODO Until R4 or bug with english_text is resolved
+            self.write({
+                'original_text': translate_text.replace('\r', ''),
+            })
             action_id = self.env.ref(
                 'onramp_compassion.create_commkit').id
             self.env['gmc.message.pool'].create({
@@ -256,4 +260,4 @@ class Correspondence(models.Model):
                                               letter["text"],
                                               letter["translator"])
             tc.remove_letter(letter["id"])
-            return True
+        return True
