@@ -102,7 +102,7 @@ class TranslateConnect(mysql_connector):
         """ Returns a list for dictionaries with translation and filename
         (sponsorship_id is in the file name...) in MySQL translation_test
         database that has translation_status to 'Traduit" (id = 3) and
-        toDo_id to 'Pret' (id = 4)
+        toDo_id to 'Pret' (id = 3)
         (returns -1 if not found). """
         res = self.selectAll("""
             SELECT tr.id, tr.letter_odoo_id, tr.text, txt.id AS text_id,
@@ -121,6 +121,17 @@ class TranslateConnect(mysql_connector):
             AND tr.toDo_id = 3
         """)
         return res
+
+    def update_translation_to_not_in_odoo(self, translation_id):
+        """update translation to set toDo_id in state "Not in Odoo"
+        """
+
+        vals = {
+            'id': translation_id,
+            'toDo_id': 5,
+            'updatedat': self.current_time,
+        }
+        return self.upsert("translation", vals)
 
     def remove_letter(self, id):
         """ Delete a letter record with the text_id given """
