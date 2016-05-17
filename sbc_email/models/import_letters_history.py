@@ -15,9 +15,12 @@ between the database and the mail.
 import logging
 import base64
 import zipfile
+import time
 
 from openerp.addons.sbc_compassion.tools import import_letter_functions as func
 from openerp import fields, models, api, _, exceptions
+from pyPdf import PdfFileWriter, PdfFileReader
+from pyPdf.pdf import PageObject
 
 from io import BytesIO
 from openerp.tools.config import config
@@ -379,30 +382,139 @@ class ImportLettersHistory(models.Model):
             return SMBConnection(
                 SmbConfig.smb_user, SmbConfig.smb_pass, 'openerp', 'nas')
 
-    @api.model
-    def import_web_letter(self):
+    @api.one
+    def import_web_letter(self, child_code, sponsor_ref, language_name,
+                          original_text, template_name, pdf_letter):
         """
         Call when a letter is set on web site:
             - add web letter to an import set with import letter config
               'Web letter'
         """
-        import_web_letter = self.search([
-            ('config_id.name', '=', 'Web Letter'),
-            ('state', '!=', 'done')])
+        child_id = None
+        if child_code:
+            # Retrieve child code and find corresponding id
+            model_child = self.env['compassion.child'].search(
+                [('code', '=', child_code), ('state', '=', 'P')])
 
-        if import_web_letter:
-            logger.info('Import letter with config Web Letter existence')
+            child_id = model_child.id
+        if not child_id:
+            logger.info('Wrong child_code received : {}'.
+                        format(child_code))
+            return False
+
+        sponsor_id = None
+        if sponsor_ref:
+            # Retrieve sponsor reference and find corresponding id
+            model_sponsor = self.env['res.partner'].search(
+                [('ref', '=', sponsor_ref),
+                 ('is_company', '=', False)])
+
+            sponsor_id = model_sponsor.id
+        if not sponsor_id:
+            logger.info('Wrong sponsor_ref received : {}'.
+                        format(sponsor_ref))
+            return False
+
+        # Check if a sponsorship exists with this child code and sponsor ref
+        sponsorhip_id = self.env['recurring.contract'].search([
+            ('child_id', '=', child_id),
+            ('correspondant_id', '=', sponsor_id)],
+            order='is_active desc, end_date desc', limit=1).id
+        if not sponsorhip_id:
+            logger.info('No existing sponsorship')
+            return False
+
+        lang_id = None
+        if language_name:
+            # Retrieve language name and find corresponding id
+            model_lang = self.env['res.lang.compassion'].search(
+                [('name', '=', language_name)], limit=1)
+
+            lang_id = model_lang.id
+
+        template = None
+        if template_name:
+            # Retrieve template name and find corresponding id
+            template = self.env['correspondence.template'].search(
+                [('name', '=', template_name)], limit=1)
+
+        if not original_text:
+            original_text = ""
+
+        # save_letter pdf
+        if pdf_letter:
+
+            filename = 'WEB_' + sponsor_ref + '_' + \
+                child_code + '_' + str(time.time())[:10] + '.pdf'
+
+            pdf_letter = self.analyze_webletter(base64.b64decode(pdf_letter))
+
+            # analyze attachment to check template and create image preview
+            line_vals, document_vals = func.analyze_attachment(
+                self.env, pdf_letter, filename,
+                template)
+
+            for i in xrange(0, len(line_vals)):
+                line_vals[i].update({
+                    'import_id': self.id,
+                    'partner_id': sponsor_id,
+                    'child_id': child_id,
+                    'letter_language_id': lang_id,
+                    'original_text': original_text,
+                    'source': 'website'
+                })
+                letters_line = self.env[
+                    'import.letter.line'].create(line_vals[i])
+                document_vals[i].update({
+                    'res_id': letters_line.id,
+                    'res_model': 'import.letter.line'
+                })
+                letters_line.letter_image = self.env[
+                    'ir.attachment'].create(document_vals[i])
+
+            self.import_completed = True
+
+            logger.info("Try to copy file {} !".format(filename))
+            # Copy file in attachment in the done letter folder
+            share_nas = self.env.ref('sbc_email.share_on_nas').value
+            done_letter_path = self.env.ref(
+                'sbc_email.scan_letter_done').value + filename
+
+            file_pdf = BytesIO(pdf_letter)
+            smb_conn = self._get_smb_connection()
+            if smb_conn and smb_conn.connect(
+                    SmbConfig.smb_ip, SmbConfig.smb_port):
+                smb_conn.storeFile(share_nas, done_letter_path, file_pdf)
+                smb_conn.close()
+            else:
+                return False
+            return True
         else:
-            logger.info('NO IMPORT letter with config Web Letter')
-            import_config = self.env['import.letter.config'].search(
-                [('name', '=', 'Web Letter')], limit=1)
-            import_web_letter = self.create({
-                'config_id': import_config.id,
-                'state': 'open'})
+            return False
 
-        # TODO Create import letter
+    def analyze_webletter(self, pdf_letter):
+        """
+        Look if the web letter has a minimum of 2 page.
+        If not add one blank page.
+        """
+        pdf = PdfFileReader(BytesIO(pdf_letter))
 
-        return True
+        if pdf.numPages < 2:
+            final_pdf = PdfFileWriter()
+            final_pdf.addPage(pdf.getPage(0))
+
+            width = float(pdf.getPage(0).mediaBox.getWidth())
+            height = float(pdf.getPage(0).mediaBox.getHeight())
+
+            new_page = PageObject.createBlankPage(None, width, height)
+            final_pdf.addPage(new_page)
+
+            output_stream = BytesIO()
+            final_pdf.write(output_stream)
+            output_stream.seek(0)
+            pdf_letter = output_stream.read()
+            output_stream.close()
+        return pdf_letter
 
 
 class SmbConfig():

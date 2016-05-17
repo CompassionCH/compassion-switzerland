@@ -123,7 +123,7 @@ class Correspondence(models.Model):
                 target_text = 'english_text'
             elif translate_lang in self.child_id.project_id \
                     .country_id.spoken_lang_ids.mapped('code_iso'):
-                # After release R4 replace with 'translated_text'
+                # TODO After release R4 replace with 'translated_text'
                 target_text = 'english_text'
             else:
                 raise AssertionError(
@@ -141,6 +141,10 @@ class Correspondence(models.Model):
 
         # Send to GMC
         if self.direction == 'Supporter To Beneficiary':
+            # TODO Until R4 or bug with english_text is resolved
+            self.write({
+                'original_text': translate_text.replace('\r', ''),
+            })
             action_id = self.env.ref(
                 'onramp_compassion.create_commkit').id
             self.env['gmc.message.pool'].create({
@@ -197,7 +201,7 @@ class Correspondence(models.Model):
             else:
                 src_lang_id = self.translation_language_id
             dst_lang_id = self.supporter_languages_ids.filtered(
-                lambda lang: lang.lang_id and lang.lang_id.iso_code ==
+                lambda lang: lang.lang_id and lang.lang_id.code ==
                 self.correspondant_id.lang)
 
         return src_lang_id, dst_lang_id
@@ -248,12 +252,14 @@ class Correspondence(models.Model):
             correspondence = self.browse(letter["letter_odoo_id"])
             if not correspondence.exists():
                 logger.warning(("The correspondence id {} doesn't exist in the"
-                                "Odoo DB. Remove it manually on MySQL DB.")
+                                "Odoo DB. Remove it manually on MySQL DB. \
+                                'todo_id' is set to 5 => 'Pas sur Odoo'")
                                .format(correspondence.id))
+                tc.update_translation_to_not_in_odoo(letter["id"])
                 continue
 
             correspondence.update_translation(letter["target_lang"],
                                               letter["text"],
                                               letter["translator"])
-            tc.remove_letter(letter["id"])
-            return True
+            tc.remove_letter(letter["text_id"])
+        return True

@@ -1,28 +1,6 @@
 <openerp>
     <data noupdate="1">
-    	<!-- test config (preprod, local user machine) -->
-        <record id="standard" model="import.letter.config">
-            <field name="name">Standard</field>
-            <field name="import_folder_path">\devel\Scans\Standard</field>
-        </record>
-        <record id="standard_with_attachments" model="import.letter.config">
-            <field name="name">Standard with attachments</field>
-            <field name="physical_attachments">sent_by_mail</field>
-            <field name="import_folder_path">\devel\Scans\Standard_With_Attachments</field>
-        </record>
-        <record id="no_standard" model="import.letter.config">
-            <field name="name">No Standard</field>
-            <field name="template_id" ref="sbc_compassion.default_template"/>
-            <field name="import_folder_path">\devel\Scans\No_Standard</field>
-        </record>
-        <record id="no_standard_with_attachments" model="import.letter.config">
-            <field name="name">No Standard with attachment</field>
-            <field name="template_id" ref="sbc_compassion.default_template"/>
-            <field name="physical_attachments">sent_by_mail</field>
-            <field name="import_folder_path">\devel\Scans\No_Standard_With_Attachments</field>
-        </record>
-        
-        <!-- production config
+        <!-- production config -->
         <record id="standard" model="import.letter.config">
             <field name="name">Standard</field>
             <field name="import_folder_path">\Scan Lettres S2B\Standard</field>
@@ -41,6 +19,10 @@
             <field name="name">No Standard with attachment</field>
             <field name="template_id" ref="sbc_compassion.default_template"/>
             <field name="physical_attachments">sent_by_mail</field>
-            <field name="import_folder_path">\Scan Lettres S2B\No_Standard_With_Attachments</field> -->
+            <field name="import_folder_path">\Scan Lettres S2B\No_Standard_With_Attachments</field> 
+        <record id="web_letter" model="import.letter.config">
+            <field name="name">Web Letter</field>
+            <field name="source">website</field>
+        </record>
     </data>
 </openerp>
