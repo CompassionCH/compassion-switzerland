@@ -111,12 +111,16 @@ class Correspondence(models.Model):
         require manual validation before.
         """
         self.ensure_one()
-
-        valid = not self.is_first_letter and self.translation_language_id in \
-            self.supporter_languages_ids and \
-            self.sponsorship_id.state == 'active' and \
-            self.communication_type_ids.name != 'Final Letter' and \
-            self.correspondant_id.ref != '1502623'  # Demaurex
-        if self.translation_language_id != self.original_language_id:
-            valid = valid and self.translated_text
+        valid = False
+        # If sponsor does not need translation, valid is True by default
+        common = self.supporter_languages_ids & self.beneficiary_language_ids
+        if common:
+            valid = (
+                self.sponsorship_id.state == 'active' and
+                self.communication_type_ids.name != 'Final Letter' and
+                self.correspondant_id.ref != '1502623'  # Demaurex
+            )
+        else:
+            # Check that the translation is filled
+            valid = self.page_ids.filtered('translated_text')
         return valid
