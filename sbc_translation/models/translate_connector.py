@@ -141,3 +141,8 @@ class TranslateConnect(mysql_connector):
         """ Delete a text record for the text_id given """
         self.query("DELETE FROM text WHERE id={}"
                    .format(id))
+
+    def remove_translation_with_odoo_id(self, id):
+        self.query("DELETE text FROM text INNER JOIN translation ON text.id\
+             = translation.text_id WHERE translation.letter_odoo_id = {}"
+                   .format(id))
