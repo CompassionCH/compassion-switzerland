@@ -252,8 +252,10 @@ class Correspondence(models.Model):
             correspondence = self.browse(letter["letter_odoo_id"])
             if not correspondence.exists():
                 logger.warning(("The correspondence id {} doesn't exist in the"
-                                "Odoo DB. Remove it manually on MySQL DB.")
+                                "Odoo DB. Remove it manually on MySQL DB. \
+                                'todo_id' is set to 5 => 'Pas sur Odoo'")
                                .format(correspondence.id))
+                tc.update_translation_to_not_in_odoo(letter["id"])
                 continue
 
             correspondence.update_translation(letter["target_lang"],

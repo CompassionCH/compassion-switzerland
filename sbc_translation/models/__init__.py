@@ -10,3 +10,4 @@
 ##############################################################################
 from . import correspondence
 from . import translate_connector
+from . import import_letters_history
