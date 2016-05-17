@@ -105,8 +105,8 @@ class TranslateConnect(mysql_connector):
         toDo_id to 'Pret' (id = 4)
         (returns -1 if not found). """
         res = self.selectAll("""
-            SELECT tr.id, tr.letter_odoo_id, tr.text,
-            l.GP_libel target_lang, usr.number as translator
+            SELECT tr.id, tr.letter_odoo_id, tr.text, txt.id AS text_id,
+            l.GP_libel AS target_lang, usr.number AS translator
             FROM translation_status trs
             INNER JOIN translation tr
             ON trs.translation_id = tr.id
@@ -123,24 +123,8 @@ class TranslateConnect(mysql_connector):
         return res
 
     def remove_letter(self, id):
-        """ Delete a letter record with the translation_id given """
-        self.remove_from_translation_status(id)
-        text_id = self.remove_from_translation(id)
-        self.remove_from_text(text_id)
-
-    def remove_from_translation_status(self, id):
-        """ Delete a translation_status record for the translation_id given """
-        self.query("DELETE FROM translation_status WHERE translation_id={}"
-                   .format(id))
-
-    def remove_from_translation(self, id):
-        """ Delete a translation record for the translation_id given
-            Return the text_id corresponding to this record"""
-        res = self.selectOne("SELECT text_id FROM translation WHERE id={}"
-                             .format(id))
-        self.query("DELETE FROM translation WHERE id={}"
-                   .format(id))
-        return res['text_id']
+        """ Delete a letter record with the text_id given """
+        self.remove_from_text(id)
 
     def remove_from_text(self, id):
         """ Delete a text record for the text_id given """
