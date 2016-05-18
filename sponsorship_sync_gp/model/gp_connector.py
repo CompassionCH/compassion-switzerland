@@ -215,7 +215,7 @@ class GPConnect(mysql_connector):
             if 'S' in contract.type:
                 res = res and self.query("UPDATE Enfants SET id_motif_fin=%s "
                                          "WHERE code=%s",
-                                         [end_reason, contract.child_id.code])
+                                         [end_reason, contract.child_code])
         return res
 
     def register_payment(self, contract_id, month, payment_date=None):
@@ -246,7 +246,7 @@ class GPConnect(mysql_connector):
                     _('Missing sponsorship'),
                     _('Invoice line for sponsor %s is missing a sponsorship')
                     % invoice_line.partner_id.name)
-            codespe = contract.child_id.code
+            codespe = contract.child_code
             if 'LDP' in product.name:
                 codespe = 'LDP'
             typeprojet = "P"
@@ -331,7 +331,7 @@ class GPConnect(mysql_connector):
                 pole_sql = "UPDATE Poles SET TYPEP = IF(TYPEP = 'C', " \
                            "'A', 'F'), id_motif_fin={0}, datefin=curdate() " \
                            "WHERE codespe='{1}' AND TYPEP NOT IN " \
-                           "('F','A')".format(end_reason, child.code)
+                           "('F','A')".format(end_reason, child.unique_id)
                 logger.info(pole_sql)
                 self.query(pole_sql)
 
@@ -341,7 +341,7 @@ class GPConnect(mysql_connector):
                 if sponsorship and sponsorship.end_date == today:
                     # Log a note in GP
                     log_vals = {
-                        'CODE': child.code,
+                        'CODE': child.unique_id,
                         'CODEGA': sponsorship.partner_codega,
                         'TYPE': 'AC',    # Annulation compassion
                         'DATE': today,
@@ -356,7 +356,7 @@ class GPConnect(mysql_connector):
             update_fields += ", datedelegue=NULL, codedelegue=''" \
                              ", id_motif_fin=NULL"
 
-        sql_query = update_string % (update_fields, child.code)
+        sql_query = update_string % (update_fields, child.unique_id)
         logger.info(sql_query)
         return self.query(sql_query)
 

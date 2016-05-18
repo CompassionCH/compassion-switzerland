@@ -114,7 +114,7 @@ class Correspondence(models.Model):
         # File name
         sponsor = self.sponsorship_id.partner_id
         file_name = "_".join(
-            (child.code, sponsor.ref, str(self.id))) + '.pdf'
+            (child.unique_id, sponsor.ref, str(self.id))) + '.pdf'
 
         # Send letter to local translate platform
         tc = translate_connector.TranslateConnect()
