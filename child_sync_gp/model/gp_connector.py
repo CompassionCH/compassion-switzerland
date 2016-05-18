@@ -33,7 +33,7 @@ class GPConnect(mysql_connector):
         if child.name:
             name = child.name.replace(child.firstname, '', 1).strip()
         vals = {
-            'CODE': child.code,
+            'CODE': child.unique_id,
             'NOM': name,
             'PRENOM': child.firstname or '',
             'SEXE': child.gender,
@@ -59,13 +59,13 @@ class GPConnect(mysql_connector):
             'COMMENTAIRE_ITA': case_study.desc_it or '',
             'COMMENTAIRE_EN': case_study.desc_en or '',
             'IDUSER': self._get_gp_uid(uid),
-            'CODE': case_study.code,
+            'CODE': case_study.unique_id,
             'DATE_INFO': case_study.info_date,
         }
         if create:
             info_date_gp = self.selectOne(
                 "SELECT MAX(DATE_INFO) AS date FROM Fichiersenfants "
-                "WHERE CODE = %s", case_study.code).get('date', '1970-01-01')
+                "WHERE CODE = %s", case_study.unique_id).get('date', '1970-01-01')
             if info_date_gp == case_study.info_date:
                 # Case study already exists on GP ->
                 # Don't upsert it
@@ -76,11 +76,11 @@ class GPConnect(mysql_connector):
         if self.upsert("Fichiersenfants", vals):
             id_fichier = self.selectOne(
                 "SELECT MAX(Id_Fichier_Enfant) AS id FROM Fichiersenfants "
-                "WHERE Code = %s", case_study.code).get('id')
+                "WHERE Code = %s", case_study.unique_id).get('id')
             if id_fichier:
                 vals = {
                     'ID_DERNIER_FICHIER': id_fichier,
-                    'CODE': case_study.child_id.code,
+                    'CODE': case_study.child_id.unique_id,
                     'id_erp': case_study.child_id.id}
                 self.upsert("Enfants", vals)
         return id_fichier

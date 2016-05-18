@@ -35,9 +35,9 @@ class child_compassion(orm.Model):
         if not isinstance(ids, list):
             ids = [ids]
         gp_connect = gp_connector.GPConnect()
-        if 'code' in vals:
+        if 'unique_id' in vals:
             for child in self.browse(cr, uid, ids, context):
-                gp_connect.transfer(uid, child.code, vals['code'])
+                gp_connect.transfer(uid, child.unique_id, vals['unique_id'])
 
         res = super(child_compassion, self).write(cr, uid, ids, vals, context)
 
@@ -91,8 +91,8 @@ class child_property(orm.Model):
 
         date_pic = pictures.date.replace('-', '')
         gp_pic_path = "{0}{1}/".format(config.get('gp_pictures'),
-                                       child.code[:2])
-        file_name = "{0}_{1}.jpg".format(child.code, date_pic)
+                                       child.unique_id[:2])
+        file_name = "{0}_{1}.jpg".format(child.unique_id, date_pic)
         picture_file = TemporaryFile()
         picture_file.write(base64.b64decode(pictures.fullshot))
         picture_file.flush()

@@ -394,7 +394,7 @@ class ImportLettersHistory(models.Model):
         if child_code:
             # Retrieve child code and find corresponding id
             model_child = self.env['compassion.child'].search(
-                [('code', '=', child_code), ('state', '=', 'P')])
+                [('unique_id', '=', child_code), ('state', '=', 'P')])
 
             child_id = model_child.id
         if not child_id:

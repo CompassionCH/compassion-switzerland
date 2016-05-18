@@ -51,7 +51,7 @@ class TranslateConnect(mysql_connector):
             'gender': sponsor.title.name,
             'name': sponsor.name,
             'firstname': sponsor.firstname,
-            'code': child.code,
+            'code': child.unique_id,
             'kid_name': child.name,
             'kid_firstname': child.firstname,
             'age': child_age,

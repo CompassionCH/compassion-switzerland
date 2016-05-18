@@ -29,13 +29,14 @@ class child_compassion(orm.Model):
         for child in self.browse(cr, uid, ids, context):
             if 'state' in vals:
                 gp_connect.set_child_sponsor_state(child)
-            if 'code' in vals:
+            if 'unique_id' in vals:
                 # Update the Sponsorships related to this child in GP
                 con_obj = self.pool.get('recurring.contract')
                 con_ids = con_obj.search(
                     cr, uid, [('child_id', '=', child.id)], context=context)
                 if con_ids:
-                    gp_connect.update_child_sponsorship(child.code, con_ids)
+                    gp_connect.update_child_sponsorship(child.unique_id,
+                                                        con_ids)
 
         return res
 
