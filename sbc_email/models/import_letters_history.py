@@ -151,6 +151,88 @@ class ImportLettersHistory(models.Model):
 
             return super(ImportLettersHistory, self).button_import()
 
+    @api.multi
+    def button_save(self):
+        """
+        When saving the import_line as correspondences, move pdf file in the
+        done folder on the NAS and remove image attachment
+        """
+        super(ImportLettersHistory, self).button_save()
+
+        for letters in self:
+            for corresp in letters.letters_ids:
+                # build part of filename, corresponding to this web letter
+                part_filename = 'WEB_' + corresp.correspondant_id.ref + '_' + \
+                    corresp.child_id.code + '_'
+
+                share_nas = self.env.ref('sbc_email.share_on_nas').value
+
+                smb_conn = self._get_smb_connection()
+                if smb_conn and smb_conn.connect(
+                        SmbConfig.smb_ip, SmbConfig.smb_port):
+                    imported_letter_path = imported_letter_path = self.env.ref(
+                        'sbc_email.scan_letter_imported').value
+                    listPaths = smb_conn.listPath(
+                        share_nas,
+                        imported_letter_path)
+
+                    # loop in import folder and find more current pdf
+                    # corresponding to this web letter
+                    timestamp_pdf = None
+                    timestamp_image = None
+                    image_ext = None
+                    for sharedFile in listPaths:
+                        if part_filename in sharedFile.filename:
+                            ext = sharedFile.filename[-4:]
+                            if ext == '.pdf':
+                                c_timestamp_pdf = sharedFile.filename.replace(
+                                    part_filename, '').replace(ext, '')
+                                if not timestamp_pdf or c_timestamp_pdf > \
+                                        timestamp_pdf:
+                                    timestamp_pdf = c_timestamp_pdf
+                            else:
+                                c_timestamp_image = sharedFile.filename.\
+                                    replace(part_filename, '').replace(ext, '')
+
+                                if not timestamp_image or c_timestamp_image > \
+                                        timestamp_image:
+                                    timestamp_image = c_timestamp_image
+                                    image_ext = ext
+
+                    # move web letter on 'Done' folder on the NAs
+                    if timestamp_pdf:
+                        filename = part_filename + timestamp_pdf + '.pdf'
+                        file_obj = BytesIO()
+                        smb_conn.retrieveFile(
+                            share_nas, imported_letter_path + filename,
+                            file_obj)
+                        file_obj.seek(0)
+                        self._copy_imported_to_done_letter(filename, file_obj,
+                                                           False)
+                        # delete files corresponding to web letter in 'Import'
+                        try:
+                            smb_conn.deleteFiles(share_nas,
+                                                 imported_letter_path +
+                                                 filename)
+                        except Exception as inst:
+                            logger.info('Failed to delete pdf web letter'
+                                        .format(inst))
+
+                        # image is attached to this letter so we remove it
+                        if timestamp_image and \
+                                timestamp_image == timestamp_pdf:
+                            try:
+                                smb_conn.deleteFiles(share_nas,
+                                                     imported_letter_path +
+                                                     part_filename +
+                                                     timestamp_image +
+                                                     image_ext)
+                            except Exception as inst:
+                                logger.info('Failed to delete attached image'
+                                            .format(inst))
+
+        return True
+
     #########################################################################
     #                             PRIVATE METHODS                           #
     #########################################################################
@@ -384,7 +466,8 @@ class ImportLettersHistory(models.Model):
 
     @api.one
     def import_web_letter(self, child_code, sponsor_ref, language_name,
-                          original_text, template_name, pdf_letter):
+                          original_text, template_name, pdf_letter,
+                          attachment, ext):
         """
         Call when a letter is set on web site:
             - add web letter to an import set with import letter config
@@ -477,14 +560,30 @@ class ImportLettersHistory(models.Model):
             logger.info("Try to copy file {} !".format(filename))
             # Copy file in attachment in the done letter folder
             share_nas = self.env.ref('sbc_email.share_on_nas').value
-            done_letter_path = self.env.ref(
-                'sbc_email.scan_letter_done').value + filename
+            import_letter_path = self.env.ref(
+                'sbc_email.scan_letter_imported').value + filename
 
             file_pdf = BytesIO(pdf_letter)
             smb_conn = self._get_smb_connection()
             if smb_conn and smb_conn.connect(
                     SmbConfig.smb_ip, SmbConfig.smb_port):
-                smb_conn.storeFile(share_nas, done_letter_path, file_pdf)
+                smb_conn.storeFile(share_nas, import_letter_path, file_pdf)
+
+                # save eventual attachment
+                if attachment:
+                    filename_attachment = filename.replace(".pdf", "." + ext)
+                    logger.info("Try save attachment {} !"
+                                .format(filename_attachment))
+
+                    import_letter_path = self.env.ref(
+                        'sbc_email.scan_letter_imported').value + \
+                        filename_attachment
+
+                    file_attachment = BytesIO(base64.b64decode(attachment))
+                    smb_conn.storeFile(
+                        share_nas,
+                        import_letter_path,
+                        file_attachment)
                 smb_conn.close()
             else:
                 return False
