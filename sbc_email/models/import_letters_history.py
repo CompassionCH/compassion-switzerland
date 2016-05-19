@@ -155,82 +155,76 @@ class ImportLettersHistory(models.Model):
     def button_save(self):
         """
         When saving the import_line as correspondences, move pdf file in the
-        done folder on the NAS and remove image attachment
+        done folder on the NAS and remove image attachment (Web letter case)
         """
-        super(ImportLettersHistory, self).button_save()
+        for import_letters in self:
+            if import_letters.config_id.name == \
+                    self.env.ref('sbc_email.web_letter').name:
+                for line in import_letters.import_line_ids:
+                    # build part of filename, corresponding to this web import
+                    # letters remove part after '-' caracter (including)
+                    # corresponding to the page number
+                    part_filename = (line.letter_image.name[:-4]).split('-')[0]
 
-        for letters in self:
-            for corresp in letters.letters_ids:
-                # build part of filename, corresponding to this web letter
-                part_filename = 'WEB_' + corresp.correspondant_id.ref + '_' + \
-                    corresp.child_id.code + '_'
+                    share_nas = self.env.ref('sbc_email.share_on_nas').value
 
-                share_nas = self.env.ref('sbc_email.share_on_nas').value
+                    smb_conn = self._get_smb_connection()
+                    if smb_conn and smb_conn.connect(
+                            SmbConfig.smb_ip, SmbConfig.smb_port):
+                        imported_letter_path = self.env.ref(
+                            'sbc_email.scan_letter_imported').value
+                        listPaths = smb_conn.listPath(
+                            share_nas,
+                            imported_letter_path)
 
-                smb_conn = self._get_smb_connection()
-                if smb_conn and smb_conn.connect(
-                        SmbConfig.smb_ip, SmbConfig.smb_port):
-                    imported_letter_path = imported_letter_path = self.env.ref(
-                        'sbc_email.scan_letter_imported').value
-                    listPaths = smb_conn.listPath(
-                        share_nas,
-                        imported_letter_path)
-
-                    # loop in import folder and find more current pdf
-                    # corresponding to this web letter
-                    timestamp_pdf = None
-                    timestamp_image = None
-                    image_ext = None
-                    for sharedFile in listPaths:
-                        if part_filename in sharedFile.filename:
+                        # loop in import folder and find pdf corresponding to
+                        # this web letter and eventual attached image
+                        image_ext = None
+                        file_to_save = False
+                        for sharedFile in listPaths:
                             ext = sharedFile.filename[-4:]
-                            if ext == '.pdf':
-                                c_timestamp_pdf = sharedFile.filename.replace(
-                                    part_filename, '').replace(ext, '')
-                                if not timestamp_pdf or c_timestamp_pdf > \
-                                        timestamp_pdf:
-                                    timestamp_pdf = c_timestamp_pdf
-                            else:
-                                c_timestamp_image = sharedFile.filename.\
-                                    replace(part_filename, '').replace(ext, '')
-
-                                if not timestamp_image or c_timestamp_image > \
-                                        timestamp_image:
-                                    timestamp_image = c_timestamp_image
+                            if part_filename == sharedFile.filename[:-4]:
+                                if ext == '.pdf':
+                                    file_to_save = True
+                                else:
                                     image_ext = ext
 
-                    # move web letter on 'Done' folder on the NAs
-                    if timestamp_pdf:
-                        filename = part_filename + timestamp_pdf + '.pdf'
-                        file_obj = BytesIO()
-                        smb_conn.retrieveFile(
-                            share_nas, imported_letter_path + filename,
-                            file_obj)
-                        file_obj.seek(0)
-                        self._copy_imported_to_done_letter(filename, file_obj,
-                                                           False)
-                        # delete files corresponding to web letter in 'Import'
-                        try:
-                            smb_conn.deleteFiles(share_nas,
-                                                 imported_letter_path +
-                                                 filename)
-                        except Exception as inst:
-                            logger.info('Failed to delete pdf web letter'
-                                        .format(inst))
-
-                        # image is attached to this letter so we remove it
-                        if timestamp_image and \
-                                timestamp_image == timestamp_pdf:
+                        # move web letter on 'Done' folder on the NAS
+                        if file_to_save:
+                            filename = part_filename + '.pdf'
+                            file_obj = BytesIO()
+                            smb_conn.retrieveFile(
+                                share_nas, imported_letter_path + filename,
+                                file_obj)
+                            file_obj.seek(0)
+                            self._copy_imported_to_done_letter(filename,
+                                                               file_obj,
+                                                               False)
+                            # delete files corresponding to web letter in
+                            # 'Import'
                             try:
                                 smb_conn.deleteFiles(share_nas,
                                                      imported_letter_path +
-                                                     part_filename +
-                                                     timestamp_image +
-                                                     image_ext)
+                                                     filename)
                             except Exception as inst:
-                                logger.info('Failed to delete attached image'
+                                logger.info('Failed to delete pdf web letter'
                                             .format(inst))
 
+                            # image is attached to this letter so we remove it
+                            if image_ext:
+                                try:
+                                    smb_conn.deleteFiles(share_nas,
+                                                         imported_letter_path +
+                                                         part_filename +
+                                                         image_ext)
+                                except Exception as inst:
+                                    logger.info('Failed to delete attached\
+                                                 image {}'.format(inst))
+
+            if import_letters.manual_import:
+                self._manage_all_imported_files()
+
+        super(ImportLettersHistory, self).button_save()
         return True
 
     #########################################################################
@@ -306,7 +300,8 @@ class ImportLettersHistory(models.Model):
 
         # remove all the files (now they are inside import_line_ids)
         self.data.unlink()
-        self._manage_all_imported_files()
+        if not self.manual_import:
+            self._manage_all_imported_files()
         self.import_completed = True
         logger.info("Imported letters analysis completed.")
 
@@ -363,17 +358,20 @@ class ImportLettersHistory(models.Model):
             listPaths = smb_conn.listPath(share_nas, imported_letter_path)
             for sharedFile in listPaths:
                 if func.check_file(sharedFile.filename) == 1:
-                    file_obj = BytesIO()
-                    smb_conn.retrieveFile(
-                        share_nas,
-                        imported_letter_path +
-                        sharedFile.filename,
-                        file_obj)
-                    file_obj.seek(0)
-                    self._copy_imported_to_done_letter(
-                        sharedFile.filename, file_obj, True)
+                    # when this is manual import we don't have to copy all
+                    # files, web letters are stock in the same folder...
+                    if not self.manual_import or self.is_in_list_letter(
+                            sharedFile.filename):
+                        file_obj = BytesIO()
+                        smb_conn.retrieveFile(
+                            share_nas,
+                            imported_letter_path +
+                            sharedFile.filename,
+                            file_obj)
+                        file_obj.seek(0)
+                        self._copy_imported_to_done_letter(
+                            sharedFile.filename, file_obj, True)
                 elif func.isZIP(sharedFile.filename):
-                    list_zip_to_delete.append(sharedFile.filename)
                     zip_file = BytesIO()
 
                     smb_conn.retrieveFile(
@@ -385,10 +383,17 @@ class ImportLettersHistory(models.Model):
                     zip_ = zipfile.ZipFile(
                         zip_file, 'r')
 
-                    # loop over files inside zip
+                    zip_to_remove = False
                     for f in zip_.namelist():
-                        self._copy_imported_to_done_letter(
-                            f, BytesIO(zip_.read(f)), False)
+                        # when this is manual import we are not sure that this
+                        # zip contains current letters treated
+                        if not self.manual_import or self.is_in_list_letter(f):
+                            self._copy_imported_to_done_letter(
+                                f, BytesIO(zip_.read(f)), False)
+                            zip_to_remove = True
+
+                    if zip_to_remove:
+                        list_zip_to_delete.append(sharedFile.filename)
 
             # delete zip file from origin import folder on the NAS
             for filename in list_zip_to_delete:
@@ -401,6 +406,15 @@ class ImportLettersHistory(models.Model):
                     logger.info('Failed to delete zip file on NAS: {}'
                                 .format(inst))
             smb_conn.close()
+
+    def is_in_list_letter(self, filename):
+        """
+        Check if given filename is in import letter list
+        """
+        for line in self.import_line_ids:
+            if filename[:-4] in line.letter_image.name:
+                return True
+        return False
 
     def _copy_imported_to_done_letter(
             self, filename, file_to_copy, deleteFile):
