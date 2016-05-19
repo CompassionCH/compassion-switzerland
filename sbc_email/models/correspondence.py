@@ -119,7 +119,6 @@ class Correspondence(models.Model):
             valid = (
                 self.sponsorship_id.state == 'active' and
                 'Final Letter' not in types and
-                'New Sponsor Letter' not in types and
                 self.translation_language_id in partner_langs and
                 self.correspondant_id.ref != '1502623'  # Demaurex
             )
