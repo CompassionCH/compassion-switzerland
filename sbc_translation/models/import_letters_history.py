@@ -34,8 +34,8 @@ class ImportLettersHistory(models.Model):
         """
         try:
             super(ImportLettersHistory, self).button_save()
-        except Exception:
-            logger.info("Exception during letter import !!!")
+        except Exception as e:
+            logger.info("Exception during letter import: {}", e)
             # bug during import, so we remove letter sent on translation
             # platform
             for letters in self:
