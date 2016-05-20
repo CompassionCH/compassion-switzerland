@@ -16,7 +16,7 @@ from datetime import datetime, date
 
 from openerp.addons.mysql_connector.model.mysql_connector \
     import mysql_connector
-from openerp.addons.sponsorship_compassion.model.product \
+from openerp.addons.sponsorship_compassion.models.product \
     import GIFT_CATEGORY, GIFT_NAMES, SPONSORSHIP_CATEGORY
 
 import logging
