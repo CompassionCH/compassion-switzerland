@@ -123,12 +123,23 @@ class TranslateConnect(mysql_connector):
         return res
 
     def update_translation_to_not_in_odoo(self, translation_id):
-        """update translation to set toDo_id in state "Not in Odoo"
+        """update translation to set toDo_id in state "Pas sur Odoo"
         """
 
         vals = {
             'id': translation_id,
             'toDo_id': 5,
+            'updatedat': self.current_time,
+        }
+        return self.upsert("translation", vals)
+
+    def update_translation_to_treated(self, translation_id):
+        """update translation to set toDo_id in state "Traité"
+        """
+
+        vals = {
+            'id': translation_id,
+            'toDo_id': 4,
             'updatedat': self.current_time,
         }
         return self.upsert("translation", vals)
