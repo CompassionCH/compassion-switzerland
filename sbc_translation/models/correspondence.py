@@ -103,6 +103,20 @@ class Correspondence(models.Model):
         self.state = 'Global Partner translation queue'
 
     @api.one
+    def remove_local_translate(self):
+        """
+        Remove a letter from local translation platform and change state of
+        letter in Odoo
+        :return: None
+        """
+        tc = translate_connector.TranslateConnect()
+        tc.remove_translation_with_odoo_id(self.id)
+        if self.direction == 'Supporter To Beneficiary':
+            self.state = 'Received in the system'
+        else:
+            self.state = 'Published to Global Partner'
+
+    @api.one
     def update_translation(self, translate_lang, translate_text, translator):
         """
         Puts the translated text into the correspondence.
@@ -261,5 +275,7 @@ class Correspondence(models.Model):
             correspondence.update_translation(letter["target_lang"],
                                               letter["text"],
                                               letter["translator"])
-            tc.remove_letter(letter["text_id"])
+            # tc.remove_letter(letter["text_id"])
+            # update: don't remove letter but set todo id to 'Traité'
+            tc.update_translation_to_treated(letter["id"])
         return True
