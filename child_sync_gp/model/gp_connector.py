@@ -108,7 +108,7 @@ class GPConnect(mysql_connector):
                                   closest_city_en)
 
         vals = {
-            'CODE_PROJET': project.code,
+            'CODE_PROJET': project.icp_id,
             'DESCRIPTION_FR': project.description_fr or '',
             'DESCRIPTION_DE': project.description_de or '',
             'DESCRIPTION_EN': project.description_en or '',
@@ -117,7 +117,7 @@ class GPConnect(mysql_connector):
             'IDUSER': self._get_gp_uid(uid),
             'DATE_MAJ': project.last_update_date,
             'SITUATION': self._get_project_state(project),
-            'PAYS': project.code[:2],
+            'PAYS': project.icp_id[:2],
             'LIEU_EN': location_en,
             'LIEU_FR': location_fr,
             'LIEU_DE': location_de,

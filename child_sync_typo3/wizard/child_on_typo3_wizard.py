@@ -63,7 +63,7 @@ class child_on_typo3_wizard(orm.TransientModel):
                 raise orm.except_orm(
                     _('Warning'),
                     _('Missing descriptions for project %s') %
-                    child.project_id.code)
+                    child.project_id.icp_id)
 
             # Check for pictures
             if not(child.portrait and child.fullshot):

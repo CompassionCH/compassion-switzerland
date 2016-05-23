@@ -54,7 +54,7 @@ class compassion_child(orm.Model):
         for child in self.browse(cr, uid, ids, context):
             project_obj = self.pool.get('compassion.project')
             project = project_obj.get_project_from_typo3(
-                cr, uid, child.project_id.code)
+                cr, uid, child.project_id.icp_id)
 
             if not project:
                 project = project_obj.project_add_to_typo3(

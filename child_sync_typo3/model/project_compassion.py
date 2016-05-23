@@ -22,13 +22,13 @@ class compassion_project(orm.Model):
     _inherit = 'compassion.project'
 
     def _set_suspension_state(self, cr, uid, ids, context=None):
-        for project in self.read(cr, uid, ids, ['code', 'suspension'],
+        for project in self.read(cr, uid, ids, ['icp_id', 'suspension'],
                                  context):
             if project['suspension'] in ['suspended', 'fund-suspended']:
                 # Remove children from internet
                 child_obj = self.pool.get('compassion.child')
                 child_ids = child_obj.search(cr, uid, [
-                    ('code', 'like', project['code']),
+                    ('icp_id', 'like', project['icp_id']),
                     ('state', '=', 'I')], context=context)
                 if child_ids:
                     child_obj.child_remove_from_typo3(cr, uid, child_ids,
@@ -71,12 +71,12 @@ class compassion_project(orm.Model):
                 "(project_key, country, description,"
                 "tstamp, crdate, l10n_parent) "
                 "values ('{0}','{1}','{2}','{3}','{4}','{5}');".format(
-                    project.code, project.country_id.name,
+                    project.icp_id, project.country_id.name,
                     project_desc_de, today_ts,
                     today_ts, 0), 'upd')
 
             parent_id = self.get_project_from_typo3(
-                cr, uid, project.code)
+                cr, uid, project.icp_id)
             res.append(parent_id)
 
             # French description
@@ -86,7 +86,7 @@ class compassion_project(orm.Model):
                 "(project_key, country, description,"
                 "tstamp, crdate, l10n_parent, sys_language_uid) "
                 "values ('{0}','{1}','{2}','{3}','{4}','{5}',1);".format(
-                    project.code, project.country_id.name,
+                    project.icp_id, project.country_id.name,
                     project_desc_fr, today_ts,
                     today_ts, parent_id), 'upd')
 
