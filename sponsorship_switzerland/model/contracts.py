@@ -9,11 +9,13 @@
 #
 ##############################################################################
 
-from openerp import api, models, _
+from openerp import api, models, fields, _
 
 
-class contracts(models.Model):
+class RecurringContracts(models.Model):
     _inherit = 'recurring.contract'
+
+    gmc_state = fields.Selection('_get_gmc_states', 'GMC State')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -21,12 +23,10 @@ class contracts(models.Model):
     @api.model
     def _get_gmc_states(self):
         """ Adds a new gmc state for tracking sponsorships for which we have
-        to order the new picture of the child. Remove 'casestudy' and
-        'picture' states which are useless for Switzerland."""
+        to order the new picture of the child."""
         return [
             ('order_picture', _('Order Picture')),
             ('biennial', _('Biennial')),
-            ('depart', _('Child Departed')),
             ('transfer', _('Child Transfer'))]
 
     ##########################################################################
@@ -69,17 +69,6 @@ class contracts(models.Model):
         """ Useful for manually unset GMC State. """
         return self.write({'gmc_state': False})
 
-    # Called only at module installation
-    @api.model
-    def migrate_contracts(self):
-        """ Remove no more used gmc_states. """
-        self.env.cr.execute("""
-            UPDATE recurring_contract SET gmc_state = NULL
-            WHERE gmc_state IN ('picture', 'casestudy')
-        """)
-        self.env.invalidate_all()
-        return True
-
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################
@@ -88,7 +77,7 @@ class contracts(models.Model):
         """ Hook for doing something when contract is activated.
         Update partner to add the 'Sponsor' category
         """
-        super(contracts, self).contract_active()
+        super(RecurringContracts, self).contract_active()
         sponsor_cat_id = self.env.ref(
             'partner_compassion.res_partner_category_sponsor').id
         sponsorships = self.filtered(lambda c: 'S' in c.type)
@@ -103,8 +92,9 @@ class contracts(models.Model):
         """ For LSV/DD contracts, don't clean invoices that are in a
             Payment Order.
         """
-        invoice_lines = super(contracts, self)._get_invoice_lines_to_clean(
-            since_date, to_date)
+        invoice_lines = super(
+            RecurringContracts, self)._get_invoice_lines_to_clean(since_date,
+                                                                  to_date)
         invoices = invoice_lines.mapped('invoice_id')
         lsv_dd_invoices = self.env['account.invoice']
         for invoice in invoices:
@@ -130,7 +120,7 @@ class contracts(models.Model):
             Remove sponsor category if sponsor has no other active
             sponsorships.
         """
-        super(contracts, self)._on_sponsorship_finished()
+        super(RecurringContracts, self)._on_sponsorship_finished()
         sponsor_cat_id = self.env.ref(
             'partner_compassion.res_partner_category_sponsor').id
         old_sponsor_cat_id = self.env.ref(

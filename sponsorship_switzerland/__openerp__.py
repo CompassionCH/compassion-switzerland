@@ -30,14 +30,13 @@
 
 {
     'name': 'Tailor Sponsorships to Compassion CH needs',
-    'version': '8.0.1',
+    'version': '8.0.3.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['sponsorship_tracking', 'partner_compassion'],
     'data': [
         'view/contracts_view.xml',
-        'data/install.xml',
         'workflow/sds_workflow.xml',
         'security/ir.model.access.csv',
     ],
