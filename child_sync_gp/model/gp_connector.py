@@ -65,7 +65,8 @@ class GPConnect(mysql_connector):
         if create:
             info_date_gp = self.selectOne(
                 "SELECT MAX(DATE_INFO) AS date FROM Fichiersenfants "
-                "WHERE CODE = %s", case_study.unique_id).get('date', '1970-01-01')
+                "WHERE CODE = %s",
+                case_study.unique_id).get('date', '1970-01-01')
             if info_date_gp == case_study.info_date:
                 # Case study already exists on GP ->
                 # Don't upsert it

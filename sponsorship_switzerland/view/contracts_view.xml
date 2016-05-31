@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2015 Compassion (http://www.compassion.ch)
+    Copyright (C) 2015-2016 Compassion (http://www.compassion.ch)
     @author Emanuel Cino <ecino@compassion.ch>
     The licence is in the file __openerp__.py
 -->
 <openerp>
 	<data>
         <!-- Search Filters -->        
-        <record id="view_recurring_contract_compassion_filter" model="ir.ui.view">
+        <record id="contract_tracking_filter" model="ir.ui.view">
 			<field name="name">recurring.contract.compassion.select</field>
 			<field name="model">recurring.contract</field>
-			<field name="inherit_id" ref="message_center_compassion.view_gmc_contract_filter" />
+			<field name="inherit_id" ref="contract_compassion.view_recurring_contract_compassion_filter" />
 			<field name="arch" type="xml">
 				<data>
                     <filter name="finished" position="after">
                         <separator/>
+                        <filter string="Order picture" domain="[('gmc_state', '=', 'order_picture')]"/>
+                        <filter name="biennial" string="Biennial" domain="[('gmc_state', '=', 'biennial')]"/>
+                        <filter name="transfer" string="Child Transfer" domain="[('gmc_state', '=', 'transfer')]"/>
+                        <separator/>
                         <filter name="french" string="French" domain="[('partner_id.lang','=', 'fr_CH')]"/>
                         <filter name="german" string="German" domain="[('partner_id.lang','=', 'de_DE')]"/>
                         <filter name="italian" string="Italian" domain="[('partner_id.lang','=', 'it_IT')]"/>
-                    </filter>
-                    
-                    <filter name="biennial" position="before">
-                        <filter string="Order picture" domain="[('gmc_state', '=', 'order_picture')]"/>
                     </filter>
                 </data>
             </field>
@@ -34,6 +34,12 @@
 			<field name="inherit_id" ref="sponsorship_tracking.view_follow_contract_kanban_compassion" />
 			<field name="arch" type="xml">
                 <data>
+                    <!-- Put GMC State after Project State -->
+                    <xpath expr="//field[@name='project_state']/parent::div" position="after">
+                        <div>GMC State : <field name="gmc_state"/></div>
+                    </xpath>
+
+                    <!-- Add GMC State Icons -->
                     <xpath expr="//span[@class='oe_kanban_status oe_kanban_status_red']" position="after">
                         <span t-if="record.gmc_state.raw_value === 'order_picture'" class="oe_e" style="position:relative;top:6px;" string="Biennial">6</span>
                         <span t-if="record.gmc_state.raw_value === 'biennial'" class="oe_e" style="color:red;position:relative;top:6px;" string="Biennial">6</span>
@@ -42,5 +48,38 @@
                 </data>
             </field>
         </record>
+
+        <!-- GMC Action -->
+        <record model="ir.actions.act_window" id="action_follow_gmc">
+            <field name="name">GMC Updates</field>
+            <field name="res_model">recurring.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('type', 'like', 'S')]</field>
+            <field name="context">{'default_type': 'S', 'group_by': 'gmc_state', 'search_default_user':1, 'count_menu': 'menu_follow_gmc'}</field>
+            <field name="search_view_id" ref="contract_tracking_filter"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_follow_contract_kanban2">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="sponsorship_tracking.view_follow_contract_kanban_compassion"/>
+            <field name="act_window_id" ref="action_follow_gmc"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_follow_contract_tree2">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sponsorship_tracking.view_follow_contract_tree_compassion"/>
+            <field name="act_window_id" ref="action_follow_gmc"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_follow_contract_form2">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sponsorship_tracking.view_follow_contract_form_compassion"/>
+            <field name="act_window_id" ref="action_follow_gmc"/>
+        </record>
+
+        <menuitem action="action_follow_gmc" id="menu_follow_gmc" parent="sponsorship_tracking.menu_tracking"
+                  name="GMC Updates" sequence="2"/>
+
     </data>
 </openerp>
