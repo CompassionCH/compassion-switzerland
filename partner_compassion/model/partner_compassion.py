@@ -47,7 +47,6 @@ class ResPartner(models.Model):
         help=_("Use this field if the church of the partner"
                " can not correctly be determined and linked."))
     deathdate = fields.Date('Death date')
-    birthdate = fields.Date('Birthdate')
     opt_out = fields.Boolean(default=True)
     nbmag = fields.Integer('Number of Magazines', size=2,
                            required=True, default=0)

@@ -1,0 +1,20 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Releasing children from poverty in Jesus' name
+#    @author: Emanuel Cino <ecino@compassion.ch>
+#
+#    The licence is in the file __openerp__.py
+#
+##############################################################################
+
+
+def migrate(cr, version):
+    if not version:
+        return
+
+    cr.execute("""
+    ALTER TABLE res_partner ADD COLUMN birthdate_backup VARCHAR;
+    UPDATE res_partner SET birthdate_backup = birthdate::VARCHAR;
+    """)

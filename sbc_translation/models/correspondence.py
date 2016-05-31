@@ -147,6 +147,10 @@ class Correspondence(models.Model):
             state = 'Published to Global Partner'
             target_text = 'translated_text'
 
+        # Check that layout L4 translation gets on second page
+        if self.b2s_layout_id == self.env.ref('sbc_compassion.b2s_l4') and \
+                not translate_text.startswith('#PAGE#'):
+            translate_text = '#PAGE#' + translate_text
         self.write({
             target_text: translate_text.replace('\r', ''),
             'state': state,
