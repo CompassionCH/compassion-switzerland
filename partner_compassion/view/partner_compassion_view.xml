@@ -73,7 +73,7 @@
 
                 <!-- Add birthdate and deathdate -->
                 <xpath expr="//field[@name='website'][1]" position="after">
-                    <field name="birthdate" attrs="{'invisible': [('is_company','=',True)]}"/>
+                    <field name="birthdate" widget="date" attrs="{'invisible': [('is_company','=',True)]}"/>
                     <field name="deathdate" attrs="{'invisible': [('is_company','=',True)]}"/>
                 </xpath>
 
