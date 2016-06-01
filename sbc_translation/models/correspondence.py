@@ -10,13 +10,14 @@
 ##############################################################################
 import sys
 import base64
+import detectlanguage
 
 from io import BytesIO
 from openerp.exceptions import Warning
 
 from . import translate_connector
 
-from openerp import models, api, _
+from openerp import models, api, fields, _
 from openerp.tools.config import config
 
 from smb.SMBConnection import SMBConnection
@@ -31,6 +32,8 @@ class Correspondence(models.Model):
         """
 
     _inherit = 'correspondence'
+
+    has_valid_language = fields.Boolean(compute='_compute_has_valid_language')
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -50,8 +53,8 @@ class Correspondence(models.Model):
             original_lang = self.env['res.lang.compassion'].browse(
                 vals.get('original_language_id'))
 
-            if original_lang.translatable and original_lang not in sponsorship\
-                    .child_id.project_id.country_id.spoken_lang_ids:
+            if original_lang.translatable and original_lang not in \
+                    sponsorship.child_id.project_id.country_id.spoken_lang_ids:
                 correspondence = super(Correspondence, self.with_context(
                     no_comm_kit=True)).create(vals)
                 correspondence.send_local_translate()
@@ -68,11 +71,34 @@ class Correspondence(models.Model):
          needed and upload to translation platform. """
         for letter in self:
             if letter.translation_language_id not in \
-                    letter.supporter_languages_ids:
+                    letter.supporter_languages_ids or \
+                    not self.has_valid_language:
                 letter.download_attach_letter_image()
                 letter.send_local_translate()
             else:
                 super(Correspondence, letter).process_letter()
+
+    @api.one
+    def _compute_has_valid_language(self):
+        """ Detect if text is writed in the language corresponding to the
+        language_id """
+        self.has_valid_language = False
+        if self.translated_text is not None and \
+                self.translation_language_id is not None:
+            s = self.translated_text.strip(' \t\n\r')
+            if s != "":
+                # find the language name of text argument
+                detectlanguage.configuration.api_key = config.get(
+                    'detect_language_api_key')
+                languageName = ""
+                langs = detectlanguage.languages()
+                codeLang = detectlanguage.simple_detect(self.translated_text)
+                for lang in langs:
+                    if lang.get("code") == codeLang:
+                        languageName = lang.get("name").lower()
+                        break
+                self.has_valid_language = languageName == \
+                    self.translation_language_id.name.lower()
 
     @api.one
     def send_local_translate(self):
