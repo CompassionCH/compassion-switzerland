@@ -39,7 +39,7 @@ class Correspondence(models.Model):
     @api.model
     def create(self, vals):
         """ Create a message for sending the CommKit after be translated on
-             the local translate plaforme.
+             the local translate plaform.
         """
         if vals.get('direction') == "Beneficiary To Supporter":
             correspondence = super(Correspondence, self).create(vals)
@@ -51,7 +51,7 @@ class Correspondence(models.Model):
                 vals.get('original_language_id'))
 
             if original_lang.translatable and original_lang not in sponsorship\
-                    .child_id.project_id.country_id.spoken_lang_ids:
+                    .child_id.project_id.field_office_id.spoken_language_ids:
                 correspondence = super(Correspondence, self.with_context(
                     no_comm_kit=True)).create(vals)
                 correspondence.send_local_translate()
@@ -87,8 +87,9 @@ class Correspondence(models.Model):
 
         # File name
         sponsor = self.sponsorship_id.partner_id
+        # TODO : replace by global_id once all ids are fetched
         file_name = "_".join(
-            (child.unique_id, sponsor.ref, str(self.id))) + '.pdf'
+            (child.compass_id, sponsor.ref, str(self.id))) + '.pdf'
 
         # Send letter to local translate platform
         tc = translate_connector.TranslateConnect()
@@ -146,7 +147,7 @@ class Correspondence(models.Model):
                 'original_text': translate_text.replace('\r', ''),
             })
             action_id = self.env.ref(
-                'onramp_compassion.create_commkit').id
+                'sbc_compassion.create_letter').id
             self.env['gmc.message.pool'].create({
                 'action_id': action_id,
                 'object_id': self.id
@@ -192,7 +193,7 @@ class Correspondence(models.Model):
                 dst_lang_id = child_langs[-1]
             else:
                 dst_lang_id = self.env.ref(
-                    'sbc_compassion.lang_compassion_english')
+                    'child_compassion.lang_compassion_english')
 
         elif self.direction == 'Beneficiary To Supporter':
             if self.original_language_id and \

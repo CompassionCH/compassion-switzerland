@@ -32,7 +32,7 @@
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['onramp_compassion', 'mail_sendgrid'],
+    'depends': ['sbc_compassion', 'mail_sendgrid'],
     'data': [
         'data/email_text_templates.xml',
         'data/import_config_templates.xml',

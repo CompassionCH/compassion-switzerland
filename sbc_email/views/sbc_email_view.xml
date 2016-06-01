@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <!-- Add Emails entry in Sponsorship Settings-->
-        <menuitem name="Emails" id="menu_mail_mail" parent="child_compassion.menu_configuration" action="mail.action_view_mail_mail" sequence="2"/>
+        <menuitem name="Emails" id="menu_mail_mail" parent="sbc_compassion.menu_configuration" action="mail.action_view_mail_mail" sequence="2"/>
         
         <!-- Change tree view of e-mails -->
         <record model="ir.ui.view" id="view_mail_tree">
@@ -33,7 +33,7 @@
         <record id="view_correspondence_tree_email" model="ir.ui.view">
             <field name="name">correspondence.tree.email</field>
             <field name="model">correspondence</field>
-            <field name="inherit_id" ref="onramp_compassion.view_correspondence_tree_compassion" />
+            <field name="inherit_id" ref="sbc_compassion.view_correspondence_tree" />
             <field name="arch" type="xml">
                 <field name="last_read" position="before">
                     <field name="email_sent_date" />
