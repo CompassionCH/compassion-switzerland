@@ -25,6 +25,26 @@ class ResPartner(models.Model):
     ##########################################################################
     #                           PUBLIC METHODS                               #
     ##########################################################################
+    @api.multi
+    def gp_write(self, vals):
+        """ GP always send firstname and lastname. We check if they changed.
+        """
+        new_firstname = vals.get('firstname')
+        new_lastname = vals.get('lastname')
+        # Cast ids to integers
+        for key, value in vals.iteritems():
+            if key.endswith('_id'):
+                vals[key] = int(value)
+            if key == 'birthdate' and vals.get(key):
+                birthdate = vals[key]
+                vals[key] = birthdate[0:4] + '-' + birthdate[4:6] + '-' + \
+                    birthdate[6:8]
+        to_update = self.filtered(
+            lambda p: (new_firstname and p.firstname != new_firstname) or
+                      (new_lastname and p.lastname != new_lastname))
+        to_update.upsert_constituent()
+        return super(ResPartner, self.with_context(no_upsert=True)).write(vals)
+
     @api.model
     def gp_create(self, vals):
         """ Simple create method that skips MySQL insertion, since it is
@@ -32,6 +52,10 @@ class ResPartner(models.Model):
         for key in vals.iterkeys():
             if key.endswith('_id'):
                 vals[key] = int(vals[key])
+            if key == 'birthdate' and vals.get(key):
+                birthdate = vals[key]
+                vals[key] = birthdate[0:4] + '-' + birthdate[4:6] + '-' + \
+                    birthdate[6:8]
         partner = super(ResPartner, self).create(vals)
         return partner.id
 
