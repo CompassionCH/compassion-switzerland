@@ -24,6 +24,16 @@
             </field>
         </record>
 
+        <!-- Remove old send_original field -->
+        <record id="view_remove_send_original" model="ir.ui.view">
+            <field name="name">res.partner.form.remove.send_original</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="sponsorship_compassion.view_res_partner_invoice_line_button_form"/>
+            <field name="arch" type="xml">
+                <field name="send_original" position="replace"/>
+            </field>
+        </record>
+
         <!-- Redefine form view -->
         <record id="view_partner_form_compassion_ch" model="ir.ui.view">
             <field name="name">res.partner.form.compassion.switzerland</field>
