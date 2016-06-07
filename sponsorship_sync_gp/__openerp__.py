@@ -30,40 +30,8 @@
 
 {
     'name': 'Sync Compassion Sponsorships with GP',
-    'version': '8.0.1',
+    'version': '8.0.3.0',
     'category': 'Other',
-    'description': """
-Sync Compassion Sponsorships with GP
-====================================
-
-This module syncs all contracts with GP so that the information can be seen
-from GP.
-
-Installation
-============
-
-To install this module, you need to install dependencies:
-
-* requires python-MySQLdb to be installed on the server.
-
-Configuration
-=============
-
-To configure this module, you need to add settings in .conf file of Odoo:
-
-* mysql_host = <mysql host of gp>
-* mysql_db = <mysql database of gp>
-* mysql_user = <mysql user of gp>
-* mysql_pw = <mysql password of gp>
-
-Credits
-=======
-
-Contributors
-------------
-
-* Emanuel Cino <ecino@compassion.ch>
-    """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['child_sync_gp',
