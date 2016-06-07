@@ -9,4 +9,5 @@
 #
 ##############################################################################
 
-from . import model
+from . import models
+from . import wizards

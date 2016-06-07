@@ -212,7 +212,7 @@ class GPConnect(mysql_connector):
                 'IDUSER': self._get_gp_uid(uid),
             }
             self.upsert('Histoenfant', log_vals)
-            if 'S' in contract.type:
+            if 'S' in contract.type and end_reason != '4':
                 res = res and self.query("UPDATE Enfants SET id_motif_fin=%s "
                                          "WHERE code=%s",
                                          [end_reason, contract.child_code])
@@ -315,23 +315,24 @@ class GPConnect(mysql_connector):
         if child.sponsor_id:
             update_fields += ", codega='{0}'".format(child.sponsor_id.ref)
 
-        if child.state == 'F':
+        if child.state == 'F' or not child.active:
             # If the child is sponsored, mark the sponsorship as terminated in
             # GP and set the child exit reason in tables Poles and Enfant
             end_reason = child.gp_exit_reason
+            transfer_partner = child.sponsorship_ids[0].transfer_partner_id
             if not end_reason:
-                if child.transfer_country_id:
+                if transfer_partner:
                     end_reason = self.transfer_mapping[
-                        child.transfer_country_id.code]
+                        transfer_partner.country_id.code]
                 else:
                     end_reason = 'NULL'
             update_fields += ", id_motif_fin={0}".format(end_reason)
             # We don't put a child transfer in ending reason of a sponsorship
-            if not child.transfer_country_id:
+            if not transfer_partner:
                 pole_sql = "UPDATE Poles SET TYPEP = IF(TYPEP = 'C', " \
                            "'A', 'F'), id_motif_fin={0}, datefin=curdate() " \
                            "WHERE codespe='{1}' AND TYPEP NOT IN " \
-                           "('F','A')".format(end_reason, child.unique_id)
+                           "('F','A')".format(end_reason, child.local_id)
                 logger.info(pole_sql)
                 self.query(pole_sql)
 
@@ -341,7 +342,7 @@ class GPConnect(mysql_connector):
                 if sponsorship and sponsorship.end_date == today:
                     # Log a note in GP
                     log_vals = {
-                        'CODE': child.unique_id,
+                        'CODE': child.local_id,
                         'CODEGA': sponsorship.partner_codega,
                         'TYPE': 'AC',    # Annulation compassion
                         'DATE': today,
@@ -356,7 +357,7 @@ class GPConnect(mysql_connector):
             update_fields += ", datedelegue=NULL, codedelegue=''" \
                              ", id_motif_fin=NULL"
 
-        sql_query = update_string % (update_fields, child.unique_id)
+        sql_query = update_string % (update_fields, child.local_id)
         logger.info(sql_query)
         return self.query(sql_query)
 

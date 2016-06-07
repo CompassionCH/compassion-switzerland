@@ -14,13 +14,13 @@ from openerp.osv import orm
 from . import gp_connector
 
 
-class project_compassion(orm.Model):
+class ProjectCompassion(orm.Model):
     _inherit = 'compassion.project'
 
     def write(self, cr, uid, ids, vals, context=None):
         """Update Project in GP."""
-        res = super(project_compassion, self).write(cr, uid, ids, vals,
-                                                    context)
+        res = super(ProjectCompassion, self).write(cr, uid, ids, vals,
+                                                   context)
         if not isinstance(ids, list):
             ids = [ids]
         gp_connect = gp_connector.GPConnect()
