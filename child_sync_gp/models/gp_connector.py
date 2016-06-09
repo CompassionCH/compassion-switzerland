@@ -33,7 +33,7 @@ class GPConnect(mysql_connector):
         if child.name:
             name = child.name.replace(child.firstname, '', 1).strip()
         vals = {
-            'CODE': child.unique_id,
+            'CODE': child.local_id,
             'NOM': name,
             'PRENOM': child.firstname or '',
             'SEXE': child.gender,
@@ -50,39 +50,40 @@ class GPConnect(mysql_connector):
             vals['ID_MOTIF_FIN'] = int(child.gp_exit_reason)
         return self.upsert("Enfants", vals)
 
-    def upsert_case_study(self, uid, case_study, create=False):
+    def upsert_case_study(self, uid, child, create=False):
         """Push or update latest Case Study in GP."""
         id_fichier = False
+        info_date = child.pictures_ids[0].date
         vals = {
-            'COMMENTAIRE_FR': case_study.desc_fr or '',
-            'COMMENTAIRE_DE': case_study.desc_de or '',
-            'COMMENTAIRE_ITA': case_study.desc_it or '',
-            'COMMENTAIRE_EN': case_study.desc_en or '',
+            'COMMENTAIRE_FR': child.desc_fr or '',
+            'COMMENTAIRE_DE': child.desc_de or '',
+            'COMMENTAIRE_ITA': child.desc_it or '',
+            'COMMENTAIRE_EN': child.desc_en or '',
             'IDUSER': self._get_gp_uid(uid),
-            'CODE': case_study.unique_id,
-            'DATE_INFO': case_study.info_date,
+            'CODE': child.local_id,
+            'DATE_INFO': info_date,
         }
         if create:
             info_date_gp = self.selectOne(
                 "SELECT MAX(DATE_INFO) AS date FROM Fichiersenfants "
                 "WHERE CODE = %s",
-                case_study.unique_id).get('date', '1970-01-01')
-            if info_date_gp == case_study.info_date:
+                child.local_id).get('date', '1970-01-01')
+            if info_date_gp == info_date:
                 # Case study already exists on GP ->
                 # Don't upsert it
                 return False
             vals.update({
-                'DATE_PHOTO': case_study.pictures_id.date,
+                'DATE_PHOTO': info_date,
                 'DATE_IMPORTATION': datetime.today().strftime(DF)})
         if self.upsert("Fichiersenfants", vals):
             id_fichier = self.selectOne(
                 "SELECT MAX(Id_Fichier_Enfant) AS id FROM Fichiersenfants "
-                "WHERE Code = %s", case_study.unique_id).get('id')
+                "WHERE Code = %s", child.local_id).get('id')
             if id_fichier:
                 vals = {
                     'ID_DERNIER_FICHIER': id_fichier,
-                    'CODE': case_study.child_id.unique_id,
-                    'id_erp': case_study.child_id.id}
+                    'CODE': child.local_id,
+                    'id_erp': child.id}
                 self.upsert("Enfants", vals)
         return id_fichier
 
@@ -91,22 +92,6 @@ class GPConnect(mysql_connector):
         # Solve the encoding problems on child's descriptions
         reload(sys)
         sys.setdefaultencoding('UTF8')
-        closest_city = project.distance_from_closest_city_ids and \
-            project.distance_from_closest_city_ids[0]
-
-        location = ''
-        closest_city_en = closest_city and closest_city.value_en or ''
-        if project.community_name:
-            location = project.community_name
-        if closest_city_en:
-            location += ', '
-        location_en = location + closest_city_en
-        location_fr = location + (closest_city and closest_city.value_fr or
-                                  closest_city_en)
-        location_de = location + (closest_city and closest_city.value_de or
-                                  closest_city_en)
-        location_it = location + (closest_city and closest_city.value_it or
-                                  closest_city_en)
 
         vals = {
             'CODE_PROJET': project.icp_id,
@@ -119,19 +104,18 @@ class GPConnect(mysql_connector):
             'DATE_MAJ': project.last_update_date,
             'SITUATION': self._get_project_state(project),
             'PAYS': project.icp_id[:2],
-            'LIEU_EN': location_en,
-            'LIEU_FR': location_fr,
-            'LIEU_DE': location_de,
-            'LIEU_IT': location_it,
+            'LIEU_EN': project.community_name or '',
+            'LIEU_FR': project.community_name or '',
+            'LIEU_DE': project.community_name or '',
+            'LIEU_IT': project.community_name or '',
             'date_situation': project.status_date,
             'ProgramImplementorTypeCode': project.type,
-            'StartDate': project.start_date,
+            'StartDate': project.partnership_start_date,
             'LastReviewDate': project.last_update_date,
             'OrganizationName': project.local_church_name or '',
-            'WesternDenomination': project.western_denomination or '',
-            'CountryDenomination': project.country_denomination or '',
+            'CountryDenomination': project.country or '',
             'CommunityName': project.community_name or '',
-            'disburse_gifts': project.disburse_gifts,
+            'disburse_gifts': not project.hold_gifts,
         }
         return self.upsert("Projet", vals)
 
