@@ -89,7 +89,7 @@ class Correspondence(models.Model):
         sponsor = self.sponsorship_id.partner_id
         # TODO : replace by global_id once all ids are fetched
         file_name = "_".join(
-            (child.compass_id, sponsor.ref, str(self.id))) + '.pdf'
+            (child.local_id, sponsor.ref, str(self.id))) + '.pdf'
 
         # Send letter to local translate platform
         tc = translate_connector.TranslateConnect()
