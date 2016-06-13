@@ -24,7 +24,7 @@ class RecurringContract(models.Model):
         Send a ticket if language is not German.
         """
         res = super(RecurringContract, self).contract_active()
-        english = self.env.ref('sbc_compassion.lang_compassion_english')
+        english = self.env.ref('child_compassion.lang_compassion_english')
         for contract in self:
             if contract.reading_language != english:
                 contract.sudo(contract.create_uid)._send_ticket()

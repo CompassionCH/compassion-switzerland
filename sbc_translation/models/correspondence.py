@@ -139,7 +139,7 @@ class Correspondence(models.Model):
         tc = translate_connector.TranslateConnect()
         tc.remove_translation_with_odoo_id(self.id)
         if self.direction == 'Supporter To Beneficiary':
-            action_id = self.env.ref('onramp_compassion.create_commkit').id
+            action_id = self.env.ref('sbc_compassion.create_letter').id
             self.env['gmc.message.pool'].create({
                 'action_id': action_id,
                 'object_id': self.id

@@ -74,8 +74,11 @@ class ChildCompassion(models.Model):
 
         res = super(ChildCompassion, self).write(vals)
 
-        for child in self:
-            gp_connect.upsert_child(self.env.uid, child)
+        if 'name' in vals or 'firstname' in vals or 'gender' in vals or \
+                'birthdate' in vals or 'state' in vals or 'completion_date' \
+                in vals:
+            for child in self:
+                gp_connect.upsert_child(self.env.uid, child)
 
         if 'desc_en' in vals or 'desc_fr' in vals or 'desc_de' in vals or \
                 'desc_it' in vals:

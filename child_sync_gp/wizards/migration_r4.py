@@ -39,24 +39,10 @@ class MigrationR4(models.TransientModel):
         logger.info("MIGRATION 8.0.3 ----> Synchronize GP child codes.")
         # Synchronize GP
         gp = GPConnect()
-        gp.query("""
-            UPDATE Enfants
-            SET code = CONCAT(LEFT(code, 2), '0', MID(code, 3, 3), '0',
-                              RIGHT(code, 4))
-            WHERE CHAR_LENGTH(code) = 9;
-        """)
-        gp.query("""
-            UPDATE Poles
-            SET codespe = CONCAT(LEFT(codespe, 2), '0', MID(codespe, 3, 3),
-            '0', RIGHT(codespe, 4))
-            WHERE CHAR_LENGTH(codespe) = 9;
-        """)
-        gp.query("""
-            UPDATE Affectat
-            SET codespe = CONCAT(LEFT(codespe, 2), '0', MID(codespe, 3, 3),
-            '0', RIGHT(codespe, 4))
-            WHERE CHAR_LENGTH(codespe) = 9;
-        """)
+        for child in self.env['compassion.child'].search([]):
+            gp.transfer(self.env.uid, child.code, child.local_id)
+
+        logger.info("MIGRATION 8.0.3 ----> Synchronize GP project codes.")
         gp.query("""
             UPDATE Projet
             SET code_projet = CONCAT(LEFT(code_projet, 2), '0',

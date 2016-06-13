@@ -212,10 +212,6 @@ class GPConnect(mysql_connector):
                 'IDUSER': self._get_gp_uid(uid),
             }
             self.upsert('Histoenfant', log_vals)
-            if 'S' in contract.type and end_reason != '4':
-                res = res and self.query("UPDATE Enfants SET id_motif_fin=%s "
-                                         "WHERE code=%s",
-                                         [end_reason, contract.child_code])
         return res
 
     def register_payment(self, contract_id, month, payment_date=None):
