@@ -144,9 +144,13 @@ class GPConnect(mysql_connector):
                     smb_conn.rename('GP', gp_old_pic_path + filename,
                                     gp_new_pic_path + new_name)
 
-        # Rename child code in Poles table
+        # Rename child code in GP tables
+        self.query("UPDATE ENFANTS SET CODE = %s WHERE CODE = %s",
+                   [new_code, old_code])
         self.query("UPDATE Poles SET CODESPE = %s WHERE CODESPE = %s",
-                   [old_code, new_code])
+                   [new_code, old_code])
+        self.query("UPDATE Affectat SET CODESPE = %s WHERE CODESPE = %s",
+                   [new_code, old_code])
         return True
 
     def _get_project_state(self, project):
