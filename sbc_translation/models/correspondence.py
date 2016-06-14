@@ -92,7 +92,12 @@ class Correspondence(models.Model):
                     'detect_language_api_key')
                 languageName = ""
                 langs = detectlanguage.languages()
-                codeLang = detectlanguage.simple_detect(self.translated_text)
+                try:
+                    codeLang = detectlanguage.simple_detect(
+                        self.translated_text)
+                except IndexError:
+                    # Language could not be detected
+                    return
                 for lang in langs:
                     if lang.get("code") == codeLang:
                         languageName = lang.get("name").lower()
