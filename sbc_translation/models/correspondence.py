@@ -70,13 +70,14 @@ class Correspondence(models.Model):
         """ Called when B2S letter is Published. Check if translation is
          needed and upload to translation platform. """
         for letter in self:
-            if letter.translation_language_id not in \
+            if letter.original_language_id in \
                     letter.supporter_languages_ids or \
-                    not self.has_valid_language:
+                    letter.translation_language_id in \
+                    letter.supporter_languages_ids and self.has_valid_language:
+                super(Correspondence, letter).process_letter()
+            else:
                 letter.download_attach_letter_image()
                 letter.send_local_translate()
-            else:
-                super(Correspondence, letter).process_letter()
 
     @api.one
     def _compute_has_valid_language(self):
