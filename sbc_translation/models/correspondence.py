@@ -85,8 +85,8 @@ class Correspondence(models.Model):
         self.has_valid_language = False
         if self.translated_text is not None and \
                 self.translation_language_id is not None:
-            s = self.translated_text.strip(' \t\n\r')
-            if s != "":
+            s = self.translated_text.strip(' \t\n\r.')
+            if s:
                 # find the language name of text argument
                 detectlanguage.configuration.api_key = config.get(
                     'detect_language_api_key')
