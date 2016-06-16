@@ -109,7 +109,6 @@ class GPConnect(mysql_connector):
             'LIEU_DE': project.community_name or '',
             'LIEU_IT': project.community_name or '',
             'date_situation': project.status_date,
-            'ProgramImplementorTypeCode': project.type,
             'StartDate': project.partnership_start_date,
             'LastReviewDate': project.last_update_date,
             'OrganizationName': project.local_church_name or '',
