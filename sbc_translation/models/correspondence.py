@@ -66,18 +66,19 @@ class Correspondence(models.Model):
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
+    @api.multi
     def process_letter(self):
         """ Called when B2S letter is Published. Check if translation is
          needed and upload to translation platform. """
         for letter in self:
             if letter.original_language_id in \
                     letter.supporter_languages_ids or \
-                    letter.translation_language_id in \
-                    letter.supporter_languages_ids and self.has_valid_language:
+                    letter.has_valid_language:
                 super(Correspondence, letter).process_letter()
             else:
                 letter.download_attach_letter_image()
                 letter.send_local_translate()
+        return True
 
     @api.one
     def _compute_has_valid_language(self):
@@ -103,8 +104,10 @@ class Correspondence(models.Model):
                     if lang.get("code") == codeLang:
                         languageName = lang.get("name").lower()
                         break
-                self.has_valid_language = languageName == \
-                    self.translation_language_id.name.lower()
+                supporter_langs = map(
+                    lambda lang: lang.lower(),
+                    self.supporter_languages_ids.mapped('name'))
+                self.has_valid_language = languageName in supporter_langs
 
     @api.one
     def send_local_translate(self):
