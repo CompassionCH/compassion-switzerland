@@ -226,8 +226,8 @@ class Correspondence(models.Model):
               english
 
         B2S:
-            - src_lang is the original language if translatable, else the
-              current translated language of the letter (mostly english)
+            - src_lang is the original language if translatable, else
+              english
             - dst_lang is the main language of the sponsor
         :return: src_lang, dst_lang
         :rtype: res.lang.compassion, res.lang.compassion
@@ -255,7 +255,8 @@ class Correspondence(models.Model):
                     self.original_language_id.translatable:
                 src_lang_id = self.original_language_id
             else:
-                src_lang_id = self.translation_language_id
+                src_lang_id = self.env.ref(
+                    'sbc_compassion.lang_compassion_english')
             dst_lang_id = self.supporter_languages_ids.filtered(
                 lambda lang: lang.lang_id and lang.lang_id.code ==
                 self.correspondant_id.lang)
