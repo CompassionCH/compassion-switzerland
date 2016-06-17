@@ -256,7 +256,7 @@ class Correspondence(models.Model):
                 src_lang_id = self.original_language_id
             else:
                 src_lang_id = self.env.ref(
-                    'sbc_compassion.lang_compassion_english')
+                    'child_compassion.lang_compassion_english')
             dst_lang_id = self.supporter_languages_ids.filtered(
                 lambda lang: lang.lang_id and lang.lang_id.code ==
                 self.correspondant_id.lang)
