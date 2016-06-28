@@ -100,7 +100,9 @@
                         <button name="open_letters" type="object" string="Letters"/>
                         <group>
                             <group>
-                                <field name="delivery_preference"/>
+                                <field name="global_communication_delivery_preference"/>
+                                <field name="photo_delivery_preference"/>
+                                <field name="letter_delivery_preference"/>
                                 <field name="send_original"/>
                                 <field name="mandatory_review"/>
                             </group>

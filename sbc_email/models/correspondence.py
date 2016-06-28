@@ -49,7 +49,8 @@ class Correspondence(models.Model):
         """
         super(Correspondence, self).process_letter()
         partner = self.correspondant_id
-        if partner.email and partner.delivery_preference == 'digital' and not\
+        if partner.email and partner.letter_delivery_preference == 'digital' \
+            and not\
                 self.email_id:
             template = False
             if self.partner_needs_explanations():
