@@ -30,7 +30,7 @@
 
 {
     'name': 'Upgrade Partners for Compassion Suisse',
-    'version': '8.0.2.1',
+    'version': '8.0.3.0',
     'category': 'Partner',
     'sequence': 150,
     'author': 'Compassion CH',

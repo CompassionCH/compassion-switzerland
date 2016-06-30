@@ -19,7 +19,6 @@ class ResPartner(models.Model):
     """ This class upgrade the partners to match Compassion needs.
         It also synchronize all changes with the MySQL server of GP.
     """
-
     _inherit = 'res.partner'
 
     def _get_receipt_types(self):
@@ -68,6 +67,11 @@ class ResPartner(models.Model):
         'Abroad/Only e-mail',
         help=_("Indicates if the partner is abroad and should only be "
                "updated by e-mail"))
+    photo_delivery_preference = fields.Selection(
+        selection='_get_delivery_preference',
+        default='auto_digital',
+        required=True,
+        help='Delivery preference for Child photo')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
