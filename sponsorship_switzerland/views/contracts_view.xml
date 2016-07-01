@@ -23,6 +23,9 @@
                         <filter name="german" string="German" domain="[('partner_id.lang','=', 'de_DE')]"/>
                         <filter name="italian" string="Italian" domain="[('partner_id.lang','=', 'it_IT')]"/>
                     </filter>
+                    <xpath expr="//filter[@string='Origin']" position="after">
+                        <filter string="GMC Update" domain="[]"  context="{'group_by':'gmc_state'}"/>
+                    </xpath>
                 </data>
             </field>
         </record>
@@ -50,6 +53,24 @@
         </record>
 
         <!-- GMC Action -->
+        <record id="action_reset_gmc" model="ir.actions.server">
+            <field name="name">Reset GMC Status</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="state">code</field>
+            <field name="code">self.reset_gmc_state(cr, uid, context.get('active_ids'), context)</field>
+        </record>
+
+        <record id="reset_gmc_state_menu" model="ir.values">
+            <field name="name">Reset GMC Status</field>
+            <field name="action_id" ref="action_reset_gmc"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('action_reset_gmc'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="model">recurring.contract</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+
         <record model="ir.actions.act_window" id="action_follow_gmc">
             <field name="name">GMC Updates</field>
             <field name="res_model">recurring.contract</field>
