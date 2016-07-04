@@ -23,35 +23,18 @@ class RecurringContracts(models.Model):
     @api.model
     def _get_gmc_states(self):
         """ Adds a new gmc state for tracking sponsorships for which we have
-        to order the new picture of the child."""
+        received an info about the child and we should notify the sponsor
+        with a letter (case where e-mail was not sent). """
         return [
+            ('transfer', _('Child Transfer')),
+            ('transition', _('Transition')),
+            ('reinstatement', _('Reinstatement')),
+            ('major_revision', _('Major Revision')),
             ('order_picture', _('Order Picture')),
             ('biennial', _('Biennial')),
-            ('transfer', _('Child Transfer'))]
-
-    ##########################################################################
-    #                             PUBLIC METHODS                             #
-    ##########################################################################
-    @api.multi
-    def new_biennial(self):
-        """ Called when new picture and new case study is available. """
-        self.write({'gmc_state': 'order_picture'})
-
-    @api.multi
-    def set_gmc_event(self, event):
-        """
-        Called when a Child Update was received for a sponsored child.
-        Arg event can have one of the following values :
-            - Transfer : child was transferred to another project
-            - CaseStudy : child has a new casestudy
-            - NewImage : child has a new image
-
-        We handle only the Transfer event, as other events are not relevant
-        for Switzerland.
-        """
-        if event == 'Transfer':
-            return self.write({'gmc_state': event.lower()})
-        return True
+            ('notes', _('New notes')),  # Notes kit notification
+            ('disaster_alert', _('Disaster Alert')),
+        ]
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
@@ -153,3 +136,15 @@ class RecurringContracts(models.Model):
                 sponsorship.correspondant_id.write({
                     'category_id': [(3, sponsor_cat_id),
                                     (4, old_sponsor_cat_id)]})
+
+    @api.model
+    def _needaction_domain_get(self):
+        menu = self.env.context.get('count_menu')
+        if menu == 'menu_follow_gmc':
+            domain = [
+                ('sds_uid', '=', self.env.user.id),
+                ('gmc_state', '!=', False)]
+        else:
+            domain = super(RecurringContracts, self)._needaction_domain_get()
+
+        return domain

@@ -36,7 +36,7 @@
     'website': 'http://www.compassion.ch',
     'depends': ['sponsorship_tracking', 'partner_compassion'],
     'data': [
-        'view/contracts_view.xml',
+        'views/contracts_view.xml',
         'workflow/sds_workflow.xml',
         'security/ir.model.access.csv',
     ],

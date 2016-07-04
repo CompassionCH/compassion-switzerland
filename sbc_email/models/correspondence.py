@@ -52,29 +52,21 @@ class Correspondence(models.Model):
         if partner.email and partner.letter_delivery_preference == 'digital' \
             and not\
                 self.email_id:
-            template = False
             if self.partner_needs_explanations():
                 template = self.env.ref('sbc_email.change_system')
             else:
                 template = self.env.ref('sbc_email.new_letter')
 
-            # Create email
-            email_vals = {
-                'email_from': self.env['ir.config_parameter'].get_param(
-                    'sbc_email.from_address'),
-                'recipient_ids': [(4, partner.id)],
-            }
             # EXCEPTION FOR DEMAUREX : send to Delafontaine
+            email = None
+            auto_send = self._can_auto_send()
             if partner.ref == '1502623':
-                email_vals['email_to'] = 'eric.delafontaine@aligro.ch'
-                del email_vals['recipient_ids']
-
-            self.email_id = self.env['mail.compose.message'].with_context(
-                lang=partner.lang).create_emails(
-                template, self.id, email_vals)
-
-            if self._can_auto_send():
-                self.email_id.send_sendgrid()
+                email = 'eric.delafontaine@aligro.ch'
+            communication = self.env.ref(
+                'sbc_email.child_letter_config').inform_sponsor(
+                partner, self.id, auto_send, template, to=email)
+            if communication._name == 'mail.mail':
+                self.email_id = communication
 
     def get_image(self, user=None):
         """ Mark the e-mail as read. """
@@ -112,7 +104,6 @@ class Correspondence(models.Model):
         require manual validation before.
         """
         self.ensure_one()
-        valid = False
         partner_langs = self.supporter_languages_ids
         common = partner_langs & self.beneficiary_language_ids
         if common:

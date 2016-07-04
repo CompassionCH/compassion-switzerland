@@ -28,15 +28,16 @@
 ##############################################################################
 {
     'name': 'Sponsor to beneficiary email communication',
-    'version': '8.0.1',
+    'version': '8.0.3.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sbc_compassion', 'mail_sendgrid'],
+    'depends': ['sbc_compassion'],
     'data': [
         'data/email_text_templates.xml',
         'data/import_config_templates.xml',
         'data/scan_letter_params.xml',
+        'data/communication_config.xml',
         'views/import_config_view.xml',
         'views/import_letters_history_view.xml',
         'views/sbc_email_view.xml',
