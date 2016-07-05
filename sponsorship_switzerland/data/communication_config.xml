@@ -1,0 +1,53 @@
+<openerp>
+    <data noupdate="1">
+        <!-- Major Revision Communication Config -->
+        <record id="major_revision_birthdate" model="partner.communication.config">
+            <field name="name">Major Revision - Birthdate</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="email_birthdate"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="major_revision_disability" model="partner.communication.config">
+            <field name="name">Major Revision - Chronic Disabilities</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="email_disability"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="major_revision_illness" model="partner.communication.config">
+            <field name="name">Major Revision - Chronic Illness</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="email_illness"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="major_revision_name" model="partner.communication.config">
+            <field name="name">Major Revision - Name</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="email_name"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="major_revision_gender" model="partner.communication.config">
+            <field name="name">Major Revision - Gender</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="email_gender"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="major_revision_completion_date_change" model="partner.communication.config">
+            <field name="name">Major Revision - Planned Completion Date</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="email_completion_date_change"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="major_revision_multiple" model="partner.communication.config">
+            <field name="name">Major Revision - Multiple Changes</field>
+            <field name="send_mode">digital</field>
+            <field name="email_template_id" ref="email_multiple_changes"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+    </data>
+
+    <!-- Init sendgrid templates -->
+    <data>
+        <function model="init.sendgrid.template" name="init_templates"/>
+    </data>
+
+</openerp>
