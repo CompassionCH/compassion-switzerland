@@ -1,0 +1,82 @@
+<openerp>
+    <data>
+        <!-- Major Revision Email Templates -->
+        <!-- Birthdate changed -->
+        <record id="email_birthdate" model="email.template">
+            <field name="name">Major Revision - Birthdate</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="subject">Revision for ${object.firstname}</field>
+            <field name="body_html" type="html">
+                <p>We learned that ${object.firstname} was born in ${object.birthdate}.</p>
+            </field>
+        </record>
+
+        <!-- Disability changed -->
+        <record id="email_disability" model="email.template">
+            <field name="name">Major Revision - Chronic Disabilities</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="subject">Revision for ${object.firstname}</field>
+            <field name="body_html" type="html">
+                <p>We learned that ${object.firstname} has ${object.current_values}.</p>
+            </field>
+        </record>
+
+        <!-- Illnesses changed -->
+        <record id="email_illness" model="email.template">
+            <field name="name">Major Revision - Chronic Illness</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="subject">Revision for ${object.firstname}</field>
+            <field name="body_html" type="html">
+                <p>We learned that ${object.firstname} has ${object.current_values}.</p>
+            </field>
+        </record>
+
+        <!-- Name changed -->
+        <record id="email_name" model="email.template">
+            <field name="name">Major Revision - Name</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="subject">Revision for ${object.old_firstname}</field>
+            <field name="body_html" type="html">
+                <p>We learned that ${object.old_firstname} is now called <b>${object.firstname} ${object.lastname}</b>.</p>
+                <p>He likes to be called ${object.preferred_name}.</p>
+                <br/>
+                <p>You don't need new stickers for that change, but if you would like we can still send you a new page of stickers. Just tell us!</p>
+            </field>
+        </record>
+
+        <!-- Gender changed -->
+        <record id="email_gender" model="email.template">
+            <field name="name">Major Revision - Gender</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="subject">Revision for ${object.firstname}</field>
+            <field name="body_html" type="html">
+                <p>We learned that ${object.firstname} is not a ${'boy' if object.old_values == 'M' else 'girl'}, but a ${'boy' if object.gender == 'M' else 'girl'}.</p>
+                <br><p>This change is because of a mistake the staff at the field office made. We apologize.</p></br>
+            </field>
+        </record>
+
+        <!-- Completion date changed -->
+        <record id="email_completion_date_change" model="email.template">
+            <field name="name">Major Revision - Planned Completion Date</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="subject">Revision for ${object.firstname}</field>
+            <field name="body_html" type="html">
+                <p>We learned that ${object.firstname} will finish the Compassion program on ${object.completion_date}.</p>
+            </field>
+        </record>
+
+        <!-- Multiple changes -->
+        <record id="email_multiple_changes" model="email.template">
+            <field name="name">Major Revision - Multiple Changes</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="subject">Revision for ${object.old_firstname}</field>
+            <field name="body_html" type="html">
+                <p>We learned that ${object.old_firstname} had some mistakes in his info. Here is what changed:</p>
+                <br/>
+                <p>Old values: ${object.old_values}</p>
+                <br/>
+                <p>New values: ${object.current_values}</p>
+            </field>
+        </record>
+    </data>
+</openerp>
