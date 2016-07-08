@@ -20,7 +20,7 @@
             <field name="print_if_not_email">True</field>
         </record>
         <record id="major_revision_name" model="partner.communication.config">
-            <field name="name">Major Revision - Name</field>
+            <field name="name">Major Revision - First Name / Last Name / Preferred Name</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_name"/>
             <field name="print_if_not_email">True</field>

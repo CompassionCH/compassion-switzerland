@@ -15,13 +15,15 @@ from openerp import models, fields, api
 class Correspondence(models.Model):
     _inherit = 'correspondence'
 
-    email_id = fields.Many2one('mail.mail', 'E-mail')
-    email_sent_date = fields.Datetime(
-        'E-mail sent',
-        related='email_id.sent_date', store=True)
-    email_read = fields.Boolean(
-        compute='_compute_email_read', store=True
-    )
+    email_id = fields.Many2one(
+        'mail.mail', 'E-mail', related='communication_id.email_id',
+        store=True)
+    communication_id = fields.Many2one(
+        'partner.communication.job', 'Communication')
+    sent_date = fields.Datetime(
+        'Communication sent', related='communication_id.sent_date',
+        oldname='email_sent_date', store=True)
+    email_read = fields.Boolean(compute='_compute_email_read', store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -62,11 +64,16 @@ class Correspondence(models.Model):
             auto_send = self._can_auto_send()
             if partner.ref == '1502623':
                 email = 'eric.delafontaine@aligro.ch'
-            communication = self.env.ref(
-                'sbc_email.child_letter_config').inform_sponsor(
-                partner, self.id, auto_send, template, to=email)
-            if communication._name == 'mail.mail':
-                self.email_id = communication
+            communication_type = self.env.ref('sbc_email.child_letter_config')
+            self.communication_id = self.env[
+                'partner.communication.job'].create({
+                    'config_id': communication_type.id,
+                    'partner_id': partner.id,
+                    'object_id': self.id,
+                    'auto_send': auto_send,
+                    'email_template_id': template.id,
+                    'email_to': email,
+                })
 
     def get_image(self, user=None):
         """ Mark the e-mail as read. """

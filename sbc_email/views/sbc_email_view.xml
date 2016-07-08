@@ -23,8 +23,8 @@
             <field name="inherit_id" ref="sbc_compassion.view_correspondence_form" />
             <field name="arch" type="xml">
                 <field name="rework_comments" position="after">
-                    <field name="email_id" />
-                    <field name="email_sent_date" />
+                    <field name="communication_id" />
+                    <field name="sent_date" />
                     <field name="email_read" />
                 </field>
             </field>
@@ -36,7 +36,7 @@
             <field name="inherit_id" ref="sbc_compassion.view_correspondence_tree" />
             <field name="arch" type="xml">
                 <field name="last_read" position="before">
-                    <field name="email_sent_date" />
+                    <field name="sent_date" />
                     <field name="email_read" />
                 </field>
             </field>
