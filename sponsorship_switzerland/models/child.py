@@ -15,15 +15,19 @@ from openerp import models, fields
 def major_revision(child, revised_values):
     """ Finds the correct communication to send. """
     if len(revised_values) == 1:
-        communication = child.env['partner.communication.config'].search([
+        communication_type = child.env['partner.communication.config'].search([
             ('name', 'ilike', revised_values.name),
             ('name', 'like', 'Major Revision'),
         ])
     else:
-        communication = child.env.ref(
+        communication_type = child.env.ref(
             'sponsorship_switzerland.major_revision_multiple')
-    if communication:
-        communication.inform_sponsor(child.sponsor_id, child.id)
+    if communication_type:
+        child.env['partner.communication.job'].create({
+            'config_id': communication_type.id,
+            'partner_id': child.sponsor_id.id,
+            'object_id': child.id,
+        })
 
 
 class CompassionChild(models.Model):
@@ -50,9 +54,7 @@ class CompassionChild(models.Model):
         """
         super(CompassionChild, self)._major_revision(vals)
         if self.revised_value_ids and self.sponsor_id:
-            major_revision(
-                self.with_context(lang=self.sponsor_id.lang),
-                self.revised_value_ids)
+            major_revision(self, self.revised_value_ids)
 
 
 class Household(models.Model):
@@ -64,6 +66,4 @@ class Household(models.Model):
         if self.revised_value_ids:
             for child in self.child_ids:
                 if child.sponsor_id:
-                    major_revision(
-                        child.with_context(lang=child.sponsor_id.lang),
-                        self.revised_value_ids)
+                    major_revision(child, self.revised_value_ids)
