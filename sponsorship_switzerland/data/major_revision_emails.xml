@@ -65,6 +65,40 @@
             </field>
         </record>
 
+        <!-- Parent alive changed -->
+        <record id="email_parent_alive" model="email.template">
+            <field name="name">Major Revision - Parent Alive</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="subject">Revision for ${object.firstname}</field>
+            <field name="body_html" type="html">
+                <p>
+                    % set role = 'mother' if object.household_id.revised_value_ids.name == 'Natural Mother Alive' else 'father'
+                    % set status = 'alive' if object.household_id.revised_value_ids.get_field_value() == 'True' else 'dead'
+                    We learned that the ${role} of ${object.firstname} is ${status}.
+                </p>
+            </field>
+        </record>
+
+        <!-- Caregiver changed -->
+        <record id="email_caregiver_change" model="email.template">
+            <field name="name">Major Revision - Primary Caregiver</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="subject">Revision for ${object.firstname}</field>
+            <field name="body_html" type="html">
+                <p>
+                    % set hisher = 'his' if object.gender == 'M' else 'her'
+                    % set caregiver = object.household_id.primary_caregiver
+                    We learned that the primary caregiver of ${object.firstname} is now ${hisher}
+                    % if 'Beneficiary' not in caregiver:
+                        ${caregiver}
+                    % else:
+                        ${'sister' if 'Female' in caregiver else 'brother'}
+                    % endif
+                    .
+                </p>
+            </field>
+        </record>
+
         <!-- Multiple changes -->
         <record id="email_multiple_changes" model="email.template">
             <field name="name">Major Revision - Multiple Changes</field>
@@ -73,9 +107,14 @@
             <field name="body_html" type="html">
                 <p>We learned that ${object.old_firstname} had some mistakes in his info. Here is what changed:</p>
                 <br/>
-                <p>Old values: ${object.old_values}</p>
-                <br/>
-                <p>New values: ${object.current_values}</p>
+                <ul>
+                    % for revision in object.revised_value_ids:
+                        <li>${revision.name} : ${revision.old_value} -> ${revision.get_field_value()}</li>
+                    % endfor
+                    % for revision in object.household_id.revised_value_ids:
+                        <li>${revision.name} : ${revision.old_value} -> ${revision.get_field_value()}</li>
+                    % endfor
+                </ul>
             </field>
         </record>
     </data>

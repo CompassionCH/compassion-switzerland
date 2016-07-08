@@ -1,5 +1,5 @@
 <openerp>
-    <data noupdate="1">
+    <data>
         <!-- Major Revision Communication Config -->
         <record id="major_revision_birthdate" model="partner.communication.config">
             <field name="name">Major Revision - Birthdate</field>
@@ -35,6 +35,18 @@
             <field name="name">Major Revision - Planned Completion Date</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_completion_date_change"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="major_revision_parent_alive" model="partner.communication.config">
+            <field name="name">Major Revision - Natural Father Alive / Natural Mother Alive</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="email_parent_alive"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="major_revision_caregiver" model="partner.communication.config">
+            <field name="name">Major Revision - Primary Caregiver</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="email_caregiver_change"/>
             <field name="print_if_not_email">True</field>
         </record>
         <record id="major_revision_multiple" model="partner.communication.config">

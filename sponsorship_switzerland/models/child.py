@@ -12,6 +12,20 @@
 from openerp import models, fields
 
 
+def major_revision(child, revised_values):
+    """ Finds the correct communication to send. """
+    if len(revised_values) == 1:
+        communication = child.env['partner.communication.config'].search([
+            ('name', 'ilike', revised_values.name),
+            ('name', 'like', 'Major Revision'),
+        ])
+    else:
+        communication = child.env.ref(
+            'sponsorship_switzerland.major_revision_multiple')
+    if communication:
+        communication.inform_sponsor(child.sponsor_id, child.id)
+
+
 class CompassionChild(models.Model):
     """ Add fields for retrieving values for communications.
     Send a communication when a major revision is received.
@@ -24,7 +38,7 @@ class CompassionChild(models.Model):
 
     def _compute_revised_values(self):
         for child in self:
-            child.old_values = ', '.join(child.revised_value_ids.mapped(
+            child.old_values = ', '.join(child.revised_value_ids.translate(
                 'old_value'))
             child.current_values = child.revised_value_ids.get_field_value()
             child.old_firstname = child.revised_value_ids.filtered(
@@ -35,15 +49,21 @@ class CompassionChild(models.Model):
             Send a communication to the sponsor.
         """
         super(CompassionChild, self)._major_revision(vals)
+        if self.revised_value_ids and self.sponsor_id:
+            major_revision(
+                self.with_context(lang=self.sponsor_id.lang),
+                self.revised_value_ids)
+
+
+class Household(models.Model):
+    """ Send Communication when Household Major Revision is received. """
+    _inherit = 'compassion.household'
+
+    def _major_revision(self, vals):
+        super(Household, self)._major_revision(vals)
         if self.revised_value_ids:
-            if len(self.revised_value_ids) == 1:
-                communication = self.env[
-                    'partner.communication.config'].search([
-                        ('name', 'ilike', self.revised_value_ids.name),
-                        ('name', 'like', 'Major Revision'),
-                    ])
-            else:
-                communication = self.env.ref(
-                    'sponsorship_switzerland.major_revision_multiple')
-            if communication and self.sponsor_id:
-                communication.inform_sponsor(self.sponsor_id, self.id)
+            for child in self.child_ids:
+                if child.sponsor_id:
+                    major_revision(
+                        child.with_context(lang=child.sponsor_id.lang),
+                        self.revised_value_ids)
