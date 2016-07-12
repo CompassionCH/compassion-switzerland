@@ -9,7 +9,10 @@
 #
 ##############################################################################
 
+import logging
 from openerp import api, models, _
+
+logger = logging.getLogger(__name__)
 
 
 class contracts(models.Model):
@@ -52,6 +55,19 @@ class contracts(models.Model):
         if event == 'Transfer':
             return self.write({'gmc_state': event.lower()})
         return True
+
+    @api.multi
+    def suspend_contract(self):
+        """ Launch automatic reconcile after suspension. """
+        super(contracts, self).suspend_contract()
+        self._auto_reconcile()
+        return True
+
+    @api.multi
+    def reactivate_contract(self):
+        """ Launch automatic reconcile after reactivation. """
+        super(contracts, self).reactivate_contract()
+        self._auto_reconcile()
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
@@ -99,13 +115,51 @@ class contracts(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
+    def _clean_invoices(self, since_date=None, to_date=None, keep_lines=None):
+        """ Perform an automatic reconcile after cleaning invoices """
+        invoices = super(contracts, self)._clean_invoices(
+            since_date, to_date, keep_lines)
+        self._auto_reconcile()
+        return invoices
+
+    def _auto_reconcile(self):
+        client_account = self.env['account.account'].search([
+            ('code', '=', '1050')])
+        auto_rec = self.env['account.automatic.reconcile'].create({
+            'account_ids': [(4, client_account.id)]
+        })
+        try:
+            auto_rec.reconcile()
+        except:
+            logger.error("Unable to perform automatic reconciliation after "
+                         "cleaning contract invoices.")
+
+    def _filter_clean_invoices(self, since_date=None, to_date=None,
+                               gifts=False):
+        """ For LSV/DD contracts, don't clean invoices that are in a
+            Payment Order.
+        """
+        search = super(contracts, self)._filter_clean_invoices(
+            since_date, to_date, gifts)
+        invoices = self.env['account.invoice.line'].search(search).mapped(
+            'invoice_id')
+        lsv_dd_invoices = self._get_lsv_dd_invoices(invoices)
+
+        search.append(('invoice_id', 'not in', lsv_dd_invoices.ids))
+        return search
+
     def _get_invoice_lines_to_clean(self, since_date, to_date):
         """ For LSV/DD contracts, don't clean invoices that are in a
             Payment Order.
         """
         invoice_lines = super(contracts, self)._get_invoice_lines_to_clean(
             since_date, to_date)
-        invoices = invoice_lines.mapped('invoice_id')
+        lsv_dd_invoices = self._get_lsv_dd_invoices(invoice_lines.mapped(
+            'invoice_id'))
+        return invoice_lines.filtered(
+            lambda line: line.invoice_id not in lsv_dd_invoices.ids)
+
+    def _get_lsv_dd_invoices(self, invoices):
         lsv_dd_invoices = self.env['account.invoice']
         for invoice in invoices:
             pay_line = self.env['payment.line'].search([
@@ -120,9 +174,7 @@ class contracts(models.Model):
                 ('order_id.state', '=', 'draft')])
             if pay_line:
                 pay_line.unlink()
-
-        return invoice_lines.filtered(
-            lambda ivl: ivl.invoice_id not in lsv_dd_invoices)
+        return lsv_dd_invoices
 
     @api.multi
     def _on_sponsorship_finished(self):
