@@ -47,7 +47,7 @@ class Correspondence(models.Model):
             :param: download_image: Set to False to avoid downloading the
                                     letter image from GMC and attaching it.
         """
-        super(Correspondence, self).process_letter()
+        composed_ok = super(Correspondence, self).process_letter()
         partner = self.correspondant_id
         if partner.email and partner.delivery_preference == 'digital' and not\
                 self.email_id:
@@ -72,7 +72,7 @@ class Correspondence(models.Model):
                 lang=partner.lang).create_emails(
                 template, self.id, email_vals)
 
-            if self._can_auto_send():
+            if self._can_auto_send() and composed_ok:
                 self.email_id.send_sendgrid()
 
     def get_image(self, user=None):
