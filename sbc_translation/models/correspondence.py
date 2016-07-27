@@ -19,6 +19,8 @@ from . import translate_connector
 
 from openerp import models, api, fields, _
 from openerp.tools.config import config
+from openerp.addons.sbc_compassion.models.correspondence_page import \
+    BOX_SEPARATOR
 
 from smb.SMBConnection import SMBConnection
 
@@ -200,8 +202,13 @@ class Correspondence(models.Model):
         # Send to GMC
         if self.direction == 'Supporter To Beneficiary':
             # TODO Until R4 or bug with english_text is resolved
+            # Remove #BOX# in the text, as supporter letters don't have boxes
+            # Remove returns
             self.write({
-                'original_text': translate_text.replace('\r', ''),
+                'original_text': translate_text.replace('\r', '').replace(
+                    BOX_SEPARATOR, '\n'),
+                target_text: translate_text.replace('\r', '').replace(
+                    BOX_SEPARATOR, '\n'),
             })
             action_id = self.env.ref(
                 'onramp_compassion.create_commkit').id

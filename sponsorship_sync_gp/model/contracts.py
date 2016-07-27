@@ -255,17 +255,6 @@ class contracts(orm.Model):
                                 _("The payment could not be registered into "
                                   "GP.") + _("Please contact an IT person."))
 
-    def _on_invoice_line_removal(self, cr, uid, invoice_lines, context=None):
-        """ Removes the corresponding Affectats in GP.
-            @param: invoice_lines (dict): {
-                line_id: [invoice_id, child_code, product_name, amount]}
-        """
-        super(contracts, self)._on_invoice_line_removal(
-            cr, uid, invoice_lines, context)
-        gp_connect = gp_connector.GPConnect()
-        for line_id in invoice_lines.keys():
-            gp_connect.remove_affectat(line_id)
-
 
 class contract_group(orm.Model):
     """ Update all contracts when group is changed. """
