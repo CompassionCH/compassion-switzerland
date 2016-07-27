@@ -49,7 +49,7 @@ class Correspondence(models.Model):
             :param: download_image: Set to False to avoid downloading the
                                     letter image from GMC and attaching it.
         """
-        super(Correspondence, self).process_letter()
+        composed_ok = super(Correspondence, self).process_letter()
         partner = self.correspondant_id
         if partner.email and partner.letter_delivery_preference == 'digital' \
             and not\
@@ -61,7 +61,7 @@ class Correspondence(models.Model):
 
             # EXCEPTION FOR DEMAUREX : send to Delafontaine
             email = None
-            auto_send = self._can_auto_send()
+            auto_send = self._can_auto_send() and composed_ok
             if partner.ref == '1502623':
                 email = 'eric.delafontaine@aligro.ch'
             communication_type = self.env.ref('sbc_email.child_letter_config')
