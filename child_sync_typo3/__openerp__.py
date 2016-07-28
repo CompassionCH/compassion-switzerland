@@ -37,7 +37,7 @@
     """,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['message_center_compassion'],
+    'depends': ['child_compassion'],
     'external_dependencies': {
         'python': ['pysftp'],
     },
