@@ -32,6 +32,10 @@ class ResPartner(models.Model):
         for key in vals.iterkeys():
             if key.endswith('_id'):
                 vals[key] = int(vals[key])
+            if key == 'birthdate' and vals.get(key):
+                birthdate = vals[key]
+                vals[key] = birthdate[0:4] + '-' + birthdate[4:6] + '-' + \
+                    birthdate[6:8]
         partner = super(ResPartner, self).create(vals)
         return partner.id
 
