@@ -317,6 +317,8 @@ class Correspondence(models.Model):
 
         for letter in letters_to_update:
             correspondence = self.browse(letter["letter_odoo_id"])
+            logger.info(".....CHECK TRANSLATION FOR LETTER {}".format(
+                correspondence.id))
             if not correspondence.exists():
                 logger.warning(("The correspondence id {} doesn't exist in the"
                                 "Odoo DB. Remove it manually on MySQL DB. \
@@ -331,4 +333,5 @@ class Correspondence(models.Model):
             # tc.remove_letter(letter["text_id"])
             # update: don't remove letter but set todo id to 'Traité'
             tc.update_translation_to_treated(letter["id"])
+            self.env.cr.commit()
         return True

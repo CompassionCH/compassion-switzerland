@@ -196,3 +196,10 @@ class compassion_child(orm.Model):
             cr, uid, ids, args, context) and res
 
         return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
+
+    def deallocate(self, cr, uid, ids, args, context=None):
+        """ Remove from typo3 when child is deallocated """
+        res = self.child_remove_from_typo3(cr, uid, args.get('object_id'),
+                                           context)
+        super(compassion_child, self).deallocate(cr, uid, ids, args, context)
+        return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
