@@ -194,6 +194,6 @@
             </field>
         </record>
         
-        <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form" parent="child_compassion.menu_sponsorship_section" sequence="5"/>
+        <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form" parent="child_compassion.menu_sponsorship_section" sequence="0"/>
     </data>
 </openerp>
