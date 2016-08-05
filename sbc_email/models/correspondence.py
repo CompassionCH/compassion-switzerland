@@ -123,7 +123,16 @@ class Correspondence(models.Model):
                 self.correspondant_id.ref != '1502623'  # Demaurex
             )
         else:
+            # TODO Until new translation platform is working: we have
+            # to manually verify letters.
             # Check that the translation is filled
-            valid = self.page_ids.filtered('translated_text') and \
-                self.translation_language_id in partner_langs
+            # valid = self.page_ids.filtered('translated_text') and \
+            #     self.translation_language_id in partner_langs
+
+            # TODO Activate when most letters are hand-translated
+            # self.b2s_layout_id = self.env.ref('sbc_compassion.b2s_l6')
+            # self.attach_original()
+            # self.compose_letter_image()
+
+            valid = False
         return valid
