@@ -84,7 +84,7 @@ class Correspondence(models.Model):
 
     @api.one
     def _compute_has_valid_language(self):
-        """ Detect if text is writed in the language corresponding to the
+        """ Detect if text is written in the language corresponding to the
         language_id """
         self.has_valid_language = False
         if self.translated_text is not None and \
