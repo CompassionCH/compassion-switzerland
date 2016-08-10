@@ -44,3 +44,20 @@ class EmailComposeMessage(models.TransientModel):
                 mail_values.update(default_mail_values)
             emails += email_obj.create(mail_values)
         return emails
+
+    @api.multi
+    def send_mail(self):
+        super(EmailComposeMessage, self).send_mail()
+        mail_ids = self.env['mail.mail'].search([
+            ('res_id', 'in', self.env.context.get('active_ids')),
+            ('model', '=', self.env.context.get('active_model'))
+        ])
+        return {
+            'name': 'E-mails',
+            'view_mode': 'form,tree',
+            'view_type': 'form',
+            'domain': [('id', 'in', mail_ids.ids)],
+            'res_model': 'mail.mail',
+            'res_id': mail_ids.ids[0],
+            'type': 'ir.actions.act_window',
+        }
