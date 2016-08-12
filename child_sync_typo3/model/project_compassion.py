@@ -28,7 +28,7 @@ class compassion_project(orm.Model):
                 # Remove children from internet
                 child_obj = self.pool.get('compassion.child')
                 child_ids = child_obj.search(cr, uid, [
-                    ('icp_id', 'like', project['icp_id']),
+                    ('local_id', 'like', project['icp_id']),
                     ('state', '=', 'I')], context=context)
                 if child_ids:
                     child_obj.child_remove_from_typo3(cr, uid, child_ids,
