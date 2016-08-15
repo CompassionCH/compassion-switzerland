@@ -55,7 +55,40 @@
             <field name="email_template_id" ref="email_multiple_changes"/>
             <field name="print_if_not_email">True</field>
         </record>
+
+        <!-- Lifecycle Events Communication Config-->
+        <record id="lifecycle_child_transfer" model="partner.communication.config">
+            <field name="name">Beneficiary Transfer</field>
+            <field name="send_mode">physical</field>
+            <field name="email_template_id" ref="email_child_transfer"/>
+        </record>
+        <record id="lifecycle_child_transition" model="partner.communication.config">
+            <field name="name">Beneficiary Transition</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="email_multiple_changes"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="lifecycle_child_planned_exit" model="partner.communication.config">
+            <field name="name">Beneficiary Planned Exit</field>
+            <field name="send_mode">partner_preference</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="email_template_id" ref="email_child_planned_exit"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="lifecycle_child_unplanned_exit" model="partner.communication.config">
+            <field name="name">Beneficiary Unplanned Exit</field>
+            <field name="send_mode">partner_preference</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="email_template_id" ref="email_child_unplanned_exit"/>
+            <field name="print_if_not_email">True</field>
+        </record>
+        <record id="lifecycle_child_reinstatement" model="partner.communication.config">
+            <field name="name">Beneficiary Reinstatement</field>
+            <field name="email_template_id" ref="email_child_reinstatement"/>
+            <field name="send_mode">digital</field>
+        </record>
     </data>
+
 
     <!-- Init sendgrid templates -->
     <data>

@@ -1,0 +1,114 @@
+<openerp>
+    <data>
+        <!-- Child Transfer -->
+        <record id="email_child_transfer" model="email.template">
+            <field name="name">Child Lifecycle - Transfer</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
+            <field name="subject">Change of reference for your child ${object.firstname}</field>
+            <field name="body_html" type="html">
+                <p>Dear sponsor,</p>
+                <p>We warmly thank you for your precious sponsorship of ${object.firstname}.</p>
+                <p>Your sponsored child has moved to another project and thereby received the new reference number ${object.local_id}. We send you therefore a new label sheet that is valid as of today.</p>
+                <p>We wish you plenty of joy and blessings in the continuing support of your sponsored child.</p>
+                <p>Yours sincerely</p>
+            </field>
+            <!-- This field could be used to attach the labels sheet. -->
+            <field name="report_remplate"/>
+        </record>
+
+        <!-- Child Transition -->
+        <record id="email_child_transition" model="email.template">
+            <field name="name">Child Lifecycle - Transition</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
+            <field name="subject">Your child ${object.firstname} transitioned to ${object.cdsp_type} Sponsorship</field>
+            <field name="body_html" type="html">
+                <p>Dear sponsor,</p>
+                <p>We warmly thank you for your precious sponsorship of ${object.firstname}.</p>
+                <p>Your sponsored child is starting now the ${object.cdsp_type} sponsorship program.</p>
+                <p>We encourage you to send a letter to your child to encourage him participating to the program.</p>
+                <p>Yours sincerely</p>
+            </field>
+        </record>
+
+        <!-- Child Planned Exit -->
+        <!-- For now, planned and unplanned exit share the same template, but they might differ. -->
+        <record id="email_child_planned_exit" model="email.template">
+            <field name="name">Child Lifecycle - Planned Exit</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
+            <field name="subject">Sponsorship completion</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set his = 'his' if object.gender == 'M' else 'her'
+                    % set he = 'he' if object.gender == 'M' else 'she'
+                    % set him = 'him' if object.gender == 'M' else 'her'
+                    % set format = {'he': he, 'his': his, 'him': him}
+                </div>
+                <p>Dear sponsor,</p>
+                <p>
+                    We had some news about ${object.name}, ${object.local_id}, which is that ${he} is no longer in the Compassion program, because ${object.lifecycle_ids[0].translate('request_reason', format)}.
+                </p>
+                <p>
+                    At any given time at Compassion, there are many children just like ${object.firstname}, who are waiting to find a sponsor.  Please take the next two weeks to consider extending your generosity to one of these children.
+                </p>
+                <p>
+                    For a new sponsorship you can use the form attached to this letter or search on our website www.compassion.ch. However, if we do not hear from you by the next two weeks another child will be linked to you and their photo and information will be sent to you.
+                </p>
+                <p>
+                    Thank you so much for reaching out to ${object.firstname} and others like ${him}, you are a real blessing!
+                </p>
+                <p>Yours sincerely</p>
+            </field>
+        </record>
+
+        <!-- Child Unplanned Exit -->
+        <record id="email_child_unplanned_exit" model="email.template">
+            <field name="name">Child Lifecycle - Unplanned Exit</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
+            <field name="subject">Sponsorship cancellation</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set his = 'his' if object.gender == 'M' else 'her'
+                    % set he = 'he' if object.gender == 'M' else 'she'
+                    % set him = 'him' if object.gender == 'M' else 'her'
+                    % set format = {'he': he, 'his': his, 'him': him}
+                </div>
+                <p>Dear sponsor,</p>
+                <p>
+                    We had some news about ${object.name}, ${object.local_id}, which is that ${he} is no longer in the Compassion program, because ${object.lifecycle_ids[0].translate('request_reason', format)}.
+                </p>
+                <p>
+                    At any given time at Compassion, there are many children just like ${object.firstname}, who are waiting to find a sponsor.  Please take the next two weeks to consider extending your generosity to one of these children.
+                </p>
+                <p>
+                    For a new sponsorship you can use the form attached to this letter or search on our website www.compassion.ch. However, if we do not hear from you by the next two weeks another child will be linked to you and their photo and information will be sent to you.
+                </p>
+                <p>
+                    Thank you so much for reaching out to ${object.firstname} and others like ${him}, you are a real blessing!
+                </p>
+                <p>Yours sincerely</p>
+            </field>
+        </record>
+
+        <!-- Child Reinstatement -->
+        <record id="email_child_reinstatement" model="email.template">
+            <field name="name">Child Lifecycle - Reinstatement</field>
+            <field name="model_id" search="[('model','=','compassion.child')]"/>
+            <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
+            <field name="subject">Your child ${object.firstname} is back in project.</field>
+            <field name="body_html" type="html">
+                <p>Dear sponsor,</p>
+                <br/>
+                <ul>
+                    <li>Reinstatement reason: ${object.lifecycle_ids[0].translate('request_reason')}</li>
+                    <li>Further explanation: ${object.lifecycle_ids[0].other_reinstatement_reason or '-'}</li>
+                </ul>
+                <br/>
+                <p>Yours sincerely</p>
+            </field>
+        </record>
+    </data>
+</openerp>
