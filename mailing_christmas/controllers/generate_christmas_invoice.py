@@ -52,7 +52,7 @@ class GenerateChristmasInvoice(http.Controller):
     def handler_christmas(self, uuid, amount, **kwargs):
         _logger.info("Christmas Gift received: %s" % uuid + ' ' + amount)
         partner = request.env['res.partner'].sudo().search([
-            ('ref', '=', uuid)
+            ('uuid', '=', uuid)
         ])
         if len(partner) == 1:
             mandate = request.env['account.banking.mandate'].sudo().search([
