@@ -8,4 +8,5 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import company
+from . import payment_slip
+from . import payment_slip_for_christmas_fund
