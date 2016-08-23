@@ -9,3 +9,4 @@
 #
 ##############################################################################
 from . import company
+from . import partner_compassion
