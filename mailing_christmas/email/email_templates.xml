@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <!-- Christmas fund email -->
-        <record id="email_christmas_fund" model="email.template">
-            <field name="name">Christmas funds email</field>
+        <!-- Christmas fund email bvr -->
+        <record id="email_christmas_fund_bvr" model="email.template">
+            <field name="name">Christmas fund email bvr</field>
             <field name="model_id" search="[('model','=','res.partner')]"/>
             <field name="email_from">${object.company_id.email}</field>
             <field name="email_to">${object.email}</field>
             <field name="partner_to">${object.id}</field>
             <field name="subject">Your gift to illuminate a Christmas on the other side of the world</field>
             <field name="body_html" type="html">
-                <div>
+                <p>
                     % if len(object.contracts_fully_managed) == 0:
                     %    set phrase = 'Maybe you want to sponsor a child?'
                     % else:
@@ -19,16 +19,37 @@
                     % if len(object.contracts_fully_managed) == 1:
                     %    set phrase = 'You will make {} happy.'.format(object.contracts_fully_managed[0].child_id.firstname)
                     % endif
-                    % set format = {'Maybe you want to sponsor a child?': 'Maybe you want to sponsor a child?',
-                                    'You will make Herbert happy.': 'You will make Herbert happy.',
-                                    'You will make your children happy': 'You will make your children happy'}
-                </div>
-                <p>Dear ${object.title.name or ''} ${object.name},</p>
+                    Dear ${object.title.name or ''} ${object.name},
+                </p>
                 <p>Compassion whishes you merry christmas etc.</p>
                 <p>${phrase}</p>
                 <p>Yours sincerely</p>
             </field>
             <field name="report_template" ref="christmas_bvr_report"/>
+        </record>
+
+        <!-- Christmas email LSV/DD -->
+        <record id="email_christmas_fund_lsvdd" model="email.template">
+            <field name="name">Christmas fund email lsvdd</field>
+            <field name="model_id" search="[('model','=','res.partner')]"/>
+            <field name="email_from">${object.company_id.email}</field>
+            <field name="email_to">${object.email}</field>
+            <field name="partner_to">${object.id}</field>
+            <field name="subject">Your gift to illuminate a Christmas on the other side of the world</field>
+            <field name="body_html" type="html">
+                <p>Dear ${object.title.name or ''} ${object.name},</p>
+                <p>Compassion whishes you merry christmas etc.</p>
+                <p>
+                    % if object.pays_christmas_fund:
+                        <p>Thank you for your help with the christmas fund. We will automatically proceed with the debit entry.</p>
+                    % else:
+                    % set link = 'https://www.compassion.ch/fr/fonds-noel.html#uuid=' + object.uuid
+                        <p>If you want to help us with the christmas fund you can click on the link below</p>
+                        <a href="${link}">Christmas fund</a>
+                    % endif
+                </p>
+                <p>Yours sincerely</p>
+            </field>
         </record>
     </data>
 </openerp>
