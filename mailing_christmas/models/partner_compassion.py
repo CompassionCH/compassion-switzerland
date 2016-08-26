@@ -34,11 +34,12 @@ class ResPartner(models.Model):
 
     @api.multi
     def compute_pays_christmas_fund(self):
-        self.pays_christmas_fund = False
-        for contract_line in \
-                self.other_contract_ids.contract_line_ids.with_context(
-                    lang='en_US'):
-            if contract_line.product_id.\
-                    name_template == 'Christmas Gift Fund':
-                self.pays_christmas_fund = True
-                break
+        for partner in self:
+            partner.pays_christmas_fund = False
+            for contract_line in \
+                    partner.other_contract_ids.contract_line_ids.with_context(
+                        lang='en_US'):
+                if contract_line.product_id.\
+                        name_template == 'Christmas Gift Fund':
+                    partner.pays_christmas_fund = True
+                    break
