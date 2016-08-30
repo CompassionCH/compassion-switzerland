@@ -36,6 +36,7 @@
     'website': 'http://www.compassion.ch',
     'data': ['report/report.xml',
              'views/company_view.xml',
+             'views/mass_mailing_view.xml',
              'email/email_templates.xml'],
     'depends': ['mail_sendgrid', 'sponsorship_compassion'],
     'demo': [],
