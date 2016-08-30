@@ -248,9 +248,9 @@ class ImportLettersHistory(models.Model):
         smb_conn = self._get_smb_connection()
 
         if not self.manual_import:
+            imported_letter_path = self.check_path(self.import_folder_path)
             if smb_conn and smb_conn.connect(
                     SmbConfig.smb_ip, SmbConfig.smb_port):
-                imported_letter_path = self.check_path(self.import_folder_path)
                 listPaths = smb_conn.listPath(share_nas, imported_letter_path)
                 for sharedFile in listPaths:
                     if func.check_file(sharedFile.filename) == 1:
