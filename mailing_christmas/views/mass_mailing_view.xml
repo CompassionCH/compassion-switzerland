@@ -11,6 +11,10 @@
                 <field name="mailing_domain" position="attributes">
                     <attribute name="context">{'search_default_not_opt_out': 1, 'search_default_has_email': 1}</attribute>
                 </field>
+
+                <xpath expr="//field[@name='mailing_model']/.." position="after">
+                    <field name="mailing_domain_copy" readonly="1"/>
+                </xpath>
             </field>
         </record>
 
