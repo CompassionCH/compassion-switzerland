@@ -29,7 +29,7 @@
 
 {
     'name': 'Christmas Mailing',
-    'version': '8.0.1',
+    'version': '8.0.1.1',
     'category': 'Mailing',
     'description': '',
     'author': 'Philippe Heer',

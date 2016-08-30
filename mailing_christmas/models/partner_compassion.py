@@ -43,3 +43,18 @@ class ResPartner(models.Model):
                         name_template == 'Christmas Gift Fund':
                     partner.pays_christmas_fund = True
                     break
+
+    @api.model
+    def update_partner_payment_terms(self):
+        """ Function to call with ERPPEEK to update all partner payment
+            terms based on their sponsorship payment preferences.
+        """
+        partners = self.search([('customer', '=', True)])
+        for partner in partners:
+            contract = self.env['recurring.contract'].search([
+                ('partner_id', '=', partner.id),
+                ('state', '=', 'active')
+            ], limit=1)
+            if contract:
+                partner.property_payment_term = contract.payment_term_id
+        return True
