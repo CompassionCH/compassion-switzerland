@@ -26,6 +26,7 @@
                 <p>Yours sincerely</p>
             </field>
             <field name="report_template" ref="christmas_bvr_report"/>
+            <field name="report_name">Christmas_${object.ref}</field>
         </record>
 
         <!-- Christmas email LSV/DD -->
