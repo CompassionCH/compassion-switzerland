@@ -21,4 +21,5 @@ class product_template(models.Model):
 class product(models.Model):
     _inherit = 'product.product'
 
-    gp_fund_id = fields.Integer('GP Fund id', size=4)
+    gp_fund_id = fields.Integer('GP Fund id',
+                                related='product_tmpl_id.gp_fund_id')
