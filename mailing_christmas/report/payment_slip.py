@@ -77,6 +77,39 @@ class PaymentSlip(models.Model):
                                             print_settings,
                                             initial_position,
                                             default_font)
+            initial_position = (0.05 * inch, 1.4 * inch)
+            self._draw_address(canvas, print_settings, initial_position,
+                               default_font, partner)
+            initial_position = (4.86 * inch, 2.2 * inch)
+            self._draw_address(canvas, print_settings, initial_position,
+                               default_font, partner)
+            reference = mod10r('00 00000 00' + partner.ref[0:4] +
+                               ' ' + partner.ref[3:] + '0 0000' +
+                               '7 ' + '0023')
+            self._draw_ref(canvas,
+                           print_settings,
+                           (4.9 * inch, 2.70 * inch),
+                           default_font,
+                           reference)
+            self._draw_recipe_ref(canvas,
+                                  print_settings,
+                                  (0.05 * inch, 1.6 * inch),
+                                  small_font,
+                                  reference)
+            if bank_acc.print_bank:
+                self._draw_bank(canvas,
+                                print_settings,
+                                (0.05 * inch, 3.7 * inch),
+                                default_font,
+                                bank_acc.bank)
+                self._draw_bank(canvas,
+                                print_settings,
+                                (2.45 * inch, 3.7 * inch),
+                                default_font,
+                                bank_acc.bank)
+            else:
+                print_settings.bvr_add_vert += 0.15
+                print_settings.bvr_message_vert += 0.1
             if bank_acc.print_partner:
                 if (bank_acc.print_account or
                         bank_acc.bvr_adherent_num):
@@ -92,12 +125,6 @@ class PaymentSlip(models.Model):
                     initial_position = (2.45 * inch, 3.75 * inch)
                 self._draw_address(canvas, print_settings, initial_position,
                                    default_font, company.partner_id)
-            initial_position = (0.05 * inch, 1.4 * inch)
-            self._draw_address(canvas, print_settings, initial_position,
-                               default_font, partner)
-            initial_position = (4.86 * inch, 2.2 * inch)
-            self._draw_address(canvas, print_settings, initial_position,
-                               default_font, partner)
             num_car, frac_car = ("%.2f" % self.amount_total).split('.')
             # ################ Do not print any amount ##################
             # self._draw_amount(canvas, print_settings,
@@ -112,17 +139,6 @@ class PaymentSlip(models.Model):
             # self._draw_amount(canvas, print_settings,
             #                   (4.50 * inch, 2.0 * inch),
             #                   amount_font, frac_car)
-            if bank_acc.print_bank:
-                self._draw_bank(canvas,
-                                print_settings,
-                                (0.05 * inch, 3.7 * inch),
-                                default_font,
-                                bank_acc.bank)
-                self._draw_bank(canvas,
-                                print_settings,
-                                (2.45 * inch, 3.7 * inch),
-                                default_font,
-                                bank_acc.bank)
             if bank_acc.print_account:
                 self._draw_bank_account(canvas,
                                         print_settings,
@@ -134,20 +150,6 @@ class PaymentSlip(models.Model):
                                         (3.4 * inch, 2.35 * inch),
                                         default_font,
                                         bank_acc.get_account_number())
-
-            reference = mod10r('00 00000 00' + partner.ref[0:4] +
-                               ' ' + partner.ref[3:] + '0 0000' +
-                               '7 ' + '0023')
-            self._draw_ref(canvas,
-                           print_settings,
-                           (4.9 * inch, 2.70 * inch),
-                           default_font,
-                           reference)
-            self._draw_recipe_ref(canvas,
-                                  print_settings,
-                                  (0.05 * inch, 1.6 * inch),
-                                  small_font,
-                                  reference)
             self._draw_message_christmas(canvas,
                                          print_settings,
                                          (0.05 * inch, 2.6 * inch),
@@ -184,12 +186,46 @@ class PaymentSlip(models.Model):
 
     @api.model
     def _compute_message_christmas(self, language):
+        # Should be maximal 25 characters long!
         return {
-            'fr_FR': 'Fonds Cadeaux Noël',
-            'de_DE': 'Fonds für Weihnachtsgeschenke',
+            'fr_CH': 'Fonds Cadeaux Noël',
+            'de_DE': 'Fonds Weihnachtsgeschenke',
             'it_IT': 'Fondo Regali di Natale',
-            'en_EN': 'Christmas Gift Fund'
-        }.get(language, 'Christmas Gift Fund')
+            'en_US': 'Christmas Gift Fund'
+        }.get(language, 'Christmas Gift Fund')[:25]
+
+    @api.model
+    def _draw_address(self, canvas, print_settings, initial_position, font,
+                      com_partner):
+        x, y = initial_position
+        x += print_settings.bvr_add_horz * inch
+        y += print_settings.bvr_add_vert * inch
+        text = canvas.beginText()
+        text.setTextOrigin(x, y)
+        text.setFont(font.name, font.size)
+        text.textOut(com_partner.name)
+        text.moveCursor(0.0, font.size)
+        for line in com_partner.contact_address.split("\n"):
+            if not line:
+                continue
+            if line[-3].isdigit():
+                state = line[0:-6]
+                postal_code = line[-4:]
+                line = postal_code + ' ' + state
+            if line == 'Switzerland' or line == 'Svizzera' or line == \
+                    'Suisse' or line == 'Schweiz':
+                line = self._compute_country(com_partner.lang)
+            text.textLine(line)
+        canvas.drawText(text)
+
+    @api.model
+    def _compute_country(self, language):
+        return {
+                   'fr_CH': 'Suisse',
+                   'de_DE': 'Schweiz',
+                   'it_IT': 'Svizzera',
+                   'en_US': 'Switzerland'
+        }.get(language, 'Switzerland')[:25]
 
     @api.model
     def _compute_scan_line_christmas(self, reference, bank):
