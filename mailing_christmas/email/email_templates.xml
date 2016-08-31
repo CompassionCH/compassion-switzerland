@@ -10,7 +10,7 @@
             <field name="partner_to">${object.id}</field>
             <field name="subject">Your gift to illuminate a Christmas on the other side of the world</field>
             <field name="body_html" type="html">
-                <p>
+                <div>
                     % if len(object.contracts_fully_managed) == 0:
                     %    set phrase = 'Maybe you want to sponsor a child?'
                     % else:
@@ -19,11 +19,17 @@
                     % if len(object.contracts_fully_managed) == 1:
                     %    set phrase = 'You will make {} happy.'.format(object.contracts_fully_managed[0].child_id.firstname)
                     % endif
+                </div>
+                <p>
                     Dear ${object.title.name or ''} ${object.name},
+                    <br/>
+                    <br/>
+                    Compassion whishes you merry christmas etc.
+                    <br/>
+                    ${phrase}
+                    <br/>
+                    Yours sincerely
                 </p>
-                <p>Compassion whishes you merry christmas etc.</p>
-                <p>${phrase}</p>
-                <p>Yours sincerely</p>
             </field>
             <field name="report_template" ref="christmas_bvr_report"/>
             <field name="report_name">Christmas_${object.ref}</field>
@@ -38,18 +44,25 @@
             <field name="partner_to">${object.id}</field>
             <field name="subject">Your gift to illuminate a Christmas on the other side of the world</field>
             <field name="body_html" type="html">
-                <p>Dear ${object.title.name or ''} ${object.name},</p>
-                <p>Compassion whishes you merry christmas etc.</p>
-                <p>
-                    % if object.pays_christmas_fund:
-                        <p>Thank you for your help with the christmas fund. We will automatically proceed with the debit entry.</p>
-                    % else:
+                <div>
                     % set link = 'https://www.compassion.ch/fr/fonds-noel.html#uuid=' + object.uuid
-                        <p>If you want to help us with the christmas fund you can click on the link below</p>
+                </div>
+                <p>
+                    Dear ${object.title.name or ''} ${object.name},
+                    <br/>
+                    <br/>
+                    Compassion whishes you merry christmas etc.
+                    <br/>
+                    % if object.pays_christmas_fund:
+                        Thank you for your help with the christmas fund. We will automatically proceed with the debit entry.
+                    % else:
+                        If you want to help us with the christmas fund you can click on the link below
+                        <br/>
                         <a href="${link}">Christmas fund</a>
                     % endif
+                    <br/>
+                    Yours sincerely
                 </p>
-                <p>Yours sincerely</p>
             </field>
         </record>
     </data>
