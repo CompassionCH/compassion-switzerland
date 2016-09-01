@@ -41,10 +41,13 @@
             <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
             <field name="subject">Revision for ${object.old_firstname}</field>
             <field name="body_html" type="html">
-                <p>We learned that ${object.old_firstname} is now called <b>${object.firstname} ${object.lastname}</b>.</p>
-                <p>He likes to be called ${object.preferred_name}.</p>
-                <br/>
-                <p>You don't need new stickers for that change, but if you would like we can still send you a new page of stickers. Just tell us!</p>
+                <p>
+                    We learned that ${object.old_firstname} is now called <b>${object.firstname} ${object.lastname}</b>.
+                    <br/>
+                    He likes to be called ${object.preferred_name}.
+                    <br/>
+                    You don't need new stickers for that change, but if you would like we can still send you a new page of stickers. Just tell us!
+                </p>
             </field>
         </record>
 
@@ -55,8 +58,11 @@
             <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
             <field name="subject">Revision for ${object.firstname}</field>
             <field name="body_html" type="html">
-                <p>We learned that ${object.firstname} is not a ${'boy' if object.old_values == 'M' else 'girl'}, but a ${'boy' if object.gender == 'M' else 'girl'}.</p>
-                <br><p>This change is because of a mistake the staff at the field office made. We apologize.</p></br>
+                <p>
+                    We learned that ${object.firstname} is not a ${'boy' if object.old_values == 'M' else 'girl'}, but a ${'boy' if object.gender == 'M' else 'girl'}.
+                    <br/>
+                    This change is because of a mistake the staff at the field office made. We apologize.
+                </p>
             </field>
         </record>
 
@@ -78,9 +84,11 @@
             <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
             <field name="subject">Revision for ${object.firstname}</field>
             <field name="body_html" type="html">
-                <p>
+                <div>
                     % set role = 'mother' if object.household_id.revised_value_ids.name == 'Natural Mother Alive' else 'father'
                     % set status = 'alive' if object.household_id.revised_value_ids.get_field_value() == 'True' else 'dead'
+                </div>
+                <p>
                     We learned that the ${role} of ${object.firstname} is ${status}.
                 </p>
             </field>
@@ -93,9 +101,11 @@
             <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
             <field name="subject">Revision for ${object.firstname}</field>
             <field name="body_html" type="html">
-                <p>
+                <div>
                     % set hisher = 'his' if object.gender == 'M' else 'her'
                     % set caregiver = object.household_id.primary_caregiver
+                </div>
+                <p>
                     We learned that the primary caregiver of ${object.firstname} is now ${hisher}
                     % if 'Beneficiary' not in caregiver:
                         ${caregiver}
@@ -114,16 +124,20 @@
             <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
             <field name="subject">Revision for ${object.old_firstname}</field>
             <field name="body_html" type="html">
-                <p>We learned that ${object.old_firstname} had some mistakes in his info. Here is what changed:</p>
-                <br/>
-                <ul>
-                    % for revision in object.revised_value_ids:
-                        <li>${revision.name} : ${revision.old_value} -> ${revision.get_field_value()}</li>
-                    % endfor
-                    % for revision in object.household_id.revised_value_ids:
-                        <li>${revision.name} : ${revision.old_value} -> ${revision.get_field_value()}</li>
-                    % endfor
-                </ul>
+                <p>
+                    We learned that ${object.old_firstname} had some mistakes in his info. Here is what changed:
+                    <br/>
+                    <ul>
+                        % for revision in object.revised_value_ids:
+                            <li>${revision.name} : ${revision.old_value} -> ${revision.get_field_value()}</li>
+                            <br/>
+                        % endfor
+                        % for revision in object.household_id.revised_value_ids:
+                            <li>${revision.name} : ${revision.old_value} -> ${revision.get_field_value()}</li>
+                            <br/>
+                        % endfor
+                    </ul>
+                </p>
             </field>
         </record>
     </data>
