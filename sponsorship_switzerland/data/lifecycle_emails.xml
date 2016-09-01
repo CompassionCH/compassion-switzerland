@@ -120,8 +120,6 @@
                     <br/>
                     <ul>
                         <li>Reinstatement reason: ${object.lifecycle_ids[0].translate('request_reason')}</li>
-                        <br/>
-                        <li>Further explanation: ${object.lifecycle_ids[0].other_reinstatement_reason or '-'}</li>
                     </ul>
                     <br/>
                     Yours sincerely

@@ -9,8 +9,8 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
-#    @author: Emanuel Cino <ecino@compassion.ch>
+#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    @author: Philippe Heer <heerphilippe@msn.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,20 +27,17 @@
 #
 ##############################################################################
 
-
 {
-    'name': 'Upgrade Partners for Compassion Suisse',
-    'version': '8.0.3.0',
-    'category': 'Partner',
-    'sequence': 150,
-    'author': 'Compassion CH',
+    'name': 'Christmas Mailing',
+    'version': '8.0.1',
+    'category': 'Mailing',
+    'description': '',
+    'author': 'Philippe Heer',
     'website': 'http://www.compassion.ch',
-    'depends': ['sbc_compassion', 'mail_sendgrid'],
-    'data': [
-        'data/partner_category_data.xml',
-        'data/partner_title_data.xml',
-        'view/partner_compassion_view.xml',
-    ],
+    'data': ['report/report.xml',
+             'views/company_view.xml',
+             'email/email_templates.xml'],
+    'depends': ['mail_sendgrid', 'sponsorship_compassion'],
     'demo': [],
     'installable': True,
     'auto_install': False,

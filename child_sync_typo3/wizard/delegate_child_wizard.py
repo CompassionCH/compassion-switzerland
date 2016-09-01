@@ -19,7 +19,8 @@ class delegate_child_wizard(orm.TransientModel):
         child_obj = self.pool.get('compassion.child')
 
         typo3_to_remove_ids = list()
-        for child in self.browse(cr, uid, ids[0], context).child_ids:
+        for child in child_obj.browse(cr, uid,
+                                      context.get('active_ids'), context):
             if (child.state == 'I'):
                 typo3_to_remove_ids.append(child.id)
         res = True
