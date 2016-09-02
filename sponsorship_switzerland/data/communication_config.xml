@@ -65,7 +65,7 @@
         <record id="lifecycle_child_transition" model="partner.communication.config">
             <field name="name">Beneficiary Transition</field>
             <field name="send_mode">auto_digital</field>
-            <field name="email_template_id" ref="email_multiple_changes"/>
+            <field name="email_template_id" ref="email_child_transition"/>
             <field name="print_if_not_email">True</field>
         </record>
         <record id="lifecycle_child_planned_exit" model="partner.communication.config">
