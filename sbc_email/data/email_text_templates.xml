@@ -54,7 +54,7 @@
             <field name="name">[TICKET] Stop sending original letters</field>
             <field name="model_id" search="[('model','=','res.partner')]"/>
             <field name="subject">Change supporter delivery preference (physical to digital)</field>
-            <field name="body_html">
+            <field name="body_html" type="html">
                 <p>
                     We would like to change the preference of supporter with constituent id ${object.ref} : the supporter doesn't want to receive the original letters from its children anymore. Can you please make the change? Thanks.
                 </p>
