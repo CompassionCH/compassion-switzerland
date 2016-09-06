@@ -53,4 +53,4 @@ class ResPartner(models.Model):
         for partner in self:
             self.env['mail.compose.message'].with_context(
                 lang=partner.lang).create_emails(
-                template, partner.id, email_vals).send_sendgrid()
+                template, [partner.id], email_vals).send_sendgrid()

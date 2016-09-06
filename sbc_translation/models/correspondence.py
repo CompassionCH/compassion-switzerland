@@ -150,12 +150,8 @@ class Correspondence(models.Model):
         tc = translate_connector.TranslateConnect()
         tc.remove_translation_with_odoo_id(self.id)
         if self.direction == 'Supporter To Beneficiary':
-            action_id = self.env.ref('sbc_compassion.create_letter').id
-            self.env['gmc.message.pool'].create({
-                'action_id': action_id,
-                'object_id': self.id
-            })
             self.state = 'Received in the system'
+            self.create_commkit()
         else:
             self.state = 'Published to Global Partner'
 
@@ -211,12 +207,7 @@ class Correspondence(models.Model):
                 target_text: translate_text.replace('\r', '').replace(
                     BOX_SEPARATOR, '\n'),
             })
-            action_id = self.env.ref(
-                'sbc_compassion.create_letter').id
-            self.env['gmc.message.pool'].create({
-                'action_id': action_id,
-                'object_id': self.id
-            })
+            self.create_commkit()
         else:
             # Recompose the letter image and process letter
             self.letter_image.unlink()

@@ -58,7 +58,7 @@ class RecurringContract(models.Model):
             if not email:
                 # Create email
                 email = self.env['mail.compose.message'].create_emails(
-                    template, contract.id, {
+                    template, [contract.id], {
                         'email_to': TICKET_TO,
                         'email_from': TICKET_FROM,
                         'email_cc': TICKET_CC,
