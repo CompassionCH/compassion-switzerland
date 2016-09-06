@@ -3,11 +3,18 @@
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Philippe Heer
+#    @author: Emanuel Cino
 #
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import company
-from . import partner_compassion
-from . import mass_mailing
+
+from openerp import models, fields
+
+
+class MassMailing(models.Model):
+    """ Add the mailing domain to be viewed in a text field
+    """
+    _inherit = 'mail.mass_mailing'
+
+    mailing_domain_copy = fields.Char(related='mailing_domain')

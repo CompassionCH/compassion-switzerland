@@ -26,7 +26,8 @@ OK_RESULTS = {
     'de_DE': 'Sie haben uns Ihre Genehmigung erfolgreich übermittelt. Der '
              'Betrag wird in den nächsten drei Tagen von Ihrem Konto '
              'abgebucht.',
-    'it_IT': 'Grazie mille!'
+    'it_IT': 'Abbiamo ricevuto la vostra autorizzazione. La somma sarà '
+             'prelevata dal vostro conto nei prossimi 3 giorni.'
 }
 
 FAIL_RESULTS = {
@@ -40,7 +41,9 @@ FAIL_RESULTS = {
              'erlauben nur eine einzige Belastungsanfrage pro Tag. Falls Sie '
              'Schwierigkeiten mit dem Senden Ihres Geschenks haben, '
              'kontaktieren Sie uns bitte.',
-    'it_IT': 'Mammamia!'
+    'it_IT': 'Non siamo riusciti a verificare i vostri dati. Puó essere '
+             'inviato al giorno solo un addebito. In caso di problemi di '
+             'invio del dono, vi preghiamo di contattarci.'
 }
 
 
