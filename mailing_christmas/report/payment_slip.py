@@ -117,14 +117,14 @@ class PaymentSlip(models.Model):
                 else:
                     initial_position = (0.05 * inch,  3.75 * inch)
                 self._draw_address(canvas, print_settings, initial_position,
-                                   default_font, company.partner_id)
+                                   default_font, partner)
                 if (bank_acc.print_account or
                         bank_acc.bvr_adherent_num):
                     initial_position = (2.45 * inch, 3.4 * inch)
                 else:
                     initial_position = (2.45 * inch, 3.75 * inch)
                 self._draw_address(canvas, print_settings, initial_position,
-                                   default_font, company.partner_id)
+                                   default_font, partner)
             num_car, frac_car = ("%.2f" % self.amount_total).split('.')
             # ################ Do not print any amount ##################
             # self._draw_amount(canvas, print_settings,
