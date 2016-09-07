@@ -11,3 +11,4 @@
 
 from . import contracts
 from . import child
+from . import icp_lifecycle
