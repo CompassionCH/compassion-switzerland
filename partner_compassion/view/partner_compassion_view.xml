@@ -24,6 +24,16 @@
             </field>
         </record>
 
+        <!-- Remove birthdate duplicate -->
+        <record id="view_partner_form_compassion_birthdate" model="ir.ui.view">
+            <field name="name">res.partner.form.compassion.birthdate</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="partner_contact_personal_information_page.personal_information"/>
+            <field name="arch" type="xml">
+                <page name="personal_information_page" position="replace"/>
+            </field>
+        </record>
+
         <!-- Redefine form view -->
         <record id="view_partner_form_compassion_ch" model="ir.ui.view">
             <field name="name">res.partner.form.compassion.switzerland</field>
@@ -48,7 +58,7 @@
                             <group>
                                 <field name="active"/>
                                 <field name="notify_email"/>
-                            </group>p>
+                            </group>
                             
                         </group>
                     </page>
@@ -73,7 +83,7 @@
 
                 <!-- Add birthdate and deathdate -->
                 <xpath expr="//field[@name='website'][1]" position="after">
-                    <field name="birthdate" widget="date" attrs="{'invisible': [('is_company','=',True)]}"/>
+                    <field name="birthdate_date" attrs="{'invisible': [('is_company','=',True)]}"/>
                     <field name="deathdate" attrs="{'invisible': [('is_company','=',True)]}"/>
                 </xpath>
 
