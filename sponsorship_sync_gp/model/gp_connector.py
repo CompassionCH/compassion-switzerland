@@ -315,7 +315,10 @@ class GPConnect(mysql_connector):
             # If the child is sponsored, mark the sponsorship as terminated in
             # GP and set the child exit reason in tables Poles and Enfant
             end_reason = child.gp_exit_reason
-            transfer_partner = child.sponsorship_ids[0].transfer_partner_id
+            transfer_partner = False
+            if len(child.sponsorship_ids) > 0:
+                transfer_partner = \
+                    child.sponsorship_ids[0].transfer_partner_id
             if not end_reason:
                 if transfer_partner:
                     end_reason = self.transfer_mapping[
