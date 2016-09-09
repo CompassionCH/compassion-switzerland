@@ -41,9 +41,6 @@ class GPConnect(mysql_connector):
             'SITUATION': child.state,
             'ID': self._get_gp_uid(uid),
             'COMPLETION_DATE': child.completion_date,
-            'DATEDELEGUE': child.date_delegation,
-            'CODEDELEGUE': child.delegated_to.ref,
-            'REMARQUEDELEGUE': child.delegated_comment or '',
             'id_erp': child.id
         }
         if child.gp_exit_reason:
