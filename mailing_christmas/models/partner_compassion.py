@@ -35,14 +35,10 @@ class ResPartner(models.Model):
     @api.multi
     def compute_pays_christmas_fund(self):
         for partner in self:
-            partner.pays_christmas_fund = False
-            for contract_line in \
-                    partner.other_contract_ids.contract_line_ids.with_context(
-                        lang='en_US'):
-                if contract_line.product_id.\
-                        name_template == 'Christmas Gift Fund':
-                    partner.pays_christmas_fund = True
-                    break
+            lines = partner.other_contract_ids.with_context(
+                lang='en_US').mapped(
+                'contract_line_ids.product_id.name_template')
+            partner.pays_christmas_fund = 'Christmas Gift Fund' in lines
 
     @api.model
     def update_partner_payment_terms(self):

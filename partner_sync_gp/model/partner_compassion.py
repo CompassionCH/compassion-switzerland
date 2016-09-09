@@ -11,6 +11,16 @@
 from openerp import api, fields, models
 from . import gp_connector
 
+SYNC_FIELDS = [
+    'abroad', 'birthdate', 'birthday_reminder', 'calendar', 'category_id',
+    'christmas_card', 'church_id', 'city', 'country', 'country_id',
+    'deathdate', 'email', 'firstname', 'function', 'is_company', 'lang',
+    'lastname', 'mobile', 'name', 'nbmag', 'opt_out', 'parent_id', 'phone',
+    'ref', 'spoken_lang_ids', 'street', 'tax_certificate',
+    'thankyou_letter', 'title', 'use_parent_address', 'website', 'zip',
+    'zip_id'
+]
+
 
 class ResPartner(models.Model):
     """ This class upgrade the partners to match Compassion needs.
@@ -78,12 +88,18 @@ class ResPartner(models.Model):
             the partner in the MySQL table used by GP. This method is also
             called by GP with XMLRPC, so that the update syncs the two
             databases. """
-        uid = self.env.user.id
-        gp = gp_connector.GPConnect()
-
         # We first call the original write method and update the records.
         result = super(ResPartner, self).write(vals)
 
+        # Don't synchronize if nothing relevant is changed.
+        for key in vals.iterkeys():
+            if key in SYNC_FIELDS:
+                break
+        else:
+            return result
+
+        uid = self.env.user.id
+        gp = gp_connector.GPConnect()
         for partner in self.with_context(lang='en_US'):
             if partner.ref:
                 # Handle the change of parent_id and use_parent_address

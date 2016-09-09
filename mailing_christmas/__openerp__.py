@@ -38,7 +38,7 @@
              'views/company_view.xml',
              'views/mass_mailing_view.xml',
              'email/email_templates.xml'],
-    'depends': ['mail_sendgrid', 'sponsorship_compassion'],
+    'depends': ['mail_sendgrid_mass_mailing', 'sponsorship_compassion'],
     'demo': [],
     'installable': True,
     'auto_install': False,

@@ -15,6 +15,11 @@
                 <xpath expr="//field[@name='mailing_model']/.." position="after">
                     <field name="mailing_domain_copy" readonly="1"/>
                 </xpath>
+
+                <!-- Add button for resending pending e-mails -->
+                <field name="state" position="before">
+                    <button name="send_pending" string="Send Pending" type="object" states="done"/>
+                </field>
             </field>
         </record>
 
