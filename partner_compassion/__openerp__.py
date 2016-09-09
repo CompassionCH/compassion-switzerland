@@ -35,7 +35,10 @@
     'sequence': 150,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sbc_compassion', 'mail_sendgrid'],
+    'depends': [
+        'sbc_compassion', 'mail_sendgrid', 'partner_contact_birthdate',
+        'partner_firstname'
+    ],
     'data': [
         'data/partner_category_data.xml',
         'data/partner_title_data.xml',
