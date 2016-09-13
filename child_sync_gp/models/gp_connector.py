@@ -162,3 +162,10 @@ class GPConnect(mysql_connector):
         elif project.status == 'T':
             gp_state = 'Terminé'
         return gp_state
+
+    def delete_children(self, child_codes):
+        self.query(
+            "DELETE FROM Enfants WHERE CODE IN (%s)",
+            [child_codes]
+        )
+        return True
