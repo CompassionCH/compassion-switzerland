@@ -311,7 +311,7 @@ class GPConnect(mysql_connector):
         if child.sponsor_id:
             update_fields += ", codega='{0}'".format(child.sponsor_id.ref)
 
-        if child.state == 'F' or not child.active:
+        if child.state in ('F', 'R'):
             # If the child is sponsored, mark the sponsorship as terminated in
             # GP and set the child exit reason in tables Poles and Enfant
             end_reason = child.gp_exit_reason

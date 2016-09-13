@@ -87,6 +87,13 @@ class ChildCompassion(models.Model):
 
         return res
 
+    @api.multi
+    def unlink(self):
+        child_codes = self.mapped('local_id')
+        gp_connect = gp_connector.GPConnect()
+        gp_connect.delete_children(child_codes)
+        return super(ChildCompassion, self).unlink()
+
 
 class ChildPictures(models.Model):
     """ Create new Case Study when new pictures are downloaded. """

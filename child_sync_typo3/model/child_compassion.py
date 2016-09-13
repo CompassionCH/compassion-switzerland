@@ -149,10 +149,9 @@ class compassion_child(orm.Model):
                         child_uid, child.local_id), 'upd')
             except orm.except_orm:
                 logger.error("Child %s is not on internet" % child.local_id)
-            state = 'R' if child.has_been_sponsored else 'N'
-            child.write({'state': state})
             child_codes.append(child.local_id)
 
+        self.write(cr, uid, ids, {'state': 'N'})
         Sync_typo3.delete_child_photos(child_codes)
         return Sync_typo3.sync_typo3_index()
 
@@ -185,21 +184,26 @@ class compassion_child(orm.Model):
         return super(compassion_child, self).child_sponsored(
             cr, uid, ids, context)
 
-    def depart(self, cr, uid, ids, args, context):
-        """ add child remove from typo3 (formerly child_depart_wizard.py) """
-        child = self.browse(cr, uid, args.get('object_id'), context)
-        res = True
-        if child.state == 'I':
-            res = child.child_remove_from_typo3()
+    def child_released(self, cr, uid, ids, context):
+        """ remove from typo3 """
+        children = self.browse(cr, uid, ids, context)
+        for child in children:
+            if child.state == 'I':
+                child.child_remove_from_typo3()
 
-        res = super(compassion_child, self).depart(
-            cr, uid, ids, args, context) and res
+        super(compassion_child, self).child_released(
+            cr, uid, ids, context)
 
-        return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
+        return True
 
-    def deallocate(self, cr, uid, ids, args, context=None):
-        """ Remove from typo3 when child is deallocated """
-        res = self.child_remove_from_typo3(cr, uid, args.get('object_id'),
-                                           context)
-        super(compassion_child, self).deallocate(cr, uid, ids, args, context)
-        return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
+    def child_departed(self, cr, uid, ids, context):
+        """ remove from typo3 """
+        children = self.browse(cr, uid, ids, context)
+        for child in children:
+            if child.state == 'I':
+                child.child_remove_from_typo3()
+
+        super(compassion_child, self).child_departed(
+            cr, uid, ids, context)
+
+        return True
