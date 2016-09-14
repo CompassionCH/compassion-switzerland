@@ -77,7 +77,9 @@
                 <!-- Add the church field -->
                 <field name="email" position="after">
                     <field name="is_church" invisible="1"/>
-                    <field name="church_id" attrs="{'invisible': ['|',('is_company','=',True),('is_church','=',True)]}" context="{'tree_view_ref' : 'partner_compassion.view_partner_tree_compassion'}"/>
+                    <field name="church_id" attrs="{'invisible': ['|',('is_company','=',True),('is_church','=',True)]}"
+                           context="{'tree_view_ref' : 'partner_compassion.view_partner_tree_compassion',
+                                     'default_is_company': True, 'default_category_id': [(4, 20)]}"/>
                     <field name="church_unlinked" attrs="{'invisible': ['|',('is_company','=',True),'|',('is_church','=',True),('church_id','>',0)]}"/>
                 </field>
 
