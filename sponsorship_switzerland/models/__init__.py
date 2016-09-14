@@ -11,4 +11,5 @@
 
 from . import contracts
 from . import child
-from . import icp_lifecycle
+from . import lifecycle_events
+from . import compassion_hold
