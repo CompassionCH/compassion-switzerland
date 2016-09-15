@@ -20,20 +20,24 @@ class CompassionChild(models.TransientModel):
     @api.model
     def init_templates(self):
         """ Add sendgrid template configuration and add substitutions. """
-        major_revision_templates = self.env['email.template'].search([
-            '|', ('name', 'like', 'Major Revision'),
+        templates = self.env['email.template'].search([
+            '|', '|',
+            ('name', 'like', 'Major Revision'),
             ('name', 'like', 'Child Lifecycle'),
+            ('name', 'in', ['Beneficiary Hold Removal']),
             ('sendgrid_template_ids', '=', False)
         ])
         sendgrid_template_obj = self.env['sendgrid.template']
         lang_template_obj = self.env['sendgrid.email.lang.template']
+        test_template = sendgrid_template_obj.search([
+            ('name', '=', 'Test Template')])
         de_template = sendgrid_template_obj.search([
-            ('name', '=', 'General DE')])
+            ('name', '=', 'General DE')]) or test_template
         it_template = sendgrid_template_obj.search([
-            ('name', '=', 'General IT')])
+            ('name', '=', 'General IT')]) or test_template
         fr_template = sendgrid_template_obj.search([
-            ('name', '=', 'General FR')])
-        for email_template in major_revision_templates:
+            ('name', '=', 'General FR')]) or test_template
+        for email_template in templates:
             lang_template_obj.create({
                 'email_template_id': email_template.id,
                 'lang': 'de_DE',

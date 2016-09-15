@@ -88,15 +88,22 @@
             <field name="send_mode">digital</field>
         </record>
 
-        <!--project lifecycle-->
+        <!-- Project Lifecycle -->
         <record id="project_lifecycle" model="partner.communication.config">
             <field name="name">Project lifecycle</field>
             <field name="email_template_id" ref="email_project_lifecycle"/>
             <field name="send_mode">auto_digital</field>
             <field name="print_if_not_email">True</field>
         </record>
-    </data>
 
+        <!-- Other emails -->
+        <record id="hold_removal" model="partner.communication.config">
+            <field name="name">Beneficiary Hold Removal</field>
+            <field name="email_template_id" ref="email_hold_removal"/>
+            <field name="send_mode">auto_digital</field>
+        </record>
+
+    </data>
 
     <!-- Init sendgrid templates -->
     <data>

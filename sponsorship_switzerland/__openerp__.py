@@ -40,6 +40,7 @@
         'data/major_revision_emails.xml',
         'data/lifecycle_emails.xml',
         'data/project_lifecycle.xml',
+        'data/other_emails.xml',
         'data/communication_config.xml',
         'workflow/sds_workflow.xml',
         'security/ir.model.access.csv',

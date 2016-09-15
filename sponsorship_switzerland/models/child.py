@@ -94,24 +94,3 @@ class Household(models.Model):
         if self.revised_value_ids:
             for child in self.child_ids.filtered('sponsor_id'):
                 major_revision(child, self.revised_value_ids)
-
-
-class ChildLifecycle(models.Model):
-    """ Send Communication when Child Lifecycle Event is received. """
-    _inherit = 'compassion.child.ble'
-
-    def process_commkit(self, commkit_data):
-        ids = super(ChildLifecycle, self).process_commkit(commkit_data)
-        for lifecycle in self.browse(ids).filtered('child_id.sponsor_id'):
-            communication_type = self.env[
-                'partner.communication.config'].search([
-                    ('name', 'ilike', lifecycle.type),
-                    ('name', 'like', 'Beneficiary'),
-                ])
-            if communication_type:
-                self.env['partner.communication.job'].create({
-                    'config_id': communication_type.id,
-                    'partner_id': lifecycle.child_id.sponsor_id.id,
-                    'object_id': lifecycle.child_id.id,
-                })
-        return ids
