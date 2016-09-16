@@ -73,8 +73,10 @@ class Correspondence(models.Model):
         """ Called when B2S letter is Published. Check if translation is
          needed and upload to translation platform. """
         for letter in self:
-            if letter.original_language_id in \
-                    letter.supporter_languages_ids or \
+            # if letter.original_language_id in \
+            #         letter.supporter_languages_ids or \
+            if (letter.beneficiary_language_ids &
+                    letter.supporter_languages_ids) or \
                     letter.has_valid_language:
                 super(Correspondence, letter).process_letter()
             else:
