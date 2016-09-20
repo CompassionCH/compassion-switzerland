@@ -83,9 +83,7 @@ class PaymentSlip(models.Model):
             initial_position = (4.86 * inch, 2.2 * inch)
             self._draw_address(canvas, print_settings, initial_position,
                                default_font, partner)
-            reference = mod10r('00 00000 00' + partner.ref[0:4] +
-                               ' ' + partner.ref[3:] + '0 0000' +
-                               '7 ' + '0023')
+            reference = self.compute_christmas_bvr_ref(partner)
             self._draw_ref(canvas,
                            print_settings,
                            (4.9 * inch, 2.70 * inch),
@@ -113,18 +111,17 @@ class PaymentSlip(models.Model):
             if bank_acc.print_partner:
                 if (bank_acc.print_account or
                         bank_acc.bvr_adherent_num):
-                    initial_position = (0.05 * inch,  3.4 * inch)
+                    first_position = (0.05 * inch,  3.4 * inch)
+                    second_position = (2.45 * inch, 3.4 * inch)
                 else:
-                    initial_position = (0.05 * inch,  3.75 * inch)
-                self._draw_address(canvas, print_settings, initial_position,
-                                   default_font, partner)
-                if (bank_acc.print_account or
-                        bank_acc.bvr_adherent_num):
-                    initial_position = (2.45 * inch, 3.4 * inch)
-                else:
-                    initial_position = (2.45 * inch, 3.75 * inch)
-                self._draw_address(canvas, print_settings, initial_position,
-                                   default_font, partner)
+                    first_position = (0.05 * inch,  3.75 * inch)
+                    second_position = (2.45 * inch, 3.75 * inch)
+                self._draw_address(canvas, print_settings, first_position,
+                                   default_font, bank_acc.partner_id,
+                                   partner.lang)
+                self._draw_address(canvas, print_settings, second_position,
+                                   default_font, bank_acc.partner_id,
+                                   partner.lang)
             num_car, frac_car = ("%.2f" % self.amount_total).split('.')
             # ################ Do not print any amount ##################
             # self._draw_amount(canvas, print_settings,
@@ -196,7 +193,7 @@ class PaymentSlip(models.Model):
 
     @api.model
     def _draw_address(self, canvas, print_settings, initial_position, font,
-                      com_partner):
+                      com_partner, lang=None):
         x, y = initial_position
         x += print_settings.bvr_add_horz * inch
         y += print_settings.bvr_add_vert * inch
@@ -206,15 +203,15 @@ class PaymentSlip(models.Model):
         text.textOut(com_partner.name)
         text.moveCursor(0.0, font.size)
         for line in com_partner.contact_address.split("\n"):
-            if not line:
+            if not line.strip():
                 continue
-            if line[-3].isdigit():
-                state = line[0:-6]
-                postal_code = line[-4:]
+            if len(line) >= 4 and line[-4].isdigit():
+                state = line[0:-4].strip()
+                postal_code = line[-4:].strip()
                 line = postal_code + ' ' + state
             if line == 'Switzerland' or line == 'Svizzera' or line == \
                     'Suisse' or line == 'Schweiz':
-                line = self._compute_country(com_partner.lang)
+                line = self._compute_country(lang or com_partner.lang)
             text.textLine(line)
         canvas.drawText(text)
 
@@ -286,3 +283,16 @@ class PaymentSlip(models.Model):
             canvas.drawString(x, y, car)
             # some font type return non numerical
             x -= 0.1 * inch
+
+    @api.model
+    def compute_christmas_bvr_ref(self, partner):
+        """ Generates a Christmas BVR Reference.
+        See file \\nas\it\devel\Code_ref_BVR.xls for more information."""
+        result = '0' * (9 + (7 - len(partner.ref))) + partner.ref
+        result += '0' * 5
+        # Type '7' = Campaign
+        result += '7'
+        # 0023 is Fund ID for Christmas Fund
+        result += '0023'
+        if len(result) == 26:
+            return self._space(mod10r(result))
