@@ -118,6 +118,13 @@ class ResPartner(models.Model):
                 'partner_compassion.res_partner_title_friends').id
         return res
 
+    @api.model
+    def get_lang_from_phone_number(self, phone):
+        record = self.get_record_from_phone_number(phone)
+        if record:
+            partner = self.browse(record[1])
+        return record and partner.lang
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
