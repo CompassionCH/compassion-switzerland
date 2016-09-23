@@ -9,7 +9,35 @@
 #
 ##############################################################################
 import uuid
-from openerp import api, fields, models
+from openerp import api, fields, models, _
+
+M_PREFIX = {
+    'fr_CH': u'Cher',
+    'de_DE': u'Sehr geehrter',
+    'it_IT': u'Caro',
+    'en_US': u'Dear',
+}
+
+F_PREFIX = {
+    'fr_CH': u'Chère',
+    'de_DE': u'Sehr geehrte',
+    'it_IT': u'Cara',
+    'en_US': u'Dear',
+}
+
+P_PREFIX = {
+    'fr_CH': u'Chers',
+    'de_DE': u'Sehr geehrte',
+    'it_IT': u'Cari',
+    'en_US': u'Dear',
+}
+
+FP_PREFIX = {
+    'fr_CH': u'Chères',
+    'de_DE': u'Sehr geehrte',
+    'it_IT': u'Cari',
+    'en_US': u'Dear',
+}
 
 
 class ResPartner(models.Model):
@@ -20,7 +48,16 @@ class ResPartner(models.Model):
 
     uuid = fields.Char(compute='compute_uuid', store=True)
     pays_christmas_fund = fields.Boolean(
-        compute='compute_pays_christmas_fund')
+        compute='_compute_christmas_fund')
+    christmas_amount = fields.Float(
+        compute='_compute_christmas_fund')
+    salutation = fields.Char(
+        compute='_compute_salutation'
+    )
+    active_sponsorships = fields.One2many(
+        'recurring.contract', compute='_compute_active_sponsorships'
+    )
+    child_name = fields.Char(compute='_compute_active_sponsorships')
 
     _sql_constraints = [
         ('unique_uuid', 'unique(uuid)', 'Partner UUID must be unique!')
@@ -33,12 +70,48 @@ class ResPartner(models.Model):
             partner.uuid = uuid.uuid4()
 
     @api.multi
-    def compute_pays_christmas_fund(self):
+    def _compute_christmas_fund(self):
         for partner in self:
-            lines = partner.other_contract_ids.with_context(
-                lang='en_US').mapped(
-                'contract_line_ids.product_id.name_template')
-            partner.pays_christmas_fund = 'Christmas Gift Fund' in lines
+            lines = partner.other_contract_ids.filtered(
+                lambda c: c.state not in ('terminated',
+                                          'cancelled')).with_context(
+                lang='en_US').mapped('contract_line_ids').filtered(
+                lambda l: l.product_id.name_template == 'Christmas Gift Fund')
+            partner.pays_christmas_fund = bool(lines)
+            partner.christmas_amount = sum(lines.mapped('subtotal'))
+
+    @api.multi
+    def _compute_salutation(self):
+        for partner in self:
+            if partner.title.id in [5, 6, 7, 30]:
+                prefix = M_PREFIX[self.env.lang]
+            elif partner.title.id in [3, 29]:
+                prefix = F_PREFIX[self.env.lang]
+            elif partner.title.id == 25:
+                prefix = FP_PREFIX[self.env.lang]
+            else:
+                prefix = P_PREFIX[self.env.lang]
+            partner.salutation = prefix + u' ' + (
+                partner.title.name and partner.title.name.lower() + u' '
+                or u'') + partner.lastname
+
+    @api.multi
+    def _compute_active_sponsorships(self):
+        for partner in self:
+            active_sponsorships = self.env['recurring.contract'].search([
+                '|', ('correspondant_id', '=', partner.id),
+                ('partner_id', '=', partner.id),
+                ('type', 'in', ['S', 'SC']),
+                ('state', 'not in', ['terminated', 'cancelled']),
+            ])
+            if len(active_sponsorships) == 1:
+                name = active_sponsorships.child_id.firstname
+                if self.env.lang == 'it_IT':
+                    name = 'di ' + name
+                partner.child_name = name
+            elif active_sponsorships:
+                partner.child_name = _("your sponsored children")
+            partner.active_sponsorships = active_sponsorships
 
     @api.model
     def update_partner_payment_terms(self):
