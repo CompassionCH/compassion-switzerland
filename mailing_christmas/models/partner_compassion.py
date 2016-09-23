@@ -91,8 +91,10 @@ class ResPartner(models.Model):
                 prefix = FP_PREFIX[self.env.lang]
             else:
                 prefix = P_PREFIX[self.env.lang]
+            title = partner.title.name.lower() if self.env.lang != 'de_DE' \
+                else partner.title.name
             partner.salutation = prefix + u' ' + (
-                partner.title.name and partner.title.name.lower() + u' '
+                partner.title.name and title + u' '
                 or u'') + partner.lastname
 
     @api.multi
