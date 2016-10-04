@@ -82,20 +82,22 @@ class ResPartner(models.Model):
 
     @api.multi
     def _compute_salutation(self):
+        lang = self.env.lang or 'en_US'
         for partner in self:
             if partner.title.id in [5, 6, 7, 30]:
-                prefix = M_PREFIX[self.env.lang]
+                prefix = M_PREFIX[lang]
             elif partner.title.id in [3, 29]:
-                prefix = F_PREFIX[self.env.lang]
+                prefix = F_PREFIX[lang]
             elif partner.title.id == 25:
-                prefix = FP_PREFIX[self.env.lang]
+                prefix = FP_PREFIX[lang]
             else:
-                prefix = P_PREFIX[self.env.lang]
-            title = partner.title.name.lower() if self.env.lang != 'de_DE' \
-                else partner.title.name
-            partner.salutation = prefix + u' ' + (
-                partner.title.name and title + u' '
-                or u'') + partner.lastname
+                prefix = P_PREFIX[lang]
+            if partner.title.name:
+                title = partner.title.name.lower() + u' ' if lang != 'de_DE' \
+                    else partner.title.name + u' '
+            else:
+                title = u''
+            partner.salutation = prefix + u' ' + title + partner.lastname
 
     @api.multi
     def _compute_active_sponsorships(self):
