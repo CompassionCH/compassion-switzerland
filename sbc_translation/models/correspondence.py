@@ -180,7 +180,9 @@ class Correspondence(models.Model):
             if translate_lang == 'eng':
                 target_text = 'english_text'
             elif translate_lang in self.child_id.project_id \
-                    .country_id.spoken_lang_ids.mapped('code_iso'):
+                    .country_id.spoken_lang_ids.mapped('code_iso') or\
+                    (translate_lang == 'fra' and
+                     self.child_id.code[:2] == 'HA'):
                 # TODO After release R4 replace with 'translated_text'
                 target_text = 'english_text'
             else:
