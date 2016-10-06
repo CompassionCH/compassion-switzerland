@@ -8,13 +8,6 @@ This module allows to send child letters to sponsors through email.
 It adds option to import letters with import configuration and option to select
 multiple letters on import.
 
-Configuration
-=============
-
-You must add the following system parameters:
-
-* ``sbc_email.from_address`` email address which sends the letters to sponsors.
-
 Usage
 =====
 

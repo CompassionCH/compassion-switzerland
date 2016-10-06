@@ -37,7 +37,7 @@ class MassMailing(models.Model):
         """ Tries to send e-mails still pending. """
         self.ensure_one()
         mail_statistics = self.statistics_ids.filtered(
-            lambda s: not s.tracking_state and s.mail_mail_id.state ==
+            lambda s: not s.mail_tracking_id and s.mail_mail_id.state ==
             'outgoing')
         emails = mail_statistics.mapped('mail_mail_id')
         session = ConnectorSession.from_env(self.env)

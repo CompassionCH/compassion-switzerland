@@ -8,12 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-
 from openerp import models, api
-
-TICKET_FROM = 'ecino@compassion.com'
-TICKET_TO = 'compassion@service-now.com'
-TICKET_CC = 'YBoska@us.ci.org'
 
 
 class ResPartner(models.Model):
@@ -44,13 +39,8 @@ class ResPartner(models.Model):
         else:
             template = self.env.ref(
                 'sbc_email.ticket_block_original')
-        # Create and send email
-        email_vals = {
-            'email_to': TICKET_TO,
-            'email_from': TICKET_FROM,
-            'email_cc': TICKET_CC
-        }
+
         for partner in self:
             self.env['mail.compose.message'].with_context(
-                lang=partner.lang).create_emails(
-                template, partner.id, email_vals).send_sendgrid()
+                default_no_auto_thread=True).create_emails(
+                template, partner.id).send_sendgrid()

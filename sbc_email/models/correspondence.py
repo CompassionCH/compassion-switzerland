@@ -59,8 +59,6 @@ class Correspondence(models.Model):
 
             # Create email
             email_vals = {
-                'email_from': self.env['ir.config_parameter'].get_param(
-                    'sbc_email.from_address'),
                 'recipient_ids': [(4, partner.id)],
             }
             # EXCEPTION FOR DEMAUREX : send to Delafontaine

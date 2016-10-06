@@ -25,15 +25,17 @@ class Email(models.Model):
         for email in self:
             message = email.mail_message_id
             for partner in email.recipient_ids:
-                message_id = partner.message_post(
-                    message.body, message.subject)
-                p_message = message.browse(message_id)
-                p_message.write({
-                    'subtype_id': self.env.ref('mail.mt_comment').id,
-                    'notified_partner_ids': [(4, partner.id)],
-                    # Set parent to have the tracking working
-                    'parent_id': message.id
-                })
+                if not (message.model == 'res.partner' and message.res_id ==
+                        partner.id):
+                    message_id = partner.message_post(
+                        message.body, message.subject)
+                    p_message = message.browse(message_id)
+                    p_message.write({
+                        'subtype_id': self.env.ref('mail.mt_comment').id,
+                        'notified_partner_ids': [(4, partner.id)],
+                        # Set parent to have the tracking working
+                        'parent_id': message.id
+                    })
 
 
 class MailMessage(models.Model):
@@ -70,3 +72,20 @@ class MailMessage(models.Model):
 
             message_dict['partner_trackings'] = partner_trackings
         return res
+
+
+class EmailTemplate(models.Model):
+    """ Remove functionality to search partners given the email_to field.
+        This is not good behaviour for Compassion CH where we have
+        some partners that share the same e-mail and because we won't
+        create a new partner when sending to a static address
+    """
+    _inherit = 'email.template'
+
+    @api.v7
+    def generate_email_batch(self, cr, uid, tpl_id=False, res_ids=None,
+                             fields=None, context=None):
+        if context and 'tpl_partners_only' in context:
+            del context['tpl_partners_only']
+        return super(EmailTemplate, self).generate_email_batch(
+            cr, uid, tpl_id, res_ids, fields=fields, context=context)
