@@ -4,6 +4,8 @@
         <record id="change_system" model="email.template">
             <field name="name">First letter system changed</field>
             <field name="model_id" search="[('model','=','correspondence')]"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.correspondant_id and object.correspondant_id.email and object.correspondant_id.id or False }</field>
             <field name="subject">You received a letter from ${object.child_id.firstname}!</field>
             <field name="body_html" type="html">
@@ -23,6 +25,8 @@
         <record id="new_letter" model="email.template">
             <field name="name">New letter</field>
             <field name="model_id" search="[('model','=','correspondence')]"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.correspondant_id and object.correspondant_id.email and object.correspondant_id.id or False }</field>
             <field name="subject">You received a letter from ${object.child_id.firstname}!</field>
             <field name="body_html" type="html">
@@ -39,6 +43,10 @@
         <!-- Ticket for changing send_original -->
         <record id="ticket_send_original" model="email.template">
             <field name="name">[TICKET] Original letters request</field>
+            <field name="email_from">ecino@compassion.ch</field>
+            <field name="email_to">compassion@service-now.com</field>
+            <field name="email_cc">YBoska@us.ci.org</field>
+            <field name="reply_to">ecino@compassion.ch</field>
             <field name="model_id" search="[('model','=','res.partner')]"/>
             <field name="subject">Change supporter delivery preference (digital to physical)</field>
             <field name="body_html" type="html">
@@ -53,6 +61,10 @@
         <record id="ticket_block_original" model="email.template">
             <field name="name">[TICKET] Stop sending original letters</field>
             <field name="model_id" search="[('model','=','res.partner')]"/>
+            <field name="email_from">ecino@compassion.ch</field>
+            <field name="email_to">compassion@service-now.com</field>
+            <field name="email_cc">YBoska@us.ci.org</field>
+            <field name="reply_to">ecino@compassion.ch</field>
             <field name="subject">Change supporter delivery preference (physical to digital)</field>
             <field name="body_html" type="html">
                 <p>
@@ -64,6 +76,10 @@
         <!-- Ticket for changing sponsorship reading language -->
         <record id="ticket_change_language" model="email.template">
             <field name="name">[TICKET] Change commitment language preference</field>
+            <field name="email_from">ecino@compassion.ch</field>
+            <field name="email_to">compassion@service-now.com</field>
+            <field name="email_cc">YBoska@us.ci.org</field>
+            <field name="reply_to">ecino@compassion.ch</field>
             <field name="model_id" search="[('model','=','recurring.contract')]"/>
             <field name="subject">Change commitment language preference</field>
             <field name="body_html" type="html">

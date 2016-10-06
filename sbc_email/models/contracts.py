@@ -10,7 +10,6 @@
 ##############################################################################
 
 from openerp import models, api
-from .partner_compassion import TICKET_FROM, TICKET_TO, TICKET_CC
 
 
 class RecurringContract(models.Model):
@@ -57,14 +56,12 @@ class RecurringContract(models.Model):
                 ('state', '=', 'outgoing')])
             if not email:
                 # Create email
-                email = self.env['mail.compose.message'].create_emails(
+                email = self.env['mail.compose.message'].with_context(
+                    default_no_auto_thread=True).create_emails(
                     template, [contract.id], {
-                        'email_to': TICKET_TO,
-                        'email_from': TICKET_FROM,
-                        'email_cc': TICKET_CC,
                         'substitution_ids': [
                             (0, False, {'key': '{changes}', 'value': ''}),
-                        ]
+                        ],
                     })
             content = email.substitution_ids[0]
             content.value = content.value + change_text

@@ -5,9 +5,9 @@
         <record id="email_christmas_fund_bvr" model="email.template">
             <field name="name">Christmas fund email bvr</field>
             <field name="model_id" search="[('model','=','res.partner')]"/>
-            <field name="email_from">${object.company_id.email}</field>
-            <field name="email_to">${object.email}</field>
-            <field name="partner_to">${object.id}</field>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to">true</field>
             <field name="subject">${'Your gift to illuminate the Christmas of ' + object.child_name if object.child_name else "Your gift to illuminate a child's Christmas"}</field>
             <field name="body_html" type="html">
                 <div>
@@ -56,9 +56,9 @@
         <record id="email_christmas_fund_lsvdd" model="email.template">
             <field name="name">Christmas fund email lsvdd</field>
             <field name="model_id" search="[('model','=','res.partner')]"/>
-            <field name="email_from">${object.company_id.email}</field>
-            <field name="email_to">${object.email}</field>
-            <field name="partner_to">${object.id}</field>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to">true</field>
             <field name="subject">${'Your gift to illuminate the Christmas of ' + object.child_name if object.child_name else "Your gift to illuminate a child's Christmas"}</field>
             <field name="body_html" type="html">
                 <div>
