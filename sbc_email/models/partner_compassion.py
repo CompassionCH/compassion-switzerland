@@ -41,5 +41,6 @@ class ResPartner(models.Model):
                 'sbc_email.ticket_block_original')
 
         for partner in self:
-            self.env['mail.compose.message'].create_emails(
+            self.env['mail.compose.message'].with_context(
+                default_no_auto_thread=True).create_emails(
                 template, partner.id).send_sendgrid()

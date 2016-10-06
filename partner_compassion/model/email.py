@@ -72,3 +72,20 @@ class MailMessage(models.Model):
 
             message_dict['partner_trackings'] = partner_trackings
         return res
+
+
+class EmailTemplate(models.Model):
+    """ Remove functionality to search partners given the email_to field.
+        This is not good behaviour for Compassion CH where we have
+        some partners that share the same e-mail and because we won't
+        create a new partner when sending to a static address
+    """
+    _inherit = 'email.template'
+
+    @api.v7
+    def generate_email_batch(self, cr, uid, tpl_id=False, res_ids=None,
+                             fields=None, context=None):
+        if context and 'tpl_partners_only' in context:
+            del context['tpl_partners_only']
+        return super(EmailTemplate, self).generate_email_batch(
+            cr, uid, tpl_id, res_ids, fields=fields, context=context)

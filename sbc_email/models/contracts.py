@@ -56,11 +56,12 @@ class RecurringContract(models.Model):
                 ('state', '=', 'outgoing')])
             if not email:
                 # Create email
-                email = self.env['mail.compose.message'].create_emails(
+                email = self.env['mail.compose.message'].with_context(
+                    default_no_auto_thread=True).create_emails(
                     template, contract.id, {
                         'substitution_ids': [
                             (0, False, {'key': '{changes}', 'value': ''}),
-                        ]
+                        ],
                     })
             content = email.substitution_ids[0]
             content.value = content.value + change_text

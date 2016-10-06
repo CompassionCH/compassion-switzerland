@@ -32,7 +32,6 @@ class EmailComposeMessage(models.TransientModel):
             'author_id': self.env.user.partner_id.id,
             'notification': True,
             'auto_delete': True,
-            'no_auto_thread': False,
         })
         # Fetch template values.
         wizard.write(
