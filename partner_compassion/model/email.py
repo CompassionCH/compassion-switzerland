@@ -25,15 +25,17 @@ class Email(models.Model):
         for email in self:
             message = email.mail_message_id
             for partner in email.recipient_ids:
-                message_id = partner.message_post(
-                    message.body, message.subject)
-                p_message = message.browse(message_id)
-                p_message.write({
-                    'subtype_id': self.env.ref('mail.mt_comment').id,
-                    'notified_partner_ids': [(4, partner.id)],
-                    # Set parent to have the tracking working
-                    'parent_id': message.id
-                })
+                if not (message.model == 'res.partner' and message.res_id ==
+                        partner.id):
+                    message_id = partner.message_post(
+                        message.body, message.subject)
+                    p_message = message.browse(message_id)
+                    p_message.write({
+                        'subtype_id': self.env.ref('mail.mt_comment').id,
+                        'notified_partner_ids': [(4, partner.id)],
+                        # Set parent to have the tracking working
+                        'parent_id': message.id
+                    })
 
 
 class MailMessage(models.Model):
