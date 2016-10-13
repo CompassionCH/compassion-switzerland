@@ -34,7 +34,8 @@ class Email(models.Model):
                         'subtype_id': self.env.ref('mail.mt_comment').id,
                         'notified_partner_ids': [(4, partner.id)],
                         # Set parent to have the tracking working
-                        'parent_id': message.id
+                        'parent_id': message.id,
+                        'author_id': message.author_id.id
                     })
 
 
@@ -51,9 +52,10 @@ class MailMessage(models.Model):
         for message_dict in messages:
             mail_message_id = message_dict.get('id', False)
             if mail_message_id:
-                # Add parent message ids in the search
+                # Add parent and child message ids in the search
                 message_ids = [mail_message_id]
                 message = self.browse(mail_message_id)
+                message_ids.extend(message.child_ids.ids)
                 while message.parent_id:
                     message = message.parent_id
                     message_ids.append(message.id)
@@ -89,3 +91,24 @@ class EmailTemplate(models.Model):
             del context['tpl_partners_only']
         return super(EmailTemplate, self).generate_email_batch(
             cr, uid, tpl_id, res_ids, fields=fields, context=context)
+
+
+class MailNotification(models.Model):
+    _inherit = 'mail.notification'
+
+    @api.multi
+    def _notify_email(self, message_id, force_send=False, user_signature=True):
+        """ Always send notifications by e-mail. Put parent_id in messages
+        in order to enable tracking from the thread.
+        """
+        mail_ids = super(MailNotification, self)._notify_email(
+            message_id, force_send, user_signature)
+        if isinstance(mail_ids, list):
+            for i in range(0, len(self)):
+                emails = self.env['mail.mail'].browse(mail_ids[i])
+                message = self[i].message_id
+                emails.mapped('mail_message_id').write({
+                    'parent_id': message.id
+                })
+                emails.send()
+        return mail_ids
