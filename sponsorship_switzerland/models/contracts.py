@@ -106,13 +106,12 @@ class RecurringContracts(models.Model):
             logger.error("Unable to perform automatic reconciliation after "
                          "cleaning contract invoices.")
 
-    def _filter_clean_invoices(self, since_date=None, to_date=None,
-                               gifts=False):
+    def _filter_clean_invoices(self, since_date, to_date):
         """ For LSV/DD contracts, don't clean invoices that are in a
             Payment Order.
         """
         search = super(RecurringContracts, self)._filter_clean_invoices(
-            since_date, to_date, gifts)
+            since_date, to_date)
         invoices = self.env['account.invoice.line'].search(search).mapped(
             'invoice_id')
         lsv_dd_invoices = self._get_lsv_dd_invoices(invoices)
