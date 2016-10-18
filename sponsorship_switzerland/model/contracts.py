@@ -157,7 +157,7 @@ class contracts(models.Model):
         lsv_dd_invoices = self._get_lsv_dd_invoices(invoice_lines.mapped(
             'invoice_id'))
         return invoice_lines.filtered(
-            lambda line: line.invoice_id not in lsv_dd_invoices.ids)
+            lambda line: line.invoice_id.id not in lsv_dd_invoices.ids)
 
     def _get_lsv_dd_invoices(self, invoices):
         lsv_dd_invoices = self.env['account.invoice']
