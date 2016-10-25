@@ -103,6 +103,21 @@ class ResPartner(models.Model):
         return res
 
     ##########################################################################
+    #                              ORM METHODS                               #
+    ##########################################################################
+    @api.model
+    def create(self, vals):
+        partner = super(ResPartner, self.with_context(
+            no_geocode=True)).create(vals)
+        if self._can_geocode():
+            # Call precise service of localization
+            partner.geocode_address()
+            if not partner.geo_point:
+                # Call approximate service
+                partner.geocode_from_geonames()
+        return partner
+
+    ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
     @api.multi
@@ -158,3 +173,11 @@ class ResPartner(models.Model):
         elif address.parent_id:
             address_format = '%(company_name)s\n' + address_format
         return address_format % args
+
+    def _can_geocode(self):
+        """ Remove approximate geocoding when a precise position is
+        already set.
+        """
+        if 'no_geocode' in self.env.context:
+            return False
+        return super(ResPartner, self)._can_geocode()

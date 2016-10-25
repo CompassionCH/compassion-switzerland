@@ -7,6 +7,7 @@ Upgrade Partners for Compassion Suisse
 A. Upgrade Partners to Compassion Switzerland standards :
     - Add correspondance information
     - Redefines the views of the partners
+    - Add partner geolocalization
 
 B. E-mail tracking :
     - Post e-mails sent with Sendgrid in the partners
