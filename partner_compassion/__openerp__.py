@@ -37,12 +37,15 @@
     'website': 'http://www.compassion.ch',
     'depends': [
         'sbc_compassion', 'mail_sendgrid', 'partner_contact_birthdate',
-        'partner_firstname'
+        'partner_firstname', 'geoengine_base_geolocalize',
+        'geoengine_geoname_geocoder'
     ],
     'data': [
         'data/partner_category_data.xml',
         'data/partner_title_data.xml',
+        'data/geocode_cron.xml',
         'view/partner_compassion_view.xml',
+        'view/bulk_encode_view.xml',
     ],
     'demo': [],
     'installable': True,
