@@ -21,6 +21,7 @@ virtualenv:
 install:
   - pip install flake8
   - git clone https://github.com/CompassionCH/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools -b r2
+  - git clone https://github.com/OCA/geospatial.git ${HOME}/geospatial -b 8.0
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
 
 script:
