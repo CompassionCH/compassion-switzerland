@@ -122,6 +122,18 @@ class ResPartner(models.Model):
         return partner
 
     ##########################################################################
+    #                             PUBLIC METHODS                             #
+    ##########################################################################
+    @api.model
+    def compute_geopoint(self):
+        """ Compute all geopoints. """
+        self.search([
+            ('partner_latitude', '!=', False),
+            ('partner_longitude', '!=', False),
+        ])._get_geo_point()
+        return True
+
+    ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
     @api.multi

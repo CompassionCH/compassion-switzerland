@@ -42,6 +42,16 @@ class TranslateConnect(mysql_connector):
         text_type_id = 2 if correspondence.direction ==\
             'Supporter To Beneficiary' else 1
 
+        first_letter_id = self.env.ref(
+            'sbc_compassion.correspondence_type_new_sponsor').id
+        final_letter_id = self.env.ref(
+            'sbc_compassion.correspondence_type_final').id
+        # Not urgent, default
+        priority = 1
+        type_ids = correspondence.communication_type_ids.ids
+        if first_letter_id in type_ids or final_letter_id in type_ids:
+            priority = 4
+
         vals = {
             'src_lang_id': src_lang_id,
             'aim_lang_id': dst_lang_iso,
@@ -58,7 +68,7 @@ class TranslateConnect(mysql_connector):
             'kid_gender': child.gender,
             'createdat': self.current_time,
             'updatedat': self.current_time,
-            'priority_id': 1,  # Not urgent, default
+            'priority_id': priority,
             'text_type_id': text_type_id,
         }
         return self.upsert("text", vals)

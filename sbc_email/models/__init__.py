@@ -13,3 +13,4 @@ from . import contracts
 from . import partner_compassion
 from . import import_config
 from . import import_letters_history
+from . import mail_tracking_event
