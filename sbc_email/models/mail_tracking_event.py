@@ -23,7 +23,6 @@ class MailTrackingEvent(models.Model):
             ('read_count', '=', 0)
         ])
         correspondence.write({
-            'read_count': 1,
             'last_read': fields.Datetime.now()
         })
         return super(MailTrackingEvent, self).process_open(
