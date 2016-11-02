@@ -9,3 +9,4 @@
 #
 ##############################################################################
 from . import bulk_encode
+from . import portal_wizard
