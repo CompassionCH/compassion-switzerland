@@ -42,9 +42,9 @@ class TranslateConnect(mysql_connector):
         text_type_id = 2 if correspondence.direction ==\
             'Supporter To Beneficiary' else 1
 
-        first_letter_id = self.env.ref(
+        first_letter_id = correspondence.env.ref(
             'sbc_compassion.correspondence_type_new_sponsor').id
-        final_letter_id = self.env.ref(
+        final_letter_id = correspondence.env.ref(
             'sbc_compassion.correspondence_type_final').id
         # Not urgent, default
         priority = 1
