@@ -38,12 +38,13 @@
     'depends': [
         'sbc_compassion', 'mail_sendgrid', 'partner_contact_birthdate',
         'partner_firstname', 'geoengine_base_geolocalize',
-        'geoengine_geoname_geocoder'
+        'geoengine_geoname_geocoder', 'mail_restrict_follower_selection',
     ],
     'data': [
         'data/partner_category_data.xml',
         'data/partner_title_data.xml',
         'data/geocode_cron.xml',
+        'data/follower_restriction_rules.xml',
         'view/partner_compassion_view.xml',
         'view/bulk_encode_view.xml',
     ],
