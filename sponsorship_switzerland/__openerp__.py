@@ -34,7 +34,8 @@
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_tracking', 'partner_compassion'],
+    'depends': ['sponsorship_tracking', 'partner_compassion',
+                'partner_communication'],
     'data': [
         'views/contracts_view.xml',
         'data/major_revision_emails.xml',
