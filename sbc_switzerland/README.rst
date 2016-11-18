@@ -1,12 +1,26 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Sponsor to beneficiary email communication
-==========================================
+Sponsor to beneficiary for Switzerland
+======================================
 
-This module allows to send child letters to sponsors through email.
+This module tailors letters import for reading PDFs from the NAS.
 It adds option to import letters with import configuration and option to select
 multiple letters on import.
+
+It also manage the Swiss translation platform for letters that need translation
+
+Configuration
+=============
+
+WARNING: You must install detectlanguage library on your server. It's used to
+detect language from a text.
+https://github.com/detectlanguage/detectlanguage-python
+
+pip install detectlanguage
+
+Set constant detect_language_api_key in your config file with the api key for
+use detectlanguage library
 
 Usage
 =====
@@ -28,6 +42,13 @@ replaced with corresponding values:
 
 Credits
 =======
+
+Contributors
+------------
+
+* Emanuel Cino <ecino@compassion.ch>
+* Stéphane Eicher <eicher31@hotmail.com>
+* Michaël Sandoz <sandozmichael@hotmail.com>
 
 Maintainer
 ----------

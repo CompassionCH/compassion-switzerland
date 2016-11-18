@@ -289,10 +289,10 @@ class Correspondence(models.Model):
                 self.letter_image.with_context(
                     bin_size=False).datas))
             nas_share_name = self.env.ref(
-                'sbc_translation.nas_share_name').value
+                'sbc_switzerland.nas_share_name').value
 
             nas_letters_store_path = self.env.ref(
-                'sbc_translation.nas_letters_store_path').value + file_name
+                'sbc_switzerland.nas_letters_store_path').value + file_name
             smb_conn.storeFile(nas_share_name,
                                nas_letters_store_path, file_)
 

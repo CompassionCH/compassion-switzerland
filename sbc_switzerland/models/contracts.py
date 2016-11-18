@@ -44,7 +44,7 @@ class RecurringContract(models.Model):
         """ Send ticket to GMC for changing sponsorship language.
         """
         for contract in self:
-            template = self.env.ref('sbc_email.ticket_change_language')
+            template = self.env.ref('sbc_switzerland.ticket_change_language')
             change_text = '{},{},{}<br/>'.format(
                 contract.partner_codega,
                 contract.child_code,
