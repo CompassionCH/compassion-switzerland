@@ -8,13 +8,14 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp import models
+from openerp import api, models
 
 
 class ChildLifecycle(models.Model):
     """ Send Communication when Child Lifecycle Event is received. """
     _inherit = 'compassion.child.ble'
 
+    @api.model
     def process_commkit(self, commkit_data):
         ids = super(ChildLifecycle, self).process_commkit(commkit_data)
         for lifecycle in self.browse(ids).filtered('child_id.sponsor_id'):
@@ -36,6 +37,7 @@ class ProjectLifecycle(models.Model):
     """ Send Communication when icp lifecycle is received. """
     _inherit = 'compassion.project.ile'
 
+    @api.model
     def process_commkit(self, commkit_data):
         ids = super(ProjectLifecycle, self).process_commkit(commkit_data)
 

@@ -39,58 +39,5 @@
                 </p>
             </field>
         </record>
-
-        <!-- Ticket for changing send_original -->
-        <record id="ticket_send_original" model="email.template">
-            <field name="name">[TICKET] Original letters request</field>
-            <field name="email_from">ecino@compassion.ch</field>
-            <field name="email_to">compassion@service-now.com</field>
-            <field name="email_cc">YBoska@us.ci.org</field>
-            <field name="reply_to">ecino@compassion.ch</field>
-            <field name="model_id" search="[('model','=','res.partner')]"/>
-            <field name="subject">Change supporter delivery preference (digital to physical)</field>
-            <field name="body_html" type="html">
-                <p>
-                    We would like to change the preference of supporter with constituent id ${object.ref} : the supporter wants to receive the original letters from its children.
-                    <br/>
-                    Can you please make the change? Thanks
-                </p>
-            </field>
-        </record>
-
-        <record id="ticket_block_original" model="email.template">
-            <field name="name">[TICKET] Stop sending original letters</field>
-            <field name="model_id" search="[('model','=','res.partner')]"/>
-            <field name="email_from">ecino@compassion.ch</field>
-            <field name="email_to">compassion@service-now.com</field>
-            <field name="email_cc">YBoska@us.ci.org</field>
-            <field name="reply_to">ecino@compassion.ch</field>
-            <field name="subject">Change supporter delivery preference (physical to digital)</field>
-            <field name="body_html" type="html">
-                <p>
-                    We would like to change the preference of supporter with constituent id ${object.ref} : the supporter doesn't want to receive the original letters from its children anymore. Can you please make the change? Thanks.
-                </p>
-            </field>
-        </record>
-
-        <!-- Ticket for changing sponsorship reading language -->
-        <record id="ticket_change_language" model="email.template">
-            <field name="name">[TICKET] Change commitment language preference</field>
-            <field name="email_from">ecino@compassion.ch</field>
-            <field name="email_to">compassion@service-now.com</field>
-            <field name="email_cc">YBoska@us.ci.org</field>
-            <field name="reply_to">ecino@compassion.ch</field>
-            <field name="model_id" search="[('model','=','recurring.contract')]"/>
-            <field name="subject">Change commitment language preference</field>
-            <field name="body_html" type="html">
-                <p>
-                    We would like to change the Supporter Correspondence Language of the following commitments (supporterId,childId,language):
-                    <br/>
-                    {changes}
-                    <br/>
-                    Can you please make the change? Thanks.
-                </p>
-            </field>
-        </record>
     </data>
 </openerp>

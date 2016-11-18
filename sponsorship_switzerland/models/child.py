@@ -40,34 +40,6 @@ class CompassionChild(models.Model):
     old_firstname = fields.Char(compute='_compute_revised_values')
     current_values = fields.Char(compute='_compute_revised_values')
 
-    def depart(self):
-        """ Send communication to sponsor. """
-        for child in self.filtered('sponsor_id'):
-            if child.lifecycle_ids[0].type == 'Planned Exit':
-                communication_type = self.env.ref(
-                    'sponsorship_switzerland.lifecycle_child_planned_exit')
-            else:
-                communication_type = self.env.ref(
-                    'sponsorship_switzerland.lifecycle_child_unplanned_exit')
-            self.env['partner.communication.job'].create({
-                'config_id': communication_type.id,
-                'partner_id': child.sponsor_id.id,
-                'object_id': child.id,
-            })
-        super(CompassionChild, self).depart()
-
-    def reinstatement(self):
-        """ Send communication to sponsor. """
-        communication_type = self.env.ref(
-            'sponsorship_switzerland.lifecycle_child_reinstatement')
-        for child in self.filtered('sponsorship_ids'):
-            self.env['partner.communication.job'].create({
-                'config_id': communication_type.id,
-                'partner_id': child.sponsorship_ids[0].correspondant_id.id,
-                'object_id': child.id,
-            })
-        super(CompassionChild, self).reinstatement()
-
     def _compute_revised_values(self):
         for child in self:
             child.old_values = ', '.join(child.revised_value_ids.translate(
