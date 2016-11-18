@@ -1,5 +1,13 @@
 <openerp>
     <data>
+        <!-- Child letters -->
+        <record id="child_letter_config" model="partner.communication.config">
+            <field name="name">B2S Letter</field>
+            <field name="send_mode">partner_preference</field>
+            <field name="send_mode_pref_field">letter_delivery_preference</field>
+            <field name="print_if_not_email">True</field>
+        </record>
+
         <!-- Major Revision Communication Config -->
         <record id="major_revision_birthdate" model="partner.communication.config">
             <field name="name">Major Revision - Birthdate</field>

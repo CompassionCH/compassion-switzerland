@@ -22,7 +22,7 @@ class Correspondence(models.Model):
         'partner.communication.job', 'Communication')
     sent_date = fields.Datetime(
         'Communication sent', related='communication_id.sent_date',
-        oldname='email_sent_date', store=True)
+        store=True)
     email_read = fields.Boolean(compute='_compute_email_read', store=True)
 
     ##########################################################################
@@ -55,16 +55,19 @@ class Correspondence(models.Model):
             and not\
                 self.email_id:
             if self.partner_needs_explanations():
-                template = self.env.ref('sbc_email.change_system')
+                template = self.env.ref(
+                    'partner_communication_switzerland.change_system')
             else:
-                template = self.env.ref('sbc_email.new_letter')
+                template = self.env.ref(
+                    'partner_communication_switzerland.new_letter')
 
             # EXCEPTION FOR DEMAUREX : send to Delafontaine
             email = None
             auto_send = self._can_auto_send() and composed_ok
             if partner.ref == '1502623':
                 email = 'eric.delafontaine@aligro.ch'
-            communication_type = self.env.ref('sbc_email.child_letter_config')
+            communication_type = self.env.ref(
+                'partner_communication_switzerland.child_letter_config')
             self.communication_id = self.env[
                 'partner.communication.job'].create({
                     'config_id': communication_type.id,
@@ -101,7 +104,7 @@ class Correspondence(models.Model):
             ('correspondant_id', '=', partner_id),
             ('direction', '=', 'Beneficiary To Supporter'),
             ('id', '!=', self.id)])
-        return (activation_date < transition_date and not other_letters)
+        return activation_date < transition_date and not other_letters
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

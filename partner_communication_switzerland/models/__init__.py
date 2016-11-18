@@ -3,11 +3,14 @@
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Roman Zoller
+#    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import contracts
-from . import import_config
-from . import import_letters_history
+
+from . import child
+from . import lifecycle_events
+from . import compassion_hold
+from . import correspondence
+from . import mail_tracking_event
