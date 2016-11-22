@@ -34,7 +34,7 @@ class MailFollowers(models.Model):
         mail_restrict_follower_selection
         """
         model = vals['res_model']
-        res_id = vals['res_id']
+        res_id = vals['partner_id']
         domain = self._mail_restrict_follower_selection_get_domain(model)
         allowed = self.env['res.partner'].search(eval(domain))
         if allowed and res_id in allowed.ids:
