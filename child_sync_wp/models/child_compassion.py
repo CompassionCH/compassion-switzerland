@@ -30,21 +30,19 @@ class CompassionChild(models.Model):
         reload(sys)
         sys.setdefaultencoding('UTF8')
 
-        possible_states = ['N', 'R', 'Z']
-        valid_children = self.filtered(lambda c: c.state in possible_states)
-        valid_children._set_unsponsored_since()
+        valid_children = self.filtered(lambda c: c.state == 'N')
 
         for child in valid_children:
             # Check for descriptions
             if not (child.desc_de and child.desc_fr and child.desc_it):
                 raise Warning(
-                    _('Missing descriptions for child %s') % child.code)
+                    _('Missing descriptions for child %s') % child.local_id)
             if not (child.project_id.description_fr and
                     child.project_id.description_de and
                     child.project_id.description_it):
                 raise Warning(
                     _('Missing descriptions for project %s') %
-                    child.project_id.code)
+                    child.project_id.icp_id)
 
             # Check for pictures
             if not child.fullshot:
@@ -53,7 +51,7 @@ class CompassionChild(models.Model):
                 child = self.browse(child.id)
                 if not child.fullshot:
                     raise Warning(
-                        _('Child %s has no picture') % child.code)
+                        _('Child %s has no picture') % child.local_id)
 
         wp = WPSync()
         res = wp.upload_children(valid_children)
@@ -64,11 +62,8 @@ class CompassionChild(models.Model):
     def child_remove_from_wordpress(self):
         valid_children = self.filtered(lambda c: c.state == 'I')
         wp = WPSync()
-        # return wp.remove_all_children()
         if wp.remove_children(valid_children):
-            sponsored = valid_children.filtered('has_been_sponsored')
-            sponsored.write({'state': 'R'})
-            (valid_children - sponsored).write({'state': 'N'})
+            valid_children.write({'state': 'N'})
         return True
 
     def child_sponsored(self):
@@ -78,22 +73,16 @@ class CompassionChild(models.Model):
 
         return super(CompassionChild, self).child_sponsored()
 
-    def depart(self, args):
-        """ add child remove from typo3 (formerly child_depart_wizard.py) """
-        child = self.browse(args.get('object_id'))
-        if child.state == 'I':
-            if not child.child_remove_from_wordpress():
-                raise Warning(
-                    _("Child depart cannot be executed because the child is "
-                      "not removed from Wordpress."))
+    def child_released(self):
+        """ Remove from typo3 when child is released """
+        to_remove_from_web = self.filtered(lambda c: c.state == 'I')
+        to_remove_from_web.child_remove_from_wordpress()
 
-        return super(CompassionChild, self).depart(args)
+        return super(CompassionChild, self).child_released()
 
-    def deallocate(self, args):
+    def child_departed(self):
         """ Remove from typo3 when child is deallocated """
-        child = self.browse(args.get('object_id'))
-        if not child.child_remove_from_wordpress():
-            raise Warning(
-                _("Child deallocate cannot be executed because the child is "
-                  "not removed from Wordpress."))
-        return super(CompassionChild, self).deallocate(args)
+        to_remove_from_web = self.filtered(lambda c: c.state == 'I')
+        to_remove_from_web.child_remove_from_wordpress()
+
+        return super(CompassionChild, self).child_departed()
