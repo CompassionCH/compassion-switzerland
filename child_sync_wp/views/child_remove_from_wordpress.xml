@@ -6,7 +6,7 @@
 			<field name="model">child.remove.from.wordpress.wizard</field>
             <field name="type">form</field>
 			<field name="arch" type="xml">
-                <form string="Remove child from internet">
+                <form string="Remove child from Wordpress">
                     <field name="child_ids"/>
                     <p>Validate this to remove the selected child from the website.</p>
                     <footer>
@@ -19,7 +19,7 @@
         
         <act_window id="action_child_remove_from_wordpress_wizard"
                     multi="True"
-                    name="Remove from internet"
+                    name="Remove from Wordpress"
                     key2="client_action_multi"
                     src_model="compassion.child"
                     res_model="child.remove.from.wordpress.wizard"
