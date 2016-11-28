@@ -12,6 +12,8 @@ import base64
 import csv
 import shutil
 import xmlrpclib
+from xmlrpclib import Fault
+
 import pysftp
 import logging
 from os import listdir, path, makedirs, remove
@@ -93,10 +95,15 @@ class WPSync(object):
         return result
 
     def remove_children(self, children):
-        res = self.xmlrpc_server.child_import.deleteChildren(
-            self.user, self.pwd, children.mapped('local_id'))
-        logger.info("Remove from Wordpress : " + str(res))
-        return res
+        try:
+            res = self.xmlrpc_server.child_import.deleteChildren(
+                self.user, self.pwd, children.mapped('local_id'))
+            logger.info("Remove from Wordpress : " + str(res))
+            return res
+        except Fault:
+            logger.error("Remove from Wordpress failed.")
+
+        return False
 
     def remove_all_children(self):
         res = self.xmlrpc_server.child_import.deleteAllChildren(

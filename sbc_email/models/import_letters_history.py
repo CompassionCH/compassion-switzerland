@@ -478,7 +478,7 @@ class ImportLettersHistory(models.Model):
             return SMBConnection(
                 SmbConfig.smb_user, SmbConfig.smb_pass, 'openerp', 'nas')
 
-    @api.one
+    @api.multi
     def import_web_letter(self, child_code, sponsor_ref, language_name,
                           original_text, template_name, pdf_letter,
                           attachment, ext):
@@ -491,7 +491,7 @@ class ImportLettersHistory(models.Model):
         if child_code:
             # Retrieve child code and find corresponding id
             model_child = self.env['compassion.child'].search(
-                [('unique_id', '=', child_code), ('state', '=', 'P')])
+                [('local_id', '=', child_code), ('state', '=', 'P')])
 
             child_id = model_child.id
         if not child_id:

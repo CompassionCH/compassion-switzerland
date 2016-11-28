@@ -12,7 +12,7 @@ import logging
 
 import sys
 
-from openerp import models, _
+from openerp import api, models, _
 from openerp.exceptions import Warning
 
 from ..tools.wp_sync import WPSync
@@ -61,28 +61,35 @@ class CompassionChild(models.Model):
 
     def child_remove_from_wordpress(self):
         valid_children = self.filtered(lambda c: c.state == 'I')
-        wp = WPSync()
-        if wp.remove_children(valid_children):
-            valid_children.write({'state': 'N'})
+        if valid_children:
+            wp = WPSync()
+            if wp.remove_children(valid_children):
+                valid_children.write({'state': 'N'})
         return True
 
+    @api.multi
     def child_sponsored(self):
         """ Remove children from the website when they are sponsored. """
         to_remove_from_web = self.filtered(lambda c: c.state == 'I')
-        to_remove_from_web.child_remove_from_wordpress()
+        if to_remove_from_web:
+            to_remove_from_web.child_remove_from_wordpress()
 
         return super(CompassionChild, self).child_sponsored()
 
+    @api.multi
     def child_released(self):
         """ Remove from typo3 when child is released """
         to_remove_from_web = self.filtered(lambda c: c.state == 'I')
-        to_remove_from_web.child_remove_from_wordpress()
+        if to_remove_from_web:
+            to_remove_from_web.child_remove_from_wordpress()
 
         return super(CompassionChild, self).child_released()
 
+    @api.multi
     def child_departed(self):
         """ Remove from typo3 when child is deallocated """
         to_remove_from_web = self.filtered(lambda c: c.state == 'I')
-        to_remove_from_web.child_remove_from_wordpress()
+        if to_remove_from_web:
+            to_remove_from_web.child_remove_from_wordpress()
 
         return super(CompassionChild, self).child_departed()
