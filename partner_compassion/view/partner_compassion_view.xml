@@ -18,6 +18,9 @@
                 <field name="lastname" position="before">
                     <field name="title" attrs="{'required': [('is_company', '=', False)]}"/>
                 </field>
+                <field name="firstname" position="after">
+                    <field name="preferred_name"/>
+                </field>
                 <xpath expr="//form[@string='Contact']/sheet//field[@name='lastname']" position="before">
                     <field name="title" />
                 </xpath>
