@@ -1,0 +1,526 @@
+<openerp>
+    <data>
+        <!--
+        New Sponsorship Dossier
+        -->
+        <record id="email_sponsorship_dossier" model="email.template">
+            <field name="name">Sponsorship - New Dossier</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Your new sponsorship</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    % set his = child.get('his')
+                    % set he = child.get('he')
+                    % set him = child.get('him')
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    % if sponsorships.mapped('parent_id'):
+                        We thank you for renewing your commitment with Compassion Switzerland.
+                    % else:
+                        Welcome to the family of Compassion Switzerland and thank you very much for sponsoring ${firstname}!
+                    % endif
+                    <br/>
+                    <br/>
+                    With this letter you will find:
+                    <br/>
+                    <ul>
+                        <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
+                        <li>1 label sheet. Please use the labels on everything you are going to send to ${him} (cards, letters, stickers, drawings, etc.).</li>
+                        <li>An introduction letter for you to write</li>
+                        <li>3 payment slips for a payment in favour of ${child.get('your sponsored child')} (birthday, family present or other)</li>
+                        <li>${sponsorships[0].payment_type_attachment}</li>
+                        <li>A booklet with information about child sponsorship</li>
+                    </ul>
+                    <br/>
+                    As soon as we receive your first payment, ${child.get('your sponsored child')} will be informed that ${he} found a sponsor.
+                    <br/>
+                    <br/>
+                    If you want to visit ${child.get('your sponsored child')} some day, we can give you all the necessary information or you can register for one of our organized trips. You’ll get more informations on www.compassion.ch.
+                    <br/>
+                    <br/>
+                    It may occur that children leave Compassion's sponsorship program. There are several reasons for this: war, famine, but also new job opportunities, better income of the family or simply the free choice of the child to work rather than to continue to go to the school program. We will inform you as soon as possible if this happens, and will suggest a new sponsorship to you. There are still a lot of children in need!
+                    <br/>
+                    <br/>
+                    If you have any questions, please feel free to write to us and we will be glad to answer.
+                    <br/>
+                    <br/>
+                    Yours sincerely,
+                </p>
+            </field>
+            <!-- This field could be used to attach the labels sheet. -->
+            <field name="report_remplate"/>
+        </record>
+        <record id="email_sponsorship_dossier_correspondent" model="email.template">
+            <field name="name">Sponsorship - New Dossier for Correspondent only</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Your new sponsorship</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    % set his = child.get('his')
+                    % set he = child.get('he')
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    % if sponsorships.mapped('parent_id'):
+                        We thank you for renewing your commitment with Compassion Switzerland.
+                    % else:
+                        Welcome to the family of Compassion Switzerland and thank you very much for sponsoring ${firstname}!
+                    % endif
+                    <br/>
+                    <br/>
+                    With this letter you will find:
+                    <br/>
+                    <ul>
+                        <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
+                        <li>1 label sheet. Please use the labels on everything you are going to send to ${firstname} (cards, letters, stickers, drawings, etc.).</li>
+                        <li>An introduction letter for you to write</li>
+                        <li>3 payment slips for a payment in favour of ${child.get('your sponsored child')} (birthday, family present or other)</li>
+                        <li>A booklet with informations about the sponsorship</li>
+                    </ul>
+                    <br/>
+                    As soon as we receive your first payment, ${child.get('your sponsored child')} will be informed that ${he} found a sponsor.
+                    <br/>
+                    <br/>
+                    If you want to visit ${child.get('your sponsored child')} some day, we can give you all the necessary information or you can register for one of our organized trips. You’ll get more informations on www.compassion.ch.
+                    <br/>
+                    <br/>
+                    It may occur that children leave Compassion's sponsorship program. There are several reasons for this: war, famine, but also new job opportunities, better income of the family or simply the free choice of the child to work rather than to continue to go to the school program. We will inform you as soon as possible if this happens, and will suggest a new sponsorship to you. There are still a lot of children in need!
+                    <br/>
+                    <br/>
+                    If you have any questions, please feel free to write to us and we will be glad to answer.
+                    <br/>
+                    <br/>
+                    Yours sincerely,
+                </p>
+            </field>
+            <!-- This field could be used to attach the labels sheet. -->
+            <field name="report_remplate"/>
+        </record>
+        <record id="email_sponsorship_dossier_payer" model="email.template">
+            <field name="name">Sponsorship - New Dossier for Payer only</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Your new sponsorship</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    % set his = child.get('his')
+                    % set he = child.get('he')
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    % if sponsorships.mapped('parent_id'):
+                        We thank you for renewing your commitment with Compassion Switzerland.
+                    % else:
+                        Welcome to the family of Compassion Switzerland and thank you very much for sponsoring ${firstname}!
+                    % endif
+                    <br/>
+                    <br/>
+                    With this letter you will find:
+                    <br/>
+                    <ul>
+                        <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
+                        <li>A booklet with informations about the sponsorship</li>
+                    </ul>
+                    <br/>
+                    As soon as we receive your first payment, ${child.get('your sponsored child')} will be informed that ${he} found a sponsor.
+                    <br/>
+                    <br/>
+                    It may occur that children leave Compassion's sponsorship program. There are several reasons for this: war, famine, but also new job opportunities, better income of the family or simply the free choice of the child to work rather than to continue to go to the school program. We will inform you as soon as possible if this happens, and will suggest a new sponsorship to you. There are still a lot of children in need!
+                    <br/>
+                    <br/>
+                    If you have any questions, please feel free to write to us and we will be glad to answer.
+                    <br/>
+                    <br/>
+                    Yours sincerely,
+                </p>
+            </field>
+            <!-- This field could be used to attach the labels sheet. -->
+            <field name="report_remplate"/>
+        </record>
+
+
+        <!--
+        Welcome Letter
+        -->
+        <record id="email_sponsorship_welcome" model="email.template">
+            <field name="name">Sponsorship - Welcome Letter</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Let your new sponsorship with Compassion begin!</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    % set partner = object.partner_id
+                    % set intro = 'another child' if len(partner.sponsorship_ids) > 1 else 'a child'
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    Not long ago, <!-- Keep that space -->
+                    % if sponsorships[0].parent_id:
+                        we sent you a dossier from a child who still waits for a sponsor.
+                    % else:
+                        you decided to sponsor ${intro} through Compassion Switzerland. Thank you very much for your support towards children in need!
+                    % endif
+                    <br/>
+                    <br/>
+                    In order for this sponsorship to start under good conditions we hope that you received all the information and that you had time to read them.
+                    <br/>
+                    <br/>
+                    In case you have any questions, please do not hesitate to contact us.
+                    <br/>
+                    <br/>
+                    We also want to encourage you to write to ${child.get('your sponsored child')}.
+                    Receiving a letter from the sponsor is very encouraging and has great value. Only a couple of words or a small Christmas card can have an impact and show ${firstname} your love.
+                    <br/>
+                    <br/>
+                    On our website www.compassion.ch you can find testimonies, but also frequently asked questions and answers concerning our sponsorship program. (FAQ)
+                    <br/>
+                    <br/>
+                    We wish you a lot of joy in your relationship with ${child.get('your sponsored child')}.
+                    <br/>
+                    <br/>
+                    Yours sincerely,
+                </p>
+            </field>
+        </record>
+
+
+        <!--
+        Sponsorship anniversary
+        -->
+        <record id="email_sponsorship_anniversary_1" model="email.template">
+            <field name="name">Sponsorship - Anniversary 1 year</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">One year sponsoring ${object.get_objects().get_list('firstname', 3, child.get_number())}</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    Congratulations!
+                    <br/>
+                    <br/>
+                    It's been one year that you joined ${firstname}'s family, by being ${child.get('he')} sponsor.
+                    <br/>
+                    <br/>
+                    We would like to take this opportunity to thank you for your commitment and for the help you bring to ${firstname}.
+                    Your support is a demonstration of God's love for children in need.
+                    <br/>
+                    <br/>
+                    Thanks to your generosity, the Church is keeping freeing children from poverty in Jesus name.
+                    <br/>
+                    <br/>
+                    Thank you!
+                </p>
+            </field>
+        </record>
+        <record id="email_sponsorship_anniversary_3" model="email.template">
+            <field name="name">Sponsorship - Anniversary 3 years</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Three years sponsoring ${object.get_objects().get_list('firstname', 3, child.get_number())}</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    We would like to celebrate an anniversary with you!
+                    <br/>
+                    <br/>
+                    It's been three years that you took action in Compassion Switzerland's goal: bring hope in the life of a child.
+                    <br/>
+                    <br/>
+                    Your support let ${firstname} have dreams ${child.get('he')} couldn't have otherwise.
+                    Thank you taking your relation with ${child.get('your sponsored child')} seriously.
+                    <br/>
+                    <br/>
+                    Thanks to your generosity, one child's life can be changed.
+                    <br/>
+                    <br/>
+                    Yours sincerely.
+                </p>
+            </field>
+        </record>
+        <record id="email_sponsorship_anniversary_5" model="email.template">
+            <field name="name">Sponsorship - Anniversary 5 years</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Five years with ${object.get_objects().get_list('firstname', 3, child.get_number())}</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    Congratulations for your five years of sponsorship!
+                    <br/>
+                    <br/>
+                    In the name of the Compassion Switzerland team, I would like to thank you for your fidelity during all these years.
+                    <br/>
+                    <br/>
+                    Your sponsorship has a real impact on ${firstname}'s life, by giving ${child.get('him')} hope for ${child.get('his')} future.
+                    <br/>
+                    <br/>
+                    Thank you for your commitment which is helping freeing children from poverty in Jesus name!
+                    <br/>
+                    <br/>
+                    Yours sincerely.
+                </p>
+            </field>
+        </record>
+        <record id="email_sponsorship_anniversary_10" model="email.template">
+            <field name="name">Sponsorship - Anniversary 10 years</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">10 years with ${object.get_objects().get_list('firstname', 3, child.get_number())}!</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    Can you imagine it's been already ten years that you started your sponsorship with ${firstname}? Congratulations!
+                    <br/>
+                    <br/>
+                    Thank you for your commitment to a child in need. ${child.get('he').title()} can become a Christian standing in ${child.get('his')} community with a solid faith.
+                    <br/>
+                    <br/>
+                    We are grateful that you share our goal of freeing children from poverty in Jesus name.
+                    <br/>
+                    <br/>
+                    Yours sincerely.
+                </p>
+            </field>
+        </record>
+        <record id="email_sponsorship_anniversary_15" model="email.template">
+            <field name="name">Sponsorship - Anniversary 15 years</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">15 years sponsoring ${object.get_objects().get_list('firstname', 3, child.get_number())}</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    This year, we would like to celebrate a special event with you: fifteen years of sponsorship with ${firstname}!
+                    <br/>
+                    We are so grateful and would like to thank you for such a great commitment.
+                    <br/>
+                    <br/>
+                    Your sponsorship is a real blessing! Thanks to your support, ${child.get('your sponsored child')} can make the dreams God put in ${child.get('his')} heart come true.
+                    <br/>
+                    <br/>
+                    Thank you for your generosity and for the light you bring to a child in need!
+                    <br/>
+                    <br/>
+                    Yours sincerely.
+                </p>
+            </field>
+        </record>
+
+
+        <!--
+        Birthday Reminder
+        -->
+        <record id="email_sponsorship_birthday_reminder" model="email.template">
+            <field name="name">Sponsorship - Birthday Reminder</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Wish ${object.get_objects().get('your sponsored child')} a Happy Birthday !</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    % set his = child.get('his')
+                    % set month = child[0].birthday_month
+                </div>
+                <p>
+                    In ${month} ${child.get('your sponsored child')} will celebrate ${his} birthday. We would like to encourage you to write a few lines wishing ${firstname} a happy birthday on this special day.
+                    <br/>
+                    <br/>
+                    In advance, thank you for taking just 2 minutes to express your love to ${firstname} .
+                    <br/>
+                    <br/>
+                    If you want to write online, you can choose a birthday card we have prepared for you and even send a picture. The link (in French) is the following: https://www.compassion.ch/fr/parrainage/ecrire/ecrivez-une-lettre-directement-en-ligne.html
+                    <br/>
+                    <br/>
+                    Compassion can also write the birthday card on your behalf if you wish. In this case, please contact us.
+                    <br/>
+                    <br/>
+                    You can also make a little birthday gift if you like. You can make the payment with the payment slip attached or directly online, using this link (in French): https://www.compassion.ch/fr/parrainage/donner.html
+                    <br/>
+                    <br/>
+                    Compassion thank you for your precious support toward ${firstname} !
+                </p>
+            </field>
+        </record>
+
+
+        <!--
+        Completion in 4 months
+        -->
+        <record id="email_sponsorship_completion" model="email.template">
+            <field name="name">Sponsorship - Completion</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Sponsorship Completion</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    % set him = child.get('him')
+                    % set month = child[0].birthday_month
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    You have been sponsoring ${firstname + ' '}
+                    % if len(child) == 1:
+                        from ${child.project_id.country_id.name + ' '}
+                    % endif
+                    for many years. We would like to thank you once more for your generosity and help to the children in need.
+                    <br/>
+                    <br/>
+                    We would like to inform you, that ${child.get('your sponsored child')} will complete the Compassion program and end the activities in the project in ${child.get_completion()}.
+                    <br/>
+                    <br/>
+                    We would warmly advice you to send an encouraging letter before the end of the program and if you want, send ${him} a gift.
+                    <br/>
+                    <br/>
+                    For any further questions or remarks, please keep in touch with us.
+                    <br/>
+                    <br/>
+                    Yours sincereley,
+                </p>
+            </field>
+        </record>
+
+
+        <!--
+        SUB Sponsorship proposal e-mails
+        -->
+        <record id="email_sponsorship_sub_dossier" model="email.template">
+            <field name="name">Sponsorship - SUB Dossier</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">New sponsorship proposal</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set name = child.get_list('name', 3, child.get_number())
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    Not so long ago, we informed you about the departure of ${sponsorships.get_list('parent_id.child_id.name')}.
+                    <br/>
+                    <br/>
+                    We propose you to support ${name} (${child.get_list('project_id.country_id.name')}) and send you the documents about it.
+                    <br/>
+                    <br/>
+                    <b>In the case you would not like to sponsor ${child.get('this child')}, please inform us as soon as possible.</b>
+                    If you have any further questions or remarks, please contact us.
+                    <br/>
+                    <br/>
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+        <record id="email_sponsorship_sub_reject" model="email.template">
+            <field name="name">Sponsorship - SUB Reject</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Your request to end the sponsorship program</field>
+            <field name="body_html" type="html">
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    With this letter we would like to thank you for your support you brought to a child in need.
+                    We acknowledge that you don't want to take another sponsorship.
+                    If you established a permanent order for the sponsorship payment, don't forget to cancel it.
+                    <br/>
+                    <br/>
+                    Thank you once more and best regards
+                </p>
+            </field>
+        </record>
+    </data>
+</openerp>

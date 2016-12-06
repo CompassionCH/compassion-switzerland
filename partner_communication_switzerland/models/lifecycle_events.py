@@ -8,12 +8,14 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp import api, models
+from openerp import api, models, fields
 
 
 class ChildLifecycle(models.Model):
     """ Send Communication when Child Lifecycle Event is received. """
     _inherit = 'compassion.child.ble'
+
+    gender = fields.Selection(related='child_id.gender')
 
     @api.model
     def process_commkit(self, commkit_data):
@@ -28,7 +30,7 @@ class ChildLifecycle(models.Model):
                 self.env['partner.communication.job'].create({
                     'config_id': communication_type.id,
                     'partner_id': lifecycle.child_id.sponsor_id.id,
-                    'object_id': lifecycle.child_id.id,
+                    'object_ids': lifecycle.child_id.id,
                 })
         return ids
 
@@ -49,10 +51,10 @@ class ProjectLifecycle(models.Model):
                         search([('project_id', '=', lifecycle.project_id.id),
                                 ('sponsor_id', '!=', False)]):
                     communication_type = self.env.ref(
-                        'sponsorship_switzerland.project_lifecycle')
+                        'partner_communication_switzerland.project_lifecycle')
                     self.env['partner.communication.job'].create({
                         'config_id': communication_type.id,
                         'partner_id': child.sponsor_id.id,
-                        'object_id': child.id,
+                        'object_ids': child.id,
                     })
         return ids

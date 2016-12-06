@@ -22,10 +22,10 @@ class CompassionHold(models.Model):
         for hold in self.browse(ids).filtered(
                 lambda h: h.channel in ('ambassador', 'event')):
             communication_type = self.env.ref(
-                'sponsorship_switzerland.hold_removal')
+                'partner_communication_switzerland.hold_removal')
             self.env['partner.communication.job'].create({
                 'config_id': communication_type.id,
                 'partner_id': hold.primary_owner.partner_id.id,
-                'object_id': hold.id,
+                'object_ids': hold.id,
             })
         return ids

@@ -3,21 +3,22 @@
         <!-- Hold Removal Notification -->
         <record id="email_hold_removal" model="email.template">
             <field name="name">Beneficiary Hold Removal</field>
-            <field name="model_id" search="[('model','=','compassion.hold')]"/>
-            <field name="partner_to">${object.primary_owner.partner_id.id}</field>
-            <field name="subject">Child ${object.child_id.local_id} removal notification</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Child ${object.get_objects().child_id.local_id} removal notification</field>
             <field name="body_html" type="html">
                 <div>
-                    %set owner = object.primary_owner.partner_id.firstname
-                    %set child_code = object.child_id.local_id
-                    %set child_name = object.child_id.name
+                    % set hold = object.get_objects()
+                    % set owner = hold.primary_owner.partner_id.firstname
+                    % set child_code = hold.child_id.local_id
+                    % set child_name = hold.child_id.name
                 </div>
                 <p>
-                    Dear ${object.owner},
+                    Dear ${owner},
                     <br/>
                     <br/>
                     We just learned that the child ${child_name} with ref. ${child_code} is no longer available for sponsorship.
-                    The following comments were received : ${object.comments}
+                    The following comments were received : ${hold.comments}
                     <br/>
                     <br/>
                     If you have the childpack, please don't use it.

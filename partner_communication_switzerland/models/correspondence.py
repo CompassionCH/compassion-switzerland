@@ -72,7 +72,7 @@ class Correspondence(models.Model):
                 'partner.communication.job'].create({
                     'config_id': communication_type.id,
                     'partner_id': partner.id,
-                    'object_id': self.id,
+                    'object_ids': self.id,
                     'auto_send': auto_send,
                     'email_template_id': template.id,
                     'email_to': email,

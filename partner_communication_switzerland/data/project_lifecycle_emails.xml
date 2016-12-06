@@ -3,16 +3,20 @@
         <!-- Project lifecycle -->
         <record id="email_project_lifecycle" model="email.template">
             <field name="name">Project Lifecycle</field>
-            <field name="model_id" search="[('model','=','compassion.child')]"/>
-            <field name="partner_to">${object.sponsor_id and object.sponsor_id.email and object.sponsor_id.id or False }</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Your children's icp had an event.</field>
             <field name="body_html" type="html">
+                <div>
+                    % set child = object.get_objects()
+                    % set project = child.project_id
+                </div>
                 <p>
                     Dear sponsor,
                     <br/>
                     <br/>
                     <ul>
-                        <li>We received a project lifecycle: ${object.project_id.lifecycle_ids[0].type}</li>
+                        <li>We received a project lifecycle: ${project.lifecycle_ids[0].type}</li>
                     </ul>
                     <br/>
                     Yours sincerely
