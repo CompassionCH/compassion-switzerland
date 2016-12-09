@@ -185,18 +185,22 @@
             <field name="name">Sponsorship - Completion</field>
             <field name="email_template_id" ref="email_sponsorship_completion"/>
             <field name="send_mode">partner_preference</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>
         <record id="planned_sub_dossier" model="partner.communication.config">
-            <field name="name">Sponsorship - SUB Dossier</field>
+            <field name="name">Sponsorship - SUB Proposal</field>
             <field name="email_template_id" ref="email_sponsorship_sub_dossier"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>
-        <record id="planned_sub_reject" model="partner.communication.config">
-            <field name="name">Sponsorship - SUB Reject</field>
-            <field name="email_template_id" ref="email_sponsorship_sub_reject"/>
+        <record id="planned_no_sub" model="partner.communication.config">
+            <field name="name">Sponsorship - No SUB</field>
+            <field name="email_template_id" ref="email_sponsorship_no_sub"/>
             <field name="send_mode">partner_preference</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>
 

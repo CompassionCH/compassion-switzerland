@@ -12,7 +12,6 @@
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
-            <field name="active" eval="True"/>
             <field name="function">send_daily_communication</field>
             <field name="model">recurring.contract</field>
             <field name="args" eval="()"/>
@@ -22,7 +21,6 @@
             <field name="interval_number">1</field>
             <field name="interval_type">months</field>
             <field name="numbercall">-1</field>
-            <field name="active" eval="True"/>
             <field name="function">send_monthly_communication</field>
             <field name="model">recurring.contract</field>
             <field name="args" eval="()"/>

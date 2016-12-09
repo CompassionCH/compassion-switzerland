@@ -40,7 +40,7 @@ class CompassionChild(models.Model):
     old_firstname = fields.Char(compute='_compute_revised_values')
     current_values = fields.Char(compute='_compute_revised_values')
     birthday_month = fields.Char(compute='_compute_birthday_month')
-    completion_month = fields.Char(compute='_compute_completion')
+    completion_month = fields.Char(compute='_compute_completion_month')
 
     def _compute_revised_values(self):
         for child in self:

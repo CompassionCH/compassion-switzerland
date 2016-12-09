@@ -17,11 +17,11 @@ class ResPartnerTitle(models.Model):
     Adds salutation and gender fields.
     """
     _inherit = 'res.partner.title'
-    salutation = fields.Char()
     gender = fields.Selection([
         ('M', 'Male'),
         ('F', 'Female'),
     ])
+    plural = fields.Boolean()
 
 
 class ResPartner(models.Model):
@@ -41,5 +41,9 @@ class ResPartner(models.Model):
                 partner.salutation = _("Dear friends of compassion")
             else:
                 title = partner.title
-                partner.salutation = title.salutation + ' ' + \
+                title_salutation = self.env['ir.advanced.translation'].get(
+                    'salutation', female=title.gender == 'F',
+                    plural=title.plural
+                ).title()
+                partner.salutation = title_salutation + ' ' + \
                     title.name.lower() + ' ' + partner.lastname

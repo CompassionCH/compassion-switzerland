@@ -53,3 +53,7 @@ child_this_child_en,this child,en_US,Child,this child,these children,this child,
 child_the_child_en,the child,en_US,Child,the child,the children,the child,the children
 child_each_of_en,each of,en_US,Child,,each of,,each of
 child_per_child_en,per child,en_US,Child,,per child,,per child
+salutation_fr,salutation,fr_CH,Partner,cher,chers,chère,chères
+salutation_de,salutation,de_DE,Partner,lieber,liebe,liebe,liebe
+salutation_it,salutation,it_IT,Partner,caro,cari,cara,cari
+salutation_en,salutation,en_US,Partner,dear,dear,dear,dear

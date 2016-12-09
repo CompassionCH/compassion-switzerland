@@ -7,15 +7,19 @@
         -->
         <record id="partner_compassion.res_partner_title_men" model="res.partner.title">
             <field name="gender">M</field>
+            <field name="plural">1</field>
         </record>
         <record id="partner_compassion.res_partner_title_ladies" model="res.partner.title">
             <field name="gender">F</field>
+            <field name="plural">1</field>
         </record>
         <record id="partner_compassion.res_partner_title_mister_miss" model="res.partner.title">
             <field name="gender">F</field>
+            <field name="plural">1</field>
         </record>
         <record id="partner_compassion.res_partner_title_friends" model="res.partner.title">
             <field name="gender">M</field>
+            <field name="plural">1</field>
         </record>
         <record id="partner_compassion.res_partner_title_family" model="res.partner.title">
             <field name="gender">F</field>
