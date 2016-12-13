@@ -26,6 +26,9 @@ class RecurringContract(models.Model):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
+    order_photo = fields.Boolean(
+        help='Indicates that the child has a new picture to be ordered with '
+             'Smartphoto.')
     payment_type_attachment = fields.Char(
         compute='_compute_payment_type_attachment')
 
