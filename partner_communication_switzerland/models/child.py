@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, _
+from openerp import api, models, fields, _
 
 
 def major_revision(child, revised_values):
@@ -100,6 +100,28 @@ class CompassionChild(models.Model):
             })
         super(CompassionChild, self).reinstatement()
 
+    def new_photo(self):
+        super(CompassionChild, self).new_photo()
+        communication_config = self.env.ref(
+            'partner_communication_switzerland.biennial')
+        job_obj = self.env['partner.communication.job']
+        for child in self.filtered('sponsor_id').filtered('pictures_ids'):
+            # In case picture is sent by e-mail, include it in e-mail values
+            pictures = child.pictures_ids[0]
+            attachment = self.env['ir.attachment'].search([
+                ('res_model', '=', 'compassion.child.pictures'),
+                ('res_id', '=', pictures.id),
+                ('datas_fname', 'like', 'Fullshot')
+            ], limit=1)
+            job_obj.with_context({
+                'default_email_vals': {
+                    'attachment_ids': [(6, 0, attachment.ids)]}
+            }).create({
+                'config_id': communication_config.id,
+                'partner_id': child.sponsor_id.id,
+                'object_ids': child.id,
+            })
+
     def get_number(self):
         """ Returns a string telling how many children are in the recordset.
         """
@@ -134,3 +156,22 @@ class Household(models.Model):
         if self.revised_value_ids:
             for child in self.child_ids.filtered('sponsor_id'):
                 major_revision(child, self.revised_value_ids)
+
+
+class ChildNotes(models.Model):
+    _inherit = 'compassion.child.note'
+
+    @api.model
+    def create(self, vals):
+        """ Inform sponsor when receiving new Notes. """
+        note = super(ChildNotes, self).create(vals)
+        child = note.child_id
+        if child.sponsor_id:
+            communication_config = self.env.ref(
+                'partner_communication_switzerland.child_notes')
+            self.env['partner.communication.job'].create({
+                'config_id': communication_config.id,
+                'partner_id': child.sponsor_id.id,
+                'object_ids': child.id,
+            })
+        return note

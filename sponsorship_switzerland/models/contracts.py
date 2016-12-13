@@ -18,26 +18,6 @@ logger = logging.getLogger(__name__)
 class RecurringContracts(models.Model):
     _inherit = 'recurring.contract'
 
-    gmc_state = fields.Selection('_get_gmc_states', 'GMC State')
-
-    ##########################################################################
-    #                             FIELDS METHODS                             #
-    ##########################################################################
-    @api.model
-    def _get_gmc_states(self):
-        """ Adds a new gmc state for tracking sponsorships for which we have
-        received an info about the child and we should notify the sponsor
-        with a letter (case where e-mail was not sent). """
-        return [
-            ('transfer', _('Child Transfer')),
-            ('transition', _('Transition')),
-            ('reinstatement', _('Reinstatement')),
-            ('major_revision', _('Major Revision')),
-            ('order_picture', _('Order Picture')),
-            ('biennial', _('Biennial')),
-            ('notes', _('New notes')),  # Notes kit notification
-            ('disaster_alert', _('Disaster Alert')),
-        ]
 
     @api.multi
     def suspend_contract(self):
@@ -51,22 +31,6 @@ class RecurringContracts(models.Model):
         """ Launch automatic reconcile after reactivation. """
         super(RecurringContracts, self).reactivate_contract()
         self._auto_reconcile()
-
-    ##########################################################################
-    #                             VIEW CALLBACKS                             #
-    ##########################################################################
-    @api.model
-    def button_reset_gmc_state(self, value):
-        """ Button called from Kanban view on all contracts of one group. """
-
-        contracts = self.env['recurring.contract'].search([
-            ('gmc_state', '=', value)])
-        return contracts.reset_gmc_state()
-
-    @api.multi
-    def reset_gmc_state(self):
-        """ Useful for manually unset GMC State. """
-        return self.write({'gmc_state': False})
 
     ##########################################################################
     #                            WORKFLOW METHODS                            #
@@ -187,15 +151,3 @@ class RecurringContracts(models.Model):
                 sponsorship.correspondant_id.write({
                     'category_id': [(3, sponsor_cat_id),
                                     (4, old_sponsor_cat_id)]})
-
-    @api.model
-    def _needaction_domain_get(self):
-        menu = self.env.context.get('count_menu')
-        if menu == 'menu_follow_gmc':
-            domain = [
-                ('sds_uid', '=', self.env.user.id),
-                ('gmc_state', '!=', False)]
-        else:
-            domain = super(RecurringContracts, self)._needaction_domain_get()
-
-        return domain

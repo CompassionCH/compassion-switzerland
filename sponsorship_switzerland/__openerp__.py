@@ -37,7 +37,6 @@
     'depends': ['sponsorship_tracking', 'partner_compassion',
                 'partner_communication'],
     'data': [
-        'views/contracts_view.xml',
         'workflow/sds_workflow.xml',
         'security/ir.model.access.csv',
     ],

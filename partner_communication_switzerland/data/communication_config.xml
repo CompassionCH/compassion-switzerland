@@ -213,6 +213,30 @@
             <field name="model_id" ref="model_compassion_hold"/>
         </record>
 
+        <record id="biennial" model="partner.communication.config">
+            <field name="name">New Biennial</field>
+            <field name="email_template_id" ref="email_biennial"/>
+            <field name="send_mode">partner_preference</field>
+            <field name="send_mode_pref_field">photo_delivery_preference</field>
+            <field name="print_if_not_email">True</field>
+            <field name="model_id" ref="model_compassion_child"/>
+        </record>
+
+        <record id="child_notes" model="partner.communication.config">
+            <field name="name">New Child Notes</field>
+            <field name="email_template_id" ref="email_child_notes"/>
+            <field name="send_mode">digital</field>
+            <field name="model_id" ref="model_compassion_child"/>
+        </record>
+
+        <record id="disaster_alert" model="partner.communication.config">
+            <field name="name">Disaster Alert</field>
+            <field name="email_template_id" ref="email_disaster_alert"/>
+            <field name="send_mode">digital</field>
+            <field name="print_if_not_email">True</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+        </record>
+
     </data>
 
     <!-- Init sendgrid templates -->
