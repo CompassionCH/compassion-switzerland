@@ -10,14 +10,13 @@
 ##############################################################################
 
 import logging
-from openerp import api, models, fields, _
+from openerp import api, models
 
 logger = logging.getLogger(__name__)
 
 
 class RecurringContracts(models.Model):
     _inherit = 'recurring.contract'
-
 
     @api.multi
     def suspend_contract(self):

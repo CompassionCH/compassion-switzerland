@@ -11,7 +11,7 @@
             <field name="body_html" type="html">
                 <div>
                     % set hold = object.get_objects()
-                    % set owner = hold.primary_owner.partner_id.firstname
+                    % set owner = object.partner_id.firstname
                     % set child_code = hold.child_id.local_id
                     % set child_name = hold.child_id.name
                 </div>

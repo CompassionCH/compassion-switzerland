@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <!-- Add Emails entry in Sponsorship Settings-->
-        <menuitem name="Emails" id="menu_mail_mail" parent="child_compassion.menu_configuration" action="mail.action_view_mail_mail" sequence="2"/>
+        <menuitem name="Emails" id="menu_mail_mail" parent="child_compassion.menu_communication_config" action="mail.action_view_mail_mail" sequence="2"/>
         
         <!-- Change tree view of e-mails -->
         <record model="ir.ui.view" id="view_mail_tree">
@@ -44,7 +44,7 @@
 
         <!-- Move Partner Communication Section -->
         <menuitem id="partner_communication.menu_communication_jobs" parent="sponsorship_tracking.menu_tracking" name="Partner Communications" sequence="1"/>
-        <menuitem id="partner_communication.menu_communication_config" parent="child_compassion.menu_configuration" name="Communication Rules" sequence="5"/>
+        <menuitem id="partner_communication.menu_communication_config" parent="child_compassion.menu_communication_config" name="Communication Rules" sequence="5"/>
         <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>
     </data>
 </openerp>
