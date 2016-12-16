@@ -192,6 +192,10 @@ class Correspondence(models.Model):
         else:
             state = 'Published to Global Partner'
             target_text = 'translated_text'
+            # TODO Remove this when new translation tool is working
+            # Workaround to avoid overlapping translation : everything goes
+            # in L6 template
+            self.b2s_layout_id = self.env.ref('sbc_compassion.b2s_l6')
 
         # Check that layout L4 translation gets on second page
         if self.b2s_layout_id == self.env.ref('sbc_compassion.b2s_l4') and \
