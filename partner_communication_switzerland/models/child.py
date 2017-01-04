@@ -8,6 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import locale
 
 from openerp import api, models, fields, _
 
@@ -60,15 +61,23 @@ class CompassionChild(models.Model):
 
     def _compute_birthday_month(self):
         """ Gets the birthday month in full text. """
-        for child in self:
+        current_locale = '.'.join(locale.getlocale())
+        lang = self.env.lang.encode('ascii')
+        for child in self.filtered('birthdate'):
             birthday = fields.Date.from_string(child.birthdate)
-            child.birthday_month = _(birthday.strftime("%B"))
+            locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
+            child.birthday_month = birthday.strftime("%B")
+            locale.setlocale(locale.LC_TIME, current_locale)
 
     def _compute_completion_month(self):
         """ Completion month in full text. """
-        for child in self:
+        current_locale = '.'.join(locale.getlocale())
+        lang = self.env.lang.encode('ascii')
+        for child in self.filtered('completion_date'):
             completion = fields.Date.from_string(child.completion_date)
+            locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
             child.completion_month = completion.strftime("%B")
+            locale.setlocale(locale.LC_TIME, current_locale)
 
     def depart(self):
         """ Send communication to sponsor. """
@@ -142,20 +151,25 @@ class CompassionChild(models.Model):
 
     def get_completion(self):
         """ Return the full completion dates. """
-        months = self.get_list('completion_month')
+        month = self[0].completion_month
         year = fields.Date.from_string(self[0].completion_date).strftime("%Y")
-        return months + ' ' + year
+        if not month:
+            return year
+        return month + ' ' + year
 
 
 class Household(models.Model):
     """ Send Communication when Household Major Revision is received. """
     _inherit = 'compassion.household'
 
-    def _major_revision(self, vals):
-        super(Household, self)._major_revision(vals)
-        if self.revised_value_ids:
-            for child in self.child_ids.filtered('sponsor_id'):
-                major_revision(child, self.revised_value_ids)
+    def process_commkit(self, commkit_data):
+        ids = super(Household, self).process_commkit(commkit_data)
+        households = self.browse(ids)
+        for household in households:
+            if household.revised_value_ids:
+                for child in household.child_ids.filtered('sponsor_id'):
+                    major_revision(child, self.revised_value_ids)
+        return ids
 
 
 class ChildNotes(models.Model):

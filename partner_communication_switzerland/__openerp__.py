@@ -48,6 +48,7 @@
         'data/partner_title_data.xml',
         'data/ir.advanced.translation.csv',
         'views/sbc_email_view.xml',
+        'views/communication_job_view.xml',
     ],
     'demo': [],
     'installable': True,

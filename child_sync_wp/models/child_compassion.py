@@ -67,6 +67,14 @@ class CompassionChild(models.Model):
                 valid_children.write({'state': 'N'})
         return True
 
+    @api.model
+    def remove_all_children_from_wordpress(self):
+        wp = WPSync()
+        if wp.remove_all_children():
+            children = self.search([('state', '=', 'I')])
+            children.write({'state': 'N'})
+        return True
+
     @api.multi
     def child_sponsored(self):
         """ Remove children from the website when they are sponsored. """

@@ -15,6 +15,7 @@
             <field name="function">send_daily_communication</field>
             <field name="model">recurring.contract</field>
             <field name="args" eval="()"/>
+            <field name="active" eval="False"/>
         </record>
         <record id="sponsorship_monthly_communication_cron" model="ir.cron">
             <field name="name">Send monthly sponsorship communication</field>
@@ -24,6 +25,7 @@
             <field name="function">send_monthly_communication</field>
             <field name="model">recurring.contract</field>
             <field name="args" eval="()"/>
+            <field name="active" eval="False"/>
         </record>
     </data>
 </openerp>
