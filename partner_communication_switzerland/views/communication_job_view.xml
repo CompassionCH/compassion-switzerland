@@ -1,0 +1,18 @@
+<openerp>
+    <data>
+        <!-- Add language filters in search view -->
+        <record model="ir.ui.view" id="communication_job_search">
+            <field name="name">communication.job.search.switzerland</field>
+            <field name="model">partner.communication.job</field>
+            <field name="inherit_id" ref="partner_communication.communication_job_search"/>
+            <field name="arch" type="xml">
+                <filter name="physical" position="after">
+                    <separator/>
+                    <filter string="French" name="french" domain="[('partner_id.lang', '=', 'fr_CH')]"/>
+                    <filter string="German" name="german" domain="[('partner_id.lang', '=', 'de_DE')]"/>
+                    <filter string="Italian" name="italian" domain="[('partner_id.lang', '=', 'it_IT')]"/>
+                </filter>
+            </field>
+        </record>
+    </data>
+</openerp>
