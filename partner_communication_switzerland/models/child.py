@@ -63,21 +63,21 @@ class CompassionChild(models.Model):
         """ Gets the birthday month in full text. """
         current_locale = '.'.join(locale.getlocale())
         lang = self.env.lang.encode('ascii')
-        locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
-        for child in self:
+        for child in self.filtered('birthdate'):
             birthday = fields.Date.from_string(child.birthdate)
+            locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
             child.birthday_month = birthday.strftime("%B")
-        locale.setlocale(locale.LC_TIME, current_locale)
+            locale.setlocale(locale.LC_TIME, current_locale)
 
     def _compute_completion_month(self):
         """ Completion month in full text. """
         current_locale = '.'.join(locale.getlocale())
         lang = self.env.lang.encode('ascii')
-        locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
-        for child in self:
+        for child in self.filtered('completion_date'):
             completion = fields.Date.from_string(child.completion_date)
+            locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
             child.completion_month = completion.strftime("%B")
-        locale.setlocale(locale.LC_TIME, current_locale)
+            locale.setlocale(locale.LC_TIME, current_locale)
 
     def depart(self):
         """ Send communication to sponsor. """
