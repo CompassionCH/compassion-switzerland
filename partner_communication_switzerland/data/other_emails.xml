@@ -112,7 +112,7 @@
                     We want to share with you some news about ${children[0].project_id.country_id.name}, where ${children.get('your sponsored child')} ${'lives' if len(children) == 1 else 'live'}.
                     <br/>
                     <br/>
-                    <b>${disaster.disaster_name}</b>
+                    <b>${disaster.name}</b>
                     <ul>
                         <li>Occurred on: ${disaster.disaster_date}</li>
                         <li>Disaster type: ${disaster.disaster_type}</li>
