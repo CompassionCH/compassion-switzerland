@@ -221,7 +221,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">One year sponsoring ${object.get_objects().get_list('firstname', 3, object.get_objects().get_number())}</field>
+            <field name="subject">One year sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
@@ -255,7 +255,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">Three years sponsoring ${object.get_objects().get_list('firstname', 3, object.get_objects().get_number())}</field>
+            <field name="subject">Three years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
@@ -289,7 +289,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">Five years with ${object.get_objects().get_list('firstname', 3, object.get_objects().get_number())}</field>
+            <field name="subject">Five years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
@@ -322,7 +322,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">10 years with ${object.get_objects().get_list('firstname', 3, object.get_objects().get_number())}!</field>
+            <field name="subject">10 years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}!</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
@@ -352,7 +352,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">15 years sponsoring ${object.get_objects().get_list('firstname', 3, object.get_objects().get_number())}</field>
+            <field name="subject">15 years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
@@ -449,7 +449,7 @@
                     for many years. We would like to thank you once more for your generosity and help to the children in need.
                     <br/>
                     <br/>
-                    We would like to inform you, that ${child.get('your sponsored child')} will complete the Compassion program and end the activities in the project in ${child.get_completion()}.
+                    <b>We would like to inform you, that ${child.get('your sponsored child')} will complete the Compassion program and end the activities in the project in ${child.get_completion()}.</b>
                     <br/>
                     <br/>
                     We would warmly advice you to send an encouraging letter before the end of the program and if you want, send ${him} a gift.

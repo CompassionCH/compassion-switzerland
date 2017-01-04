@@ -8,6 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import locale
 
 from openerp import api, models, fields, _
 
@@ -60,15 +61,23 @@ class CompassionChild(models.Model):
 
     def _compute_birthday_month(self):
         """ Gets the birthday month in full text. """
+        current_locale = '.'.join(locale.getlocale())
+        lang = self.env.lang.encode('ascii')
+        locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
         for child in self:
             birthday = fields.Date.from_string(child.birthdate)
-            child.birthday_month = _(birthday.strftime("%B"))
+            child.birthday_month = birthday.strftime("%B")
+        locale.setlocale(locale.LC_TIME, current_locale)
 
     def _compute_completion_month(self):
         """ Completion month in full text. """
+        current_locale = '.'.join(locale.getlocale())
+        lang = self.env.lang.encode('ascii')
+        locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
         for child in self:
             completion = fields.Date.from_string(child.completion_date)
             child.completion_month = completion.strftime("%B")
+        locale.setlocale(locale.LC_TIME, current_locale)
 
     def depart(self):
         """ Send communication to sponsor. """
@@ -142,9 +151,11 @@ class CompassionChild(models.Model):
 
     def get_completion(self):
         """ Return the full completion dates. """
-        months = self.get_list('completion_month')
+        month = self[0].completion_month
         year = fields.Date.from_string(self[0].completion_date).strftime("%Y")
-        return months + ' ' + year
+        if not month:
+            return year
+        return month + ' ' + year
 
 
 class Household(models.Model):
