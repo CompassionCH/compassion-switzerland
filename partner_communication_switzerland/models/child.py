@@ -151,11 +151,14 @@ class Household(models.Model):
     """ Send Communication when Household Major Revision is received. """
     _inherit = 'compassion.household'
 
-    def _major_revision(self, vals):
-        super(Household, self)._major_revision(vals)
-        if self.revised_value_ids:
-            for child in self.child_ids.filtered('sponsor_id'):
-                major_revision(child, self.revised_value_ids)
+    def process_commkit(self, commkit_data):
+        ids = super(Household, self).process_commkit(commkit_data)
+        households = self.browse(ids)
+        for household in households:
+            if household.revised_value_ids:
+                for child in household.child_ids.filtered('sponsor_id'):
+                    major_revision(child, self.revised_value_ids)
+        return ids
 
 
 class ChildNotes(models.Model):
