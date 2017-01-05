@@ -189,7 +189,7 @@
                 </xpath>
                 <filter name="supplier" position="after">
                         <separator />
-                        <filter string="Sponsor" name="sponsor" domain="[('category_id.name', 'like', 'Sponsor')]"/>
+                        <filter string="Sponsor" name="sponsor" domain="['|', ('category_id.name', 'like', 'Sponsor'), ('category_id.name', 'like', 'Parrain')]"/>
                 </filter>
             </field>
         </record>
