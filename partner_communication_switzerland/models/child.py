@@ -42,6 +42,8 @@ class CompassionChild(models.Model):
     current_values = fields.Char(compute='_compute_revised_values')
     birthday_month = fields.Char(compute='_compute_birthday_month')
     completion_month = fields.Char(compute='_compute_completion_month')
+    description = fields.Text(compute='_compute_description')
+    project_title = fields.Char(compute='_compute_project_title')
 
     def _compute_revised_values(self):
         for child in self:
@@ -78,6 +80,28 @@ class CompassionChild(models.Model):
             locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
             child.completion_month = completion.strftime("%B")
             locale.setlocale(locale.LC_TIME, current_locale)
+
+    @api.multi
+    def _compute_description(self):
+        lang_map = {
+            'fr_CH': 'desc_fr',
+            'de_DE': 'desc_de',
+            'en_US': 'desc_en',
+            'it_IT': 'desc_it',
+        }
+        for child in self:
+            child.description = getattr(child, lang_map.get(self.env.lang))
+
+    def _compute_project_title(self):
+        for child in self:
+            firstname = child.firstname
+            lang_map = {
+                'fr_CH': u"À propos du centre d'accueil",
+                'de_DE': u"Über %s's Projekt" % firstname,
+                'en_US': firstname + u"'s Project",
+                'it_IT': u'Project',
+            }
+            child.project_title = lang_map.get(self.env.lang)
 
     def depart(self):
         """ Send communication to sponsor. """
