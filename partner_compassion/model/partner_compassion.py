@@ -69,7 +69,7 @@ class ResPartner(models.Model):
                "updated by e-mail"))
     photo_delivery_preference = fields.Selection(
         selection='_get_delivery_preference',
-        default='physical',
+        default='both',
         required=True,
         help='Delivery preference for Child photo')
 

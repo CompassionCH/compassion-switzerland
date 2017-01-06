@@ -9,7 +9,6 @@
 #
 ##############################################################################
 from . import correspondence
-from . import contracts
 from . import import_config
 from . import import_letters_history
 from . import translate_connector

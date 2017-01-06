@@ -50,9 +50,18 @@
                     <br/>
                     <br/>
                     A warm thank you for supporting ${firstname}. Compassion Switzerland is delighted to send you a new photo of your sponsored child. You will see how ${child.get('he') + ' ' + child.get('has')} grown!
+                    % if object.send_mode == 'both':
+                        <br/>
+                        <br/>
+                        We will send you the printed picture as we used to do in the following weeks. In case you don't need it, or you want to stop receiving pictures by e-mail, please let us know by answering to this e-mail.
+                    % endif
+                    <br/>
+                    <br/>
                     Thanks to your generosity, the Compassion staff offer a stable environment, support and different activities. ${child.get('your sponsored child').capitalize()} can develop on a personal, educational, spiritual and medical level.
                     Through your sponsorship, you also allow ${child.get('him')} to have a special relationship with somebody living on the other side of the world.
-                    Enclosed, you will find writing paper which will enable you to write to ${child.get('your sponsored child')} and to send a new photo of yourself.
+                    % if object.send_mode == 'physical':
+                        Enclosed, you will find writing paper which will enable you to write to ${child.get('your sponsored child')} and to send a new photo of yourself.
+                    % endif
                     Thank you very much for your commitment to Compassion to release children from poverty in Jesus’ name.
                     <br/>
                     <br/>
