@@ -1,0 +1,44 @@
+<openerp>
+    <data>
+        <report id="report_3bvr_sponsorship"
+                model="recurring.contract.group"
+                string="Sponsorship Payment Slips"
+                report_type="qweb-pdf"
+                name="report_compassion.3bvr_sponsorship"
+                menu="False"
+        />
+        <record id="report_3bvr_sponsorship" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_3bvr"/>
+        </record>
+
+        <template id="3bvr_sponsorship">
+            <t t-call="report_compassion.bvr_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <div class="page">
+                        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_compassion.report_3bvr_sponsorship_document')"/>
+                    </div>
+                </t>
+                <t t-if="gifts">
+                    <div class="page">
+                        <p>Gifts!</p>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_3bvr_sponsorship_document">
+            <t t-set="partner" t-value="o.partner_id"/>
+            <t t-set="partner_address" t-value="partner.short_address"/>
+            <t t-set="company_address" t-value="partner.company_id.partner_id.short_address"/>
+            <t t-set="company_account">01-44443-7</t>
+
+            <t t-foreach="o.get_months(months)" t-as="date">
+                <t t-set="date_split" t-value="date.split(' - ')"/>
+                <t t-call="report_compassion.report_sponsorship_single_slip">
+                    <t t-set="reference" t-value="o.bvr_reference"/>
+                    <t t-set="communication" t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

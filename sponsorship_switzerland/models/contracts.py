@@ -10,13 +10,26 @@
 ##############################################################################
 
 import logging
-from openerp import api, models
+from openerp import api, models, fields
 
 logger = logging.getLogger(__name__)
 
 
 class RecurringContracts(models.Model):
     _inherit = 'recurring.contract'
+
+    first_open_invoice = fields.Date(compute='_compute_first_open_invoice')
+
+    @api.multi
+    def _compute_first_open_invoice(self):
+        for contract in self:
+            invoices = contract.invoice_line_ids.mapped('invoice_id').filtered(
+                lambda i: i.state == 'open')
+            if invoices:
+                first_open_invoice = min([
+                    fields.Date.from_string(i.date_invoice) for i in invoices])
+                contract.first_open_invoice = fields.Date.to_string(
+                    first_open_invoice)
 
     @api.multi
     def suspend_contract(self):

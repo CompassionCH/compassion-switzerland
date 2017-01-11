@@ -1,0 +1,139 @@
+<openerp>
+    <data>
+        <!-- Override general report layout to add custom css -->
+        <template id="layout" inherit_id="report.layout" primary="True">
+            <!-- Add report style -->
+            <xpath expr="//head" position="inside">
+                <style type="text/css">
+                    /* Remove padding of reports to allow precise positionning */
+                    .container {
+                        padding: 0mm;
+                    }
+
+                    /* Declare fonts */
+                    @font-face {
+                        font-family: tetria;
+                        src: url(/report_compassion/static/font/TetriaLTComBlack.ttf);
+                    }
+                    @font-face {
+                        font-family: tetriaBold;
+                        src: url(/report_compassion/static/font/TetriaLTComBold.ttf);
+                    }
+                    @font-face {
+                        font-family: tetriaLight;
+                        src: url(/report_compassion/static/font/TetriaLTComLight.ttf);
+                    }
+                    @font-face {
+                        font-family: ocr;
+                        src: url(/l10n_ch_payment_slip/static/src/font/ocrbb.ttf);
+                    }
+
+                    /* Allow custom style for each report */
+                    <t t-raw="custom_css"/>
+                    <t t-raw="custom_css_2"/>
+                </style>
+            </xpath>
+        </template>
+
+        <!-- Default container -->
+        <template id="html_container">
+            <t t-set="body_classname" t-value="'container'"/>
+            <t t-call="report_compassion.layout">
+                <t t-raw="0"/>
+            </t>
+        </template>
+
+        <!-- Container for payment slips adding css rules for it -->
+        <template id="bvr_container">
+            <t t-set="body_classname" t-value="'container'"/>
+            <t t-set="custom_css_2">
+                .one_slip {
+                    font-size: 8pt;
+                    width: 210mm;
+                    height: 106mm;
+                }
+                .receipt {
+                    position: absolute;
+                    padding-top: 9mm;
+                    padding-left: 5mm;
+                    width: 60mm;
+                    height: 106mm;
+                }
+                .pay_for::first-line {
+                    font-weight: bold;
+                }
+                .receipt .pay_for {
+                    position: absolute;
+                    height: 15mm;
+                }
+                .receipt .communication {
+                    position: absolute;
+                    margin-top: 18mm;
+                    height: 15mm;
+                }
+                .receipt .account {
+                    position: absolute;
+                    margin-top: 34mm;
+                    margin-left: 30mm;
+                }
+                .receipt .reference {
+                    position: absolute;
+                    margin-top: 51mm;
+                }
+                .receipt .pay_from {
+                    position: absolute;
+                    margin-top: 56mm;
+                    max-height: 20mm;
+                }
+
+                .transfer {
+                    position: absolute;
+                    margin-left: 60mm;
+                    padding-left: 4mm;
+                    width: 150mm;
+                    height: 106mm;
+                }
+                .transfer .pay_for {
+                    position: absolute;
+                    margin-top: 9mm;
+                    width: 55mm;
+                }
+                .transfer .reference {
+                    position: absolute;
+                    margin-left: 61mm;
+                    margin-top: 33mm;
+                    width: 84mm;
+                    height: 6mm;
+                    padding: 1mm;
+                    font-size: 10pt;
+                    text-align: center;
+                }
+                .transfer .account {
+                    position: absolute;
+                    margin-left: 28mm;
+                    margin-top: 43mm;
+                }
+                .transfer .pay_from {
+                    position: absolute;
+                    margin-left: 61mm;
+                    margin-top: 47mm;
+                    width: 80mm;
+                    height: 30mm;
+                    padding: auto;
+                }
+                .transfer .scan_line {
+                    position: absolute;
+                    margin-left: 3mm;
+                    margin-top: 84mm;
+                    width: 141mm;
+                    font-family: "ocr";
+                    font-size: 12pt;
+                    text-align: center;
+                }
+            </t>
+            <t t-call="report_compassion.layout">
+                <t t-raw="0"/>
+            </t>
+        </template>
+    </data>
+</openerp>

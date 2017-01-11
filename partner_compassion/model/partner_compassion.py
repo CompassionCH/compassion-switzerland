@@ -156,39 +156,10 @@ class ResPartner(models.Model):
     #                             PRIVATE METHODS                            #
     ##########################################################################
     @api.model
-    def _display_address(self, address, without_company=False):
-        """ Build and return an address formatted accordingly to
-        Compassion standards.
-
-        :param address: browse record of the res.partner to format
-        :returns: the address formatted in a display that fit its country
-                  habits (or the default ones if not country is specified)
-        :rtype: string
-        """
-
-        # get the information that will be injected into the display format
-        # get the address format
-        address_format = "%(street)s\n%(street2)s\n%(street3)s\n%(city)s " \
-                         "%(state_code)s %(zip)s\n%(country_name)s"
-        args = {
-            'state_code': address.state_id and address.state_id.code or '',
-            'state_name': address.state_id and address.state_id.name or '',
-            'country_code':
-            address.country_id and address.country_id.code or '',
-            'country_name':
-            address.country_id and address.country_id.name or '',
-            'company_name':
-            address.parent_id and address.parent_id.name or '',
-        }
-
-        for field in ADDRESS_FIELDS:
-            args[field] = getattr(address, field) or ''
-
-        if without_company:
-            args['company_name'] = ''
-        elif address.parent_id:
-            address_format = '%(company_name)s\n' + address_format
-        return address_format % args
+    def _address_fields(self):
+        """ Returns the list of address fields that are synced from the parent
+        when the `use_parent_address` flag is set. """
+        return list(ADDRESS_FIELDS)
 
     def _can_geocode(self):
         """ Remove approximate geocoding when a precise position is

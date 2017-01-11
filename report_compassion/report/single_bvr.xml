@@ -1,0 +1,58 @@
+<openerp>
+    <data>
+        <report id="report_bvr_sponsorship"
+                model="recurring.contract.group"
+                string="Sponsorship Payment Slip"
+                report_type="qweb-pdf"
+                name="report_compassion.bvr_sponsorship"
+                menu="False"
+        />
+        <record id="report_bvr_sponsorship" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_bvr"/>
+        </record>
+
+        <template id="bvr_sponsorship">
+            <t t-call="report_compassion.bvr_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_compassion.report_bvr_sponsorship_document')"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_bvr_sponsorship_document">
+            <t t-set="partner" t-value="o.partner_id"/>
+            <t t-set="partner_address" t-value="partner.short_address"/>
+            <t t-set="company_address" t-value="partner.company_id.partner_id.short_address"/>
+            <t t-set="company_account">01-44443-7</t>
+
+            <t t-foreach="o.get_months(months)" t-as="date">
+                <div class="page">
+                    <t t-set="date_split" t-value="date.split(' - ')"/>
+                    <t t-call="report_compassion.report_sponsorship_single_slip">
+                        <t t-set="reference" t-value="o.bvr_reference"/>
+                        <t t-set="communication" t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_sponsorship_single_slip">
+            <div class="one_slip">
+                <div class="receipt">
+                    <span t-raw="company_address" class="pay_for"/>
+                    <span t-raw="communication" class="communication"/>
+                    <b><span t-esc="company_account" class="account"/></b>
+                    <span t-esc="reference" class="reference"/>
+                    <span t-raw="partner_address" class="pay_from"/>
+                </div>
+                <div class="transfer">
+                    <span t-raw="company_address" class="pay_for"/>
+                    <span t-esc="reference" class="reference"/>
+                    <b><span t-esc="company_account" class="account"/></b>
+                    <span t-raw="partner_address" class="pay_from"/>
+                    <span t-raw="o.scan_line" class="scan_line"/>
+                </div>
+            </div>
+        </template>
+    </data>
+</openerp>
