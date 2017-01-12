@@ -8,5 +8,8 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import models
-from . import wizards
+
+from . import gp_connector
+from . import child
+from . import contracts
+from . import account_invoice

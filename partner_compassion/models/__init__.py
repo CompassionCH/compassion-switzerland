@@ -8,5 +8,11 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import models
-from . import wizards
+from . import account_banking_mandate_compassion
+from . import partner_bank_compassion
+from . import partner_compassion
+from . import email
+from . import mail_message
+from . import mail_notification
+from . import mail_followers
+from . import product

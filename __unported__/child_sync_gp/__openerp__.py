@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,25 +29,19 @@
 
 
 {
-    'name': 'Upgrade Partners for Compassion Suisse',
+    'name': 'Sync Compassion Children with GP',
     'version': '8.0.3.0',
-    'category': 'Partner',
-    'sequence': 150,
+    'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': [
-        'sbc_compassion', 'mail_sendgrid', 'partner_contact_birthdate',
-        'partner_firstname', 'geoengine_base_geolocalize',
-        'geoengine_geoname_geocoder', 'mail_restrict_follower_selection',
-    ],
+    'depends': ['child_compassion',
+                'mysql_connector',
+                ],
+    'external_dependencies': {
+        'python': ['smb'],
+    },
     'data': [
-        'data/partner_category_data.xml',
-        'data/partner_title_data.xml',
-        'data/geocode_cron.xml',
-        'data/follower_restriction_rules.xml',
-        'views/partner_compassion_view.xml',
-        'views/bulk_encode_view.xml',
-        'views/product_view.xml',
+        'data/migrate_r4.xml'
     ],
     'demo': [],
     'installable': True,

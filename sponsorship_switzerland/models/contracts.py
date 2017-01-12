@@ -19,6 +19,7 @@ class RecurringContracts(models.Model):
     _inherit = 'recurring.contract'
 
     first_open_invoice = fields.Date(compute='_compute_first_open_invoice')
+    months_paid = fields.Integer(compute='_compute_months_paid')
 
     @api.multi
     def _compute_first_open_invoice(self):
@@ -30,6 +31,34 @@ class RecurringContracts(models.Model):
                     fields.Date.from_string(i.date_invoice) for i in invoices])
                 contract.first_open_invoice = fields.Date.to_string(
                     first_open_invoice)
+
+    @api.multi
+    def _compute_months_paid(self):
+        """This is a query returning the number of months paid for a
+           sponsorship.
+        """
+        self.env.cr.execute(
+            "SELECT c.id as contract_id, "
+            "12 * (EXTRACT(year FROM next_invoice_date) - "
+            "      EXTRACT(year FROM current_date))"
+            " + EXTRACT(month FROM c.next_invoice_date) - 1"
+            " - COALESCE(due.total, 0) as paidmonth "
+            "FROM recurring_contract c left join ("
+            # Open invoices to find how many months are due
+            "   select contract_id, count(distinct invoice_id) as total "
+            "   from account_invoice_line l join product_product p on "
+            "       l.product_id = p.id "
+            "   where state='open' and "
+            # Exclude gifts from count
+            "   categ_name != 'Sponsor gifts'"
+            "   group by contract_id"
+            ") due on due.contract_id = c.id "
+            "WHERE c.id in (%s)" % ",".join([str(id) for id in self.ids])
+        )
+        res = self.env.cr.dictfetchall()
+        res_map = {row['contract_id']: int(row['paidmonth']) for row in res}
+        for contract in self:
+            contract.months_paid = res_map[contract.id]
 
     @api.multi
     def suspend_contract(self):
