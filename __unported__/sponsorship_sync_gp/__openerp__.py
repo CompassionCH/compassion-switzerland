@@ -29,25 +29,18 @@
 
 
 {
-    'name': 'Upgrade Partners for Compassion Suisse',
+    'name': 'Sync Compassion Sponsorships with GP',
     'version': '8.0.3.0',
-    'category': 'Partner',
-    'sequence': 150,
+    'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': [
-        'sbc_compassion', 'mail_sendgrid', 'partner_contact_birthdate',
-        'partner_firstname', 'geoengine_base_geolocalize',
-        'geoengine_geoname_geocoder', 'mail_restrict_follower_selection',
-    ],
+    'depends': ['child_sync_gp',
+                'sponsorship_switzerland',
+                'account_voucher',
+                ],
     'data': [
-        'data/partner_category_data.xml',
-        'data/partner_title_data.xml',
-        'data/geocode_cron.xml',
-        'data/follower_restriction_rules.xml',
-        'views/partner_compassion_view.xml',
-        'views/bulk_encode_view.xml',
-        'views/product_view.xml',
+        'workflow/sds_workflow.xml',
+        'data/product.xml',
     ],
     'demo': [],
     'installable': True,

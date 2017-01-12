@@ -49,8 +49,6 @@
         'data/ir.advanced.translation.csv',
         'views/sbc_email_view.xml',
         'views/communication_job_view.xml',
-        'report/paperformats.xml',
-        'report/childpack.xml',
     ],
     'demo': [],
     'installable': True,

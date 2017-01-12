@@ -1,0 +1,144 @@
+<openerp>
+    <data>
+        <report id="report_childpack_full"
+                model="compassion.child"
+                string="Full Childpack"
+                report_type="qweb-pdf"
+                name="report_compassion.childpack_full"
+        />
+        <record id="report_childpack_full" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_childpack"/>
+        </record>
+
+        <template id="childpack_full">
+            <t t-set="custom_css">
+                .container {
+                    font-family: "tetriaLight";
+                    font-size: 8pt;
+                }
+                .local_id {
+                    position: absolute;
+                    margin-left: 75mm;
+                    margin-top: 35mm;
+                }
+                .desc {
+                    position: absolute;
+                    margin-left: 139mm;
+                    margin-top: 42mm;
+                    width: 120mm;
+                    height: 116mm;
+                    max-height: 116mm;
+                    font-size: x-small;
+                    column-count: 2;
+                    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+                    -moz-column-count: 2; /* Firefox */
+                    column-gap: 10mm;
+                }
+                .desc .left {
+                    width: 55mm;
+                    max-width: 100%;
+                }
+                .desc .right {
+                    width: 55mm;
+                    max-width: 100%;
+                    position: absolute;
+                    left: 70mm;
+                    top: 0mm;
+                }
+                .desc table {
+                    width: 55mm;
+                }
+                .desc td:first-child {
+                    padding-right: 5mm;
+                }
+                h6 {
+                    font-size: small;
+                }
+                .title {
+                    position: absolute;
+                    margin-left: 310mm;
+                    margin-top: 55mm;
+                }
+                .boy {
+                    color: #02728e;
+                }
+                .girl {
+                    color: #af0ea2;
+                }
+                .photo {
+                    position: absolute;
+                    margin-left: 300mm;
+                    margin-top: 85mm;
+                    width: 70mm;
+                    height: 90mm;
+                }
+                .photo img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    margin: auto;
+                }
+                .summary {
+                    position: absolute;
+                    margin-left: 377mm;
+                    margin-top: 95mm;
+                }
+                .summary_field {
+                    font-weight: bold;
+                }
+                /* Comma separated lists */
+                .childpack-full ul {
+                  display: inline;
+                  list-style: none;
+                }
+                li {
+                  display: inline;
+                }
+
+                li:after {
+                  content: ", ";
+                }
+
+                li:last-child:after {
+                  content: "";
+                }
+            </t>
+            <t t-call="report_compassion.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                       <div class="local_id">
+                            <span t-field="o.local_id"/>
+                        </div>
+                        <div class="desc">
+                            <span t-raw="o.description" class="left"/>
+                            <div class="right">
+                                <h6><span t-field="o.project_title"/></h6>
+                                <span t-raw="o.project_id.description"/>
+                            </div>
+                        </div>
+                        <div class="title">
+                            <t t-if="o.gender == 'M'">
+                                <h1><span t-field="o.firstname" class="boy"/></h1>
+                            </t>
+                            <t t-if="o.gender == 'F'">
+                                <h1><span t-field="o.firstname" class="girl"/></h1>
+                            </t>
+                        </div>
+                        <div class="photo">
+                            <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
+                        </div>
+                        <div class="summary">
+                            <p>Full name:</p>
+                            <p t-field="o.name" class="summary_field"/>
+                            <p>Birthday:</p>
+                            <p t-field="o.birthdate" class="summary_field"/>
+                            <p>Country:</p>
+                            <p t-field="o.project_id.country_id.name" class="summary_field"/>
+                            <p>Child reference:</p>
+                            <p t-field="o.local_id" class="summary_field"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

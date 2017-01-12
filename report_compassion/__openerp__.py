@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,25 +29,19 @@
 
 
 {
-    'name': 'Upgrade Partners for Compassion Suisse',
-    'version': '8.0.3.0',
-    'category': 'Partner',
-    'sequence': 150,
+    'name': 'Compassion CH Partner Communications',
+    'version': '8.0.1.0',
+    'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': [
-        'sbc_compassion', 'mail_sendgrid', 'partner_contact_birthdate',
-        'partner_firstname', 'geoengine_base_geolocalize',
-        'geoengine_geoname_geocoder', 'mail_restrict_follower_selection',
-    ],
+    'depends': ['sponsorship_switzerland', 'l10n_ch_payment_slip'],
     'data': [
-        'data/partner_category_data.xml',
-        'data/partner_title_data.xml',
-        'data/geocode_cron.xml',
-        'data/follower_restriction_rules.xml',
-        'views/partner_compassion_view.xml',
-        'views/bulk_encode_view.xml',
-        'views/product_view.xml',
+        'report/compassion_layout.xml',
+        'report/paperformats.xml',
+        'report/childpack.xml',
+        'report/bvr_layout.xml',
+        'report/bvr_sponsorship.xml',
+        'views/print_sponsorship_bvr_view.xml',
     ],
     'demo': [],
     'installable': True,

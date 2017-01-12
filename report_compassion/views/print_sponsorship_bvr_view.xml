@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Add button in correspondence views -->
+        <record id="print_sponsorship" model="ir.ui.view">
+            <field name="name">print.sponsorship.bvr.form</field>
+            <field name="model">print.sponsorship.bvr</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<form>
+                    <group>
+                        <field name="period_selection"/>
+                        <field name="date_start"/>
+                        <field name="date_stop"/>
+                    </group>
+                    <group>
+                        <field name="paper_format"/>
+                    </group>
+                    <group>
+                        <field name="include_gifts"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_print_sponsorship_bvr" model="ir.actions.act_window">
+             <field name="name">Sponsorship Payment Slips</field>
+             <field name="res_model">print.sponsorship.bvr</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="target">new</field>
+       </record>
+
+       <record model="ir.values" id="ir_values_print_sponsorship_bvr">
+           <field name="key2" eval="'client_print_multi'"/>
+           <field name="model" eval="'recurring.contract'"/>
+           <field name="name">Sponsorship Payment Slips</field>
+           <field name="value" eval="'ir.actions.act_window,%d'%action_print_sponsorship_bvr"/>
+       </record>
+    </data>
+</openerp>

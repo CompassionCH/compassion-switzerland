@@ -1,0 +1,89 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
+#    Releasing children from poverty in Jesus' name
+#    @author: Emanuel Cino <ecino@compassion.ch>
+#
+#    The licence is in the file __openerp__.py
+#
+##############################################################################
+
+import logging
+
+
+from dateutil.relativedelta import relativedelta
+
+from openerp import api, models, fields, _
+from openerp.exceptions import Warning
+
+logger = logging.getLogger(__name__)
+
+
+class BvrSponsorship(models.Model):
+    """
+    Model used for preparing data for the bvr report. It can either
+    generate 3bvr report or single bvr report.
+    """
+    _name = 'report.report_compassion.bvr_sponsorship'
+
+    def _get_report(self):
+        return self.env['report']._get_report_from_name(
+            'report_compassion.bvr_sponsorship')
+
+    @api.multi
+    def render_html(self, data=None):
+        """
+        Construct the data for printing Payment Slips.
+        :param data: data collected from the print wizard.
+        :return: html rendered report
+        """
+        report = self._get_report()
+        if data is None:
+            # Make a default data when report is directly called from an
+            # url. The url should contain id of sponsorship.
+            print_bvr_obj = self.env['print.sponsorship.bvr']
+            data = {
+                'date_start': print_bvr_obj.default_start(),
+                'date_stop': print_bvr_obj.default_stop(),
+                'doc_ids': self._ids
+            }
+        start = fields.Datetime.from_string(data['date_start'])
+        stop = fields.Datetime.from_string(data['date_stop'])
+
+        # Months will contain all months we want to include for payment.
+        months = list()
+        while start <= stop:
+            months.append(fields.Datetime.to_string(start))
+            start = start + relativedelta(months=1)
+
+        sponsorships = self.env['recurring.contract'].browse(data['doc_ids'])
+        sponsorships = sponsorships.filtered(
+            lambda s: s.state not in ('terminated', 'cancelled'))
+        groups = sponsorships.mapped('group_id')
+        if not groups or not months:
+            raise Warning(
+                _("Selection not valid. No active sponsorship found."))
+
+        # Docs will contain the groups for which we have to print the payment
+        # slip : {'recurring.contract.group': 'recurring.contract' recordset}
+        docs = dict()
+        for group in groups:
+            docs[group] = sponsorships.filtered(lambda s: s.group_id == group)
+        data.update({
+            'doc_model': report.model,  # recurring.contract.group
+            'doc_ids': groups.ids,
+            'docs': docs,
+            'months': months
+        })
+        return self.env['report'].render(
+            'report_compassion.3bvr_sponsorship', data)
+
+
+class ThreeBvrSponsorship(models.Model):
+    _inherit = 'report.report_compassion.bvr_sponsorship'
+    _name = 'report.report_compassion.3bvr_sponsorship'
+
+    def _get_report(self):
+        return self.env['report']._get_report_from_name(
+            'report_compassion.3bvr_sponsorship')

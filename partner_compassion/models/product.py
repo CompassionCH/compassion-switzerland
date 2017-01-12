@@ -8,5 +8,17 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import models
-from . import wizards
+
+from openerp import models, fields
+
+
+class product_template(models.Model):
+    _inherit = 'product.template'
+
+    fund_id = fields.Integer(size=4)
+
+
+class product(models.Model):
+    _inherit = 'product.product'
+
+    fund_id = fields.Integer(related='product_tmpl_id.fund_id')

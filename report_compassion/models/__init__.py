@@ -9,11 +9,9 @@
 #
 ##############################################################################
 
+from . import contract_group
 from . import child
-from . import lifecycle_events
-from . import compassion_hold
-from . import correspondence
-from . import mail_tracking_event
-from . import contracts
+from . import project
 from . import res_partner
-from . import disaster_alert
+from . import report_bvr_sponsorship
+from . import contract
