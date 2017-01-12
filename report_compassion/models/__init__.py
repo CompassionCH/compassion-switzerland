@@ -14,3 +14,4 @@ from . import child
 from . import project
 from . import res_partner
 from . import report_bvr_sponsorship
+from . import contract

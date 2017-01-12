@@ -25,6 +25,14 @@ class RecurringContracts(models.Model):
     scan_line = fields.Char(compute='_compute_scan_line')
 
     @api.multi
+    def _compute_scan_line(self):
+        """ Generate a scan line for contract group. """
+        acc_number = self.get_company_bvr_account()
+        for group in self.filtered('bvr_reference'):
+            group.scan_line = self.get_scan_line(
+                acc_number, group.bvr_reference)
+
+    @api.multi
     def get_months(self, months):
         """
         Given the list of months to print,
@@ -124,28 +132,26 @@ class RecurringContracts(models.Model):
         return "{payment_type} {amount}<br/>{subject}<br/>{date}".format(
             **vals)
 
-    @api.multi
-    def _compute_scan_line(self):
-        """Generate a list containing all element of scan line
+    @api.model
+    def get_scan_line(self, account, reference):
+        """ Generate a scan line given the reference """
+        line = "042>"
+        line += reference.replace(" ", "")
+        line += '+ '
+        account_components = account.split('-')
+        bank_identifier = "%s%s%s" % (
+            account_components[0],
+            account_components[1].rjust(6, '0'),
+            account_components[2]
+        )
+        line += bank_identifier
+        line += '>'
+        return line
 
-        the element are grouped by char or symbol
-
-        This will allows the free placment of each element
-        and enable a fine tuning of spacing
-        """
+    @api.model
+    def get_company_bvr_account(self):
+        """ Utility to find the bvr account of the company. """
         company = self.env['res.company'].browse(1)
         bank = company.bank_ids.filtered(lambda b: b.state == 'bvr')[0]
         bank.ensure_one()
-        for group in self:
-            line = "042>"
-            line += group.bvr_reference.replace(" ", "")
-            line += '+ '
-            account_components = bank.acc_number.split('-')
-            bank_identifier = "%s%s%s" % (
-                account_components[0],
-                account_components[1].rjust(6, '0'),
-                account_components[2]
-            )
-            line += bank_identifier
-            line += '>'
-            group.scan_line = line
+        return bank.acc_number
