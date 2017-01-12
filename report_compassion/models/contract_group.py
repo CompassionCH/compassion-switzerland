@@ -120,8 +120,8 @@ class RecurringContracts(models.Model):
             vals['payment_type'] = _('ISR for standing order')
             vals['date'] = ''
         else:
-            vals['payment_type'] = _('ISR') + ' ' + self.contract_ids[0].\
-                group_freq
+            vals['payment_type'] = _('ISR') + ' ' + _(
+                self.contract_ids[0].group_freq)
         if number_sponsorship > 1:
             vals['subject'] += str(number_sponsorship) + " " + _(
                 "sponsorships")
