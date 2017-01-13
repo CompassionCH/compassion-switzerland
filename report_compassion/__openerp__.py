@@ -41,6 +41,7 @@
         'report/childpack.xml',
         'report/bvr_layout.xml',
         'report/bvr_sponsorship.xml',
+        'report/partner_communication.xml',
         'views/print_sponsorship_bvr_view.xml',
     ],
     'demo': [],
