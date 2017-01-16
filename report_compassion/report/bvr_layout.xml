@@ -10,7 +10,8 @@
         - scan_line
         -->
         <template id="report_sponsorship_single_slip">
-            <div class="one_slip">
+            <t t-set="margin" t-value="position * 0.2"/>
+            <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm;">
                 <div class="receipt">
                     <span t-raw="company_address" class="pay_for"/>
                     <span t-raw="communication" class="communication"/>
@@ -58,8 +59,8 @@
                 }
                 .receipt .account {
                     position: absolute;
-                    margin-top: 34mm;
-                    margin-left: 30mm;
+                    margin-top: 33mm;
+                    margin-left: 30.5mm;
                 }
                 .receipt .reference {
                     position: absolute;
@@ -96,7 +97,7 @@
                 .transfer .account {
                     position: absolute;
                     margin-left: 28mm;
-                    margin-top: 43mm;
+                    margin-top: 42.5mm;
                 }
                 .transfer .pay_from {
                     position: absolute;
@@ -108,12 +109,12 @@
                 }
                 .transfer .scan_line {
                     position: absolute;
-                    margin-left: 3mm;
-                    margin-top: 84mm;
-                    width: 141mm;
+                    margin-left: 5.7mm;
+                    margin-top: 84.5mm;
+                    width: 134mm;
                     font-family: "ocr";
                     font-size: 12pt;
-                    text-align: center;
+                    text-align: right;
                 }
             </t>
             <t t-call="report_compassion.layout">

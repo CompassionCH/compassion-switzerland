@@ -9,7 +9,7 @@
 #
 ##############################################################################
 from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
-from openerp import api, models, _
+from openerp import api, models, fields, _
 
 
 class Contract(models.Model):
@@ -21,19 +21,23 @@ class Contract(models.Model):
         child = self.child_id.with_context(lang=self.partner_id.lang)
         communication = u"{firstname} ({local_id})<br/>{product}<br/>" \
                         u"{birthdate}"
+        birthdate = fields.Date.from_string(child.birthdate).strftime(
+            "%d.%m.%Y")
         vals = {
             'firstname': child.firstname,
             'local_id': child.local_id,
             'product': product.with_context(lang=self.partner_id.lang).name,
-            'birthdate': _('Born in') + ' ' + child.birthdate
+            'birthdate': _('Born in') + ' ' + birthdate
+            if 'Birthday' in product.name else ''
         }
         return communication.format(**vals)
 
     @api.multi
     def generate_bvr_reference(self, product):
         self.ensure_one()
-        return self.env['generate.gift.wizard'].generate_bvr_reference(
-            self, product)
+        return self.env['l10n_ch.payment_slip']._space(self.env[
+            'generate.gift.wizard'].generate_bvr_reference(
+            self, product).lstrip('0'))
 
     @api.model
     def get_sponsorship_gift_products(self):
