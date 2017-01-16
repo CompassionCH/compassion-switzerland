@@ -23,6 +23,7 @@ class RecurringContracts(models.Model):
     _inherit = 'recurring.contract.group'
 
     scan_line = fields.Char(compute='_compute_scan_line')
+    format_ref = fields.Char(compute='_compute_format_ref')
 
     @api.multi
     def _compute_scan_line(self):
@@ -31,6 +32,12 @@ class RecurringContracts(models.Model):
         for group in self.filtered('bvr_reference'):
             group.scan_line = self.get_scan_line(
                 acc_number, group.bvr_reference)
+
+    @api.multi
+    def _compute_format_ref(self):
+        slip_obj = self.env['l10n_ch.payment_slip']
+        for group in self:
+            group.format_ref = slip_obj._space(group.bvr_reference.lstrip('0'))
 
     @api.multi
     def get_months(self, months):
@@ -120,8 +127,8 @@ class RecurringContracts(models.Model):
             vals['payment_type'] = _('ISR for standing order')
             vals['date'] = ''
         else:
-            vals['payment_type'] = _('ISR') + ' ' + self.contract_ids[0].\
-                group_freq
+            vals['payment_type'] = _('ISR') + ' ' + _(
+                self.contract_ids[0].group_freq)
         if number_sponsorship > 1:
             vals['subject'] += str(number_sponsorship) + " " + _(
                 "sponsorships")
@@ -136,7 +143,7 @@ class RecurringContracts(models.Model):
     def get_scan_line(self, account, reference):
         """ Generate a scan line given the reference """
         line = "042>"
-        line += reference.replace(" ", "")
+        line += reference.replace(" ", "").rjust(27, '0')
         line += '+ '
         account_components = account.split('-')
         bank_identifier = "%s%s%s" % (

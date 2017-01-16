@@ -9,7 +9,7 @@
 #
 ##############################################################################
 from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
-from openerp import api, models, _
+from openerp import api, models, fields, _
 
 
 class Contract(models.Model):
@@ -18,24 +18,28 @@ class Contract(models.Model):
     @api.multi
     def get_gift_communication(self, product):
         self.ensure_one()
-        child = self.child_id
-        communication = "{firstname} ({local_id})<br/>{product}<br/>" \
-                        "{birthdate}"
+        child = self.child_id.with_context(lang=self.partner_id.lang)
+        communication = u"{firstname} ({local_id})<br/>{product}<br/>" \
+                        u"{birthdate}"
+        birthdate = fields.Date.from_string(child.birthdate).strftime(
+            "%d.%m.%Y")
         vals = {
             'firstname': child.firstname,
             'local_id': child.local_id,
-            'product': product.name,
-            'birthdate': _('Born in') + ' ' + child.birthdate
+            'product': product.with_context(lang=self.partner_id.lang).name,
+            'birthdate': _('Born in') + ' ' + birthdate
+            if 'Birthday' in product.name else ''
         }
         return communication.format(**vals)
 
     @api.multi
     def generate_bvr_reference(self, product):
         self.ensure_one()
-        return self.env['generate.gift.wizard'].generate_bvr_reference(
-            self, product)
+        return self.env['l10n_ch.payment_slip']._space(self.env[
+            'generate.gift.wizard'].generate_bvr_reference(
+            self, product).lstrip('0'))
 
     @api.model
     def get_sponsorship_gift_products(self):
-        return self.env['product.product'].search([
+        return self.env['product.product'].with_context(lang='en_US').search([
             ('name', 'in', GIFT_NAMES[:3])])

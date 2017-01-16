@@ -34,8 +34,7 @@
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sbc_compassion', 'partner_communication',
-                'partner_compassion'],
+    'depends': ['report_compassion'],
     'data': [
         'data/major_revision_emails.xml',
         'data/child_letter_emails.xml',
@@ -46,6 +45,7 @@
         'data/communication_config.xml',
         'data/sponsorship_communications_cron.xml',
         'data/partner_title_data.xml',
+        'data/default_communication.xml',
         'data/ir.advanced.translation.csv',
         'views/sbc_email_view.xml',
         'views/communication_job_view.xml',

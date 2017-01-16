@@ -48,9 +48,10 @@
                 <t t-set="company_account" t-value="o.get_company_bvr_account()"/>
                 <div class="page">
                     <t t-foreach="o.get_months(months)" t-as="date">
+                        <t t-set="position" t-value="((offset or 0) * date_index) % 3"/>
                         <t t-set="date_split" t-value="date.split(' - ')"/>
                         <t t-call="report_compassion.report_sponsorship_single_slip">
-                            <t t-set="reference" t-value="o.bvr_reference"/>
+                            <t t-set="reference" t-value="o.format_ref"/>
                             <t t-set="communication" t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
                             <t t-set="scan_line" t-value="o.scan_line"/>
                         </t>
@@ -70,6 +71,7 @@
             <div class="page">
                 <t t-foreach="docs.get(o)" t-as="sponsorship">
                     <t t-foreach="sponsorship.get_sponsorship_gift_products()" t-as="gift">
+                        <t t-set="position" t-value="(offset or 0 * gift_index) % 3"/>
                         <t t-call="report_compassion.report_sponsorship_single_slip">
                             <t t-set="reference" t-value="sponsorship.generate_bvr_reference(gift)"/>
                             <t t-set="communication" t-value="sponsorship.get_gift_communication(gift)"/>

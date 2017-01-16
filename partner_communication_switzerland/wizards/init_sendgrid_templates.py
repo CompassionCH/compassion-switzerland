@@ -27,7 +27,7 @@ class CompassionChild(models.TransientModel):
             ('name', 'like', 'Sponsorship'),
             ('name', 'in', [
                 'Beneficiary Hold Removal', 'First letter system changed',
-                'New letter'
+                'New letter', 'Default Communication'
             ]),
             ('sendgrid_template_ids', '=', False)
         ])

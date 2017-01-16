@@ -6,7 +6,9 @@
             <field name="send_mode">partner_preference</field>
             <field name="send_mode_pref_field">letter_delivery_preference</field>
             <field name="print_if_not_email">True</field>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="model_id" ref="model_correspondence"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
 
         <!-- Major Revision Communication Config -->
@@ -14,62 +16,79 @@
             <field name="name">Major Revision - Birthdate</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_birthdate"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="major_revision_disability" model="partner.communication.config">
             <field name="name">Major Revision - Chronic Disabilities</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_disability"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="major_revision_illness" model="partner.communication.config">
             <field name="name">Major Revision - Chronic Illness</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_illness"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="major_revision_name" model="partner.communication.config">
             <field name="name">Major Revision - First Name / Last Name / Preferred Name</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_name"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="major_revision_gender" model="partner.communication.config">
             <field name="name">Major Revision - Gender</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_gender"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="major_revision_completion_date_change" model="partner.communication.config">
             <field name="name">Major Revision - Planned Completion Date</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_completion_date_change"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="major_revision_parent_alive" model="partner.communication.config">
             <field name="name">Major Revision - Natural Father Alive / Natural Mother Alive</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_parent_alive"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="major_revision_caregiver" model="partner.communication.config">
             <field name="name">Major Revision - Primary Caregiver</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_caregiver_change"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="major_revision_multiple" model="partner.communication.config">
             <field name="name">Major Revision - Multiple Changes</field>
             <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_multiple_changes"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
         </record>
@@ -79,34 +98,42 @@
             <field name="name">Beneficiary Transfer</field>
             <field name="send_mode">physical</field>
             <field name="email_template_id" ref="email_child_transfer"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="model_id" ref="model_compassion_child"/>
         </record>
         <record id="lifecycle_child_transition" model="partner.communication.config">
             <field name="name">Beneficiary Transition</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="email_child_transition"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="lifecycle_child_planned_exit" model="partner.communication.config">
             <field name="name">Beneficiary Planned Exit</field>
             <field name="send_mode">partner_preference</field>
             <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="email_template_id" ref="email_child_planned_exit"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="lifecycle_child_unplanned_exit" model="partner.communication.config">
             <field name="name">Beneficiary Unplanned Exit</field>
             <field name="send_mode">partner_preference</field>
             <field name="send_mode_pref_field">global_communication_delivery_preference</field>
             <field name="email_template_id" ref="email_child_unplanned_exit"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="lifecycle_child_reinstatement" model="partner.communication.config">
             <field name="name">Beneficiary Reinstatement</field>
             <field name="email_template_id" ref="email_child_reinstatement"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">digital</field>
             <field name="model_id" ref="model_compassion_child"/>
         </record>
@@ -115,89 +142,107 @@
         <record id="project_lifecycle" model="partner.communication.config">
             <field name="name">Project lifecycle</field>
             <field name="email_template_id" ref="email_project_lifecycle"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">auto_digital</field>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Reber Rose-Marie')]"/>
         </record>
 
         <!-- Sponsorship Planned Communications -->
         <record id="planned_dossier" model="partner.communication.config">
             <field name="name">Sponsorship - New Dossier</field>
             <field name="email_template_id" ref="email_sponsorship_dossier"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>
         <record id="planned_dossier_correspondent" model="partner.communication.config">
             <field name="name">Sponsorship - New Dossier for Correspondent only</field>
             <field name="email_template_id" ref="email_sponsorship_dossier_correspondent"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>
         <record id="planned_dossier_payer" model="partner.communication.config">
             <field name="name">Sponsorship - New Dossier for Payer only</field>
             <field name="email_template_id" ref="email_sponsorship_dossier_payer"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>
         <record id="planned_welcome" model="partner.communication.config">
             <field name="name">Sponsorship - Welcome Letter</field>
             <field name="email_template_id" ref="email_sponsorship_welcome"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">auto_digital</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Lukas')]"/>
         </record>
         <record id="planned_birthday_reminder" model="partner.communication.config">
             <field name="name">Sponsorship - Birthday Reminder</field>
             <field name="email_template_id" ref="email_sponsorship_birthday_reminder"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">auto_digital</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Lukas')]"/>
         </record>
         <record id="planned_anniversary_1" model="partner.communication.config">
             <field name="name">Sponsorship - Anniversary 1 year</field>
             <field name="email_template_id" ref="email_sponsorship_anniversary_1"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="planned_anniversary_3" model="partner.communication.config">
             <field name="name">Sponsorship - Anniversary 3 years</field>
             <field name="email_template_id" ref="email_sponsorship_anniversary_3"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="planned_anniversary_5" model="partner.communication.config">
             <field name="name">Sponsorship - Anniversary 5 years</field>
             <field name="email_template_id" ref="email_sponsorship_anniversary_5"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="planned_anniversary_10" model="partner.communication.config">
             <field name="name">Sponsorship - Anniversary 10 years</field>
             <field name="email_template_id" ref="email_sponsorship_anniversary_10"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="planned_anniversary_15" model="partner.communication.config">
             <field name="name">Sponsorship - Anniversary 15 years</field>
             <field name="email_template_id" ref="email_sponsorship_anniversary_15"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="planned_completion" model="partner.communication.config">
             <field name="name">Sponsorship - Completion</field>
             <field name="email_template_id" ref="email_sponsorship_completion"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">partner_preference</field>
             <field name="send_mode_pref_field">global_communication_delivery_preference</field>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
         <record id="planned_sub_dossier" model="partner.communication.config">
             <field name="name">Sponsorship - SUB Proposal</field>
             <field name="email_template_id" ref="email_sponsorship_sub_dossier"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>
         <record id="planned_no_sub" model="partner.communication.config">
             <field name="name">Sponsorship - No SUB</field>
             <field name="email_template_id" ref="email_sponsorship_no_sub"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">partner_preference</field>
             <field name="send_mode_pref_field">global_communication_delivery_preference</field>
             <field name="print_if_not_email">True</field>
@@ -206,22 +251,28 @@
         <record id="sponsorship_waiting_reminder_1" model="partner.communication.config">
             <field name="name">Sponsorship Waiting Reminder 1</field>
             <field name="email_template_id" ref="email_sponsorship_waiting_reminder_1"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">auto_digital</field>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Lukas')]"/>
         </record>
         <record id="sponsorship_waiting_reminder_2" model="partner.communication.config">
             <field name="name">Sponsorship Waiting Reminder 2</field>
             <field name="email_template_id" ref="email_sponsorship_waiting_reminder_2"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">both</field>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Lukas')]"/>
         </record>
         <record id="sponsorship_waiting_reminder_3" model="partner.communication.config">
             <field name="name">Sponsorship Waiting Reminder 3</field>
             <field name="email_template_id" ref="email_sponsorship_waiting_reminder_3"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Lukas')]"/>
         </record>
 
 
@@ -229,6 +280,7 @@
         <record id="hold_removal" model="partner.communication.config">
             <field name="name">Beneficiary Hold Removal</field>
             <field name="email_template_id" ref="email_hold_removal"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">auto_digital</field>
             <field name="model_id" ref="model_compassion_hold"/>
         </record>
@@ -236,15 +288,18 @@
         <record id="biennial" model="partner.communication.config">
             <field name="name">New Biennial</field>
             <field name="email_template_id" ref="email_biennial"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">partner_preference</field>
             <field name="send_mode_pref_field">photo_delivery_preference</field>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
 
         <record id="child_notes" model="partner.communication.config">
             <field name="name">New Child Notes</field>
             <field name="email_template_id" ref="email_child_notes"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">digital</field>
             <field name="model_id" ref="model_compassion_child"/>
         </record>
@@ -252,6 +307,7 @@
         <record id="disaster_alert" model="partner.communication.config">
             <field name="name">Disaster Alert</field>
             <field name="email_template_id" ref="email_disaster_alert"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">digital</field>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>

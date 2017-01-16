@@ -9,7 +9,6 @@
 #
 ##############################################################################
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
 from openerp import api, models, fields, _
 from openerp.exceptions import Warning
@@ -36,9 +35,7 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     @api.model
     def default_start(self):
-        start = datetime.today()
-        if start.day > 15:
-            start = start + relativedelta(months=1)
+        start = datetime.today().replace(day=1, month=1)
         return fields.Date.to_string(start.replace(day=1))
 
     @api.model

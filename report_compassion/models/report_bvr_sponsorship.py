@@ -31,6 +31,18 @@ class BvrSponsorship(models.Model):
         return self.env['report']._get_report_from_name(
             'report_compassion.bvr_sponsorship')
 
+    def _get_default_data(self):
+        """
+        If no data is given for the report, use default values.
+        :return: default mandatory data for the bvr report.
+        """
+        print_bvr_obj = self.env['print.sponsorship.bvr']
+        return {
+            'date_start': print_bvr_obj.default_start(),
+            'date_stop': print_bvr_obj.default_stop(),
+            'doc_ids': self._ids
+        }
+
     @api.multi
     def render_html(self, data=None):
         """
@@ -40,14 +52,8 @@ class BvrSponsorship(models.Model):
         """
         report = self._get_report()
         if data is None:
-            # Make a default data when report is directly called from an
-            # url. The url should contain id of sponsorship.
-            print_bvr_obj = self.env['print.sponsorship.bvr']
-            data = {
-                'date_start': print_bvr_obj.default_start(),
-                'date_stop': print_bvr_obj.default_stop(),
-                'doc_ids': self._ids
-            }
+            data = self._get_default_data()
+
         start = fields.Datetime.from_string(data['date_start'])
         stop = fields.Datetime.from_string(data['date_stop'])
 
@@ -87,3 +93,13 @@ class ThreeBvrSponsorship(models.Model):
     def _get_report(self):
         return self.env['report']._get_report_from_name(
             'report_compassion.3bvr_sponsorship')
+
+    @api.multi
+    def render_html(self, data=None):
+        """ Include setting for telling 3bvr paper has offset between
+        payment slips.
+        """
+        if data is None:
+            data = self._get_default_data()
+        data['offset'] = 1
+        return super(ThreeBvrSponsorship, self).render_html(data)
