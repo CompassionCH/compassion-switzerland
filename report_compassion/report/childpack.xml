@@ -10,7 +10,23 @@
             <field name="paperformat_id" ref="paperformat_childpack"/>
         </record>
 
+        <report id="report_childpack_small"
+                model="compassion.child"
+                string="Small Childpack"
+                report_type="qweb-pdf"
+                name="report_compassion.childpack_small"
+        />
+        <record id="report_childpack_small" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_a4_childpack"/>
+        </record>
+
         <template id="childpack_full">
+            <t t-set="formMargin" t-value="124"/>
+            <t t-call="report_compassion.childpack_small"/>
+        </template>
+
+        <template id="childpack_small">
+            <t t-set="marginLeft" t-value="formMargin or 0"/>
             <t t-set="custom_css">
                 .container {
                     font-family: "tetriaLight";
@@ -23,7 +39,7 @@
                 }
                 .desc {
                     position: absolute;
-                    margin-left: 139mm;
+                    margin-left: <t t-esc="marginLeft+15"/>mm;
                     margin-top: 42mm;
                     width: 120mm;
                     height: 116mm;
@@ -56,7 +72,7 @@
                 }
                 .title {
                     position: absolute;
-                    margin-left: 310mm;
+                    margin-left: <t t-esc="marginLeft+186"/>mm;
                     margin-top: 55mm;
                 }
                 .boy {
@@ -67,7 +83,7 @@
                 }
                 .photo {
                     position: absolute;
-                    margin-left: 300mm;
+                    margin-left: <t t-esc="marginLeft+176"/>mm;
                     margin-top: 85mm;
                     width: 70mm;
                     height: 90mm;
@@ -79,7 +95,7 @@
                 }
                 .summary {
                     position: absolute;
-                    margin-left: 377mm;
+                    margin-left: <t t-esc="marginLeft+253"/>mm;
                     margin-top: 95mm;
                 }
                 .summary_field {
@@ -105,9 +121,11 @@
             <t t-call="report_compassion.html_container">
                 <t t-foreach="docs" t-as="o">
                     <div class="page">
-                       <div class="local_id">
-                            <span t-field="o.local_id"/>
-                        </div>
+                        <t t-if="formMargin">
+                            <div class="local_id">
+                                <span t-field="o.local_id"/>
+                            </div>
+                        </t>
                         <div class="desc">
                             <span t-raw="o.description" class="left"/>
                             <div class="right">

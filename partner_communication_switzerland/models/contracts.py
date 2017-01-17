@@ -188,13 +188,17 @@ class RecurringContract(models.Model):
             c.channel == 'direct')
         selected = self - sub_proposal
 
-        for sub in selected:
-            if sub.correspondant_id.id == sub.partner_id.id:
-                sub.send_communication(selected_config)
-            else:
-                sub.send_communication(selected_corr_config)
-                sub.send_communication(
-                    selected_payer_config, correspondent=False)
+        for spo in selected:
+            if spo.correspondant_id.id != spo.partner_id.id:
+                corresp = spo.correspondant_id
+                payer = spo.partner_id
+                if corresp.contact_address != payer.contact_address:
+                    spo.send_communication(selected_corr_config)
+                    spo.send_communication(
+                        selected_payer_config, correspondent=False)
+                    continue
+
+            spo.send_communication(selected_config)
 
         for sub in sub_proposal:
             sub.send_communication(sub_proposal_config)

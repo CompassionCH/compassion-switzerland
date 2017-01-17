@@ -36,7 +36,7 @@ class RecurringContracts(models.Model):
     @api.multi
     def _compute_format_ref(self):
         slip_obj = self.env['l10n_ch.payment_slip']
-        for group in self:
+        for group in self.filtered('bvr_reference'):
             group.format_ref = slip_obj._space(group.bvr_reference.lstrip('0'))
 
     @api.multi

@@ -17,3 +17,4 @@ from . import mail_tracking_event
 from . import contracts
 from . import res_partner
 from . import disaster_alert
+from . import partner_communication
