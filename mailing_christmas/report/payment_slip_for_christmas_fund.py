@@ -51,7 +51,7 @@ class ExtendedReport(models.Model):
                 context=context
             )
 
-    @api.v8
+    @api.v8     # NOQA
     def get_pdf(self, records, report_name, html=None, data=None):
         return self._model.get_pdf(self._cr, self._uid,
                                    records.ids, report_name,

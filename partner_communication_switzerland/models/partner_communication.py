@@ -10,7 +10,7 @@
 ##############################################################################
 import base64
 
-from openerp import api, models, fields, _
+from openerp import models, _
 
 
 class PartnerCommunication(models.Model):
