@@ -13,6 +13,21 @@
 
         <template id="partner_communication">
             <t t-set="custom_css">
+                .container {
+                    font-family: "tetriaLight";
+                    font-size: 10pt;
+                }
+                /* Format lists for PDF */
+                ul {
+                    list-style: none;
+                }
+                li {
+                    padding-left: 16px;
+                }
+                li:before {
+                    content: "-";
+                    padding-right: 8px;
+                }
                 .right {
                     position: relative;
                     left: 91mm;
@@ -47,20 +62,16 @@
                 }
                 #date {
                     margin-left: 91mm;
-                    margin-top: 10mm;
+                    margin-top: 8mm;
                 }
                 #title {
-                    margin-top: 10mm;
+                    margin-top: 5mm;
                 }
                 hr {
                     margin-top: 0px;
                     border: none;
                     height: 1pt;
                     background-color: black;
-                }
-                #body {
-                    font-family: "tetria";
-                    font-size: 12pt;
                 }
             </t>
             <t t-call="report_compassion.html_container">
