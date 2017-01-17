@@ -44,15 +44,16 @@ class BvrSponsorship(models.Model):
         }
 
     @api.multi
-    def render_html(self, data=None):
+    def render_html(self, user_data=None):
         """
         Construct the data for printing Payment Slips.
         :param data: data collected from the print wizard.
         :return: html rendered report
         """
         report = self._get_report()
-        if data is None:
-            data = self._get_default_data()
+        data = self._get_default_data()
+        if user_data:
+            data.update(user_data)
 
         start = fields.Datetime.from_string(data['date_start'])
         stop = fields.Datetime.from_string(data['date_stop'])
@@ -100,6 +101,6 @@ class ThreeBvrSponsorship(models.Model):
         payment slips.
         """
         if data is None:
-            data = self._get_default_data()
+            data = dict()
         data['offset'] = 1
         return super(ThreeBvrSponsorship, self).render_html(data)
