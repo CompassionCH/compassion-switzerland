@@ -8,9 +8,17 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import base64
 import locale
 
+from wand.color import Color
+from wand.drawing import Drawing
+from wand.image import Image
+
 from openerp import api, models, fields, _
+
+# Ratio of white frame around the child picture
+FRAME_RATIO = 0.08
 
 
 def major_revision(child, revised_values):
@@ -42,6 +50,7 @@ class CompassionChild(models.Model):
     current_values = fields.Char(compute='_compute_revised_values')
     birthday_month = fields.Char(compute='_compute_birthday_month')
     completion_month = fields.Char(compute='_compute_completion_month')
+    picture_frame = fields.Binary(compute='_compute_picture_frame')
 
     def _compute_revised_values(self):
         for child in self:
@@ -79,6 +88,23 @@ class CompassionChild(models.Model):
             child.completion_month = completion.strftime("%B")
             locale.setlocale(locale.LC_TIME, current_locale)
 
+    def _compute_picture_frame(self):
+        for child in self:
+            with Image(blob=base64.b64decode(child.fullshot)) as picture:
+                frame_width = int(picture.width * FRAME_RATIO)
+                frame_height = int(picture.height * FRAME_RATIO)
+                picture.frame(Color("#fff"), frame_width, frame_height)
+                with Drawing() as draw:
+                    draw.fill_color = Color('#000')
+                    draw.text_alignment = 'left'
+                    draw.font_size = 20
+                    draw.text(
+                        frame_width + 50,
+                        picture.height - int(frame_height / 1.5),
+                        child.local_id + ' ' + child.name)
+                    draw(picture)
+                    child.picture_frame = base64.b64encode(picture.make_blob())
+
     def depart(self):
         """ Send communication to sponsor. """
         for child in self.filtered('sponsor_id'):
@@ -110,12 +136,23 @@ class CompassionChild(models.Model):
         super(CompassionChild, self).reinstatement()
 
     def new_photo(self):
+        """
+        Upon reception of a new child picture :
+        - Mark sponsorships for pictures order if delivery is physical
+        - Prepare communication for sponsor
+        """
         super(CompassionChild, self).new_photo()
         communication_config = self.env.ref(
             'partner_communication_switzerland.biennial')
         job_obj = self.env['partner.communication.job']
         for child in self.filtered('sponsor_id').filtered('pictures_ids'):
-            # In case picture is sent by e-mail, include it in e-mail values
+            sponsor = child.sponsor_id
+            delivery = sponsor.photo_delivery_preference
+            if 'physical' in delivery or delivery == 'both':
+                # Mark sponsorship for order the picture
+                child.sponsorship_ids[0].order_photo = True
+
+            # Prepare attachments in case the communication is sent by e-mail
             pictures = child.pictures_ids[0]
             attachment = self.env['ir.attachment'].search([
                 ('res_model', '=', 'compassion.child.pictures'),
