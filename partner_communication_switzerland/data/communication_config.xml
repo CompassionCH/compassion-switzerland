@@ -14,7 +14,7 @@
         <!-- Major Revision Communication Config -->
         <record id="major_revision_birthdate" model="partner.communication.config">
             <field name="name">Major Revision - Birthdate</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_birthdate"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
@@ -23,7 +23,7 @@
         </record>
         <record id="major_revision_disability" model="partner.communication.config">
             <field name="name">Major Revision - Chronic Disabilities</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_disability"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
@@ -32,7 +32,7 @@
         </record>
         <record id="major_revision_illness" model="partner.communication.config">
             <field name="name">Major Revision - Chronic Illness</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_illness"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
@@ -41,7 +41,7 @@
         </record>
         <record id="major_revision_name" model="partner.communication.config">
             <field name="name">Major Revision - First Name / Last Name / Preferred Name</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_name"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
@@ -50,7 +50,7 @@
         </record>
         <record id="major_revision_gender" model="partner.communication.config">
             <field name="name">Major Revision - Gender</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_gender"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
@@ -59,7 +59,7 @@
         </record>
         <record id="major_revision_completion_date_change" model="partner.communication.config">
             <field name="name">Major Revision - Planned Completion Date</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_completion_date_change"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
@@ -68,7 +68,7 @@
         </record>
         <record id="major_revision_parent_alive" model="partner.communication.config">
             <field name="name">Major Revision - Natural Father Alive / Natural Mother Alive</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_parent_alive"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
@@ -77,7 +77,7 @@
         </record>
         <record id="major_revision_caregiver" model="partner.communication.config">
             <field name="name">Major Revision - Primary Caregiver</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_caregiver_change"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
@@ -103,7 +103,7 @@
         </record>
         <record id="lifecycle_child_transition" model="partner.communication.config">
             <field name="name">Beneficiary Transition</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="email_template_id" ref="email_child_transition"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="print_if_not_email">True</field>
@@ -143,7 +143,7 @@
             <field name="name">Project lifecycle</field>
             <field name="email_template_id" ref="email_project_lifecycle"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
             <field name="user_id" search="[('name', 'like', 'Reber Rose-Marie')]"/>
@@ -178,7 +178,7 @@
             <field name="name">Sponsorship - Welcome Letter</field>
             <field name="email_template_id" ref="email_sponsorship_welcome"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Lukas')]"/>
         </record>
@@ -186,7 +186,7 @@
             <field name="name">Sponsorship - Birthday Reminder</field>
             <field name="email_template_id" ref="email_sponsorship_birthday_reminder"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Lukas')]"/>
         </record>
@@ -256,7 +256,7 @@
             <field name="name">Sponsorship Waiting Reminder 1</field>
             <field name="email_template_id" ref="email_sponsorship_waiting_reminder_1"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Lukas')]"/>
@@ -285,7 +285,7 @@
             <field name="name">Beneficiary Hold Removal</field>
             <field name="email_template_id" ref="email_hold_removal"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="model_id" ref="model_compassion_hold"/>
         </record>
 
