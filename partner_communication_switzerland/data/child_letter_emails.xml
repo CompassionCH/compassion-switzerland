@@ -1,41 +1,75 @@
 <openerp>
-    <data noupdate="1">
-        <!-- First letter system changed -->
-        <record id="change_system" model="email.template">
-            <field name="name">First letter system changed</field>
+    <data>
+        <!-- Final letter -->
+        <record id="final_letter" model="email.template">
+            <field name="name">B2S Final Letter</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
-            <field name="partner_to">${object.correspondant_id and object.correspondant_id.email and object.correspondant_id.id or False }</field>
-            <field name="subject">You received a letter from ${object.child_id.firstname}!</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Last letter from ${object.get_objects().mapped('child_id').get_list('firstname', 3, 'your children')}!</field>
             <field name="body_html" type="html">
+                <div>
+                    % set letter = object.get_objects()
+                    % set child = letter.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, 'your children')
+                    % set s = 's' if len(child) > 1 else ''
+                </div>
                 <p>
-                    We are pleased to send you a new letter from your sponsored child ${object.child_id.firstname}!
+                    Herewith, you will find the last sent letter from ${firstname}!
                     <br/>
-                    Download your letter here: <a href='${object.read_url}'>${object.read_url}</a>
                     <br/>
-                    Thanks to the new digital system, we are now able to deliver letters in less than a month! If you have any questions regarding this new system, or would like to continue to receive printed letters, please contact us.
+                    Download your letter${s} here:
+                    <ul>
+                        % for l in letter:
+                        <li>
+                            <a href='${l.read_url}'>${l.read_url}</a>
+                        </li>
+                        % endfor
+                    </ul>
                     <br/>
-                    ${object.correspondant_id.send_original and 'PS: As you requested, we will send you the original letter. Please keep in mind it can take several weeks until we receive it.' or ''}
+                    The sponsorship is terminated but we encourage you to continue praying for ${firstname} protection and blessing.
+                    <br/>
+                    <br/>
+                    Again, we express all our gratitude for the love and the support you testified towards ${firstname} during the sponsorship.
+                    <br/>
+                    <br/>
+                    Thanks to the collaboration between the sponsors and Compassion, we are grateful to be able to give hope to the children in need.
+                    We are at your service for any questions or comments, by calling 0800 784 773 or by email at <a href="mailto:info@compassion.ch">info@compassion.ch</a>
+                    <br/>
+                    <br/>
+                    Yours Sincerely
                 </p>
             </field>
         </record>
 
         <!-- New letter -->
         <record id="new_letter" model="email.template">
-            <field name="name">New letter</field>
+            <field name="name">B2S New letter</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
-            <field name="partner_to">${object.correspondant_id and object.correspondant_id.email and object.correspondant_id.id or False }</field>
-            <field name="subject">You received a letter from ${object.child_id.firstname}!</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">You received a letter from ${object.get_objects().mapped('child_id').get_list('firstname', 3, child.get_number())}!</field>
             <field name="body_html" type="html">
+                <div>
+                    % set letter = object.get_objects()
+                    % set child = letter.mapped('child_id')
+                    % set s = 's' if len(child) > 1 else ''
+                </div>
                 <p>
-                    We are pleased to send you a new letter from your sponsored child ${object.child_id.firstname}!
+                    We are pleased to send you a new letter from ${child.get('your sponsored child') ${child.get_list('firstname', 3, child.get_number())}!
                     <br/>
-                    Download your letter here: <a href='${object.read_url}'>${object.read_url}</a>
+                    Download your letter${s} here:
+                    <ul>
+                        % for l in letter:
+                        <li>
+                            <a href='${l.read_url}'>${l.read_url}</a>
+                        </li>
+                        % endfor
+                    </ul>
                     <br/>
-                    ${object.correspondant_id.send_original and 'PS: As you requested, we will send you the original letter. Please keep in mind it can take several weeks until we receive it.' or ''}
+                    ${object.partner_id.send_original and 'PS: As you requested, we will send you the original letter' + s + '. Please keep in mind it can take several weeks until we receive it.' or ''}
                 </p>
             </field>
         </record>

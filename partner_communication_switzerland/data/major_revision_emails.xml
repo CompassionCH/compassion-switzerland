@@ -13,7 +13,12 @@
                 <div>
                     % set child = object.get_objects()
                 </div>
-                <p>We learned that ${child.firstname} was born in ${child.birthdate}.</p>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    We learned that ${child.firstname} was born in ${child.get_date('birthdate', 'date_full')}.
+                </p>
             </field>
         </record>
 
@@ -29,7 +34,12 @@
                 <div>
                     % set child = object.get_objects()
                 </div>
-                <p>We learned that ${child.firstname} has ${child.current_values}.</p>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    We learned that ${child.firstname} has ${child.current_values}.
+                </p>
             </field>
         </record>
 
@@ -45,7 +55,12 @@
                 <div>
                     % set child = object.get_objects()
                 </div>
-                <p>We learned that ${child.firstname} has ${child.current_values}.</p>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    We learned that ${child.firstname} has ${child.current_values}.
+                </p>
             </field>
         </record>
 
@@ -62,6 +77,9 @@
                     % set child = object.get_objects()
                 </div>
                 <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
                     We learned that ${child.old_firstname} is now called <b>${child.firstname} ${child.lastname}</b>.
                     <br/>
                     <br/>
@@ -86,6 +104,9 @@
                     % set child = object.get_objects()
                 </div>
                 <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
                     We learned that ${child.firstname} is not a ${'boy' if child.old_values == 'M' else 'girl'}, but a ${'boy' if child.gender == 'M' else 'girl'}.
                     <br/>
                     <br/>
@@ -106,7 +127,12 @@
                 <div>
                     % set child = object.get_objects()
                 </div>
-                <p>We learned that ${child.firstname} will finish the Compassion program on ${child.completion_date}.</p>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    We learned that ${child.firstname} will finish the Compassion program on ${child.get_date('completion_date', 'date_full')}.
+                </p>
             </field>
         </record>
 
@@ -125,6 +151,9 @@
                     % set status = 'alive' if child.household_id.revised_value_ids.get_field_value() == 'True' else 'dead'
                 </div>
                 <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
                     We learned that the ${role} of ${child.firstname} is ${status}.
                 </p>
             </field>
@@ -144,6 +173,9 @@
                     % set caregiver = child.household_id.primary_caregiver
                 </div>
                 <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
                     We learned that the primary caregiver of ${child.firstname} is now ${child.get('his')}
                     % if 'Beneficiary' not in caregiver:
                         ${caregiver}
@@ -168,6 +200,9 @@
                     % set child = object.get_objects()
                 </div>
                 <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
                     We learned that ${child.old_firstname} had some mistakes in his info. Here is what changed:
                     <br/>
                     <ul>

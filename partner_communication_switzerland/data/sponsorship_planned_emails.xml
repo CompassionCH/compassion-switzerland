@@ -141,6 +141,7 @@
                     <ul>
                         <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
                         <li>A booklet with informations about the sponsorship</li>
+                        <li>${sponsorships[0].payment_type_attachment}</li>
                     </ul>
                     <br/>
                     As soon as we receive your first payment, ${child.get('your sponsored child')} will be informed that ${he} found a sponsor.
@@ -221,7 +222,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">One year sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}</field>
+            <field name="subject">One year sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
@@ -255,7 +256,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">Three years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}</field>
+            <field name="subject">Three years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
@@ -289,7 +290,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">Five years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}</field>
+            <field name="subject">Five years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
@@ -322,7 +323,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">10 years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}!</field>
+            <field name="subject">10 years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}!</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
@@ -352,7 +353,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">15 years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number() + ' children')}</field>
+            <field name="subject">15 years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()

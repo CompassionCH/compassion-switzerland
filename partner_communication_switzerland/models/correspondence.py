@@ -54,9 +54,11 @@ class Correspondence(models.Model):
         if partner.email and partner.letter_delivery_preference == 'digital' \
             and not\
                 self.email_id:
-            if self.partner_needs_explanations():
+            final_letter = self.env.ref(
+                'sbc_compassion.correspondence_type_final')
+            if final_letter in self.communication_type_ids:
                 template = self.env.ref(
-                    'partner_communication_switzerland.change_system')
+                    'partner_communication_switzerland.final_letter')
             else:
                 template = self.env.ref(
                     'partner_communication_switzerland.new_letter')
@@ -85,26 +87,6 @@ class Correspondence(models.Model):
         if self.email_id and self.email_id.state == 'sent' and user is None:
             self.email_id.state = 'received'
         return data
-
-    @api.multi
-    def partner_needs_explanations(self):
-        """ Returns true if the partner never received explanations
-            about the new correspondence system. The partner should have a
-            sponsorship that began before the transition of system.
-        """
-        self.ensure_one()
-        partner_id = self.correspondant_id.id
-        oldest_sponsorship = self.env['recurring.contract'].search([
-            ('correspondant_id', '=', partner_id),
-            ('type', 'like', 'S')], order='activation_date asc', limit=1)
-        activation_date = fields.Date.from_string(
-            oldest_sponsorship.activation_date)
-        transition_date = fields.Date.from_string('2016-01-25')
-        other_letters = self.search([
-            ('correspondant_id', '=', partner_id),
-            ('direction', '=', 'Beneficiary To Supporter'),
-            ('id', '!=', self.id)])
-        return activation_date < transition_date and not other_letters
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

@@ -148,11 +148,21 @@
                                     <br/>${impact.beneficiary_physical_condition_description}
                                 % endif
                             </li>
-                            <li>House condition: ${impact.house_condition}</li>
-                            <li>Siblings died: ${impact.siblings_died_number}</li>
-                            <li>Siblings seriously injured number: ${impact.siblings_seriously_injured_number}</li>
-                            <li>Caregivers died: ${impact.caregivers_died_number}</li>
-                            <li>Caregivers seriously injured number: ${impact.caregivers_seriously_injured_number}</li>
+                            % if impact.house_condition:
+                                <li>House condition: ${impact.house_condition}</li>
+                            % endif
+                            % if impact.siblings_died_number:
+                                <li>Siblings died: ${impact.siblings_died_number}</li>
+                            % endif
+                            % if impact.siblings_seriously_injured_number:
+                                <li>Siblings seriously injured number: ${impact.siblings_seriously_injured_number}</li>
+                            % endif
+                            % if impact.caregivers_died_number:
+                                <li>Caregivers died: ${impact.caregivers_died_number}</li>
+                            % endif
+                            % if impact.caregivers_seriously_injured_number:
+                                <li>Caregivers seriously injured number: ${impact.caregivers_seriously_injured_number}</li>
+                            % endif
                             % if impact.loss_ids:
                                 <li> Personal effects lost:
                                     <ul>

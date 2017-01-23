@@ -11,6 +11,8 @@
 import logging
 from datetime import timedelta, datetime
 
+from dateutil.relativedelta import relativedelta
+
 from openerp import api, models, fields, _
 
 logger = logging.getLogger(__name__)
@@ -31,6 +33,8 @@ class RecurringContract(models.Model):
              'Smartphoto.')
     payment_type_attachment = fields.Char(
         compute='_compute_payment_type_attachment')
+    birthday_paid = fields.Many2many(
+        'sponsorship.gift', compute='_compute_birthday_paid')
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -54,6 +58,16 @@ class RecurringContract(models.Model):
                 else:
                     phrase = _("payment slips for the sponsorship payment")
             contract.payment_type_attachment = phrase
+
+    def _compute_birthday_paid(self):
+        today = datetime.today()
+        in_three_months = today + relativedelta(months=3)
+        for sponsorship in self:
+            sponsorship.birthday_paid = self.env['sponsorship.gift'].search([
+                ('sponsorship_id', '=', sponsorship.id),
+                ('gift_date', '>=', fields.Date.to_string(today)),
+                ('gift_date', '<', fields.Date.to_string(in_three_months)),
+            ])
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
