@@ -29,7 +29,7 @@
 
 
 {
-    'name': 'Compassion CH Partner Communications',
+    'name': 'Compassion CH PDF-Qweb Reports',
     'version': '8.0.1.0',
     'category': 'Other',
     'author': 'Compassion CH',

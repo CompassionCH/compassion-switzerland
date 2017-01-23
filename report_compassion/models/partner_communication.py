@@ -39,7 +39,7 @@ class PartnerCommunication(models.Model):
     @api.multi
     def _compute_signature(self):
         for communication in self:
-            user = self.user_id or self.env.user
+            user = communication.user_id or self.env.user
             employee = user.employee_ids
             signature = ''
             if len(employee) == 1:

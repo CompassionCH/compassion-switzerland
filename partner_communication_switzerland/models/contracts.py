@@ -9,7 +9,7 @@
 #
 ##############################################################################
 import logging
-from datetime import timedelta, datetime
+from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
@@ -103,14 +103,14 @@ class RecurringContract(models.Model):
 
         # Sponsorship anniversary
         today = datetime.now()
-        days_per_year = 365.24
-        comp_month = str(today.month)
         logger.info("....Creating Anniversary Communications")
         for year in [1, 3, 5, 10, 15]:
-            year_lookup = today - timedelta(days=year*days_per_year)
-            comp_date = year_lookup.strftime("%Y-") + comp_month
+            year_lookup = today - relativedelta(years=year)
+            start = year_lookup.replace(day=1)
+            stop = year_lookup.replace(day=31)
             anniversary = self.search([
-                ('start_date', 'like', comp_date),
+                ('start_date', '>=', fields.Date.to_string(start)),
+                ('start_date', '<=', fields.Date.to_string(stop)),
                 ('state', '=', 'active'),
                 ('type', 'like', 'S')
             ])
@@ -119,10 +119,12 @@ class RecurringContract(models.Model):
 
         # Completion
         logger.info("....Creating Completion Communications")
-        in_four_month = today + timedelta(days=int(30.4*4))
-        comp_date = in_four_month.strftime("%Y-%m")
+        in_four_month = today + relativedelta(months=4)
+        start = in_four_month.replace(day=1)
+        stop = in_four_month.replace(day=31)
         completion = self.search([
-            ('child_id.completion_date', 'like', comp_date),
+            ('child_id.completion_date', '>=', fields.Date.to_string(start)),
+            ('child_id.completion_date', '<=', fields.Date.to_string(stop)),
             ('state', '=', 'active'),
             ('type', 'like', 'S')
         ])
@@ -148,7 +150,7 @@ class RecurringContract(models.Model):
         # Birthday Reminder
         logger.info("....Creating Birthday Reminder Communications")
         today = datetime.now()
-        in_three_month = (today + timedelta(days=int(30.4*3))).replace(
+        in_three_month = (today + relativedelta(months=3)).replace(
             day=today.day)
         birthday = self.search([
             ('child_id.birthdate', 'like',
