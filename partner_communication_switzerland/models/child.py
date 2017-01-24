@@ -194,6 +194,14 @@ class CompassionChild(models.Model):
             return year
         return month + ' ' + year
 
+    @api.multi
+    def get_hold_gifts(self):
+        """
+        :return: True if all children's gift are held.
+        """
+        return reduce(lambda x, y: x and y,
+                      self.mapped('project_id.hold_gifts'))
+
 
 class Household(models.Model):
     """ Send Communication when Household Major Revision is received. """

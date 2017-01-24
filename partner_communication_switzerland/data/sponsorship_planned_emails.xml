@@ -398,6 +398,7 @@
                     % set firstname = child.get_list('firstname', 3, child.get_number())
                     % set his = child.get('his')
                     % set month = child[0].birthday_month
+                    % set hold_gifts = child.get_hold_gifts()
                 </div>
                 <p>
                     In ${month} ${child.get('your sponsored child')} will celebrate ${his} birthday. We would like to encourage you to write a few lines wishing ${firstname} a happy birthday on this special day.
@@ -412,7 +413,9 @@
                     Compassion can also write the birthday card on your behalf if you wish. In this case, please contact us.
                     <br/>
                     <br/>
-                    You can also make a little birthday gift if you like. You can make the payment with the payment slip attached or directly online, using this link (in French): https://www.compassion.ch/fr/parrainage/donner.html
+                    % if not hold_gifts:
+                        You can also make a little birthday gift if you like. You can make the payment with the payment slip attached or directly online, using this link (in French): https://www.compassion.ch/fr/parrainage/donner.html
+                    % endif
                     <br/>
                     <br/>
                     Compassion thank you for your precious support toward ${firstname} !
