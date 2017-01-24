@@ -136,7 +136,7 @@ class RecurringContracts(models.Model):
             vals['subject'] = valid.child_id.firstname + " ({})".format(
                 valid.child_id.local_id)
 
-        return "{payment_type} {amount}<br/>{subject}<br/>{date}".format(
+        return u"{payment_type} {amount}<br/>{subject}<br/>{date}".format(
             **vals)
 
     @api.model

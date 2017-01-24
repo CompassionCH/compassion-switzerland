@@ -127,9 +127,11 @@
                             </div>
                         </t>
                         <div class="desc">
-                            <span t-raw="o.description" class="left"/>
+                            <div class="left">
+                                <span t-raw="o.description"/>
+                            </div>
                             <div class="right">
-                                <h6><span t-field="o.project_title"/></h6>
+                                <h6 style="margin-top: 0mm;"><span t-field="o.project_title"/></h6>
                                 <span t-raw="o.project_id.description"/>
                             </div>
                         </div>

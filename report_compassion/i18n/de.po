@@ -1,0 +1,803 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* report_compassion
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-24 12:15+0000\n"
+"PO-Revision-Date: 2017-01-24 13:28+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: de\n"
+"X-Generator: Poedit 1.8.4\n"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ""
+".container {\n"
+"                    font-family: \"tetriaLight\";\n"
+"                    font-size: 10pt;\n"
+"                }\n"
+"                /* Format lists for PDF */\n"
+"                ul {\n"
+"                    list-style: none;\n"
+"                }\n"
+"                li {\n"
+"                    padding-left: 16px;\n"
+"                }\n"
+"                li:before {\n"
+"                    content: \"-\";\n"
+"                    padding-right: 8px;\n"
+"                }\n"
+"                .right {\n"
+"                    position: relative;\n"
+"                    left: 91mm;\n"
+"                }\n"
+"                #pp {\n"
+"                    font-family: verdana;\n"
+"                }\n"
+"                #pp-box {\n"
+"                    display: inline-block;\n"
+"                    padding: 1mm;\n"
+"                    width: 50mm;\n"
+"                    line-height: initial;\n"
+"\n"
+"                    /*margin-right: 2mm;*/\n"
+"                    border-style: solid;\n"
+"                    border-width: 1pt;\n"
+"                }\n"
+"                #pp-box div:first-child{\n"
+"                    font-size: 12pt;\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                #pp-box div:last-child{\n"
+"                    font-size: 8pt;\n"
+"                }\n"
+"                #pp-post {\n"
+"                    display: inline-block;\n"
+"                    font-size: 6pt;\n"
+"                }\n"
+"                #pp hr {\n"
+"                    margin-top: 0.5mm;\n"
+"                    margin-bottom: 3mm;\n"
+"                }\n"
+"                #date {\n"
+"                    margin-left: 91mm;\n"
+"                    margin-top: 8mm;\n"
+"                }\n"
+"                #title {\n"
+"                    margin-top: 5mm;\n"
+"                }\n"
+"                hr {\n"
+"                    margin-top: 0px;\n"
+"                    border: none;\n"
+"                    height: 1pt;\n"
+"                    background-color: black;\n"
+"                }"
+msgstr ""
+".container {\n"
+"                    font-family: \"tetriaLight\";\n"
+"                    font-size: 10pt;\n"
+"                }\n"
+"                /* Format lists for PDF */\n"
+"                ul {\n"
+"                    list-style: none;\n"
+"                }\n"
+"                li {\n"
+"                    padding-left: 16px;\n"
+"                }\n"
+"                li:before {\n"
+"                    content: \"-\";\n"
+"                    padding-right: 8px;\n"
+"                }\n"
+"                .right {\n"
+"                    position: relative;\n"
+"                    left: 91mm;\n"
+"                }\n"
+"                #pp {\n"
+"                    font-family: verdana;\n"
+"                }\n"
+"                #pp-box {\n"
+"                    display: inline-block;\n"
+"                    padding: 1mm;\n"
+"                    width: 50mm;\n"
+"                    line-height: initial;\n"
+"\n"
+"                    /*margin-right: 2mm;*/\n"
+"                    border-style: solid;\n"
+"                    border-width: 1pt;\n"
+"                }\n"
+"                #pp-box div:first-child{\n"
+"                    font-size: 12pt;\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                #pp-box div:last-child{\n"
+"                    font-size: 8pt;\n"
+"                }\n"
+"                #pp-post {\n"
+"                    display: inline-block;\n"
+"                    font-size: 6pt;\n"
+"                }\n"
+"                #pp hr {\n"
+"                    margin-top: 0.5mm;\n"
+"                    margin-bottom: 3mm;\n"
+"                }\n"
+"                #date {\n"
+"                    margin-left: 91mm;\n"
+"                    margin-top: 8mm;\n"
+"                }\n"
+"                #title {\n"
+"                    margin-top: 5mm;\n"
+"                }\n"
+"                hr {\n"
+"                    margin-top: 0px;\n"
+"                    border: none;\n"
+"                    height: 1pt;\n"
+"                    background-color: black;\n"
+"                }"
+
+#. module: report_compassion
+#: view:website:report_compassion.childpack_small
+msgid ""
+".container {\n"
+"                    font-family: \"tetriaLight\";\n"
+"                    font-size: 8pt;\n"
+"                }\n"
+"                .local_id {\n"
+"                    position: absolute;\n"
+"                    margin-left: 75mm;\n"
+"                    margin-top: 35mm;\n"
+"                }\n"
+"                .desc {\n"
+"                    position: absolute;\n"
+"                    margin-left:"
+msgstr ""
+".container {\n"
+"                    font-family: \"tetriaLight\";\n"
+"                    font-size: 8pt;\n"
+"                }\n"
+"                .local_id {\n"
+"                    position: absolute;\n"
+"                    margin-left: 75mm;\n"
+"                    margin-top: 35mm;\n"
+"                }\n"
+"                .desc {\n"
+"                    position: absolute;\n"
+"                    margin-left:"
+
+#. module: report_compassion
+#: view:website:report_compassion.bvr_container
+msgid ""
+".one_slip {\n"
+"                    font-size: 8pt;\n"
+"                    width: 210mm;\n"
+"                    height: 106mm;\n"
+"                }\n"
+"                .receipt {\n"
+"                    position: absolute;\n"
+"                    padding-top: 9mm;\n"
+"                    padding-left: 5mm;\n"
+"                    width: 60mm;\n"
+"                    height: 106mm;\n"
+"                }\n"
+"                .pay_for::first-line {\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                .receipt .pay_for {\n"
+"                    position: absolute;\n"
+"                    height: 15mm;\n"
+"                }\n"
+"                .receipt .communication {\n"
+"                    position: absolute;\n"
+"                    margin-top: 18mm;\n"
+"                    height: 15mm;\n"
+"                }\n"
+"                .receipt .account {\n"
+"                    position: absolute;\n"
+"                    margin-top: 33mm;\n"
+"                    margin-left: 30.5mm;\n"
+"                }\n"
+"                .receipt .reference {\n"
+"                    position: absolute;\n"
+"                    margin-top: 51mm;\n"
+"                }\n"
+"                .receipt .pay_from {\n"
+"                    position: absolute;\n"
+"                    margin-top: 56mm;\n"
+"                    max-height: 20mm;\n"
+"                }\n"
+"\n"
+"                .transfer {\n"
+"                    position: absolute;\n"
+"                    margin-left: 60mm;\n"
+"                    padding-left: 4mm;\n"
+"                    width: 150mm;\n"
+"                    height: 106mm;\n"
+"                }\n"
+"                .transfer .pay_for {\n"
+"                    position: absolute;\n"
+"                    margin-top: 9mm;\n"
+"                    width: 55mm;\n"
+"                }\n"
+"                .transfer .reference {\n"
+"                    position: absolute;\n"
+"                    margin-left: 61mm;\n"
+"                    margin-top: 33mm;\n"
+"                    width: 84mm;\n"
+"                    height: 6mm;\n"
+"                    padding: 1mm;\n"
+"                    font-size: 10pt;\n"
+"                    text-align: center;\n"
+"                }\n"
+"                .transfer .account {\n"
+"                    position: absolute;\n"
+"                    margin-left: 28mm;\n"
+"                    margin-top: 42.5mm;\n"
+"                }\n"
+"                .transfer .pay_from {\n"
+"                    position: absolute;\n"
+"                    margin-left: 61mm;\n"
+"                    margin-top: 47mm;\n"
+"                    width: 80mm;\n"
+"                    height: 30mm;\n"
+"                    padding: auto;\n"
+"                }\n"
+"                .transfer .scan_line {\n"
+"                    position: absolute;\n"
+"                    margin-left: 5.7mm;\n"
+"                    margin-top: 84.5mm;\n"
+"                    width: 134mm;\n"
+"                    font-family: \"ocr\";\n"
+"                    font-size: 12pt;\n"
+"                    text-align: right;\n"
+"                }"
+msgstr ""
+".one_slip {\n"
+"                    font-size: 8pt;\n"
+"                    width: 210mm;\n"
+"                    height: 106mm;\n"
+"                }\n"
+"                .receipt {\n"
+"                    position: absolute;\n"
+"                    padding-top: 9mm;\n"
+"                    padding-left: 5mm;\n"
+"                    width: 60mm;\n"
+"                    height: 106mm;\n"
+"                }\n"
+"                .pay_for::first-line {\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                .receipt .pay_for {\n"
+"                    position: absolute;\n"
+"                    height: 15mm;\n"
+"                }\n"
+"                .receipt .communication {\n"
+"                    position: absolute;\n"
+"                    margin-top: 18mm;\n"
+"                    height: 15mm;\n"
+"                }\n"
+"                .receipt .account {\n"
+"                    position: absolute;\n"
+"                    margin-top: 33mm;\n"
+"                    margin-left: 30.5mm;\n"
+"                }\n"
+"                .receipt .reference {\n"
+"                    position: absolute;\n"
+"                    margin-top: 51mm;\n"
+"                }\n"
+"                .receipt .pay_from {\n"
+"                    position: absolute;\n"
+"                    margin-top: 56mm;\n"
+"                    max-height: 20mm;\n"
+"                }\n"
+"\n"
+"                .transfer {\n"
+"                    position: absolute;\n"
+"                    margin-left: 60mm;\n"
+"                    padding-left: 4mm;\n"
+"                    width: 150mm;\n"
+"                    height: 106mm;\n"
+"                }\n"
+"                .transfer .pay_for {\n"
+"                    position: absolute;\n"
+"                    margin-top: 9mm;\n"
+"                    width: 55mm;\n"
+"                }\n"
+"                .transfer .reference {\n"
+"                    position: absolute;\n"
+"                    margin-left: 61mm;\n"
+"                    margin-top: 33mm;\n"
+"                    width: 84mm;\n"
+"                    height: 6mm;\n"
+"                    padding: 1mm;\n"
+"                    font-size: 10pt;\n"
+"                    text-align: center;\n"
+"                }\n"
+"                .transfer .account {\n"
+"                    position: absolute;\n"
+"                    margin-left: 28mm;\n"
+"                    margin-top: 42.5mm;\n"
+"                }\n"
+"                .transfer .pay_from {\n"
+"                    position: absolute;\n"
+"                    margin-left: 61mm;\n"
+"                    margin-top: 47mm;\n"
+"                    width: 80mm;\n"
+"                    height: 30mm;\n"
+"                    padding: auto;\n"
+"                }\n"
+"                .transfer .scan_line {\n"
+"                    position: absolute;\n"
+"                    margin-left: 5.7mm;\n"
+"                    margin-top: 84.5mm;\n"
+"                    width: 134mm;\n"
+"                    font-family: \"ocr\";\n"
+"                    font-size: 12pt;\n"
+"                    text-align: right;\n"
+"                }"
+
+#. module: report_compassion
+#: selection:print.sponsorship.bvr,paper_format:0
+msgid "3 BVR"
+msgstr "3 BVR"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_recurring_contract_group
+msgid "A group of contracts"
+msgstr "A group of contracts"
+
+#. module: report_compassion
+#: view:website:report_compassion.childpack_small
+msgid "Birthday:"
+msgstr "Geburtstag :"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract.py:30
+#, python-format
+msgid "Born in"
+msgstr "Geburtstag"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid "CH-1442 Montagny-près-Yverdon"
+msgstr "CH-1442 Montagny-près-Yverdon"
+
+#. module: report_compassion
+#: view:website:report_compassion.childpack_small
+msgid "Child reference:"
+msgstr "Ref. des Kindes:"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_partner_communication_job
+msgid "Communication Job"
+msgstr "Communication Job"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_recurring_contract
+msgid "Contract for recurring invoicing"
+msgstr "Contract for recurring invoicing"
+
+#. module: report_compassion
+#: view:website:report_compassion.childpack_small
+msgid "Country:"
+msgstr "Land:"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,create_uid:0
+#: field:report.report_compassion.3bvr_sponsorship,create_uid:0
+#: field:report.report_compassion.bvr_sponsorship,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,create_date:0
+#: field:report.report_compassion.3bvr_sponsorship,create_date:0
+#: field:report.report_compassion.bvr_sponsorship,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: report_compassion
+#: selection:print.sponsorship.bvr,period_selection:0
+msgid "Current year"
+msgstr "Current year"
+
+#. module: report_compassion
+#: field:partner.communication.job,date_communication:0
+msgid "Date communication"
+msgstr "Date communication"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,date_start:0
+msgid "Date start"
+msgstr "Date start"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,date_stop:0
+msgid "Date stop"
+msgstr "Date stop"
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_sponsorship_bvr.py:69
+#, python-format
+msgid "Date stop must be after date start."
+msgstr "Date stop must be after date start."
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_hr_department
+msgid "Department"
+msgstr "Abteilung"
+
+#. module: report_compassion
+#: field:compassion.child,description:0 field:compassion.project,description:0
+msgid "Description"
+msgstr "Description"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,display_name:0
+#: field:report.report_compassion.3bvr_sponsorship,display_name:0
+#: field:report.report_compassion.bvr_sponsorship,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: report_compassion
+#: field:recurring.contract.group,format_ref:0
+msgid "Format ref"
+msgstr "Format ref"
+
+#. module: report_compassion
+#: model:ir.actions.report.xml,name:report_compassion.report_childpack_full
+msgid "Full Childpack"
+msgstr "Full Childpack"
+
+#. module: report_compassion
+#: view:website:report_compassion.childpack_small
+msgid "Full name:"
+msgstr "Name :"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,id:0
+#: field:report.report_compassion.3bvr_sponsorship,id:0
+#: field:report.report_compassion.bvr_sponsorship,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:130
+#, python-format
+msgid "ISR"
+msgstr "ESR"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:127
+#, python-format
+msgid "ISR for standing order"
+msgstr "ESR für Dauerauftrag"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,include_gifts:0
+msgid "Include gifts"
+msgstr "Include gifts"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,__last_update:0
+#: field:report.report_compassion.3bvr_sponsorship,__last_update:0
+#: field:report.report_compassion.bvr_sponsorship,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,write_uid:0
+#: field:report.report_compassion.3bvr_sponsorship,write_uid:0
+#: field:report.report_compassion.bvr_sponsorship,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,write_date:0
+#: field:report.report_compassion.3bvr_sponsorship,write_date:0
+#: field:report.report_compassion.bvr_sponsorship,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: report_compassion
+#: selection:print.sponsorship.bvr,period_selection:0
+msgid "Next year"
+msgstr "Next year"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:63
+#, python-format
+msgid "No open invoice found !"
+msgstr "No open invoice found !"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid "P.P."
+msgstr "P.P."
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,paper_format:0
+msgid "Paper format"
+msgstr "Paper format"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: report_compassion
+#: model:ir.actions.report.xml,name:report_compassion.report_partner_communication
+msgid "Partner Communication"
+msgstr "Partner Communication"
+
+#. module: report_compassion
+#: field:print.sponsorship.bvr,period_selection:0
+msgid "Period selection"
+msgstr "Period selection"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid "Poste CH SA"
+msgstr "Poste CH SA"
+
+#. module: report_compassion
+#: view:print.sponsorship.bvr:report_compassion.print_sponsorship
+msgid "Print"
+msgstr "Print"
+
+#. module: report_compassion
+#: field:compassion.child,project_title:0
+msgid "Project title"
+msgstr "Project title"
+
+#. module: report_compassion
+#: field:recurring.contract.group,scan_line:0
+msgid "Scan line"
+msgstr "Scan line"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/report_bvr_sponsorship.py:73
+#, python-format
+msgid "Selection not valid. No active sponsorship found."
+msgstr "Selection not valid. No active sponsorship found."
+
+#. module: report_compassion
+#: field:res.partner,short_address:0
+msgid "Short address"
+msgstr "Short address"
+
+#. module: report_compassion
+#: field:compassion.project,short_desc:0
+msgid "Short desc"
+msgstr "Short desc"
+
+#. module: report_compassion
+#: field:partner.communication.job,signature:0
+msgid "Signature"
+msgstr "Signature"
+
+#. module: report_compassion
+#: selection:print.sponsorship.bvr,paper_format:0
+msgid "Single BVR"
+msgstr "Single BVR"
+
+#. module: report_compassion
+#: model:ir.actions.report.xml,name:report_compassion.report_childpack_small
+msgid "Small Childpack"
+msgstr "Small Childpack"
+
+#. module: report_compassion
+#: model:ir.actions.report.xml,name:report_compassion.report_bvr_sponsorship
+msgid "Sponsorship Payment Slip"
+msgstr "Sponsorship Payment Slip"
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_sponsorship_bvr
+#: model:ir.actions.report.xml,name:report_compassion.report_3bvr_sponsorship
+msgid "Sponsorship Payment Slips"
+msgstr "Sponsorship Payment Slips"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:119
+#, python-format
+msgid "for"
+msgstr "für"
+
+#. module: report_compassion
+#: view:website:report_compassion.childpack_small
+msgid ""
+"mm;\n"
+"                    margin-top: 42mm;\n"
+"                    width: 120mm;\n"
+"                    height: 116mm;\n"
+"                    max-height: 116mm;\n"
+"                    font-size: x-small;\n"
+"                    column-count: 2;\n"
+"                    -webkit-column-count: 2; /* Chrome, Safari, Opera */\n"
+"                    -moz-column-count: 2; /* Firefox */\n"
+"                    column-gap: 10mm;\n"
+"                }\n"
+"                .desc .left {\n"
+"                    width: 55mm;\n"
+"                    max-width: 100%;\n"
+"                }\n"
+"                .desc .right {\n"
+"                    width: 55mm;\n"
+"                    max-width: 100%;\n"
+"                    position: absolute;\n"
+"                    left: 70mm;\n"
+"                    top: 0mm;\n"
+"                }\n"
+"                .desc table {\n"
+"                    width: 55mm;\n"
+"                }\n"
+"                .desc td:first-child {\n"
+"                    padding-right: 5mm;\n"
+"                }\n"
+"                h6 {\n"
+"                    font-size: small;\n"
+"                }\n"
+"                .title {\n"
+"                    position: absolute;\n"
+"                    margin-left:"
+msgstr ""
+"mm;\n"
+"                    margin-top: 42mm;\n"
+"                    width: 120mm;\n"
+"                    height: 116mm;\n"
+"                    max-height: 116mm;\n"
+"                    font-size: x-small;\n"
+"                    column-count: 2;\n"
+"                    -webkit-column-count: 2; /* Chrome, Safari, Opera */\n"
+"                    -moz-column-count: 2; /* Firefox */\n"
+"                    column-gap: 10mm;\n"
+"                }\n"
+"                .desc .left {\n"
+"                    width: 55mm;\n"
+"                    max-width: 100%;\n"
+"                }\n"
+"                .desc .right {\n"
+"                    width: 55mm;\n"
+"                    max-width: 100%;\n"
+"                    position: absolute;\n"
+"                    left: 70mm;\n"
+"                    top: 0mm;\n"
+"                }\n"
+"                .desc table {\n"
+"                    width: 55mm;\n"
+"                }\n"
+"                .desc td:first-child {\n"
+"                    padding-right: 5mm;\n"
+"                }\n"
+"                h6 {\n"
+"                    font-size: small;\n"
+"                }\n"
+"                .title {\n"
+"                    position: absolute;\n"
+"                    margin-left:"
+
+#. module: report_compassion
+#: view:website:report_compassion.childpack_small
+msgid ""
+"mm;\n"
+"                    margin-top: 55mm;\n"
+"                }\n"
+"                .boy {\n"
+"                    color: #02728e;\n"
+"                }\n"
+"                .girl {\n"
+"                    color: #af0ea2;\n"
+"                }\n"
+"                .photo {\n"
+"                    position: absolute;\n"
+"                    margin-left:"
+msgstr ""
+"mm;\n"
+"                    margin-top: 55mm;\n"
+"                }\n"
+"                .boy {\n"
+"                    color: #02728e;\n"
+"                }\n"
+"                .girl {\n"
+"                    color: #af0ea2;\n"
+"                }\n"
+"                .photo {\n"
+"                    position: absolute;\n"
+"                    margin-left:"
+
+#. module: report_compassion
+#: view:website:report_compassion.childpack_small
+msgid ""
+"mm;\n"
+"                    margin-top: 85mm;\n"
+"                    width: 70mm;\n"
+"                    height: 90mm;\n"
+"                }\n"
+"                .photo img {\n"
+"                    max-width: 100%;\n"
+"                    max-height: 100%;\n"
+"                    margin: auto;\n"
+"                }\n"
+"                .summary {\n"
+"                    position: absolute;\n"
+"                    margin-left:"
+msgstr ""
+"mm;\n"
+"                    margin-top: 85mm;\n"
+"                    width: 70mm;\n"
+"                    height: 90mm;\n"
+"                }\n"
+"                .photo img {\n"
+"                    max-width: 100%;\n"
+"                    max-height: 100%;\n"
+"                    margin: auto;\n"
+"                }\n"
+"                .summary {\n"
+"                    position: absolute;\n"
+"                    margin-left:"
+
+#. module: report_compassion
+#: view:website:report_compassion.childpack_small
+msgid ""
+"mm;\n"
+"                    margin-top: 95mm;\n"
+"                }\n"
+"                .summary_field {\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                /* Comma separated lists */\n"
+"                .childpack-full ul {\n"
+"                  display: inline;\n"
+"                  list-style: none;\n"
+"                }\n"
+"                li {\n"
+"                  display: inline;\n"
+"                }\n"
+"\n"
+"                li:after {\n"
+"                  content: \", \";\n"
+"                }\n"
+"\n"
+"                li:last-child:after {\n"
+"                  content: \"\";\n"
+"                }"
+msgstr ""
+"mm;\n"
+"                    margin-top: 95mm;\n"
+"                }\n"
+"                .summary_field {\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                /* Comma separated lists */\n"
+"                .childpack-full ul {\n"
+"                  display: inline;\n"
+"                  list-style: none;\n"
+"                }\n"
+"                li {\n"
+"                  display: inline;\n"
+"                }\n"
+"\n"
+"                li:after {\n"
+"                  content: \", \";\n"
+"                }\n"
+"\n"
+"                li:last-child:after {\n"
+"                  content: \"\";\n"
+"                }"
+
+#. module: report_compassion
+#: view:website:report_compassion.layout
+msgid "report_compassion.layout"
+msgstr "report_compassion.layout"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:133
+#, python-format
+msgid "sponsorships"
+msgstr "sponsorships"
