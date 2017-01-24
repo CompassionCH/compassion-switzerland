@@ -184,7 +184,7 @@
                     <br/>
                     <br/>
                     Not long ago, <!-- Keep that space -->
-                    % if sponsorships[0].parent_id:
+                    % if sponsorships[0].parent_id and sponsorships[0].parent_id.channel == 'direct':
                         we sent you a dossier from a child who still waits for a sponsor.
                     % else:
                         you decided to sponsor ${intro} through Compassion Switzerland. Thank you very much for your support towards children in need!

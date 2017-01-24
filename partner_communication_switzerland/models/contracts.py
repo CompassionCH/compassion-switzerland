@@ -81,7 +81,7 @@ class RecurringContract(models.Model):
         :return: None
         """
         partner_field = 'correspondant_id' if correspondent else 'partner_id'
-        partners = self.mapped(partner_field).filtered(lambda p: not p.opt_out)
+        partners = self.mapped(partner_field)
         for partner in partners:
             objects = self.filtered(
                 lambda c: c.correspondant_id.id == partner.id if correspondent
