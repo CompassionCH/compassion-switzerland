@@ -80,5 +80,17 @@
             <field name="header_spacing">3</field>
             <field name="dpi">150</field>
         </record>
+
+        <!-- Create empty report for child letters printing -->
+        <report id="report_b2s_letter"
+                model="compassion.child"
+                string="B2S Letter"
+                report_type="qweb-pdf"
+                name="report_compassion.b2s_letter"
+                menu="False"
+        />
+        <record id="report_b2s_letter" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="report.paperformat_euro"/>
+        </record>
     </data>
 </openerp>

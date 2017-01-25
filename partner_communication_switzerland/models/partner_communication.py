@@ -25,13 +25,33 @@ class PartnerCommunication(models.Model):
     def get_dossier_correspondent_attachments(self):
         return self._get_new_dossier_attachments(payment=False)
 
+    def get_correspondence_attachments(self):
+        """
+        Include PDF of letters only if less than 3 letters are sent,
+        or if the send_mode is to print the letters.
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        attachments = dict()
+        # Report is used for print configuration
+        report = 'report_compassion.b2s_letter'
+        letters = self.get_objects()
+        if not letters.get_multi_mode() or self.send_mode == 'physical':
+            for letter in self.get_objects():
+                attachments[letter.letter_image.name] = \
+                    [report, letter.letter_image.datas]
+        else:
+            # Attach directly a zip in the letters
+            letters.attach_zip()
+        return attachments
+
     def _get_new_dossier_attachments(self, correspondence=True, payment=True):
         """
         Returns pdfs for the New Dossier Communication, including:
         - Sponsorship payment slips (if payment is True)
         - Small Childpack
         - Sponsorship labels (if correspondence is True)
-        :return: dict {attachment_name: pdf_data}
+        :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
         attachments = dict()

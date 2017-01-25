@@ -3,57 +3,94 @@
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Roman Zoller, Emanuel Cino, Michael Sandoz
+#    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import base64
+from datetime import datetime
 
-from openerp import models, fields, api
+from dateutil.relativedelta import relativedelta
+
+from openerp import models, api, fields
 
 
 class Correspondence(models.Model):
     _inherit = 'correspondence'
 
+    communication_id = fields.Many2one(
+        'partner.communication.job', 'Communication')
     email_id = fields.Many2one(
         'mail.mail', 'E-mail', related='communication_id.email_id',
         store=True)
-    communication_id = fields.Many2one(
-        'partner.communication.job', 'Communication')
+    communication_state = fields.Selection(related='communication_id.state')
     sent_date = fields.Datetime(
         'Communication sent', related='communication_id.sent_date',
-        store=True)
-    email_read = fields.Boolean(compute='_compute_email_read', store=True)
+        store=True, track_visibility='onchange')
+    email_read = fields.Boolean()
+    letter_read = fields.Boolean()
+    zip_id = fields.Many2one('ir.attachment')
 
-    ##########################################################################
-    #                             FIELDS METHODS                             #
-    ##########################################################################
-    @api.multi
-    @api.depends('email_id.state')
-    def _compute_email_read(self):
+    def _compute_letter_format(self):
+        """ Letter is zip if it contains a zip attachment"""
         for letter in self:
-            email = letter.email_id
-            if email and email.state == 'received':
-                letter.email_read = True
+            if letter.zip_id:
+                letter.letter_format = 'zip'
             else:
-                letter.email_read = False
+                super(Correspondence, letter)._compute_letter_format()
 
-    ##########################################################################
-    #                             PUBLIC METHODS                             #
-    ##########################################################################
-    @api.one
-    def process_letter(self):
-        """ Method called when B2S letter is Published. This will send the
-            letter to the sponsor via Sendgrid e-mail.
+    def get_image(self):
+        """ Method for retrieving the image """
+        self.ensure_one()
+        if self.zip_id:
+            data = base64.b64decode(self.zip_id.datas)
+        else:
+            data = super(Correspondence, self).get_image()
+        return data
 
-            :param: download_image: Set to False to avoid downloading the
-                                    letter image from GMC and attaching it.
+    @api.multi
+    def attach_zip(self):
         """
-        composed_ok = super(Correspondence, self).process_letter()
-        partner = self.correspondant_id
-        if partner.email and partner.letter_delivery_preference == 'digital' \
-            and not\
-                self.email_id:
+        When a partner gets multiple letters, we make a zip and attach it
+        to the first letter, so that he can only download this zip.
+        :return: True
+        """
+        _zip = self.env['correspondence.download.wizard'].with_context(
+            active_model=self._name, active_ids=self.ids).create({})
+        self.mapped('zip_id').unlink()
+        letter_zip = self[0]
+        other_letters = self - letter_zip
+        base_url = self.env['ir.config_parameter'].get_param(
+            'web.external.url')
+        letter_zip.zip_id = self.env['ir.attachment'].create({
+            'datas': _zip.download_data,
+            'name': _zip.fname,
+            'res_id': letter_zip.id,
+            'res_model': self._name,
+            'datas_fname': _zip.fname,
+        })
+        letter_zip.read_url = "{}/b2s_image?id={}".format(
+            base_url, letter_zip.uuid)
+        other_letters.write({'read_url': False, 'zip_id': False})
+        return True
+
+    @api.multi
+    def send_communication(self):
+        """
+        Sends the communication to the partner. By default it won't do
+        anything if a communication is already attached to the letter.
+        Context can contain following settings :
+            - comm_vals : dictionary for communication values
+            - force_send : will send the communication regardless of the
+                           settings.
+            - overwrite : will force the communication creation even if one
+                          already exists.
+        :return:
+        """
+        self.ensure_one()
+        if not self.communication_id or self.env.context.get('overwrite'):
+            partner = self.correspondant_id
             final_letter = self.env.ref(
                 'sbc_compassion.correspondence_type_final')
             if final_letter in self.communication_type_ids:
@@ -65,58 +102,41 @@ class Correspondence(models.Model):
 
             # EXCEPTION FOR DEMAUREX : send to Delafontaine
             email = None
-            auto_send = self._can_auto_send() and composed_ok
+            auto_send = self._can_auto_send()
             if partner.ref == '1502623':
                 email = 'eric.delafontaine@aligro.ch'
             communication_type = self.env.ref(
                 'partner_communication_switzerland.child_letter_config')
+            comm_vals = {
+                'config_id': communication_type.id,
+                'partner_id': partner.id,
+                'object_ids': self.id,
+                'auto_send': auto_send,
+                'email_template_id': template.id,
+                'email_to': email,
+            }
+            if 'comm_vals' in self.env.context:
+                comm_vals.update(self.env.context['comm_vals'])
             self.communication_id = self.env[
-                'partner.communication.job'].create({
-                    'config_id': communication_type.id,
-                    'partner_id': partner.id,
-                    'object_ids': self.id,
-                    'auto_send': auto_send,
-                    'email_template_id': template.id,
-                    'email_to': email,
-                })
+                'partner.communication.job'].create(comm_vals)
+        if self.env.context.get('force_send') and \
+                self.communication_id.state != 'done':
+            self.communication_id.send()
+        return True
 
-    def get_image(self, user=None):
-        """ Mark the e-mail as read. """
-        data = super(Correspondence, self).get_image(user)
-        # User is None if the sponsor called the service.
-        if self.email_id and self.email_id.state == 'sent' and user is None:
-            self.email_id.state = 'received'
-        return data
-
-    ##########################################################################
-    #                             PRIVATE METHODS                            #
-    ##########################################################################
-    def _can_auto_send(self):
-        """ Tells if we can automatically send the letter by e-mail or should
-        require manual validation before.
+    def get_multi_mode(self):
         """
-        self.ensure_one()
-        partner_langs = self.supporter_languages_ids
-        common = partner_langs & self.beneficiary_language_ids
-        if common:
-            types = self.communication_type_ids.mapped('name')
-            valid = (
-                self.sponsorship_id.state == 'active' and
-                'Final Letter' not in types and
-                self.translation_language_id in partner_langs and
-                self.correspondant_id.ref != '1502623'  # Demaurex
-            )
-        else:
-            # TODO Until new translation platform is working: we have
-            # to manually verify letters.
-            # Check that the translation is filled
-            # valid = self.page_ids.filtered('translated_text') and \
-            #     self.translation_language_id in partner_langs
+        Tells if we should send the communication with a zip download link
+        or with each pdf attached
+        :return: true if multi mode should be used
+        """
+        return len(self) > 3
 
-            # TODO Activate when most letters are hand-translated
-            # self.b2s_layout_id = self.env.ref('sbc_compassion.b2s_l6')
-            # self.attach_original()
-            # self.compose_letter_image()
-
-            valid = False
-        return valid
+    @api.model
+    def _needaction_domain_get(self):
+        ten_days_ago = datetime.today() - relativedelta(days=10)
+        domain = [('direction', '=', 'Beneficiary To Supporter'),
+                  ('state', '=', 'Published to Global Partner'),
+                  ('letter_read', '=', False),
+                  ('sent_date', '<', fields.Date.to_string(ten_days_ago))]
+        return domain

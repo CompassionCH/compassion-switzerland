@@ -163,6 +163,19 @@ class RecurringContract(models.Model):
         birthday.send_communication(config)
         logger.info("Sponsorship Planned Communications finished!")
 
+        # B2S Letters that must be printed (if not read after 10 days)
+        ten_days_ago = today - relativedelta(days=10)
+        letters = self.env['correspondence'].search([
+            ('state', '=', 'Published to Global Partner'),
+            ('sent_date', '<', fields.Date.to_string(ten_days_ago)),
+            ('letter_read', '=', False)
+        ])
+        letters.with_context(overwrite=True, comm_vals={
+            'send_mode': 'physical',
+            'auto_send': False,
+        }).send_communication()
+        letters.write({'letter_read': True})
+
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################
