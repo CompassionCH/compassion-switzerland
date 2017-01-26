@@ -138,7 +138,7 @@ class Correspondence(models.Model):
         comm_vals = {
             'partner_id': partner.id,
             'config_id': config_id,
-            'object_id': self.ids,
+            'object_ids': self.ids,
             'auto_send': auto_send
         }
         # EXCEPTION FOR DEMAUREX : send to Delafontaine

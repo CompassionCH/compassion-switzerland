@@ -150,31 +150,34 @@ class RecurringContract(models.Model):
         # Birthday Reminder
         logger.info("....Creating Birthday Reminder Communications")
         today = datetime.now()
-        in_three_month = (today + relativedelta(months=3)).replace(
-            day=today.day)
-        birthday = self.search([
-            ('child_id.birthdate', 'like',
-             in_three_month.strftime("%m-%d")),
-            ('correspondant_id.birthday_reminder', '=', True),
-            ('state', '=', 'active'),
-            ('type', 'like', 'S')
-        ]).filtered(lambda c: not c.child_id.project_id.hold_s2b_letters)
-        config = self.env.ref(module + 'planned_birthday_reminder')
-        birthday.send_communication(config)
-        logger.info("Sponsorship Planned Communications finished!")
+        # in_two_month = (today + relativedelta(months=2)).replace(
+        #     day=today.day)
+        # birthday = self.search([
+        #     ('child_id.birthdate', 'like',
+        #      in_two_month.strftime("%m-%d")),
+        #     ('correspondant_id.birthday_reminder', '=', True),
+        #     ('state', '=', 'active'),
+        #     ('type', 'like', 'S')
+        # ]).filtered(lambda c: not c.child_id.project_id.hold_s2b_letters)
+        # config = self.env.ref(module + 'planned_birthday_reminder')
+        # TODO Reactivate in March
+        # birthday.send_communication(config)
 
         # B2S Letters that must be printed (if not read after 10 days)
+        logger.info("....Creating B2S Printed Communications")
         ten_days_ago = today - relativedelta(days=10)
         letters = self.env['correspondence'].search([
             ('state', '=', 'Published to Global Partner'),
+            '|',
             ('sent_date', '<', fields.Date.to_string(ten_days_ago)),
+            ('sent_date', '=', False),
             ('letter_read', '=', False)
         ])
         letters.with_context(overwrite=True, comm_vals={
             'send_mode': 'physical',
             'auto_send': False,
         }).send_communication()
-        letters.write({'letter_read': True})
+        logger.info("Sponsorship Planned Communications finished!")
 
     ##########################################################################
     #                            WORKFLOW METHODS                            #
