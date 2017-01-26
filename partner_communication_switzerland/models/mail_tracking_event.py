@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from openerp import models, api, fields
+from openerp import models, api
 
 
 class MailTrackingEvent(models.Model):
@@ -20,10 +20,11 @@ class MailTrackingEvent(models.Model):
         """ Mark correspondence as read. """
         correspondence = self.env['correspondence'].search([
             ('email_id', '=', tracking_email.mail_id.id),
-            ('read_count', '=', 0)
+            ('email_read', '=', False)
         ])
         correspondence.write({
-            'last_read': fields.Datetime.now()
+            'email_read': True,
+            'letter_read': True
         })
         return super(MailTrackingEvent, self).process_open(
             tracking_email, metadata)

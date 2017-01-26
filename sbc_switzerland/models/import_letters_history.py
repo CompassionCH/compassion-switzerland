@@ -512,8 +512,11 @@ class ImportLettersHistory(models.Model):
         child_id = None
         if child_code:
             # Retrieve child code and find corresponding id
+            child_field = 'local_id'
+            if len(child_code) == 9:
+                child_field = 'code'
             model_child = self.env['compassion.child'].search(
-                [('local_id', '=', child_code), ('state', '=', 'P')])
+                [(child_field, '=', child_code), ('state', '=', 'P')])
 
             child_id = model_child.id
         if not child_id:

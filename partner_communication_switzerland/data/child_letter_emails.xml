@@ -13,21 +13,23 @@
                     % set letter = object.get_objects()
                     % set child = letter.mapped('child_id')
                     % set firstname = child.get_list('firstname', 3, 'your children')
-                    % set s = 's' if len(child) > 1 else ''
+                    % set s = '' if len(child) == 1 else 's'
                 </div>
                 <p>
                     Herewith, you will find the last sent letter from ${firstname}!
                     <br/>
                     <br/>
-                    Download your letter${s} here:
-                    <ul>
-                        % for l in letter:
-                        <li>
-                            <a href='${l.read_url}'>${l.read_url}</a>
-                        </li>
-                        % endfor
-                    </ul>
-                    <br/>
+                    % if object.send_mode == 'digital' and letter.get_multi_mode():
+                        Download your letter${s} here:
+                        <ul>
+                            % for l in letter.filtered('read_url'):
+                            <li>
+                                <a href='${l.read_url}'>${l.read_url}</a>
+                            </li>
+                            % endfor
+                        </ul>
+                        <br/>
+                    % endif
                     The sponsorship is terminated but we encourage you to continue praying for ${firstname} protection and blessing.
                     <br/>
                     <br/>
@@ -55,20 +57,22 @@
                 <div>
                     % set letter = object.get_objects()
                     % set child = letter.mapped('child_id')
-                    % set s = 's' if len(child) > 1 else ''
+                    % set s = '' if len(child) == 1 else 's'
                 </div>
                 <p>
                     We are pleased to send you a new letter from ${child.get('your sponsored child') ${child.get_list('firstname', 3, child.get_number())}!
                     <br/>
-                    Download your letter${s} here:
-                    <ul>
-                        % for l in letter:
-                        <li>
-                            <a href='${l.read_url}'>${l.read_url}</a>
-                        </li>
-                        % endfor
-                    </ul>
-                    <br/>
+                    % if object.send_mode == 'digital' and letter.get_multi_mode():
+                        Download your letters here:
+                        <ul>
+                            % for l in letter.filtered('read_url'):
+                            <li>
+                                <a href='${l.read_url}'>${l.read_url}</a>
+                            </li>
+                            % endfor
+                        </ul>
+                        <br/>
+                    % endif
                     ${object.partner_id.send_original and 'PS: As you requested, we will send you the original letter' + s + '. Please keep in mind it can take several weeks until we receive it.' or ''}
                 </p>
             </field>

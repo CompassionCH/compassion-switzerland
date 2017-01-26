@@ -40,7 +40,6 @@ class Correspondence(models.Model):
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
-
     @api.model
     def create(self, vals):
         """ Create a message for sending the CommKit after be translated on
@@ -78,7 +77,8 @@ class Correspondence(models.Model):
             if (letter.beneficiary_language_ids &
                     letter.supporter_languages_ids) or \
                     letter.has_valid_language:
-                super(Correspondence, letter).process_letter()
+                if super(Correspondence, letter).process_letter():
+                    letter.send_communication()
             else:
                 letter.download_attach_letter_image()
                 letter.send_local_translate()
@@ -215,11 +215,42 @@ class Correspondence(models.Model):
         else:
             # Recompose the letter image and process letter
             self.letter_image.unlink()
-            super(Correspondence, self).process_letter()
+            if super(Correspondence, self).process_letter():
+                self.send_communication()
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
+    def _can_auto_send(self):
+        """ Tells if we can automatically send the letter by e-mail or should
+        require manual validation before.
+        """
+        self.ensure_one()
+        partner_langs = self.supporter_languages_ids
+        common = partner_langs & self.beneficiary_language_ids
+        if common:
+            types = self.communication_type_ids.mapped('name')
+            valid = (
+                self.sponsorship_id.state == 'active' and
+                'Final Letter' not in types and
+                self.translation_language_id in partner_langs and
+                self.correspondant_id.ref != '1502623'  # Demaurex
+            )
+        else:
+            # TODO Until new translation platform is working: we have
+            # to manually verify letters.
+            # Check that the translation is filled
+            # valid = self.page_ids.filtered('translated_text') and \
+            #     self.translation_language_id in partner_langs
+
+            # TODO Activate when most letters are hand-translated
+            # self.b2s_layout_id = self.env.ref('sbc_compassion.b2s_l6')
+            # self.attach_original()
+            # self.compose_letter_image()
+
+            valid = False
+        return valid
+
     def _get_translation_langs(self):
         """
         Finds the source_language et destination_language suited for

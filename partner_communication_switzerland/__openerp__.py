@@ -48,7 +48,6 @@
         'data/default_communication.xml',
         'data/ir.advanced.translation.csv',
         'report/child_picture.xml',
-        'views/sbc_email_view.xml',
         'views/communication_job_view.xml',
         'views/download_child_pictures_view.xml',
     ],
