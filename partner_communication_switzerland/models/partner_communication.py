@@ -10,7 +10,8 @@
 ##############################################################################
 import base64
 
-from openerp import models, _
+from openerp import api, models, _
+from openerp.exceptions import MissingError
 
 
 class PartnerCommunication(models.Model):
@@ -38,12 +39,34 @@ class PartnerCommunication(models.Model):
         letters = self.get_objects()
         if not letters.get_multi_mode() or self.send_mode == 'physical':
             for letter in self.get_objects():
-                attachments[letter.letter_image.name] = \
-                    [report, letter.letter_image.datas]
+                try:
+                    attachments[letter.letter_image.name] = [
+                        report, letter.letter_image.datas]
+                except MissingError:
+                    self.send_mode = False
+                    self.auto_send = False
+                    self.message_post(
+                        "The letter image is missing!", "Missing letter")
+                    continue
         else:
             # Attach directly a zip in the letters
             letters.attach_zip()
         return attachments
+
+    @api.multi
+    def send(self):
+        """
+        Mark correspondence as read when printed.
+        :return: True
+        """
+        super(PartnerCommunication, self).send()
+        b2s_printed = self.filtered(
+            lambda c: c.config_id.model == 'correspondence'
+            and c.send_mode == 'physical' and c.state == 'done')
+        letters = b2s_printed.get_objects()
+        if letters:
+            letters.write({'letter_read': True})
+        return True
 
     def _get_new_dossier_attachments(self, correspondence=True, payment=True):
         """

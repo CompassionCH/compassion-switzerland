@@ -40,7 +40,9 @@
                     We are at your service for any questions or comments, by calling 0800 784 773 or by email at <a href="mailto:info@compassion.ch">info@compassion.ch</a>
                     <br/>
                     <br/>
-                    Yours Sincerely
+                    % if object.partner_id.send_original:
+                        PS: As you requested, we will send you the original letter${s}. Please keep in mind it can take several weeks until we receive it.
+                    % endif
                 </p>
             </field>
         </record>
@@ -52,7 +54,7 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">You received a letter from ${object.get_objects().mapped('child_id').get_list('firstname', 3, child.get_number())}!</field>
+            <field name="subject">You received a letter from ${object.get_objects().mapped('child_id').get_list('firstname', 3, 'your children')}!</field>
             <field name="body_html" type="html">
                 <div>
                     % set letter = object.get_objects()
@@ -60,7 +62,7 @@
                     % set s = '' if len(child) == 1 else 's'
                 </div>
                 <p>
-                    We are pleased to send you a new letter from ${child.get('your sponsored child') ${child.get_list('firstname', 3, child.get_number())}!
+                    We are pleased to send you a new letter from ${child.get_list('firstname', 3, child.get_number())}!
                     <br/>
                     % if object.send_mode == 'digital' and letter.get_multi_mode():
                         Download your letters here:
@@ -73,7 +75,9 @@
                         </ul>
                         <br/>
                     % endif
-                    ${object.partner_id.send_original and 'PS: As you requested, we will send you the original letter' + s + '. Please keep in mind it can take several weeks until we receive it.' or ''}
+                    % if object.partner_id.send_original:
+                        PS: As you requested, we will send you the original letter${s}. Please keep in mind it can take several weeks until we receive it.
+                    % endif
                 </p>
             </field>
         </record>
