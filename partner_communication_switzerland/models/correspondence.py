@@ -86,42 +86,33 @@ class Correspondence(models.Model):
                            settings.
             - overwrite : will force the communication creation even if one
                           already exists.
-        :return:
+        :return: True
         """
-        self.ensure_one()
-        if not self.communication_id or self.env.context.get('overwrite'):
-            partner = self.correspondant_id
-            final_letter = self.env.ref(
-                'sbc_compassion.correspondence_type_final')
-            if final_letter in self.communication_type_ids:
-                template = self.env.ref(
-                    'partner_communication_switzerland.final_letter')
-            else:
-                template = self.env.ref(
-                    'partner_communication_switzerland.new_letter')
+        partners = self.mapped('correspondant_id')
+        final_letter = self.env.ref(
+            'sbc_compassion.correspondence_type_final')
+        final_template = self.env.ref(
+            'partner_communication_switzerland.child_letter_final_config')
+        new_template = self.env.ref(
+            'partner_communication_switzerland.child_letter_config')
 
-            # EXCEPTION FOR DEMAUREX : send to Delafontaine
-            email = None
-            auto_send = self._can_auto_send()
-            if partner.ref == '1502623':
-                email = 'eric.delafontaine@aligro.ch'
-            communication_type = self.env.ref(
-                'partner_communication_switzerland.child_letter_config')
-            comm_vals = {
-                'config_id': communication_type.id,
-                'partner_id': partner.id,
-                'object_ids': self.id,
-                'auto_send': auto_send,
-                'email_template_id': template.id,
-                'email_to': email,
-            }
-            if 'comm_vals' in self.env.context:
-                comm_vals.update(self.env.context['comm_vals'])
-            self.communication_id = self.env[
-                'partner.communication.job'].create(comm_vals)
-        if self.env.context.get('force_send') and \
-                self.communication_id.state != 'done':
-            self.communication_id.send()
+        for partner in partners:
+            letters = self.filtered(lambda l: l.correspondant_id == partner)
+            no_comm = letters.filtered(lambda l: not l.communication_id)
+            to_generate = letters if self.env.context.get(
+                'overwrite') else no_comm
+
+            final_letters = to_generate.filtered(
+                lambda l: final_letter in l.communication_type_ids)
+            new_letters = to_generate - final_letters
+
+            final_letters._generate_communication(final_template.id)
+            new_letters._generate_communication(new_template.id)
+
+        if self.env.context.get('force_send'):
+            self.mapped('communication_id').filtered(
+                lambda c: c.state != 'done').send()
+
         return True
 
     def get_multi_mode(self):
@@ -131,6 +122,36 @@ class Correspondence(models.Model):
         :return: true if multi mode should be used
         """
         return len(self) > 3
+
+    def _generate_communication(self, config_id):
+        """
+        Generates the communication for given letters.
+        :param config_id: partner.communication.config id
+        :return: True
+        """
+        if not self:
+            return True
+
+        partner = self.mapped('correspondant_id')
+        auto_send = [l._can_auto_send() for l in self]
+        auto_send = reduce(lambda l1, l2: l1 and l2, auto_send)
+        comm_vals = {
+            'partner_id': partner.id,
+            'config_id': config_id,
+            'object_id': self.ids,
+            'auto_send': auto_send
+        }
+        # EXCEPTION FOR DEMAUREX : send to Delafontaine
+        if partner.ref == '1502623':
+            comm_vals['email_to'] = 'eric.delafontaine@aligro.ch'
+
+        if 'comm_vals' in self.env.context:
+            comm_vals.update(self.env.context['comm_vals'])
+
+        comm_obj = self.env['partner.communication.job']
+        return self.write({
+            'communication_id': comm_obj.create(comm_vals).id
+        })
 
     @api.model
     def _needaction_domain_get(self):
