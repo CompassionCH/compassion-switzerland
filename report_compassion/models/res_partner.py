@@ -33,7 +33,9 @@ class ResPartner(models.Model):
         for partner in self:
             if not partner.is_company:
                 res = partner.title.shortcut + ' '
-                res += partner.firstname + ' ' + partner.lastname + '<br/>'
+                if partner.firstname:
+                    res += partner.firstname + ' '
+                res += partner.lastname + '<br/>'
             else:
                 res = partner.name + '<br/>'
             res += partner.contact_address

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-26 13:48+0100\n"
-"PO-Revision-Date: 2017-01-26 13:49+0100\n"
+"PO-Revision-Date: 2017-01-27 08:24+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -34,12 +34,14 @@ msgid ""
 "1 LSV or Direct Debit authorization form to fill in if you don't already "
 "have done it!"
 msgstr ""
+"1 LSV o addebitto diretto vi preghiamo di riempire il formulario per "
+"l'addebito diretto se non l'avete già fatto"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/contracts.py:56
 #, python-format
 msgid "1 payment slip for the annual sponsorship payment"
-msgstr ""
+msgstr "1 BVR per il sostegno annuale"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/contracts.py:44
@@ -47,7 +49,7 @@ msgstr ""
 msgid ""
 "1 payment slip to set up a standing order (monthly payment of the "
 "sponsorship)"
-msgstr ""
+msgstr "1 BVR per l'ordine permanente (pagamento mensile per il sostegno) "
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_anniversary_10
@@ -2384,11 +2386,15 @@ msgstr "Birthday paid"
 #: model:email.template,subject:partner_communication_switzerland.email_child_transfer
 msgid "Change of reference for your child ${object.get_objects().firstname}"
 msgstr ""
+"Cambiamento del codice di referenza del  vostro bambino ${object."
+"get_objects().firstname}"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_hold_removal
 msgid "Child ${object.get_objects().child_id.local_id} removal notification"
 msgstr ""
+"Bambino ${object.get_objects().child_id.local_id} removal notificationNuova "
+"proposta di sostegno"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_compassion_child_ble
@@ -2630,6 +2636,8 @@ msgid ""
 "New notes for ${object.get_objects().get_list('firstname', 3, 'your "
 "children')}"
 msgstr ""
+"Delle novità di ${object.get_objects().get_list('firstname', 3, 'vostri "
+"figlioli')}"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_biennial
@@ -2637,11 +2645,13 @@ msgid ""
 "New photo for ${object.get_objects().get_list('firstname', 3, 'your "
 "children')}"
 msgstr ""
+"Nuova foto per ${object.get_objects().get_list('firstname', 3, 'vostri "
+"figlioli')}"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_sub_dossier
 msgid "New sponsorship proposal"
-msgstr ""
+msgstr "Nuova proposta di sostegno"
 
 #. module: partner_communication_switzerland
 #: field:compassion.hold,no_money_extension_duration:0
@@ -2690,7 +2700,7 @@ msgstr "Partner"
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_waiting_reminder_1
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_waiting_reminder_2
 msgid "Payment reminder"
-msgstr ""
+msgstr "Richiamo pagamento"
 
 #. module: partner_communication_switzerland
 #: field:recurring.contract,payment_type_attachment:0
@@ -2742,22 +2752,22 @@ msgstr "Informazione riguardo ${object.get_objects().old_firstname}"
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_waiting_reminder_3
 msgid "Sponsorship Cancellation"
-msgstr ""
+msgstr "Annullazione del sostegno"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_completion
 msgid "Sponsorship Completion"
-msgstr ""
+msgstr "Completamento del percorso"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_child_unplanned_exit
 msgid "Sponsorship cancellation"
-msgstr ""
+msgstr "Annullazione del sostegno"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_child_planned_exit
 msgid "Sponsorship completion"
-msgstr ""
+msgstr "Completamento del percorso"
 
 #. module: partner_communication_switzerland
 #: field:correspondence,communication_state:0
@@ -2786,7 +2796,7 @@ msgstr ""
 msgid ""
 "We will continue to withdraw the amount for the sponsorship from your "
 "account."
-msgstr ""
+msgstr "Continueremo a prelevare la somma per il sostegno dal vostro conto"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_birthday_reminder
@@ -2806,12 +2816,14 @@ msgstr "You can download an archive file of child pictures to order from here."
 msgid ""
 "You received a letter from ${object.get_objects().mapped('child_id')."
 "get_list('firstname', 3, 'your children')}!"
-msgstr ""
+msgstr "Una nuova lettera del vostro bambino è arrivata!"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_child_reinstatement
 msgid "Your child ${object.get_objects().firstname} is back in project."
 msgstr ""
+"Il vostro bambino ${object.get_objects().firstname} è tornato al centro "
+"Compassion"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_child_transition
@@ -2819,6 +2831,8 @@ msgid ""
 "Your child ${object.get_objects().firstname} transitioned to ${object."
 "get_objects().cdsp_type} Sponsorship"
 msgstr ""
+"Il vostro bambino ${object.get_objects().firstname} transitioned to ${object."
+"get_objects().cdsp_type} Sostegno "
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_project_lifecycle
@@ -2830,12 +2844,12 @@ msgstr "Your children's icp had an event."
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_dossier_correspondent
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_dossier_payer
 msgid "Your new sponsorship"
-msgstr ""
+msgstr "Il vostro nuovo sostegno"
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_no_sub
 msgid "Your request to end the sponsorship program"
-msgstr ""
+msgstr "La vostra richiesta per uscire dal programma di sostegno"
 
 #. module: partner_communication_switzerland
 #: field:correspondence,zip_id:0
@@ -2858,49 +2872,49 @@ msgstr "child_photos.zip"
 #: code:addons/partner_communication_switzerland/models/child.py:182
 #, python-format
 msgid "eight"
-msgstr ""
+msgstr "otto"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:179
 #, python-format
 msgid "five"
-msgstr ""
+msgstr "cinque"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:178
 #, python-format
 msgid "four"
-msgstr ""
+msgstr "quattro"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:183
 #, python-format
 msgid "nine"
-msgstr ""
+msgstr "nove"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:175
 #, python-format
 msgid "one"
-msgstr ""
+msgstr "uno"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/contracts.py:59
 #, python-format
 msgid "payment slips for the sponsorship payment"
-msgstr ""
+msgstr "BVR per il sostegno"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:181
 #, python-format
 msgid "seven"
-msgstr ""
+msgstr "sette"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:180
 #, python-format
 msgid "six"
-msgstr ""
+msgstr "sei"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:130
@@ -2918,19 +2932,19 @@ msgstr "bollettini di pagamento.pdf"
 #: code:addons/partner_communication_switzerland/models/child.py:184
 #, python-format
 msgid "ten"
-msgstr ""
+msgstr "dieci"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:177
 #, python-format
 msgid "three"
-msgstr ""
+msgstr "tre"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:176
 #, python-format
 msgid "two"
-msgstr ""
+msgstr "due"
 
 #~ msgid ""
 #~ "<div>\n"
