@@ -14,7 +14,7 @@
 
         <record model="workflow.transition" id="t0_demaurex">
             <field name="act_from" ref="sponsorship_tracking.act_draft" />
-            <field name="act_to" ref="sponsorship_tracking.act_waiting_welcome" />
+            <field name="act_to" ref="sponsorship_tracking.act_active" />
             <field name="signal">contract_validated</field>
             <field name="condition">partner_id.ref == '1502623'</field>
         </record>

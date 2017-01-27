@@ -18,9 +18,9 @@
             </field>
         </record>
 
-        <act_window id="action_child_on_typo3_wizard"
+        <act_window id="action_child_on_wordpress_wizard"
                     multi="True"
-                    name="On internet"
+                    name="On Wordpress"
                     key2="client_action_multi"
                     src_model="compassion.child"
                     res_model="child.on.wordpress.wizard"

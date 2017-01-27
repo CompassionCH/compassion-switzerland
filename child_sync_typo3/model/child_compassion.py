@@ -22,7 +22,6 @@ from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from sync_typo3 import Sync_typo3
 from datetime import datetime, timedelta
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -54,14 +53,15 @@ class compassion_child(orm.Model):
         for child in self.browse(cr, uid, ids, context):
             project_obj = self.pool.get('compassion.project')
             project = project_obj.get_project_from_typo3(
-                cr, uid, child.project_id.code)
+                cr, uid, child.project_id.icp_id)
 
             if not project:
                 project = project_obj.project_add_to_typo3(
                     cr, uid, [child.project_id.id], context)[0]
 
             child_gender = 1 if child.gender == 'M' else 2
-            child_image = child.code + "_f.jpg," + child.code + "_h.jpg"
+            child_image = \
+                child.local_id + "_f.jpg," + child.local_id + "_h.jpg"
 
             today_ts = calendar.timegm(
                 datetime.today().utctimetuple())
@@ -94,30 +94,30 @@ class compassion_child(orm.Model):
                 "values ('{0}','{1}','{2}','{3}','{4}','{5}',"
                 "        '{6}','{7}','{8}','{9}','{10}','{11}',"
                 "        '{12}',{13});".format(
-                    child.code, child.name, child.firstname,
+                    child.local_id, child.name, child.firstname,
                     child_gender, child_desc_de,
                     today_ts, today_ts, today_ts, today_ts + consign_ts,
                     0, child_image, child_birth_date, child_unsponsored_date,
                     project), 'upd')
 
-            parent_id = self._get_typo3_child_id(cr, uid, child.code)
+            parent_id = self._get_typo3_child_id(cr, uid, child.local_id)
 
             # French description
-            query = "insert into " \
-                "tx_drechildpoolmanagement_domain_model_children" \
-                "(child_key,child_name_full,child_name_personal," \
-                " child_gender,child_biography,consignment_date,tstamp," \
-                " crdate,consignment_expiry_date,l10n_parent,image," \
-                " child_birth_date,child_unsponsored_since_date," \
-                " project,sys_language_uid) " \
-                "values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}'," \
-                "        '{7}','{8}','{9}','{10}'," \
-                "        '{11}','{12}',{13},1);".format(
-                    child.code, child.name, child.firstname,
-                    child_gender, child_desc_fr,
-                    today_ts, today_ts, today_ts, today_ts + consign_ts,
-                    parent_id, child_image, child_birth_date,
-                    child_unsponsored_date, project)
+            query = ("insert into "
+                     "tx_drechildpoolmanagement_domain_model_children"
+                     "(child_key,child_name_full,child_name_personal,"
+                     " child_gender,child_biography,consignment_date,tstamp,"
+                     " crdate,consignment_expiry_date,l10n_parent,image,"
+                     " child_birth_date,child_unsponsored_since_date,"
+                     " project,sys_language_uid) "
+                     "values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}',"
+                     "'{7}','{8}','{9}','{10}',"
+                     "'{11}','{12}',{13},1);").format(
+                child.local_id, child.name, child.firstname,
+                child_gender, child_desc_fr,
+                today_ts, today_ts, today_ts, today_ts + consign_ts,
+                parent_id, child_image, child_birth_date,
+                child_unsponsored_date, project)
 
             # Assign child to childpool
             max_sorting = int(json.loads(Sync_typo3.request_to_typo3(
@@ -125,9 +125,9 @@ class compassion_child(orm.Model):
                 "tx_drechildpoolmanagement_childpools_children_mm",
                 'sel'))[0]['max'])
             query += "insert into " \
-                "tx_drechildpoolmanagement_childpools_children_mm" \
-                "(uid_foreign,sorting) " \
-                "values ({0},{1})".format(parent_id, max_sorting)
+                     "tx_drechildpoolmanagement_childpools_children_mm" \
+                     "(uid_foreign,sorting) " \
+                     "values ({0},{1})".format(parent_id, max_sorting)
 
             Sync_typo3.request_to_typo3(query, 'upd')
 
@@ -140,27 +140,25 @@ class compassion_child(orm.Model):
 
         for child in self.browse(cr, uid, ids, context):
             try:
-                child_uid = self._get_typo3_child_id(cr, uid, child.code)
+                child_uid = self._get_typo3_child_id(cr, uid, child.local_id)
                 Sync_typo3.request_to_typo3(
                     "delete from tx_drechildpoolmanagement_childpools_"
                     "children_mm where uid_foreign={0};"
                     "delete from tx_drechildpoolmanagement_domain_model_"
                     "children where child_key='{1}';".format(
-                        child_uid, child.code), 'upd')
+                        child_uid, child.local_id), 'upd')
             except orm.except_orm:
-                logger.error("Child %s is not on internet" % child.code)
-            state = 'R' if child.has_been_sponsored else 'N'
-            child.write({'state': state})
-            child_codes.append(child.code)
+                logger.error("Child %s is not on internet" % child.local_id)
+            child_codes.append(child.local_id)
 
+        self.write(cr, uid, ids, {'state': 'N'})
         Sync_typo3.delete_child_photos(child_codes)
         return Sync_typo3.sync_typo3_index()
 
     def _add_child_pictures_to_typo3(self, cr, uid, ids, context=None):
         for child in self.browse(cr, uid, ids, context):
-
-            head_image = child.code + "_h.jpg"
-            full_image = child.code + "_f.jpg"
+            head_image = child.local_id + "_h.jpg"
+            full_image = child.local_id + "_f.jpg"
 
             file_head = open(head_image, "wb")
             file_head.write(base64.b64decode(child.portrait))
@@ -186,21 +184,26 @@ class compassion_child(orm.Model):
         return super(compassion_child, self).child_sponsored(
             cr, uid, ids, context)
 
-    def depart(self, cr, uid, ids, args, context):
-        """ add child remove from typo3 (formerly child_depart_wizard.py) """
-        child = self.browse(cr, uid, args.get('object_id'), context)
-        res = True
-        if child.state == 'I':
-            res = child.child_remove_from_typo3()
+    def child_released(self, cr, uid, ids, context):
+        """ remove from typo3 """
+        children = self.browse(cr, uid, ids, context)
+        for child in children:
+            if child.state == 'I':
+                child.child_remove_from_typo3()
 
-        res = super(compassion_child, self).depart(
-            cr, uid, ids, args, context) and res
+        super(compassion_child, self).child_released(
+            cr, uid, ids, context)
 
-        return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
+        return True
 
-    def deallocate(self, cr, uid, ids, args, context=None):
-        """ Remove from typo3 when child is deallocated """
-        res = self.child_remove_from_typo3(cr, uid, args.get('object_id'),
-                                           context)
-        super(compassion_child, self).deallocate(cr, uid, ids, args, context)
-        return res or Sync_typo3.typo3_index_error(cr, uid, self, context)
+    def child_departed(self, cr, uid, ids, context):
+        """ remove from typo3 """
+        children = self.browse(cr, uid, ids, context)
+        for child in children:
+            if child.state == 'I':
+                child.child_remove_from_typo3()
+
+        super(compassion_child, self).child_departed(
+            cr, uid, ids, context)
+
+        return True

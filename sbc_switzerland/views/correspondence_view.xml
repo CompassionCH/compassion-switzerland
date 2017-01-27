@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Add Emails entry in Sponsorship Settings-->
+        <menuitem name="Emails" id="menu_mail_mail" parent="child_compassion.menu_communication_config" action="mail.action_view_mail_mail" sequence="2"/>
+
+        <!-- Change tree view of e-mails -->
+        <record model="ir.ui.view" id="view_mail_tree">
+            <field name="name">mail.mail.tree.compassion</field>
+            <field name="model">mail.mail</field>
+            <field name="inherit_id" ref="mail.view_mail_tree"/>
+            <field name="arch" type="xml">
+                <tree string="Emails" position="attributes">
+                    <attribute name="colors">grey:state in ('received', 'cancel');blue:state=='outgoing';red:state=='exception';black:state=='sent'</attribute>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Add buttons and communication fields in correspondence views -->
+        <record id="view_correspondence_form_email" model="ir.ui.view">
+            <field name="name">correspondence.form.email</field>
+            <field name="model">correspondence</field>
+            <field name="inherit_id" ref="sbc_compassion.view_correspondence_form" />
+            <field name="arch" type="xml">
+            	<button name="compose_letter_button" position="before">
+                    <button name="send_communication" type="object" string="Send Communication" class="oe_highlight"
+                            attrs="{'invisible': ['|', ('state', '!=', 'Published to Global Partner'), ('communication_state', '=', 'done')]}"
+                            context="{'force_send': True}"
+                    />
+                 	<button name="remove_local_translate" type="object" string="Remove from translation" class="oe_highlight"
+                    		states="Global Partner translation queue"/>
+                    <button name="send_local_translate" type="object" string="To Translate" class="oe_highlight"
+                            states="Published to Global Partner,Received in the system"/>
+                </button>
+
+                <field name="rework_comments" position="after">
+                    <field name="communication_id" />
+                    <field name="communication_state" invisible="1"/>
+                    <field name="sent_date" />
+                    <field name="email_read" />
+                    <field name="letter_read" />
+                </field>
+            </field>
+        </record>
+
+        <record id="view_correspondence_tree_email" model="ir.ui.view">
+            <field name="name">correspondence.tree.email</field>
+            <field name="model">correspondence</field>
+            <field name="inherit_id" ref="sbc_compassion.view_correspondence_tree" />
+            <field name="arch" type="xml">
+                <field name="status_date" position="after">
+                    <field name="sent_date" />
+                    <field name="email_read" />
+                    <field name="letter_read" />
+                </field>
+            </field>
+        </record>
+
+        <record id="correspondence_view_search_email" model="ir.ui.view">
+            <field name="name">correspondence.search.email</field>
+            <field name="model">correspondence</field>
+            <field name="inherit_id" ref="sbc_compassion.correspondence_view_search" />
+            <field name="arch" type="xml">
+                <search>
+                    <separator />
+                    <filter name="unread" string="Unread" domain="[('letter_read','=',False)]" />
+                </search>
+            </field>
+        </record>
+    </data>
+</openerp>

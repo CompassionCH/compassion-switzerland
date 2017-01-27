@@ -1,0 +1,86 @@
+<openerp>
+    <data>
+        <!-- Two reports for two paperformats : single BVR page or 3BVR page -->
+        <report id="report_bvr_sponsorship"
+                model="recurring.contract.group"
+                string="Sponsorship Payment Slip"
+                report_type="qweb-pdf"
+                name="report_compassion.bvr_sponsorship"
+                menu="False"
+        />
+        <record id="report_bvr_sponsorship" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_bvr"/>
+        </record>
+
+        <report id="report_3bvr_sponsorship"
+                model="recurring.contract.group"
+                string="Sponsorship Payment Slips"
+                report_type="qweb-pdf"
+                name="report_compassion.3bvr_sponsorship"
+                menu="False"
+        />
+        <record id="report_3bvr_sponsorship" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_3bvr"/>
+        </record>
+
+        <!-- Top container for BVR sponsorship reports iterating over all sponsorship groups
+             outputting payment slips for sponsorships and gifts -->
+        <template id="bvr_sponsorship">
+            <t t-call="report_compassion.bvr_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_compassion.report_bvr_sponsorship_document')"/>
+                    <t t-if="gifts">
+                        <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_compassion.report_gift_document')"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="3bvr_sponsorship">
+            <t t-call="report_compassion.bvr_sponsorship"/>
+        </template>
+
+        <!-- BVR page for sponsorship -->
+        <template id="report_bvr_sponsorship_document">
+            <t t-if="o.bvr_reference">
+                <t t-set="partner" t-value="o.partner_id"/>
+                <t t-set="partner_address" t-value="partner.short_address"/>
+                <t t-set="company_address" t-value="partner.company_id.partner_id.short_address"/>
+                <t t-set="company_account" t-value="o.get_company_bvr_account()"/>
+                <div class="page">
+                    <t t-foreach="o.get_months(months)" t-as="date">
+                        <t t-set="position" t-value="((offset or 0) * date_index) % 3"/>
+                        <t t-set="date_split" t-value="date.split(' - ')"/>
+                        <t t-call="report_compassion.report_sponsorship_single_slip">
+                            <t t-set="reference" t-value="o.format_ref"/>
+                            <t t-set="communication" t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
+                            <t t-set="scan_line" t-value="o.scan_line"/>
+                        </t>
+
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <!-- BVR page for Sponsorship Gifts -->
+        <template id="report_gift_document">
+            <t t-set="partner" t-value="o.partner_id"/>
+            <t t-set="partner_address" t-value="partner.short_address"/>
+            <t t-set="company_address" t-value="partner.company_id.partner_id.short_address"/>
+            <t t-set="company_account" t-value="o.get_company_bvr_account()"/>
+
+            <div class="page">
+                <t t-foreach="docs.get(o)" t-as="sponsorship">
+                    <t t-foreach="sponsorship.get_sponsorship_gift_products()" t-as="gift">
+                        <t t-set="position" t-value="(offset or 0 * gift_index) % 3"/>
+                        <t t-call="report_compassion.report_sponsorship_single_slip">
+                            <t t-set="reference" t-value="sponsorship.generate_bvr_reference(gift)"/>
+                            <t t-set="communication" t-value="sponsorship.get_gift_communication(gift)"/>
+                            <t t-set="scan_line" t-value="o.get_scan_line(company_account, reference)"/>
+                        </t>
+                    </t>
+                </t>
+            </div>
+        </template>
+
+    </data>
+</openerp>

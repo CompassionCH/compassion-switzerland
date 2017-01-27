@@ -1,0 +1,164 @@
+<openerp>
+    <data>
+        <report id="report_childpack_full"
+                model="compassion.child"
+                string="Full Childpack"
+                report_type="qweb-pdf"
+                name="report_compassion.childpack_full"
+        />
+        <record id="report_childpack_full" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_childpack"/>
+        </record>
+
+        <report id="report_childpack_small"
+                model="compassion.child"
+                string="Small Childpack"
+                report_type="qweb-pdf"
+                name="report_compassion.childpack_small"
+        />
+        <record id="report_childpack_small" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_a4_childpack"/>
+        </record>
+
+        <template id="childpack_full">
+            <t t-set="formMargin" t-value="124"/>
+            <t t-call="report_compassion.childpack_small"/>
+        </template>
+
+        <template id="childpack_small">
+            <t t-set="marginLeft" t-value="formMargin or 0"/>
+            <t t-set="custom_css">
+                .container {
+                    font-family: "tetriaLight";
+                    font-size: 8pt;
+                }
+                .local_id {
+                    position: absolute;
+                    margin-left: 75mm;
+                    margin-top: 35mm;
+                }
+                .desc {
+                    position: absolute;
+                    margin-left: <t t-esc="marginLeft+15"/>mm;
+                    margin-top: 42mm;
+                    width: 120mm;
+                    height: 116mm;
+                    max-height: 116mm;
+                    font-size: x-small;
+                    column-count: 2;
+                    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+                    -moz-column-count: 2; /* Firefox */
+                    column-gap: 10mm;
+                }
+                .desc .left {
+                    width: 55mm;
+                    max-width: 100%;
+                }
+                .desc .right {
+                    width: 55mm;
+                    max-width: 100%;
+                    position: absolute;
+                    left: 70mm;
+                    top: 0mm;
+                }
+                .desc table {
+                    width: 55mm;
+                }
+                .desc td:first-child {
+                    padding-right: 5mm;
+                }
+                h6 {
+                    font-size: small;
+                }
+                .title {
+                    position: absolute;
+                    margin-left: <t t-esc="marginLeft+186"/>mm;
+                    margin-top: 55mm;
+                }
+                .boy {
+                    color: #02728e;
+                }
+                .girl {
+                    color: #af0ea2;
+                }
+                .photo {
+                    position: absolute;
+                    margin-left: <t t-esc="marginLeft+176"/>mm;
+                    margin-top: 85mm;
+                    width: 70mm;
+                    height: 90mm;
+                }
+                .photo img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    margin: auto;
+                }
+                .summary {
+                    position: absolute;
+                    margin-left: <t t-esc="marginLeft+253"/>mm;
+                    margin-top: 95mm;
+                }
+                .summary_field {
+                    font-weight: bold;
+                }
+                /* Comma separated lists */
+                .childpack-full ul {
+                  display: inline;
+                  list-style: none;
+                }
+                li {
+                  display: inline;
+                }
+
+                li:after {
+                  content: ", ";
+                }
+
+                li:last-child:after {
+                  content: "";
+                }
+            </t>
+            <t t-call="report_compassion.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <t t-if="formMargin">
+                            <div class="local_id">
+                                <span t-field="o.local_id"/>
+                            </div>
+                        </t>
+                        <div class="desc">
+                            <div class="left">
+                                <span t-raw="o.description"/>
+                            </div>
+                            <div class="right">
+                                <h6 style="margin-top: 0mm;"><span t-field="o.project_title"/></h6>
+                                <span t-raw="o.project_id.description"/>
+                            </div>
+                        </div>
+                        <div class="title">
+                            <t t-if="o.gender == 'M'">
+                                <h1><span t-field="o.firstname" class="boy"/></h1>
+                            </t>
+                            <t t-if="o.gender == 'F'">
+                                <h1><span t-field="o.firstname" class="girl"/></h1>
+                            </t>
+                        </div>
+                        <div class="photo">
+                            <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
+                        </div>
+                        <div class="summary">
+                            <p>Full name:</p>
+                            <p t-field="o.name" class="summary_field"/>
+                            <p>Birthday:</p>
+                            <p t-field="o.birthdate" class="summary_field"/>
+                            <p>Country:</p>
+                            <p t-field="o.project_id.country_id.name" class="summary_field"/>
+                            <p>Child reference:</p>
+                            <p t-field="o.local_id" class="summary_field"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

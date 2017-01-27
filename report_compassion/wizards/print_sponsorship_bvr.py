@@ -1,0 +1,80 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Releasing children from poverty in Jesus' name
+#    @author: Emanuel Cino <ecino@compassion.ch>
+#
+#    The licence is in the file __openerp__.py
+#
+##############################################################################
+from datetime import datetime
+
+from openerp import api, models, fields, _
+from openerp.exceptions import Warning
+
+
+class PrintSponsorshipBvr(models.TransientModel):
+    """
+    Wizard for selecting a period and the format for printing
+    payment slips of a sponsorship.
+    """
+    _name = 'print.sponsorship.bvr'
+
+    period_selection = fields.Selection([
+        ('this_year', 'Current year'),
+        ('next_year', 'Next year'),
+    ], default='this_year')
+    paper_format = fields.Selection([
+        ('report_compassion.3bvr_sponsorship', '3 BVR'),
+        ('report_compassion.bvr_sponsorship', 'Single BVR')
+    ], default='report_compassion.3bvr_sponsorship')
+    date_start = fields.Date(default=lambda s: s.default_start())
+    date_stop = fields.Date(default=lambda s: s.default_stop())
+    include_gifts = fields.Boolean()
+
+    @api.model
+    def default_start(self):
+        start = datetime.today().replace(day=1, month=1)
+        return fields.Date.to_string(start.replace(day=1))
+
+    @api.model
+    def default_stop(self):
+        today = datetime.today()
+        return fields.Date.to_string(today.replace(day=31, month=12))
+
+    @api.onchange('period_selection')
+    def onchange_period(self):
+        today = datetime.today()
+        start = fields.Datetime.from_string(self.date_start)
+        stop = fields.Datetime.from_string(self.date_stop)
+        if self.period_selection == 'this_year':
+            start = start.replace(year=today.year)
+            stop = stop.replace(year=today.year)
+        elif self.period_selection == 'next_year':
+            start = start.replace(year=today.year + 1)
+            stop = stop.replace(year=today.year + 1)
+        self.date_start = start
+        self.date_stop = stop
+
+    @api.multi
+    def print_report(self):
+        """
+        Prepare data for the report and call the selected report
+        (single bvr / 3 bvr).
+        :return: Generated report
+        """
+        if fields.Date.from_string(self.date_start) >= \
+                fields.Date.from_string(self.date_stop):
+            raise Warning(_("Date stop must be after date start."))
+        data = {
+            'date_start': self.date_start,
+            'date_stop': self.date_stop,
+            'gifts': self.include_gifts,
+            'doc_ids': self.env.context.get('active_ids')
+        }
+        records = self.env[self.env.context.get('active_model')].browse(
+            data['doc_ids'])
+        return self.env['report'].get_action(
+            records, self.paper_format, data
+        )

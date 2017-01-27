@@ -1,0 +1,115 @@
+<openerp>
+    <data>
+        <!-- Report for printing a letter on Compassion Paper -->
+        <report id="report_partner_communication"
+                model="partner.communication.job"
+                string="Partner Communication"
+                report_type="qweb-pdf"
+                name="report_compassion.partner_communication"
+        />
+        <record id="report_partner_communication" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_a4_letter"/>
+        </record>
+
+        <template id="partner_communication">
+            <t t-set="custom_css">
+                .container {
+                    font-family: "tetriaLight";
+                    font-size: 10pt;
+                }
+                /* Format lists for PDF */
+                ul {
+                    list-style: none;
+                }
+                li {
+                    padding-left: 16px;
+                }
+                li:before {
+                    content: "-";
+                    padding-right: 8px;
+                }
+                .right {
+                    position: relative;
+                    left: 91mm;
+                }
+                #pp {
+                    font-family: verdana;
+                }
+                #pp-box {
+                    display: inline-block;
+                    padding: 1mm;
+                    width: 50mm;
+                    line-height: initial;
+
+                    /*margin-right: 2mm;*/
+                    border-style: solid;
+                    border-width: 1pt;
+                }
+                #pp-box div:first-child{
+                    font-size: 12pt;
+                    font-weight: bold;
+                }
+                #pp-box div:last-child{
+                    font-size: 8pt;
+                }
+                #pp-post {
+                    display: inline-block;
+                    font-size: 6pt;
+                }
+                #pp hr {
+                    margin-top: 0.5mm;
+                    margin-bottom: 3mm;
+                }
+                #date {
+                    margin-left: 91mm;
+                    margin-top: 8mm;
+                }
+                #title {
+                    margin-top: 5mm;
+                }
+                hr {
+                    margin-top: 0px;
+                    border: none;
+                    height: 1pt;
+                    background-color: black;
+                }
+            </t>
+            <t t-call="report_compassion.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div id="first-page">
+                            <div id="address" class="right">
+                                <div id="pp">
+                                    <div id="pp-box">
+                                        <div>P.P.</div>
+                                        <div>CH-1400 Yverdon-les-Bains</div>
+                                    </div>
+                                    <div id="pp-post">
+                                        <p>Poste CH SA</p>
+                                    </div>
+                                    <hr/>
+                                </div>
+                                <span t-raw="o.partner_id.short_address"/>
+                            </div>
+                            <div id="date">
+                                <span t-raw="o.date_communication"/>
+                            </div>
+
+                            <div id="title">
+                                <b><span t-raw="o.subject"/></b>
+                            </div>
+                            <hr id="separator"/>
+
+                            <div id="body">
+                                <span t-raw="o.body_html"/>
+                            </div>
+                            <div class="right">
+                                <span t-raw="o.signature"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

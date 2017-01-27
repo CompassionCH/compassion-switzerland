@@ -8,7 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp import models
+from openerp import api, models
 
 
 class ExtendedReport(models.Model):
@@ -29,6 +29,7 @@ class ExtendedReport(models.Model):
             out_format='PDF',
             context=context)
 
+    @api.v7
     def get_pdf(self, cr, uid, ids, report_name, html=None, data=None,
                 context=None):
         if report_name == 'christmas_bvr':
@@ -49,3 +50,9 @@ class ExtendedReport(models.Model):
                 data=data,
                 context=context
             )
+
+    @api.v8     # NOQA
+    def get_pdf(self, records, report_name, html=None, data=None):
+        return self._model.get_pdf(self._cr, self._uid,
+                                   records.ids, report_name,
+                                   html=html, data=data, context=self._context)

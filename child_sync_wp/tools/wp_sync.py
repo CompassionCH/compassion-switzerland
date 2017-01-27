@@ -12,6 +12,8 @@ import base64
 import csv
 import shutil
 import xmlrpclib
+from xmlrpclib import Fault
+
 import pysftp
 import logging
 from os import listdir, path, makedirs, remove
@@ -93,10 +95,15 @@ class WPSync(object):
         return result
 
     def remove_children(self, children):
-        res = self.xmlrpc_server.child_import.deleteChildren(
-            self.user, self.pwd, children.mapped('code'))
-        logger.info("Remove from Wordpress : " + str(res))
-        return res
+        try:
+            res = self.xmlrpc_server.child_import.deleteChildren(
+                self.user, self.pwd, children.mapped('local_id'))
+            logger.info("Remove from Wordpress : " + str(res))
+            return res
+        except Fault:
+            logger.error("Remove from Wordpress failed.")
+
+        return False
 
     def remove_all_children(self):
         res = self.xmlrpc_server.child_import.deleteAllChildren(
@@ -128,9 +135,9 @@ class WPSync(object):
             ])
             for child in children:
                 row = [
-                    child.code, child.firstname, child.name, child.birthdate,
-                    child.gender, child.unsponsored_since, child.desc_fr,
-                    child.desc_de, child.desc_it,
+                    child.local_id, child.firstname, child.name,
+                    child.birthdate, child.gender, child.unsponsored_since,
+                    child.desc_fr, child.desc_de, child.desc_it,
                     child.project_id.country_id.name,
                     child.project_id.description_fr,
                     child.project_id.description_de,
@@ -150,7 +157,7 @@ class WPSync(object):
         if not path.exists(child_directory):
             makedirs(child_directory)
         for child in children:
-            full_path = child_directory + '/' + child.code
+            full_path = child_directory + '/' + child.local_id
             fullshot = full_path + '_f.jpg'
             headshot = full_path + '_h.jpg'
             with Image(blob=base64.b64decode(child.fullshot)) as pic:

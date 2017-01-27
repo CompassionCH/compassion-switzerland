@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2015-2016 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -30,14 +30,13 @@
 
 {
     'name': 'Tailor Sponsorships to Compassion CH needs',
-    'version': '8.0.1',
+    'version': '8.0.3.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_tracking', 'partner_compassion'],
+    'depends': ['sponsorship_tracking', 'partner_compassion',
+                'partner_communication'],
     'data': [
-        'view/contracts_view.xml',
-        'data/install.xml',
         'workflow/sds_workflow.xml',
         'security/ir.model.access.csv',
     ],
