@@ -90,7 +90,7 @@ class RecurringContract(models.Model):
             self.env['partner.communication.job'].create({
                 'config_id': communication.id,
                 'partner_id': partner.id,
-                'object_ids': objects.ids
+                'object_ids': objects.ids,
             })
 
     @api.model
