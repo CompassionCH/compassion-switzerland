@@ -10,13 +10,28 @@
 ##############################################################################
 
 import logging
+import threading
+import locale
 
 from dateutil.relativedelta import relativedelta
+from contextlib import contextmanager
 
 from openerp import api, models, fields, _
 from openerp.exceptions import Warning
 
 logger = logging.getLogger(__name__)
+
+LOCALE_LOCK = threading.Lock()
+
+
+@contextmanager
+def setlocale(name):
+    with LOCALE_LOCK:
+        saved = locale.setlocale(locale.LC_ALL)
+        try:
+            yield locale.setlocale(locale.LC_ALL, (name, 'UTF-8'))
+        finally:
+            locale.setlocale(locale.LC_ALL, saved)
 
 
 class RecurringContracts(models.Model):
@@ -118,23 +133,24 @@ class RecurringContracts(models.Model):
             'amount': "CHF {:.0f}".format(amount),
             'subject': _("for") + " ",
         }
-        if start == stop:
-            vals['date'] = date_start.strftime("%B %Y")
-        else:
-            vals['date'] = date_start.strftime("%B %Y") + " - " + \
-                           date_stop.strftime("%B %Y")
-        if 'Permanent' in payment_term.name:
-            vals['payment_type'] = _('ISR for standing order')
-            vals['date'] = ''
-        else:
-            vals['payment_type'] = _('ISR') + ' ' + _(
-                self.contract_ids[0].group_freq)
-        if number_sponsorship > 1:
-            vals['subject'] += str(number_sponsorship) + " " + _(
-                "sponsorships")
-        else:
-            vals['subject'] = valid.child_id.firstname + " ({})".format(
-                valid.child_id.local_id)
+        with setlocale(self.partner_id.lang):
+            if start == stop:
+                vals['date'] = date_start.strftime("%B %Y").title()
+            else:
+                vals['date'] = date_start.strftime("%B %Y").title() + " - " + \
+                               date_stop.strftime("%B %Y")
+            if 'Permanent' in payment_term.name:
+                vals['payment_type'] = _('ISR for standing order')
+                vals['date'] = ''
+            else:
+                vals['payment_type'] = _('ISR') + ' ' + self.contract_ids[
+                    0].with_context(lang=self.partner_id.lang).group_freq
+            if number_sponsorship > 1:
+                vals['subject'] += str(number_sponsorship) + " " + _(
+                    "sponsorships")
+            else:
+                vals['subject'] = valid.child_id.firstname + " ({})".format(
+                    valid.child_id.local_id)
 
         return u"{payment_type} {amount}<br/>{subject}<br/>{date}".format(
             **vals)
