@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-26 13:48+0100\n"
-"PO-Revision-Date: 2017-01-27 08:24+0100\n"
+"POT-Creation-Date: 2017-01-30 12:08+0100\n"
+"PO-Revision-Date: 2017-01-30 12:09+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -755,6 +755,80 @@ msgstr ""
 "    Vi preghiamo di ricevere , ${object.partner_id.salutation}, i nostri piú "
 "fraterni saluti.\n"
 "<p></p>"
+
+#. module: partner_communication_switzerland
+#: model:email.template,body_html:partner_communication_switzerland.old_letter
+msgid ""
+"<div>\n"
+"                    % set letter = object.get_objects()\n"
+"                    % set child = letter.mapped('child_id')\n"
+"                    % set s = '' if len(child) == 1 else 's'\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${object.partner_id.salutation}\n"
+"                    You received a letter from ${child.get_list('firstname', "
+"3, child.get_number())} some time ago.\n"
+"                    Due to technical issues on our side, we are not sure "
+"that you received the e-mail we sent and are therefore sending it again.\n"
+"                    We apologize for the inconvenience and hope you will "
+"enjoy reading the letter${s}.\n"
+"                    <br/>\n"
+"                    % if object.send_mode == 'digital' and letter."
+"get_multi_mode():\n"
+"                        Download your letters here:\n"
+"                        <ul>\n"
+"                            % for l in letter.filtered('read_url'):\n"
+"                            <li>\n"
+"                                <a href=\"${l.read_url}\">${l.read_url}</a>\n"
+"                            </li>\n"
+"                            % endfor\n"
+"                        </ul>\n"
+"                        <br/>\n"
+"                    % endif\n"
+"                    % if object.partner_id.send_original:\n"
+"                        PS: As you requested, we will send you the original "
+"letter${s}. Please keep in mind it can take several weeks until we receive "
+"it.\n"
+"                    % endif\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"    % set letter = object.get_objects()\n"
+"    % set child = letter.mapped('child_id')\n"
+"    % set firstname = child.get_list('firstname', 3, 'Ihren Patenkindern')\n"
+"</div>\n"
+"<p>\n"
+"    Qualche tempo fa, Il bambino che sostenete ha scritto una lettera per "
+"voi. Purtroppo, a seguito di un problema tecnico, la lettera è stata messa "
+"in coda nel sistema e solo recentemente siamo riusciti a trovarla. Ci "
+"scusiamo per l'inconveniente e speriamo che oggi possiate leggerla con "
+"gioia.\n"
+"    <br/>\n"
+"    <br/>\n"
+"% if object.send_mode == 'digital' and letter.get_multi_mode():\n"
+"    Download link${'' if len(child) == 1 else 's'}:\n"
+"    <ul>\n"
+"        % for l in letter.filtered('read_url'):\n"
+"        <li>\n"
+"            <a href=\"${l.read_url}\">${l.read_url}</a>\n"
+"        </li>\n"
+"        % endfor\n"
+"    </ul>\n"
+"% endif\n"
+"    Dalla vostra parte, potete scrivere online al bambino, sul nostro sito "
+"internet nella rubrica “scrivere”.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Non esitate a contattarci per ogni domanda riguardo queste modifiche.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    % if object.partner_id.send_original:\n"
+"        PS: Come da voi richiesto, vi invieremo la lettera originale per "
+"posta. Tuttavia, questo potrà richiedere ancora diverse settimane prima di "
+"ricevere il corriere.\n"
+"    % endif\n"
+"</p>"
 
 #. module: partner_communication_switzerland
 #: model:email.template,body_html:partner_communication_switzerland.new_letter
@@ -2813,6 +2887,7 @@ msgstr "You can download an archive file of child pictures to order from here."
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.new_letter
+#: model:email.template,subject:partner_communication_switzerland.old_letter
 msgid ""
 "You received a letter from ${object.get_objects().mapped('child_id')."
 "get_list('firstname', 3, 'your children')}!"
@@ -2857,7 +2932,7 @@ msgid "Zip id"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:99
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:100
 #, python-format
 msgid "child dossier.pdf"
 msgstr "dossier.pdf"
@@ -2917,13 +2992,13 @@ msgid "six"
 msgstr "sei"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:130
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:131
 #, python-format
 msgid "sponsorship labels.pdf"
 msgstr "labels.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:88
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:89
 #, python-format
 msgid "sponsorship payment slips.pdf"
 msgstr "bollettini di pagamento.pdf"

@@ -63,9 +63,10 @@ class PartnerCommunication(models.Model):
         b2s_printed = self.filtered(
             lambda c: c.config_id.model == 'correspondence'
             and c.send_mode == 'physical' and c.state == 'done')
-        letters = b2s_printed.get_objects()
-        if letters:
-            letters.write({'letter_read': True})
+        if b2s_printed:
+            letters = b2s_printed.get_objects()
+            if letters:
+                letters.write({'letter_read': True})
         return True
 
     def _get_new_dossier_attachments(self, correspondence=True, payment=True):

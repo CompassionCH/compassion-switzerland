@@ -81,5 +81,43 @@
                 </p>
             </field>
         </record>
+
+        <!-- Old letter -->
+        <record id="old_letter" model="email.template">
+            <field name="name">B2S Old letter published</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">You received a letter from ${object.get_objects().mapped('child_id').get_list('firstname', 3, 'your children')}!</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set letter = object.get_objects()
+                    % set child = letter.mapped('child_id')
+                    % set s = '' if len(child) == 1 else 's'
+                </div>
+                <p>
+                    ${object.partner_id.salutation}
+                    You received a letter from ${child.get_list('firstname', 3, child.get_number())} some time ago.
+                    Due to technical issues on our side, we are not sure that you received the e-mail we sent and are therefore sending it again.
+                    We apologize for the inconvenience and hope you will enjoy reading the letter${s}.
+                    <br/>
+                    % if object.send_mode == 'digital' and letter.get_multi_mode():
+                        Download your letters here:
+                        <ul>
+                            % for l in letter.filtered('read_url'):
+                            <li>
+                                <a href='${l.read_url}'>${l.read_url}</a>
+                            </li>
+                            % endfor
+                        </ul>
+                        <br/>
+                    % endif
+                    % if object.partner_id.send_original:
+                        PS: As you requested, we will send you the original letter${s}. Please keep in mind it can take several weeks until we receive it.
+                    % endif
+                </p>
+            </field>
+        </record>
     </data>
 </openerp>
