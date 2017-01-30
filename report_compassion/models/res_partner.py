@@ -31,12 +31,13 @@ class ResPartner(models.Model):
         # Replace line returns
         p = re.compile('\\n+')
         for partner in self:
+            t_partner = partner.with_context(lang=partner.lang)
             if not partner.is_company:
-                res = partner.title.shortcut + ' '
+                res = t_partner.title.shortcut + ' '
                 if partner.firstname:
                     res += partner.firstname + ' '
                 res += partner.lastname + '<br/>'
             else:
                 res = partner.name + '<br/>'
-            res += partner.contact_address
+            res += t_partner.contact_address
             partner.short_address = p.sub('<br/>', res)

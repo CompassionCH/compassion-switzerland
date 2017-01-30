@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-26 13:43+0100\n"
-"PO-Revision-Date: 2017-01-26 13:46+0100\n"
+"POT-Creation-Date: 2017-01-30 11:59+0100\n"
+"PO-Revision-Date: 2017-01-30 12:04+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -766,6 +766,83 @@ msgstr ""
 "    <br>\n"
 "    Nous vous prions de recevoir nos salutations fraternelles.\n"
 "<p></p>"
+
+#. module: partner_communication_switzerland
+#: model:email.template,body_html:partner_communication_switzerland.old_letter
+msgid ""
+"<div>\n"
+"                    % set letter = object.get_objects()\n"
+"                    % set child = letter.mapped('child_id')\n"
+"                    % set s = '' if len(child) == 1 else 's'\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${object.partner_id.salutation}\n"
+"                    You received a letter from ${child.get_list('firstname', "
+"3, child.get_number())} some time ago.\n"
+"                    Due to technical issues on our side, we are not sure "
+"that you received the e-mail we sent and are therefore sending it again.\n"
+"                    We apologize for the inconvenience and hope you will "
+"enjoy reading the letter${s}.\n"
+"                    <br/>\n"
+"                    % if object.send_mode == 'digital' and letter."
+"get_multi_mode():\n"
+"                        Download your letters here:\n"
+"                        <ul>\n"
+"                            % for l in letter.filtered('read_url'):\n"
+"                            <li>\n"
+"                                <a href=\"${l.read_url}\">${l.read_url}</a>\n"
+"                            </li>\n"
+"                            % endfor\n"
+"                        </ul>\n"
+"                        <br/>\n"
+"                    % endif\n"
+"                    % if object.partner_id.send_original:\n"
+"                        PS: As you requested, we will send you the original "
+"letter${s}. Please keep in mind it can take several weeks until we receive "
+"it.\n"
+"                    % endif\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"    % set letter = object.get_objects()\n"
+"    % set votreLettre = 'votre lettre' if len(letter) == 1 else 'vos "
+"lettres'\n"
+"    % set intro = 'une nouvelle lettre de ' + letter.child_id.firstname if "
+"len(letter) == 1 else 'de nouvelles lettres'\n"
+"    % set child = letter.mapped('child_id')\n"
+"</div>\n"
+"<p>\n"
+"    Il y a quelque temps déjà, vous avez reçu une lettre de ${child."
+"get_list('firstname', 3, child.get_number())}.\n"
+"    Malheureusement, suite à un problème technique survenu lors de la "
+"transmission de la lettre, nous ne sommes pas certain que vous ayez reçu "
+"notre dernier e-mail. Nous vous la transmettons donc encore une fois "
+"aujourd'hui et nous vous prions de nous excuser pour ce désagrément. Nous "
+"espérons que vous aurez du plaisir à lire ${votreLettre}.\n"
+"    <br/>\n"
+"    <br/>\n"
+"% if object.send_mode == 'digital' and letter.get_multi_mode():\n"
+"    Téléchargez ${votreLettre} en cliquant sur ${'ce lien' if len(letter) == "
+"1 else 'ces liens'} :\n"
+"    <ul>\n"
+"        % for l in letter.filtered('read_url'):\n"
+"        <li>\n"
+"            <a href=\"${l.read_url}\">${l.read_url}</a>\n"
+"        </li>\n"
+"        % endfor\n"
+"    </ul>\n"
+"% endif\n"
+"    N'hésitez pas à prendre contact avec nous pour toute question relative "
+"aux échanges de courriers!\n"
+"    <br/>\n"
+"    <br/>\n"
+"    % if object.partner_id.send_original:\n"
+"        PS: Comme vous nous l’avez demandé, nous vous transmettrons la "
+"lettre originale par courrier. Cela peut toutefois durer encore quelques "
+"semaines avant que vous ne la receviez.\n"
+"    % endif\n"
+"</p>"
 
 #. module: partner_communication_switzerland
 #: model:email.template,body_html:partner_communication_switzerland.new_letter
@@ -2831,6 +2908,7 @@ msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:email.template,subject:partner_communication_switzerland.new_letter
+#: model:email.template,subject:partner_communication_switzerland.old_letter
 msgid ""
 "You received a letter from ${object.get_objects().mapped('child_id')."
 "get_list('firstname', 3, 'your children')}!"
@@ -2882,7 +2960,7 @@ msgid "Zip id"
 msgstr "Zip id"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:99
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:100
 #, python-format
 msgid "child dossier.pdf"
 msgstr "dossier enfant.pdf"
@@ -2942,13 +3020,13 @@ msgid "six"
 msgstr "six"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:130
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:131
 #, python-format
 msgid "sponsorship labels.pdf"
 msgstr "etiquettes parrainage.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:88
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:89
 #, python-format
 msgid "sponsorship payment slips.pdf"
 msgstr "bulletins de versements parrainage.pdf"
