@@ -11,9 +11,10 @@
         -->
         <template id="report_sponsorship_single_slip">
             <t t-set="margin" t-value="position * 0.2"/>
-            <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm;">
+            <t t-set="height" t-value="106 - margin"/>
+            <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm; height: {{ height }}mm;">
                 <t t-if="background">
-                    <div id="background">
+                    <div id="background" t-attf-style="height: {{ height }}mm;">
                         <span t-field="o.bvr_background" t-field-options='{"widget": "image"}'/>
                     </div>
                 </t>

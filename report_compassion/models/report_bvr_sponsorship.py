@@ -84,8 +84,7 @@ class BvrSponsorship(models.Model):
             'docs': docs,
             'months': months
         })
-        return self.env['report'].render(
-            'report_compassion.3bvr_sponsorship', final_data)
+        return self.env['report'].render(report.report_name, final_data)
 
 
 class ThreeBvrSponsorship(models.Model):

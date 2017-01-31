@@ -15,6 +15,8 @@ from openerp import api, models, fields, _
 class Contract(models.Model):
     _inherit = 'recurring.contract'
 
+    bvr_background = fields.Binary(related='group_id.bvr_background')
+
     @api.multi
     def get_gift_communication(self, product):
         self.ensure_one()

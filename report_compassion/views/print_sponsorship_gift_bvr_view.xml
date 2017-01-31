@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Add button in correspondence views -->
+        <record id="print_sponsorship_gift" model="ir.ui.view">
+            <field name="name">print.sponsorship.gift.bvr.form</field>
+            <field name="model">print.sponsorship.gift.bvr</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<form>
+                    <group>
+                        <field name="birthday_gift"/>
+                        <field name="general_gift"/>
+                        <field name="family_gift"/>
+                        <field name="project_gift"/>
+                        <field name="graduation_gift"/>
+                    </group>
+                    <group>
+                        <field name="paper_format"/>
+                    </group>
+                    <group>
+                        <field name="draw_background"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_print_sponsorship_gift_bvr" model="ir.actions.act_window">
+             <field name="name">Gift Payment Slips</field>
+             <field name="res_model">print.sponsorship.gift.bvr</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="target">new</field>
+            <field name="context">{'default_birthday_gift': True, 'default_general_gift': True, 'default_family_gift': True}</field>
+       </record>
+
+       <record model="ir.values" id="ir_values_print_sponsorship_gift_bvr">
+           <field name="key2" eval="'client_print_multi'"/>
+           <field name="model" eval="'recurring.contract'"/>
+           <field name="name">Gift Payment Slips</field>
+           <field name="value" eval="'ir.actions.act_window,%d'%action_print_sponsorship_gift_bvr"/>
+       </record>
+    </data>
+</openerp>
