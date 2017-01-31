@@ -53,6 +53,21 @@ class PartnerCommunication(models.Model):
             letters.attach_zip()
         return attachments
 
+    def get_sub_form(self):
+        """
+        Attach sub sponsorship form
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        attachments = dict()
+        report = 'report_compassion.sub_proposal'
+        report_obj = self.env['report']
+        attachments[_('sub child form.pdf')] = [
+            report,
+            base64.b64encode(report_obj.get_pdf(self.partner_id, report))
+        ]
+        return attachments
+
     @api.multi
     def send(self):
         """

@@ -143,6 +143,7 @@
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function">get_sub_form</field>
         </record>
         <record id="lifecycle_child_unplanned_exit" model="partner.communication.config">
             <field name="name">Beneficiary Unplanned Exit</field>
@@ -153,6 +154,7 @@
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function">get_sub_form</field>
         </record>
         <record id="lifecycle_child_reinstatement" model="partner.communication.config">
             <field name="name">Beneficiary Reinstatement</field>

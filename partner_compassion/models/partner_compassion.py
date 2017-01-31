@@ -140,7 +140,7 @@ class ResPartner(models.Model):
         """
         Generates a bvr reference for a donation to the fund given by
         the product.
-        :param product: fund product with a gp_fund_id
+        :param product: fund product with a fund_id
         :return: bvr reference for the partner
         """
         self.ensure_one()

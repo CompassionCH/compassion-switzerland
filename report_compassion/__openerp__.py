@@ -42,6 +42,7 @@
         'report/bvr_layout.xml',
         'report/bvr_sponsorship.xml',
         'report/partner_communication.xml',
+        'report/sub_proposal_form.xml',
         'views/print_sponsorship_bvr_view.xml',
     ],
     'demo': [],

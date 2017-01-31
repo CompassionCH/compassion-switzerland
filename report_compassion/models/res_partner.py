@@ -8,9 +8,14 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import base64
+import os
 import re
 
 from openerp import api, models, fields
+
+
+IMG_DIR = os.path.dirname(os.path.realpath(__file__)) + '/../static/img/'
 
 
 class ResPartner(models.Model):
@@ -25,6 +30,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     short_address = fields.Char(compute='_compute_address')
+    sub_proposal_form = fields.Binary(compute='_compute_sub_form')
 
     @api.multi
     def _compute_address(self):
@@ -41,3 +47,10 @@ class ResPartner(models.Model):
                 res = partner.name + '<br/>'
             res += t_partner.contact_address
             partner.short_address = p.sub('<br/>', res)
+
+    @api.multi
+    def _compute_sub_form(self):
+        for partner in self:
+            fname = IMG_DIR + 'SUB_form_{}.jpg'.format(partner.lang)
+            with open(fname) as form_image:
+                partner.sub_proposal_form = base64.b64encode(form_image.read())
