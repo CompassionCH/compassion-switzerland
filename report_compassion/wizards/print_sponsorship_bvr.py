@@ -32,6 +32,7 @@ class PrintSponsorshipBvr(models.TransientModel):
     date_start = fields.Date(default=lambda s: s.default_start())
     date_stop = fields.Date(default=lambda s: s.default_stop())
     include_gifts = fields.Boolean()
+    draw_background = fields.Boolean()
 
     @api.model
     def default_start(self):
@@ -71,7 +72,8 @@ class PrintSponsorshipBvr(models.TransientModel):
             'date_start': self.date_start,
             'date_stop': self.date_stop,
             'gifts': self.include_gifts,
-            'doc_ids': self.env.context.get('active_ids')
+            'doc_ids': self.env.context.get('active_ids'),
+            'background': self.draw_background,
         }
         records = self.env[self.env.context.get('active_model')].browse(
             data['doc_ids'])

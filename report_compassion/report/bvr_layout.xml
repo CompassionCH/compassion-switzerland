@@ -12,6 +12,11 @@
         <template id="report_sponsorship_single_slip">
             <t t-set="margin" t-value="position * 0.2"/>
             <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm;">
+                <t t-if="background">
+                    <div id="background">
+                        <span t-field="o.bvr_background" t-field-options='{"widget": "image"}'/>
+                    </div>
+                </t>
                 <div class="receipt">
                     <span t-raw="company_address" class="pay_for"/>
                     <span t-raw="communication" class="communication"/>
@@ -37,6 +42,16 @@
                     font-size: 8pt;
                     width: 210mm;
                     height: 106mm;
+                }
+                #background {
+                    position: absolute;
+                    width: 210mm;
+                    height: 106mm;
+                }
+                #background img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    margin: auto;
                 }
                 .receipt {
                     position: absolute;

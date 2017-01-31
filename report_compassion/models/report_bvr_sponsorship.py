@@ -44,19 +44,19 @@ class BvrSponsorship(models.Model):
         }
 
     @api.multi
-    def render_html(self, user_data=None):
+    def render_html(self, data=None):
         """
         Construct the data for printing Payment Slips.
         :param data: data collected from the print wizard.
         :return: html rendered report
         """
         report = self._get_report()
-        data = self._get_default_data()
-        if user_data:
-            data.update(user_data)
+        final_data = self._get_default_data()
+        if data:
+            final_data.update(data)
 
-        start = fields.Datetime.from_string(data['date_start'])
-        stop = fields.Datetime.from_string(data['date_stop'])
+        start = fields.Datetime.from_string(final_data['date_start'])
+        stop = fields.Datetime.from_string(final_data['date_stop'])
 
         # Months will contain all months we want to include for payment.
         months = list()
@@ -64,7 +64,8 @@ class BvrSponsorship(models.Model):
             months.append(fields.Datetime.to_string(start))
             start = start + relativedelta(months=1)
 
-        sponsorships = self.env['recurring.contract'].browse(data['doc_ids'])
+        sponsorships = self.env['recurring.contract'].browse(
+            final_data['doc_ids'])
         sponsorships = sponsorships.filtered(
             lambda s: s.state not in ('terminated', 'cancelled'))
         groups = sponsorships.mapped('group_id')
@@ -77,14 +78,14 @@ class BvrSponsorship(models.Model):
         docs = dict()
         for group in groups:
             docs[group] = sponsorships.filtered(lambda s: s.group_id == group)
-        data.update({
+        final_data.update({
             'doc_model': report.model,  # recurring.contract.group
             'doc_ids': groups.ids,
             'docs': docs,
             'months': months
         })
         return self.env['report'].render(
-            'report_compassion.3bvr_sponsorship', data)
+            'report_compassion.3bvr_sponsorship', final_data)
 
 
 class ThreeBvrSponsorship(models.Model):

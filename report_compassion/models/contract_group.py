@@ -8,13 +8,14 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-
+import base64
 import logging
 import threading
 import locale
 
 from dateutil.relativedelta import relativedelta
 from contextlib import contextmanager
+from res_partner import IMG_DIR
 
 from openerp import api, models, fields, _
 from openerp.exceptions import Warning
@@ -39,6 +40,7 @@ class RecurringContracts(models.Model):
 
     scan_line = fields.Char(compute='_compute_scan_line')
     format_ref = fields.Char(compute='_compute_format_ref')
+    bvr_background = fields.Binary(compute='_compute_bvr_background')
 
     @api.multi
     def _compute_scan_line(self):
@@ -53,6 +55,13 @@ class RecurringContracts(models.Model):
         slip_obj = self.env['l10n_ch.payment_slip']
         for group in self.filtered('bvr_reference'):
             group.format_ref = slip_obj._space(group.bvr_reference.lstrip('0'))
+
+    @api.multi
+    def _compute_bvr_background(self):
+        with open(IMG_DIR + '/bvr.jpg') as bgf:
+            data = base64.b64encode(bgf.read())
+            for group in self:
+                group.bvr_background = data
 
     @api.multi
     def get_months(self, months):

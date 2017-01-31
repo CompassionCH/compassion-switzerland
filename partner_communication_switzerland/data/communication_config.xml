@@ -208,6 +208,7 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Lukas')]"/>
         </record>
+        <!-- TODO Add birthday gift -->
         <record id="planned_birthday_reminder" model="partner.communication.config">
             <field name="name">Sponsorship - Birthday Reminder</field>
             <field name="email_template_id" ref="email_sponsorship_birthday_reminder"/>
@@ -251,6 +252,7 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
+        <!-- TODO Add graduation gift -->
         <record id="planned_completion" model="partner.communication.config">
             <field name="name">Sponsorship - Completion</field>
             <field name="email_template_id" ref="email_sponsorship_completion"/>
@@ -278,6 +280,7 @@
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>
+        <!-- TODO Add BVR sponsorship -->
         <record id="sponsorship_waiting_reminder_1" model="partner.communication.config">
             <field name="name">Sponsorship Waiting Reminder 1</field>
             <field name="email_template_id" ref="email_sponsorship_waiting_reminder_1"/>
