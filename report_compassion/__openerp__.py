@@ -44,6 +44,7 @@
         'report/partner_communication.xml',
         'report/sub_proposal_form.xml',
         'report/bvr_gift.xml',
+        'report/anniversary_card.xml',
         'views/print_sponsorship_bvr_view.xml',
         'views/print_sponsorship_gift_bvr_view.xml',
     ],
