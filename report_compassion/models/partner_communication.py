@@ -10,6 +10,7 @@
 ##############################################################################
 from datetime import datetime
 
+from contract_group import setlocale
 from openerp import api, models, fields
 
 
@@ -25,16 +26,18 @@ class PartnerCommunication(models.Model):
     @api.multi
     def _compute_date_communication(self):
         lang_map = {
-            'fr_CH': 'le %d %B %Y',
-            'de_DE': '%d. %B %Y',
-            'en_US': '%d %B %Y',
-            'it_IT': '%d %B %Y',
+            'fr_CH': u'le %d %B %Y',
+            'de_DE': u'%d. %B %Y',
+            'en_US': u'%d %B %Y',
+            'it_IT': u'%d %B %Y',
         }
         today = datetime.today()
         city = self.env.user.partner_id.company_id.city
         for communication in self:
-            communication.date_communication = city + ", " + today.strftime(
-                lang_map.get(self.env.lang))
+            lang = communication.partner_id.lang
+            with setlocale(lang):
+                communication.date_communication = city + u", " +\
+                    today.strftime(lang_map.get(lang))
 
     @api.multi
     def _compute_signature(self):

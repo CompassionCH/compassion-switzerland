@@ -16,3 +16,5 @@ from . import res_partner
 from . import report_bvr_sponsorship
 from . import contract
 from . import partner_communication
+from . import report_bvr_sponsorship_gift
+from . import report_childpack

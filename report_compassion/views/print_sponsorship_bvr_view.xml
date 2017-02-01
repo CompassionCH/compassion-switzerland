@@ -18,6 +18,7 @@
                     </group>
                     <group>
                         <field name="include_gifts"/>
+                        <field name="draw_background" attrs="{'invisible': [('paper_format', '!=', 'report_compassion.bvr_sponsorship')]}"/>
                     </group>
                     <footer>
                         <button name="print_report" string="Print" type="object" class="oe_highlight"/>
@@ -40,6 +41,23 @@
            <field name="model" eval="'recurring.contract'"/>
            <field name="name">Sponsorship Payment Slips</field>
            <field name="value" eval="'ir.actions.act_window,%d'%action_print_sponsorship_bvr"/>
+       </record>
+
+        <!-- Add print menu for sponsorship labels ! -->
+        <record id="print_sponsorship_label_action" model="ir.actions.act_window">
+            <field name="name">Labels</field>
+             <field name="res_model">label.print.wizard</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="target">new</field>
+             <field name="context">{'label_print': 1}</field>
+        </record>
+        <record model="ir.values" id="ir_values_print_sponsorship_label">
+           <field name="key2" eval="'client_print_multi'"/>
+           <field name="model" eval="'recurring.contract'"/>
+           <field name="name">Labels</field>
+           <field name="value" eval="'ir.actions.act_window,%d'%print_sponsorship_label_action"/>
        </record>
     </data>
 </openerp>

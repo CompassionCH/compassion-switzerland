@@ -13,6 +13,8 @@ import base64
 from openerp import api, models, _
 from openerp.exceptions import MissingError
 
+from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
+
 
 class PartnerCommunication(models.Model):
     _inherit = 'partner.communication.job'
@@ -51,6 +53,48 @@ class PartnerCommunication(models.Model):
         else:
             # Attach directly a zip in the letters
             letters.attach_zip()
+        return attachments
+
+    def get_sub_form(self):
+        """
+        Attach sub sponsorship form
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        attachments = dict()
+        report = 'report_compassion.sub_proposal'
+        report_obj = self.env['report']
+        attachments[_('sub child form.pdf')] = [
+            report,
+            base64.b64encode(report_obj.get_pdf(self.partner_id, report))
+        ]
+        return attachments
+
+    def get_birthday_bvr(self):
+        """
+        Attach birthday gift slip with background for sending by e-mail
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        attachments = dict()
+        report = 'report_compassion.bvr_gift_sponsorship'
+        report_obj = self.env['report']
+        sponsorships = self.get_objects().filtered(
+            lambda s: not s.birthday_paid)
+        if sponsorships:
+            birthday_gift = self.env['product.product'].with_context(
+                lang='en_US').search([('name', '=', GIFT_NAMES[0])])
+            attachments[_('birthday gift.pdf')] = [
+                report,
+                base64.b64encode(report_obj.get_pdf(
+                    sponsorships, report,
+                    data={
+                        'doc_ids': sponsorships.ids,
+                        'product_ids': birthday_gift.ids,
+                        'background': True,
+                    }
+                ))
+            ]
         return attachments
 
     @api.multi

@@ -1,0 +1,68 @@
+# -*- encoding: utf-8 -*-
+##############################################################################
+#
+#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Releasing children from poverty in Jesus' name
+#    @author: Emanuel Cino <ecino@compassion.ch>
+#
+#    The licence is in the file __openerp__.py
+#
+##############################################################################
+from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
+
+from openerp import api, models, fields, _
+from openerp.exceptions import Warning
+
+
+class PrintSponsorshipBvr(models.TransientModel):
+    """
+    Wizard for selecting a period and the format for printing
+    payment slips of a sponsorship.
+    """
+    _name = 'print.sponsorship.gift.bvr'
+
+    birthday_gift = fields.Boolean(default=True)
+    general_gift = fields.Boolean(default=True)
+    family_gift = fields.Boolean(default=True)
+    project_gift = fields.Boolean()
+    graduation_gift = fields.Boolean()
+
+    paper_format = fields.Selection([
+        ('report_compassion.3bvr_gift_sponsorship', '3 BVR'),
+        ('report_compassion.bvr_gift_sponsorship', 'Single BVR')
+    ], default='report_compassion.3bvr_gift_sponsorship')
+    draw_background = fields.Boolean()
+
+    @api.multi
+    def print_report(self):
+        """
+        Prepare data for the report and call the selected report
+        (single bvr / 3 bvr).
+        :return: Generated report
+        """
+        product_search = list()
+        if self.birthday_gift:
+            product_search.append(GIFT_NAMES[0])
+        if self.general_gift:
+            product_search.append(GIFT_NAMES[1])
+        if self.family_gift:
+            product_search.append(GIFT_NAMES[2])
+        if self.project_gift:
+            product_search.append(GIFT_NAMES[3])
+        if self.graduation_gift:
+            product_search.append(GIFT_NAMES[4])
+        if not product_search:
+            raise Warning(_("Please select at least one gift type."))
+
+        products = self.env['product.product'].with_context(
+            lang='en_US').search([('name', 'in', product_search)])
+        data = {
+            'doc_ids': self.env.context.get('active_ids'),
+            'product_ids': products.ids,
+            'background': self.draw_background,
+        }
+        records = self.env[self.env.context.get('active_model')].browse(
+            data['doc_ids'])
+        return self.env['report'].get_action(
+            records, self.paper_format, data
+        )

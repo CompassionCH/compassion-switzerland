@@ -9,16 +9,25 @@
 #
 ##############################################################################
 from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
-from openerp import api, models, fields, _
+from openerp import api, models, fields
 
 
 class Contract(models.Model):
     _inherit = 'recurring.contract'
 
+    bvr_background = fields.Binary(related='group_id.bvr_background')
+
     @api.multi
     def get_gift_communication(self, product):
         self.ensure_one()
-        child = self.child_id.with_context(lang=self.partner_id.lang)
+        lang = self.partner_id.lang
+        child = self.child_id.with_context(lang=lang)
+        born = {
+            'en_US': u'Born in',
+            'fr_CH': u'Né le',
+            'de_DE': u'Geburtstag',
+            'it_IT': u'Compleanno',
+        }
         communication = u"{firstname} ({local_id})<br/>{product}<br/>" \
                         u"{birthdate}"
         birthdate = fields.Date.from_string(child.birthdate).strftime(
@@ -26,8 +35,8 @@ class Contract(models.Model):
         vals = {
             'firstname': child.firstname,
             'local_id': child.local_id,
-            'product': product.with_context(lang=self.partner_id.lang).name,
-            'birthdate': _('Born in') + ' ' + birthdate
+            'product': product.with_context(lang=lang).name,
+            'birthdate': born[lang] + ' ' + birthdate
             if 'Birthday' in product.name else ''
         }
         return communication.format(**vals)

@@ -45,5 +45,8 @@ class ResPartner(models.Model):
                     'salutation', female=title.gender == 'F',
                     plural=title.plural
                 ).title()
+                title_name = title.name
+                if self.env.lang != 'de_DE':
+                    title_name = title_name.lower()
                 partner.salutation = title_salutation + ' ' + \
-                    title.name.lower() + ' ' + partner.lastname
+                    title_name + ' ' + partner.lastname
