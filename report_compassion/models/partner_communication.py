@@ -36,8 +36,8 @@ class PartnerCommunication(models.Model):
         for communication in self:
             lang = communication.partner_id.lang
             with setlocale(lang):
-                communication.date_communication = city + u", " +\
-                    today.strftime(lang_map.get(lang))
+                date = today.strftime(lang_map.get(lang)).decode('utf-8')
+                communication.date_communication = city + u", " + date
 
     @api.multi
     def _compute_signature(self):
