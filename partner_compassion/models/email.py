@@ -31,7 +31,7 @@ class Email(models.Model):
                 ) and message.model != 'mail.notification'
                 if notify:
                     message_id = partner.message_post(
-                        message.body, message.subject)
+                        email.body_html, email.subject)
                     p_message = message.browse(message_id)
                     p_message.write({
                         'subtype_id': self.env.ref('mail.mt_comment').id,
