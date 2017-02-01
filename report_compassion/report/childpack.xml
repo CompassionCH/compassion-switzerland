@@ -5,6 +5,7 @@
                 string="Full Childpack"
                 report_type="qweb-pdf"
                 name="report_compassion.childpack_full"
+                menu="False"
         />
         <record id="report_childpack_full" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="paperformat_childpack"/>
@@ -15,6 +16,7 @@
                 string="Small Childpack"
                 report_type="qweb-pdf"
                 name="report_compassion.childpack_small"
+                menu="False"
         />
         <record id="report_childpack_small" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="paperformat_a4_childpack"/>

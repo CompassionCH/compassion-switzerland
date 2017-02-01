@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="print_childpack" model="ir.ui.view">
+            <field name="name">print.childpack.form</field>
+            <field name="model">print.childpack</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<form>
+                    <group>
+                        <field name="type"/>
+                        <field name="lang"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_print_childpack" model="ir.actions.act_window">
+             <field name="name">Childpack</field>
+             <field name="res_model">print.childpack</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="target">new</field>
+       </record>
+
+       <record model="ir.values" id="ir_values_print_childpack">
+           <field name="key2" eval="'client_print_multi'"/>
+           <field name="model" eval="'compassion.child'"/>
+           <field name="name">Childpack</field>
+           <field name="value" eval="'ir.actions.act_window,%d'%action_print_childpack"/>
+       </record>
+    </data>
+</openerp>

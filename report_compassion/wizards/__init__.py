@@ -11,3 +11,4 @@
 
 from . import print_sponsorship_bvr
 from . import print_sponsorship_gift_bvr
+from . import print_childpack
