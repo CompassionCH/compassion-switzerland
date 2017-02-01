@@ -1,5 +1,5 @@
 <openerp>
-    <data>
+    <data noupdate="1">
         <!-- Final letter -->
         <record id="final_letter" model="email.template">
             <field name="name">B2S Final Letter</field>

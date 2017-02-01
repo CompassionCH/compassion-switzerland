@@ -6,7 +6,7 @@
 -->
 
 <openerp>
-    <data>
+    <data noupdate="1">
         <record id="sponsorship_daily_communication_cron" model="ir.cron">
             <field name="name">Send daily sponsorship communication</field>
             <field name="interval_number">1</field>
