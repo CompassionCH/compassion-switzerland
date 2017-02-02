@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-30 11:59+0100\n"
-"PO-Revision-Date: 2017-01-30 12:04+0100\n"
+"POT-Creation-Date: 2017-02-02 15:35+0100\n"
+"PO-Revision-Date: 2017-02-02 15:45+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -28,7 +28,7 @@ msgid "${object.subject}"
 msgstr "${object.subject}"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:48
+#: code:addons/partner_communication_switzerland/models/contracts.py:49
 #, python-format
 msgid ""
 "1 LSV or Direct Debit authorization form to fill in if you don't already "
@@ -38,13 +38,13 @@ msgstr ""
 "renvoyer si vous ne l’avez pas déjà fait!"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:56
+#: code:addons/partner_communication_switzerland/models/contracts.py:57
 #, python-format
 msgid "1 payment slip for the annual sponsorship payment"
 msgstr "1 bulletin de versement pour le règlement de votre parrainage (annuel)"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:44
+#: code:addons/partner_communication_switzerland/models/contracts.py:45
 #, python-format
 msgid ""
 "1 payment slip to set up a standing order (monthly payment of the "
@@ -1382,6 +1382,72 @@ msgstr ""
 "    <br>\n"
 "    Nous vous prions d’agréer, ${partner.salutation.lower()}, nos "
 "salutations fraternelles.\n"
+"</p>"
+
+#. module: partner_communication_switzerland
+#: model:email.template,body_html:partner_communication_switzerland.email_sponsorship_cancellation
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set sponsorships = object.get_objects()\n"
+"                    % set children = sponsorships.mapped('child_id')\n"
+"                    % set firstname = children.get_list('firstname', 3, "
+"'many children')\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${object.partner_id.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We took note of the cancellation of your sponsorship "
+"toward ${firstname}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you so much for having sponsored ${children."
+"get('this child')!\n"
+"                    Thanks to your sponsorship, ${children.get('he')} could "
+"participate in all the activities offered by the Compassion child project:\n"
+"                    food, clothes, academic support, health screenings and "
+"treatments, Bible studies, games, field trips, birthday and Christmas gifts "
+"and a lot more.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We will now look for a new sponsor to continue the "
+"follow up with ${firstname}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Kind regards,\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"    % set partner = object.partner_id\n"
+"    % set sponsorships = object.get_objects()\n"
+"    % set children = sponsorships.mapped('child_id')\n"
+"    % set firstname = children.get_list('firstname', 3, 'vos filleuls')\n"
+"</div>\n"
+"<p>\n"
+"    ${object.partner_id.salutation}\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Nous avons pris note de l'arrêt de ${'votre parrainage' if len(children) "
+"== 1 else 'vos parrainages'} envers ${firstname}\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Compassion Suisse vous remercie sincèrement du soutien que vous avez "
+"apporté à ${children.get('this child')}. Grâce à votre parrainage, "
+"${children.get('he')} ${children.get('has')} pu participer à toutes les "
+"activités organisées par le centre d'accueil et bénéficier d'aide scolaire, "
+"de cadeaux de Noël et d'anniversaire, d'études bibliques, d'accompagnement "
+"spirituel, de soins médicaux, de repas, d'habits, de visites culturelles, "
+"etc…\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Nous allons maintenant chercher un autre parrain pour continuer le "
+"suivi.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Nous vous prions de recevoir, ${object.partner_id.salutation[0].lower() "
+"+ object.partner_id.salutation[1:]}, nos salutations fraternelles\n"
 "</p>"
 
 #. module: partner_communication_switzerland
@@ -2841,6 +2907,7 @@ msgid "Revision for ${object.get_objects().old_firstname}"
 msgstr "Révision pour ${object.get_objects().old_firstname}"
 
 #. module: partner_communication_switzerland
+#: model:email.template,subject:partner_communication_switzerland.email_sponsorship_cancellation
 #: model:email.template,subject:partner_communication_switzerland.email_sponsorship_waiting_reminder_3
 msgid "Sponsorship Cancellation"
 msgstr "Annulation de parrainage"
@@ -2882,7 +2949,7 @@ msgstr ""
 "get_number())}"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:51
+#: code:addons/partner_communication_switzerland/models/contracts.py:52
 #, python-format
 msgid ""
 "We will continue to withdraw the amount for the sponsorship from your "
@@ -2960,7 +3027,7 @@ msgid "Zip id"
 msgstr "Zip id"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:100
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:143
 #, python-format
 msgid "child dossier.pdf"
 msgstr "dossier enfant.pdf"
@@ -3002,7 +3069,7 @@ msgid "one"
 msgstr "un"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:59
+#: code:addons/partner_communication_switzerland/models/contracts.py:60
 #, python-format
 msgid "payment slips for the sponsorship payment"
 msgstr "bulletins de versements pour le règlement du parrainage"
@@ -3020,16 +3087,22 @@ msgid "six"
 msgstr "six"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:131
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:174
 #, python-format
 msgid "sponsorship labels.pdf"
 msgstr "etiquettes parrainage.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:89
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:132
 #, python-format
 msgid "sponsorship payment slips.pdf"
 msgstr "bulletins de versements parrainage.pdf"
+
+#. module: partner_communication_switzerland
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:67
+#, python-format
+msgid "sub child form.pdf"
+msgstr "sub child form.pdf"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:184

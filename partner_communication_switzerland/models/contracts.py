@@ -8,6 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import base64
 import logging
 from datetime import datetime
 
@@ -67,6 +68,7 @@ class RecurringContract(models.Model):
                 ('sponsorship_id', '=', sponsorship.id),
                 ('gift_date', '>=', fields.Date.to_string(today)),
                 ('gift_date', '<', fields.Date.to_string(in_three_months)),
+                ('sponsorship_gift_type', '=', 'Birthday'),
             ])
 
     ##########################################################################
@@ -106,8 +108,8 @@ class RecurringContract(models.Model):
         logger.info("....Creating Anniversary Communications")
         for year in [1, 3, 5, 10, 15]:
             year_lookup = today - relativedelta(years=year)
-            start = year_lookup.replace(day=1)
-            stop = year_lookup.replace(day=31)
+            start = year_lookup.replace(days=1)
+            stop = year_lookup.replace(days=31)
             anniversary = self.search([
                 ('start_date', '>=', fields.Date.to_string(start)),
                 ('start_date', '<=', fields.Date.to_string(stop)),
@@ -120,8 +122,8 @@ class RecurringContract(models.Model):
         # Completion
         logger.info("....Creating Completion Communications")
         in_four_month = today + relativedelta(months=4)
-        start = in_four_month.replace(day=1)
-        stop = in_four_month.replace(day=31)
+        start = in_four_month.replace(days=1)
+        stop = in_four_month.replace(days=31)
         completion = self.search([
             ('child_id.completion_date', '>=', fields.Date.to_string(start)),
             ('child_id.completion_date', '<=', fields.Date.to_string(stop)),
@@ -179,6 +181,30 @@ class RecurringContract(models.Model):
         }).send_communication()
         logger.info("Sponsorship Planned Communications finished!")
 
+    def get_bvr_gift_attachment(self, products):
+        """
+        Get a BVR communication attachment for given gift products.
+        :param products: product.product recordset
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        report = 'report_compassion.bvr_gift_sponsorship'
+        report_obj = self.env['report']
+        attachments = dict()
+        partner_lang = self.mapped('correspondant_id')[0].lang
+        product_name = products[0].with_context(lang=partner_lang).name
+        attachments[product_name + '.pdf'] = [
+            report,
+            base64.b64encode(report_obj.get_pdf(
+                self, report,
+                data={
+                    'doc_ids': self.ids,
+                    'product_ids': products.ids,
+                    'background': True,
+                }
+            ))
+        ]
+        return attachments
+
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################
@@ -202,6 +228,14 @@ class RecurringContract(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
+    @api.multi
+    def _on_sponsorship_finished(self):
+        super(RecurringContract, self)._on_sponsorship_finished()
+        cancellation = self.env.ref(
+            'partner_communication_switzerland.sponsorship_cancellation')
+        self.filtered(
+            lambda s: s.end_reason != '1').send_communication(cancellation)
+
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and

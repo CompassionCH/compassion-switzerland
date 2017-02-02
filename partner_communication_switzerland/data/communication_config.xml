@@ -257,7 +257,6 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
-        <!-- TODO Add graduation gift -->
         <record id="planned_completion" model="partner.communication.config">
             <field name="name">Sponsorship - Completion</field>
             <field name="email_template_id" ref="email_sponsorship_completion"/>
@@ -267,6 +266,7 @@
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function">get_graduation_bvr</field>
         </record>
         <record id="planned_sub_dossier" model="partner.communication.config">
             <field name="name">Sponsorship - SUB Proposal</field>
@@ -311,6 +311,13 @@
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+        </record>
+        <record id="sponsorship_cancellation" model="partner.communication.config">
+            <field name="name">Sponsorship Cancellation</field>
+            <field name="email_template_id" ref="email_sponsorship_cancellation"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="send_mode">physical</field>
+            <field name="model_id" ref="model_recurring_contract"/>
         </record>
 
 
