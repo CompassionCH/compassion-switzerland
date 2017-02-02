@@ -46,7 +46,5 @@ class ResPartner(models.Model):
                     plural=title.plural
                 ).title()
                 title_name = title.name
-                if self.env.lang != 'de_DE':
-                    title_name = title_name.lower()
                 partner.salutation = title_salutation + ' ' + \
                     title_name + ' ' + partner.lastname

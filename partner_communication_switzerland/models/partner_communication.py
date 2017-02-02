@@ -77,25 +77,24 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         attachments = dict()
-        report = 'report_compassion.bvr_gift_sponsorship'
-        report_obj = self.env['report']
         sponsorships = self.get_objects().filtered(
             lambda s: not s.birthday_paid)
         if sponsorships:
             birthday_gift = self.env['product.product'].with_context(
                 lang='en_US').search([('name', '=', GIFT_NAMES[0])])
-            attachments[_('birthday gift.pdf')] = [
-                report,
-                base64.b64encode(report_obj.get_pdf(
-                    sponsorships, report,
-                    data={
-                        'doc_ids': sponsorships.ids,
-                        'product_ids': birthday_gift.ids,
-                        'background': True,
-                    }
-                ))
-            ]
+            attachments = sponsorships.get_bvr_gift_attachment(birthday_gift)
         return attachments
+
+    def get_graduation_bvr(self):
+        """
+        Attach graduation gift slip with background for sending by e-mail
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        sponsorships = self.get_objects()
+        graduation = self.env['product.product'].with_context(
+            lang='en_US').search([('name', '=', GIFT_NAMES[4])])
+        return sponsorships.get_bvr_gift_attachment(graduation)
 
     @api.multi
     def send(self):
