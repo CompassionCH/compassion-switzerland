@@ -228,6 +228,14 @@ class RecurringContract(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
+    @api.multi
+    def _on_sponsorship_finished(self):
+        super(RecurringContract, self)._on_sponsorship_finished()
+        cancellation = self.env.ref(
+            'partner_communication_switzerland.sponsorship_cancellation')
+        self.filtered(
+            lambda s: s.end_reason != '1').send_communication(cancellation)
+
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
