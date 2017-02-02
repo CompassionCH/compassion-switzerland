@@ -30,7 +30,7 @@
                 }
                 .right {
                     position: relative;
-                    left: 91mm;
+                    left: 96mm;
                 }
                 #pp {
                     font-family: verdana;
@@ -61,7 +61,7 @@
                     margin-bottom: 3mm;
                 }
                 #date {
-                    margin-left: 91mm;
+                    margin-left: 96mm;
                     margin-top: 8mm;
                 }
                 #title {
@@ -72,6 +72,11 @@
                     border: none;
                     height: 1pt;
                     background-color: black;
+                }
+                #signature {
+                    position: absolute;
+                    left: 96mm;
+                    top: 215mm;
                 }
             </t>
             <t t-call="report_compassion.html_container">
@@ -103,7 +108,7 @@
                             <div id="body">
                                 <span t-raw="o.body_html"/>
                             </div>
-                            <div class="right">
+                            <div id="signature">
                                 <span t-raw="o.signature"/>
                             </div>
                         </div>
