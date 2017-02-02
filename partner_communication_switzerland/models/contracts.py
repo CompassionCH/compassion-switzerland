@@ -9,6 +9,7 @@
 #
 ##############################################################################
 import base64
+import calendar
 import logging
 from datetime import datetime
 
@@ -108,8 +109,10 @@ class RecurringContract(models.Model):
         logger.info("....Creating Anniversary Communications")
         for year in [1, 3, 5, 10, 15]:
             year_lookup = today - relativedelta(years=year)
-            start = year_lookup.replace(days=1)
-            stop = year_lookup.replace(days=31)
+            start = year_lookup.replace(day=1)
+            stop = year_lookup.replace(
+                day=calendar.monthrange(year_lookup.year,
+                                        year_lookup.month)[1])
             anniversary = self.search([
                 ('start_date', '>=', fields.Date.to_string(start)),
                 ('start_date', '<=', fields.Date.to_string(stop)),
@@ -122,8 +125,10 @@ class RecurringContract(models.Model):
         # Completion
         logger.info("....Creating Completion Communications")
         in_four_month = today + relativedelta(months=4)
-        start = in_four_month.replace(days=1)
-        stop = in_four_month.replace(days=31)
+        start = in_four_month.replace(day=1)
+        stop = in_four_month.replace(
+            day=calendar.monthrange(in_four_month.year,
+                                    in_four_month.month)[1])
         completion = self.search([
             ('child_id.completion_date', '>=', fields.Date.to_string(start)),
             ('child_id.completion_date', '<=', fields.Date.to_string(stop)),
