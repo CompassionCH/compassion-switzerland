@@ -9,8 +9,9 @@
 #
 ##############################################################################
 import base64
-from datetime import datetime
+import detectlanguage
 
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from openerp import models, api, fields
@@ -19,6 +20,9 @@ from openerp import models, api, fields
 class Correspondence(models.Model):
     _inherit = 'correspondence'
 
+    ##########################################################################
+    #                                 FIELDS                                 #
+    ##########################################################################
     communication_id = fields.Many2one(
         'partner.communication.job', 'Communication')
     email_id = fields.Many2one(
@@ -31,7 +35,11 @@ class Correspondence(models.Model):
     email_read = fields.Boolean()
     letter_read = fields.Boolean()
     zip_id = fields.Many2one('ir.attachment')
+    has_valid_language = fields.Boolean(compute='_compute_has_valid_language')
 
+    ##########################################################################
+    #                             FIELDS METHODS                             #
+    ##########################################################################
     def _compute_letter_format(self):
         """ Letter is zip if it contains a zip attachment"""
         for letter in self:
@@ -40,6 +48,38 @@ class Correspondence(models.Model):
             else:
                 super(Correspondence, letter)._compute_letter_format()
 
+    @api.one
+    def _compute_has_valid_language(self):
+        """ Detect if text is written in the language corresponding to the
+        language_id """
+        self.has_valid_language = False
+        if self.translated_text is not None and \
+                        self.translation_language_id is not None:
+            s = self.translated_text.strip(' \t\n\r.')
+            if s:
+                # find the language name of text argument
+                detectlanguage.configuration.api_key = config.get(
+                    'detect_language_api_key')
+                languageName = ""
+                langs = detectlanguage.languages()
+                try:
+                    codeLang = detectlanguage.simple_detect(
+                        self.translated_text)
+                except IndexError:
+                    # Language could not be detected
+                    return
+                for lang in langs:
+                    if lang.get("code") == codeLang:
+                        languageName = lang.get("name").lower()
+                        break
+                supporter_langs = map(
+                    lambda lang: lang.lower(),
+                    self.supporter_languages_ids.mapped('name'))
+                self.has_valid_language = languageName in supporter_langs
+
+    ##########################################################################
+    #                             PUBLIC METHODS                             #
+    ##########################################################################
     def get_image(self):
         """ Method for retrieving the image """
         self.ensure_one()
@@ -132,6 +172,9 @@ class Correspondence(models.Model):
         """
         return len(self) > 3
 
+    ##########################################################################
+    #                             PRIVATE METHODS                            #
+    ##########################################################################
     def _generate_communication(self, config_id):
         """
         Generates the communication for given letters.
@@ -170,3 +213,23 @@ class Correspondence(models.Model):
                   ('letter_read', '=', False),
                   ('sent_date', '<', fields.Date.to_string(ten_days_ago))]
         return domain
+
+    def _can_auto_send(self):
+        """ Tells if we can automatically send the letter by e-mail or should
+        require manual validation before.
+        """
+        self.ensure_one()
+        partner_langs = self.supporter_languages_ids
+        common = partner_langs & self.beneficiary_language_ids
+        if common:
+            types = self.communication_type_ids.mapped('name')
+            valid = (
+                self.sponsorship_id.state == 'active' and
+                'Final Letter' not in types and
+                'auto' in self.correspondant_id.letter_delivery_preference
+            )
+        else:
+            valid = self.has_valid_language and 'auto' in \
+                self.correspondant_id.letter_delivery_preference
+
+        return valid
