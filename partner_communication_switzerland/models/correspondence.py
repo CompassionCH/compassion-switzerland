@@ -15,6 +15,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from openerp import models, api, fields
+from openerp.tools import config
 
 
 class Correspondence(models.Model):
@@ -54,7 +55,7 @@ class Correspondence(models.Model):
         language_id """
         self.has_valid_language = False
         if self.translated_text is not None and \
-                        self.translation_language_id is not None:
+                self.translation_language_id is not None:
             s = self.translated_text.strip(' \t\n\r.')
             if s:
                 # find the language name of text argument
