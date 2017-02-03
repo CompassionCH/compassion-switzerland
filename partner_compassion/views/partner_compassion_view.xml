@@ -118,12 +118,12 @@
                                 <field name="global_communication_delivery_preference"/>
                                 <field name="photo_delivery_preference"/>
                                 <field name="letter_delivery_preference"/>
-                                <field name="send_original"/>
-                                <field name="mandatory_review"/>
                             </group>
                             <group>
                                 <field name="abroad"/>
                                 <field name="opt_out"/>
+                                <field name="send_original"/>
+                                <field name="mandatory_review"/>
                             </group>
                             <group>
                                 <field name="nbmag"/>

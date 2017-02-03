@@ -10,14 +10,13 @@
 ##############################################################################
 import sys
 import base64
-import detectlanguage
 
 from io import BytesIO
 from openerp.exceptions import Warning
 
 from . import translate_connector
 
-from openerp import models, api, fields, _
+from openerp import models, api, _
 from openerp.tools.config import config
 from openerp.addons.sbc_compassion.models.correspondence_page import \
     BOX_SEPARATOR
@@ -34,8 +33,6 @@ class Correspondence(models.Model):
         """
 
     _inherit = 'correspondence'
-
-    has_valid_language = fields.Boolean(compute='_compute_has_valid_language')
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -83,35 +80,6 @@ class Correspondence(models.Model):
                 letter.download_attach_letter_image()
                 letter.send_local_translate()
         return True
-
-    @api.one
-    def _compute_has_valid_language(self):
-        """ Detect if text is written in the language corresponding to the
-        language_id """
-        self.has_valid_language = False
-        if self.translated_text is not None and \
-                self.translation_language_id is not None:
-            s = self.translated_text.strip(' \t\n\r.')
-            if s:
-                # find the language name of text argument
-                detectlanguage.configuration.api_key = config.get(
-                    'detect_language_api_key')
-                languageName = ""
-                langs = detectlanguage.languages()
-                try:
-                    codeLang = detectlanguage.simple_detect(
-                        self.translated_text)
-                except IndexError:
-                    # Language could not be detected
-                    return
-                for lang in langs:
-                    if lang.get("code") == codeLang:
-                        languageName = lang.get("name").lower()
-                        break
-                supporter_langs = map(
-                    lambda lang: lang.lower(),
-                    self.supporter_languages_ids.mapped('name'))
-                self.has_valid_language = languageName in supporter_langs
 
     @api.one
     def send_local_translate(self):
@@ -225,36 +193,6 @@ class Correspondence(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _can_auto_send(self):
-        """ Tells if we can automatically send the letter by e-mail or should
-        require manual validation before.
-        """
-        self.ensure_one()
-        partner_langs = self.supporter_languages_ids
-        common = partner_langs & self.beneficiary_language_ids
-        if common:
-            types = self.communication_type_ids.mapped('name')
-            valid = (
-                self.sponsorship_id.state == 'active' and
-                'Final Letter' not in types and
-                self.translation_language_id in partner_langs and
-                self.correspondant_id.ref != '1502623'  # Demaurex
-            )
-        else:
-            # TODO Until new translation platform is working: we have
-            # to manually verify letters.
-            # Check that the translation is filled
-            # valid = self.page_ids.filtered('translated_text') and \
-            #     self.translation_language_id in partner_langs
-
-            # TODO Activate when most letters are hand-translated
-            # self.b2s_layout_id = self.env.ref('sbc_compassion.b2s_l6')
-            # self.attach_original()
-            # self.compose_letter_image()
-
-            valid = False
-        return valid
-
     def _get_translation_langs(self):
         """
         Finds the source_language et destination_language suited for

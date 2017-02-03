@@ -67,6 +67,7 @@ class ResPartner(models.Model):
                "reminder of his child."), default=True)
     abroad = fields.Boolean(
         'Abroad/Only e-mail',
+        related='email_only',
         help=_("Indicates if the partner is abroad and should only be "
                "updated by e-mail"))
     photo_delivery_preference = fields.Selection(
