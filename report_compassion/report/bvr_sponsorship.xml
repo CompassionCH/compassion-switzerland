@@ -44,7 +44,6 @@
             <t t-if="o.bvr_reference">
                 <t t-set="partner" t-value="o.partner_id"/>
                 <t t-set="partner_address" t-value="partner.short_address"/>
-                <t t-set="company_address" t-value="partner.company_id.partner_id.short_address"/>
                 <t t-set="company_account" t-value="o.get_company_bvr_account()"/>
                 <div class="page">
                     <t t-foreach="o.get_months(months)" t-as="date">
@@ -65,7 +64,6 @@
         <template id="report_gift_document">
             <t t-set="partner" t-value="o.partner_id"/>
             <t t-set="partner_address" t-value="partner.short_address"/>
-            <t t-set="company_address" t-value="partner.company_id.partner_id.short_address"/>
             <t t-set="company_account" t-value="o.get_company_bvr_account()"/>
 
             <div class="page">
