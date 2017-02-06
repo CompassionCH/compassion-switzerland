@@ -77,12 +77,14 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         attachments = dict()
+        background = 'digital' in self.send_mode
         sponsorships = self.get_objects().filtered(
             lambda s: not s.birthday_paid)
         if sponsorships:
             birthday_gift = self.env['product.product'].with_context(
                 lang='en_US').search([('name', '=', GIFT_NAMES[0])])
-            attachments = sponsorships.get_bvr_gift_attachment(birthday_gift)
+            attachments = sponsorships.get_bvr_gift_attachment(
+                birthday_gift, background)
         return attachments
 
     def get_graduation_bvr(self):
@@ -91,10 +93,12 @@ class PartnerCommunication(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
+        background = 'digital' in self.send_mode
         sponsorships = self.get_objects()
         graduation = self.env['product.product'].with_context(
             lang='en_US').search([('name', '=', GIFT_NAMES[4])])
-        return sponsorships.get_bvr_gift_attachment(graduation)
+        return sponsorships.get_bvr_gift_attachment(
+            graduation, background)
 
     @api.multi
     def send(self):

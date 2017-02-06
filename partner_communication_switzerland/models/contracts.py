@@ -124,11 +124,11 @@ class RecurringContract(models.Model):
 
         # Completion
         logger.info("....Creating Completion Communications")
-        in_four_month = today + relativedelta(months=4)
-        start = in_four_month.replace(day=1)
-        stop = in_four_month.replace(
-            day=calendar.monthrange(in_four_month.year,
-                                    in_four_month.month)[1])
+        in_three_month = today + relativedelta(months=3)
+        start = in_three_month.replace(day=1)
+        stop = in_three_month.replace(
+            day=calendar.monthrange(in_three_month.year,
+                                    in_three_month.month)[1])
         completion = self.search([
             ('child_id.completion_date', '>=', fields.Date.to_string(start)),
             ('child_id.completion_date', '<=', fields.Date.to_string(stop)),
@@ -186,10 +186,11 @@ class RecurringContract(models.Model):
         }).send_communication()
         logger.info("Sponsorship Planned Communications finished!")
 
-    def get_bvr_gift_attachment(self, products):
+    def get_bvr_gift_attachment(self, products, background=False):
         """
         Get a BVR communication attachment for given gift products.
         :param products: product.product recordset
+        :param background: wheter to print background or not
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         report = 'report_compassion.bvr_gift_sponsorship'
@@ -204,7 +205,7 @@ class RecurringContract(models.Model):
                 data={
                     'doc_ids': self.ids,
                     'product_ids': products.ids,
-                    'background': True,
+                    'background': background,
                 }
             ))
         ]
