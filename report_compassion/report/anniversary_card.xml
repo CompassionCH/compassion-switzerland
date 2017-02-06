@@ -62,6 +62,7 @@
                     width: 95mm;
                 }
                 #title {
+                    font-family: "tetriaBold";
                     position: absolute;
                     top: 20mm;
                     left: 7mm;
@@ -69,18 +70,19 @@
                 }
                 #body {
                     position: absolute;
-                    top: 25mm;
+                    top: 30mm;
                     left: 7mm;
                     width: 95mm;
                 }
                 #signature {
                     position: absolute;
-                    top: 110mm;
+                    top: 127mm;
                     left: 75mm;
                 }
                 #footer {
+                    font-size: 8pt;
                     position: absolute;
-                    top: 125mm;
+                    top: 130mm;
                     left: 7mm;
                     width: 190mm;
                 }
@@ -117,7 +119,8 @@
                             <span t-raw="o.body_html"/>
                         </div>
                         <div id="signature">
-                            <span t-raw="o.signature"/>
+                            <t t-set="user" t-value="o.user_id or o.env.user"/>
+                            <span t-raw="user.employee_ids[0].department_id.with_context(lang=o.partner_id.lang).name"/>
                         </div>
                         <div id="footer">
                             <span class="blue">COMPASSION</span>

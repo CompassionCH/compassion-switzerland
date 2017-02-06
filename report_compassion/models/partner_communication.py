@@ -43,7 +43,8 @@ class PartnerCommunication(models.Model):
     def _compute_signature(self):
         for communication in self:
             user = communication.user_id or self.env.user
-            employee = user.employee_ids
+            employee = user.employee_ids.with_context(
+                lang=communication.partner_id.lang)
             signature = ''
             if len(employee) == 1:
                 signature = employee.name + '<br/>' + \
