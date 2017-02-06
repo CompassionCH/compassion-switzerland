@@ -43,13 +43,13 @@ class PartnerCommunication(models.Model):
     def _compute_signature(self):
         for communication in self:
             user = communication.user_id or self.env.user
-            employee = user.employee_ids.with_context(
-                lang=communication.partner_id.lang)
+            user = user.with_context(lang=communication.partner_id.lang)
+            employee = user.employee_ids
             signature = ''
             if len(employee) == 1:
                 signature = employee.name + '<br/>' + \
                             employee.department_id.name + '<br/>'
-            signature += self.env.user.company_id.name
+            signature += user.company_id.name
             communication.signature = signature
 
 
@@ -58,3 +58,10 @@ class HrDepartment(models.Model):
 
     # Translate name of department for signatures
     name = fields.Char(translate=True)
+
+
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+    # Translate name of Company for signatures
+    address_name = fields.Char(translate=True)

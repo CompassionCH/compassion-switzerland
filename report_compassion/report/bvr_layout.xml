@@ -12,6 +12,15 @@
         <template id="report_sponsorship_single_slip">
             <t t-set="margin" t-value="position * 0.2"/>
             <t t-set="height" t-value="106 - margin"/>
+            <t t-set="company_address">
+                <span t-raw="partner.company_id.address_name"/>
+                <br/>
+                <span t-raw="partner.company_id.street"/>
+                <br/>
+                <span t-raw="partner.company_id.zip + ' ' + partner.company_id.city"/>
+                <br/>
+                <span t-raw="partner.company_id.country_id.name"/>
+            </t>
             <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm; height: {{ height }}mm;">
                 <t t-if="background">
                     <div id="background" t-attf-style="height: {{ height }}mm;">

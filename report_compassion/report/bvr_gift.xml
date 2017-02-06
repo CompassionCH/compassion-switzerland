@@ -40,7 +40,6 @@
         <template id="report_bvr_sponsorship_gift_document">
             <t t-set="partner" t-value="o.correspondant_id"/>
             <t t-set="partner_address" t-value="partner.short_address"/>
-            <t t-set="company_address" t-value="partner.company_id.partner_id.short_address"/>
             <t t-set="company_account" t-value="o.group_id.get_company_bvr_account()"/>
             <div class="page">
                 <t t-foreach="products" t-as="product">
