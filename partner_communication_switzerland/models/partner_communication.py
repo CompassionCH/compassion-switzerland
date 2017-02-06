@@ -10,6 +10,9 @@
 ##############################################################################
 import base64
 
+from pyPdf import PdfFileWriter, PdfFileReader
+from io import BytesIO
+
 from openerp import api, models, _
 from openerp.exceptions import MissingError
 
@@ -43,7 +46,7 @@ class PartnerCommunication(models.Model):
             for letter in self.get_objects():
                 try:
                     attachments[letter.letter_image.name] = [
-                        report, letter.letter_image.datas]
+                        report, self._convert_pdf(letter.letter_image.datas)]
                 except MissingError:
                     self.send_mode = False
                     self.auto_send = False
@@ -183,3 +186,35 @@ class PartnerCommunication(models.Model):
             ]
 
         return attachments
+
+    def _convert_pdf(self, pdf_data):
+        """
+        Converts all pages of PDF in A4 format if communication is
+        printed.
+        :param pdf_data: binary data of original pdf
+        :return: binary data of converted pdf
+        """
+        if self.send_mode != 'physical':
+            return pdf_data
+
+        pdf = PdfFileReader(BytesIO(base64.b64decode(pdf_data)))
+        convert = PdfFileWriter()
+        a4_width = 594.48
+        a4_height = 844.32  # A4 units in PyPDF
+        for i in xrange(0, pdf.numPages):
+            # translation coordinates
+            tx = 0
+            ty = 0
+            page = pdf.getPage(i)
+            corner = [float(x) for x in page.mediaBox.getUpperRight()]
+            if corner[0] > a4_width or corner[1] > a4_height:
+                page.scaleBy(max(a4_width/corner[0], a4_height/corner[1]))
+            elif corner[0] < a4_width or corner[1] < a4_height:
+                tx = (a4_width - corner[0]) / 2
+                ty = (a4_height - corner[1]) / 2
+            convert.addBlankPage(a4_width, a4_height)
+            convert.getPage(i).mergeTranslatedPage(page, tx, ty)
+        output_stream = BytesIO()
+        convert.write(output_stream)
+        output_stream.seek(0)
+        return base64.b64encode(output_stream.read())
