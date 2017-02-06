@@ -76,7 +76,7 @@
                 }
                 #signature {
                     position: absolute;
-                    top: 127mm;
+                    top: 122mm;
                     left: 75mm;
                 }
                 #footer {
@@ -121,6 +121,8 @@
                         <div id="signature">
                             <t t-set="user" t-value="o.user_id or o.env.user"/>
                             <span t-raw="user.employee_ids[0].department_id.with_context(lang=o.partner_id.lang).name"/>
+                            <br/>
+                            <span t-raw="user.company_id.with_context(lang=o.partner_id.lang).name"/>
                         </div>
                         <div id="footer">
                             <span class="blue">COMPASSION</span>
