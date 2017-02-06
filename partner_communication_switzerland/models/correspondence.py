@@ -66,7 +66,7 @@ class Correspondence(models.Model):
                 try:
                     codeLang = detectlanguage.simple_detect(
                         self.translated_text)
-                except IndexError:
+                except (IndexError, detectlanguage.DetectLanguageError):
                     # Language could not be detected
                     return
                 for lang in langs:
