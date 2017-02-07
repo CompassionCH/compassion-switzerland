@@ -148,6 +148,7 @@ class RecurringContracts(models.Model):
             else:
                 vals['date'] = date_start.strftime("%B %Y").title() + " - " + \
                                date_stop.strftime("%B %Y")
+            vals['date'] = vals['date'].decode('utf-8')
             if 'Permanent' in payment_term.name:
                 vals['payment_type'] = _('ISR for standing order')
                 vals['date'] = ''

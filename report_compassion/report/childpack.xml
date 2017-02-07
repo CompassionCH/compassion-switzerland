@@ -66,8 +66,12 @@
                 .desc table {
                     width: 55mm;
                 }
+                .desc td {
+                    vertical-align: bottom;
+                }
                 .desc td:first-child {
                     padding-right: 5mm;
+                    vertical-align: top;
                 }
                 h6 {
                     font-size: small;
