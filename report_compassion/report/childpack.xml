@@ -36,52 +36,66 @@
                 }
                 .local_id {
                     position: absolute;
-                    margin-left: 75mm;
-                    margin-top: 35mm;
+                    margin-left: 65mm;
+                    margin-top: 32.5mm;
+                    width: 38mm;
                 }
                 .desc {
                     position: absolute;
-                    margin-left: <t t-esc="marginLeft+15"/>mm;
+                    margin-left: <t t-esc="marginLeft+7"/>mm;
                     margin-top: 42mm;
-                    width: 120mm;
+                    width: 140mm;
                     height: 116mm;
                     max-height: 116mm;
                     font-size: x-small;
                     column-count: 2;
                     -webkit-column-count: 2; /* Chrome, Safari, Opera */
                     -moz-column-count: 2; /* Firefox */
-                    column-gap: 10mm;
                 }
                 .desc .left {
                     width: 55mm;
                     max-width: 100%;
                 }
                 .desc .right {
-                    width: 55mm;
+                    width: 75mm;
                     max-width: 100%;
                     position: absolute;
-                    left: 70mm;
+                    left: 55mm;
                     top: 0mm;
                 }
-                .desc table {
+                .desc .left table {
                     width: 55mm;
                 }
+                .desc .right table {
+                    width: 75mm;
+                }
+                .desc td {
+                    vertical-align: bottom;
+                    padding-bottom: 1.5mm;
+                }
                 .desc td:first-child {
-                    padding-right: 5mm;
+                    padding-right: 2mm;
+                    vertical-align: top;
                 }
                 h6 {
-                    font-size: small;
+                    font-family: "tetriaBlack";
+                }
+                .desc.boy h6 {
+                    color: #013d4b;
+                }
+                .desc.girl h6 {
+                    color: #470641;
                 }
                 .title {
                     position: absolute;
                     margin-left: <t t-esc="marginLeft+186"/>mm;
                     margin-top: 55mm;
                 }
-                .boy {
-                    color: #02728e;
+                h1 .boy {
+                    color: #027997;
                 }
-                .girl {
-                    color: #af0ea2;
+                h1 .girl {
+                    color: #8e0b83;
                 }
                 .photo {
                     position: absolute;
@@ -99,25 +113,24 @@
                     position: absolute;
                     margin-left: <t t-esc="marginLeft+253"/>mm;
                     margin-top: 95mm;
+                    font-size: small;
                 }
                 .summary_field {
                     font-weight: bold;
                 }
                 /* Comma separated lists */
-                .childpack-full ul {
-                  display: inline;
-                  list-style: none;
+                ul {
+                    margin: 0;
+                    padding: 0;
                 }
                 li {
-                  display: inline;
+                    display: inline;
                 }
-
                 li:after {
-                  content: ", ";
+                    content: ", ";
                 }
-
                 li:last-child:after {
-                  content: "";
+                    content: "";
                 }
             </t>
             <t t-call="report_compassion.html_container">
@@ -126,23 +139,25 @@
                         <t t-if="formMargin">
                             <div class="local_id">
                                 <span t-field="o.local_id"/>
+                                <br/>
+                                Available until: <span t-raw="o.get_date('hold_expiration')"/>
                             </div>
                         </t>
-                        <div class="desc">
+                        <div t-attf-class="desc {{'boy' if o.gender == 'M' else 'girl'}}">
                             <div class="left">
                                 <span t-raw="o.description"/>
                             </div>
                             <div class="right">
-                                <h6 style="margin-top: 0mm;"><span t-field="o.project_title"/></h6>
+                                <h6 style="margin-top: 3mm;"><span t-field="o.project_title"/></h6>
                                 <span t-raw="o.project_id.description"/>
                             </div>
                         </div>
                         <div class="title">
                             <t t-if="o.gender == 'M'">
-                                <h1><span t-field="o.firstname" class="boy"/></h1>
+                                <h1><span t-field="o.preferred_name" class="boy"/></h1>
                             </t>
                             <t t-if="o.gender == 'F'">
-                                <h1><span t-field="o.firstname" class="girl"/></h1>
+                                <h1><span t-field="o.preferred_name" class="girl"/></h1>
                             </t>
                         </div>
                         <div class="photo">
