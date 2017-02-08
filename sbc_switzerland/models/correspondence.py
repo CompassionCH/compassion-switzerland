@@ -140,23 +140,14 @@ class Correspondence(models.Model):
 
         if self.direction == 'Supporter To Beneficiary':
             state = 'Received in the system'
-
-            # Write in the good text field
-            if translate_lang == 'eng':
-                target_text = 'english_text'
-            elif translate_lang in self.child_id.field_office_id \
-                    .spoken_language_ids.mapped('code_iso') or\
-                    (translate_lang == 'fra' and
-                     self.child_id.code[:2] == 'HA'):
-                # TODO After release R4 replace with 'translated_text'
-                target_text = 'english_text'
-            else:
-                raise AssertionError(
-                    'letter {} was translated in a wrong language: {}'
-                    .format(self.id, translate_lang))
+            target_text = 'original_text'
+            language_field = 'original_language_id'
+            # Remove #BOX# in the text, as supporter letters don't have boxes
+            translate_text = translate_text.replace(BOX_SEPARATOR, '\n')
         else:
             state = 'Published to Global Partner'
             target_text = 'translated_text'
+            language_field = 'translation_language_id'
             # TODO Remove this when new translation tool is working
             # Workaround to avoid overlapping translation : everything goes
             # in L6 template
@@ -169,20 +160,11 @@ class Correspondence(models.Model):
         self.write({
             target_text: translate_text.replace('\r', ''),
             'state': state,
-            'translation_language_id': translate_lang_id,
+            language_field: translate_lang_id,
             'translator_id': translator_partner.id})
 
         # Send to GMC
         if self.direction == 'Supporter To Beneficiary':
-            # TODO Until R4 or bug with english_text is resolved
-            # Remove #BOX# in the text, as supporter letters don't have boxes
-            # Remove returns
-            self.write({
-                'original_text': translate_text.replace('\r', '').replace(
-                    BOX_SEPARATOR, '\n'),
-                target_text: translate_text.replace('\r', '').replace(
-                    BOX_SEPARATOR, '\n'),
-            })
             self.create_commkit()
         else:
             # Recompose the letter image and process letter
