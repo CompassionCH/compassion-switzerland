@@ -30,7 +30,6 @@ class ResPartner(models.Model):
         thankyou_mapping = {
             'no': 'none',
             'default': 'auto_digital',
-            'email': 'auto_digital',
             'paper': 'physical'
         }
         for partner in self:
