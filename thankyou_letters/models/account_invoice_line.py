@@ -12,19 +12,19 @@
 from openerp import models, api
 
 
-class MailTrackingEvent(models.Model):
-    _inherit = "mail.tracking.event"
+class AccountInvoiceLine(models.Model):
+    _inherit = "account.invoice.line"
 
-    @api.model
-    def process_open(self, tracking_email, metadata):
-        """ Mark correspondence as read. """
-        correspondence = self.env['correspondence'].search([
-            ('email_id', '=', tracking_email.mail_id.id),
-            ('email_read', '=', False)
-        ])
-        correspondence.write({
-            'email_read': True,
-            'letter_read': True
-        })
-        return super(MailTrackingEvent, self).process_open(
-            tracking_email, metadata)
+    @api.multi
+    def get_donations(self):
+        """
+        Gets a dictionary for thank_you communication
+        :return: {product_name: total_donation_amount}
+        """
+        donations = dict()
+        products = self.mapped('product_id')
+        for product in products:
+            total = sum(self.filtered(
+                lambda l: l.product_id == product).mapped('price_subtotal'))
+            donations[product.name] = "{:.2f,}".format(total).replace(',', "'")
+        return donations

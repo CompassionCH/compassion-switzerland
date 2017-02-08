@@ -16,10 +16,19 @@
                     ${partner.salutation},
                     <br/>
                     <br/>
-                    We thank you for the following donation you made to Compassion:
+                    % if partner.is_new_donator:
+                        <span style="color: red">
+                            Welcome in the Compassion Donors family! We are glad to send you some information about our organization.
+                            Please don't hesitate to contact us if any of your questions about us are left unanswered.
+                            It will be an opportunity to know each other better.
+                        </span>
+                        <br/>
+                        <br/>
+                    % endif
+                    We would like to thank you very much for the following donation you made to Compassion:
                     <ul>
                         <li t-foreach="invoice_lines.get_donations()" t-as="line">
-                            CHF ${line_value}.- for ${line}
+                            CHF ${line_value}.- for the ${line}
                         </li>
                     </ul>
                     <br/>
