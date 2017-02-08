@@ -1,0 +1,35 @@
+<openerp>
+    <data>
+        <record id="thankyou_letter_template" model="email.template">
+            <field name="name">Donation - Thank You Letter</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">Donation Receipt</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set invoice_lines = object.get_objects()
+                    % set partner = object.partner_id
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    We thank you for the following donation you made to Compassion:
+                    <ul>
+                        <li t-foreach="invoice_lines.get_donations()" t-as="line">
+                            CHF ${line_value}.- for ${line}
+                        </li>
+                    </ul>
+                    <br/>
+                    <br/>
+                    ${object.get_success_story()}
+                    <br/>
+                    <br/>
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+    </data>
+</openerp>
