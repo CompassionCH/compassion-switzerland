@@ -44,7 +44,7 @@ class AccountInvoice(models.Model):
         if vals.get('state') == 'open':
             for invoice in self.filtered(
                     lambda i: i.state == 'paid' and i.communication_id and
-                    i.communication_id.state == 'pending'):
+                    i.communication_id.state in ('call', 'pending')):
                 comm = invoice.communication_id
                 object_ids = comm.object_ids
                 for line in invoice.invoice_line:
@@ -60,7 +60,8 @@ class AccountInvoice(models.Model):
                         'config_id': config.id,
                         'object_ids': object_ids,
                         'send_mode': send_mode[0],
-                        'auto_send': send_mode[1]
+                        'auto_send': send_mode[1],
+                        'need_call': config.need_call,
                     })
                     comm.refresh_text()
                 else:
@@ -81,7 +82,7 @@ class AccountInvoice(models.Model):
                 lambda l: l.partner_id == partner)
             existing_comm = comm_obj.search([
                 ('partner_id', '=', partner.id),
-                ('state', '=', 'pending'),
+                ('state', 'in', ('call', 'pending')),
                 ('config_id', 'in', (small + standard + large).ids)
             ])
             if existing_comm:
@@ -92,6 +93,7 @@ class AccountInvoice(models.Model):
                 'partner_id': partner.id,
                 'config_id': config.id,
                 'object_ids': invoice_lines.ids,
+                'need_call': config.need_call,
             }
             if existing_comm:
                 send_mode = config.get_inform_mode(partner)
