@@ -10,5 +10,6 @@
 ##############################################################################
 
 from . import account_invoice_line
+from . import account_invoice
 from . import res_partner
 from . import partner_communication

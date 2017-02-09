@@ -27,12 +27,12 @@
                     % endif
                     We would like to thank you very much for the following donation you made to Compassion:
                     <ul>
-                        <li t-foreach="invoice_lines.get_donations()" t-as="line">
-                            CHF ${line_value}.- for the ${line}
-                        </li>
+                        % for fund, amount in invoice_lines.get_donations().iteritems():
+                            <li>
+                                CHF ${amount}.- for the ${fund}
+                            </li>
+                        % endfor
                     </ul>
-                    <br/>
-                    <br/>
                     ${object.get_success_story()}
                     <br/>
                     <br/>

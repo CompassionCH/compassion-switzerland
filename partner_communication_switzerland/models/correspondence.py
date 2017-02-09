@@ -138,7 +138,7 @@ class Correspondence(models.Model):
             'partner_communication_switzerland.child_letter_config')
         old_template = self.env.ref(
             'partner_communication_switzerland.child_letter_old_config')
-        old_limit = datetime.today() - relativedelta(months=1)
+        old_limit = datetime.today() - relativedelta(months=2)
 
         for partner in partners:
             letters = self.filtered(lambda l: l.correspondant_id == partner)
@@ -150,7 +150,7 @@ class Correspondence(models.Model):
                 lambda l: final_letter in l.communication_type_ids)
             new_letters = to_generate - final_letters
             old_letters = new_letters.filtered(
-                lambda l: fields.Datetime.from_string(l.status_date) <
+                lambda l: fields.Datetime.from_string(l.create_date) <
                 old_limit
             )
             new_letters -= old_letters
