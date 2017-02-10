@@ -14,3 +14,4 @@ from . import account_invoice
 from . import res_partner
 from . import partner_communication
 from . import event_compassion
+from . import success_story

@@ -8,6 +8,11 @@
             <field name="use_default_to" eval="True"/>
             <field name="subject">Donation Receipt</field>
             <field name="body_html" type="html">
+                <style>
+                    .success {
+
+                    }
+                </style>
                 <div>
                     % set invoice_lines = object.get_objects()
                     % set partner = object.partner_id
@@ -36,17 +41,16 @@
                     % if object.event_id:
                         % for ambassador in invoice_lines.mapped('user_id').filtered('ambassador_quote'):
                             ${ambassador.ambassador_quote |safe}
-                            (Quote from ${ambassador.firstname} ${ambassador.lastname})
-                            <br/>
-                            <br/>
                         % endfor
                         % if object.event_id.thank_you_text:
                             ${object.event_id.thank_you_text |safe}
                         % endif
                     % endif
-                    ${object.get_success_story()}
-                    <br/>
-                    <br/>
+                    <p id="compassion-mission">
+                        Compassion is a Christian international holistic child development organisation.
+                        Through our Child Sponsorship Program, more than 1.8 million children are currently being released from poverty in Jesus’ name.
+                        With over six decades of experience, Compassion’s unique approach to solving poverty works: research proves it.
+                    </p>
                     Yours sincerely
                 </div>
             </field>
