@@ -28,7 +28,6 @@ class ResPartner(models.Model):
         return [
             ('no', _('No receipt')),
             ('default', _('Default')),
-            ('email', _('By e-mail')),
             ('paper', _('On paper'))]
 
     ##########################################################################
