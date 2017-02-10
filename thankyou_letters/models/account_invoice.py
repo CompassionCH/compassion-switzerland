@@ -19,7 +19,9 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     communication_id = fields.Many2one(
-        'partner.communication.job', 'Thank you letter', ondelete='set null')
+        'partner.communication.job', 'Thank you letter', ondelete='set null',
+        readonly=True
+    )
 
     @api.multi
     def confirm_paid(self):
@@ -30,7 +32,7 @@ class AccountInvoice(models.Model):
         invoices = self.filtered(
             lambda i: (
                 not i.communication_id or
-                i.communication_id.state == 'pending')
+                i.communication_id.state in ('call', 'pending'))
             and "Sponsorship" not in i.mapped(
                 'invoice_line.product_id.categ_name')
         )
@@ -70,39 +72,17 @@ class AccountInvoice(models.Model):
 
     def _generate_thank_you(self):
         """
-        Creates a thank you letter communication
+        Creates a thank you letter communication separating events thank you
+        and regular thank you.
         """
         partners = self.mapped('partner_id')
-        comm_obj = self.env['partner.communication.job']
-        small = self.env.ref('thankyou_letters.config_thankyou_small')
-        standard = self.env.ref('thankyou_letters.config_thankyou_standard')
-        large = self.env.ref('thankyou_letters.config_thankyou_large')
         for partner in partners:
             invoice_lines = self.mapped('invoice_line').filtered(
                 lambda l: l.partner_id == partner)
-            existing_comm = comm_obj.search([
-                ('partner_id', '=', partner.id),
-                ('state', 'in', ('call', 'pending')),
-                ('config_id', 'in', (small + standard + large).ids)
-            ])
-            if existing_comm:
-                invoice_lines += existing_comm.get_objects()
-
-            config = invoice_lines.get_thankyou_config()
-            comm_vals = {
-                'partner_id': partner.id,
-                'config_id': config.id,
-                'object_ids': invoice_lines.ids,
-                'need_call': config.need_call,
-            }
-            if existing_comm:
-                send_mode = config.get_inform_mode(partner)
-                comm_vals['send_mode'] = send_mode[0]
-                comm_vals['auto_send'] = send_mode[1]
-                existing_comm.write(comm_vals)
-                existing_comm.refresh_text()
-            else:
-                existing_comm = comm_obj.create(comm_vals)
-            self.filtered(lambda i: i.partner_id == partner).write({
-                'communication_id': existing_comm.id
-            })
+            event_thank = invoice_lines.filtered('event_id')
+            other_thank = invoice_lines - event_thank
+            for event in event_thank.mapped('event_id'):
+                event_thank.filtered(
+                    lambda l: l.event_id == event).generate_thank_you()
+            if other_thank:
+                other_thank.generate_thank_you()

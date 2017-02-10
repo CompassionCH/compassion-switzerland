@@ -9,11 +9,22 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, api, fields
 
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
+
+    event_id = fields.Many2one(
+        'crm.event.compassion', compute='_compute_event')
+
+    @api.multi
+    def _compute_event(self):
+        event_obj = self.env['crm.event.compassion']
+        for line in self:
+            line.event_id = event_obj.search([
+                ('analytic_id', '=', line.account_analytic_id.id)
+            ], limit=1)
 
     @api.multi
     def get_donations(self):
@@ -22,12 +33,70 @@ class AccountInvoiceLine(models.Model):
         :return: {product_name: total_donation_amount}
         """
         donations = dict()
-        products = self.mapped('product_id')
+        event_lines = self.filtered('event_id')
+        other_lines = self - event_lines
+        events = event_lines.mapped('event_id')
+
+        for event in events:
+            total = sum(event_lines.filtered(
+                lambda l: l.event_id == event).mapped('price_subtotal'))
+            donations[event.name] = "{:,}".format(total).replace(',', "'")
+
+        products = other_lines.mapped('product_id')
         for product in products:
-            total = sum(self.filtered(
+            total = sum(other_lines.filtered(
                 lambda l: l.product_id == product).mapped('price_subtotal'))
             donations[product.name] = "{:,}".format(total).replace(',', "'")
+
         return donations
+
+    @api.multi
+    def generate_thank_you(self):
+        """
+        Creates a thank you letter communication.
+        /!\ Must be called only on a single partner and single event at a time.
+        """
+        comm_obj = self.env['partner.communication.job']
+        small = self.env.ref('thankyou_letters.config_thankyou_small')
+        standard = self.env.ref('thankyou_letters.config_thankyou_standard')
+        large = self.env.ref('thankyou_letters.config_thankyou_large')
+        invoice_lines = self
+
+        partner = self.mapped('partner_id')
+        partner.ensure_one()
+        event = self.mapped('event_id')
+
+        existing_comm = comm_obj.search([
+            ('partner_id', '=', partner.id),
+            ('state', 'in', ('call', 'pending')),
+            ('config_id', 'in', (small + standard + large).ids),
+            ('event_id', '=', event.id)
+        ])
+        if existing_comm:
+            invoice_lines += existing_comm.get_objects()
+
+        config = invoice_lines.get_thankyou_config()
+        comm_vals = {
+            'partner_id': partner.id,
+            'config_id': config.id,
+            'object_ids': invoice_lines.ids,
+            'need_call': config.need_call,
+            'event_id': event.id,
+        }
+        if existing_comm:
+            send_mode = config.get_inform_mode(partner)
+            comm_vals['send_mode'] = send_mode[0]
+            comm_vals['auto_send'] = send_mode[1]
+            existing_comm.write(comm_vals)
+            existing_comm.refresh_text()
+        else:
+            # Do not group communications which have not same event linked.
+            existing_comm = comm_obj.with_context(
+                same_job_search=[('event_id', '=', event.id)]
+            ).create(comm_vals)
+        self.mapped('invoice_id').write({
+            'communication_id': existing_comm.id
+        })
 
     @api.multi
     def get_thankyou_config(self):

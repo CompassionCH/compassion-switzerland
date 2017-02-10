@@ -8,9 +8,10 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+from openerp import models, fields
 
-from . import account_invoice_line
-from . import account_invoice
-from . import res_partner
-from . import partner_communication
-from . import event_compassion
+
+class EventCompassion(models.Model):
+    _inherit = 'crm.event.compassion'
+
+    thank_you_text = fields.Html(translate=True)

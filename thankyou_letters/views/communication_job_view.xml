@@ -1,33 +1,60 @@
 <openerp>
     <data>
-        <!-- Add language filters in search view -->
-        <record model="ir.ui.view" id="communication_job_search">
-            <field name="name">communication.job.search.switzerland</field>
+        <!-- Add event in views -->
+        <record model="ir.ui.view" id="communication_job_form_event">
+            <field name="name">communication.job.form.event</field>
+            <field name="model">partner.communication.job</field>
+            <field name="inherit_id" ref="partner_communication.communication_job_form"/>
+            <field name="arch" type="xml">
+                <field name="auto_send" position="after">
+                    <field name="event_id"/>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="communication_job_tree_event">
+            <field name="name">communication.job.tree.event</field>
+            <field name="model">partner.communication.job</field>
+            <field name="inherit_id" ref="partner_communication.communication_job_tree"/>
+            <field name="arch" type="xml">
+                <field name="subject" position="after">
+                    <field name="event_id"/>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="communication_job_search_event">
+            <field name="name">communication.job.search.event</field>
             <field name="model">partner.communication.job</field>
             <field name="inherit_id" ref="partner_communication.communication_job_search"/>
             <field name="arch" type="xml">
-                <filter name="physical" position="after">
-                    <separator/>
-                    <filter string="French" name="french" domain="[('partner_id.lang', '=', 'fr_CH')]"/>
-                    <filter string="German" name="german" domain="[('partner_id.lang', '=', 'de_DE')]"/>
-                    <filter string="Italian" name="italian" domain="[('partner_id.lang', '=', 'it_IT')]"/>
+                <filter name="config" position="before">
+                    <filter string="Event" name="event" domain="[]" context="{'group_by':'event_id'}"/>
                 </filter>
             </field>
         </record>
 
-        <!-- Add menu for editing e-mail templates of communications -->
-        <record id="action_communication_template" model="ir.actions.act_window">
-            <field name="name">Communication templates</field>
-            <field name="res_model">email.template</field>
+        <!-- Add menus for thank you letters -->
+        <record id="partner_communication.action_communication_job" model="ir.actions.act_window">
+            <field name="domain">[('config_id.model', '!=', 'account.invoice.line')]</field>
+        </record>
+        <record id="action_thank_you" model="ir.actions.act_window">
+            <field name="name">Donation Receipts</field>
+            <field name="res_model">partner.communication.job</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('model_id.model', '=', 'partner.communication.job')]</field>
+            <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '=', False)]</field>
+            <field name="context">{'search_default_pending': True, 'search_default_config': True, 'default_user_id': uid}</field>
+        </record>
+        <record id="action_thank_you_event" model="ir.actions.act_window">
+            <field name="name">Event Donation Receipts</field>
+            <field name="res_model">partner.communication.job</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '!=', False)]</field>
+            <field name="context">{'search_default_pending': True, 'search_default_config': True, 'search_default_event': True, 'default_user_id': uid}</field>
         </record>
 
-        <!-- Move Partner Communication Section -->
-        <menuitem id="partner_communication.menu_communication_jobs" parent="sponsorship_tracking.menu_tracking" name="Partner Communications" sequence="1"/>
-        <menuitem name="Templates" id="menu_communication_templates" parent="child_compassion.menu_communication_config" sequence="4" action="action_communication_template"/>
-        <menuitem id="partner_communication.menu_communication_config" parent="child_compassion.menu_communication_config" name="Communication Rules" sequence="5"/>
-        <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>
+        <menuitem id="menu_donation" name="Donation Receipts" parent="base.menu_base_partner" sequence="2"/>
+        <menuitem id="menu_donation_general" name="General Donations" parent="menu_donation" action="action_thank_you"/>
+        <menuitem id="menu_donation_event" name="Event Donations" parent="menu_donation" action="action_thank_you_event"/>
     </data>
 </openerp>

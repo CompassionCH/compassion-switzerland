@@ -36,7 +36,10 @@
     'data': [
         'data/email_template.xml',
         'data/communication_config.xml',
-        # 'views/communication_job_view.xml',
+        'views/communication_job_view.xml',
+        'views/event_compassion_view.xml',
+        'views/res_partner_view.xml',
+        'views/account_invoice_view.xml',
     ],
     'demo': [],
     'installable': True,
