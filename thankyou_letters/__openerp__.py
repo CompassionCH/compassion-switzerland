@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -26,28 +26,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 {
-    'name': 'Upgrade Partners for Compassion Suisse',
-    'version': '8.0.3.1',
-    'category': 'Partner',
-    'sequence': 150,
+    'name': 'Thank You Letters',
+    'version': '8.0.1.0',
+    'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': [
-        'sbc_compassion', 'mail_sendgrid', 'partner_contact_birthdate',
-        'partner_firstname', 'geoengine_base_geolocalize',
-        'geoengine_geoname_geocoder', 'mail_restrict_follower_selection',
-    ],
+    'depends': ['report_compassion'],
     'data': [
-        'data/partner_category_data.xml',
-        'data/partner_title_data.xml',
-        'data/geocode_cron.xml',
-        'data/follower_restriction_rules.xml',
-        'views/partner_compassion_view.xml',
-        'views/bulk_encode_view.xml',
-        'views/product_view.xml',
+        'data/email_template.xml',
+        'data/communication_config.xml',
+        'views/communication_job_view.xml',
+        'views/event_compassion_view.xml',
+        'views/res_partner_view.xml',
+        'views/account_invoice_view.xml',
     ],
     'demo': [],
     'installable': True,
