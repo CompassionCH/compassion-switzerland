@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-02 15:41+0100\n"
-"PO-Revision-Date: 2017-02-02 15:48+0100\n"
+"POT-Creation-Date: 2017-02-13 12:05+0100\n"
+"PO-Revision-Date: 2017-02-13 12:10+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -28,7 +28,7 @@ msgid "${object.subject}"
 msgstr "${object.subject}"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:49
+#: code:addons/partner_communication_switzerland/models/contracts.py:50
 #, python-format
 msgid ""
 "1 LSV or Direct Debit authorization form to fill in if you don't already "
@@ -36,13 +36,13 @@ msgid ""
 msgstr "1 LSV-Formular zum ausfüllen und zurücksenden"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:57
+#: code:addons/partner_communication_switzerland/models/contracts.py:58
 #, python-format
 msgid "1 payment slip for the annual sponsorship payment"
 msgstr "1 Einzahlungsschein für Ihre Patenschaft (jährlich)"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:45
+#: code:addons/partner_communication_switzerland/models/contracts.py:46
 #, python-format
 msgid ""
 "1 payment slip to set up a standing order (monthly payment of the "
@@ -911,6 +911,65 @@ msgstr ""
 "</p>"
 
 #. module: partner_communication_switzerland
+#: model:email.template,body_html:partner_communication_switzerland.email_address_change
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set address = partner.short_address\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We sent you a mail to the following address:\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    ${address |safe}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Unfortunately it seems that it's not the right address. "
+"Would you be so kind and inform us about the changes, please.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you in advance\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Best regards,\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set address = partner.short_address\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Wir haben Ihnen an die folgende Adresse Post gesendet:\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    ${address |safe}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Der Brief hat Sie leider nicht erreicht. Daher möchten "
+"wir Sie fragen, ob Sie um gezogen sind.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Falls ja, freuen wir uns über die Mitteilung Ihrer neuen "
+"Adresse per e-mail (info@compassion.ch), Telefon (0800 784 773) oder Post.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Vielen Dank, dass Sie uns helfen, die Kinder im Namen "
+"Jesu aus der Armut zu befreien. So verändern wir die Welt. Ein Kind nach dem "
+"andern.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Freundliche Grüsse\n"
+"                </p>\n"
+"            "
+
+#. module: partner_communication_switzerland
 #: model:email.template,body_html:partner_communication_switzerland.email_biennial
 msgid ""
 "<div>\n"
@@ -1513,6 +1572,57 @@ msgstr ""
 "                    <br/>\n"
 "                    Kind regards\n"
 "                </p>"
+
+#. module: partner_communication_switzerland
+#: model:email.template,body_html:partner_communication_switzerland.email_invalid_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We wanted to send you an e-mail, but your address "
+"${partner.email} seems invalid.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Could you please contact us to give us your valid e-mail "
+"address?\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you in advance\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Best regards,\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Wir haben Ihnen eine Email an die folgende Adresse "
+"gesendet: ${partner.email}. Leider scheint die Email Sie nicht erreicht zu "
+"haben.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Daher möchten wir Sie bitten, uns die neue Emailadresse "
+"per e-mail (info@compassion.ch), Telefon (0800 784 773) oder Post "
+"mitzuteilen.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                   Vielen Dank, dass Sie uns helfen, die Kinder im Namen "
+"Jesu aus der Armut zu befreien. So verändern wir die Welt. Ein Kind nach dem "
+"andern.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Freundliche Grüsse\n"
+"                </p>\n"
+"            "
 
 #. module: partner_communication_switzerland
 #: model:email.template,body_html:partner_communication_switzerland.email_sponsorship_completion
@@ -2716,6 +2826,11 @@ msgid "Email read"
 msgstr "Email read"
 
 #. module: partner_communication_switzerland
+#: view:partner.communication.job:partner_communication_switzerland.communication_job_search
+msgid "English"
+msgstr "English"
+
+#. module: partner_communication_switzerland
 #: selection:recurring.contract,gender:0 selection:res.partner.title,gender:0
 msgid "Female"
 msgstr "Female"
@@ -3003,7 +3118,7 @@ msgstr ""
 "get_number())}"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:52
+#: code:addons/partner_communication_switzerland/models/contracts.py:53
 #, python-format
 msgid ""
 "We will continue to withdraw the amount for the sponsorship from your "
@@ -3017,6 +3132,12 @@ msgid ""
 msgstr ""
 "Machen Sie den Geburtstag von ${object.get_objects().get('Ihren "
 "Patenkindern')} zu einem besonderen!"
+
+#. module: partner_communication_switzerland
+#: model:email.template,subject:partner_communication_switzerland.email_address_change
+#: model:email.template,subject:partner_communication_switzerland.email_invalid_email
+msgid "Wrong address"
+msgstr "Ungültige Adresse"
 
 #. module: partner_communication_switzerland
 #: view:child.order.picture.wizard:partner_communication_switzerland.child_order_picture_wizard_form
@@ -3070,7 +3191,7 @@ msgid "Zip id"
 msgstr "Zip id"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:143
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:150
 #, python-format
 msgid "child dossier.pdf"
 msgstr "dossier.pdf"
@@ -3112,7 +3233,7 @@ msgid "one"
 msgstr "ein"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:60
+#: code:addons/partner_communication_switzerland/models/contracts.py:61
 #, python-format
 msgid "payment slips for the sponsorship payment"
 msgstr "Einzahlungsscheine für die Patenschaft"
@@ -3130,19 +3251,19 @@ msgid "six"
 msgstr "sechs"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:174
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:181
 #, python-format
 msgid "sponsorship labels.pdf"
 msgstr "Patenschaft labels.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:132
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:139
 #, python-format
 msgid "sponsorship payment slips.pdf"
 msgstr "einzahlungsscheine.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:67
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:70
 #, python-format
 msgid "sub child form.pdf"
 msgstr "sub child form.pdf"

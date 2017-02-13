@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-02 15:48+0100\n"
-"PO-Revision-Date: 2017-02-02 15:49+0100\n"
+"POT-Creation-Date: 2017-02-13 12:10+0100\n"
+"PO-Revision-Date: 2017-02-13 12:11+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -28,7 +28,7 @@ msgid "${object.subject}"
 msgstr "${object.subject}"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:49
+#: code:addons/partner_communication_switzerland/models/contracts.py:50
 #, python-format
 msgid ""
 "1 LSV or Direct Debit authorization form to fill in if you don't already "
@@ -38,13 +38,13 @@ msgstr ""
 "l'addebito diretto se non l'avete già fatto"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:57
+#: code:addons/partner_communication_switzerland/models/contracts.py:58
 #, python-format
 msgid "1 payment slip for the annual sponsorship payment"
 msgstr "1 BVR per il sostegno annuale"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:45
+#: code:addons/partner_communication_switzerland/models/contracts.py:46
 #, python-format
 msgid ""
 "1 payment slip to set up a standing order (monthly payment of the "
@@ -897,6 +897,35 @@ msgstr ""
 "</p>"
 
 #. module: partner_communication_switzerland
+#: model:email.template,body_html:partner_communication_switzerland.email_address_change
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set address = partner.short_address\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We sent you a mail to the following address:\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    ${address |safe}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Unfortunately it seems that it's not the right address. "
+"Would you be so kind and inform us about the changes, please.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you in advance\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Best regards,\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:email.template,body_html:partner_communication_switzerland.email_biennial
 msgid ""
 "<div>\n"
@@ -1479,6 +1508,32 @@ msgstr ""
 "                    <br/>\n"
 "                    Kind regards\n"
 "                </p>"
+
+#. module: partner_communication_switzerland
+#: model:email.template,body_html:partner_communication_switzerland.email_invalid_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We wanted to send you an e-mail, but your address "
+"${partner.email} seems invalid.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Could you please contact us to give us your valid e-mail "
+"address?\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you in advance\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Best regards,\n"
+"                </p>\n"
+"            "
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:email.template,body_html:partner_communication_switzerland.email_sponsorship_completion
@@ -2638,6 +2693,11 @@ msgid "Email read"
 msgstr "Email read"
 
 #. module: partner_communication_switzerland
+#: view:partner.communication.job:partner_communication_switzerland.communication_job_search
+msgid "English"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: selection:recurring.contract,gender:0 selection:res.partner.title,gender:0
 msgid "Female"
 msgstr "Female"
@@ -2927,7 +2987,7 @@ msgstr ""
 "get_number())}"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:52
+#: code:addons/partner_communication_switzerland/models/contracts.py:53
 #, python-format
 msgid ""
 "We will continue to withdraw the amount for the sponsorship from your "
@@ -2941,6 +3001,12 @@ msgid ""
 msgstr ""
 "Augurate a ${object.get_objects().get('your sponsored child')} un buon "
 "compleanno!"
+
+#. module: partner_communication_switzerland
+#: model:email.template,subject:partner_communication_switzerland.email_address_change
+#: model:email.template,subject:partner_communication_switzerland.email_invalid_email
+msgid "Wrong address"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: view:child.order.picture.wizard:partner_communication_switzerland.child_order_picture_wizard_form
@@ -2994,7 +3060,7 @@ msgid "Zip id"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:143
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:150
 #, python-format
 msgid "child dossier.pdf"
 msgstr "dossier.pdf"
@@ -3036,7 +3102,7 @@ msgid "one"
 msgstr "uno"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:60
+#: code:addons/partner_communication_switzerland/models/contracts.py:61
 #, python-format
 msgid "payment slips for the sponsorship payment"
 msgstr "BVR per il sostegno"
@@ -3054,19 +3120,19 @@ msgid "six"
 msgstr "sei"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:174
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:181
 #, python-format
 msgid "sponsorship labels.pdf"
 msgstr "labels.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:132
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:139
 #, python-format
 msgid "sponsorship payment slips.pdf"
 msgstr "bollettini di pagamento.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:67
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:70
 #, python-format
 msgid "sub child form.pdf"
 msgstr ""
