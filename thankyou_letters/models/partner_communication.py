@@ -55,11 +55,18 @@ class PartnerCommunication(models.Model):
     def send(self):
         """
         Update the count of succes story prints when sending a receipt.
+        Update donator tag.
         :return: True
         """
         res = super(PartnerCommunication, self).send()
         for job in self.filtered('success_story_id').filtered('sent_date'):
             job.success_story_id.print_count += 1
+
+        donator = self.env.ref('partner_compassion.res_partner_category_donor')
+        for job in self.filtered(lambda j: j.config_id.model ==
+                                 'account.invoice.line'):
+            job.partner_id.category_id += donator
+
         return res
 
     @api.multi
