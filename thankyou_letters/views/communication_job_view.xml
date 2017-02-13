@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <field name="auto_send" position="after">
                     <field name="event_id"/>
+                    <field name="success_story_id"/>
                 </field>
             </field>
         </record>
@@ -18,6 +19,7 @@
             <field name="arch" type="xml">
                 <field name="subject" position="after">
                     <field name="event_id"/>
+                    <field name="success_story_id"/>
                 </field>
             </field>
         </record>

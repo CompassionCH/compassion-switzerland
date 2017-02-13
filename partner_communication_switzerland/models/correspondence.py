@@ -227,6 +227,7 @@ class Correspondence(models.Model):
             valid = (
                 self.sponsorship_id.state == 'active' and
                 'Final Letter' not in types and
+                'HA' not in self.child_id.local_id and
                 'auto' in self.correspondant_id.letter_delivery_preference
             )
         else:
