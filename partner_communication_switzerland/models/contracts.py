@@ -84,9 +84,10 @@ class RecurringContract(models.Model):
         :return: None
         """
         partner_field = 'correspondant_id' if correspondent else 'partner_id'
-        partners = self.mapped(partner_field)
+        sponsorships = self.filtered(lambda s: 'S' in s.type)
+        partners = sponsorships.mapped(partner_field)
         for partner in partners:
-            objects = self.filtered(
+            objects = sponsorships.filtered(
                 lambda c: c.correspondant_id.id == partner.id if correspondent
                 else c.partner_id.id == partner.id
             )

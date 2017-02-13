@@ -42,6 +42,7 @@
         'data/project_lifecycle_emails.xml',
         'data/other_emails.xml',
         'data/sponsorship_planned_emails.xml',
+        'data/manual_emails.xml',
         'data/communication_config.xml',
         'data/sponsorship_communications_cron.xml',
         'data/partner_title_data.xml',
