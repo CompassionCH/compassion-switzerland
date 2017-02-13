@@ -24,6 +24,10 @@
                         src: url(/report_compassion/static/font/TetriaLTComLight.ttf);
                     }
                     @font-face {
+                        font-family: tetriaTab;
+                        src: url(/report_compassion/static/font/TetriaTab.ttf);
+                    }
+                    @font-face {
                         font-family: ocr;
                         src: url(/l10n_ch_payment_slip/static/src/font/ocrbb.ttf);
                     }
