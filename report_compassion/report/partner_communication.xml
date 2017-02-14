@@ -70,11 +70,6 @@
                     height: 1pt;
                     background-color: black;
                 }
-                #signature {
-                    position: absolute;
-                    left: 96mm;
-                    top: 215mm;
-                }
             </t>
             <t t-call="report_compassion.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -104,7 +99,7 @@
                         <div id="body">
                             <span t-raw="o.body_html"/>
                         </div>
-                        <div id="signature">
+                        <div class="right">
                             <span t-raw="o.signature"/>
                         </div>
                     </div>

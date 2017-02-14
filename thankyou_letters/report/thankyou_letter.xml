@@ -95,11 +95,6 @@
                     display: inline-block;
                     width: 140mm;
                 }
-                #signature {
-                    position: absolute;
-                    left: 150mm;
-                    top: 215mm;
-                }
             </t>
             <t t-call="report_compassion.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -128,7 +123,7 @@
                                 <span t-raw="o.body_html"/>
                             </div>
                         </div>
-                        <div id="signature">
+                        <div class="right">
                             <span t-raw="o.signature"/>
                         </div>
                     </div>
