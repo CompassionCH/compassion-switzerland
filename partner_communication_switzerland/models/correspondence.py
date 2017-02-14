@@ -193,11 +193,8 @@ class Correspondence(models.Model):
             'partner_id': partner.id,
             'config_id': config_id,
             'object_ids': self.ids,
-            'auto_send': auto_send
+            'auto_send': auto_send and partner.email    # Don't print auto
         }
-        # EXCEPTION FOR DEMAUREX : send to Delafontaine
-        if partner.ref == '1502623':
-            comm_vals['email_to'] = 'eric.delafontaine@aligro.ch'
 
         if 'comm_vals' in self.env.context:
             comm_vals.update(self.env.context['comm_vals'])
