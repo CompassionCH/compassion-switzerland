@@ -20,6 +20,7 @@
                 <div>
                     ${partner.salutation},
                     <br/>
+                    <br/>
                     % if partner.is_new_donator:
                         <p style="color: red">
                             Welcome in the Compassion Donors family! We are glad to send you some information about our organization.
@@ -27,7 +28,6 @@
                             It will be an opportunity to know each other better.
                         </p>
                     % endif
-                    <br/>
                     We would like to thank you very much for the following donation you made to Compassion:
                     <br/>
                     <br/>

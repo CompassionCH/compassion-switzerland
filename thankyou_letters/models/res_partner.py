@@ -46,7 +46,11 @@ class ResPartner(models.Model):
     @api.multi
     def _compute_new_donator(self):
         invl_obj = self.env['account.invoice.line'].with_context(lang='en_US')
+        donator = self.env.ref('partner_compassion.res_partner_category_donor')
         for partner in self:
+            if donator in partner.category_id:
+                partner.is_new_donator = False
+                continue
             donation_invl = invl_obj.search([
                 ('partner_id', '=', partner.id),
                 ('state', '=', 'paid'),

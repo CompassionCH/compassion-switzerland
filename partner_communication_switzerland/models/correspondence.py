@@ -165,6 +165,7 @@ class Correspondence(models.Model):
 
         return True
 
+    @api.multi
     def get_multi_mode(self):
         """
         Tells if we should send the communication with a zip download link
@@ -221,17 +222,14 @@ class Correspondence(models.Model):
         """
         self.ensure_one()
         partner_langs = self.supporter_languages_ids
-        common = partner_langs & self.beneficiary_language_ids
-        if common:
-            types = self.communication_type_ids.mapped('name')
-            valid = (
-                self.sponsorship_id.state == 'active' and
-                'Final Letter' not in types and
-                'HA' not in self.child_id.local_id and
-                'auto' in self.correspondant_id.letter_delivery_preference
-            )
-        else:
-            valid = self.has_valid_language and 'auto' in \
-                self.correspondant_id.letter_delivery_preference
+        types = self.communication_type_ids.mapped('name')
+        valid = (
+            self.sponsorship_id.state == 'active' and
+            'Final Letter' not in types and
+            'HA' not in self.child_id.local_id and
+            'auto' in self.correspondant_id.letter_delivery_preference
+        )
+        if not (partner_langs & self.beneficiary_language_ids):
+            valid &= self.has_valid_language
 
         return valid
