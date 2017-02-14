@@ -68,6 +68,7 @@ class Correspondence(models.Model):
     def process_letter(self):
         """ Called when B2S letter is Published. Check if translation is
          needed and upload to translation platform. """
+        letters_to_send = self.env[self._name]
         for letter in self:
             # if letter.original_language_id in \
             #         letter.supporter_languages_ids or \
@@ -75,10 +76,12 @@ class Correspondence(models.Model):
                     letter.supporter_languages_ids) or \
                     letter.has_valid_language:
                 if super(Correspondence, letter).process_letter():
-                    letter.send_communication()
+                    letters_to_send += letter
             else:
                 letter.download_attach_letter_image()
                 letter.send_local_translate()
+
+        letters_to_send.send_communication()
         return True
 
     @api.one
