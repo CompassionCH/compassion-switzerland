@@ -217,12 +217,14 @@ class RecurringContract(models.Model):
     ##########################################################################
     @api.multi
     def contract_waiting_mandate(self):
-        self._new_dossier()
+        self.filtered(
+            lambda c: 'S' in c.type and not c.is_active)._new_dossier()
         return super(RecurringContract, self).contract_waiting_mandate()
 
     @api.multi
     def contract_waiting(self):
-        self._new_dossier()
+        self.filtered(
+            lambda c: 'S' in c.type and not c.is_active)._new_dossier()
         return super(RecurringContract, self).contract_waiting()
 
     @api.multi
