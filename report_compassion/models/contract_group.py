@@ -64,12 +64,13 @@ class RecurringContracts(models.Model):
                 group.bvr_background = data
 
     @api.multi
-    def get_months(self, months):
+    def get_months(self, months, sponsorships):
         """
         Given the list of months to print,
         returns the list of months grouped by the frequency payment
         of the contract group and only containing unpaid sponsorships.
         :param months: list of dates in string format
+        :param sponsorships: recordset of included sponsorships
         :return: list of dates grouped in string format
         """
         self.ensure_one()
@@ -78,9 +79,8 @@ class RecurringContracts(models.Model):
         # Take first open invoice or next_invoice_date
         open_invoice = min(
             [fields.Date.from_string(i)
-             for i in self.contract_ids.mapped('first_open_invoice')
-             if i] or [fields.Date.from_string(i)
-                       for i in self.contract_ids.mapped('next_invoice_date')])
+             for i in sponsorships.mapped('first_open_invoice')
+             if i])
         if open_invoice:
             first_invoice_date = open_invoice.replace(day=1)
         else:
@@ -158,7 +158,7 @@ class RecurringContracts(models.Model):
             if number_sponsorship > 1:
                 vals['subject'] += str(number_sponsorship) + " " + _(
                     "sponsorships")
-            else:
+            elif number_sponsorship:
                 vals['subject'] = valid.child_id.firstname + " ({})".format(
                     valid.child_id.local_id)
 

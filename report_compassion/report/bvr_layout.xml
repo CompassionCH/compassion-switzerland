@@ -2,11 +2,11 @@
     <data>
         <!-- Template for outputting a payment slip
         Must be called with the following variables set in order to work :
-        - company_address (to who is the payment for?)
+        - partner (for who is the payment?)
         - communication
         - company_account
         - reference (bvr reference)
-        - partner_address
+        - partner_address (the address of the partner)
         - scan_line
         -->
         <template id="report_sponsorship_single_slip">
@@ -127,7 +127,8 @@
                 .transfer .pay_from {
                     position: absolute;
                     margin-left: 61mm;
-                    margin-top: 47mm;
+                    margin-top: 54mm;
+                    line-height: 6mm;
                     width: 80mm;
                     height: 30mm;
                     padding: auto;
