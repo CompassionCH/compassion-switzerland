@@ -8,9 +8,12 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import base64
 from datetime import datetime
 
 from contract_group import setlocale
+from res_partner import IMG_DIR
+
 from openerp import api, models, fields
 
 
@@ -20,9 +23,20 @@ class PartnerCommunication(models.Model):
     """
     _inherit = 'partner.communication.job'
 
+    ##########################################################################
+    #                                 FIELDS                                 #
+    ##########################################################################
     date_communication = fields.Char(compute='_compute_date_communication')
     signature = fields.Char(compute='_compute_signature')
+    success_story_id = fields.Many2one('success.story', 'Success Story')
+    print_subject = fields.Boolean(default=True)
+    product_id = fields.Many2one('product.product', 'Attach payment slip for')
+    compassion_logo = fields.Binary(compute='_compute_compassion_logo')
+    compassion_square = fields.Binary(compute='_compute_compassion_logo')
 
+    ##########################################################################
+    #                             FIELDS METHODS                             #
+    ##########################################################################
     @api.multi
     def _compute_date_communication(self):
         lang_map = {
@@ -51,6 +65,63 @@ class PartnerCommunication(models.Model):
                             employee.department_id.name + '<br/>'
             signature += user.company_id.name
             communication.signature = signature
+
+    @api.multi
+    def _compute_compassion_logo(self):
+        with open(IMG_DIR + '/compassion_logo.png') as logo:
+            with open(IMG_DIR + '/bluesquare.png') as square:
+                data_logo = base64.b64encode(logo.read())
+                data_square = base64.b64encode(square.read())
+                for communication in self:
+                    communication.compassion_logo = data_logo
+                    communication.compassion_square = data_square
+
+    ##########################################################################
+    #                             PUBLIC METHODS                             #
+    ##########################################################################
+    @api.multi
+    def set_success_story(self):
+        """
+        Takes the less used active success story and attach it
+        to communications.
+        TODO Avoid attaching twice same story for a partner.
+        :return: True
+        """
+        for job in self:
+            story = self.env['success.story'].search([
+                ('is_active', '=', True)]).sorted(
+                lambda s: s.current_usage_count)
+            if story:
+                job.success_story_id = story[0]
+        return True
+
+    @api.multi
+    def refresh_text(self, refresh_uid=False):
+        """
+        Refresh the success story as well
+        :param refresh_uid: User that refresh
+        :return: True
+        """
+        super(PartnerCommunication, self).refresh_text(refresh_uid)
+        self.filtered('success_story_id').set_success_story()
+        return True
+
+    @api.multi
+    def send(self):
+        """
+        Change the report for communications to print with BVR
+        Update the count of succes story prints when sending a receipt.
+        :return: True
+        """
+        print_bvr = self.filtered(lambda j: j.send_mode == 'physical' and
+                                  j.product_id)
+        print_bvr.write({'report_id': self.env.ref(
+            'report_compassion.partner_communication')})
+        res = super(PartnerCommunication, self).send()
+        for job in self.filtered('success_story_id').filtered('sent_date'):
+            job.success_story_id.print_count += 1
+
+        return res
 
 
 class HrDepartment(models.Model):

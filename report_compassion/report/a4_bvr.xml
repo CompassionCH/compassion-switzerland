@@ -1,0 +1,14 @@
+<openerp>
+    <data>
+        <!-- Just use another report in order to print on paper tray -->
+        <report id="report_a4_bvr"
+                model="partner.communication.job"
+                string="A4 BVR"
+                report_type="qweb-pdf"
+                name="report_compassion.partner_communication"
+        />
+        <record id="report_a4_bvr" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_a4_letter"/>
+        </record>
+    </data>
+</openerp>

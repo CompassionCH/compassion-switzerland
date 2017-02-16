@@ -31,6 +31,8 @@ class RecurringContracts(models.Model):
                     fields.Date.from_string(i.date_invoice) for i in invoices])
                 contract.first_open_invoice = fields.Date.to_string(
                     first_open_invoice)
+            elif contract.state not in ('terminated', 'cancelled'):
+                contract.first_open_invoice = contract.next_invoice_date
 
     @api.multi
     def _compute_months_paid(self):

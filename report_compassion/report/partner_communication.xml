@@ -12,25 +12,70 @@
         </record>
 
         <template id="partner_communication">
+            <t t-set="success_story" t-value="docs.mapped('success_story_id')"/>
+            <t t-set="bvr" t-value="docs.mapped('product_id')"/>
             <t t-set="custom_css">
-                .container {
+                #header {
+                    margin-left: 15mm;
+                    height: 45mm;
+                    font-size: 8pt;
+                }
+                #logo {
+                    display: inline-block;
+                    margin-top: 6mm;
+                    width: 100mm;
+                    height: 40mm;
+                }
+                #logo img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    margin: auto;
+                }
+                #square {
+                    display: inline-block;
+                    float: right;
+                    margin-top: 6mm;
+                    margin-right: 6mm;
+                    width: 19mm;
+                    height: 19mm;
+                }
+                #square img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    margin: auto;
+                }
+                #compassion_address {
+                    margin-left: 7mm;
+                }
+                #letter {
                     font-family: "tetriaLight";
                     font-size: 10pt;
-                }
-                /* Format lists for PDF */
-                ul {
-                    list-style: none;
-                }
-                li {
-                    padding-left: 16px;
-                }
-                li:before {
-                    content: "-";
-                    padding-right: 8px;
+                    <t t-if="success_story">
+                        margin-left: 6mm;
+                        margin-right: 6mm;
+                        <t t-if="not bvr">
+                            margin-bottom: 6mm;
+                        </t>
+                    </t>
+                    <t t-if="not success_story">
+                        margin-left: 20mm;
+                        margin-right: 20mm;
+                        <t t-if="not bvr">
+                            margin-bottom: 20mm;
+                        </t>
+                    </t>
+                    <t t-if="bvr">
+                        height: 145mm;
+                        overflow: hidden;
+                    </t>
                 }
                 .right {
-                    position: relative;
-                    left: 96mm;
+                    width: 44%;
+                    margin-left: auto;
+                }
+                .blue {
+                    color: blue;
+                    font-weight: bold;
                 }
                 #pp {
                     font-family: verdana;
@@ -40,8 +85,6 @@
                     padding: 1mm;
                     width: 50mm;
                     line-height: initial;
-
-                    /*margin-right: 2mm;*/
                     border-style: solid;
                     border-width: 1pt;
                 }
@@ -61,47 +104,120 @@
                     margin-bottom: 3mm;
                 }
                 #date {
-                    margin-left: 96mm;
                     margin-top: 3mm;
+                }
+                #content {
+                    <t t-if="not reduce(lambda x,y: x and y, docs.mapped('print_subject'))">
+                        margin-top: 5mm;
+                    </t>
+                    width: 100%;
+                }
+                #success-story {
+                    display: inline-block;
+                    margin-right: 5mm;
+                    vertical-align: top;
+                    padding: 2mm;
+                    width: 25%;
+                    background-color: #ccffff;
+                }
+                #body {
+                    display: inline-block;
+                    <t t-if="success_story">
+                        width: 70%;
+                    </t>
                 }
                 hr {
                     margin-top: 0px;
                     border: none;
                     height: 1pt;
                     background-color: black;
+                    <t t-if="success_story">
+                        width: 90%;
+                    </t>                }
+                /* Format lists for PDF */
+                ul {
+                    list-style: none;
+                }
+                li {
+                    padding-left: 16px;
+                }
+                li:before {
+                    content: "-";
+                    padding-right: 8px;
                 }
             </t>
-            <t t-call="report_compassion.html_container">
+            <t t-call="report_compassion.bvr_container">
                 <t t-foreach="docs" t-as="o">
                     <div class="page">
-                        <div id="address" class="right">
-                            <div id="pp">
-                                <div id="pp-box">
-                                    <div>P.P.</div>
-                                    <div>CH-1400 Yverdon-les-Bains</div>
+                        <div id="header">
+                            <t t-if="o.product_id">
+                                <div id="logo" t-field="o.compassion_logo" t-field-options='{"widget": "image"}'/>
+                                <div id="square" t-field="o.compassion_square" t-field-options='{"widget": "image"}'/>
+                                <div id="compassion_address">
+                                    <span class="blue">COMPASSION</span>
+                                    <span>, Rue Galilée 3, 1400 Yverdon-les-Bains</span>
+                                    <br/>
+                                    <span class="blue">TEL</span>
+                                    <span>.: 0800 784 773</span>
+                                    <br/>
+                                    <span class="blue">MAIL</span>
+                                    <span>: info@compassion.ch</span>
+                                    <br/>
+                                    <span class="blue">WWW</span>
+                                    <span>.compassion.ch</span>
+                                    <br/>
+                                    <span class="blue">CCP/PC</span>
+                                    <span> 17-312562-0</span>
                                 </div>
-                                <div id="pp-post">
-                                    <p>Poste CH SA</p>
+                            </t>
+                        </div>
+                        <div id="letter">
+                            <div id="address" class="right">
+                                <div id="pp">
+                                    <div id="pp-box">
+                                        <div>P.P.</div>
+                                        <div>CH-1400 Yverdon-les-Bains</div>
+                                    </div>
+                                    <div id="pp-post">
+                                        <p>Poste CH SA</p>
+                                    </div>
+                                    <hr/>
                                 </div>
+                                <span t-raw="o.partner_id.short_address"/>
+                            </div>
+                            <div id="date" class="right">
+                                <span t-raw="o.date_communication"/>
+                            </div>
+
+                            <div id="title" t-if="o.print_subject">
+                                <b><span t-raw="o.subject"/></b>
                                 <hr/>
                             </div>
-                            <span t-raw="o.partner_id.short_address"/>
-                        </div>
-                        <div id="date">
-                            <span t-raw="o.date_communication"/>
+
+                            <div id="content">
+                                <div id="success-story" t-if="o.success_story_id">
+                                    <span t-raw="o.success_story_id.body"/>
+                                </div>
+                                <div id="body">
+                                    <span t-raw="o.body_html"/>
+                                    <div class="right" style="margin-top: 10mm">
+                                        <span t-raw="o.signature"/>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div id="title">
-                            <b><span t-raw="o.subject"/></b>
-                        </div>
-                        <hr/>
-
-                        <div id="body">
-                            <span t-raw="o.body_html"/>
-                        </div>
-                        <div class="right">
-                            <span t-raw="o.signature"/>
-                        </div>
+                        <!-- Print BVR -->
+                        <t t-if="o.product_id">
+                            <t t-set="partner" t-value="o.partner_id"/>
+                            <t t-set="partner_address" t-value="partner.short_address"/>
+                            <t t-set="company_account" t-value="o.env['recurring.contract.group'].get_company_bvr_account()"/>
+                            <t t-set="reference" t-value="o.product_id.generate_bvr_reference(partner)"/>
+                            <t t-set="communication" t-value="o.product_id.name"/>
+                            <t t-set="scan_line" t-value="o.env['recurring.contract.group'].get_scan_line(company_account, reference)"/>
+                            <t t-set="position" t-value="0"/>
+                            <t t-call="report_compassion.report_sponsorship_single_slip"/>
+                        </t>
                     </div>
                 </t>
             </t>
