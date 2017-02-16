@@ -102,20 +102,13 @@
                     position: absolute;
                     margin-left: <t t-esc="marginLeft+180"/>mm;
                     margin-top: 85mm;
-                    width: 65mm;
-                    height: 85mm;
+                    width: 70mm;
+                    height: 90mm;
                 }
                 .photo img {
                     max-width: 100%;
                     max-height: 100%;
                     margin: auto;
-                }
-                #child-ref {
-                    width: 56mm;
-                    text-align: center;
-                    font-size: medium;
-                    font-family: "tetriaTab";
-                    margin-top: 2mm;
                 }
                 .summary {
                     position: absolute;
@@ -173,7 +166,6 @@
                         </div>
                         <div class="photo">
                             <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
-                            <p t-field="o.local_id" id="child-ref"/>
                         </div>
                         <div class="summary">
                             <p>Full name:</p>
