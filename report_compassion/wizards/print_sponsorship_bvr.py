@@ -8,6 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import base64
 from datetime import datetime
 
 from openerp import api, models, fields, _
@@ -33,6 +34,10 @@ class PrintSponsorshipBvr(models.TransientModel):
     date_stop = fields.Date(default=lambda s: s.default_stop())
     include_gifts = fields.Boolean()
     draw_background = fields.Boolean()
+    state = fields.Selection([('new', 'new'), ('pdf', 'pdf')], default='new')
+    pdf = fields.Boolean()
+    pdf_name = fields.Char(default='sponsorship payment.pdf')
+    pdf_download = fields.Binary(readonly=True)
 
     @api.model
     def default_start(self):
@@ -77,6 +82,25 @@ class PrintSponsorshipBvr(models.TransientModel):
         }
         records = self.env[self.env.context.get('active_model')].browse(
             data['doc_ids'])
+        if self.pdf:
+            data['background'] = True
+            name = records.name if len(records) == 1 else \
+                _('sponsorship payment slips')
+            self.pdf_name = name + '.pdf'
+            self.pdf_download = base64.b64encode(
+                self.env['report'].with_context(
+                    must_skip_send_to_printer=True).get_pdf(
+                        records, self.paper_format, data=data))
+            self.state = 'pdf'
+            return {
+                'name': 'Download report',
+                'type': 'ir.actions.act_window',
+                'res_model': self._name,
+                'res_id': self.id,
+                'view_mode': 'form',
+                'target': 'new',
+                'context': self.env.context,
+            }
         return self.env['report'].get_action(
             records, self.paper_format, data
         )

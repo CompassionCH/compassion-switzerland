@@ -8,6 +8,8 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+import base64
+
 from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
 
 from openerp import api, models, fields, _
@@ -32,6 +34,10 @@ class PrintSponsorshipBvr(models.TransientModel):
         ('report_compassion.bvr_gift_sponsorship', 'Single BVR')
     ], default='report_compassion.3bvr_gift_sponsorship')
     draw_background = fields.Boolean()
+    state = fields.Selection([('new', 'new'), ('pdf', 'pdf')], default='new')
+    pdf = fields.Boolean()
+    pdf_name = fields.Char(default='fund.pdf')
+    pdf_download = fields.Binary(readonly=True)
 
     @api.multi
     def print_report(self):
@@ -63,6 +69,25 @@ class PrintSponsorshipBvr(models.TransientModel):
         }
         records = self.env[self.env.context.get('active_model')].browse(
             data['doc_ids'])
+        if self.pdf:
+            data['background'] = True
+            name = records.name if len(records) == 1 else \
+                _('gift payment slips')
+            self.pdf_name = name + '.pdf'
+            self.pdf_download = base64.b64encode(
+                self.env['report'].with_context(
+                    must_skip_send_to_printer=True).get_pdf(
+                        records, self.paper_format, data=data))
+            self.state = 'pdf'
+            return {
+                'name': 'Download report',
+                'type': 'ir.actions.act_window',
+                'res_model': self._name,
+                'res_id': self.id,
+                'view_mode': 'form',
+                'target': 'new',
+                'context': self.env.context,
+            }
         return self.env['report'].get_action(
             records, self.paper_format, data
         )
