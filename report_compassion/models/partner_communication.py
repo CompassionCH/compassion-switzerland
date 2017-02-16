@@ -116,7 +116,7 @@ class PartnerCommunication(models.Model):
         print_bvr = self.filtered(lambda j: j.send_mode == 'physical' and
                                   j.product_id)
         print_bvr.write({'report_id': self.env.ref(
-            'report_compassion.partner_communication')})
+            'report_compassion.report_a4_bvr').id})
         res = super(PartnerCommunication, self).send()
         for job in self.filtered('success_story_id').filtered('sent_date'):
             job.success_story_id.print_count += 1
