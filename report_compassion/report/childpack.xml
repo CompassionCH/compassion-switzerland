@@ -173,7 +173,9 @@
                         </div>
                         <div class="photo">
                             <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
-                            <p t-field="o.local_id" id="child-ref"/>
+                            <t t-if="not marginLeft">
+                                <p t-field="o.local_id" id="child-ref"/>
+                            </t>
                         </div>
                         <div class="summary">
                             <p>Full name:</p>
