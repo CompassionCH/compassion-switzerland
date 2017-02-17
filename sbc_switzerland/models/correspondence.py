@@ -51,6 +51,16 @@ class Correspondence(models.Model):
             original_lang = self.env['res.lang.compassion'].browse(
                 vals.get('original_language_id'))
 
+            # TODO Remove this fix when HAITI case is resolved
+            # For now, we switch French to Creole for avoiding translation
+            if 'HA' in sponsorship.child_id.local_id:
+                french = self.env.ref(
+                    'child_compassion.lang_compassion_french')
+                creole = self.env.ref(
+                    'child_compassion.lang_compassion_haitien_creole')
+                if original_lang == french:
+                    vals['original_language_id'] = creole.id
+
             if original_lang.translatable and original_lang not in sponsorship\
                     .child_id.project_id.field_office_id.spoken_language_ids:
                 correspondence = super(Correspondence, self.with_context(
@@ -147,6 +157,15 @@ class Correspondence(models.Model):
             language_field = 'original_language_id'
             # Remove #BOX# in the text, as supporter letters don't have boxes
             translate_text = translate_text.replace(BOX_SEPARATOR, '\n')
+            # TODO Remove this fix when HAITI case is resolved
+            # For now we switch French to Creole
+            if 'HA' in self.child_id.local_id:
+                french = self.env.ref(
+                    'child_compassion.lang_compassion_french')
+                creole = self.env.ref(
+                    'child_compassion.lang_compassion_haitien_creole')
+                if translate_lang_id == french.id:
+                    translate_lang_id = creole.id
         else:
             state = 'Published to Global Partner'
             target_text = 'translated_text'
