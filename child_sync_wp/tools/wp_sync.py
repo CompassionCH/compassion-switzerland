@@ -45,7 +45,7 @@ class WPSync(object):
                 _("Please add configuration for Wordpress uploads")
             )
         self.xmlrpc_server = xmlrpclib.ServerProxy(
-            'http://' + host + '/xmlrpc.php')
+            'https://' + host + '/xmlrpc.php')
         self.user = user
         self.pwd = password
         self.sftp = pysftp.Connection(sftp_host, sftp_user, password=sftp_pw)
