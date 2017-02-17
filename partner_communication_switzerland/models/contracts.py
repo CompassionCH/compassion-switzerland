@@ -176,9 +176,7 @@ class RecurringContract(models.Model):
         ten_days_ago = today - relativedelta(days=10)
         letters = self.env['correspondence'].search([
             ('state', '=', 'Published to Global Partner'),
-            '|',
             ('sent_date', '<', fields.Date.to_string(ten_days_ago)),
-            ('sent_date', '=', False),
             ('letter_read', '=', False)
         ])
         letters.with_context(overwrite=True, comm_vals={
