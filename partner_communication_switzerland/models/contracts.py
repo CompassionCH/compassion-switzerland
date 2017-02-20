@@ -37,6 +37,9 @@ class RecurringContract(models.Model):
         compute='_compute_payment_type_attachment')
     birthday_paid = fields.Many2many(
         'sponsorship.gift', compute='_compute_birthday_paid')
+    due_invoice_ids = fields.Many2many(
+        'account.invoice', compute='_compute_due_invoices'
+    )
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -71,6 +74,17 @@ class RecurringContract(models.Model):
                 ('gift_date', '<', fields.Date.to_string(in_three_months)),
                 ('sponsorship_gift_type', '=', 'Birthday'),
             ])
+
+    def _compute_due_invoices(self):
+        """
+        Useful for reminders giving open invoices in the past.
+        """
+        today = datetime.today()
+        for contract in self:
+            contract.due_invoice_ids = contract.invoice_line_ids.filtered(
+                lambda i: i.state == 'open' and fields.Date.from_string(
+                    i.date_due) <= today
+            )
 
     ##########################################################################
     #                             PUBLIC METHODS                             #

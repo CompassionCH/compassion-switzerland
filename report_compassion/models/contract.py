@@ -12,6 +12,14 @@ from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
 from openerp import api, models, fields
 
 
+class AccountInvoice(models.Model):
+    """
+    Make Invoice translatable for communications with dates.
+    """
+    _inherit = ['account.invoice', 'translatable.model']
+    _name = 'account.invoice'
+
+
 class Contract(models.Model):
     _inherit = 'recurring.contract'
 
