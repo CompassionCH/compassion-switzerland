@@ -294,6 +294,7 @@
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Maglo Rachel')]"/>
+            <field name="attachments_function">get_reminder_bvr</field>
         </record>
         <record id="sponsorship_reminder_2" model="partner.communication.config">
             <field name="name">Sponsorship Reminder 2</field>
@@ -303,6 +304,7 @@
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Maglo Rachel')]"/>
+            <field name="attachments_function">get_reminder_bvr</field>
         </record>
         <record id="sponsorship_waiting_reminder_1" model="partner.communication.config">
             <field name="name">Sponsorship Waiting Reminder 1</field>
@@ -312,6 +314,7 @@
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function">get_reminder_bvr</field>
         </record>
         <record id="sponsorship_waiting_reminder_2" model="partner.communication.config">
             <field name="name">Sponsorship Waiting Reminder 2</field>
@@ -321,6 +324,7 @@
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function">get_reminder_bvr</field>
         </record>
         <record id="sponsorship_waiting_reminder_3" model="partner.communication.config">
             <field name="name">Sponsorship Waiting Reminder 3</field>

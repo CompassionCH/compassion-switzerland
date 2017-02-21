@@ -80,7 +80,7 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         attachments = dict()
-        background = 'digital' in self.send_mode
+        background = 'physical' not in self.send_mode
         sponsorships = self.get_objects().filtered(
             lambda s: not s.birthday_paid)
         if sponsorships:
@@ -96,12 +96,37 @@ class PartnerCommunication(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
-        background = 'digital' in self.send_mode
+        background = 'physical' not in self.send_mode
         sponsorships = self.get_objects()
         graduation = self.env['product.product'].with_context(
             lang='en_US').search([('name', '=', GIFT_NAMES[4])])
         return sponsorships.get_bvr_gift_attachment(
             graduation, background)
+
+    def get_reminder_bvr(self):
+        """
+        Attach sponsorship due payment slip with background for sending by
+        e-mail.
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        if 'physical' in self.send_mode:
+            # Put product sponsorship to print the payment slip
+            self.product_id = self.env[
+                'product.product'].with_context(lang='en_US').search([
+                    ('name', '=', 'Sponsorship')], limit=1)
+            return dict()
+        sponsorships = self.get_objects()
+        report_name = 'report_compassion.bvr_sponsorship'
+        return {
+            _('sponsorship payment slips.pdf'): [
+                report_name,
+                base64.b64encode(self.env['report'].get_pdf(
+                    sponsorships, report_name,
+                    data={'doc_ids': sponsorships.ids}
+                ))
+            ]
+        }
 
     @api.multi
     def send(self):
@@ -131,8 +156,7 @@ class PartnerCommunication(models.Model):
         attachments = dict()
         report_obj = self.env['report']
 
-        sponsorship_ids = map(int, self.object_ids.split(','))
-        sponsorships = self.env['recurring.contract'].browse(sponsorship_ids)
+        sponsorships = self.get_objects()
         if payment:
             report_name = 'report_compassion.3bvr_sponsorship'
             attachments.update({
@@ -140,7 +164,7 @@ class PartnerCommunication(models.Model):
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
                         sponsorships, report_name,
-                        data={'gifts': True, 'doc_ids': sponsorship_ids}
+                        data={'gifts': True, 'doc_ids': sponsorships.ids}
                     ))
                 ]
             })
@@ -160,7 +184,7 @@ class PartnerCommunication(models.Model):
             label_format = self.env['label.config'].search([
                 ('name', '=', '4455 SuperPrint WeiB')], limit=1)
             label_wizard = self.env['label.print.wizard'].with_context({
-                'active_ids': sponsorship_ids,
+                'active_ids': sponsorships.ids,
                 'active_model': 'recurring.contract',
                 'label_print': label_print.id,
             }).create({
