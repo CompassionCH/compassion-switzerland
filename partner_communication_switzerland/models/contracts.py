@@ -40,6 +40,7 @@ class RecurringContract(models.Model):
     due_invoice_ids = fields.Many2many(
         'account.invoice', compute='_compute_due_invoices'
     )
+    amount_due = fields.Float(compute='_compute_due_invoices')
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -81,10 +82,14 @@ class RecurringContract(models.Model):
         """
         today = datetime.today()
         for contract in self:
-            contract.due_invoice_ids = contract.invoice_line_ids.filtered(
-                lambda i: i.state == 'open' and fields.Date.from_string(
-                    i.date_due) <= today
-            )
+            if contract.child_id.project_id.suspension != 'fund-suspended':
+                invoice_lines = contract.invoice_line_ids.filtered(
+                    lambda i: i.state == 'open' and
+                    fields.Datetime.from_string(i.due_date) <= today
+                )
+                contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
+                contract.amount_due = sum(invoice_lines.mapped(
+                    'price_subtotal'))
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
@@ -156,6 +161,12 @@ class RecurringContract(models.Model):
 
     @api.model
     def send_daily_communication(self):
+        """
+        Prepare daily communications to send.
+        - Welcome letters for started sponsorships since 10 days (only e-mail)
+        - Birthday reminders
+        - B2S letters that must be printed because e-mail is not read
+        """
         module = 'partner_communication_switzerland.'
 
         # Welcome letter
@@ -163,6 +174,8 @@ class RecurringContract(models.Model):
         logger.info("....Creating Welcome Letters Communications")
         config = self.env.ref(module + 'planned_welcome')
         welcome_due = self.search([
+            ('type', 'like', 'S'),
+            ('partner_id.email', '!=', False),
             ('sds_state', '=', 'waiting_welcome'),
             ('color', '=', 4)
         ])
@@ -197,7 +210,51 @@ class RecurringContract(models.Model):
             'send_mode': 'physical',
             'auto_send': False,
         }).send_communication()
+
         logger.info("Sponsorship Planned Communications finished!")
+
+    @api.model
+    def send_sponsorship_reminders(self):
+        logger.info("Creating Sponsorship Reminders")
+        today = datetime.now()
+        first_reminder_config = self.env.ref(
+            'partner_communication_switzerland.sponsorship_reminder_1')
+        second_reminder_config = self.env.ref(
+            'partner_communication_switzerland.sponsorship_reminder_2')
+        first_reminder = self.with_context(default_print_subject=False)
+        second_reminder = self.with_context(default_print_subject=False)
+        one_month_ago = today - relativedelta(days=35)
+        comm_obj = self.env['partner.communication.job']
+        for sponsorship in self.search([
+                ('state', '=', 'active'),
+                ('type', 'like', 'S'),
+                ('payment_term_id', 'not like', 'LSV'),
+                ('payment_term_id', 'not like', 'Postfinance'),
+                '|',
+                ('child_id.project_id.suspension', '!=', 'fund-suspended'),
+                ('child_id.project_id.suspension', '=', False),
+                # TODO India is excluded for now
+                ('child_id', 'not like', 'IN'),
+                ('child_id', 'not like', 'EI'),
+        ]):
+            due = sponsorship.due_invoice_ids
+            if due and len(due) > 1:
+                has_first_reminder = comm_obj.search_count([
+                    ('config_id', '=', first_reminder_config.id),
+                    ('state', '=', 'sent'),
+                    ('object_ids', 'like', str(sponsorship.id)),
+                    ('sent_date', '>=', fields.Date.to_string(one_month_ago))
+                ])
+                if has_first_reminder:
+                    second_reminder += sponsorship
+                else:
+                    first_reminder += sponsorship
+        first_reminder.send_communication(first_reminder_config,
+                                          correspondent=False)
+        second_reminder.send_communication(second_reminder_config,
+                                           correspondent=False)
+        logger.info("Sponsorship Reminders created!")
+        return True
 
     def get_bvr_gift_attachment(self, products, background=False):
         """

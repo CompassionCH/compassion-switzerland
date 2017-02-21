@@ -104,3 +104,50 @@ class PrintSponsorshipBvr(models.TransientModel):
         return self.env['report'].get_action(
             records, self.paper_format, data
         )
+
+
+class PrintBvrDue(models.TransientModel):
+    """
+    Wizard for selecting a period and the format for printing
+    payment slips of a sponsorship.
+    """
+    _name = 'print.sponsorship.bvr.due'
+
+    draw_background = fields.Boolean()
+    state = fields.Selection([('new', 'new'), ('pdf', 'pdf')], default='new')
+    pdf = fields.Boolean()
+    pdf_name = fields.Char(default='sponsorship due.pdf')
+    pdf_download = fields.Binary(readonly=True)
+
+    @api.multi
+    def print_report(self):
+        """
+        Prepare data for the report
+        :return: Generated report
+        """
+        records = self.env[self.env.context.get('active_model')].browse(
+            self.env.context.get('active_ids'))
+        data = {
+            'background': self.draw_background,
+            'doc_ids': records.ids,
+        }
+        report = 'report_compassion.bvr_due'
+        if self.pdf:
+            data['background'] = True
+            self.pdf_download = base64.b64encode(
+                self.env['report'].with_context(
+                    must_skip_send_to_printer=True).get_pdf(
+                    records, report, data=data))
+            self.state = 'pdf'
+            return {
+                'name': 'Download report',
+                'type': 'ir.actions.act_window',
+                'res_model': self._name,
+                'res_id': self.id,
+                'view_mode': 'form',
+                'target': 'new',
+                'context': self.env.context,
+            }
+        return self.env['report'].get_action(
+            records, report, data
+        )

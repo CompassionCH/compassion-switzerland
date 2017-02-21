@@ -80,7 +80,7 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         attachments = dict()
-        background = 'physical' not in self.send_mode
+        background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects().filtered(
             lambda s: not s.birthday_paid)
         if sponsorships:
@@ -96,7 +96,7 @@ class PartnerCommunication(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
-        background = 'physical' not in self.send_mode
+        background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects()
         graduation = self.env['product.product'].with_context(
             lang='en_US').search([('name', '=', GIFT_NAMES[4])])
@@ -110,20 +110,20 @@ class PartnerCommunication(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
-        if 'physical' in self.send_mode:
+        if self.send_mode and 'physical' in self.send_mode:
             # Put product sponsorship to print the payment slip
             self.product_id = self.env[
                 'product.product'].with_context(lang='en_US').search([
                     ('name', '=', 'Sponsorship')], limit=1)
             return dict()
         sponsorships = self.get_objects()
-        report_name = 'report_compassion.bvr_sponsorship'
+        report_name = 'report_compassion.bvr_due'
         return {
-            _('sponsorship payment slips.pdf'): [
+            _('sponsorship due.pdf'): [
                 report_name,
                 base64.b64encode(self.env['report'].get_pdf(
                     sponsorships, report_name,
-                    data={'doc_ids': sponsorships.ids}
+                    data={'background': True, 'doc_ids': sponsorships.ids}
                 ))
             ]
         }

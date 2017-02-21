@@ -207,7 +207,6 @@
                             </div>
                         </div>
 
-
                         <t t-set="product" t-value="o.product_id"/>
                         <t t-if="product">
                             <t t-set="partner" t-value="o.partner_id"/>
@@ -216,23 +215,19 @@
                             <t t-set="position" t-value="0"/>
 
                             <!-- Print BVR Fund -->
-                            <t t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship')">
+                            <t t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship'">
                                 <t t-set="reference" t-value="product.generate_bvr_reference(partner)"/>
                                 <t t-set="communication" t-value="product.name"/>
                                 <t t-set="scan_line" t-value="o.env['recurring.contract.group'].get_scan_line(company_account, reference)"/>
+                                <t t-call="report_compassion.report_sponsorship_single_slip"/>
                             </t>
-                            <!-- Print BVR Sponsorship Due : if product is sponsorship, attached objects should be recurring.contract records -->
+                            <!-- Print BVR Sponsorship Due : if product is sponsorship, use sponsorship due template -->
                             <t t-if="product.with_context(lang='en_US').categ_name == 'Sponsorship'">
-                                <t t-set="contract_groups" t-value="o.get_objects().mapped('group_id')"/>
-                                <t t-set="reference" t-value=""/>
-                                <t t-set="communication">
-                                    Sponsorship due
-                                    <br/>
-                                    CHF <t t-esc="sum(o.get_objects().mapped('due_invoice_ids').mapped('amount_total'))"/>.-
+                                <t t-call="report_compassion.report_bvr_due_document">
+                                    <t t-set="docs" t-value="o.get_objects()"/>
+                                    <t t-set="o" t-value="partner"/>
                                 </t>
-                                <t t-set="scan_line" t-value="contract_groups[0].format_ref"/>
                             </t>
-                            <t t-call="report_compassion.report_sponsorship_single_slip"/>
                         </t>
                     </div>
                 </t>
