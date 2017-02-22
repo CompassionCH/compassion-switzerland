@@ -47,11 +47,17 @@ class ProjectLifecycle(models.Model):
             if lifecycle.type == 'Reactivation' or \
                     lifecycle.type == 'Suspension':
 
+                if lifecycle.type == 'Suspension':
+                    communication_type = self.env.ref(
+                        'partner_communication_switzerland.'
+                        'project_suspension')
+                elif lifecycle.type == 'Reactivation':
+                    communication_type = self.env.ref(
+                        'partner_communication_switzerland.'
+                        'project_reactivation')
                 for child in self.env['compassion.child'].\
                         search([('project_id', '=', lifecycle.project_id.id),
                                 ('sponsor_id', '!=', False)]):
-                    communication_type = self.env.ref(
-                        'partner_communication_switzerland.project_lifecycle')
                     self.env['partner.communication.job'].create({
                         'config_id': communication_type.id,
                         'partner_id': child.sponsor_id.id,

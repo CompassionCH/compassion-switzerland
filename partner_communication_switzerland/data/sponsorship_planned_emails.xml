@@ -1,5 +1,5 @@
 <openerp>
-    <data>
+    <data noupdate="1">
         <!--
         New Sponsorship Dossier
         -->
@@ -623,7 +623,6 @@
                     % set firstname = children.get_list('firstname', 3, 'many children')
                     % set amount = sum(sponsorships.mapped('total_amount')) * min(sponsorships.mapped('group_id.advance_billing_months'))
                     % set extension = children[0].hold_id.no_money_extension_duration
-                    % set due_date = children.mapped('hold_id').get_expiration_string()
                 </div>
                 <p>
                     ${partner.salutation},
@@ -634,7 +633,7 @@
                     It may have escaped your attention that the sponsorship is not yet paid in the amount of CHF ${amount}.-
                     <br/>
                     <br/>
-                    We send you a payment slip so you can settle the payment <b>within ${extension} days before the ${due_date}</b>.
+                    We send you a payment slip so you can settle the payment <b>within ${extension} days</b>.
                     Please contact us if you are facing financial challenges. Together we will look for a solution which guarantees an ongoing support for ${children.get('your sponsored child')}.
                     If this letter has crossed with your payment, please accept our thanks and disregard this notice.
                     Thanks for making the payment of your sponsorship a priority. We wish you plenty of joy and blessings through your sponsorship.
@@ -659,7 +658,6 @@
                     % set firstname = children.get_list('firstname', 3, 'many children')
                     % set amount = sum(sponsorships.mapped('total_amount')) * min(sponsorships.mapped('group_id.advance_billing_months'))
                     % set extension = children[0].hold_id.no_money_extension_duration
-                    % set due_date = children.mapped('hold_id').get_expiration_string()
                 </div>
                 <p>
                     ${partner.salutation},
@@ -667,7 +665,7 @@
                     <br/>
                     We very warmly thank you for your decision to support ${firstname} so as to help us to release ${children.get('this child')} from poverty in Jesus’ name.
                     It may have escaped your attention that the sponsorship is not yet paid in the amount of CHF ${amount}.-
-                    We send you a payment slip so you can settle the payment <b>within ${extension} days before the ${due_date}.</b>
+                    We send you a payment slip so you can settle the payment <b>within ${extension} days before</b>
                     Otherwise, we will be forced to end your sponsorship.
                     <br/>
                     <br/>
