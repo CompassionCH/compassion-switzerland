@@ -24,10 +24,14 @@ class CompassionHold(models.Model):
         Gets the default No Money hold extension duration
         :return: integer: hold duration in days
         """
+        settings = self.env['availability.management.settings']
         for hold in self:
-            hold.no_money_extension_duration = self.env[
-                'availability.management.settings'].get_param(
-                'no_money_hold_extension')
+            if hold.no_money_extension < 2:
+                hold.no_money_extension_duration = settings.get_param(
+                    'no_money_hold_duration')
+            else:
+                hold.no_money_extension_duration = settings.get_param(
+                    'no_money_hold_extension')
 
     @api.model
     def beneficiary_hold_removal(self, commkit_data):
@@ -51,14 +55,6 @@ class CompassionHold(models.Model):
                 })
 
         return ids
-
-    @api.multi
-    def get_expiration_string(self):
-        min_expiration = min([
-            fields.Datetime.from_string(expiration) for expiration in
-            self.mapped('expiration_date')
-        ])
-        return min_expiration.strftime("%d %B %Y")
 
     @api.multi
     def postpone_no_money_hold(self, additional_text=None):

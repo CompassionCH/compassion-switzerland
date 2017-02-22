@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 class CompassionChild(models.Model):
     _inherit = 'compassion.child'
 
+    @api.multi
     def child_add_to_wordpress(self):
 
         # Solve the encoding problems on child's descriptions
@@ -59,6 +60,7 @@ class CompassionChild(models.Model):
             valid_children.write({'state': 'I'})
         return res
 
+    @api.multi
     def child_remove_from_wordpress(self):
         valid_children = self.filtered(lambda c: c.state == 'I')
         if valid_children:

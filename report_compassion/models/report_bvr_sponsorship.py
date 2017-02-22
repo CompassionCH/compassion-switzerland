@@ -104,3 +104,28 @@ class ThreeBvrSponsorship(models.Model):
             data = dict()
         data['offset'] = 1
         return super(ThreeBvrSponsorship, self).render_html(data)
+
+
+class BvrSponsorshipDue(models.Model):
+    """
+    Allows to send custom data to report.
+    """
+    _name = 'report.report_compassion.bvr_due'
+
+    @api.multi
+    def render_html(self, data=None):
+        """
+        :param data: data collected from the print wizard.
+        :return: html rendered report
+        """
+        if not data:
+            data = {'doc_ids': self._ids}
+        lang = data.get('lang', self.env.lang)
+        data.update({
+            'doc_model': 'recurring.contract',
+            'docs': self.env['recurring.contract'].with_context(
+                lang=lang).browse(data['doc_ids']),
+        })
+
+        return self.env['report'].with_context(lang=lang).render(
+            'report_compassion.bvr_due', data)

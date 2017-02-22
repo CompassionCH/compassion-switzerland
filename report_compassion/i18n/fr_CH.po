@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-07 11:49+0100\n"
-"PO-Revision-Date: 2017-02-07 11:53+0100\n"
+"POT-Creation-Date: 2017-02-22 12:39+0100\n"
+"PO-Revision-Date: 2017-02-22 12:42+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -18,17 +18,99 @@ msgstr ""
 "X-Generator: Poedit 1.8.4\n"
 
 #. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ""
+"#header {\n"
+"                    margin-left: 15mm;\n"
+"                    height: 45mm;\n"
+"                    font-size: 8pt;\n"
+"                }\n"
+"                #logo {\n"
+"                    display: inline-block;\n"
+"                    margin-top: 6mm;\n"
+"                    width: 100mm;\n"
+"                    height: 40mm;\n"
+"                }\n"
+"                #logo img {\n"
+"                    max-width: 100%;\n"
+"                    max-height: 100%;\n"
+"                    margin: auto;\n"
+"                }\n"
+"                #square {\n"
+"                    display: inline-block;\n"
+"                    float: right;\n"
+"                    margin-top: 6mm;\n"
+"                    margin-right: 6mm;\n"
+"                    width: 19mm;\n"
+"                    height: 19mm;\n"
+"                }\n"
+"                #square img {\n"
+"                    max-width: 100%;\n"
+"                    max-height: 100%;\n"
+"                    margin: auto;\n"
+"                }\n"
+"                #compassion_address {\n"
+"                    margin-left: 7mm;\n"
+"                }\n"
+"                #letter {\n"
+"                    font-family: \"tetriaLight\";\n"
+"                    font-size: 10pt;"
+msgstr ""
+"#header {\n"
+"                    margin-left: 15mm;\n"
+"                    height: 45mm;\n"
+"                    font-size: 8pt;\n"
+"                }\n"
+"                #logo {\n"
+"                    display: inline-block;\n"
+"                    margin-top: 6mm;\n"
+"                    width: 100mm;\n"
+"                    height: 40mm;\n"
+"                }\n"
+"                #logo img {\n"
+"                    max-width: 100%;\n"
+"                    max-height: 100%;\n"
+"                    margin: auto;\n"
+"                }\n"
+"                #square {\n"
+"                    display: inline-block;\n"
+"                    float: right;\n"
+"                    margin-top: 6mm;\n"
+"                    margin-right: 6mm;\n"
+"                    width: 19mm;\n"
+"                    height: 19mm;\n"
+"                }\n"
+"                #square img {\n"
+"                    max-width: 100%;\n"
+"                    max-height: 100%;\n"
+"                    margin: auto;\n"
+"                }\n"
+"                #compassion_address {\n"
+"                    margin-left: 7mm;\n"
+"                }\n"
+"                #letter {\n"
+"                    font-family: \"tetriaLight\";\n"
+"                    font-size: 10pt;"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ", Rue Galilée 3, 1400 Yverdon-les-Bains"
+msgstr ", Rue Galilée 3, 1400 Yverdon-les-Bains"
+
+#. module: report_compassion
 #: view:website:report_compassion.anniversary_card
 msgid ", Rue Galilée 3, 1400 Yverdon-les-Bains, Suisse/Schweiz/Svizzera"
 msgstr ", Rue Galilée 3, 1400 Yverdon-les-Bains, Suisse"
 
 #. module: report_compassion
 #: view:website:report_compassion.anniversary_card
+#: view:website:report_compassion.partner_communication
 msgid ".: 0800 784 773"
 msgstr ".: 0800 784 773"
 
 #. module: report_compassion
 #: view:website:report_compassion.anniversary_card
+#: view:website:report_compassion.partner_communication
 msgid ".compassion.ch"
 msgstr ".compassion.ch"
 
@@ -190,141 +272,6 @@ msgstr ""
 "                }"
 
 #. module: report_compassion
-#: view:website:report_compassion.partner_communication
-msgid ""
-".container {\n"
-"                    font-family: \"tetriaLight\";\n"
-"                    font-size: 10pt;\n"
-"                }\n"
-"                /* Format lists for PDF */\n"
-"                ul {\n"
-"                    list-style: none;\n"
-"                }\n"
-"                li {\n"
-"                    padding-left: 16px;\n"
-"                }\n"
-"                li:before {\n"
-"                    content: \"-\";\n"
-"                    padding-right: 8px;\n"
-"                }\n"
-"                .right {\n"
-"                    position: relative;\n"
-"                    left: 96mm;\n"
-"                }\n"
-"                #pp {\n"
-"                    font-family: verdana;\n"
-"                }\n"
-"                #pp-box {\n"
-"                    display: inline-block;\n"
-"                    padding: 1mm;\n"
-"                    width: 50mm;\n"
-"                    line-height: initial;\n"
-"\n"
-"                    /*margin-right: 2mm;*/\n"
-"                    border-style: solid;\n"
-"                    border-width: 1pt;\n"
-"                }\n"
-"                #pp-box div:first-child{\n"
-"                    font-size: 12pt;\n"
-"                    font-weight: bold;\n"
-"                }\n"
-"                #pp-box div:last-child{\n"
-"                    font-size: 8pt;\n"
-"                }\n"
-"                #pp-post {\n"
-"                    display: inline-block;\n"
-"                    font-size: 6pt;\n"
-"                }\n"
-"                #pp hr {\n"
-"                    margin-top: 0.5mm;\n"
-"                    margin-bottom: 3mm;\n"
-"                }\n"
-"                #date {\n"
-"                    margin-left: 96mm;\n"
-"                    margin-top: 8mm;\n"
-"                }\n"
-"                #title {\n"
-"                    margin-top: 5mm;\n"
-"                }\n"
-"                hr {\n"
-"                    margin-top: 0px;\n"
-"                    border: none;\n"
-"                    height: 1pt;\n"
-"                    background-color: black;\n"
-"                }\n"
-"                #signature {\n"
-"                    position: absolute;\n"
-"                    left: 96mm;\n"
-"                    top: 215mm;\n"
-"                }"
-msgstr ""
-".container {\n"
-"                    font-family: \"tetriaLight\";\n"
-"                    font-size: 10pt;\n"
-"                }\n"
-"                /* Format lists for PDF */\n"
-"                ul {\n"
-"                    list-style: none;\n"
-"                }\n"
-"                li {\n"
-"                    padding-left: 16px;\n"
-"                }\n"
-"                li:before {\n"
-"                    content: \"-\";\n"
-"                    padding-right: 8px;\n"
-"                }\n"
-"                .right {\n"
-"                    position: relative;\n"
-"                    left: 96mm;\n"
-"                }\n"
-"                #pp {\n"
-"                    font-family: verdana;\n"
-"                }\n"
-"                #pp-box {\n"
-"                    display: inline-block;\n"
-"                    padding: 1mm;\n"
-"                    width: 50mm;\n"
-"                    line-height: initial;\n"
-"\n"
-"                    /*margin-right: 2mm;*/\n"
-"                    border-style: solid;\n"
-"                    border-width: 1pt;\n"
-"                }\n"
-"                #pp-box div:first-child{\n"
-"                    font-size: 12pt;\n"
-"                    font-weight: bold;\n"
-"                }\n"
-"                #pp-box div:last-child{\n"
-"                    font-size: 8pt;\n"
-"                }\n"
-"                #pp-post {\n"
-"                    display: inline-block;\n"
-"                    font-size: 6pt;\n"
-"                }\n"
-"                #pp hr {\n"
-"                    margin-top: 0.5mm;\n"
-"                    margin-bottom: 3mm;\n"
-"                }\n"
-"                #date {\n"
-"                    margin-left: 96mm;\n"
-"                    margin-top: 8mm;\n"
-"                }\n"
-"                #title {\n"
-"                    margin-top: 5mm;\n"
-"                }\n"
-"                hr {\n"
-"                    margin-top: 0px;\n"
-"                    border: none;\n"
-"                    height: 1pt;\n"
-"                    background-color: black;\n"
-"                }\n"
-"                #signature {\n"
-"                    position: absolute;\n"
-"                    left: 96mm;\n"
-"                    top: 215mm;\n"
-"                }"
-
-#. module: report_compassion
 #: view:website:report_compassion.sub_proposal
 msgid ""
 ".container {\n"
@@ -379,14 +326,11 @@ msgid ""
 "                    font-size: 8pt;\n"
 "                }\n"
 "                .local_id {\n"
+"                    font-family: \"tetriaTab\";\n"
 "                    position: absolute;\n"
-"                    margin-left: 75mm;\n"
-"                    margin-top: 35mm;\n"
-"                }\n"
-"                .expiration_date {\n"
-"                    position: absolute;\n"
-"                    margin-left: 10mm;\n"
-"                    margin-top: 7mm;\n"
+"                    margin-left: 65mm;\n"
+"                    margin-top: 32.5mm;\n"
+"                    width: 38mm;\n"
 "                }\n"
 "                .desc {\n"
 "                    position: absolute;\n"
@@ -397,14 +341,11 @@ msgstr ""
 "                    font-size: 8pt;\n"
 "                }\n"
 "                .local_id {\n"
+"                    font-family: \"tetriaTab\";\n"
 "                    position: absolute;\n"
-"                    margin-left: 75mm;\n"
-"                    margin-top: 35mm;\n"
-"                }\n"
-"                .expiration_date {\n"
-"                    position: absolute;\n"
-"                    margin-left: 10mm;\n"
-"                    margin-top: 7mm;\n"
+"                    margin-left: 65mm;\n"
+"                    margin-top: 32.5mm;\n"
+"                    width: 38mm;\n"
 "                }\n"
 "                .desc {\n"
 "                    position: absolute;\n"
@@ -492,7 +433,8 @@ msgid ""
 "                .transfer .pay_from {\n"
 "                    position: absolute;\n"
 "                    margin-left: 61mm;\n"
-"                    margin-top: 47mm;\n"
+"                    margin-top: 54mm;\n"
+"                    line-height: 6mm;\n"
 "                    width: 80mm;\n"
 "                    height: 30mm;\n"
 "                    padding: auto;\n"
@@ -586,7 +528,8 @@ msgstr ""
 "                .transfer .pay_from {\n"
 "                    position: absolute;\n"
 "                    margin-left: 61mm;\n"
-"                    margin-top: 47mm;\n"
+"                    margin-top: 54mm;\n"
+"                    line-height: 6mm;\n"
 "                    width: 80mm;\n"
 "                    height: 30mm;\n"
 "                    padding: auto;\n"
@@ -603,6 +546,7 @@ msgstr ""
 
 #. module: report_compassion
 #: view:website:report_compassion.anniversary_card
+#: view:website:report_compassion.partner_communication
 msgid "17-312562-0"
 msgstr "17-312562-0"
 
@@ -614,6 +558,7 @@ msgstr "3 BVR"
 
 #. module: report_compassion
 #: view:website:report_compassion.anniversary_card
+#: view:website:report_compassion.partner_communication
 msgid ": info@compassion.ch"
 msgstr ": info@compassion.ch"
 
@@ -621,6 +566,11 @@ msgstr ": info@compassion.ch"
 #: model:ir.model,name:report_compassion.model_recurring_contract_group
 msgid "A group of contracts"
 msgstr "Groupe de contrats"
+
+#. module: report_compassion
+#: model:ir.actions.report.xml,name:report_compassion.report_a4_bvr
+msgid "A4 BVR"
+msgstr "A4 BVR"
 
 #. module: report_compassion
 #: model:ir.actions.report.xml,name:report_compassion.report_partner_communication
@@ -636,6 +586,11 @@ msgstr "Address name"
 #: model:ir.actions.report.xml,name:report_compassion.report_anniversary_card
 msgid "Anniversary Card"
 msgstr "Carte d'anniversaire"
+
+#. module: report_compassion
+#: field:partner.communication.job,product_id:0
+msgid "Attach payment slip for"
+msgstr "Joindre BVR"
 
 #. module: report_compassion
 #: view:website:report_compassion.childpack_small
@@ -660,11 +615,13 @@ msgstr "Date de naissance :"
 #. module: report_compassion
 #: field:recurring.contract,bvr_background:0
 #: field:recurring.contract.group,bvr_background:0
+#: field:res.partner,bvr_background:0
 msgid "Bvr background"
 msgstr "Fonds BVR"
 
 #. module: report_compassion
 #: view:website:report_compassion.anniversary_card
+#: view:website:report_compassion.partner_communication
 msgid "CCP/PC"
 msgstr "CCP/PC"
 
@@ -675,14 +632,15 @@ msgid "CH-1400 Yverdon-les-Bains"
 msgstr "CH-1400 Yverdon-les-Bains"
 
 #. module: report_compassion
-#: view:website:report_compassion.anniversary_card
-msgid "COMPASSION"
-msgstr "COMPASSION"
+#: view:website:report_compassion.report_bvr_due_document
+msgid "CHF"
+msgstr "CHF"
 
 #. module: report_compassion
-#: view:website:report_compassion.childpack_small
-msgid "Child reference:"
-msgstr "Référence :"
+#: view:website:report_compassion.anniversary_card
+#: view:website:report_compassion.partner_communication
+msgid "COMPASSION"
+msgstr "COMPASSION"
 
 #. module: report_compassion
 #: model:ir.actions.act_window,name:report_compassion.action_print_childpack
@@ -700,6 +658,16 @@ msgid "Companies"
 msgstr "Companies"
 
 #. module: report_compassion
+#: field:partner.communication.job,compassion_logo:0
+msgid "Compassion logo"
+msgstr "Compassion logo"
+
+#. module: report_compassion
+#: field:partner.communication.job,compassion_square:0
+msgid "Compassion square"
+msgstr "Compassion square"
+
+#. module: report_compassion
 #: model:ir.model,name:report_compassion.model_recurring_contract
 msgid "Contract for recurring invoicing"
 msgstr "Contrat à facturation récurrente"
@@ -710,10 +678,14 @@ msgid "Country:"
 msgstr "Pays :"
 
 #. module: report_compassion
-#: field:print.childpack,create_uid:0 field:print.sponsorship.bvr,create_uid:0
+#: field:print.bvr.fund,create_uid:0 field:print.childpack,create_uid:0
+#: field:print.sponsorship.bvr,create_uid:0
+#: field:print.sponsorship.bvr.due,create_uid:0
 #: field:print.sponsorship.gift.bvr,create_uid:0
 #: field:report.report_compassion.3bvr_gift_sponsorship,create_uid:0
 #: field:report.report_compassion.3bvr_sponsorship,create_uid:0
+#: field:report.report_compassion.bvr_due,create_uid:0
+#: field:report.report_compassion.bvr_fund,create_uid:0
 #: field:report.report_compassion.bvr_gift_sponsorship,create_uid:0
 #: field:report.report_compassion.bvr_sponsorship,create_uid:0
 #: field:report.report_compassion.childpack_full,create_uid:0
@@ -722,11 +694,14 @@ msgid "Created by"
 msgstr "Created by"
 
 #. module: report_compassion
-#: field:print.childpack,create_date:0
+#: field:print.bvr.fund,create_date:0 field:print.childpack,create_date:0
 #: field:print.sponsorship.bvr,create_date:0
+#: field:print.sponsorship.bvr.due,create_date:0
 #: field:print.sponsorship.gift.bvr,create_date:0
 #: field:report.report_compassion.3bvr_gift_sponsorship,create_date:0
 #: field:report.report_compassion.3bvr_sponsorship,create_date:0
+#: field:report.report_compassion.bvr_due,create_date:0
+#: field:report.report_compassion.bvr_fund,create_date:0
 #: field:report.report_compassion.bvr_gift_sponsorship,create_date:0
 #: field:report.report_compassion.bvr_sponsorship,create_date:0
 #: field:report.report_compassion.childpack_full,create_date:0
@@ -755,7 +730,7 @@ msgid "Date stop"
 msgstr "Date stop"
 
 #. module: report_compassion
-#: code:addons/report_compassion/wizards/print_sponsorship_bvr.py:70
+#: code:addons/report_compassion/wizards/print_sponsorship_bvr.py:75
 #, python-format
 msgid "Date stop must be after date start."
 msgstr "Date stop must be after date start."
@@ -771,11 +746,14 @@ msgid "Description"
 msgstr "Description"
 
 #. module: report_compassion
-#: field:print.childpack,display_name:0
+#: field:print.bvr.fund,display_name:0 field:print.childpack,display_name:0
 #: field:print.sponsorship.bvr,display_name:0
+#: field:print.sponsorship.bvr.due,display_name:0
 #: field:print.sponsorship.gift.bvr,display_name:0
 #: field:report.report_compassion.3bvr_gift_sponsorship,display_name:0
 #: field:report.report_compassion.3bvr_sponsorship,display_name:0
+#: field:report.report_compassion.bvr_due,display_name:0
+#: field:report.report_compassion.bvr_fund,display_name:0
 #: field:report.report_compassion.bvr_gift_sponsorship,display_name:0
 #: field:report.report_compassion.bvr_sponsorship,display_name:0
 #: field:report.report_compassion.childpack_full,display_name:0
@@ -784,7 +762,14 @@ msgid "Display Name"
 msgstr "Display Name"
 
 #. module: report_compassion
+#: model:ir.ui.menu,name:report_compassion.menu_donation
+msgid "Donation Receipts"
+msgstr "Remerciements"
+
+#. module: report_compassion
+#: field:print.bvr.fund,draw_background:0
 #: field:print.sponsorship.bvr,draw_background:0
+#: field:print.sponsorship.bvr.due,draw_background:0
 #: field:print.sponsorship.gift.bvr,draw_background:0
 msgid "Draw background"
 msgstr "Imprimer le fonds"
@@ -811,6 +796,11 @@ msgid "Full name:"
 msgstr "Nom complet :"
 
 #. module: report_compassion
+#: field:account.invoice,gender:0
+msgid "Gender"
+msgstr "Sexe"
+
+#. module: report_compassion
 #: field:print.sponsorship.gift.bvr,general_gift:0
 msgid "General gift"
 msgstr "Cadeau général"
@@ -832,10 +822,18 @@ msgid "Graduation gift"
 msgstr "Cadeau de promotion"
 
 #. module: report_compassion
-#: field:print.childpack,id:0 field:print.sponsorship.bvr,id:0
+#: view:success.story:report_compassion.success_story_search
+msgid "Group By"
+msgstr "Grouper par"
+
+#. module: report_compassion
+#: field:print.bvr.fund,id:0 field:print.childpack,id:0
+#: field:print.sponsorship.bvr,id:0 field:print.sponsorship.bvr.due,id:0
 #: field:print.sponsorship.gift.bvr,id:0
 #: field:report.report_compassion.3bvr_gift_sponsorship,id:0
 #: field:report.report_compassion.3bvr_sponsorship,id:0
+#: field:report.report_compassion.bvr_due,id:0
+#: field:report.report_compassion.bvr_fund,id:0
 #: field:report.report_compassion.bvr_gift_sponsorship,id:0
 #: field:report.report_compassion.bvr_sponsorship,id:0
 #: field:report.report_compassion.childpack_full,id:0
@@ -861,6 +859,11 @@ msgid "Include gifts"
 msgstr "Avec cadeaux"
 
 #. module: report_compassion
+#: model:ir.model,name:report_compassion.model_account_invoice
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: report_compassion
 #: model:ir.actions.act_window,name:report_compassion.print_sponsorship_label_action
 msgid "Labels"
 msgstr "Etiquettes"
@@ -871,11 +874,14 @@ msgid "Lang"
 msgstr "Langue"
 
 #. module: report_compassion
-#: field:print.childpack,__last_update:0
+#: field:print.bvr.fund,__last_update:0 field:print.childpack,__last_update:0
 #: field:print.sponsorship.bvr,__last_update:0
+#: field:print.sponsorship.bvr.due,__last_update:0
 #: field:print.sponsorship.gift.bvr,__last_update:0
 #: field:report.report_compassion.3bvr_gift_sponsorship,__last_update:0
 #: field:report.report_compassion.3bvr_sponsorship,__last_update:0
+#: field:report.report_compassion.bvr_due,__last_update:0
+#: field:report.report_compassion.bvr_fund,__last_update:0
 #: field:report.report_compassion.bvr_gift_sponsorship,__last_update:0
 #: field:report.report_compassion.bvr_sponsorship,__last_update:0
 #: field:report.report_compassion.childpack_full,__last_update:0
@@ -884,10 +890,14 @@ msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: report_compassion
-#: field:print.childpack,write_uid:0 field:print.sponsorship.bvr,write_uid:0
+#: field:print.bvr.fund,write_uid:0 field:print.childpack,write_uid:0
+#: field:print.sponsorship.bvr,write_uid:0
+#: field:print.sponsorship.bvr.due,write_uid:0
 #: field:print.sponsorship.gift.bvr,write_uid:0
 #: field:report.report_compassion.3bvr_gift_sponsorship,write_uid:0
 #: field:report.report_compassion.3bvr_sponsorship,write_uid:0
+#: field:report.report_compassion.bvr_due,write_uid:0
+#: field:report.report_compassion.bvr_fund,write_uid:0
 #: field:report.report_compassion.bvr_gift_sponsorship,write_uid:0
 #: field:report.report_compassion.bvr_sponsorship,write_uid:0
 #: field:report.report_compassion.childpack_full,write_uid:0
@@ -896,10 +906,14 @@ msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: report_compassion
-#: field:print.childpack,write_date:0 field:print.sponsorship.bvr,write_date:0
+#: field:print.bvr.fund,write_date:0 field:print.childpack,write_date:0
+#: field:print.sponsorship.bvr,write_date:0
+#: field:print.sponsorship.bvr.due,write_date:0
 #: field:print.sponsorship.gift.bvr,write_date:0
 #: field:report.report_compassion.3bvr_gift_sponsorship,write_date:0
 #: field:report.report_compassion.3bvr_sponsorship,write_date:0
+#: field:report.report_compassion.bvr_due,write_date:0
+#: field:report.report_compassion.bvr_fund,write_date:0
 #: field:report.report_compassion.bvr_gift_sponsorship,write_date:0
 #: field:report.report_compassion.bvr_sponsorship,write_date:0
 #: field:report.report_compassion.childpack_full,write_date:0
@@ -909,6 +923,7 @@ msgstr "Last Updated on"
 
 #. module: report_compassion
 #: view:website:report_compassion.anniversary_card
+#: view:website:report_compassion.partner_communication
 msgid "MAIL"
 msgstr "MAIL"
 
@@ -941,12 +956,47 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_bvr_fund
+#: model:ir.actions.report.xml,name:report_compassion.report_bvr_fund
+msgid "Payment Slip for Fund"
+msgstr "Bulletin pour Fonds"
+
+#. module: report_compassion
+#: field:print.bvr.fund,pdf:0 field:print.childpack,pdf:0
+#: field:print.sponsorship.bvr,pdf:0 field:print.sponsorship.bvr.due,pdf:0
+#: field:print.sponsorship.gift.bvr,pdf:0
+msgid "Pdf"
+msgstr "Pdf"
+
+#. module: report_compassion
+#: field:print.bvr.fund,pdf_download:0 field:print.childpack,pdf_download:0
+#: field:print.sponsorship.bvr,pdf_download:0
+#: field:print.sponsorship.bvr.due,pdf_download:0
+#: field:print.sponsorship.gift.bvr,pdf_download:0
+msgid "Pdf download"
+msgstr "Télécharger le PDF"
+
+#. module: report_compassion
+#: field:print.bvr.fund,pdf_name:0 field:print.childpack,pdf_name:0
+#: field:print.sponsorship.bvr,pdf_name:0
+#: field:print.sponsorship.bvr.due,pdf_name:0
+#: field:print.sponsorship.gift.bvr,pdf_name:0
+msgid "Pdf name"
+msgstr "Pdf name"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/success_story.py:74
+#, python-format
+msgid "Period is not valid"
+msgstr "La période n'est pas valide"
+
+#. module: report_compassion
 #: field:print.sponsorship.bvr,period_selection:0
 msgid "Period selection"
 msgstr "Sélection de période"
 
 #. module: report_compassion
-#: code:addons/report_compassion/wizards/print_sponsorship_gift_bvr.py:55
+#: code:addons/report_compassion/wizards/print_sponsorship_gift_bvr.py:61
 #, python-format
 msgid "Please select at least one gift type."
 msgstr "Veuillez choisir au moins un cadeau"
@@ -958,11 +1008,23 @@ msgid "Poste CH SA"
 msgstr "Poste CH SA"
 
 #. module: report_compassion
+#: view:print.bvr.fund:report_compassion.print_bvr_fund_view
 #: view:print.childpack:report_compassion.print_childpack
 #: view:print.sponsorship.bvr:report_compassion.print_sponsorship
+#: view:print.sponsorship.bvr.due:report_compassion.print_sponsorship_due
 #: view:print.sponsorship.gift.bvr:report_compassion.print_sponsorship_gift
 msgid "Print"
 msgstr "Imprimer"
+
+#. module: report_compassion
+#: field:partner.communication.job,print_subject:0
+msgid "Print subject"
+msgstr "Imprimer le sujet"
+
+#. module: report_compassion
+#: field:print.bvr.fund,product_id:0
+msgid "Product id"
+msgstr "Produit"
 
 #. module: report_compassion
 #: field:print.sponsorship.gift.bvr,project_gift:0
@@ -1018,6 +1080,12 @@ msgid "Small Childpack"
 msgstr "Petit dossier"
 
 #. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_sponsorship_bvr_due
+#: model:ir.actions.report.xml,name:report_compassion.report_bvr_due
+msgid "Sponsorship Due"
+msgstr "Parrainage en retard"
+
+#. module: report_compassion
 #: model:ir.actions.report.xml,name:report_compassion.report_bvr_sponsorship
 msgid "Sponsorship Payment Slip"
 msgstr "Bulletin de parrainage"
@@ -1029,9 +1097,42 @@ msgid "Sponsorship Payment Slips"
 msgstr "Bulletins pour le parrainage"
 
 #. module: report_compassion
+#: view:website:report_compassion.report_bvr_due_document
+msgid "Sponsorship due"
+msgstr "Parrainage en retard"
+
+#. module: report_compassion
+#: field:print.bvr.fund,state:0 field:print.childpack,state:0
+#: field:print.sponsorship.bvr,state:0 field:print.sponsorship.bvr.due,state:0
+#: field:print.sponsorship.gift.bvr,state:0
+msgid "State"
+msgstr "Etat"
+
+#. module: report_compassion
+#: view:success.story:report_compassion.success_story_search
+msgid "Status"
+msgstr "Etat"
+
+#. module: report_compassion
 #: field:res.partner,sub_proposal_form:0
 msgid "Sub proposal form"
 msgstr "Formulaire Reprise"
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_success_story
+#: model:ir.ui.menu,name:report_compassion.menu_donation_success_story
+msgid "Success Stories"
+msgstr "Success Stories"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_success_story
+msgid "Success Story"
+msgstr "Success Story"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid "TEL"
+msgstr "TEL"
 
 #. module: report_compassion
 #: field:print.childpack,type:0
@@ -1045,8 +1146,15 @@ msgstr "TÉL"
 
 #. module: report_compassion
 #: view:website:report_compassion.anniversary_card
+#: view:website:report_compassion.partner_communication
 msgid "WWW"
 msgstr "WWW"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/report_bvr_fund.py:37
+#, python-format
+msgid "You must give a product in data to print this report."
+msgstr "You must give a product in data to print this report."
 
 #. module: report_compassion
 #: code:addons/report_compassion/models/contract_group.py:143
@@ -1055,42 +1163,99 @@ msgid "for"
 msgstr "pour"
 
 #. module: report_compassion
+#: code:addons/report_compassion/wizards/print_sponsorship_gift_bvr.py:75
+#, python-format
+msgid "gift payment slips"
+msgstr "bulletins cadeaux"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ""
+"height: 145mm;\n"
+"                        overflow: hidden;"
+msgstr ""
+"height: 145mm;\n"
+"                        overflow: hidden;"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid "margin-bottom: 20mm;"
+msgstr "margin-bottom: 20mm;"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid "margin-bottom: 6mm;"
+msgstr "margin-bottom: 6mm;"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ""
+"margin-left: 20mm;\n"
+"                        margin-right: 20mm;"
+msgstr ""
+"margin-left: 20mm;\n"
+"                        margin-right: 20mm;"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ""
+"margin-left: 6mm;\n"
+"                        margin-right: 6mm;"
+msgstr ""
+"margin-left: 6mm;\n"
+"                        margin-right: 6mm;"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid "margin-top: 5mm;"
+msgstr "margin-top: 5mm;"
+
+#. module: report_compassion
 #: view:website:report_compassion.childpack_small
 msgid ""
 "mm;\n"
 "                    margin-top: 42mm;\n"
-"                    width: 120mm;\n"
+"                    width: 140mm;\n"
 "                    height: 116mm;\n"
 "                    max-height: 116mm;\n"
-"                    font-size: x-small;\n"
+"                    font-size: 9pt;\n"
 "                    column-count: 2;\n"
 "                    -webkit-column-count: 2; /* Chrome, Safari, Opera */\n"
 "                    -moz-column-count: 2; /* Firefox */\n"
-"                    column-gap: 10mm;\n"
 "                }\n"
 "                .desc .left {\n"
 "                    width: 55mm;\n"
 "                    max-width: 100%;\n"
 "                }\n"
 "                .desc .right {\n"
-"                    width: 55mm;\n"
+"                    width: 75mm;\n"
 "                    max-width: 100%;\n"
 "                    position: absolute;\n"
-"                    left: 70mm;\n"
+"                    left: 55mm;\n"
 "                    top: 0mm;\n"
 "                }\n"
-"                .desc table {\n"
+"                .desc .left table {\n"
 "                    width: 55mm;\n"
+"                }\n"
+"                .desc .right table {\n"
+"                    width: 75mm;\n"
 "                }\n"
 "                .desc td {\n"
 "                    vertical-align: bottom;\n"
+"                    padding-bottom: 1.5mm;\n"
 "                }\n"
 "                .desc td:first-child {\n"
-"                    padding-right: 5mm;\n"
+"                    padding-right: 2mm;\n"
 "                    vertical-align: top;\n"
 "                }\n"
 "                h6 {\n"
-"                    font-size: small;\n"
+"                    font-family: \"tetriaBlack\";\n"
+"                }\n"
+"                .desc.boy h6 {\n"
+"                    color: #013d4b;\n"
+"                }\n"
+"                .desc.girl h6 {\n"
+"                    color: #470641;\n"
 "                }\n"
 "                .title {\n"
 "                    position: absolute;\n"
@@ -1098,38 +1263,47 @@ msgid ""
 msgstr ""
 "mm;\n"
 "                    margin-top: 42mm;\n"
-"                    width: 120mm;\n"
+"                    width: 140mm;\n"
 "                    height: 116mm;\n"
 "                    max-height: 116mm;\n"
-"                    font-size: x-small;\n"
+"                    font-size: 9pt;\n"
 "                    column-count: 2;\n"
 "                    -webkit-column-count: 2; /* Chrome, Safari, Opera */\n"
 "                    -moz-column-count: 2; /* Firefox */\n"
-"                    column-gap: 10mm;\n"
 "                }\n"
 "                .desc .left {\n"
 "                    width: 55mm;\n"
 "                    max-width: 100%;\n"
 "                }\n"
 "                .desc .right {\n"
-"                    width: 55mm;\n"
+"                    width: 75mm;\n"
 "                    max-width: 100%;\n"
 "                    position: absolute;\n"
-"                    left: 70mm;\n"
+"                    left: 55mm;\n"
 "                    top: 0mm;\n"
 "                }\n"
-"                .desc table {\n"
+"                .desc .left table {\n"
 "                    width: 55mm;\n"
+"                }\n"
+"                .desc .right table {\n"
+"                    width: 75mm;\n"
 "                }\n"
 "                .desc td {\n"
 "                    vertical-align: bottom;\n"
+"                    padding-bottom: 1.5mm;\n"
 "                }\n"
 "                .desc td:first-child {\n"
-"                    padding-right: 5mm;\n"
+"                    padding-right: 2mm;\n"
 "                    vertical-align: top;\n"
 "                }\n"
 "                h6 {\n"
-"                    font-size: small;\n"
+"                    font-family: \"tetriaBlack\";\n"
+"                }\n"
+"                .desc.boy h6 {\n"
+"                    color: #013d4b;\n"
+"                }\n"
+"                .desc.girl h6 {\n"
+"                    color: #470641;\n"
 "                }\n"
 "                .title {\n"
 "                    position: absolute;\n"
@@ -1141,11 +1315,11 @@ msgid ""
 "mm;\n"
 "                    margin-top: 55mm;\n"
 "                }\n"
-"                .boy {\n"
-"                    color: #02728e;\n"
+"                h1 .boy {\n"
+"                    color: #027997;\n"
 "                }\n"
-"                .girl {\n"
-"                    color: #af0ea2;\n"
+"                h1 .girl {\n"
+"                    color: #8e0b83;\n"
 "                }\n"
 "                .photo {\n"
 "                    position: absolute;\n"
@@ -1154,11 +1328,11 @@ msgstr ""
 "mm;\n"
 "                    margin-top: 55mm;\n"
 "                }\n"
-"                .boy {\n"
-"                    color: #02728e;\n"
+"                h1 .boy {\n"
+"                    color: #027997;\n"
 "                }\n"
-"                .girl {\n"
-"                    color: #af0ea2;\n"
+"                h1 .girl {\n"
+"                    color: #8e0b83;\n"
 "                }\n"
 "                .photo {\n"
 "                    position: absolute;\n"
@@ -1169,13 +1343,20 @@ msgstr ""
 msgid ""
 "mm;\n"
 "                    margin-top: 85mm;\n"
-"                    width: 70mm;\n"
-"                    height: 90mm;\n"
+"                    width: 65mm;\n"
+"                    height: 85mm;\n"
 "                }\n"
 "                .photo img {\n"
 "                    max-width: 100%;\n"
 "                    max-height: 100%;\n"
 "                    margin: auto;\n"
+"                }\n"
+"                #child-ref {\n"
+"                    width: 56mm;\n"
+"                    text-align: center;\n"
+"                    font-size: medium;\n"
+"                    font-family: \"tetriaTab\";\n"
+"                    margin-top: 2mm;\n"
 "                }\n"
 "                .summary {\n"
 "                    position: absolute;\n"
@@ -1183,13 +1364,20 @@ msgid ""
 msgstr ""
 "mm;\n"
 "                    margin-top: 85mm;\n"
-"                    width: 70mm;\n"
-"                    height: 90mm;\n"
+"                    width: 65mm;\n"
+"                    height: 85mm;\n"
 "                }\n"
 "                .photo img {\n"
 "                    max-width: 100%;\n"
 "                    max-height: 100%;\n"
 "                    margin: auto;\n"
+"                }\n"
+"                #child-ref {\n"
+"                    width: 56mm;\n"
+"                    text-align: center;\n"
+"                    font-size: medium;\n"
+"                    font-family: \"tetriaTab\";\n"
+"                    margin-top: 2mm;\n"
 "                }\n"
 "                .summary {\n"
 "                    position: absolute;\n"
@@ -1200,49 +1388,69 @@ msgstr ""
 msgid ""
 "mm;\n"
 "                    margin-top: 95mm;\n"
+"                    font-size: small;\n"
 "                }\n"
 "                .summary_field {\n"
+"                    font-size: medium;\n"
 "                    font-weight: bold;\n"
+"                    font-family: \"tetriaBold\";\n"
+"                    margin-bottom: 6mm;\n"
 "                }\n"
 "                /* Comma separated lists */\n"
-"                .childpack-full ul {\n"
-"                  display: inline;\n"
-"                  list-style: none;\n"
+"                ul {\n"
+"                    margin: 0;\n"
+"                    padding: 0;\n"
 "                }\n"
 "                li {\n"
-"                  display: inline;\n"
+"                    display: inline;\n"
 "                }\n"
-"\n"
 "                li:after {\n"
-"                  content: \", \";\n"
+"                    content: \", \";\n"
 "                }\n"
-"\n"
 "                li:last-child:after {\n"
-"                  content: \"\";\n"
+"                    content: \"\";\n"
 "                }"
 msgstr ""
 "mm;\n"
 "                    margin-top: 95mm;\n"
+"                    font-size: small;\n"
 "                }\n"
 "                .summary_field {\n"
+"                    font-size: medium;\n"
 "                    font-weight: bold;\n"
+"                    font-family: \"tetriaBold\";\n"
+"                    margin-bottom: 6mm;\n"
 "                }\n"
 "                /* Comma separated lists */\n"
-"                .childpack-full ul {\n"
-"                  display: inline;\n"
-"                  list-style: none;\n"
+"                ul {\n"
+"                    margin: 0;\n"
+"                    padding: 0;\n"
 "                }\n"
 "                li {\n"
-"                  display: inline;\n"
+"                    display: inline;\n"
 "                }\n"
-"\n"
 "                li:after {\n"
-"                  content: \", \";\n"
+"                    content: \", \";\n"
 "                }\n"
-"\n"
 "                li:last-child:after {\n"
-"                  content: \"\";\n"
+"                    content: \"\";\n"
 "                }"
+
+#. module: report_compassion
+#: selection:print.bvr.fund,state:0 selection:print.childpack,state:0
+#: selection:print.sponsorship.bvr,state:0
+#: selection:print.sponsorship.bvr.due,state:0
+#: selection:print.sponsorship.gift.bvr,state:0
+msgid "new"
+msgstr "new"
+
+#. module: report_compassion
+#: selection:print.bvr.fund,state:0 selection:print.childpack,state:0
+#: selection:print.sponsorship.bvr,state:0
+#: selection:print.sponsorship.bvr.due,state:0
+#: selection:print.sponsorship.gift.bvr,state:0
+msgid "pdf"
+msgstr "pdf"
 
 #. module: report_compassion
 #: view:website:report_compassion.layout
@@ -1250,10 +1458,728 @@ msgid "report_compassion.layout"
 msgstr "report_compassion.layout"
 
 #. module: report_compassion
+#: code:addons/report_compassion/wizards/print_sponsorship_bvr.py:88
+#, python-format
+msgid "sponsorship payment slips"
+msgstr "bulletins parrainage"
+
+#. module: report_compassion
 #: code:addons/report_compassion/models/contract_group.py:159
 #, python-format
 msgid "sponsorships"
 msgstr "parrainages"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ""
+"width: 100%;\n"
+"                }\n"
+"                #success-story {\n"
+"                    display: inline-block;\n"
+"                    margin-right: 5mm;\n"
+"                    vertical-align: top;\n"
+"                    padding: 2mm;\n"
+"                    width: 25%;\n"
+"                    background-color: #ccffff;\n"
+"                }\n"
+"                #body {\n"
+"                    display: inline-block;"
+msgstr ""
+"width: 100%;\n"
+"                }\n"
+"                #success-story {\n"
+"                    display: inline-block;\n"
+"                    margin-right: 5mm;\n"
+"                    vertical-align: top;\n"
+"                    padding: 2mm;\n"
+"                    width: 25%;\n"
+"                    background-color: #ccffff;\n"
+"                }\n"
+"                #body {\n"
+"                    display: inline-block;"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid "width: 70%;"
+msgstr "width: 70%;"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid "width: 90%;"
+msgstr "width: 90%;"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ""
+"}\n"
+"                .right {\n"
+"                    width: 44%;\n"
+"                    margin-left: auto;\n"
+"                }\n"
+"                .blue {\n"
+"                    color: blue;\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                #pp {\n"
+"                    font-family: verdana;\n"
+"                }\n"
+"                #pp-box {\n"
+"                    display: inline-block;\n"
+"                    padding: 1mm;\n"
+"                    width: 50mm;\n"
+"                    line-height: initial;\n"
+"                    border-style: solid;\n"
+"                    border-width: 1pt;\n"
+"                }\n"
+"                #pp-box div:first-child{\n"
+"                    font-size: 12pt;\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                #pp-box div:last-child{\n"
+"                    font-size: 8pt;\n"
+"                }\n"
+"                #pp-post {\n"
+"                    display: inline-block;\n"
+"                    font-size: 6pt;\n"
+"                }\n"
+"                #pp hr {\n"
+"                    margin-top: 0.5mm;\n"
+"                    margin-bottom: 3mm;\n"
+"                }\n"
+"                #date {\n"
+"                    margin-top: 3mm;\n"
+"                }\n"
+"                #content {"
+msgstr ""
+"}\n"
+"                .right {\n"
+"                    width: 44%;\n"
+"                    margin-left: auto;\n"
+"                }\n"
+"                .blue {\n"
+"                    color: blue;\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                #pp {\n"
+"                    font-family: verdana;\n"
+"                }\n"
+"                #pp-box {\n"
+"                    display: inline-block;\n"
+"                    padding: 1mm;\n"
+"                    width: 50mm;\n"
+"                    line-height: initial;\n"
+"                    border-style: solid;\n"
+"                    border-width: 1pt;\n"
+"                }\n"
+"                #pp-box div:first-child{\n"
+"                    font-size: 12pt;\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                #pp-box div:last-child{\n"
+"                    font-size: 8pt;\n"
+"                }\n"
+"                #pp-post {\n"
+"                    display: inline-block;\n"
+"                    font-size: 6pt;\n"
+"                }\n"
+"                #pp hr {\n"
+"                    margin-top: 0.5mm;\n"
+"                    margin-bottom: 3mm;\n"
+"                }\n"
+"                #date {\n"
+"                    margin-top: 3mm;\n"
+"                }\n"
+"                #content {"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ""
+"}\n"
+"                /* Format lists for PDF */\n"
+"                ul {\n"
+"                    list-style: none;\n"
+"                }\n"
+"                li {\n"
+"                    padding-left: 16px;\n"
+"                }\n"
+"                li:before {\n"
+"                    content: \"-\";\n"
+"                    padding-right: 8px;\n"
+"                }"
+msgstr ""
+"}\n"
+"                /* Format lists for PDF */\n"
+"                ul {\n"
+"                    list-style: none;\n"
+"                }\n"
+"                li {\n"
+"                    padding-left: 16px;\n"
+"                }\n"
+"                li:before {\n"
+"                    content: \"-\";\n"
+"                    padding-right: 8px;\n"
+"                }"
+
+#. module: report_compassion
+#: view:website:report_compassion.partner_communication
+msgid ""
+"}\n"
+"                hr {\n"
+"                    margin-top: 0px;\n"
+"                    border: none;\n"
+"                    height: 1pt;\n"
+"                    background-color: black;"
+msgstr ""
+"}\n"
+"                hr {\n"
+"                    margin-top: 0px;\n"
+"                    border: none;\n"
+"                    height: 1pt;\n"
+"                    background-color: black;"
+
+#~ msgid ""
+#~ ".container {\n"
+#~ "                    font-family: \"tetriaLight\";\n"
+#~ "                    font-size: 10pt;\n"
+#~ "                }\n"
+#~ "                /* Format lists for PDF */\n"
+#~ "                ul {\n"
+#~ "                    list-style: none;\n"
+#~ "                }\n"
+#~ "                li {\n"
+#~ "                    padding-left: 16px;\n"
+#~ "                }\n"
+#~ "                li:before {\n"
+#~ "                    content: \"-\";\n"
+#~ "                    padding-right: 8px;\n"
+#~ "                }\n"
+#~ "                .right {\n"
+#~ "                    position: relative;\n"
+#~ "                    left: 96mm;\n"
+#~ "                }\n"
+#~ "                #pp {\n"
+#~ "                    font-family: verdana;\n"
+#~ "                }\n"
+#~ "                #pp-box {\n"
+#~ "                    display: inline-block;\n"
+#~ "                    padding: 1mm;\n"
+#~ "                    width: 50mm;\n"
+#~ "                    line-height: initial;\n"
+#~ "\n"
+#~ "                    /*margin-right: 2mm;*/\n"
+#~ "                    border-style: solid;\n"
+#~ "                    border-width: 1pt;\n"
+#~ "                }\n"
+#~ "                #pp-box div:first-child{\n"
+#~ "                    font-size: 12pt;\n"
+#~ "                    font-weight: bold;\n"
+#~ "                }\n"
+#~ "                #pp-box div:last-child{\n"
+#~ "                    font-size: 8pt;\n"
+#~ "                }\n"
+#~ "                #pp-post {\n"
+#~ "                    display: inline-block;\n"
+#~ "                    font-size: 6pt;\n"
+#~ "                }\n"
+#~ "                #pp hr {\n"
+#~ "                    margin-top: 0.5mm;\n"
+#~ "                    margin-bottom: 3mm;\n"
+#~ "                }\n"
+#~ "                #date {\n"
+#~ "                    margin-left: 96mm;\n"
+#~ "                    margin-top: 8mm;\n"
+#~ "                }\n"
+#~ "                #title {\n"
+#~ "                    margin-top: 5mm;\n"
+#~ "                }\n"
+#~ "                hr {\n"
+#~ "                    margin-top: 0px;\n"
+#~ "                    border: none;\n"
+#~ "                    height: 1pt;\n"
+#~ "                    background-color: black;\n"
+#~ "                }\n"
+#~ "                #signature {\n"
+#~ "                    position: absolute;\n"
+#~ "                    left: 96mm;\n"
+#~ "                    top: 215mm;\n"
+#~ "                }"
+#~ msgstr ""
+#~ ".container {\n"
+#~ "                    font-family: \"tetriaLight\";\n"
+#~ "                    font-size: 10pt;\n"
+#~ "                }\n"
+#~ "                /* Format lists for PDF */\n"
+#~ "                ul {\n"
+#~ "                    list-style: none;\n"
+#~ "                }\n"
+#~ "                li {\n"
+#~ "                    padding-left: 16px;\n"
+#~ "                }\n"
+#~ "                li:before {\n"
+#~ "                    content: \"-\";\n"
+#~ "                    padding-right: 8px;\n"
+#~ "                }\n"
+#~ "                .right {\n"
+#~ "                    position: relative;\n"
+#~ "                    left: 96mm;\n"
+#~ "                }\n"
+#~ "                #pp {\n"
+#~ "                    font-family: verdana;\n"
+#~ "                }\n"
+#~ "                #pp-box {\n"
+#~ "                    display: inline-block;\n"
+#~ "                    padding: 1mm;\n"
+#~ "                    width: 50mm;\n"
+#~ "                    line-height: initial;\n"
+#~ "\n"
+#~ "                    /*margin-right: 2mm;*/\n"
+#~ "                    border-style: solid;\n"
+#~ "                    border-width: 1pt;\n"
+#~ "                }\n"
+#~ "                #pp-box div:first-child{\n"
+#~ "                    font-size: 12pt;\n"
+#~ "                    font-weight: bold;\n"
+#~ "                }\n"
+#~ "                #pp-box div:last-child{\n"
+#~ "                    font-size: 8pt;\n"
+#~ "                }\n"
+#~ "                #pp-post {\n"
+#~ "                    display: inline-block;\n"
+#~ "                    font-size: 6pt;\n"
+#~ "                }\n"
+#~ "                #pp hr {\n"
+#~ "                    margin-top: 0.5mm;\n"
+#~ "                    margin-bottom: 3mm;\n"
+#~ "                }\n"
+#~ "                #date {\n"
+#~ "                    margin-left: 96mm;\n"
+#~ "                    margin-top: 8mm;\n"
+#~ "                }\n"
+#~ "                #title {\n"
+#~ "                    margin-top: 5mm;\n"
+#~ "                }\n"
+#~ "                hr {\n"
+#~ "                    margin-top: 0px;\n"
+#~ "                    border: none;\n"
+#~ "                    height: 1pt;\n"
+#~ "                    background-color: black;\n"
+#~ "                }\n"
+#~ "                #signature {\n"
+#~ "                    position: absolute;\n"
+#~ "                    left: 96mm;\n"
+#~ "                    top: 215mm;\n"
+#~ "                }"
+
+#~ msgid ""
+#~ ".container {\n"
+#~ "                    font-family: \"tetriaLight\";\n"
+#~ "                    font-size: 8pt;\n"
+#~ "                }\n"
+#~ "                .local_id {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 75mm;\n"
+#~ "                    margin-top: 35mm;\n"
+#~ "                }\n"
+#~ "                .expiration_date {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 10mm;\n"
+#~ "                    margin-top: 7mm;\n"
+#~ "                }\n"
+#~ "                .desc {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left:"
+#~ msgstr ""
+#~ ".container {\n"
+#~ "                    font-family: \"tetriaLight\";\n"
+#~ "                    font-size: 8pt;\n"
+#~ "                }\n"
+#~ "                .local_id {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 75mm;\n"
+#~ "                    margin-top: 35mm;\n"
+#~ "                }\n"
+#~ "                .expiration_date {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 10mm;\n"
+#~ "                    margin-top: 7mm;\n"
+#~ "                }\n"
+#~ "                .desc {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left:"
+
+#~ msgid ""
+#~ ".one_slip {\n"
+#~ "                    font-size: 8pt;\n"
+#~ "                    width: 210mm;\n"
+#~ "                    height: 106mm;\n"
+#~ "                }\n"
+#~ "                #background {\n"
+#~ "                    position: absolute;\n"
+#~ "                    width: 210mm;\n"
+#~ "                    height: 106mm;\n"
+#~ "                }\n"
+#~ "                #background img {\n"
+#~ "                    max-width: 100%;\n"
+#~ "                    max-height: 100%;\n"
+#~ "                    margin: auto;\n"
+#~ "                }\n"
+#~ "                .receipt {\n"
+#~ "                    position: absolute;\n"
+#~ "                    padding-top: 9mm;\n"
+#~ "                    padding-left: 5mm;\n"
+#~ "                    width: 60mm;\n"
+#~ "                    height: 106mm;\n"
+#~ "                }\n"
+#~ "                .pay_for::first-line {\n"
+#~ "                    font-weight: bold;\n"
+#~ "                }\n"
+#~ "                .receipt .pay_for {\n"
+#~ "                    position: absolute;\n"
+#~ "                    height: 15mm;\n"
+#~ "                }\n"
+#~ "                .receipt .communication {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 18mm;\n"
+#~ "                    height: 15mm;\n"
+#~ "                }\n"
+#~ "                .receipt .account {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 33mm;\n"
+#~ "                    margin-left: 30.5mm;\n"
+#~ "                }\n"
+#~ "                .receipt .reference {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 51mm;\n"
+#~ "                }\n"
+#~ "                .receipt .pay_from {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 56mm;\n"
+#~ "                    max-height: 20mm;\n"
+#~ "                }\n"
+#~ "\n"
+#~ "                .transfer {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 60mm;\n"
+#~ "                    padding-left: 4mm;\n"
+#~ "                    width: 150mm;\n"
+#~ "                    height: 106mm;\n"
+#~ "                }\n"
+#~ "                .transfer .pay_for {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 9mm;\n"
+#~ "                    width: 55mm;\n"
+#~ "                }\n"
+#~ "                .transfer .reference {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 61mm;\n"
+#~ "                    margin-top: 33mm;\n"
+#~ "                    width: 84mm;\n"
+#~ "                    height: 6mm;\n"
+#~ "                    padding: 1mm;\n"
+#~ "                    font-size: 10pt;\n"
+#~ "                    text-align: center;\n"
+#~ "                }\n"
+#~ "                .transfer .account {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 28mm;\n"
+#~ "                    margin-top: 42.5mm;\n"
+#~ "                }\n"
+#~ "                .transfer .pay_from {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 61mm;\n"
+#~ "                    margin-top: 47mm;\n"
+#~ "                    width: 80mm;\n"
+#~ "                    height: 30mm;\n"
+#~ "                    padding: auto;\n"
+#~ "                }\n"
+#~ "                .transfer .scan_line {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 5.7mm;\n"
+#~ "                    margin-top: 84.5mm;\n"
+#~ "                    width: 134mm;\n"
+#~ "                    font-family: \"ocr\";\n"
+#~ "                    font-size: 12pt;\n"
+#~ "                    text-align: right;\n"
+#~ "                }"
+#~ msgstr ""
+#~ ".one_slip {\n"
+#~ "                    font-size: 8pt;\n"
+#~ "                    width: 210mm;\n"
+#~ "                    height: 106mm;\n"
+#~ "                }\n"
+#~ "                #background {\n"
+#~ "                    position: absolute;\n"
+#~ "                    width: 210mm;\n"
+#~ "                    height: 106mm;\n"
+#~ "                }\n"
+#~ "                #background img {\n"
+#~ "                    max-width: 100%;\n"
+#~ "                    max-height: 100%;\n"
+#~ "                    margin: auto;\n"
+#~ "                }\n"
+#~ "                .receipt {\n"
+#~ "                    position: absolute;\n"
+#~ "                    padding-top: 9mm;\n"
+#~ "                    padding-left: 5mm;\n"
+#~ "                    width: 60mm;\n"
+#~ "                    height: 106mm;\n"
+#~ "                }\n"
+#~ "                .pay_for::first-line {\n"
+#~ "                    font-weight: bold;\n"
+#~ "                }\n"
+#~ "                .receipt .pay_for {\n"
+#~ "                    position: absolute;\n"
+#~ "                    height: 15mm;\n"
+#~ "                }\n"
+#~ "                .receipt .communication {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 18mm;\n"
+#~ "                    height: 15mm;\n"
+#~ "                }\n"
+#~ "                .receipt .account {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 33mm;\n"
+#~ "                    margin-left: 30.5mm;\n"
+#~ "                }\n"
+#~ "                .receipt .reference {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 51mm;\n"
+#~ "                }\n"
+#~ "                .receipt .pay_from {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 56mm;\n"
+#~ "                    max-height: 20mm;\n"
+#~ "                }\n"
+#~ "\n"
+#~ "                .transfer {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 60mm;\n"
+#~ "                    padding-left: 4mm;\n"
+#~ "                    width: 150mm;\n"
+#~ "                    height: 106mm;\n"
+#~ "                }\n"
+#~ "                .transfer .pay_for {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-top: 9mm;\n"
+#~ "                    width: 55mm;\n"
+#~ "                }\n"
+#~ "                .transfer .reference {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 61mm;\n"
+#~ "                    margin-top: 33mm;\n"
+#~ "                    width: 84mm;\n"
+#~ "                    height: 6mm;\n"
+#~ "                    padding: 1mm;\n"
+#~ "                    font-size: 10pt;\n"
+#~ "                    text-align: center;\n"
+#~ "                }\n"
+#~ "                .transfer .account {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 28mm;\n"
+#~ "                    margin-top: 42.5mm;\n"
+#~ "                }\n"
+#~ "                .transfer .pay_from {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 61mm;\n"
+#~ "                    margin-top: 47mm;\n"
+#~ "                    width: 80mm;\n"
+#~ "                    height: 30mm;\n"
+#~ "                    padding: auto;\n"
+#~ "                }\n"
+#~ "                .transfer .scan_line {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left: 5.7mm;\n"
+#~ "                    margin-top: 84.5mm;\n"
+#~ "                    width: 134mm;\n"
+#~ "                    font-family: \"ocr\";\n"
+#~ "                    font-size: 12pt;\n"
+#~ "                    text-align: right;\n"
+#~ "                }"
+
+#~ msgid "Child reference:"
+#~ msgstr "Référence :"
+
+#~ msgid ""
+#~ "mm;\n"
+#~ "                    margin-top: 42mm;\n"
+#~ "                    width: 120mm;\n"
+#~ "                    height: 116mm;\n"
+#~ "                    max-height: 116mm;\n"
+#~ "                    font-size: x-small;\n"
+#~ "                    column-count: 2;\n"
+#~ "                    -webkit-column-count: 2; /* Chrome, Safari, Opera */\n"
+#~ "                    -moz-column-count: 2; /* Firefox */\n"
+#~ "                    column-gap: 10mm;\n"
+#~ "                }\n"
+#~ "                .desc .left {\n"
+#~ "                    width: 55mm;\n"
+#~ "                    max-width: 100%;\n"
+#~ "                }\n"
+#~ "                .desc .right {\n"
+#~ "                    width: 55mm;\n"
+#~ "                    max-width: 100%;\n"
+#~ "                    position: absolute;\n"
+#~ "                    left: 70mm;\n"
+#~ "                    top: 0mm;\n"
+#~ "                }\n"
+#~ "                .desc table {\n"
+#~ "                    width: 55mm;\n"
+#~ "                }\n"
+#~ "                .desc td {\n"
+#~ "                    vertical-align: bottom;\n"
+#~ "                }\n"
+#~ "                .desc td:first-child {\n"
+#~ "                    padding-right: 5mm;\n"
+#~ "                    vertical-align: top;\n"
+#~ "                }\n"
+#~ "                h6 {\n"
+#~ "                    font-size: small;\n"
+#~ "                }\n"
+#~ "                .title {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left:"
+#~ msgstr ""
+#~ "mm;\n"
+#~ "                    margin-top: 42mm;\n"
+#~ "                    width: 120mm;\n"
+#~ "                    height: 116mm;\n"
+#~ "                    max-height: 116mm;\n"
+#~ "                    font-size: x-small;\n"
+#~ "                    column-count: 2;\n"
+#~ "                    -webkit-column-count: 2; /* Chrome, Safari, Opera */\n"
+#~ "                    -moz-column-count: 2; /* Firefox */\n"
+#~ "                    column-gap: 10mm;\n"
+#~ "                }\n"
+#~ "                .desc .left {\n"
+#~ "                    width: 55mm;\n"
+#~ "                    max-width: 100%;\n"
+#~ "                }\n"
+#~ "                .desc .right {\n"
+#~ "                    width: 55mm;\n"
+#~ "                    max-width: 100%;\n"
+#~ "                    position: absolute;\n"
+#~ "                    left: 70mm;\n"
+#~ "                    top: 0mm;\n"
+#~ "                }\n"
+#~ "                .desc table {\n"
+#~ "                    width: 55mm;\n"
+#~ "                }\n"
+#~ "                .desc td {\n"
+#~ "                    vertical-align: bottom;\n"
+#~ "                }\n"
+#~ "                .desc td:first-child {\n"
+#~ "                    padding-right: 5mm;\n"
+#~ "                    vertical-align: top;\n"
+#~ "                }\n"
+#~ "                h6 {\n"
+#~ "                    font-size: small;\n"
+#~ "                }\n"
+#~ "                .title {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left:"
+
+#~ msgid ""
+#~ "mm;\n"
+#~ "                    margin-top: 55mm;\n"
+#~ "                }\n"
+#~ "                .boy {\n"
+#~ "                    color: #02728e;\n"
+#~ "                }\n"
+#~ "                .girl {\n"
+#~ "                    color: #af0ea2;\n"
+#~ "                }\n"
+#~ "                .photo {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left:"
+#~ msgstr ""
+#~ "mm;\n"
+#~ "                    margin-top: 55mm;\n"
+#~ "                }\n"
+#~ "                .boy {\n"
+#~ "                    color: #02728e;\n"
+#~ "                }\n"
+#~ "                .girl {\n"
+#~ "                    color: #af0ea2;\n"
+#~ "                }\n"
+#~ "                .photo {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left:"
+
+#~ msgid ""
+#~ "mm;\n"
+#~ "                    margin-top: 85mm;\n"
+#~ "                    width: 70mm;\n"
+#~ "                    height: 90mm;\n"
+#~ "                }\n"
+#~ "                .photo img {\n"
+#~ "                    max-width: 100%;\n"
+#~ "                    max-height: 100%;\n"
+#~ "                    margin: auto;\n"
+#~ "                }\n"
+#~ "                .summary {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left:"
+#~ msgstr ""
+#~ "mm;\n"
+#~ "                    margin-top: 85mm;\n"
+#~ "                    width: 70mm;\n"
+#~ "                    height: 90mm;\n"
+#~ "                }\n"
+#~ "                .photo img {\n"
+#~ "                    max-width: 100%;\n"
+#~ "                    max-height: 100%;\n"
+#~ "                    margin: auto;\n"
+#~ "                }\n"
+#~ "                .summary {\n"
+#~ "                    position: absolute;\n"
+#~ "                    margin-left:"
+
+#~ msgid ""
+#~ "mm;\n"
+#~ "                    margin-top: 95mm;\n"
+#~ "                }\n"
+#~ "                .summary_field {\n"
+#~ "                    font-weight: bold;\n"
+#~ "                }\n"
+#~ "                /* Comma separated lists */\n"
+#~ "                .childpack-full ul {\n"
+#~ "                  display: inline;\n"
+#~ "                  list-style: none;\n"
+#~ "                }\n"
+#~ "                li {\n"
+#~ "                  display: inline;\n"
+#~ "                }\n"
+#~ "\n"
+#~ "                li:after {\n"
+#~ "                  content: \", \";\n"
+#~ "                }\n"
+#~ "\n"
+#~ "                li:last-child:after {\n"
+#~ "                  content: \"\";\n"
+#~ "                }"
+#~ msgstr ""
+#~ "mm;\n"
+#~ "                    margin-top: 95mm;\n"
+#~ "                }\n"
+#~ "                .summary_field {\n"
+#~ "                    font-weight: bold;\n"
+#~ "                }\n"
+#~ "                /* Comma separated lists */\n"
+#~ "                .childpack-full ul {\n"
+#~ "                  display: inline;\n"
+#~ "                  list-style: none;\n"
+#~ "                }\n"
+#~ "                li {\n"
+#~ "                  display: inline;\n"
+#~ "                }\n"
+#~ "\n"
+#~ "                li:after {\n"
+#~ "                  content: \", \";\n"
+#~ "                }\n"
+#~ "\n"
+#~ "                li:last-child:after {\n"
+#~ "                  content: \"\";\n"
+#~ "                }"
 
 #~ msgid ""
 #~ ".container {\n"

@@ -27,5 +27,15 @@
             <field name="args" eval="()"/>
             <field name="active" eval="False"/>
         </record>
+        <record id="sponsorship_reminders_cron" model="ir.cron">
+            <field name="name">Send sponsorship reminders</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="function">send_sponsorship_reminders</field>
+            <field name="model">recurring.contract</field>
+            <field name="args" eval="()"/>
+            <field name="active" eval="False"/>
+        </record>
     </data>
 </openerp>

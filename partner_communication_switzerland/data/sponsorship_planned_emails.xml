@@ -524,6 +524,89 @@
             </field>
         </record>
 
+        <!-- E-mail for Sponsorship Reminders -->
+        <record id="email_sponsorship_reminder_1" model="email.template">
+            <field name="name">Sponsorship Reminder 1</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Payment reminder</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set sponsorships = object.get_objects()
+                    % set children = sponsorships.mapped('child_id')
+                    % set firstname = children.get_list('firstname', 3, 'many children')
+                    % set invoices = sponsorships.mapped('due_invoice_ids')
+                    % set amount = sum(sponsorships.mapped('amount_due'))
+                    % set number = len(invoices)
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    We very warmly thank you for your decision to support ${firstname} so as to help us to release this child from poverty in Jesus’ name.
+                    <br/>
+                    <br/>
+                    It may have escaped your attention that <b>the sponsorship is due for ${number} months in the amount of CHF ${amount}.-</b>
+                    <br/>
+                    We send you a payment slip so you can settle the payment <b>within 30 days</b>.
+                    <br/>
+                    <br/>
+                    Please contact us if you are facing financial challenges.
+                    Together we will look for a solution which guarantees an ongoing support for ${children.get('your sponsored child')}.
+                    <br/>
+                    <br/>
+                    If this letter has crossed with your payment, please accept our thanks and disregard this notice.
+                    <br/>
+                    <br/>
+                    Sincerely,
+                </p>
+            </field>
+        </record>
+
+        <record id="email_sponsorship_reminder_2" model="email.template">
+            <field name="name">Sponsorship Reminder 2</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Payment reminder</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set sponsorships = object.get_objects()
+                    % set children = sponsorships.mapped('child_id')
+                    % set firstname = children.get_list('firstname', 3, 'many children')
+                    % set invoices = sponsorships.mapped('due_invoice_ids')
+                    % set amount = sum(sponsorships.mapped('amount_due'))
+                    % set number = len(invoices)
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    We very warmly thank you for your decision to support ${firstname} so as to help us to release this child from poverty in Jesus’ name.
+                    <br/>
+                    <br/>
+                    It may have escaped your attention that <b>the sponsorship is due for ${number} months in the amount of CHF ${amount}.-</b>
+                    <br/>
+                    We send you a payment slip so you can settle the payment <b>within 10 days</b>. Otherwise, we will feel forced to end your sponsorship.
+                    <br/>
+                    <br/>
+                    Please contact us if you are facing financial challenges or if you want to pay by installments.
+                    Together we will look for a solution which guarantees an ongoing support for ${children.get('your sponsored child')}.
+                    <br/>
+                    <br/>
+                    Thanks for making the payment of your sponsorship a priority. If this letter has crossed with your payment, please accept our thanks and disregard this notice.
+                    <br/>
+                    <br/>
+                    Sincerely,
+                </p>
+            </field>
+        </record>
+
         <!-- E-mail for Waiting Sponsorship Reminders -->
         <record id="email_sponsorship_waiting_reminder_1" model="email.template">
             <field name="name">Sponsorship Waiting Reminder 1</field>
@@ -539,6 +622,7 @@
                     % set children = sponsorships.mapped('child_id')
                     % set firstname = children.get_list('firstname', 3, 'many children')
                     % set amount = sum(sponsorships.mapped('total_amount')) * min(sponsorships.mapped('group_id.advance_billing_months'))
+                    % set extension = children[0].hold_id.no_money_extension_duration
                 </div>
                 <p>
                     ${partner.salutation},
@@ -549,7 +633,7 @@
                     It may have escaped your attention that the sponsorship is not yet paid in the amount of CHF ${amount}.-
                     <br/>
                     <br/>
-                    <!--We send you a payment slip so you can settle the payment within 10 days before #AMOUNT_10_DAYS#.-->
+                    We send you a payment slip so you can settle the payment <b>within ${extension} days</b>.
                     Please contact us if you are facing financial challenges. Together we will look for a solution which guarantees an ongoing support for ${children.get('your sponsored child')}.
                     If this letter has crossed with your payment, please accept our thanks and disregard this notice.
                     Thanks for making the payment of your sponsorship a priority. We wish you plenty of joy and blessings through your sponsorship.
@@ -574,7 +658,6 @@
                     % set firstname = children.get_list('firstname', 3, 'many children')
                     % set amount = sum(sponsorships.mapped('total_amount')) * min(sponsorships.mapped('group_id.advance_billing_months'))
                     % set extension = children[0].hold_id.no_money_extension_duration
-                    % set due_date = children.mapped('hold_id').get_expiration_string()
                 </div>
                 <p>
                     ${partner.salutation},
@@ -582,8 +665,7 @@
                     <br/>
                     We very warmly thank you for your decision to support ${firstname} so as to help us to release ${children.get('this child')} from poverty in Jesus’ name.
                     It may have escaped your attention that the sponsorship is not yet paid in the amount of CHF ${amount}.-
-                    <!--We send you a payment silp so you can settle the payment within 10 days before 24 December 2016.-->
-                    We ask you to settle the payment <b>within ${extension} days before ${due_date}.</b>
+                    We send you a payment slip so you can settle the payment <b>within ${extension} days before</b>
                     Otherwise, we will be forced to end your sponsorship.
                     <br/>
                     <br/>

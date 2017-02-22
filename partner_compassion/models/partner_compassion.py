@@ -123,6 +123,37 @@ class ResPartner(models.Model):
                 partner.geocode_from_geonames()
         return partner
 
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=80):
+        """Extends to look on firstname and reference."""
+        if args is None:
+            args = []
+        ids = []
+        cols = ('name', 'ref', 'firstname')
+        if name:
+            for val in name.split(' '):
+                for col in cols:
+                    tmp_ids = self.search(
+                        [(col, 'ilike', val)] + args,
+                        limit=limit
+                    )
+                    if tmp_ids:
+                        ids += tmp_ids.ids
+                        break
+        else:
+            ids = self.search(
+                args,
+                limit=limit
+            ).ids
+        # we sort by occurence
+        to_ret_ids = list(set(ids))
+        to_ret_ids = sorted(
+            to_ret_ids,
+            key=lambda x: ids.count(x),
+            reverse=True
+        )
+        return self.browse(to_ret_ids).name_get()
+
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
