@@ -1,10 +1,6 @@
 id,src,lang,group,male_singular,male_plural,female_singular,female_plural
-child_he_fr,he,fr_CH,Child,il,ils,elle,elles
 child_lui_leur_fr,lui_leur,fr_CH,Child,lui,leur,lui,leur
 child_lui_elle_fr,lui_elle,fr_CH,Child,lui,eux,elle,elles
-child_son_fr,son,fr_CH,Child,son,leur,son,leur
-child_sa_fr,sa,fr_CH,Child,sa,leur,sa,leur
-child_ses_fr,ses,fr_CH,Child,ses,leurs,ses,leurs
 child_has_fr,has,fr_CH,Child,a,ont,a,ont
 child_is_fr,is,fr_CH,Child,est,sont,est,sont
 child_will_have_fr,will have,fr_CH,Child,aura,auront,aura,auront
@@ -18,13 +14,8 @@ child_this_child_fr,this child,fr_CH,Child,cet enfant,ces enfants,cet enfant,ces
 child_the_child_fr,the child,fr_CH,Child,l'enfant,les enfants,l'enfant,les enfants
 child_each of_fr,each of,fr_CH,Child,,chacun de ,,chacun de 
 child_par_enfant_fr,per child,fr_CH,Child,,par enfant ,,par enfant 
-child_he_de,he,de_DE,Child,er,sie,sie,sie
 child_ihn_de,ihn,de_DE,Child,ihn,sie,sie,sie
 child_ihm_de,ihm,de_DE,Child,ihm,ihnen,ihr,ihnen
-child_sein_de,sein,de_DE,Child,sein,ihr,ihr,ihr
-child_seine_de,seine,de_DE,Child,seine,ihre,ihre,ihre
-child_seinen_de,seinen,de_DE,Child,seinen,ihren,ihren,ihren
-child_seinem_de,seinem,de_DE,Child,seinem,ihren,ihrem,ihren
 child_will_be_de,will be,de_DE,Child,wird,werden,wird,werden
 child_child_de,child,de_DE,Child,Patenkind,Patenkinder,Patenkind,Patenkinder
 child_this_child_de,dieses Kind,de_DE,Child,dieses Kind,diese Kinder,dieses Kind,diese Kinder
@@ -34,8 +25,6 @@ child_Patenschaft_de,Patenschaft,de_DE,Child,Patenschaft,Patenschaften,Patenscha
 child_per_child_de,per child,de_DE,Child,, pro Kind,, pro Kind
 child_lui_it,lui,it_IT,Child,lui,loro,lei,le
 child_il_it,il,it_IT,Child,il,i,la,le
-child_suo_it,suo,it_IT,Child,suo,loro,suo,loro
-child_sua_it,sua,it_IT,Child,sua,loro,sua,loro
 child_has_it,has,it_IT,Child,ha,hanno,ha,hanno
 child_is_it,is,it_IT,Child,è,sono,è,sono
 child_your_sponsored_child_it,your sponsored child,it_IT,Child,il suo bambino,il suoi bambini,il suo bambino,il suoi bambini
@@ -44,9 +33,7 @@ child_dal_vostro_figliolo_it,dal vostro figliolo,it_IT,Child,dal vostro figliolo
 child_accord_e_essa_it,accord_e_essa,it_IT,Child,er,i, essa,esse
 child_child_it,child,it_IT,Child,bambino,bambini,bambino,bambini
 child_the_child_it,the child,it_IT,Child,il bambino,i bambini,il bambino,i bambini
-child_he_en,he,en_US,Child,he,they,she,they
 child_him_en,him,en_US,Child,him,them,her,them
-child_his_en,his,en_US,Child,his,their,her,their
 child_has_en,has,en_US,Child,has,have,has,have
 child_is_en,is,en_US,Child,is,are,is,are
 child_your_sponsored_child_en,your sponsored child,en_US,Child,your sponsored child,your sponsored children,your sponsored child,your sponsored children
