@@ -50,7 +50,7 @@ class CompassionHold(models.Model):
             if hold.ambassador:
                 job_obj.create({
                     'config_id': communication_type.id,
-                    'partner_id': hold.ambassador.partner_id.id,
+                    'partner_id': hold.ambassador.id,
                     'object_ids': hold.id
                 })
 
