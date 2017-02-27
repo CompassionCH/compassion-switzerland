@@ -54,18 +54,18 @@
                     -moz-column-count: 2; /* Firefox */
                 }
                 .desc .left {
-                    width: 55mm;
+                    width: 65mm;
                     max-width: 100%;
                 }
                 .desc .right {
                     width: 75mm;
                     max-width: 100%;
                     position: absolute;
-                    left: 55mm;
+                    left: 65mm;
                     top: 0mm;
                 }
                 .desc .left table {
-                    width: 55mm;
+                    width: 65mm;
                 }
                 .desc .right table {
                     width: 75mm;
@@ -77,6 +77,7 @@
                 .desc td:first-child {
                     padding-right: 2mm;
                     vertical-align: top;
+                    width: 50%;
                 }
                 h6 {
                     font-family: "tetriaBlack";
@@ -157,10 +158,11 @@
                         <div t-attf-class="desc {{'boy' if o.gender == 'M' else 'girl'}}">
                             <div class="left">
                                 <span t-raw="o.description"/>
+                                <h6 style="margin-top: 3mm;"><span t-field="o.project_title"/></h6>
+                                <span t-raw="o.project_about"/>
                             </div>
                             <div class="right">
-                                <h6 style="margin-top: 3mm;"><span t-field="o.project_title"/></h6>
-                                <span t-raw="o.project_id.description"/>
+                                <span t-raw="o.project_id.description.replace(o.project_about, '')"/>
                             </div>
                         </div>
                         <div class="title">

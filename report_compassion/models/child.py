@@ -8,6 +8,8 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+from pyquery import PyQuery
+
 from openerp import api, models, fields
 
 
@@ -19,6 +21,7 @@ class CompassionChild(models.Model):
 
     description = fields.Text(compute='_compute_description')
     project_title = fields.Char(compute='_compute_project_title')
+    project_about = fields.Text(compute='_compute_project_about')
 
     @api.multi
     def _compute_description(self):
@@ -43,3 +46,15 @@ class CompassionChild(models.Model):
             }
             lang = child.sponsor_id.lang or self.env.lang or 'en_US'
             child.project_title = lang_map.get(lang)
+
+    def _compute_project_about(self):
+        for child in self:
+            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
+            lang_map = {
+                'fr_CH': 'description_fr',
+                'de_DE': 'description_de',
+                'en_US': 'description_en',
+                'it_IT': 'description_it',
+            }
+            project_desc = PyQuery(getattr(child.project_id, lang_map[lang]))
+            child.project_about = project_desc('table').outerHtml()
