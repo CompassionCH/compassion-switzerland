@@ -90,7 +90,7 @@ class CompassionChild(models.Model):
             locale.setlocale(locale.LC_TIME, current_locale)
 
     def _compute_picture_frame(self):
-        for child in self:
+        for child in self.filtered('fullshot'):
             with Image(blob=base64.b64decode(child.fullshot)) as picture:
                 frame_width = int(picture.width * FRAME_RATIO)
                 frame_height = int(picture.height * FRAME_RATIO)

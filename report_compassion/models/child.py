@@ -60,5 +60,5 @@ class CompassionChild(models.Model):
                 project_desc = PyQuery(getattr(
                     child.project_id, lang_map[lang]))
                 child.project_about = project_desc('table').outerHtml()
-            except ValueError:
+            except:
                 child.project_about = ''
