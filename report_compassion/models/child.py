@@ -29,7 +29,8 @@ class CompassionChild(models.Model):
             'it_IT': 'desc_it',
         }
         for child in self:
-            child.description = getattr(child, lang_map.get(self.env.lang))
+            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
+            child.description = getattr(child, lang_map.get(lang))
 
     def _compute_project_title(self):
         for child in self:
@@ -40,4 +41,5 @@ class CompassionChild(models.Model):
                 'en_US': firstname + u"'s Project",
                 'it_IT': u'Project',
             }
-            child.project_title = lang_map.get(self.env.lang)
+            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
+            child.project_title = lang_map.get(lang)
