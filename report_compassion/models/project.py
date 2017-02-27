@@ -30,7 +30,8 @@ class CompassionProject(models.Model):
             'it_IT': 'description_it',
         }
         for project in self:
-            project.description = getattr(project, lang_map.get(self.env.lang))
+            lang = self.env.lang or 'en_US'
+            project.description = getattr(project, lang_map.get(lang))
             desc = PyQuery(
                 getattr(project, lang_map.get(self.env.lang))
             )
