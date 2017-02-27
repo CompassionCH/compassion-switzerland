@@ -129,17 +129,37 @@ class ResPartner(models.Model):
         if args is None:
             args = []
         ids = []
-        cols = ('name', 'ref', 'firstname')
         if name:
-            for val in name.split(' '):
-                for col in cols:
+            values = name.split(' ')
+            if len(values) == 1:
+                # Search only ref or full name
+                tmp_ids = self.search(
+                    [('ref', '=', name)] + args,
+                    limit=limit
+                )
+                if tmp_ids:
+                    ids += tmp_ids.ids
+                else:
                     tmp_ids = self.search(
-                        [(col, 'ilike', val)] + args,
+                        [('name', 'ilike', name)] + args,
                         limit=limit
                     )
                     if tmp_ids:
                         ids += tmp_ids.ids
-                        break
+            else:
+                # Search lastname and firstname
+                lastname_ids = self.search(
+                    [('lastname', 'ilike', values[0])] + args,
+                )
+                if lastname_ids:
+                    ids += lastname_ids.ids
+                firstname_ids = self.search(
+                    [('firstname', 'ilike', values[1]),
+                     ('id', 'in', lastname_ids.ids)] + args,
+                )
+                if firstname_ids:
+                    # Give more weight two those who has both results
+                    ids += firstname_ids.ids
         else:
             ids = self.search(
                 args,
@@ -151,7 +171,7 @@ class ResPartner(models.Model):
             to_ret_ids,
             key=lambda x: ids.count(x),
             reverse=True
-        )
+        )[:limit]
         return self.browse(to_ret_ids).name_get()
 
     ##########################################################################
