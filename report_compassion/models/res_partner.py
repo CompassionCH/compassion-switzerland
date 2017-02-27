@@ -39,7 +39,7 @@ class ResPartner(models.Model):
         p = re.compile('\\n+')
         for partner in self:
             t_partner = partner.with_context(lang=partner.lang)
-            if not partner.is_company:
+            if not partner.is_company and partner.title.shortcut:
                 res = t_partner.title.shortcut + ' '
                 if partner.firstname:
                     res += partner.firstname + ' '
