@@ -155,9 +155,9 @@ class Correspondence(models.Model):
             )
             new_letters -= old_letters
 
-            final_letters._generate_communication(final_template.id)
-            new_letters._generate_communication(new_template.id)
-            old_letters._generate_communication(old_template.id)
+            final_letters._generate_communication(final_template)
+            new_letters._generate_communication(new_template)
+            old_letters._generate_communication(old_template)
 
         if self.env.context.get('force_send'):
             self.mapped('communication_id').filtered(
@@ -177,7 +177,7 @@ class Correspondence(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _generate_communication(self, config_id):
+    def _generate_communication(self, config):
         """
         Generates the communication for given letters.
         :param config_id: partner.communication.config id
@@ -191,9 +191,10 @@ class Correspondence(models.Model):
         auto_send = reduce(lambda l1, l2: l1 and l2, auto_send)
         comm_vals = {
             'partner_id': partner.id,
-            'config_id': config_id,
+            'config_id': config.id,
             'object_ids': self.ids,
-            'auto_send': auto_send and partner.email    # Don't print auto
+            'auto_send': auto_send and partner.email,    # Don't print auto
+            'user_id': config.user_id.id,
         }
 
         if 'comm_vals' in self.env.context:

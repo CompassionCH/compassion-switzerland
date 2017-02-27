@@ -128,6 +128,51 @@ class PartnerCommunication(models.Model):
             ]
         }
 
+    def get_label_attachment(self, sponsorships=False):
+        """
+        Attach sponsorship labels.
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        if not sponsorships:
+            sponsorships = self.env['recurring.contract']
+            children = self.get_objects()
+            for child in children:
+                sponsorships += child.sponsorship_ids[0]
+        attachments = dict()
+        label_print = self.env['label.print'].search([
+            ('name', '=', 'Sponsorship Label')], limit=1)
+        label_brand = self.env['label.brand'].search([
+            ('brand_name', '=', 'Herma A4')], limit=1)
+        label_format = self.env['label.config'].search([
+            ('name', '=', '4455 SuperPrint WeiB')], limit=1)
+        label_wizard = self.env['label.print.wizard'].with_context({
+            'active_ids': sponsorships.ids,
+            'active_model': 'recurring.contract',
+            'label_print': label_print.id,
+        }).create({
+            'brand_id': label_brand.id,
+            'name': label_format.id,
+            'number_of_labels': 33
+        })
+        label_data = label_wizard.get_report_data()
+        label_context = self.env.context.copy()
+        label_context.update(label_data['form'])
+        label_context.update({
+            'active_model': 'label.print.wizard',
+            'active_id': label_wizard.id,
+            'active_ids': label_wizard.ids,
+            'label_print': label_print.id
+        })
+        report_name = 'label.report_label'
+        attachments[_('sponsorship labels.pdf')] = [
+            report_name,
+            base64.b64encode(
+                self.env['report'].with_context(label_context).get_pdf(
+                    label_wizard, report_name, data=label_data))
+        ]
+        return attachments
+
     @api.multi
     def send(self):
         """
@@ -177,37 +222,7 @@ class PartnerCommunication(models.Model):
         ]
 
         if correspondence:
-            label_print = self.env['label.print'].search([
-                ('name', '=', 'Sponsorship Label')], limit=1)
-            label_brand = self.env['label.brand'].search([
-                ('brand_name', '=', 'Herma A4')], limit=1)
-            label_format = self.env['label.config'].search([
-                ('name', '=', '4455 SuperPrint WeiB')], limit=1)
-            label_wizard = self.env['label.print.wizard'].with_context({
-                'active_ids': sponsorships.ids,
-                'active_model': 'recurring.contract',
-                'label_print': label_print.id,
-            }).create({
-                'brand_id': label_brand.id,
-                'name': label_format.id,
-                'number_of_labels': 33
-            })
-            label_data = label_wizard.get_report_data()
-            label_context = self.env.context.copy()
-            label_context.update(label_data['form'])
-            label_context.update({
-                'active_model': 'label.print.wizard',
-                'active_id': label_wizard.id,
-                'active_ids': label_wizard.ids,
-                'label_print': label_print.id
-            })
-            report_name = 'label.report_label'
-            attachments[_('sponsorship labels.pdf')] = [
-                report_name,
-                base64.b64encode(
-                    report_obj.with_context(label_context).get_pdf(
-                        label_wizard, report_name, data=label_data))
-            ]
+            attachments.update(self.get_label_attachment(sponsorships))
 
         return attachments
 
