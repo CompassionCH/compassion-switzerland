@@ -244,6 +244,7 @@ class ImportLettersHistory(models.Model):
                         logger.info("LETTER DELETE FROM TRANSLATION PLATFORM")
                         tc = translate_connector.TranslateConnect()
                         tc.remove_translation_with_odoo_id(corresp.id)
+            raise e
 
         return True
 

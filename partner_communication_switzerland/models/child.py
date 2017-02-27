@@ -71,8 +71,8 @@ class CompassionChild(models.Model):
     def _compute_birthday_month(self):
         """ Gets the birthday month in full text. """
         current_locale = '.'.join(locale.getlocale())
-        lang = self.env.lang.encode('ascii')
         for child in self.filtered('birthdate'):
+            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
             birthday = fields.Date.from_string(child.birthdate)
             locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
             child.birthday_month = birthday.strftime("%B")
