@@ -46,12 +46,14 @@ class CompassionHold(models.Model):
                 'config_id': communication_type.id,
                 'partner_id': hold.primary_owner.partner_id.id,
                 'object_ids': hold.id,
+                'user_id': communication_type.user_id.id,
             })
             if hold.ambassador:
                 job_obj.create({
                     'config_id': communication_type.id,
                     'partner_id': hold.ambassador.id,
-                    'object_ids': hold.id
+                    'object_ids': hold.id,
+                    'user_id': communication_type.user_id.id,
                 })
 
         return ids

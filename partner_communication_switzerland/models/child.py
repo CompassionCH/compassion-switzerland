@@ -36,6 +36,7 @@ def major_revision(child, revised_values):
             'config_id': communication_type.id,
             'partner_id': child.sponsor_id.id,
             'object_ids': child.id,
+            'user_id': communication_type.user_id.id,
         })
 
 
@@ -120,6 +121,7 @@ class CompassionChild(models.Model):
                 'config_id': communication_type.id,
                 'partner_id': child.sponsor_id.id,
                 'object_ids': child.id,
+                'user_id': communication_type.user_id.id,
             })
         super(CompassionChild, self).depart()
 
@@ -132,6 +134,7 @@ class CompassionChild(models.Model):
                 'config_id': communication_type.id,
                 'partner_id': child.sponsorship_ids[0].correspondant_id.id,
                 'object_ids': child.id,
+                'user_id': communication_type.user_id.id,
             })
         super(CompassionChild, self).reinstatement()
 
@@ -166,6 +169,7 @@ class CompassionChild(models.Model):
                 'config_id': communication_config.id,
                 'partner_id': child.sponsor_id.id,
                 'object_ids': child.id,
+                'user_id': communication_config.user_id.id,
             })
 
     def get_number(self):
@@ -232,5 +236,6 @@ class ChildNotes(models.Model):
                 'config_id': communication_config.id,
                 'partner_id': child.sponsor_id.id,
                 'object_ids': child.id,
+                'user_id': communication_config.user_id.id,
             })
         return note

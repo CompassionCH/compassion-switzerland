@@ -114,6 +114,7 @@ class RecurringContract(models.Model):
                 'config_id': communication.id,
                 'partner_id': partner.id,
                 'object_ids': objects.ids,
+                'user_id': communication.user_id.id,
             })
 
     @api.model

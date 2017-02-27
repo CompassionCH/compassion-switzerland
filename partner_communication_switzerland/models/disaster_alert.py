@@ -55,6 +55,7 @@ class DisasterAlert(models.Model):
             job_obj.create({
                 'partner_id': partner.id,
                 'config_id': communication_config.id,
-                'object_ids': sponsorships.ids
+                'object_ids': sponsorships.ids,
+                'user_id': communication_config.user_id.id,
             })
         return disaster

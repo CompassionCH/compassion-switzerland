@@ -31,6 +31,7 @@ class ChildLifecycle(models.Model):
                     'config_id': communication_type.id,
                     'partner_id': lifecycle.child_id.sponsor_id.id,
                     'object_ids': lifecycle.child_id.id,
+                    'user_id': communication_type.user_id.id,
                 })
         return ids
 
@@ -62,5 +63,6 @@ class ProjectLifecycle(models.Model):
                         'config_id': communication_type.id,
                         'partner_id': child.sponsor_id.id,
                         'object_ids': child.id,
+                        'user_id': communication_type.user_id.id,
                     })
         return ids
