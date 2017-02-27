@@ -9,7 +9,6 @@
 #
 ##############################################################################
 
-from pyquery import PyQuery
 from openerp import api, models, fields
 
 
@@ -18,7 +17,6 @@ class CompassionProject(models.Model):
     """
     _inherit = 'compassion.project'
 
-    short_desc = fields.Text(compute='_compute_description')
     description = fields.Text(compute='_compute_description')
 
     @api.multi
@@ -32,13 +30,3 @@ class CompassionProject(models.Model):
         for project in self:
             lang = self.env.lang or 'en_US'
             project.description = getattr(project, lang_map.get(lang))
-            desc = PyQuery(
-                getattr(project, lang_map.get(self.env.lang))
-            )
-            desc('#spiritual_activities').prev().remove()
-            desc('#spiritual_activities').remove()
-            desc('#spiritual_activities').remove()
-            desc('#physical_activities').remove()
-            desc('#cognitive_activities').remove()
-            desc('#socio_activities').remove()
-            project.short_desc = desc.outer_html()
