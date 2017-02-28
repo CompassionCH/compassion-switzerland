@@ -29,4 +29,4 @@ class CompassionProject(models.Model):
         }
         for project in self:
             lang = self.env.lang or 'en_US'
-            project.description = getattr(project, lang_map.get(lang))
+            project.description = getattr(project, lang_map.get(lang), '')
