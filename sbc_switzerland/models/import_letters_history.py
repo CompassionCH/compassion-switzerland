@@ -16,7 +16,7 @@ import logging
 import base64
 import zipfile
 import time
-import urllib2
+import requests
 
 from openerp.addons.sbc_compassion.tools import import_letter_functions as func
 from openerp import fields, models, api, _, exceptions
@@ -575,9 +575,9 @@ class ImportLettersHistory(models.Model):
         base_url = 'http://' + config.get('wordpress_host') + \
             '/wp-content/plugins/compassion-letters/files/'
         if pdf_filename:
-            response = urllib2.urlopen(
+            response = requests.get(
                 base_url + 'pdf/' + pdf_filename.split('/')[-1])
-            pdf_data = response.read()
+            pdf_data = response.content
             filename = 'WEB_' + sponsor_ref + '_' + \
                 child_code + '_' + str(time.time())[:10] + '.pdf'
 
@@ -622,10 +622,10 @@ class ImportLettersHistory(models.Model):
 
                 # save eventual attachment
                 if attachment_filename:
-                    response = urllib2.urlopen(
+                    response = requests.get(
                         base_url + 'uploads/' +
                         attachment_filename.split('/')[-1])
-                    attachment_data = response.read()
+                    attachment_data = response.content
                     filename_attachment = filename.replace(".pdf", "." + ext)
                     logger.info("Try save attachment {} !"
                                 .format(filename_attachment))
