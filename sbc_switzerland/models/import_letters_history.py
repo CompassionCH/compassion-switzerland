@@ -511,139 +511,127 @@ class ImportLettersHistory(models.Model):
             - add web letter to an import set with import letter config
               'Web letter'
         """
-        # Find existing config or create a new one
-        web_letter_id = self.env.ref('sbc_switzerland.web_letter').id
-        import_config = self.search([
-            ('config_id', '=', web_letter_id),
-            ('state', '!=', 'done')], limit=1)
-        if not import_config:
-            import_config = self.create({
-                'config_id': web_letter_id, 'state': 'open'})
+        try:
+            # Find existing config or create a new one
+            web_letter_id = self.env.ref('sbc_switzerland.web_letter').id
+            import_config = self.search([
+                ('config_id', '=', web_letter_id),
+                ('state', '!=', 'done')], limit=1)
+            if not import_config:
+                import_config = self.create({
+                    'config_id': web_letter_id, 'state': 'open'})
 
-        # Find child
-        child_id = None
-        if child_code:
-            # Retrieve child code and find corresponding id
-            child_field = 'local_id'
-            if len(child_code) == 9:
-                child_field = 'code'
-            model_child = self.env['compassion.child'].search(
-                [(child_field, '=', child_code), ('state', '=', 'P')])
+            # Find child
+            if child_code:
+                # Retrieve child code and find corresponding id
+                child_field = 'local_id'
+                if len(child_code) == 9:
+                    child_field = 'code'
+                model_child = self.env['compassion.child'].search(
+                    [(child_field, '=', child_code), ('state', '=', 'P')])
 
-            child_id = model_child.id
-        if not child_id:
-            logger.info('Wrong child_code received : {}'.
-                        format(child_code))
-            return False
+                child_id = model_child.id
 
-        sponsor_id = None
-        if sponsor_ref:
-            # Retrieve sponsor reference and find corresponding id
-            model_sponsor = self.env['res.partner'].search(
-                [('ref', '=', sponsor_ref),
-                 ('has_sponsorships', '=', True)])
-            sponsor_id = model_sponsor.id
-        if not sponsor_id:
-            logger.info('Wrong sponsor_ref received : {}'.
-                        format(sponsor_ref))
-            return False
+            if sponsor_ref:
+                # Retrieve sponsor reference and find corresponding id
+                model_sponsor = self.env['res.partner'].search(
+                    [('ref', '=', sponsor_ref),
+                     ('has_sponsorships', '=', True)])
+                sponsor_id = model_sponsor.id
 
-        # Check if a sponsorship exists with this child code and sponsor ref
-        sponsorhip_id = self.env['recurring.contract'].search([
-            ('child_id', '=', child_id),
-            ('correspondant_id', '=', sponsor_id)],
-            order='is_active desc, end_date desc', limit=1).id
-        if not sponsorhip_id:
-            logger.info('No existing sponsorship')
-            return False
+            # Check if a sponsorship exists with this child code and sponsor ref
+            sponsorhip_id = self.env['recurring.contract'].search([
+                ('child_id', '=', child_id),
+                ('correspondant_id', '=', sponsor_id)],
+                order='is_active desc, end_date desc', limit=1).id
 
-        lang = self.env['correspondence'].detect_lang(original_text)
-        lang_id = None
-        if lang:
-            lang_id = lang.id
+            lang = self.env['correspondence'].detect_lang(original_text)
+            lang_id = None
+            if lang:
+                lang_id = lang.id
 
-        template = None
-        if template_name:
-            # Retrieve template name and find corresponding id
-            template = self.env['correspondence.template'].search(
-                [('name', '=', template_name)], limit=1)
+            template = None
+            if template_name:
+                # Retrieve template name and find corresponding id
+                template = self.env['correspondence.template'].search(
+                    [('name', '=', template_name)], limit=1)
 
-        if not original_text:
-            original_text = ""
+            if not original_text:
+                original_text = ""
 
-        # save_letter pdf
-        base_url = 'http://' + config.get('wordpress_host') + \
-            '/wp-content/plugins/compassion-letters/files/'
-        if pdf_filename:
-            response = requests.get(
-                base_url + 'pdf/' + pdf_filename.split('/')[-1])
-            pdf_data = response.content
-            filename = 'WEB_' + sponsor_ref + '_' + \
-                child_code + '_' + str(time.time())[:10] + '.pdf'
+            # save_letter pdf
+            base_url = 'https://' + config.get('wordpress_host') + \
+                '/wp-content/plugins/compassion-letters/files/'
+            if pdf_filename:
+                response = requests.get(
+                    base_url + 'pdf/' + pdf_filename.split('/')[-1],
+                    timeout=5)
+                pdf_data = response.content
+                filename = 'WEB_' + sponsor_ref + '_' + \
+                    child_code + '_' + str(time.time())[:10] + '.pdf'
 
-            pdf_letter = self.analyze_webletter(pdf_data)
+                pdf_letter = self.analyze_webletter(pdf_data)
 
-            # analyze attachment to check template and create image preview
-            line_vals, document_vals = func.analyze_attachment(
-                self.env, pdf_letter, filename,
-                template)
+                # analyze attachment to check template and create image preview
+                line_vals, document_vals = func.analyze_attachment(
+                    self.env, pdf_letter, filename,
+                    template)
 
-            for i in xrange(0, len(line_vals)):
-                line_vals[i].update({
-                    'import_id': import_config.id,
-                    'partner_id': sponsor_id,
-                    'child_id': child_id,
-                    'letter_language_id': lang_id,
-                    'original_text': original_text,
-                    'source': 'website'
-                })
-                letters_line = self.env[
-                    'import.letter.line'].create(line_vals[i])
-                document_vals[i].update({
-                    'res_id': letters_line.id,
-                    'res_model': 'import.letter.line'
-                })
-                letters_line.letter_image = self.env[
-                    'ir.attachment'].create(document_vals[i])
+                for i in xrange(0, len(line_vals)):
+                    line_vals[i].update({
+                        'import_id': import_config.id,
+                        'partner_id': sponsor_id,
+                        'child_id': child_id,
+                        'letter_language_id': lang_id,
+                        'original_text': original_text,
+                        'source': 'website'
+                    })
+                    letters_line = self.env[
+                        'import.letter.line'].create(line_vals[i])
+                    document_vals[i].update({
+                        'res_id': letters_line.id,
+                        'res_model': 'import.letter.line'
+                    })
+                    letters_line.letter_image = self.env[
+                        'ir.attachment'].create(document_vals[i])
 
-            import_config.import_completed = True
+                import_config.import_completed = True
 
-            logger.info("Try to copy file {} !".format(filename))
-            # Copy file in attachment in the done letter folder
-            share_nas = self.env.ref('sbc_switzerland.share_on_nas').value
-            import_letter_path = self.env.ref(
-                'sbc_switzerland.scan_letter_imported').value + filename
+                logger.info("Try to copy file {} !".format(filename))
+                # Copy file in attachment in the done letter folder
+                share_nas = self.env.ref('sbc_switzerland.share_on_nas').value
+                import_letter_path = self.env.ref(
+                    'sbc_switzerland.scan_letter_imported').value + filename
 
-            file_pdf = BytesIO(pdf_letter)
-            smb_conn = self._get_smb_connection()
-            if smb_conn and smb_conn.connect(
-                    SmbConfig.smb_ip, SmbConfig.smb_port):
-                smb_conn.storeFile(share_nas, import_letter_path, file_pdf)
+                file_pdf = BytesIO(pdf_letter)
+                smb_conn = self._get_smb_connection()
+                if smb_conn and smb_conn.connect(
+                        SmbConfig.smb_ip, SmbConfig.smb_port):
+                    smb_conn.storeFile(share_nas, import_letter_path, file_pdf)
 
-                # save eventual attachment
-                if attachment_filename:
-                    response = requests.get(
-                        base_url + 'uploads/' +
-                        attachment_filename.split('/')[-1])
-                    attachment_data = response.content
-                    filename_attachment = filename.replace(".pdf", "." + ext)
-                    logger.info("Try save attachment {} !"
-                                .format(filename_attachment))
+                    # save eventual attachment
+                    if attachment_filename:
+                        response = requests.get(
+                            base_url + 'uploads/' +
+                            attachment_filename.split('/')[-1], timeout=5)
+                        attachment_data = response.content
+                        filename_attachment = filename.replace(
+                            ".pdf", "." + ext)
+                        logger.info("Try save attachment {} !"
+                                    .format(filename_attachment))
 
-                    import_letter_path = self.env.ref(
-                        'sbc_switzerland.scan_letter_imported').value + \
-                        filename_attachment
+                        import_letter_path = self.env.ref(
+                            'sbc_switzerland.scan_letter_imported').value + \
+                            filename_attachment
 
-                    file_attachment = BytesIO(attachment_data)
-                    smb_conn.storeFile(
-                        share_nas,
-                        import_letter_path,
-                        file_attachment)
-                smb_conn.close()
-            else:
-                return False
-            return True
-        else:
+                        file_attachment = BytesIO(attachment_data)
+                        smb_conn.storeFile(
+                            share_nas,
+                            import_letter_path,
+                            file_attachment)
+                    smb_conn.close()
+                return True
+        except:
             return False
 
     def analyze_webletter(self, pdf_letter):
