@@ -25,7 +25,7 @@ class CompassionChild(models.Model):
     _inherit = 'compassion.child'
 
     @api.multi
-    def child_add_to_wordpress(self):
+    def add_to_wordpress(self):
 
         # Solve the encoding problems on child's descriptions
         reload(sys)
@@ -61,7 +61,7 @@ class CompassionChild(models.Model):
         return res
 
     @api.multi
-    def child_remove_from_wordpress(self):
+    def remove_from_wordpress(self):
         valid_children = self.filtered(lambda c: c.state == 'I')
         if valid_children:
             wp = WPSync()
@@ -70,7 +70,7 @@ class CompassionChild(models.Model):
         return True
 
     @api.model
-    def remove_all_children_from_wordpress(self):
+    def raz_wordpress(self):
         wp = WPSync()
         if wp.remove_all_children():
             children = self.search([('state', '=', 'I')])
@@ -82,7 +82,7 @@ class CompassionChild(models.Model):
         """ Remove children from the website when they are sponsored. """
         to_remove_from_web = self.filtered(lambda c: c.state == 'I')
         if to_remove_from_web:
-            to_remove_from_web.child_remove_from_wordpress()
+            to_remove_from_web.remove_from_wordpress()
 
         return super(CompassionChild, self).child_sponsored()
 
@@ -91,7 +91,7 @@ class CompassionChild(models.Model):
         """ Remove from typo3 when child is released """
         to_remove_from_web = self.filtered(lambda c: c.state == 'I')
         if to_remove_from_web:
-            to_remove_from_web.child_remove_from_wordpress()
+            to_remove_from_web.remove_from_wordpress()
 
         return super(CompassionChild, self).child_released()
 
@@ -100,6 +100,6 @@ class CompassionChild(models.Model):
         """ Remove from typo3 when child is deallocated """
         to_remove_from_web = self.filtered(lambda c: c.state == 'I')
         if to_remove_from_web:
-            to_remove_from_web.child_remove_from_wordpress()
+            to_remove_from_web.remove_from_wordpress()
 
         return super(CompassionChild, self).child_departed()

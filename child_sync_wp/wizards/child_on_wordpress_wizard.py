@@ -34,7 +34,7 @@ class ChildOnWorpressWizard(models.TransientModel):
 
     @api.multi
     def put_child_on_internet(self):
-        res = self.child_ids.child_add_to_wordpress()
+        res = self.child_ids.add_to_wordpress()
 
         if not res:
             raise Warning(_("Child upload failed."))

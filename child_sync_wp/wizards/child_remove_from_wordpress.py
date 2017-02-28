@@ -30,4 +30,4 @@ class ChildRemoveFromWordpress(models.TransientModel):
 
     @api.multi
     def remove_child_from_internet(self):
-        return self.child_ids.child_remove_from_wordpress()
+        return self.child_ids.remove_from_wordpress()

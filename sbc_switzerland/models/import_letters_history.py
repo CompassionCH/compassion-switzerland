@@ -16,6 +16,7 @@ import logging
 import base64
 import zipfile
 import time
+import urllib2
 
 from openerp.addons.sbc_compassion.tools import import_letter_functions as func
 from openerp import fields, models, api, _, exceptions
@@ -501,15 +502,25 @@ class ImportLettersHistory(models.Model):
             return SMBConnection(
                 SmbConfig.smb_user, SmbConfig.smb_pass, 'openerp', 'nas')
 
-    @api.multi
-    def import_web_letter(self, child_code, sponsor_ref, language_name,
-                          original_text, template_name, pdf_letter,
-                          attachment, ext):
+    @api.model
+    def import_web_letter(self, child_code, sponsor_ref,
+                          original_text, template_name, pdf_filename,
+                          attachment_filename, ext):
         """
         Call when a letter is set on web site:
             - add web letter to an import set with import letter config
               'Web letter'
         """
+        # Find existing config or create a new one
+        web_letter_id = self.env.ref('sbc_switzerland.web_letter').id
+        import_config = self.search([
+            ('config_id', '=', 'web_letter_id'),
+            ('state', '!=', 'done')], limit=1)
+        if not import_config:
+            import_config = self.create({
+                'config_id': web_letter_id, 'state': 'open'})
+
+        # Find child
         child_id = None
         if child_code:
             # Retrieve child code and find corresponding id
@@ -531,7 +542,6 @@ class ImportLettersHistory(models.Model):
             model_sponsor = self.env['res.partner'].search(
                 [('ref', '=', sponsor_ref),
                  ('has_sponsorships', '=', True)])
-
             sponsor_id = model_sponsor.id
         if not sponsor_id:
             logger.info('Wrong sponsor_ref received : {}'.
@@ -547,13 +557,10 @@ class ImportLettersHistory(models.Model):
             logger.info('No existing sponsorship')
             return False
 
+        lang = self.env['correspondence'].detect_lang(original_text)
         lang_id = None
-        if language_name:
-            # Retrieve language name and find corresponding id
-            model_lang = self.env['res.lang.compassion'].search(
-                [('name', '=', language_name)], limit=1)
-
-            lang_id = model_lang.id
+        if lang:
+            lang_id = lang.id
 
         template = None
         if template_name:
@@ -565,12 +572,16 @@ class ImportLettersHistory(models.Model):
             original_text = ""
 
         # save_letter pdf
-        if pdf_letter:
-
+        base_url = 'http://' + config.get('wordpress_host') + \
+            '/wp-content/plugins/compassion-letters/files/'
+        if pdf_filename:
+            response = urllib2.urlopen(
+                base_url + 'pdf/' + pdf_filename.split('/')[-1])
+            pdf_data = response.read()
             filename = 'WEB_' + sponsor_ref + '_' + \
                 child_code + '_' + str(time.time())[:10] + '.pdf'
 
-            pdf_letter = self.analyze_webletter(base64.b64decode(pdf_letter))
+            pdf_letter = self.analyze_webletter(pdf_data)
 
             # analyze attachment to check template and create image preview
             line_vals, document_vals = func.analyze_attachment(
@@ -579,7 +590,7 @@ class ImportLettersHistory(models.Model):
 
             for i in xrange(0, len(line_vals)):
                 line_vals[i].update({
-                    'import_id': self.id,
+                    'import_id': import_config.id,
                     'partner_id': sponsor_id,
                     'child_id': child_id,
                     'letter_language_id': lang_id,
@@ -595,7 +606,7 @@ class ImportLettersHistory(models.Model):
                 letters_line.letter_image = self.env[
                     'ir.attachment'].create(document_vals[i])
 
-            self.import_completed = True
+            import_config.import_completed = True
 
             logger.info("Try to copy file {} !".format(filename))
             # Copy file in attachment in the done letter folder
@@ -610,7 +621,11 @@ class ImportLettersHistory(models.Model):
                 smb_conn.storeFile(share_nas, import_letter_path, file_pdf)
 
                 # save eventual attachment
-                if attachment:
+                if attachment_filename:
+                    response = urllib2.urlopen(
+                        base_url + 'uploads/' +
+                        attachment_filename.split('/')[-1])
+                    attachment_data = response.read()
                     filename_attachment = filename.replace(".pdf", "." + ext)
                     logger.info("Try save attachment {} !"
                                 .format(filename_attachment))
@@ -619,7 +634,7 @@ class ImportLettersHistory(models.Model):
                         'sbc_switzerland.scan_letter_imported').value + \
                         filename_attachment
 
-                    file_attachment = BytesIO(base64.b64decode(attachment))
+                    file_attachment = BytesIO(attachment_data)
                     smb_conn.storeFile(
                         share_nas,
                         import_letter_path,

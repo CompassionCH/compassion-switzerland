@@ -58,29 +58,39 @@ class Correspondence(models.Model):
                 self.translation_language_id is not None:
             s = self.translated_text.strip(' \t\n\r.')
             if s:
-                # find the language name of text argument
-                detectlanguage.configuration.api_key = config.get(
-                    'detect_language_api_key')
-                languageName = ""
-                langs = detectlanguage.languages()
-                try:
-                    codeLang = detectlanguage.simple_detect(
-                        self.translated_text)
-                except (IndexError, detectlanguage.DetectLanguageError):
-                    # Language could not be detected
-                    return
-                for lang in langs:
-                    if lang.get("code") == codeLang:
-                        languageName = lang.get("name").lower()
-                        break
-                supporter_langs = map(
-                    lambda lang: lang.lower(),
-                    self.supporter_languages_ids.mapped('name'))
-                self.has_valid_language = languageName in supporter_langs
+                # find the language of text argument
+                lang = self.detect_lang(self.translated_text)
+                self.has_valid_language = lang in self.supporter_languages_ids
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
+    @api.model
+    def detect_lang(self, text):
+        """
+        Use detectlanguage API to find the language of the given text
+        :param text: text to detect
+        :return: res.lang compassion record if the language is found, or False
+        """
+        detectlanguage.configuration.api_key = config.get(
+            'detect_language_api_key')
+        language_name = False
+        langs = detectlanguage.languages()
+        try:
+            code_lang = detectlanguage.simple_detect(text)
+        except (IndexError, detectlanguage.DetectLanguageError):
+            # Language could not be detected
+            return False
+        for lang in langs:
+            if lang.get("code") == code_lang:
+                language_name = lang.get("name")
+                break
+        if not language_name:
+            return False
+
+        return self.env['res.lang.compassion'].search(
+            [('name', '=ilike', language_name)], limit=1)
+
     def get_image(self):
         """ Method for retrieving the image """
         self.ensure_one()
