@@ -514,7 +514,7 @@ class ImportLettersHistory(models.Model):
         # Find existing config or create a new one
         web_letter_id = self.env.ref('sbc_switzerland.web_letter').id
         import_config = self.search([
-            ('config_id', '=', 'web_letter_id'),
+            ('config_id', '=', web_letter_id),
             ('state', '!=', 'done')], limit=1)
         if not import_config:
             import_config = self.create({
