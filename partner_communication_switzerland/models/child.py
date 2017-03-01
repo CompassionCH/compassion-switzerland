@@ -106,6 +106,7 @@ class CompassionChild(models.Model):
                     draw(picture)
                     child.picture_frame = base64.b64encode(picture.make_blob())
 
+    @api.multi
     def depart(self):
         """ Send communication to sponsor. """
         for child in self.filtered('sponsor_id'):
@@ -125,6 +126,7 @@ class CompassionChild(models.Model):
             })
         super(CompassionChild, self).depart()
 
+    @api.multi
     def reinstatement(self):
         """ Send communication to sponsor. """
         communication_type = self.env.ref(
@@ -138,6 +140,7 @@ class CompassionChild(models.Model):
             })
         super(CompassionChild, self).reinstatement()
 
+    @api.multi
     def new_photo(self):
         """
         Upon reception of a new child picture :

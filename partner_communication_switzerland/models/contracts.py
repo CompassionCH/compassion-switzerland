@@ -186,18 +186,17 @@ class RecurringContract(models.Model):
         # Birthday Reminder
         logger.info("....Creating Birthday Reminder Communications")
         today = datetime.now()
-        # in_two_month = (today + relativedelta(months=2)).replace(
-        #     day=today.day)
-        # birthday = self.search([
-        #     ('child_id.birthdate', 'like',
-        #      in_two_month.strftime("%m-%d")),
-        #     ('correspondant_id.birthday_reminder', '=', True),
-        #     ('state', '=', 'active'),
-        #     ('type', 'like', 'S')
-        # ]).filtered(lambda c: not c.child_id.project_id.hold_s2b_letters)
-        # config = self.env.ref(module + 'planned_birthday_reminder')
-        # TODO Reactivate in March
-        # birthday.send_communication(config)
+        in_two_month = (today + relativedelta(months=2)).replace(
+            day=today.day)
+        birthday = self.search([
+            ('child_id.birthdate', 'like',
+             in_two_month.strftime("%m-%d")),
+            ('correspondant_id.birthday_reminder', '=', True),
+            ('state', '=', 'active'),
+            ('type', 'like', 'S')
+        ]).filtered(lambda c: not c.child_id.project_id.hold_s2b_letters)
+        config = self.env.ref(module + 'planned_birthday_reminder')
+        birthday.send_communication(config)
 
         # B2S Letters that must be printed (if not read after 10 days)
         logger.info("....Creating B2S Printed Communications")
