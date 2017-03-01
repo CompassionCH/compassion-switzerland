@@ -158,22 +158,13 @@ class CompassionChild(models.Model):
                 # Mark sponsorship for order the picture
                 child.sponsorship_ids[0].order_photo = True
 
-            # Prepare attachments in case the communication is sent by e-mail
-            pictures = child.pictures_ids[0]
-            attachment = self.env['ir.attachment'].search([
-                ('res_model', '=', 'compassion.child.pictures'),
-                ('res_id', '=', pictures.id),
-                ('datas_fname', 'like', 'Fullshot')
-            ], limit=1)
-            job_obj.with_context({
-                'default_email_vals': {
-                    'attachment_ids': [(6, 0, attachment.ids)]}
-            }).create({
+            job_obj.create({
                 'config_id': communication_config.id,
                 'partner_id': child.sponsor_id.id,
                 'object_ids': child.id,
                 'user_id': communication_config.user_id.id,
             })
+        return True
 
     def get_number(self):
         """ Returns a string telling how many children are in the recordset.

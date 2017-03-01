@@ -173,6 +173,34 @@ class PartnerCommunication(models.Model):
         ]
         return attachments
 
+    def get_child_picture_attachment(self):
+        """
+        Attach child pictures to communication. It directly attach them
+        to the communication if sent by e-mail and therefore does
+        return an empty dictionary.
+        :return: dict {}
+        """
+        self.ensure_one()
+        res = dict()
+        if self.send_mode and 'physical' not in self.send_mode:
+            # Prepare attachments in case the communication is sent by e-mail
+            children = self.get_objects()
+            attachments = self.env['ir.attachment']
+            for child in children:
+                pic = child.pictures_ids[0]
+                attachment = self.env['ir.attachment'].search([
+                    ('res_model', '=', 'compassion.child.pictures'),
+                    ('res_id', '=', pic.id),
+                    ('datas_fname', 'like', 'Fullshot')
+                ])
+                attachments += attachment.copy({
+                    'name' : child.local_id + ' ' + child.last_photo_date + \
+                    '.jpg'})
+            self.with_context(no_print=True).ir_attachment_ids = attachments
+        else:
+            self.ir_attachment_ids = False
+        return res
+
     @api.multi
     def send(self):
         """

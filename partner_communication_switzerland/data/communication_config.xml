@@ -373,6 +373,7 @@
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_compassion_child"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function">get_child_picture_attachment</field>
         </record>
 
         <record id="child_notes" model="partner.communication.config">
