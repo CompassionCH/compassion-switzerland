@@ -159,7 +159,12 @@ class ResPartner(models.Model):
                 )
                 if firstname_ids:
                     # Give more weight two those who has both results
-                    ids += firstname_ids.ids
+                    ids = firstname_ids.ids
+                if not ids:
+                    ids = self.search(
+                        [('name', 'ilike', name)] + args,
+                        limit=limit
+                    )
         else:
             ids = self.search(
                 args,

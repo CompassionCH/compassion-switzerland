@@ -107,7 +107,7 @@
                 menu="False"
         />
         <record id="report_b2s_letter" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="report.paperformat_euro"/>
+            <field name="paperformat_id" ref="paperformat_a4_letter"/>
         </record>
     </data>
 </openerp>

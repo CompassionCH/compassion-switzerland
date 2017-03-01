@@ -8,7 +8,7 @@
                 name="report_compassion.sub_proposal"
         />
         <record id="report_sub_proposal" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="report.paperformat_euro"/>
+            <field name="paperformat_id" ref="paperformat_a4_letter"/>
         </record>
 
         <template id="sub_proposal">
