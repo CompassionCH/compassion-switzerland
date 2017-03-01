@@ -19,8 +19,12 @@ https://github.com/detectlanguage/detectlanguage-python
 
 pip install detectlanguage
 
-Set constant detect_language_api_key in your config file with the api key for
-use detectlanguage library
+Add the following parameters to your Odoo configuration file:
+
+* ``detect_language_api_key`` : api key for use detectlanguage library
+* ``wp_sftp_host`` : the server url of your wordpress sftp (ex: wp.localhost.com)
+* ``wp_sftp_user`` : a sftp user of your wordpress server
+* ``wp_sftp_pwd`` : the sftp password
 
 Usage
 =====
