@@ -11,3 +11,4 @@
 
 from . import init_sendgrid_templates
 from . import child_order_picture
+from . import end_contract_wizard
