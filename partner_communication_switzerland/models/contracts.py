@@ -100,22 +100,25 @@ class RecurringContract(models.Model):
         :param communication: the communication config to use
         :param correspondant: put to false for sending to payer instead of
                               correspondent.
-        :return: None
+        :return: communication created recordset
         """
         partner_field = 'correspondant_id' if correspondent else 'partner_id'
         sponsorships = self.filtered(lambda s: 'S' in s.type)
         partners = sponsorships.mapped(partner_field)
+        communications = self.env['partner.communication.job']
         for partner in partners:
             objects = sponsorships.filtered(
                 lambda c: c.correspondant_id.id == partner.id if correspondent
                 else c.partner_id.id == partner.id
             )
-            self.env['partner.communication.job'].create({
+            communications += self.env['partner.communication.job'].create({
                 'config_id': communication.id,
                 'partner_id': partner.id,
-                'object_ids': objects.ids,
+                'object_ids': self.env.context.get(
+                    'default_object_ids', objects.ids),
                 'user_id': communication.user_id.id,
             })
+        return communications
 
     @api.model
     def send_monthly_communication(self):

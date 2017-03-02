@@ -31,7 +31,8 @@ class EndContractWizard(models.TransientModel):
                 'partner_communication_switzerland.'
                 'lifecycle_child_unplanned_exit')
             self.contract_id.with_context(
-                default_object_ids=child.ids).send_communication(
+                default_object_ids=child.id,
+                default_auto_send=False).send_communication(
                 exit_config, correspondent=True)
 
         return super(EndContractWizard, self).end_contract()
