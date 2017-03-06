@@ -250,14 +250,7 @@ class RecurringContract(models.Model):
         for sponsorship in self.search([
                 ('state', '=', 'active'),
                 ('type', 'like', 'S'),
-                ('payment_term_id', 'not like', 'LSV'),
-                ('payment_term_id', 'not like', 'Postfinance'),
-                '|',
                 ('child_id.project_id.suspension', '!=', 'fund-suspended'),
-                ('child_id.project_id.suspension', '=', False),
-                # TODO India is excluded for now
-                ('child_id', 'not like', 'IN'),
-                ('child_id', 'not like', 'EI'),
         ]):
             due = sponsorship.due_invoice_ids
             if due and len(due) > 1:
