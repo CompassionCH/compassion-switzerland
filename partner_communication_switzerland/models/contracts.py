@@ -214,6 +214,25 @@ class RecurringContract(models.Model):
             'auto_send': False,
         }).send_communication()
 
+        # First reminders not read must be printed for that still have
+        # some amount due.
+        first_reminders = self.env.ref(
+            module + 'sponsorship_waiting_reminder_1') + self.env.ref(
+            module + 'sponsorship_reminder_1')
+        communications = self.env['partner.communication.job'].search([
+            ('config_id', 'in', first_reminders.ids),
+            ('send_mode', '=', 'digital'),
+            ('date_sent', '>=', fields.Date.to_string(ten_days_ago)),
+            ('email_id.opened', '=', False)
+        ])
+        to_print = self.env['partner.communication.job']
+        for comm in communications:
+            sponsorships = comm.get_objects().filtered(
+                lambda s: s.amount_due > s.total_amount)
+            if sponsorships:
+                to_print += comm
+        to_print.write({'send_mode': 'physical', 'state': 'pending'})
+
         logger.info("Sponsorship Planned Communications finished!")
 
     @api.model

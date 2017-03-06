@@ -100,8 +100,12 @@ class CompassionHold(models.Model):
         notification_text = "\n\nA reminder was sent to the sponsor {} ({})"
         sponsorships = self.env['recurring.contract']
         for hold in self:
-            sponsorships += hold.child_id.sponsorship_ids[0]
+            sponsorship = hold.child_id.sponsorship_ids[0]
             sponsor = hold.child_id.sponsor_id
+            # Filter sponsorships where we wait for the bank authorization
+            if sponsorship.state == 'mandate' and sponsor.bank_ids:
+                continue
+            sponsorships += sponsorship
             super(CompassionHold, hold).postpone_no_money_hold(
                 notification_text.format(sponsor.name, sponsor.ref))
-        sponsorships.send_communication(communication)
+        sponsorships.send_communication(communication, correspondent=False)

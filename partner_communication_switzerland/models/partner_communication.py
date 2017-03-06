@@ -110,13 +110,28 @@ class PartnerCommunication(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
+        sponsorships = self.get_objects()
+
+        payment_term = sponsorships.mapped('payment_term_id.name')[0]
+        # LSV-DD Waiting reminders special case
+        if 'Waiting Reminder' in self.config_id.name and (
+                'LSV' in payment_term or 'Postfinance' in payment_term):
+            if self.partner_id.bank_ids:
+                # We received the bank info but withdrawal didn't work.
+                # Mark to call in order to verify the situation.
+                self.need_call = True
+            else:
+                # Don't put payment slip if we just wait the authorization form
+                return dict()
+
+        # Put product sponsorship to print the payment slip for physical print.
         if self.send_mode and 'physical' in self.send_mode:
-            # Put product sponsorship to print the payment slip
             self.product_id = self.env[
                 'product.product'].with_context(lang='en_US').search([
                     ('name', '=', 'Sponsorship')], limit=1)
             return dict()
-        sponsorships = self.get_objects()
+
+        # In other cases, attach the payment slip.
         report_name = 'report_compassion.bvr_due'
         return {
             _('sponsorship due.pdf'): [
@@ -194,7 +209,7 @@ class PartnerCommunication(models.Model):
                     ('datas_fname', 'like', 'Fullshot')
                 ])
                 attachments += attachment.copy({
-                    'name' : child.local_id + ' ' + child.last_photo_date + \
+                    'name': child.local_id + ' ' + child.last_photo_date +
                     '.jpg'})
             self.with_context(no_print=True).ir_attachment_ids = attachments
         else:

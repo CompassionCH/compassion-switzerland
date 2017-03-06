@@ -28,5 +28,9 @@
             <field name="key">mail_restrict_follower_selection.domain.hr.holidays</field>
             <field name="value">[('email', 'like', '@compassion.ch')]</field>
         </record>
+        <record id="mail_allow_timesheet_followers" model="ir.config_parameter">
+            <field name="key">mail_restrict_follower_selection.domain.hr_timesheet_sheet.sheet</field>
+            <field name="value">[('email', 'like', '@compassion.ch')]</field>
+        </record>
     </data>
 </openerp>
