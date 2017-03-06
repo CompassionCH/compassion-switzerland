@@ -116,14 +116,16 @@
                     display: inline-block;
                     margin-right: 5mm;
                     vertical-align: top;
-                    padding: 2mm;
-                    width: 25%;
-                    background-color: #ccffff;
+                    padding: 3mm;
+                    width: 30%;
+                    max-height: 170mm;
+                    background-color: #0038a5;
+                    color: white;
                 }
                 #body {
                     display: inline-block;
                     <t t-if="success_story">
-                        width: 70%;
+                        width: 60%;
                     </t>
                 }
                 hr {

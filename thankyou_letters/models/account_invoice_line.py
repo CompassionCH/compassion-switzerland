@@ -102,6 +102,10 @@ class AccountInvoiceLine(models.Model):
     def get_thankyou_config(self):
         """
         Get how we should thank the selected invoice lines
+
+            - small: < 100 CHF
+            - standard: 100 - 999 CHF
+            - large: > 1000 CHF or legacy or new donor
         :return: partner.communication.config record
         """
         small = self.env.ref('thankyou_letters.config_thankyou_small')
@@ -111,10 +115,13 @@ class AccountInvoiceLine(models.Model):
         # Special case for legacy donation : always treat as large donation
         legacy = 'legacy' in self.with_context(lang='en_US').mapped(
             'product_id.name')
+        # Special case for new donors : always treat as large donation
+        new_donor = self.mapped('partner_id').filtered('is_new_donator')
+
         total_amount = sum(self.mapped('price_subtotal'))
-        if total_amount < 100 and not legacy:
+        if total_amount < 100 and not legacy and not new_donor:
             config = small
-        elif total_amount < 1000 and not legacy:
+        elif total_amount < 1000 and not legacy and not new_donor:
             config = standard
         else:
             config = large
