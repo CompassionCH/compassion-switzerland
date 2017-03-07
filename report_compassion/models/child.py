@@ -37,7 +37,7 @@ class CompassionChild(models.Model):
 
     def _compute_project_title(self):
         for child in self:
-            firstname = child.firstname
+            firstname = child.firstname or ''
             lang_map = {
                 'fr_CH': u"À propos du centre d'accueil",
                 'de_DE': u"Über %s's Projekt" % firstname,

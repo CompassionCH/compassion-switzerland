@@ -15,31 +15,37 @@
                 </style>
                 <div>
                     % set invoice_lines = object.get_objects()
+                    % set donations = invoice_lines.get_donations()
                     % set partner = object.partner_id
+                    % set ambassadors = invoice_lines.mapped('user_id').filtered('ambassador_quote')
                 </div>
                 <div>
                     ${partner.salutation},
                     <br/>
                     <br/>
                     % if partner.is_new_donator:
-                        <p style="color: red">
+                        <p>
                             Welcome in the Compassion Donors family! We are glad to send you some information about our organization.
                             Please don't hesitate to contact us if any of your questions about us are left unanswered.
                             It will be an opportunity to know each other better.
                         </p>
                     % endif
-                    We would like to thank you very much for the following donation you made to Compassion:
-                    <br/>
-                    <br/>
-                    <ul>
-                        % for fund, amount in invoice_lines.get_donations().iteritems():
-                            <li>
-                                CHF ${amount}.- for the ${fund}
-                            </li>
-                        % endfor
-                    </ul>
+                    We would like to thank you very much for the donation you made to Compassion Switzerland.
+                    % if len(donations) == 1:
+                        <br/>
+                        <br/>
+                        <b>Your contribution:</b> CHF ${amount}.- for the ${fund}.
+                    % else:
+                        <ul>
+                            % for fund, amount in donations.iteritems():
+                                <li>
+                                    CHF ${amount}.- for the ${fund}
+                                </li>
+                            % endfor
+                        </ul>
+                    % endif
                     % if object.event_id:
-                        % for ambassador in invoice_lines.mapped('user_id').filtered('ambassador_quote'):
+                        % for ambassador in ambassadors:
                             ${ambassador.ambassador_quote |safe}
                         % endfor
                         % if object.event_id.thank_you_text:

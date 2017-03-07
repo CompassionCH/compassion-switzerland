@@ -17,7 +17,7 @@
                 <br/>
                 <span t-raw="partner.company_id.street"/>
                 <br/>
-                <span t-raw="partner.company_id.zip + ' ' + partner.company_id.city"/>
+                <span t-raw="(partner.company_id.zip or '') + ' ' + (partner.company_id.city or '')"/>
                 <br/>
                 <span t-raw="partner.company_id.country_id.name"/>
             </t>

@@ -11,9 +11,6 @@
 
 from openerp import models, fields, api
 
-from openerp.addons.child_compassion.models.compassion_hold import \
-    HoldType
-
 
 class EndContractWizard(models.TransientModel):
     _inherit = 'end.contract.wizard'
@@ -32,7 +29,6 @@ class EndContractWizard(models.TransientModel):
                 'lifecycle_child_unplanned_exit')
             self.contract_id.with_context(
                 default_object_ids=child.id,
-                default_auto_send=False).send_communication(
-                exit_config, correspondent=True)
+                default_auto_send=False).send_communication(exit_config)
 
         return super(EndContractWizard, self).end_contract()

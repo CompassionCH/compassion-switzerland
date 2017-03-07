@@ -40,7 +40,7 @@ class RecurringContract(models.Model):
     due_invoice_ids = fields.Many2many(
         'account.invoice', compute='_compute_due_invoices'
     )
-    amount_due = fields.Float(compute='_compute_due_invoices')
+    amount_due = fields.Integer(compute='_compute_due_invoices')
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -88,8 +88,8 @@ class RecurringContract(models.Model):
                     fields.Datetime.from_string(i.due_date) <= today
                 )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
-                contract.amount_due = sum(invoice_lines.mapped(
-                    'price_subtotal'))
+                contract.amount_due = int(sum(invoice_lines.mapped(
+                    'price_subtotal')))
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
@@ -197,7 +197,10 @@ class RecurringContract(models.Model):
             ('correspondant_id.birthday_reminder', '=', True),
             ('state', '=', 'active'),
             ('type', 'like', 'S')
-        ]).filtered(lambda c: not c.child_id.project_id.hold_s2b_letters)
+        ]).filtered(lambda c: not (
+            c.child_id.project_id.lifecycle_ids and
+            c.child_id.project_id.hold_s2b_letters)
+        )
         config = self.env.ref(module + 'planned_birthday_reminder')
         birthday.send_communication(config)
 
@@ -214,6 +217,25 @@ class RecurringContract(models.Model):
             'auto_send': False,
         }).send_communication()
 
+        # First reminders not read must be printed for that still have
+        # some amount due.
+        first_reminders = self.env.ref(
+            module + 'sponsorship_waiting_reminder_1') + self.env.ref(
+            module + 'sponsorship_reminder_1')
+        communications = self.env['partner.communication.job'].search([
+            ('config_id', 'in', first_reminders.ids),
+            ('send_mode', '=', 'digital'),
+            ('date_sent', '>=', fields.Date.to_string(ten_days_ago)),
+            ('email_id.opened', '=', False)
+        ])
+        to_print = self.env['partner.communication.job']
+        for comm in communications:
+            sponsorships = comm.get_objects().filtered(
+                lambda s: s.amount_due > s.total_amount)
+            if sponsorships:
+                to_print += comm
+        to_print.write({'send_mode': 'physical', 'state': 'pending'})
+
         logger.info("Sponsorship Planned Communications finished!")
 
     @api.model
@@ -229,16 +251,12 @@ class RecurringContract(models.Model):
         one_month_ago = today - relativedelta(days=35)
         comm_obj = self.env['partner.communication.job']
         for sponsorship in self.search([
-                ('state', '=', 'active'),
+                ('state', 'in', ('active', 'mandate')),
+                ('global_id', '!=', False),
                 ('type', 'like', 'S'),
-                ('payment_term_id', 'not like', 'LSV'),
-                ('payment_term_id', 'not like', 'Postfinance'),
                 '|',
                 ('child_id.project_id.suspension', '!=', 'fund-suspended'),
                 ('child_id.project_id.suspension', '=', False),
-                # TODO India is excluded for now
-                ('child_id', 'not like', 'IN'),
-                ('child_id', 'not like', 'EI'),
         ]):
             due = sponsorship.due_invoice_ids
             if due and len(due) > 1:

@@ -36,15 +36,16 @@ class ResPartner(models.Model):
 
     @api.multi
     def _get_salutation(self):
-        for partner in self:
+        for p in self:
+            partner = p.with_context(lang=p.lang)
             if partner.title and partner.firstname and not partner.is_company:
                 title = partner.title
-                title_salutation = self.env['ir.advanced.translation'].get(
+                title_salutation = partner.env['ir.advanced.translation'].get(
                     'salutation', female=title.gender == 'F',
                     plural=title.plural
                 ).title()
                 title_name = title.name
-                partner.salutation = title_salutation + ' ' + \
+                p.salutation = title_salutation + ' ' + \
                     title_name + ' ' + partner.lastname
             else:
-                partner.salutation = _("Dear friends of compassion")
+                p.salutation = _("Dear friends of compassion")
