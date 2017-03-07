@@ -197,7 +197,10 @@ class RecurringContract(models.Model):
             ('correspondant_id.birthday_reminder', '=', True),
             ('state', '=', 'active'),
             ('type', 'like', 'S')
-        ]).filtered(lambda c: not c.child_id.project_id.hold_s2b_letters)
+        ]).filtered(lambda c: not (
+            c.child_id.project_id.lifecycle_ids and
+            c.child_id.project_id.hold_s2b_letters)
+        )
         config = self.env.ref(module + 'planned_birthday_reminder')
         birthday.send_communication(config)
 
