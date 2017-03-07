@@ -40,7 +40,7 @@ class RecurringContract(models.Model):
     due_invoice_ids = fields.Many2many(
         'account.invoice', compute='_compute_due_invoices'
     )
-    amount_due = fields.Float(compute='_compute_due_invoices')
+    amount_due = fields.Integer(compute='_compute_due_invoices')
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -88,8 +88,8 @@ class RecurringContract(models.Model):
                     fields.Datetime.from_string(i.due_date) <= today
                 )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
-                contract.amount_due = sum(invoice_lines.mapped(
-                    'price_subtotal'))
+                contract.amount_due = int(sum(invoice_lines.mapped(
+                    'price_subtotal')))
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
@@ -248,9 +248,12 @@ class RecurringContract(models.Model):
         one_month_ago = today - relativedelta(days=35)
         comm_obj = self.env['partner.communication.job']
         for sponsorship in self.search([
-                ('state', '=', 'active'),
+                ('state', 'in', ('active', 'mandate')),
+                ('global_id', '!=', False),
                 ('type', 'like', 'S'),
+                '|',
                 ('child_id.project_id.suspension', '!=', 'fund-suspended'),
+                ('child_id.project_id.suspension', '=', False),
         ]):
             due = sponsorship.due_invoice_ids
             if due and len(due) > 1:

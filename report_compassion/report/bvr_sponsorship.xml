@@ -114,9 +114,9 @@
             <t t-set="communication">
                 Sponsorship due
                 <br/>
-                CHF <t t-raw="sum(sponsorships.mapped('amount_due'))"/>.-
+                CHF <t t-raw="int(sum(sponsorships.mapped('amount_due')))"/>.-
             </t>
-            <t t-set="scan_line" t-value="contract_groups[0].format_ref"/>
+            <t t-set="scan_line" t-value="contract_groups[0].get_scan_line(company_account, reference)"/>
             <t t-call="report_compassion.report_sponsorship_single_slip"/>
         </template>
 
