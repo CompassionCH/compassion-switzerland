@@ -84,7 +84,6 @@ class PartnerCommunication(models.Model):
         """
         Takes the less used active success story and attach it
         to communications.
-        TODO Avoid attaching twice same story for a partner.
         :return: True
         """
         for job in self:
@@ -92,7 +91,19 @@ class PartnerCommunication(models.Model):
                 ('is_active', '=', True)]).sorted(
                 lambda s: s.current_usage_count)
             if story:
-                job.success_story_id = story[0]
+                if len(story) == 1:
+                    job.success_story_id = story
+                else:
+                    usage_count = dict()
+                    for s in reversed(story):
+                        usage = self.search_count([
+                            ('partner_id', '=', job.partner_id.id),
+                            ('success_story_id', '=', s.id)
+                        ])
+                        usage_count[usage] = s
+                    min_used = min(usage_count.keys())
+                    job.success_story_id = usage_count[min_used]
+
         return True
 
     @api.multi
