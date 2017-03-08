@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="invoice_tree_compassion_ch">
+            <field name="name">account.invoice.tree.compassion.ch</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="base_transaction_id.invoice_tree_custom"/>
+            <field name="arch" type="xml">
+                <!-- Remove unneeded fields -->
+                <field name="number" position="replace"/>
+                <field name="date_due" position="replace">
+                    <field name="last_payment"/>
+                </field>
+                <field name="transaction_id" position="replace"/>
+                <field name="residual" position="replace"/>
+                <field name="amount_untaxed" position="replace"/>
+
+                <field name="state" position="before">
+                    <field name="payment_term"/>
+                    <field name="invoice_type"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

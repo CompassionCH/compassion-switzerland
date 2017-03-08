@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Filter Cancelled invoices from res_partner button -->
+        <record model="ir.ui.view" id="partner_buttons_compassion">
+            <field name="name">res.partner.buttons.compassion</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.partner_view_buttons"/>
+            <field name="arch" type="xml">
+                <button name="%(account.action_invoice_refund_out_tree)d" position="attributes">
+                    <attribute name="context">{
+                        'search_default_partner_id': active_id,
+                        'default_partner_id': active_id,
+                        'search_default_invoices': 1,
+                        }</attribute>
+                </button>
+            </field>
+        </record>
+    </data>
+</openerp>
