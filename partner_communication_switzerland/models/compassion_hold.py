@@ -105,6 +105,10 @@ class CompassionHold(models.Model):
             # Filter sponsorships where we wait for the bank authorization
             if sponsorship.state == 'mandate' and sponsor.bank_ids:
                 continue
+            # Cancel old invoices
+            if len(sponsorship.due_invoice_ids) > 1:
+                for invoice in sponsorship.due_invoice_ids[:-1]:
+                    invoice.signal_workflow('invoice_cancel')
             sponsorships += sponsorship
             super(CompassionHold, hold).postpone_no_money_hold(
                 notification_text.format(sponsor.name, sponsor.ref))
