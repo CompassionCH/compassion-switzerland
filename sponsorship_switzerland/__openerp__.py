@@ -39,6 +39,8 @@
     'data': [
         'workflow/sds_workflow.xml',
         'security/ir.model.access.csv',
+        'views/account_invoice_view.xml',
+        'views/res_partner_view.xml',
     ],
     'js': ['static/src/js/sponsorship_tracking_kanban.js'],
     'demo': [],

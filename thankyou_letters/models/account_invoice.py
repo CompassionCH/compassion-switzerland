@@ -9,6 +9,11 @@
 #
 ##############################################################################
 import logging
+from collections import OrderedDict
+
+from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
 
 from openerp import api, models, fields
 
@@ -69,6 +74,49 @@ class AccountInvoice(models.Model):
                 else:
                     comm.unlink()
         return super(AccountInvoice, self).write(vals)
+
+    @api.multi
+    def group_by_partner(self):
+        """ Returns a dict with {partner_id: invoices}"""
+        res = dict()
+        for partner in self.mapped('partner_id'):
+            res[partner.id] = self.filtered(
+                lambda i: i.partner_id == partner)
+        return OrderedDict(sorted(
+            res.items(), key=lambda t: sum(t[1].mapped('amount_total')),
+            reverse=True
+        ))
+
+    @api.model
+    def thankyou_summary_cron(self):
+        """
+        Sends a summary each month of the donations
+        :return: True
+        """
+        comm_obj = self.env['partner.communication.job']
+        first = datetime.today().replace(day=1)
+        last_month = first - relativedelta(months=1)
+        partners = self.env['res.users'].search([
+            '|', '|',
+            ('name', 'like', 'Maglo Rachel'),
+            ('name', 'like', 'Mermod Philippe'),
+            ('name', 'like', 'Wulliamoz David'),
+        ]).mapped('partner_id')
+        invoices = self.search([
+            ('type', '=', 'out_invoice'),
+            ('invoice_type', '!=', 'sponsorship'),
+            ('state', '=', 'paid'),
+            ('date_invoice', '>=', fields.Date.to_string(last_month)),
+            ('date_invoice', '<', fields.Date.to_string(first)),
+        ])
+        config = self.env.ref('thankyou_letters.config_thankyou_summary')
+        for partner in partners:
+            comm_obj.create({
+                'config_id': config.id,
+                'partner_id': partner.id,
+                'object_ids': invoices.ids
+            })
+        return True
 
     def _generate_thank_you(self):
         """
