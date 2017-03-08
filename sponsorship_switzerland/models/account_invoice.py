@@ -23,27 +23,27 @@ class AccountInvoice(models.Model):
         ('gift', 'Gift'),
         ('fund', 'Fund donation'),
         ('other', 'Other'),
-    ], compute='_compute_invoice_type', store=True)
-    last_payment = fields.Date(compute='_compute_last_payment', store=True)
+    ], compute='compute_invoice_type', store=True)
+    last_payment = fields.Date(compute='compute_last_payment', store=True)
 
     @api.depends('invoice_line')
     @api.multi
-    def _compute_invoice_type(self):
-        for invoice in self:
+    def compute_invoice_type(self):
+        for invoice in self.filtered(lambda i: i.state in ('open', 'paid')):
             categories = invoice.with_context(lang='en_US').mapped(
                 'invoice_line.product_id.categ_name')
             if SPONSORSHIP_CATEGORY in categories:
                 invoice.invoice_type = 'sponsorship'
             elif GIFT_CATEGORY in categories:
                 invoice.invoice_type = 'gift'
-            elif FUND_CATEGORY in invoice.invoice_type:
+            elif FUND_CATEGORY in categories:
                 invoice.invoice_type = 'fund'
             else:
                 invoice.invoice_type = 'other'
 
     @api.depends('payment_ids')
     @api.multi
-    def _compute_last_payment(self):
+    def compute_last_payment(self):
         for invoice in self.filtered('payment_ids'):
             payment_dates = invoice.payment_ids.mapped('date')
             invoice.last_payment = max(payment_dates)
