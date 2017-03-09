@@ -161,7 +161,7 @@
                                 <h6 style="margin-top: 3mm;"><span t-field="o.project_title"/></h6>
                                 <span t-raw="o.project_about"/>
                             </div>
-                            <div class="right">
+                            <div class="right" t-if="o.project_id.description">
                                 <span t-raw="o.project_id.description.replace(o.project_about, '')"/>
                             </div>
                         </div>

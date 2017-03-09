@@ -26,7 +26,7 @@ class AccountInvoice(models.Model):
     ], compute='compute_invoice_type', store=True)
     last_payment = fields.Date(compute='compute_last_payment', store=True)
 
-    @api.depends('invoice_line')
+    @api.depends('invoice_line', 'state')
     @api.multi
     def compute_invoice_type(self):
         for invoice in self.filtered(lambda i: i.state in ('open', 'paid')):

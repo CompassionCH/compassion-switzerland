@@ -36,7 +36,8 @@ class Correspondence(models.Model):
     email_read = fields.Boolean()
     letter_read = fields.Boolean()
     zip_id = fields.Many2one('ir.attachment')
-    has_valid_language = fields.Boolean(compute='_compute_has_valid_language')
+    has_valid_language = fields.Boolean(
+        compute='compute_has_valid_language', store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -50,7 +51,9 @@ class Correspondence(models.Model):
                 super(Correspondence, letter)._compute_letter_format()
 
     @api.one
-    def _compute_has_valid_language(self):
+    @api.depends('supporter_languages_ids', 'translated_text',
+                 'translation_language_id')
+    def compute_has_valid_language(self):
         """ Detect if text is written in the language corresponding to the
         language_id """
         self.has_valid_language = False
