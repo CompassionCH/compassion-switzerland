@@ -171,9 +171,12 @@
                     <field name="zip"/>
                     <field name="city"/>
                 </field>
+                <field name="email" position="after">
+                    <field name="number_sponsorships"/>
+                </field>
             </field>
         </record>
-        
+
         <!-- Extends the search on partners -->
         <record model="ir.ui.view" id="res_partner_compassion_search">
             <field name="name">res.partner.compassion.search</field>

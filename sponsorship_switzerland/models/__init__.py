@@ -10,3 +10,4 @@
 ##############################################################################
 
 from . import contracts
+from . import account_invoice

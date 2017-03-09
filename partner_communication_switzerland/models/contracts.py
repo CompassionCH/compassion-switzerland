@@ -225,7 +225,7 @@ class RecurringContract(models.Model):
         communications = self.env['partner.communication.job'].search([
             ('config_id', 'in', first_reminders.ids),
             ('send_mode', '=', 'digital'),
-            ('date_sent', '>=', fields.Date.to_string(ten_days_ago)),
+            ('sent_date', '>=', fields.Date.to_string(ten_days_ago)),
             ('email_id.opened', '=', False)
         ])
         to_print = self.env['partner.communication.job']
