@@ -6,6 +6,11 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="base_transaction_id.invoice_tree_custom"/>
             <field name="arch" type="xml">
+                <!-- Order invoices by date -->
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="default_order">date_invoice desc</attribute>
+                </xpath>
+
                 <!-- Remove unneeded fields -->
                 <field name="number" position="replace"/>
                 <field name="date_due" position="replace">
@@ -19,6 +24,22 @@
                     <field name="payment_term"/>
                     <field name="invoice_type"/>
                 </field>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_sponsorship_filter" model="ir.ui.view">
+            <field name="name">account.invoice.sponsorship.filter</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <field name="period_id" position="after">
+                    <field name="payment_term"/>
+                    <field name="invoice_type"/>
+                </field>
+                <xpath expr="//group[@string='Group By']">
+                    <separator/>
+                    <filter string="Invoice type" context="{'group_by':'invoice_type'}"/>
+                </xpath>
             </field>
         </record>
     </data>
