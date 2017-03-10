@@ -192,8 +192,7 @@ class RecurringContract(models.Model):
         in_two_month = (today + relativedelta(months=2)).replace(
             day=today.day)
         birthday = self.search([
-            ('child_id.birthdate', 'like',
-             in_two_month.strftime("%m-%d")),
+            ('child_id.birthdate', '=like', in_two_month.strftime("%%-%m-%d")),
             ('correspondant_id.birthday_reminder', '=', True),
             ('state', '=', 'active'),
             ('type', 'like', 'S')

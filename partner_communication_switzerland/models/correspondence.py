@@ -51,8 +51,8 @@ class Correspondence(models.Model):
                 super(Correspondence, letter)._compute_letter_format()
 
     @api.one
-    @api.depends('supporter_languages_ids', 'translated_text',
-                 'translation_language_id')
+    @api.depends('supporter_languages_ids', 'page_ids',
+                 'page_ids.translated_text', 'translation_language_id')
     def compute_has_valid_language(self):
         """ Detect if text is written in the language corresponding to the
         language_id """
