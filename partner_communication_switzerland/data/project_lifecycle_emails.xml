@@ -95,5 +95,64 @@
                 </p>
             </field>
         </record>
+
+        <!-- ICP Transition -->
+        <record id="email_project_transition" model="email.template">
+            <field name="name">Project Transition</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">Project Closure</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set child = object.get_objects()
+                    % set project = child.mapped('project_id')[0]
+                    % set transition = project.lifecycle_ids[0]
+                    % set details = transition.details
+                </div>
+                <p>
+                    ${object.partner_id.salutation},
+                    <br/>
+                    <br/>
+                    A few time ago the project ${project.icp_id} where ${child.get('your sponsored child')} ${child.get('is')} registered was on suspension.
+                    <br/>
+                    <br/>
+                    Unfortunately the local church will definitely end its partnership with Compassion
+                    % if transition.transition_date:
+                        <!-- --> on ${transition.get_date('transition date', 'date_full')}
+                    % endif
+                    % if transition.transition_reason_ids:
+                        <!-- --> because of ${transition.get_list('transition_reason_ids.value')}
+                    % endif
+                    .
+                    % if transition.future_involvement_ids:
+                        The project will continue to work and offer ${transition.get_list('future_involvement_ids.value')} in its area.
+                    % endif
+                    <br/>
+                    <br/>
+                    % if details:
+                        <span style="font-style: italic;">${details}</span>
+                        <br/>
+                        <br/>
+                    % endif
+                    % if transition.action_plan:
+                        <span style="font-style: italic;">${transition.action_plan}</span>
+                        <br/>
+                        <br/>
+                    % endif
+                    The children living close to another project will be transfered, but it is unfortunately not the case for
+                    ${child.get_list('preferred_name', 3, 'your children') or child.get_list('firstname', 3, 'your children')}.
+                    <br/>
+                    <br/>
+                    We feel sorry for this situation and hope you will understand. You will receive soon another letter that will give you more details about the end
+                    of your sponsorship and about ${child.get('your sponsored child')}. Thank you so much for the support you gave to ${child.get('him')} during this time.
+                    <br/>
+                    <br/>
+                    Please don't hesitate to contact us in case you have any questions regarding the situation.
+                    <br/>
+                    <br/>
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
     </data>
 </openerp>
