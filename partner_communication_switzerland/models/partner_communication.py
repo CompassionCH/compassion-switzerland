@@ -9,6 +9,7 @@
 #
 ##############################################################################
 import base64
+from collections import OrderedDict
 
 from pyPdf import PdfFileWriter, PdfFileReader
 from io import BytesIO
@@ -241,10 +242,18 @@ class PartnerCommunication(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
-        attachments = dict()
+        attachments = OrderedDict()
         report_obj = self.env['report']
 
         sponsorships = self.get_objects()
+        # Include all active sponsorships for Permanent Order
+        if 'Permanent Order' in sponsorships.with_context(
+                lang='en_US').mapped('payment_term_id.name'):
+            sponsorships += sponsorships.mapped(
+                'group_id.contract_ids').filtered(
+                lambda s: s.state == 'active')
+
+        # Payment slips
         if payment:
             report_name = 'report_compassion.3bvr_sponsorship'
             attachments.update({
@@ -252,11 +261,25 @@ class PartnerCommunication(models.Model):
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
                         sponsorships, report_name,
-                        data={'gifts': True, 'doc_ids': sponsorships.ids}
+                        data={'doc_ids': sponsorships.ids}
                     ))
                 ]
             })
 
+        # Gifts
+        sponsorships = self.get_objects()
+        report_name = 'report_compassion.3bvr_gift_sponsorship'
+        attachments.update({
+            _('sponsorship gifts.pdf'): [
+                report_name,
+                base64.b64encode(report_obj.get_pdf(
+                    sponsorships, report_name,
+                    data={'doc_ids': sponsorships.ids}
+                ))
+            ]
+        })
+
+        # Childpack
         children = sponsorships.mapped('child_id')
         report_name = 'report_compassion.childpack_small'
         attachments[_('child dossier.pdf')] = [
@@ -264,6 +287,7 @@ class PartnerCommunication(models.Model):
             base64.b64encode(report_obj.get_pdf(children, report_name))
         ]
 
+        # Labels
         if correspondence:
             attachments.update(self.get_label_attachment(sponsorships))
 
