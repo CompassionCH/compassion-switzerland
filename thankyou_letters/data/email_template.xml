@@ -23,7 +23,7 @@
                     ${partner.salutation},
                     <br/>
                     <br/>
-                    % if partner.is_new_donator:
+                    % if partner.is_new_donor:
                         <p>
                             Welcome in the Compassion Donors family! We are glad to send you some information about our organization.
                             Please don't hesitate to contact us if any of your questions about us are left unanswered.
@@ -34,7 +34,7 @@
                     % if len(donations) == 1:
                         <br/>
                         <br/>
-                        <b>Your contribution:</b> CHF ${amount}.- for the ${fund}.
+                        <b>Your contribution:</b> CHF ${donations.values()[0]}.- for the ${donations.keys()[0]}.
                     % else:
                         <ul>
                             % for fund, amount in donations.iteritems():

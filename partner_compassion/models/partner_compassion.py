@@ -113,6 +113,7 @@ class ResPartner(models.Model):
     ##########################################################################
     @api.model
     def create(self, vals):
+        vals['ref'] = self.env['ir.sequence'].get('partner.ref')
         partner = super(ResPartner, self.with_context(
             no_geocode=True)).create(vals)
         if self._can_geocode():
