@@ -57,5 +57,5 @@ class ResPartner(models.Model):
                 ('product_id.categ_name', '!=', "Sponsorship")
             ])
             payments = donation_invl.mapped('last_payment')
-            partner.is_new_donator = payments and len(payments) < 2 and not \
-                partner.has_sponsorships
+            new_donor = len(payments) < 2 and not partner.has_sponsorships
+            partner.is_new_donator = new_donor

@@ -40,13 +40,14 @@ class AccountInvoiceLine(models.Model):
         for event in events:
             total = sum(event_lines.filtered(
                 lambda l: l.event_id == event).mapped('price_subtotal'))
-            donations[event.name] = "{:,}".format(total).replace(',', "'")
+            donations[event.name] = "{:,}".format(int(total)).replace(',', "'")
 
         products = other_lines.mapped('product_id')
         for product in products:
             total = sum(other_lines.filtered(
                 lambda l: l.product_id == product).mapped('price_subtotal'))
-            donations[product.name] = "{:,}".format(total).replace(',', "'")
+            donations[product.name] = "{:,}".format(int(total)).replace(
+                ',', "'")
 
         return donations
 
@@ -83,10 +84,13 @@ class AccountInvoiceLine(models.Model):
             'need_call': config.need_call,
             'event_id': event.id,
         }
+        send_mode = config.get_inform_mode(partner)
+        comm_vals['send_mode'] = send_mode[0]
+        comm_vals['auto_send'] = send_mode[1]
+        if partner.is_new_donator:
+            comm_vals['send_mode'] = 'physical'
+
         if existing_comm:
-            send_mode = config.get_inform_mode(partner)
-            comm_vals['send_mode'] = send_mode[0]
-            comm_vals['auto_send'] = send_mode[1]
             existing_comm.write(comm_vals)
             existing_comm.refresh_text()
         else:
@@ -105,7 +109,7 @@ class AccountInvoiceLine(models.Model):
 
             - small: < 100 CHF
             - standard: 100 - 999 CHF
-            - large: > 1000 CHF or legacy or new donor
+            - large: > 1000 CHF or legacy
         :return: partner.communication.config record
         """
         small = self.env.ref('thankyou_letters.config_thankyou_small')
@@ -115,13 +119,11 @@ class AccountInvoiceLine(models.Model):
         # Special case for legacy donation : always treat as large donation
         legacy = 'legacy' in self.with_context(lang='en_US').mapped(
             'product_id.name')
-        # Special case for new donors : always treat as large donation
-        new_donor = self.mapped('partner_id').filtered('is_new_donator')
 
         total_amount = sum(self.mapped('price_subtotal'))
-        if total_amount < 100 and not legacy and not new_donor:
+        if total_amount < 100 and not legacy:
             config = small
-        elif total_amount < 1000 and not legacy and not new_donor:
+        elif total_amount < 1000 and not legacy:
             config = standard
         else:
             config = large
