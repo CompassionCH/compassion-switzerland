@@ -58,7 +58,8 @@ class PrintChildpack(models.TransientModel):
         :return: Generated report
         """
         model = 'compassion.child'
-        records = self.env[model].browse(self.env.context.get('active_ids'))
+        records = self.env[model].browse(self.env.context.get(
+            'active_ids')).filtered(lambda c: c.state in ('N', 'I', 'P'))
         data = {
             'lang': self.lang,
             'doc_ids': records.ids
