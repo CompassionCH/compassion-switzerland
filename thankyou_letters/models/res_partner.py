@@ -21,7 +21,7 @@ class ResPartner(models.Model):
         compute='_compute_thankyou_preference',
         store=True
     )
-    is_new_donator = fields.Boolean(compute='_compute_new_donator')
+    is_new_donor = fields.Boolean(compute='_compute_new_donator')
     ambassador_quote = fields.Html(
         help='Used in thank you letters for donations linked to an event '
              'and to this partner.',
@@ -46,10 +46,10 @@ class ResPartner(models.Model):
     @api.multi
     def _compute_new_donator(self):
         invl_obj = self.env['account.invoice.line'].with_context(lang='en_US')
-        donator = self.env.ref('partner_compassion.res_partner_category_donor')
+        donor = self.env.ref('partner_compassion.res_partner_category_donor')
         for partner in self:
-            if donator in partner.category_id:
-                partner.is_new_donator = False
+            if donor in partner.category_id:
+                partner.is_new_donor = False
                 continue
             donation_invl = invl_obj.search([
                 ('partner_id', '=', partner.id),
@@ -58,4 +58,4 @@ class ResPartner(models.Model):
             ])
             payments = donation_invl.mapped('last_payment')
             new_donor = len(payments) < 2 and not partner.has_sponsorships
-            partner.is_new_donator = new_donor
+            partner.is_new_donor = new_donor

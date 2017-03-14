@@ -87,7 +87,7 @@ class AccountInvoiceLine(models.Model):
         send_mode = config.get_inform_mode(partner)
         comm_vals['send_mode'] = send_mode[0]
         comm_vals['auto_send'] = send_mode[1]
-        if partner.is_new_donator:
+        if partner.is_new_donor:
             comm_vals['send_mode'] = 'physical'
 
         if existing_comm:
