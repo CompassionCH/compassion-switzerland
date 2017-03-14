@@ -142,7 +142,7 @@
                 <!-- Move reference field -->
                 <field name="parent_id" position="after">
                     <label for="ref"/>
-                    <field name="ref" readonly="1" required="0"/>
+                    <field name="ref" readonly="1"/>
                     <label for="global_id"/>
                     <field name="global_id" readonly="1"/>
                 </field>
