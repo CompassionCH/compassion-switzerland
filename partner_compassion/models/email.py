@@ -9,11 +9,7 @@
 #
 ##############################################################################
 
-from sendgrid import SendGridAPIClient
-
 from openerp import models, api
-from openerp.exceptions import Warning
-from openerp.tools.config import config
 
 
 class Email(models.Model):
@@ -76,30 +72,3 @@ class EmailTemplate(models.Model):
             del context['tpl_partners_only']
         return super(EmailTemplate, self).generate_email_batch(
             cr, uid, tpl_id, res_ids, fields=fields, context=context)
-
-
-class TrackingEvent(models.Model):
-    _inherit = 'mail.tracking.event'
-
-    @api.model
-    def process_unsub(self, tracking_email, metadata):
-        """
-        Opt out partners when they unsubscribe from Sendgrid.
-        Remove unsub from Sendgrid
-        :param tracking_email:
-        :param metadata:
-        :return:
-        """
-        tracking_email.partner_id.opt_out = True
-        tracking_email.partner_id.message_post(
-            "Partner Unsubscribed from marketing e-mails", "Opt-out")
-        api_key = config.get('sendgrid_api_key')
-        if not api_key:
-            raise Warning(
-                'ConfigError',
-                'Missing sendgrid_api_key in conf file')
-
-        sg = SendGridAPIClient(apikey=api_key)
-        sg.client.suppression.unsubscribes._(tracking_email.recipient).delete()
-        return super(TrackingEvent, self).process_unsub(
-            tracking_email, metadata)
