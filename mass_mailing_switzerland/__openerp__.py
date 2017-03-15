@@ -28,15 +28,13 @@
 ##############################################################################
 
 {
-    'name': 'Christmas Mailing',
+    'name': 'Mass Mailing Switzerland',
     'version': '8.0.1.1',
     'category': 'Mailing',
     'description': '',
-    'author': 'Philippe Heer',
+    'author': 'Emanuel Cino',
     'website': 'http://www.compassion.ch',
-    'data': ['report/report.xml',
-             'views/company_view.xml',
-             'email/email_templates.xml'],
+    'data': ['views/mass_mailing_view.xml'],
     'depends': ['mail_sendgrid_mass_mailing', 'sponsorship_compassion'],
     'demo': [],
     'installable': True,
