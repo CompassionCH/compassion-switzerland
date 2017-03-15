@@ -78,8 +78,8 @@ class EmailTemplate(models.Model):
             cr, uid, tpl_id, res_ids, fields=fields, context=context)
 
 
-class TrackingEmail(models.Model):
-    _inherit = 'mail.tracking.email'
+class TrackingEvent(models.Model):
+    _inherit = 'mail.tracking.event'
 
     @api.model
     def process_unsub(self, tracking_email, metadata):
@@ -100,11 +100,6 @@ class TrackingEmail(models.Model):
                 'Missing sendgrid_api_key in conf file')
 
         sg = SendGridAPIClient(apikey=api_key)
-        params = {
-            'email': tracking_email.recipient,
-            'delete_all': False
-        }
-        response = sg.client.suppression.unsubscribes.delete(
-            request_body=params)
-        return super(TrackingEmail, self).process_unsub(
+        sg.client.suppression.unsubscribes._(tracking_email.recipient).delete()
+        return super(TrackingEvent, self).process_unsub(
             tracking_email, metadata)
