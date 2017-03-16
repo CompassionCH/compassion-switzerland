@@ -58,7 +58,7 @@ class RecurringContract(models.Model):
                     phrase = _("We will continue to withdraw the amount for "
                                "the sponsorship from your account.")
             else:
-                freq = contract.payment_term_id.recurring_value
+                freq = contract.group_id.recurring_value
                 if freq == 12:
                     phrase = _("1 payment slip for the annual sponsorship "
                                "payment")
