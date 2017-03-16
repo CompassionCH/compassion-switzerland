@@ -16,6 +16,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from openerp import api, models, fields, _
+from openerp.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
 
 logger = logging.getLogger(__name__)
 
@@ -83,10 +84,12 @@ class RecurringContract(models.Model):
         today = datetime.today()
         for contract in self:
             if contract.child_id.project_id.suspension != 'fund-suspended':
-                invoice_lines = contract.invoice_line_ids.filtered(
-                    lambda i: i.state == 'open' and
-                    fields.Datetime.from_string(i.due_date) <= today
-                )
+                invoice_lines = contract.invoice_line_ids.with_context(
+                    lang='en_US').filtered(
+                        lambda i: i.state == 'open' and
+                        fields.Datetime.from_string(i.due_date) <= today
+                        and i.product_id.categ_name != GIFT_CATEGORY
+                    )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
                     'price_subtotal')))
