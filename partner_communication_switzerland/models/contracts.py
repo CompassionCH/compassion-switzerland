@@ -16,7 +16,8 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from openerp import api, models, fields, _
-from openerp.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
+from openerp.addons.sponsorship_compassion.models.product \
+    import SPONSORSHIP_CATEGORY
 
 logger = logging.getLogger(__name__)
 
@@ -88,7 +89,7 @@ class RecurringContract(models.Model):
                     lang='en_US').filtered(
                         lambda i: i.state == 'open' and
                         fields.Datetime.from_string(i.due_date) <= today
-                        and i.product_id.categ_name != GIFT_CATEGORY
+                        and i.product_id.categ_name == SPONSORSHIP_CATEGORY
                     )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(

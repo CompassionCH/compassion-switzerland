@@ -217,6 +217,12 @@
               </p>
             </field>
         </record>
+
+        <!-- Show invoices button for everyone -->
+        <record model="ir.ui.view" id="account.partner_view_buttons">
+            <field name="groups_id" eval="[(6, 0, [ref('child_compassion.group_sponsorship')])]"/>
+        </record>
+
         <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form" parent="child_compassion.menu_sponsorship_section" sequence="0"/>
     </data>
 </openerp>
