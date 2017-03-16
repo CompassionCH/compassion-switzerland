@@ -135,7 +135,8 @@
                     background-color: black;
                     <t t-if="success_story">
                         width: 90%;
-                    </t>                }
+                    </t>
+                }
                 /* Format lists for PDF */
                 ul {
                     list-style: none;
@@ -150,90 +151,94 @@
             </t>
             <t t-call="report_compassion.bvr_container">
                 <t t-foreach="docs" t-as="o">
-                    <div class="page">
-                        <div id="header">
-                            <t t-if="o.product_id">
-                                <div id="logo" t-field="o.compassion_logo" t-field-options='{"widget": "image"}'/>
-                                <div id="square" t-field="o.compassion_square" t-field-options='{"widget": "image"}'/>
-                                <div id="compassion_address">
-                                    <span class="blue">COMPASSION</span>
-                                    <span>, Rue Galilée 3, 1400 Yverdon-les-Bains</span>
-                                    <br/>
-                                    <span class="blue">TEL</span>
-                                    <span>.: 0800 784 773</span>
-                                    <br/>
-                                    <span class="blue">MAIL</span>
-                                    <span>: info@compassion.ch</span>
-                                    <br/>
-                                    <span class="blue">WWW</span>
-                                    <span>.compassion.ch</span>
-                                    <br/>
-                                    <span class="blue">CCP/PC</span>
-                                    <span> 17-312562-0</span>
-                                </div>
-                            </t>
-                        </div>
-                        <div id="letter">
-                            <div id="address" class="right">
-                                <div id="pp">
-                                    <div id="pp-box">
-                                        <div>P.P.</div>
-                                        <div>CH-1400 Yverdon-les-Bains</div>
-                                    </div>
-                                    <div id="pp-post">
-                                        <p>Poste CH SA</p>
-                                    </div>
-                                    <hr/>
-                                </div>
-                                <span t-raw="o.partner_id.short_address"/>
-                            </div>
-                            <div id="date" class="right">
-                                <span t-raw="o.date_communication"/>
-                            </div>
-
-                            <div id="title" t-if="o.print_subject">
-                                <b><span t-raw="o.subject"/></b>
-                                <hr/>
-                            </div>
-
-                            <div id="content">
-                                <div id="success-story" t-if="o.success_story_id">
-                                    <span t-raw="o.success_story_id.body"/>
-                                </div>
-                                <div id="body">
-                                    <span t-raw="o.body_html"/>
-                                    <div class="right" style="margin-top: 10mm">
-                                        <span t-raw="o.signature"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <t t-set="product" t-value="o.product_id"/>
-                        <t t-if="product">
-                            <t t-set="partner" t-value="o.partner_id"/>
-                            <t t-set="partner_address" t-value="partner.short_address"/>
-                            <t t-set="company_account" t-value="o.env['recurring.contract.group'].get_company_bvr_account()"/>
-                            <t t-set="position" t-value="0"/>
-
-                            <!-- Print BVR Fund -->
-                            <t t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship'">
-                                <t t-set="reference" t-value="product.generate_bvr_reference(partner)"/>
-                                <t t-set="communication" t-value="product.name"/>
-                                <t t-set="scan_line" t-value="o.env['recurring.contract.group'].get_scan_line(company_account, reference)"/>
-                                <t t-call="report_compassion.report_sponsorship_single_slip"/>
-                            </t>
-                            <!-- Print BVR Sponsorship Due : if product is sponsorship, use sponsorship due template -->
-                            <t t-if="product.with_context(lang='en_US').categ_name == 'Sponsorship'">
-                                <t t-call="report_compassion.report_bvr_due_document">
-                                    <t t-set="docs" t-value="o.get_objects()"/>
-                                    <t t-set="o" t-value="partner"/>
-                                </t>
-                            </t>
-                        </t>
-                    </div>
+                    <t t-raw="translate_doc(o.id, 'partner.communication.job', 'partner_id.lang', 'report_compassion.partner_communication_document')"/>
                 </t>
             </t>
+        </template>
+
+        <template id="partner_communication_document">
+            <div class="page">
+                <div id="header">
+                    <t t-if="o.product_id">
+                        <div id="logo" t-field="o.compassion_logo" t-field-options='{"widget": "image"}'/>
+                        <div id="square" t-field="o.compassion_square" t-field-options='{"widget": "image"}'/>
+                        <div id="compassion_address">
+                            <span class="blue">COMPASSION</span>
+                            <span>, Rue Galilée 3, 1400 Yverdon-les-Bains</span>
+                            <br/>
+                            <span class="blue">TEL</span>
+                            <span>.: 0800 784 773</span>
+                            <br/>
+                            <span class="blue">MAIL</span>
+                            <span>: info@compassion.ch</span>
+                            <br/>
+                            <span class="blue">WWW</span>
+                            <span>.compassion.ch</span>
+                            <br/>
+                            <span class="blue">CCP/PC</span>
+                            <span> 17-312562-0</span>
+                        </div>
+                    </t>
+                </div>
+                <div id="letter">
+                    <div id="address" class="right">
+                        <div id="pp">
+                            <div id="pp-box">
+                                <div>P.P.</div>
+                                <div>CH-1400 Yverdon-les-Bains</div>
+                            </div>
+                            <div id="pp-post">
+                                <p>Poste CH SA</p>
+                            </div>
+                            <hr/>
+                        </div>
+                        <span t-raw="o.partner_id.short_address"/>
+                    </div>
+                    <div id="date" class="right">
+                        <span t-raw="o.date_communication"/>
+                    </div>
+
+                    <div id="title" t-if="o.print_subject">
+                        <b><span t-raw="o.subject"/></b>
+                        <hr/>
+                    </div>
+
+                    <div id="content">
+                        <div id="success-story" t-if="o.success_story_id">
+                            <span t-raw="o.success_story_id.body"/>
+                        </div>
+                        <div id="body">
+                            <span t-raw="o.body_html"/>
+                            <div class="right" style="margin-top: 10mm">
+                                <span t-raw="o.signature"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <t t-set="product" t-value="o.product_id.with_context(lang=o.partner_id.lang)"/>
+                <t t-if="product">
+                    <t t-set="partner" t-value="o.partner_id"/>
+                    <t t-set="partner_address" t-value="partner.short_address"/>
+                    <t t-set="company_account" t-value="o.env['recurring.contract.group'].get_company_bvr_account()"/>
+                    <t t-set="position" t-value="0"/>
+
+                    <!-- Print BVR Fund -->
+                    <t t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship'">
+                        <t t-set="reference" t-value="product.generate_bvr_reference(partner)"/>
+                        <t t-set="communication" t-value="product.name"/>
+                        <t t-set="scan_line" t-value="o.env['recurring.contract.group'].get_scan_line(company_account, reference)"/>
+                        <t t-call="report_compassion.report_sponsorship_single_slip"/>
+                    </t>
+                    <!-- Print BVR Sponsorship Due : if product is sponsorship, use sponsorship due template -->
+                    <t t-if="product.with_context(lang='en_US').categ_name == 'Sponsorship'">
+                        <t t-call="report_compassion.report_bvr_due_document">
+                            <t t-set="docs" t-value="o.get_objects()"/>
+                            <t t-set="o" t-value="partner"/>
+                        </t>
+                    </t>
+                </t>
+            </div>
         </template>
     </data>
 </openerp>

@@ -8,5 +8,4 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from . import company
-from . import partner_compassion
+from . import mass_mailing
