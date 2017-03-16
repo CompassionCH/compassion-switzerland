@@ -113,6 +113,10 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         sponsorships = self.get_objects()
 
+        # Verify big due periods
+        if len(sponsorships.mapped('due_invoice_ids.period_id')) > 3:
+            self.need_call = True
+
         payment_term = sponsorships.mapped('payment_term_id.name')[0]
         # LSV-DD Waiting reminders special case
         if 'Waiting Reminder' in self.config_id.name and (
