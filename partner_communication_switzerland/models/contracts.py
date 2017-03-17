@@ -82,13 +82,13 @@ class RecurringContract(models.Model):
         """
         Useful for reminders giving open invoices in the past.
         """
-        today = datetime.today()
+        this_month = datetime.today().replace(day=1)
         for contract in self:
             if contract.child_id.project_id.suspension != 'fund-suspended':
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang='en_US').filtered(
                         lambda i: i.state == 'open' and
-                        fields.Datetime.from_string(i.due_date) <= today
+                        fields.Datetime.from_string(i.due_date) < this_month
                         and i.product_id.categ_name == SPONSORSHIP_CATEGORY
                     )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
