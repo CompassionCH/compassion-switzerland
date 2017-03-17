@@ -264,7 +264,8 @@ class RecurringContract(models.Model):
             due = sponsorship.due_invoice_ids
             if due and len(due) > 1:
                 has_first_reminder = comm_obj.search_count([
-                    ('config_id', '=', first_reminder_config.id),
+                    ('config_id', 'in', [first_reminder_config.id,
+                                         second_reminder_config.id]),
                     ('state', '=', 'sent'),
                     ('object_ids', 'like', str(sponsorship.id)),
                     ('sent_date', '>=', fields.Date.to_string(one_month_ago))

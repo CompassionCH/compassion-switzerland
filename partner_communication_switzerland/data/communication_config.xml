@@ -1,5 +1,5 @@
 <openerp>
-    <data>
+    <data noupdate="1">
         <!-- Child letters -->
         <record id="child_letter_config" model="partner.communication.config">
             <field name="name">B2S Letter</field>
