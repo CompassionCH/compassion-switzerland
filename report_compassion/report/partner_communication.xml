@@ -117,15 +117,17 @@
                     margin-right: 5mm;
                     vertical-align: top;
                     padding: 3mm;
-                    width: 30%;
+                    width: 28%;
+                    min-height: 170mm;
                     max-height: 170mm;
-                    background-color: #0038a5;
+                    background-color: #0054A6;
                     color: white;
+                    font-size: 12pt;
                 }
                 #body {
                     display: inline-block;
                     <t t-if="success_story">
-                        width: 60%;
+                        width: 62%;
                     </t>
                 }
                 hr {
@@ -136,6 +138,9 @@
                     <t t-if="success_story">
                         width: 90%;
                     </t>
+                }
+                #success-story hr {
+                    background-color: white;
                 }
                 /* Format lists for PDF */
                 ul {
