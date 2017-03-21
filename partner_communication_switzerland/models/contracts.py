@@ -91,9 +91,9 @@ class RecurringContract(models.Model):
                         fields.Datetime.from_string(i.due_date) < this_month
                         and i.product_id.categ_name == SPONSORSHIP_CATEGORY
                     )
-                contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
-                contract.amount_due = int(sum(invoice_lines.mapped(
-                    'price_subtotal')))
+                invoices = invoice_lines.mapped('invoice_id')
+                contract.due_invoice_ids = invoices
+                contract.amount_due = int(sum(invoices.mapped('amount_total')))
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
