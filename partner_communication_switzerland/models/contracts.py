@@ -16,8 +16,6 @@ from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 
 from openerp import api, models, fields, _
-from openerp.addons.sponsorship_compassion.models.product \
-    import SPONSORSHIP_CATEGORY
 
 logger = logging.getLogger(__name__)
 
