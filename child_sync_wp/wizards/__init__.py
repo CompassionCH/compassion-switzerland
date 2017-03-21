@@ -11,3 +11,4 @@
 
 from . import child_on_wordpress_wizard
 from . import child_remove_from_wordpress
+from . import staff_notification_settings
