@@ -62,11 +62,11 @@ class StaffNotificationSettings(models.TransientModel):
         param_obj = self.env['ir.config_parameter']
         res = {
             'sponsorship_fr_id': int(param_obj.get_param(
-                'child_wp.sponsorship_fr_id', '18001')),
+                'child_wp.sponsorship_notify_fr_id', '18001')),
             'sponsorship_de_id': int(param_obj.get_param(
-                'child_wp.sponsorship_de_id', '18001')),
+                'child_wp.sponsorship_notify_de_id', '18001')),
             'sponsorship_it_id': int(param_obj.get_param(
-                'child_wp.sponsorship_it_id', '18002')),
+                'child_wp.sponsorship_notify_it_id', '18002')),
         }
         res.update(super(StaffNotificationSettings,
                          self).get_default_values(_fields))
