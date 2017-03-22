@@ -145,10 +145,10 @@ class RecurringContracts(models.Model):
         }
         with setlocale(self.partner_id.lang):
             if start == stop:
-                vals['date'] = date_start.strftime("%B %Y").capitalize()
+                vals['date'] = date_start.strftime("%B %Y")
             else:
-                vals['date'] = date_start.strftime("%B %Y").capitalize() + \
-                    " - " + date_stop.strftime("%B %Y").capitalize()
+                vals['date'] = date_start.strftime("%B %Y") + \
+                    " - " + date_stop.strftime("%B %Y")
             vals['date'] = vals['date'].decode('utf-8')
             if 'Permanent' in payment_term.name:
                 vals['payment_type'] = _('ISR for standing order')
