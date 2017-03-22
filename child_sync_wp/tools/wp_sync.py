@@ -12,7 +12,6 @@ import base64
 import csv
 import shutil
 import xmlrpclib
-from xmlrpclib import Fault
 
 import pysftp
 import logging
@@ -100,7 +99,7 @@ class WPSync(object):
                 self.user, self.pwd, children.mapped('local_id'))
             logger.info("Remove from Wordpress : " + str(res))
             return res
-        except Fault:
+        except:
             logger.error("Remove from Wordpress failed.")
 
         return False

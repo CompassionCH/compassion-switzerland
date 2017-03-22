@@ -11,8 +11,10 @@
 import simplejson
 
 from openerp.addons.child_compassion.models.compassion_hold import HoldType
+from openerp.addons.connector.queue.job import job, related_action
+from openerp.addons.connector.session import ConnectorSession
 
-from openerp import api, models, fields
+from openerp import api, models, fields, _
 
 # Mapping from Website form fields to res.partner fields in Odoo
 SPONSOR_MAPPING = {
@@ -86,7 +88,8 @@ class Contracts(models.Model):
         """
         # Format birthday
         birthday = form_data.get('birthday', '')
-        if ('/' in birthday) or (' ' in birthday) or ('.' in birthday):
+        if ('/' in birthday) or (' ' in birthday) or ('.' in birthday) and \
+                len(birthday) > 6:
             form_data['birthday'] = birthday[6:] + '-' + birthday[3:5] + \
                 '-' + birthday[0:2]
 
@@ -99,27 +102,6 @@ class Contracts(models.Model):
         if partner and len(partner) > 1:
             partner = partner.filtered('has_sponsorships')
         partner_ok = partner and len(partner) == 1
-
-        if partner_ok:
-            # Get spoken languages
-            langs = ','.join(form_data.get('language', ['']))
-            self.write_sponsor_lang(langs, sponsor_lang, partner)
-
-            # Add missing info in partner
-            update_fields = ['birthday', 'Beruf', 'phone', 'email']
-            partner_vals = dict()
-            for field in update_fields:
-                odoo_field = SPONSOR_MAPPING[field]
-                odoo_val = getattr(partner, odoo_field, False)
-                web_val = form_data.get(field)
-                if web_val and not odoo_val:
-                    partner_vals[odoo_field] = web_val
-            if partner_vals:
-                partner.write(partner_vals)
-
-            # Add church info
-            church_name = form_data.get('kirchgemeinde')
-            self.write_church(church_name, partner)
 
         # Create sponsorship
         child = self.env['compassion.child'].search([
@@ -140,14 +122,6 @@ class Contracts(models.Model):
         })
         self.env.cr.commit()
 
-        # Convert to No Money Hold
-        child.hold_id.write({
-            'expiration_date': self.env[
-                'compassion.hold'].get_default_hold_expiration(
-                    HoldType.NO_MONEY_HOLD),
-            'type': HoldType.NO_MONEY_HOLD.value,
-        })
-
         # Notify staff
         staff_param = 'sponsorship_' + sponsor_lang + '_id'
         staff = self.env['staff.notification.settings'].get_param(staff_param)
@@ -165,65 +139,16 @@ class Contracts(models.Model):
             content_subtype='html'
         )
 
+        if partner_ok:
+            # Update sponsor info
+            session = ConnectorSession.from_env(self.env)
+            update_sponsor_job.delay(session, self._name, sponsorship.id)
+
+        # Convert to No Money Hold
+        session = ConnectorSession.from_env(self.env)
+        update_child_job.delay(session, self._name, sponsorship.id)
+
         return True
-
-    @api.model
-    def write_sponsor_lang(self, lang_string, sponsor_lang, partner=None):
-        """
-        Write the sponsor languages given from the website onto a partner
-        :param lang_string: selected languages on website, comma separated
-        :param sponsor_lang: selected website language
-        :param partner: res.partner record
-        :return: Odoo write list [(4, lang_id_1), (4, lang_id_2), ...]
-        """
-        spoken_langs = self.env['res.lang.compassion']
-        lang_module = 'child_compassion.'
-        if 'fra' in lang_string:
-            spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_french')
-        if sponsor_lang == 'de':
-            spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_german')
-        if 'eng' in lang_string:
-            spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_english')
-        if 'spa' in lang_string:
-            spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_spanish')
-        if 'por' in lang_string:
-            spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_portuguese')
-        if 'ita' in lang_string:
-            spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_italian')
-        lang_write = [(4, lang.id) for lang in spoken_langs]
-        if partner:
-            partner.write({'spoken_lang_ids': lang_write})
-        return lang_write
-
-    @api.model
-    def write_church(self, church_name, partner=None):
-        """
-        Write the church in the partner given its name
-        :param church_name: church name
-        :param partner: res.partner record
-        :return: dictionary {odoo_field: odoo_value}
-        """
-        res = dict()
-        if church_name:
-            church = self.env['res.partner'].with_context(
-                lang='en_US').search([
-                    ('name', 'like', church_name),
-                    ('category_id.name', '=', 'Church')
-                ])
-            if church:
-                res['church_id'] = church.id
-            else:
-                res['church_unlinked'] = church_name
-        if partner and res and not partner.church_id and \
-                not partner.church_unlinked:
-            partner.write(res)
-        return res
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
@@ -258,12 +183,12 @@ class Contracts(models.Model):
         vals['country_id'] = len(country) == 1 and country.id
 
         # Find language and church
-        langs = ','.join(form_data.get('language'))
+        langs = ','.join(form_data.get('language', ['']))
         sponsor_lang = form_data['lang'][:2]
         church_name = form_data.get('kirchgemeinde')
-        vals['spoken_lang_ids'] = self.write_sponsor_lang(
+        vals['spoken_lang_ids'] = self._write_sponsor_lang(
             langs, sponsor_lang)
-        church_field, church_value = self.write_church(
+        church_field, church_value = self._write_church(
             church_name).items()[0]
         vals[church_field] = church_value
 
@@ -286,3 +211,147 @@ class Contracts(models.Model):
             'context': self.env.context,
             'target': 'current',
         }
+
+    ##########################################################################
+    #                             PRIVATE METHODS                            #
+    ##########################################################################
+    @api.multi
+    def _update_partner_from_web_data(self):
+        # Get spoken languages
+        self.ensure_one()
+        form_data = simplejson.loads(self.web_data)
+        partner = self.partner_id
+        sponsor_lang = form_data['lang'][:2]
+        langs = ','.join(form_data.get('language', ['']))
+        self._write_sponsor_lang(langs, sponsor_lang, partner)
+
+        # Add missing info in partner
+        update_fields = ['birthday', 'Beruf', 'phone', 'email']
+        partner_vals = dict()
+        for field in update_fields:
+            odoo_field = SPONSOR_MAPPING[field]
+            odoo_val = getattr(partner, odoo_field, False)
+            web_val = form_data.get(field)
+            if web_val and not odoo_val:
+                partner_vals[odoo_field] = web_val
+        if partner_vals:
+            partner.write(partner_vals)
+
+        # Add church info
+        church_name = form_data.get('kirchgemeinde')
+        self._write_church(church_name, partner)
+        return True
+
+    @api.multi
+    def _update_child_hold(self):
+        # Convert to No Money Hold
+        self.ensure_one()
+        return self.child_id.hold_id.write({
+            'expiration_date': self.env[
+                'compassion.hold'].get_default_hold_expiration(
+                HoldType.NO_MONEY_HOLD),
+            'type': HoldType.NO_MONEY_HOLD.value,
+        })
+
+    @api.model
+    def _write_sponsor_lang(self, lang_string, sponsor_lang, partner=None):
+        """
+        Write the sponsor languages given from the website onto a partner
+        :param lang_string: selected languages on website, comma separated
+        :param sponsor_lang: selected website language
+        :param partner: res.partner record
+        :return: Odoo write list [(4, lang_id_1), (4, lang_id_2), ...]
+        """
+        spoken_langs = self.env['res.lang.compassion']
+        lang_module = 'child_compassion.'
+        if 'fra' in lang_string:
+            spoken_langs += self.env.ref(
+                lang_module + 'lang_compassion_french')
+        if sponsor_lang == 'de':
+            spoken_langs += self.env.ref(
+                lang_module + 'lang_compassion_german')
+        if 'eng' in lang_string:
+            spoken_langs += self.env.ref(
+                lang_module + 'lang_compassion_english')
+        if 'spa' in lang_string:
+            spoken_langs += self.env.ref(
+                lang_module + 'lang_compassion_spanish')
+        if 'por' in lang_string:
+            spoken_langs += self.env.ref(
+                lang_module + 'lang_compassion_portuguese')
+        if 'ita' in lang_string:
+            spoken_langs += self.env.ref(
+                lang_module + 'lang_compassion_italian')
+        lang_write = [(4, lang.id) for lang in spoken_langs]
+        if partner:
+            partner.write({'spoken_lang_ids': lang_write})
+        return lang_write
+
+    @api.model
+    def _write_church(self, church_name, partner=None):
+        """
+        Write the church in the partner given its name
+        :param church_name: church name
+        :param partner: res.partner record
+        :return: dictionary {odoo_field: odoo_value}
+        """
+        res = dict()
+        if church_name:
+            church = self.env['res.partner'].with_context(
+                lang='en_US').search([
+                    ('name', 'like', church_name),
+                    ('category_id.name', '=', 'Church')
+                ])
+            if church:
+                res['church_id'] = church.id
+            else:
+                res['church_unlinked'] = church_name
+        if partner and res and not partner.church_id and \
+                not partner.church_unlinked:
+            partner.write(res)
+        return res
+
+
+##############################################################################
+#                            CONNECTOR METHODS                               #
+##############################################################################
+def related_action_sponsor_update(session, job):
+    sponsorship_id = job.args[2]
+    action = {
+        'name': _("Sponsorship"),
+        'type': 'ir.actions.act_window',
+        'res_model': 'recurring.contract',
+        'view_type': 'form',
+        'view_mode': 'form',
+        'res_id': sponsorship_id,
+    }
+    return action
+
+
+def related_action_child_update(session, job):
+    sponsorship_id = job.args[2]
+    action = {
+        'name': _("Sponsorship"),
+        'type': 'ir.actions.act_window',
+        'res_model': 'recurring.invoicer',
+        'view_type': 'form',
+        'view_mode': 'form',
+        'res_id': sponsorship_id,
+    }
+    return action
+
+
+@job(default_channel='root.child_sync_wp')
+@related_action(action=related_action_sponsor_update)
+def update_sponsor_job(session, model_name, sponsorship_id):
+    """Job for updating sponsor from web data."""
+    sponsorships = session.env[model_name].browse(sponsorship_id)
+    sponsorships._update_partner_from_web_data()
+
+
+@job(default_channel='root.child_sync_wp')
+@related_action(action=related_action_child_update)
+def update_child_job(session, model_name, sponsorship_id):
+    """Job for updating web child to no money hold."""
+    sponsorships = session.env[model_name].browse(sponsorship_id)
+    sponsorships._update_child_hold()
