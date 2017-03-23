@@ -13,7 +13,7 @@
             <field name="interval_type">weeks</field>
             <field name="numbercall">-1</field>
             <field name="function">refresh_wordpress_cron</field>
-            <field name="model">recurring.contract</field>
+            <field name="model">compassion.child</field>
             <field name="args" eval="(120,)"/>
             <field name="active" eval="False"/>
         </record>

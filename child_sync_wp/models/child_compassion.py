@@ -130,8 +130,12 @@ class CompassionChild(models.Model):
         res_action = hold_wizard.send()
         children = self.browse(res_action['domain'][0][2]).with_context(
             async_mode=False)
-        children.get_infos()
-        children.mapped('project_id').update_informations()
+        for child in children:
+            try:
+                child.get_infos()
+                child.mapped('project_id').update_informations()
+            except:
+                continue
         valid_children = children.filtered(
             lambda c: c.state == 'N' and c.desc_it and c.pictures_ids and
             c.project_id.description_it)
