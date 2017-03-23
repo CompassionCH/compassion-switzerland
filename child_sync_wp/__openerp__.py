@@ -42,6 +42,7 @@
         'views/child_remove_from_wordpress.xml',
         'views/staff_notification_settings_view.xml',
         'views/sponsorship_view.xml',
+        'data/wordpress_cron.xml',
     ],
     'demo': [],
     'installable': True,
