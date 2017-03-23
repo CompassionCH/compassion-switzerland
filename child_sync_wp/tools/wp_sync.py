@@ -12,6 +12,7 @@ import base64
 import csv
 import shutil
 import xmlrpclib
+from xmlrpclib import SafeTransport, GzipDecodedResponse
 
 import pysftp
 import logging
@@ -24,6 +25,38 @@ from openerp.exceptions import Warning
 from openerp.tools import config
 
 logger = logging.getLogger(__name__)
+
+
+# Solves XMLRPC Parse response problems by stripping response
+class CustomTransport(SafeTransport):
+    def parse_response(self, response):
+        # read response data from httpresponse, and parse it
+
+        # Check for new http response object, else it is a file object
+        if hasattr(response, 'getheader'):
+            if response.getheader("Content-Encoding", "") == "gzip":
+                stream = GzipDecodedResponse(response)
+            else:
+                stream = response
+        else:
+            stream = response
+
+        p, u = self.getparser()
+
+        while 1:
+            data = stream.read(1024)
+            data = data.strip()
+            if not data:
+                break
+            if self.verbose:
+                print "body:", repr(data)
+            p.feed(data)
+
+        if stream is not response:
+            stream.close()
+        p.close()
+
+        return u.close()
 
 
 class WPSync(object):
@@ -44,7 +77,7 @@ class WPSync(object):
                 _("Please add configuration for Wordpress uploads")
             )
         self.xmlrpc_server = xmlrpclib.ServerProxy(
-            'https://' + host + '/xmlrpc.php')
+            'https://' + host + '/xmlrpc.php', transport=CustomTransport())
         self.user = user
         self.pwd = password
         self.sftp = pysftp.Connection(sftp_host, sftp_user, password=sftp_pw)
@@ -82,15 +115,20 @@ class WPSync(object):
                 self.sftp.put(pictures_folder + '/' + picture_file)
         logger.info(".... Pictures uploaded.")
         shutil.rmtree(pictures_folder, ignore_errors=True)
+        result = True
 
-        result = self.xmlrpc_server.child_import.addChildren(
-            self.user, self.pwd)
-        if result:
-            logger.info(
-                "Child Upload on Wordpress finished: %s children imported "
-                % len(result))
-        else:
-            logger.error("Child Upload failed." + str(result))
+        try:
+            result = self.xmlrpc_server.child_import.addChildren(
+                self.user, self.pwd)
+            if result:
+                logger.info(
+                    "Child Upload on Wordpress finished: %s children imported "
+                    % len(result))
+            else:
+                logger.error("Child Upload failed." + str(result))
+        except Exception as error:
+            logger.error("Child Upload failed: " + error.message)
+
         return result
 
     def remove_children(self, children):
