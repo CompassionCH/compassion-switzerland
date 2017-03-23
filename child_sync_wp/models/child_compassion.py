@@ -14,6 +14,7 @@ import sys
 
 from openerp import api, models, _
 from openerp.exceptions import Warning
+from openerp.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync
 
@@ -103,3 +104,47 @@ class CompassionChild(models.Model):
             to_remove_from_web.remove_from_wordpress()
 
         return super(CompassionChild, self).child_departed()
+
+    @api.model
+    def refresh_wordpress_cron(self, take=120):
+        """
+        Find new children on the global childpool, put them on wordpress,
+        remove old children and release the holds.
+        :return: True
+        """
+        global_pool = self.env['compassion.childpool.search'].create({
+            'take': take,
+        })
+        global_pool.rich_mix()
+        hold_wizard = self.env['child.hold.wizard'].with_context(
+            active_id=global_pool.id, async_mode=False
+        ).create({
+            'type': HoldType.CONSIGNMENT_HOLD.value,
+            'expiration_date': self.env[
+                'compassion.hold'].get_default_hold_expiration(
+                    HoldType.CONSIGNMENT_HOLD),
+            'primary_owner': 1,
+            'channel': 'web',
+        })
+        hold_wizard.onchange_type()
+        res_action = hold_wizard.send()
+        children = self.browse(res_action['domain'][0][2]).with_context(
+            async_mode=False)
+        children.get_infos()
+        children.mapped('project_id').update_informations()
+        valid_children = children.filtered(
+            lambda c: c.state == 'N' and c.desc_it and c.pictures_ids and
+            c.project_id.description_it)
+        old_children = self.search([('state', '=', 'I')])
+        self.raz_wordpress()
+
+        # Put children 5 by 5 to avoid delays
+        def loop_five(n, max):
+            while n < max:
+                yield n
+                n += 5
+        for i in loop_five(0, len(valid_children)):
+            valid_children[i:i+5].add_to_wordpress()
+
+        old_children.mapped('hold_id').release_hold()
+        return True
