@@ -42,7 +42,7 @@ class AccountInvoice(models.Model):
                 'invoice_line.product_id.categ_name')
         )
         if invoices:
-            invoices._generate_thank_you()
+            invoices.generate_thank_you()
         return res
 
     @api.multi
@@ -119,7 +119,8 @@ class AccountInvoice(models.Model):
             })
         return True
 
-    def _generate_thank_you(self):
+    @api.multi
+    def generate_thank_you(self):
         """
         Creates a thank you letter communication separating events thank you
         and regular thank you.
