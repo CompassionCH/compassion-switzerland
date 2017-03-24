@@ -82,8 +82,9 @@
                     <br/>
                     <br/>
                     % if len(ambassadors) == 1:
-                        ${ambassadors.ambassador_quote |safe}
-                        <br/>
+                        <div id="ambassador_quote">
+                            ${ambassadors.ambassador_quote |safe}
+                        </div>
                     % endif
                     % if object.event_id.thank_you_text:
                         ${object.event_id.thank_you_text |safe}
