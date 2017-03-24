@@ -29,27 +29,22 @@ class AccountInvoiceLine(models.Model):
     @api.multi
     def get_donations(self):
         """
-        Gets a dictionary for thank_you communication
-        :return: {product_name: total_donation_amount}
+        Gets a tuple for thank_you communication
+        If more than one product, product_name is False
+        :return: (total_donation_amount, product_name)
         """
-        donations = dict()
-        event_lines = self.filtered('event_id')
-        other_lines = self - event_lines
-        events = event_lines.mapped('event_id')
+        res_name = False
+        total = sum(self.mapped('price_subtotal'))
+        total_string = "{:,}".format(int(total)).replace(',', "'")
 
-        for event in events:
-            total = sum(event_lines.filtered(
-                lambda l: l.event_id == event).mapped('price_subtotal'))
-            donations[event.name] = "{:,}".format(int(total)).replace(',', "'")
+        event_names = self.mapped('event_id.name')
+        product_names = self.mapped('product_id.thanks_name')
+        if len(event_names) == 1:
+            res_name = event_names[0]
+        elif not event_names and len(product_names) == 1:
+            res_name = product_names[0]
 
-        products = other_lines.mapped('product_id')
-        for product in products:
-            total = sum(other_lines.filtered(
-                lambda l: l.product_id == product).mapped('price_subtotal'))
-            donations[product.name] = "{:,}".format(int(total)).replace(
-                ',', "'")
-
-        return donations
+        return total_string, res_name
 
     @api.multi
     def generate_thank_you(self):
@@ -58,9 +53,12 @@ class AccountInvoiceLine(models.Model):
         /!\ Must be called only on a single partner and single event at a time.
         """
         comm_obj = self.env['partner.communication.job']
-        small = self.env.ref('thankyou_letters.config_thankyou_small')
-        standard = self.env.ref('thankyou_letters.config_thankyou_standard')
-        large = self.env.ref('thankyou_letters.config_thankyou_large')
+        small = self.env.ref('thankyou_letters.config_thankyou_small') + \
+            self.env.ref('thankyou_letters.config_event_small')
+        standard = self.env.ref('thankyou_letters.config_thankyou_standard')\
+            + self.env.ref('thankyou_letters.config_event_standard')
+        large = self.env.ref('thankyou_letters.config_thankyou_large') + \
+            self.env.ref('thankyou_letters.config_event_large')
         invoice_lines = self
 
         partner = self.mapped('partner_id')
@@ -83,6 +81,7 @@ class AccountInvoiceLine(models.Model):
             'object_ids': invoice_lines.ids,
             'need_call': config.need_call,
             'event_id': event.id,
+            'print_subject': False,
         }
         send_mode = config.get_inform_mode(partner)
         comm_vals['send_mode'] = send_mode[0]
@@ -113,18 +112,22 @@ class AccountInvoiceLine(models.Model):
         :return: partner.communication.config record
         """
         small = self.env.ref('thankyou_letters.config_thankyou_small')
+        small_e = self.env.ref('thankyou_letters.config_event_small')
         standard = self.env.ref('thankyou_letters.config_thankyou_standard')
+        standard_e = self.env.ref('thankyou_letters.config_event_standard')
         large = self.env.ref('thankyou_letters.config_thankyou_large')
+        large_e = self.env.ref('thankyou_letters.config_event_large')
 
         # Special case for legacy donation : always treat as large donation
         legacy = 'legacy' in self.with_context(lang='en_US').mapped(
             'product_id.name')
 
         total_amount = sum(self.mapped('price_subtotal'))
+        event = self.mapped('event_id')
         if total_amount < 100 and not legacy:
-            config = small
+            config = small if not event else small_e
         elif total_amount < 1000 and not legacy:
-            config = standard
+            config = standard if not event else standard_e
         else:
-            config = large
+            config = large if not event else large_e
         return config

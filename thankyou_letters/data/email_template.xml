@@ -1,5 +1,5 @@
 <openerp>
-    <data>
+    <data noupdate="1">
         <record id="thankyou_letter_template" model="email.template">
             <field name="name">Donation - Thank You Letter</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
@@ -8,11 +8,6 @@
             <field name="use_default_to" eval="True"/>
             <field name="subject">Donation Receipt</field>
             <field name="body_html" type="html">
-                <style>
-                    .success {
-
-                    }
-                </style>
                 <div>
                     % set invoice_lines = object.get_objects()
                     % set donations = invoice_lines.get_donations()
@@ -23,40 +18,95 @@
                     ${partner.salutation},
                     <br/>
                     <br/>
-                    % if partner.is_new_donor:
-                        <p>
-                            Welcome in the Compassion Donors family! We are glad to send you some information about our organization.
-                            Please don't hesitate to contact us if any of your questions about us are left unanswered.
-                            It will be an opportunity to know each other better.
-                        </p>
+                    We thank you for the donation of CHF ${donations[0]}.-
+                    % if donations[1]:
+                        you made for ${donations[1]}.
+                    % else
+                        you made.
                     % endif
-                    We would like to thank you very much for the donation you made to Compassion Switzerland.
-                    % if len(donations) == 1:
-                        <br/>
-                        <br/>
-                        <b>Your contribution:</b> CHF ${donations.values()[0]}.- for the ${donations.keys()[0]}.
+                    We appreciate your generosity towards the poorest children of the world.
+                    <br/>
+                    <br/>
+                    Thanks to your commitment and the help of 7'000 church partners in 25 countries from the South,
+                    we currently can help 1.8 million children. We have one goal: free them from poverty.
+                    Thanks again for your support.
+                    <br/>
+                    <br/>
+                    % if partner.number_sponsorships:
+                        The letters that children receive have a huge impact by encouraging them. Did you write to your child recently?
+                        Our new website allows you to write a letter online. The other good news is that the delivery time has been reduced
+                        thanks to the digitalization of the process all through the projects!
                     % else:
-                        <ul>
-                            % for fund, amount in donations.iteritems():
-                                <li>
-                                    CHF ${amount}.- for the ${fund}
-                                </li>
-                            % endfor
-                        </ul>
+                        Do you have a heart for children in need? Compassion offers you various ways to contribute.
+                        One is through the sponsorship. You can find information in French, German and Italian on our website www.compassion.ch
+                        or call us at 0800 874 773.
                     % endif
-                    % if object.event_id:
-                        % for ambassador in ambassadors:
-                            ${ambassador.ambassador_quote |safe}
-                        % endfor
-                        % if object.event_id.thank_you_text:
-                            ${object.event_id.thank_you_text |safe}
+                    <br/>
+                    <br/>
+                    Thanks again for your generosity towards the children in need.
+                    <br/>
+                    <br/>
+                    Yours sincerely
+                </div>
+            </field>
+        </record>
+
+        <record id="event_letter_template" model="email.template">
+            <field name="name">Event Donation - Thank You Letter</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">Donation Receipt</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set invoice_lines = object.get_objects()
+                    % set donations = invoice_lines.get_donations()
+                    % set partner = object.partner_id
+                    % set ambassadors = invoice_lines.mapped('user_id').filtered('ambassador_quote')
+                </div>
+                <div>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    Compassion Switzerland thank you so much for your generous donation of CHF ${donations[0]}.- you made
+                    % if donations[1]:
+                        % if len(ambassadors) == 1:
+                            <!-- space --> for ${ambassadors.firstname} ${ambassadors.lastname}
+                        % else:
+                            <!-- space --> (${donations[1]}).
                         % endif
+                    % else
+                        .
                     % endif
-                    <p id="compassion-mission">
-                        Compassion is a Christian international holistic child development organisation.
-                        Through our Child Sponsorship Program, more than 1.8 million children are currently being released from poverty in Jesus’ name.
-                        With over six decades of experience, Compassion’s unique approach to solving poverty works: research proves it.
-                    </p>
+                    <br/>
+                    <br/>
+                    % if len(ambassadors) == 1:
+                        ${ambassadors.ambassador_quote |safe}
+                        <br/>
+                    % endif
+                    % if object.event_id.thank_you_text:
+                        ${object.event_id.thank_you_text |safe}
+                    % endif
+                    % if partner.number_sponsorships:
+                        Did you write to your child recently? Our new website allows you to write a letter online.
+                        Why not take advantage of this and write a letter this week?
+                    % else:
+                        % if partner.is_new_donor:
+                            Since 1952, Compassion has one goal: free as much as possible children from extreme poverty.
+                            In partnership with 7'000 local churches, we can support and help 1.8 million children in 25 countries from the South.
+                            <br/>
+                            <br/>
+                        % endif
+                            Do you have a heart for children in need? Compassion offers you various ways to contribute.
+                            One is through the sponsorship. You can find information in French, German and Italian on our website www.compassion.ch
+                            or call us at 0800 874 773.
+                    % endif
+                    <br/>
+                    <br/>
+                    Thanks again for your generosity towards the children in need.
+                    <br/>
+                    <br/>
                     Yours sincerely
                 </div>
             </field>
