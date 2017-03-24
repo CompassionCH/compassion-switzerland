@@ -38,8 +38,8 @@ class AccountInvoice(models.Model):
             lambda i: (
                 not i.communication_id or
                 i.communication_id.state in ('call', 'pending'))
-            and "Sponsorship" not in i.mapped(
-                'invoice_line.product_id.categ_name')
+            and i.type != 'sponsorship' and (not i.mapped(
+                'invoice_line.contract_id') or i.type == 'gift')
         )
         if invoices:
             invoices.generate_thank_you()

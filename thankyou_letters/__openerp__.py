@@ -32,7 +32,7 @@
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['report_compassion'],
+    'depends': ['report_compassion', 'sponsorship_switzerland'],
     'data': [
         'data/email_template.xml',
         'data/communication_config.xml',
