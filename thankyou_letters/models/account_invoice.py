@@ -34,15 +34,19 @@ class AccountInvoice(models.Model):
             (no sponsorship product inside)
         """
         res = super(AccountInvoice, self).confirm_paid()
+        income_account = self.env.ref('account.data_account_type_income')
         invoices = self.filtered(
             lambda i: (
                 not i.communication_id or
                 i.communication_id.state in ('call', 'pending'))
-            and "Sponsorship" not in i.mapped(
-                'invoice_line.product_id.categ_name')
+            and i.type != 'sponsorship' and (not i.mapped(
+                'invoice_line.contract_id') or i.type == 'gift')
+            and income_account in i.mapped(
+                'invoice_line.account_id.user_type')
+
         )
         if invoices:
-            invoices._generate_thank_you()
+            invoices.generate_thank_you()
         return res
 
     @api.multi
@@ -119,12 +123,14 @@ class AccountInvoice(models.Model):
             })
         return True
 
-    def _generate_thank_you(self):
+    @api.multi
+    def generate_thank_you(self):
         """
         Creates a thank you letter communication separating events thank you
         and regular thank you.
         """
-        partners = self.mapped('partner_id')
+        partners = self.mapped('partner_id').filtered(
+            lambda p: p.thankyou_letter != 'no')
         for partner in partners:
             invoice_lines = self.mapped('invoice_line').filtered(
                 lambda l: l.partner_id == partner)

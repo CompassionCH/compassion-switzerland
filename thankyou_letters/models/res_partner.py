@@ -25,7 +25,6 @@ class ResPartner(models.Model):
     ambassador_quote = fields.Html(
         help='Used in thank you letters for donations linked to an event '
              'and to this partner.',
-        translate=True
     )
 
     @api.multi
