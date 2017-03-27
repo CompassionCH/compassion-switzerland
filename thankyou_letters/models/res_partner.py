@@ -26,6 +26,7 @@ class ResPartner(models.Model):
         help='Used in thank you letters for donations linked to an event '
              'and to this partner.',
     )
+    full_name = fields.Char(compute='_compute_full_name')
 
     @api.multi
     @api.depends('thankyou_letter')
@@ -58,3 +59,8 @@ class ResPartner(models.Model):
             payments = donation_invl.mapped('last_payment')
             new_donor = len(payments) < 2 and not partner.has_sponsorships
             partner.is_new_donor = new_donor
+
+    @api.multi
+    def _compute_full_name(self):
+        for partner in self.filtered('firstname'):
+            partner.full_name = partner.firstname + ' ' + partner.lastname
