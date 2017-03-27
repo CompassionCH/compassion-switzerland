@@ -129,7 +129,8 @@ class AccountInvoice(models.Model):
         Creates a thank you letter communication separating events thank you
         and regular thank you.
         """
-        partners = self.mapped('partner_id')
+        partners = self.mapped('partner_id').filtered(
+            lambda p: p.thankyou_letter != 'no')
         for partner in partners:
             invoice_lines = self.mapped('invoice_line').filtered(
                 lambda l: l.partner_id == partner)

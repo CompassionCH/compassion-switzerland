@@ -302,7 +302,7 @@ class Contracts(models.Model):
                     ('name', 'like', church_name),
                     ('category_id.name', '=', 'Church')
                 ])
-            if church:
+            if len(church) == 1:
                 res['church_id'] = church.id
             else:
                 res['church_unlinked'] = church_name
