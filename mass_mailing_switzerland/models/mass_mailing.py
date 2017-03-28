@@ -22,12 +22,12 @@ class MassMailing(models.Model):
 
     mailing_domain_copy = fields.Char(related='mailing_domain')
     click_ratio = fields.Integer(
-        compute='_compute_click_events', store=True)
+        compute='compute_click_events', store=True)
     click_event_ids = fields.Many2many(
-        'mail.tracking.event', compute='_compute_click_events')
+        'mail.tracking.event', compute='compute_click_events')
 
     @api.depends('statistics_ids', 'statistics_ids.tracking_event_ids')
-    def _compute_click_events(self):
+    def compute_click_events(self):
         for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):
             has_click = mass_mail.statistics_ids.mapped(
                 'tracking_event_ids').filtered(
