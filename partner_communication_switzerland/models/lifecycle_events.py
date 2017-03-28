@@ -43,11 +43,18 @@ class ProjectLifecycle(models.Model):
         ids = super(ProjectLifecycle, self).process_commkit(commkit_data)
 
         for lifecycle in self.browse(ids):
-            communication_type = self.env[
-                'partner.communication.config'].search([
+            search = [
                     ('name', 'ilike', lifecycle.type),
                     ('name', 'like', 'Project'),
-                ])
+                ]
+
+            if lifecycle.type == 'Suspension':
+                if lifecycle.extension_2:
+                    search.append(('name', 'ilike', 'Extension 2'))
+                elif lifecycle.extension_1:
+                    search.append(('name', 'ilike', 'Extension 1'))
+            communication_type = self.env[
+                'partner.communication.config'].search(search)
             if communication_type:
                 for child in self.env['compassion.child'].\
                         search([('project_id', '=', lifecycle.project_id.id),
