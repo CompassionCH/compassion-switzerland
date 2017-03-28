@@ -45,5 +45,5 @@ class AccountInvoice(models.Model):
     @api.multi
     def compute_last_payment(self):
         for invoice in self.filtered('payment_ids'):
-            payment_dates = invoice.payment_ids.mapped('date')
+            payment_dates = invoice.invoice_line.mapped('last_payment')
             invoice.last_payment = max(payment_dates)
