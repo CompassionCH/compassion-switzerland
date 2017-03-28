@@ -172,6 +172,7 @@ class RecurringContract(models.Model):
         - Welcome letters for started sponsorships since 10 days (only e-mail)
         - Birthday reminders
         - B2S letters that must be printed because e-mail is not read
+          (deactivated for now)
         """
         module = 'partner_communication_switzerland.'
 
@@ -206,17 +207,17 @@ class RecurringContract(models.Model):
         birthday.send_communication(config)
 
         # B2S Letters that must be printed (if not read after 10 days)
-        logger.info("....Creating B2S Printed Communications")
-        ten_days_ago = today - relativedelta(days=10)
-        letters = self.env['correspondence'].search([
-            ('state', '=', 'Published to Global Partner'),
-            ('sent_date', '<', fields.Date.to_string(ten_days_ago)),
-            ('letter_read', '=', False)
-        ])
-        letters.with_context(overwrite=True, comm_vals={
-            'send_mode': 'physical',
-            'auto_send': False,
-        }).send_communication()
+        # logger.info("....Creating B2S Printed Communications")
+        # ten_days_ago = today - relativedelta(days=10)
+        # letters = self.env['correspondence'].search([
+        #     ('state', '=', 'Published to Global Partner'),
+        #     ('sent_date', '<', fields.Date.to_string(ten_days_ago)),
+        #     ('letter_read', '=', False)
+        # ])
+        # letters.with_context(overwrite=True, comm_vals={
+        #     'send_mode': 'physical',
+        #     'auto_send': False,
+        # }).send_communication()
 
         # First reminders not read must be printed for that still have
         # some amount due.
