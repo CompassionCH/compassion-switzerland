@@ -178,6 +178,24 @@
             <field name="model_id" ref="model_compassion_child"/>
             <field name="user_id" search="[('name', 'like', 'Reber Rose-Marie')]"/>
         </record>
+        <record id="project_suspension_e1" model="partner.communication.config">
+            <field name="name">Project Suspension Extension 1</field>
+            <field name="email_template_id" ref="email_project_suspension_e1"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="send_mode">digital</field>
+            <field name="print_if_not_email">True</field>
+            <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Reber Rose-Marie')]"/>
+        </record>
+        <record id="project_suspension_e2" model="partner.communication.config">
+            <field name="name">Project Suspension Extension 2</field>
+            <field name="email_template_id" ref="email_project_suspension_e2"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="send_mode">digital</field>
+            <field name="print_if_not_email">True</field>
+            <field name="model_id" ref="model_compassion_child"/>
+            <field name="user_id" search="[('name', 'like', 'Reber Rose-Marie')]"/>
+        </record>
         <record id="project_reactivation" model="partner.communication.config">
             <field name="name">Project Reactivation</field>
             <field name="email_template_id" ref="email_project_reactivation"/>
