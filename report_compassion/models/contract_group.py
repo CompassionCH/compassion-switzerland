@@ -35,7 +35,7 @@ def setlocale(name):
             locale.setlocale(locale.LC_ALL, saved)
 
 
-class RecurringContracts(models.Model):
+class ContractGroup(models.Model):
     _inherit = 'recurring.contract.group'
 
     scan_line = fields.Char(compute='_compute_scan_line')
@@ -110,6 +110,8 @@ class RecurringContracts(models.Model):
                     result.append(month_start + " - " + month)
                     month_start = ""
                     count = 1
+            if not result:
+                result.append(month_start + " - " + month)
             return result
 
     @api.multi
@@ -126,11 +128,11 @@ class RecurringContracts(models.Model):
         payment_term = self.with_context(lang='en_US').payment_term_id
         date_start = fields.Date.from_string(start)
         date_stop = fields.Date.from_string(stop)
-        freq = self.advance_billing_months
+        nb_month = relativedelta(date_stop, date_start).months + 1
         amount = 0
         number_sponsorship = 0
         month = date_start
-        for i in range(0, freq):
+        for i in range(0, nb_month):
             valid = sponsorships.filtered(
                 lambda s: s.first_open_invoice and
                 fields.Date.from_string(s.first_open_invoice) <= month
