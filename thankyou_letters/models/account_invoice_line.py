@@ -72,7 +72,7 @@ class AccountInvoiceLine(models.Model):
             ('event_id', '=', event.id)
         ])
         if existing_comm:
-            invoice_lines += (invoice_lines - existing_comm.get_objects())
+            invoice_lines += (existing_comm.get_objects() - invoice_lines)
 
         config = invoice_lines.get_thankyou_config()
         comm_vals = {
