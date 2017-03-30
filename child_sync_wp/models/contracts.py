@@ -188,9 +188,10 @@ class Contracts(models.Model):
         church_name = form_data.get('kirchgemeinde')
         vals['spoken_lang_ids'] = self._write_sponsor_lang(
             langs, sponsor_lang)
-        church_field, church_value = self._write_church(
-            church_name).items()[0]
-        vals[church_field] = church_value
+        church_dict = self._write_church(church_name)
+        if church_dict:
+            church_field, church_value = church_dict.items()[0]
+            vals[church_field] = church_value
 
         partner = self.env['res.partner'].with_context(
             default_type=None).create(vals)
