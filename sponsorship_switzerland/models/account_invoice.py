@@ -47,4 +47,4 @@ class AccountInvoice(models.Model):
         for invoice in self.filtered('payment_ids'):
             payment_dates = invoice.payment_ids.filtered('credit').mapped(
                 'date')
-            invoice.last_payment = max(payment_dates)
+            invoice.last_payment = max(payment_dates or [False])
