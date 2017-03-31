@@ -176,7 +176,7 @@
         <template id="partner_communication_document">
             <div class="page">
                 <div id="header">
-                    <t t-if="o.product_id">
+                    <t t-if="o.product_id or o.print_header">
                         <div id="logo" t-field="o.compassion_logo" t-field-options='{"widget": "image"}'/>
                         <div id="square" t-field="o.compassion_square" t-field-options='{"widget": "image"}'/>
                         <div id="compassion_address">

@@ -33,6 +33,7 @@ class PartnerCommunication(models.Model):
     product_id = fields.Many2one('product.product', 'Attach payment slip for')
     compassion_logo = fields.Binary(compute='_compute_compassion_logo')
     compassion_square = fields.Binary(compute='_compute_compassion_logo')
+    print_header = fields.Boolean()
 
     ##########################################################################
     #                             FIELDS METHODS                             #

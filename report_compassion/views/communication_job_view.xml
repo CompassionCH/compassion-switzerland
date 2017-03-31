@@ -11,6 +11,7 @@
                 </field>
                 <field name="subject" position="after">
                     <field name="print_subject"/>
+                    <field name="print_header"/>
                 </field>
                 <field name="ir_attachment_ids" position="before">
                     <field name="product_id" domain="[('fund_id', '!=', False)]"/>
