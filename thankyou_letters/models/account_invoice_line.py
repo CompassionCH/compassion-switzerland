@@ -10,6 +10,7 @@
 ##############################################################################
 
 from openerp import models, api, fields
+from openerp.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
 
 
 class AccountInvoiceLine(models.Model):
@@ -43,6 +44,18 @@ class AccountInvoiceLine(models.Model):
             res_name = event_names[0]
         elif not event_names and len(product_names) == 1:
             res_name = product_names[0]
+        # Special case for gifts : mention it's a gift even if several
+        # different gifts are made.
+        else:
+            categories = list(set(self.with_context(lang='en_US').mapped(
+                'product_id.categ_name')))
+            if len(categories) == 1 and categories[0] == GIFT_CATEGORY:
+                gift_template = self.env.ref(
+                    'contract_compassion.product_template_fund_kdo')
+                gift = self.env['product.product'].search([
+                    ('product_tmpl_id', '=', gift_template.id)
+                ], limit=1)
+                res_name = gift.thanks_name
 
         return total_string, res_name
 
