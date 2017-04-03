@@ -111,8 +111,8 @@ class AccountInvoice(models.Model):
             ('type', '=', 'out_invoice'),
             ('invoice_type', '!=', 'sponsorship'),
             ('state', '=', 'paid'),
-            ('date_invoice', '>=', fields.Date.to_string(last_month)),
-            ('date_invoice', '<', fields.Date.to_string(first)),
+            ('last_payment', '>=', fields.Date.to_string(last_month)),
+            ('last_payment', '<', fields.Date.to_string(first)),
         ])
         config = self.env.ref('thankyou_letters.config_thankyou_summary')
         for partner in partners:
