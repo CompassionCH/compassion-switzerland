@@ -17,5 +17,16 @@
                 </button>
             </field>
         </record>
+
+        <record id="view_partner_category_form" model="ir.ui.view">
+            <field name="name">Partner Tags</field>
+            <field name="model">res.partner.category</field>
+            <field name="inherit_id" ref="base.view_partner_category_form"/>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="warn_sponsorship"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>

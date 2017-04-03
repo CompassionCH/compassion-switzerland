@@ -11,3 +11,4 @@
 
 from . import contracts
 from . import account_invoice
+from . import res_partner_category
