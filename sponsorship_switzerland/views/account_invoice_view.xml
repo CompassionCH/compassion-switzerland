@@ -13,7 +13,7 @@
 
                 <!-- Remove unneeded fields -->
                 <field name="number" position="replace"/>
-                <field name="date_due" position="replace">
+                <field name="date_due" position="after">
                     <field name="last_payment"/>
                 </field>
                 <field name="transaction_id" position="replace"/>

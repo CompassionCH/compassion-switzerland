@@ -8,6 +8,8 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+from datetime import datetime
+
 from openerp import api, models, fields
 
 
@@ -38,8 +40,10 @@ class CompassionHold(models.Model):
         ids = super(CompassionHold, self).beneficiary_hold_removal(
             commkit_data)
         job_obj = self.env['partner.communication.job']
+        now = datetime.now()
         for hold in self.browse(ids).filtered(
-                lambda h: h.channel in ('ambassador', 'event')):
+                lambda h: h.channel in ('ambassador', 'event')
+                and fields.Datetime.from_string(h.expiration_date) > now):
             communication_type = self.env.ref(
                 'partner_communication_switzerland.hold_removal')
             job_obj.create({

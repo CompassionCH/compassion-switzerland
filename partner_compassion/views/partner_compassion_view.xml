@@ -218,8 +218,12 @@
             </field>
         </record>
 
-        <!-- Show invoices button for everyone -->
+        <!-- Redefine buttons -->
+        <delete model="ir.ui.view" id="account.partner_view_button_journal_item_count"/>
+        <delete model="ir.ui.view" id="account.partner_view_button_contracts_count"/>
+        <delete model="ir.ui.view" id="project.view_task_partner_info_form"/>
         <record model="ir.ui.view" id="account.partner_view_buttons">
+            <!-- Show invoices button for everyone -->
             <field name="groups_id" eval="[(6, 0, [ref('child_compassion.group_sponsorship')])]"/>
         </record>
 

@@ -49,7 +49,8 @@ class MailTrackingEvent(models.Model):
 
     @api.model
     def process_reject(self, tracking_email, metadata):
-        if metadata.get('error_type') == 'Invalid':
+        if metadata.get('error_type') == 'Invalid' and 'RBL' not in \
+                metadata.get('error_description', ''):
             self._invalid_email(tracking_email)
             tracking_email.partner_id.email = False
         return super(MailTrackingEvent, self).process_reject(
