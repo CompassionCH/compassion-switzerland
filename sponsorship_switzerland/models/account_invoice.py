@@ -41,7 +41,7 @@ class AccountInvoice(models.Model):
             else:
                 invoice.invoice_type = 'other'
 
-    @api.depends('payment_ids')
+    @api.depends('payment_ids', 'state')
     @api.multi
     def compute_last_payment(self):
         for invoice in self.filtered('payment_ids'):
