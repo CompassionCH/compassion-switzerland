@@ -10,7 +10,7 @@
 ##############################################################################
 
 import logging
-from openerp import api, models, fields
+from openerp import api, models, fields, _
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +74,21 @@ class RecurringContracts(models.Model):
         """ Launch automatic reconcile after reactivation. """
         super(RecurringContracts, self).reactivate_contract()
         self._auto_reconcile()
+
+    @api.onchange('child_id')
+    def onchange_child_id(self):
+        res = super(RecurringContracts, self).onchange_child_id()
+        warn_categories = self.correspondant_id.category_id.filtered(
+            'warn_sponsorship')
+        if warn_categories:
+            cat_names = warn_categories.mapped('name')
+            return {
+                'warning': {
+                    'title': _('The sponsor has special categories'),
+                    'message': ', '.join(cat_names)
+                }
+            }
+        return res
 
     ##########################################################################
     #                            WORKFLOW METHODS                            #
