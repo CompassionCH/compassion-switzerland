@@ -41,6 +41,7 @@
         'views/import_config_view.xml',
         'views/import_letters_history_view.xml',
         'views/correspondence_view.xml',
+        'views/s2b_generator_view.xml',
     ],
     'demo': [],
     'installable': True,
