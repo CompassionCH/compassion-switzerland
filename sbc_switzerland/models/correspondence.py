@@ -13,6 +13,8 @@ import base64
 import logging
 
 from io import BytesIO
+
+from pyPdf.pdf import PdfFileReader, PdfFileWriter
 from smb.SMBConnection import SMBConnection
 
 from . import translate_connector
@@ -77,6 +79,26 @@ class Correspondence(models.Model):
                 correspondence.send_local_translate()
             else:
                 correspondence = super(Correspondence, self).create(vals)
+
+        # Swap pages for L3 layouts as we scan in wrong order
+        if correspondence.template_id.layout == 'CH-A-3S01-1' and \
+                correspondence.source != 'compassion':
+            input_pdf = PdfFileReader(BytesIO(base64.b64decode(
+                correspondence.letter_image.datas)))
+            output_pdf = PdfFileWriter()
+            nb_pages = input_pdf.numPages
+            if nb_pages >= 2:
+                output_pdf.addPage(input_pdf.getPage(1))
+                output_pdf.addPage(input_pdf.getPage(0))
+                if nb_pages > 2:
+                    for i in range(2, nb_pages):
+                        output_pdf.addPage(input_pdf.getPage(i))
+                letter_data = BytesIO()
+                output_pdf.write(letter_data)
+                letter_data.seek(0)
+                correspondence.write({
+                    'letter_image': base64.b64encode(letter_data.read())
+                })
 
         return correspondence
 
