@@ -10,21 +10,30 @@
 ##############################################################################
 import sys
 import base64
+import logging
 
 from io import BytesIO
-from openerp.exceptions import Warning
+from smb.SMBConnection import SMBConnection
 
 from . import translate_connector
 
-from openerp import models, api, _
+from openerp import models, api, fields, _
 from openerp.tools.config import config
+from openerp.exceptions import Warning
 from openerp.addons.sbc_compassion.models.correspondence_page import \
     BOX_SEPARATOR
 
-from smb.SMBConnection import SMBConnection
 
-import logging
 logger = logging.getLogger(__name__)
+
+
+class S2BGenerator(models.Model):
+    _inherit = 'correspondence.s2b.generator'
+
+    selection_domain = fields.Char(
+        default="[('correspondant_id.category_id', '=', 23),"
+                " ('state', '=', 'active')]"
+    )
 
 
 class Correspondence(models.Model):
