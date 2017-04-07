@@ -37,7 +37,7 @@
     'website': 'http://www.compassion.ch',
     'depends': [
         'sbc_compassion', 'mail_sendgrid', 'partner_contact_birthdate',
-        'partner_firstname', 'geoengine_base_geolocalize',
+        'geoengine_base_geolocalize',
         'geoengine_geoname_geocoder', 'mail_restrict_follower_selection',
     ],
     'data': [

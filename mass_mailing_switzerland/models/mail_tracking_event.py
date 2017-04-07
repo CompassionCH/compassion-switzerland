@@ -29,8 +29,19 @@ class MailTrackingEvent(models.Model):
         return super(MailTrackingEvent, self).process_click(
             tracking_email, metadata)
 
+    @api.model
+    def process_unsub(self, tracking_email, metadata):
+        """ Update mass mailing stats. """
+        mass_mail = tracking_email.mass_mailing_id
+        if mass_mail:
+            session = ConnectorSession.from_env(self.env)
+            update_mass_mail_stats.delay(
+                session, mass_mail._name, mass_mail.id)
+        return super(MailTrackingEvent, self).process_unsub(
+            tracking_email, metadata)
+
 
 @job(default_channel='root.mass_mailing_switzerland')
 def update_mass_mail_stats(session, model_name, mass_mail_id):
     """Job for updating mass mailing click statistics."""
-    session.env[model_name].browse(mass_mail_id).compute_click_events()
+    session.env[model_name].browse(mass_mail_id).compute_events()

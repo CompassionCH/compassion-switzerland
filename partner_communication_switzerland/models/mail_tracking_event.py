@@ -43,9 +43,12 @@ class MailTrackingEvent(models.Model):
         tracking_email.partner_id.message_post(
             "Partner Unsubscribed from marketing e-mails", "Opt-out")
         sg = self._get_sendgrid()
-        sg.client.suppression.unsubscribes._(tracking_email.recipient).delete()
-        return super(MailTrackingEvent, self).process_unsub(
-            tracking_email, metadata)
+        try:
+            sg.client.suppression.unsubscribes._(
+                tracking_email.recipient).delete()
+        finally:
+            return super(MailTrackingEvent, self).process_unsub(
+                tracking_email, metadata)
 
     @api.model
     def process_reject(self, tracking_email, metadata):
