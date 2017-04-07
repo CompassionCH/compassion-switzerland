@@ -337,8 +337,14 @@ class RecurringContract(models.Model):
         super(RecurringContract, self)._on_sponsorship_finished()
         cancellation = self.env.ref(
             'partner_communication_switzerland.sponsorship_cancellation')
+        no_sub = self.env.ref(
+            'partner_communication_switzerland.planned_no_sub')
         self.filtered(
-            lambda s: s.end_reason != '1').send_communication(cancellation)
+            lambda s: s.end_reason != '1' and s.origin_id.type != 'sub'
+        ).send_communication(cancellation)
+        self.filtered(
+            lambda s: s.end_reason != '1' and s.origin_id.type == 'sub'
+        ).send_communication(no_sub)
 
     def _new_dossier(self):
         """
