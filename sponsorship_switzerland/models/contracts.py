@@ -90,6 +90,20 @@ class RecurringContracts(models.Model):
             }
         return res
 
+    @api.onchange('user_id')
+    def onchange_user_id(self):
+        """ Make checks as well when ambassador is changed. """
+        warn_categories = self.user_id.category_id.filtered(
+            'warn_sponsorship')
+        if warn_categories:
+            cat_names = warn_categories.mapped('name')
+            return {
+                'warning': {
+                    'title': _('The ambassador has special categories'),
+                    'message': ', '.join(cat_names)
+                }
+            }
+
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################
