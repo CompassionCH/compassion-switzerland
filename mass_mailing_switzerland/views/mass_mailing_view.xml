@@ -21,10 +21,13 @@
                     <button name="send_pending" string="Send Pending" type="object" states="done"/>
                 </field>
 
-                <!-- Replace replied button by Clicks button -->
+                <!-- Replace replied button by Clicks button and Unsub -->
                 <xpath expr="//div[@class='oe_button_box pull-right']/button[3]" position="replace">
                     <button name="open_clicks" type="object" class="oe_stat_button">
                         <field name="click_ratio" string="Click" widget="percentpie"/>
+                    </button>
+                    <button name="open_unsub" type="object" class="oe_stat_button">
+                        <field name="unsub_ratio" string="Unsubscribe" widget="percentpie"/>
                     </button>
                 </xpath>
 
@@ -53,6 +56,7 @@
                     <div style="display: inline-block; vertical-align: top;">
                         <strong>Opened</strong> <field name="opened_ratio"/> %<br />
                         <strong>Click</strong> <field name="click_ratio"/> %
+                        <strong>Unsubscribe</strong> <field name="unsub_ratio"/> %
                     </div>
                 </xpath>
             </field>
