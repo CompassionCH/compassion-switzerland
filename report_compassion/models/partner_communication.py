@@ -64,7 +64,8 @@ class PartnerCommunication(models.Model):
             if len(employee) == 1:
                 signature = employee.name + '<br/>' + \
                             employee.department_id.name + '<br/>'
-            signature += user.company_id.name
+            signature += user.company_id.name.split(' ')[0] + ' '
+            signature += user.country_id.name
             communication.signature = signature
 
     @api.multi
