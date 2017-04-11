@@ -91,20 +91,24 @@ class CompassionChild(models.Model):
 
     def _compute_picture_frame(self):
         for child in self.filtered('fullshot'):
-            with Image(blob=base64.b64decode(child.fullshot)) as picture:
-                frame_width = int(picture.width * FRAME_RATIO)
-                frame_height = int(picture.height * FRAME_RATIO)
-                picture.frame(Color("#fff"), frame_width, frame_height)
-                with Drawing() as draw:
-                    draw.fill_color = Color('#000')
-                    draw.text_alignment = 'left'
-                    draw.font_size = 20
-                    draw.text(
-                        frame_width + 50,
-                        picture.height - int(frame_height / 1.5),
-                        child.local_id + ' ' + child.name)
-                    draw(picture)
-                    child.picture_frame = base64.b64encode(picture.make_blob())
+            try:
+                with Image(blob=base64.b64decode(child.fullshot)) as picture:
+                    frame_width = int(picture.width * FRAME_RATIO)
+                    frame_height = int(picture.height * FRAME_RATIO)
+                    picture.frame(Color("#fff"), frame_width, frame_height)
+                    with Drawing() as draw:
+                        draw.fill_color = Color('#000')
+                        draw.text_alignment = 'left'
+                        draw.font_size = 20
+                        draw.text(
+                            frame_width + 50,
+                            picture.height - int(frame_height / 1.5),
+                            child.local_id + ' ' + child.name)
+                        draw(picture)
+                        child.picture_frame = base64.b64encode(
+                            picture.make_blob())
+            except:
+                child.picture_frame = False
 
     @api.multi
     def depart(self):
