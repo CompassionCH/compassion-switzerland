@@ -33,7 +33,10 @@ class CompassionChild(models.Model):
         }
         for child in self:
             lang = child.sponsor_id.lang or self.env.lang or 'en_US'
-            child.description = getattr(child, lang_map.get(lang))
+            try:
+                child.description = getattr(child, lang_map.get(lang))
+            except:
+                child.description = False
 
     def _compute_project_title(self):
         for child in self:
