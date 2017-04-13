@@ -137,7 +137,8 @@ class MassMailingCampaign(models.Model):
                  'mass_mailing_ids.unsub_ratio')
     def _compute_ratios(self):
         for campaign in self:
-            total_clicks, total_unsub = 0
+            total_clicks = 0
+            total_unsub = 0
             total_sent = len(campaign.mapped(
                 'mass_mailing_ids.statistics_ids'))
             for mailing in campaign.mass_mailing_ids:
