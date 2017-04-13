@@ -130,18 +130,24 @@ class MassMailing(models.Model):
 class MassMailingCampaign(models.Model):
     _inherit = 'mail.mass_mailing.campaign'
 
-    click_ratio = fields.Integer(compute='_compute_click_ratio', store=True)
+    click_ratio = fields.Integer(compute='_compute_ratios', store=True)
+    unsub_ratio = fields.Integer(compute='_compute_ratios', store=True)
 
-    @api.depends('mass_mailing_ids.click_ratio')
-    def _compute_click_ratio(self):
+    @api.depends('mass_mailing_ids.click_ratio',
+                 'mass_mailing_ids.unsub_ratio')
+    def _compute_ratios(self):
         for campaign in self:
-            total_clicks = 0
+            total_clicks, total_unsub = 0
             total_sent = len(campaign.mapped(
                 'mass_mailing_ids.statistics_ids'))
             for mailing in campaign.mass_mailing_ids:
                 total_clicks += (mailing.click_ratio / 100.0) * len(
                     mailing.statistics_ids)
-            campaign.click_ratio = (total_clicks / total_sent) * 100
+                total_unsub += (mailing.unsub_ratio / 100.0) * len(
+                    mailing.statistics_ids)
+            if total_sent:
+                campaign.click_ratio = (total_clicks / total_sent) * 100
+                campaign.unsub_ratio = (total_unsub / total_sent) * 100
 
 
 ##############################################################################
