@@ -55,7 +55,7 @@
                 <xpath expr="//div[@class='oe_kanban_content']/div[last()]/div[last()]" position="replace">
                     <div style="display: inline-block; vertical-align: top;">
                         <strong>Opened</strong> <field name="opened_ratio"/> %<br />
-                        <strong>Click</strong> <field name="click_ratio"/> %
+                        <strong>Click</strong> <field name="click_ratio"/> %<br />
                         <strong>Unsubscribe</strong> <field name="unsub_ratio"/> %
                     </div>
                 </xpath>
@@ -70,7 +70,7 @@
                 <xpath expr="//div[@class='oe_kanban_content']/div[last()]/div[last()]" position="replace">
                     <div style="display: inline-block; vertical-align: top;">
                         <strong>Opened</strong> <field name="opened_ratio"/> %<br />
-                        <strong>Click</strong> <field name="click_ratio"/> %
+                        <strong>Click</strong> <field name="click_ratio"/> %<br />
                         <strong>Unsubscribe</strong> <field name="unsub_ratio"/> %
                     </div>
                 </xpath>
