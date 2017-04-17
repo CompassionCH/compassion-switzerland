@@ -1,0 +1,89 @@
+<openerp>
+    <data>
+        <!-- During installation -->
+        <record id="view_sbc_sync_configuration_installer" model="ir.ui.view">
+            <field name="name">sbc.sync.form</field>
+            <field name="model">sbc.sync</field>
+            <field name="inherit_id" ref="base.res_config_installer"/>
+            <field name="arch" type="xml">
+                <form position="attributes">
+                    <attribute name="string">SBC sync - Import spoken languages</attribute>
+                </form>
+                <footer position="replace">
+                <footer>
+                    <button name="action_close_popup" type="object" string="Continue" class="oe_highlight"/>
+                </footer>
+                </footer>
+                <separator string="title" position="replace">
+                    <p class="oe_grey">
+                        Select an action to perform
+                    </p>
+                    <group>
+                        <label string="Import countries spoken languages (GP -> Odoo)"/>
+                        <button name="import_countries_spoken_languages" type="object" string="Synchronize"/>
+                        <label string="Import partners spoken languages (GP -> Odoo)"/>
+                        <button name="import_partners_spoken_languages" type="object" string="Synchronize"/>
+                    </group>
+                </separator>
+            </field>
+        </record>
+
+        <record id="action_sbc_sync_configuration_installer" model="ir.actions.act_window">
+            <field name="name">Configure spoken languages synchronisation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sbc.sync</field>
+            <field name="view_id" ref="view_sbc_sync_configuration_installer"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_todo_sbc_sync_configuration_installer" model="ir.actions.todo">
+            <field name="action_id" ref="action_sbc_sync_configuration_installer"/>
+            <field name="type">automatic</field>
+        </record>
+
+        <!-- After installation -->
+        <record id="view_sbc_sync_configuration" model="ir.ui.view">
+            <field name="name">sbc.sync.form</field>
+            <field name="model">sbc.sync</field>
+            <field name="arch" type="xml">
+                <form string="SBC sync - Import spoken languages" version="7.0" create="false" edit="false" delete="false">
+                    <sheet>
+                        <p class="oe_grey">
+                            Select an action to perform
+                        </p>
+                        <group>
+                            <label string="Import countries spoken languages (GP -> Odoo)"/>
+                            <button name="import_countries_spoken_languages" type="object" string="Synchronize"/>
+                            <label string="Import partners spoken languages (GP -> Odoo)"/>
+                            <button name="import_partners_spoken_languages" type="object" string="Synchronize"/>
+                        </group>
+                        <group>
+                            <field name="partners_import_errors_visibility" attrs="{'invisible': 'true'}"/>
+                            <field name="countries_import_errors_visibility" attrs="{'invisible': 'true'}"/>
+                            <field name="partners_import_informations" attrs="{'invisible': [('partners_import_errors_visibility', '=', False)]}"/>
+                            <field name="countries_import_informations" attrs="{'invisible': [('countries_import_errors_visibility', '=', False)]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sbc_sync_spoken_langs_form" model="ir.actions.act_window" >
+            <field name="name">view_sbc_sync_spoken_langs_form</field>
+            <field name="res_model">sbc.sync</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+            <field name="res_id">1</field>
+            <field name="view_id" ref="view_sbc_sync_configuration"/>
+        </record>
+
+        <menuitem name="Import spoken languages"
+                  parent="base.menu_translation"
+                  id="menu_open_view_sbc_sync_spoken_langs_form"
+                  action="action_sbc_sync_spoken_langs_form"
+                  sequence="1"/>
+    </data>
+</openerp>
