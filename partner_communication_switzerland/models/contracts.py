@@ -265,7 +265,7 @@ class RecurringContract(models.Model):
                 has_first_reminder = comm_obj.search_count([
                     ('config_id', 'in', [first_reminder_config.id,
                                          second_reminder_config.id]),
-                    ('state', '=', 'sent'),
+                    ('state', '=', 'done'),
                     ('object_ids', 'like', str(sponsorship.id)),
                     ('sent_date', '>=', fields.Date.to_string(one_month_ago))
                 ])
