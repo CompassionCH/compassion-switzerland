@@ -252,7 +252,8 @@ class RecurringContract(models.Model):
             default_print_subject=False, default_auto_send=False)
         second_reminder = self.with_context(
             default_print_subject=False, default_auto_send=False)
-        one_month_ago = today - relativedelta(days=35)
+        fifty_ago = today - relativedelta(days=50)
+        twenty_ago = today - relativedelta(days=20)
         comm_obj = self.env['partner.communication.job']
         for sponsorship in self.search([
                 ('state', 'in', ('active', 'mandate')),
@@ -269,12 +270,21 @@ class RecurringContract(models.Model):
                                          second_reminder_config.id]),
                     ('state', '=', 'done'),
                     ('object_ids', 'like', str(sponsorship.id)),
-                    ('sent_date', '>=', fields.Date.to_string(one_month_ago))
+                    ('sent_date', '>=', fields.Date.to_string(fifty_ago)),
+                    ('sent_date', '<', fields.Date.to_string(twenty_ago))
                 ])
                 if has_first_reminder:
                     second_reminder += sponsorship
                 else:
-                    first_reminder += sponsorship
+                    has_first_reminder = comm_obj.search_count([
+                        ('config_id', 'in', [first_reminder_config.id,
+                                             second_reminder_config.id]),
+                        ('state', '=', 'done'),
+                        ('object_ids', 'like', str(sponsorship.id)),
+                        ('sent_date', '>=', fields.Date.to_string(twenty_ago)),
+                    ])
+                    if not has_first_reminder:
+                        first_reminder += sponsorship
         first_reminder.send_communication(first_reminder_config,
                                           correspondent=False)
         second_reminder.send_communication(second_reminder_config,
