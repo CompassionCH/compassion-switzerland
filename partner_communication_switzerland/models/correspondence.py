@@ -117,15 +117,18 @@ class Correspondence(models.Model):
         other_letters = self - letter_zip
         base_url = self.env['ir.config_parameter'].get_param(
             'web.external.url')
-        letter_zip.zip_id = self.env['ir.attachment'].create({
-            'datas': _zip.download_data,
-            'name': _zip.fname,
-            'res_id': letter_zip.id,
-            'res_model': self._name,
-            'datas_fname': _zip.fname,
+        letter_zip.write({
+            'zip_id': self.env['ir.attachment'].create({
+                    'datas': _zip.download_data,
+                    'name': _zip.fname,
+                    'res_id': letter_zip.id,
+                    'res_model': self._name,
+                    'datas_fname': _zip.fname,
+                }).id,
+            'read_url': "{}/b2s_image?id={}".format(base_url,
+                                                    letter_zip.uuid),
+            'letter_format': 'zip'
         })
-        letter_zip.read_url = "{}/b2s_image?id={}".format(
-            base_url, letter_zip.uuid)
         other_letters.write({'read_url': False, 'zip_id': False})
         return True
 
