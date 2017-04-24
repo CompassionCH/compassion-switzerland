@@ -42,8 +42,8 @@ class CompassionHold(models.Model):
         job_obj = self.env['partner.communication.job']
         now = datetime.now()
         for hold in self.browse(ids).filtered(
-                lambda h: h.channel in ('ambassador', 'event')
-                and fields.Datetime.from_string(h.expiration_date) > now):
+                lambda h: h.channel in ('ambassador', 'event') and
+                fields.Datetime.from_string(h.expiration_date) > now):
             communication_type = self.env.ref(
                 'partner_communication_switzerland.hold_removal')
             job_obj.create({
@@ -103,7 +103,7 @@ class CompassionHold(models.Model):
         """
         notification_text = "\n\nA reminder was sent to the sponsor {} ({})"
         sponsorships = self.env['recurring.contract']
-        for hold in self:
+        for hold in self.filtered('child_id.sponsorship_ids'):
             sponsorship = hold.child_id.sponsorship_ids[0]
             sponsor = hold.child_id.sponsor_id
             # Filter sponsorships where we wait for the bank authorization

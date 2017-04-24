@@ -63,7 +63,7 @@ class PartnerCommunication(models.Model):
             signature = ''
             if len(employee) == 1:
                 signature = employee.name + '<br/>' + \
-                            employee.department_id.name + '<br/>'
+                    employee.department_id.name + '<br/>'
             signature += user.company_id.name.split(' ')[0] + ' '
             signature += user.company_id.country_id.name
             communication.signature = signature

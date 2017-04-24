@@ -86,8 +86,8 @@ class RecurringContract(models.Model):
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang='en_US').filtered(
                         lambda i: i.state == 'open' and
-                        fields.Date.from_string(i.due_date) < this_month
-                        and i.invoice_id.invoice_type == 'sponsorship'
+                        fields.Date.from_string(i.due_date) < this_month and
+                        i.invoice_id.invoice_type == 'sponsorship'
                     )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
@@ -248,8 +248,10 @@ class RecurringContract(models.Model):
             'partner_communication_switzerland.sponsorship_reminder_1')
         second_reminder_config = self.env.ref(
             'partner_communication_switzerland.sponsorship_reminder_2')
-        first_reminder = self.with_context(default_print_subject=False)
-        second_reminder = self.with_context(default_print_subject=False)
+        first_reminder = self.with_context(
+            default_print_subject=False, default_auto_send=False)
+        second_reminder = self.with_context(
+            default_print_subject=False, default_auto_send=False)
         one_month_ago = today - relativedelta(days=35)
         comm_obj = self.env['partner.communication.job']
         for sponsorship in self.search([
