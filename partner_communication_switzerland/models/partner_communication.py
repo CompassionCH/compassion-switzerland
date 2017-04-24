@@ -10,11 +10,13 @@
 ##############################################################################
 import base64
 from collections import OrderedDict
+from datetime import datetime
 
+from dateutil.relativedelta import relativedelta
 from pyPdf import PdfFileWriter, PdfFileReader
 from io import BytesIO
 
-from openerp import api, models, _
+from openerp import api, models, _, fields
 from openerp.exceptions import MissingError
 
 from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
@@ -225,7 +227,8 @@ class PartnerCommunication(models.Model):
     @api.multi
     def send(self):
         """
-        Mark correspondence as read when printed.
+        - Mark B2S correspondence as read when printed.
+        - Postpone no money holds when reminders sent.
         :return: True
         """
         super(PartnerCommunication, self).send()
@@ -236,6 +239,26 @@ class PartnerCommunication(models.Model):
             letters = b2s_printed.get_objects()
             if letters:
                 letters.write({'letter_read': True})
+
+        # No money extension
+        no_money_1 = self.env.ref('partner_communication_switzerland.'
+                                  'sponsorship_waiting_reminder_1')
+        no_money_2 = self.env.ref('partner_communication_switzerland.'
+                                  'sponsorship_waiting_reminder_2')
+        settings = self.env['availability.management.settings']
+        first_extension = settings.get_param('no_money_hold_duration')
+        second_extension = settings.get_param('no_money_hold_extension')
+        now = datetime.now()
+        for communication in self:
+            extension = False
+            if communication.config_id == no_money_1:
+                # Add 7 days because reminders are created 7 days in advance
+                extension = now + relativedelta(days=first_extension+7)
+            elif communication.config_id == no_money_2:
+                extension = now + relativedelta(days=second_extension+7)
+            if extension:
+                hold = communication.get_objects().child_id.hold_id
+                hold.expiration_date = fields.Datetime.to_string(extension)
         return True
 
     def _get_new_dossier_attachments(self, correspondence=True, payment=True):

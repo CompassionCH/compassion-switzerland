@@ -103,7 +103,7 @@ class CompassionHold(models.Model):
         """
         notification_text = "\n\nA reminder was sent to the sponsor {} ({})"
         sponsorships = self.env['recurring.contract']
-        for hold in self:
+        for hold in self.filtered('child_id.sponsorship_ids'):
             sponsorship = hold.child_id.sponsorship_ids[0]
             sponsor = hold.child_id.sponsor_id
             # Filter sponsorships where we wait for the bank authorization
