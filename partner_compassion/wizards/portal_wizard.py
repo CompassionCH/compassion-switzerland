@@ -25,8 +25,8 @@ class PortalWizard(models.TransientModel):
         ambassador_id = self.env.ref(
             'partner_compassion.res_partner_category_ambassador').id
         self.mapped('user_ids.partner_id').write({
-                'category_id': [(4, ambassador_id)]
-            })
+            'category_id': [(4, ambassador_id)]
+        })
         return res
 
 

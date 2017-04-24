@@ -139,6 +139,6 @@ class GenerateChristmasInvoice(http.Controller):
                 ('bvr_adherent_num', '!=', False)])
             if company_bank:
                 bvr_reference = company_bank.bvr_adherent_num + \
-                                bvr_reference[9:]
+                    bvr_reference[9:]
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)

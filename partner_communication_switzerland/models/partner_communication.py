@@ -233,8 +233,8 @@ class PartnerCommunication(models.Model):
         """
         super(PartnerCommunication, self).send()
         b2s_printed = self.filtered(
-            lambda c: c.config_id.model == 'correspondence'
-            and c.send_mode == 'physical' and c.state == 'done')
+            lambda c: c.config_id.model == 'correspondence' and
+            c.send_mode == 'physical' and c.state == 'done')
         if b2s_printed:
             letters = b2s_printed.get_objects()
             if letters:
@@ -259,7 +259,7 @@ class PartnerCommunication(models.Model):
             if extension:
                 hold = communication.get_objects().child_id.hold_id
                 hold.expiration_date = fields.Datetime.to_string(extension)
-        return True
+            return True
 
     def _get_new_dossier_attachments(self, correspondence=True, payment=True):
         """

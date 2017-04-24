@@ -38,12 +38,10 @@ class AccountInvoice(models.Model):
         invoices = self.filtered(
             lambda i: (
                 not i.communication_id or
-                i.communication_id.state in ('call', 'pending'))
-            and i.invoice_type != 'sponsorship' and (not i.mapped(
-                'invoice_line.contract_id') or i.invoice_type == 'gift')
-            and income_account in i.mapped(
-                'invoice_line.account_id.user_type')
-
+                i.communication_id.state in ('call', 'pending')) and
+            i.invoice_type != 'sponsorship' and (not i.mapped(
+                'invoice_line.contract_id') or i.invoice_type == 'gift') and
+            income_account in i.mapped('invoice_line.account_id.user_type')
         )
         if invoices:
             invoices.generate_thank_you()

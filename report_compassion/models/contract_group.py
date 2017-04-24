@@ -135,8 +135,8 @@ class ContractGroup(models.Model):
         for i in range(0, nb_month):
             valid = sponsorships.filtered(
                 lambda s: s.first_open_invoice and
-                fields.Date.from_string(s.first_open_invoice) <= month
-                or fields.Date.from_string(s.next_invoice_date) <= month
+                fields.Date.from_string(s.first_open_invoice) <= month or
+                fields.Date.from_string(s.next_invoice_date) <= month
             )
             number_sponsorship = max(number_sponsorship, len(valid))
             amount += sum(valid.mapped('total_amount'))

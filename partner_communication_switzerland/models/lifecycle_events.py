@@ -44,9 +44,9 @@ class ProjectLifecycle(models.Model):
 
         for lifecycle in self.browse(ids):
             search = [
-                    ('name', 'ilike', lifecycle.type),
-                    ('name', 'like', 'Project'),
-                ]
+                ('name', 'ilike', lifecycle.type),
+                ('name', 'like', 'Project'),
+            ]
 
             if lifecycle.type == 'Suspension':
                 if lifecycle.extension_2:

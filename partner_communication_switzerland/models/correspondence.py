@@ -119,12 +119,12 @@ class Correspondence(models.Model):
             'web.external.url')
         letter_zip.write({
             'zip_id': self.env['ir.attachment'].create({
-                    'datas': _zip.download_data,
-                    'name': _zip.fname,
-                    'res_id': letter_zip.id,
-                    'res_model': self._name,
-                    'datas_fname': _zip.fname,
-                }).id,
+                'datas': _zip.download_data,
+                'name': _zip.fname,
+                'res_id': letter_zip.id,
+                'res_model': self._name,
+                'datas_fname': _zip.fname,
+            }).id,
             'read_url': "{}/b2s_image?id={}".format(base_url,
                                                     letter_zip.uuid),
             'letter_format': 'zip'

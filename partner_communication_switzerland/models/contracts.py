@@ -86,8 +86,8 @@ class RecurringContract(models.Model):
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang='en_US').filtered(
                         lambda i: i.state == 'open' and
-                        fields.Date.from_string(i.due_date) < this_month
-                        and i.invoice_id.invoice_type == 'sponsorship'
+                        fields.Date.from_string(i.due_date) < this_month and
+                        i.invoice_id.invoice_type == 'sponsorship'
                     )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(

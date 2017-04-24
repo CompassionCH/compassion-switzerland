@@ -218,10 +218,10 @@ class PaymentSlip(models.Model):
     @api.model
     def _compute_country(self, language):
         return {
-                   'fr_CH': 'Suisse',
-                   'de_DE': 'Schweiz',
-                   'it_IT': 'Svizzera',
-                   'en_US': 'Switzerland'
+            'fr_CH': 'Suisse',
+            'de_DE': 'Schweiz',
+            'it_IT': 'Svizzera',
+            'en_US': 'Switzerland'
         }.get(language, 'Switzerland')[:25]
 
     @api.model
