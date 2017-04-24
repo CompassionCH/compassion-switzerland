@@ -248,8 +248,10 @@ class RecurringContract(models.Model):
             'partner_communication_switzerland.sponsorship_reminder_1')
         second_reminder_config = self.env.ref(
             'partner_communication_switzerland.sponsorship_reminder_2')
-        first_reminder = self.with_context(default_print_subject=False)
-        second_reminder = self.with_context(default_print_subject=False)
+        first_reminder = self.with_context(
+            default_print_subject=False, default_auto_send=False)
+        second_reminder = self.with_context(
+            default_print_subject=False, default_auto_send=False)
         one_month_ago = today - relativedelta(days=35)
         comm_obj = self.env['partner.communication.job']
         for sponsorship in self.search([
