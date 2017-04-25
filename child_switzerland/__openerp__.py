@@ -28,23 +28,18 @@
 ##############################################################################
 
 {
-    'name': 'Sync Compassion Children with Wordpress website',
-    'version': '8.0.2.0',
+    'name': 'Compassion CH Children',
+    'version': '9.0.1.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_compassion'],
-    'external_dependencies': {
-        'python': ['pysftp', 'wand'],
-    },
+    'depends': ['child_compassion', 'account_accountant'],
     'data': [
-        'views/child_on_wordpress_wizard.xml',
-        'views/child_remove_from_wordpress.xml',
-        'views/staff_notification_settings_view.xml',
-        'views/sponsorship_view.xml',
-        'data/wordpress_cron.xml',
+        'views/description_views.xml',
+        'data/lang_data.xml',
+        'data/ir.advanced.translation.csv',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

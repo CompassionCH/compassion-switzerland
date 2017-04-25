@@ -13,20 +13,29 @@ python:
   - "2.7"
   
 env:
-    - VERSION="8.0" ODOO_REPO="odoo/odoo"
+    - VERSION="9.0" ODOO_REPO="odoo/odoo"
 
 virtualenv:
   system_site_packages: true
 
 install:
-  - pip install flake8
-  - git clone https://github.com/CompassionCH/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools -b r2
-  - git clone https://github.com/OCA/geospatial.git ${HOME}/geospatial -b 8.0
-  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+    - pip install click flake8 coveralls xlrd pylint pylint_odoo coverage codecov
+    - pip install pyjwt pyquery
+    - git clone https://github.com/CompassionCH/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools -b r2
+    - git clone https://github.com/CompassionCH/compassion-modules.git ${HOME}/build/CompassionCH/compassion-modules -b 9.0
+    - git clone https://github.com/OCA/web.git ${HOME}/build/CompassionCH/web -b 9.0
+    - git clone https://github.com/OCA/connector.git ${HOME}/build/CompassionCH/connector -b 9.0
+    - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+    - travis_install_nightly
+
+before_script:
+    - touch ${HOME}/odoo-9.0/odoo.conf
+#    - '[ "${TRAVIS_SECURE_ENV_VARS}" = "true" ] && openssl aes-256-cbc -K $encrypted_f7bf959fc25e_key -iv $encrypted_f7bf959fc25e_iv -in travis/odoo.conf.enc -out ${HOME}/odoo-9.0/odoo.conf -d || echo "encrypted files not available"'
 
 script:
-  - test_flake8
-  - travis/travis_header.sh
+    - travis/travis_header.sh
+    - travis_run_tests
+#    - '[ "${TRAVIS_SECURE_ENV_VARS}" = "true" ] && travis_run_tests || [ "${TRAVIS_SECURE_ENV_VARS}" = "false" ]'
 
-notifications:
-  email: false
+after_success:
+    - travis_after_success

@@ -37,6 +37,6 @@
     'data': ['views/mass_mailing_view.xml'],
     'depends': ['mail_sendgrid_mass_mailing', 'sponsorship_compassion'],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

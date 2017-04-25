@@ -45,6 +45,6 @@
         'views/change_text_wizard_view.xml',
     ],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

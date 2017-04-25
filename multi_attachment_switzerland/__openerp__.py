@@ -43,4 +43,5 @@
     # to work correctly
     'depends': ['sync_mail_multi_attach'],
     'qweb': ['static/src/xml/qweb.xml'],
+    'installable': False,
 }

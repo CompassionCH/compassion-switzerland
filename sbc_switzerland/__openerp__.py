@@ -44,5 +44,5 @@
         'views/s2b_generator_view.xml',
     ],
     'demo': [],
-    'installable': True,
+    'installable': False,
 }
