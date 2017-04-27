@@ -35,7 +35,7 @@
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['sponsorship_tracking', 'partner_compassion',
-                'partner_communication'],
+                'partner_communication', 'account_statement_completion'],
     'data': [
         'workflow/sds_workflow.xml',
         'security/ir.model.access.csv',

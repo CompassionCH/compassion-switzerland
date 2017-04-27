@@ -9,13 +9,12 @@
 #
 ##############################################################################
 
-from openerp import api, models, fields
+from openerp import models, fields
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from openerp.addons.sponsorship_compassion.models.product import \
     GIFT_CATEGORY, GIFT_NAMES
 
 from datetime import datetime
-import time
 import logging
 
 logger = logging.getLogger(__name__)
