@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2015-2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2015-2017 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,7 @@
         'security/ir.model.access.csv',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
+        'views/statement_view.xml',
     ],
     'js': ['static/src/js/sponsorship_tracking_kanban.js'],
     'demo': [],

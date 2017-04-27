@@ -6,6 +6,8 @@ Tailor Sponsorships to Compassion CH needs
 
 This module adds specific behaviours of sponsorships for Switzerland.
 
+* Statement completion rules with invoice generation.
+
 Credits
 =======
 
