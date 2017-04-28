@@ -10,6 +10,11 @@
 ##############################################################################
 
 import logging
+from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
+from openerp.tools import mod10r
+
 from openerp import api, models, fields, _
 
 logger = logging.getLogger(__name__)
@@ -19,7 +24,14 @@ class RecurringContracts(models.Model):
     _inherit = 'recurring.contract'
 
     first_open_invoice = fields.Date(compute='_compute_first_open_invoice')
-    months_paid = fields.Integer(compute='_compute_months_paid')
+    has_mandate = fields.Boolean(compute='_compute_has_mandate')
+
+    @api.model
+    def _get_states(self):
+        """ Add a waiting mandate state """
+        states = super(RecurringContracts, self)._get_states()
+        states.insert(2, ('mandate', _('Waiting Mandate')))
+        return states
 
     @api.multi
     def _compute_first_open_invoice(self):
@@ -35,32 +47,22 @@ class RecurringContracts(models.Model):
                 contract.first_open_invoice = contract.next_invoice_date
 
     @api.multi
-    def _compute_months_paid(self):
-        """This is a query returning the number of months paid for a
-           sponsorship.
-        """
-        self.env.cr.execute(
-            "SELECT c.id as contract_id, "
-            "12 * (EXTRACT(year FROM next_invoice_date) - "
-            "      EXTRACT(year FROM current_date))"
-            " + EXTRACT(month FROM c.next_invoice_date) - 1"
-            " - COALESCE(due.total, 0) as paidmonth "
-            "FROM recurring_contract c left join ("
-            # Open invoices to find how many months are due
-            "   select contract_id, count(distinct invoice_id) as total "
-            "   from account_invoice_line l join product_product p on "
-            "       l.product_id = p.id "
-            "   where state='open' and "
-            # Exclude gifts from count
-            "   categ_name != 'Sponsor gifts'"
-            "   group by contract_id"
-            ") due on due.contract_id = c.id "
-            "WHERE c.id in (%s)" % ",".join([str(id) for id in self.ids])
-        )
-        res = self.env.cr.dictfetchall()
-        res_map = {row['contract_id']: int(row['paidmonth']) for row in res}
+    def _compute_has_mandate(self):
+        # Search for an existing valid mandate
         for contract in self:
-            contract.months_paid = res_map[contract.id]
+            count = self.env['account.banking.mandate'].search_count([
+                ('partner_id', '=', contract.partner_id.id),
+                ('state', '=', 'valid')])
+            contract.has_mandate = bool(count)
+
+    @api.multi
+    def write(self, vals):
+        """ Perform various checks when a contract is modified. """
+        if 'group_id' in vals:
+            self._on_change_group_id(vals['group_id'])
+
+        # Write the changes
+        return super(RecurringContracts, self).write(vals)
 
     @api.multi
     def suspend_contract(self):
@@ -104,6 +106,37 @@ class RecurringContracts(models.Model):
                 }
             }
 
+        @api.onchange('group_id')
+        def on_change_group_id(self):
+            """ Compute next invoice_date """
+            current_date = datetime.today()
+            is_active = False
+
+            if self.state not in ('draft',
+                                  'mandate') and self.next_invoice_date:
+                is_active = True
+                current_date = fields.Datetime.from_string(
+                    self.next_invoice_date)
+
+            if self.group_id:
+                contract_group = self.group_id
+                if contract_group.next_invoice_date:
+                    next_group_date = fields.Datetime.from_string(
+                        contract_group.next_invoice_date)
+                    next_invoice_date = current_date.replace(
+                        day=next_group_date.day)
+                else:
+                    next_invoice_date = current_date.replace(day=1)
+                payment_term = contract_group.payment_term_id.name
+            else:
+                next_invoice_date = current_date.replace(day=1)
+                payment_term = ''
+
+            if current_date.day > 15 or (payment_term in (
+                    'LSV', 'Postfinance') and not is_active):
+                next_invoice_date += relativedelta(months=+1)
+            self.next_invoice_date = fields.Date.to_string(next_invoice_date)
+
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################
@@ -119,6 +152,34 @@ class RecurringContracts(models.Model):
         add_sponsor_vals = {'category_id': [(4, sponsor_cat_id)]}
         sponsorships.mapped('partner_id').write(add_sponsor_vals)
         sponsorships.mapped('correspondant_id').write(add_sponsor_vals)
+        return True
+
+    @api.multi
+    def contract_waiting_mandate(self):
+        self.write({'state': 'mandate'})
+        return True
+
+    @api.multi
+    def contract_waiting(self):
+        vals = {'state': 'waiting'}
+        for contract in self:
+            payment_term = contract.group_id.payment_term_id.name
+            if contract.type == 'S' and ('LSV' in payment_term or
+                                         'Postfinance' in payment_term):
+                # Recompute next_invoice_date
+                today = datetime.today()
+                old_invoice_date = fields.Datetime.from_string(
+                    contract.next_invoice_date)
+                next_invoice_date = old_invoice_date.replace(
+                    month=today.month, year=today.year)
+                if today.day > 15 and next_invoice_date.day < 15:
+                    next_invoice_date = next_invoice_date + relativedelta(
+                        months=+1)
+                if next_invoice_date > old_invoice_date:
+                    vals['next_invoice_date'] = \
+                        fields.Date.to_string(next_invoice_date)
+
+            contract.write(vals)
         return True
 
     ##########################################################################
@@ -224,3 +285,35 @@ class RecurringContracts(models.Model):
                 sponsorship.correspondant_id.write({
                     'category_id': [(3, sponsor_cat_id),
                                     (4, old_sponsor_cat_id)]})
+
+    def _on_change_group_id(self, group_id):
+        """ Change state of contract if payment is changed to/from LSV or DD.
+        """
+        group = self.env['recurring.contract.group'].browse(
+            group_id)
+        payment_name = group.payment_term_id.name
+        if group and ('LSV' in payment_name or 'Postfinance' in payment_name):
+            self.signal_workflow('will_pay_by_lsv_dd')
+        else:
+            # Check if old payment_term was LSV or DD
+            for contract in self.filtered('group_id'):
+                payment_name = contract.group_id.payment_term_id.name
+                if 'LSV' in payment_name or 'Postfinance' in payment_name:
+                    contract.signal_workflow('mandate_validated')
+
+    @api.multi
+    def _update_invoice_lines(self, invoices):
+        """ Update bvr_reference of invoices """
+        super(RecurringContracts, self)._update_invoice_lines(invoices)
+        for contract in self:
+            ref = False
+            bank_terms = self.env['account.payment.term'].with_context(
+                lang='en_US').search(
+                ['|', ('name', 'like', 'LSV'),
+                 ('name', 'like', 'Postfinance')])
+            if contract.group_id.bvr_reference:
+                ref = contract.group_id.bvr_reference
+            elif contract.group_id.payment_term_id in bank_terms:
+                seq = self.env['ir.sequence']
+                ref = mod10r(seq.next_by_code('contract.bvr.ref'))
+            invoices.write({'bvr_reference': ref})

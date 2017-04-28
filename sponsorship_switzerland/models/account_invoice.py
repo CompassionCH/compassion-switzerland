@@ -26,12 +26,12 @@ class AccountInvoice(models.Model):
     ], compute='compute_invoice_type', store=True)
     last_payment = fields.Date(compute='compute_last_payment', store=True)
 
-    @api.depends('invoice_line', 'state')
+    @api.depends('invoice_line_ids', 'state')
     @api.multi
     def compute_invoice_type(self):
         for invoice in self.filtered(lambda i: i.state in ('open', 'paid')):
             categories = invoice.with_context(lang='en_US').mapped(
-                'invoice_line.product_id.categ_name')
+                'invoice_line_ids.product_id.categ_name')
             if SPONSORSHIP_CATEGORY in categories:
                 invoice.invoice_type = 'sponsorship'
             elif GIFT_CATEGORY in categories:
