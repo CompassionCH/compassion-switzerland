@@ -34,8 +34,8 @@ class product(models.Model):
         self.ensure_one()
         ref = partner.ref
         bvr_reference = '0' * (9 + (7 - len(ref))) + ref
-        num_pol_ga = '0'
-        bvr_reference += '0' * (5 - len(num_pol_ga)) + num_pol_ga
+        commitment_number = '0'
+        bvr_reference += '0' * (5 - len(commitment_number)) + commitment_number
         # Type for Funds => 6
         bvr_reference += '6'
         # Fund id

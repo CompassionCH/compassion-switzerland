@@ -52,7 +52,7 @@ class change_attribution_wizard(models.TransientModel):
         elif model == 'account.invoice':
             invoices = invoices.browse(active_ids)
 
-        return invoices.mapped('invoice_line.id')
+        return invoices.mapped('invoice_line_ids.id')
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
@@ -88,12 +88,12 @@ class change_attribution_wizard(models.TransientModel):
                         'date_invoice': invoice.date_invoice,
                         'comment': self.comment or 'New invoice after '
                         'payment attribution changed.',
-                        'invoice_line': False})
+                        'invoice_line_ids': False})
 
                 invoice.signal_workflow('invoice_cancel')
                 invoice.write({'comment': self.comment or
                                'Payment attribution changed.'})
-                invoice.invoice_line.copy({'invoice_id': new_invoice.id})
+                invoice.invoice_line_ids.copy({'invoice_id': new_invoice.id})
 
         self = self.with_context(payment_ids=payment_ids.ids)
         new_invoice.to_reconcile = sum(payment_ids.mapped('credit'))

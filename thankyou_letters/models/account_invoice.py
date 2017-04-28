@@ -40,8 +40,9 @@ class AccountInvoice(models.Model):
                 not i.communication_id or
                 i.communication_id.state in ('call', 'pending')) and
             i.invoice_type != 'sponsorship' and (not i.mapped(
-                'invoice_line.contract_id') or i.invoice_type == 'gift') and
-            income_account in i.mapped('invoice_line.account_id.user_type')
+                'invoice_line_ids.contract_id') or i.invoice_type == 'gift'
+            ) and income_account in i.mapped(
+                'invoice_line_ids.account_id.user_type')
         )
         if invoices:
             invoices.generate_thank_you()
@@ -56,7 +57,7 @@ class AccountInvoice(models.Model):
                     i.communication_id.state in ('call', 'pending')):
                 comm = invoice.communication_id
                 object_ids = comm.object_ids
-                for line in invoice.invoice_line:
+                for line in invoice.invoice_line_ids:
                     object_ids = object_ids.replace(
                         str(line.id), '').replace(',,', '').strip(',')
                 if object_ids:
@@ -130,7 +131,7 @@ class AccountInvoice(models.Model):
         partners = self.mapped('partner_id').filtered(
             lambda p: p.thankyou_letter != 'no')
         for partner in partners:
-            invoice_lines = self.mapped('invoice_line').filtered(
+            invoice_lines = self.mapped('invoice_line_ids').filtered(
                 lambda l: l.partner_id == partner)
             event_thank = invoice_lines.filtered('event_id')
             other_thank = invoice_lines - event_thank

@@ -227,7 +227,8 @@ class bank_statement_line(models.Model):
                 mv_line_dict['product_id'])
             sponsorship_id = mv_line_dict.get('sponsorship_id')
             if not sponsorship_id:
-                related_contracts = invoice.mapped('invoice_line.contract_id')
+                related_contracts = invoice.mapped(
+                    'invoice_line_ids.contract_id')
                 if related_contracts:
                     sponsorship_id = related_contracts[0].id
             contract = self.env['recurring.contract'].browse(sponsorship_id)
