@@ -25,6 +25,9 @@ class RecurringContracts(models.Model):
 
     first_open_invoice = fields.Date(compute='_compute_first_open_invoice')
     has_mandate = fields.Boolean(compute='_compute_has_mandate')
+    contract_line_ids = fields.One2many(
+        default=lambda self: self._get_standard_lines()
+    )
 
     @api.model
     def _get_states(self):
@@ -54,6 +57,37 @@ class RecurringContracts(models.Model):
                 ('partner_id', '=', contract.partner_id.id),
                 ('state', '=', 'valid')])
             contract.has_mandate = bool(count)
+
+    @api.model
+    def _get_sponsorship_standard_lines(self):
+        """ Select Sponsorship and General Fund by default """
+        res = []
+        product_obj = self.env['product.product'].with_context(lang='en_US')
+        sponsorship_id = product_obj.search(
+            [('name', '=', 'Sponsorship')])[0].id
+        gen_id = product_obj.search(
+            [('name', '=', 'General Fund')])[0].id
+        sponsorship_vals = {
+            'product_id': sponsorship_id,
+            'quantity': 1,
+            'amount': 42,
+            'subtotal': 42
+        }
+        gen_vals = {
+            'product_id': gen_id,
+            'quantity': 1,
+            'amount': 8,
+            'subtotal': 8
+        }
+        res.append([0, 6, sponsorship_vals])
+        res.append([0, 6, gen_vals])
+        return res
+
+    @api.model
+    def _get_standard_lines(self):
+        if 'S' in self.env.context.get('default_type', 'O'):
+            return self._get_sponsorship_standard_lines()
+        return []
 
     @api.multi
     def write(self, vals):

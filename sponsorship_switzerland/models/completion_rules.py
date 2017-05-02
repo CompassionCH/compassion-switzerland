@@ -256,7 +256,7 @@ class StatementCompletionRule(models.Model):
             'partner_id': partner.id,
             'journal_id': journal_id,
             'date_invoice': st_line['date'],
-            'payment_term': 1,  # Immediate payment
+            'payment_term_id': 1,  # Immediate payment
             'bvr_reference': st_line['ref'],
             'origin': stmts_vals['name']
         }

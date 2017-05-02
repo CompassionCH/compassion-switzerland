@@ -103,7 +103,7 @@ class ResPartner(models.Model):
             ('partner_id', '=', self.id),
             ('account_id.code', '=', '1050'),
             ('credit', '>', '0'),
-            ('reconcile_id', '=', False)])
+            ('full_reconcile_id', '=', False)])
         res = 0
         for move_line in move_line_ids:
             res += move_line.credit

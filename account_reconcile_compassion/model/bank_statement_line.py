@@ -212,7 +212,7 @@ class bank_statement_line(models.Model):
                 'partner_id': self.partner_id.id,
                 'journal_id': journal_id,
                 'date_invoice': self.date,
-                'payment_term': payment_term_id,
+                'payment_term_id': payment_term_id,
                 'bvr_reference': ref,
                 'recurring_invoicer_id': invoicer.id,
                 'currency_id': self.statement_id.currency.id,

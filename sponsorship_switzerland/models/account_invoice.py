@@ -9,10 +9,11 @@
 #
 ##############################################################################
 
+from openerp import api, models, fields, _
+from openerp.exceptions import UserError
+from openerp.tools import mod10r
 from openerp.addons.sponsorship_compassion.models.product import \
     GIFT_CATEGORY, SPONSORSHIP_CATEGORY, FUND_CATEGORY
-
-from openerp import api, models, fields
 
 
 class AccountInvoice(models.Model):
@@ -24,7 +25,6 @@ class AccountInvoice(models.Model):
         ('fund', 'Fund donation'),
         ('other', 'Other'),
     ], compute='compute_invoice_type', store=True)
-    last_payment = fields.Date(compute='compute_last_payment', store=True)
 
     @api.depends('invoice_line_ids', 'state')
     @api.multi
@@ -41,11 +41,24 @@ class AccountInvoice(models.Model):
             else:
                 invoice.invoice_type = 'other'
 
-    @api.depends('payment_ids', 'state')
     @api.multi
-    def compute_last_payment(self):
-        for invoice in self.filtered('payment_ids'):
-            filter = 'credit' if invoice.type == 'out_invoice' else 'debit'
-            payment_dates = invoice.payment_ids.filtered(filter).mapped(
-                'date')
-            invoice.last_payment = max(payment_dates or [False])
+    def action_date_assign(self):
+        """Method called when invoice is validated.
+            - Add BVR Reference if payment term is LSV and no reference is
+              set.
+            - Prevent validating invoices missing related contract.
+        """
+        for invoice in self.filtered('payment_term_id'):
+            if 'LSV' in invoice.payment_term_id.name \
+                    and not invoice.bvr_reference:
+                seq = self.env['ir.sequence']
+                ref = mod10r(seq.next_by_code('contract.bvr.ref'))
+                invoice.write({'bvr_reference': ref})
+            for invl in invoice.invoice_line_ids:
+                if not invl.contract_id and invl.product_id.categ_name in (
+                        SPONSORSHIP_CATEGORY, GIFT_CATEGORY):
+                    raise UserError(
+                        _("Invoice %s for '%s' is missing a sponsorship.") %
+                        (str(invoice.id), invoice.partner_id.name))
+
+        return super(AccountInvoice, self).action_date_assign()

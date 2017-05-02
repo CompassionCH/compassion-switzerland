@@ -69,9 +69,9 @@ class change_attribution_wizard(models.TransientModel):
 
         # Unreconcile payments
         payment_ids = self.invoice_line_ids.mapped(
-            'invoice_id.payment_ids')
-        move_lines = payment_ids.mapped('reconcile_id.line_id')
-        self.env['account.move.line']._remove_move_reconcile(move_lines.ids)
+            'invoice_id.payment_move_line_ids')
+        move_lines = payment_ids.mapped('full_reconcile_id.line_id')
+        self.env['account.move.line'].remove_move_reconcile(move_lines.ids)
 
         # Cancel paid invoices and move invoice lines to a new
         # draft invoice.
@@ -117,10 +117,10 @@ class change_attribution_wizard(models.TransientModel):
         invoice_obj = self.env['account.invoice']
         move_lines = mvl_obj.browse(mvl_ids).filtered(
             lambda mvl: mvl.credit > 0)
-        reconcile_ids = move_lines.mapped('reconcile_id.id')
+        reconcile_ids = move_lines.mapped('full_reconcile_id.id')
         # Find related reconciled invoices
         invoices = invoice_obj.search([
-            ('move_id.line_id.reconcile_id', 'in', reconcile_ids),
+            ('move_id.line_id.full_reconcile_id', 'in', reconcile_ids),
             ('state', '=', 'paid'),
             ('residual', '=', 0.0)])
         return invoices

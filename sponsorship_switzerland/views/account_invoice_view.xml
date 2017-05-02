@@ -21,7 +21,7 @@
                 <field name="amount_untaxed" position="replace"/>
 
                 <field name="state" position="before">
-                    <field name="payment_term"/>
+                    <field name="payment_term_id"/>
                     <field name="invoice_type"/>
                 </field>
             </field>
@@ -33,7 +33,7 @@
             <field name="inherit_id" ref="account.view_account_invoice_filter"/>
             <field name="arch" type="xml">
                 <field name="period_id" position="after">
-                    <field name="payment_term"/>
+                    <field name="payment_term_id"/>
                     <field name="invoice_type"/>
                 </field>
                 <xpath expr="//group[@string='Group By']">

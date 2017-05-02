@@ -70,7 +70,7 @@ class ContractGroup(models.Model):
         contracts = self.env['recurring.contract']
         inv_vals = dict()
         if 'payment_term_id' in vals:
-            inv_vals['payment_term'] = vals['payment_term_id']
+            inv_vals['payment_term_id'] = vals['payment_term_id']
             payment_term = self.env['account.payment.term'].with_context(
                 lang='en_US').browse(vals['payment_term_id'])
             payment_name = payment_term.name
