@@ -126,32 +126,35 @@ class ContractGroup(models.Model):
         """
         self.ensure_one()
         payment_term = self.with_context(lang='en_US').payment_term_id
-        date_start = fields.Date.from_string(start)
-        date_stop = fields.Date.from_string(stop)
-        nb_month = relativedelta(date_stop, date_start).months + 1
-        amount = 0
+        amount = sum(sponsorships.mapped('amount_total'))
         number_sponsorship = 0
-        month = date_start
-        for i in range(0, nb_month):
-            valid = sponsorships.filtered(
-                lambda s: s.first_open_invoice and
-                fields.Date.from_string(s.first_open_invoice) <= month or
-                fields.Date.from_string(s.next_invoice_date) <= month
-            )
-            number_sponsorship = max(number_sponsorship, len(valid))
-            amount += sum(valid.mapped('total_amount'))
-            month += relativedelta(months=1)
+
+        if start and stop:
+            date_start = fields.Date.from_string(start)
+            date_stop = fields.Date.from_string(stop)
+            nb_month = relativedelta(date_stop, date_start).months + 1
+            month = date_start
+            amount = 0
+            for i in range(0, nb_month):
+                valid = sponsorships.filtered(
+                    lambda s: s.first_open_invoice and
+                    fields.Date.from_string(s.first_open_invoice) <= month or
+                    (s.next_invoice_date and
+                     fields.Date.from_string(s.next_invoice_date) <= month)
+                )
+                number_sponsorship = max(number_sponsorship, len(valid))
+                amount += sum(valid.mapped('total_amount'))
+                month += relativedelta(months=1)
         vals = {
             'amount': "CHF {:.0f}".format(amount),
             'subject': _("for") + " ",
         }
         with setlocale(self.partner_id.lang):
-            if start == stop:
-                vals['date'] = date_start.strftime("%B %Y")
-            else:
-                vals['date'] = date_start.strftime("%B %Y") + \
-                    " - " + date_stop.strftime("%B %Y")
-            vals['date'] = vals['date'].decode('utf-8')
+            if start and stop and start == stop:
+                vals['date'] = date_start.strftime("%B %Y").decode('utf-8')
+            elif start and stop:
+                vals['date'] = date_start.strftime("%B %Y").decode('utf-8') + \
+                    " - " + date_stop.strftime("%B %Y").decode('utf-8')
             if 'Permanent' in payment_term.name:
                 vals['payment_type'] = _('ISR for standing order')
                 vals['date'] = ''
