@@ -536,7 +536,8 @@ class ImportLettersHistory(models.Model):
             if sponsor_ref:
                 # Retrieve sponsor reference and find corresponding id
                 model_sponsor = self.env['res.partner'].search(
-                    [('ref', '=', sponsor_ref),
+                    ['|', ('ref', '=', sponsor_ref),
+                     ('global_id', '=', sponsor_ref),
                      ('has_sponsorships', '=', True)])
                 sponsor_id = model_sponsor.id
 
