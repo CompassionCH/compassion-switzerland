@@ -126,7 +126,7 @@ class ContractGroup(models.Model):
         """
         self.ensure_one()
         payment_term = self.with_context(lang='en_US').payment_term_id
-        amount = sum(sponsorships.mapped('amount_total'))
+        amount = sum(sponsorships.mapped('total_amount'))
         number_sponsorship = 0
 
         if start and stop:
