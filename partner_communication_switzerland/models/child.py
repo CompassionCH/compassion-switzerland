@@ -49,7 +49,6 @@ class CompassionChild(models.Model):
     old_values = fields.Char(compute='_compute_revised_values')
     old_firstname = fields.Char(compute='_compute_revised_values')
     current_values = fields.Char(compute='_compute_revised_values')
-    birthday_month = fields.Char(compute='_compute_birthday_month')
     completion_month = fields.Char(compute='_compute_completion_month')
     picture_frame = fields.Binary(compute='_compute_picture_frame')
 
@@ -68,16 +67,6 @@ class CompassionChild(models.Model):
         super(CompassionChild, self)._major_revision(vals)
         if self.revised_value_ids and self.sponsor_id:
             major_revision(self, self.revised_value_ids)
-
-    def _compute_birthday_month(self):
-        """ Gets the birthday month in full text. """
-        current_locale = '.'.join(locale.getlocale())
-        for child in self.filtered('birthdate'):
-            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
-            birthday = fields.Date.from_string(child.birthdate)
-            locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
-            child.birthday_month = birthday.strftime("%B")
-            locale.setlocale(locale.LC_TIME, current_locale)
 
     def _compute_completion_month(self):
         """ Completion month in full text. """
