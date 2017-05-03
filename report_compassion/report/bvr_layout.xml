@@ -76,6 +76,7 @@
                 .receipt .pay_for {
                     position: absolute;
                     height: 15mm;
+                    width: 100%;
                 }
                 .receipt .communication {
                     position: absolute;
