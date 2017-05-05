@@ -63,7 +63,7 @@ class EmailTemplate(models.Model):
         some partners that share the same e-mail and because we won't
         create a new partner when sending to a static address
     """
-    _inherit = 'email.template'
+    _inherit = 'mail.template'
 
     @api.v7
     def generate_email_batch(self, cr, uid, tpl_id=False, res_ids=None,

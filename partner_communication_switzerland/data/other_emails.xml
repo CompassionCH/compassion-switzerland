@@ -1,7 +1,7 @@
 <openerp>
     <data noupdate="1">
         <!-- Hold Removal Notification -->
-        <record id="email_hold_removal" model="email.template">
+        <record id="email_hold_removal" model="mail.template">
             <field name="name">Beneficiary Hold Removal</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -32,7 +32,7 @@
         </record>
 
         <!-- New picture e-mail -->
-        <record id="email_biennial" model="email.template">
+        <record id="email_biennial" model="mail.template">
             <field name="name">New Biennial</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -71,7 +71,7 @@
         </record>
 
         <!-- E-mail for new Child Notes -->
-        <record id="email_child_notes" model="email.template">
+        <record id="email_child_notes" model="mail.template">
             <field name="name">New Child Notes</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -100,7 +100,7 @@
         </record>
 
         <!-- E-mail for Disaster Alert -->
-        <record id="email_disaster_alert" model="email.template">
+        <record id="email_disaster_alert" model="mail.template">
             <field name="name">Disaster Alert</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -182,7 +182,7 @@
         </record>
 
         <!-- Default communication -->
-        <record id="email_template_default_communication" model="email.template">
+        <record id="email_template_default_communication" model="mail.template">
             <field name="name">Default Communication</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>

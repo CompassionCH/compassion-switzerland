@@ -1,7 +1,7 @@
 <openerp>
     <data noupdate="1">
         <!-- Project lifecycle -->
-        <record id="email_project_suspension" model="email.template">
+        <record id="email_project_suspension" model="mail.template">
             <field name="name">Project Suspension</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
@@ -65,7 +65,7 @@
             </field>
         </record>
 
-        <record id="email_project_suspension_e1" model="email.template">
+        <record id="email_project_suspension_e1" model="mail.template">
             <field name="name">Project Suspension Extension 1</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
@@ -101,7 +101,7 @@
             </field>
         </record>
 
-        <record id="email_project_suspension_e2" model="email.template">
+        <record id="email_project_suspension_e2" model="mail.template">
             <field name="name">Project Suspension Extension 2</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
@@ -138,7 +138,7 @@
             </field>
         </record>
 
-        <record id="email_project_reactivation" model="email.template">
+        <record id="email_project_reactivation" model="mail.template">
             <field name="name">Project Reactivation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
@@ -170,7 +170,7 @@
         </record>
 
         <!-- ICP Transition -->
-        <record id="email_project_transition" model="email.template">
+        <record id="email_project_transition" model="mail.template">
             <field name="name">Project Transition</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="use_default_to" eval="True"/>

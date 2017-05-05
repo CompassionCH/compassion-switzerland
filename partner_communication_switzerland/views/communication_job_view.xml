@@ -19,7 +19,7 @@
         <!-- Add menu for editing e-mail templates of communications -->
         <record id="action_communication_template" model="ir.actions.act_window">
             <field name="name">Communication templates</field>
-            <field name="res_model">email.template</field>
+            <field name="res_model">mail.template</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('model_id.model', '=', 'partner.communication.job')]</field>

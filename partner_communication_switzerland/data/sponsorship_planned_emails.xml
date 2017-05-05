@@ -3,7 +3,7 @@
         <!--
         New Sponsorship Dossier
         -->
-        <record id="email_sponsorship_dossier" model="email.template">
+        <record id="email_sponsorship_dossier" model="mail.template">
             <field name="name">Sponsorship - New Dossier</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -59,7 +59,7 @@
             <!-- This field could be used to attach the labels sheet. -->
             <field name="report_remplate"/>
         </record>
-        <record id="email_sponsorship_dossier_correspondent" model="email.template">
+        <record id="email_sponsorship_dossier_correspondent" model="mail.template">
             <field name="name">Sponsorship - New Dossier for Correspondent only</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -110,7 +110,7 @@
             <!-- This field could be used to attach the labels sheet. -->
             <field name="report_remplate"/>
         </record>
-        <record id="email_sponsorship_dossier_payer" model="email.template">
+        <record id="email_sponsorship_dossier_payer" model="mail.template">
             <field name="name">Sponsorship - New Dossier for Payer only</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -164,7 +164,7 @@
         <!--
         Welcome Letter
         -->
-        <record id="email_sponsorship_welcome" model="email.template">
+        <record id="email_sponsorship_welcome" model="mail.template">
             <field name="name">Sponsorship - Welcome Letter</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -216,7 +216,7 @@
         <!--
         Sponsorship anniversary
         -->
-        <record id="email_sponsorship_anniversary_1" model="email.template">
+        <record id="email_sponsorship_anniversary_1" model="mail.template">
             <field name="name">Sponsorship - Anniversary 1 year</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -250,7 +250,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_anniversary_3" model="email.template">
+        <record id="email_sponsorship_anniversary_3" model="mail.template">
             <field name="name">Sponsorship - Anniversary 3 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -284,7 +284,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_anniversary_5" model="email.template">
+        <record id="email_sponsorship_anniversary_5" model="mail.template">
             <field name="name">Sponsorship - Anniversary 5 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -317,7 +317,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_anniversary_10" model="email.template">
+        <record id="email_sponsorship_anniversary_10" model="mail.template">
             <field name="name">Sponsorship - Anniversary 10 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -347,7 +347,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_anniversary_15" model="email.template">
+        <record id="email_sponsorship_anniversary_15" model="mail.template">
             <field name="name">Sponsorship - Anniversary 15 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -384,7 +384,7 @@
         <!--
         Birthday Reminder
         -->
-        <record id="email_sponsorship_birthday_reminder" model="email.template">
+        <record id="email_sponsorship_birthday_reminder" model="mail.template">
             <field name="name">Sponsorship - Birthday Reminder</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -427,7 +427,7 @@
         <!--
         Completion in 4 months
         -->
-        <record id="email_sponsorship_completion" model="email.template">
+        <record id="email_sponsorship_completion" model="mail.template">
             <field name="name">Sponsorship - Completion</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -471,7 +471,7 @@
         <!--
         SUB Sponsorship proposal e-mails
         -->
-        <record id="email_sponsorship_sub_dossier" model="email.template">
+        <record id="email_sponsorship_sub_dossier" model="mail.template">
             <field name="name">Sponsorship - SUB Proposal</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -502,7 +502,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_no_sub" model="email.template">
+        <record id="email_sponsorship_no_sub" model="mail.template">
             <field name="name">Sponsorship - No SUB</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -525,7 +525,7 @@
         </record>
 
         <!-- E-mail for Sponsorship Reminders -->
-        <record id="email_sponsorship_reminder_1" model="email.template">
+        <record id="email_sponsorship_reminder_1" model="mail.template">
             <field name="name">Sponsorship Reminder 1</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -579,7 +579,7 @@
             </field>
         </record>
 
-        <record id="email_sponsorship_reminder_2" model="email.template">
+        <record id="email_sponsorship_reminder_2" model="mail.template">
             <field name="name">Sponsorship Reminder 2</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -621,7 +621,7 @@
         </record>
 
         <!-- E-mail for Waiting Sponsorship Reminders -->
-        <record id="email_sponsorship_waiting_reminder_1" model="email.template">
+        <record id="email_sponsorship_waiting_reminder_1" model="mail.template">
             <field name="name">Sponsorship Waiting Reminder 1</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -669,7 +669,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_waiting_reminder_2" model="email.template">
+        <record id="email_sponsorship_waiting_reminder_2" model="mail.template">
             <field name="name">Sponsorship Waiting Reminder 2</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -705,7 +705,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_waiting_reminder_3" model="email.template">
+        <record id="email_sponsorship_waiting_reminder_3" model="mail.template">
             <field name="name">Sponsorship Waiting Reminder 3</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -735,7 +735,7 @@
         </record>
 
         <!-- Sponsorship Cancellation -->
-        <record id="email_sponsorship_cancellation" model="email.template">
+        <record id="email_sponsorship_cancellation" model="mail.template">
             <field name="name">Sponsorship Cancellation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>

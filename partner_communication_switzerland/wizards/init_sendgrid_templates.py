@@ -20,7 +20,7 @@ class CompassionChild(models.TransientModel):
     @api.model
     def init_templates(self):
         """ Add sendgrid template configuration and add substitutions. """
-        templates = self.env['email.template'].search([
+        templates = self.env['mail.template'].search([
             '|', '|', '|',
             ('name', 'like', 'Major Revision'),
             ('name', 'like', 'Child Lifecycle'),

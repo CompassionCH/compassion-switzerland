@@ -1,7 +1,7 @@
 <openerp>
     <data noupdate="1">
         <!-- Address Change -->
-        <record id="email_address_change" model="email.template">
+        <record id="email_address_change" model="mail.template">
             <field name="name">Address Change</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="use_default_to" eval="True"/>
@@ -33,7 +33,7 @@
         </record>
 
         <!-- Invalid email -->
-        <record id="email_invalid_email" model="email.template">
+        <record id="email_invalid_email" model="mail.template">
             <field name="name">Invalid Email</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="use_default_to" eval="True"/>

@@ -309,7 +309,7 @@ class RecurringContract(models.Model):
         attachments[product_name + '.pdf'] = [
             report,
             base64.b64encode(report_obj.get_pdf(
-                self, report,
+                self.ids, report,
                 data={
                     'doc_ids': self.ids,
                     'product_ids': products.ids,

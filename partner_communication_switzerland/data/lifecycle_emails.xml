@@ -1,7 +1,7 @@
 <openerp>
     <data noupdate="1">
         <!-- Child Transfer -->
-        <record id="email_child_transfer" model="email.template">
+        <record id="email_child_transfer" model="mail.template">
             <field name="name">Child Lifecycle - Transfer</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -33,7 +33,7 @@
         </record>
 
         <!-- Child Transition -->
-        <record id="email_child_transition" model="email.template">
+        <record id="email_child_transition" model="mail.template">
             <field name="name">Child Lifecycle - Transition</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -64,7 +64,7 @@
 
         <!-- Child Planned Exit -->
         <!-- For now, planned and unplanned exit share the same template, but they might differ. -->
-        <record id="email_child_planned_exit" model="email.template">
+        <record id="email_child_planned_exit" model="mail.template">
             <field name="name">Child Lifecycle - Planned Exit</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -97,7 +97,7 @@
         </record>
 
         <!-- Child Unplanned Exit -->
-        <record id="email_child_unplanned_exit" model="email.template">
+        <record id="email_child_unplanned_exit" model="mail.template">
             <field name="name">Child Lifecycle - Unplanned Exit</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -130,7 +130,7 @@
         </record>
 
         <!-- Child Reinstatement -->
-        <record id="email_child_reinstatement" model="email.template">
+        <record id="email_child_reinstatement" model="mail.template">
             <field name="name">Child Lifecycle - Reinstatement</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>

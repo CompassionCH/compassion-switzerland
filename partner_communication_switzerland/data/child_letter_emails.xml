@@ -1,7 +1,7 @@
 <openerp>
     <data noupdate="1">
         <!-- Final letter -->
-        <record id="final_letter" model="email.template">
+        <record id="final_letter" model="mail.template">
             <field name="name">B2S Final Letter</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -48,7 +48,7 @@
         </record>
 
         <!-- New letter -->
-        <record id="new_letter" model="email.template">
+        <record id="new_letter" model="mail.template">
             <field name="name">B2S New letter</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -83,7 +83,7 @@
         </record>
 
         <!-- Old letter -->
-        <record id="old_letter" model="email.template">
+        <record id="old_letter" model="mail.template">
             <field name="name">B2S Old letter published</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>

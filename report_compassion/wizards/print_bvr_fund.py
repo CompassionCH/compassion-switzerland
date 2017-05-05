@@ -48,8 +48,8 @@ class PrintBvrFund(models.TransientModel):
             self.pdf_name = self.product_id.name + '.pdf'
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(
-                    must_skip_send_to_printer=True).get_pdf(partners, report,
-                                                            data=data))
+                    must_skip_send_to_printer=True).get_pdf(
+                        partners.ids, report, data=data))
             self.state = 'pdf'
             return {
                 'name': 'Download report',
