@@ -48,8 +48,9 @@ class PartnerCommunication(models.Model):
         """
         res = super(PartnerCommunication, self).send()
         donator = self.env.ref('partner_compassion.res_partner_category_donor')
-        for job in self.filtered(lambda j: j.config_id.model ==
-                                 'account.invoice.line'):
-            job.partner_id.category_id += donator
+        partners = self.filtered(
+            lambda j: j.config_id.model == 'account.invoice.line' and
+            donator not in j.partner_id.category_id).mapped('partner_id')
+        partners.write({'category_id': [(4, donator.id)]})
 
         return res
