@@ -102,7 +102,8 @@ class CompassionHold(models.Model):
         :return: None
         """
         notification_text = "\n\nA reminder was sent to the sponsor {} ({})"
-        sponsorships = self.env['recurring.contract']
+        sponsorships = self.env['recurring.contract'].with_context(
+            default_auto_send=False)
         for hold in self.filtered('child_id.sponsorship_ids'):
             sponsorship = hold.child_id.sponsorship_ids[0]
             sponsor = hold.child_id.sponsor_id
