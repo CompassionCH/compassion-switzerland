@@ -181,6 +181,7 @@ class Correspondence(models.Model):
             [('code_iso', '=', translate_lang)]).id
         translator_partner = self.env['res.partner'].search([
             ('ref', '=', translator)])
+        local_id = self.child_id.local_id
 
         if self.direction == 'Supporter To Beneficiary':
             state = 'Received in the system'
@@ -190,7 +191,7 @@ class Correspondence(models.Model):
             translate_text = translate_text.replace(BOX_SEPARATOR, '\n')
             # TODO Remove this fix when HAITI case is resolved
             # For now we switch French to Creole
-            if 'HA' in self.child_id.local_id:
+            if 'HA' in local_id:
                 french = self.env.ref(
                     'child_compassion.lang_compassion_french')
                 creole = self.env.ref(
@@ -204,7 +205,8 @@ class Correspondence(models.Model):
             # TODO Remove this when new translation tool is working
             # Workaround to avoid overlapping translation : everything goes
             # in L6 template
-            self.b2s_layout_id = self.env.ref('sbc_compassion.b2s_l6')
+            if 'HO' not in local_id and 'RW' not in local_id:
+                self.b2s_layout_id = self.env.ref('sbc_compassion.b2s_l6')
 
         # Check that layout L4 translation gets on second page
         if self.b2s_layout_id == self.env.ref('sbc_compassion.b2s_l4') and \
