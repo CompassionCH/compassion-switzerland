@@ -53,6 +53,8 @@ class ProjectLifecycle(models.Model):
                     search.append(('name', 'ilike', 'Extension 2'))
                 elif lifecycle.extension_1:
                     search.append(('name', 'ilike', 'Extension 1'))
+                else:
+                    search.append(('name', '=', 'Project Suspension'))
             communication_type = self.env[
                 'partner.communication.config'].search(search)
             if communication_type:
