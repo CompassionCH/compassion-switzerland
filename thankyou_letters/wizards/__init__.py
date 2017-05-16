@@ -10,3 +10,4 @@
 ##############################################################################
 
 from . import init_sendgrid_templates
+from . import change_text_wizard
