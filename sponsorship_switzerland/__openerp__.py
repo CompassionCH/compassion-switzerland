@@ -30,16 +30,24 @@
 
 {
     'name': 'Tailor Sponsorships to Compassion CH needs',
-    'version': '8.0.3.0',
+    'version': '9.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_tracking', 'partner_compassion',
-                'partner_communication', 'account_statement_completion'],
+    'depends': [
+        'crm_compassion',
+        'sponsorship_tracking',
+        'partner_compassion',
+        'partner_communication',
+        'account_statement_completion',
+        'l10n_ch_payment_slip',
+        'account_payment_order'],
     'data': [
         'data/product.xml',
         'data/completion_rules.xml',
         'data/payment_terms.xml',
+        'data/sequence.xml',
+        'workflow/contract_workflow.xml',
         'workflow/sds_workflow.xml',
         'security/ir.model.access.csv',
         'views/account_invoice_view.xml',
@@ -47,8 +55,7 @@
         'views/statement_view.xml',
         'views/contract_view.xml',
     ],
-    'js': ['static/src/js/sponsorship_tracking_kanban.js'],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

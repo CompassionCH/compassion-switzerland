@@ -219,25 +219,6 @@ class RecurringContracts(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _clean_invoices(self, since_date=None, to_date=None, keep_lines=None):
-        """ Perform an automatic reconcile after cleaning invoices """
-        invoices = super(RecurringContracts, self)._clean_invoices(
-            since_date, to_date, keep_lines)
-        self._auto_reconcile()
-        return invoices
-
-    def _auto_reconcile(self):
-        client_account = self.env['account.account'].search([
-            ('code', '=', '1050')])
-        auto_rec = self.env['account.automatic.reconcile'].create({
-            'account_ids': [(4, client_account.id)]
-        })
-        try:
-            auto_rec.reconcile()
-        except:
-            logger.error("Unable to perform automatic reconciliation after "
-                         "cleaning contract invoices.")
-
     def _filter_clean_invoices(self, since_date, to_date):
         """ For LSV/DD contracts, don't clean invoices that are in a
             Payment Order.

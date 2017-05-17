@@ -20,11 +20,18 @@ virtualenv:
 
 install:
     - pip install click flake8 coveralls xlrd pylint pylint_odoo coverage codecov
-    - pip install pyjwt pyquery
+    - pip install pyjwt pyquery python-magic wand phonenumbers
     - git clone https://github.com/CompassionCH/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools -b r2
     - git clone https://github.com/CompassionCH/compassion-modules.git ${HOME}/build/CompassionCH/compassion-modules -b 9.0
+    - git clone https://github.com/CompassionCH/compassion-accounting.git ${HOME}/build/CompassionCH/compassion-accounting -b 9.0
     - git clone https://github.com/OCA/web.git ${HOME}/build/CompassionCH/web -b 9.0
     - git clone https://github.com/OCA/connector.git ${HOME}/build/CompassionCH/connector -b 9.0
+    - git clone https://github.com/OCA/l10n-switzerland.git ${HOME}/build/CompassionCH/l10n-switzerland -b 9.0
+    - git clone https://github.com/OCA/bank-payment.git ${HOME}/build/CompassionCH/bank-payment -b 9.0
+    - git clone https://github.com/OCA/partner-contact.git ${HOME}/build/CompassionCH/partner-contact -b 9.0
+    - git clone https://github.com/OCA/connector-telephony.git ${HOME}/build/CompassionCH/connector-telephony -b 9.0
+    - git clone https://github.com/OCA/report-print-send.git ${HOME}/build/CompassionCH/report-print-send -b 9.0
+    - git clone https://github.com/CompassionCH/social.git ${HOME}/build/CompassionCH/social -b 9.0-sendgrid
     - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
     - travis_install_nightly
 

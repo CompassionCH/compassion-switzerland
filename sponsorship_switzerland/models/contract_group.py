@@ -10,7 +10,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning as UserError
+from openerp.exceptions import UserError
 from openerp.tools import mod10r
 
 
@@ -40,7 +40,7 @@ class ContractGroup(models.Model):
     def _get_op_payment_term(self):
         """ Get Permanent Order Payment Term, to set it by default. """
         record = self.env.ref(
-            'contract_compassion.payment_term_permanent_order')
+            'sponsorship_switzerland.payment_term_permanent_order')
         return record.id
 
     ##########################################################################
@@ -108,7 +108,7 @@ class ContractGroup(models.Model):
     ##########################################################################
     def compute_partner_bvr_ref(self, partner=None, is_lsv=False):
         """ Generates a new BVR Reference.
-        See file \\nas\it\devel\Code_ref_BVR.xls for more information."""
+        See file /nas/it/devel/Code_ref_BVR.xls for more information."""
         self.ensure_one()
         if self.exists():
             # If group was already existing, retrieve any existing reference

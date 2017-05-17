@@ -33,7 +33,7 @@ class AccountBankingMandate(models.Model):
 
         if action in MANDATE_STATE:
             self.partner_id.message_post(
-                "For account: " + self.partner_bank_id.acc_number,
+                "For account: " + (self.partner_bank_id.acc_number or ''),
                 "Mandate " + MANDATE_STATE[action], 'comment')
 
     @api.model

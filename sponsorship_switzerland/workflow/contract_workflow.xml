@@ -36,7 +36,7 @@
     </record>
     <record model="workflow.transition" id="t3a">
         <field name="act_from" ref="act_mandate" />
-        <field name="act_to" ref="act_cancelled" />
+        <field name="act_to" ref="contract_compassion.act_cancelled" />
         <field name="signal">contract_terminated</field>
         <field name="condition">not global_id</field>
     </record>
@@ -53,7 +53,7 @@
     </record>
     <record model="workflow.transition" id="t4b">
         <field name="act_from" ref="act_validation" />
-        <field name="act_to" ref="act_waiting" />
+        <field name="act_to" ref="contract_compassion.act_waiting" />
         <field name="condition">not ('LSV' in group_id.payment_term_id.name or 'Postfinance' in group_id.payment_term_id.name)</field>
     </record>
     <record model="workflow.transition" id="t5">
@@ -63,12 +63,12 @@
     </record>
     <record model="workflow.transition" id="t6">
         <field name="act_from" ref="act_banking_validation" />
-        <field name="act_to" ref="act_waiting" />
+        <field name="act_to" ref="contract_compassion.act_waiting" />
         <field name="condition">has_mandate</field>
     </record>
     <record model="workflow.transition" id="t6a">
         <field name="act_from" ref="act_mandate" />
-        <field name="act_to" ref="act_waiting" />
+        <field name="act_to" ref="contract_compassion.act_waiting" />
         <field name="signal">mandate_validated</field>
         <field name="condition">not is_active</field>
     </record>
@@ -85,7 +85,7 @@
         <field name="condition">not has_mandate</field>
     </record>
     <record model="workflow.transition" id="t9">
-        <field name="act_from" ref="act_waiting" />
+        <field name="act_from" ref="contract_compassion.act_waiting" />
         <field name="act_to" ref="act_mandate" />
         <field name="signal">will_pay_by_lsv_dd</field>
         <field name="condition">not has_mandate</field>
