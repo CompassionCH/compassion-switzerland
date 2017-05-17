@@ -4,7 +4,7 @@
     @author Emanuel Cino <ecino@compassion.ch>
     The licence is in the file __openerp__.py
 -->
-<openerp>
+<odoo>
 	<data noupdate="1">
 		<record id="geocode_cron" model="ir.cron">
 			<field name="name">Geocode all partners</field>
@@ -24,4 +24,4 @@
 			<field name="value">ecino</field>
 		</record>
 	</data>
-</openerp>
+</odoo>

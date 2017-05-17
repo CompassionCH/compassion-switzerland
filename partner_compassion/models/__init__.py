@@ -13,6 +13,6 @@ from . import partner_bank_compassion
 from . import partner_compassion
 from . import email
 from . import mail_message
-from . import mail_notification
+# from . import mail_notification
 from . import mail_followers
 from . import product

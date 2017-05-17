@@ -27,7 +27,7 @@ class Email(models.Model):
                 notify = message.model and not (
                     message.model == 'res.partner' and
                     message.res_id == partner.id
-                ) and message.model != 'mail.notification'
+                )  # and message.model != 'mail.notification'
                 if notify:
                     message_id = partner.message_post(
                         email.body_html, email.subject)
@@ -44,8 +44,8 @@ class Email(models.Model):
             # in order to display the tracking information in the
             # related object thread. (Except for notifications which are
             # already tracked)
-            enable_tracking = message.model and message.model \
-                != 'mail.notification'
+            enable_tracking = message.model  # and \
+            # message.model != 'mail.notification'
             if enable_tracking:
                 message_vals = {}
                 if not message.subtype_id:
@@ -65,10 +65,10 @@ class EmailTemplate(models.Model):
     """
     _inherit = 'mail.template'
 
-    @api.v7
-    def generate_email_batch(self, cr, uid, tpl_id=False, res_ids=None,
-                             fields=None, context=None):
-        if context and 'tpl_partners_only' in context:
+    @api.multi
+    def generate_email(self, res_ids=None, fields=None):
+        context = self.env.context.copy()
+        if 'tpl_partners_only' in context:
             del context['tpl_partners_only']
-        return super(EmailTemplate, self).generate_email_batch(
-            cr, uid, tpl_id, res_ids, fields=fields, context=context)
+        return super(EmailTemplate, self.with_context(
+            context)).generate_email_batch(res_ids, fields=fields)

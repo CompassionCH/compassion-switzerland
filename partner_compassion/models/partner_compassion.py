@@ -117,12 +117,13 @@ class ResPartner(models.Model):
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
         partner = super(ResPartner, self.with_context(
             no_geocode=True)).create(vals)
-        if self._can_geocode():
-            # Call precise service of localization
-            partner.geocode_address()
-            if not partner.geo_point:
-                # Call approximate service
-                partner.geocode_from_geonames()
+        # TODO : Activate when geocode module is ported
+        # if self._can_geocode():
+        #     # Call precise service of localization
+        #     partner.geocode_address()
+        #     if not partner.geo_point:
+        #         # Call approximate service
+        #         partner.geocode_from_geonames()
         return partner
 
     @api.model

@@ -14,7 +14,7 @@ from openerp import models, api
 
 
 class MailNotification(models.Model):
-    _inherit = 'mail.notification'
+    _inherit = 'email.notification'
 
     @api.multi
     def _notify_email(self, message_id, force_send=True, user_signature=True):

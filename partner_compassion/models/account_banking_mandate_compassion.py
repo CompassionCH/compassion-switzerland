@@ -19,7 +19,7 @@ MANDATE_STATE = {'create': 'created',
                  'delete': 'deleted'}
 
 
-class Account_Banking_Mandate(models.Model):
+class AccountBankingMandate(models.Model):
     """ This class upgrade the partners.bank to match Compassion needs.
     """
     _inherit = 'account.banking.mandate'
@@ -40,7 +40,7 @@ class Account_Banking_Mandate(models.Model):
     def create(self, data):
         """Override function to notify creation in a message on partner feed
         """
-        result = super(Account_Banking_Mandate, self).create(data)
+        result = super(AccountBankingMandate, self).create(data)
         result._update_mandate_status_partner('create')
 
         return result
@@ -54,7 +54,7 @@ class Account_Banking_Mandate(models.Model):
         for mandate in self:
             mandate._update_mandate_status_partner('validate')
 
-        super(Account_Banking_Mandate, self).validate()
+        super(AccountBankingMandate, self).validate()
 
         return True
 
@@ -67,7 +67,7 @@ class Account_Banking_Mandate(models.Model):
         for mandate in self:
             mandate._update_mandate_status_partner('cancel')
 
-        super(Account_Banking_Mandate, self).cancel()
+        super(AccountBankingMandate, self).cancel()
         return True
 
     @api.multi
@@ -79,7 +79,7 @@ class Account_Banking_Mandate(models.Model):
         for mandate in self:
             mandate._update_mandate_status_partner('back2draft')
 
-        super(Account_Banking_Mandate, self).back2draft()
+        super(AccountBankingMandate, self).back2draft()
         return True
 
     @api.multi
@@ -91,5 +91,5 @@ class Account_Banking_Mandate(models.Model):
         for mandate in self:
             mandate._update_mandate_status_partner('delete')
 
-        result = super(Account_Banking_Mandate, self).unlink()
+        result = super(AccountBankingMandate, self).unlink()
         return result
