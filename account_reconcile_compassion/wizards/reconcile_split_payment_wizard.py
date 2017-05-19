@@ -12,7 +12,7 @@
 from openerp import api, models, fields
 
 
-class reconcile_split_payment_wizard(models.TransientModel):
+class ReconcileSplitPaymentWizard(models.TransientModel):
     """Wizard that helps the user doing a full reconciliation when a customer
     paid more than excepted. It splits the payment into two move lines so
     that one invoice can be reconciled and the extra amount is kept in

@@ -154,7 +154,7 @@ msgstr ""
 
 #. module: account_reconcile_compassion
 #. openerp-web
-#: field:account.statement.operation.template,product_id:0
+#: field:account.operation.template,product_id:0
 #: code:addons/account_reconcile_compassion/static/src/js/account_move_reconciliation.js:87
 #: code:addons/account_reconcile_compassion/static/src/js/account_move_reconciliation.js:93
 #, python-format

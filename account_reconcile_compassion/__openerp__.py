@@ -33,20 +33,23 @@
     'author': 'Compassion CH',
     'category': 'Finance',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_switzerland'],
+    'depends': [
+        'sponsorship_switzerland'
+    ],
     'data': [
         'data/statement_operation.xml',
-        'view/account_reconcile_compassion.xml',
-        'view/statement_operation_view.xml',
-        'view/reconcile_fund_wizard_view.xml',
-        'view/reconcile_split_payment_wizard_view.xml',
-        'view/change_attribution_wizard_view.xml',
-        'view/account_invoice_view.xml',
+        'views/statement_view.xml',
+        'views/account_reconcile_compassion.xml',
+        'views/statement_operation_view.xml',
+        'views/reconcile_fund_wizard_view.xml',
+        'views/reconcile_split_payment_wizard_view.xml',
+        'views/change_attribution_wizard_view.xml',
+        'views/account_invoice_view.xml',
         ],
     'qweb': ['static/src/xml/account_move_reconciliation.xml'],
     'demo': [],
     'test': [],
     'auto_install': False,
-    'installable': False,
+    'installable': True,
     'images': []
 }

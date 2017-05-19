@@ -12,7 +12,7 @@
 from openerp import api, models, fields, exceptions, _
 
 
-class reconcile_fund_self(models.TransientModel):
+class ReconcileFundWizard(models.TransientModel):
     """wizard that helps the user doing a full reconciliation when a customer
     paid more than excepted. It puts the extra amount in a fund selected
     in the self and fully reconcile the credit line. """
@@ -50,8 +50,7 @@ class reconcile_fund_self(models.TransientModel):
             and reconcile it with selected move lines
         '''
         if not self.contract_ids:
-            raise exceptions.Warning(
-                _('No contract'),
+            raise exceptions.UserError(
                 _('This operation is only allowed for invoices related to '
                   'sponsorships.'))
         active_ids = self.env.context.get('active_ids')
@@ -68,8 +67,7 @@ class reconcile_fund_self(models.TransientModel):
                 active_ids.remove(line.id)
 
         if residual <= 0:
-            raise exceptions.Warning(
-                'ResidualError',
+            raise exceptions.UserError(
                 _('This can only be done if credits > debits'))
 
         if invoice:

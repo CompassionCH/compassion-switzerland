@@ -52,7 +52,6 @@
         'security/ir.model.access.csv',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
-        'views/statement_view.xml',
         'views/contract_view.xml',
     ],
     'demo': [],

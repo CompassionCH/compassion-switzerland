@@ -6,6 +6,9 @@ addons:
     packages:
         - expect-dev
         - python-lxml
+        - python-cups
+        - zbar-tools
+        - python-zbar
 
 language: python
 
@@ -20,7 +23,8 @@ virtualenv:
 
 install:
     - pip install click flake8 coveralls xlrd pylint pylint_odoo coverage codecov
-    - pip install pyjwt pyquery python-magic wand phonenumbers
+    - pip install pyjwt pyquery phonenumbers sendgrid
+    - pip install python-magic wand numpy pdfminer matplotlib pyPdf bs4  # SBC requirements
     - git clone https://github.com/CompassionCH/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools -b r2
     - git clone https://github.com/CompassionCH/compassion-modules.git ${HOME}/build/CompassionCH/compassion-modules -b 9.0
     - git clone https://github.com/CompassionCH/compassion-accounting.git ${HOME}/build/CompassionCH/compassion-accounting -b 9.0
@@ -28,6 +32,7 @@ install:
     - git clone https://github.com/OCA/connector.git ${HOME}/build/CompassionCH/connector -b 9.0
     - git clone https://github.com/OCA/l10n-switzerland.git ${HOME}/build/CompassionCH/l10n-switzerland -b 9.0
     - git clone https://github.com/OCA/bank-payment.git ${HOME}/build/CompassionCH/bank-payment -b 9.0
+    - git clone https://github.com/OCA/bank-statement-reconcile.git ${HOME}/build/CompassionCH/bank-statement-reconcile -b 9.0
     - git clone https://github.com/OCA/partner-contact.git ${HOME}/build/CompassionCH/partner-contact -b 9.0
     - git clone https://github.com/OCA/connector-telephony.git ${HOME}/build/CompassionCH/connector-telephony -b 9.0
     - git clone https://github.com/OCA/report-print-send.git ${HOME}/build/CompassionCH/report-print-send -b 9.0

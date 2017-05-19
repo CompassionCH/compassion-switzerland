@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+﻿# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -9,15 +9,7 @@
 #
 ##############################################################################
 
-from openerp import api, models, fields
-
-
-class statement_operation(models.Model):
-
-    _inherit = 'account.statement.operation.template'
-
-    product_id = fields.Many2one('product.product', 'Product')
-
-    @api.onchange('product_id')
-    def onchange_product_id(self):
-        self.account_id = self.product_id.property_account_income.id
+from . import bank_statement
+from . import bank_statement_line
+from . import statement_operation
+from . import move_line

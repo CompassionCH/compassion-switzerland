@@ -12,7 +12,7 @@
 from openerp import models, exceptions, _
 
 
-class move_line(models.Model):
+class MoveLine(models.Model):
     """ Adds a method to split a payment into several move_lines
     in order to reconcile only a partial amount, avoiding doing
     partial reconciliation. """
@@ -32,13 +32,11 @@ class move_line(models.Model):
                 count_credit_lines += 1
 
         if residual <= 0:
-            raise exceptions.Warning(
-                'ResidualError',
+            raise exceptions.UserError(
                 _('This can only be done if credits > debits'))
 
         if count_credit_lines != 1:
-            raise exceptions.Warning(
-                'CreditLineError',
+            raise exceptions.UserError(
                 _('This can only be done for one credit line'))
 
         # Edit move in order to split payment into two move lines

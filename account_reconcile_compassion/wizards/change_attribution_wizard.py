@@ -12,7 +12,7 @@
 from openerp import api, models, fields, exceptions, _
 
 
-class change_attribution_wizard(models.TransientModel):
+class ChangeAttributionWizard(models.TransientModel):
     """
     self that helps the user doing changing the attribution of a payment,
     by automatically un-reconciling related move lines, cancelling
@@ -62,8 +62,7 @@ class change_attribution_wizard(models.TransientModel):
         """ Unreconcile selected payments. """
         self.ensure_one()
         if not self.invoice_line_ids:
-            raise exceptions.Warning(
-                _("Invalid selection"),
+            raise exceptions.UserError(
                 _("I couldn't find any invoice to modify. Please verify "
                   "your selection."))
 
@@ -126,7 +125,7 @@ class change_attribution_wizard(models.TransientModel):
         return invoices
 
 
-class account_invoice(models.Model):
+class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     to_reconcile = fields.Float()
@@ -136,8 +135,7 @@ class account_invoice(models.Model):
         self.ensure_one()
         move_line_obj = self.env['account.move.line']
         if self.amount_total != self.to_reconcile:
-            raise exceptions.Warning(
-                _("Incorrect amount"),
+            raise exceptions.UserError(
                 _("The invoice total amount should be equal to %s in order to"
                   " be reconciled against the payment.") % self.to_reconcile)
 
