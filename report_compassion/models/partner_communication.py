@@ -28,7 +28,12 @@ class PartnerCommunication(models.Model):
     ##########################################################################
     date_communication = fields.Char(compute='_compute_date_communication')
     signature = fields.Char(compute='_compute_signature')
-    success_story_id = fields.Many2one('success.story', 'Success Story')
+    success_story_id = fields.Many2one(
+        'success.story', 'Success Story', domain=[('type', '=', 'story')])
+    success_sentence_id = fields.Many2one(
+        'success.story', 'Success Sentence',
+        domain=[('type', '=', 'sentence')])
+    success_sentence = fields.Html(related='success_sentence_id.body')
     print_subject = fields.Boolean(default=True)
     product_id = fields.Many2one('product.product', 'Attach payment slip for')
     compassion_logo = fields.Binary(compute='_compute_compassion_logo')
@@ -78,6 +83,17 @@ class PartnerCommunication(models.Model):
                     communication.compassion_logo = data_logo
                     communication.compassion_square = data_square
 
+    @api.model
+    def create(self, vals):
+        """
+        Fetch a success story at creation
+        :param vals: values for record creation
+        :return: partner.communication.job record
+        """
+        job = super(PartnerCommunication, self).create(vals)
+        job.set_success_story()
+        return job
+
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
@@ -89,22 +105,24 @@ class PartnerCommunication(models.Model):
         :return: True
         """
         for job in self:
-            story = self.env['success.story'].search([
-                ('is_active', '=', True)]).sorted(
-                lambda s: s.current_usage_count)
-            if story:
-                if len(story) == 1:
-                    job.success_story_id = story
+            all_stories = self.env['success.story'].search([
+                ('is_active', '=', True)])
+            stories = all_stories.filtered(lambda s: s.type == 'story')
+            sentences = all_stories.filtered(lambda s: s.type == 'sentence')
+            if stories:
+                if len(stories) == 1:
+                    job.success_story_id = stories
                 else:
-                    usage_count = dict()
-                    for s in reversed(story):
-                        usage = self.search_count([
-                            ('partner_id', '=', job.partner_id.id),
-                            ('success_story_id', '=', s.id)
-                        ])
-                        usage_count[usage] = s
-                    min_used = min(usage_count.keys())
-                    job.success_story_id = usage_count[min_used]
+                    story, use_count = job._get_min_used_story(stories)
+                    job.success_story_id = story
+
+            if sentences:
+                if len(sentences) == 1:
+                    job.success_sentence_id = sentences
+                else:
+                    sentence, use_count = job._get_min_used_story(sentences)
+                    if use_count < 5:
+                        job.success_sentence_id = sentence
 
         return True
 
@@ -116,7 +134,7 @@ class PartnerCommunication(models.Model):
         :return: True
         """
         super(PartnerCommunication, self).refresh_text(refresh_uid)
-        self.filtered('success_story_id').set_success_story()
+        self.set_success_story()
         return True
 
     @api.multi
@@ -133,8 +151,34 @@ class PartnerCommunication(models.Model):
         res = super(PartnerCommunication, self).send()
         for job in self.filtered('success_story_id').filtered('sent_date'):
             job.success_story_id.print_count += 1
+            job.success_sentence_id.print_count += 1
 
         return res
+
+    @api.multi
+    def _get_min_used_story(self, stories):
+        """
+        Given success stories, returns the one that the partner has received
+        the least.
+        :param stories: <success.story> recordset
+        :return: <success.story> single record, <int> usage count
+        """
+        self.ensure_one()
+        usage_count = dict()
+        type = stories.mapped('type')[0]
+        field = 'success_story_id' if type == 'story' else \
+            'success_sentence_id'
+        # Put the least used stories at end of list to choose them in case
+        # of equality use for a partner.
+        stories = reversed(stories.sorted(lambda s: s.current_usage_count))
+        for s in stories:
+            usage = self.search_count([
+                ('partner_id', '=', self.partner_id.id),
+                (field, '=', s.id)
+            ])
+            usage_count[usage] = s
+        min_used = min(usage_count.keys())
+        return usage_count[min_used], min_used
 
 
 class HrDepartment(models.Model):

@@ -16,18 +16,6 @@ class PartnerCommunication(models.Model):
 
     event_id = fields.Many2one('crm.event.compassion', 'Event')
 
-    @api.model
-    def create(self, vals):
-        """
-        Fetch a success story for donation communications
-        :param vals: values for record creation
-        :return: partner.communication.job record
-        """
-        job = super(PartnerCommunication, self).create(vals)
-        if job.config_id.model == 'account.invoice.line':
-            job.set_success_story()
-        return job
-
     @api.multi
     def open_related(self):
         """ Select a better view for invoice lines. """
