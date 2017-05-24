@@ -31,12 +31,9 @@ class ChangeTextWizard(models.TransientModel):
         communications = self._get_communications()
         ambassador = communications.get_objects().mapped(
             'user_id').filtered('ambassador_quote')
-        if len(ambassador) > 1:
-            raise Warning(_(
-                "You can only change the text for one ambassador at a time."
-            ))
-        for wizard in self:
-            wizard.ambassador_id = ambassador
+        if len(ambassador) == 1:
+            for wizard in self:
+                wizard.ambassador_id = ambassador
 
     @api.multi
     def _inverse_ambassador(self):
