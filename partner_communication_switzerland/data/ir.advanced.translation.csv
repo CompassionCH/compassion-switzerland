@@ -20,7 +20,7 @@ child_will_be_de,will be,de_DE,Child,wird,werden,wird,werden
 child_child_de,child,de_DE,Child,Patenkind,Patenkinder,Patenkind,Patenkinder
 child_this_child_de,dieses Kind,de_DE,Child,dieses Kind,diese Kinder,dieses Kind,diese Kinder
 child_Ihr_Patenkind_de,Ihr Patenkind,de_DE,Child,Ihr Patenkind,Ihre Patenkinder,Ihr Patenkind,Ihre Patenkind
-child_Ihrem_Patenkind_de,Ihrem Patenkind,de_DE,Child,Ihrem Patenkind,Ihren Patenkindern,Ihren Patenkind,Ihren Patenkindern
+child_Ihrem_Patenkind_de,Ihrem Patenkind,de_DE,Child,Ihrem Patenkind,Ihren Patenkindern,Ihrem Patenkind,Ihren Patenkindern
 child_Patenschaft_de,Patenschaft,de_DE,Child,Patenschaft,Patenschaften,Patenschaft,Patenschaften
 child_per_child_de,per child,de_DE,Child,, pro Kind,, pro Kind
 child_lui_it,lui,it_IT,Child,lui,loro,lei,le
@@ -30,7 +30,7 @@ child_is_it,is,it_IT,Child,è,sono,è,sono
 child_your_sponsored_child_it,your sponsored child,it_IT,Child,il suo bambino,il suoi bambini,il suo bambino,il suoi bambini
 child_accord_o_a_it,accord_o_a,it_IT,Child,o,i,a,e
 child_dal_vostro_figliolo_it,dal vostro figliolo,it_IT,Child,dal vostro figliolo,dai bostri figlioli,dalla vostra figliola,dalle vostre figliole
-child_accord_e_essa_it,accord_e_essa,it_IT,Child,er,i, essa,esse
+child_accord_e_essa_it,accord_e_essa,it_IT,Child,e,i,essa,esse
 child_child_it,child,it_IT,Child,bambino,bambini,bambino,bambini
 child_the_child_it,the child,it_IT,Child,il bambino,i bambini,il bambino,i bambini
 child_him_en,him,en_US,Child,him,them,her,them
