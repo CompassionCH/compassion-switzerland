@@ -104,12 +104,13 @@ class PartnerCommunication(models.Model):
         to communications.
         :return: True
         """
+        all_stories = self.env['success.story'].search([
+            ('is_active', '=', True)])
+        stories = all_stories.filtered(lambda s: s.type == 'story')
+        sentences = all_stories.filtered(lambda s: s.type == 'sentence')
         for job in self:
-            all_stories = self.env['success.story'].search([
-                ('is_active', '=', True)])
-            stories = all_stories.filtered(lambda s: s.type == 'story')
-            sentences = all_stories.filtered(lambda s: s.type == 'sentence')
-            if stories:
+            # Only set success story for donation letters
+            if job.config_id.model == 'account.invoice.line' and stories:
                 if len(stories) == 1:
                     job.success_story_id = stories
                 else:
@@ -133,8 +134,8 @@ class PartnerCommunication(models.Model):
         :param refresh_uid: User that refresh
         :return: True
         """
-        super(PartnerCommunication, self).refresh_text(refresh_uid)
         self.set_success_story()
+        super(PartnerCommunication, self).refresh_text(refresh_uid)
         return True
 
     @api.multi
@@ -149,9 +150,11 @@ class PartnerCommunication(models.Model):
         print_bvr.write({'report_id': self.env.ref(
             'report_compassion.report_a4_bvr').id})
         res = super(PartnerCommunication, self).send()
-        for job in self.filtered('success_story_id').filtered('sent_date'):
-            job.success_story_id.print_count += 1
-            job.success_sentence_id.print_count += 1
+        for job in self.filtered('sent_date'):
+            if job.success_story_id:
+                job.success_story_id.print_count += 1
+            if job.success_sentence and job.success_sentence in job.body_html:
+                job.success_sentence_id.print_count += 1
 
         return res
 
