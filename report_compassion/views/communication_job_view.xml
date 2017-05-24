@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <field name="auto_send" position="after">
                     <field name="success_story_id"/>
+                    <field name="success_sentence_id"/>
                 </field>
                 <field name="subject" position="after">
                     <field name="print_subject"/>
@@ -25,6 +26,7 @@
             <field name="arch" type="xml">
                 <field name="subject" position="after">
                     <field name="success_story_id"/>
+                    <field name="success_sentence_id"/>
                 </field>
             </field>
         </record>

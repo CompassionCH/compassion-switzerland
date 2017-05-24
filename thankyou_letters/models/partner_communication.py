@@ -15,18 +15,7 @@ class PartnerCommunication(models.Model):
     _inherit = 'partner.communication.job'
 
     event_id = fields.Many2one('crm.event.compassion', 'Event')
-
-    @api.model
-    def create(self, vals):
-        """
-        Fetch a success story for donation communications
-        :param vals: values for record creation
-        :return: partner.communication.job record
-        """
-        job = super(PartnerCommunication, self).create(vals)
-        if job.config_id.model == 'account.invoice.line':
-            job.set_success_story()
-        return job
+    ambassador_id = fields.Many2one('res.partner', 'Ambassador')
 
     @api.multi
     def open_related(self):

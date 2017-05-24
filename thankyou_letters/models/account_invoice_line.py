@@ -77,6 +77,7 @@ class AccountInvoiceLine(models.Model):
         partner = self.mapped('partner_id')
         partner.ensure_one()
         event = self.mapped('event_id')
+        ambassador = self.mapped('user_id')
 
         existing_comm = comm_obj.search([
             ('partner_id', '=', partner.id),
@@ -94,6 +95,7 @@ class AccountInvoiceLine(models.Model):
             'object_ids': invoice_lines.ids,
             'need_call': config.need_call,
             'event_id': event.id,
+            'ambassador_id': len(ambassador) == 1 and ambassador.id,
             'print_subject': False,
         }
         send_mode = config.get_inform_mode(partner)

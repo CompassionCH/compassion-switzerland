@@ -29,14 +29,10 @@ class ChangeTextWizard(models.TransientModel):
     @api.multi
     def _compute_ambassador(self):
         communications = self._get_communications()
-        ambassador = communications.get_objects().mapped(
-            'user_id').filtered('ambassador_quote')
-        if len(ambassador) > 1:
-            raise Warning(_(
-                "You can only change the text for one ambassador at a time."
-            ))
-        for wizard in self:
-            wizard.ambassador_id = ambassador
+        ambassador = communications.mapped('ambassador_id')
+        if len(ambassador) == 1:
+            for wizard in self:
+                wizard.ambassador_id = ambassador
 
     @api.multi
     def _inverse_ambassador(self):
@@ -44,8 +40,10 @@ class ChangeTextWizard(models.TransientModel):
         if ambassador:
             if not ambassador.ambassador_quote:
                 ambassador.ambassador_quote = self.ambassador_text
-            inv_lines = self._get_communications().get_objects()
+            communications = self._get_communications()
+            inv_lines = communications.get_objects()
             inv_lines.write({'user_id': self.ambassador_id.id})
+            communications.write({'ambassador_id': self.ambassador_id.id})
 
     @api.model
     def _get_communications(self):
@@ -120,13 +118,12 @@ class ChangeTextWizard(models.TransientModel):
             event = communication.mapped('event_id')
             ambassador = self.ambassador_id
             template = communication.email_template_id
+            if self.event_text != event.thank_you_text:
+                event.thank_you_text = self.event_text
             preview = template.render_template_batch(
                 self.template_text, template.model, communication.ids)[
                 communication.id].replace(
                 event.name, self.event_name or '')
-            if event.thank_you_text:
-                preview = preview.replace(
-                    event.thank_you_text, self.event_text or '')
             if ambassador:
                 preview = preview.replace(
                     ambassador.full_name, self.ambassador_name or '').replace(
