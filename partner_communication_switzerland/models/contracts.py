@@ -204,7 +204,9 @@ class RecurringContract(models.Model):
             c.child_id.project_id.hold_s2b_letters)
         )
         config = self.env.ref(module + 'planned_birthday_reminder')
-        birthday.send_communication(config)
+        comms = birthday.send_communication(config)
+        # Remove communication for those who have no e-mail address
+        comms.filtered(lambda c: not c.send_mode).unlink()
 
         # B2S Letters that must be printed (if not read after 10 days)
         # logger.info("....Creating B2S Printed Communications")
