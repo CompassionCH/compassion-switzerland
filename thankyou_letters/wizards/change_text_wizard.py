@@ -29,8 +29,7 @@ class ChangeTextWizard(models.TransientModel):
     @api.multi
     def _compute_ambassador(self):
         communications = self._get_communications()
-        ambassador = communications.get_objects().mapped(
-            'user_id').filtered('ambassador_quote')
+        ambassador = communications.mapped('ambassador_id')
         if len(ambassador) == 1:
             for wizard in self:
                 wizard.ambassador_id = ambassador
@@ -41,8 +40,10 @@ class ChangeTextWizard(models.TransientModel):
         if ambassador:
             if not ambassador.ambassador_quote:
                 ambassador.ambassador_quote = self.ambassador_text
-            inv_lines = self._get_communications().get_objects()
+            communications = self._get_communications()
+            inv_lines = communications.get_objects()
             inv_lines.write({'user_id': self.ambassador_id.id})
+            communications.write({'ambassador_id': self.ambassador_id.id})
 
     @api.model
     def _get_communications(self):

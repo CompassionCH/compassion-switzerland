@@ -6,8 +6,9 @@
             <field name="model">partner.communication.job</field>
             <field name="inherit_id" ref="report_compassion.communication_job_form_ch"/>
             <field name="arch" type="xml">
-                <field name="success_story_id" position="after">
+                <field name="success_sentence_id" position="after">
                     <field name="event_id"/>
+                    <field name="ambassador_id"/>
                 </field>
             </field>
         </record>
@@ -16,8 +17,9 @@
             <field name="model">partner.communication.job</field>
             <field name="inherit_id" ref="report_compassion.communication_job_tree_swiss"/>
             <field name="arch" type="xml">
-                <field name="success_story_id" position="after">
+                <field name="success_sentence_id" position="after">
                     <field name="event_id"/>
+                    <field name="ambassador_id"/>
                 </field>
             </field>
         </record>
@@ -26,8 +28,12 @@
             <field name="model">partner.communication.job</field>
             <field name="inherit_id" ref="partner_communication.communication_job_search"/>
             <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="ambassador_id"/>
+                </field>
                 <filter name="config" position="before">
                     <filter string="Event" name="event" domain="[]" context="{'group_by':'event_id'}"/>
+                    <filter string="Ambassador" name="ambassador" domain="[]" context="{'group_by':'ambassador_id'}"/>
                 </filter>
             </field>
         </record>
