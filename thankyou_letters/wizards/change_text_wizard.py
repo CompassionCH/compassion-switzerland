@@ -118,13 +118,12 @@ class ChangeTextWizard(models.TransientModel):
             event = communication.mapped('event_id')
             ambassador = self.ambassador_id
             template = communication.email_template_id
+            if self.event_text != event.thank_you_text:
+                event.thank_you_text = self.event_text
             preview = template.render_template_batch(
                 self.template_text, template.model, communication.ids)[
                 communication.id].replace(
                 event.name, self.event_name or '')
-            if event.thank_you_text:
-                preview = preview.replace(
-                    event.thank_you_text, self.event_text or '')
             if ambassador:
                 preview = preview.replace(
                     ambassador.full_name, self.ambassador_name or '').replace(
