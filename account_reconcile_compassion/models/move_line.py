@@ -41,14 +41,22 @@ class MoveLine(models.Model):
 
         # Edit move in order to split payment into two move lines
         move.button_cancel()
-        move_line.write({
-            'credit': move_line.credit-residual
+        move.write({
+            'line_ids': [
+                (1, move_line.id, {'credit': move_line.credit-residual}),
+                (0, 0, {
+                    'credit': residual,
+                    'name': self.env.context.get('residual_comment',
+                                                 move_line.name),
+                    'account_id': move_line.account_id.id,
+                    'date': move_line.date,
+                    'date_maturity': move_line.date_maturity,
+                    'journal_id': move_line.journal_id.id,
+                    'partner_id': move_line.partner_id.id,
+                }),
+            ]
         })
-        move_line.copy(default={
-            'credit': residual,
-            'name': self.env.context.get('residual_comment') or move_line.name
-        })
-        move.button_validate()
+        move.post()
 
         # Perform the reconciliation
         self.reconcile()

@@ -12,11 +12,5 @@
     <t t-name="AccountReconciliationOpenPartner">
         <button class="oe_account_recon_open_partner oe_button" href="javascript:void(0)">Open Partner</button>
     </t>
-    
-    <t t-extend="bank_statement_reconciliation">
-        <t t-jquery="div.oe_clear" t-operation="after">
-            <button class="button_do_all oe_button oe_highlight" href="javascript:void(0)">Automatic reconcile</button>
-        </t>
-    </t>
 
 </templates>

@@ -9,24 +9,13 @@
 #
 ##############################################################################
 
-from openerp import api, models, exceptions, _
-from openerp.tools import mod10r, DEFAULT_SERVER_DATE_FORMAT as DF
+from openerp import api, models, fields, _
+from openerp.exceptions import UserError
+from openerp.tools import float_round, mod10r
 from openerp.addons.sponsorship_compassion.models.product import \
     GIFT_CATEGORY, GIFT_NAMES, SPONSORSHIP_CATEGORY
 
 from datetime import datetime
-
-from openerp.addons.connector.queue.job import job, related_action
-# from openerp.addons.connector.session import ConnectorSession
-
-
-class BankStatement(models.Model):
-    _inherit = 'account.bank.statement'
-
-    @api.multi
-    def button_confirm_bank(self):
-        return super(BankStatement, self.with_context(
-            async_mode=False)).button_confirm_bank()
 
 
 class BankStatementLine(models.Model):
@@ -69,8 +58,8 @@ class BankStatementLine(models.Model):
         res_sorted = list()
         today = datetime.today().date()
         for mv_line in res_asc:
-            mv_date = datetime.strptime(
-                mv_line.date_maturity or mv_line.date, DF)
+            mv_date = fields.Datetime.from_string(mv_line.date_maturity or
+                                                  mv_line.date)
             if mv_date.month == today.month and mv_date.year == today.year:
                 res_sorted.insert(0, mv_line.id)
             else:
@@ -82,15 +71,115 @@ class BankStatementLine(models.Model):
         #     reverse=True)
         return self.env['account.move.line'].browse(res_sorted)
 
-    # @api.multi
-    # def process_reconciliations(self, mv_line_dicts):
-    #     """ Launch reconciliation in a job. """
-    #     if self.env.context.get('async_mode', True):
-    #         session = ConnectorSession.from_env(self.env)
-    #         process_reconciliations_job.delay(
-    #             session, self._name, self.ids, mv_line_dicts)
-    #     else:
-    #         self._process_reconciliations(mv_line_dicts)
+    @api.multi
+    def reconciliation_widget_auto_reconcile(self, num_already_reconciled):
+        """
+        Commit at each successful reconciliation.
+        """
+        num_reconciled = 0
+        unreconciled_ids = list()
+        notifications = list()
+        for line in self:
+            try:
+                with self.env.cr.savepoint():
+                    res = super(BankStatementLine,
+                                line).reconciliation_widget_auto_reconcile(0)
+                    num_reconciled += res['num_already_reconciled_lines']
+                    unreconciled_ids.extend(res['st_lines_ids'])
+                    notifications.extend(res['notifications'])
+            except:
+                continue
+        return {
+            'st_lines_ids': unreconciled_ids,
+            'notifications': notifications,
+            'statement_name': False,
+            'num_already_reconciled_lines': num_reconciled +
+            num_already_reconciled,
+        }
+
+    @api.multi
+    def auto_reconcile(self):
+        """
+        Extend automatic reconcile to allow one invoice selection when
+        multiple invoices are matching.
+        :return: account.move.line recordset of counterparts
+        """
+        self.ensure_one()
+        res = super(BankStatementLine, self).auto_reconcile()
+        if not res:
+            # Code copied from base account_bank_statement : L669
+            amount = self.amount_currency or self.amount
+            company_currency = self.journal_id.company_id.currency_id
+            st_line_currency = self.currency_id or self.journal_id.currency_id
+            precision = st_line_currency and st_line_currency.decimal_places\
+                or company_currency.decimal_places
+            params = {
+                'company_id': self.env.user.company_id.id,
+                'account_payable_receivable': (
+                    self.journal_id.default_credit_account_id.id,
+                    self.journal_id.default_debit_account_id.id),
+                'amount': float_round(amount, precision_digits=precision),
+                'partner_id': self.partner_id.id,
+                'ref': self.ref
+            }
+            currency = (
+                st_line_currency and st_line_currency !=
+                company_currency) and st_line_currency.id or False
+            field = currency and 'amount_residual_currency' or \
+                'amount_residual'
+            liquidity_field = currency and 'amount_currency' or \
+                amount > 0 and 'debit' or 'credit'
+            sql_query = self._get_common_sql_query() + \
+                " AND aml.ref = %(ref)s AND (" + field + " = %(amount)s OR (" \
+                "acc.internal_type = 'liquidity' AND " + liquidity_field + \
+                " = %(amount)s)) ORDER BY date_maturity asc, aml.id asc"
+            self.env.cr.execute(sql_query, params)
+            match_recs = self.env.cr.dictfetchall()
+            if len(match_recs) > 1:
+                # Take the first (current month or oldest one)
+                match_recs = self.env['account.move.line'].browse(
+                    [aml.get('id') for aml in match_recs])
+                res_sorted = list()
+                today = datetime.today().date()
+                for mv_line in match_recs:
+                    mv_date = fields.Datetime.from_string(
+                        mv_line.date_maturity or mv_line.date)
+                    if mv_date.month == today.month and mv_date.year == \
+                            today.year:
+                        res_sorted.insert(0, mv_line.id)
+                    else:
+                        res_sorted.append(mv_line.id)
+                res = match_recs.browse(res_sorted[0])
+                # Now reconcile (code copied from L707)
+                counterpart_aml_dicts = []
+                payment_aml_rec = self.env['account.move.line']
+                for aml in res:
+                    if aml.account_id.internal_type == 'liquidity':
+                        payment_aml_rec = (payment_aml_rec | aml)
+                    else:
+                        amount = aml.currency_id and \
+                            aml.amount_residual_currency or \
+                            aml.amount_residual
+                        counterpart_aml_dicts.append({
+                            'name': aml.name if aml.name != '/' else
+                            aml.move_id.name,
+                            'debit': amount < 0 and -amount or 0,
+                            'credit': amount > 0 and amount or 0,
+                            'move_line': aml
+                        })
+
+                try:
+                    with self._cr.savepoint():
+                        counterpart = self.process_reconciliation(
+                            counterpart_aml_dicts=counterpart_aml_dicts,
+                            payment_aml_rec=payment_aml_rec)
+                    return counterpart
+                except UserError:
+                    self.invalidate_cache()
+                    self.env['account.move'].invalidate_cache()
+                    self.env['account.move.line'].invalidate_cache()
+                    return False
+        return res
 
     @api.model
     def product_id_changed(self, product_id, date):
@@ -114,11 +203,6 @@ class BankStatementLine(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    # @api.multi
-    # def _process_reconciliations(self, mv_line_dicts):
-    #     super(BankStatementLine, self).process_reconciliations(
-    #         mv_line_dicts)
-
     @api.multi
     def process_reconciliation(self, counterpart_aml_dicts=None,
                                payment_aml_rec=None, new_aml_dicts=None):
@@ -130,6 +214,8 @@ class BankStatementLine(models.Model):
         old_counterparts = dict()
         if counterpart_aml_dicts is None:
             counterpart_aml_dicts = list()
+        if new_aml_dicts is None:
+            new_aml_dicts = list()
         partner_id = self.partner_id.id
         counterparts = [data['move_line'] for data in counterpart_aml_dicts]
         counterparts = reduce(lambda m1, m2: m1 + m2.filtered('invoice_id'),
@@ -278,7 +364,7 @@ class BankStatementLine(models.Model):
 
             if product.categ_name in (
                     GIFT_CATEGORY, SPONSORSHIP_CATEGORY) and not contract:
-                raise exceptions.UserError(_('Add a Sponsorship'))
+                raise UserError(_('Add a Sponsorship'))
 
             self.env['account.invoice.line'].create(inv_line_data)
             # Put payer as partner
@@ -308,29 +394,3 @@ class BankStatementLine(models.Model):
 
         return inv_lines.mapped('invoice_id').filtered(
             lambda i: i.amount_total == self.amount)
-
-
-##############################################################################
-#                            CONNECTOR METHODS                               #
-##############################################################################
-def related_action_reconciliations(session, job):
-    line_ids = [arg[0] for arg in job.args[1]]
-    statement_lines = session.env[job.args[0]].browse(line_ids)
-    statement_ids = statement_lines.mapped('statement_id').ids
-    action = {
-        'name': _("Bank statements"),
-        'type': 'ir.actions.act_window',
-        'res_model': 'account.bank.statement',
-        'view_type': 'form',
-        'view_mode': 'form,tree',
-        'res_id': statement_ids[0],
-        'domain': [('id', 'in', statement_ids)],
-    }
-    return action
-
-
-@job(default_channel='root.reconciliation')
-@related_action(action=related_action_reconciliations)
-def process_reconciliations_job(session, model_name, ids, mv_line_dicts):
-    """Job for reconciling bank statment lines."""
-    session.env[model_name].browse(ids)._process_reconciliations(mv_line_dicts)

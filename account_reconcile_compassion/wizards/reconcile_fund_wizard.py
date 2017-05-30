@@ -33,7 +33,7 @@ class ReconcileFundWizard(models.TransientModel):
         if active_ids:
             contract_ids = move_line_obj.browse(active_ids).filtered(
                 lambda mvl: mvl.debit > 0).mapped(
-                'invoice.invoice_line_ids.contract_id.id') or False
+                'invoice_id.invoice_line_ids.contract_id.id') or False
         return contract_ids
 
     def _write_contracts(self):
@@ -61,8 +61,8 @@ class ReconcileFundWizard(models.TransientModel):
         for line in move_line_obj.browse(active_ids):
             residual += line.credit - line.debit
             if not invoice and line.debit > 0:
-                invoice = line.invoice
-                account_id = line.invoice.account_id.id
+                invoice = line.invoice_id
+                account_id = invoice.account_id.id
                 partner_id = line.partner_id.id
                 active_ids.remove(line.id)
 
@@ -90,10 +90,9 @@ class ReconcileFundWizard(models.TransientModel):
         product = self.fund_id
         inv_line_data = {
             'name': product.name,
-            'account_id': product.property_account_income.id,
+            'account_id': product.property_account_income_id.id,
             'price_unit': price / len(self.contract_ids),
             'quantity': 1,
-            'uos_id': False,
             'product_id': product.id or False,
             'invoice_id': invoice_id,
         }

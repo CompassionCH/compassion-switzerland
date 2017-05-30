@@ -208,23 +208,17 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
             });
         },
 
-        reconcileAll: function() {
-            this.reconcile_all = true;
-            var reconciliations = _.filter(this.getChildren(), function(o) { return o.get("balance").toFixed(3) === "0.000"; })
-            this.persistReconciliations(reconciliations);
-        },
-
-        displayReconciliations: function(number) {
-            var self = this;
-            return this._super(number).done(function() {
-                var reconciliations = _.filter(self.getChildren(), function(o) { return o.get("balance").toFixed(3) === "0.000"; })
-                if (self.reconcile_all && reconciliations.length > 0) {
-                    self.persistReconciliations(reconciliations);
-                } else {
-                    self.reconcile_all = false;
-                }
-            });
-        },
+        // displayReconciliations: function(number) {
+        //     var self = this;
+        //     return this._super(number).done(function() {
+        //         var reconciliations = _.filter(self.getChildren(), function(o) { return o.get("balance").toFixed(3) === "0.000"; })
+        //         if (self.reconcile_all && reconciliations.length > 0) {
+        //             self.persistReconciliations(reconciliations);
+        //         } else {
+        //             self.reconcile_all = false;
+        //         }
+        //     });
+        // },
     });
 
     // Extend the class written in module account (manual reconcile)
