@@ -271,3 +271,35 @@ class StatementCompletionRule(models.Model):
         invoice.signal_workflow('invoice_open')
 
         return res
+
+    def _search_partner_by_bvr_ref(self, bvr_ref, search_old_invoices=False):
+        """ Finds a partner given its bvr reference. """
+        partner = None
+        contract_group_obj = self.env['recurring.contract.group']
+        contract_groups = contract_group_obj.search(
+            [('bvr_reference', '=', bvr_ref)])
+        if contract_groups:
+            partner = contract_groups[0].partner_id
+        else:
+            # Search open Customer Invoices (with field 'bvr_reference'
+            # set)
+            invoice_obj = self.env['account.invoice']
+            invoice_search = [
+                ('bvr_reference', '=', bvr_ref),
+                ('state', '=', 'open')]
+            if search_old_invoices:
+                invoice_search[1] = ('state', 'in', ('open', 'cancel',
+                                                     'paid'))
+            invoices = invoice_obj.search(invoice_search)
+            if not invoices:
+                # Search open Supplier Invoices (with field
+                # 'reference_type'
+                # set to BVR)
+                invoices = invoice_obj.search([
+                    ('reference_type', '=', 'bvr'),
+                    ('reference', '=', bvr_ref),
+                    ('state', '=', 'open')])
+            if invoices:
+                partner = invoices[0].partner_id
+
+        return partner
