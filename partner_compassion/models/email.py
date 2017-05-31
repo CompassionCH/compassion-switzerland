@@ -27,33 +27,26 @@ class Email(models.Model):
                 notify = message.model and not (
                     message.model == 'res.partner' and
                     message.res_id == partner.id
-                )  # and message.model != 'mail.notification'
+                )
                 if notify:
                     message_id = partner.message_post(
                         email.body_html, email.subject)
                     p_message = message.browse(message_id)
                     p_message.write({
                         'subtype_id': self.env.ref('mail.mt_comment').id,
-                        'notified_partner_ids': [(4, partner.id)],
                         # Set parent to have the tracking working
                         'parent_id': message.id,
                         'author_id': message.author_id.id
                     })
 
-            # Set notified partners and type Discussion in message
+            # Set Discussion in message
             # in order to display the tracking information in the
-            # related object thread. (Except for notifications which are
-            # already tracked)
-            enable_tracking = message.model  # and \
-            # message.model != 'mail.notification'
-            if enable_tracking:
+            # related object thread.
+            if message.model:
                 message_vals = {}
                 if not message.subtype_id:
                     message_vals['subtype_id'] = self.env.ref(
                         'mail.mt_comment').id
-                if not message.notified_partner_ids:
-                    message_vals['notified_partner_ids'] = [
-                        (6, 0, email.recipient_ids.ids)]
                 message.write(message_vals)
 
 
