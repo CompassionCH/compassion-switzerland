@@ -34,6 +34,12 @@ class ResPartner(models.Model):
     salutation = fields.Char(compute='_get_salutation')
     short_salutation = fields.Char(compute='_get_salutation')
     gender = fields.Selection(related='title.gender')
+    letter_delivery_preference = fields.Selection(
+        selection='_get_delivery_preference',
+        default='auto_digital',
+        required=True,
+        help='Delivery preference for Child Letters',
+    )
 
     @api.multi
     def _get_salutation(self):

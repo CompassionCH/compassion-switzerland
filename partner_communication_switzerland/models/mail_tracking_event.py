@@ -12,7 +12,7 @@
 from sendgrid import SendGridAPIClient
 
 from openerp import models, api
-from openerp.exceptions import Warning
+from openerp.exceptions import UserError
 from openerp.tools.config import config
 
 
@@ -82,7 +82,7 @@ class MailTrackingEvent(models.Model):
     def _get_sendgrid(self):
         api_key = config.get('sendgrid_api_key')
         if not api_key:
-            raise Warning(
+            raise UserError(
                 'ConfigError',
                 'Missing sendgrid_api_key in conf file')
 

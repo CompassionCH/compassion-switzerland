@@ -24,6 +24,8 @@ class Correspondence(models.Model):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
+    letter_delivery_preference = fields.Selection(
+        related='correspondant_id.letter_delivery_preference')
     communication_id = fields.Many2one(
         'partner.communication.job', 'Communication')
     email_id = fields.Many2one(
@@ -52,20 +54,21 @@ class Correspondence(models.Model):
             else:
                 super(Correspondence, letter)._compute_letter_format()
 
-    @api.one
+    @api.multi
     @api.depends('supporter_languages_ids', 'page_ids',
                  'page_ids.translated_text', 'translation_language_id')
     def compute_has_valid_language(self):
         """ Detect if text is written in the language corresponding to the
         language_id """
-        self.has_valid_language = False
-        if self.translated_text is not None and \
-                self.translation_language_id is not None:
-            s = self.translated_text.strip(' \t\n\r.')
-            if s:
-                # find the language of text argument
-                lang = self.detect_lang(self.translated_text)
-                self.has_valid_language = lang in self.supporter_languages_ids
+        for letter in self:
+            letter.has_valid_language = False
+            if letter.translated_text and letter.translation_language_id:
+                s = letter.translated_text.strip(' \t\n\r.')
+                if s:
+                    # find the language of text argument
+                    lang = letter.detect_lang(letter.translated_text)
+                    letter.has_valid_language = lang in letter.\
+                        supporter_languages_ids
 
     ##########################################################################
     #                             PUBLIC METHODS                             #

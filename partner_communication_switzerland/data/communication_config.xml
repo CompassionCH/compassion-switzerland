@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Child letters -->
         <record id="child_letter_config" model="partner.communication.config">
@@ -444,4 +444,4 @@
         <function model="init.sendgrid.template" name="init_templates"/>
     </data>
 
-</openerp>
+</odoo>

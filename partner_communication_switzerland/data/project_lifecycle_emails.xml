@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Project lifecycle -->
         <record id="email_project_suspension" model="mail.template">
@@ -228,4 +228,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

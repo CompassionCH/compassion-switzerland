@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!--
         New Sponsorship Dossier
@@ -769,4 +769,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

@@ -1,5 +1,5 @@
-<openerp>
-    <data>
+<odoo>
+    <data noupdate="1">
         <!-- Major Revision Email Templates -->
         <!-- Birthdate changed -->
         <record id="email_birthdate" model="mail.template">
@@ -219,4 +219,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

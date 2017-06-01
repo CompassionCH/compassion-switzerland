@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Address Change -->
         <record id="email_address_change" model="mail.template">
@@ -60,4 +60,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

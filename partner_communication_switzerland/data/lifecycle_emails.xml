@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Child Transfer -->
         <record id="email_child_transfer" model="mail.template">
@@ -154,4 +154,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

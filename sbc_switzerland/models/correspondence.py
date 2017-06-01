@@ -45,9 +45,6 @@ class Correspondence(models.Model):
 
     _inherit = 'correspondence'
 
-    letter_delivery_preference = fields.Selection(
-        related='correspondant_id.letter_delivery_preference')
-
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################

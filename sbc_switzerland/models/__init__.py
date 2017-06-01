@@ -12,4 +12,3 @@ from . import correspondence
 from . import import_config
 from . import import_letters_history
 from . import translate_connector
-from . import res_partner

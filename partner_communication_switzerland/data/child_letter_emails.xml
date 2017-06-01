@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Final letter -->
         <record id="final_letter" model="mail.template">
@@ -120,4 +120,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Hold Removal Notification -->
         <record id="email_hold_removal" model="mail.template">
@@ -190,4 +190,4 @@
             <field name="body_html">${object.body_html}</field>
         </record>
     </data>
-</openerp>
+</odoo>
