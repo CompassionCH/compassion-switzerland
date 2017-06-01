@@ -10,11 +10,11 @@
 ##############################################################################
 import datetime
 
-from openerp.addons.mysql_connector.model.mysql_connector \
-    import mysql_connector
+from openerp.addons.mysql_connector.models.mysql_connector \
+    import MysqlConnector
 
 
-class TranslateConnect(mysql_connector):
+class TranslateConnect(MysqlConnector):
     """ Contains all the utility methods needed to talk with the MySQL server
         used by translate platform, as well as all mappings
         from OpenERP fields to corresponding MySQL fields.

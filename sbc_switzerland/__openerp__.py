@@ -28,11 +28,11 @@
 ##############################################################################
 {
     'name': 'Sponsor to beneficiary email communication',
-    'version': '8.0.3.0',
+    'version': '9.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['partner_communication_switzerland'],
+    'depends': ['mysql_connector', 'partner_communication_switzerland'],
     'data': [
         'data/import_config_templates.xml',
         'data/scan_letter_params.xml',
@@ -44,5 +44,5 @@
         'views/s2b_generator_view.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
 }

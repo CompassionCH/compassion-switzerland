@@ -55,7 +55,6 @@ class ImportLettersHistory(models.Model):
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    @api.one
     @api.onchange("data", "import_folder_path")
     def _count_nber_letters(self):
         """
@@ -110,11 +109,11 @@ class ImportLettersHistory(models.Model):
                                 tmp += (func.check_file(
                                     tmp_file) == 1)
                         except zipfile.BadZipfile:
-                            raise exceptions.Warning(
+                            raise exceptions.UserError(
                                 _('Zip file corrupted (' +
                                   sharedFile.filename + ')'))
                         except zipfile.LargeZipFile:
-                            raise exceptions.Warning(
+                            raise exceptions.UserError(
                                 _('Zip64 is not supported(' +
                                   sharedFile.filename + ')'))
                 smb_conn.close()

@@ -35,6 +35,9 @@
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['report_compassion'],
+    'external_dependencies': {
+        'python': ['detectlanguage']
+    },
     'data': [
         'data/major_revision_emails.xml',
         'data/child_letter_emails.xml',
@@ -53,6 +56,7 @@
         'views/download_child_pictures_view.xml',
         'views/end_contract_wizard_view.xml',
         'views/disaster_alert_view.xml',
+        'views/partner_compassion_view.xml',
     ],
     'demo': [],
     'installable': True,

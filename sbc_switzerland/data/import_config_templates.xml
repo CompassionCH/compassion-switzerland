@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- production config -->
         <record id="standard" model="import.letter.config">
@@ -26,4 +26,4 @@
             <field name="source">website</field>
         </record>
     </data>
-</openerp>
+</odoo>

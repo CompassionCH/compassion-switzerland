@@ -21,7 +21,7 @@ from . import translate_connector
 
 from openerp import models, api, fields, _
 from openerp.tools.config import config
-from openerp.exceptions import Warning
+from openerp.exceptions import UserError
 from openerp.addons.sbc_compassion.models.correspondence_page import \
     BOX_SEPARATOR
 
@@ -125,12 +125,13 @@ class Correspondence(models.Model):
         letters_to_send.send_communication()
         return True
 
-    @api.one
+    @api.multi
     def send_local_translate(self):
         """
         Sends the letter to the local translation platform.
         :return: None
         """
+        self.ensure_one()
         child = self.sponsorship_id.child_id
 
         # Specify the src and dst language
@@ -154,13 +155,14 @@ class Correspondence(models.Model):
         self._transfer_file_on_nas(file_name)
         self.state = 'Global Partner translation queue'
 
-    @api.one
+    @api.multi
     def remove_local_translate(self):
         """
         Remove a letter from local translation platform and change state of
         letter in Odoo
         :return: None
         """
+        self.ensure_one()
         tc = translate_connector.TranslateConnect()
         tc.remove_translation_with_odoo_id(self.id)
         if self.direction == 'Supporter To Beneficiary':
@@ -169,7 +171,7 @@ class Correspondence(models.Model):
         else:
             self.state = 'Published to Global Partner'
 
-    @api.one
+    @api.multi
     def update_translation(self, translate_lang, translate_text, translator):
         """
         Puts the translated text into the correspondence.
@@ -177,6 +179,7 @@ class Correspondence(models.Model):
         :param translate_text: text of the translation
         :return: None
         """
+        self.ensure_one()
         translate_lang_id = self.env['res.lang.compassion'].search(
             [('code_iso', '=', translate_lang)]).id
         translator_partner = self.env['res.partner'].search([
@@ -253,7 +256,7 @@ class Correspondence(models.Model):
         if self.direction == 'Supporter To Beneficiary':
             # Check that the letter is not yet sent to GMC
             if self.kit_identifier:
-                raise Warning(_("Letter already sent to GMC cannot be "
+                raise UserError(_("Letter already sent to GMC cannot be "
                                 "translated! [%s]") % self.kit_identifier)
 
             src_lang_id = self.original_language_id
@@ -309,7 +312,7 @@ class Correspondence(models.Model):
             logger.info('File {} store on NAS with success'
                         .format(self.letter_image.name))
         else:
-            raise Warning(_('Connection to NAS failed'))
+            raise UserError(_('Connection to NAS failed'))
 
     # CRON Methods
     ##############

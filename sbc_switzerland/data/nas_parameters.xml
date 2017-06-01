@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
   <data noupdate="1">
     <record id="nas_share_name" model="ir.config_parameter">
       <field name="key">sbc_switzerland.nas_share_name</field>
@@ -10,4 +10,4 @@
       <field name="value">/Plateforme_traduction/translate_online_test/</field>
     </record>
   </data>
-</openerp>
+</odoo>

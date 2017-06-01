@@ -9,13 +9,20 @@
 #
 ##############################################################################
 import base64
-import detectlanguage
+import logging
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from openerp import models, api, fields
 from openerp.tools import config
+
+_logger = logging.getLogger(__name__)
+
+try:
+    import detectlanguage
+except ImportError:
+    _logger.warning("Please install detectlanguage")
 
 
 class Correspondence(models.Model):

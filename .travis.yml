@@ -23,7 +23,7 @@ virtualenv:
 
 install:
     - pip install click flake8 coveralls xlrd pylint pylint_odoo coverage codecov
-    - pip install pyjwt pyquery phonenumbers sendgrid
+    - pip install pyjwt pyquery phonenumbers sendgrid detectlanguage
     - pip install python-magic wand numpy pdfminer matplotlib pyPdf bs4  # SBC requirements
     - git clone https://github.com/CompassionCH/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools -b r2
     - git clone https://github.com/CompassionCH/compassion-modules.git ${HOME}/build/CompassionCH/compassion-modules -b 9.0

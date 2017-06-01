@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
 	<data noupdate="1">
 		<!-- production config -->
 		<record id="share_on_nas" model="ir.config_parameter">
@@ -14,4 +14,4 @@
 			<field name="value">\Scan Lettres S2B\Done\</field>
 		</record>
 	</data>
-</openerp>
+</odoo>

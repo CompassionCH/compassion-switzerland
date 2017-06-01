@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
-        <!-- Form Definition -->
-        <record id="import_letters_config_form_folder_path" model="ir.ui.view">
-            <field name="name">import.letter.config.form.compassion.switzerland</field>
-            <field name="inherit_id" ref="sbc_compassion.import_letters_config_form"/>
-            <field name="model">import.letter.config</field>
-            <field name="arch" type="xml">
-            	
-            	<!-- add text edit for import folder path -->
-                <field name="mandatory_review" position="before">
-                	<field name="import_folder_path"/>
-                </field>
-                
+<odoo>
+    <!-- Form Definition -->
+    <record id="import_letters_config_form_folder_path" model="ir.ui.view">
+        <field name="name">import.letter.config.form.compassion.switzerland</field>
+        <field name="inherit_id" ref="sbc_compassion.import_letters_config_form"/>
+        <field name="model">import.letter.config</field>
+        <field name="arch" type="xml">
+
+            <!-- add text edit for import folder path -->
+            <field name="mandatory_review" position="before">
+                <field name="import_folder_path"/>
             </field>
-        </record>
-    </data>
-</openerp>
+
+        </field>
+    </record>
+</odoo>
