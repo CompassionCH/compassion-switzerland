@@ -1,55 +1,53 @@
-<openerp>
-    <data>
-        <!-- Report for printing a SUB sponsorship forms -->
-        <report id="report_sub_proposal"
-                model="res.partner"
-                string="SUB proposal form"
-                report_type="qweb-pdf"
-                name="report_compassion.sub_proposal"
-        />
-        <record id="report_sub_proposal" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="paperformat_a4_letter"/>
-        </record>
+<odoo>
+    <!-- Report for printing a SUB sponsorship forms -->
+    <report id="report_sub_proposal"
+            model="res.partner"
+            string="SUB proposal form"
+            report_type="qweb-pdf"
+            name="report_compassion.sub_proposal"
+    />
+    <record id="report_sub_proposal" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="paperformat_a4_letter"/>
+    </record>
 
-        <template id="sub_proposal">
-            <t t-set="custom_css">
-                .container {
-                    font-family: "tetriaLight";
-                    font-size: 14pt;
-                }
-                #sponsor-ref {
-                    position: absolute;
-                    top: 84mm;
-                    left: 45mm;
-                }
-                #form_image {
-                    position: absolute;
-                    top: 0mm;
-                    left: 0mm;
-                    width: 210mm;
-                    height: 297mm;
-                }
-                #form_image img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    margin: auto;
-                }
-            </t>
-            <t t-call="report_compassion.html_container">
-                <t t-foreach="docs" t-as="o">
-                    <div class="page">
-                        <div id="form_image">
-                            <span t-field="o.sub_proposal_form" t-field-options='{"widget": "image"}'/>
-                        </div>
-                        <t t-if="o.lang in ('en_US', 'it_IT')">
-                            <span id="sponsor-ref" t-field="o.ref"/>
-                        </t>
-                        <t t-if="o.lang in ('fr_CH', 'de_DE')">
-                            <span id="sponsor-ref" t-field="o.ref" style="top: 88mm;"/>
-                        </t>
+    <template id="sub_proposal">
+        <t t-set="custom_css">
+            .container {
+                font-family: "tetriaLight";
+                font-size: 14pt;
+            }
+            #sponsor-ref {
+                position: absolute;
+                top: 84mm;
+                left: 45mm;
+            }
+            #form_image {
+                position: absolute;
+                top: 0mm;
+                left: 0mm;
+                width: 210mm;
+                height: 297mm;
+            }
+            #form_image img {
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
+            }
+        </t>
+        <t t-call="report_compassion.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div id="form_image">
+                        <span t-field="o.sub_proposal_form" t-field-options='{"widget": "image"}'/>
                     </div>
-                </t>
+                    <t t-if="o.lang in ('en_US', 'it_IT')">
+                        <span id="sponsor-ref" t-field="o.ref"/>
+                    </t>
+                    <t t-if="o.lang in ('fr_CH', 'de_DE')">
+                        <span id="sponsor-ref" t-field="o.ref" style="top: 88mm;"/>
+                    </t>
+                </div>
             </t>
-        </template>
-    </data>
-</openerp>
+        </t>
+    </template>
+</odoo>

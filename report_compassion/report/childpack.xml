@@ -1,195 +1,193 @@
-<openerp>
-    <data>
-        <report id="report_childpack_full"
-                model="compassion.child"
-                string="Full Childpack"
-                report_type="qweb-pdf"
-                name="report_compassion.childpack_full"
-                menu="False"
-        />
-        <record id="report_childpack_full" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="paperformat_childpack"/>
-        </record>
+<odoo>
+    <report id="report_childpack_full"
+            model="compassion.child"
+            string="Full Childpack"
+            report_type="qweb-pdf"
+            name="report_compassion.childpack_full"
+            menu="False"
+    />
+    <record id="report_childpack_full" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="paperformat_childpack"/>
+    </record>
 
-        <report id="report_childpack_small"
-                model="compassion.child"
-                string="Small Childpack"
-                report_type="qweb-pdf"
-                name="report_compassion.childpack_small"
-                menu="False"
-        />
-        <record id="report_childpack_small" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="paperformat_a4_childpack"/>
-        </record>
+    <report id="report_childpack_small"
+            model="compassion.child"
+            string="Small Childpack"
+            report_type="qweb-pdf"
+            name="report_compassion.childpack_small"
+            menu="False"
+    />
+    <record id="report_childpack_small" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="paperformat_a4_childpack"/>
+    </record>
 
-        <template id="childpack_full">
-            <t t-set="formMargin" t-value="124"/>
-            <t t-call="report_compassion.childpack_small"/>
-        </template>
+    <template id="childpack_full">
+        <t t-set="formMargin" t-value="124"/>
+        <t t-call="report_compassion.childpack_small"/>
+    </template>
 
-        <template id="childpack_small">
-            <t t-set="marginLeft" t-value="formMargin or 0"/>
-            <t t-set="custom_css">
-                .container {
-                    font-family: "tetriaLight";
-                    font-size: 8pt;
-                }
-                .local_id {
-                    font-family: "tetriaTab";
-                    position: absolute;
-                    margin-top: 65mm;
-                    margin-left: 56mm;
-                    width: 108mm;
-                    writing-mode:vertical-rl;
-                    -webkit-transform:rotate(-90deg);
-                    -moz-transform:rotate(-90deg);
-                    -o-transform: rotate(-90deg);
-                    -ms-transform:rotate(-90deg);
-                    transform: rotate(-90deg);
-                    white-space:nowrap;
-                }
-                #due_date {
-                    margin-right: 20mm;
-                }
-                .desc {
-                    position: absolute;
-                    margin-left: <t t-esc="marginLeft+7"/>mm;
-                    margin-top: 30mm;
-                    width: 130mm;
-                    height: 116mm;
-                    max-height: 116mm;
-                    font-size: 9pt;
-                    column-count: 2;
-                    -webkit-column-count: 2; /* Chrome, Safari, Opera */
-                    -moz-column-count: 2; /* Firefox */
-                }
-                .desc .left {
-                    width: 65mm;
-                    max-width: 100%;
-                }
-                .desc .right {
-                    width: 65mm;
-                    max-width: 100%;
-                    position: absolute;
-                    left: 65mm;
-                    top: 0mm;
-                }
-                .desc .left table {
-                    width: 65mm;
-                }
-                .desc .right table {
-                    width: 65mm;
-                }
-                .desc td {
-                    vertical-align: bottom;
-                    padding-bottom: 1.5mm;
-                }
-                .desc td:first-child {
-                    padding-right: 2mm;
-                    vertical-align: top;
-                    width: 50%;
-                }
-                h6 {
-                    font-family: "tetriaBlack";
-                    text-transform: uppercase;
-                }
-                .desc h6 {
-                    margin-top: 10mm;
-                }
-                .photo {
-                    position: absolute;
-                    margin-left: <t t-esc="marginLeft+183"/>mm;
-                    margin-top: 59mm;
-                    width: 88mm;
-                    height: 112mm;
-                }
-                .photo img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    margin: auto;
-                }
-                #child-ref {
-                    width: 56mm;
-                    text-align: center;
-                    font-size: medium;
-                    font-family: "tetriaTab";
-                    margin-top: 2mm;
-                }
-                .summary {
-                    position: absolute;
-                    margin-left: <t t-esc="marginLeft+226"/>mm;
-                    margin-top: 180mm;
-                }
-                .summary_field {
-                    position: relative;
-                    font-weight: bold;
-                    font-family: "tetriaBold";
-                    text-transform: uppercase;
-                    margin: 0mm;
-                }
-                .summary_field.name {
-                    font-size: 17pt;
-                    left: -7mm;
-                }
-                .summary_field.birthday {
-                    font-size: 15pt;
-                    top: -2pt;
-                }
-                .summary_field.country {
-                    font-size: 13pt;
-                    top: -3pt;
-                    left: -20mm;
-                }
-                .activities {
-                    display: none;
-                }
-                /* Comma separated lists */
-                ul {
-                    margin: 0;
-                    padding: 0;
-                }
-                li {
-                    display: inline;
-                }
-                li:after {
-                    content: ", ";
-                }
-                li:last-child:after {
-                    content: "";
-                }
-            </t>
-            <t t-call="report_compassion.html_container">
-                <t t-foreach="docs" t-as="o">
-                    <div class="page">
-                        <t t-if="formMargin">
-                            <div class="local_id">
-                                <span>Childpack available until: </span><span t-raw="o.get_date('hold_expiration')" id="due_date"/>
-                                <span t-field="o.local_id"/>
-                            </div>
-                        </t>
-                        <div t-attf-class="desc {{'boy' if o.gender == 'M' else 'girl'}}">
-                            <div class="left">
-                                <span t-raw="o.description"/>
-                            </div>
-                            <div class="right" t-if="o.project_id.description">
-                                <h6 style="margin-top: 10mm;"><span t-field="o.project_title"/></h6>
-                                <span t-raw="o.project_id.description"/>
-                            </div>
+    <template id="childpack_small">
+        <t t-set="marginLeft" t-value="formMargin or 0"/>
+        <t t-set="custom_css">
+            .container {
+                font-family: "tetriaLight";
+                font-size: 8pt;
+            }
+            .local_id {
+                font-family: "tetriaTab";
+                position: absolute;
+                margin-top: 65mm;
+                margin-left: 56mm;
+                width: 108mm;
+                writing-mode:vertical-rl;
+                -webkit-transform:rotate(-90deg);
+                -moz-transform:rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                -ms-transform:rotate(-90deg);
+                transform: rotate(-90deg);
+                white-space:nowrap;
+            }
+            #due_date {
+                margin-right: 20mm;
+            }
+            .desc {
+                position: absolute;
+                margin-left: <t t-esc="marginLeft+7"/>mm;
+                margin-top: 30mm;
+                width: 130mm;
+                height: 116mm;
+                max-height: 116mm;
+                font-size: 9pt;
+                column-count: 2;
+                -webkit-column-count: 2; /* Chrome, Safari, Opera */
+                -moz-column-count: 2; /* Firefox */
+            }
+            .desc .left {
+                width: 65mm;
+                max-width: 100%;
+            }
+            .desc .right {
+                width: 65mm;
+                max-width: 100%;
+                position: absolute;
+                left: 65mm;
+                top: 0mm;
+            }
+            .desc .left table {
+                width: 65mm;
+            }
+            .desc .right table {
+                width: 65mm;
+            }
+            .desc td {
+                vertical-align: bottom;
+                padding-bottom: 1.5mm;
+            }
+            .desc td:first-child {
+                padding-right: 2mm;
+                vertical-align: top;
+                width: 50%;
+            }
+            h6 {
+                font-family: "tetriaBlack";
+                text-transform: uppercase;
+            }
+            .desc h6 {
+                margin-top: 10mm;
+            }
+            .photo {
+                position: absolute;
+                margin-left: <t t-esc="marginLeft+183"/>mm;
+                margin-top: 59mm;
+                width: 88mm;
+                height: 112mm;
+            }
+            .photo img {
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
+            }
+            #child-ref {
+                width: 56mm;
+                text-align: center;
+                font-size: medium;
+                font-family: "tetriaTab";
+                margin-top: 2mm;
+            }
+            .summary {
+                position: absolute;
+                margin-left: <t t-esc="marginLeft+226"/>mm;
+                margin-top: 180mm;
+            }
+            .summary_field {
+                position: relative;
+                font-weight: bold;
+                font-family: "tetriaBold";
+                text-transform: uppercase;
+                margin: 0mm;
+            }
+            .summary_field.name {
+                font-size: 17pt;
+                left: -7mm;
+            }
+            .summary_field.birthday {
+                font-size: 15pt;
+                top: -2pt;
+            }
+            .summary_field.country {
+                font-size: 13pt;
+                top: -3pt;
+                left: -20mm;
+            }
+            .activities {
+                display: none;
+            }
+            /* Comma separated lists */
+            ul {
+                margin: 0;
+                padding: 0;
+            }
+            li {
+                display: inline;
+            }
+            li:after {
+                content: ", ";
+            }
+            li:last-child:after {
+                content: "";
+            }
+        </t>
+        <t t-call="report_compassion.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <t t-if="formMargin">
+                        <div class="local_id">
+                            <span>Childpack available until: </span><span t-raw="o.get_date('hold_expiration')" id="due_date"/>
+                            <span t-field="o.local_id"/>
                         </div>
-                        <div class="photo">
-                            <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
-                            <t t-if="not marginLeft">
-                                <p t-field="o.local_id" id="child-ref"/>
-                            </t>
+                    </t>
+                    <div t-attf-class="desc {{'boy' if o.gender == 'M' else 'girl'}}">
+                        <div class="left">
+                            <span t-raw="o.description"/>
                         </div>
-                        <div class="summary">
-                            <p t-field="o.preferred_name" class="summary_field name"/>
-                            <p t-raw="o.get_date('birthdate', 'date_short')" class="summary_field birthday"/>
-                            <p t-field="o.project_id.country_id.name" class="summary_field country"/>
+                        <div class="right" t-if="o.project_id.description">
+                            <h6 style="margin-top: 10mm;"><span t-field="o.project_title"/></h6>
+                            <span t-raw="o.project_id.description"/>
                         </div>
                     </div>
-                </t>
+                    <div class="photo">
+                        <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
+                        <t t-if="not marginLeft">
+                            <p t-field="o.local_id" id="child-ref"/>
+                        </t>
+                    </div>
+                    <div class="summary">
+                        <p t-field="o.preferred_name" class="summary_field name"/>
+                        <p t-raw="o.get_date('birthdate', 'date_short')" class="summary_field birthday"/>
+                        <p t-field="o.project_id.country_id.name" class="summary_field country"/>
+                    </div>
+                </div>
             </t>
-        </template>
-    </data>
-</openerp>
+        </t>
+    </template>
+</odoo>

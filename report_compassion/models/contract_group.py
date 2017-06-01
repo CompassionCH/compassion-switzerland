@@ -15,7 +15,7 @@ import locale
 
 from dateutil.relativedelta import relativedelta
 from contextlib import contextmanager
-from res_partner import IMG_DIR
+from .res_partner import IMG_DIR
 
 from openerp import api, models, fields, _
 from openerp.exceptions import Warning
@@ -23,6 +23,7 @@ from openerp.exceptions import Warning
 logger = logging.getLogger(__name__)
 
 LOCALE_LOCK = threading.Lock()
+COMPASSION_BVR = '01-44443-7'
 
 
 @contextmanager
@@ -191,7 +192,4 @@ class ContractGroup(models.Model):
     @api.model
     def get_company_bvr_account(self):
         """ Utility to find the bvr account of the company. """
-        company = self.env['res.company'].browse(1)
-        bank = company.bank_ids.filtered(lambda b: b.state == 'bvr')[0]
-        bank.ensure_one()
-        return bank.acc_number
+        return COMPASSION_BVR

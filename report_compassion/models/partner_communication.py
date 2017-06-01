@@ -11,8 +11,8 @@
 import base64
 from datetime import datetime
 
-from contract_group import setlocale
-from res_partner import IMG_DIR
+from .contract_group import setlocale
+from .res_partner import IMG_DIR
 
 from openerp import api, models, fields
 

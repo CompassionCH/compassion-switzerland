@@ -77,7 +77,7 @@ class PrintSponsorshipBvr(models.TransientModel):
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(
                     must_skip_send_to_printer=True).get_pdf(
-                        records.ids, self.paper_format, data=data))
+                        records, self.paper_format, data=data))
             self.state = 'pdf'
             return {
                 'name': 'Download report',

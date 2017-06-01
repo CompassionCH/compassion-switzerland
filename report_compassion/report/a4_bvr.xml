@@ -1,18 +1,16 @@
-<openerp>
-    <data>
-        <!-- Just use another report in order to print on paper tray -->
-        <report id="report_a4_bvr"
-                model="partner.communication.job"
-                string="A4 BVR"
-                report_type="qweb-pdf"
-                name="report_compassion.a4_bvr"
-        />
-        <record id="report_a4_bvr" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="paperformat_a4_letter"/>
-        </record>
+<odoo>
+    <!-- Just use another report in order to print on paper tray -->
+    <report id="report_a4_bvr"
+            model="partner.communication.job"
+            string="A4 BVR"
+            report_type="qweb-pdf"
+            name="report_compassion.a4_bvr"
+    />
+    <record id="report_a4_bvr" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="paperformat_a4_letter"/>
+    </record>
 
-        <template id="a4_bvr">
-            <t t-call="report_compassion.partner_communication"/>
-        </template>
-    </data>
-</openerp>
+    <template id="a4_bvr">
+        <t t-call="report_compassion.partner_communication"/>
+    </template>
+</odoo>

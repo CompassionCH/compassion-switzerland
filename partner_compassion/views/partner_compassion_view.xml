@@ -233,13 +233,14 @@
     </record>
 
     <!-- Redefine buttons -->
-    <delete model="ir.ui.view" id="account.partner_view_button_journal_item_count"/>
     <delete model="ir.ui.view" id="account.partner_view_button_contracts_count"/>
-    <delete model="ir.ui.view" id="project.view_task_partner_info_form"/>
     <record model="ir.ui.view" id="account.partner_view_buttons">
         <!-- Show invoices button for everyone -->
         <field name="groups_id" eval="[(6, 0, [ref('child_compassion.group_sponsorship')])]"/>
     </record>
+
+    <!-- Delete Contacts Top Menu -->
+    <delete model="ir.ui.menu" id="mail.menu_contacts"/>
 
     <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form" parent="child_compassion.menu_sponsorship_section" sequence="0"/>
 </odoo>

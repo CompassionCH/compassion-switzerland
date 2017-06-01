@@ -88,5 +88,8 @@
             </field>
         </record>
 
+        <!-- Move Mass mailing menu inside Marketing -->
+        <record id="mass_mailing.mass_mailing_menu_root" parent_id="base.marketing_menu"/>
+
     </data>
 </openerp>

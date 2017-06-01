@@ -1,152 +1,150 @@
-<openerp>
-    <data>
-        <!-- Template for outputting a payment slip
-        Must be called with the following variables set in order to work :
-        - partner (for who is the payment?)
-        - communication
-        - company_account
-        - reference (bvr reference)
-        - partner_address (the address of the partner)
-        - scan_line
-        -->
-        <template id="report_sponsorship_single_slip">
-            <t t-set="margin" t-value="position * 0.2"/>
-            <t t-set="height" t-value="106 - margin"/>
-            <t t-set="company_address">
-                <span t-raw="partner.company_id.address_name"/>
-                <br/>
-                <span t-raw="partner.company_id.street"/>
-                <br/>
-                <span t-raw="(partner.company_id.zip or '') + ' ' + (partner.company_id.city or '')"/>
-                <br/>
-                <span t-raw="partner.company_id.country_id.name"/>
+<odoo>
+    <!-- Template for outputting a payment slip
+    Must be called with the following variables set in order to work :
+    - partner (for who is the payment?)
+    - communication
+    - company_account
+    - reference (bvr reference)
+    - partner_address (the address of the partner)
+    - scan_line
+    -->
+    <template id="report_sponsorship_single_slip">
+        <t t-set="margin" t-value="position * 0.2"/>
+        <t t-set="height" t-value="106 - margin"/>
+        <t t-set="company_address">
+            <span t-raw="partner.company_id.address_name"/>
+            <br/>
+            <span t-raw="partner.company_id.street"/>
+            <br/>
+            <span t-raw="(partner.company_id.zip or '') + ' ' + (partner.company_id.city or '')"/>
+            <br/>
+            <span t-raw="partner.company_id.country_id.name"/>
+        </t>
+        <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm; height: {{ height }}mm;">
+            <t t-if="background">
+                <div id="background" t-attf-style="height: {{ height }}mm;">
+                    <span t-field="o.bvr_background" t-field-options='{"widget": "image"}'/>
+                </div>
             </t>
-            <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm; height: {{ height }}mm;">
-                <t t-if="background">
-                    <div id="background" t-attf-style="height: {{ height }}mm;">
-                        <span t-field="o.bvr_background" t-field-options='{"widget": "image"}'/>
-                    </div>
-                </t>
-                <div class="receipt">
-                    <span t-raw="company_address" class="pay_for"/>
-                    <span t-raw="communication" class="communication"/>
-                    <b><span t-esc="company_account" class="account"/></b>
-                    <span t-esc="reference" class="reference"/>
-                    <span t-raw="partner_address" class="pay_from"/>
-                </div>
-                <div class="transfer">
-                    <span t-raw="company_address" class="pay_for"/>
-                    <span t-esc="reference" class="reference"/>
-                    <b><span t-esc="company_account" class="account"/></b>
-                    <span t-raw="partner_address" class="pay_from"/>
-                    <span t-raw="scan_line" class="scan_line"/>
-                </div>
+            <div class="receipt">
+                <span t-raw="company_address" class="pay_for"/>
+                <span t-raw="communication" class="communication"/>
+                <b><span t-esc="company_account" class="account"/></b>
+                <span t-esc="reference" class="reference"/>
+                <span t-raw="partner_address" class="pay_from"/>
             </div>
-        </template>
+            <div class="transfer">
+                <span t-raw="company_address" class="pay_for"/>
+                <span t-esc="reference" class="reference"/>
+                <b><span t-esc="company_account" class="account"/></b>
+                <span t-raw="partner_address" class="pay_from"/>
+                <span t-raw="scan_line" class="scan_line"/>
+            </div>
+        </div>
+    </template>
 
-        <!-- Container for payment slips adding css rules for it -->
-        <template id="bvr_container">
-            <t t-set="body_classname" t-value="'container'"/>
-            <t t-set="custom_css_2">
-                .one_slip {
-                    font-size: 8pt;
-                    width: 210mm;
-                    height: 106mm;
-                }
-                #background {
-                    position: absolute;
-                    width: 210mm;
-                    height: 106mm;
-                }
-                #background img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    margin: auto;
-                }
-                .receipt {
-                    position: absolute;
-                    padding-top: 9mm;
-                    padding-left: 5mm;
-                    width: 60mm;
-                    height: 106mm;
-                }
-                .pay_for::first-line {
-                    font-weight: bold;
-                }
-                .receipt .pay_for {
-                    position: absolute;
-                    height: 15mm;
-                    width: 100%;
-                }
-                .receipt .communication {
-                    position: absolute;
-                    margin-top: 18mm;
-                    height: 15mm;
-                }
-                .receipt .account {
-                    position: absolute;
-                    margin-top: 33mm;
-                    margin-left: 30.5mm;
-                }
-                .receipt .reference {
-                    position: absolute;
-                    margin-top: 51mm;
-                }
-                .receipt .pay_from {
-                    position: absolute;
-                    margin-top: 56mm;
-                    max-height: 20mm;
-                }
+    <!-- Container for payment slips adding css rules for it -->
+    <template id="bvr_container">
+        <t t-set="body_classname" t-value="'container'"/>
+        <t t-set="custom_css_2">
+            .one_slip {
+            font-size: 8pt;
+            width: 210mm;
+            height: 106mm;
+            }
+            #background {
+            position: absolute;
+            width: 210mm;
+            height: 106mm;
+            }
+            #background img {
+            max-width: 100%;
+            max-height: 100%;
+            margin: auto;
+            }
+            .receipt {
+            position: absolute;
+            padding-top: 9mm;
+            padding-left: 5mm;
+            width: 60mm;
+            height: 106mm;
+            }
+            .pay_for::first-line {
+            font-weight: bold;
+            }
+            .receipt .pay_for {
+            position: absolute;
+            height: 15mm;
+            width: 100%;
+            }
+            .receipt .communication {
+            position: absolute;
+            margin-top: 18mm;
+            height: 15mm;
+            }
+            .receipt .account {
+            position: absolute;
+            margin-top: 33mm;
+            margin-left: 30.5mm;
+            }
+            .receipt .reference {
+            position: absolute;
+            margin-top: 51mm;
+            }
+            .receipt .pay_from {
+            position: absolute;
+            margin-top: 56mm;
+            max-height: 20mm;
+            }
 
-                .transfer {
-                    position: absolute;
-                    margin-left: 60mm;
-                    padding-left: 4mm;
-                    width: 150mm;
-                    height: 106mm;
-                }
-                .transfer .pay_for {
-                    position: absolute;
-                    margin-top: 9mm;
-                    width: 55mm;
-                }
-                .transfer .reference {
-                    position: absolute;
-                    margin-left: 61mm;
-                    margin-top: 33mm;
-                    width: 84mm;
-                    height: 6mm;
-                    padding: 1mm;
-                    font-size: 10pt;
-                    text-align: center;
-                }
-                .transfer .account {
-                    position: absolute;
-                    margin-left: 28mm;
-                    margin-top: 42.5mm;
-                }
-                .transfer .pay_from {
-                    position: absolute;
-                    margin-left: 61mm;
-                    margin-top: 54mm;
-                    line-height: 6mm;
-                    width: 80mm;
-                    height: 30mm;
-                    padding: auto;
-                }
-                .transfer .scan_line {
-                    position: absolute;
-                    margin-left: 5.7mm;
-                    margin-top: 84.5mm;
-                    width: 134mm;
-                    font-family: "ocr";
-                    font-size: 12pt;
-                    text-align: right;
-                }
-            </t>
-            <t t-call="report_compassion.layout">
-                <t t-raw="0"/>
-            </t>
-        </template>
-    </data>
-</openerp>
+            .transfer {
+            position: absolute;
+            margin-left: 60mm;
+            padding-left: 4mm;
+            width: 150mm;
+            height: 106mm;
+            }
+            .transfer .pay_for {
+            position: absolute;
+            margin-top: 9mm;
+            width: 55mm;
+            }
+            .transfer .reference {
+            position: absolute;
+            margin-left: 61mm;
+            margin-top: 33mm;
+            width: 84mm;
+            height: 6mm;
+            padding: 1mm;
+            font-size: 10pt;
+            text-align: center;
+            }
+            .transfer .account {
+            position: absolute;
+            margin-left: 28mm;
+            margin-top: 42.5mm;
+            }
+            .transfer .pay_from {
+            position: absolute;
+            margin-left: 61mm;
+            margin-top: 54mm;
+            line-height: 6mm;
+            width: 80mm;
+            height: 30mm;
+            padding: auto;
+            }
+            .transfer .scan_line {
+            position: absolute;
+            margin-left: 5.7mm;
+            margin-top: 84.5mm;
+            width: 134mm;
+            font-family: "ocr";
+            font-size: 12pt;
+            text-align: right;
+            }
+        </t>
+        <t t-call="report_compassion.layout">
+            <t t-raw="0"/>
+        </t>
+    </template>
+</odoo>
