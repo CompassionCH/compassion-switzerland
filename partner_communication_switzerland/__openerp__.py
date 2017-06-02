@@ -36,7 +36,7 @@
     'website': 'http://www.compassion.ch',
     'depends': ['report_compassion', 'thankyou_letters'],
     'external_dependencies': {
-        'python': ['detectlanguage']
+        'python': ['wand', 'detectlanguage', 'sendgrid']
     },
     'data': [
         'data/major_revision_emails.xml',

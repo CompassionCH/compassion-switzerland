@@ -10,12 +10,18 @@
 ##############################################################################
 import base64
 import locale
-
-from wand.color import Color
-from wand.drawing import Drawing
-from wand.image import Image
+import logging
 
 from openerp import api, models, fields, _
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from wand.color import Color
+    from wand.drawing import Drawing
+    from wand.image import Image
+except ImportError:
+    _logger.warning("Please install wand.")
 
 # Ratio of white frame around the child picture
 FRAME_RATIO = 0.08

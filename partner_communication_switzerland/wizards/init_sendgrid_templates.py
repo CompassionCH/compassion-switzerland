@@ -41,6 +41,8 @@ class CompassionChild(models.TransientModel):
             ('name', '=', 'General IT')]) or test_template
         fr_template = sendgrid_template_obj.search([
             ('name', '=', 'General FR')]) or test_template
+        if not test_template or fr_template:
+            return
         for email_template in templates:
             lang_template_obj.create({
                 'email_template_id': email_template.id,

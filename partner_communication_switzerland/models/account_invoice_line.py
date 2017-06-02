@@ -63,7 +63,7 @@ class AccountInvoiceLine(models.Model):
     def generate_thank_you(self):
         """
         Creates a thank you letter communication.
-        /!\ Must be called only on a single partner and single event at a time.
+        Must be called only on a single partner and single event at a time.
         """
         comm_obj = self.env['partner.communication.job']
         small = self.env.ref('thankyou_letters.config_thankyou_small') + \

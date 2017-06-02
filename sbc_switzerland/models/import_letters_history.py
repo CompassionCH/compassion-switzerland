@@ -12,29 +12,30 @@
 This module reads a zip file containing scans of mail and finds the relation
 between the database and the mail.
 """
-import logging
 import base64
-import zipfile
+import logging
 import time
-
-import pysftp
-
-from openerp.addons.sbc_compassion.tools import import_letter_functions as func
-from openerp import fields, models, api, _, exceptions
-from pyPdf import PdfFileWriter, PdfFileReader
-from pyPdf.pdf import PageObject
-
+import zipfile
 from io import BytesIO
-from openerp.tools.config import config
-from smb.SMBConnection import SMBConnection
-from smb.smb_structs import OperationFailure
 
 from openerp.addons.connector.session import ConnectorSession
 from openerp.addons.sbc_compassion.models import import_letters_history as ilh
+from openerp.addons.sbc_compassion.tools import import_letter_functions as func
 
+from openerp import fields, models, api, _, exceptions
+from openerp.tools.config import config
 from . import translate_connector
 
 logger = logging.getLogger(__name__)
+
+try:
+    import pysftp
+    from smb.SMBConnection import SMBConnection
+    from smb.smb_structs import OperationFailure
+    from pyPdf import PdfFileWriter, PdfFileReader
+    from pyPdf.pdf import PageObject
+except ImportError:
+    logger.warning("Please install python dependencies.")
 
 
 class ImportLettersHistory(models.Model):
@@ -333,7 +334,7 @@ class ImportLettersHistory(models.Model):
             - attachment : the attachment to save
         Done by Michael Sandoz 02.2016
         """
-        """ Store letter on a shared folder on the NAS: """
+        # Store letter on a shared folder on the NAS:
         # Copy file in the imported letter folder
         smb_conn = self._get_smb_connection()
         if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
@@ -344,7 +345,6 @@ class ImportLettersHistory(models.Model):
 
             share_nas = self.env.ref('sbc_switzerland.share_on_nas').value
 
-            imported_letter_path = ""
             if self.manual_import:
                 imported_letter_path = self.env.ref(
                     'sbc_switzerland.scan_letter_imported'
@@ -488,7 +488,7 @@ class ImportLettersHistory(models.Model):
         return True
 
     def check_path(self, path):
-        """" Add \ at end of path if not contains ever one """
+        """" Add backslash at end of path if not contains ever one """
         if path and not path[-1] == '\\':
             path = path + "\\"
         return path

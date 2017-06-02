@@ -8,12 +8,18 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-
-from sendgrid import SendGridAPIClient
+import logging
 
 from openerp import models, api
 from openerp.exceptions import UserError
 from openerp.tools.config import config
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from sendgrid import SendGridAPIClient
+except ImportError:
+    _logger.warning("Please install sendgrid.")
 
 
 class MailTrackingEvent(models.Model):

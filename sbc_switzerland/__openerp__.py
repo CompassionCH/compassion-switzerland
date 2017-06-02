@@ -33,6 +33,9 @@
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': ['mysql_connector', 'partner_communication_switzerland'],
+    'external_dependencies': {
+        'python': ['smb', 'pyPdf', 'pysftp']
+    },
     'data': [
         'data/import_config_templates.xml',
         'data/scan_letter_params.xml',

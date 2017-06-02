@@ -14,9 +14,6 @@ import logging
 
 from io import BytesIO
 
-from pyPdf.pdf import PdfFileReader, PdfFileWriter
-from smb.SMBConnection import SMBConnection
-
 from . import translate_connector
 
 from openerp import models, api, fields, _
@@ -27,6 +24,12 @@ from openerp.addons.sbc_compassion.models.correspondence_page import \
 
 
 logger = logging.getLogger(__name__)
+
+try:
+    from pyPdf.pdf import PdfFileReader, PdfFileWriter
+    from smb.SMBConnection import SMBConnection
+except ImportError:
+    logger.warning("Please install pyPdf and smb.")
 
 
 class S2BGenerator(models.Model):

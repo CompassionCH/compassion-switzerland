@@ -133,6 +133,7 @@
             }
             hr {
                 margin-top: 0px;
+                padding: 0mm;
                 border: none;
                 height: 1pt;
                 background-color: black;
