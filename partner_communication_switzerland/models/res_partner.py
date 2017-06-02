@@ -12,18 +12,6 @@
 from openerp import api, models, fields, _
 
 
-class ResPartnerTitle(models.Model):
-    """
-    Adds salutation and gender fields.
-    """
-    _inherit = 'res.partner.title'
-    gender = fields.Selection([
-        ('M', 'Male'),
-        ('F', 'Female'),
-    ])
-    plural = fields.Boolean()
-
-
 class ResPartner(models.Model):
     """
     Add method to send all planned communication of sponsorships.
@@ -31,30 +19,58 @@ class ResPartner(models.Model):
     _name = 'res.partner'
     _inherit = ['res.partner', 'translatable.model']
 
-    salutation = fields.Char(compute='_get_salutation')
-    short_salutation = fields.Char(compute='_get_salutation')
-    gender = fields.Selection(related='title.gender')
     letter_delivery_preference = fields.Selection(
         selection='_get_delivery_preference',
         default='auto_digital',
         required=True,
         help='Delivery preference for Child Letters',
     )
+    thankyou_preference = fields.Selection(
+        compute='_compute_thankyou_preference', store=True
+    )
+    is_new_donor = fields.Boolean(compute='_compute_new_donor')
+    ambassador_quote = fields.Html(
+        help='Used in thank you letters for donations linked to an event '
+             'and to this partner.',
+    )
 
     @api.multi
     def _get_salutation(self):
-        for p in self:
-            partner = p.with_context(lang=p.lang)
-            if partner.title and partner.firstname and not partner.is_company:
-                title = partner.title
-                title_salutation = partner.env['ir.advanced.translation'].get(
-                    'salutation', female=title.gender == 'F',
-                    plural=title.plural
-                ).title()
-                title_name = title.name
-                p.salutation = title_salutation + ' ' + \
-                    title_name + ' ' + partner.lastname
-                p.short_salutation = title_salutation + ' ' + partner.firstname
-            else:
-                p.salutation = _("Dear friends of compassion")
-                p.short_salutation = _("Dear friends of compassion")
+        company = self.filtered(
+            lambda p: not (p.title and p.firstname and not p.is_company))
+        for p in company:
+            p.salutation = _("Dear friends of compassion")
+            p.short_salutation = p.salutation
+        super(ResPartner, self - company)._get_salutation()
+
+    @api.multi
+    @api.depends('thankyou_letter')
+    def _compute_thankyou_preference(self):
+        """
+        Converts old preference into communication preference.
+        """
+        thankyou_mapping = {
+            'no': 'none',
+            'default': 'auto_digital',
+            'paper': 'physical'
+        }
+        for partner in self:
+            partner.thankyou_preference = thankyou_mapping[
+                partner.thankyou_letter]
+
+    @api.multi
+    def _compute_new_donor(self):
+        invl_obj = self.env['account.invoice.line'].with_context(lang='en_US')
+        donor = self.env.ref('partner_compassion.res_partner_category_donor')
+        for partner in self:
+            if donor in partner.category_id:
+                partner.is_new_donor = False
+                continue
+            donation_invl = invl_obj.search([
+                ('partner_id', '=', partner.id),
+                ('state', '=', 'paid'),
+                ('product_id.categ_name', '!=', "Sponsorship")
+            ])
+            payments = donation_invl.mapped('last_payment')
+            new_donor = len(payments) < 2 and not partner.has_sponsorships
+            partner.is_new_donor = new_donor

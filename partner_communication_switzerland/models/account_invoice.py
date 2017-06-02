@@ -104,7 +104,6 @@ class AccountInvoice(models.Model):
             ('name', 'like', 'Maglo Rachel'),
             ('name', 'like', 'Mermod Philippe'),
             ('name', 'like', 'Wulliamoz David'),
-            ('name', 'like', 'Willi Christian'),
         ]).mapped('partner_id')
         invoices = self.search([
             ('type', '=', 'out_invoice'),

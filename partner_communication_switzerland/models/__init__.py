@@ -18,3 +18,6 @@ from . import contracts
 from . import res_partner
 from . import disaster_alert
 from . import partner_communication
+from . import account_invoice
+from . import account_invoice_line
+from . import event_compassion

@@ -39,8 +39,6 @@
         'python': ['pyquery']
     },
     'data': [
-        'security/ir.model.access.csv',
-        'data/success_story_activation_cron.xml',
         'report/compassion_layout.xml',
         'report/paperformats.xml',
         'report/childpack.xml',

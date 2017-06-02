@@ -34,7 +34,7 @@
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['report_compassion'],
+    'depends': ['report_compassion', 'thankyou_letters'],
     'external_dependencies': {
         'python': ['detectlanguage']
     },
@@ -45,6 +45,7 @@
         'data/project_lifecycle_emails.xml',
         'data/other_emails.xml',
         'data/sponsorship_planned_emails.xml',
+        'data/donation_emails.xml',
         'data/manual_emails.xml',
         'data/communication_config.xml',
         'data/sponsorship_communications_cron.xml',

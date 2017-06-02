@@ -1,5 +1,27 @@
 <odoo>
-    <!-- Add language filters in search view -->
+    <!-- Add event in views -->
+    <record model="ir.ui.view" id="communication_job_form_event">
+        <field name="name">communication.job.form.event</field>
+        <field name="model">partner.communication.job</field>
+        <field name="inherit_id" ref="thankyou_letters.communication_job_form_thankyou"/>
+        <field name="arch" type="xml">
+            <field name="success_story_id" position="after">
+                <field name="event_id"/>
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="communication_job_tree_event">
+        <field name="name">communication.job.tree.event</field>
+        <field name="model">partner.communication.job</field>
+        <field name="inherit_id" ref="thankyou_letters.communication_job_tree_thankyou"/>
+        <field name="arch" type="xml">
+            <field name="success_story_id" position="after">
+                <field name="event_id"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Add language and event filters in search view -->
     <record model="ir.ui.view" id="communication_job_search">
         <field name="name">communication.job.search.switzerland</field>
         <field name="model">partner.communication.job</field>
@@ -11,6 +33,9 @@
                 <filter string="German" name="german" domain="[('partner_id.lang', '=', 'de_DE')]"/>
                 <filter string="Italian" name="italian" domain="[('partner_id.lang', '=', 'it_IT')]"/>
                 <filter string="English" name="english" domain="[('partner_id.lang', '=', 'en_US')]"/>
+            </filter>
+            <filter name="config" position="before">
+                <filter string="Event" name="event" domain="[]" context="{'group_by':'event_id'}"/>
             </filter>
         </field>
     </record>
@@ -42,6 +67,20 @@
     <menuitem name="Templates" id="menu_communication_templates" parent="child_compassion.menu_communication_config" sequence="4" action="action_communication_template"/>
     <menuitem id="partner_communication.menu_communication_config" parent="child_compassion.menu_communication_config" name="Communication Rules" sequence="5"/>
     <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>
+
+    <!-- Add Event Donation -->
+    <record id="thanyou_letters.action_thank_you" model="ir.actions.act_window">
+        <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '=', False)]</field>
+    </record>
+    <record id="action_thank_you_event" model="ir.actions.act_window">
+        <field name="name">Event Donation Receipts</field>
+        <field name="res_model">partner.communication.job</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '!=', False)]</field>
+        <field name="context">{'search_default_pending': True, 'search_default_config': True, 'search_default_event': True, 'default_user_id': uid}</field>
+    </record>
+    <menuitem id="menu_donation_event" name="Event Donations" parent="thankyou_letters.menu_donation" action="action_thank_you_event"/>
 
     <!-- Add Emails entry in Sponsorship Settings-->
     <menuitem name="Emails" id="menu_mail_mail" parent="child_compassion.menu_communication_config" action="mail.action_view_mail_mail" sequence="2"/>

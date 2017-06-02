@@ -25,6 +25,23 @@ from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
 class PartnerCommunication(models.Model):
     _inherit = 'partner.communication.job'
 
+    event_id = fields.Many2one('crm.event.compassion', 'Event')
+
+    @api.multi
+    def _compute_signature(self):
+        """ Translate country in Signature (for Compassion Switzerland) """
+        for communication in self:
+            user = communication.user_id or self.env.user
+            user = user.with_context(lang=communication.partner_id.lang)
+            employee = user.employee_ids
+            signature = ''
+            if len(employee) == 1:
+                signature = employee.name + '<br/>' + \
+                    employee.department_id.name + '<br/>'
+            signature += user.company_id.name.split(' ')[0] + ' '
+            signature += user.company_id.country_id.name
+            communication.signature = signature
+
     def get_dossier_full_attachments(self):
         return self._get_new_dossier_attachments()
 
@@ -229,6 +246,7 @@ class PartnerCommunication(models.Model):
         """
         - Mark B2S correspondence as read when printed.
         - Postpone no money holds when reminders sent.
+        - Update donor tag
         :return: True
         """
         super(PartnerCommunication, self).send()
@@ -261,7 +279,26 @@ class PartnerCommunication(models.Model):
                 holds.write({
                     'expiration_date': fields.Datetime.to_string(extension)
                 })
-            return True
+
+        donor = self.env.ref('partner_compassion.res_partner_category_donor')
+        partners = self.filtered(
+            lambda j: j.config_id.model == 'account.invoice.line' and
+            donor not in j.partner_id.category_id).mapped('partner_id')
+        partners.write({'category_id': [(4, donor.id)]})
+
+        return True
+
+    @api.multi
+    def open_related(self):
+        """ Select a better view for invoice lines. """
+        res = super(PartnerCommunication, self).open_related()
+        if self.config_id.model == 'account.invoice.line':
+            res['context'] = self.with_context(
+                tree_view_ref='sponsorship_compassion'
+                              '.view_invoice_line_partner_tree',
+                group_by=False
+            ).env.context
+        return res
 
     def _get_new_dossier_attachments(self, correspondence=True, payment=True):
         """
