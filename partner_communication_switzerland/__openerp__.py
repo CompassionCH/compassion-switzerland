@@ -52,6 +52,7 @@
         'views/communication_job_view.xml',
         'views/download_child_pictures_view.xml',
         'views/end_contract_wizard_view.xml',
+        'views/disaster_alert_view.xml',
     ],
     'demo': [],
     'installable': True,
