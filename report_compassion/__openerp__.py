@@ -54,7 +54,6 @@
         'views/print_sponsorship_gift_bvr_view.xml',
         'views/print_childpack_view.xml',
         'views/print_bvr_fund_view.xml',
-        'views/success_story_view.xml',
         'views/communication_job_view.xml',
     ],
     'demo': [],

@@ -10,162 +10,166 @@
         <field name="paperformat_id" ref="paperformat_a4_letter"/>
     </record>
 
-    <template id="partner_communication">
-        <t t-set="success_story" t-value="docs.mapped('success_story_id')"/>
-        <t t-set="bvr" t-value="docs.mapped('product_id')"/>
+    <template id="communication_style">
         <t t-set="custom_css">
             #header {
-            margin-left: 15mm;
-            height: 45mm;
-            font-size: 8pt;
+                margin-left: 15mm;
+                height: 45mm;
+                font-size: 8pt;
             }
             #logo {
-            display: inline-block;
-            margin-top: 6mm;
-            width: 100mm;
-            height: 40mm;
+                display: inline-block;
+                margin-top: 6mm;
+                width: 100mm;
+                height: 40mm;
             }
             #logo img {
-            max-width: 100%;
-            max-height: 100%;
-            margin: auto;
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
             }
             #square {
-            display: inline-block;
-            float: right;
-            margin-top: 6mm;
-            margin-right: 6mm;
-            width: 19mm;
-            height: 19mm;
+                display: inline-block;
+                float: right;
+                margin-top: 6mm;
+                margin-right: 6mm;
+                width: 19mm;
+                height: 19mm;
             }
             #square img {
-            max-width: 100%;
-            max-height: 100%;
-            margin: auto;
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
             }
             #compassion_address {
-            margin-left: 7mm;
+                margin-left: 7mm;
             }
             #letter {
-            font-family: "tetriaLight";
-            font-size: 10pt;
-            <t t-if="success_story">
-                margin-left: 6mm;
-                margin-right: 6mm;
-                <t t-if="not bvr">
-                    margin-bottom: 6mm;
+                font-family: "tetriaLight";
+                font-size: 10pt;
+                <t t-if="success_story">
+                    margin-left: 6mm;
+                    margin-right: 6mm;
+                    <t t-if="not bvr">
+                        margin-bottom: 6mm;
+                    </t>
                 </t>
-            </t>
-            <t t-if="not success_story">
-                margin-left: 20mm;
-                margin-right: 20mm;
-                <t t-if="not bvr">
-                    margin-bottom: 20mm;
+                <t t-if="not success_story">
+                    margin-left: 20mm;
+                    margin-right: 20mm;
+                    <t t-if="not bvr">
+                        margin-bottom: 20mm;
+                    </t>
                 </t>
-            </t>
-            <t t-if="bvr">
-                height: 145mm;
-                overflow: hidden;
-            </t>
+                <t t-if="bvr">
+                    height: 145mm;
+                    overflow: hidden;
+                </t>
             }
             .right {
-            width: 44%;
-            margin-left: auto;
+                width: 44%;
+                margin-left: auto;
             }
             .blue {
-            color: blue;
-            font-weight: bold;
+                color: blue;
+                font-weight: bold;
             }
             #pp {
-            font-family: verdana;
+                font-family: verdana;
             }
             #pp-box {
-            display: inline-block;
-            padding: 1mm;
-            width: 50mm;
-            line-height: initial;
-            border-style: solid;
-            border-width: 1pt;
+                display: inline-block;
+                padding: 1mm;
+                width: 50mm;
+                line-height: initial;
+                border-style: solid;
+                border-width: 1pt;
             }
             #pp-box div:first-child{
-            font-size: 12pt;
-            font-weight: bold;
+                font-size: 12pt;
+                font-weight: bold;
             }
             #pp-box div:last-child{
-            font-size: 8pt;
+                font-size: 8pt;
             }
             #pp-post {
-            display: inline-block;
-            font-size: 6pt;
+                display: inline-block;
+                font-size: 6pt;
             }
             #pp hr {
-            margin-top: 0.5mm;
-            margin-bottom: 3mm;
+                margin-top: 0.5mm;
+                margin-bottom: 3mm;
             }
             #date {
-            margin-top: 3mm;
+                margin-top: 3mm;
             }
             #content {
-            <t t-if="not reduce(lambda x,y: x and y, docs.mapped('print_subject'))">
-                margin-top: 5mm;
-            </t>
-            width: 100%;
+                <t t-if="not reduce(lambda x,y: x and y, docs.mapped('print_subject'))">
+                    margin-top: 5mm;
+                </t>
+                width: 100%;
             }
             #success-story {
-            display: inline-block;
-            margin-right: 5mm;
-            vertical-align: top;
-            padding: 3mm;
-            width: 28%;
-            min-height: 170mm;
-            max-height: 170mm;
-            background-color: #2B2B5D;
-            color: white;
-            font-size: 12pt;
+                display: inline-block;
+                margin-right: 5mm;
+                vertical-align: top;
+                padding: 3mm;
+                width: 28%;
+                min-height: 170mm;
+                max-height: 170mm;
+                background-color: #2B2B5D;
+                color: white;
+                font-size: 12pt;
             }
             #body {
-            display: inline-block;
-            <t t-if="success_story">
-                width: 62%;
-            </t>
+                display: inline-block;
+                <t t-if="success_story">
+                    width: 62%;
+                </t>
             }
             .body_text {
-            display: inline-block;
-            min-height: 145mm;
+                display: inline-block;
+                min-height: 145mm;
             }
             hr {
-            margin-top: 0px;
-            border: none;
-            height: 1pt;
-            background-color: black;
-            <t t-if="success_story">
-                width: 90%;
-            </t>
+                margin-top: 0px;
+                border: none;
+                height: 1pt;
+                background-color: black;
+                <t t-if="success_story">
+                    width: 90%;
+                </t>
             }
             #success-story hr {
-            background-color: white;
+                background-color: white;
             }
             /* Format lists for PDF */
             ul {
-            list-style: none;
+                list-style: none;
             }
             li {
-            padding-left: 16px;
+                padding-left: 16px;
             }
             li:before {
-            content: "-";
-            padding-right: 8px;
+                content: "-";
+                padding-right: 8px;
             }
 
             #ambassador_quote tr td:first-child {
-            padding-right: 2mm;
-            vertical-align: top;
+                padding-right: 2mm;
+                vertical-align: top;
             }
             #ambassador_quote tr td {
-            vertical-align: middle;
+                vertical-align: middle;
             }
         </t>
-        <t t-call="report_compassion.bvr_container">
+        <t t-call="report_compassion.bvr_style"/>
+    </template>
+
+    <template id="partner_communication">
+        <t t-set="success_story" t-value="docs.mapped('success_story_id')"/>
+        <t t-set="bvr" t-value="docs.mapped('product_id')"/>
+        <t t-call="report_compassion.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="report_compassion.partner_communication_document" t-lang="o.partner_id.lang"/>
             </t>
@@ -175,6 +179,7 @@
     <template id="partner_communication_document">
         <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
         <div class="page">
+            <t t-call="report_compassion.communication_style"/>
             <div id="header">
                 <t t-if="o.product_id or o.print_header">
                     <div id="logo" t-field="o.compassion_logo" t-field-options='{"widget": "image"}'/>

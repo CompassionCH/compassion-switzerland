@@ -43,108 +43,105 @@
         </div>
     </template>
 
-    <!-- Container for payment slips adding css rules for it -->
-    <template id="bvr_container">
-        <t t-set="body_classname" t-value="'container'"/>
+    <!-- Style css rules for BVR -->
+    <template id="bvr_style">
         <t t-set="custom_css_2">
             .one_slip {
-            font-size: 8pt;
-            width: 210mm;
-            height: 106mm;
+                font-size: 8pt;
+                width: 210mm;
+                height: 106mm;
             }
             #background {
-            position: absolute;
-            width: 210mm;
-            height: 106mm;
+                position: absolute;
+                width: 210mm;
+                height: 106mm;
             }
             #background img {
-            max-width: 100%;
-            max-height: 100%;
-            margin: auto;
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
             }
             .receipt {
-            position: absolute;
-            padding-top: 9mm;
-            padding-left: 5mm;
-            width: 60mm;
-            height: 106mm;
+                position: absolute;
+                padding-top: 9mm;
+                padding-left: 5mm;
+                width: 60mm;
+                height: 106mm;
             }
             .pay_for::first-line {
-            font-weight: bold;
+                font-weight: bold;
             }
             .receipt .pay_for {
-            position: absolute;
-            height: 15mm;
-            width: 100%;
+                position: absolute;
+                height: 15mm;
+                width: 100%;
             }
             .receipt .communication {
-            position: absolute;
-            margin-top: 18mm;
-            height: 15mm;
+                position: absolute;
+                margin-top: 18mm;
+                height: 15mm;
             }
             .receipt .account {
-            position: absolute;
-            margin-top: 33mm;
-            margin-left: 30.5mm;
+                position: absolute;
+                margin-top: 33mm;
+                margin-left: 30.5mm;
             }
             .receipt .reference {
-            position: absolute;
-            margin-top: 51mm;
+                position: absolute;
+                margin-top: 51mm;
             }
             .receipt .pay_from {
-            position: absolute;
-            margin-top: 56mm;
-            max-height: 20mm;
+                position: absolute;
+                margin-top: 56mm;
+                max-height: 20mm;
             }
 
             .transfer {
-            position: absolute;
-            margin-left: 60mm;
-            padding-left: 4mm;
-            width: 150mm;
-            height: 106mm;
+                position: absolute;
+                margin-left: 60mm;
+                padding-left: 4mm;
+                width: 150mm;
+                height: 106mm;
             }
             .transfer .pay_for {
-            position: absolute;
-            margin-top: 9mm;
-            width: 55mm;
+                position: absolute;
+                margin-top: 9mm;
+                width: 55mm;
             }
             .transfer .reference {
-            position: absolute;
-            margin-left: 61mm;
-            margin-top: 33mm;
-            width: 84mm;
-            height: 6mm;
-            padding: 1mm;
-            font-size: 10pt;
-            text-align: center;
+                position: absolute;
+                margin-left: 61mm;
+                margin-top: 33mm;
+                width: 84mm;
+                height: 6mm;
+                padding: 1mm;
+                font-size: 10pt;
+                text-align: center;
             }
             .transfer .account {
-            position: absolute;
-            margin-left: 28mm;
-            margin-top: 42.5mm;
+                position: absolute;
+                margin-left: 28mm;
+                margin-top: 42.5mm;
             }
             .transfer .pay_from {
-            position: absolute;
-            margin-left: 61mm;
-            margin-top: 54mm;
-            line-height: 6mm;
-            width: 80mm;
-            height: 30mm;
-            padding: auto;
+                position: absolute;
+                margin-left: 61mm;
+                margin-top: 54mm;
+                line-height: 6mm;
+                width: 80mm;
+                height: 30mm;
+                padding: auto;
             }
             .transfer .scan_line {
-            position: absolute;
-            margin-left: 5.7mm;
-            margin-top: 84.5mm;
-            width: 134mm;
-            font-family: "ocr";
-            font-size: 12pt;
-            text-align: right;
+                position: absolute;
+                margin-left: 5.7mm;
+                margin-top: 84.5mm;
+                width: 134mm;
+                font-family: "ocr";
+                font-size: 12pt;
+                text-align: right;
             }
         </t>
-        <t t-call="report_compassion.layout">
-            <t t-raw="0"/>
-        </t>
+        <t t-call="report_compassion.style"/>
     </template>
 </odoo>

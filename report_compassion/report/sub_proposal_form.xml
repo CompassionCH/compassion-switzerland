@@ -10,7 +10,7 @@
         <field name="paperformat_id" ref="paperformat_a4_letter"/>
     </record>
 
-    <template id="sub_proposal">
+    <template id="sub_style">
         <t t-set="custom_css">
             .container {
                 font-family: "tetriaLight";
@@ -34,9 +34,14 @@
                 margin: auto;
             }
         </t>
+        <t t-call="report_compassion.style"/>
+    </template>
+
+    <template id="sub_proposal">
         <t t-call="report_compassion.html_container">
             <t t-foreach="docs" t-as="o">
                 <div class="page">
+                    <t t-call="report_compassion.sub_style"/>
                     <div id="form_image">
                         <span t-field="o.sub_proposal_form" t-field-options='{"widget": "image"}'/>
                     </div>

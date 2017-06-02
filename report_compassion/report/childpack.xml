@@ -160,6 +160,7 @@
         <t t-call="report_compassion.html_container">
             <t t-foreach="docs" t-as="o">
                 <div class="page">
+                    <t t-call="report_compassion.style"/>
                     <t t-if="formMargin">
                         <div class="local_id">
                             <span>Childpack available until: </span><span t-raw="o.get_date('hold_expiration')" id="due_date"/>

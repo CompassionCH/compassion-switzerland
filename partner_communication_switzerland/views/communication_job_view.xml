@@ -69,7 +69,7 @@
     <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>
 
     <!-- Add Event Donation -->
-    <record id="thanyou_letters.action_thank_you" model="ir.actions.act_window">
+    <record id="thankyou_letters.action_thank_you" model="ir.actions.act_window">
         <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '=', False)]</field>
     </record>
     <record id="action_thank_you_event" model="ir.actions.act_window">

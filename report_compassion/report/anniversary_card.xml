@@ -93,6 +93,7 @@
         <t t-call="report_compassion.html_container">
             <t t-foreach="docs" t-as="o">
                 <div class="page">
+                    <t t-call="report_compassion.style"/>
                     <div id="address" class="right">
                         <div id="pp">
                             <div id="pp-box">

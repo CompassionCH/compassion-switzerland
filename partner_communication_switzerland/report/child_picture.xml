@@ -34,4 +34,7 @@
             </t>
         </t>
     </template>
+
+    <!-- Remove print menu of donations -->
+    <!--<report id="report_donation" menu="False"/>-->
 </odoo>
