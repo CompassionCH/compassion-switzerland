@@ -67,11 +67,14 @@ class AccountInvoiceLine(models.Model):
         """
         comm_obj = self.env['partner.communication.job']
         small = self.env.ref('thankyou_letters.config_thankyou_small') + \
-            self.env.ref('thankyou_letters.config_event_small')
+            self.env.ref(
+                'partner_communication_switzerland.config_event_small')
         standard = self.env.ref('thankyou_letters.config_thankyou_standard')\
-            + self.env.ref('thankyou_letters.config_event_standard')
+            + self.env.ref('partner_communication_switzerland.'
+                           'config_event_standard')
         large = self.env.ref('thankyou_letters.config_thankyou_large') + \
-            self.env.ref('thankyou_letters.config_event_large')
+            self.env.ref('partner_communication_switzerland.'
+                         'config_event_large')
         invoice_lines = self
 
         partner = self.mapped('partner_id')
@@ -127,11 +130,14 @@ class AccountInvoiceLine(models.Model):
         :return: partner.communication.config record
         """
         small = self.env.ref('thankyou_letters.config_thankyou_small')
-        small_e = self.env.ref('thankyou_letters.config_event_small')
+        small_e = self.env.ref('partner_communication_switzerland.'
+                               'config_event_small')
         standard = self.env.ref('thankyou_letters.config_thankyou_standard')
-        standard_e = self.env.ref('thankyou_letters.config_event_standard')
+        standard_e = self.env.ref('partner_communication_switzerland.'
+                                  'config_event_standard')
         large = self.env.ref('thankyou_letters.config_thankyou_large')
-        large_e = self.env.ref('thankyou_letters.config_event_large')
+        large_e = self.env.ref('partner_communication_switzerland.'
+                               'config_event_large')
 
         # Special case for legacy donation : always treat as large donation
         legacy = 'legacy' in self.with_context(lang='en_US').mapped(

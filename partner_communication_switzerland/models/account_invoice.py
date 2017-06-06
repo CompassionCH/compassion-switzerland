@@ -34,15 +34,13 @@ class AccountInvoice(models.Model):
             (no sponsorship product inside)
         """
         res = super(AccountInvoice, self).confirm_paid()
-        income_account = self.env.ref('account.data_account_type_income')
         invoices = self.filtered(
             lambda i: (
                 not i.communication_id or
                 i.communication_id.state in ('call', 'pending')) and
             i.invoice_type != 'sponsorship' and (not i.mapped(
                 'invoice_line_ids.contract_id') or i.invoice_type == 'gift'
-            ) and income_account in i.mapped(
-                'invoice_line_ids.account_id.user_type')
+            )
         )
         if invoices:
             invoices.generate_thank_you()

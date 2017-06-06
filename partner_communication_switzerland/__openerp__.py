@@ -58,6 +58,7 @@
         'views/end_contract_wizard_view.xml',
         'views/disaster_alert_view.xml',
         'views/partner_compassion_view.xml',
+        'views/change_text_wizard_view.xml',
     ],
     'demo': [],
     'installable': True,

@@ -26,6 +26,7 @@ class PartnerCommunication(models.Model):
     _inherit = 'partner.communication.job'
 
     event_id = fields.Many2one('crm.event.compassion', 'Event')
+    ambassador_id = fields.Many2one('res.partner', 'Ambassador')
 
     @api.multi
     def _compute_signature(self):
