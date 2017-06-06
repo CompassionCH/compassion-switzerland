@@ -117,7 +117,8 @@ class PartnerCommunication(models.Model):
                     story, use_count = job._get_min_used_story(stories)
                     job.success_story_id = story
 
-            if sentences:
+            if sentences and 'object.success_sentence' in \
+                    job.email_template_id.body_html:
                 if len(sentences) == 1:
                     job.success_sentence_id = sentences
                 else:
