@@ -31,22 +31,6 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
             });
         },
 
-        // Capture when product is selected to put the corresponding account and analytic account.
-        formCreateInputChanged: function(elt, val) {
-            var line_created_being_edited = this.get("line_created_being_edited");
-            var self = this;
-
-            if (elt === this.product_id_field) {
-                var product_id = elt.get("value");
-                $.when(self.model_bank_statement_line.call("product_id_changed", [product_id, self.st_line.date])).then(function(data){
-                    self.account_id_field.set_value(data['account_id']);
-                    self.analytic_account_id_field.set_value(data['analytic_id']);
-                });
-            }
-
-            this._super(elt, val);
-        },
-        
         // Set domain of sponsorship field and auto-find sponsorship for gift payments
         initializeCreateForm: function() {
             var self = this;
@@ -95,11 +79,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
         },
     });
 
-    reconciliation.bankStatementReconciliation.include({
-        events: _.extend({
-            "click .button_do_all": "reconcileAll",
-        }, reconciliation.bankStatementReconciliation.prototype.events),
-
+    reconciliation.abstractReconciliation.include({
         // Add fields in reconcile view
         init: function(parent, context) {
             this._super(parent, context);

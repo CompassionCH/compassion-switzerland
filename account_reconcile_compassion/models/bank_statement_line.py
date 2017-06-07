@@ -156,25 +156,6 @@ class BankStatementLine(models.Model):
                 return self._reconcile(res)
         return res
 
-    @api.model
-    def product_id_changed(self, product_id, date):
-        """ Called when a product is selected for counterpart.
-        Returns useful info to fullfill other fields.
-        """
-        analytic_id = False
-        account_id = self.env['product.product'].browse(
-            product_id).property_account_income_id.id
-
-        rule = self.env['account.analytic.default'].account_get(
-            product_id, date=date)
-        if rule:
-            analytic_id = rule.analytic_id.id
-
-        return {
-            'analytic_id': analytic_id,
-            'account_id': account_id
-        }
-
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
@@ -379,8 +360,8 @@ class BankStatementLine(models.Model):
                 payment_aml_rec = (payment_aml_rec | aml)
             else:
                 amount = aml.currency_id and \
-                         aml.amount_residual_currency or \
-                         aml.amount_residual
+                    aml.amount_residual_currency or \
+                    aml.amount_residual
                 counterpart_aml_dicts.append({
                     'name': aml.name if aml.name != '/' else
                     aml.move_id.name,

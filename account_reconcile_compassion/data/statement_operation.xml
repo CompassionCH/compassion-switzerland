@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
-        <record id="operation_gen" model="account.operation.template">
-            <field name="name">GEN</field>
-            <field name="product_id" search="[('name', '=', 'General Fund')]"/>
-            <field name="account_id" search="[('code','=','6004')]"/>
-            <field name="amount_type">percentage</field>
-            <field name="amount">100</field>
-            <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
-        </record>
-        
-        <record id="operation_birthday" model="account.operation.template">
-            <field name="name">Birthday</field>
-            <field name="product_id" search="[('name', '=', 'Birthday Gift')]"/>
-            <field name="account_id" search="[('code','=','6003')]"/>
-            <field name="amount_type">percentage</field>
-            <field name="amount">100</field>
-            <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
-        </record>
-        <record id="operation_gen_gift" model="account.operation.template">
-            <field name="name">Gen Gift</field>
-            <field name="product_id" search="[('name', '=', 'General Gift')]"/>
-            <field name="account_id" search="[('code','=','6003')]"/>
-            <field name="amount_type">percentage</field>
-            <field name="amount">100</field>
-            <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
-        </record>
-        <record id="operation_fam_gift" model="account.operation.template">
-            <field name="name">Family Gift</field>
-            <field name="product_id" search="[('name', '=', 'Family Gift')]"/>
-            <field name="account_id" search="[('code','=','6003')]"/>
-            <field name="amount_type">percentage</field>
-            <field name="amount">100</field>
-            <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
-        </record>
-        <record id="operation_project_gift" model="account.operation.template">
-            <field name="name">Project Gift</field>
-            <field name="product_id" search="[('name', '=', 'Project Gift')]"/>
-            <field name="account_id" search="[('code','=','6003')]"/>
-            <field name="amount_type">percentage</field>
-            <field name="amount">100</field>
-            <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
-        </record>
-    </data>
+    <record id="operation_gen" model="account.operation.template">
+        <field name="name">GEN</field>
+        <field name="product_id" search="[('name', '=', 'General Fund')]"/>
+        <field name="account_id" search="[('code','=','6004')]"/>
+        <field name="amount_type">percentage</field>
+        <field name="amount">100</field>
+        <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
+    </record>
+
+    <record id="operation_birthday" model="account.operation.template">
+        <field name="name">Birthday</field>
+        <field name="product_id" search="[('name', '=', 'Birthday Gift')]"/>
+        <field name="account_id" search="[('code','=','6003')]"/>
+        <field name="amount_type">percentage</field>
+        <field name="amount">100</field>
+        <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
+    </record>
+    <record id="operation_gen_gift" model="account.operation.template">
+        <field name="name">Gen Gift</field>
+        <field name="product_id" search="[('name', '=', 'General Gift')]"/>
+        <field name="account_id" search="[('code','=','6003')]"/>
+        <field name="amount_type">percentage</field>
+        <field name="amount">100</field>
+        <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
+    </record>
+    <record id="operation_fam_gift" model="account.operation.template">
+        <field name="name">Family Gift</field>
+        <field name="product_id" search="[('name', '=', 'Family Gift')]"/>
+        <field name="account_id" search="[('code','=','6003')]"/>
+        <field name="amount_type">percentage</field>
+        <field name="amount">100</field>
+        <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
+    </record>
+    <record id="operation_project_gift" model="account.operation.template">
+        <field name="name">Project Gift</field>
+        <field name="product_id" search="[('name', '=', 'Project Gift')]"/>
+        <field name="account_id" search="[('code','=','6003')]"/>
+        <field name="amount_type">percentage</field>
+        <field name="amount">100</field>
+        <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
+    </record>
 </odoo>

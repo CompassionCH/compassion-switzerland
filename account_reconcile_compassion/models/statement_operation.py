@@ -20,4 +20,4 @@ class AccountOperationTemplate(models.Model):
 
     @api.onchange('product_id')
     def onchange_product_id(self):
-        self.account_id = self.product_id.property_account_income.id
+        self.account_id = self.product_id.property_account_income_id
