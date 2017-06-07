@@ -29,9 +29,8 @@ class Email(models.Model):
                     message.res_id == partner.id
                 )
                 if notify:
-                    message_id = partner.message_post(
+                    p_message = partner.message_post(
                         email.body_html, email.subject)
-                    p_message = message.browse(message_id)
                     p_message.write({
                         'subtype_id': self.env.ref('mail.mt_comment').id,
                         # Set parent to have the tracking working
