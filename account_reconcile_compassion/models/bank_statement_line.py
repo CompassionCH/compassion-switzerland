@@ -135,7 +135,10 @@ class BankStatementLine(models.Model):
                 " = %(amount)s)) ORDER BY date_maturity asc, aml.id asc"
             self.env.cr.execute(sql_query, params)
             match_recs = self.env.cr.dictfetchall()
-            if len(match_recs) > 1:
+            if len(match_recs) == 1:
+                return self._reconcile(self.env['account.move.line'].browse(
+                    [aml.get('id') for aml in match_recs]))
+            elif len(match_recs) > 1:
                 # Take the first (current month or oldest one)
                 match_recs = self.env['account.move.line'].browse(
                     [aml.get('id') for aml in match_recs])
@@ -150,35 +153,7 @@ class BankStatementLine(models.Model):
                     else:
                         res_sorted.append(mv_line.id)
                 res = match_recs.browse(res_sorted[0])
-                # Now reconcile (code copied from L707)
-                counterpart_aml_dicts = []
-                payment_aml_rec = self.env['account.move.line']
-                for aml in res:
-                    if aml.account_id.internal_type == 'liquidity':
-                        payment_aml_rec = (payment_aml_rec | aml)
-                    else:
-                        amount = aml.currency_id and \
-                            aml.amount_residual_currency or \
-                            aml.amount_residual
-                        counterpart_aml_dicts.append({
-                            'name': aml.name if aml.name != '/' else
-                            aml.move_id.name,
-                            'debit': amount < 0 and -amount or 0,
-                            'credit': amount > 0 and amount or 0,
-                            'move_line': aml
-                        })
-
-                try:
-                    with self._cr.savepoint():
-                        counterpart = self.process_reconciliation(
-                            counterpart_aml_dicts=counterpart_aml_dicts,
-                            payment_aml_rec=payment_aml_rec)
-                    return counterpart
-                except UserError:
-                    self.invalidate_cache()
-                    self.env['account.move'].invalidate_cache()
-                    self.env['account.move.line'].invalidate_cache()
-                    return False
+                return self._reconcile(res)
         return res
 
     @api.model
@@ -394,3 +369,34 @@ class BankStatementLine(models.Model):
 
         return inv_lines.mapped('invoice_id').filtered(
             lambda i: i.amount_total == self.amount)
+
+    def _reconcile(self, matching_records):
+        # Now reconcile (code copied from L707)
+        counterpart_aml_dicts = []
+        payment_aml_rec = self.env['account.move.line']
+        for aml in matching_records:
+            if aml.account_id.internal_type == 'liquidity':
+                payment_aml_rec = (payment_aml_rec | aml)
+            else:
+                amount = aml.currency_id and \
+                         aml.amount_residual_currency or \
+                         aml.amount_residual
+                counterpart_aml_dicts.append({
+                    'name': aml.name if aml.name != '/' else
+                    aml.move_id.name,
+                    'debit': amount < 0 and -amount or 0,
+                    'credit': amount > 0 and amount or 0,
+                    'move_line': aml
+                })
+
+        try:
+            with self._cr.savepoint():
+                counterpart = self.process_reconciliation(
+                    counterpart_aml_dicts=counterpart_aml_dicts,
+                    payment_aml_rec=payment_aml_rec)
+            return counterpart
+        except UserError:
+            self.invalidate_cache()
+            self.env['account.move'].invalidate_cache()
+            self.env['account.move.line'].invalidate_cache()
+            return False
