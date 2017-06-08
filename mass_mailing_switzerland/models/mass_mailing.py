@@ -21,8 +21,8 @@ class MassMailing(models.Model):
     _inherit = 'mail.mass_mailing'
 
     mailing_domain_copy = fields.Char(related='mailing_domain')
-    click_ratio = fields.Integer(
-        compute='compute_events', store=True)
+    clicks_ratio = fields.Integer(
+        compute='compute_events', store=True, oldname='click_ratio')
     click_event_ids = fields.Many2many(
         'mail.tracking.event', compute='compute_events')
     unsub_ratio = fields.Integer(
@@ -45,7 +45,7 @@ class MassMailing(models.Model):
                 'tracking_email_id.mail_stats_id'))
             number_unsub = len(unsub.mapped(
                 'tracking_email_id.mail_stats_id'))
-            mass_mail.click_ratio = 100 * (
+            mass_mail.clicks_ratio = 100 * (
                 float(number_click) / len(mass_mail.statistics_ids))
             mass_mail.unsub_ratio = 100 * (
                 float(number_unsub) / len(mass_mail.statistics_ids))
@@ -80,7 +80,7 @@ class MassMailing(models.Model):
             'name': _('Click Events'),
             'view_type': 'form',
             'res_model': 'mail.tracking.event',
-            'domain': [('id', 'in', self.click_event_ids.ids)],
+            'domain': [('id', 'in', self.mapped('click_event_ids').ids)],
             'view_mode': 'graph,tree,form',
             'target': 'current',
             'context': self.with_context(group_by='url').env.context
@@ -93,7 +93,7 @@ class MassMailing(models.Model):
             'name': _('Unsubscribe Events'),
             'view_type': 'form',
             'res_model': 'mail.tracking.event',
-            'domain': [('id', 'in', self.unsub_event_ids.ids)],
+            'domain': [('id', 'in', self.mapped('unsub_event_ids').ids)],
             'view_mode': 'tree,form',
             'target': 'current',
             'context': self.env.context
@@ -120,7 +120,7 @@ class MassMailing(models.Model):
             'name': _('Tracking Emails'),
             'view_type': 'form',
             'res_model': 'mail.tracking.email',
-            'domain': [('mass_mailing_id', '=', self.id)] + domain,
+            'domain': [('mass_mailing_id', 'in', self.ids)] + domain,
             'view_mode': 'tree,form',
             'target': 'current',
             'context': self.env.context
@@ -129,11 +129,13 @@ class MassMailing(models.Model):
 
 class MassMailingCampaign(models.Model):
     _inherit = 'mail.mass_mailing.campaign'
+    _order = 'id desc'
 
-    click_ratio = fields.Integer(compute='_compute_ratios', store=True)
+    clicks_ratio = fields.Integer(compute='_compute_ratios', store=True,
+                                  oldname='click_ratio')
     unsub_ratio = fields.Integer(compute='_compute_ratios', store=True)
 
-    @api.depends('mass_mailing_ids.click_ratio',
+    @api.depends('mass_mailing_ids.clicks_ratio',
                  'mass_mailing_ids.unsub_ratio')
     def _compute_ratios(self):
         for campaign in self:
@@ -142,13 +144,21 @@ class MassMailingCampaign(models.Model):
             total_sent = len(campaign.mapped(
                 'mass_mailing_ids.statistics_ids'))
             for mailing in campaign.mass_mailing_ids:
-                total_clicks += (mailing.click_ratio / 100.0) * len(
+                total_clicks += (mailing.clicks_ratio / 100.0) * len(
                     mailing.statistics_ids)
                 total_unsub += (mailing.unsub_ratio / 100.0) * len(
                     mailing.statistics_ids)
             if total_sent:
-                campaign.click_ratio = (total_clicks / total_sent) * 100
+                campaign.clicks_ratio = (total_clicks / total_sent) * 100
                 campaign.unsub_ratio = (total_unsub / total_sent) * 100
+
+    @api.multi
+    def open_unsub(self):
+        return self.mass_mailing_ids.open_unsub()
+
+    @api.multi
+    def open_clicks(self):
+        return self.mass_mailing_ids.open_clicks()
 
 
 ##############################################################################

@@ -195,16 +195,16 @@
                 <filter string="BVR"
                         name='bvr'
                         domain="[('customer', '=', True),
-                                         ('property_payment_term.name', 'not ilike', 'LSV'),
-                                         ('property_payment_term.name', 'not ilike', 'Postfinance'),
+                                         ('property_payment_term_id.name', 'not ilike', 'LSV'),
+                                         ('property_payment_term_id.name', 'not ilike', 'Postfinance'),
                                          '|', '&amp;', ('is_company', '=', True), ('child_ids', '=', False), ('is_company', '=', False)]"
                         help="All customers without LSV or DD"/>
                 <separator/>
                 <filter string="LSV/DD"
                         name='lsv_dd'
                         domain="[('customer', '=', True),
-                                         '|', ('property_payment_term.name', 'ilike', 'LSV'),
-                                         ('property_payment_term.name', 'ilike', 'Postfinance'),
+                                         '|', ('property_payment_term_id.name', 'ilike', 'LSV'),
+                                         ('property_payment_term_id.name', 'ilike', 'Postfinance'),
                                          '|', '&amp;', ('is_company', '=', True), ('child_ids', '=', False), ('is_company', '=', False)]"
                         help="All customers with LSV or DD payment terms"/>
             </filter>

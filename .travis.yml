@@ -17,7 +17,7 @@ python:
   - "2.7"
   
 env:
-    - VERSION="9.0" ODOO_REPO="odoo/odoo"
+    - VERSION="9.0" ODOO_REPO="odoo/odoo" EXCLUDE="lsv_compassion"
 
 virtualenv:
   system_site_packages: true
