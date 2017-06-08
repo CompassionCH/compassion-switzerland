@@ -13,9 +13,8 @@ import logging
 import sys
 from datetime import datetime
 
-from openerp.tools import relativedelta
-
 from openerp import api, models, fields
+from openerp.tools import relativedelta
 from openerp.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync

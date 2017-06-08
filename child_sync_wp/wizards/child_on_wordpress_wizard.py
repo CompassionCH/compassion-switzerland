@@ -10,7 +10,7 @@
 ##############################################################################
 
 from openerp import api, models, fields
-from openerp.exceptions import Warning
+from openerp.exceptions import UserError
 from openerp.tools.translate import _
 
 
@@ -37,6 +37,6 @@ class ChildOnWorpressWizard(models.TransientModel):
         res = self.child_ids.add_to_wordpress()
 
         if not res:
-            raise Warning(_("Child upload failed."))
+            raise UserError(_("Child upload failed."))
         else:
             return True

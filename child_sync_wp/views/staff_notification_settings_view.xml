@@ -4,20 +4,18 @@
     @author Emanuel Cino <ecino@compassion.ch>
     The licence is in the file __openerp__.py
 -->
-<openerp>
-    <data>
-        <!-- Configuration View -->
-        <record id="view_notification_settings_website_form" model="ir.ui.view">
-            <field name="name">staff.notification.website.form</field>
-            <field name="model">staff.notification.settings</field>
-            <field name="inherit_id" ref="child_compassion.view_notification_settings_form"/>
-            <field name="arch" type="xml">
-                <field name="disaster_notify_ids" position="after">
-                    <field name="sponsorship_fr_id"/>
-                    <field name="sponsorship_de_id"/>
-                    <field name="sponsorship_it_id"/>
-                </field>
+<odoo>
+    <!-- Configuration View -->
+    <record id="view_notification_settings_website_form" model="ir.ui.view">
+        <field name="name">staff.notification.website.form</field>
+        <field name="model">staff.notification.settings</field>
+        <field name="inherit_id" ref="child_compassion.view_notification_settings_form"/>
+        <field name="arch" type="xml">
+            <field name="disaster_notify_ids" position="after">
+                <field name="sponsorship_fr_id"/>
+                <field name="sponsorship_de_id"/>
+                <field name="sponsorship_it_id"/>
             </field>
-        </record>
-    </data>
-</openerp>
+        </field>
+    </record>
+</odoo>

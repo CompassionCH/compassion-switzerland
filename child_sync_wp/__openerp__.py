@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,11 +29,11 @@
 
 {
     'name': 'Sync Compassion Children with Wordpress website',
-    'version': '8.0.2.0',
+    'version': '9.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_compassion'],
+    'depends': ['sponsorship_compassion', 'child_switzerland'],
     'external_dependencies': {
         'python': ['pysftp', 'wand'],
     },
@@ -45,6 +45,6 @@
         'data/wordpress_cron.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

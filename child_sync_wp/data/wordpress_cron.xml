@@ -5,7 +5,7 @@
     The licence is in the file __openerp__.py
 -->
 
-<openerp>
+<odoo>
     <data noupdate="1">
         <record id="refersh_wordpress_cron" model="ir.cron">
             <field name="name">Refresh children on Wordpress</field>
@@ -18,4 +18,4 @@
             <field name="active" eval="False"/>
         </record>
     </data>
-</openerp>
+</odoo>

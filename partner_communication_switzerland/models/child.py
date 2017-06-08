@@ -9,10 +9,11 @@
 #
 ##############################################################################
 import base64
-import locale
 import logging
 
 from openerp import api, models, fields, _
+
+from openerp.addons.report_compassion.models.contract_group import setlocale
 
 _logger = logging.getLogger(__name__)
 
@@ -76,13 +77,11 @@ class CompassionChild(models.Model):
 
     def _compute_completion_month(self):
         """ Completion month in full text. """
-        current_locale = '.'.join(locale.getlocale())
         for child in self.filtered('completion_date'):
             lang = child.sponsor_id.lang or self.env.lang or 'en_US'
             completion = fields.Date.from_string(child.completion_date)
-            locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
-            child.completion_month = completion.strftime("%B")
-            locale.setlocale(locale.LC_TIME, current_locale)
+            with setlocale(lang):
+                child.completion_month = completion.strftime("%B")
 
     def _compute_picture_frame(self):
         for child in self.filtered('fullshot'):

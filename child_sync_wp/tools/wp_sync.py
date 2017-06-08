@@ -10,21 +10,23 @@
 ##############################################################################
 import base64
 import csv
-import shutil
-import xmlrpclib
-from xmlrpclib import SafeTransport, GzipDecodedResponse
-
-import pysftp
 import logging
-from os import listdir, path, makedirs, remove
+import shutil
 
-from wand.image import Image
+from os import listdir, path, makedirs, remove
+from xmlrpclib import ServerProxy, SafeTransport, GzipDecodedResponse
 
 from openerp import _
-from openerp.exceptions import Warning
+from openerp.exceptions import UserError
 from openerp.tools import config
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
+
+try:
+    import pysftp
+    from wand.image import Image
+except ImportError:
+    _logger.warning("Please install wand and pysftp")
 
 
 # Solves XMLRPC Parse response problems by stripping response
@@ -49,7 +51,7 @@ class CustomTransport(SafeTransport):
             if not data:
                 break
             if self.verbose:
-                print "body:", repr(data)
+                _logger.info("body:", repr(data))
             p.feed(data)
 
         if stream is not response:
@@ -72,11 +74,10 @@ class WPSync(object):
         pic_path = config.get('wp_pictures_path')
         if not (host and user and password and sftp_host and sftp_user and
                 sftp_pw and pic_path):
-            raise Warning(
-                _("Missing Configuration"),
+            raise UserError(
                 _("Please add configuration for Wordpress uploads")
             )
-        self.xmlrpc_server = xmlrpclib.ServerProxy(
+        self.xmlrpc_server = ServerProxy(
             'https://' + host + '/xmlrpc.php', transport=CustomTransport())
         self.user = user
         self.pwd = password
@@ -100,20 +101,20 @@ class WPSync(object):
         :param children: compassion.child recordset
         :return: result of xmlrpc call to wordpress (true/false)
         """
-        logger.info("Child Upload on Wordpress started.")
+        _logger.info("Child Upload on Wordpress started.")
         csv_file = self._construct_csv(children)
-        logger.info(".... CSV file constructed : " + csv_file)
+        _logger.info(".... CSV file constructed : " + csv_file)
         with self.sftp.cd(self.wp_csv_path):
             self.sftp.put(csv_file)
-        logger.info(".... CSV file uploaded.")
+        _logger.info(".... CSV file uploaded.")
         remove(csv_file)
 
         pictures_folder = self._build_pictures(children)
-        logger.info(".... Pictures generated.")
+        _logger.info(".... Pictures generated.")
         with self.sftp.cd(self.wp_pictures_path):
             for picture_file in listdir(pictures_folder):
                 self.sftp.put(pictures_folder + '/' + picture_file)
-        logger.info(".... Pictures uploaded.")
+        _logger.info(".... Pictures uploaded.")
         shutil.rmtree(pictures_folder, ignore_errors=True)
         result = True
 
@@ -121,13 +122,13 @@ class WPSync(object):
             result = self.xmlrpc_server.child_import.addChildren(
                 self.user, self.pwd)
             if result:
-                logger.info(
+                _logger.info(
                     "Child Upload on Wordpress finished: %s children imported "
                     % len(result))
             else:
-                logger.error("Child Upload failed." + str(result))
+                _logger.error("Child Upload failed." + str(result))
         except Exception as error:
-            logger.error("Child Upload failed: " + error.message)
+            _logger.error("Child Upload failed: " + error.message)
 
         return result
 
@@ -135,17 +136,17 @@ class WPSync(object):
         try:
             res = self.xmlrpc_server.child_import.deleteChildren(
                 self.user, self.pwd, children.mapped('local_id'))
-            logger.info("Remove from Wordpress : " + str(res))
+            _logger.info("Remove from Wordpress : " + str(res))
             return res
         except:
-            logger.error("Remove from Wordpress failed.")
+            _logger.error("Remove from Wordpress failed.")
 
         return False
 
     def remove_all_children(self):
         res = self.xmlrpc_server.child_import.deleteAllChildren(
             self.user, self.pwd)
-        logger.info("Remove from Wordpress : " + str(res))
+        _logger.info("Remove from Wordpress : " + str(res))
         return res
 
     def _construct_csv(self, children):
