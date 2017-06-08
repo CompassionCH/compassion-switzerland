@@ -1,11 +1,12 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-LSV-DD Compassion
-=================
+LSV-DD Export Compassion
+========================
 
 Customize LSV-DD to fit Compassion needs.
-Adds filters by payment term in direct debit orders.
+
+* Change communication in Direct Debit Orders
 
 Installation
 ============

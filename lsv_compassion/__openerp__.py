@@ -9,8 +9,8 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
-#    @author: Cyril Sester, Emanuel Cino
+#    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
+#    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -29,21 +29,16 @@
 
 {
     'name': 'LSV-DD Compassion',
-    'summary': 'Customize LSV-DD to fit Compassion needs',
-    'version': '8.0.1',
+    'version': '9.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'category': 'Other',
-    'depends': ['l10n_ch_lsv_dd',
-                'account_banking_payment_export',
-                'contract_compassion'],
+    'depends': ['l10n_ch_lsv_dd', 'sponsorship_switzerland',
+                'report_compassion'],
     'external_dependencies': {},
-    'data': [
-        'view/payment_mode.xml',
-        'data/payment_workflow.xml',
-    ],
+    'data': [],
     'demo': [],
     'active': False,
-    'installable': False,
+    'installable': True,
 }

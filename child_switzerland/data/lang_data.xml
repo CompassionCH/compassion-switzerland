@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Install missing languages for Switzerland -->
         <function model="res.lang.compassion" name="lang_ch_install"/>
@@ -16,4 +16,4 @@
             <field name="translatable">1</field>
         </record>
     </data>
-</openerp>
+</odoo>

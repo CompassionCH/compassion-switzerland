@@ -1,21 +1,21 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* lsv_compassion
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0-20140602-231022\n"
+"Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-08 14:30+0200\n"
-"PO-Revision-Date: 2017-06-08 14:31+0200\n"
-"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
+"POT-Creation-Date: 2017-06-08 14:32+0200\n"
+"PO-Revision-Date: 2017-06-08 14:35+0200\n"
 "Language-Team: \n"
-"Language: fr_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.4\n"
+"Last-Translator: \n"
+"Language: de\n"
 
 #. module: lsv_compassion
 #: model:ir.model,name:lsv_compassion.model_bank_payment_line
@@ -26,7 +26,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:lsv_compassion.field_account_payment_line_invoice_type
 #: model:ir.model.fields,field_description:lsv_compassion.field_bank_payment_line_invoice_type
 msgid "Invoice type"
-msgstr "Type de facture"
+msgstr ""
 
 #. module: lsv_compassion
 #: model:ir.model,name:lsv_compassion.model_account_payment_line
@@ -42,13 +42,13 @@ msgstr ""
 #: code:addons/lsv_compassion/models/payment_order.py:79
 #, python-format
 msgid "Period: "
-msgstr "Période : "
+msgstr "Periode: "
 
 #. module: lsv_compassion
 #: code:addons/lsv_compassion/models/payment_order.py:66
 #, python-format
 msgid "Sponsorship"
-msgstr "Parrainage"
+msgstr "Patenschaft"
 
 #. module: lsv_compassion
 #: code:addons/lsv_compassion/models/payment_order.py:41
@@ -67,23 +67,23 @@ msgstr ""
 #: code:addons/lsv_compassion/models/payment_order.py:70
 #, python-format
 msgid "for"
-msgstr "pour"
+msgstr "für"
 
 #. module: lsv_compassion
 #: code:addons/lsv_compassion/models/payment_order.py:84
 #, python-format
 msgid "months"
-msgstr "mois"
+msgstr "monaten"
 
 #. module: lsv_compassion
 #: code:addons/lsv_compassion/models/payment_order.py:70
 #: code:addons/lsv_compassion/models/payment_order.py:77
 #, python-format
 msgid "sponsorship gifts"
-msgstr "cadeaux de parrainage"
+msgstr "Patenschaft Geschenken"
 
 #. module: lsv_compassion
 #: code:addons/lsv_compassion/models/payment_order.py:75
 #, python-format
 msgid "sponsorships"
-msgstr "parrainages"
+msgstr "Patenschaften"
