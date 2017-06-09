@@ -137,11 +137,11 @@ class PartnerCommunication(models.Model):
         if len(sponsorships.mapped('due_invoice_ids.period_id')) > 3:
             self.need_call = True
 
-        payment_term = sponsorships.with_context(lang='en_US').mapped(
-            'payment_term_id.name')[0]
+        payment_mode = sponsorships.with_context(lang='en_US').mapped(
+            'payment_mode_id.name')[0]
         # LSV-DD Waiting reminders special case
         if 'Waiting Reminder' in self.config_id.name and (
-                'LSV' in payment_term or 'Postfinance' in payment_term):
+                'LSV' in payment_mode or 'Postfinance' in payment_mode):
             if self.partner_id.bank_ids:
                 # We received the bank info but withdrawal didn't work.
                 # Mark to call in order to verify the situation.
@@ -316,7 +316,7 @@ class PartnerCommunication(models.Model):
         sponsorships = self.get_objects()
         # Include all active sponsorships for Permanent Order
         if 'Permanent Order' in sponsorships.with_context(
-                lang='en_US').mapped('payment_term_id.name'):
+                lang='en_US').mapped('payment_mode_id.name'):
             sponsorships += sponsorships.mapped(
                 'group_id.contract_ids').filtered(
                 lambda s: s.state == 'active')

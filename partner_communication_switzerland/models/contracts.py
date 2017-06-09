@@ -44,12 +44,12 @@ class RecurringContract(models.Model):
 
     def _compute_payment_type_attachment(self):
         for contract in self:
-            payment_term = contract.with_context(
-                lang='en_US').payment_term_id.name
-            if payment_term == 'Permanent Order':
+            payment_mode = contract.with_context(
+                lang='en_US').payment_mode_id.name
+            if payment_mode == 'Permanent Order':
                 phrase = _('1 payment slip to set up a standing order ('
                            'monthly payment of the sponsorship)')
-            elif 'LSV' in payment_term or 'Postfinance' in payment_term:
+            elif 'LSV' in payment_mode or 'Postfinance' in payment_mode:
                 if contract.state == 'mandate':
                     phrase = _("1 LSV or Direct Debit authorization form to "
                                "fill in if you don't already have done it!")

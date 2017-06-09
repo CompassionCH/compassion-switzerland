@@ -63,25 +63,27 @@ class PaymentOrder(models.Model):
                     'invoice_line_ids.contract_id.child_id')
                 if len(children) == 1:
                     if invoice_type == 'sponsorship':
-                        _for = _('Sponsorship')
+                        communication = _('Sponsorship')
                     elif len(products) == 1:
-                        _for = products.name + ' ' + _('for')
+                        communication = products.name + ' ' + _('for')
                     else:
-                        _for = _('sponsorship gifts').title() + ' ' + _('for')
-                    _for += ' ' + children.preferred_name
+                        communication = _('sponsorship gifts').title() + \
+                            ' ' + _('for')
+                    communication += ' ' + children.preferred_name
                 else:
-                    _for = str(len(children)) + ' '
+                    communication = str(len(children)) + ' '
                     if invoice_type == 'sponsorship':
-                        _for += _('sponsorships')
+                        communication += _('sponsorships')
                     else:
-                        _for += _('sponsorship gifts')
+                        communication += _('sponsorship gifts')
 
-                communication = _for + '\n' + _('Period: ')
-
-                if len(invoices) < 4:
-                    communication += invoices.get_date('date_invoice', '%B')
-                else:
-                    communication += str(len(invoices)) + ' ' + _('months')
+                if invoice_type == 'sponsorship':
+                    communication += '\n' + _('Period: ')
+                    if len(invoices) < 4:
+                        communication += invoices.get_date('date_invoice',
+                                                           '%B')
+                    else:
+                        communication += str(len(invoices)) + ' ' + _('months')
             elif len(products) == 1:
                 communication = products.name
 

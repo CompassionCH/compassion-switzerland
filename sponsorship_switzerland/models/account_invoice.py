@@ -44,12 +44,12 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_date_assign(self):
         """Method called when invoice is validated.
-            - Add BVR Reference if payment term is LSV and no reference is
+            - Add BVR Reference if payment mode is LSV and no reference is
               set.
             - Prevent validating invoices missing related contract.
         """
-        for invoice in self.filtered('payment_term_id'):
-            if 'LSV' in invoice.payment_term_id.name \
+        for invoice in self.filtered('payment_mode_id'):
+            if 'LSV' in invoice.payment_mode_id.name \
                     and not invoice.bvr_reference:
                 seq = self.env['ir.sequence']
                 ref = mod10r(seq.next_by_code('contract.bvr.ref'))

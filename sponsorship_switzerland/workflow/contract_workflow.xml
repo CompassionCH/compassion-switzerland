@@ -49,12 +49,12 @@
     <record model="workflow.transition" id="t4a">
         <field name="act_from" ref="act_validation" />
         <field name="act_to" ref="act_banking_validation" />
-        <field name="condition">'LSV' in group_id.payment_term_id.name or 'Postfinance' in group_id.payment_term_id.name</field>
+        <field name="condition">'LSV' in group_id.payment_mode_id.name or 'Postfinance' in group_id.payment_mode_id.name</field>
     </record>
     <record model="workflow.transition" id="t4b">
         <field name="act_from" ref="act_validation" />
         <field name="act_to" ref="contract_compassion.act_waiting" />
-        <field name="condition">not ('LSV' in group_id.payment_term_id.name or 'Postfinance' in group_id.payment_term_id.name)</field>
+        <field name="condition">not ('LSV' in group_id.payment_mode_id.name or 'Postfinance' in group_id.payment_mode_id.name)</field>
     </record>
     <record model="workflow.transition" id="t5">
         <field name="act_from" ref="act_banking_validation" />

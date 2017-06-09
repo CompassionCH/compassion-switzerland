@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="journal_raif" model="account.journal">
+        <field name="name">Raiffeisen Current Account CHF</field>
+        <field name="code">RCC</field>
+        <field name="type">bank</field>
+    </record>
+    <record id="journal_post" model="account.journal">
+        <field name="name">Postfinance CHF</field>
+        <field name="code">CCP</field>
+        <field name="type">bank</field>
+    </record>
+</odoo>

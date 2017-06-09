@@ -40,12 +40,15 @@
         'partner_compassion',
         'partner_communication',
         'account_statement_completion',
-        'l10n_ch_payment_slip',
-        'account_payment_order'],
+        'l10n_ch_lsv_dd'
+    ],
+    'demo': [
+        'data/demo_journal.xml'
+    ],
     'data': [
         'data/product.xml',
         'data/completion_rules.xml',
-        'data/payment_terms.xml',
+        'data/payment_modes.xml',
         'data/sequence.xml',
         'workflow/contract_workflow.xml',
         'workflow/sds_workflow.xml',
@@ -54,7 +57,6 @@
         'views/res_partner_view.xml',
         'views/contract_view.xml',
     ],
-    'demo': [],
     'installable': True,
     'auto_install': False,
 }

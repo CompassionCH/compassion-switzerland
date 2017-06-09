@@ -17,21 +17,21 @@ python:
   - "2.7"
   
 env:
-    - VERSION="9.0" ODOO_REPO="odoo/odoo" EXCLUDE="lsv_compassion"
+    - VERSION="9.0" ODOO_REPO="odoo/odoo"
 
 virtualenv:
   system_site_packages: true
 
 install:
     - pip install click flake8 coveralls xlrd pylint pylint_odoo coverage codecov
-    - pip install pyjwt pyquery phonenumbers sendgrid detectlanguage pysmb pysftp
+    - pip install pyjwt pyquery phonenumbers sendgrid detectlanguage pysmb pysftp unidecode
     - pip install python-magic wand numpy pdfminer matplotlib pyPdf bs4  # SBC requirements
     - git clone https://github.com/CompassionCH/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools -b r2
     - git clone https://github.com/CompassionCH/compassion-modules.git ${HOME}/build/CompassionCH/compassion-modules -b 9.0
     - git clone https://github.com/CompassionCH/compassion-accounting.git ${HOME}/build/CompassionCH/compassion-accounting -b 9.0
     - git clone https://github.com/OCA/web.git ${HOME}/build/CompassionCH/web -b 9.0
     - git clone https://github.com/OCA/connector.git ${HOME}/build/CompassionCH/connector -b 9.0
-    - git clone https://github.com/OCA/l10n-switzerland.git ${HOME}/build/CompassionCH/l10n-switzerland -b 9.0
+    - git clone https://github.com/CompassionCH/l10n-switzerland.git ${HOME}/build/CompassionCH/l10n-switzerland -b postfinance-fds
     - git clone https://github.com/OCA/bank-payment.git ${HOME}/build/CompassionCH/bank-payment -b 9.0
     - git clone https://github.com/OCA/bank-statement-reconcile.git ${HOME}/build/CompassionCH/bank-statement-reconcile -b 9.0
     - git clone https://github.com/OCA/partner-contact.git ${HOME}/build/CompassionCH/partner-contact -b 9.0

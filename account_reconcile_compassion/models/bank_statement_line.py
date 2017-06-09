@@ -258,11 +258,11 @@ class BankStatementLine(models.Model):
             journal_id = self.env['account.journal'].search(
                 [('type', '=', 'sale')], limit=1).id
             if self.journal_id.code == 'BVR':
-                payment_term_id = self.env.ref(
-                    'sponsorship_switzerland.payment_term_bvr').id
+                payment_mode_id = self.env.ref(
+                    'sponsorship_switzerland.payment_mode_bvr').id
             else:
-                payment_term_id = self.env.ref(
-                    'sponsorship_switzerland.payment_term_virement').id
+                payment_mode_id = self.env.ref(
+                    'sponsorship_switzerland.payment_mode_virement').id
             inv_data = {
                 'account_id':
                     self.partner_id.property_account_receivable_id.id,
@@ -270,7 +270,7 @@ class BankStatementLine(models.Model):
                 'partner_id': self.partner_id.id,
                 'journal_id': journal_id,
                 'date_invoice': self.date,
-                'payment_term_id': payment_term_id,
+                'payment_mode_id': payment_mode_id,
                 'bvr_reference': ref,
                 'origin': self.statement_id.name,
                 'comment': ';'.join(map(

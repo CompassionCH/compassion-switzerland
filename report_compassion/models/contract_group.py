@@ -77,7 +77,7 @@ class ContractGroup(models.Model):
         """
         self.ensure_one()
         freq = self.advance_billing_months
-        payment_term = self.with_context(lang='en_US').payment_term_id
+        payment_mode = self.with_context(lang='en_US').payment_mode_id
         # Take first open invoice or next_invoice_date
         open_invoice = min(
             [fields.Date.from_string(i)
@@ -93,7 +93,7 @@ class ContractGroup(models.Model):
             month for month in months
             if fields.Date.from_string(month) >= first_invoice_date
         ]
-        if 'Permanent' in payment_term.name:
+        if 'Permanent' in payment_mode.name:
             return valid_months[:1]
         if freq == 1:
             return valid_months
@@ -126,7 +126,7 @@ class ContractGroup(models.Model):
         :return: string of the communication
         """
         self.ensure_one()
-        payment_term = self.with_context(lang='en_US').payment_term_id
+        payment_mode = self.with_context(lang='en_US').payment_mode_id
         amount = sum(sponsorships.mapped('total_amount'))
         number_sponsorship = 0
 
@@ -156,7 +156,7 @@ class ContractGroup(models.Model):
             elif start and stop:
                 vals['date'] = date_start.strftime("%B %Y").decode('utf-8') + \
                     " - " + date_stop.strftime("%B %Y").decode('utf-8')
-            if 'Permanent' in payment_term.name:
+            if 'Permanent' in payment_mode.name:
                 vals['payment_type'] = _('ISR for standing order')
                 vals['date'] = ''
             else:

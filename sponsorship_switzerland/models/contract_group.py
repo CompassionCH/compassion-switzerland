@@ -24,36 +24,31 @@ class ContractGroup(models.Model):
     ##########################################################################
     bvr_reference = fields.Char(
         'BVR Ref', size=32, track_visibility="onchange")
-    payment_term_id = fields.Many2one(
-        'account.payment.term', 'Payment Term',
-        domain=['|', '|', '|', ('name', 'ilike', 'BVR'),
-                ('name', 'ilike', 'LSV'),
-                ('name', 'ilike', 'Postfinance'),
-                ('name', 'ilike', 'Permanent')], track_visibility='onchange',
-        default=lambda self: self._get_op_payment_term())
+    payment_mode_id = fields.Many2one(
+        default=lambda self: self._get_op_payment_mode())
     change_method = fields.Selection(default='clean_invoices')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
     @api.model
-    def _get_op_payment_term(self):
+    def _get_op_payment_mode(self):
         """ Get Permanent Order Payment Term, to set it by default. """
         record = self.env.ref(
-            'sponsorship_switzerland.payment_term_permanent_order')
+            'sponsorship_switzerland.payment_mode_permanent_order')
         return record.id
 
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
     @api.multi
-    @api.depends('payment_term_id', 'bvr_reference', 'partner_id')
+    @api.depends('payment_mode_id', 'bvr_reference', 'partner_id')
     def name_get(self):
         res = list()
         for gr in self:
             name = ''
-            if gr.payment_term_id:
-                name = gr.payment_term_id.name
+            if gr.payment_mode_id:
+                name = gr.payment_mode_id.name
             if gr.bvr_reference:
                 name += ' ' + gr.bvr_reference
             if name == '':
@@ -69,14 +64,14 @@ class ContractGroup(models.Model):
         """
         contracts = self.env['recurring.contract']
         inv_vals = dict()
-        if 'payment_term_id' in vals:
-            inv_vals['payment_term_id'] = vals['payment_term_id']
-            payment_term = self.env['account.payment.term'].with_context(
-                lang='en_US').browse(vals['payment_term_id'])
-            payment_name = payment_term.name
+        if 'payment_mode_id' in vals:
+            inv_vals['payment_mode_id'] = vals['payment_mode_id']
+            payment_mode = self.env['account.payment.mode'].with_context(
+                lang='en_US').browse(vals['payment_mode_id'])
+            payment_name = payment_mode.name
             contracts |= self.mapped('contract_ids')
             for group in self:
-                old_term = group.payment_term_id.name
+                old_term = group.payment_mode_id.name
                 if 'LSV' in payment_name or 'Postfinance' in payment_name:
                     group.contract_ids.signal_workflow('will_pay_by_lsv_dd')
                     # LSV/DD Contracts need no reference
@@ -160,20 +155,20 @@ class ContractGroup(models.Model):
                       'or is in wrong format. Please make sure to enter a '
                       'valid BVR reference for the contract.'))
 
-    @api.onchange('payment_term_id')
-    def on_change_payment_term(self):
+    @api.onchange('payment_mode_id')
+    def on_change_payment_mode(self):
         """ Generate new bvr_reference if payment term is Permanent Order
         or BVR """
-        payment_term_id = self.payment_term_id and self.payment_term_id.id
-        payment_term_obj = self.env['account.payment.term'].with_context(
+        payment_mode_id = self.payment_mode_id.id
+        pmobj = self.env['account.payment.mode'].with_context(
             lang='en_US')
-        need_bvr_ref_term_ids = payment_term_obj.search([
+        need_bvr_ref_term_ids = pmobj.search([
             '|', ('name', 'in', ('Permanent Order', 'BVR')),
             ('name', 'like', 'multi-months')]).ids
-        lsv_term_ids = payment_term_obj.search(
+        lsv_term_ids = pmobj.search(
             [('name', 'like', 'LSV')]).ids
-        if payment_term_id in need_bvr_ref_term_ids:
-            is_lsv = payment_term_id in lsv_term_ids
+        if payment_mode_id in need_bvr_ref_term_ids:
+            is_lsv = payment_mode_id in lsv_term_ids
             partner = self.partner_id
             if partner.ref and (not self.bvr_reference or is_lsv):
                 self.bvr_reference = self.compute_partner_bvr_ref(
@@ -212,21 +207,27 @@ class ContractGroup(models.Model):
         return invoicer
 
     def _setup_inv_data(self, journal, invoicer, contracts):
-        """ Inherit to add BVR ref """
+        """ Inherit to add BVR ref and mandate """
         inv_data = super(ContractGroup, self)._setup_inv_data(
             journal, invoicer, contracts)
 
         ref = ''
-        bank_terms = self.env['account.payment.term'].with_context(
+        bank_modes = self.env['account.payment.mode'].with_context(
             lang='en_US').search(
             ['|', ('name', 'like', 'LSV'), ('name', 'like', 'Postfinance')])
         if self.bvr_reference:
             ref = self.bvr_reference
-        elif self.payment_term_id in bank_terms:
+        elif self.payment_mode_id in bank_modes:
             seq = self.env['ir.sequence']
             ref = mod10r(seq.next_by_code('contract.bvr.ref'))
+        mandate = self.env['account.banking.mandate'].search([
+            ('partner_id', '=', self.partner_id.id),
+            ('state', '=', 'valid')
+        ], limit=1)
         inv_data.update({
-            'bvr_reference': ref})
+            'bvr_reference': ref,
+            'mandate_id': mandate.id,
+        })
 
         return inv_data
 

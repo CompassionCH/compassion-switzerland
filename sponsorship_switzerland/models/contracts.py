@@ -161,12 +161,12 @@ class RecurringContracts(models.Model):
                         day=next_group_date.day)
                 else:
                     next_invoice_date = current_date.replace(day=1)
-                payment_term = contract_group.payment_term_id.name
+                payment_mode = contract_group.payment_mode_id.name
             else:
                 next_invoice_date = current_date.replace(day=1)
-                payment_term = ''
+                payment_mode = ''
 
-            if current_date.day > 15 or (payment_term in (
+            if current_date.day > 15 or (payment_mode in (
                     'LSV', 'Postfinance') and not is_active):
                 next_invoice_date += relativedelta(months=+1)
             self.next_invoice_date = fields.Date.to_string(next_invoice_date)
@@ -197,9 +197,9 @@ class RecurringContracts(models.Model):
     def contract_waiting(self):
         vals = {'state': 'waiting'}
         for contract in self:
-            payment_term = contract.group_id.payment_term_id.name
-            if contract.type == 'S' and ('LSV' in payment_term or
-                                         'Postfinance' in payment_term):
+            payment_mode = contract.payment_mode_id.name
+            if contract.type == 'S' and ('LSV' in payment_mode or
+                                         'Postfinance' in payment_mode):
                 # Recompute next_invoice_date
                 today = datetime.today()
                 old_invoice_date = fields.Datetime.from_string(
@@ -306,13 +306,13 @@ class RecurringContracts(models.Model):
         """
         group = self.env['recurring.contract.group'].browse(
             group_id)
-        payment_name = group.payment_term_id.name
+        payment_name = group.payment_mode_id.name
         if group and ('LSV' in payment_name or 'Postfinance' in payment_name):
             self.signal_workflow('will_pay_by_lsv_dd')
         else:
-            # Check if old payment_term was LSV or DD
+            # Check if old payment_mode was LSV or DD
             for contract in self.filtered('group_id'):
-                payment_name = contract.group_id.payment_term_id.name
+                payment_name = contract.payment_mode_id.name
                 if 'LSV' in payment_name or 'Postfinance' in payment_name:
                     contract.signal_workflow('mandate_validated')
 
@@ -322,13 +322,13 @@ class RecurringContracts(models.Model):
         super(RecurringContracts, self)._update_invoice_lines(invoices)
         for contract in self:
             ref = False
-            bank_terms = self.env['account.payment.term'].with_context(
+            bank_modes = self.env['account.payment.mode'].with_context(
                 lang='en_US').search(
                 ['|', ('name', 'like', 'LSV'),
                  ('name', 'like', 'Postfinance')])
             if contract.group_id.bvr_reference:
                 ref = contract.group_id.bvr_reference
-            elif contract.group_id.payment_term_id in bank_terms:
+            elif contract.payment_mode_id in bank_modes:
                 seq = self.env['ir.sequence']
                 ref = mod10r(seq.next_by_code('contract.bvr.ref'))
             invoices.write({'bvr_reference': ref})

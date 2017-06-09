@@ -536,8 +536,8 @@
                 <div>
                     % set partner = object.partner_id
                     % set sponsorships = object.get_objects()
-                    % set payment_term = sponsorships.mapped('payment_term_id.name')[0]
-                    % set lsv_dd = 'LSV' in payment_term or 'Postfinance' in payment_term
+                    % set payment_mode = sponsorships.mapped('payment_mode_id.name')[0]
+                    % set lsv_dd = 'LSV' in payment_mode or 'Postfinance' in payment_mode
                     % set children = sponsorships.mapped('child_id')
                     % set firstname = children.get_list('firstname', 3, 'many children')
                     % set invoices = sponsorships.mapped('due_invoice_ids')
@@ -632,8 +632,8 @@
                 <div>
                     % set partner = object.partner_id
                     % set sponsorships = object.get_objects()
-                    % set payment_term = sponsorships.mapped('payment_term_id.name')[0]
-                    % set lsv_dd = 'LSV' in payment_term or 'Postfinance' in payment_term
+                    % set payment_mode = sponsorships.mapped('payment_mode_id.name')[0]
+                    % set lsv_dd = 'LSV' in payment_mode or 'Postfinance' in payment_mode
                     % set lsv_form_received = partner.bank_ids
                     % set children = sponsorships.mapped('child_id')
                     % set firstname = children.get_list('firstname', 3, 'many children')

@@ -41,8 +41,7 @@ class GenerateGiftWizard(models.TransientModel):
         bvr_reference += str(GIFT_NAMES.index(product.name) + 1)
         bvr_reference += '0' * 4
 
-        if contract.group_id.payment_term_id and \
-                'LSV' in contract.group_id.payment_term_id.name:
+        if contract.payment_mode_id and 'LSV' in contract.payment_mode_id.name:
             # Get company BVR adherent number
             user = self.env.user
             bank_obj = self.env['res.partner.bank']
