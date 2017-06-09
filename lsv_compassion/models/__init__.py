@@ -10,3 +10,4 @@
 ##############################################################################
 from . import payment_order
 from . import payment_line
+from . import res_partner_bank
