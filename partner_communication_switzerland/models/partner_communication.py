@@ -257,8 +257,10 @@ class PartnerCommunication(models.Model):
             elif communication.config_id == no_money_2:
                 extension = now + relativedelta(days=second_extension+7)
             if extension:
-                hold = communication.get_objects().child_id.hold_id
-                hold.expiration_date = fields.Datetime.to_string(extension)
+                holds = communication.get_objects().mapped('child_id.hold_id')
+                holds.write({
+                    'expiration_date': fields.Datetime.to_string(extension)
+                })
             return True
 
     def _get_new_dossier_attachments(self, correspondence=True, payment=True):
