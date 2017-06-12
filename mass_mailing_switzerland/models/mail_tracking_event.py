@@ -23,9 +23,15 @@ class MailTrackingEvent(models.Model):
         """ Update mass mailing stats. """
         mass_mail = tracking_email.mass_mailing_id
         if mass_mail:
-            session = ConnectorSession.from_env(self.env)
-            update_mass_mail_stats.delay(
-                session, mass_mail._name, mass_mail.id)
+            # Avoid too much computation
+            job = self.env['queue.job'].search_count([
+                ('channel', '=', 'root.mass_mailing_switzerland'),
+                ('state', 'not in', ['done', 'failed'])
+            ])
+            if not job:
+                session = ConnectorSession.from_env(self.env)
+                update_mass_mail_stats.delay(
+                    session, mass_mail._name, mass_mail.id)
         return super(MailTrackingEvent, self).process_click(
             tracking_email, metadata)
 
@@ -34,9 +40,15 @@ class MailTrackingEvent(models.Model):
         """ Update mass mailing stats. """
         mass_mail = tracking_email.mass_mailing_id
         if mass_mail:
-            session = ConnectorSession.from_env(self.env)
-            update_mass_mail_stats.delay(
-                session, mass_mail._name, mass_mail.id)
+            # Avoid too much computation
+            job = self.env['queue.job'].search_count([
+                ('channel', '=', 'root.mass_mailing_switzerland'),
+                ('state', 'not in', ['done', 'failed'])
+            ])
+            if not job:
+                session = ConnectorSession.from_env(self.env)
+                update_mass_mail_stats.delay(
+                    session, mass_mail._name, mass_mail.id)
         return super(MailTrackingEvent, self).process_unsub(
             tracking_email, metadata)
 
