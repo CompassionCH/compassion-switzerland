@@ -8,19 +8,29 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
+from openupgradelib import openupgrade
 
 
-def migrate(cr, version):
+@openupgrade.migrate(use_env=True)
+def migrate(env, version):
     if not version:
         return
 
+    cr = env.cr
+    # Install dependency
+    openupgrade.logged_query(cr, """
+        UPDATE ir_module_module
+        SET state='to install'
+        WHERE name = 'account_statement_completion' AND state='uninstalled';
+    """)
+
     # Inactive old payment modes
-    cr.execute("""
+    openupgrade.logged_query(cr, """
         UPDATE account_payment_mode SET active = false;
     """)
 
     # Configure journals
-    cr.execute("""
+    openupgrade.logged_query(cr, """
     INSERT INTO account_journal_inbound_payment_method_rel (journal_id,
     inbound_payment_method)
     VALUES

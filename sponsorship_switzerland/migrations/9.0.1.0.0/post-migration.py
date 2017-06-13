@@ -85,5 +85,5 @@ WHERE state = 'open' AND type = 'out_invoice'
            (219, (SELECT id from account_statement_completion_rule WHERE
                   function_to_call = 'get_from_lsv_dd')),
            (219, (SELECT id from account_statement_completion_rule WHERE
-                  function_to_call = 'get_sponsor_name')),
+                  function_to_call = 'get_sponsor_name'))
     """)
