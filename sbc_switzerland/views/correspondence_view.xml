@@ -38,7 +38,7 @@
                     <field name="communication_state" invisible="1"/>
                     <field name="sent_date" />
                     <field name="email_read" />
-                    <field name="letter_read" />
+                    <field name="letter_delivered" />
                 </field>
             </field>
         </record>
@@ -51,7 +51,7 @@
                 <field name="status_date" position="after">
                     <field name="sent_date" />
                     <field name="email_read" />
-                    <field name="letter_read" />
+                    <field name="letter_delivered" />
                 </field>
             </field>
         </record>
@@ -63,7 +63,7 @@
             <field name="arch" type="xml">
                 <search>
                     <separator />
-                    <filter name="unread" string="Unread" domain="[('letter_read','=',False)]" />
+                    <filter name="unread" string="Unread" domain="[('letter_delivered','=',False)]" />
                 </search>
             </field>
         </record>

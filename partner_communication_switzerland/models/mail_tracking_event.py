@@ -20,17 +20,16 @@ class MailTrackingEvent(models.Model):
     _inherit = "mail.tracking.event"
 
     @api.model
-    def process_open(self, tracking_email, metadata):
+    def process_delivered(self, tracking_email, metadata):
         """ Mark correspondence as read. """
         correspondence = self.env['correspondence'].search([
             ('email_id', '=', tracking_email.mail_id.id),
-            ('email_read', '=', False)
+            ('letter_delivered', '=', False)
         ])
         correspondence.write({
-            'email_read': True,
-            'letter_read': True
+            'letter_delivered': True
         })
-        return super(MailTrackingEvent, self).process_open(
+        return super(MailTrackingEvent, self).process_delivered(
             tracking_email, metadata)
 
     @api.model

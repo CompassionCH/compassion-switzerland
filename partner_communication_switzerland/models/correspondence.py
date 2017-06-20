@@ -33,8 +33,10 @@ class Correspondence(models.Model):
     sent_date = fields.Datetime(
         'Communication sent', related='communication_id.sent_date',
         store=True, track_visibility='onchange')
-    email_read = fields.Boolean()
-    letter_read = fields.Boolean()
+    email_read = fields.Boolean(
+        related='communication_id.email_id.opened', store=True
+    )
+    letter_delivered = fields.Boolean(oldname='letter_read')
     zip_id = fields.Many2one('ir.attachment')
     has_valid_language = fields.Boolean(
         compute='compute_has_valid_language', store=True)
@@ -226,7 +228,7 @@ class Correspondence(models.Model):
         ten_days_ago = datetime.today() - relativedelta(days=10)
         domain = [('direction', '=', 'Beneficiary To Supporter'),
                   ('state', '=', 'Published to Global Partner'),
-                  ('letter_read', '=', False),
+                  ('letter_delivered', '=', False),
                   ('sent_date', '<', fields.Date.to_string(ten_days_ago))]
         return domain
 

@@ -238,7 +238,7 @@ class PartnerCommunication(models.Model):
         if b2s_printed:
             letters = b2s_printed.get_objects()
             if letters:
-                letters.write({'letter_read': True})
+                letters.write({'letter_delivered': True})
 
         # No money extension
         no_money_1 = self.env.ref('partner_communication_switzerland.'
