@@ -9,6 +9,9 @@
 #
 ##############################################################################
 import base64
+from datetime import datetime
+
+from openerp.tools import relativedelta
 
 from openerp import api, models, fields
 
@@ -58,9 +61,14 @@ class PrintChildpack(models.TransientModel):
         :return: Generated report
         """
         model = 'compassion.child'
+        # Prevent printing dossier if completion date is in less than 2 years
+        in_two_years = datetime.today() + relativedelta(years=2)
         records = self.env[model].browse(self.env.context.get(
-            'active_ids')).filtered(lambda c: c.state in ('N', 'I', 'P') and
-                                    c.desc_en)
+            'active_ids')).filtered(
+            lambda c: c.state in ('N', 'I', 'P') and c.desc_en and
+            (not c.completion_date or fields.Datetime.from_string(
+                c.completion_date) > in_two_years)
+        )
         data = {
             'lang': self.lang,
             'doc_ids': records.ids

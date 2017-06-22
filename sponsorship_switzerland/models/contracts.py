@@ -119,6 +119,7 @@ class RecurringContracts(models.Model):
         add_sponsor_vals = {'category_id': [(4, sponsor_cat_id)]}
         sponsorships.mapped('partner_id').write(add_sponsor_vals)
         sponsorships.mapped('correspondant_id').write(add_sponsor_vals)
+        return True
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

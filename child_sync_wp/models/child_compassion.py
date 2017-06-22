@@ -11,9 +11,11 @@
 import logging
 
 import sys
+from datetime import datetime
 
-from openerp import api, models, _
-from openerp.exceptions import Warning
+from openerp.tools import relativedelta
+
+from openerp import api, models, fields
 from openerp.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync
@@ -27,33 +29,26 @@ class CompassionChild(models.Model):
 
     @api.multi
     def add_to_wordpress(self):
-
         # Solve the encoding problems on child's descriptions
         reload(sys)
         sys.setdefaultencoding('UTF8')
 
-        valid_children = self.filtered(lambda c: c.state == 'N')
+        in_two_years = datetime.today() + relativedelta(years=2)
+        valid_children = self.filtered(
+            lambda c: c.state == 'N' and c.desc_de and
+            c.desc_fr and c.desc_it and
+            c.project_id.description_fr and c.project_id.description_de and
+            c.project_id.description_it and c.fullshot and
+            (not c.completion_date or
+             fields.Datetime.from_string(c.completion_date) > in_two_years)
+        )
 
-        for child in valid_children:
-            # Check for descriptions
-            if not (child.desc_de and child.desc_fr and child.desc_it):
-                raise Warning(
-                    _('Missing descriptions for child %s') % child.local_id)
-            if not (child.project_id.description_fr and
-                    child.project_id.description_de and
-                    child.project_id.description_it):
-                raise Warning(
-                    _('Missing descriptions for project %s') %
-                    child.project_id.icp_id)
-
-            # Check for pictures
-            if not child.fullshot:
-                self.env['compassion.child.pictures'].create({
-                    'child_id': child.id})
-                child = self.browse(child.id)
-                if not child.fullshot:
-                    raise Warning(
-                        _('Child %s has no picture') % child.local_id)
+        error = self - valid_children
+        if error:
+            logger.error(
+                "%s children have invalid data and were not pushed to "
+                "wordpress." % str(len(error))
+            )
 
         wp = WPSync()
         res = wp.upload_children(valid_children)
