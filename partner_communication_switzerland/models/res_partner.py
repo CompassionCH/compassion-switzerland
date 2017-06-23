@@ -32,6 +32,7 @@ class ResPartner(models.Model):
     _inherit = ['res.partner', 'translatable.model']
 
     salutation = fields.Char(compute='_get_salutation')
+    short_salutation = fields.Char(compute='_get_salutation')
     gender = fields.Selection(related='title.gender')
 
     @api.multi
@@ -47,5 +48,7 @@ class ResPartner(models.Model):
                 title_name = title.name
                 p.salutation = title_salutation + ' ' + \
                     title_name + ' ' + partner.lastname
+                p.short_salutation = title_salutation + ' ' + partner.firstname
             else:
                 p.salutation = _("Dear friends of compassion")
+                p.short_salutation = _("Dear friends of compassion")
