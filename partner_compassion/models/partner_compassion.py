@@ -34,7 +34,7 @@ class ResPartner(models.Model):
     #                        NEW PARTNER FIELDS                              #
     ##########################################################################
     lang = fields.Selection(default=False)
-    total_invoiced = fields.Float(groups=False)
+    total_invoiced = fields.Monetary(groups=False)
     street3 = fields.Char("Street3", size=128)
     member_ids = fields.One2many(
         'res.partner', 'church_id', 'Members',
