@@ -56,7 +56,8 @@ class PaymentOrder(models.Model):
             invoices = paylines.mapped('move_line_id.invoice_id').with_context(
                 lang=partner.lang)
             products = invoices.mapped('invoice_line_ids.product_id')
-            invoice_type = list(set(invoices.mapped('invoice_type')))[0]
+            invoice_type = list(set(invoices.mapped('invoice_type')))
+            invoice_type = invoice_type and invoice_type[0] or 'other'
             communication = False
             if invoice_type in ('sponsorship', 'gift'):
                 children = invoices.mapped(
