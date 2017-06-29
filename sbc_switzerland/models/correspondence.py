@@ -16,10 +16,10 @@ from io import BytesIO
 
 from . import translate_connector
 
-from openerp import models, api, fields, _
-from openerp.tools.config import config
-from openerp.exceptions import UserError
-from openerp.addons.sbc_compassion.models.correspondence_page import \
+from odoo import models, api, fields, _
+from odoo.tools.config import config
+from odoo.exceptions import UserError
+from odoo.addons.sbc_compassion.models.correspondence_page import \
     BOX_SEPARATOR
 
 

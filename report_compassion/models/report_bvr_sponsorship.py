@@ -14,8 +14,8 @@ import logging
 
 from dateutil.relativedelta import relativedelta
 
-from openerp import api, models, fields, _
-from openerp.exceptions import Warning
+from odoo import api, models, fields, _
+from odoo.exceptions import Warning
 
 logger = logging.getLogger(__name__)
 

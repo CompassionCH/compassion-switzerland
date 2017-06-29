@@ -9,8 +9,8 @@
 #
 ##############################################################################
 
-from openerp import models, api, fields
-from openerp.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
+from odoo import models, api, fields
+from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
 
 
 class AccountInvoiceLine(models.Model):

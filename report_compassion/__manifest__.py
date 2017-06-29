@@ -10,7 +10,7 @@
 #                            in Jesus' name
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
-#    @author: Philippe Heer <heerphilippe@msn.com>
+#    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,16 +27,36 @@
 #
 ##############################################################################
 
+
 {
-    'name': 'Mass Mailing Switzerland',
+    'name': 'Compassion CH PDF-Qweb Reports',
     'version': '9.0.1.0.0',
-    'category': 'Mailing',
-    'description': '',
-    'author': 'Emanuel Cino',
+    'category': 'Other',
+    'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'data': ['views/mass_mailing_view.xml'],
-    'depends': ['mail_sendgrid_mass_mailing', 'sponsorship_compassion'],
+    'depends': ['label', 'sponsorship_switzerland', 'l10n_ch_payment_slip'],
+    'external_dependencies': {
+        'python': ['pyquery']
+    },
+    'data': [
+        'report/compassion_layout.xml',
+        'report/paperformats.xml',
+        'report/childpack.xml',
+        'report/bvr_layout.xml',
+        'report/bvr_sponsorship.xml',
+        'report/partner_communication.xml',
+        'report/sub_proposal_form.xml',
+        'report/bvr_gift.xml',
+        'report/anniversary_card.xml',
+        'report/a4_bvr.xml',
+        'report/bvr_fund.xml',
+        'views/print_sponsorship_bvr_view.xml',
+        'views/print_sponsorship_gift_bvr_view.xml',
+        'views/print_childpack_view.xml',
+        'views/print_bvr_fund_view.xml',
+        'views/communication_job_view.xml',
+    ],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

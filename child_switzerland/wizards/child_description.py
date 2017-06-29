@@ -8,9 +8,9 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp import api, models
+from odoo import api, models
 
-from openerp.addons.child_compassion.wizards.child_description import \
+from odoo.addons.child_compassion.wizards.child_description import \
     SINGULAR, NOMINATIVE, ChildDescription
 
 

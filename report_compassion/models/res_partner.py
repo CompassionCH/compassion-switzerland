@@ -11,7 +11,7 @@
 import base64
 import os
 
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 IMG_DIR = os.path.dirname(os.path.realpath(__file__)) + '/../static/img/'

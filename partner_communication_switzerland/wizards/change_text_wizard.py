@@ -9,8 +9,8 @@
 #
 ##############################################################################
 
-from openerp import models, api, fields, _
-from openerp.exceptions import Warning
+from odoo import models, api, fields, _
+from odoo.exceptions import Warning
 
 
 class ChangeTextWizard(models.TransientModel):

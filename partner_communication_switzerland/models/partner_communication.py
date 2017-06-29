@@ -16,10 +16,10 @@ from dateutil.relativedelta import relativedelta
 from pyPdf import PdfFileWriter, PdfFileReader
 from io import BytesIO
 
-from openerp import api, models, _, fields
-from openerp.exceptions import MissingError
+from odoo import api, models, _, fields
+from odoo.exceptions import MissingError
 
-from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
+from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
 
 
 class PartnerCommunication(models.Model):

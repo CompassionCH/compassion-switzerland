@@ -9,8 +9,8 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
-#    @author: Roman Zoller, Emanuel Cino, Michaël Sandoz
+#    Copyright (C) 2015-2017 Compassion CH (http://www.compassion.ch)
+#    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -26,26 +26,37 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+
 {
-    'name': 'Sponsor to beneficiary email communication',
+    'name': 'Tailor Sponsorships to Compassion CH needs',
     'version': '9.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['mysql_connector', 'partner_communication_switzerland'],
-    'external_dependencies': {
-        'python': ['smb', 'pyPdf', 'pysftp']
-    },
-    'data': [
-        'data/import_config_templates.xml',
-        'data/scan_letter_params.xml',
-        'data/nas_parameters.xml',
-        'data/local_letters_cron.xml',
-        'views/import_config_view.xml',
-        'views/import_letters_history_view.xml',
-        'views/correspondence_view.xml',
-        'views/s2b_generator_view.xml',
+    'depends': [
+        'crm_compassion',
+        'sponsorship_tracking',
+        'partner_compassion',
+        'partner_communication',
+        'account_statement_completion',
+        'l10n_ch_lsv_dd'
     ],
-    'demo': [],
-    'installable': True,
+    'demo': [
+        'data/demo_journal.xml'
+    ],
+    'data': [
+        'data/product.xml',
+        'data/completion_rules.xml',
+        'data/payment_modes.xml',
+        'data/sequence.xml',
+        'workflow/contract_workflow.xml',
+        'workflow/sds_workflow.xml',
+        'security/ir.model.access.csv',
+        'views/account_invoice_view.xml',
+        'views/res_partner_view.xml',
+        'views/contract_view.xml',
+    ],
+    'installable': False,
+    'auto_install': False,
 }

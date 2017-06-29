@@ -10,7 +10,7 @@
 ##############################################################################
 from urllib import urlencode
 from urlparse import urljoin
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 class DisasterAlert(models.Model):

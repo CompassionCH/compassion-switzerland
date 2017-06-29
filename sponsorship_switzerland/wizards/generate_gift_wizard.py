@@ -9,9 +9,9 @@
 #
 ##############################################################################
 
-from openerp import api, models
-from openerp.tools import mod10r
-from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
+from odoo import api, models
+from odoo.tools import mod10r
+from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
 
 import logging
 

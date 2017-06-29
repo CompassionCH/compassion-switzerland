@@ -16,9 +16,9 @@ import shutil
 from os import listdir, path, makedirs, remove
 from xmlrpclib import ServerProxy, SafeTransport, GzipDecodedResponse
 
-from openerp import _
-from openerp.exceptions import UserError
-from openerp.tools import config
+from odoo import _
+from odoo.exceptions import UserError
+from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 

@@ -11,9 +11,9 @@
 import base64
 from datetime import datetime
 
-from openerp.tools import relativedelta
+from odoo.tools import relativedelta
 
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 class PrintChildpack(models.TransientModel):

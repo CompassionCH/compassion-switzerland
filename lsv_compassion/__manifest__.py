@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -28,17 +28,16 @@
 ##############################################################################
 
 {
-    'name': 'OpenERP MySQL Connector',
+    'name': 'LSV-DD Compassion',
     'version': '9.0.1.0.0',
-    'category': 'Other',
+    'license': 'AGPL-3',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': [],
-    'external_dependencies': {
-        'python': ['MySQLdb'],
-    },
+    'category': 'Other',
+    'depends': ['l10n_ch_lsv_dd', 'report_compassion'],
+    'external_dependencies': {},
     'data': [],
     'demo': [],
-    'installable': True,
-    'auto_install': False,
+    'active': False,
+    'installable': False,
 }

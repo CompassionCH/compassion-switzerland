@@ -12,7 +12,7 @@ import base64
 
 from .res_partner import IMG_DIR
 
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 class PartnerCommunication(models.Model):

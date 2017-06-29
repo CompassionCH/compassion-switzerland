@@ -11,7 +11,7 @@
 import logging
 
 from time import sleep
-from openerp import fields, models, api
+from odoo import fields, models, api
 
 logger = logging.getLogger(__name__)
 

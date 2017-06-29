@@ -9,9 +9,9 @@
 #
 ##############################################################################
 
-from openerp import models, api, _
+from odoo import models, api, _
 
-from openerp.addons.report_compassion.models.contract_group import setlocale
+from odoo.addons.report_compassion.models.contract_group import setlocale
 
 
 class PaymentOrder(models.Model):

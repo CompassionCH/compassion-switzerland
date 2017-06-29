@@ -10,10 +10,10 @@
 ##############################################################################
 import base64
 
-from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
+from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
 
-from openerp import api, models, fields, _
-from openerp.exceptions import Warning
+from odoo import api, models, fields, _
+from odoo.exceptions import Warning
 
 
 class PrintSponsorshipBvr(models.TransientModel):

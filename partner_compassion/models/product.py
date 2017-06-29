@@ -8,9 +8,9 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp.tools import mod10r
+from odoo.tools import mod10r
 
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 class product_template(models.Model):

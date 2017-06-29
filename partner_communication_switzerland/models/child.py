@@ -11,9 +11,9 @@
 import base64
 import logging
 
-from openerp import api, models, fields, _
+from odoo import api, models, fields, _
 
-from openerp.addons.report_compassion.models.contract_group import setlocale
+from odoo.addons.report_compassion.models.contract_group import setlocale
 
 _logger = logging.getLogger(__name__)
 

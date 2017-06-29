@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -27,15 +27,40 @@
 #
 ##############################################################################
 
+
 {
-    'name': 'Compassion CH - HR Management',
+    'name': 'Compassion CH Partner Communications',
     'version': '9.0.1.0.0',
-    'category': 'HR',
-    'author': 'Emanuel Cino',
+    'category': 'Other',
+    'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'data': [],
-    'depends': ['hr_expense'],
+    'depends': ['report_compassion', 'thankyou_letters'],
+    'external_dependencies': {
+        'python': ['wand', 'detectlanguage', 'sendgrid']
+    },
+    'data': [
+        'data/major_revision_emails.xml',
+        'data/child_letter_emails.xml',
+        'data/lifecycle_emails.xml',
+        'data/project_lifecycle_emails.xml',
+        'data/other_emails.xml',
+        'data/sponsorship_planned_emails.xml',
+        'data/donation_emails.xml',
+        'data/manual_emails.xml',
+        'data/communication_config.xml',
+        'data/sponsorship_communications_cron.xml',
+        'data/partner_title_data.xml',
+        'data/default_communication.xml',
+        'data/ir.advanced.translation.csv',
+        'report/child_picture.xml',
+        'views/communication_job_view.xml',
+        'views/download_child_pictures_view.xml',
+        'views/end_contract_wizard_view.xml',
+        'views/disaster_alert_view.xml',
+        'views/partner_compassion_view.xml',
+        'views/change_text_wizard_view.xml',
+    ],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

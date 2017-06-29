@@ -9,9 +9,9 @@
 #
 ##############################################################################
 
-from openerp import api, models, fields
-from openerp.exceptions import UserError
-from openerp.tools.translate import _
+from odoo import api, models, fields
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
 
 
 class ChildOnWorpressWizard(models.TransientModel):

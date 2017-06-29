@@ -10,11 +10,11 @@
 ##############################################################################
 import simplejson
 
-from openerp.addons.child_compassion.models.compassion_hold import HoldType
-from openerp.addons.connector.queue.job import job, related_action
-from openerp.addons.connector.session import ConnectorSession
+from odoo.addons.child_compassion.models.compassion_hold import HoldType
+from odoo.addons.connector.queue.job import job, related_action
+from odoo.addons.connector.session import ConnectorSession
 
-from openerp import api, models, fields, _
+from odoo import api, models, fields, _
 
 # Mapping from Website form fields to res.partner fields in Odoo
 SPONSOR_MAPPING = {

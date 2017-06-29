@@ -15,7 +15,7 @@ from datetime import datetime, date
 
 from dateutil.relativedelta import relativedelta
 
-from openerp import api, models, fields, _
+from odoo import api, models, fields, _
 
 logger = logging.getLogger(__name__)
 

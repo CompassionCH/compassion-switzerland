@@ -13,9 +13,9 @@ import logging
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
-from openerp.tools import mod10r
+from odoo.tools import mod10r
 
-from openerp import api, models, fields, _
+from odoo import api, models, fields, _
 
 logger = logging.getLogger(__name__)
 

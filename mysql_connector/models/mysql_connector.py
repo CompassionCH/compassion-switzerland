@@ -9,7 +9,7 @@
 #
 ##############################################################################
 import logging
-from openerp.tools.config import config
+from odoo.tools.config import config
 
 logger = logging.getLogger(__name__)
 

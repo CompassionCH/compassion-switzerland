@@ -9,10 +9,10 @@
 #
 ##############################################################################
 
-from openerp import api, models, fields, _
+from odoo import api, models, fields, _
 
-from openerp.addons.connector.queue.job import job, related_action
-from openerp.addons.connector.session import ConnectorSession
+from odoo.addons.connector.queue.job import job, related_action
+from odoo.addons.connector.session import ConnectorSession
 
 
 class MassMailing(models.Model):

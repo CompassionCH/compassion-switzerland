@@ -10,7 +10,7 @@
 ##############################################################################
 import datetime
 
-from openerp.addons.mysql_connector.models.mysql_connector \
+from odoo.addons.mysql_connector.models.mysql_connector \
     import MysqlConnector
 
 

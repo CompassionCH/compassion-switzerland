@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from openerp import models, exceptions, _
+from odoo import models, exceptions, _
 
 
 class MoveLine(models.Model):

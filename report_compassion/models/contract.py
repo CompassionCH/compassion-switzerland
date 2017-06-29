@@ -8,8 +8,8 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
-from openerp import api, models, fields
+from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
+from odoo import api, models, fields
 
 
 class AccountInvoice(models.Model):

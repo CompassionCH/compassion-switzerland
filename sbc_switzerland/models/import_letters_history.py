@@ -18,12 +18,12 @@ import time
 import zipfile
 from io import BytesIO
 
-from openerp.addons.connector.session import ConnectorSession
-from openerp.addons.sbc_compassion.models import import_letters_history as ilh
-from openerp.addons.sbc_compassion.tools import import_letter_functions as func
+from odoo.addons.connector.session import ConnectorSession
+from odoo.addons.sbc_compassion.models import import_letters_history as ilh
+from odoo.addons.sbc_compassion.tools import import_letter_functions as func
 
-from openerp import fields, models, api, _, exceptions
-from openerp.tools.config import config
+from odoo import fields, models, api, _, exceptions
+from odoo.tools.config import config
 from . import translate_connector
 
 logger = logging.getLogger(__name__)

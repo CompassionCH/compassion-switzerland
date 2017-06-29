@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from openerp import api, models, fields, exceptions, _
+from odoo import api, models, fields, exceptions, _
 
 
 class ReconcileFundWizard(models.TransientModel):

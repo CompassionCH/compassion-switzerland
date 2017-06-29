@@ -12,7 +12,7 @@ import base64
 from io import BytesIO
 from zipfile import ZipFile
 
-from openerp import api, models, fields, _
+from odoo import api, models, fields, _
 
 
 class CompassionHold(models.TransientModel):

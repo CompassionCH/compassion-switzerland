@@ -8,7 +8,7 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp import models
+from odoo import models
 
 from ..tools.wp_sync import WPSync
 

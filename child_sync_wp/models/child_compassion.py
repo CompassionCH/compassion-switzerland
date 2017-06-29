@@ -13,9 +13,9 @@ import logging
 import sys
 from datetime import datetime
 
-from openerp import api, models, fields
-from openerp.tools import relativedelta
-from openerp.addons.child_compassion.models.compassion_hold import HoldType
+from odoo import api, models, fields
+from odoo.tools import relativedelta
+from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync
 

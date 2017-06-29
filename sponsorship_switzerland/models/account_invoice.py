@@ -9,10 +9,10 @@
 #
 ##############################################################################
 
-from openerp import api, models, fields, _
-from openerp.exceptions import UserError
-from openerp.tools import mod10r
-from openerp.addons.sponsorship_compassion.models.product import \
+from odoo import api, models, fields, _
+from odoo.exceptions import UserError
+from odoo.tools import mod10r
+from odoo.addons.sponsorship_compassion.models.product import \
     GIFT_CATEGORY, SPONSORSHIP_CATEGORY, FUND_CATEGORY
 
 

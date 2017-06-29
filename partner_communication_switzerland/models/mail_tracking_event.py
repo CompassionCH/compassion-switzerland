@@ -10,9 +10,9 @@
 ##############################################################################
 import logging
 
-from openerp import models, api
-from openerp.exceptions import UserError
-from openerp.tools.config import config
+from odoo import models, api
+from odoo.exceptions import UserError
+from odoo.tools.config import config
 
 _logger = logging.getLogger(__name__)
 

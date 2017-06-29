@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from openerp import api, models
+from odoo import api, models
 
 
 MANDATE_STATE = {'create': 'created',

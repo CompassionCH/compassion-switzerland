@@ -17,8 +17,8 @@ from dateutil.relativedelta import relativedelta
 from contextlib import contextmanager
 from .res_partner import IMG_DIR
 
-from openerp import api, models, fields, _
-from openerp.exceptions import Warning
+from odoo import api, models, fields, _
+from odoo.exceptions import Warning
 
 logger = logging.getLogger(__name__)
 

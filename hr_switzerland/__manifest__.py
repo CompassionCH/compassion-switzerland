@@ -28,22 +28,13 @@
 ##############################################################################
 
 {
-    'name': 'Sync Compassion Children with Wordpress website',
-    'version': '9.0.1.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
+    'name': 'Compassion CH - HR Management',
+    'version': '10.0.1.0.0',
+    'category': 'HR',
+    'author': 'Emanuel Cino',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_compassion', 'child_switzerland'],
-    'external_dependencies': {
-        'python': ['pysftp', 'wand'],
-    },
-    'data': [
-        'views/child_on_wordpress_wizard.xml',
-        'views/child_remove_from_wordpress.xml',
-        'views/staff_notification_settings_view.xml',
-        'views/sponsorship_view.xml',
-        'data/wordpress_cron.xml',
-    ],
+    'data': [],
+    'depends': ['hr_expense', 'hr_holidays'],
     'demo': [],
     'installable': True,
     'auto_install': False,

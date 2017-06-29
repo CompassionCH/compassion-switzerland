@@ -9,9 +9,9 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-from openerp.exceptions import UserError
-from openerp.tools import mod10r
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
+from odoo.tools import mod10r
 
 
 class ContractGroup(models.Model):

@@ -9,10 +9,10 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from odoo import models, api
 
-from openerp.addons.connector.queue.job import job
-from openerp.addons.connector.session import ConnectorSession
+from odoo.addons.connector.queue.job import job
+from odoo.addons.connector.session import ConnectorSession
 
 
 class MailTrackingEvent(models.Model):

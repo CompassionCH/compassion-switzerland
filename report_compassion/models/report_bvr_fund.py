@@ -12,8 +12,8 @@
 import logging
 
 
-from openerp import api, models, _
-from openerp.exceptions import Warning
+from odoo import api, models, _
+from odoo.exceptions import Warning
 
 logger = logging.getLogger(__name__)
 

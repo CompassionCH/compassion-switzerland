@@ -8,9 +8,9 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-from openerp.tools import mod10r
+from odoo.tools import mod10r
 
-from openerp import api, fields, models, _
+from odoo import api, fields, models, _
 
 # fields that are synced if 'use_parent_address' is checked
 ADDRESS_FIELDS = [

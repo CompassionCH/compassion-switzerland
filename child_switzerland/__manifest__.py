@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -28,28 +28,18 @@
 ##############################################################################
 
 {
-    'name': 'Bank Statement Reconcile for Compassion CH',
-    'version': '9.0.1.0.0',
+    'name': 'Compassion CH Children',
+    'version': '9.0.1.0',
+    'category': 'Other',
     'author': 'Compassion CH',
-    'category': 'Finance',
     'website': 'http://www.compassion.ch',
-    'depends': [
-        'sponsorship_switzerland'
-    ],
+    'depends': ['child_compassion', 'account_accountant'],
     'data': [
-        'data/statement_operation.xml',
-        'views/statement_view.xml',
-        'views/account_reconcile_compassion.xml',
-        'views/statement_operation_view.xml',
-        'views/reconcile_fund_wizard_view.xml',
-        'views/reconcile_split_payment_wizard_view.xml',
-        'views/change_attribution_wizard_view.xml',
-        'views/account_invoice_view.xml',
-        ],
-    'qweb': ['static/src/xml/account_move_reconciliation.xml'],
+        'views/description_views.xml',
+        'data/lang_data.xml',
+        'data/ir.advanced.translation.csv',
+    ],
     'demo': [],
-    'test': [],
+    'installable': False,
     'auto_install': False,
-    'installable': True,
-    'images': []
 }

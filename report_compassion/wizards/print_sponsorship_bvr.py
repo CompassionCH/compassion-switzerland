@@ -11,8 +11,8 @@
 import base64
 from datetime import datetime
 
-from openerp import api, models, fields, _
-from openerp.exceptions import Warning
+from odoo import api, models, fields, _
+from odoo.exceptions import Warning
 
 
 class PrintSponsorshipBvr(models.TransientModel):

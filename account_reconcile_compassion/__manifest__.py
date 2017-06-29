@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -27,31 +27,29 @@
 #
 ##############################################################################
 
-
 {
-    'name': 'Upgrade Partners for Compassion Suisse',
+    'name': 'Bank Statement Reconcile for Compassion CH',
     'version': '9.0.1.0.0',
-    'category': 'Partner',
-    'sequence': 150,
     'author': 'Compassion CH',
+    'category': 'Finance',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'sbc_compassion',
-        'mail_sendgrid',
-        'partner_contact_birthdate',
-        'account_banking_mandate',
-        # 'geoengine_base_geolocalize',
-        # 'geoengine_geoname_geocoder',
+        'sponsorship_switzerland'
     ],
     'data': [
-        'data/partner_category_data.xml',
-        'data/partner_title_data.xml',
-        # 'data/geocode_cron.xml',
-        'views/partner_compassion_view.xml',
-        # 'views/bulk_encode_view.xml',
-        'views/product_view.xml',
-    ],
+        'data/statement_operation.xml',
+        'views/statement_view.xml',
+        'views/account_reconcile_compassion.xml',
+        'views/statement_operation_view.xml',
+        'views/reconcile_fund_wizard_view.xml',
+        'views/reconcile_split_payment_wizard_view.xml',
+        'views/change_attribution_wizard_view.xml',
+        'views/account_invoice_view.xml',
+        ],
+    'qweb': ['static/src/xml/account_move_reconciliation.xml'],
     'demo': [],
-    'installable': True,
+    'test': [],
     'auto_install': False,
+    'installable': False,
+    'images': []
 }
