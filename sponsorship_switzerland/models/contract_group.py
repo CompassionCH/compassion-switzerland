@@ -92,10 +92,11 @@ class ContractGroup(models.Model):
                 ('contract_id', 'in', contracts.ids),
                 ('state', 'not in', ('paid', 'cancel'))])
             invoices = inv_lines.mapped('invoice_id')
-            invoices.action_cancel()
-            invoices.action_cancel_draft()
+            invoices.action_invoice_cancel()
+            invoices.action_invoice_draft()
+            invoices.env.invalidate_all()
             invoices.write(inv_vals)
-            invoices.signal_workflow('invoice_open')
+            invoices.action_invoice_open()
         return res
 
     ##########################################################################

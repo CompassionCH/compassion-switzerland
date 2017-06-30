@@ -269,7 +269,7 @@ class StatementCompletionRule(models.Model):
         res.update(self._generate_invoice_line(
             invoice.id, product, st_line, partner.id))
 
-        invoice.signal_workflow('invoice_open')
+        invoice.action_invoice_open()
 
         return res
 
