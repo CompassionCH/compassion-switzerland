@@ -11,8 +11,7 @@
 import simplejson
 
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
-from odoo.addons.connector.queue.job import job, related_action
-from odoo.addons.connector.session import ConnectorSession
+from odoo.addons.queue_job.job import job, related_action
 
 from odoo import api, models, fields, _
 
@@ -141,12 +140,10 @@ class Contracts(models.Model):
 
         if partner_ok:
             # Update sponsor info
-            session = ConnectorSession.from_env(self.env)
-            update_sponsor_job.delay(session, self._name, sponsorship.id)
+            sponsorship.with_delay().update_partner_from_web_data()
 
         # Convert to No Money Hold
-        session = ConnectorSession.from_env(self.env)
-        update_child_job.delay(session, self._name, sponsorship.id)
+        sponsorship.with_delay().update_child_hold()
 
         return True
 
@@ -217,7 +214,9 @@ class Contracts(models.Model):
     #                             PRIVATE METHODS                            #
     ##########################################################################
     @api.multi
-    def _update_partner_from_web_data(self):
+    @job(default_channel='root.child_sync_wp')
+    @related_action(action='related_action_sponsorship')
+    def update_partner_from_web_data(self):
         # Get spoken languages
         self.ensure_one()
         form_data = simplejson.loads(self.web_data)
@@ -244,7 +243,9 @@ class Contracts(models.Model):
         return True
 
     @api.multi
-    def _update_child_hold(self):
+    @job(default_channel='root.child_sync_wp')
+    @related_action(action='related_action_sponsorship')
+    def update_child_hold(self):
         # Convert to No Money Hold
         self.ensure_one()
         return self.child_id.hold_id.write({
@@ -311,48 +312,3 @@ class Contracts(models.Model):
                 not partner.church_unlinked:
             partner.write(res)
         return res
-
-
-##############################################################################
-#                            CONNECTOR METHODS                               #
-##############################################################################
-def related_action_sponsor_update(session, job):
-    sponsorship_id = job.args[2]
-    action = {
-        'name': _("Sponsorship"),
-        'type': 'ir.actions.act_window',
-        'res_model': 'recurring.contract',
-        'view_type': 'form',
-        'view_mode': 'form',
-        'res_id': sponsorship_id,
-    }
-    return action
-
-
-def related_action_child_update(session, job):
-    sponsorship_id = job.args[2]
-    action = {
-        'name': _("Sponsorship"),
-        'type': 'ir.actions.act_window',
-        'res_model': 'recurring.invoicer',
-        'view_type': 'form',
-        'view_mode': 'form',
-        'res_id': sponsorship_id,
-    }
-    return action
-
-
-@job(default_channel='root.child_sync_wp')
-@related_action(action=related_action_sponsor_update)
-def update_sponsor_job(session, model_name, sponsorship_id):
-    """Job for updating sponsor from web data."""
-    sponsorships = session.env[model_name].browse(sponsorship_id)
-    sponsorships._update_partner_from_web_data()
-
-
-@job(default_channel='root.child_sync_wp')
-@related_action(action=related_action_child_update)
-def update_child_job(session, model_name, sponsorship_id):
-    """Job for updating web child to no money hold."""
-    sponsorships = session.env[model_name].browse(sponsorship_id)
-    sponsorships._update_child_hold()
