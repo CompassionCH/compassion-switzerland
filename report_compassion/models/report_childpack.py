@@ -28,19 +28,19 @@ class ReportChildpackFull(models.Model):
             'report_compassion.childpack_full')
 
     @api.multi
-    def render_html(self, data=None):
+    def render_html(self, docids, data=None):
         """
         :param data: data collected from the print wizard.
         :return: html rendered report
         """
         if not data:
-            data = {'doc_ids': self._ids}
+            data = {}
         lang = data.get('lang', self.env.lang)
         report = self._get_report()
         data.update({
             'doc_model': report.model,
             'docs': self.env[report.model].with_context(lang=lang).browse(
-                data['doc_ids']
+                docids
             ),
         })
 

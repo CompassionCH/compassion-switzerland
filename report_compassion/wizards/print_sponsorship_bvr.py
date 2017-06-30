@@ -90,7 +90,7 @@ class PrintSponsorshipBvr(models.TransientModel):
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(
                     must_skip_send_to_printer=True).get_pdf(
-                        records, self.paper_format, data=data))
+                        records.ids, self.paper_format, data=data))
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -102,7 +102,7 @@ class PrintSponsorshipBvr(models.TransientModel):
                 'context': self.env.context,
             }
         return self.env['report'].get_action(
-            records, self.paper_format, data
+            records.ids, self.paper_format, data
         )
 
 
@@ -137,7 +137,7 @@ class PrintBvrDue(models.TransientModel):
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(
                     must_skip_send_to_printer=True).get_pdf(
-                    records, report, data=data))
+                    records.ids, report, data=data))
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -149,5 +149,5 @@ class PrintBvrDue(models.TransientModel):
                 'context': self.env.context,
             }
         return self.env['report'].get_action(
-            records, report, data
+            records.ids, report, data
         )

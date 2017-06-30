@@ -30,11 +30,11 @@
 
 {
     'name': 'Compassion CH PDF-Qweb Reports',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['label', 'sponsorship_switzerland', 'l10n_ch_payment_slip'],
+    'depends': ['label', 'sponsorship_switzerland', 'thankyou_letters'],
     'external_dependencies': {
         'python': ['pyquery']
     },
@@ -57,6 +57,6 @@
         'views/communication_job_view.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

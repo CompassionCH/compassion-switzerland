@@ -25,7 +25,7 @@ class BvrFundReport(models.Model):
     _name = 'report.report_compassion.bvr_fund'
 
     @api.multi
-    def render_html(self, data=None):
+    def render_html(self, docids, data=None):
         """
         Construct the data for printing Payment Slips.
         :param data: data collected from the print wizard.
@@ -39,7 +39,7 @@ class BvrFundReport(models.Model):
 
         data.update({
             'doc_model': report.model,  # res.partner
-            'docs': self.env[report.model].browse(data['doc_ids']),
+            'docs': self.env[report.model].browse(docids),
             'product': self.env['product.product'].browse(data['product_id'])
         })
         return self.env['report'].render(report.report_name, data)

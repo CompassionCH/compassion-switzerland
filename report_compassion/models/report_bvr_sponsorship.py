@@ -40,11 +40,10 @@ class BvrSponsorship(models.Model):
         return {
             'date_start': print_bvr_obj.default_start(),
             'date_stop': print_bvr_obj.default_stop(),
-            'doc_ids': self._ids
         }
 
     @api.multi
-    def render_html(self, data=None):
+    def render_html(self, docids, data=None):
         """
         Construct the data for printing Payment Slips.
         :param data: data collected from the print wizard.
@@ -64,8 +63,7 @@ class BvrSponsorship(models.Model):
             months.append(fields.Datetime.to_string(start))
             start = start + relativedelta(months=1)
 
-        sponsorships = self.env['recurring.contract'].browse(
-            final_data['doc_ids'])
+        sponsorships = self.env['recurring.contract'].browse(docids)
         sponsorships = sponsorships.filtered(
             lambda s: s.state not in ('terminated', 'cancelled'))
         groups = sponsorships.mapped('group_id')
@@ -96,14 +94,14 @@ class ThreeBvrSponsorship(models.Model):
             'report_compassion.3bvr_sponsorship')
 
     @api.multi
-    def render_html(self, data=None):
+    def render_html(self, docids, data=None):
         """ Include setting for telling 3bvr paper has offset between
         payment slips.
         """
         if data is None:
             data = dict()
         data['offset'] = 1
-        return super(ThreeBvrSponsorship, self).render_html(data)
+        return super(ThreeBvrSponsorship, self).render_html(docids, data)
 
 
 class BvrSponsorshipDue(models.Model):
@@ -113,7 +111,7 @@ class BvrSponsorshipDue(models.Model):
     _name = 'report.report_compassion.bvr_due'
 
     @api.multi
-    def render_html(self, data=None):
+    def render_html(self, docids, data=None):
         """
         :param data: data collected from the print wizard.
         :return: html rendered report
@@ -124,7 +122,7 @@ class BvrSponsorshipDue(models.Model):
         data.update({
             'doc_model': 'recurring.contract',
             'docs': self.env['recurring.contract'].with_context(
-                lang=lang).browse(data['doc_ids']),
+                lang=lang).browse(docids),
         })
 
         return self.env['report'].with_context(lang=lang).render(

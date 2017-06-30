@@ -43,7 +43,7 @@ env:
 
   matrix:
   - LINT_CHECK="1"
-  - TESTS="1" ODOO_REPO="odoo/odoo" EXCLUDE="lsv_compassion,sponsorship_switzerland,report_compassion,partner_communication_switzerland,sbc_switzerland"
+  - TESTS="1" ODOO_REPO="odoo/odoo" EXCLUDE="lsv_compassion,sponsorship_switzerland,report_compassion,partner_communication_switzerland,sbc_switzerland,account_reconcile_compassion"
 
 
 virtualenv:
