@@ -38,7 +38,6 @@
         'crm_compassion',
         'sponsorship_tracking',
         'partner_compassion',
-        'partner_communication',
         'account_statement_completion',
         'l10n_ch_lsv_dd'
     ],

@@ -123,10 +123,12 @@
 
             <!-- Put reference fields at top -->
             <xpath expr="//field[@name='parent_id']/.." position="after">
+                <br/>
                 <div class="o_row">
                     <label for="ref"/>
                     <field name="ref" readonly="1"/>
                 </div>
+                <br/>
                 <div class="o_row">
                     <label for="global_id"/>
                     <field name="global_id" readonly="1"/>

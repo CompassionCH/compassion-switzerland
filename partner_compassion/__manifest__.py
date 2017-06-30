@@ -30,13 +30,14 @@
 
 {
     'name': 'Upgrade Partners for Compassion Suisse',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Partner',
     'sequence': 150,
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
     'depends': [
         'sbc_compassion',
+        'partner_communication',
         'mail_sendgrid',
         'partner_contact_birthdate',
         'account_banking_mandate',
@@ -52,6 +53,6 @@
         'views/product_view.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
