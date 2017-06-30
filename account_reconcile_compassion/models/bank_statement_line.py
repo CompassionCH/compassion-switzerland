@@ -234,8 +234,9 @@ class BankStatementLine(models.Model):
                 self.statement_id.id) + str(self.id)).ljust(26, '0'))
 
         if invoice:
-            invoice.action_cancel()
-            invoice.action_cancel_draft()
+            invoice.action_invoice_cancel()
+            invoice.action_invoice_draft()
+            invoice.env.invalidate_all()
             invoice.write({'origin': self.statement_id.name})
 
         else:
@@ -327,7 +328,7 @@ class BankStatementLine(models.Model):
             if contract:
                 invoice.partner_id = contract.partner_id
 
-        invoice.signal_workflow('invoice_open')
+        invoice.action_invoice_open()
         self.ref = ref
 
         # Update move_lines data

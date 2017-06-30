@@ -62,5 +62,5 @@ class AccountStatement(models.Model):
     def unlink(self):
         self.mapped('invoice_ids').filtered(
             lambda i: i.state in ('draft', 'open')
-        ).signal_workflow('invoice_cancel')
+        ).action_invoice_cancel()
         return super(AccountStatement, self).unlink()

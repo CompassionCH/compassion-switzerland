@@ -29,7 +29,7 @@
 
 {
     'name': 'Bank Statement Reconcile for Compassion CH',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'author': 'Compassion CH',
     'category': 'Finance',
     'website': 'http://www.compassion.ch',
@@ -50,6 +50,6 @@
     'demo': [],
     'test': [],
     'auto_install': False,
-    'installable': False,
+    'installable': True,
     'images': []
 }

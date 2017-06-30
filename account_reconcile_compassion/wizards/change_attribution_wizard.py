@@ -89,7 +89,7 @@ class ChangeAttributionWizard(models.TransientModel):
                         'payment attribution changed.',
                         'invoice_line_ids': False})
 
-                invoice.signal_workflow('invoice_cancel')
+                invoice.action_invoice_cancel()
                 invoice.write({'comment': self.comment or
                                'Payment attribution changed.'})
                 invoice.invoice_line_ids.copy({'invoice_id': new_invoice.id})
@@ -140,7 +140,7 @@ class AccountInvoice(models.Model):
                   " be reconciled against the payment.") % self.to_reconcile)
 
         if self.state == 'draft':
-            self.signal_workflow('invoice_open')
+            self.action_invoice_open()
 
         # Reconcile all related move lines
         mvl_ids = self.env.context.get('payment_ids')

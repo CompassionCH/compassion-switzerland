@@ -71,13 +71,14 @@ class ReconcileFundWizard(models.TransientModel):
                 _('This can only be done if credits > debits'))
 
         if invoice:
-            invoice.action_cancel()
-            invoice.action_cancel_draft()
+            invoice.action_invoice_cancel()
+            invoice.action_invoice_draft()
+            invoice.env.invalidate_all()
 
             self._generate_invoice_line(invoice.id, residual, partner_id)
 
             # Validate the invoice
-            invoice.signal_workflow('invoice_open')
+            invoice.action_invoice_open()
             move_lines = move_line_obj.search([
                 ('move_id', '=', invoice.move_id.id),
                 ('account_id', '=', account_id)])
