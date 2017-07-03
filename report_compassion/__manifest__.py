@@ -34,7 +34,7 @@
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['label', 'sponsorship_switzerland', 'thankyou_letters'],
+    'depends': ['label', 'sponsorship_switzerland'],
     'external_dependencies': {
         'python': ['pyquery']
     },

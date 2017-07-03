@@ -90,7 +90,7 @@ class PartnerCommunication(models.Model):
         report_obj = self.env['report']
         attachments[_('sub child form.pdf')] = [
             report,
-            base64.b64encode(report_obj.get_pdf(self.partner_id, report))
+            base64.b64encode(report_obj.get_pdf(self.partner_id.ids, report))
         ]
         return attachments
 
@@ -163,7 +163,7 @@ class PartnerCommunication(models.Model):
             _('sponsorship due.pdf'): [
                 report_name,
                 base64.b64encode(self.env['report'].get_pdf(
-                    sponsorships, report_name,
+                    sponsorships.ids, report_name,
                     data={'background': True, 'doc_ids': sponsorships.ids}
                 ))
             ]
@@ -193,24 +193,16 @@ class PartnerCommunication(models.Model):
             'label_print': label_print.id,
         }).create({
             'brand_id': label_brand.id,
-            'name': label_format.id,
+            'config_id': label_format.id,
             'number_of_labels': 33
         })
         label_data = label_wizard.get_report_data()
-        label_context = self.env.context.copy()
-        label_context.update(label_data['form'])
-        label_context.update({
-            'active_model': 'label.print.wizard',
-            'active_id': label_wizard.id,
-            'active_ids': label_wizard.ids,
-            'label_print': label_print.id
-        })
         report_name = 'label.report_label'
         attachments[_('sponsorship labels.pdf')] = [
             report_name,
             base64.b64encode(
-                self.env['report'].with_context(label_context).get_pdf(
-                    label_wizard, report_name, data=label_data))
+                label_wizard.env['report'].get_pdf(
+                    label_wizard.ids, report_name, data=label_data))
         ]
         return attachments
 
@@ -328,7 +320,7 @@ class PartnerCommunication(models.Model):
                 _('sponsorship payment slips.pdf'): [
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
-                        sponsorships, report_name,
+                        sponsorships.ids, report_name,
                         data={'doc_ids': sponsorships.ids}
                     ))
                 ]
@@ -341,7 +333,7 @@ class PartnerCommunication(models.Model):
             _('sponsorship gifts.pdf'): [
                 report_name,
                 base64.b64encode(report_obj.get_pdf(
-                    sponsorships, report_name,
+                    sponsorships.ids, report_name,
                     data={'doc_ids': sponsorships.ids}
                 ))
             ]
@@ -352,7 +344,7 @@ class PartnerCommunication(models.Model):
         report_name = 'report_compassion.childpack_small'
         attachments[_('child dossier.pdf')] = [
             report_name,
-            base64.b64encode(report_obj.get_pdf(children, report_name))
+            base64.b64encode(report_obj.get_pdf(children.ids, report_name))
         ]
 
         # Labels

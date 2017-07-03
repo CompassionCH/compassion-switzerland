@@ -53,6 +53,7 @@ class BvrSponsorshipGift(models.Model):
         final_data.update({
             'doc_model': report.model,  # recurring.contract
             'docs': self.env[report.model].browse(docids),
+            'doc_ids': docids,
             'products': self.env['product.product'].browse(
                 final_data['product_ids'])
         })
@@ -75,4 +76,5 @@ class ThreeBvrGiftSponsorship(models.Model):
         if data is None:
             data = dict()
         data['offset'] = 1
-        return super(ThreeBvrGiftSponsorship, self).render_html(data)
+        return super(ThreeBvrGiftSponsorship, self).render_html(
+            docids, data)

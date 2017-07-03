@@ -30,11 +30,11 @@
 
 {
     'name': 'Compassion CH Partner Communications',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
-    'depends': ['report_compassion', 'thankyou_letters'],
+    'depends': ['report_compassion'],
     'external_dependencies': {
         'python': ['wand', 'detectlanguage', 'sendgrid']
     },
@@ -49,9 +49,9 @@
         'data/manual_emails.xml',
         'data/communication_config.xml',
         'data/sponsorship_communications_cron.xml',
-        'data/partner_title_data.xml',
         'data/default_communication.xml',
         'data/ir.advanced.translation.csv',
+        'data/label_print.xml',
         'report/child_picture.xml',
         'views/communication_job_view.xml',
         'views/download_child_pictures_view.xml',
@@ -61,6 +61,6 @@
         'views/change_text_wizard_view.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

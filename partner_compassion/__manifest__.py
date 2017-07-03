@@ -37,7 +37,7 @@
     'website': 'http://www.compassion.ch',
     'depends': [
         'sbc_compassion',
-        'partner_communication',
+        'thankyou_letters',
         'mail_sendgrid',
         'partner_contact_birthdate',
         'account_banking_mandate',

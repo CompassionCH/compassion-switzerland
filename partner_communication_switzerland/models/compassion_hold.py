@@ -113,7 +113,7 @@ class CompassionHold(models.Model):
             # Cancel old invoices
             if len(sponsorship.due_invoice_ids) > 1:
                 for invoice in sponsorship.due_invoice_ids[:-1]:
-                    invoice.signal_workflow('invoice_cancel')
+                    invoice.action_invoice_cancel()
             sponsorships += sponsorship
             super(CompassionHold, hold).postpone_no_money_hold(
                 notification_text.format(sponsor.name, sponsor.ref))
