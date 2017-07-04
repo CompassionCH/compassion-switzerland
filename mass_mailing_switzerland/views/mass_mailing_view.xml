@@ -107,10 +107,4 @@
         </field>
     </record>
 
-    <!-- Move Mass mailing menu inside Marketing -->
-    <record id="mass_mailing.mass_mailing_menu_root" model="ir.ui.menu">
-        <field name="parent_id" ref="base.marketing_menu"/>
-        <field name="sequence">0</field>
-    </record>
-
 </odoo>

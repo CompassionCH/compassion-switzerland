@@ -10,3 +10,4 @@
 ##############################################################################
 from . import mass_mailing
 from . import mail_tracking_event
+from . import queue_job

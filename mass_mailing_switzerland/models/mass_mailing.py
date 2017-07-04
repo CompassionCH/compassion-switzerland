@@ -11,8 +11,7 @@
 
 from odoo import api, models, fields, _
 
-from odoo.addons.connector.queue.job import job, related_action
-from odoo.addons.connector.session import ConnectorSession
+from odoo.addons.queue_job.job import job, related_action
 
 
 class MassMailing(models.Model):
@@ -31,6 +30,8 @@ class MassMailing(models.Model):
         'mail.tracking.event', compute='compute_events')
 
     @api.depends('statistics_ids', 'statistics_ids.tracking_event_ids')
+    @job(default_channel='root.mass_mailing_switzerland')
+    @related_action('related_action_mass_mailing')
     def compute_events(self):
         for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):
             has_click = mass_mail.statistics_ids.mapped(
@@ -55,9 +56,7 @@ class MassMailing(models.Model):
         result = super(MassMailing, self).send_mail()
         if self.email_template_id:
             # Used for Sendgrid -> Send e-mails in a job
-            session = ConnectorSession.from_env(self.env)
-            send_emails_job.delay(
-                session, result._name, result.ids)
+            result.with_delay().send_sendgrid_job()
         return result
 
     @api.multi
@@ -68,9 +67,7 @@ class MassMailing(models.Model):
             lambda s: not s.mail_tracking_id and s.mail_mail_id.state ==
             'outgoing')
         emails = mail_statistics.mapped('mail_mail_id')
-        session = ConnectorSession.from_env(self.env)
-        send_emails_job.delay(
-            session, emails._name, emails.ids)
+        emails.with_delay().send_sendgrid_job()
         return True
 
     @api.multi
@@ -161,25 +158,12 @@ class MassMailingCampaign(models.Model):
         return self.mass_mailing_ids.open_clicks()
 
 
-##############################################################################
-#                            CONNECTOR METHODS                               #
-##############################################################################
-def related_action_emails(session, job):
-    email_ids = job.args[1]
-    action = {
-        'name': "E-mails",
-        'type': 'ir.actions.act_window',
-        'res_model': 'mail.mail',
-        'view_type': 'form',
-        'view_mode': 'tree,form',
-        'domain': [('id', 'in', email_ids)],
-    }
-    return action
+class Mail(models.Model):
+    _inherit = 'mail.mail'
 
-
-@job(default_channel='root.mass_mailing')
-@related_action(action=related_action_emails)
-def send_emails_job(session, model_name, email_ids):
-    """Job for sending e-mails with Sendgrid."""
-    emails = session.env[model_name].browse(email_ids)
-    emails.send_sendgrid()
+    @job(default_channel='root.mass_mailing')
+    @related_action(action='related_action_emails')
+    @api.multi
+    def send_sendgrid_job(self):
+        # Make send method callable in a job
+        return self.send_sendgrid()

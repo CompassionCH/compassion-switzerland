@@ -11,9 +11,6 @@
 
 from odoo import models, api
 
-from odoo.addons.connector.queue.job import job
-from odoo.addons.connector.session import ConnectorSession
-
 
 class MailTrackingEvent(models.Model):
     _inherit = "mail.tracking.event"
@@ -29,9 +26,7 @@ class MailTrackingEvent(models.Model):
                 ('state', 'not in', ['done', 'failed'])
             ])
             if not job:
-                session = ConnectorSession.from_env(self.env)
-                update_mass_mail_stats.delay(
-                    session, mass_mail._name, mass_mail.id)
+                mass_mail.with_delay().compute_events()
         return super(MailTrackingEvent, self).process_click(
             tracking_email, metadata)
 
@@ -46,14 +41,6 @@ class MailTrackingEvent(models.Model):
                 ('state', 'not in', ['done', 'failed'])
             ])
             if not job:
-                session = ConnectorSession.from_env(self.env)
-                update_mass_mail_stats.delay(
-                    session, mass_mail._name, mass_mail.id)
+                mass_mail.with_delay().compute_events()
         return super(MailTrackingEvent, self).process_unsub(
             tracking_email, metadata)
-
-
-@job(default_channel='root.mass_mailing_switzerland')
-def update_mass_mail_stats(session, model_name, mass_mail_id):
-    """Job for updating mass mailing click statistics."""
-    session.env[model_name].browse(mass_mail_id).compute_events()
