@@ -17,7 +17,7 @@ from odoo import api, models
 logger = logging.getLogger(__name__)
 
 
-class BvrSponsorshipGift(models.Model):
+class BvrSponsorshipGift(models.AbstractModel):
     """
     Model used for preparing data for the bvr report. It can either
     generate 3bvr report or single bvr report.
@@ -60,7 +60,7 @@ class BvrSponsorshipGift(models.Model):
         return self.env['report'].render(report.report_name, final_data)
 
 
-class ThreeBvrGiftSponsorship(models.Model):
+class ThreeBvrGiftSponsorship(models.AbstractModel):
     _inherit = 'report.report_compassion.bvr_gift_sponsorship'
     _name = 'report.report_compassion.3bvr_gift_sponsorship'
 

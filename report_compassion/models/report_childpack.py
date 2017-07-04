@@ -17,7 +17,7 @@ from odoo import api, models
 logger = logging.getLogger(__name__)
 
 
-class ReportChildpackFull(models.Model):
+class ReportChildpackFull(models.AbstractModel):
     """
     Model used to generate childpack in selected language
     """
@@ -48,7 +48,7 @@ class ReportChildpackFull(models.Model):
             report.report_name, data)
 
 
-class ReportChildpackSmall(models.Model):
+class ReportChildpackSmall(models.AbstractModel):
     _inherit = 'report.report_compassion.childpack_full'
     _name = 'report.report_compassion.childpack_small'
 
@@ -57,7 +57,7 @@ class ReportChildpackSmall(models.Model):
             'report_compassion.childpack_small')
 
 
-class ReportChildpackMini(models.Model):
+class ReportChildpackMini(models.AbstractModel):
     _inherit = 'report.report_compassion.childpack_full'
     _name = 'report.report_compassion.childpack_mini'
 

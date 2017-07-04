@@ -20,7 +20,7 @@ from odoo.exceptions import Warning
 logger = logging.getLogger(__name__)
 
 
-class BvrSponsorship(models.Model):
+class BvrSponsorship(models.AbstractModel):
     """
     Model used for preparing data for the bvr report. It can either
     generate 3bvr report or single bvr report.
@@ -85,7 +85,7 @@ class BvrSponsorship(models.Model):
         return self.env['report'].render(report.report_name, final_data)
 
 
-class ThreeBvrSponsorship(models.Model):
+class ThreeBvrSponsorship(models.AbstractModel):
     _inherit = 'report.report_compassion.bvr_sponsorship'
     _name = 'report.report_compassion.3bvr_sponsorship'
 
@@ -104,7 +104,7 @@ class ThreeBvrSponsorship(models.Model):
         return super(ThreeBvrSponsorship, self).render_html(docids, data)
 
 
-class BvrSponsorshipDue(models.Model):
+class BvrSponsorshipDue(models.AbstractModel):
     """
     Allows to send custom data to report.
     """

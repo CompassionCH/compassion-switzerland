@@ -18,7 +18,7 @@ from odoo.exceptions import Warning
 logger = logging.getLogger(__name__)
 
 
-class BvrFundReport(models.Model):
+class BvrFundReport(models.AbstractModel):
     """
     Model used for preparing data for the bvr report.
     """
