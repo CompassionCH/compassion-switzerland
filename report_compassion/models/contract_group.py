@@ -149,6 +149,7 @@ class ContractGroup(models.Model):
         vals = {
             'amount': "CHF {:.0f}".format(amount),
             'subject': _("for") + " ",
+            'date': '',
         }
         with setlocale(self.partner_id.lang):
             if start and stop and start == stop:
@@ -162,7 +163,6 @@ class ContractGroup(models.Model):
             else:
                 vals['payment_type'] = _('ISR') + ' ' + self.contract_ids[
                     0].with_context(lang=self.partner_id.lang).group_freq
-                vals['date'] = ''
             if number_sponsorship > 1:
                 vals['subject'] += str(number_sponsorship) + " " + _(
                     "sponsorships")

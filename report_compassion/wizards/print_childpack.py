@@ -25,6 +25,7 @@ class PrintChildpack(models.TransientModel):
     type = fields.Selection([
         ('report_compassion.childpack_full', 'Full Childpack'),
         ('report_compassion.childpack_small', 'Small Childpack'),
+        ('report_compassion.childpack_mini', 'Mini Childpack'),
     ], default=lambda s: s._default_type())
     lang = fields.Selection(
         '_lang_selection', default=lambda s: s._default_lang())

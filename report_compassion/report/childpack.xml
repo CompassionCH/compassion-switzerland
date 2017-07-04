@@ -21,6 +21,17 @@
         <field name="paperformat_id" ref="paperformat_a4_childpack"/>
     </record>
 
+    <report id="report_childpack_mini"
+            model="compassion.child"
+            string="Mini Childpack"
+            report_type="qweb-pdf"
+            name="report_compassion.childpack_mini"
+            menu="False"
+    />
+    <record id="report_childpack_mini" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="paperformat_mini_childpack"/>
+    </record>
+
     <template id="childpack_full">
         <t t-set="formMargin" t-value="124"/>
         <t t-call="report_compassion.childpack_small"/>
@@ -186,6 +197,78 @@
                         <p t-field="o.preferred_name" class="summary_field name"/>
                         <p t-raw="o.get_date('birthdate', 'date_short')" class="summary_field birthday"/>
                         <p t-field="o.project_id.country_id.name" class="summary_field country"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="childpack_mini">
+        <t t-set="custom_css">
+            .local_id {
+                font-family: "tetriaTab";
+                position: absolute;
+                margin-top: 200mm;
+                margin-left: 8mm;
+                width: 25mm;
+                font-size: 8pt;
+            }
+            h6 {
+                font-family: "tetriaBlack";
+                text-transform: uppercase;
+            }
+            .photo {
+                position: absolute;
+                margin-left: 115mm;
+                margin-top: 54mm;
+                width: 88mm;
+                height: 125mm;
+            }
+            .photo img {
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
+            }
+            .summary {
+                position: absolute;
+                margin-left: 115mm;
+                margin-top: 185mm;
+                text-transform: uppercase;
+                font-family: "tetriaTab";
+                font-size: 15pt;
+                color: #0054a6;
+            }
+            .summary .name {
+                font-family: "tetriaBlack";
+                font-weight: bold;
+            }
+            .summary .ref {
+                color: black;
+                font-size: 8pt;
+            }
+        </t>
+        <t t-call="report_compassion.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <t t-call="report_compassion.style"/>
+                    <div class="local_id">
+                        <span t-field="o.local_id"/>
+                    </div>
+                    <div class="photo">
+                        <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
+                    </div>
+                    <div class="summary">
+                        <span t-field="o.preferred_name" class="name"/>, <span t-field="o.age" class="age"/> years, <!-- keep space -->
+                        <t t-if="o.gender == 'M'">
+                            boy
+                        </t>
+                        <t t-if="o.gender == 'F'">
+                            girl
+                        </t>
+                        <br/>
+                        <span t-field="o.project_id.country_id.name"/>
+                        <br/>
+                        <span t-field="o.local_id" class="ref"/>
                     </div>
                 </div>
             </t>
