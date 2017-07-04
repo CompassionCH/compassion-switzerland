@@ -111,6 +111,7 @@ class CompassionHold(models.Model):
             if sponsorship.state == 'mandate' and sponsor.bank_ids:
                 super(CompassionHold, hold).postpone_no_money_hold()
                 hold.no_money_extension -= 1
+                continue
             # Cancel old invoices
             if len(sponsorship.due_invoice_ids) > 1:
                 for invoice in sponsorship.due_invoice_ids[:-1]:
