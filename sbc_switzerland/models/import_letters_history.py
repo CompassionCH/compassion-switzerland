@@ -18,12 +18,9 @@ import time
 import zipfile
 from io import BytesIO
 
-from odoo.addons.connector.session import ConnectorSession
-from odoo.addons.sbc_compassion.models import import_letters_history as ilh
-from odoo.addons.sbc_compassion.tools import import_letter_functions as func
-
 from odoo import fields, models, api, _, exceptions
 from odoo.tools.config import config
+from odoo.addons.sbc_compassion.tools import import_letter_functions as func
 from . import translate_connector
 
 logger = logging.getLogger(__name__)
@@ -138,9 +135,7 @@ class ImportLettersHistory(models.Model):
             for letters_import in self:
                 letters_import.state = 'pending'
                 if self.env.context.get('async_mode', True):
-                    session = ConnectorSession.from_env(self.env)
-                    ilh.import_letters_job.delay(
-                        session, self._name, letters_import.id)
+                    letters_import.with_delay()._run_analyze()
                 else:
                     letters_import._run_analyze()
             return True

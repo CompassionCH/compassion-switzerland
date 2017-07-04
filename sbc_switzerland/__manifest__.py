@@ -28,7 +28,7 @@
 ##############################################################################
 {
     'name': 'Sponsor to beneficiary email communication',
-    'version': '9.0.1.0.0',
+    'version': '10.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'website': 'http://www.compassion.ch',
@@ -47,5 +47,5 @@
         'views/s2b_generator_view.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
 }
