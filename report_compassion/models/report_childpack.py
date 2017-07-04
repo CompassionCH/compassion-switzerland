@@ -55,3 +55,12 @@ class ReportChildpackSmall(models.Model):
     def _get_report(self):
         return self.env['report']._get_report_from_name(
             'report_compassion.childpack_small')
+
+
+class ReportChildpackMini(models.Model):
+    _inherit = 'report.report_compassion.childpack_full'
+    _name = 'report.report_compassion.childpack_mini'
+
+    def _get_report(self):
+        return self.env['report']._get_report_from_name(
+            'report_compassion.childpack_mini')
