@@ -243,6 +243,10 @@
                     font-family: "tetriaBlack";
                     font-weight: bold;
                 }
+                .summary .ref {
+                    color: black;
+                    font-size: 8pt;
+                }
             </t>
             <t t-call="report_compassion.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -263,6 +267,8 @@
                             </t>
                             <br/>
                             <span t-field="o.project_id.country_id.name"/>
+                            <br/>
+                            <span t-field="o.local_id" class="ref"/>
                         </div>
                     </div>
                 </t>
