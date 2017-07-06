@@ -14,7 +14,7 @@ from odoo import api, models, fields
 
 class AccountOperationTemplate(models.Model):
 
-    _inherit = 'account.operation.template'
+    _inherit = 'account.reconcile.model'
 
     product_id = fields.Many2one('product.product', 'Product')
 

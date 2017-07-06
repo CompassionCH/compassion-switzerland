@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="operation_gen" model="account.operation.template">
+    <record id="operation_gen" model="account.reconcile.model">
         <field name="name">GEN</field>
         <field name="product_id" search="[('name', '=', 'General Fund')]"/>
         <field name="account_id" search="[('code','=','6004')]"/>
@@ -9,7 +9,7 @@
         <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
     </record>
 
-    <record id="operation_birthday" model="account.operation.template">
+    <record id="operation_birthday" model="account.reconcile.model">
         <field name="name">Birthday</field>
         <field name="product_id" search="[('name', '=', 'Birthday Gift')]"/>
         <field name="account_id" search="[('code','=','6003')]"/>
@@ -17,7 +17,7 @@
         <field name="amount">100</field>
         <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
     </record>
-    <record id="operation_gen_gift" model="account.operation.template">
+    <record id="operation_gen_gift" model="account.reconcile.model">
         <field name="name">Gen Gift</field>
         <field name="product_id" search="[('name', '=', 'General Gift')]"/>
         <field name="account_id" search="[('code','=','6003')]"/>
@@ -25,7 +25,7 @@
         <field name="amount">100</field>
         <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
     </record>
-    <record id="operation_fam_gift" model="account.operation.template">
+    <record id="operation_fam_gift" model="account.reconcile.model">
         <field name="name">Family Gift</field>
         <field name="product_id" search="[('name', '=', 'Family Gift')]"/>
         <field name="account_id" search="[('code','=','6003')]"/>
@@ -33,7 +33,7 @@
         <field name="amount">100</field>
         <field name="analytic_account_id" search="[('name', '=', 'Income')]"/>
     </record>
-    <record id="operation_project_gift" model="account.operation.template">
+    <record id="operation_project_gift" model="account.reconcile.model">
         <field name="name">Project Gift</field>
         <field name="product_id" search="[('name', '=', 'Project Gift')]"/>
         <field name="account_id" search="[('code','=','6003')]"/>
