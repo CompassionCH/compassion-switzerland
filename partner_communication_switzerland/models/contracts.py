@@ -266,7 +266,9 @@ class RecurringContract(models.Model):
                 ('child_id.project_id.suspension', '=', False),
         ]):
             due = sponsorship.due_invoice_ids
-            if due and len(due) > 1:
+            advance_billing = sponsorship.group_id.advance_billing_months
+            if due and len(due) > 1 and not (advance_billing > 1 and len(
+                    due) < 3):
                 has_first_reminder = comm_obj.search_count([
                     ('config_id', 'in', [first_reminder_config.id,
                                          second_reminder_config.id]),
