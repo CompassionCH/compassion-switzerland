@@ -8,12 +8,8 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-import base64
-import csv
 import logging
-import shutil
 
-from os import listdir, path, makedirs, remove
 from xmlrpclib import ServerProxy, SafeTransport, GzipDecodedResponse
 
 from odoo import _
@@ -21,12 +17,6 @@ from odoo.exceptions import UserError
 from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
-
-try:
-    import pysftp
-    from wand.image import Image
-except ImportError:
-    _logger.warning("Please install wand and pysftp")
 
 
 # Solves XMLRPC Parse response problems by stripping response
@@ -67,13 +57,7 @@ class WPSync(object):
         host = config.get('wordpress_host')
         user = config.get('wordpress_user')
         password = config.get('wordpress_pwd')
-        sftp_host = config.get('wp_sftp_host')
-        sftp_user = config.get('wp_sftp_user')
-        sftp_pw = config.get('wp_sftp_pwd')
-        csv_path = config.get('wp_csv_path')
-        pic_path = config.get('wp_pictures_path')
-        if not (host and user and password and sftp_host and sftp_user and
-                sftp_pw and pic_path):
+        if not (host and user and password):
             raise UserError(
                 _("Please add configuration for Wordpress uploads")
             )
@@ -81,12 +65,6 @@ class WPSync(object):
             'https://' + host + '/xmlrpc.php', transport=CustomTransport())
         self.user = user
         self.pwd = password
-        self.sftp = pysftp.Connection(sftp_host, sftp_user, password=sftp_pw)
-        self.wp_csv_path = csv_path
-        self.wp_pictures_path = pic_path
-
-    def __del__(self):
-        self.sftp.close()
 
     def test_xmlrpc(self):
         return self.xmlrpc_server.demo.sayHello()
@@ -94,43 +72,64 @@ class WPSync(object):
     def upload_children(self, children):
         """ Push children to Wordpress website.
 
-        1 - Create and upload a CSV file containing all children information
+        New :
+        1 - Create dictionary and send to Wordpress through XMLRPC method
+        2 - Image URL (from Cloudinary) is now part of the post insert and
+        not uploaded as file anymore
+
+        Previously :
+        1 - Create and upload a CSV file containing all children
+        information
         2 - Upload all children pictures
         3 - Call XMLRPC method that will update Wordpress
 
         :param children: compassion.child recordset
         :return: result of xmlrpc call to wordpress (true/false)
         """
-        _logger.info("Child Upload on Wordpress started.")
-        csv_file = self._construct_csv(children)
-        _logger.info(".... CSV file constructed : " + csv_file)
-        with self.sftp.cd(self.wp_csv_path):
-            self.sftp.put(csv_file)
-        _logger.info(".... CSV file uploaded.")
-        remove(csv_file)
-
-        pictures_folder = self._build_pictures(children)
-        _logger.info(".... Pictures generated.")
-        with self.sftp.cd(self.wp_pictures_path):
-            for picture_file in listdir(pictures_folder):
-                self.sftp.put(pictures_folder + '/' + picture_file)
-        _logger.info(".... Pictures uploaded.")
-        shutil.rmtree(pictures_folder, ignore_errors=True)
-        result = True
+        count_insert = 0
 
         try:
-            result = self.xmlrpc_server.child_import.addChildren(
-                self.user, self.pwd)
-            if result:
+            for child in children:
+                child_values = {
+                    'local_id': child.local_id,
+                    'number': child.local_id,
+                    'first_name': child.firstname,
+                    'name': child.name,
+                    'full_name': child.name,
+                    'birthday': child.birthdate,
+                    'gender': child.gender,
+                    # CO-1003 in case child has no unsponsored_since date,
+                    # we use allocation date
+                    'start_date': child.unsponsored_since or child.date,
+                    'desc': child.desc_fr,
+                    'desc_de': child.desc_de,
+                    'desc_it': child.desc_it,
+                    'country': child.project_id.country_id.name,
+                    'project': child.project_id.description_fr,
+                    'project_de': child.project_id.description_de,
+                    'project_it': child.project_id.description_it,
+                    'cloudinary_url': child.image_url
+                }
+                if self.xmlrpc_server.child_import.addChild(
+                        self.user, self.pwd, child_values):
+                    count_insert += 1
+                    child.state = "I"
+
+            if count_insert == len(children):
                 _logger.info(
-                    "Child Upload on Wordpress finished: %s children imported "
-                    % len(result))
+                    "Child Upload on Wordpress finished: %s children "
+                    "imported " % count_insert)
+                return count_insert
             else:
-                _logger.error("Child Upload failed." + str(result))
+                if (count_insert > 0) and (count_insert < len(children)):
+                    _logger.error("Child Upload partially failed." +
+                                  str(count_insert) + " of " + len(children))
+                else:
+                    _logger.error("Child Upload failed." + str(count_insert))
         except Exception as error:
             _logger.error("Child Upload failed: " + error.message)
 
-        return result
+        return count_insert
 
     def remove_children(self, children):
         try:
@@ -148,58 +147,3 @@ class WPSync(object):
             self.user, self.pwd)
         _logger.info("Remove from Wordpress : " + str(res))
         return res
-
-    def _construct_csv(self, children):
-        """ Generates a CSV file for Wordpress children upload having the
-        following structure :
-
-        child_reference,firstname,fullname,birthday,gender,start_date,
-        french_description,german_description,italian_description,
-        country,french_project_description,german_project_description,
-        italian_project_description
-
-        :param children: compassion.child recordset
-        :return: generated csv file path
-        """
-        temp_csv = 'child_upload.csv'
-        with open(temp_csv, 'wb') as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow([
-                'child_reference', 'firstname', 'fullname', 'birthday',
-                'gender', 'start_date', 'french_description',
-                'german_description', 'italian_description', 'country',
-                'french_project_description', 'german_project_description',
-                'italian_project_description'
-            ])
-            for child in children:
-                row = [
-                    child.local_id, child.firstname, child.name,
-                    child.birthdate, child.gender, child.unsponsored_since,
-                    child.desc_fr, child.desc_de, child.desc_it,
-                    child.project_id.country_id.name,
-                    child.project_id.description_fr,
-                    child.project_id.description_de,
-                    child.project_id.description_it,
-                ]
-                writer.writerow(row)
-        return temp_csv
-
-    def _build_pictures(self, children):
-        """
-        Takes all fullshot of given children and put them in jpg files
-        inside a temporary folder.
-        :param children: compassion.child recordset
-        :return: pictures path
-        """
-        child_directory = 'child_upload'
-        if not path.exists(child_directory):
-            makedirs(child_directory)
-        for child in children:
-            full_path = child_directory + '/' + child.local_id
-            fullshot = full_path + '_f.jpg'
-            headshot = full_path + '_h.jpg'
-            with Image(blob=base64.b64decode(child.fullshot)) as pic:
-                pic.save(filename=fullshot)
-            with Image(blob=base64.b64decode(child.portrait)) as pic:
-                pic.save(filename=headshot)
-        return child_directory
