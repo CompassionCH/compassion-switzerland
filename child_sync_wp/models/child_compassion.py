@@ -51,10 +51,7 @@ class CompassionChild(models.Model):
             )
 
         wp = WPSync()
-        res = wp.upload_children(valid_children)
-        if res:
-            valid_children.write({'state': 'I'})
-        return res
+        return wp.upload_children(valid_children)
 
     @api.multi
     def remove_from_wordpress(self):
