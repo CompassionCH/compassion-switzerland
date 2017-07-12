@@ -76,6 +76,10 @@ class ResPartner(models.Model):
         required=True,
         help='Delivery preference for Child photo')
 
+    partner_duplicate_ids = fields.Many2many(
+        'res.partner', 'res_partner_duplicates', 'partner_id',
+        'duplicate_id', readonly=True)
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
@@ -114,6 +118,15 @@ class ResPartner(models.Model):
     ##########################################################################
     @api.model
     def create(self, vals):
+        duplicate = self.search(
+            ['|', '&', ('email', '=', vals.get('email')),
+             ('email', '!=', False),
+             '&', '&', ('firstname', 'ilike', vals.get('firstname')),
+             ('lastname', 'ilike', vals.get('lastname')),
+             ('zip', '=', vals.get('zip'))
+             ])
+        duplicate_ids = [(4, itm.id) for itm in duplicate]
+        vals.update({'partner_duplicate_ids': duplicate_ids})
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
         partner = super(ResPartner, self.with_context(
             no_geocode=True)).create(vals)
@@ -183,6 +196,28 @@ class ResPartner(models.Model):
         return self.browse(to_ret_ids).name_get()
 
     ##########################################################################
+    #                             ONCHANGE METHODS                           #
+    ##########################################################################
+
+    @api.onchange('lastname', 'firstname', 'zip', 'email')
+    def _onchange_partner(self):
+        if (self.lastname and self.firstname and self.zip) or self.email:
+            self.partner_duplicate_ids = self.search([
+                '|', '&', ('email', '=', self.email), ('email', '!=', False),
+                '&', '&', ('firstname', 'ilike', self.firstname),
+                ('lastname', 'ilike', self.lastname),
+                ('zip', '=', self.zip)])
+            if self.partner_duplicate_ids:
+                return {
+                    'warning': {
+                        'title': _("Possible existing partners found"),
+                        'message': _('The partner you want to add may '
+                                     'already exist. Please use the "'
+                                     'Check duplicates" button to review it.')
+                    },
+                }
+
+    ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
     @api.model
@@ -250,3 +285,20 @@ class ResPartner(models.Model):
         if 'no_geocode' in self.env.context:
             return False
         return super(ResPartner, self)._can_geocode()
+
+    @api.multi
+    def open_duplicates(self):
+        duplicate_list = [(4, id) for id in self.partner_duplicate_ids.ids]
+        partner_wizard = self.env.get(
+            'res.partner.check.double').create({
+                'newpartner_id': self.id,
+                'mergeable_partner_ids': duplicate_list,
+            })
+        view_id = self.env.ref(
+            'partner_compassion.partner_check_double_wizards').id
+        return {"type": "ir.actions.act_window",
+                "res_model": "res.partner.check.double",
+                "views": [[view_id, "form"]],
+                "res_id": partner_wizard.id,
+                "target": "new",
+                }

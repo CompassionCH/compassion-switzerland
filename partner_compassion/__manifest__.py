@@ -51,6 +51,7 @@
         'views/partner_compassion_view.xml',
         # 'views/bulk_encode_view.xml',
         'views/product_view.xml',
+        'views/partner_check_double.xml',
     ],
     'demo': [],
     'installable': True,

@@ -55,6 +55,15 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="sbc_compassion.view_partner_form_sbc"/>
         <field name="arch" type="xml">
+            <!-- Add a Check double button on the top of the view-->
+            <field name="preferred_name" position="after">
+                <field name="partner_duplicate_ids" widget="many2many_tags" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}"/>
+            </field>
+            <xpath expr="//form/*[1]" position="before">
+                <header>
+                    <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}"/>
+                </header>
+            </xpath>
             <!-- Move some fields -->
             <field name="ref" position="replace"/>
             <field name="lang" position="replace"/>
