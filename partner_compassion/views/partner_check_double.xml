@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="partner_check_double_wizards" model="ir.ui.view">
+        <field name="name">res.partner.check.double.view</field>
+        <field name="model">res.partner.check.double</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="mergeable_partner_ids"/>
+                <field name="selected_merge_partner_id" domain="[('id', 'in', mergeable_partner_ids[0][2])]" options="{'no_create': True}"/>
+                <button type='object' name='keep' string="Keep" />
+                <button type='object' name='mergewith' string="Merge"/>
+            </form>
+        </field>
+    </record>
+</odoo>
