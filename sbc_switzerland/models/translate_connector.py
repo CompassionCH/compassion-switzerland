@@ -9,9 +9,9 @@
 #
 ##############################################################################
 import datetime
-
 from openerp.addons.mysql_connector.model.mysql_connector \
     import mysql_connector
+from openerp import fields
 
 
 class TranslateConnect(mysql_connector):
@@ -167,3 +167,38 @@ class TranslateConnect(mysql_connector):
         self.query("DELETE text FROM text INNER JOIN translation ON text.id\
              = translation.text_id WHERE translation.letter_odoo_id = {}"
                    .format(id))
+
+    def get_server_uptime(self):
+        return self.selectOne("SHOW GLOBAL STATUS LIKE 'Uptime' ")
+
+    def upsert_user(self, partner, create):
+        """ Push or update an user (db table) on local translate platform """
+        language_match = {
+            'fr_CH': '1',
+            'de_DE': '2',
+            'it_IT': '3',
+            'en_US': '1'
+        }
+        vals = {
+            'number': partner.ref,
+            'username': partner.ref,
+            'email': partner.email,
+            'alertTranslator': 1,
+            'firstname': partner.firstname,
+            'lastname': partner.lastname,
+            'gender': partner.title.display_name,
+            'language_id': language_match[partner.lang],
+            'updatedat': fields.Datetime.context_timestamp(
+                partner, self.current_time).replace(tzinfo=None),
+        }
+        if create:
+            vals['updatedat'] = '0000-00-00 00:00:00'
+            vals['createdat'] = fields.Datetime.context_timestamp(
+                partner, self.current_time).replace(tzinfo=None)
+            vals['isadmin'] = '0'
+        return self.upsert("user", vals)
+
+    def remove_user(self, partner):
+        """ Delete a user """
+        self.query("DELETE FROM user WHERE number={}"
+                   .format(partner.ref))
