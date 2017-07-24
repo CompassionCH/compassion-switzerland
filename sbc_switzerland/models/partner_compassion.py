@@ -38,7 +38,7 @@ class ResPartner(models.Model):
             was_translator = translator_id in partner.category_id.ids
             if self._context.get('force_create'):
                 was_translator = False
-            res = super(ResPartner, partner).write(values)
+            super(ResPartner, partner).write(values)
             is_translator = translator_id in partner.category_id.ids
             if not was_translator and is_translator:
                 tc = translate_connector.TranslateConnect()
@@ -55,4 +55,4 @@ class ResPartner(models.Model):
                 logger.info("translator tag removed, we delete any user in "
                             "translation with that ref as number")
                 tc.remove_user(partner)
-        return res
+        return True

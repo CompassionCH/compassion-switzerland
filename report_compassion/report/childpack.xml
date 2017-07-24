@@ -129,7 +129,7 @@
                 .summary {
                     position: absolute;
                     margin-left: <t t-esc="marginLeft+226"/>mm;
-                    margin-top: 180mm;
+                    margin-top: 179mm;
                 }
                 .summary_field {
                     position: relative;
