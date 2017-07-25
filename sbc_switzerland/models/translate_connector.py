@@ -76,7 +76,6 @@ class TranslateConnect(MysqlConnector):
     def upsert_translation(self, text_id, letter):
         """Push or update translation (db table) on local translate platform
         """
-
         vals = {
             'file': self.letter_name[0:-4] + '.rtf',
             'text_id': text_id,
@@ -192,6 +191,7 @@ class TranslateConnect(MysqlConnector):
                 partner, self.current_time).replace(tzinfo=None),
         }
         if create:
+            vals['code'] = None
             vals['updatedat'] = '0000-00-00 00:00:00'
             vals['createdat'] = fields.Datetime.context_timestamp(
                 partner, self.current_time).replace(tzinfo=None)
@@ -200,5 +200,19 @@ class TranslateConnect(MysqlConnector):
 
     def remove_user(self, partner):
         """ Delete a user """
-        self.query("DELETE FROM user WHERE number={}"
-                   .format(partner.ref))
+        return self.query("DELETE FROM user WHERE number={}"
+                                    .format(partner.ref))
+
+    def disable_user(self, partner):
+        vals = {
+            'number': partner.ref,
+            'username': "",
+            'email': "",
+            'password': None,
+            'code': "",
+            'alertTranslator': 0,
+            'last_login': None,
+            'updatedat': fields.Datetime.context_timestamp(
+                partner, self.current_time).replace(tzinfo=None),
+        }
+        return self.upsert("user", vals)
