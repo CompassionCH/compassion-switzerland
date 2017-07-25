@@ -24,3 +24,4 @@ l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 10.0-postfinan
 compassion-accounting https://github.com/CompassionCH/compassion-accounting 10.0
 compassion-modules https://github.com/CompassionCH/compassion-modules 10.0
 social https://github.com/CompassionCH/social 10.0-sendgrid
+geospatial https://github.com/CompassionCH/geospatial 10.0-geoengine-partner
