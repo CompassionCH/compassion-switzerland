@@ -1,9 +1,6 @@
 language: python
 sudo: false
-cache:
-  apt: true
-  directories:
-    - $HOME/.cache/pip
+cache: pip
 
 python:
   - "2.7"
@@ -17,7 +14,8 @@ addons:
       - python-serial
       - python-yaml
       - python-cups
-      - python-MySQLdb
+      - python-mysqldb
+      - postgis
     # OpenCV requirements packages
       - build-essential
       - cmake
@@ -51,7 +49,7 @@ virtualenv:
 
 
 install:
-  - pip install pyjwt pyquery phonenumbers sendgrid detectlanguage pysmb pysftp unidecode
+  - pip install pyjwt pyquery phonenumbers sendgrid detectlanguage pysmb pysftp unidecode geojson Shapely
   - pip install python-magic wand numpy pdfminer matplotlib pyPdf bs4  # SBC requirements
   #  See how to prevent too much log when sing opencv in Travis.
   #    - sh ${HOME}/build/CompassionCH/compassion-modules/sbc_compassion/tools/install_opencv.sh
