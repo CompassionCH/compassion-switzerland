@@ -201,7 +201,7 @@ class TranslateConnect(MysqlConnector):
     def remove_user(self, partner):
         """ Delete a user """
         return self.query("DELETE FROM user WHERE number={}"
-                                    .format(partner.ref))
+                          .format(partner.ref))
 
     def disable_user(self, partner):
         vals = {
