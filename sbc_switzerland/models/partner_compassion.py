@@ -44,7 +44,10 @@ class ResPartner(models.Model):
                 tc = translate_connector.TranslateConnect()
                 logger.info("translator tag added, we insert partner in "
                             "translation platform")
-                tc.upsert_user(partner, create=True)
+                try:
+                    tc.upsert_user(partner, create=True)
+                except:
+                    tc.upsert_user(partner, create=False)
             if was_translator and is_translator:
                 tc = translate_connector.TranslateConnect()
                 logger.info("translator tag still present, we update partner "
@@ -53,6 +56,9 @@ class ResPartner(models.Model):
             if was_translator and not is_translator:
                 tc = translate_connector.TranslateConnect()
                 logger.info("translator tag removed, we delete any user in "
-                            "translation with that ref as number")
-                tc.remove_user(partner)
+                            "translation platform with that ref as number")
+                try:
+                    tc.remove_user(partner)
+                except:
+                    tc.disable_user(partner)
         return True
