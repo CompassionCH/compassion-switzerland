@@ -111,10 +111,13 @@
             <t t-set="position" t-value="0"/>
             <t t-set="contract_groups" t-value="sponsorships.mapped('group_id')"/>
             <t t-set="reference" t-value="contract_groups[0].format_ref"/>
+            <t t-set="due" t-value="int(sum(sponsorships.mapped('amount_due'))) or int(sum(sponsorships.mapped('total_amount')))"/>
             <t t-set="communication">
                 Sponsorship due
-                <br/>
-                CHF <t t-raw="int(sum(sponsorships.mapped('amount_due')))"/>.-
+                <t t-if="due">
+                    <br/>
+                    CHF <t t-raw="due"/>.-
+                </t>
             </t>
             <t t-set="scan_line" t-value="contract_groups[0].get_scan_line(company_account, reference)"/>
             <t t-call="report_compassion.report_sponsorship_single_slip"/>
