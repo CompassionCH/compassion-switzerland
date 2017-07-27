@@ -96,7 +96,9 @@
 
             <!-- Add the church members list in a church partner -->
             <xpath expr="//page[2]" position="after">
-                <page string="Members" attrs="{'invisible': [('is_church','=',False), ('member_ids', '=', [])]}" autofocus="autofocus">
+                <page string="Members" attrs="{'invisible': ['|',('is_church','=',False), ('member_ids', '=', [])]}" autofocus="autofocus">Member(
+                    <field name="church_member_count"/>)
+
                     <field name="member_ids" mode="kanban" context="{'default_church_id': active_id, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id}"/>
                 </page>
             </xpath>

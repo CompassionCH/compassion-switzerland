@@ -79,12 +79,14 @@ class ResPartner(models.Model):
     partner_duplicate_ids = fields.Many2many(
         'res.partner', 'res_partner_duplicates', 'partner_id',
         'duplicate_id', readonly=True)
+    church_member_count = fields.Integer(compute='_is_church',
+                                         readonly=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
     @api.multi
-    @api.depends('category_id')
+    @api.depends('category_id', 'member_ids', 'church_member_count')
     def _is_church(self):
         """ Tell if the given Partners are Church Partners
             (by looking at their categories). """
@@ -96,7 +98,10 @@ class ResPartner(models.Model):
             is_church = False
             if church_category in record.category_id:
                 is_church = True
+
+            record.church_member_count = len(record.member_ids.ids)
             record.is_church = is_church
+
 
     @api.multi
     def get_unreconciled_amount(self):
