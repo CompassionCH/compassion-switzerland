@@ -12,6 +12,9 @@
 
             <xpath expr="//field[@name='mailing_model']/.." position="after">
                 <field name="mailing_domain_copy" readonly="1"/>
+                <!-- Add fields for mailing origin and mailing slug -->
+                <field name="mailing_origin_id" context="{'default_type':'marketing'}"/>
+                <field name="mailing_slug"/>
             </xpath>
 
             <!-- Add button for resending pending e-mails -->
