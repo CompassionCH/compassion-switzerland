@@ -1,5 +1,5 @@
 language: python
-sudo: false
+sudo: required
 cache: pip
 
 python:
@@ -47,6 +47,8 @@ env:
 virtualenv:
   system_site_packages: true
 
+services:
+  - postgresql
 
 install:
   - pip install pyjwt pyquery phonenumbers sendgrid detectlanguage pysmb pysftp unidecode geojson Shapely
@@ -56,6 +58,14 @@ install:
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
+
+before_script:
+  - sudo apt-get update
+  - sudo apt-get autoremove postgis*
+  - sudo apt-get autoremove postgresql*
+  - sudo apt-get install postgresql-9.3-postgis-2.1
+  - psql -U postgres -c "create extension postgis"
+  - psql -U postgres -c "create extension postgis_topology"
 
 script:
   - travis/travis_header.sh
