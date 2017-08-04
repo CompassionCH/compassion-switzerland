@@ -12,6 +12,8 @@ from odoo.tools import mod10r
 
 from odoo import api, fields, models, _
 
+from odoo.addons.base_geoengine.fields import GeoPoint
+
 # fields that are synced if 'use_parent_address' is checked
 ADDRESS_FIELDS = [
     'street', 'street2', 'street3', 'zip', 'city', 'state_id', 'country_id']
@@ -79,12 +81,13 @@ class ResPartner(models.Model):
     partner_duplicate_ids = fields.Many2many(
         'res.partner', 'res_partner_duplicates', 'partner_id',
         'duplicate_id', readonly=True)
+    church_member_count = fields.Integer(compute='_is_church')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
     @api.multi
-    @api.depends('category_id')
+    @api.depends('category_id', 'member_ids')
     def _is_church(self):
         """ Tell if the given Partners are Church Partners
             (by looking at their categories). """
@@ -96,6 +99,8 @@ class ResPartner(models.Model):
             is_church = False
             if church_category in record.category_id:
                 is_church = True
+
+            record.church_member_count = len(record.member_ids)
             record.is_church = is_church
 
     @api.multi
@@ -113,6 +118,36 @@ class ResPartner(models.Model):
             res += move_line.credit
         return res
 
+    @api.multi
+    def _compute_children(self):
+        for partner in self:
+            partner.number_children = len(partner.sponsored_child_ids)
+            if partner.is_church:
+                partner.number_children += len(partner.mapped(
+                    'member_ids.sponsored_child_ids'))
+
+    @api.multi
+    @api.depends('category_id')
+    def _compute_has_sponsorships(self):
+        """
+        A partner is sponsor if he is correspondent of at least one
+        sponsorship.
+        """
+        for partner in self:
+            if partner.is_church:
+                nb_sponsorships = self.env['recurring.contract'].search_count(
+                    ['|', '|',
+                        ('correspondant_id', 'in', partner.member_ids.ids),
+                        ('correspondant_id', '=', partner.id), '|',
+                        ('partner_id', '=', partner.id),
+                        ('partner_id', 'in', partner.member_ids.ids),
+                        ('type', 'like', 'S')
+                     ])
+                partner.has_sponsorships = nb_sponsorships
+                partner.number_sponsorships = nb_sponsorships
+            else:
+                super(ResPartner, self)._compute_has_sponsorships()
+
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
@@ -128,15 +163,9 @@ class ResPartner(models.Model):
         duplicate_ids = [(4, itm.id) for itm in duplicate]
         vals.update({'partner_duplicate_ids': duplicate_ids})
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
-        partner = super(ResPartner, self.with_context(
-            no_geocode=True)).create(vals)
-        # TODO : Activate when geocode module is ported
-        # if self._can_geocode():
-        #     # Call precise service of localization
-        #     partner.geocode_address()
-        #     if not partner.geo_point:
-        #         # Call approximate service
-        #         partner.geocode_from_geonames()
+        partner = super(ResPartner, self).create(vals)
+        partner.compute_geopoint()
+
         return partner
 
     @api.model
@@ -220,13 +249,18 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    @api.model
+    @api.multi
     def compute_geopoint(self):
-        """ Compute all geopoints. """
-        self.search([
-            ('partner_latitude', '!=', False),
-            ('partner_longitude', '!=', False),
-        ])._get_geo_point()
+        """ Compute geopoints. """
+        self.filtered(lambda p: not p.partner_latitude or not
+                      p.partner_longitude).geo_localize()
+        for partner in self.filtered(lambda p: p.partner_latitude and
+                                     p.partner_longitude):
+            geo_point = GeoPoint.from_latlon(
+                self.env.cr,
+                partner.partner_latitude,
+                partner.partner_longitude)
+            partner.write({'geo_point': geo_point.wkt})
         return True
 
     @api.multi
@@ -269,6 +303,45 @@ class ResPartner(models.Model):
             partner = self.browse(record[1])
         return record and partner.lang
 
+    @api.multi
+    def open_sponsored_children(self):
+        self.ensure_one()
+        if self.is_church:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Children',
+                'res_model': 'compassion.child',
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'domain': ['|', ('sponsor_id', '=', self.id),
+                           ('sponsor_id', 'in', self.member_ids.ids)],
+                'context': self.env.context,
+            }
+        else:
+            return super(ResPartner, self).open_sponsored_children()
+
+    @api.multi
+    def open_contracts(self):
+        """ Used to bypass opening a contract in popup mode from
+        res_partner view. """
+        self.ensure_one()
+        if self.is_church:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Contracts',
+                'res_model': 'recurring.contract',
+                'views': [[False, "tree"], [False, "form"]],
+                'domain': ['|', '|',
+                           ('correspondant_id', '=', self.member_ids.ids),
+                           ('correspondant_id', '=', self.id), '|',
+                           ('partner_id', '=', self.id),
+                           ('partner_id', 'in', self.member_ids.ids)],
+                'context': self.with_context({
+                    'default_type': 'S'}).env.context,
+            }
+        else:
+            return super(ResPartner, self).open_contracts()
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
@@ -277,14 +350,6 @@ class ResPartner(models.Model):
         """ Returns the list of address fields that are synced from the parent
         when the `use_parent_address` flag is set. """
         return list(ADDRESS_FIELDS)
-
-    def _can_geocode(self):
-        """ Remove approximate geocoding when a precise position is
-        already set.
-        """
-        if 'no_geocode' in self.env.context:
-            return False
-        return super(ResPartner, self)._can_geocode()
 
     @api.multi
     def open_duplicates(self):

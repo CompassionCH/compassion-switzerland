@@ -9,9 +9,9 @@
 #
 ##############################################################################
 import datetime
-
 from odoo.addons.mysql_connector.models.mysql_connector \
     import MysqlConnector
+from odoo import fields
 
 
 class TranslateConnect(MysqlConnector):
@@ -76,7 +76,6 @@ class TranslateConnect(MysqlConnector):
     def upsert_translation(self, text_id, letter):
         """Push or update translation (db table) on local translate platform
         """
-
         vals = {
             'file': self.letter_name[0:-4] + '.rtf',
             'text_id': text_id,
@@ -167,3 +166,53 @@ class TranslateConnect(MysqlConnector):
         self.query("DELETE text FROM text INNER JOIN translation ON text.id\
              = translation.text_id WHERE translation.letter_odoo_id = {}"
                    .format(id))
+
+    def get_server_uptime(self):
+        return self.selectOne("SHOW GLOBAL STATUS LIKE 'Uptime' ")
+
+    def upsert_user(self, partner, create):
+        """ Push or update an user (db table) on local translate platform """
+        language_match = {
+            'fr_CH': '1',
+            'de_DE': '2',
+            'it_IT': '3',
+            'en_US': '1'
+        }
+        vals = {
+            'number': partner.ref,
+            'username': partner.ref,
+            'email': partner.email,
+            'alertTranslator': 1,
+            'firstname': partner.firstname,
+            'lastname': partner.lastname,
+            'gender': partner.title.display_name,
+            'language_id': language_match[partner.lang],
+            'updatedat': fields.Datetime.context_timestamp(
+                partner, self.current_time).replace(tzinfo=None),
+        }
+        if create:
+            vals['code'] = None
+            vals['updatedat'] = '0000-00-00 00:00:00'
+            vals['createdat'] = fields.Datetime.context_timestamp(
+                partner, self.current_time).replace(tzinfo=None)
+            vals['isadmin'] = '0'
+        return self.upsert("user", vals)
+
+    def remove_user(self, partner):
+        """ Delete a user """
+        return self.query("DELETE FROM user WHERE number={}"
+                          .format(partner.ref))
+
+    def disable_user(self, partner):
+        vals = {
+            'number': partner.ref,
+            'username': "",
+            'email': "",
+            'password': None,
+            'code': "",
+            'alertTranslator': 0,
+            'last_login': None,
+            'updatedat': fields.Datetime.context_timestamp(
+                partner, self.current_time).replace(tzinfo=None),
+        }
+        return self.upsert("user", vals)

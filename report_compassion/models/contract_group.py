@@ -166,7 +166,7 @@ class ContractGroup(models.Model):
             if number_sponsorship > 1:
                 vals['subject'] += str(number_sponsorship) + " " + _(
                     "sponsorships")
-            elif number_sponsorship:
+            elif number_sponsorship and valid.child_id:
                 vals['subject'] = valid.child_id.firstname + " ({})".format(
                     valid.child_id.local_id)
 

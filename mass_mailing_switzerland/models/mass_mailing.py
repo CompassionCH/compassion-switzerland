@@ -8,10 +8,11 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-
 from odoo import api, models, fields, _
 
 from odoo.addons.queue_job.job import job, related_action
+from odoo.addons.website.models.website import slugify
+import re
 
 
 class MassMailing(models.Model):
@@ -28,6 +29,13 @@ class MassMailing(models.Model):
         compute='compute_events', store=True)
     unsub_event_ids = fields.Many2many(
         'mail.tracking.event', compute='compute_events')
+    mailing_origin_id = fields.Many2one(
+        'recurring.contract.origin', 'Origin', domain=[('analytic_id', '!=',
+                                                        False)])
+    mailing_slug = fields.Char()
+
+    _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
+                        'You have to choose a new slug for each mailing !')]
 
     @api.depends('statistics_ids', 'statistics_ids.tracking_event_ids')
     @job(default_channel='root.mass_mailing_switzerland')
@@ -111,6 +119,16 @@ class MassMailing(models.Model):
             ('state', '=', 'opened')
         ])
 
+    @api.onchange('mailing_origin_id')
+    def _onchange_update_slug(self):
+        if self.mailing_origin_id.name:
+            self.mailing_slug = self.mailing_origin_id.name
+
+    @api.onchange('mailing_slug')
+    def _onchange_mailing_slug(self):
+        if self.mailing_slug:
+            self.mailing_slug = slugify(self.mailing_slug)
+
     def _open_tracking_emails(self, domain):
         return {
             'type': 'ir.actions.act_window',
@@ -165,5 +183,12 @@ class Mail(models.Model):
     @related_action(action='related_action_emails')
     @api.multi
     def send_sendgrid_job(self):
+        regex = r'(?<=")((?:https|http)://(?:www\.|)compassion\.ch[^"]*)(?=")'
+        for msg in self:
+            if msg.mailing_id.mailing_slug:
+                """ Append a param. c (as campaign) to all Compassion URLs """
+                msg.mail_message_id.body = \
+                    re.sub(regex, r'\1?c=' + msg.mailing_id.mailing_slug,
+                           msg.mail_message_id.body)
         # Make send method callable in a job
         return self.send_sendgrid()

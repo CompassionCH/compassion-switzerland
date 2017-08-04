@@ -1,9 +1,6 @@
 language: python
 sudo: required
-cache:
-  apt: true
-  directories:
-    - $HOME/.cache/pip
+cache: pip
 
 python:
   - "2.7"
@@ -17,7 +14,7 @@ addons:
       - python-serial
       - python-yaml
       - python-cups
-      - python-MySQLdb
+      - python-mysqldb
       - postgis
     # OpenCV requirements packages
       - build-essential
