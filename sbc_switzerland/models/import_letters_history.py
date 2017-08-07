@@ -14,7 +14,6 @@ between the database and the mail.
 """
 import base64
 import logging
-import time
 import zipfile
 from io import BytesIO
 
@@ -26,7 +25,6 @@ from . import translate_connector
 logger = logging.getLogger(__name__)
 
 try:
-    import pysftp
     from smb.SMBConnection import SMBConnection
     from smb.smb_structs import OperationFailure
     from pyPdf import PdfFileWriter, PdfFileReader
@@ -44,8 +42,7 @@ class ImportLettersHistory(models.Model):
     The code is reading QR codes in order to detect child and partner codes
     for every letter, using the zxing library for code detection.
     """
-    _name = 'import.letters.history'
-    _inherit = ['import.letters.history', 'import.letter.config']
+    _inherit = 'import.letters.history'
 
     manual_import = fields.Boolean(
         string=_("Manual import"),
@@ -499,131 +496,6 @@ class ImportLettersHistory(models.Model):
         else:
             return SMBConnection(
                 SmbConfig.smb_user, SmbConfig.smb_pass, 'openerp', 'nas')
-
-    @api.model
-    def import_web_letter(self, child_code, sponsor_ref,
-                          original_text, template_name, pdf_filename,
-                          attachment_filename, ext):
-        """
-        Call when a letter is set on web site:
-            - add web letter to an import set with import letter config
-              'Web letter'
-        """
-        try:
-            # Find existing config or create a new one
-            web_letter_id = self.env.ref('sbc_switzerland.web_letter').id
-            import_config = self.search([
-                ('config_id', '=', web_letter_id),
-                ('state', '!=', 'done')], limit=1)
-            if not import_config:
-                import_config = self.create({
-                    'config_id': web_letter_id, 'state': 'open'})
-
-            # Find child
-            if child_code:
-                # Retrieve child code and find corresponding id
-                child_field = 'local_id'
-                if len(child_code) == 9:
-                    child_field = 'code'
-                model_child = self.env['compassion.child'].search(
-                    [(child_field, '=', child_code), ('state', '=', 'P')])
-
-                child_id = model_child.id
-
-            if sponsor_ref:
-                # Retrieve sponsor reference and find corresponding id
-                model_sponsor = self.env['res.partner'].search(
-                    ['|', ('ref', '=', sponsor_ref),
-                     ('global_id', '=', sponsor_ref),
-                     ('has_sponsorships', '=', True)])
-                sponsor_id = model_sponsor.id
-
-            # Check if a sponsorship exists
-            self.env['recurring.contract'].search([
-                ('child_id', '=', child_id),
-                ('correspondant_id', '=', sponsor_id),
-                ('is_active', '=', True)], limit=1).ensure_one()
-
-            lang = self.env['correspondence'].detect_lang(original_text)
-            lang_id = None
-            if lang:
-                lang_id = lang.id
-
-            template = None
-            if template_name:
-                # Retrieve template name and find corresponding id
-                template = self.env['correspondence.template'].search(
-                    [('name', '=', template_name)], limit=1)
-
-            # save_letter pdf
-            sftp_host = config.get('wp_sftp_host')
-            sftp_user = config.get('wp_sftp_user')
-            sftp_pw = config.get('wp_sftp_pwd')
-            sftp = pysftp.Connection(sftp_host, sftp_user, password=sftp_pw)
-            pdf_data = sftp.open(pdf_filename).read()
-            filename = 'WEB_' + sponsor_ref + '_' + \
-                child_code + '_' + str(time.time())[:10] + '.pdf'
-
-            pdf_letter = self.analyze_webletter(pdf_data)
-
-            # analyze attachment to check template and create image preview
-            line_vals, document_vals = func.analyze_attachment(
-                self.env, pdf_letter, filename,
-                template)
-
-            for i in xrange(0, len(line_vals)):
-                line_vals[i].update({
-                    'import_id': import_config.id,
-                    'partner_id': sponsor_id,
-                    'child_id': child_id,
-                    'letter_language_id': lang_id,
-                    'original_text': original_text,
-                    'source': 'website'
-                })
-                letters_line = self.env[
-                    'import.letter.line'].create(line_vals[i])
-                document_vals[i].update({
-                    'res_id': letters_line.id,
-                    'res_model': 'import.letter.line'
-                })
-                letters_line.letter_image = self.env[
-                    'ir.attachment'].create(document_vals[i])
-
-            import_config.import_completed = True
-
-            logger.info("Try to copy file {} !".format(filename))
-            # Copy file in attachment in the done letter folder
-            share_nas = self.env.ref('sbc_switzerland.share_on_nas').value
-            import_letter_path = self.env.ref(
-                'sbc_switzerland.scan_letter_imported').value + filename
-
-            file_pdf = BytesIO(pdf_letter)
-            smb_conn = self._get_smb_connection()
-            if smb_conn and smb_conn.connect(
-                    SmbConfig.smb_ip, SmbConfig.smb_port):
-                smb_conn.storeFile(share_nas, import_letter_path, file_pdf)
-
-                # save eventual attachment
-                if attachment_filename:
-                    attachment_data = sftp.open(attachment_filename).read()
-                    filename_attachment = filename.replace(".pdf", "." + ext)
-                    logger.info("Try save attachment {} !"
-                                .format(filename_attachment))
-
-                    import_letter_path = self.env.ref(
-                        'sbc_switzerland.scan_letter_imported').value + \
-                        filename_attachment
-
-                    file_attachment = BytesIO(attachment_data)
-                    smb_conn.storeFile(
-                        share_nas,
-                        import_letter_path,
-                        file_attachment)
-                smb_conn.close()
-            sftp.close()
-            return True
-        except:
-            return False
 
     def analyze_webletter(self, pdf_letter):
         """

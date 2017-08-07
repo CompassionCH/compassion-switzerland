@@ -29,10 +29,6 @@ class MassMailing(models.Model):
         compute='compute_events', store=True)
     unsub_event_ids = fields.Many2many(
         'mail.tracking.event', compute='compute_events')
-    mailing_origin_id = fields.Many2one(
-        'recurring.contract.origin', 'Origin', domain=[('analytic_id', '!=',
-                                                        False)])
-    mailing_slug = fields.Char()
 
     _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
                         'You have to choose a new slug for each mailing !')]
@@ -119,16 +115,6 @@ class MassMailing(models.Model):
             ('state', '=', 'opened')
         ])
 
-    @api.onchange('mailing_origin_id')
-    def _onchange_update_slug(self):
-        if self.mailing_origin_id.name:
-            self.mailing_slug = self.mailing_origin_id.name
-
-    @api.onchange('mailing_slug')
-    def _onchange_mailing_slug(self):
-        if self.mailing_slug:
-            self.mailing_slug = slugify(self.mailing_slug)
-
     def _open_tracking_emails(self, domain):
         return {
             'type': 'ir.actions.act_window',
@@ -140,55 +126,3 @@ class MassMailing(models.Model):
             'target': 'current',
             'context': self.env.context
         }
-
-
-class MassMailingCampaign(models.Model):
-    _inherit = 'mail.mass_mailing.campaign'
-    _order = 'id desc'
-
-    clicks_ratio = fields.Integer(compute='_compute_ratios', store=True,
-                                  oldname='click_ratio')
-    unsub_ratio = fields.Integer(compute='_compute_ratios', store=True)
-
-    @api.depends('mass_mailing_ids.clicks_ratio',
-                 'mass_mailing_ids.unsub_ratio')
-    def _compute_ratios(self):
-        for campaign in self:
-            total_clicks = 0
-            total_unsub = 0
-            total_sent = len(campaign.mapped(
-                'mass_mailing_ids.statistics_ids'))
-            for mailing in campaign.mass_mailing_ids:
-                total_clicks += (mailing.clicks_ratio / 100.0) * len(
-                    mailing.statistics_ids)
-                total_unsub += (mailing.unsub_ratio / 100.0) * len(
-                    mailing.statistics_ids)
-            if total_sent:
-                campaign.clicks_ratio = (total_clicks / total_sent) * 100
-                campaign.unsub_ratio = (total_unsub / total_sent) * 100
-
-    @api.multi
-    def open_unsub(self):
-        return self.mass_mailing_ids.open_unsub()
-
-    @api.multi
-    def open_clicks(self):
-        return self.mass_mailing_ids.open_clicks()
-
-
-class Mail(models.Model):
-    _inherit = 'mail.mail'
-
-    @job(default_channel='root.mass_mailing')
-    @related_action(action='related_action_emails')
-    @api.multi
-    def send_sendgrid_job(self):
-        regex = r'(?<=")((?:https|http)://(?:www\.|)compassion\.ch[^"]*)(?=")'
-        for msg in self:
-            if msg.mailing_id.mailing_slug:
-                """ Append a param. c (as campaign) to all Compassion URLs """
-                msg.mail_message_id.body = \
-                    re.sub(regex, r'\1?c=' + msg.mailing_id.mailing_slug,
-                           msg.mail_message_id.body)
-        # Make send method callable in a job
-        return self.send_sendgrid()

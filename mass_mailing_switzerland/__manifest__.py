@@ -9,8 +9,8 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
-#    @author: Philippe Heer <heerphilippe@msn.com>
+#    Copyright (C) 2016-2017 Compassion CH (http://www.compassion.ch)
+#    @author: Philippe Heer <heerphilippe@msn.com>, Emanuel Cino
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -35,7 +35,11 @@
     'author': 'Emanuel Cino',
     'website': 'http://www.compassion.ch',
     'data': ['views/mass_mailing_view.xml'],
-    'depends': ['mail_sendgrid_mass_mailing', 'sponsorship_compassion'],
+    'depends': ['mail_sendgrid_mass_mailing', 'child_sync_wp',
+                'sbc_switzerland'],
+    'external_dependencies': {
+        'python': ['pysftp']
+    },
     'demo': [],
     'installable': True,
     'auto_install': False,
