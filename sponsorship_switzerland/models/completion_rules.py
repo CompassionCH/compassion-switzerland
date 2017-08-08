@@ -138,6 +138,7 @@ class StatementCompletionRule(models.Model):
             'name'] != '/' else st_line['ref'].replace('\n', ' ')
         lsv_dd_strings = [u'BULLETIN DE VERSEMENT ORANGE',
                           u'ORDRE DEBIT DIRECT',
+                          u'CRÉDIT GROUPÉ BVR',
                           u'Crèdit LSV']
         is_lsv_dd = False
         res = {}
