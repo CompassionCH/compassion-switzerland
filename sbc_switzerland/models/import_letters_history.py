@@ -31,6 +31,7 @@ try:
     from smb.smb_structs import OperationFailure
     from pyPdf import PdfFileWriter, PdfFileReader
     from pyPdf.pdf import PageObject
+    from odoo.addons.queue_job.job import job, related_action
 except ImportError:
     logger.warning("Please install python dependencies.")
 
@@ -248,6 +249,8 @@ class ImportLettersHistory(models.Model):
     #########################################################################
     #                             PRIVATE METHODS                           #
     #########################################################################
+    @job(default_channel='root.sbc_compassion')
+    @related_action(action='related_action_s2b_imports')
     def _run_analyze(self):
         """
         Analyze each attachment:
