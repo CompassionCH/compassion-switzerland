@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -28,13 +28,13 @@
 ##############################################################################
 
 {
-    'name': '',
+    'name': 'Month End',
     'version': '10.0.1.0.0',
     'category': 'Accounting',
-    'description': '',
     'author': 'Maxime Beck',
     'website': 'http://www.compassion.ch',
-    'data' : [
+    'license': 'AGPL-3',
+    'data': [
         'data/month_end_cron.xml',
     ],
     'installable': True,
