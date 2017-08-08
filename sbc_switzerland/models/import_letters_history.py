@@ -20,6 +20,7 @@ from io import BytesIO
 from odoo import fields, models, api, _, exceptions
 from odoo.tools.config import config
 from odoo.addons.sbc_compassion.tools import import_letter_functions as func
+from odoo.addons.queue_job.job import job, related_action
 from . import translate_connector
 
 logger = logging.getLogger(__name__)
@@ -29,7 +30,6 @@ try:
     from smb.smb_structs import OperationFailure
     from pyPdf import PdfFileWriter, PdfFileReader
     from pyPdf.pdf import PageObject
-    from odoo.addons.queue_job.job import job, related_action
 except ImportError:
     logger.warning("Please install python dependencies.")
 
