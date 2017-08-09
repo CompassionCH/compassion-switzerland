@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -11,3 +11,8 @@
 from . import mass_mailing
 from . import mail_tracking_event
 from . import queue_job
+from . import contracts
+from . import correspondence_metadata
+from . import import_letters_history
+from . import mass_mailing_campaign
+from . import account_invoice

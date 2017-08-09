@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
@@ -11,7 +11,8 @@
 from odoo import models, fields
 
 
-class EventCompassion(models.Model):
-    _inherit = 'crm.event.compassion'
+class AccountInvoice(models.Model):
+    """ Add mailing origin in invoice objects. """
+    _inherit = 'account.invoice'
 
-    thank_you_text = fields.Html(translate=True)
+    mailing_campaign_id = fields.Many2one('mail.mass_mailing_campaign')

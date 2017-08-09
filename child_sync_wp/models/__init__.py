@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016-2017 Compassion CH (http://www.compassion.ch)
@@ -11,5 +11,3 @@
 
 from . import child_compassion
 from . import project_compassion
-from . import contracts
-from . import queue_job

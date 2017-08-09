@@ -12,9 +12,6 @@
 
             <xpath expr="//field[@name='mailing_model']/.." position="after">
                 <field name="mailing_domain_copy" readonly="1"/>
-                <!-- Add fields for mailing origin and mailing slug -->
-                <field name="mailing_origin_id" context="{'default_type':'marketing'}"/>
-                <field name="mailing_slug"/>
             </xpath>
 
             <!-- Add button for resending pending e-mails -->
@@ -95,6 +92,19 @@
             <xpath expr="//div[@name='button_box']/button[6]" position="attributes">
                 <attribute name="name">open_clicks</attribute>
                 <attribute name="type">object</attribute>
+            </xpath>
+            <!-- Add fields for mailing origin and mailing slug -->
+            <xpath expr="//sheet/group[1]">
+                <field name="mailing_origin_id" context="{'default_type':'marketing'}"/>
+                <field name="mailing_slug"/>
+            </xpath>
+            <!-- Add tracking -->
+            <xpath expr="//notebook/page[1]">
+                <group>
+                    <field name="contract_ids"/>
+                    <field name="invoice_ids"/>
+                    <field name="correspondence_ids"/>
+                </group>
             </xpath>
         </field>
     </record>

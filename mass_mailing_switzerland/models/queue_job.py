@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -36,5 +36,19 @@ class QueueJob(models.Model):
             'view_type': 'form',
             'view_mode': 'tree,form',
             'domain': [('id', 'in', self.object_ids)],
+        }
+        return action
+
+    @api.multi
+    def related_action_sponsorship(self):
+        sponsorship_id = self.record_ids
+        action = {
+            'name': _("Sponsorship"),
+            'type': 'ir.actions.act_window',
+            'res_model': 'recurring.contract',
+            'res_id': sponsorship_id,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'context': {'default_type': 'S'},
         }
         return action
