@@ -1,7 +1,7 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016-2017 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino
 #
@@ -11,8 +11,6 @@
 from odoo import api, models, fields, _
 
 from odoo.addons.queue_job.job import job, related_action
-from odoo.addons.website.models.website import slugify
-import re
 
 
 class MassMailing(models.Model):

@@ -1,0 +1,16 @@
+pyjwt
+pyquery
+phonenumbers
+sendgrid
+detectlanguage
+pysmb
+pysftp
+unidecode
+python-magic
+wand
+pdfminer
+matplotlib
+pyPdf
+bs4
+geojson
+Shapely

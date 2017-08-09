@@ -1,6 +1,9 @@
 language: python
 sudo: required
-cache: pip
+cache:
+  apt: true
+  directories:
+    - $HOME/.cache/pip
 
 python:
   - "2.7"
@@ -15,19 +18,7 @@ addons:
       - python-yaml
       - python-cups
       - python-mysqldb
-      - postgis
     # OpenCV requirements packages
-      - build-essential
-      - cmake
-      - pkg-config
-      - libjpeg-dev
-      - libtiff4-dev
-      - libjasper-dev
-      - libgtk2.0-dev
-      - libavcodec-dev
-      - libavformat-dev
-      - libswscale-dev
-      - libv4l-dev
       - zbar-tools
       - python-zbar
 
@@ -51,10 +42,7 @@ services:
   - postgresql
 
 install:
-  - pip install pyjwt pyquery phonenumbers sendgrid detectlanguage pysmb pysftp unidecode geojson Shapely
-  - pip install python-magic wand numpy pdfminer matplotlib pyPdf bs4  # SBC requirements
-  #  See how to prevent too much log when sing opencv in Travis.
-  #    - sh ${HOME}/build/CompassionCH/compassion-modules/sbc_compassion/tools/install_opencv.sh
+  - pip install -r requirements.txt
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
@@ -64,6 +52,8 @@ before_script:
   - sudo apt-get autoremove postgis*
   - sudo apt-get autoremove postgresql*
   - sudo apt-get install postgresql-9.3-postgis-2.1
+  - sudo apt-get install python-opencv
+  - sudo dpkg -L python-opencv
   - psql -U postgres -c "create extension postgis"
   - psql -U postgres -c "create extension postgis_topology"
 

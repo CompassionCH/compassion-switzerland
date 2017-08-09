@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
@@ -44,9 +44,7 @@ class ImportLettersHistory(models.Model):
     """
     _inherit = 'import.letters.history'
 
-    manual_import = fields.Boolean(
-        string=_("Manual import"),
-        default=False)
+    manual_import = fields.Boolean("Manual import", default=False)
 
     ##########################################################################
     #                             FIELDS METHODS                             #

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -129,7 +129,6 @@ class Contracts(models.Model):
             'channel': 'internet',
             'mailing_campaign_id': campaign_id,
         })
-        self.env.cr.commit()
 
         # Notify staff
         staff_param = 'sponsorship_' + sponsor_lang + '_id'
