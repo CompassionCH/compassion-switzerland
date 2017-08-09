@@ -345,3 +345,10 @@ class ResPartner(models.Model):
                 "res_id": partner_wizard.id,
                 "target": "new",
                 }
+
+    def update_church_sponsorships_number(self, inc):
+        church = self.search([('members_ids', '=', self.id)])
+        if inc and church:
+            church.number_sponsorships += 1
+        else:
+            church.number_sponsorships -= 1

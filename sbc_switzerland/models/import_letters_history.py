@@ -49,74 +49,78 @@ class ImportLettersHistory(models.Model):
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    @api.onchange("data", "import_folder_path")
+    @api.depends("data", "import_folder_path")
     def _count_nber_letters(self):
         """
         Counts the number of scans. If a zip file is given, the number of
         scans inside is counted.
         """
-        if self.manual_import or (
-                self.state and self.state != 'draft'):
-            super(ImportLettersHistory, self)._count_nber_letters()
-        else:
-            # files are not selected by user so we find them on NAS
-            # folder 'Imports' counter
-            tmp = 0
-
-            smb_conn = self._get_smb_connection()
-            share_nas = self.env.ref('sbc_switzerland.share_on_nas').value
-            imported_letter_path = self.import_folder_path
-
-            if smb_conn and smb_conn.connect(
-                SmbConfig.smb_ip, SmbConfig.smb_port) and \
-                    imported_letter_path:
-                imported_letter_path = self.check_path(imported_letter_path)
-
-                try:
-                    listPaths = smb_conn.listPath(
-                        share_nas,
-                        imported_letter_path)
-                except OperationFailure:
-                    logger.info('--------------- PATH NO CORRECT -----------')
-                    listPaths = []
-
-                for sharedFile in listPaths:
-                    if func.check_file(sharedFile.filename) == 1:
-                        tmp += 1
-                    elif func.isZIP(sharedFile.filename):
-                        logger.info(
-                            'File to retrieve: {}'.format(
-                                imported_letter_path +
-                                sharedFile.filename))
-
-                        file_obj = BytesIO()
-                        smb_conn.retrieveFile(
-                            share_nas,
-                            imported_letter_path +
-                            sharedFile.filename,
-                            file_obj)
-                        try:
-                            zip_ = zipfile.ZipFile(file_obj, 'r')
-                            list_file = zip_.namelist()
-                            # loop over all files in zip
-                            for tmp_file in list_file:
-                                tmp += (func.check_file(
-                                    tmp_file) == 1)
-                        except zipfile.BadZipfile:
-                            raise exceptions.UserError(
-                                _('Zip file corrupted (' +
-                                  sharedFile.filename + ')'))
-                        except zipfile.LargeZipFile:
-                            raise exceptions.UserError(
-                                _('Zip64 is not supported(' +
-                                  sharedFile.filename + ')'))
-                smb_conn.close()
+        for letter in self:
+            if letter.manual_import or (
+                    letter.state and letter.state != 'draft'):
+                super(ImportLettersHistory, letter)._count_nber_letters()
             else:
-                logger.info("""Failed to list files in imported \
-                folder Imports oh the NAS in emplacement: {}""".format(
-                    imported_letter_path))
+                # files are not selected by user so we find them on NAS
+                # folder 'Imports' counter
+                tmp = 0
 
-            self.nber_letters = tmp
+                smb_conn = letter._get_smb_connection()
+                share_nas = letter.env.ref(
+                    'sbc_switzerland.share_on_nas').value
+                imported_letter_path = letter.import_folder_path
+
+                if smb_conn and smb_conn.connect(
+                    SmbConfig.smb_ip, SmbConfig.smb_port) and \
+                        imported_letter_path:
+                    imported_letter_path = letter.check_path(
+                        imported_letter_path)
+
+                    try:
+                        listPaths = smb_conn.listPath(
+                            share_nas,
+                            imported_letter_path)
+                    except OperationFailure:
+                        logger.info('--------------- PATH NO CORRECT ------'
+                                    '-----')
+                        listPaths = []
+
+                    for sharedFile in listPaths:
+                        if func.check_file(sharedFile.filename) == 1:
+                            tmp += 1
+                        elif func.isZIP(sharedFile.filename):
+                            logger.info(
+                                'File to retrieve: {}'.format(
+                                    imported_letter_path +
+                                    sharedFile.filename))
+
+                            file_obj = BytesIO()
+                            smb_conn.retrieveFile(
+                                share_nas,
+                                imported_letter_path +
+                                sharedFile.filename,
+                                file_obj)
+                            try:
+                                zip_ = zipfile.ZipFile(file_obj, 'r')
+                                list_file = zip_.namelist()
+                                # loop over all files in zip
+                                for tmp_file in list_file:
+                                    tmp += (func.check_file(
+                                        tmp_file) == 1)
+                            except zipfile.BadZipfile:
+                                raise exceptions.UserError(
+                                    _('Zip file corrupted (' +
+                                      sharedFile.filename + ')'))
+                            except zipfile.LargeZipFile:
+                                raise exceptions.UserError(
+                                    _('Zip64 is not supported(' +
+                                      sharedFile.filename + ')'))
+                    smb_conn.close()
+                else:
+                    logger.info("""Failed to list files in imported \
+                    folder Imports oh the NAS in emplacement: {}""".format(
+                        imported_letter_path))
+
+                letter.nber_letters = tmp
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
