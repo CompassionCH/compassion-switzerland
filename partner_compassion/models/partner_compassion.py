@@ -126,28 +126,6 @@ class ResPartner(models.Model):
                 partner.number_children += len(partner.mapped(
                     'member_ids.sponsored_child_ids'))
 
-    @api.multi
-    @api.depends('category_id')
-    def _compute_has_sponsorships(self):
-        """
-        A partner is sponsor if he is correspondent of at least one
-        sponsorship.
-        """
-        for partner in self:
-            if partner.is_church:
-                nb_sponsorships = self.env['recurring.contract'].search_count(
-                    ['|', '|',
-                        ('correspondant_id', 'in', partner.member_ids.ids),
-                        ('correspondant_id', '=', partner.id), '|',
-                        ('partner_id', '=', partner.id),
-                        ('partner_id', 'in', partner.member_ids.ids),
-                        ('type', 'like', 'S')
-                     ])
-                partner.has_sponsorships = nb_sponsorships
-                partner.number_sponsorships = nb_sponsorships
-            else:
-                super(ResPartner, self)._compute_has_sponsorships()
-
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
@@ -367,3 +345,10 @@ class ResPartner(models.Model):
                 "res_id": partner_wizard.id,
                 "target": "new",
                 }
+
+    def update_church_sponsorships_number(self, inc):
+        church = self.search([('members_ids', '=', self.id)])
+        if inc and church:
+            church.number_sponsorships += 1
+        else:
+            church.number_sponsorships -= 1
