@@ -57,17 +57,19 @@ class MailTrackingEvent(models.Model):
 
     @api.model
     def process_reject(self, tracking_email, metadata):
+        partner = tracking_email.partner_id
         if metadata.get('error_type') == 'Invalid' and 'RBL' not in \
-                metadata.get('error_description', ''):
+                metadata.get('error_description', '') and not partner.user_ids:
             self._invalid_email(tracking_email)
-            tracking_email.partner_id.email = False
+            partner.email = False
         return super(MailTrackingEvent, self).process_reject(
             tracking_email, metadata)
 
     @api.model
     def process_hard_bounce(self, tracking_email, metadata):
-        self._invalid_email(tracking_email)
-        tracking_email.partner_id.email = False
+        if not tracking_email.partner_id.user_ids:
+            self._invalid_email(tracking_email)
+            tracking_email.partner_id.email = False
         return super(MailTrackingEvent, self).process_hard_bounce(
             tracking_email, metadata)
 
