@@ -457,8 +457,9 @@ class ImportLettersHistory(models.Model):
             # Add end path corresponding to the end of the import folder path
             end_path = ""
             if self.import_folder_path:
-                end_path = self.check_path(self.import_folder_path)
-                end_path = end_path.split("\\")[-2] + "\\"
+                end_path = self.check_path(self.import_folder_path).replace(
+                    '\\', '/').replace('//', '/')
+                end_path = end_path.split("/")[-2] + "/"
             done_letter_path = self.env.ref(
                 'sbc_switzerland.scan_letter_done').value + end_path + filename
 
@@ -466,7 +467,6 @@ class ImportLettersHistory(models.Model):
 
             # Delete file in the imported letter folder
             if deleteFile:
-                imported_letter_path = ""
                 if self.manual_import:
                     imported_letter_path = self.env.ref(
                         'sbc_switzerland.scan_letter_imported'
