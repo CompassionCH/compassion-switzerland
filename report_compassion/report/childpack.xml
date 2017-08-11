@@ -40,6 +40,8 @@
 
         <template id="childpack_small">
             <t t-set="marginLeft" t-value="formMargin or 0"/>
+            <t t-set="full" t-value="marginLeft > 0"/>
+            <t t-set="small" t-value="not full"/>
             <t t-set="custom_css">
                 .container {
                     font-family: "tetriaLight";
@@ -65,7 +67,13 @@
                 .desc {
                     position: absolute;
                     margin-left: <t t-esc="marginLeft+7"/>mm;
-                    margin-top: 30mm;
+                    <!-- Resolve shifts with small dossier -->
+                    <t t-if="small">
+                        margin-top: 37mm;
+                    </t>
+                    <t t-if="full">
+                        margin-top: 30mm;
+                    </t>
                     width: 130mm;
                     height: 116mm;
                     max-height: 116mm;
@@ -109,8 +117,15 @@
                 }
                 .photo {
                     position: absolute;
-                    margin-left: <t t-esc="marginLeft+183"/>mm;
-                    margin-top: 59mm;
+                    <!-- Resolve shifts with small dossier -->
+                    <t t-if="small">
+                        margin-left: 176mm;
+                        margin-top: 45mm;
+                    </t>
+                    <t t-if="full">
+                        margin-left: 300mm;
+                        margin-top: 55mm;
+                    </t>
                     width: 88mm;
                     height: 112mm;
                 }
@@ -120,16 +135,24 @@
                     margin: auto;
                 }
                 #child-ref {
-                    width: 56mm;
-                    text-align: center;
-                    font-size: medium;
+                    //width: 56mm;
+                    //text-align: center;
+                    font-size: small;
                     font-family: "tetriaTab";
                     margin-top: 2mm;
+                    margin-left: 6.5mm;
                 }
                 .summary {
                     position: absolute;
-                    margin-left: <t t-esc="marginLeft+226"/>mm;
-                    margin-top: 179mm;
+                    <!-- Resolve shifts with small dossier -->
+                    <t t-if="small">
+                        margin-top: 180mm;
+                        margin-left: 229mm;
+                    </t>
+                    <t t-if="full">
+                        margin-top: 178mm;
+                        margin-left: 350mm;
+                    </t>
                 }
                 .summary_field {
                     position: relative;
@@ -149,7 +172,7 @@
                 .summary_field.country {
                     font-size: 13pt;
                     top: -3pt;
-                    left: -20mm;
+                    left: -15mm;
                 }
                 .activities {
                     display: none;
@@ -189,9 +212,7 @@
                         </div>
                         <div class="photo">
                             <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
-                            <t t-if="not marginLeft">
-                                <p t-field="o.local_id" id="child-ref"/>
-                            </t>
+                            <p t-field="o.local_id" id="child-ref"/>
                         </div>
                         <div class="summary">
                             <p t-field="o.preferred_name" class="summary_field name"/>
