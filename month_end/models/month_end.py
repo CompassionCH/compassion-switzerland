@@ -77,13 +77,15 @@ class MonthEnd(models.AbstractModel):
                 ('state', '=', 'active')
             ]
         )
-        sponsorship_disbursed = self.env['recurring.contract'].search(
+        sponsorship_to_remove = self.env['recurring.contract'].search(
             [
-                ('child_id.project_id.hold_cdsp_funds', '=', False),
+                ('child_id.project_id.hold_cdsp_funds', '=', True),
                 ('child_id', '!=', False),
                 ('state', '=', 'active')
             ]
         )
+        sponsorship_disbursed = sponsorship_active - sponsorship_to_remove
+
         sponsorship_name = \
             str(sponsorship_active) + ' sponsorships, ' + \
             str(len(sponsorship_disbursed)) + ' disbursed'
