@@ -111,6 +111,35 @@ class PartnerCommunication(models.Model):
                 birthday_gift, background)
         return attachments
 
+    def get_gift_bvr(self):
+        """
+        Attach gift slip with background for sending by e-mail
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        attachments = dict()
+        background = self.send_mode and 'physical' not in self.send_mode
+        sponsorships = self.get_objects()
+        bvr_other = False
+        bvr_gifts = False
+        if sponsorships:
+            if 10 in sponsorships.mapped('payment_mode_id.id'):
+                if sponsorships.mapped('partner_id.id') == \
+                        sponsorships.mapped('correspondent_id.id'):
+                    bvr_gifts = self.env['product.product'].with_context(
+                        lang='en_US').search(('name', 'in', GIFT_NAMES))
+
+                bvr_other = self.env['product.product'].with_context(
+                        lang='en_US').search([('name', '=', 'Sponsorship')])
+
+            else:
+                bvr_gifts = self.env['product.product'].with_context(
+                    lang='en_US').search([('name', 'in', GIFT_NAMES)])
+
+            attachments = sponsorships.get_bvr_attachment(
+                bvr_gifts, bvr_other, background)
+        return attachments
+
     def get_graduation_bvr(self):
         """
         Attach graduation gift slip with background for sending by e-mail

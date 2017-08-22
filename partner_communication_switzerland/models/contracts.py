@@ -321,6 +321,50 @@ class RecurringContract(models.Model):
         ]
         return attachments
 
+    def get_bvr_attachment(self, gifts, other, background=False):
+        """
+        Get a BVR communication attachment for given products.
+        :param gifts: product.product recordset
+        :param other: product.product recordset
+        :param background: wheter to print background or not
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        if gifts:
+            report_gifts = 'report_compassion.bvr_gift_sponsorship'
+            report_obj_gifts = self.env['report']
+            attachments = dict()
+            partner_lang = self.mapped('correspondant_id')[0].lang
+            product_name = gifts[0].with_context(lang=partner_lang).name
+            attachments[product_name + '.pdf'] = [
+                report_gifts,
+                base64.b64encode(report_obj_gifts.get_pdf(
+                    self.ids, report_gifts,
+                    data={
+                        'doc_ids': self.ids,
+                        'product_ids': gifts.ids,
+                        'background': background,
+                    }
+                ))
+            ]
+        if other:
+            report_other = 'report_compassion.3bvr_sponsorship'
+            report_obj_other = self.env['report']
+            attachments = dict()
+            partner_lang = self.mapped('correspondant_id')[0].lang
+            product_name = other[0].with_context(lang=partner_lang).name
+            attachments[product_name + '.pdf'] = [
+                report_other,
+                base64.b64encode(report_obj_other.get_pdf(
+                    self.ids, report_other,
+                    data={
+                        'doc_ids': self.ids,
+                        'product_ids': other.ids,
+                        'background': background,
+                    }
+                ))
+            ]
+        return attachments
+
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################

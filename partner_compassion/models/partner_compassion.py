@@ -81,7 +81,7 @@ class ResPartner(models.Model):
     partner_duplicate_ids = fields.Many2many(
         'res.partner', 'res_partner_duplicates', 'partner_id',
         'duplicate_id', readonly=True)
-    church_member_count = fields.Integer(compute='_is_church')
+    church_member_count = fields.Integer(compute='_is_church', store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
