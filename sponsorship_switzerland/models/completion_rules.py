@@ -75,7 +75,9 @@ class StatementCompletionRule(models.Model):
             'account_id' : value,
             ...}
         """
-        ref = st_line['ref']
+        ref = ''
+        if 'ref' in st_line:
+            ref = st_line['ref']
         res = {}
         partner_obj = self.env['res.partner']
         partner = partner_obj.search(
@@ -104,7 +106,9 @@ class StatementCompletionRule(models.Model):
         If line ref match an invoice BVR Reference, update partner and account
         Then, call the generic st_line method to complete other values.
         """
-        ref = st_line['ref']
+        ref = ''
+        if 'ref' in st_line:
+            ref = st_line['ref']
         res = dict()
         partner = self._search_partner_by_bvr_ref(ref)
 
