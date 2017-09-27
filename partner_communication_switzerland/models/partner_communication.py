@@ -130,7 +130,7 @@ class PartnerCommunication(models.Model):
                         lang='en_US').search(('name', 'in', GIFT_NAMES))
 
                 bvr_other = self.env['product.product'].with_context(
-                        lang='en_US').search([('name', '=', 'Sponsorship')])
+                    lang='en_US').search([('name', '=', 'Sponsorship')])
 
             else:
                 bvr_gifts = self.env['product.product'].with_context(

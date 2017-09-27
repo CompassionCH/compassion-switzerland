@@ -8,6 +8,5 @@
 #    The licence is in the file __openerp__.py
 #
 ##############################################################################
-# from . import bulk_encode
 from . import portal_wizard
 from . import partner_check_double
