@@ -18,12 +18,12 @@ def migrate(env, version):
 
     cr = env.cr
     cr.execute("""
-        UPDATE res_partner p SET number_sponsorships = ( 
-	      SELECT count(*)
-          FROM recurring_contract c JOIN res_partner pp ON pp.id = c.partner_id
-	      WHERE pp.church_id = p.id
-	      AND c.child_id IS NOT NULL
-          AND c.state = 'active'
+        UPDATE res_partner p SET number_sponsorships = (
+            SELECT count(*)
+            FROM recurring_contract c JOIN res_partner pp ON pp.id = c.partner_id
+            WHERE pp.church_id = p.id
+            AND c.child_id IS NOT NULL
+            AND c.state = 'active'
         )
-        WHERE p.is_church = TRUE 
+        WHERE p.is_church = TRUE
     """)
