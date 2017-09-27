@@ -34,6 +34,6 @@ def migrate(env, version):
     INSERT INTO account_journal_inbound_payment_method_rel (journal_id,
     inbound_payment_method)
     VALUES
-      (219, (SELECT id FROM account_payment_method WHERE code = 'lsv')),
-      (212, (SELECT id FROM account_payment_method WHERE code = 'sepa.ch.dd'))
+      (219, (SELECT max(id) FROM account_payment_method WHERE code = 'lsv')),
+      (212, (SELECT max(id) FROM account_payment_method WHERE code = 'sepa.ch.dd'))
     """)
