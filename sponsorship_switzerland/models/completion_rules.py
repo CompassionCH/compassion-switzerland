@@ -278,6 +278,31 @@ class StatementCompletionRule(models.Model):
 
         return res
 
+    def _generate_invoice_line(self, invoice_id, product, st_line, partner_id):
+        inv_line_data = {
+            'name': product.name,
+            'account_id': product.property_account_income.id,
+            'price_unit': st_line.amount,
+            'price_subtotal': st_line.amount,
+            'quantity': 1,
+            'product_id': product.id or False,
+            'invoice_id': invoice_id,
+        }
+
+        res = {}
+
+        # Define analytic journal
+        analytic = self.env['account.analytic.default'].account_get(
+            product.id, partner_id, date=fields.Date.today())
+        if analytic and analytic.analytic_id:
+            inv_line_data['account_analytic_id'] = analytic.analytic_id.id
+
+        res['name'] = product.name
+
+        self.env['account.invoice.line'].create(inv_line_data)
+
+        return res
+
     def _search_partner_by_bvr_ref(self, bvr_ref, search_old_invoices=False):
         """ Finds a partner given its bvr reference. """
         partner = None
@@ -309,3 +334,22 @@ class StatementCompletionRule(models.Model):
                 partner = invoices[0].partner_id
 
         return partner
+
+    def _find_product_id(self, ref):
+        """ Finds what kind of payment it is,
+            based on the reference of the statement line. """
+        product_obj = self.env['product.product'].with_context(lang='en_US')
+        payment_type = int(ref[21])
+        product = 0
+        if payment_type in range(1, 6):
+            # Sponsor Gift
+            products = product_obj.search(
+                [('name', '=', GIFT_NAMES[payment_type - 1])])
+            product = products[0] if products else 0
+        elif payment_type in range(6, 8):
+            # Fund donation
+            products = product_obj.search(
+                [('fund_id', '=', int(ref[22:26]))])
+            product = products[0] if products else 0
+
+        return product
