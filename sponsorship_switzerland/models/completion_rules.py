@@ -256,7 +256,7 @@ class StatementCompletionRule(models.Model):
             [('type', '=', 'sale')], limit=1).id
 
         inv_data = {
-            'account_id': partner.property_account_receivable.id,
+            'account_id': partner.property_account_receivable_id.id,
             'type': 'out_invoice',
             'partner_id': partner.id,
             'journal_id': journal_id,
