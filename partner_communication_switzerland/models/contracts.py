@@ -41,6 +41,7 @@ class RecurringContract(models.Model):
         'account.invoice', compute='_compute_due_invoices'
     )
     amount_due = fields.Integer(compute='_compute_due_invoices')
+    months_due = fields.Integer(compute='_compute_due_invoices')
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -92,6 +93,11 @@ class RecurringContract(models.Model):
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
                     'price_subtotal')))
+                months = set()
+                for invoice in invoice_lines.mapped('invoice_id'):
+                    idate = fields.Date.from_string(invoice.date)
+                    months.add((idate.month, idate.year))
+                contract.months_due = len(months)
 
     ##########################################################################
     #                             PUBLIC METHODS                             #

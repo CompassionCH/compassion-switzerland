@@ -163,7 +163,7 @@ class PartnerCommunication(models.Model):
         sponsorships = self.get_objects()
 
         # Verify big due periods
-        if len(sponsorships.mapped('due_invoice_ids.period_id')) > 3:
+        if len(sponsorships.mapped('months_due')) > 3:
             self.need_call = True
 
         payment_mode = sponsorships.with_context(lang='en_US').mapped(

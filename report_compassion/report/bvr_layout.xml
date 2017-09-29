@@ -7,6 +7,7 @@
     - reference (bvr reference)
     - partner_address (the address of the partner)
     - scan_line
+    - o (sponsorship group)
     -->
     <template id="report_sponsorship_single_slip">
         <t t-set="margin" t-value="position * 0.2"/>
