@@ -282,8 +282,8 @@ class StatementCompletionRule(models.Model):
         inv_line_data = {
             'name': product.name,
             'account_id': product.property_account_income_id.id,
-            'price_unit': st_line.amount,
-            'price_subtotal': st_line.amount,
+            'price_unit': st_line['amount'],
+            'price_subtotal': st_line['amount'],
             'quantity': 1,
             'product_id': product.id or False,
             'invoice_id': invoice_id,
