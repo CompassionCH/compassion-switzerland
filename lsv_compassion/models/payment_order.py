@@ -79,7 +79,7 @@ class PaymentOrder(models.Model):
                         communication += _('sponsorship gifts')
 
                 if invoice_type == 'sponsorship':
-                    communication += '\n' + _('Period: ')
+                    communication += ' ' + _('Period: ')
                     if len(invoices) < 4:
                         communication += invoices.get_date('date_invoice',
                                                            '%B')
