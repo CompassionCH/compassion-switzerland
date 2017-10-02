@@ -9,6 +9,8 @@
 #
 ##############################################################################
 
+import logging
+
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
 from odoo.tools import float_round, mod10r
@@ -16,6 +18,8 @@ from odoo.addons.sponsorship_compassion.models.product import \
     GIFT_CATEGORY, GIFT_NAMES, SPONSORSHIP_CATEGORY
 
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 
 class BankStatementLine(models.Model):
@@ -88,7 +92,7 @@ class BankStatementLine(models.Model):
                     unreconciled_ids.extend(res['st_lines_ids'])
                     notifications.extend(res['notifications'])
             except:
-                continue
+                logger.error("Error when reconciling a statement line.")
         return {
             'st_lines_ids': unreconciled_ids,
             'notifications': notifications,

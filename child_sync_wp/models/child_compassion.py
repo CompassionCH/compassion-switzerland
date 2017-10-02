@@ -151,6 +151,6 @@ class CompassionChild(models.Model):
 
                 old_children.mapped('hold_id').release_hold()
         except:
-            return True
+            logger.error("Error when refreshing wordpress children.")
 
         return True

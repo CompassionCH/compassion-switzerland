@@ -327,22 +327,26 @@ class Correspondence(models.Model):
         letters_to_update = tc.get_translated_letters()
 
         for letter in letters_to_update:
-            with self.env.cr.savepoint():
-                correspondence = self.browse(letter["letter_odoo_id"])
-                logger.info(".....CHECK TRANSLATION FOR LETTER {}".format(
-                    correspondence.id))
-                if not correspondence.exists():
-                    logger.warning(
-                        "The correspondence id {} doesn't exist in the"
-                        "Odoo DB. Remove it manually on MySQL DB. "
-                        "'todo_id' is set to 5 => 'Pas sur Odoo'".format(
-                            correspondence.id)
-                    )
-                    tc.update_translation_to_not_in_odoo(letter["id"])
-                    continue
+            try:
+                with self.env.cr.savepoint():
+                    correspondence = self.browse(letter["letter_odoo_id"])
+                    logger.info(".....CHECK TRANSLATION FOR LETTER {}".format(
+                        correspondence.id))
+                    if not correspondence.exists():
+                        logger.warning(
+                            "The correspondence id {} doesn't exist in the"
+                            "Odoo DB. Remove it manually on MySQL DB. "
+                            "'todo_id' is set to 5 => 'Pas sur Odoo'".format(
+                                correspondence.id)
+                        )
+                        tc.update_translation_to_not_in_odoo(letter["id"])
+                        continue
 
-                correspondence.update_translation(
-                    letter["target_lang"], letter["text"], letter["translator"]
-                )
-                tc.update_translation_to_treated(letter["id"])
-            return True
+                    correspondence.update_translation(
+                        letter["target_lang"], letter["text"],
+                        letter["translator"])
+                    tc.update_translation_to_treated(letter["id"])
+            except:
+                logger.error(
+                    "Error fetching a translation on translation platform.")
+        return True
