@@ -114,10 +114,9 @@ class CompassionHold(models.Model):
         """
         notification_text = "\n\nA reminder has been prepared for the " \
             "sponsor {} ({})"
-        sponsorships = self.env['recurring.contract'].with_context(
-            default_auto_send=False)
         failed = self.env[self._name]
-        for hold in self.filtered('child_id.sponsorship_ids'):
+        for hold in self.filtered('child_id.sponsorship_ids').with_context(
+                default_auto_send=False):
             sponsorship = hold.child_id.sponsorship_ids[0]
             sponsor = hold.child_id.sponsor_id
             # Filter sponsorships where we wait for the bank authorization
@@ -136,8 +135,8 @@ class CompassionHold(models.Model):
             try:
                 super(CompassionHold, hold).postpone_no_money_hold(
                     notification_text.format(sponsor.name, sponsor.ref))
-                sponsorships += sponsorship
+                sponsorship.send_communication(communication,
+                                               correspondent=False)
             except:
                 failed += hold
-        sponsorships.send_communication(communication, correspondent=False)
         return failed
