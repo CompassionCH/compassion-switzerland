@@ -196,7 +196,7 @@ class RecurringContracts(models.Model):
     @api.multi
     def contract_waiting_mandate(self):
         self.write({'state': 'mandate'})
-        return True
+        return super(RecurringContracts, self).contract_waiting_mandate()
 
     @api.multi
     def contract_waiting(self):
@@ -219,7 +219,7 @@ class RecurringContracts(models.Model):
                         fields.Date.to_string(next_invoice_date)
 
             contract.write(vals)
-        return True
+        return super(RecurringContracts, self).contract_waiting()
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
