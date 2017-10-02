@@ -45,7 +45,7 @@ class Contracts(models.Model):
     web_data = fields.Text(help='Form data filled from website')
     group_id = fields.Many2one(required=False)
     partner_id = fields.Many2one(required=False)
-    mailing_campaign_id = fields.Many2one('mail.mass_mailing_campaign')
+    mailing_campaign_id = fields.Many2one('mail.mass_mailing.campaign')
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
