@@ -350,5 +350,5 @@ class ResPartner(models.Model):
         church = self.search([('member_ids', '=', self.id)])
         if inc and church:
             church.number_sponsorships += 1
-        else:
+        elif church:
             church.number_sponsorships -= 1
