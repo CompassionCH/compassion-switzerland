@@ -129,14 +129,16 @@ class BankStatementLine(models.Model):
             currency = (
                 st_line_currency and st_line_currency !=
                 company_currency) and st_line_currency.id or False
-            field = currency and 'amount_residual_currency' or \
+            sql_query = self._get_common_sql_query()
+            sql_query += " AND aml.ref = %(ref)s AND ("
+            sql_query += currency and 'amount_residual_currency' or \
                 'amount_residual'
-            liquidity_field = currency and 'amount_currency' or \
+            sql_query += " = %(amount)s OR (acc.internal_type = 'liquidity'" \
+                         " AND "
+            sql_query += currency and 'amount_currency' or \
                 amount > 0 and 'debit' or 'credit'
-            sql_query = self._get_common_sql_query() + \
-                " AND aml.ref = %(ref)s AND (" + field + " = %(amount)s OR (" \
-                "acc.internal_type = 'liquidity' AND " + liquidity_field + \
-                " = %(amount)s)) ORDER BY date_maturity asc, aml.id asc"
+            sql_query += " = %(amount)s)) ORDER BY date_maturity asc," \
+                         "aml.id asc"
             self.env.cr.execute(sql_query, params)
             match_recs = self.env.cr.dictfetchall()
             if len(match_recs) == 1:

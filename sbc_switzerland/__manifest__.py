@@ -26,11 +26,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+# pylint: disable=C8101
 {
     'name': 'Sponsor to beneficiary email communication',
     'version': '10.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
+    'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': ['mysql_connector', 'partner_communication_switzerland'],
     'external_dependencies': {

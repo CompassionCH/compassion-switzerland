@@ -12,20 +12,20 @@
 from odoo import models, api
 
 
-class account_mandate(models.Model):
+class AccountMandate(models.Model):
     _inherit = 'account.banking.mandate'
 
     @api.multi
     def validate(self):
         """Validate LSV/DD Contracts when mandate is validated."""
-        super(account_mandate, self).validate()
+        super(AccountMandate, self).validate()
         self._trigger_contracts('mandate', 'mandate_validated')
         return True
 
     @api.multi
     def cancel(self):
         """Set back contracts in waiting mandate state."""
-        super(account_mandate, self).cancel()
+        super(AccountMandate, self).cancel()
         self._trigger_contracts('active', 'will_pay_by_lsv_dd')
         return True
 

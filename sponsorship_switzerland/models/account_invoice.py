@@ -24,11 +24,11 @@ class AccountInvoice(models.Model):
         ('gift', 'Gift'),
         ('fund', 'Fund donation'),
         ('other', 'Other'),
-    ], compute='compute_invoice_type', store=True)
+    ], compute='_compute_invoice_type', store=True)
 
     @api.depends('invoice_line_ids', 'state')
     @api.multi
-    def compute_invoice_type(self):
+    def _compute_invoice_type(self):
         for invoice in self.filtered(lambda i: i.state in ('open', 'paid')):
             categories = invoice.with_context(lang='en_US').mapped(
                 'invoice_line_ids.product_id.categ_name')

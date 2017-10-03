@@ -13,13 +13,13 @@ from odoo.tools import mod10r
 from odoo import api, models, fields
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     fund_id = fields.Integer(size=4)
 
 
-class product(models.Model):
+class Product(models.Model):
     _inherit = 'product.product'
 
     fund_id = fields.Integer(related='product_tmpl_id.fund_id')

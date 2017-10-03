@@ -27,10 +27,12 @@
 #
 ##############################################################################
 
+# pylint: disable=C8101
 {
     'name': 'Bank Statement Reconcile for Compassion CH',
     'version': '10.0.1.0.0',
     'author': 'Compassion CH',
+    'license': 'AGPL-3',
     'category': 'Finance',
     'website': 'http://www.compassion.ch',
     'depends': [

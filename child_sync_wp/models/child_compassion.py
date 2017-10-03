@@ -128,8 +128,8 @@ class CompassionChild(models.Model):
             except:
                 continue
         valid_children = children.filtered(
-            lambda c: c.state == 'N' and c.desc_it and c.pictures_ids
-            and c.project_id.description_it)
+            lambda c: c.state == 'N' and c.desc_it and c.pictures_ids and
+            c.project_id.description_it)
         old_children = self.search([
             ('state', '=', 'I'),
             ('hold_id.type', '!=', HoldType.NO_MONEY_HOLD.value)

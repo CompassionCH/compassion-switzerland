@@ -48,6 +48,7 @@ class ReportChildpackFull(models.AbstractModel):
             report.report_name, data)
 
 
+# pylint: disable=R7980
 class ReportChildpackSmall(models.AbstractModel):
     _inherit = 'report.report_compassion.childpack_full'
     _name = 'report.report_compassion.childpack_small'

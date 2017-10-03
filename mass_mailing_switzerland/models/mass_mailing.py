@@ -20,13 +20,13 @@ class MassMailing(models.Model):
 
     mailing_domain_copy = fields.Char(related='mailing_domain')
     clicks_ratio = fields.Integer(
-        compute='compute_events', store=True, oldname='click_ratio')
+        compute='_compute_events', store=True, oldname='click_ratio')
     click_event_ids = fields.Many2many(
-        'mail.tracking.event', compute='compute_events')
+        'mail.tracking.event', compute='_compute_events')
     unsub_ratio = fields.Integer(
-        compute='compute_events', store=True)
+        compute='_compute_events', store=True)
     unsub_event_ids = fields.Many2many(
-        'mail.tracking.event', compute='compute_events')
+        'mail.tracking.event', compute='_compute_events')
 
     _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
                         'You have to choose a new slug for each mailing !')]
@@ -34,7 +34,7 @@ class MassMailing(models.Model):
     @api.depends('statistics_ids', 'statistics_ids.tracking_event_ids')
     @job(default_channel='root.mass_mailing_switzerland')
     @related_action('related_action_mass_mailing')
-    def compute_events(self):
+    def _compute_events(self):
         for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):
             has_click = mass_mail.statistics_ids.mapped(
                 'tracking_event_ids').filtered(

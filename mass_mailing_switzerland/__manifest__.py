@@ -27,12 +27,13 @@
 #
 ##############################################################################
 
+# pylint: disable=C8101
 {
     'name': 'Mass Mailing Switzerland',
     'version': '10.0.1.0.0',
     'category': 'Mailing',
-    'description': '',
     'author': 'Emanuel Cino',
+    'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'data': [
         'views/mass_mailing_view.xml',

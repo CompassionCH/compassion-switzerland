@@ -27,11 +27,13 @@
 #
 ##############################################################################
 
+# pylint: disable=C8101
 {
     'name': 'Sync Compassion Children with Wordpress website',
     'version': '10.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
+    'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': ['sponsorship_compassion', 'child_switzerland'],
     'external_dependencies': {

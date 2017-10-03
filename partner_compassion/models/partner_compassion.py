@@ -42,13 +42,13 @@ class ResPartner(models.Model):
         'res.partner', 'church_id', 'Members',
         domain=[('active', '=', True)])
     is_church = fields.Boolean(
-        string="Is a Church", compute='_is_church', store=True)
+        string="Is a Church", compute='_compute_is_church', store=True)
     church_id = fields.Many2one(
         'res.partner', 'Church', domain=[('is_church', '=', True)])
     church_unlinked = fields.Char(
         "Church (N/A)",
-        help=_("Use this field if the church of the partner"
-               " can not correctly be determined and linked."))
+        help="Use this field if the church of the partner"
+             " can not correctly be determined and linked.")
     deathdate = fields.Date('Death date')
     opt_out = fields.Boolean(default=True)
     nbmag = fields.Integer('Number of Magazines', size=2,
@@ -56,22 +56,22 @@ class ResPartner(models.Model):
     tax_certificate = fields.Selection(
         _get_receipt_types, required=True, default='default')
     thankyou_letter = fields.Selection(
-        _get_receipt_types, _('Thank you letter'),
+        _get_receipt_types, 'Thank you letter',
         required=True, default='default')
     calendar = fields.Boolean(
-        help=_("Indicates if the partner wants to receive the Compassion "
-               "calendar."), default=True)
+        help="Indicates if the partner wants to receive the Compassion "
+             "calendar.", default=True)
     christmas_card = fields.Boolean(
-        help=_("Indicates if the partner wants to receive the "
-               "christmas card."), default=True)
+        help="Indicates if the partner wants to receive the "
+             "christmas card.", default=True)
     birthday_reminder = fields.Boolean(
-        help=_("Indicates if the partner wants to receive a birthday "
-               "reminder of his child."), default=True)
+        help="Indicates if the partner wants to receive a birthday "
+             "reminder of his child.", default=True)
     abroad = fields.Boolean(
         'Abroad/Only e-mail',
         related='email_only',
-        help=_("Indicates if the partner is abroad and should only be "
-               "updated by e-mail"))
+        help="Indicates if the partner is abroad and should only be "
+             "updated by e-mail")
     photo_delivery_preference = fields.Selection(
         selection='_get_delivery_preference',
         default='both',
@@ -81,14 +81,15 @@ class ResPartner(models.Model):
     partner_duplicate_ids = fields.Many2many(
         'res.partner', 'res_partner_duplicates', 'partner_id',
         'duplicate_id', readonly=True)
-    church_member_count = fields.Integer(compute='_is_church', store=True)
+    church_member_count = fields.Integer(compute='_compute_is_church',
+                                         store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
     @api.multi
     @api.depends('category_id', 'member_ids')
-    def _is_church(self):
+    def _compute_is_church(self):
         """ Tell if the given Partners are Church Partners
             (by looking at their categories). """
 
