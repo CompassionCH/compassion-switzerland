@@ -113,7 +113,7 @@ class CompassionChild(models.Model):
             'type': HoldType.CONSIGNMENT_HOLD.value,
             'expiration_date': self.env[
                 'compassion.hold'].get_default_hold_expiration(
-                    HoldType.CONSIGNMENT_HOLD),
+                HoldType.CONSIGNMENT_HOLD),
             'primary_owner': 1,
             'channel': 'web',
         })
@@ -134,15 +134,23 @@ class CompassionChild(models.Model):
             ('state', '=', 'I'),
             ('hold_id.type', '!=', HoldType.NO_MONEY_HOLD.value)
         ])
-        self.raz_wordpress()
 
         # Put children 5 by 5 to avoid delays
         def loop_five(n, max):
             while n < max:
                 yield n
                 n += 5
-        for i in loop_five(0, len(valid_children)):
-            valid_children[i:i+5].add_to_wordpress()
+        try:
+            with self.env.cr.savepoint():
+                self.raz_wordpress()
+                for i in loop_five(0, len(valid_children)):
+                    try:
+                        valid_children[i:i+5].add_to_wordpress()
+                    except:
+                        continue
 
-        old_children.mapped('hold_id').release_hold()
+                old_children.mapped('hold_id').release_hold()
+        except:
+            logger.error("Error when refreshing wordpress children.")
+
         return True

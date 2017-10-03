@@ -15,4 +15,4 @@ class AccountInvoice(models.Model):
     """ Add mailing origin in invoice objects. """
     _inherit = 'account.invoice'
 
-    mailing_campaign_id = fields.Many2one('mail.mass_mailing_campaign')
+    mailing_campaign_id = fields.Many2one('mail.mass_mailing.campaign')

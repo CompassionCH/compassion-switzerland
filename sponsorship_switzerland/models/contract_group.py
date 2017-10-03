@@ -132,8 +132,7 @@ class ContractGroup(models.Model):
             inv_ids = invoices.filtered(lambda i: i.state == 'cancel').ids
             self.env.cr.execute(
                 "DELETE FROM account_invoice "
-                "WHERE id IN ({0})".format(
-                    ','.join([str(id) for id in inv_ids])))
+                "WHERE id = ANY(%s)", (inv_ids,))
         return invoices
 
     ##########################################################################

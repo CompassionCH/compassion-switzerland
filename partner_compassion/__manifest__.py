@@ -27,13 +27,14 @@
 #
 ##############################################################################
 
-
+# pylint: disable=C8101
 {
     'name': 'Upgrade Partners for Compassion Suisse',
     'version': '10.0.1.0.0',
     'category': 'Partner',
     'sequence': 150,
     'author': 'Compassion CH',
+    'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
         'sbc_compassion',

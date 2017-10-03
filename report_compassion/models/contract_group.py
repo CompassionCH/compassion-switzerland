@@ -33,6 +33,7 @@ def setlocale(name):
         try:
             yield locale.setlocale(locale.LC_ALL, (name, 'UTF-8'))
         except:
+            logger.error("Error when setting locale to " + str(name))
             yield
         finally:
             locale.setlocale(locale.LC_ALL, saved)

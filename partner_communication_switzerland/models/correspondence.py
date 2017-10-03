@@ -48,7 +48,7 @@ class Correspondence(models.Model):
     letter_delivered = fields.Boolean(oldname='letter_read')
     zip_id = fields.Many2one('ir.attachment')
     has_valid_language = fields.Boolean(
-        compute='compute_has_valid_language', store=True)
+        compute='_compute_valid_language', store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -64,7 +64,7 @@ class Correspondence(models.Model):
     @api.multi
     @api.depends('supporter_languages_ids', 'page_ids',
                  'page_ids.translated_text', 'translation_language_id')
-    def compute_has_valid_language(self):
+    def _compute_valid_language(self):
         """ Detect if text is written in the language corresponding to the
         language_id """
         for letter in self:

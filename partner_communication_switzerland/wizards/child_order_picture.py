@@ -12,7 +12,7 @@ import base64
 from io import BytesIO
 from zipfile import ZipFile
 
-from odoo import api, models, fields, _
+from odoo import api, models, fields
 
 
 class CompassionHold(models.TransientModel):
@@ -23,7 +23,7 @@ class CompassionHold(models.TransientModel):
         'recurring.contract', string='New biennials', readonly=True,
         default=lambda s: s._get_sponsorships()
     )
-    filename = fields.Char(default=_('child_photos.zip'))
+    filename = fields.Char(default='child_photos.zip')
     download_data = fields.Binary(readonly=True)
 
     @api.model

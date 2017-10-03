@@ -16,11 +16,11 @@ class ChildRemoveFromWordpress(models.TransientModel):
     _name = 'child.remove.from.wordpress.wizard'
 
     child_ids = fields.Many2many(
-        'compassion.child', compute='_get_active_ids',
-        string='Selected children', default=lambda c: c._get_active_ids()
+        'compassion.child', compute='_compute_active_ids',
+        string='Selected children', default=lambda c: c._compute_active_ids()
     )
 
-    def _get_active_ids(self):
+    def _compute_active_ids(self):
         children = self.env['compassion.child'].browse(
             self.env.context.get('active_ids'))
         valid_children = children.filtered(lambda c: c.state == 'I')

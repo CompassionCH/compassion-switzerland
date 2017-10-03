@@ -27,12 +27,13 @@
 #
 ##############################################################################
 
-
+# pylint: disable=C8101
 {
     'name': 'Compassion CH Partner Communications',
     'version': '10.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
+    'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': ['report_compassion', 'gift_compassion'],
     'external_dependencies': {
@@ -60,6 +61,7 @@
         'views/disaster_alert_view.xml',
         'views/partner_compassion_view.xml',
         'views/change_text_wizard_view.xml',
+        'views/correspondence_view.xml',
     ],
     'demo': [],
     'installable': True,

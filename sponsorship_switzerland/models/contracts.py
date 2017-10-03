@@ -196,7 +196,7 @@ class RecurringContracts(models.Model):
     @api.multi
     def contract_waiting_mandate(self):
         self.write({'state': 'mandate'})
-        return True
+        return super(RecurringContracts, self).contract_waiting_mandate()
 
     @api.multi
     def contract_waiting(self):
@@ -219,7 +219,7 @@ class RecurringContracts(models.Model):
                         fields.Date.to_string(next_invoice_date)
 
             contract.write(vals)
-        return True
+        return super(RecurringContracts, self).contract_waiting()
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
@@ -252,14 +252,14 @@ class RecurringContracts(models.Model):
     def _get_lsv_dd_invoices(self, invoices):
         lsv_dd_invoices = self.env['account.invoice']
         for invoice in invoices:
-            pay_line = self.env['payment.line'].search([
+            pay_line = self.env['account.payment.line'].search([
                 ('move_line_id', 'in', invoice.move_id.line_id.ids),
                 ('order_id.state', 'in', ('open', 'done'))])
             if pay_line:
                 lsv_dd_invoices += invoice
 
             # If a draft payment order exitst, we remove the payment line.
-            pay_line = self.env['payment.line'].search([
+            pay_line = self.env['account.payment.line'].search([
                 ('move_line_id', 'in', invoice.move_id.line_id.ids),
                 ('order_id.state', '=', 'draft')])
             if pay_line:

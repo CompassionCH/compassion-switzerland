@@ -16,9 +16,9 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
         events: _.extend({
             // // TODO : this removes the ability to change partner of a line
             // //        but this functionality may not be necessary for us.
-            "click .partner_name": "open_partner",
+            "click .partner_name": "open_partner"
         }, reconciliation.bankStatementReconciliationLine.prototype.events),
-        
+
         open_partner: function() {
             this.do_action({
                 views: [[false, 'form']],
@@ -27,7 +27,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 res_model: 'res.partner',
                 type: 'ir.actions.act_window',
                 target: 'current',
-                res_id: this.partner_id,
+                res_id: this.partner_id
             });
         },
 
@@ -35,11 +35,11 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
         initializeCreateForm: function() {
             var self = this;
             _.each(self.create_form, function(field) {
-                if (field.name == 'sponsorship_id') {
-                    field.field.domain = ['|', '|', ['partner_id', '=', self.partner_id], ['partner_id.parent_id', '=', self.partner_id], ['correspondant_id', '=', self.partner_id], ['state', '!=', 'draft']]
+                if (field.name === 'sponsorship_id') {
+                    field.field.domain = ['|', '|', ['partner_id', '=', self.partner_id], ['partner_id.parent_id', '=', self.partner_id], ['correspondant_id', '=', self.partner_id], ['state', '!=', 'draft']];
                 }
             });
-            this._super()
+            this._super();
 
             var line_name = self.st_line.name;
             var child_gift_match = line_name.match(/\[.+\]/);
@@ -53,7 +53,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                         self.product_id_field.set_value(product_ids[0]);
                     }
                 });
-                
+
                 // Search sponsorship
                 var child_code = child_gift_match[0].replace("[", "").replace("]", "").match(/\w+/)[0];
                 var sponsorship_obj = new Model("recurring.contract");
@@ -70,13 +70,21 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
         prepareCreatedMoveLinesForPersisting: function(lines) {
             var result = this._super(lines);
             for (var i = 0; i < result.length; i++) {
-                if (lines[i].product_id) result[i]['product_id'] = lines[i].product_id;
-                if (lines[i].sponsorship_id) result[i]['sponsorship_id'] = lines[i].sponsorship_id;
-                if (lines[i].user_id) result[i]['user_id'] = lines[i].user_id;
-                if (lines[i].comment) result[i]['comment'] = lines[i].comment;
+                if (lines[i].product_id) {
+                    result[i].product_id = lines[i].product_id;
+                }
+                if (lines[i].sponsorship_id) {
+                    result[i].sponsorship_id = lines[i].sponsorship_id;
+                }
+                if (lines[i].user_id) {
+                    result[i].user_id = lines[i].user_id;
+                }
+                if (lines[i].comment) {
+                    result[i].comment = lines[i].comment;
+                }
             }
             return result;
-        },
+        }
     });
 
     reconciliation.abstractReconciliation.include({
@@ -88,17 +96,17 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
             // will set the options attribute to a given object.
             // This is useful to pass arguments for a field when using the
             // web_m2x_options module.
-            function fieldWithOptions(fieldClass, options)
-            {
+            function fieldWithOptions(fieldClass, options) {
                 return fieldClass.extend({
+                    // pylint: disable=W7903
                     init: function() {
                         this._super.apply(this, arguments);
                         this.options = options;
-                    },
+                    }
                 });
             }
 
-            this.create_form_fields["product_id"] = {
+            this.create_form_fields.product_id = {
                 id: "product_id",
                 index: 5,
                 corresponding_property: "product_id",
@@ -109,10 +117,10 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 field_properties: {
                     relation: "product.product",
                     string: _t("Product"),
-                    type: "many2one",
+                    type: "many2one"
                 }
             };
-            this.create_form_fields["sponsorship_id"] = {
+            this.create_form_fields.sponsorship_id = {
                 id: "sponsorship_id",
                 index: 6,
                 corresponding_property: "sponsorship_id",
@@ -125,15 +133,15 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                         'colors': {'cancelled': 'gray', 'terminated': 'gray',
                                    'mandate': 'red', 'waiting': 'green'},
                         'create': false,
-                        'create_edit': false,
+                        'create_edit': false
                     }),
                 field_properties: {
                     relation: "recurring.contract",
                     string: _t("Sponsorship"),
-                    type: "many2one",
-                },
+                    type: "many2one"
+                }
             };
-            this.create_form_fields["user_id"] = {
+            this.create_form_fields.user_id = {
                 id: "user_id",
                 index: 7,
                 corresponding_property: "user_id",
@@ -144,10 +152,10 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 field_properties: {
                     relation: "res.partner",
                     string: _t("Ambassador"),
-                    type: "many2one",
+                    type: "many2one"
                 }
             };
-            this.create_form_fields["comment"] = {
+            this.create_form_fields.comment = {
                 id: "comment",
                 index: 7,
                 corresponding_property: "comment",
@@ -157,7 +165,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 constructor: FieldChar,
                 field_properties: {
                     string: _t("Gift Instructions"),
-                    type: "char",
+                    type: "char"
                 }
             };
         },
@@ -168,7 +176,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
             return this._super().then(function() {
                 self.model_presets.query().order_by('-sequence', '-id').all().then(function (data) {
                     _(data).each(function(datum){
-                        self.presets[datum.id].lines[0]['product_id'] = datum.product_id
+                        self.presets[datum.id].lines[0].product_id = datum.product_id;
                     });
                 });
             });
@@ -184,9 +192,9 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 res_model: 'account.bank.statement',
                 type: 'ir.actions.act_window',
                 target: 'current',
-                res_id: this.statement_ids[0],
+                res_id: this.statement_ids[0]
             });
-        },
+        }
 
         // displayReconciliations: function(number) {
         //     var self = this;

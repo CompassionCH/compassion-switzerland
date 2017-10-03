@@ -10,7 +10,7 @@
 ##############################################################################
 import logging
 
-from odoo import models, api
+from odoo import models, api, _
 from odoo.exceptions import UserError
 from odoo.tools.config import config
 
@@ -91,7 +91,7 @@ class MailTrackingEvent(models.Model):
         api_key = config.get('sendgrid_api_key')
         if not api_key:
             raise UserError(
-                'ConfigError',
-                'Missing sendgrid_api_key in conf file')
+                _('ConfigError'),
+                _('Missing sendgrid_api_key in conf file'))
 
         return SendGridAPIClient(apikey=api_key)

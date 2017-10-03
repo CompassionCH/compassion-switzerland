@@ -32,8 +32,8 @@ class ChangeAttributionWizard(models.TransientModel):
         'account.invoice.line', 'change_attribution_wizard_line_rel',
         string='Related invoice lines',
         default=lambda self: self._get_invoice_lines(), readonly=True)
-    comment = fields.Text('Comment', help=_(
-        "Explain why you changed the attribution."))
+    comment = fields.Text('Comment',
+                          help="Explain why you changed the attribution.")
 
     ##########################################################################
     #                             FIELDS METHODS                             #

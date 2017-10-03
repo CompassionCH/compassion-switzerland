@@ -15,7 +15,7 @@ class CorrespondenceMetadata(models.AbstractModel):
     """ Add mailing origin in correspondence objects. """
     _inherit = 'correspondence.metadata'
 
-    mailing_campaign_id = fields.Many2one('mail.mass_mailing_campaign')
+    mailing_campaign_id = fields.Many2one('mail.mass_mailing.campaign')
 
     @api.model
     def get_fields(self):
