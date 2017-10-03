@@ -263,7 +263,7 @@ class StatementCompletionRule(models.Model):
             'date_invoice': st_line['date'],
             'payment_term_id': 1,  # Immediate payment
             # TODO Add payment mode BVR?
-            'bvr_reference': st_line['ref'],
+            'reference': st_line['ref'],
             'origin': stmts_vals['name']
         }
 
@@ -316,7 +316,7 @@ class StatementCompletionRule(models.Model):
             # set)
             invoice_obj = self.env['account.invoice']
             invoice_search = [
-                ('bvr_reference', '=', bvr_ref),
+                ('reference', '=', bvr_ref),
                 ('state', '=', 'open')]
             if search_old_invoices:
                 invoice_search[1] = ('state', 'in', ('open', 'cancel',
@@ -327,8 +327,9 @@ class StatementCompletionRule(models.Model):
                 # 'reference_type'
                 # set to BVR)
                 invoices = invoice_obj.search([
-                    ('reference_type', '=', 'bvr'),
+                    '|',
                     ('reference', '=', bvr_ref),
+                    ('bvr_reference', '=', bvr_ref),
                     ('state', '=', 'open')])
             if invoices:
                 partner = invoices[0].partner_id

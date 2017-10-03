@@ -50,10 +50,10 @@ class AccountInvoice(models.Model):
         """
         for invoice in self.filtered('payment_mode_id'):
             if 'LSV' in invoice.payment_mode_id.name \
-                    and not invoice.bvr_reference:
+                    and not invoice.reference:
                 seq = self.env['ir.sequence']
                 ref = mod10r(seq.next_by_code('contract.bvr.ref'))
-                invoice.write({'bvr_reference': ref})
+                invoice.write({'reference': ref})
             for invl in invoice.invoice_line_ids:
                 if not invl.contract_id and invl.product_id.categ_name in (
                         SPONSORSHIP_CATEGORY, GIFT_CATEGORY):

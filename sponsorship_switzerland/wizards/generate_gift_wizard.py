@@ -26,7 +26,7 @@ class GenerateGiftWizard(models.TransientModel):
     def _setup_invoice(self, contract, invoice_date):
         res = super(GenerateGiftWizard, self)._setup_invoice(contract,
                                                              invoice_date)
-        res['bvr_reference'] = self.generate_bvr_reference(
+        res['reference'] = self.generate_bvr_reference(
             contract, self.product_id)
         return res
 

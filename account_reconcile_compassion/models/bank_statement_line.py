@@ -252,10 +252,10 @@ class BankStatementLine(models.Model):
                 # Get the bvr reference of the invoice or set it
                 invoice = invoices[0]
                 invoice.write({'origin': self.statement_id.name})
-                if invoice.bvr_reference and not self.ref:
-                    ref = invoice.bvr_reference
+                if invoice.reference and not self.ref:
+                    ref = invoice.reference
                 else:
-                    invoice.write({'bvr_reference': ref})
+                    invoice.write({'reference': ref})
                 self.write({
                     'ref': ref,
                     'invoice_id': invoice.id})
@@ -273,7 +273,7 @@ class BankStatementLine(models.Model):
                 'date_invoice': self.date,
                 'payment_mode_id': self.env.ref(
                     'sponsorship_switzerland.payment_mode_bvr').id,
-                'bvr_reference': ref,
+                'reference': ref,
                 'origin': self.statement_id.name,
                 'comment': ';'.join(map(
                     lambda d: d.get('comment', ''),

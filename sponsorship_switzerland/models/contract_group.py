@@ -81,7 +81,7 @@ class ContractGroup(models.Model):
                 elif 'LSV' in old_term or 'Postfinance' in old_term:
                     group.contract_ids.signal_workflow('mandate_validated')
         if 'bvr_reference' in vals:
-            inv_vals['bvr_reference'] = vals['bvr_reference']
+            inv_vals['reference'] = vals['bvr_reference']
             contracts |= self.mapped('contract_ids')
 
         res = super(ContractGroup, self).write(vals)
@@ -215,18 +215,22 @@ class ContractGroup(models.Model):
         bank_modes = self.env['account.payment.mode'].with_context(
             lang='en_US').search(
             ['|', ('name', 'like', 'LSV'), ('name', 'like', 'Postfinance')])
+        bank = self.env['res.partner.bank']
         if self.bvr_reference:
             ref = self.bvr_reference
+            bank = bank.search([('acc_number', '=', '01444437')])
         elif self.payment_mode_id in bank_modes:
             seq = self.env['ir.sequence']
             ref = mod10r(seq.next_by_code('contract.bvr.ref'))
+            bank = self.payment_mode_id.fixed_journal_id.bank_account_id
         mandate = self.env['account.banking.mandate'].search([
             ('partner_id', '=', self.partner_id.id),
             ('state', '=', 'valid')
         ], limit=1)
         inv_data.update({
-            'bvr_reference': ref,
+            'reference': ref,
             'mandate_id': mandate.id,
+            'partner_bank_id': bank.id,
         })
 
         return inv_data
