@@ -25,7 +25,9 @@ class PartnerBank(models.Model):
         postfinance = '09000000'
         for bank in self.search([
             ('bank_id.bic', '=', 'POFICHBEXXX'),
-            ('acc_type', '=', 'bank')
+            ('acc_type', '=', 'bank'),
+            ('acc_number', 'not like', 'CH'),
+            ('acc_number', 'like', '-'),
         ]):
             ccp_parts = bank.acc_number.split('-')
             account = postfinance + ccp_parts[0] + ccp_parts[1].rjust(
