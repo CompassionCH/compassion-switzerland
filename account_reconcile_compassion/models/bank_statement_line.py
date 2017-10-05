@@ -252,10 +252,10 @@ class BankStatementLine(models.Model):
                 # Get the bvr reference of the invoice or set it
                 invoice = invoices[0]
                 invoice.write({'origin': self.statement_id.name})
-                if invoice.bvr_reference and not self.ref:
-                    ref = invoice.bvr_reference
+                if invoice.reference and not self.ref:
+                    ref = invoice.reference
                 else:
-                    invoice.write({'bvr_reference': ref})
+                    invoice.write({'reference': ref})
                 self.write({
                     'ref': ref,
                     'invoice_id': invoice.id})
@@ -264,12 +264,6 @@ class BankStatementLine(models.Model):
             # Setup a new invoice if no existing invoice is found
             journal_id = self.env['account.journal'].search(
                 [('type', '=', 'sale')], limit=1).id
-            if self.journal_id.code == 'BVR':
-                payment_mode_id = self.env.ref(
-                    'sponsorship_switzerland.payment_mode_bvr').id
-            else:
-                payment_mode_id = self.env.ref(
-                    'sponsorship_switzerland.payment_mode_virement').id
             inv_data = {
                 'account_id':
                     self.partner_id.property_account_receivable_id.id,
@@ -277,8 +271,9 @@ class BankStatementLine(models.Model):
                 'partner_id': self.partner_id.id,
                 'journal_id': journal_id,
                 'date_invoice': self.date,
-                'payment_mode_id': payment_mode_id,
-                'bvr_reference': ref,
+                'payment_mode_id': self.env.ref(
+                    'sponsorship_switzerland.payment_mode_bvr').id,
+                'reference': ref,
                 'origin': self.statement_id.name,
                 'comment': ';'.join(map(
                     lambda d: d.get('comment', ''),

@@ -253,14 +253,14 @@ class RecurringContracts(models.Model):
         lsv_dd_invoices = self.env['account.invoice']
         for invoice in invoices:
             pay_line = self.env['account.payment.line'].search([
-                ('move_line_id', 'in', invoice.move_id.line_id.ids),
+                ('move_line_id', 'in', invoice.move_id.line_ids.ids),
                 ('order_id.state', 'in', ('open', 'done'))])
             if pay_line:
                 lsv_dd_invoices += invoice
 
             # If a draft payment order exitst, we remove the payment line.
             pay_line = self.env['account.payment.line'].search([
-                ('move_line_id', 'in', invoice.move_id.line_id.ids),
+                ('move_line_id', 'in', invoice.move_id.line_ids.ids),
                 ('order_id.state', '=', 'draft')])
             if pay_line:
                 pay_line.unlink()
@@ -340,4 +340,4 @@ class RecurringContracts(models.Model):
             elif contract.payment_mode_id in bank_modes:
                 seq = self.env['ir.sequence']
                 ref = mod10r(seq.next_by_code('contract.bvr.ref'))
-            invoices.write({'bvr_reference': ref})
+            invoices.write({'reference': ref})
