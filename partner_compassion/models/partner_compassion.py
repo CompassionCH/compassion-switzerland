@@ -348,8 +348,9 @@ class ResPartner(models.Model):
                 }
 
     def update_church_sponsorships_number(self, inc):
-        church = self.search([('member_ids', '=', self.id)])
-        if inc and church:
-            church.number_sponsorships += 1
-        elif church:
-            church.number_sponsorships -= 1
+        for partner in self:
+            church = self.search([('member_ids', '=', partner.id)])
+            if inc and church:
+                church.number_sponsorships += 1
+            elif church:
+                church.number_sponsorships -= 1
