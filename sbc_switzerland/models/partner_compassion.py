@@ -5,7 +5,7 @@
 #    Releasing children from poverty in Jesus' name
 #    @author: Jonathan Kläy <jonathan@klay.swiss>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import logging

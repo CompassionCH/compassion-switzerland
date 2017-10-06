@@ -5,7 +5,7 @@
 #    Releasing children from poverty in Jesus' name
 #    @author: VanRoey.be - Yenthe Van Ginneken
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 
