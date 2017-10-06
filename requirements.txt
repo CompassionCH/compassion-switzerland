@@ -14,3 +14,4 @@ pyPdf
 bs4
 geojson
 Shapely
+simplejson
