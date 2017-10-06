@@ -5,7 +5,7 @@
 #    Releasing children from poverty in Jesus' name
 #    @author: Jonathan Kläy <jonathan@klay.swiss>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import logging
@@ -49,10 +49,15 @@ class ResPartner(models.Model):
                 except:
                     tc.upsert_user(partner, create=False)
             if was_translator and is_translator:
-                tc = translate_connector.TranslateConnect()
-                logger.info("translator tag still present, we update partner "
-                            "in translation platform")
-                tc.upsert_user(partner, create=False)
+                tc_values = ['name', 'email', 'ref', 'lang', 'firstname',
+                             'lastname']
+                tc_change = reduce(
+                    lambda x, y: x or y, [v in values for v in tc_values])
+                if tc_change:
+                    tc = translate_connector.TranslateConnect()
+                    logger.info("translator tag still present, we update "
+                                "partner in translation platform")
+                    tc.upsert_user(partner, create=False)
             if was_translator and not is_translator:
                 tc = translate_connector.TranslateConnect()
                 logger.info("translator tag removed, we delete any user in "

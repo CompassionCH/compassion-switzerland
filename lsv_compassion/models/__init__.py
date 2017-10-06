@@ -5,7 +5,7 @@
 #    Releasing children from poverty in Jesus' name
 #    @author: Cyril Sester <cyril.sester@outlook.com>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 from . import payment_order
