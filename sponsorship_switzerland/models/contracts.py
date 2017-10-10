@@ -14,6 +14,7 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 from odoo.tools import mod10r
+from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
 from odoo import api, models, fields, _
 
@@ -196,7 +197,16 @@ class RecurringContracts(models.Model):
     @api.multi
     def contract_waiting_mandate(self):
         self.write({'state': 'mandate'})
-        return super(RecurringContracts, self).contract_waiting_mandate()
+        for contract in self:
+            if 'S' in contract.type and contract.child_id.hold_id:
+                # Update the hold of the child to No Money Hold
+                hold = contract.child_id.hold_id
+                hold.write({
+                    'type': HoldType.NO_MONEY_HOLD.value,
+                    'expiration_date': hold.get_default_hold_expiration(
+                        HoldType.NO_MONEY_HOLD)
+                })
+        return True
 
     @api.multi
     def contract_waiting(self):
