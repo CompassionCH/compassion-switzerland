@@ -13,4 +13,16 @@
         <button class="oe_account_recon_open_partner oe_button" href="javascript:void(0)">Open Partner</button>
     </t>
 
+    <!-- Add BVR ref if found in line label -->
+    <t t-extend="bank_statement_reconciliation_line">
+        <t t-jquery="td.cell_label" t-operation="inner">
+            <t t-if="line.name" t-esc="line.name"/>
+            <t t-if="line.amount_currency_str"> (<t t-esc="line.amount_currency_str"/>)</t>
+            <t t-if="line.ref">
+                <br/>
+                <t t-esc="line.ref"/>
+            </t>
+        </t>
+  </t>
+
 </templates>

@@ -84,6 +84,20 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 }
             }
             return result;
+        },
+
+        // Update fields when product_id is changed.
+        createdLinesChanged: function() {
+            this._super();
+            var model_presets = new Model("account.reconcile.model");
+            var self = this;
+            var product_id = self.product_id_field.get_value("product_id");
+            model_presets.call("product_changed", [product_id]).then(function(values) {
+                if (values) {
+                    self.account_id_field.set_value(values.account_id);
+                    self.analytic_account_id_field.set_value(values.analytic_id);
+                }
+            });
         }
     });
 

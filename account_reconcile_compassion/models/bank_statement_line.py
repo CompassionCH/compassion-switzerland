@@ -16,6 +16,7 @@ from odoo.exceptions import UserError
 from odoo.tools import float_round, mod10r
 from odoo.addons.sponsorship_compassion.models.product import \
     GIFT_CATEGORY, GIFT_NAMES, SPONSORSHIP_CATEGORY
+from odoo.addons.queue_job.job import job
 
 from datetime import datetime
 
@@ -168,6 +169,15 @@ class BankStatementLine(models.Model):
     @api.multi
     def process_reconciliation(self, counterpart_aml_dicts=None,
                                payment_aml_rec=None, new_aml_dicts=None):
+        """ Run reconciliation in a job. """
+        return self.with_delay()._process_reconciliation(
+            counterpart_aml_dicts, payment_aml_rec, new_aml_dicts
+        )
+
+    @api.multi
+    @job(default_channel='root.bank_reconciliation')
+    def _process_reconciliation(self, counterpart_aml_dicts=None,
+                                payment_aml_rec=None, new_aml_dicts=None):
         """ Create invoice if product_id is set in move_lines
         to be created. """
         self.ensure_one()
@@ -226,7 +236,7 @@ class BankStatementLine(models.Model):
                     data['move_line'] = new_counterpart
                     counterpart_aml_dicts.append(data)
 
-        super(BankStatementLine, self).process_reconciliation(
+        return super(BankStatementLine, self).process_reconciliation(
             counterpart_aml_dicts, payment_aml_rec, new_aml_dicts)
 
     def _create_invoice_from_mv_lines(self, mv_line_dicts, invoice=None):
