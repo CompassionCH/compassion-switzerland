@@ -277,7 +277,7 @@ class ResPartner(models.Model):
 
     @api.model
     def get_lang_from_phone_number(self, phone):
-        record = self.get_record_from_phone_number(phone)
+        record = self.env['phone.common'].get_record_from_phone_number(phone)
         if record:
             partner = self.browse(record[1])
         return record and partner.lang
