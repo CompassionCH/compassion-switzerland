@@ -51,7 +51,7 @@ class AccountInvoiceLine(models.Model):
                 'product_id.categ_name')))
             if len(categories) == 1 and categories[0] == GIFT_CATEGORY:
                 gift_template = self.env.ref(
-                    'contract_compassion.product_template_fund_kdo')
+                    'sponsorship_switzerland.product_template_fund_kdo')
                 gift = self.env['product.product'].search([
                     ('product_tmpl_id', '=', gift_template.id)
                 ], limit=1)
