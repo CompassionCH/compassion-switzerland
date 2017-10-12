@@ -50,16 +50,4 @@
             </search>
         </field>
     </record>
-
-    <!-- Add delivery preference in res.partner form -->
-    <record id="view_partner_form_sbc_ch" model="ir.ui.view">
-        <field name="name">res.partner.form.sbc.ch</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="sbc_compassion.view_partner_form_sbc"/>
-        <field name="arch" type="xml">
-            <field name="spoken_lang_ids" position="after">
-                <field name="letter_delivery_preference"/>
-            </field>
-        </field>
-    </record>
 </odoo>
