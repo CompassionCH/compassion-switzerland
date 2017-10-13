@@ -252,17 +252,33 @@
         <!-- Show invoices button for everyone -->
         <field name="groups_id" eval="[(6, 0, [ref('child_compassion.group_sponsorship')])]"/>
     </record>
+
+    <!-- Change Invoice button behaviour -->
+    <record id="action_invoice_compassion_partner" model="ir.actions.act_window">
+        <field name="name">Invoices</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,kanban,calendar,graph,pivot</field>
+        <field name="view_id" ref="account.invoice_tree"/>
+        <field name="domain">[('type','in', ['out_invoice', 'out_refund'])]</field>
+        <field name="context">{
+                    'search_default_partner_id': active_id,
+                    'default_partner_id': active_id
+                    }
+        </field>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+    </record>
+
     <record id="view_partner_form_invoice_button_ch" model="ir.ui.view">
         <field name="name">res.partner.form.invoice.switzerland</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="account.partner_view_buttons"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@id='invoice_button']" position="attributes">
-                <attribute name="name">%(account.action_invoice_refund_out_tree)d</attribute>
+                <attribute name="name">%(partner_compassion.action_invoice_compassion_partner)d</attribute>
             </xpath>
         </field>
     </record>
-
 
     <!-- Delete Contacts Top Menu -->
     <delete model="ir.ui.menu" id="mail.menu_contacts"/>
