@@ -211,6 +211,7 @@ class BankStatementLine(models.Model):
                 old_counterparts[invoice.id] = counterparts[0]
 
         # Create invoice and update move_line_dicts to reconcile them.
+        nb_new_aml_removed = 0
         for partner_id, partner_data in partner_inv_data.iteritems():
             invoice = partner_invoices.get(partner_id)
             new_counterpart = self._create_invoice_from_mv_lines(
@@ -218,8 +219,9 @@ class BankStatementLine(models.Model):
             if invoice:
                 # Remove new move lines
                 for data in partner_data:
-                    index = data.pop('index')
+                    index = data.pop('index') - nb_new_aml_removed
                     del new_aml_dicts[index]
+                    nb_new_aml_removed += 1
 
                 # Update old counterpart
                 for counterpart_data in counterpart_aml_dicts:
@@ -231,8 +233,9 @@ class BankStatementLine(models.Model):
             else:
                 # Add new counterpart and remove new move line
                 for data in partner_data:
-                    index = data.pop('index')
+                    index = data.pop('index') - nb_new_aml_removed
                     del new_aml_dicts[index]
+                    nb_new_aml_removed += 1
                     data['move_line'] = new_counterpart
                     counterpart_aml_dicts.append(data)
 
