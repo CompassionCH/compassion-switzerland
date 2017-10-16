@@ -16,7 +16,9 @@ import logging
 import time
 from io import BytesIO
 
-from odoo import models, api
+from datetime import datetime, timedelta
+
+from odoo import models, api, fields
 from odoo.tools.config import config
 from odoo.addons.sbc_compassion.tools import import_letter_functions as func
 from odoo.addons.sbc_switzerland.models.import_letters_history import SmbConfig
@@ -78,10 +80,18 @@ class ImportLettersHistory(models.Model):
                 sponsor_id = model_sponsor.id
 
             # Check if a sponsorship exists
-            self.env['recurring.contract'].search([
-                ('child_id', '=', child_id),
-                ('correspondant_id', '=', sponsor_id),
-                ('is_active', '=', True)], limit=1).ensure_one()
+            current_date = datetime.now()
+            limit_date = current_date + timedelta(weeks=12)
+            self.env['recurring.contract'].search(
+                [
+                    ('child_id', '=', child_id),
+                    ('correspondant_id', '=', sponsor_id),
+                    '|',
+                    ('end_date', '=', False),
+                    ('end_date', '<=',
+                     fields.Datetime.to_string(limit_date))
+                    ],
+                limit=1).ensure_one()
 
             lang = self.env['correspondence'].detect_lang(original_text)
             lang_id = None
