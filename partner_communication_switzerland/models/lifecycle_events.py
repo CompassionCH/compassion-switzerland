@@ -59,9 +59,10 @@ class ProjectLifecycle(models.Model):
                 communication_type = self.env[
                     'partner.communication.config'].search(search)
                 if communication_type:
-                    for child in self.env['compassion.child'].\
-                            search([('project_id', '=', lifecycle.project_id.id),
-                                    ('sponsor_id', '!=', False)]):
+                    for child in self.env['compassion.child']. \
+                            search(
+                            [('project_id', '=', lifecycle.project_id.id),
+                             ('sponsor_id', '!=', False)]):
                         self.env['partner.communication.job'].create({
                             'config_id': communication_type.id,
                             'partner_id': child.sponsor_id.id,

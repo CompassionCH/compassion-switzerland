@@ -82,12 +82,16 @@ class ImportLettersHistory(models.Model):
             # Check if a sponsorship exists
             current_date = datetime.now()
             limit_date = current_date + timedelta(weeks=12)
-            self.env['recurring.contract'].search([
-                ('child_id', '=', child_id),
-                ('correspondant_id', '=', sponsor_id),
-                ('|', ('end_date', '=', False),
-                ('end_date', '<=', fields.Datetime.to_string(limit_date)))],
-                    limit=1).ensure_one()
+            self.env['recurring.contract'].search(
+                [
+                    ('child_id', '=', child_id),
+                    ('correspondant_id', '=', sponsor_id),
+                    '|',
+                    ('end_date', '=', False),
+                    ('end_date', '<=',
+                     fields.Datetime.to_string(limit_date))
+                    ],
+                limit=1).ensure_one()
 
             lang = self.env['correspondence'].detect_lang(original_text)
             lang_id = None
