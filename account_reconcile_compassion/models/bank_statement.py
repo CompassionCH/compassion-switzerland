@@ -26,6 +26,9 @@ class AccountStatement(models.Model):
     )
     generated_invoices_count = fields.Integer(
         'Invoices', compute='_compute_invoices')
+    name = fields.Char(
+        default=lambda b: b.env['ir.sequence'].next_by_code('bank-cash')
+    )
 
     ##########################################################################
     #                             FIELDS METHODS                             #
