@@ -92,7 +92,7 @@ class StatementCompletionRule(models.Model):
                 res.update(
                     self._generate_invoice(stmts_vals, st_line, partner))
                 # Get the accounting partner (company)
-                res['partner_id'] = partner.commercial_partner_id.id
+                res['partner_id'] = partner.id
             else:
                 logger.warning(
                     'Line named "%s" (Ref:%s) was matched by more '
@@ -112,7 +112,7 @@ class StatementCompletionRule(models.Model):
         partner = self._search_partner_by_bvr_ref(ref)
 
         if partner:
-            res['partner_id'] = partner.commercial_partner_id.id
+            res['partner_id'] = partner.id
 
         return res
 
@@ -127,7 +127,7 @@ class StatementCompletionRule(models.Model):
         partner = self._search_partner_by_bvr_ref(ref, True)
 
         if partner:
-            res['partner_id'] = partner.commercial_partner_id.id
+            res['partner_id'] = partner.id
 
         return res
 
