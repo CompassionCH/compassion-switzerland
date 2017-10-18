@@ -13,31 +13,33 @@
 from odoo import models, api
 
 
-class MailChannel(models.Model):
+class ResPartner(models.Model):
     """
-    Special handling of incoming messages in the info channel.
-    Post message on partner and notify members of the channel.
+    This inheritance ensures that replies to the info channel are sent
+    to the partner. It finds if the message sent is a reply to an existing
+    message and in that case sends it to the partner.
+    It also ensures that the user sending the message doesn't get subscribed
+    to the mail_thread of the partner.
     """
-    _inherit = 'mail.channel'
+    _inherit = 'res.partner'
 
     @api.multi
     @api.returns('self', lambda value: value.id)
     def message_post(self, body='', subject=None, message_type='notification',
                      subtype=None, parent_id=False, attachments=None,
                      content_subtype='html', **kwargs):
-        message = super(MailChannel, self).message_post(
+        # Find if the message is a reply to partner message
+        if subtype == 'mail.mt_comment' and subject:
+            parent = self.message_ids.filtered(
+                lambda m: m.author_id == self and m.subject and
+                m.subject in subject)
+            if parent:
+                parent_id = parent[0].id
+                kwargs['partner_ids'] = [(6, 0, self.ids)]
+        message = super(ResPartner, self.with_context(
+            # Disable autosubscription
+            mail_create_nosubscribe=True)).message_post(
             body=body, subject=subject, message_type=message_type,
             subtype=subtype, parent_id=parent_id, attachments=attachments,
             content_subtype=content_subtype, **kwargs)
-        info = self.env.ref('shared_inbox_switzerland.info_inbox')
-        if self == info:
-            author = message.author_id
-            # Post message on partner and notify channel members.
-            message.write({
-                'model': 'res.partner',
-                'res_id': author.id,
-                'partner_ids': [(6, 0, self.channel_partner_ids.ids)],
-                'record_name': message.subject,
-            })
-            message._notify()
         return message
