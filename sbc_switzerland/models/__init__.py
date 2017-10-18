@@ -13,3 +13,4 @@ from . import import_config
 from . import import_letters_history
 from . import translate_connector
 from . import partner_compassion
+from . import correspondence_template
