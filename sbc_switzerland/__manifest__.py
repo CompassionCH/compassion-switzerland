@@ -35,7 +35,7 @@
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
-    'depends': ['mysql_connector', 'partner_communication_switzerland'],
+    'depends': ['mysql_connector', 'partner_communication_switzerland', 'child_switzerland'],
     'external_dependencies': {
         'python': ['smb', 'pyPdf', 'pysftp']
     },

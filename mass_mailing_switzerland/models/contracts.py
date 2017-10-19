@@ -274,7 +274,7 @@ class Contracts(models.Model):
         :return: Odoo write list [(4, lang_id_1), (4, lang_id_2), ...]
         """
         spoken_langs = self.env['res.lang.compassion']
-        lang_module = 'child_compassion.'
+        lang_module = 'child_switzerland.'
         if 'fra' in lang_string:
             spoken_langs += self.env.ref(
                 lang_module + 'lang_compassion_french')
