@@ -274,25 +274,24 @@ class Contracts(models.Model):
         :return: Odoo write list [(4, lang_id_1), (4, lang_id_2), ...]
         """
         spoken_langs = self.env['res.lang.compassion']
-        lang_module = 'child_switzerland.'
         if 'fra' in lang_string:
             spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_french')
+                'child_compassion.lang_compassion_french')
         if sponsor_lang == 'de':
             spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_german')
+                'child_switzerland.lang_compassion_german')
         if 'eng' in lang_string:
             spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_english')
+                'child_compassion.lang_compassion_english')
         if 'spa' in lang_string:
             spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_spanish')
+                'child_compassion.lang_compassion_spanish')
         if 'por' in lang_string:
             spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_portuguese')
+                'child_compassion.lang_compassion_portuguese')
         if 'ita' in lang_string:
             spoken_langs += self.env.ref(
-                lang_module + 'lang_compassion_italian')
+                'child_switzerland.lang_compassion_italian')
         lang_write = [(4, lang.id) for lang in spoken_langs]
         if partner:
             partner.write({'spoken_lang_ids': lang_write})
