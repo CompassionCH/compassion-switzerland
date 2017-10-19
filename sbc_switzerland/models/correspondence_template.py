@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
+#    Releasing children from poverty in Jesus' name
+#    @author: Marco Monzione <marco.mon@windowslive.com>
+#
+#    The licence is in the file __openerp__.py
+#
+##############################################################################
+
 from odoo import models, api, fields
 
 
