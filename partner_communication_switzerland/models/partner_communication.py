@@ -258,6 +258,7 @@ class PartnerCommunication(models.Model):
                 attachments += attachment.copy({
                     'name': child.local_id + ' ' + child.last_photo_date +
                     '.jpg'})
+            self.env.invalidate_all()
             self.with_context(no_print=True).ir_attachment_ids = attachments
         else:
             self.ir_attachment_ids = False
