@@ -5,11 +5,11 @@
 #    Releasing children from poverty in Jesus' name
 #    @author: Marco Monzione <marco.mon@windowslive.com>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 
-from odoo import models, api, fields
+from odoo import models, fields
 
 
 class CorrespondenceTemplate(models.Model):
@@ -34,4 +34,3 @@ class CorrespondenceTemplate(models.Model):
                 'child_compassion.lang_compassion_spanish').id}),
             (0, False, {'language_id': False}),
         ]
-
