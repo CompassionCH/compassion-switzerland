@@ -345,13 +345,14 @@ class PartnerCommunication(models.Model):
                 lambda s: s.state == 'active')
 
         make_payment_pdf = True
-        for sponsorship in sponsorships:
-            group_id = sponsorship.group_id
-            recurring_contract_group = recurring_contract_group_obj.search([('id', '=', group_id.id)])
-            payment_mode_id = recurring_contract_group.payment_mode_id
-            payment_mode_name = account_payment_mode_obj.search([('id', '=', payment_mode_id.id)]).name
-            if 'Direct' in payment_mode_name or 'LSV' in payment_mode_name:
-                make_payment_pdf = False
+
+        groupe_ids = sponsorships.mapped('group_id')
+
+        account_payment_mode_list = account_payment_mode_obj.search(['|', ('name', 'like', 'Direct'),('name', 'like', 'LSV')])
+        list_recurring_contract_group = groupe_ids.filtered(lambda r: r.payment_mode_id in account_payment_mode_list)
+
+        if list_recurring_contract_group is not None and len(list_recurring_contract_group) == len(groupe_ids):
+            make_payment_pdf = False
 
         # Payment slips
         if payment and make_payment_pdf:
