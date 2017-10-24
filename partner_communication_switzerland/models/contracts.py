@@ -38,10 +38,10 @@ class RecurringContract(models.Model):
     birthday_paid = fields.Many2many(
         'sponsorship.gift', compute='_compute_birthday_paid')
     due_invoice_ids = fields.Many2many(
-        'account.invoice', compute='_compute_due_invoices'
+        'account.invoice', compute='_compute_due_invoices', store=True
     )
-    amount_due = fields.Integer(compute='_compute_due_invoices')
-    months_due = fields.Integer(compute='_compute_due_invoices')
+    amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
+    months_due = fields.Integer(compute='_compute_due_invoices', store=True)
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -77,6 +77,7 @@ class RecurringContract(models.Model):
                 ('sponsorship_gift_type', '=', 'Birthday'),
             ])
 
+    @api.depends('invoice_line_ids')
     def _compute_due_invoices(self):
         """
         Useful for reminders giving open invoices in the past.
