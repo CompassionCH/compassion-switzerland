@@ -13,7 +13,7 @@ import logging
 
 
 from odoo import api, models, _
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +34,17 @@ class BvrFundReport(models.AbstractModel):
         report = self.env['report']._get_report_from_name(
             'report_compassion.bvr_fund')
         if data is None:
-            raise Warning(_("You must give a product in data to print this "
-                            "report."))
+            # By default, prepare a report with background and try to read
+            # product from context
+            product_id = self.env.context.get('report_product_id')
+            if not product_id:
+                raise UserError(
+                    _("You must give a product in data to print this "
+                      "report."))
+            data = {
+                'background': True,
+                'product_id': product_id
+            }
 
         data.update({
             'doc_model': report.model,  # res.partner

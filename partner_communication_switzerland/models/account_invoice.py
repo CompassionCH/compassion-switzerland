@@ -85,8 +85,9 @@ class AccountInvoice(models.Model):
         :return: account.invoice recordset
         """
         return self.filtered(
-            lambda i: (not i.communication_id or i.communication_id.state in (
-                'call', 'pending')) and i.invoice_type != 'sponsorship' and
+            lambda i: i.type == 'out_invoice' and (
+                not i.communication_id or i.communication_id.state in (
+                    'call', 'pending')) and i.invoice_type != 'sponsorship' and
             (not i.mapped('invoice_line_ids.contract_id') or (
                 i.invoice_type == 'gift' and i.origin !=
                 'Automatic birthday gift'))

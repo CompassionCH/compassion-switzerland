@@ -83,7 +83,7 @@ class Mail(models.Model):
     def send_sendgrid_job(self):
         regex = r'(?<=")((?:https|http)://(?:www\.|)compassion\.ch[^"]*)(?=")'
         for msg in self:
-            slug = msg.mailing_id.campaign_id.mailing_slug
+            slug = msg.mailing_id.mass_mailing_campaign_id.mailing_slug
             if slug:
                 # Append a param. c (as campaign) to all Compassion URLs
                 msg.mail_message_id.body = \
