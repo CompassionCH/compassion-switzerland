@@ -18,7 +18,6 @@ class MailTemplate(models.Model):
     report_product_id = fields.Many2one(
         'product.product', 'Product for report')
 
-
     @api.multi
     def generate_email(self, res_ids, fields=None):
         """

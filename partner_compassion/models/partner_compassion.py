@@ -10,7 +10,7 @@
 ##############################################################################
 from odoo.tools import mod10r
 
-from odoo import api, fields, models, _
+from odoo import api, registry, fields, models, _
 
 from odoo.addons.base_geoengine.fields import GeoPoint
 
@@ -133,9 +133,10 @@ class ResPartner(models.Model):
     @api.model
     def create(self, vals):
         duplicate = self.search(
-            ['|', '&', ('email', '=', vals.get('email')),
-             ('email', '!=', False),
-             '&', '&', ('firstname', 'ilike', vals.get('firstname')),
+            ['|',
+             ('email', '=', vals.get('email')),
+             '&', '&',
+             ('firstname', 'ilike', vals.get('firstname')),
              ('lastname', 'ilike', vals.get('lastname')),
              ('zip', '=', vals.get('zip'))
              ])
@@ -210,12 +211,25 @@ class ResPartner(models.Model):
     @api.onchange('lastname', 'firstname', 'zip', 'email')
     def _onchange_partner(self):
         if (self.lastname and self.firstname and self.zip) or self.email:
-            self.partner_duplicate_ids = self.search([
-                '|', '&', ('email', '=', self.email), ('email', '!=', False),
-                '&', '&', ('firstname', 'ilike', self.firstname),
+            partner_duplicates = self.search([
+                ('id', '!=', self._origin.id),
+                '|',
+                ('email', '=', self.email),
+                '&', '&',
+                ('firstname', 'ilike', self.firstname),
                 ('lastname', 'ilike', self.lastname),
-                ('zip', '=', self.zip)])
-            if self.partner_duplicate_ids:
+                ('zip', '=', self.zip)
+            ])
+            if partner_duplicates:
+                self.partner_duplicate_ids = partner_duplicates
+                # Commit the found duplicates
+                with api.Environment.manage():
+                    with registry(self.env.cr.dbname).cursor() as new_cr:
+                        new_env = api.Environment(new_cr, self.env.uid, {})
+                        self._origin.with_env(new_env).write({
+                            'partner_duplicate_ids': [(6, 0,
+                                                       partner_duplicates.ids)]
+                        })
                 return {
                     'warning': {
                         'title': _("Possible existing partners found"),
@@ -332,20 +346,17 @@ class ResPartner(models.Model):
 
     @api.multi
     def open_duplicates(self):
-        duplicate_list = [(4, id) for id in self.partner_duplicate_ids.ids]
-        partner_wizard = self.env.get(
-            'res.partner.check.double').create({
-                'newpartner_id': self.id,
-                'mergeable_partner_ids': duplicate_list,
-            })
-        view_id = self.env.ref(
-            'partner_compassion.partner_check_double_wizards').id
-        return {"type": "ir.actions.act_window",
-                "res_model": "res.partner.check.double",
-                "views": [[view_id, "form"]],
-                "res_id": partner_wizard.id,
-                "target": "new",
-                }
+        partner_wizard = self.env['res.partner.check.double'].create({
+            'partner_id': self.id,
+        })
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "res.partner.check.double",
+            "res_id": partner_wizard.id,
+            "view_type": "form",
+            "view_mode": "form",
+            "target": "new",
+        }
 
     def update_church_sponsorships_number(self, inc):
         for partner in self:
