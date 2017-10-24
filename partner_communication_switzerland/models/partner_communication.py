@@ -333,7 +333,6 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         attachments = OrderedDict()
         report_obj = self.env['report']
-        recurring_contract_group_obj = self.env['recurring.contract.group']
         account_payment_mode_obj = self.env['account.payment.mode']
 
         sponsorships = self.get_objects()
@@ -346,12 +345,13 @@ class PartnerCommunication(models.Model):
 
         make_payment_pdf = True
 
-        groupe_ids = sponsorships.mapped('group_id')
+        groups = sponsorships.mapped('group_id')
 
-        account_payment_mode_list = account_payment_mode_obj.search(['|', ('name', 'like', 'Direct'),('name', 'like', 'LSV')])
-        list_recurring_contract_group = groupe_ids.filtered(lambda r: r.payment_mode_id in account_payment_mode_list)
+        lsv_dd_modes = account_payment_mode_obj.search(['|', ('name', 'like', 'Direct Debit'),
+                                                        ('name', 'like', 'LSV')])
+        lsv_dd_groups = groups.filtered(lambda r: r.payment_mode_id in lsv_dd_modes)
 
-        if list_recurring_contract_group is not None and len(list_recurring_contract_group) == len(groupe_ids):
+        if len(lsv_dd_groups) == len(groups):
             make_payment_pdf = False
 
         # Payment slips
