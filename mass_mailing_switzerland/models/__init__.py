@@ -16,3 +16,4 @@ from . import correspondence_metadata
 from . import import_letters_history
 from . import mass_mailing_campaign
 from . import account_invoice
+from . import mail_template

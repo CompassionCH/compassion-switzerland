@@ -38,6 +38,7 @@
     'data': [
         'views/mass_mailing_view.xml',
         'views/sponsorship_view.xml',
+        'views/mail_template_view.xml',
     ],
     'depends': ['mail_sendgrid_mass_mailing', 'child_sync_wp',
                 'sbc_switzerland'],
