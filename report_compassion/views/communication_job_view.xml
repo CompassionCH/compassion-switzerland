@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <field name="ir_attachment_ids" position="before">
                 <field name="product_id" domain="[('fund_id', '!=', False)]"/>
+                <field name="preprinted" attrs="{'invisible': [('product_id', '=', False)]}"/>
             </field>
         </field>
     </record>

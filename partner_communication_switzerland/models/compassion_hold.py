@@ -116,7 +116,8 @@ class CompassionHold(models.Model):
             "sponsor {} ({})"
         failed = self.env[self._name]
         for hold in self.filtered('child_id.sponsorship_ids').with_context(
-                default_auto_send=False):
+                default_auto_send=False, default_print_subject=False,
+                default_print_header=True):
             sponsorship = hold.child_id.sponsorship_ids[0]
             sponsor = hold.child_id.sponsor_id
             # Filter sponsorships where we wait for the bank authorization

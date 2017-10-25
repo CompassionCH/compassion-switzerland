@@ -35,13 +35,13 @@ class ResPartner(models.Model):
     )
 
     @api.multi
-    def _get_salutation(self):
+    def _compute_salutation(self):
         company = self.filtered(
             lambda p: not (p.title and p.firstname and not p.is_company))
         for p in company:
             p.salutation = _("Dear friends of compassion")
             p.short_salutation = p.salutation
-        super(ResPartner, self - company)._get_salutation()
+        super(ResPartner, self - company)._compute_salutation()
 
     @api.multi
     @api.depends('thankyou_letter')
