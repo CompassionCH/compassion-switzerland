@@ -232,7 +232,7 @@
                     </div>
                     <div id="body">
                         <span t-raw="o.body_html" class="body_text"/>
-                        <div class="right" style="margin-top: 10mm">
+                        <div class="right" t-attf-style="margin-top: 10mm; margin-left: {{ 50 if o.success_story_id else 95 }}mm">
                             <span t-raw="o.signature or ''"/>
                         </div>
                     </div>
