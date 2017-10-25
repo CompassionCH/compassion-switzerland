@@ -134,7 +134,9 @@ class ResPartner(models.Model):
     def create(self, vals):
         duplicate = self.search(
             ['|',
+             '&',
              ('email', '=', vals.get('email')),
+             ('email', '!=', False),
              '&', '&',
              ('firstname', 'ilike', vals.get('firstname')),
              ('lastname', 'ilike', vals.get('lastname')),
@@ -214,7 +216,9 @@ class ResPartner(models.Model):
             partner_duplicates = self.search([
                 ('id', '!=', self._origin.id),
                 '|',
+                '&',
                 ('email', '=', self.email),
+                ('email', '!=', False),
                 '&', '&',
                 ('firstname', 'ilike', self.firstname),
                 ('lastname', 'ilike', self.lastname),
