@@ -336,6 +336,7 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         attachments = OrderedDict()
         report_obj = self.env['report']
+        account_payment_mode_obj = self.env['account.payment.mode']
 
         sponsorships = self.get_objects()
         # Include all active sponsorships for Permanent Order
@@ -345,8 +346,21 @@ class PartnerCommunication(models.Model):
                 'group_id.contract_ids').filtered(
                 lambda s: s.state == 'active')
 
+        make_payment_pdf = True
+
+        groups = sponsorships.mapped('group_id')
+
+        lsv_dd_modes = account_payment_mode_obj.search(
+            ['|', ('name', 'like', 'Direct Debit'), ('name', 'like', 'LSV')])
+
+        lsv_dd_groups = groups.filtered(
+            lambda r: r.payment_mode_id in lsv_dd_modes)
+
+        if len(lsv_dd_groups) == len(groups):
+            make_payment_pdf = False
+
         # Payment slips
-        if payment:
+        if payment and make_payment_pdf:
             report_name = 'report_compassion.3bvr_sponsorship'
             attachments.update({
                 _('sponsorship payment slips.pdf'): [
