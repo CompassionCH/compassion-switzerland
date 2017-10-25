@@ -347,9 +347,11 @@ class PartnerCommunication(models.Model):
 
         groups = sponsorships.mapped('group_id')
 
-        lsv_dd_modes = account_payment_mode_obj.search(['|', ('name', 'like', 'Direct Debit'),
-                                                        ('name', 'like', 'LSV')])
-        lsv_dd_groups = groups.filtered(lambda r: r.payment_mode_id in lsv_dd_modes)
+        lsv_dd_modes = account_payment_mode_obj.search(
+            ['|', ('name', 'like', 'Direct Debit'), ('name', 'like', 'LSV')])
+
+        lsv_dd_groups = groups.filtered(
+            lambda r: r.payment_mode_id in lsv_dd_modes)
 
         if len(lsv_dd_groups) == len(groups):
             make_payment_pdf = False
