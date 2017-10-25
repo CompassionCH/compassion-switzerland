@@ -1,0 +1,13 @@
+<odoo>
+    <record model="ir.ui.view" id="generate_communication_wizard_ch_form">
+        <field name="name">genereate.communication.wizard.ch.form</field>
+        <field name="model">partner.communication.generate.wizard</field>
+        <field name="inherit_id" ref="thankyou_letters.generate_communication_wizard_thanks_form"/>
+        <field name="arch" type="xml">
+            <field name="print_subject" position="before">
+                <field name="product_id" attrs="{'invisible': [('send_mode', '=', 'digital')]}"/>
+                <field name="preprinted" attrs="{'invisible': [('product_id', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>

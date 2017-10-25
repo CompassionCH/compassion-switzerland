@@ -56,6 +56,7 @@
         'views/print_childpack_view.xml',
         'views/print_bvr_fund_view.xml',
         'views/communication_job_view.xml',
+        'views/generate_communication_wizard_view.xml',
     ],
     'demo': [],
     'installable': True,

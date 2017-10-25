@@ -25,6 +25,10 @@ class PartnerCommunication(models.Model):
     #                                 FIELDS                                 #
     ##########################################################################
     product_id = fields.Many2one('product.product', 'Attach payment slip for')
+    preprinted = fields.Boolean(
+        help='Enable if you print on a payment slip that already has company '
+             'information printed on it.'
+    )
     compassion_logo = fields.Binary(compute='_compute_compassion_logo')
     compassion_square = fields.Binary(compute='_compute_compassion_logo')
 

@@ -38,6 +38,10 @@ class PrintSponsorshipBvr(models.TransientModel):
     pdf = fields.Boolean()
     pdf_name = fields.Char(default='sponsorship payment.pdf')
     pdf_download = fields.Binary(readonly=True)
+    preprinted = fields.Boolean(
+        help='Enable if you print on a payment slip that already has company '
+             'information printed on it.'
+    )
 
     @api.model
     def default_start(self):
@@ -63,6 +67,14 @@ class PrintSponsorshipBvr(models.TransientModel):
         self.date_start = start
         self.date_stop = stop
 
+    @api.onchange('pdf')
+    def onchange_pdf(self):
+        if self.pdf:
+            self.draw_background = True
+            self.preprinted = False
+        else:
+            self.draw_background = False
+
     @api.multi
     def print_report(self):
         """
@@ -79,6 +91,7 @@ class PrintSponsorshipBvr(models.TransientModel):
             'gifts': self.include_gifts,
             'doc_ids': self.env.context.get('active_ids'),
             'background': self.draw_background,
+            'preprinted': self.preprinted
         }
         records = self.env[self.env.context.get('active_model')].browse(
             data['doc_ids'])

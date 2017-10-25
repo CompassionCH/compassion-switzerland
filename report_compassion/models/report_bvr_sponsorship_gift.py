@@ -35,7 +35,8 @@ class BvrSponsorshipGift(models.AbstractModel):
         """
         return {
             'product_ids': self.env[
-                'recurring.contract'].get_sponsorship_gift_products().ids
+                'recurring.contract'].get_sponsorship_gift_products().ids,
+            'preprinted': False,
         }
 
     @api.multi

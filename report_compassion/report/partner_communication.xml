@@ -182,7 +182,7 @@
         <div class="page">
             <t t-call="report_compassion.communication_style"/>
             <div id="header">
-                <t t-if="o.product_id or o.print_header">
+                <t t-if="o.print_header">
                     <div id="logo" t-field="o.compassion_logo" t-field-options='{"widget": "image"}'/>
                     <div id="square" t-field="o.compassion_square" t-field-options='{"widget": "image"}'/>
                     <div id="compassion_address">
@@ -245,6 +245,7 @@
                 <t t-set="partner_address" t-value="partner.short_address"/>
                 <t t-set="company_account" t-value="o.env['recurring.contract.group'].get_company_bvr_account()"/>
                 <t t-set="position" t-value="0"/>
+                <t t-set="preprinted" t-value="o.preprinted"/>
 
                 <!-- Print BVR Fund -->
                 <t t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship'">

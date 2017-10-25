@@ -27,6 +27,18 @@ class PrintBvrFund(models.TransientModel):
     pdf = fields.Boolean()
     pdf_name = fields.Char(default='fund.pdf')
     pdf_download = fields.Binary(readonly=True)
+    preprinted = fields.Boolean(
+        help='Enable if you print on a payment slip that already has company '
+             'information printed on it.'
+    )
+
+    @api.onchange('pdf')
+    def onchange_pdf(self):
+        if self.pdf:
+            self.draw_background = True
+            self.preprinted = False
+        else:
+            self.draw_background = False
 
     @api.multi
     def print_report(self):
@@ -41,6 +53,7 @@ class PrintBvrFund(models.TransientModel):
             'doc_ids': partners.ids,
             'product_id': self.product_id.id,
             'background': self.draw_background,
+            'preprinted': self.preprinted,
         }
         report = 'report_compassion.bvr_fund'
         if self.pdf:

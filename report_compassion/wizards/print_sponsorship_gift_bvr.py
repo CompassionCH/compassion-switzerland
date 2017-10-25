@@ -38,6 +38,18 @@ class PrintSponsorshipBvr(models.TransientModel):
     pdf = fields.Boolean()
     pdf_name = fields.Char(default='fund.pdf')
     pdf_download = fields.Binary(readonly=True)
+    preprinted = fields.Boolean(
+        help='Enable if you print on a payment slip that already has company '
+             'information printed on it.'
+    )
+
+    @api.onchange('pdf')
+    def onchange_pdf(self):
+        if self.pdf:
+            self.draw_background = True
+            self.preprinted = False
+        else:
+            self.draw_background = False
 
     @api.multi
     def print_report(self):
@@ -66,6 +78,7 @@ class PrintSponsorshipBvr(models.TransientModel):
             'doc_ids': self.env.context.get('active_ids'),
             'product_ids': products.ids,
             'background': self.draw_background,
+            'preprinted': self.preprinted,
         }
         records = self.env[self.env.context.get('active_model')].browse(
             data['doc_ids'])
