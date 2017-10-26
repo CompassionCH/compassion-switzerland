@@ -20,6 +20,7 @@ class Email(models.Model):
     def send_sendgrid(self):
         """ Post the message in partner, with tracking.
         """
+        self.write({'auto_delete': False})
         super(Email, self).send_sendgrid()
         for email in self:
             message = email.mail_message_id
