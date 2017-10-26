@@ -10,7 +10,6 @@
 ##############################################################################
 import base64
 from collections import OrderedDict
-from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 from pyPdf import PdfFileWriter, PdfFileReader
@@ -288,22 +287,26 @@ class PartnerCommunication(models.Model):
                                   'sponsorship_waiting_reminder_1')
         no_money_2 = self.env.ref('partner_communication_switzerland.'
                                   'sponsorship_waiting_reminder_2')
+        no_money_3 = self.env.ref('partner_communication_switzerland.'
+                                  'sponsorship_waiting_reminder_3')
         settings = self.env['availability.management.settings']
         first_extension = settings.get_param('no_money_hold_duration')
         second_extension = settings.get_param('no_money_hold_extension')
-        now = datetime.now()
         for communication in self:
             extension = False
             if communication.config_id == no_money_1:
-                # Add 7 days because reminders are created 7 days in advance
-                extension = now + relativedelta(days=first_extension+7)
+                extension = first_extension + 7
             elif communication.config_id == no_money_2:
-                extension = now + relativedelta(days=second_extension+7)
+                extension = second_extension + 7
+            elif communication.config_id == no_money_3:
+                extension = 10
             if extension:
                 holds = communication.get_objects().mapped('child_id.hold_id')
-                holds.write({
-                    'expiration_date': fields.Datetime.to_string(extension)
-                })
+                for hold in holds:
+                    expiration = fields.Datetime.from_string(
+                        hold.expiration_date) + relativedelta(days=extension)
+                    hold.expiration_date = fields.Datetime.to_string(
+                        expiration)
 
         donor = self.env.ref('partner_compassion.res_partner_category_donor')
         partners = self.filtered(
