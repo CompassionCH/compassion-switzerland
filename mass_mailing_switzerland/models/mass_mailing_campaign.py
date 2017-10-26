@@ -80,7 +80,7 @@ class Mail(models.Model):
     @job(default_channel='root.mass_mailing')
     @related_action(action='related_action_emails')
     @api.multi
-    def send_sendgrid_job(self):
+    def send_sendgrid_job(self, mass_mailings):
         regex = r'(?<=")((?:https|http)://(?:www\.|)compassion\.ch[^"]*)(?=")'
         for msg in self:
             slug = msg.mailing_id.mass_mailing_campaign_id.mailing_slug
@@ -89,4 +89,6 @@ class Mail(models.Model):
                 msg.mail_message_id.body = \
                     re.sub(regex, r'\1?c=' + slug, msg.mail_message_id.body)
         # Make send method callable in a job
-        return self.send_sendgrid()
+        self.send_sendgrid()
+        mass_mailings.write({'state': 'done'})
+        return True

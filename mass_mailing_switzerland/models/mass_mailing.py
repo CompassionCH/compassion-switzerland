@@ -58,7 +58,8 @@ class MassMailing(models.Model):
         result = super(MassMailing, self).send_mail()
         if self.email_template_id:
             # Used for Sendgrid -> Send e-mails in a job
-            result.with_delay().send_sendgrid_job()
+            result.with_delay().send_sendgrid_job(self)
+            self.write({'state': 'sending'})
         return result
 
     @api.multi
@@ -69,7 +70,7 @@ class MassMailing(models.Model):
             lambda s: not s.mail_tracking_id and s.mail_mail_id.state ==
             'outgoing')
         emails = mail_statistics.mapped('mail_mail_id')
-        emails.with_delay().send_sendgrid_job()
+        emails.with_delay().send_sendgrid_job(self)
         return True
 
     @api.multi
