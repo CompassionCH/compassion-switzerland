@@ -14,3 +14,4 @@ from . import partner_compassion
 from . import email
 from . import mail_message
 from . import product
+from . import mail_thread

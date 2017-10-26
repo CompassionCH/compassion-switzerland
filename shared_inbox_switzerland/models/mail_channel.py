@@ -31,13 +31,18 @@ class MailChannel(models.Model):
             content_subtype=content_subtype, **kwargs)
         info = self.env.ref('shared_inbox_switzerland.info_inbox')
         if self == info:
-            author = message.author_id
-            # Post message on partner and notify channel members.
-            message.write({
-                'model': 'res.partner',
-                'res_id': author.id,
+            # Notify channel members
+            vals = {
                 'partner_ids': [(6, 0, self.channel_partner_ids.ids)],
-                'record_name': message.subject,
-            })
+            }
+            author = message.author_id
+            if author:
+                # Post message on partner.
+                vals.update({
+                    'model': 'res.partner',
+                    'res_id': author.id,
+                    'record_name': message.subject,
+                })
+            message.write(vals)
             message._notify()
         return message
