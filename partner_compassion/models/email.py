@@ -40,16 +40,6 @@ class Email(models.Model):
                         'author_id': message.author_id.id
                     })
 
-            # Set Discussion in message
-            # in order to display the tracking information in the
-            # related object thread.
-            if message.model:
-                message_vals = {}
-                if not message.subtype_id:
-                    message_vals['subtype_id'] = self.env.ref(
-                        'mail.mt_comment').id
-                message.write(message_vals)
-
 
 class EmailTemplate(models.Model):
     """ Remove functionality to search partners given the email_to field.

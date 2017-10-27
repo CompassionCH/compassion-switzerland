@@ -35,33 +35,32 @@ class MailMessage(models.Model):
                 ancestor = ancestor.parent_id
             message.ancestor = ancestor or previous
 
-    @api.model
-    def _message_read_dict_postprocess(self, messages, message_tree):
-        res = super(MailMessage, self)._message_read_dict_postprocess(
-            messages, message_tree)
-        for message_dict in messages:
-            mail_message_id = message_dict.get('id', False)
-            if mail_message_id:
-                # Add parent and child message ids in the search
-                message_ids = [mail_message_id]
-                message = self.browse(mail_message_id)
-                message_ids.extend(message.tracking_ids.ids or [])
-                message_ids.extend(message.child_ids.ids)
-                while message.parent_id:
-                    message = message.parent_id
-                    message_ids.append(message.id)
-
-                # Code copied from mail_tracking module (be aware of updates)
-                partner_trackings = {}
-                for partner in message_dict.get('partner_ids', []):
-                    partner_id = partner[0]
-                    tracking_email = self.env['mail.tracking.email'].search([
-                        ('mail_message_id', 'in', message_ids),
-                        ('partner_id', '=', partner_id),
-                    ], limit=1)
-                    status = self._partner_tracking_status_get(tracking_email)
-                    partner_trackings[str(partner_id)] = (
-                        status, tracking_email.id)
-
-            message_dict['partner_trackings'] = partner_trackings
+    def tracking_status(self):
+        """
+        Inherit from mail_tracking module to find tracking of parent and
+        children messages.
+        Useful to display tracking in thread of partner.
+        :return: dict {message_id: [(status, tracking_id, partner_name,
+                                    partner_id)]}
+        """
+        res = dict()
+        for message in self:
+            search_messages = message
+            parent = message.parent_id
+            while parent:
+                search_messages += parent
+                parent = parent.parent_id
+            search_messages += message.child_ids
+            mess_results = super(
+                MailMessage, search_messages).tracking_status()
+            tracking = mess_results.get(message.id)
+            if not tracking and len(mess_results) > 1:
+                tracking_ids = list()
+                for m_id, m_tracking in mess_results.iteritems():
+                    if m_tracking:
+                        for mm_tracking in m_tracking:
+                            if mm_tracking[1] not in tracking_ids:
+                                tracking.append(mm_tracking)
+                                tracking_ids.append(mm_tracking[1])
+            res[message.id] = tracking
         return res
