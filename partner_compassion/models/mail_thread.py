@@ -41,10 +41,12 @@ class MailThread(models.AbstractModel):
         to_remove = list()
         partner_obj = self.env['res.partner']
         for message_id, suggestion in result.iteritems():
-            partner = partner_obj.browse(suggestion[0])
-            users = partner.mapped('user_ids').filtered(lambda u: not u.share)
-            if not users:
-                to_remove.append(message_id)
+            if suggestion:
+                partner = partner_obj.browse(suggestion[0])
+                users = partner.mapped('user_ids').filtered(
+                    lambda u: not u.share)
+                if not users:
+                    to_remove.append(message_id)
         for message_id in to_remove:
             del result[message_id]
         return result
