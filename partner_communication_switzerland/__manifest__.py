@@ -62,6 +62,7 @@
         'views/partner_compassion_view.xml',
         'views/change_text_wizard_view.xml',
         'views/correspondence_view.xml',
+        'views/event_compassion_view.xml',
     ],
     'demo': [],
     'installable': True,
