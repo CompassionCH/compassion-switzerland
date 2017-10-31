@@ -63,7 +63,7 @@ class TranslateConnect(MysqlConnector):
             'firstname': sponsor.firstname,
             'code': child.local_id,
             'kid_name': child.name,
-            'kid_firstname': child.firstname,
+            'kid_firstname': child.preferred_name,
             'age': child_age,
             'kid_gender': child.gender,
             'createdat': self.current_time,
