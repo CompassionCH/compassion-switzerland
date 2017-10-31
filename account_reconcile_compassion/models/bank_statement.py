@@ -27,12 +27,23 @@ class AccountStatement(models.Model):
     generated_invoices_count = fields.Integer(
         'Invoices', compute='_compute_invoices')
     name = fields.Char(
-        default=lambda b: b.env['ir.sequence'].next_by_code('bank-cash')
+        default=lambda b: b._default_name()
     )
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+    @api.model
+    def _default_name(self):
+        """ Find the appropriate sequence """
+        journal_id = self.env.context.get('default_journal_id')
+        if journal_id:
+            journal = self.env['account.journal'].browse(journal_id)
+            sequence = self.env['ir.sequence'].search([
+                ('name', '=', journal.name)])
+            if sequence:
+                return sequence.next_by_id()
+        return ''
 
     @api.multi
     def _compute_invoices(self):
