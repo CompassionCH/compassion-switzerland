@@ -219,6 +219,7 @@ class PartnerCommunication(models.Model):
             'active_ids': sponsorships.ids,
             'active_model': 'recurring.contract',
             'label_print': label_print.id,
+            'must_skip_send_to_printer': True
         }).create({
             'brand_id': label_brand.id,
             'config_id': label_format.id,
