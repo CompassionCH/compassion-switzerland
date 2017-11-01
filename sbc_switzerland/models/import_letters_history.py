@@ -49,7 +49,7 @@ class ImportLettersHistory(models.Model):
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    @api.depends("data", "import_folder_path")
+    @api.onchange("data", "import_folder_path")
     def _count_nber_letters(self):
         """
         Counts the number of scans. If a zip file is given, the number of
