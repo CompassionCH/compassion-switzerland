@@ -24,10 +24,6 @@ class ChangeAttributionWizard(models.TransientModel):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
-    state = fields.Selection([
-        ('unrec', _('Unreconcile')),
-        ('change', _('Change Lines')),
-        ('rec', _('Reconcile'))], 'state', default='unrec')
     invoice_line_ids = fields.Many2many(
         'account.invoice.line', 'change_attribution_wizard_line_rel',
         string='Related invoice lines',
@@ -69,8 +65,9 @@ class ChangeAttributionWizard(models.TransientModel):
         # Unreconcile payments
         payment_ids = self.invoice_line_ids.mapped(
             'invoice_id.payment_move_line_ids')
-        move_lines = payment_ids.mapped('full_reconcile_id.line_id')
-        self.env['account.move.line'].remove_move_reconcile(move_lines.ids)
+        move_lines = payment_ids.mapped(
+            'full_reconcile_id.reconciled_line_ids')
+        move_lines.remove_move_reconcile()
 
         # Cancel paid invoices and move invoice lines to a new
         # draft invoice.
@@ -92,7 +89,8 @@ class ChangeAttributionWizard(models.TransientModel):
                 invoice.action_invoice_cancel()
                 invoice.write({'comment': self.comment or
                                'Payment attribution changed.'})
-                invoice.invoice_line_ids.copy({'invoice_id': new_invoice.id})
+                for line in invoice.invoice_line_ids:
+                    line.copy({'invoice_id': new_invoice.id})
 
         self = self.with_context(payment_ids=payment_ids.ids)
         new_invoice.to_reconcile = sum(payment_ids.mapped('credit'))
@@ -139,8 +137,7 @@ class AccountInvoice(models.Model):
                 _("The invoice total amount should be equal to %s in order to"
                   " be reconciled against the payment.") % self.to_reconcile)
 
-        if self.state == 'draft':
-            self.action_invoice_open()
+        self.action_invoice_open()
 
         # Reconcile all related move lines
         mvl_ids = self.env.context.get('payment_ids')
