@@ -26,13 +26,6 @@
                 <attribute name="attrs">{'invisible':[('manual_import', '==', True)]}</attribute>
             </field>
 
-            <!-- Replace button import -->
-            <button name="button_import" position="replace"/>
-            <field name="nber_letters" position="before">
-                <separator/>
-                <button name="button_import" string="Load Files" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
-            </field>
-
              <!-- add text edit for import folder path -->
             <field name="template_id" position="after">
                 <field name="import_folder_path" attrs="{'invisible':[('manual_import', '==', True)]}"/>
