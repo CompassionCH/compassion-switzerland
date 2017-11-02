@@ -4,11 +4,7 @@
         <field name="name">change.attribution.wizard.form</field>
         <field name="model">unreconcile.change.attribution.wizard</field>
         <field name="arch" type="xml">
-            <form string="Change attribution of payment" version="7.0">
-                <header>
-                    <field name="state" widget="statusbar"/>
-                </header>
-
+            <form string="Change attribution of payment">
                 <sheet>
                     <p>This will cancel the following invoice lines, for letting you changing them. Please verify the validity of your selection</p>
                     <group>
@@ -18,7 +14,7 @@
                 </sheet>
 
                 <footer>
-                    <button name="unreconcile" type="object" string="Unreconcile payment" class="oe_highlight" states="unrec"/>
+                    <button name="unreconcile" type="object" string="Unreconcile payment" class="oe_highlight"/>
                     <button string="Cancel" special="cancel" class="oe_link" />
                 </footer>
             </form>
