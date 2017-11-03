@@ -20,7 +20,7 @@
             <notebook>
                 <page string="Donation Receipts">
                     <p>Set a custom text used in thank you letters for donations linked to an event and to this partner.</p>
-                    <field name="ambassador_quote" widget="text_ckeditor4"/>
+                    <field name="ambassador_quote" options="{'style-inline': true}"/>
                 </page>
             </notebook>
         </field>
