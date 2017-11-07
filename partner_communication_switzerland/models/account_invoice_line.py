@@ -40,9 +40,10 @@ class AccountInvoiceLine(models.Model):
 
         event_names = self.mapped('event_id.name')
         product_names = self.mapped('product_id.thanks_name')
-        if len(event_names) == 1:
+        gift = 'gift' in self.mapped('invoice_id.invoice_type')
+        if len(event_names) == 1 and not gift:
             res_name = event_names[0]
-        elif not event_names and len(product_names) == 1:
+        elif not event_names and len(product_names) == 1 and not gift:
             res_name = product_names[0]
         # Special case for gifts : mention it's a gift even if several
         # different gifts are made.
@@ -142,9 +143,11 @@ class AccountInvoiceLine(models.Model):
         # Special case for legacy donation : always treat as large donation
         legacy = 'legacy' in self.with_context(lang='en_US').mapped(
             'product_id.name')
+        # Special case for gifts : never put in event donation
+        gift = 'gift' in self.mapped('invoice_id.invoice_type')
 
         total_amount = sum(self.mapped('price_subtotal'))
-        event = self.mapped('event_id')
+        event = self.mapped('event_id') and not gift
         if total_amount < 100 and not legacy:
             config = small if not event else small_e
         elif total_amount < 1000 and not legacy:
