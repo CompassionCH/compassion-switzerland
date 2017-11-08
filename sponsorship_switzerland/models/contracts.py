@@ -29,6 +29,9 @@ class RecurringContracts(models.Model):
     contract_line_ids = fields.One2many(
         default=lambda self: self._get_standard_lines()
     )
+    church_id = fields.Many2one(
+        related='partner_id.church_id', readonly=True
+    )
 
     @api.model
     def _get_states(self):

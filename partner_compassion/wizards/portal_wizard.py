@@ -33,22 +33,22 @@ class PortalWizard(models.TransientModel):
 class PortalUser(models.TransientModel):
     _inherit = 'portal.wizard.user'
 
-    @api.model
-    def _create_user(self, wizard_user):
+    @api.multi
+    def _create_user(self):
         """
         Override portal user creation to prevent sending e-mail to new user.
         """
         res_users = self.env['res.users'].with_context(
             noshortcut=True, no_reset_password=True)
-        email = email_split(wizard_user.email)
+        email = email_split(self.email)
         if email:
             email = email[0]
         else:
-            email = wizard_user.partner_id.lastname.lower() + '@cs.local'
+            email = self.partner_id.lastname.lower() + '@cs.local'
         values = {
             'email': email,
             'login': email,
-            'partner_id': wizard_user.partner_id.id,
+            'partner_id': self.partner_id.id,
             'groups_id': [(6, 0, [])],
             'notify_email': 'none',
         }

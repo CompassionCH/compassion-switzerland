@@ -9,6 +9,7 @@
             <!-- Limit partner selection to those who have e-mail address -->
             <field name="mailing_domain" position="attributes">
                 <attribute name="context">{'search_default_not_opt_out': 1, 'search_default_has_email': 1}</attribute>
+                <attribute name="widget">basic_domain</attribute>
             </field>
 
             <xpath expr="//field[@name='mailing_model']/.." position="after">

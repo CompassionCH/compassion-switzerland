@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <notebook>
                 <page string="Donation Receipts">
-                    <field name="thank_you_text" widget="html"/>
+                    <field name="thank_you_text" widget="html" options="{'style-inline': true}"/>
                 </page>
             </notebook>
         </field>

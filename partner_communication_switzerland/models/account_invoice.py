@@ -37,9 +37,9 @@ class AccountInvoice(models.Model):
         first = datetime.today().replace(day=1)
         last_month = first - relativedelta(months=1)
         partners = self.env['res.users'].search([
-            '|', '|', '|',
+            '|', '|',
             ('name', 'like', 'Maglo Rachel'),
-            ('name', 'like', 'Mermod Philippe'),
+            ('name', 'like', 'Willi Christian'),
             ('name', 'like', 'Wulliamoz David'),
         ]).mapped('partner_id')
         invoices = self.search([
