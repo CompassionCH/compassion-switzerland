@@ -22,10 +22,11 @@ class PartnerCheckDouble(models.TransientModel):
 
     @api.multi
     def merge_with(self):
-        self.selected_merge_partner_id.write(self.partner_id.read([
-            'phone', 'mobile', 'email', 'street', 'street2', 'street3',
-            'city', 'zip', 'preferred_name'])[0])
-        self.partner_id.unlink()
+        # Use base.partner.merge wizard
+        self.env['base.partner.merge.automatic.wizard'].create({
+            'partner_ids': [(6, 0, self.partner_id.ids)],
+            'dst_partner_id': self.selected_merge_partner_id.id
+        }).action_merge()
         return {
             "type": "ir.actions.act_window",
             "res_model": "res.partner",
