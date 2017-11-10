@@ -63,6 +63,7 @@
         'views/change_text_wizard_view.xml',
         'views/correspondence_view.xml',
         'views/event_compassion_view.xml',
+        'views/generate_communication_wizard_view.xml',
     ],
     'demo': [],
     'installable': True,
