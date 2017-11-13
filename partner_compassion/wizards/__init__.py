@@ -10,3 +10,4 @@
 ##############################################################################
 from . import portal_wizard
 from . import partner_check_double
+from . import partner_merge_wizard
