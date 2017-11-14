@@ -46,7 +46,7 @@ class RecurringContract(models.Model):
     def _compute_payment_type_attachment(self):
         for contract in self:
             payment_mode = contract.with_context(
-                lang='en_US').payment_mode_id.name
+                lang='en_US').payment_mode_id.name or ''
             if payment_mode == 'Permanent Order':
                 phrase = _('1 payment slip to set up a standing order ('
                            'monthly payment of the sponsorship)')
