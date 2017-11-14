@@ -8,7 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, api, fields, _
+from odoo import models, api, fields
 from odoo.tools import safe_eval
 
 

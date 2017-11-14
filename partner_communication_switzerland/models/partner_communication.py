@@ -251,9 +251,8 @@ class PartnerCommunication(models.Model):
         # IF payment mode is BVR and partner is paying
         # attach sponsorship payment slips
         pay_bvr = sponsorships.filtered(
-            lambda s: s.payment_mode_id == payment_mode_bvr
-            and s.partner_id == self.partner_id
-        )
+            lambda s: s.payment_mode_id == payment_mode_bvr and
+            s.partner_id == self.partner_id)
         report_obj = self.env['report']
         if pay_bvr and pay_bvr.must_pay_next_year():
             today = date.today()
