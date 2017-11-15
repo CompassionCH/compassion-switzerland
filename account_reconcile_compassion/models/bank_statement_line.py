@@ -310,6 +310,10 @@ class BankStatementLine(models.Model):
                     'generate.gift.wizard'].compute_date_birthday_invoice(
                     contract.child_id.birthdate, self.date)
 
+            # Put invoice for correspondent if it's a gift
+            if product.name in GIFT_NAMES and contract and contract.child_id:
+                invoice.partner_id = contract.correspondant_id
+
             amount = mv_line_dict['credit']
             default_analytic = self.env[
                 'account.analytic.default'].account_get(product.id,
@@ -323,8 +327,6 @@ class BankStatementLine(models.Model):
                 'user_id': mv_line_dict.get('user_id'),
                 'quantity': 1,
                 'product_id': product.id,
-                'partner_id': contract.partner_id.id if contract else
-                self.partner_id.id,
                 'invoice_id': invoice.id,
                 # Remove analytic account from bank journal item:
                 # it is only useful in the invoice journal item
@@ -338,9 +340,6 @@ class BankStatementLine(models.Model):
                 raise UserError(_('Add a Sponsorship'))
 
             self.env['account.invoice.line'].create(inv_line_data)
-            # Put payer as partner
-            if contract:
-                invoice.partner_id = contract.partner_id
 
         invoice.action_invoice_open()
         self.ref = ref

@@ -57,7 +57,12 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 // Search sponsorship
                 var child_code = child_gift_match[0].replace("[", "").replace("]", "").match(/\w+/)[0];
                 var sponsorship_obj = new Model("recurring.contract");
-                var sponsorship_search = [['child_code', 'like', child_code], ['partner_id', '=', self.st_line.partner_id]];
+                var sponsorship_search = [
+                    ['child_code', 'like', child_code],
+                    '|',
+                    ['correspondant_id', '=', self.st_line.partner_id],
+                    ['partner_id', '=', self.st_line.partner_id],
+                ];
                 $.when(sponsorship_obj.call("search", [sponsorship_search])).then(function(sponsorship_ids){
                     if (sponsorship_ids) {
                         self.sponsorship_id_field.set_value(sponsorship_ids[0]);
