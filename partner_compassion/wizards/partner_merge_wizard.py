@@ -23,9 +23,11 @@ class PartnerMergeWizard(models.TransientModel):
         Prevent geoengine bugs
         Prevent to merge sponsors
         """
+        removing = self.partner_ids - self.dst_partner_id
+        geo_point = self.dst_partner_id.geo_point
         self.partner_ids.write({'geo_point': False})
         sponsorships = self.env['recurring.contract'].search([
-            ('correspondant_id', 'in', self.partner_ids.ids),
+            ('correspondant_id', 'in', removing.ids),
             ('state', '=', 'active'),
             ('type', 'like', 'S')
         ])
@@ -35,4 +37,6 @@ class PartnerMergeWizard(models.TransientModel):
                 "Please first modify the sponsorship and don't forget "
                 "to send new labels to them."
             ))
-        return super(PartnerMergeWizard, self.sudo()).action_merge()
+        res = super(PartnerMergeWizard, self.sudo()).action_merge()
+        self.dst_partner_id.geo_point = geo_point
+        return res

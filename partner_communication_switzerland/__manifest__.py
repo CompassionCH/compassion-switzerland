@@ -40,7 +40,6 @@
         'python': ['wand', 'detectlanguage', 'sendgrid']
     },
     'data': [
-        'data/end_year_communication.xml',
         'data/major_revision_emails.xml',
         'data/child_letter_emails.xml',
         'data/lifecycle_emails.xml',

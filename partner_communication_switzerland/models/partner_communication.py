@@ -11,6 +11,7 @@
 import base64
 from collections import OrderedDict
 
+from datetime import date
 from dateutil.relativedelta import relativedelta
 from pyPdf import PdfFileWriter, PdfFileReader
 from io import BytesIO
@@ -108,35 +109,6 @@ class PartnerCommunication(models.Model):
                 lang='en_US').search([('name', '=', GIFT_NAMES[0])])
             attachments = sponsorships.get_bvr_gift_attachment(
                 birthday_gift, background)
-        return attachments
-
-    def get_gift_bvr(self):
-        """
-        Attach gift slip with background for sending by e-mail
-        :return: dict {attachment_name: [report_name, pdf_data]}
-        """
-        self.ensure_one()
-        attachments = dict()
-        background = self.send_mode and 'physical' not in self.send_mode
-        sponsorships = self.get_objects()
-        bvr_other = False
-        bvr_gifts = False
-        if sponsorships:
-            if 10 in sponsorships.mapped('payment_mode_id.id'):
-                if sponsorships.mapped('partner_id.id') == \
-                        sponsorships.mapped('correspondent_id.id'):
-                    bvr_gifts = self.env['product.product'].with_context(
-                        lang='en_US').search(('name', 'in', GIFT_NAMES))
-
-                bvr_other = self.env['product.product'].with_context(
-                    lang='en_US').search([('name', '=', 'Sponsorship')])
-
-            else:
-                bvr_gifts = self.env['product.product'].with_context(
-                    lang='en_US').search([('name', 'in', GIFT_NAMES)])
-
-            attachments = sponsorships.get_bvr_attachment(
-                bvr_gifts, bvr_other, background)
         return attachments
 
     def get_graduation_bvr(self):
@@ -265,6 +237,57 @@ class PartnerCommunication(models.Model):
         else:
             self.ir_attachment_ids = False
         return res
+
+    def get_yearly_payment_slips(self):
+        """
+        Attach payment slips
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        sponsorships = self.get_objects()
+        payment_mode_bvr = self.env.ref(
+            'sponsorship_switzerland.payment_mode_bvr')
+        attachments = dict()
+        # IF payment mode is BVR and partner is paying
+        # attach sponsorship payment slips
+        pay_bvr = sponsorships.filtered(
+            lambda s: s.payment_mode_id == payment_mode_bvr and
+            s.partner_id == self.partner_id)
+        report_obj = self.env['report']
+        if pay_bvr and pay_bvr.must_pay_next_year():
+            today = date.today()
+            date_start = today.replace(today.year + 1, 1, 1)
+            date_stop = date_start.replace(month=12, day=31)
+            report_name = 'report_compassion.3bvr_sponsorship'
+            attachments.update({
+                _('sponsorship payment slips.pdf'): [
+                    report_name,
+                    base64.b64encode(report_obj.get_pdf(
+                        pay_bvr.ids, report_name,
+                        data={
+                            'doc_ids': pay_bvr.ids,
+                            'date_start': fields.Date.to_string(date_start),
+                            'date_stop': fields.Date.to_string(date_stop)
+                        }
+                    ))
+                ]
+            })
+        # Attach gifts for correspondents
+        corresponding = sponsorships.filtered(
+            lambda s: s.correspondant_id == self.partner_id
+        )
+        if corresponding:
+            report_name = 'report_compassion.3bvr_gift_sponsorship'
+            attachments.update({
+                _('sponsorship gifts.pdf'): [
+                    report_name,
+                    base64.b64encode(report_obj.get_pdf(
+                        corresponding.ids, report_name,
+                        data={'doc_ids': corresponding.ids}
+                    ))
+                ]
+            })
+        return attachments
 
     @api.multi
     def send(self):
