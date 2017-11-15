@@ -172,6 +172,14 @@ class ContractGroup(models.Model):
             elif number_sponsorship and valid.child_id:
                 vals['subject'] = valid.child_id.firstname + " ({})".format(
                     valid.child_id.local_id)
+            elif number_sponsorship and not valid.child_id \
+                    and valid.display_name:
+                product_name = self.env['product.product'].search(
+                    [('id',
+                      'in',
+                      valid.mapped('contract_line_ids.product_id').ids)])
+
+                vals['subject'] = ", ".join(product_name.mapped('thanks_name'))
 
         return u"{payment_type} {amount}<br/>{subject}<br/>{date}".format(
             **vals)
