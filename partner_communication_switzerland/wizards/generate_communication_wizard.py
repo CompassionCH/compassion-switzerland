@@ -10,6 +10,7 @@
 ##############################################################################
 from odoo import models, api, fields
 from odoo.tools import safe_eval
+from odoo.addons.queue_job.job import job
 
 
 class GenerateCommunicationWizard(models.TransientModel):
@@ -32,6 +33,15 @@ class GenerateCommunicationWizard(models.TransientModel):
     model_id = fields.Many2one(
         domain=[]
     )
+
+    @api.multi
+    def _compute_progress(self):
+        s_wizards = self.filtered(
+            lambda w: w.res_model == 'recurring.contract')
+        for wizard in s_wizards:
+            wizard.progress = float(len(wizard.communication_ids) * 100) / (
+                len(wizard.sponsorship_ids.mapped(wizard.partner_source)) or 1)
+        super(GenerateCommunicationWizard, self-s_wizards)._compute_progress()
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
@@ -63,13 +73,12 @@ class GenerateCommunicationWizard(models.TransientModel):
         return super(GenerateCommunicationWizard,
                      self.with_context(object_ids=object_ids)).get_preview()
 
-    def _get_communications(self):
+    @job
+    def generate_communications(self):
         """ Create the communication records """
         if self.res_model == 'recurring.contract':
-            comm_obj = self.env['partner.communication.job']
-            communications = comm_obj
             for sponsorship in self.sponsorship_ids:
-                comm = comm_obj.create({
+                self.with_delay().create_communication({
                     'partner_id': getattr(sponsorship, self.partner_source).id,
                     'object_ids': sponsorship.id,
                     'config_id': self.model_id.id,
@@ -78,8 +87,7 @@ class GenerateCommunicationWizard(models.TransientModel):
                     'report_id': self.report_id.id or
                     self.model_id.report_id.id,
                 })
-                communications += comm
-            return communications
+            return True
         else:
             return super(GenerateCommunicationWizard,
                          self)._get_communications()
