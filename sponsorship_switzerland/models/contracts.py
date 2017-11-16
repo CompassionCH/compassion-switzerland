@@ -102,19 +102,6 @@ class RecurringContracts(models.Model):
         # Write the changes
         return super(RecurringContracts, self).write(vals)
 
-    @api.multi
-    def suspend_contract(self):
-        """ Launch automatic reconcile after suspension. """
-        super(RecurringContracts, self).suspend_contract()
-        self._auto_reconcile()
-        return True
-
-    @api.multi
-    def reactivate_contract(self):
-        """ Launch automatic reconcile after reactivation. """
-        super(RecurringContracts, self).reactivate_contract()
-        self._auto_reconcile()
-
     @api.onchange('child_id')
     def onchange_child_id(self):
         res = super(RecurringContracts, self).onchange_child_id()
