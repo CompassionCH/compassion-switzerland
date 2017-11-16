@@ -189,7 +189,6 @@
             <field name="subject">${object.subject}</field>
             <field name="body_html">${object.body_html}</field>
         </record>
-
         <!-- End of year payment slips -->
         <record id="email_yearly_payment_slips" model="mail.template">
             <field name="name">Yearly payment slips</field>
@@ -241,6 +240,52 @@
                     <br/>
                     <br/>
                     We wish you a Merry Christmas and a happy New Year!
+                </p>
+            </field>
+        </record>
+        <record id="csp_mail_template" model="mail.template">
+            <field name="name">CSP Engagement</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Thank you for your engagement</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set hold = object.get_objects()
+                    % set owner = object.partner_id.firstname
+                </div>
+                <p>
+                    Dear ${owner},
+                    <br/>
+                    <br/>
+                        Thank you to support a child survival program from Compassion.
+                    <br/>
+                    <br/>
+                        From pregnancy through infanthood, Child Survival offers help that moms and babies desperately need to survive and thrive. More than 64,598 moms and babies have been helped to date! Through our Child Survival Centers, we ensure mothers and babies receive any of the following:
+                    <br/>
+                    <ul>
+                        <li>Basic Nutrition in the form of clean water, healthy food and vitamins.</li>
+                        <li>Pre-natal and post-natal medical exams to monitor mom and baby’s health.</li>
+                        <li>Critical medical resources such as child birth assistance.</li>
+                        <li>Monthly growth monitoring to protect the children from malnutrition.</li>
+                        <li>Immunizations and other medical care for newborns and babies.</li>
+                        <li>Mentoring from a survival specialist that gives one-on-one coaching and support.</li>
+                        <li>Opportunities for infants to learn cognitive skills.</li>
+                        <li>Workshops that teach mothers parenting and survival skills.</li>
+                        <li>Home visits to check in on mother and baby.</li>
+                        <li>Emotional support from a community of moms facing the same fears.</li>
+                    </ul>
+                        Each Child Survival Center is staffed with warm, caring, knowledgeable individuals that serve mothers and babies extremely well. Your donations give children under 1 year old a head start toward a healthy life!
+                    <br/>
+                    <br/>
+                        There is no correspondence with the mothers, nevertheless you will receive once a year a newsletter with information about the program and testimonies from mothers.
+                    <br/>
+                    <br/>
+                        Please do not hesitate to contact us if you have any questions.
+                    <br/>
+                    <br/>
+                    Sincerely
                 </p>
             </field>
         </record>

@@ -112,11 +112,10 @@ class RecurringContract(models.Model):
         :return: communication created recordset
         """
         partner_field = 'correspondant_id' if correspondent else 'partner_id'
-        sponsorships = self.filtered(lambda s: 'S' in s.type)
-        partners = sponsorships.mapped(partner_field)
+        partners = self.mapped(partner_field)
         communications = self.env['partner.communication.job']
         for partner in partners:
-            objects = sponsorships.filtered(
+            objects = self.filtered(
                 lambda c: c.correspondant_id.id == partner.id if correspondent
                 else c.partner_id.id == partner.id
             )
@@ -348,6 +347,12 @@ class RecurringContract(models.Model):
         res = super(RecurringContract, self).contract_waiting_mandate()
         self.filtered(
             lambda c: 'S' in c.type and not c.is_active)._new_dossier()
+
+        if 'CSP' in self.name:
+            module = 'partner_communication_switzerland.'
+            selected_config = self.env.ref(module + 'csp_mail')
+            self.send_communication(selected_config, False)
+
         return res
 
     @api.multi
@@ -355,6 +360,12 @@ class RecurringContract(models.Model):
         res = super(RecurringContract, self).contract_waiting()
         self.filtered(
             lambda c: 'S' in c.type and not c.is_active)._new_dossier()
+
+        if 'CSP' in self.name:
+            module = 'partner_communication_switzerland.'
+            selected_config = self.env.ref(module + 'csp_mail')
+            self.send_communication(selected_config, False)
+
         return res
 
     @api.multi
