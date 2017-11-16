@@ -350,7 +350,7 @@ class RecurringContract(models.Model):
 
         if 'CSP' in self.name:
             module = 'partner_communication_switzerland.'
-            selected_config = self.env.ref(module + 'test_mail')
+            selected_config = self.env.ref(module + 'csp_mail')
             self.send_communication(selected_config, False)
 
         return res
@@ -363,7 +363,7 @@ class RecurringContract(models.Model):
 
         if 'CSP' in self.name:
             module = 'partner_communication_switzerland.'
-            selected_config = self.env.ref(module + 'test_mail')
+            selected_config = self.env.ref(module + 'csp_mail')
             self.send_communication(selected_config, False)
 
         return res
