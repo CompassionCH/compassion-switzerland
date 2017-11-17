@@ -386,10 +386,10 @@ class RecurringContract(models.Model):
         no_sub = self.env.ref(
             'partner_communication_switzerland.planned_no_sub')
         self.filtered(
-            lambda s: s.end_reason != '1' and s.origin_id.type != 'sub'
+            lambda s: s.end_reason != '1' and not s.parent_id
         ).send_communication(cancellation)
         self.filtered(
-            lambda s: s.end_reason != '1' and s.origin_id.type == 'sub'
+            lambda s: s.end_reason != '1' and s.parent_id
         ).send_communication(no_sub)
 
     def _new_dossier(self):
