@@ -190,6 +190,10 @@
             <xpath expr="//group">
                 <filter string="Language" context="{'group_by': 'lang'}"/>
             </xpath>
+            <!-- Remove filtering of contact people on the customer filter -->
+            <filter name="customer" position="attributes">
+                <attribute name="domain">[('customer','=',1)]</attribute>
+            </filter>
             <filter name="supplier" position="after">
                     <separator />
                     <filter string="Sponsor" name="sponsor" domain="['|', ('category_id.name', '=', 'Sponsor'), ('category_id.name', '=', 'Parrain')]"/>
