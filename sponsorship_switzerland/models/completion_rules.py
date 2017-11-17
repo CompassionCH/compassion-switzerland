@@ -89,10 +89,12 @@ class StatementCompletionRule(models.Model):
                 # If we fall under this rule of completion, it means there is
                 # no open invoice corresponding to the payment. We may need to
                 # generate one depending on the payment type.
-                res.update(
-                    self._generate_invoice(stmts_vals, st_line, partner))
+                line_vals, new_invoice = self._generate_invoice(
+                    stmts_vals, st_line, partner)
+                res.update(line_vals)
                 # Get the accounting partner (company)
-                res['partner_id'] = partner.id
+                res['partner_id'] = partner.commercial_partner_id.id if \
+                    new_invoice else partner.id
             else:
                 logger.warning(
                     'Line named "%s" (Ref:%s) was matched by more '
@@ -214,13 +216,17 @@ class StatementCompletionRule(models.Model):
 
     def _generate_invoice(self, stmts_vals, st_line, partner):
         """ Genereates an invoice corresponding to the statement line read
-            in order to reconcile the corresponding move lines. """
+            in order to reconcile the corresponding move lines.
+
+        :returns dict, boolean: st_line values to update, true if invoice is
+                                created.
+        """
         # Read data in english
         res = dict()
         product = self.with_context(lang='en_US')._find_product_id(
             st_line['ref'])
         if not product:
-            return res
+            return res, False
         # Don't gengerate invoice if it's a Sponsor gift
         if product.categ_name == GIFT_CATEGORY:
             res['name'] = product.name
@@ -244,7 +250,7 @@ class StatementCompletionRule(models.Model):
                 res['name'] += " (" + birthdate + ")]" if birthdate else "]"
             else:
                 res['name'] += " [Child not found] "
-            return res
+            return res, False
 
         # Setup invoice data
         journal_id = self.env['account.journal'].search(
@@ -271,7 +277,7 @@ class StatementCompletionRule(models.Model):
 
         invoice.action_invoice_open()
 
-        return res
+        return res, True
 
     def _generate_invoice_line(self, invoice_id, product, st_line, partner_id):
         inv_line_data = {
