@@ -80,15 +80,15 @@ class AccountInvoice(models.Model):
                 'partner_id': partner_id,
                 'payment_mode_id': payment_mode.id,
                 'origin': origin,
-                'reference': payment_mode_name,
+                'reference': str(pf_payid),
                 'transaction_id': str(pf_payid),
                 'date_invoice': fields.Date.today(),
-                'currency_id': 6,   # Always in CHF
+                'currency_id': 6,  # Always in CHF
                 'account_id': account.id,
                 'name': 'Postfinance payment ' + str(pf_payid) + ' for ' +
-                wp_origin,
+                        -                wp_origin,
                 'mailing_campaign_id': campaign.id
-            })
+                })
         analytic_id = self.env['account.analytic.default'].account_get(
             product.id).analytic_id.id
         gift_account = self.env['account.account'].search([
