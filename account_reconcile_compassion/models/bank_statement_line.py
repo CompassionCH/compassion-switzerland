@@ -32,15 +32,31 @@ class BankStatementLine(models.Model):
     ##########################################################################
     @api.multi
     def get_reconciliation_proposition(self, excluded_ids=None):
-        """ Never propose reconciliation when move_lines have not
-            the same reference.
         """
-        res = super(BankStatementLine, self).get_reconciliation_proposition(
-            excluded_ids)
-        return res.filtered(
-            lambda mvl: mvl.ref == self.ref or
-            mvl.user_type_id.type == 'payable'
-        )
+        Override completely reconcile proposition.
+        """
+        self.ensure_one()
+        import_accounts = self.mapped(
+            'journal_id.default_debit_account_id') | self.mapped(
+            'journal_id.default_credit_account_id')
+        domain = [
+            ('account_id', 'not in', import_accounts.ids),
+            ('reconciled', '=', False),
+            ('account_id.internal_type', 'in', ['payable', 'receivable']),
+            ('account_id.reconcile', '=', True),
+            ('amount_residual', '=', self.amount)
+        ]
+        acc_type = self.journal_id.default_debit_account_id.internal_type
+        if acc_type == 'payable':
+            domain.append(('ref', '=', self.ref))
+        if self.partner_id:
+            domain.append(('partner_id', '=', self.partner_id.id))
+        elif acc_type != 'payable':
+            domain.append(('ref', '=', self.ref))
+        if excluded_ids:
+            domain.append(('id', 'not in', excluded_ids))
+        valid = self.env['account.move.line'].search(domain)
+        return valid and valid.sorted(self._sort_move_line)[0]
 
     @api.multi
     def get_move_lines_for_reconciliation(
@@ -54,27 +70,21 @@ class BankStatementLine(models.Model):
         if limit is not None and limit < 12:
             limit = 12
 
+        # Never propose lines of same account than the import journal
+        if additional_domain is None:
+            additional_domain = list()
+        import_accounts = self.mapped(
+            'journal_id.default_debit_account_id') | self.mapped(
+            'journal_id.default_credit_account_id')
+        additional_domain.append(('account_id', 'not in', import_accounts.ids))
+
         res_asc = super(
             BankStatementLine, self).get_move_lines_for_reconciliation(
             excluded_ids, str, offset, limit, additional_domain,
             overlook_partner)
 
         # Sort results with date (current month at first)
-        res_sorted = list()
-        today = datetime.today().date()
-        for mv_line in res_asc:
-            mv_date = fields.Datetime.from_string(mv_line.date_maturity or
-                                                  mv_line.date)
-            if mv_date.month == today.month and mv_date.year == today.year:
-                res_sorted.insert(0, mv_line.id)
-            else:
-                res_sorted.append(mv_line.id)
-
-        # Put matching references at first
-        # res_sorted = sorted(
-        #     res_sorted, key=lambda mvl_data: mvl_data['ref'] == self.ref,
-        #     reverse=True)
-        return self.env['account.move.line'].browse(res_sorted)
+        return res_asc.sorted(self._sort_move_line)
 
     @api.multi
     def reconciliation_widget_auto_reconcile(self, num_already_reconciled):
@@ -166,6 +176,17 @@ class BankStatementLine(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
+    def _sort_move_line(self, move_line):
+        today = datetime.today().date()
+        index = 0 if move_line.ref == self.ref else 10
+        mv_date = fields.Datetime.from_string(
+            move_line.date_maturity or move_line.date)
+        if mv_date.month == today.month and mv_date.year == today.year:
+            index += 1
+        else:
+            index += mv_date.month + mv_date.year
+        return index
+
     @api.multi
     def process_reconciliation(self, counterpart_aml_dicts=None,
                                payment_aml_rec=None, new_aml_dicts=None):
