@@ -51,6 +51,7 @@ class CompassionHold(models.Model):
                 'partner_id': hold.primary_owner.partner_id.id,
                 'object_ids': hold.id,
                 'user_id': communication_type.user_id.id,
+                'auto_send': True,
             })
             if hold.ambassador:
                 job_obj.create({
