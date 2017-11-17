@@ -98,12 +98,24 @@ class CompassionHold(models.Model):
 
         if failed:
             # Send warning to Admin users
+            child_codes = failed.mapped('child_id').read(['local_id'])
+            base_url = self.env['ir.config_parameter'].get_param(
+                'web.base.url')
+            links = [
+                '<a href="{}web#id={}&view_type=form&model=compassion.child'
+                '&menu_id=442&action=581">{}</a>'.format(
+                    base_url, data['id'], data['local_id'])
+                for data in child_codes
+            ]
+            hold_string = list()
+            for i in range(0, len(failed)):
+                hold_string.append(failed[i].hold_id + ' (' + links[i] + ' )')
             self.env['mail.mail'].create({
                 'subject': 'URGENT: Postpone no money holds failed!',
                 'author_id': self.env.user.partner_id.id,
                 'recipient_ids': [(6, 0, [18000, 13])],
                 'body_html': 'These holds should be urgently verified: <br/>'
-                '<br/>' + ', '.join(failed.mapped('hold_id'))
+                '<br/>' + ', '.join(hold_string)
             }).send()
 
     def _send_hold_reminder(self, communication):
