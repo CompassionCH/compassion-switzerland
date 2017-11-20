@@ -75,8 +75,9 @@ class ImportLettersHistory(models.Model):
                 # Retrieve sponsor reference and find corresponding id
                 model_sponsor = self.env['res.partner'].search(
                     ['|', ('ref', '=', sponsor_ref),
-                     ('global_id', '=', sponsor_ref),
-                     ('has_sponsorships', '=', True)])
+                     ('global_id', '=', sponsor_ref)])
+                if len(model_sponsor) > 1:
+                    model_sponsor = model_sponsor.filtered('has_sponsorships')
                 sponsor_id = model_sponsor.id
 
             # Check if a sponsorship exists
@@ -181,4 +182,5 @@ class ImportLettersHistory(models.Model):
             sftp.close()
             return True
         except:
+            logger.error("Failed to create webletter", exc_info=True)
             return False
