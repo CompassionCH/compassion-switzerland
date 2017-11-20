@@ -178,13 +178,14 @@ class BankStatementLine(models.Model):
     ##########################################################################
     def _sort_move_line(self, move_line):
         today = datetime.today().date()
-        index = 0 if move_line.ref == self.ref else 10
+        limit_year = today.year - 5
+        index = 0 if move_line.ref == self.ref else limit_year
         mv_date = fields.Datetime.from_string(
             move_line.date_maturity or move_line.date)
         if mv_date.month == today.month and mv_date.year == today.year:
             index += 1
         else:
-            index += mv_date.month + mv_date.year
+            index += mv_date.month + (mv_date.year - limit_year) * 12
         return index
 
     @api.multi
