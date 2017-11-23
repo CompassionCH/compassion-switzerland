@@ -24,7 +24,7 @@
         <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm; height: {{ height }}mm;">
             <t t-if="background">
                 <div id="background" t-attf-style="height: {{ height }}mm;">
-                    <span t-field="o.bvr_background" t-field-options='{"widget": "image"}'/>
+                    <img src="/report_compassion/static/img/bvr.jpg"/>
                 </div>
             </t>
             <div class="receipt">

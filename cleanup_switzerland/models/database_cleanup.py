@@ -52,11 +52,13 @@ class DatabaseCleanup(models.AbstractModel):
         for model in models:
             table = model.replace('.', '_')
             try:
+                # sql libraries do avoid SQL injection, plus this code
+                # does not take user input.
+                # pylint: disable=sql-injection
                 self.env.cr.execute(sql.SQL(
                     "DELETE FROM mail_message WHERE model=%s AND NOT EXISTS ("
                     "    SELECT 1 FROM {} WHERE id = res_id);"
-                ).format(sql.Identifier(table)),
-                                    [model])
+                ).format(sql.Identifier(table)), [model])
                 # Commit the cleanup
                 count = self.env.cr.rowcount
                 self.env.cr.commit()  # pylint: disable=invalid-commit
@@ -74,8 +76,7 @@ class DatabaseCleanup(models.AbstractModel):
         self.env.cr.execute(
             "DELETE FROM mail_message WHERE model = 'account.invoice' "
             "AND res_id IN (SELECT id FROM account_invoice WHERE state IN ("
-            "'cancel', 'paid') AND date_invoice < %s)"
-            , [limit_str]
+            "'cancel', 'paid') AND date_invoice < %s)", [limit_str]
         )
         count = self.env.cr.rowcount
         self.env.cr.commit()  # pylint: disable=invalid-commit
@@ -93,8 +94,8 @@ class DatabaseCleanup(models.AbstractModel):
         self.env.cr.execute(
             "DELETE FROM mail_message WHERE model='partner.communication.job' "
             "AND res_id IN (SELECT id FROM partner_communication_job WHERE "
-            "state = 'cancel' OR (state = 'done' AND sent_date < %s))"
-            , [limit_str]
+            "state = 'cancel' OR (state = 'done' AND sent_date < %s))",
+            [limit_str]
         )
         count = self.env.cr.rowcount
         self.env.cr.commit()  # pylint: disable=invalid-commit
@@ -104,8 +105,8 @@ class DatabaseCleanup(models.AbstractModel):
         self.env.cr.execute(
             "DELETE FROM mail_message WHERE model='correspondence' AND "
             "res_id IN (SELECT id FROM correspondence WHERE "
-            "state IN ('cancel') OR (state = 'done' AND sent_date < %s))"
-            , [limit_str]
+            "state IN ('cancel') OR (state = 'done' AND sent_date < %s))",
+            [limit_str]
         )
         count = self.env.cr.rowcount
         self.env.cr.commit()  # pylint: disable=invalid-commit
@@ -115,8 +116,8 @@ class DatabaseCleanup(models.AbstractModel):
         self.env.cr.execute(
             "DELETE FROM mail_message WHERE model='recurring.contract' AND "
             "res_id IN (SELECT id FROM recurring_contract WHERE "
-            "state IN ('terminated', 'cancelled') AND end_date < %s))"
-            , [limit_str]
+            "state IN ('terminated', 'cancelled') AND end_date < %s))",
+            [limit_str]
         )
         count = self.env.cr.rowcount
         self.env.cr.commit()  # pylint: disable=invalid-commit

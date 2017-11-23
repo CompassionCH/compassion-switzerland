@@ -23,7 +23,6 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     sub_proposal_form = fields.Binary(compute='_compute_sub_form')
-    bvr_background = fields.Binary(compute='_compute_bvr_background')
 
     @api.multi
     def _compute_sub_form(self):
@@ -31,10 +30,3 @@ class ResPartner(models.Model):
             fname = IMG_DIR + 'SUB_form_{}.jpg'.format(partner.lang)
             with open(fname) as form_image:
                 partner.sub_proposal_form = base64.b64encode(form_image.read())
-
-    @api.multi
-    def _compute_bvr_background(self):
-        with open(IMG_DIR + '/bvr.jpg') as bgf:
-            data = base64.b64encode(bgf.read())
-            for partner in self:
-                partner.bvr_background = data
