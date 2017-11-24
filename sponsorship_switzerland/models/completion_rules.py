@@ -263,7 +263,8 @@ class StatementCompletionRule(models.Model):
             'journal_id': journal_id,
             'date_invoice': st_line['date'],
             'payment_term_id': 1,  # Immediate payment
-            # TODO Add payment mode BVR?
+            'payment_mode_id': self.env['account.payment.mode'].search(
+                [('name', '=', 'BVR')]).id,
             'reference': st_line['ref'],
             'origin': stmts_vals['name']
         }
