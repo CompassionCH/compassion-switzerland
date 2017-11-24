@@ -34,19 +34,6 @@ class AccountInvoice(models.Model):
         :param campaign_slug: the campaign identifier in wordpress
         :return: invoice_id
         """
-
-        # env['account.invoice'].create_from_wordpress(
-        # 111,  partner_id
-        # '1',  wp_origin
-        # 100,  amount
-        # Noel,   fund
-        # 'BD010301099',  child_code
-        # 'pf id',  pf_payid
-        # 'LSV',  payment_mode_name
-        # 30)  campaign_slug
-
-        # env['account.invoice'].create_from_wordpress(111, '1', 100,  'Noel', 'BD041000139','pf id', 'Permanent Order', '')
-
         product = self.env['product.product']
         if fund:
             product = product.search([
@@ -121,20 +108,20 @@ class AccountInvoice(models.Model):
         if analytic_id and sponsorship:
             invoice.action_invoice_open()
             payment_vals = {
-            'journal_id': self.env['account.journal'].search(
-                [('name', '=', 'Web')]).id,
-            'payment_method_id': self.env['account.payment.method'].search(
-                [('code', '=', 'sepa_direct_debit')]).id,
-            'payment_date': invoice.date,
-            'communication': invoice.reference,
-            'invoice_ids':  [(6, 0, invoice.ids)],
-            'payment_type': 'inbound',
-            'amount': invoice.amount_total,
-            'currency_id': invoice.currency_id.id,
-            'partner_id': invoice.partner_id.id,
-            'partner_type': 'customer',
-            'payment_difference_handling': 'reconcile',
-            'payment_difference': invoice.amount_total,
+                'journal_id': self.env['account.journal'].search(
+                    [('name', '=', 'Web')]).id,
+                'payment_method_id': self.env['account.payment.method'].search(
+                    [('code', '=', 'sepa_direct_debit')]).id,
+                'payment_date': invoice.date,
+                'communication': invoice.reference,
+                'invoice_ids':  [(6, 0, invoice.ids)],
+                'payment_type': 'inbound',
+                'amount': invoice.amount_total,
+                'currency_id': invoice.currency_id.id,
+                'partner_id': invoice.partner_id.id,
+                'partner_type': 'customer',
+                'payment_difference_handling': 'reconcile',
+                'payment_difference': invoice.amount_total,
             }
 
             account_payment = self.env['account.payment'].create(payment_vals)
