@@ -104,4 +104,27 @@ class AccountInvoice(models.Model):
             'price_unit': amount,
             'account_analytic_id': analytic_id
         })
+
+        if analytic_id and sponsorship:
+            invoice.action_invoice_open()
+            payment_vals = {
+                'journal_id': self.env['account.journal'].search(
+                    [('name', '=', 'Web')]).id,
+                'payment_method_id': self.env['account.payment.method'].search(
+                    [('code', '=', 'sepa_direct_debit')]).id,
+                'payment_date': invoice.date,
+                'communication': invoice.reference,
+                'invoice_ids':  [(6, 0, invoice.ids)],
+                'payment_type': 'inbound',
+                'amount': invoice.amount_total,
+                'currency_id': invoice.currency_id.id,
+                'partner_id': invoice.partner_id.id,
+                'partner_type': 'customer',
+                'payment_difference_handling': 'reconcile',
+                'payment_difference': invoice.amount_total,
+            }
+
+            account_payment = self.env['account.payment'].create(payment_vals)
+            account_payment.post()
+
         return invoice.id
