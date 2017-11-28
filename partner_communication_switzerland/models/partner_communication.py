@@ -169,9 +169,18 @@ class PartnerCommunication(models.Model):
             ]
         }
 
+    def get_label_from_sponsorship(self):
+        """
+        Attach sponsorship labels. Used from communication linked to children.
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        sponsorships = self.get_objects()
+        return self.get_label_attachment(sponsorships)
+
     def get_label_attachment(self, sponsorships=False):
         """
-        Attach sponsorship labels.
+        Attach sponsorship labels. Used from communication linked to children.
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
@@ -288,6 +297,19 @@ class PartnerCommunication(models.Model):
                 ]
             })
         return attachments
+
+    def get_childpack_attachment(self):
+        self.ensure_one()
+        sponsorships = self.get_objects()
+        children = sponsorships.mapped('child_id')
+        report_name = 'report_compassion.childpack_small'
+        return {
+            _('child dossier.pdf'): [
+                report_name,
+                base64.b64encode(self.env['report'].get_pdf(
+                    children.ids, report_name))
+            ]
+        }
 
     @api.multi
     def send(self):
@@ -413,12 +435,7 @@ class PartnerCommunication(models.Model):
         })
 
         # Childpack
-        children = sponsorships.mapped('child_id')
-        report_name = 'report_compassion.childpack_small'
-        attachments[_('child dossier.pdf')] = [
-            report_name,
-            base64.b64encode(report_obj.get_pdf(children.ids, report_name))
-        ]
+        attachments.update(self.get_childpack_attachment())
 
         # Labels
         if correspondence:

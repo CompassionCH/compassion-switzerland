@@ -29,10 +29,19 @@ class GenerateCommunicationWizard(models.TransientModel):
          ('correspondant_id', 'Correspondent')],
         'Send to', default='correspondant_id', required=True
     )
+    selection_domain = fields.Char(default=lambda s: s._default_domain())
     # Remove domain filter and handle it in the view
     model_id = fields.Many2one(
         domain=[]
     )
+
+    @api.model
+    def _default_domain(self):
+        # Select sponsorships if called from the sponsorship menu
+        sponsorship_ids = self.env.context.get('default_sponsorship_ids')
+        if sponsorship_ids:
+            return "[('id', 'in', {})]".format(str(sponsorship_ids[0][2]))
+        return "[]"
 
     @api.multi
     def _compute_progress(self):
@@ -65,6 +74,11 @@ class GenerateCommunicationWizard(models.TransientModel):
         else:
             super(GenerateCommunicationWizard, self).onchange_domain()
 
+    @api.onchange('sponsorship_ids')
+    def onchange_sponsorships(self):
+        # Set partners for generation to work
+        self.partner_ids = self.sponsorship_ids.mapped(self.partner_source)
+
     @api.multi
     def get_preview(self):
         object_ids = self.partner_ids[0].id
@@ -74,11 +88,11 @@ class GenerateCommunicationWizard(models.TransientModel):
                      self.with_context(object_ids=object_ids)).get_preview()
 
     @job
-    def generate_communications(self):
+    def generate_communications(self, async_mode=True):
         """ Create the communication records """
         if self.res_model == 'recurring.contract':
             for sponsorship in self.sponsorship_ids:
-                self.with_delay().create_communication({
+                vals = {
                     'partner_id': getattr(sponsorship, self.partner_source).id,
                     'object_ids': sponsorship.id,
                     'config_id': self.model_id.id,
@@ -86,8 +100,12 @@ class GenerateCommunicationWizard(models.TransientModel):
                     'send_mode': self.send_mode,
                     'report_id': self.report_id.id or
                     self.model_id.report_id.id,
-                })
+                }
+                if async_mode:
+                    self.with_delay().create_communication(vals)
+                else:
+                    self.create_communication(vals)
             return True
         else:
             return super(GenerateCommunicationWizard,
-                         self)._get_communications()
+                         self).generate_communications()
