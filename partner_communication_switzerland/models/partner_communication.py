@@ -169,9 +169,18 @@ class PartnerCommunication(models.Model):
             ]
         }
 
+    def get_label_from_sponsorship(self):
+        """
+        Attach sponsorship labels. Used from communication linked to children.
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        sponsorships = self.get_objects()
+        return self.get_label_attachment(sponsorships)
+
     def get_label_attachment(self, sponsorships=False):
         """
-        Attach sponsorship labels.
+        Attach sponsorship labels. Used from communication linked to children.
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
