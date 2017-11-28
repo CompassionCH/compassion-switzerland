@@ -27,11 +27,13 @@
 #
 ##############################################################################
 
+# pylint: disable=C8101
 {
     'name': 'LSV-DD Compassion',
     'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'Compassion CH',
+    'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'category': 'Other',
     'depends': ['l10n_ch_lsv_dd', 'report_compassion'],

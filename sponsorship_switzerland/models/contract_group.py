@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Cyril Sester, Emanuel Cino
 #
@@ -12,7 +12,6 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
-from odoo.addons.queue_job.job import job, related_action
 
 
 class ContractGroup(models.Model):
@@ -201,15 +200,6 @@ class ContractGroup(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    @api.multi
-    @job(default_channel='root.recurring_invoicer')
-    @related_action(action='related_action_invoicer')
-    def _generate_invoices(self, invoicer=None):
-        """Immediately validate invoices after generation."""
-        invoicer = super(ContractGroup, self)._generate_invoices(invoicer)
-        invoicer.validate_invoices()
-        return invoicer
-
     def _setup_inv_data(self, journal, invoicer, contracts):
         """ Inherit to add BVR ref and mandate """
         inv_data = super(ContractGroup, self)._setup_inv_data(
