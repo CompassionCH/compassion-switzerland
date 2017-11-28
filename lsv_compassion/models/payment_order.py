@@ -24,9 +24,14 @@ class PaymentOrder(models.Model):
             mode = order.payment_mode_id.name
             for invoice in order.mapped(
                     'payment_line_ids.move_line_id.invoice_id'):
+
+                url = '<a href="web#id={}&view_type=form&model=account.' \
+                      'payment.order&action=1174">{}</a>'.\
+                    format(order.id, order.name)
+
                 invoice.message_post(
                     "The invoice has been imported in a %s payment "
-                    "order." % mode)
+                    "order : " % mode + url)
 
         return super(PaymentOrder, self).draft2open()
 

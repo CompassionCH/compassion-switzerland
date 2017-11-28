@@ -144,24 +144,25 @@ class StatementCompletionRule(models.Model):
         is_lsv_dd = False
         res = {}
         account_id = False
-        if u'KREDITKARTEN' in label:
-            account_id = self.env['account.account'].search(
-                [('code', '=', '2000')], limit=1).id
-            res['partner_id'] = self.env['res.partner'].search([
-                ('name', '=', 'Postfinance SA')], limit=1).id
-        elif u'CRÉDIT TRANSACTIONS E-PAYMENT POSTFINANCE CARD' in label:
-            account_id = self.env['account.account'].search(
-                [('code', '=', '1015')], limit=1).id
-            res['partner_id'] = self.env['res.partner'].search([
-                ('name', '=', 'Postfinance SA')], limit=1).id
-        else:
-            for credit_string in lsv_dd_strings:
-                is_lsv_dd = is_lsv_dd or credit_string in label
-        if is_lsv_dd:
-            account_id = self.env['account.account'].search(
-                [('code', '=', '1098')], limit=1).id
-        if account_id:
-            res['account_id'] = account_id
+        if st_line['amount'] >= 0:
+            if u'KREDITKARTEN' in label:
+                account_id = self.env['account.account'].search(
+                    [('code', '=', '2000')], limit=1).id
+                res['partner_id'] = self.env['res.partner'].search([
+                    ('name', '=', 'Postfinance SA')], limit=1).id
+            elif u'CRÉDIT TRANSACTIONS E-PAYMENT POSTFINANCE CARD' in label:
+                account_id = self.env['account.account'].search(
+                    [('code', '=', '1015')], limit=1).id
+                res['partner_id'] = self.env['res.partner'].search([
+                    ('name', '=', 'Postfinance SA')], limit=1).id
+            else:
+                for credit_string in lsv_dd_strings:
+                    is_lsv_dd = is_lsv_dd or credit_string in label
+            if is_lsv_dd:
+                account_id = self.env['account.account'].search(
+                    [('code', '=', '1098')], limit=1).id
+            if account_id:
+                res['account_id'] = account_id
 
         return res
 
