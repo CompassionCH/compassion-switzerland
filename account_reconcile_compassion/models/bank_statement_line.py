@@ -177,6 +177,13 @@ class BankStatementLine(models.Model):
                 return self._reconcile(res)
         return res
 
+    def get_statement_line_for_reconciliation_widget(self):
+        # Add partner reference for reconcile view
+        res = super(BankStatementLine,
+                    self).get_statement_line_for_reconciliation_widget()
+        res['partner_ref'] = self.partner_id.ref
+        return res
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################

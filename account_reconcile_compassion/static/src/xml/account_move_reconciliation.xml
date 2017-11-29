@@ -23,6 +23,11 @@
                 <t t-esc="line.ref"/>
             </t>
         </t>
+
+        <!-- Add sponsor reference -->
+        <t t-jquery="span.partner_name span" t-operation="before">
+            (<t t-esc="line.partner_ref"/>)
+        </t>
   </t>
 
 </templates>
