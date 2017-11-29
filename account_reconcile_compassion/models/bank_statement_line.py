@@ -36,6 +36,10 @@ class BankStatementLine(models.Model):
         Override completely reconcile proposition.
         """
         self.ensure_one()
+        if not self.ref and not self.partner_id:
+            # Never propose when no partner and no reference
+            return self.env['account.move.line']
+
         import_accounts = self.mapped(
             'journal_id.default_debit_account_id') | self.mapped(
             'journal_id.default_credit_account_id')

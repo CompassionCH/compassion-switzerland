@@ -169,47 +169,41 @@ class StatementCompletionRule(models.Model):
     def get_sponsor_name(self, st_vals, st_line):
         res = {}
         name = st_line['name']
-        sender_lines = list()
+        patterns_lookup = [u" EXPÉDITEUR: ", u" DONNEUR D'ORDRE: ",
+                           u"VIREMENT DU COMPTE "]
 
-        sender_lines.append(name.replace('\n', ' ').split(
-            ' EXPÉDITEUR: '.decode('utf8')))
-        sender_lines.append(name.replace('\n', ' ').split(
-            " DONNEUR D'ORDRE: ".decode('utf8')))
+        for pattern in patterns_lookup:
+            if pattern in name:
+                sender_info = name.split(pattern)[1]
+                if pattern == patterns_lookup[2]:
+                    # First the account of partner, then the name
+                    # (lastname is at first)
+                    name_guess = sender_info.split(" ")[1:3]
+                    name_guess.reverse()
+                else:
+                    # Guess the name with the two first words (following words
+                    # could be part of the address (firstname is at first)
+                    name_guess = sender_info.split(" ")[:2]
+                partner = self.env['res.partner'].search([
+                    ('firstname', 'ilike', name_guess[0]),
+                    ('lastname', '=ilike', name_guess[1])
+                ])
+                if len(partner) > 1:
+                    # Try to do exact search on firstname
+                    partner = self.env['res.partner'].search([
+                        ('firstname', '=ilike', name_guess[0]),
+                        ('lastname', '=ilike', name_guess[1])
+                    ])
+                if not partner:
+                    # Try to find a company
+                    partner = self.env['res.partner'].search([
+                        ('name', 'ilike', name_guess[0]),
+                        ('is_company', '=', True)
+                    ])
+                if partner and len(partner) == 1:
+                    res['partner_id'] = partner.id
 
-        id_line1 = 1 if len(sender_lines[0]) > 1 else False
-        id_line2 = 2 if len(sender_lines[1]) > 1 else False
-
-        if not id_line1 and not id_line2:
-            return res
-
-        id_line = id_line1-1 if id_line1 else id_line2-1
-        sender_line = sender_lines[id_line][1].replace(',', '').split(' ')
-
-        index = 0
-        for word in sender_line:
-            try:
-                if index < len(sender_line):
-                    int(word)
-                for i in range(index-1, 0, -1):
-                    firstname = sender_line[i-1]
-                    partner = self.env['res.partner'].search(
-                        [('lastname', '=ilike', firstname),
-                         ('firstname', 'ilike', sender_line[i])])
-                    lastnames = sender_line[i].split('-') if not partner else \
-                        []
-
-                    for lastname in lastnames:
-                        partner = self.env['res.partner'].search(
-                            [('lastname', '=ilike', lastname),
-                             ('firstname', 'ilike', firstname)]) or \
-                            self.env['res.partner'].search(
-                            [('lastname', '=ilike', firstname),
-                             ('firstname', 'ilike', lastname)])
-                    if partner:
-                        res['partner_id'] = partner.id
-                        return res
-            except:
-                index += 1
+        return res
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
