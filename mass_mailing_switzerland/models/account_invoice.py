@@ -9,6 +9,7 @@
 #
 ##############################################################################
 from odoo import api, models, fields
+from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
 
 
 class AccountInvoice(models.Model):
@@ -86,7 +87,7 @@ class AccountInvoice(models.Model):
                 'currency_id': 6,  # Always in CHF
                 'account_id': account.id,
                 'name': 'Postfinance payment ' + str(pf_payid) + ' for ' +
-                        -                wp_origin,
+                wp_origin,
                 'mailing_campaign_id': campaign.id
                 })
         analytic_id = self.env['account.analytic.default'].account_get(
@@ -104,8 +105,9 @@ class AccountInvoice(models.Model):
             'price_unit': amount,
             'account_analytic_id': analytic_id
         })
-
-        if analytic_id and sponsorship:
+        requires_sponsorship = GIFT_CATEGORY in invoice.mapped(
+            'invoice_line_ids.product_id.categ_name')
+        if analytic_id and (not requires_sponsorship or sponsorship):
             invoice.action_invoice_open()
             payment_vals = {
                 'journal_id': self.env['account.journal'].search(
