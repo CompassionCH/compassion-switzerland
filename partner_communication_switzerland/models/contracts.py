@@ -357,9 +357,12 @@ class RecurringContract(models.Model):
 
     @api.multi
     def contract_waiting(self):
+        mandates_valid = self.filtered(lambda c: c.state == 'mandate')
         res = super(RecurringContract, self).contract_waiting()
         self.filtered(
-            lambda c: 'S' in c.type and not c.is_active)._new_dossier()
+            lambda c: 'S' in c.type and not c.is_active and c not in
+            mandates_valid
+        )._new_dossier()
 
         if 'CSP' in self.name:
             module = 'partner_communication_switzerland.'
