@@ -44,6 +44,9 @@
     'data': [
         'data/mail_channel.xml',
     ],
+    'qweb': [
+        'static/src/xml/thread_custom.xml'
+    ],
     'installable': True,
     'auto_install': False,
 }
