@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 mock_update_hold = ('odoo.addons.child_compassion.models.compassion_hold'
                     '.CompassionHold.update_hold')
+mock_get_pdf = 'odoo.addons.report.models.report.Report.get_pdf'
 
 
 class TestSponsorship(BaseSponsorshipTest):
@@ -32,12 +33,14 @@ class TestSponsorship(BaseSponsorshipTest):
         self.mandates.write({'state': 'draft'})
 
     @mock.patch(mock_update_hold)
-    def test_co_1272(self, update_hold):
+    @mock.patch(mock_get_pdf)
+    def test_co_1272(self, get_pdf, update_hold):
         """
             Test bug fix where mandate validation should not create a new
             dossier communication for the sponsor.
         """
         update_hold.return_value = True
+        get_pdf.return_value = "fakepdfdata"
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))
