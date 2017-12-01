@@ -65,7 +65,7 @@ class AccountInvoice(models.Model):
             })
         origin = 'WP ' + wp_origin + ' ' + str(pf_payid)
         invoice = self.search([
-            ('origin', '=', origin),
+            ('user_id', '=', self.env.uid),
             ('partner_id', '=', partner_id),
             ('state', '=', 'draft')
         ])
@@ -107,7 +107,10 @@ class AccountInvoice(models.Model):
         })
         requires_sponsorship = GIFT_CATEGORY in invoice.mapped(
             'invoice_line_ids.product_id.categ_name')
-        if analytic_id and (not requires_sponsorship or sponsorship):
+        partner = self.env['res.partner'].browse(partner_id)
+        new_partner = partner.write_uid == self.env.user
+        if analytic_id and (not requires_sponsorship or
+                            sponsorship) and not new_partner:
             invoice.action_invoice_open()
             payment_vals = {
                 'journal_id': self.env['account.journal'].search(
