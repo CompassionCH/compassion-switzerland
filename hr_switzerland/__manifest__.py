@@ -33,7 +33,9 @@
     'category': 'HR',
     'author': 'Emanuel Cino',
     'website': 'http://www.compassion.ch',
-    'data': [],
+    'data': [
+        'views/hr_expense_custom.xml',
+    ],
     'depends': ['hr_expense', 'hr_holidays'],
     'demo': [],
     'installable': True,
