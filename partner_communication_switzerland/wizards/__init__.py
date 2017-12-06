@@ -14,3 +14,5 @@ from . import child_order_picture
 from . import end_contract_wizard
 from . import change_text_wizard
 from . import generate_communication_wizard
+from . import sub_sponsorship_wizard
+from . import child_hold_wizard

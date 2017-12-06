@@ -79,21 +79,6 @@ class PartnerCommunication(models.Model):
             letters.attach_zip()
         return attachments
 
-    def get_sub_form(self):
-        """
-        Attach sub sponsorship form
-        :return: dict {attachment_name: [report_name, pdf_data]}
-        """
-        self.ensure_one()
-        attachments = dict()
-        report = 'report_compassion.sub_proposal'
-        report_obj = self.env['report']
-        attachments[_('sub child form.pdf')] = [
-            report,
-            base64.b64encode(report_obj.get_pdf(self.partner_id.ids, report))
-        ]
-        return attachments
-
     def get_birthday_bvr(self):
         """
         Attach birthday gift slip with background for sending by e-mail
@@ -301,6 +286,11 @@ class PartnerCommunication(models.Model):
     def get_childpack_attachment(self):
         self.ensure_one()
         sponsorships = self.get_objects()
+        exit_conf = self.env.ref(
+            'partner_communication_switzerland.lifecycle_child_planned_exit')
+        if self.config_id == exit_conf and sponsorships.mapped(
+                'sub_sponsorship_id'):
+            sponsorships = sponsorships.mapped('sub_sponsorship_id')
         children = sponsorships.mapped('child_id')
         report_name = 'report_compassion.childpack_small'
         return {
@@ -434,8 +424,11 @@ class PartnerCommunication(models.Model):
             ]
         })
 
-        # Childpack
-        attachments.update(self.get_childpack_attachment())
+        # Childpack if not a SUB of planned exit.
+        lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
+        planned_exit = lifecycle and lifecycle[0].type == 'Planned Exit'
+        if not planned_exit:
+            attachments.update(self.get_childpack_attachment())
 
         # Labels
         if correspondence:

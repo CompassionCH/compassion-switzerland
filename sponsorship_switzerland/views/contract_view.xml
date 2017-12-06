@@ -3,12 +3,15 @@
     <record id="view_recurring_contract_tree_compassion" model="ir.ui.view">
         <field name="name">recurring.contract.compassion.tree</field>
         <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="contract_compassion.view_recurring_contract_tree_compassion"/>
+        <field name="inherit_id" ref="crm_compassion.view_contract_tree_crm"/>
         <field eval="18" name="priority"/>
         <field name="arch" type="xml">
             <tree position="attributes">
                 <attribute name="colors">blue:state == 'draft';red:state == 'mandate';green:state == 'waiting';black:state == 'active';gray:state in ('terminated','cancelled')</attribute>
             </tree>
+            <field name="origin_id" position="after">
+                <field name="previous_child_id"/>
+            </field>
         </field>
     </record>
 
@@ -44,22 +47,5 @@
                 <field name="church_id"/>
             </field>
         </field>
-    </record>
-
-    <!-- Add filter in SDS view for waiting more than 15 days -->
-    <record id="view_sds_contract_sds_filter_ch" model="ir.ui.view">
-        <field name="name">recurring.contract.sds.filter</field>
-        <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="sponsorship_tracking.contract_tracking_filter"/>
-        <field name="arch" type="xml">
-            <filter name="user" position="after">
-                <separator/>
-                <filter name="days_waiting" string="> 15 days" domain="[('sds_state_date','&lt;',(context_today()-relativedelta(days=15)).strftime('%Y-%m-%d'))]"/>
-            </filter>
-        </field>
-    </record>
-
-    <record model="ir.actions.act_window" id="sponsorship_tracking.action_follow_sds">
-        <field name="context">{'default_type': 'S', 'search_default_user':1, 'search_default_days_waiting': 1}</field>
     </record>
 </odoo>

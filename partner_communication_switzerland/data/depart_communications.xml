@@ -1,0 +1,114 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Child Planned Exit -->
+        <!-- For now, planned and unplanned exit share the same template, but they might differ. -->
+        <record id="email_child_planned_exit" model="mail.template">
+            <field name="name">Child Lifecycle - Planned Exit</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Sponsorship completion</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set name = child.preferred_name
+                    % set lifecycle = child.lifecycle_ids and child.lifecycle_ids[0]
+                    % set sub = sponsorships.mapped('sub_sponsorship_id.child_id')
+                </div>
+                <p>
+                    Dear sponsor,
+                    <br/>
+                    <br/>
+                    We thank you for your investment in ${name}'s life, ${child.local_id}.
+                    We received the good news from the field office that after the collaboration between the field office staff, the church and your support, ${name} has come to the end of ${child.get('his')} sponsorship.
+                    <b>Now that ${child.get('he')} is grown as a young adult, ${child.get('he')} is ready to face the future responsibly.</b>
+                    <br/>
+                    <br/>
+                    According to the news we received, ${name} would like to ${lifecycle.get_list('future_hope_ids.value')}.
+                    We thank you warmly for the help was to ${name} through your support, your letters and prayers.
+                    <br/>
+                    <br/>
+                    % if sub:
+                        As you know, the needs are still huge in the great South. In ${sub.project_id.country_id.name}, ${sub.preferred_name} lives in extreme poverty.
+                        Would you be ready to sponsor ${sub.get('him')}? If this is your wish, you will receive in 15 days all the information about this child.
+                        If you would like to sponsor a child in another country, if you have questions or you would stop the sponsorship, don't hesitate to contact us by phone (0800 784 773) or by e-mail to parrainage@comapssion.ch
+                    % else:
+                        We acknowledge that you don't want to take another sponsorship. If you established a permanent order for the sponsorship payment, don't forget to cancel it.
+                    % endif
+                    <br/>
+                    <br/>
+                    Thank you so much for joining us in our goal to release more children from extreme poverty each day.
+                    <br/>
+                    <br/>
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+
+        <!-- Child Unplanned Exit -->
+        <record id="email_child_unplanned_exit" model="mail.template">
+            <field name="name">Child Lifecycle - Unplanned Exit</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Sponsorship cancellation</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set name = child.preferred_name
+                    % set lifecycle = child.lifecycle_ids and child.lifecycle_ids[0]
+                    % set sub = sponsorships.mapped('sub_sponsorship_id.child_id')
+                </div>
+                <p>
+                    Dear sponsor,
+                    <br/>
+                    <br/>
+                    We had some news about ${child.name}, ${child.local_id}, which is that ${child.get('he')} is no longer in the Compassion program, because ${lifecycle.translate('request_reason')}.
+                    <br/>
+                    <br/>
+                    % if sub:
+                        As you know, the needs are still huge in the great South. In ${sub.project_id.country_id.name}, ${sub.preferred_name} lives in extreme poverty.
+                        Would you be ready to sponsor ${sub.get('him')}? If this is your wish, you will receive in 15 days all the information about this child.
+                        If you would like to sponsor a child in another country, if you have questions or you would stop the sponsorship, don't hesitate to contact us by phone (0800 784 773) or by e-mail to parrainage@comapssion.ch
+                    % else:
+                        We acknowledge that you don't want to take another sponsorship. If you established a permanent order for the sponsorship payment, don't forget to cancel it.
+                    % endif
+                    <br/>
+                    <br/>
+                    Thank you so much for joining us in our goal to release more children from extreme poverty each day.
+                    <br/>
+                    <br/>
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+
+        <!-- Communication Rules -->
+        <record id="lifecycle_child_planned_exit" model="partner.communication.config">
+            <field name="name">Beneficiary Planned Exit</field>
+            <field name="send_mode">physical</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="email_template_id" ref="email_child_planned_exit"/>
+            <field name="print_if_not_email">True</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function">get_childpack_attachment</field>
+        </record>
+        <record id="lifecycle_child_unplanned_exit" model="partner.communication.config">
+            <field name="name">Beneficiary Unplanned Exit</field>
+            <field name="send_mode">physical</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="email_template_id" ref="email_child_unplanned_exit"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="print_if_not_email">True</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function" eval="False"/>
+        </record>
+    </data>
+</odoo>

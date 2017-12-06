@@ -106,8 +106,15 @@ class CompassionChild(models.Model):
 
     @api.multi
     def depart(self):
-        """ Send communication to sponsor. """
+        """ Send depart communication to sponsor if no sub. """
         for child in self.filtered('sponsor_id'):
+            sponsorship = self.env['recurring.contract'].search([
+                ('child_id', '=', child.id),
+                ('state', 'not in', ['terminated', 'cancelled']),
+                ('sds_state', '=', 'no_sub')
+            ])
+            if not sponsorship:
+                continue
             if child.lifecycle_ids[0].type == 'Planned Exit':
                 communication_type = self.env.ref(
                     'partner_communication_switzerland.'
@@ -116,12 +123,7 @@ class CompassionChild(models.Model):
                 communication_type = self.env.ref(
                     'partner_communication_switzerland.'
                     'lifecycle_child_unplanned_exit')
-            self.env['partner.communication.job'].create({
-                'config_id': communication_type.id,
-                'partner_id': child.sponsor_id.id,
-                'object_ids': child.id,
-                'user_id': communication_type.user_id.id,
-            })
+            sponsorship.send_communication(communication_type, both=True)
         super(CompassionChild, self).depart()
 
     @api.multi

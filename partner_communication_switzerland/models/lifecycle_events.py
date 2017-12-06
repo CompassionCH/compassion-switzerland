@@ -23,6 +23,8 @@ class ChildLifecycle(models.Model):
                 'partner.communication.config'].search([
                     ('name', 'ilike', lifecycle.type),
                     ('name', 'like', 'Beneficiary'),
+                    ('name', 'not like', 'Exit')  # Departures are treated
+                                                  # when sub is created.
                 ])
             if communication_type:
                 self.env['partner.communication.job'].create({

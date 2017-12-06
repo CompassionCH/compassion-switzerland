@@ -51,7 +51,6 @@
         'data/payment_modes.xml',
         'data/sequence.xml',
         'workflow/contract_workflow.xml',
-        'workflow/sds_workflow.xml',
         'security/ir.model.access.csv',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
