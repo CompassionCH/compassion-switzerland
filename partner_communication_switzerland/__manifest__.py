@@ -51,6 +51,7 @@
         'data/communication_config.xml',
         'data/sponsorship_communications_cron.xml',
         'data/default_communication.xml',
+        'data/depart_communications.xml',
         'data/ir.advanced.translation.csv',
         'data/label_print.xml',
         'data/sponsorship_server_actions.xml',
