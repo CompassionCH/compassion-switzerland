@@ -18,6 +18,8 @@
                     % set his = child.get('his')
                     % set he = child.get('he')
                     % set him = child.get('him')
+                    % set parent_lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
+                    % set planned_sub = parent_lifecycle and parent_lifecycle[0].type == 'Planned Exit'
                 </div>
                 <p>
                     ${object.partner_id.salutation},
@@ -33,7 +35,11 @@
                     With this letter you will find:
                     <br/>
                     <ul>
-                        <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
+                        <li>1 photo of ${child.get('your sponsored child')}
+                        % if not planned_sub:
+                             <!-- space --> and an explanation concerning ${his} situation
+                        % endif
+                        </li>
                         <li>1 label sheet. Please use the labels on everything you are going to send to ${him} (cards, letters, stickers, drawings, etc.).</li>
                         <li>An introduction letter for you to write</li>
                         <li>3 payment slips for a payment in favour of ${child.get('your sponsored child')} (birthday, family present or other)</li>
@@ -73,6 +79,8 @@
                     % set firstname = child.get_list('firstname', 3, child.get_number())
                     % set his = child.get('his')
                     % set he = child.get('he')
+                    % set parent_lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
+                    % set planned_sub = parent_lifecycle and parent_lifecycle[0].type == 'Planned Exit'
                 </div>
                 <p>
                     ${object.partner_id.salutation},
@@ -88,7 +96,11 @@
                     With this letter you will find:
                     <br/>
                     <ul>
-                        <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
+                        <li>1 photo of ${child.get('your sponsored child')}
+                            % if not planned_sub:
+                                <!-- space --> and an explanation concerning ${his} situation
+                            % endif
+                            and an explanation concerning ${his} situation</li>
                         <li>1 label sheet. Please use the labels on everything you are going to send to ${firstname} (cards, letters, stickers, drawings, etc.).</li>
                         <li>An introduction letter for you to write</li>
                         <li>3 payment slips for a payment in favour of ${child.get('your sponsored child')} (birthday, family present or other)</li>
@@ -124,6 +136,8 @@
                     % set firstname = child.get_list('firstname', 3, child.get_number())
                     % set his = child.get('his')
                     % set he = child.get('he')
+                    % set parent_lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
+                    % set planned_sub = parent_lifecycle and parent_lifecycle[0].type == 'Planned Exit'
                 </div>
                 <p>
                     ${object.partner_id.salutation},
@@ -139,7 +153,11 @@
                     With this letter you will find:
                     <br/>
                     <ul>
-                        <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
+                        <li>1 photo of ${child.get('your sponsored child')}
+                            % if not planned_sub:
+                                 <!-- space --> and an explanation concerning ${his} situation
+                            % endif
+                            and an explanation concerning ${his} situation</li>
                         <li>A booklet with informations about the sponsorship</li>
                         <li>${sponsorships[0].payment_type_attachment}</li>
                     </ul>

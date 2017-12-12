@@ -415,12 +415,16 @@ class RecurringContract(models.Model):
         return True
 
     @api.multi
-    def send_sub_proposal(self):
-        logger.info("Creating SUB Proposal Communications")
-        config = self.env.ref(
-            'partner_communication_switzerland.planned_sub_dossier')
-        self.mapped('sub_sponsorship_id').send_communication(
-            config, correspondent=False)
+    def send_sub_dossier(self):
+        """
+        Called from ir_action_rule after 15 days of departure:
+        - validate sub sponsorship (the new dossier communication will be
+                                    generated)
+        :return: True
+        """
+        logger.info("Creating SUB Dossier Communications")
+        for sub in self.mapped('sub_sponsorship_id'):
+            sub.signal_workflow('contract_validated')
         logger.info("SUB Proposals Sent !")
         return True
 
@@ -454,6 +458,7 @@ class RecurringContract(models.Model):
             module + 'planned_dossier_correspondent')
 
         sub_proposal = self.filtered(lambda c: c.parent_id.old_sub)
+        sub_proposal_config = self.env.ref(module + 'planned_sub_dossier')
         selected = self - sub_proposal
 
         for spo in selected:
@@ -467,3 +472,9 @@ class RecurringContract(models.Model):
                     continue
 
             spo.send_communication(selected_config)
+
+        for sub in sub_proposal:
+            sub.send_communication(sub_proposal_config)
+            if sub.correspondant_id.id != sub.partner_id.id:
+                sub.send_communication(
+                    sub_proposal_config, correspondent=False)

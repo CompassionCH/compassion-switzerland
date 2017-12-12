@@ -21,16 +21,16 @@
         <field name="server_action_ids" eval="[(6, 0, [ref('send_welcome_action')])]"/>
     </record>
 
-    <!-- Rule for sending sub proposal 15 days after unplanned exit of child -->
+    <!-- Rule for sending sub proposal or new dossier - 15 days after unplanned exit of child -->
     <record id="contract_sub_proposal" model="base.action.rule">
-        <field name="name">Sponsorship: Sub Proposal</field>
+        <field name="name">Sponsorship: Sub Dossier</field>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="kind">on_time</field>
         <field name="trg_date_id" ref="sponsorship_tracking.field_recurring_contract_sds_state_date"/>
-        <field name="filter_domain">[('sds_state', '=', 'sub'), ('child_id.lifecycle_ids.type', '=', 'Unplanned Exit')]</field>
+        <field name="filter_domain">[('sds_state', '=', 'sub'), ('old_sub', '=', False)]</field>
         <field name="trg_date_range">15</field>
         <field name="trg_date_range_tye">day</field>
-        <field name="server_action_ids" eval="[(6, 0, [ref('send_sub_proposal')])]"/>
+        <field name="server_action_ids" eval="[(6, 0, [ref('send_sub_dossier')])]"/>
     </record>
 
 </odoo>
