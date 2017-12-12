@@ -384,7 +384,7 @@ class RecurringContract(models.Model):
     def contract_waiting(self):
         # Waiting welcome for partners with e-mail (except Demaurex)
         welcome = self.filtered(
-            lambda s: s.sds_state == 'draft' and
+            lambda s: 'S' in s.type and s.sds_state == 'draft' and
             s.correspondant_id.email and s.partner_id.ref != '1502623')
         welcome.write({
             'sds_state': 'waiting_welcome'
