@@ -32,7 +32,12 @@ class RecurringContracts(models.Model):
     church_id = fields.Many2one(
         related='partner_id.church_id', readonly=True
     )
+    previous_child_id = fields.Many2one(
+        'compassion.child', 'Previous child', related='parent_id.child_id')
 
+    ##########################################################################
+    #                             FIELDS METHODS                             #
+    ##########################################################################
     @api.model
     def _get_states(self):
         """ Add a waiting mandate state """
@@ -93,6 +98,9 @@ class RecurringContracts(models.Model):
             return self._get_sponsorship_standard_lines()
         return []
 
+    ##########################################################################
+    #                              ORM METHODS                               #
+    ##########################################################################
     @api.multi
     def write(self, vals):
         """ Perform various checks when a contract is modified. """
@@ -187,21 +195,20 @@ class RecurringContracts(models.Model):
     @api.multi
     def contract_waiting_mandate(self):
         self.write({'state': 'mandate'})
-        for contract in self:
-            if 'S' in contract.type and contract.child_id.hold_id:
-                # Update the hold of the child to No Money Hold
-                hold = contract.child_id.hold_id
-                hold.write({
-                    'type': HoldType.NO_MONEY_HOLD.value,
-                    'expiration_date': hold.get_default_hold_expiration(
-                        HoldType.NO_MONEY_HOLD)
-                })
+        for contract in self.filtered(lambda s: 'S' in s.type and
+                                      s.child_id.hold_id):
+            # Update the hold of the child to No Money Hold
+            hold = contract.child_id.hold_id
+            hold.write({
+                'type': HoldType.NO_MONEY_HOLD.value,
+                'expiration_date': hold.get_default_hold_expiration(
+                    HoldType.NO_MONEY_HOLD)
+            })
         return True
 
     @api.multi
     def contract_waiting(self):
-        vals = {'state': 'waiting'}
-        for contract in self:
+        for contract in self.filtered(lambda s: 'S' in s.type):
             payment_mode = contract.payment_mode_id.name
             if contract.type == 'S' and ('LSV' in payment_mode or
                                          'Postfinance' in payment_mode):
@@ -215,10 +222,9 @@ class RecurringContracts(models.Model):
                     next_invoice_date = next_invoice_date + relativedelta(
                         months=+1)
                 if next_invoice_date > old_invoice_date:
-                    vals['next_invoice_date'] = \
-                        fields.Date.to_string(next_invoice_date)
+                    contract.next_invoice_date = fields.Date.to_string(
+                        next_invoice_date)
 
-            contract.write(vals)
         return super(RecurringContracts, self).contract_waiting()
 
     ##########################################################################
