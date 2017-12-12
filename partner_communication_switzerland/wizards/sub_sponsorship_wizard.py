@@ -65,9 +65,8 @@ class SubSponsorshipWizard(models.TransientModel):
                 # Generate depart letter
                 child = sponsorship.child_id
                 lifecycle_type = (
-                                     child.lifecycle_ids and
-                                     child.lifecycle_ids[0].type
-                                 ) or 'Unplanned Exit'
+                    child.lifecycle_ids and child.lifecycle_ids[0].type
+                    ) or 'Unplanned Exit'
                 if lifecycle_type == 'Planned Exit':
                     config = self.env.ref(
                         'partner_communication_switzerland.'

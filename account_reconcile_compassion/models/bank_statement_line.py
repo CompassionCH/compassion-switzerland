@@ -50,13 +50,10 @@ class BankStatementLine(models.Model):
             ('account_id.reconcile', '=', True),
             ('amount_residual', '=', self.amount)
         ]
-        acc_type = self.journal_id.default_debit_account_id.internal_type
-        if acc_type == 'payable':
+        if self.ref:
             domain.append(('ref', '=', self.ref))
         if self.partner_id:
             domain.append(('partner_id', '=', self.partner_id.id))
-        elif acc_type != 'payable':
-            domain.append(('ref', '=', self.ref))
         if excluded_ids:
             domain.append(('id', 'not in', excluded_ids))
         valid = self.env['account.move.line'].search(domain)
