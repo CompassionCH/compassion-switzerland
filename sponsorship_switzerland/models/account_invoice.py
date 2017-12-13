@@ -25,6 +25,7 @@ class AccountInvoice(models.Model):
         ('fund', 'Fund donation'),
         ('other', 'Other'),
     ], compute='_compute_invoice_type', store=True)
+    unrec_items = fields.Integer(compute='_compute_unrec_items')
 
     @api.depends('invoice_line_ids', 'state')
     @api.multi
@@ -40,6 +41,18 @@ class AccountInvoice(models.Model):
                 invoice.invoice_type = 'fund'
             else:
                 invoice.invoice_type = 'other'
+
+    @api.multi
+    def _compute_unrec_items(self):
+        move_line_obj = self.env['account.move.line']
+        for invoice in self:
+            partner = invoice.partner_id
+            invoice.unrec_items = move_line_obj.search_count([
+                ('partner_id', '=', partner.id),
+                ('reconciled', '=', False),
+                ('account_id.reconcile', '!=', False),
+                ('account_id.code', '=', '1050')
+            ])
 
     @api.multi
     def action_date_assign(self):
@@ -62,3 +75,26 @@ class AccountInvoice(models.Model):
                         (str(invoice.id), invoice.partner_id.name))
 
         return super(AccountInvoice, self).action_date_assign()
+
+    @api.multi
+    def show_transactions(self):
+        return self.partner_id.show_lines()
+
+    @api.multi
+    def show_move_lines(self):
+        account_ids = self.env['account.account'].search(
+            [('code', '=', '1050')]).ids
+        partner_id = self.partner_id.id
+        action = {
+            'name': 'Journal Items',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'res_model': 'account.move.line',
+            'src_model': 'account.invoice',
+            'context': {'search_default_partner_id': [partner_id],
+                        'default_partner_id': partner_id,
+                        'search_default_unreconciled': 1,
+                        'search_default_account_id': account_ids[0]},
+        }
+
+        return action
