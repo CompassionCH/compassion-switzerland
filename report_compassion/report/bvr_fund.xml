@@ -11,7 +11,7 @@
     </record>
 
     <template id="bvr_fund">
-        <t t-call="report_compassion.html_container">
+        <t t-call="report.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="report_compassion.report_bvr_fund_document" t-lang="doc.lang"/>
             </t>

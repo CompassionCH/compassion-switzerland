@@ -1,7 +1,6 @@
 <odoo>
-    <!-- Override general report layout to add custom css -->
+    <!-- Custom css for PDF pages -->
     <template id="style">
-        <!-- Add report style -->
         <style type="text/css">
             /* Remove padding of reports to allow precise positionning */
             .container {
@@ -34,15 +33,5 @@
             <t t-raw="custom_css"/>
             <t t-raw="custom_css_2"/>
         </style>
-    </template>
-
-    <!-- Default container -->
-    <template id="html_container">
-        <t t-call="report.html_container">
-            <t t-raw="0"/>
-        </t>
-        <xpath expr="//head" position="inside">
-            <t t-call="report_compassion.style"/>
-        </xpath>
     </template>
 </odoo>

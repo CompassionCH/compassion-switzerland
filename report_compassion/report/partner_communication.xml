@@ -14,6 +14,7 @@
         <t t-set="custom_css">
             #header {
                 margin-left: 15mm;
+                margin-top: -20mm;
                 height: 45mm;
                 font-size: 8pt;
             }
@@ -170,7 +171,7 @@
     <template id="partner_communication">
         <t t-set="success_story" t-value="docs.mapped('success_story_id')"/>
         <t t-set="bvr" t-value="docs.mapped('product_id')"/>
-        <t t-call="report_compassion.html_container">
+        <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="report_compassion.partner_communication_document" t-lang="o.partner_id.lang"/>
             </t>

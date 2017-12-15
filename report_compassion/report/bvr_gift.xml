@@ -25,7 +25,7 @@
     <!-- Top container for BVR sponsorship gift reports iterating over all products selected
          outputting payment slips for gifts -->
     <template id="bvr_gift_sponsorship">
-        <t t-call="report_compassion.html_container">
+        <t t-call="report.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="report_compassion.report_bvr_sponsorship_gift_document" t-lang="doc.partner_id.lang"/>
             </t>
