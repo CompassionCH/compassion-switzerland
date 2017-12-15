@@ -36,7 +36,7 @@
     <!-- Top container for BVR sponsorship reports iterating over all sponsorship groups
          outputting payment slips for sponsorships and gifts -->
     <template id="bvr_sponsorship">
-        <t t-call="report_compassion.html_container">
+        <t t-call="report.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="report_compassion.report_bvr_sponsorship_document" t-lang="doc.partner_id.lang"/>
                 <t t-if="gifts">
@@ -96,7 +96,7 @@
 
     <!-- Sponsorship Due Template -->
     <template id="bvr_due">
-        <t t-call="report_compassion.html_container">
+        <t t-call="report.html_container">
             <t t-foreach="docs.mapped('partner_id')" t-as="partner">
                 <div class="page">
                     <t t-call="report_compassion.bvr_style"/>

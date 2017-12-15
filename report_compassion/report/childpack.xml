@@ -191,7 +191,7 @@
                 content: "";
             }
         </t>
-        <t t-call="report_compassion.html_container">
+        <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">
                 <div class="page">
                     <t t-call="report_compassion.style"/>
@@ -268,7 +268,7 @@
                 font-size: 8pt;
             }
         </t>
-        <t t-call="report_compassion.html_container">
+        <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">
                 <div class="page">
                     <t t-call="report_compassion.style"/>
