@@ -88,6 +88,10 @@
     </record>
     <menuitem id="menu_donation_event" name="Event Donations" parent="thankyou_letters.menu_donation" action="action_thank_you_event"/>
 
+    <!-- Add menu in Sales-->
+    <menuitem id="menu_donation_event" name="Event Donations" parent="thankyou_letters.menu_donation_sales" action="action_thank_you_event"/>
+
+
     <!-- Add Emails entry in Sponsorship Settings-->
     <menuitem name="Emails" id="menu_mail_mail" parent="child_compassion.menu_communication_config" action="mail.action_view_mail_mail" sequence="2"/>
 </odoo>
