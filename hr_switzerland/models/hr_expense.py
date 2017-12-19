@@ -29,4 +29,4 @@ class HrExpense(models.Model):
         Prevent changing amounts if expense is submitted.
         """
         if self.state == 'draft':
-            super(HrExpense, self)._on_change_product_id()
+            super(HrExpense, self)._onchange_product_id()

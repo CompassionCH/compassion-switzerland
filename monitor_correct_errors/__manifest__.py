@@ -10,7 +10,7 @@
 #                            in Jesus' name
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
-#    @author: Emanuel Cino <ecino@compassion.ch>
+#    @author: Marco Monzione <marco.mon@windowslive.com>, Emanuel Cino
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,17 +27,18 @@
 #
 ##############################################################################
 
+# pylint: disable=C8101
 {
-    'name': 'Compassion CH - HR Management',
+    'name': 'Compassion CH - Monitor and correct errors',
     'version': '10.0.1.0.0',
-    'category': 'HR',
-    'author': 'Emanuel Cino',
+    'category': 'Other',
+    'author': 'Marco Monzione',
     'website': 'http://www.compassion.ch',
+    'license': 'AGPL-3',
     'data': [
-        'views/hr_expense_custom.xml',
+        'data/monitor_correct_errors_cron.xml',
+        'security/ir.model.access.csv'
     ],
-    'depends': ['hr_expense', 'hr_holidays'],
-    'demo': [],
     'installable': True,
     'auto_install': False,
 }
