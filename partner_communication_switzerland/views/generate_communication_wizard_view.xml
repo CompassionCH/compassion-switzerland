@@ -23,7 +23,7 @@
     </record>
 
     <!-- Add action in sponsorships to generate communications -->
-    <act_window id="action_generate_gift" key2="client_action_multi" name="Generate Communications"
+    <act_window id="action_generate_communication" key2="client_action_multi" name="Generate Communications"
                 res_model="partner.communication.generate.wizard" src_model="recurring.contract"
                 view_mode="form" target="new" view_type="form"
                 context="{'default_res_model': 'recurring.contract', 'default_sponsorship_ids': [(6, 0, active_ids)]}"
