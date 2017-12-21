@@ -65,6 +65,10 @@ class RecurringContracts(models.Model):
             count = self.env['account.banking.mandate'].search_count([
                 ('partner_id', '=', contract.partner_id.id),
                 ('state', '=', 'valid')])
+            if contract.partner_id.parent_id:
+                count += self.env['account.banking.mandate'].search_count([
+                    ('partner_id', '=', contract.partner_id.parent_id.id),
+                    ('state', '=', 'valid')])
             contract.has_mandate = bool(count)
 
     @api.model
