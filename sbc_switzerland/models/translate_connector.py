@@ -206,10 +206,10 @@ class TranslateConnect(MysqlConnector):
     def disable_user(self, partner):
         vals = {
             'number': partner.ref,
-            'username': "",
-            'email': "",
+            'username': None,
+            'email': None,
             'password': None,
-            'code': "",
+            'code': None,
             'alertTranslator': 0,
             'last_login': None,
             'updatedat': fields.Datetime.context_timestamp(
