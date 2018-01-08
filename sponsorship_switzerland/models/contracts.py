@@ -185,8 +185,13 @@ class RecurringContracts(models.Model):
         super(RecurringContracts, self).contract_active()
         sponsor_cat_id = self.env.ref(
             'partner_compassion.res_partner_category_sponsor').id
+        old_sponsor_cat_id = self.env.ref(
+            'partner_compassion.res_partner_category_old').id
         sponsorships = self.filtered(lambda c: 'S' in c.type)
-        add_sponsor_vals = {'category_id': [(4, sponsor_cat_id)]}
+        add_sponsor_vals = {'category_id': [
+            (4, sponsor_cat_id),
+            (3, old_sponsor_cat_id)
+        ]}
         sponsorships.mapped('partner_id').write(add_sponsor_vals)
         sponsorships.mapped('correspondant_id').write(add_sponsor_vals)
         sponsorships.mapped('partner_id').update_church_sponsorships_number(
