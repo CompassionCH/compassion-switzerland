@@ -9,7 +9,8 @@
 #
 ##############################################################################
 from odoo import api, models, fields
-from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
+from odoo.addons.sponsorship_compassion.models.product import \
+    GIFT_CATEGORY, GIFT_NAMES
 
 
 class AccountInvoice(models.Model):
@@ -77,13 +78,19 @@ class AccountInvoice(models.Model):
                 campaign = campaign.search([
                     ('mailing_slug', '=', campaign_slug)
                 ])
+            # Compute invoice date for birthday gifts
+            invoice_date = fields.Date.today()
+            if product.name == GIFT_NAMES[0]:
+                invoice_date = self.env[
+                    'generate.gift.wizard'].compute_date_birthday_invoice(
+                    sponsorship.child_id.birthdate, invoice_date)
             invoice = self.create({
                 'partner_id': partner_id,
                 'payment_mode_id': payment_mode.id,
                 'origin': origin,
                 'reference': str(pf_payid),
                 'transaction_id': str(pf_payid),
-                'date_invoice': fields.Date.today(),
+                'date_invoice': invoice_date,
                 'currency_id': 6,  # Always in CHF
                 'account_id': account.id,
                 'name': 'Postfinance payment ' + str(pf_payid) + ' for ' +
