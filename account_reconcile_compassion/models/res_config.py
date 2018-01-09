@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Marco Monzione <marco.mon@windowslive.com>, Emanuel Cino
 #
@@ -44,4 +44,3 @@ class AccountConfigSettings(models.TransientModel):
             ('id', '=', analytic_account_id)
         ])
         return analytic_account
-

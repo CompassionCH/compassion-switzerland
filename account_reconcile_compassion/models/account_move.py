@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Marco Monzione <marco.mon@windowslive.com>, Emanuel Cino
 #
@@ -10,6 +10,7 @@
 ##############################################################################
 
 from odoo import models
+
 
 class AccountPartialReconcile(models.Model):
     """
@@ -30,4 +31,3 @@ class AccountPartialReconcile(models.Model):
             default_analytic_account_id=analytic_account_id)).\
             _fix_multiple_exchange_rates_diff(amls_to_fix, amount_diff,
                                               diff_in_currency, currency, move)
-
