@@ -233,7 +233,8 @@ class StatementCompletionRule(models.Model):
                  ('partner_id', '=', partner.id),
                  ('correspondant_id', '=', partner.id),
                  ('commitment_number', '=', contract_number),
-                 ('state', '!=', 'draft')])
+                 ('state', '!=', 'draft'),
+                 ('type', 'like', 'S')])
             if len(contract) == 1:
                 # Retrieve the birthday of child
                 birthdate = ""
