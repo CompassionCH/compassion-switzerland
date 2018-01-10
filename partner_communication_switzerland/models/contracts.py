@@ -230,7 +230,10 @@ class RecurringContract(models.Model):
             c.child_id.project_id.hold_s2b_letters)
         )
         config = self.env.ref(module + 'planned_birthday_reminder')
-        comms = birthday.send_communication(config)
+        comms = self.env['partner.communication.job']
+        for sponsorship in birthday:
+            correspondent = sponsorship.send_gifts_to == 'correspondant_id'
+            comms += birthday.send_communication(config, correspondent)
         # Remove communication for those who have no e-mail address
         comms.filtered(lambda c: not c.send_mode).unlink()
 
@@ -448,7 +451,7 @@ class RecurringContract(models.Model):
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
-        correspondent. Separates the case where the new sponsosrship is a
+        correspondent. Separates the case where the new sponsorship is a
         SUB proposal or if the sponsorship is selected by the sponsor.
         """
         module = 'partner_communication_switzerland.'
