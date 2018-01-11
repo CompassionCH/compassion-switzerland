@@ -153,9 +153,8 @@ class Contracts(models.Model):
         else:
             # Mark child as sponsored even if not yet linked to sponsor
             child.state = 'P'
-
-        # Convert to No Money Hold
-        sponsorship.with_delay().update_child_hold()
+            # Convert to No Money Hold
+            sponsorship.with_delay().update_child_hold()
 
         return True
 

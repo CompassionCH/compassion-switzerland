@@ -33,7 +33,8 @@ class GenerateGiftWizard(models.TransientModel):
     @api.model
     def generate_bvr_reference(self, contract, product):
         product = product.with_context(lang='en_US')
-        ref = contract.correspondant_id.ref
+        ref = getattr(contract, contract.send_gifts_to,
+                      contract.correspondant_id).ref
         bvr_reference = '0' * (9 + (7 - len(ref))) + ref
         commitment_number = str(contract.commitment_number)
         bvr_reference += '0' * (5 - len(commitment_number)) + commitment_number

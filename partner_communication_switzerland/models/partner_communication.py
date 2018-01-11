@@ -413,16 +413,20 @@ class PartnerCommunication(models.Model):
 
         # Gifts
         sponsorships = self.get_objects()
+        gifts_sponsorship = sponsorships.filtered(
+            lambda s: getattr(s, s.send_gifts_to, s.correspondant_id) ==
+            self.partner_id)
         report_name = 'report_compassion.3bvr_gift_sponsorship'
-        attachments.update({
-            _('sponsorship gifts.pdf'): [
-                report_name,
-                base64.b64encode(report_obj.get_pdf(
-                    sponsorships.ids, report_name,
-                    data={'doc_ids': sponsorships.ids}
-                ))
-            ]
-        })
+        if gifts_sponsorship:
+            attachments.update({
+                _('sponsorship gifts.pdf'): [
+                    report_name,
+                    base64.b64encode(report_obj.get_pdf(
+                        gifts_sponsorship.ids, report_name,
+                        data={'doc_ids': gifts_sponsorship.ids}
+                    ))
+                ]
+            })
 
         # Childpack if not a SUB of planned exit.
         lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')

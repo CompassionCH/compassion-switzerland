@@ -340,10 +340,6 @@ class BankStatementLine(models.Model):
                     'generate.gift.wizard'].compute_date_birthday_invoice(
                     contract.child_id.birthdate, self.date)
 
-            # Put invoice for correspondent if it's a gift
-            if product.name in GIFT_NAMES and contract and contract.child_id:
-                invoice.partner_id = contract.correspondant_id
-
             amount = mv_line_dict['credit']
             default_analytic = self.env[
                 'account.analytic.default'].account_get(product.id,
