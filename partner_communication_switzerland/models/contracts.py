@@ -417,20 +417,6 @@ class RecurringContract(models.Model):
         logger.info("Welcome Letters Sent !")
         return True
 
-    @api.multi
-    def send_sub_dossier(self):
-        """
-        Called from ir_action_rule after 15 days of departure:
-        - validate sub sponsorship (the new dossier communication will be
-                                    generated)
-        :return: True
-        """
-        logger.info("Creating SUB Dossier Communications")
-        for sub in self.mapped('sub_sponsorship_id'):
-            sub.signal_workflow('contract_validated')
-        logger.info("SUB Proposals Sent !")
-        return True
-
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
