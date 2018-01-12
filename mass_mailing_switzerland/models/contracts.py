@@ -136,8 +136,17 @@ class Contracts(models.Model):
         notify_text = "A new sponsorship was made on the website. Please " \
                       "verify all information and validate the sponsorship " \
                       "on Odoo: <br/><br/><ul>"
-        for field, value in form_data.iteritems():
-            notify_text += "<li>" + field + ': ' + unicode(value) + '</li>'
+
+        list_keys = ['salutation', 'first_name', 'last_name', 'birthday',
+                     'street', 'zipcode', 'city', 'land', 'phone', 'language',
+                     'kirchgemeinde', 'Beruf', 'zahlungsweise',
+                     'consumer_source', 'consumer_source_text',
+                     'patenschaftplus', 'mithelfen', 'childID']
+
+        for key in list_keys:
+            notify_text += "<li>" + key + ": " + \
+                           unicode(form_data.get(key, '')) + '</li>'
+
         sponsorship.message_post(
             body=notify_text,
             subject="New sponsorship from the website",
