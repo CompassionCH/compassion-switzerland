@@ -233,7 +233,7 @@ class RecurringContract(models.Model):
         comms = self.env['partner.communication.job']
         for sponsorship in birthday:
             correspondent = sponsorship.send_gifts_to == 'correspondant_id'
-            comms += birthday.send_communication(config, correspondent)
+            comms += sponsorship.send_communication(config, correspondent)
         # Remove communication for those who have no e-mail address
         comms.filtered(lambda c: not c.send_mode).unlink()
 
