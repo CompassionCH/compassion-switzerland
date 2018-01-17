@@ -35,7 +35,11 @@
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
-    'depends': ['label', 'sponsorship_switzerland'],
+    'depends': [
+        'web_widget_digitized_signature',
+        'label',
+        'sponsorship_switzerland'
+    ],
     'external_dependencies': {
         'python': ['pyquery']
     },
@@ -50,12 +54,15 @@
         'report/anniversary_card.xml',
         'report/a4_bvr.xml',
         'report/bvr_fund.xml',
+        'report/tax_receipt.xml',
         'views/print_sponsorship_bvr_view.xml',
         'views/print_sponsorship_gift_bvr_view.xml',
         'views/print_childpack_view.xml',
         'views/print_bvr_fund_view.xml',
         'views/communication_job_view.xml',
         'views/generate_communication_wizard_view.xml',
+        'views/print_tax_receipt_view.xml',
+        'data/tax_receipt_email_template.xml',
     ],
     'demo': [],
     'installable': True,

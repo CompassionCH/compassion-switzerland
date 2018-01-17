@@ -47,39 +47,24 @@ class SubSponsorshipWizard(models.TransientModel):
         config = False
         res = False
         if sponsorship.state != 'active':
-            if sponsorship.old_sub:
-                if sub_proposal:
-                    # For old sub sponsorships, send old
-                    # SUB Proposal communication
-                    config = self.env.ref(
-                        'partner_communication_switzerland.planned_sub_dossier'
-                    )
-                    sponsorship = sponsorship.sub_sponsorship_id
-                    sponsorship.signal_workflow('contract_validated')
-                else:
-                    # For old subs we already sent the depart letter ->
-                    # Generate no sub confirmation
-                    config = self.env.ref(
-                        'partner_communication_switzerland.planned_no_sub')
-            else:
-                # Generate depart letter
-                child = sponsorship.child_id
-                lifecycle_type = (
-                    child.lifecycle_ids and child.lifecycle_ids[0].type
-                    ) or 'Unplanned Exit'
-                if lifecycle_type == 'Planned Exit':
-                    config = self.env.ref(
-                        'partner_communication_switzerland.'
-                        'lifecycle_child_planned_exit'
-                    )
-                elif lifecycle_type == 'Unplanned Exit':
-                    config = self.env.ref(
-                        'partner_communication_switzerland.'
-                        'lifecycle_child_unplanned_exit'
-                    )
-                    if child.lifecycle_ids[0].request_reason == 'deceased':
-                        sponsorship = sponsorship.with_context(
-                            default_need_call=True)
+            # Generate depart letter
+            child = sponsorship.child_id
+            lifecycle_type = (
+                child.lifecycle_ids and child.lifecycle_ids[0].type
+                ) or 'Unplanned Exit'
+            if lifecycle_type == 'Planned Exit':
+                config = self.env.ref(
+                    'partner_communication_switzerland.'
+                    'lifecycle_child_planned_exit'
+                )
+            elif lifecycle_type == 'Unplanned Exit':
+                config = self.env.ref(
+                    'partner_communication_switzerland.'
+                    'lifecycle_child_unplanned_exit'
+                )
+                if child.lifecycle_ids[0].request_reason == 'deceased':
+                    sponsorship = sponsorship.with_context(
+                        default_need_call=True)
         else:
             # In case of No SUB, the contract can still be active.
             # Contract is active -> generate no sub confirmation

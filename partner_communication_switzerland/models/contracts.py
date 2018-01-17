@@ -42,7 +42,6 @@ class RecurringContract(models.Model):
     )
     amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
-    old_sub = fields.Boolean(help='Used to treat the old sub sponsorships')
 
     def _compute_payment_type_attachment(self):
         for contract in self:

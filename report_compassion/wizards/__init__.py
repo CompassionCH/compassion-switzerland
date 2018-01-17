@@ -14,3 +14,4 @@ from . import print_sponsorship_gift_bvr
 from . import print_childpack
 from . import print_bvr_fund
 from . import generate_communication_wizard
+from . import print_tax_receipt
