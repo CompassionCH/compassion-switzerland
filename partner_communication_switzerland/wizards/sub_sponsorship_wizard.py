@@ -77,6 +77,9 @@ class SubSponsorshipWizard(models.TransientModel):
                         'partner_communication_switzerland.'
                         'lifecycle_child_unplanned_exit'
                     )
+                    if child.lifecycle_ids[0].request_reason == 'deceased':
+                        sponsorship = sponsorship.with_context(
+                            default_need_call=True)
         else:
             # In case of No SUB, the contract can still be active.
             # Contract is active -> generate no sub confirmation
