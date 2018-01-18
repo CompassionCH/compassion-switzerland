@@ -489,31 +489,32 @@
         <!--
         SUB Sponsorship proposal e-mails
         -->
-        <record id="email_sponsorship_sub_dossier" model="mail.template">
-            <field name="name">Sponsorship - SUB Proposal</field>
+        <record id="email_sponsorship_sub_dossier_new" model="mail.template">
+            <field name="name">Sponsorship - SUB Dossier</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">New sponsorship proposal</field>
+            <field name="subject">Your new sponsorship</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
                     % set child = sponsorships.mapped('child_id')
-                    % set name = child.get_list('name', 3, child.get_number())
+                    % set previous = sponsorships.mapped('parent_id.child_id')
+                    % set previous_name = previous.get_list('preferred_name', 3, '', translate=False)
+                    % set name = child.get_list('preferred_name', 3, child.get_number(), False)
                 </div>
                 <p>
                     ${object.partner_id.salutation},
                     <br/>
                     <br/>
-                    Not so long ago, we informed you about the departure of ${sponsorships.get_list('parent_id.child_id.name')}.
+                    We recently informed you that ${previous.get('your sponsored child')}, ${previous_name} ${previous.get('is')} no longer participating in the sponsorship program.  As mentioned in the previous letter, we are happy to send you the documents for ${name}.  ${child.get('he').title()} ${'lives' if len(child) == 1 else 'live'} in ${child.get_list('project_id.country_id.name')} and like ${previous_name}, ${name} ${child.get('is')} growing up in extreme poverty.  In the documents attached, you will find additional information about ${child.get('him')}.
                     <br/>
                     <br/>
-                    We propose you to support ${name} (${child.get_list('project_id.country_id.name')}) and send you the documents about it.
+                    For ${name}, sponsorship is a great opportunity and we would like to thank you wholeheartedly for investing in ${child.get('his')} life.  You will soon receive an introductory letter from ${name}.
                     <br/>
                     <br/>
-                    <b>In the case you would not like to sponsor ${child.get('this child')}, please inform us as soon as possible.</b>
-                    If you have any further questions or remarks, please contact us.
+                    Thank you again for your previous commitment to ${previous_name} and your new sponsorship for ${name}.  If you have any questions about your sponsorship, please do not hesitate to contact us.  You can reach us by phone at 0800 784 773 or by e-mail at info@compassion.ch
                     <br/>
                     <br/>
                     Yours sincerely
