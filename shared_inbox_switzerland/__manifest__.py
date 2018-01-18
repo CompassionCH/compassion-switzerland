@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Shared inbox for Compassion CH',
-    'version': '10.0.1.0.0',
+    'version': '10.0.1.0.1',
     'category': 'Social',
     'author': 'Compassion CH',
     'license': 'AGPL-3',

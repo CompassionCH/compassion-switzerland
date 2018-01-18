@@ -43,3 +43,7 @@ class ResPartner(models.Model):
             subtype=subtype, parent_id=parent_id, attachments=attachments,
             content_subtype=content_subtype, **kwargs)
         return message
+
+    def create(self, vals):
+        return super(ResPartner, self.with_context(
+            mail_create_nosubscribe=True)).create(vals)
