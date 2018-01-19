@@ -28,12 +28,13 @@ class ReportTaxReceipt(models.AbstractModel):
         """
         if not data:
             data = {
-                'year': date.today().year
+                'year': date.today().year,
+                'lang': self.env.context.get('lang', 'en_US')
             }
         # We must retrieve the text of the receipt from the mail_template
         template = self.env.ref(
             'report_compassion.tax_receipt_template'
-        ).with_context(year=data['year'])
+        ).with_context(year=data['year'], lang=data['lang'])
         texts = template.render_template(
             template.body_html, 'res.partner', docids)
         lang = data.get('lang', self.env.lang)
@@ -43,7 +44,8 @@ class ReportTaxReceipt(models.AbstractModel):
             'doc_model': report.model,
             'docs': self.env[report.model].with_context(lang=lang).browse(
                 docids),
-            'texts': texts
+            'texts': texts,
+            'subject': template.subject,
         })
 
         return self.env['report'].with_context(lang=lang).render(
