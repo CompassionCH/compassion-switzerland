@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import models, fields
 
-from . import print_sponsorship_bvr
-from . import print_sponsorship_gift_bvr
-from . import print_childpack
-from . import print_bvr_fund
-from . import generate_communication_wizard
-from . import print_tax_receipt
+
+class ResCountry(models.Model):
+    _inherit = 'res.country'
+
+    preposition = fields.Char(translate=True, default='in')

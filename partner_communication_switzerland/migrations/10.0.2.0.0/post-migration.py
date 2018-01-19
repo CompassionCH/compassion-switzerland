@@ -21,10 +21,3 @@ def migrate(env, version):
     openupgrade.load_data(
         env.cr, 'partner_communication_switzerland',
         'data/depart_communications.xml')
-
-    # Mark the old sub sponsorships
-    env.cr.execute("""
-        UPDATE recurring_contract
-        SET old_sub = TRUE
-        WHERE sds_state = 'sub_waiting'
-    """)

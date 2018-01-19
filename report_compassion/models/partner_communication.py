@@ -8,10 +8,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import base64
-
-from .res_partner import IMG_DIR
-
 from odoo import api, models, fields
 
 
@@ -29,21 +25,6 @@ class PartnerCommunication(models.Model):
         help='Enable if you print on a payment slip that already has company '
              'information printed on it.'
     )
-    compassion_logo = fields.Binary(compute='_compute_compassion_logo')
-    compassion_square = fields.Binary(compute='_compute_compassion_logo')
-
-    ##########################################################################
-    #                             FIELDS METHODS                             #
-    ##########################################################################
-    @api.multi
-    def _compute_compassion_logo(self):
-        with open(IMG_DIR + '/compassion_logo.png') as logo:
-            with open(IMG_DIR + '/bluesquare.png') as square:
-                data_logo = base64.b64encode(logo.read())
-                data_square = base64.b64encode(square.read())
-                for communication in self:
-                    communication.compassion_logo = data_logo
-                    communication.compassion_square = data_square
 
     @api.model
     def create(self, vals):

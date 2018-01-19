@@ -30,5 +30,15 @@
             <field name="args" eval="()"/>
             <field name="active" eval="False"/>
         </record>
+        <record id="yearly_tax_receipt_cron" model="ir.cron">
+            <field name="name">Generate tax receipts</field>
+            <field name="interval_number">12</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="function">generate_tax_receipts</field>
+            <field name="model">res.partner</field>
+            <field name="args" eval="()"/>
+            <field name="active" eval="False"/>
+        </record>
     </data>
 </odoo>
