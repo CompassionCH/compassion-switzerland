@@ -142,6 +142,7 @@ class ResPartner(models.Model):
                 'object_ids': partner_id,
                 'user_id': config.user_id.id,
                 'show_signature': True,
+                'print_subject': False
             })
         return True
 
