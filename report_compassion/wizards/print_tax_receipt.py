@@ -13,6 +13,7 @@ from datetime import date
 
 
 from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 
 
 class PrintTaxReceipt(models.TransientModel):
@@ -55,6 +56,10 @@ class PrintTaxReceipt(models.TransientModel):
         lang = records.mapped('lang')
         if len(lang) == 1:
             data['lang'] = lang[0]
+        else:
+            raise UserError(_(
+                "You can only generate tax certificate for one language at "
+                "a time."))
         if self.pdf:
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(
