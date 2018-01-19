@@ -26,17 +26,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
+# pylint: disable=C8101
 {
     'name': 'Compassion CH Children',
     'version': '10.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
+    'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': ['child_compassion', 'account_accountant'],
     'data': [
         'views/description_views.xml',
         'data/lang_data.xml',
+        'views/res_country_view.xml',
         'data/ir.advanced.translation.csv',
     ],
     'demo': [],

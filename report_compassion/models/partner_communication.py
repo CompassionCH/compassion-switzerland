@@ -8,9 +8,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import base64
-
-
 from odoo import api, models, fields
 
 

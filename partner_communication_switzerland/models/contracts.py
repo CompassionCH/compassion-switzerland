@@ -445,7 +445,10 @@ class RecurringContract(models.Model):
         selected_corr_config = self.env.ref(
             module + 'planned_dossier_correspondent')
 
-        sub_proposal = self.filtered(lambda c: c.parent_id)
+        success_story = self.env['success.story'].search([
+            ('is_active', '=', True)], limit=1)
+        sub_proposal = self.filtered(lambda c: c.parent_id).with_context(
+            default_success_story_id=success_story.id)
         sub_proposal_config = self.env.ref(module + 'planned_sub_dossier')
         selected = self - sub_proposal
 

@@ -153,7 +153,6 @@ class ResUsers(models.Model):
     def _compute_signature_letter(self):
         """ Translate country in Signature (for Compassion Switzerland) """
         for user in self:
-            user = user.with_context(lang=user.partner_id.lang)
             employee = user.employee_ids
             signature = ''
             if len(employee) == 1:

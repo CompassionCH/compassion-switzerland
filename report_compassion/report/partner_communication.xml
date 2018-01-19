@@ -253,7 +253,7 @@
                         <t t-raw="success_story.body"/>
                     </div>
                     <div id="body">
-                        <t t-raw="body_html" class="body_text"/>
+                        <div t-raw="body_html" class="body_text"/>
                         <img t-if="show_signature" t-attf-src="data:image/jpg;base64,{{ user.signature_image }}" class="right" t-attf-style="margin-top: -5mm; margin-left: {{ 20 if success_story else 65 }}mm"/>
                         <div class="right" t-attf-style="margin-top: {{ 10 if not show_signature else 0 }}mm; margin-left: {{ 50 if success_story else 95 }}mm">
                             <t t-raw="user.signature_letter"/>

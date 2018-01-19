@@ -36,7 +36,6 @@
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'web_widget_digitized_signature',
         'label',
         'sponsorship_switzerland'
     ],
