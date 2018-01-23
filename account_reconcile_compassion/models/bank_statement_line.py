@@ -15,7 +15,7 @@ from odoo import api, models, fields, _
 from odoo.exceptions import UserError
 from odoo.tools import float_round, mod10r
 from odoo.addons.sponsorship_compassion.models.product import \
-    GIFT_CATEGORY, GIFT_NAMES, SPONSORSHIP_CATEGORY
+    GIFT_CATEGORY, SPONSORSHIP_CATEGORY
 from odoo.addons.queue_job.job import job
 
 from datetime import datetime
@@ -334,11 +334,6 @@ class BankStatementLine(models.Model):
                 if related_contracts:
                     sponsorship_id = related_contracts[0].id
             contract = self.env['recurring.contract'].browse(sponsorship_id)
-            if product.name == GIFT_NAMES[0] and contract and \
-                    contract.child_id and contract.child_id.birthdate:
-                invoice.date_invoice = self.env[
-                    'generate.gift.wizard'].compute_date_birthday_invoice(
-                    contract.child_id.birthdate, self.date)
 
             amount = mv_line_dict['credit']
             default_analytic = self.env[
