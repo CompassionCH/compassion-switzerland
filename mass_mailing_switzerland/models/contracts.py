@@ -138,8 +138,8 @@ class Contracts(models.Model):
                       "on Odoo: <br/><br/><ul>"
 
         list_keys = ['salutation', 'first_name', 'last_name', 'birthday',
-                     'street', 'zipcode', 'city', 'land', 'phone', 'language',
-                     'kirchgemeinde', 'Beruf', 'zahlungsweise',
+                     'street', 'zipcode', 'city', 'land', 'email', 'phone',
+                     'language', 'kirchgemeinde', 'Beruf', 'zahlungsweise',
                      'consumer_source', 'consumer_source_text',
                      'patenschaftplus', 'mithelfen', 'childID']
 
