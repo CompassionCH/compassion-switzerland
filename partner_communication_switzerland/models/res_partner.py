@@ -125,8 +125,8 @@ class ResPartner(models.Model):
             SELECT DISTINCT m.partner_id
             FROM account_move_line m JOIN res_partner p ON m.partner_id = p.id
             WHERE m.account_id = %s
-            AND m.journal_id = %s
-            AND m.debit > 0
+            AND m.journal_id != %s
+            AND m.credit > 0
             AND p.tax_certificate != 'no'
             AND m.date BETWEEN %s AND %s
         """, [account_id, journal_id, fields.Date.to_string(start_date),
