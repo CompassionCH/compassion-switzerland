@@ -8,13 +8,13 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models, fields
-from odoo.addons.sponsorship_compassion.models.product import \
-    GIFT_CATEGORY
 
+def migrate(cr, version):
+    if not version:
+        return
 
-class AccountInvoice(models.Model):
-    """ Add mailing origin in invoice objects. """
-    _inherit = 'account.invoice'
-
-    mailing_campaign_id = fields.Many2one('mail.mass_mailing.campaign')
+    # Remove obsolete view
+    cr.execute(
+        "delete from ir_ui_view where arch_db like '%web_data%' "
+        "and model='recurring.contract'"
+    )

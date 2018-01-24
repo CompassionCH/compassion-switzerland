@@ -8,13 +8,16 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models, fields
-from odoo.addons.sponsorship_compassion.models.product import \
-    GIFT_CATEGORY
+
+from openupgradelib import openupgrade
 
 
-class AccountInvoice(models.Model):
-    """ Add mailing origin in invoice objects. """
-    _inherit = 'account.invoice'
+@openupgrade.migrate(use_env=True)
+def migrate(env, version):
+    if not version:
+        return
 
-    mailing_campaign_id = fields.Many2one('mail.mass_mailing.campaign')
+    communication_types = env['partner.communication.config'].search([])
+    for communication_type in communication_types:
+        source = env['utm.source'].create({'name': communication_type.name})
+        communication_type.source_id = source.id

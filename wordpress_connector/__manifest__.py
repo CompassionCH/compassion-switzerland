@@ -29,21 +29,21 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Mass Mailing Switzerland',
-    'version': '10.0.2.0.0',
-    'category': 'Mailing',
+    'name': 'Compassion CH Wordpress Connector',
+    'version': '10.0.1.0.0',
+    'category': 'Social',
     'author': 'Emanuel Cino',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'data': [
-        'views/mass_mailing_view.xml',
-        'views/mail_template_view.xml',
+        'views/sponsorship_view.xml',
     ],
-    'depends': ['mail_sendgrid_mass_mailing', 'sbc_compassion'],
+    'depends': ['mass_mailing_switzerland', 'child_sync_wp',
+                'sbc_switzerland'],
     'external_dependencies': {
         'python': ['pysftp']
     },
     'demo': [],
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
 }
