@@ -69,16 +69,19 @@ class PrintChildpack(models.TransientModel):
             lambda c: c.state in ('N', 'I', 'P') and c.desc_en and
             (not c.completion_date or fields.Datetime.from_string(
                 c.completion_date) > in_two_years)
-        )
+        ).with_context(lang=self.lang)
         data = {
             'lang': self.lang,
-            'doc_ids': records.ids
+            'doc_ids': records.ids,
+            'is_pdf': self.pdf,
+            'type': self.type
         }
+        report_obj = self.env['report'].with_context(lang=self.lang)
         if self.pdf:
             name = records.local_id if len(records) == 1 else 'dossiers'
             self.pdf_name = name + '.pdf'
             self.pdf_download = base64.b64encode(
-                self.env['report'].with_context(
+                report_obj.with_context(
                     must_skip_send_to_printer=True).get_pdf(
                         records.ids, self.type, data=data))
             self.state = 'pdf'
@@ -91,4 +94,4 @@ class PrintChildpack(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env['report'].get_action(records.ids, self.type, data=data)
+        return report_obj.get_action(records.ids, self.type, data=data)
