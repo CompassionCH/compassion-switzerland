@@ -40,7 +40,8 @@
         'sponsorship_tracking',
         'partner_compassion',
         'account_statement_completion',
-        'l10n_ch_lsv_dd'
+        'l10n_ch_lsv_dd',
+        'gift_compassion',
     ],
     'demo': [
         'data/demo_journal.xml'
