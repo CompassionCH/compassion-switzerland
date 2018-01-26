@@ -144,7 +144,7 @@ ChildDescription.hobbies_intro_lang.update({
 })
 
 
-ChildDescription.illness_intro_lang.update({
+ChildDescription.handicap_intro_lang.update({
     'fr_CH': {
         'M': u"{preferred_name} souffre de :",
         'F': u"{preferred_name} souffre de :",
@@ -156,22 +156,6 @@ ChildDescription.illness_intro_lang.update({
     'it_IT': {
         'M': u'{preferred_name} soffre di:',
         'F': u'{preferred_name} soffre di:',
-    },
-})
-
-
-ChildDescription.handicap_intro_lang.update({
-    'fr_CH': {
-        'M': u"{preferred_name} souffre de handicaps :",
-        'F': u"{preferred_name} souffre de handicaps :",
-    },
-    'de_DE': {
-        'M': u'{preferred_name} hat folgende Behinderung:',
-        'F': u'{preferred_name} hat folgende Behinderung:',
-    },
-    'it_IT': {
-        'M': u'{preferred_name} ha le seguenti disabilità fisiche:',
-        'F': u'{preferred_name} ha le seguenti disabilità fisiche:',
     },
 })
 
