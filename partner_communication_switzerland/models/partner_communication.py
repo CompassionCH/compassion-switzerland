@@ -74,7 +74,8 @@ class PartnerCommunication(models.Model):
         background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects().filtered(
             lambda s: not s.birthday_paid)
-        if sponsorships:
+        gifts_to = getattr(sponsorships[0], sponsorships[0].send_gifts_to)
+        if sponsorships and gifts_to == self.partner_id:
             birthday_gift = self.env['product.product'].with_context(
                 lang='en_US').search([('name', '=', GIFT_NAMES[0])])
             attachments = sponsorships.get_bvr_gift_attachment(
@@ -87,12 +88,16 @@ class PartnerCommunication(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
+        attachments = dict()
         background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects()
         graduation = self.env['product.product'].with_context(
             lang='en_US').search([('name', '=', GIFT_NAMES[4])])
-        return sponsorships.get_bvr_gift_attachment(
-            graduation, background)
+        gifts_to = getattr(sponsorships[0], sponsorships[0].send_gifts_to)
+        if sponsorships and gifts_to == self.partner_id:
+            attachments = sponsorships.get_bvr_gift_attachment(
+                graduation, background)
+        return attachments
 
     def get_reminder_bvr(self):
         """

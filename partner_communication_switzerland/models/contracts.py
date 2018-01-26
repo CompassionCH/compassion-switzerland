@@ -231,8 +231,16 @@ class RecurringContract(models.Model):
         config = self.env.ref(module + 'planned_birthday_reminder')
         comms = self.env['partner.communication.job']
         for sponsorship in birthday:
-            correspondent = sponsorship.send_gifts_to == 'correspondant_id'
-            comms += sponsorship.send_communication(config, correspondent)
+
+            # Send the communication to the correspondent in any case.
+            correspondent = True
+
+            # Send the communication to both the partner and the correspondent
+            # if the partner is the one who paid the gift.
+            send_to_both = sponsorship.send_gifts_to == 'partner_id'
+
+            comms += sponsorship.send_communication(config, correspondent,
+                                                    send_to_both)
         # Remove communication for those who have no e-mail address
         comms.filtered(lambda c: not c.send_mode).unlink()
 
