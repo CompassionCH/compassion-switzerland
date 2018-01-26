@@ -20,7 +20,7 @@ class AccountInvoice(models.Model):
     @api.model
     def create_from_wordpress(
             self, partner_id, wp_origin, amount, fund, child_code,
-            pf_payid, payment_mode_name, campaign_slug
+            pf_payid, payment_mode_name, utm_source, utm_medium, utm_campaign
     ):
         """
          Utility for invoice donation creation.
@@ -31,7 +31,9 @@ class AccountInvoice(models.Model):
         :param child_code: child local_id
         :param pf_payid: postfinance transaction number
         :param payment_mode_name: the payment_mode identifier from postfinance
-        :param campaign_slug: the campaign identifier in wordpress
+        :param utm_source: the utm identifier in wordpress
+        :param utm_medium: the utm identifier in wordpress
+        :param utm_campaign: the utm identifier in wordpress
         :return: invoice_id
         """
         product = self.env['product.product']
@@ -71,11 +73,9 @@ class AccountInvoice(models.Model):
         if not invoice:
             account = self.env['account.account'].search([
                 ('code', '=', '1050')])
-            campaign = self.env['mail.mass_mailing.campaign']
-            if campaign_slug:
-                campaign = campaign.search([
-                    ('mailing_slug', '=', campaign_slug)
-                ])
+            internet_id = self.env.ref('utm.utm_medium_website').id
+            utms = self.env['utm.mixin'].get_utms(
+                utm_source, utm_medium, utm_campaign)
             # Compute invoice date for birthday gifts
             invoice_date = fields.Date.today()
             invoice = self.create({
@@ -89,8 +89,10 @@ class AccountInvoice(models.Model):
                 'account_id': account.id,
                 'name': 'Postfinance payment ' + str(pf_payid) + ' for ' +
                 wp_origin,
-                'mailing_campaign_id': campaign.id
-                })
+                'source_id': utms['source'],
+                'medium_id': utms.get('medium', internet_id),
+                'campaign_id': utms['campaign'],
+            })
         analytic_id = self.env['account.analytic.default'].account_get(
             product.id).analytic_id.id
         gift_account = self.env['account.account'].search([

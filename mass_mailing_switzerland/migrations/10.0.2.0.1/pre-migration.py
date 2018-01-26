@@ -9,6 +9,7 @@
 #
 ##############################################################################
 
+
 def migrate(cr, version):
     if not version:
         return
@@ -18,9 +19,9 @@ def migrate(cr, version):
     """)
     mass_mailing_medium = cr.fetchone()[0]
     cr.execute("""
-        SELECT c.campaign_id, %s, r.id 
+        SELECT c.campaign_id, %s, r.id
         FROM recurring_contract r JOIN mail_mass_mailing_campaign c
-        ON r.mailing_campaign_id = c.id 
+        ON r.mailing_campaign_id = c.id
         WHERE r.mailing_campaign_id IS NOT NULL
     """, [mass_mailing_medium])
     results = cr.fetchall()
