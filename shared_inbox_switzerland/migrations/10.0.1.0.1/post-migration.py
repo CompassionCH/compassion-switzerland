@@ -17,7 +17,6 @@ def migrate(env, version):
     if not version:
         return
 
-    # Reload communication data that must be updated
-    openupgrade.load_data(
-        env.cr, 'partner_communication_switzerland',
-        'data/depart_communications.xml')
+    partner_to_unsubscribe = env['res.partner'].search([
+        ('message_follower_ids', '!=', False)])
+    partner_to_unsubscribe.mapped('message_follower_ids').unlink()

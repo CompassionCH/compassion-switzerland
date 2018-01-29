@@ -10,7 +10,7 @@
 ##############################################################################
 from odoo import api, models, fields
 from odoo.addons.sponsorship_compassion.models.product import \
-    GIFT_CATEGORY, GIFT_NAMES
+    GIFT_CATEGORY
 
 
 class AccountInvoice(models.Model):
@@ -80,10 +80,6 @@ class AccountInvoice(models.Model):
                 ])
             # Compute invoice date for birthday gifts
             invoice_date = fields.Date.today()
-            if product.name == GIFT_NAMES[0]:
-                invoice_date = self.env[
-                    'generate.gift.wizard'].compute_date_birthday_invoice(
-                    sponsorship.child_id.birthdate, invoice_date)
             invoice = self.create({
                 'partner_id': partner_id,
                 'payment_mode_id': payment_mode.id,

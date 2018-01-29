@@ -66,13 +66,7 @@
             .desc {
                 position: absolute;
                 margin-left: <t t-esc="marginLeft+7"/>mm;
-                <!-- Resolve shifts with small dossier -->
-                <t t-if="small">
-                    margin-top: 37mm;
-                </t>
-                <t t-if="full">
-                    margin-top: 30mm;
-                </t>
+                margin-top: 32mm;
                 width: 130mm;
                 height: 116mm;
                 max-height: 116mm;
@@ -82,7 +76,7 @@
                 -moz-column-count: 2; /* Firefox */
             }
             .desc .left {
-                width: 65mm;
+                width: 60mm;
                 max-width: 100%;
             }
             .desc .right {
@@ -93,7 +87,7 @@
                 top: 0mm;
             }
             .desc .left table {
-                width: 65mm;
+                width: 60mm;
             }
             .desc .right table {
                 width: 65mm;
@@ -110,9 +104,11 @@
             h6 {
                 font-family: "tetriaBlack";
                 text-transform: uppercase;
+                font-weight: bold;
             }
             .desc h6 {
-                margin-top: 10mm;
+                margin-top: 3mm;
+                margin-bottom: 0mm;
             }
             .photo {
                 position: absolute;
@@ -145,12 +141,12 @@
                 position: absolute;
                 <!-- Resolve shifts with small dossier -->
                 <t t-if="small">
-                    margin-top: 180mm;
+                    margin-top: 179mm;
                     margin-left: 229mm;
                 </t>
                 <t t-if="full">
-                    margin-top: 178mm;
-                    margin-left: 350mm;
+                    margin-top: 179mm;
+                    margin-left: 352mm;
                 </t>
             }
             .summary_field {
@@ -170,7 +166,7 @@
             }
             .summary_field.country {
                 font-size: 13pt;
-                top: -3pt;
+                top: -1pt;
                 left: -15mm;
             }
             .activities {
@@ -190,38 +186,68 @@
             li:last-child:after {
                 content: "";
             }
+            #background {
+                <t t-if="small">
+                    position: absolute;
+                    width: 297mm;
+                    height: 210mm;
+                </t>
+                <t t-if="full">
+                    position: absolute;
+                    width: 420mm;
+                    height: 210mm;
+                </t>
+            }
+            #background img {
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
+            }
         </t>
         <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">
-                <div class="page">
-                    <t t-call="report_compassion.style"/>
-                    <t t-if="formMargin">
-                        <div class="local_id">
-                            <span>Childpack available until: </span><span t-raw="o.get_date('hold_expiration')" id="due_date"/>
-                            <span t-field="o.local_id"/>
-                        </div>
-                    </t>
-                    <div t-attf-class="desc {{'boy' if o.gender == 'M' else 'girl'}}">
-                        <div class="left">
-                            <span t-raw="o.description"/>
-                        </div>
-                        <div class="right" t-if="o.project_id.description">
-                            <h6 style="margin-top: 10mm;"><span t-field="o.project_title"/></h6>
-                            <span t-raw="o.project_id.description"/>
-                        </div>
-                    </div>
-                    <div class="photo">
-                        <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
-                        <p t-field="o.local_id" id="child-ref"/>
-                    </div>
-                    <div class="summary">
-                        <p t-field="o.preferred_name" class="summary_field name"/>
-                        <p t-raw="o.get_date('birthdate', 'date_short')" class="summary_field birthday"/>
-                        <p t-field="o.project_id.country_id.name" class="summary_field country"/>
-                    </div>
-                </div>
+                <t t-call="report_compassion.childpack_document" t-lang="lang"/>
             </t>
         </t>
+    </template>
+
+    <template id="childpack_document">
+        <t t-set="o" t-value="o.with_context({'lang': lang})" />
+        <div class="page">
+            <t t-if="is_pdf">
+                <div id="background">
+                    <img t-attf-src="/report_compassion/static/img/{{ type }}/1703_dossier_web_{{ lang }}.jpg"/>
+                </div>
+            </t>
+            <t t-call="report_compassion.style"/>
+            <t t-if="formMargin">
+                <div class="local_id">
+                    <span>Childpack available until: </span><span t-raw="o.get_date('hold_expiration')" id="due_date"/>
+                    <span t-field="o.local_id"/>
+                </div>
+            </t>
+            <div t-attf-class="desc {{'boy' if o.gender == 'M' else 'girl'}}">
+                <div class="left">
+                    <t t-raw="o.description_left"/>
+                    <h6 t-if="o.project_id.description_left"><span t-field="o.project_title"/></h6>
+                    <t t-raw="o.project_id.description_left"/>
+                </div>
+                <div class="right">
+                    <t t-raw="o.description_right"/>
+                    <h6 t-if="not o.project_id.description_left"><span t-field="o.project_title"/></h6>
+                    <t t-raw="o.project_id.description_right"/>
+                </div>
+            </div>
+            <div class="photo">
+                <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
+                <p t-field="o.local_id" id="child-ref"/>
+            </div>
+            <div class="summary">
+                <p t-field="o.preferred_name" class="summary_field name"/>
+                <p t-raw="o.get_date('birthdate', 'date_short')" class="summary_field birthday"/>
+                <p t-field="o.project_id.country_id.name" class="summary_field country"/>
+            </div>
+        </div>
     </template>
 
     <template id="childpack_mini">

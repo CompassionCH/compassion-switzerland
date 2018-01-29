@@ -28,21 +28,6 @@ class PartnerCommunication(models.Model):
     event_id = fields.Many2one('crm.event.compassion', 'Event')
     ambassador_id = fields.Many2one('res.partner', 'Ambassador')
 
-    @api.multi
-    def _compute_signature(self):
-        """ Translate country in Signature (for Compassion Switzerland) """
-        for communication in self:
-            user = communication.user_id or self.env.user
-            user = user.with_context(lang=communication.partner_id.lang)
-            employee = user.employee_ids
-            signature = ''
-            if len(employee) == 1:
-                signature = employee.name + '<br/>' + \
-                    employee.department_id.name + '<br/>'
-            signature += user.company_id.name.split(' ')[0] + ' '
-            signature += user.company_id.country_id.name
-            communication.signature = signature
-
     def get_dossier_full_attachments(self):
         return self._get_new_dossier_attachments()
 
@@ -89,7 +74,8 @@ class PartnerCommunication(models.Model):
         background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects().filtered(
             lambda s: not s.birthday_paid)
-        if sponsorships:
+        gifts_to = getattr(sponsorships[0], sponsorships[0].send_gifts_to)
+        if sponsorships and gifts_to == self.partner_id:
             birthday_gift = self.env['product.product'].with_context(
                 lang='en_US').search([('name', '=', GIFT_NAMES[0])])
             attachments = sponsorships.get_bvr_gift_attachment(
@@ -102,12 +88,16 @@ class PartnerCommunication(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
+        attachments = dict()
         background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects()
         graduation = self.env['product.product'].with_context(
             lang='en_US').search([('name', '=', GIFT_NAMES[4])])
-        return sponsorships.get_bvr_gift_attachment(
-            graduation, background)
+        gifts_to = getattr(sponsorships[0], sponsorships[0].send_gifts_to)
+        if sponsorships and gifts_to == self.partner_id:
+            attachments = sponsorships.get_bvr_gift_attachment(
+                graduation, background)
+        return attachments
 
     def get_reminder_bvr(self):
         """
@@ -300,6 +290,27 @@ class PartnerCommunication(models.Model):
                     children.ids, report_name))
             ]
         }
+
+    def get_tax_receipt(self):
+        self.ensure_one()
+        res = {}
+        if self.send_mode == 'digital':
+            report_name = 'report_compassion.tax_receipt'
+            data = {
+                'doc_ids': self.partner_id.ids,
+                'year': self.env.context.get('year', date.today().year-1),
+                'lang': self.partner_id.lang,
+            }
+            res = {
+                _('tax receipt.pdf'): [
+                    report_name,
+                    base64.b64encode(
+                        self.env['report'].with_context(
+                            must_skip_send_to_printer=True).get_pdf(
+                            self.partner_id.ids, report_name, data=data))
+                ]
+            }
+        return res
 
     @api.multi
     def send(self):

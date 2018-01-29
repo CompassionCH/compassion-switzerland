@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-11 12:07+0000\n"
-"PO-Revision-Date: 2017-12-12 12:53+0100\n"
+"POT-Creation-Date: 2018-01-19 08:05+0000\n"
+"PO-Revision-Date: 2018-01-19 10:16+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -28,19 +28,19 @@ msgid "${object.subject}"
 msgstr "${object.subject}"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:56
+#: code:addons/partner_communication_switzerland/models/contracts.py:55
 #, python-format
 msgid "1 LSV or Direct Debit authorization form to fill in if you don't already have done it!"
 msgstr "1 LSV o addebitto diretto vi preghiamo di riempire il formulario per l'addebito diretto se non l'avete già fatto"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:64
+#: code:addons/partner_communication_switzerland/models/contracts.py:63
 #, python-format
 msgid "1 payment slip for the annual sponsorship payment"
 msgstr "1 BVR per il sostegno annuale"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:52
+#: code:addons/partner_communication_switzerland/models/contracts.py:51
 #, python-format
 msgid "1 payment slip to set up a standing order (monthly payment of the sponsorship)"
 msgstr "1 BVR per l'ordine permanente (pagamento mensile per il sostegno) "
@@ -1834,7 +1834,7 @@ msgid ""
 "                    Compassion Switzerland will now look for a new sponsor so ${firstname} can benefit the support and the activities of the program.\n"
 "                    <br/>\n"
 "                    <br/>\n"
-"                    The sustainable and continue support of a child: this is one of the most promising investments to free a child from extreme poverty. ${object.success_sentence |safe}\n"
+"                    The sustainable and continue support of a child: this is one of the most promising investments to free a child from extreme poverty. ${object.success_sentence}\n"
 "Perhaps in the future, the evolution of your situation will allow you to sponsor another child. Let’s keep in touch!\n"
 "<br/>\n"
 "<br/>\n"
@@ -2108,6 +2108,64 @@ msgstr ""
 "                    Cordiali Saluti\n"
 "                </p>\n"
 "            "
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.tax_receipt_letter_template
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set year = ctx.get('year', datetime.date.today().year-1)\n"
+"                    % set donation_amount = partner.get_receipt_text(year)\n"
+"                    % set partner = object.partner_id\n"
+"                </div>\n"
+"                <div>\n"
+"                    ${partner.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    At the beginning of this year, Compassion Switzerland thank you for your support towards children living in extreme poverty.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>Nous vous faisons parvenir votre récapitulatif de dons pour l'année 2017, que vous pouvez joindre à votre déclaration d'impôts\n"
+"                        % if object.send_mode == 'digital':\n"
+"                            <!-- space --> (fichier annexé)\n"
+"                        % endif\n"
+"                        .\n"
+"                    </b>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Nous sommes des témoins privilégiés de ce qu’un parrainage peut changer dans la vie d’un enfant. Prenez l’exemple de Michelle. Cette jeune femme de Philippines, née dans un bidonville, abusée par un membre de sa famille lorsqu'elle était "
+"enfant, parrainée depuis l'âge de six ans, dirige aujourd'hui dans son pays natal l'ONG qu'elle a lancée en faveur des femmes victimes d'esclavage moderne.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>Compassion sur le plan international en 2017</b>\n"
+"                    <ul>\n"
+"                        <li>1'860'000 enfants parrainés dont près de 8000 depuis la Suisse</li>\n"
+"                        <li>6950 centres d'accueil engagés au profit des enfants dans 25 pays</li>\n"
+"                        <li>3.5 millions de lettres acheminées (après avoir été traduites pour certaines) entre parrains et filleuls</li>\n"
+"                        <li>CHF 43 millions pour les fonds d'aide spécifiques (eau, frais médicaux, aide d'urgence, etc. hors parrainage)</li>\n"
+"                        <li>Il reste 400 millions d'enfants vivant dans l'extrême pauvreté dans le monde aujourd'hui</li>\n"
+"                    </ul>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    % if object.send_mode == 'physical':\n"
+"                        <h2>Your donations in ${year} add up to CHF <span style=\"font-family: 'tetriaTab';\">${donation_amount}</span></h2>\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        <p>The Christian humanitarian organisation Compassion Suisse, that serves as an advocate for children in poverty, is exempt from taxes. By a decision taken May 24, 2004 by the cantonal administration of the canton of Vaud, the "
+"association is recognized as a registered non profit organisation.\n"
+"                        </p>\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                    % endif\n"
+"                    Encore une fois, merci de votre générosité. Nous vous prions de recevoir, ${partner.salutation[0].lower() + partner.salutation[1:]}, nos chaleureuses salutations\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    % if object.send_mode == 'digital':\n"
+"                        <i>PS: En cas de problème de lecture de l'attestation, merci d'essayer de la lire avec le logiciel Adobe Reader (http://get.adobe.com/fr/reader)</i>\n"
+"                    % endif\n"
+"                </div>\n"
+"            "
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.email_invalid_email
@@ -2880,57 +2938,6 @@ msgstr ""
 "            "
 
 #. module: partner_communication_switzerland
-#: model:mail.template,body_html:partner_communication_switzerland.email_sponsorship_sub_dossier
-msgid ""
-"<div>\n"
-"                    % set sponsorships = object.get_objects()\n"
-"                    % set child = sponsorships.mapped('child_id')\n"
-"                    % set name = child.get_list('name', 3, child.get_number())\n"
-"                </div>\n"
-"                <p>\n"
-"                    ${object.partner_id.salutation},\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Compassion recently announced that ${sponsorships.get_list('parent_id.child_id.name')} ${child.get('is')} leaving the sponsorship program. In the same letter, we encouraged you to sponsor another child living with less than CHF 1.9 per "
-"day.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Attached, you will find details about ${name} (${child.get_list('project_id.country_id.name')}). Would you be willing to consider supporting ${child.get('this child')} in order to free ${child.get('him')} from extreme poverty? ${object."
-"success_sentence |safe}\n"
-"\n"
-"                    <b>If you do not wish to sponsor ${child.get('this child')}, please kindly inform us as soon as possible, in order to allow us to find another sponsor for ${child.get('him')}.</b>\n"
-"                    Thank you so much for all that you have already done for this child in need and we thank you in advance for your consideration to this suggestion.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Yours sincerely\n"
-"                </p>\n"
-"            "
-msgstr ""
-"<div>\n"
-"                    % set sponsorships = object.get_objects()\n"
-"                    % set child = sponsorships.mapped('child_id')\n"
-"                    % set name = child.get_list('name', 3, child.get_number())\n"
-"                </div>\n"
-"                <p>\n"
-"                    ${object.partner_id.salutation},\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Compassion recently announced that ${sponsorships.get_list('parent_id.child_id.name')} ${child.get('is')} leaving the sponsorship program. In the same letter, we encouraged you to sponsor another child living with less than CHF 1.9 per "
-"day.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Attached, you will find details about ${name} (${child.get_list('project_id.country_id.name')}). Would you be willing to consider supporting ${child.get('this child')} in order to free ${child.get('him')} from extreme poverty? ${object."
-"success_sentence |safe}\n"
-"\n"
-"                    <b>If you do not wish to sponsor ${child.get('this child')}, please kindly inform us as soon as possible, in order to allow us to find another sponsor for ${child.get('him')}.</b>\n"
-"                    Thank you so much for all that you have already done for this child in need and we thank you in advance for your consideration to this suggestion.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Yours sincerely\n"
-"                </p>\n"
-"            "
-
-#. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.email_child_unplanned_exit
 msgid ""
 "<div>\n"
@@ -3179,6 +3186,89 @@ msgstr ""
 "                </p>"
 
 #. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.email_sponsorship_sub_dossier_new
+#| msgid ""
+#| "<div>\n"
+#| "                    % set sponsorships = object.get_objects()\n"
+#| "                    % set child = sponsorships.mapped('child_id')\n"
+#| "                    % set firstname = child.get_list('preferred_name', 3, child.get_number(), False)\n"
+#| "                </div>\n"
+#| "                <p>\n"
+#| "                    ${object.partner_id.salutation},\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    We would like to congratulate you for five years of sponsorship!\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    On behalf of the Compassion Switzerland team, I would like to thank you for all your loyalty throughout these years.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Your sponsorship has a real impact on ${firstname}'s life, by giving ${child.get('him')} hope for ${child.get('his')} future.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Thank you for your commitment which is key to helping free children from poverty in Jesus name!\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Yours sincerely.\n"
+#| "                </p>\n"
+#| "            "
+msgid ""
+"<div>\n"
+"                    % set sponsorships = object.get_objects()\n"
+"                    % set child = sponsorships.mapped('child_id')\n"
+"                    % set previous = sponsorships.mapped('parent_id.child_id')\n"
+"                    % set previous_name = previous.get_list('preferred_name', 3, '', translate=False)\n"
+"                    % set name = child.get_list('preferred_name', 3, child.get_number(), False)\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${object.partner_id.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We recently informed you that ${previous.get('your sponsored child'), ${previous_name} ${previous.get('is')} no longer participating in the sponsorship program.  As mentioned in the previous letter, we are happy to send you the documents "
+"for ${name}.  ${child.get('he').title()} ${'lives' if len(child) == 1 else 'live'} in ${child.get_list('project_id.country_id.name')} and like ${previous_name}, ${name} ${child.get('is')} growing up in extreme poverty.  In the documents attached, you will find "
+"additional information about ${child.get('him')}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    For ${name}, sponsorship is a great opportunity and we would like to thank you wholeheartedly for investing in ${child.get('his')} life.  You will soon receive an introductory letter from ${name}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you again for your previous commitment to ${previous_name} and your new sponsorship for ${name}.  If you have any questions about your sponsorship, please do not hesitate to contact us.  You can reach us by phone at 0800 784 773 or by "
+"e-mail at info@compassion.ch\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Yours sincerely\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set sponsorships = object.get_objects()\n"
+"                    % set child = sponsorships.mapped('child_id')\n"
+"                    % set previous = sponsorships.mapped('parent_id.child_id')\n"
+"                    % set previous_name = previous.get_list('preferred_name', 3, '', translate=False)\n"
+"                    % set name = child.get_list('preferred_name', 3, child.get_number(), False)\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${object.partner_id.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    A seguito della  fine del sostegno di ${previous_name}, è con piacere che Compassion vi invia il dossier di ${name}, come annunciato recentemente per posta. ${name} vive in ${child.get_list('project_id.country_id.name')} e cresce in estrema "
+"povertà come ${previous_name}. In allegato, troverete i documenti relativi a questa nuovo sostegno.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Per ${name}, è una chance poter essere sostenuta, grazie di cuore di investire nella sua vita, con il sostegno regolare. Riceverete, nei giorni a venire, una lettera di ${name}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Ancora una volta, grazie mille per il vostro impegno finora con ${previous_name} e da oggi con ${name}. Se avete domande su questo sostegno, non esitate a contattarci telefonicamente al 0800 784 773 o via e-mail a sostegno@compassion.ch.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Siamo grati di poter contare su di voi e su molti altri sostenitori, per aiutare a portare sempre più bambini fuori dalla povertà estrema ogni giorno.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Ricevete i nostri calorosi saluti.\n"
+"                </p>\n"
+"            "
+
+#. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.email_sponsorship_waiting_reminder_1
 msgid ""
 "<div>\n"
@@ -3290,7 +3380,8 @@ msgstr ""
 "                    <br>\n"
 "                    <br>\n"
 "                    Fraterni saluti.\n"
-"                </p>"
+"                </p>\n"
+"    "
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.new_letter
@@ -3424,7 +3515,7 @@ msgid "Current values"
 msgstr "Current values"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/res_partner.py:42
+#: code:addons/partner_communication_switzerland/models/res_partner.py:47
 #, python-format
 msgid "Dear friends of compassion"
 msgstr "Cari amici di Compassion"
@@ -3448,6 +3539,11 @@ msgstr "Visualizza Nome"
 #: model:mail.template,subject:partner_communication_switzerland.event_letter_template
 msgid "Donation Receipt"
 msgstr "Grazie per la vostra donazione !"
+
+#. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.tax_receipt_letter_template
+msgid "Donation Receipt ${ctx.get('year', datetime.date.today().year-1)}"
+msgstr "Donazioni ${ctx.get('year', datetime.date.today().year-1)}"
 
 #. module: partner_communication_switzerland
 #: model:ir.ui.view,arch_db:partner_communication_switzerland.view_events_thank_donation model:ir.ui.view,arch_db:partner_communication_switzerland.view_partner_letter_delivery
@@ -3530,7 +3626,7 @@ msgid "Gender"
 msgstr "Sesso"
 
 #. module: partner_communication_switzerland
-#: model:ir.actions.act_window,name:partner_communication_switzerland.action_generate_gift
+#: model:ir.actions.act_window,name:partner_communication_switzerland.action_generate_communication
 msgid "Generate Communications"
 msgstr "Generate Communications"
 
@@ -3666,11 +3762,6 @@ msgid "New photo for ${object.get_objects().get_list('preferred_name', 3, 'your 
 msgstr "New photo for ${object.get_objects().get_list('preferred_name', 3, 'your children', False)} (${object.get_objects().get_list('local_id')})"
 
 #. module: partner_communication_switzerland
-#: model:mail.template,subject:partner_communication_switzerland.email_sponsorship_sub_dossier
-msgid "New sponsorship proposition"
-msgstr "Nuova proposta di sostegno"
-
-#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_hold_no_money_extension_duration
 msgid "No money extension duration"
 msgstr "No money extension duration"
@@ -3679,11 +3770,6 @@ msgstr "No money extension duration"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_child_old_firstname
 msgid "Old firstname"
 msgstr "Old firstname"
-
-#. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract_old_sub
-msgid "Old sub"
-msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_child_old_values
@@ -3795,11 +3881,6 @@ msgid "Send Communication"
 msgstr "Send Communication"
 
 #. module: partner_communication_switzerland
-#: model:ir.actions.server,name:partner_communication_switzerland.send_sub_proposal
-msgid "Send SUB Proposal"
-msgstr ""
-
-#. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.send_welcome_action
 msgid "Send Welcome Letter"
 msgstr ""
@@ -3856,9 +3937,13 @@ msgstr "Stato"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_sds_subsponsorship_wizard
-#| msgid "Sponsorships"
 msgid "Sub Sponsorship Wizard"
 msgstr "Sub Sponsorship Wizard"
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_tax_receipt_preference model:ir.model.fields,field_description:partner_communication_switzerland.field_res_users_tax_receipt_preference
+msgid "Tax receipt preference"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.ui.menu,name:partner_communication_switzerland.menu_communication_templates
@@ -3881,18 +3966,18 @@ msgid "Unread"
 msgstr "Unread"
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,help:partner_communication_switzerland.field_recurring_contract_old_sub
-msgid "Used to treat the old sub sponsorships"
+#: model:ir.model,name:partner_communication_switzerland.model_res_users
+msgid "Users"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:107
+#: code:addons/partner_communication_switzerland/models/contracts.py:106
 #, python-format
 msgid "Waiting welcome"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:59
+#: code:addons/partner_communication_switzerland/models/contracts.py:58
 #, python-format
 msgid "We will continue to withdraw the amount for the sponsorship from your account."
 msgstr "Continueremo a prelevare la somma per il sostegno dal vostro conto"
@@ -3940,6 +4025,11 @@ msgid "Your child ${object.get_objects().preferred_name} transitioned to ${objec
 msgstr "Il vostro bambino ${object.get_objects().preferred_name} transitioned to ${object.get_objects().cdsp_type} Sostegno "
 
 #. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.email_sponsorship_sub_dossier_new
+msgid "Your new sponsorship"
+msgstr "Il vostro sostegno"
+
+#. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.email_yearly_payment_slips
 msgid "Your payment slips for 2018"
 msgstr "PVR 2018"
@@ -3965,14 +4055,13 @@ msgid "Zip id"
 msgstr "Zip id"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:297
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:282
 #, python-format
 msgid "child dossier.pdf"
 msgstr "dossier.pdf"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_child_hold_wizard
-#| msgid "child.order.picture.wizard"
 msgid "child.hold.wizard"
 msgstr "child.hold.wizard"
 
@@ -4037,7 +4126,7 @@ msgid "partner.communication.generate.wizard"
 msgstr "partner.communication.generate.wizard"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:67
+#: code:addons/partner_communication_switzerland/models/contracts.py:66
 #, python-format
 msgid "payment slips for the sponsorship payment"
 msgstr "BVR per il sostegno"
@@ -4060,28 +4149,34 @@ msgid "six"
 msgstr "sei"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:148
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:133
 #, python-format
 msgid "sponsorship due.pdf"
 msgstr "pagamento.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:276 code:addons/partner_communication_switzerland/models/partner_communication.py:418
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:261 code:addons/partner_communication_switzerland/models/partner_communication.py:428
 #, python-format
 msgid "sponsorship gifts.pdf"
 msgstr "sponsorship gifts.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:196
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:181
 #, python-format
 msgid "sponsorship labels.pdf"
 msgstr "labels.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:257 code:addons/partner_communication_switzerland/models/partner_communication.py:405
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:242 code:addons/partner_communication_switzerland/models/partner_communication.py:411
 #, python-format
 msgid "sponsorship payment slips.pdf"
 msgstr "bollettini di pagamento.pdf"
+
+#. module: partner_communication_switzerland
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:300
+#, python-format
+msgid "tax receipt.pdf"
+msgstr "donazioni.pdf"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/child.py:182
@@ -4100,6 +4195,58 @@ msgstr "tre"
 #, python-format
 msgid "two"
 msgstr "due"
+
+#~ msgid ""
+#~ "<div>\n"
+#~ "                    % set sponsorships = object.get_objects()\n"
+#~ "                    % set child = sponsorships.mapped('child_id')\n"
+#~ "                    % set name = child.get_list('name', 3, child.get_number())\n"
+#~ "                </div>\n"
+#~ "                <p>\n"
+#~ "                    ${object.partner_id.salutation},\n"
+#~ "                    <br/>\n"
+#~ "                    <br/>\n"
+#~ "                    Compassion recently announced that ${sponsorships.get_list('parent_id.child_id.name')} ${child.get('is')} leaving the sponsorship program. In the same letter, we encouraged you to sponsor another child living with less than CHF 1.9 per "
+#~ "day.\n"
+#~ "                    <br/>\n"
+#~ "                    <br/>\n"
+#~ "                    Attached, you will find details about ${name} (${child.get_list('project_id.country_id.name')}). Would you be willing to consider supporting ${child.get('this child')} in order to free ${child.get('him')} from extreme poverty? ${object."
+#~ "success_sentence |safe}\n"
+#~ "\n"
+#~ "                    <b>If you do not wish to sponsor ${child.get('this child')}, please kindly inform us as soon as possible, in order to allow us to find another sponsor for ${child.get('him')}.</b>\n"
+#~ "                    Thank you so much for all that you have already done for this child in need and we thank you in advance for your consideration to this suggestion.\n"
+#~ "                    <br/>\n"
+#~ "                    <br/>\n"
+#~ "                    Yours sincerely\n"
+#~ "                </p>\n"
+#~ "            "
+#~ msgstr ""
+#~ "<div>\n"
+#~ "                    % set sponsorships = object.get_objects()\n"
+#~ "                    % set child = sponsorships.mapped('child_id')\n"
+#~ "                    % set name = child.get_list('name', 3, child.get_number())\n"
+#~ "                </div>\n"
+#~ "                <p>\n"
+#~ "                    ${object.partner_id.salutation},\n"
+#~ "                    <br/>\n"
+#~ "                    <br/>\n"
+#~ "                    Compassion recently announced that ${sponsorships.get_list('parent_id.child_id.name')} ${child.get('is')} leaving the sponsorship program. In the same letter, we encouraged you to sponsor another child living with less than CHF 1.9 per "
+#~ "day.\n"
+#~ "                    <br/>\n"
+#~ "                    <br/>\n"
+#~ "                    Attached, you will find details about ${name} (${child.get_list('project_id.country_id.name')}). Would you be willing to consider supporting ${child.get('this child')} in order to free ${child.get('him')} from extreme poverty? ${object."
+#~ "success_sentence |safe}\n"
+#~ "\n"
+#~ "                    <b>If you do not wish to sponsor ${child.get('this child')}, please kindly inform us as soon as possible, in order to allow us to find another sponsor for ${child.get('him')}.</b>\n"
+#~ "                    Thank you so much for all that you have already done for this child in need and we thank you in advance for your consideration to this suggestion.\n"
+#~ "                    <br/>\n"
+#~ "                    <br/>\n"
+#~ "                    Yours sincerely\n"
+#~ "                </p>\n"
+#~ "            "
+
+#~ msgid "New sponsorship proposition"
+#~ msgstr "Nuova proposta di sostegno"
 
 #~ msgid ""
 #~ "<div>\n"

@@ -17,7 +17,8 @@ class CompassionChild(models.Model):
     """
     _inherit = 'compassion.child'
 
-    description = fields.Text(compute='_compute_description')
+    description_left = fields.Text(compute='_compute_description')
+    description_right = fields.Text(compute='_compute_description')
     project_title = fields.Char(compute='_compute_project_title')
 
     @api.multi
@@ -28,12 +29,15 @@ class CompassionChild(models.Model):
             'en_US': 'desc_en',
             'it_IT': 'desc_it',
         }
+
         for child in self:
-            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
+            lang = self.env.lang or 'en_US'
             try:
-                child.description = getattr(child, lang_map.get(lang))
+                description = getattr(child, lang_map.get(lang))
             except:
-                child.description = False
+                continue
+
+            child.description_left = description
 
     def _compute_project_title(self):
         for child in self:
@@ -44,5 +48,5 @@ class CompassionChild(models.Model):
                 'en_US': firstname + u"'s Project",
                 'it_IT': u'Project',
             }
-            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
+            lang = self.env.lang or 'en_US'
             child.project_title = lang_map.get(lang)

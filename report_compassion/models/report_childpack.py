@@ -37,11 +37,11 @@ class ReportChildpackFull(models.AbstractModel):
             data = {}
         lang = data.get('lang', self.env.lang)
         report = self._get_report()
+        docs = self.env[report.model].with_context(lang=lang).browse(docids)
+
         data.update({
             'doc_model': report.model,
-            'docs': self.env[report.model].with_context(lang=lang).browse(
-                docids
-            ),
+            'docs': docs.with_context(lang=lang)
         })
 
         return self.env['report'].with_context(lang=lang).render(

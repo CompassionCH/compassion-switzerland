@@ -35,7 +35,10 @@
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
-    'depends': ['report_compassion', 'gift_compassion'],
+    'depends': [
+        'report_compassion',
+        'child_switzerland',
+    ],
     'external_dependencies': {
         'python': ['wand', 'detectlanguage', 'sendgrid']
     },

@@ -42,7 +42,6 @@ class RecurringContract(models.Model):
     )
     amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
-    old_sub = fields.Boolean(help='Used to treat the old sub sponsorships')
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -232,8 +231,16 @@ class RecurringContract(models.Model):
         config = self.env.ref(module + 'planned_birthday_reminder')
         comms = self.env['partner.communication.job']
         for sponsorship in birthday:
-            correspondent = sponsorship.send_gifts_to == 'correspondant_id'
-            comms += sponsorship.send_communication(config, correspondent)
+
+            # Send the communication to the correspondent in any case.
+            correspondent = True
+
+            # Send the communication to both the partner and the correspondent
+            # if the partner is the one who paid the gift.
+            send_to_both = sponsorship.send_gifts_to == 'partner_id'
+
+            comms += sponsorship.send_communication(config, correspondent,
+                                                    send_to_both)
         # Remove communication for those who have no e-mail address
         comms.filtered(lambda c: not c.send_mode).unlink()
 
@@ -446,7 +453,10 @@ class RecurringContract(models.Model):
         selected_corr_config = self.env.ref(
             module + 'planned_dossier_correspondent')
 
-        sub_proposal = self.filtered(lambda c: c.parent_id.old_sub)
+        success_story = self.env['success.story'].search([
+            ('is_active', '=', True)], limit=1)
+        sub_proposal = self.filtered(lambda c: c.parent_id).with_context(
+            default_success_story_id=success_story.id)
         sub_proposal_config = self.env.ref(module + 'planned_sub_dossier')
         selected = self - sub_proposal
 

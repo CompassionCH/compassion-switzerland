@@ -15,3 +15,4 @@ from . import res_partner_category
 from . import completion_rules
 from . import account_banking_mandate
 from . import contract_group
+from . import gift_compassion
