@@ -1,8 +1,8 @@
-<openerp>
-    <data>
+<odoo>
+    <data noupdate="1">
         <!-- Major Revision Email Templates -->
         <!-- Birthdate changed -->
-        <record id="email_birthdate" model="email.template">
+        <record id="email_birthdate" model="mail.template">
             <field name="name">Major Revision - Birthdate</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -23,7 +23,7 @@
         </record>
 
         <!-- Disability changed -->
-        <record id="email_disability" model="email.template">
+        <record id="email_disability" model="mail.template">
             <field name="name">Major Revision - Chronic Disabilities</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -44,7 +44,7 @@
         </record>
 
         <!-- Illnesses changed -->
-        <record id="email_illness" model="email.template">
+        <record id="email_illness" model="mail.template">
             <field name="name">Major Revision - Chronic Illness</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -65,7 +65,7 @@
         </record>
 
         <!-- Name changed -->
-        <record id="email_name" model="email.template">
+        <record id="email_name" model="mail.template">
             <field name="name">Major Revision - Name</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -92,7 +92,7 @@
         </record>
 
         <!-- Gender changed -->
-        <record id="email_gender" model="email.template">
+        <record id="email_gender" model="mail.template">
             <field name="name">Major Revision - Gender</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -116,7 +116,7 @@
         </record>
 
         <!-- Completion date changed -->
-        <record id="email_completion_date_change" model="email.template">
+        <record id="email_completion_date_change" model="mail.template">
             <field name="name">Major Revision - Planned Completion Date</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -137,7 +137,7 @@
         </record>
 
         <!-- Parent alive changed -->
-        <record id="email_parent_alive" model="email.template">
+        <record id="email_parent_alive" model="mail.template">
             <field name="name">Major Revision - Parent Alive</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -160,7 +160,7 @@
         </record>
 
         <!-- Caregiver changed -->
-        <record id="email_caregiver_change" model="email.template">
+        <record id="email_caregiver_change" model="mail.template">
             <field name="name">Major Revision - Primary Caregiver</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -188,7 +188,7 @@
         </record>
 
         <!-- Multiple changes -->
-        <record id="email_multiple_changes" model="email.template">
+        <record id="email_multiple_changes" model="mail.template">
             <field name="name">Major Revision - Multiple Changes</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -219,4 +219,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

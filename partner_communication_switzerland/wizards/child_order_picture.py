@@ -1,18 +1,18 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import base64
 from io import BytesIO
 from zipfile import ZipFile
 
-from openerp import api, models, fields, _
+from odoo import api, models, fields
 
 
 class CompassionHold(models.TransientModel):
@@ -23,7 +23,7 @@ class CompassionHold(models.TransientModel):
         'recurring.contract', string='New biennials', readonly=True,
         default=lambda s: s._get_sponsorships()
     )
-    filename = fields.Char(default=_('child_photos.zip'))
+    filename = fields.Char(default='child_photos.zip')
     download_data = fields.Binary(readonly=True)
 
     @api.model

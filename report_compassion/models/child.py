@@ -1,16 +1,14 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from pyquery import PyQuery
-
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 class CompassionChild(models.Model):
@@ -19,9 +17,9 @@ class CompassionChild(models.Model):
     """
     _inherit = 'compassion.child'
 
-    description = fields.Text(compute='_compute_description')
+    description_left = fields.Text(compute='_compute_description')
+    description_right = fields.Text(compute='_compute_description')
     project_title = fields.Char(compute='_compute_project_title')
-    project_about = fields.Text(compute='_compute_project_about')
 
     @api.multi
     def _compute_description(self):
@@ -31,12 +29,15 @@ class CompassionChild(models.Model):
             'en_US': 'desc_en',
             'it_IT': 'desc_it',
         }
+
         for child in self:
-            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
+            lang = self.env.lang or 'en_US'
             try:
-                child.description = getattr(child, lang_map.get(lang))
+                description = getattr(child, lang_map.get(lang))
             except:
-                child.description = False
+                continue
+
+            child.description_left = description
 
     def _compute_project_title(self):
         for child in self:
@@ -47,21 +48,5 @@ class CompassionChild(models.Model):
                 'en_US': firstname + u"'s Project",
                 'it_IT': u'Project',
             }
-            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
+            lang = self.env.lang or 'en_US'
             child.project_title = lang_map.get(lang)
-
-    def _compute_project_about(self):
-        for child in self:
-            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
-            lang_map = {
-                'fr_CH': 'description_fr',
-                'de_DE': 'description_de',
-                'en_US': 'description_en',
-                'it_IT': 'description_it',
-            }
-            try:
-                project_desc = PyQuery(getattr(
-                    child.project_id, lang_map[lang]))
-                child.project_about = project_desc('table').outerHtml() or ''
-            except:
-                child.project_about = ''

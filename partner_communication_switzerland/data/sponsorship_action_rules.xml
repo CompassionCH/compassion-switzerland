@@ -1,0 +1,24 @@
+<odoo>
+    <!--
+    SDS States of contracts :
+    (new contract)                                - draft
+    (contract validation)                         - waiting welcome
+    (after 10 days welcome communication is sent) - active
+    (child is departed)                           - sub_waiting
+    (new sponsorship is created, or no sub)       - sub (sub pending) / no_sub
+    (new sponsorship is active after 50 days)     - sub_accept / sub_reject
+    -->
+
+    <!-- Rule for sending welcome letter after 10 days of validation -->
+    <record id="contract_validation" model="base.action.rule">
+        <field name="name">Sponsorship: Check Welcome Letter</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="kind">on_time</field>
+        <field name="trg_date_id" ref="sponsorship_tracking.field_recurring_contract_sds_state_date"/>
+        <field name="filter_domain">[('sds_state', '=', 'waiting_welcome')]</field>
+        <field name="trg_date_range">10</field>
+        <field name="trg_date_range_tye">day</field>
+        <field name="server_action_ids" eval="[(6, 0, [ref('send_welcome_action')])]"/>
+    </record>
+
+</odoo>

@@ -1,7 +1,7 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Hold Removal Notification -->
-        <record id="email_hold_removal" model="email.template">
+        <record id="email_hold_removal" model="mail.template">
             <field name="name">Beneficiary Hold Removal</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -32,7 +32,7 @@
         </record>
 
         <!-- New picture e-mail -->
-        <record id="email_biennial" model="email.template">
+        <record id="email_biennial" model="mail.template">
             <field name="name">New Biennial</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -71,7 +71,7 @@
         </record>
 
         <!-- E-mail for new Child Notes -->
-        <record id="email_child_notes" model="email.template">
+        <record id="email_child_notes" model="mail.template">
             <field name="name">New Child Notes</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -100,7 +100,7 @@
         </record>
 
         <!-- E-mail for Disaster Alert -->
-        <record id="email_disaster_alert" model="email.template">
+        <record id="email_disaster_alert" model="mail.template">
             <field name="name">Disaster Alert</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -182,12 +182,112 @@
         </record>
 
         <!-- Default communication -->
-        <record id="email_template_default_communication" model="email.template">
+        <record id="email_template_default_communication" model="mail.template">
             <field name="name">Default Communication</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">${object.subject}</field>
             <field name="body_html">${object.body_html}</field>
         </record>
+        <!-- End of year payment slips -->
+        <record id="email_yearly_payment_slips" model="mail.template">
+            <field name="name">Yearly payment slips</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="subject">Your payment slips for 2018</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set sponsorships = object.get_objects()
+                    % set fully_managed = sponsorships.filtered('fully_managed')
+                    % set correspondents = partner.mapped('contracts_correspondant').intersect(sponsorships)
+                    % set payers = partner.mapped('contracts_paid').intersect(sponsorships)
+                    % set payment_modes = sponsorships.mapped('payment_mode_id')
+                    % set bvr = payment_modes.intersect(object.env.ref('sponsorship_switzerland.payment_mode_bvr'))
+                    % set months_paid = max(sponsorships.mapped('months_paid'))
+                    % set children = fully_managed.union(correspondents).mapped('child_id')
+                    % if payers and bvr:
+                        % set children = fully_managed.union(correspondents, payers).mapped('child_id')
+                    % endif
+                    % set firstname = children.get_list('preferred_name', 3, 'your sponsored children', False)
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    First of all, we want to thank you warmly for your precious commitment towards ${firstname}.
+                    Through your support you are giving ${children.get('him')} hope and a future!
+                    <br/>
+                    Attached to this letter you will find the following documents :
+                    <ul>
+                        % if bvr and sponsorships.must_pay_next_year() and (fully_managed or payers):
+                            <li>Payment slips for the payment of your sponsorship for 2018</li>
+                        % endif
+                        % if fully_managed or correspondents:
+                            <li>Payment slips for the gifts (birthday gift, general gift and family gift)</li>
+                        % endif
+                    </ul>
+                    % if fully_managed or correspondents:
+                        Gifts to ${children.get('your sponsored child')} are optional. Please do not feel obligated to make one.
+                        Your sponsorship is already a wonderful gift and we are very thankful for that!
+                        <br/>
+                        <br/>
+                    % endif
+                    Should you lose your payment slips or if you wish to have more, please contact us and we will be happy to send them to you.
+                    We are also available for further questions.
+                    <br/>
+                    <br/>
+                    We wish you a Merry Christmas and a happy New Year!
+                </p>
+            </field>
+        </record>
+        <record id="csp_mail_template" model="mail.template">
+            <field name="name">CSP Engagement</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Thank you for your engagement</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set hold = object.get_objects()
+                    % set owner = object.partner_id.firstname
+                </div>
+                <p>
+                    Dear ${owner},
+                    <br/>
+                    <br/>
+                        Thank you to support a child survival program from Compassion.
+                    <br/>
+                    <br/>
+                        From pregnancy through infanthood, Child Survival offers help that moms and babies desperately need to survive and thrive. More than 64,598 moms and babies have been helped to date! Through our Child Survival Centers, we ensure mothers and babies receive any of the following:
+                    <br/>
+                    <ul>
+                        <li>Basic Nutrition in the form of clean water, healthy food and vitamins.</li>
+                        <li>Pre-natal and post-natal medical exams to monitor mom and baby’s health.</li>
+                        <li>Critical medical resources such as child birth assistance.</li>
+                        <li>Monthly growth monitoring to protect the children from malnutrition.</li>
+                        <li>Immunizations and other medical care for newborns and babies.</li>
+                        <li>Mentoring from a survival specialist that gives one-on-one coaching and support.</li>
+                        <li>Opportunities for infants to learn cognitive skills.</li>
+                        <li>Workshops that teach mothers parenting and survival skills.</li>
+                        <li>Home visits to check in on mother and baby.</li>
+                        <li>Emotional support from a community of moms facing the same fears.</li>
+                    </ul>
+                        Each Child Survival Center is staffed with warm, caring, knowledgeable individuals that serve mothers and babies extremely well. Your donations give children under 1 year old a head start toward a healthy life!
+                    <br/>
+                    <br/>
+                        There is no correspondence with the mothers, nevertheless you will receive once a year a newsletter with information about the program and testimonies from mothers.
+                    <br/>
+                    <br/>
+                        Please do not hesitate to contact us if you have any questions.
+                    <br/>
+                    <br/>
+                    Sincerely
+                </p>
+            </field>
+        </record>
     </data>
-</openerp>
+</odoo>

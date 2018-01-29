@@ -1,16 +1,18 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from openerp.tools import mod10r
+from odoo.tools import mod10r
 
-from openerp import api, fields, models, _
+from odoo import api, registry, fields, models, _
+
+from odoo.addons.base_geoengine.fields import GeoPoint
 
 # fields that are synced if 'use_parent_address' is checked
 ADDRESS_FIELDS = [
@@ -34,19 +36,19 @@ class ResPartner(models.Model):
     #                        NEW PARTNER FIELDS                              #
     ##########################################################################
     lang = fields.Selection(default=False)
-    total_invoiced = fields.Float(groups=False)
+    total_invoiced = fields.Monetary(groups=False)
     street3 = fields.Char("Street3", size=128)
     member_ids = fields.One2many(
         'res.partner', 'church_id', 'Members',
         domain=[('active', '=', True)])
     is_church = fields.Boolean(
-        string="Is a Church", compute='_is_church', store=True)
+        string="Is a Church", compute='_compute_is_church', store=True)
     church_id = fields.Many2one(
         'res.partner', 'Church', domain=[('is_church', '=', True)])
     church_unlinked = fields.Char(
         "Church (N/A)",
-        help=_("Use this field if the church of the partner"
-               " can not correctly be determined and linked."))
+        help="Use this field if the church of the partner"
+             " can not correctly be determined and linked.")
     deathdate = fields.Date('Death date')
     opt_out = fields.Boolean(default=True)
     nbmag = fields.Integer('Number of Magazines', size=2,
@@ -54,34 +56,40 @@ class ResPartner(models.Model):
     tax_certificate = fields.Selection(
         _get_receipt_types, required=True, default='default')
     thankyou_letter = fields.Selection(
-        _get_receipt_types, _('Thank you letter'),
+        _get_receipt_types, 'Thank you letter',
         required=True, default='default')
     calendar = fields.Boolean(
-        help=_("Indicates if the partner wants to receive the Compassion "
-               "calendar."), default=True)
+        help="Indicates if the partner wants to receive the Compassion "
+             "calendar.", default=True)
     christmas_card = fields.Boolean(
-        help=_("Indicates if the partner wants to receive the "
-               "christmas card."), default=True)
+        help="Indicates if the partner wants to receive the "
+             "christmas card.", default=True)
     birthday_reminder = fields.Boolean(
-        help=_("Indicates if the partner wants to receive a birthday "
-               "reminder of his child."), default=True)
+        help="Indicates if the partner wants to receive a birthday "
+             "reminder of his child.", default=True)
     abroad = fields.Boolean(
         'Abroad/Only e-mail',
         related='email_only',
-        help=_("Indicates if the partner is abroad and should only be "
-               "updated by e-mail"))
+        help="Indicates if the partner is abroad and should only be "
+             "updated by e-mail")
     photo_delivery_preference = fields.Selection(
         selection='_get_delivery_preference',
         default='both',
         required=True,
         help='Delivery preference for Child photo')
 
+    partner_duplicate_ids = fields.Many2many(
+        'res.partner', 'res_partner_duplicates', 'partner_id',
+        'duplicate_id', readonly=True)
+    church_member_count = fields.Integer(compute='_compute_is_church',
+                                         store=True)
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
     @api.multi
-    @api.depends('category_id')
-    def _is_church(self):
+    @api.depends('category_id', 'member_ids')
+    def _compute_is_church(self):
         """ Tell if the given Partners are Church Partners
             (by looking at their categories). """
 
@@ -92,6 +100,8 @@ class ResPartner(models.Model):
             is_church = False
             if church_category in record.category_id:
                 is_church = True
+
+            record.church_member_count = len(record.member_ids)
             record.is_church = is_church
 
     @api.multi
@@ -103,26 +113,41 @@ class ResPartner(models.Model):
             ('partner_id', '=', self.id),
             ('account_id.code', '=', '1050'),
             ('credit', '>', '0'),
-            ('reconcile_id', '=', False)])
+            ('full_reconcile_id', '=', False)])
         res = 0
         for move_line in move_line_ids:
             res += move_line.credit
         return res
+
+    @api.multi
+    def _compute_children(self):
+        for partner in self:
+            partner.number_children = len(partner.sponsored_child_ids)
+            if partner.is_church:
+                partner.number_children += len(partner.mapped(
+                    'member_ids.sponsored_child_ids'))
 
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
     @api.model
     def create(self, vals):
+        duplicate = self.search(
+            ['|',
+             '&',
+             ('email', '=', vals.get('email')),
+             ('email', '!=', False),
+             '&', '&',
+             ('firstname', 'ilike', vals.get('firstname')),
+             ('lastname', 'ilike', vals.get('lastname')),
+             ('zip', '=', vals.get('zip'))
+             ])
+        duplicate_ids = [(4, itm.id) for itm in duplicate]
+        vals.update({'partner_duplicate_ids': duplicate_ids})
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
-        partner = super(ResPartner, self.with_context(
-            no_geocode=True)).create(vals)
-        if self._can_geocode():
-            # Call precise service of localization
-            partner.geocode_address()
-            if not partner.geo_point:
-                # Call approximate service
-                partner.geocode_from_geonames()
+        partner = super(ResPartner, self).create(vals)
+        partner.compute_geopoint()
+
         return partner
 
     @api.model
@@ -182,15 +207,57 @@ class ResPartner(models.Model):
         return self.browse(to_ret_ids).name_get()
 
     ##########################################################################
+    #                             ONCHANGE METHODS                           #
+    ##########################################################################
+
+    @api.onchange('lastname', 'firstname', 'zip', 'email')
+    def _onchange_partner(self):
+        if (self.lastname and self.firstname and self.zip) or self.email:
+            partner_duplicates = self.search([
+                ('id', '!=', self._origin.id),
+                '|',
+                '&',
+                ('email', '=', self.email),
+                ('email', '!=', False),
+                '&', '&',
+                ('firstname', 'ilike', self.firstname),
+                ('lastname', 'ilike', self.lastname),
+                ('zip', '=', self.zip)
+            ])
+            if partner_duplicates:
+                self.partner_duplicate_ids = partner_duplicates
+                # Commit the found duplicates
+                with api.Environment.manage():
+                    with registry(self.env.cr.dbname).cursor() as new_cr:
+                        new_env = api.Environment(new_cr, self.env.uid, {})
+                        self._origin.with_env(new_env).write({
+                            'partner_duplicate_ids': [(6, 0,
+                                                       partner_duplicates.ids)]
+                        })
+                return {
+                    'warning': {
+                        'title': _("Possible existing partners found"),
+                        'message': _('The partner you want to add may '
+                                     'already exist. Please use the "'
+                                     'Check duplicates" button to review it.')
+                    },
+                }
+
+    ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    @api.model
+    @api.multi
     def compute_geopoint(self):
-        """ Compute all geopoints. """
-        self.search([
-            ('partner_latitude', '!=', False),
-            ('partner_longitude', '!=', False),
-        ])._get_geo_point()
+        """ Compute geopoints. """
+        self.filtered(lambda p: not p.partner_latitude or not
+                      p.partner_longitude).geo_localize()
+        for partner in self.filtered(lambda p: p.partner_latitude and
+                                     p.partner_longitude):
+            geo_point = GeoPoint.from_latlon(
+                self.env.cr,
+                partner.partner_latitude,
+                partner.partner_longitude)
+            partner.write({'geo_point': geo_point.wkt})
         return True
 
     @api.multi
@@ -228,10 +295,49 @@ class ResPartner(models.Model):
 
     @api.model
     def get_lang_from_phone_number(self, phone):
-        record = self.get_record_from_phone_number(phone)
+        record = self.env['phone.common'].get_record_from_phone_number(phone)
         if record:
             partner = self.browse(record[1])
         return record and partner.lang
+
+    @api.multi
+    def open_sponsored_children(self):
+        self.ensure_one()
+        if self.is_church:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Children',
+                'res_model': 'compassion.child',
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'domain': ['|', ('sponsor_id', '=', self.id),
+                           ('sponsor_id', 'in', self.member_ids.ids)],
+                'context': self.env.context,
+            }
+        else:
+            return super(ResPartner, self).open_sponsored_children()
+
+    @api.multi
+    def open_contracts(self):
+        """ Used to bypass opening a contract in popup mode from
+        res_partner view. """
+        self.ensure_one()
+        if self.is_church:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Contracts',
+                'res_model': 'recurring.contract',
+                'views': [[False, "tree"], [False, "form"]],
+                'domain': ['|', '|',
+                           ('correspondant_id', '=', self.member_ids.ids),
+                           ('correspondant_id', '=', self.id), '|',
+                           ('partner_id', '=', self.id),
+                           ('partner_id', 'in', self.member_ids.ids)],
+                'context': self.with_context({
+                    'default_type': 'S'}).env.context,
+            }
+        else:
+            return super(ResPartner, self).open_contracts()
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
@@ -242,10 +348,24 @@ class ResPartner(models.Model):
         when the `use_parent_address` flag is set. """
         return list(ADDRESS_FIELDS)
 
-    def _can_geocode(self):
-        """ Remove approximate geocoding when a precise position is
-        already set.
-        """
-        if 'no_geocode' in self.env.context:
-            return False
-        return super(ResPartner, self)._can_geocode()
+    @api.multi
+    def open_duplicates(self):
+        partner_wizard = self.env['res.partner.check.double'].create({
+            'partner_id': self.id,
+        })
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "res.partner.check.double",
+            "res_id": partner_wizard.id,
+            "view_type": "form",
+            "view_mode": "form",
+            "target": "new",
+        }
+
+    def update_church_sponsorships_number(self, inc):
+        for partner in self:
+            church = self.search([('member_ids', '=', partner.id)])
+            if inc and church:
+                church.number_sponsorships += 1
+            elif church:
+                church.number_sponsorships -= 1

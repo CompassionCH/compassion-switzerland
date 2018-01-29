@@ -1,18 +1,18 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import base64
 from datetime import datetime
 
-from openerp import api, models, fields, _
-from openerp.exceptions import Warning
+from odoo import api, models, fields, _
+from odoo.exceptions import Warning
 
 
 class PrintSponsorshipBvr(models.TransientModel):
@@ -38,6 +38,10 @@ class PrintSponsorshipBvr(models.TransientModel):
     pdf = fields.Boolean()
     pdf_name = fields.Char(default='sponsorship payment.pdf')
     pdf_download = fields.Binary(readonly=True)
+    preprinted = fields.Boolean(
+        help='Enable if you print on a payment slip that already has company '
+             'information printed on it.'
+    )
 
     @api.model
     def default_start(self):
@@ -63,6 +67,14 @@ class PrintSponsorshipBvr(models.TransientModel):
         self.date_start = start
         self.date_stop = stop
 
+    @api.onchange('pdf')
+    def onchange_pdf(self):
+        if self.pdf:
+            self.draw_background = True
+            self.preprinted = False
+        else:
+            self.draw_background = False
+
     @api.multi
     def print_report(self):
         """
@@ -79,6 +91,7 @@ class PrintSponsorshipBvr(models.TransientModel):
             'gifts': self.include_gifts,
             'doc_ids': self.env.context.get('active_ids'),
             'background': self.draw_background,
+            'preprinted': self.preprinted
         }
         records = self.env[self.env.context.get('active_model')].browse(
             data['doc_ids'])
@@ -90,7 +103,7 @@ class PrintSponsorshipBvr(models.TransientModel):
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(
                     must_skip_send_to_printer=True).get_pdf(
-                        records, self.paper_format, data=data))
+                        records.ids, self.paper_format, data=data))
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -102,7 +115,7 @@ class PrintSponsorshipBvr(models.TransientModel):
                 'context': self.env.context,
             }
         return self.env['report'].get_action(
-            records, self.paper_format, data
+            records.ids, self.paper_format, data
         )
 
 
@@ -137,7 +150,7 @@ class PrintBvrDue(models.TransientModel):
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(
                     must_skip_send_to_printer=True).get_pdf(
-                    records, report, data=data))
+                    records.ids, report, data=data))
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -149,5 +162,5 @@ class PrintBvrDue(models.TransientModel):
                 'context': self.env.context,
             }
         return self.env['report'].get_action(
-            records, report, data
+            records.ids, report, data
         )

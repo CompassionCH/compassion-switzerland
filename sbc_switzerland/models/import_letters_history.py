@@ -1,40 +1,37 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emmanuel Mathier, Loic Hausammann <loic_hausammann@hotmail.com>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 """
 This module reads a zip file containing scans of mail and finds the relation
 between the database and the mail.
 """
-import logging
 import base64
+import logging
 import zipfile
-import time
-
-import pysftp
-
-from openerp.addons.sbc_compassion.tools import import_letter_functions as func
-from openerp import fields, models, api, _, exceptions
-from pyPdf import PdfFileWriter, PdfFileReader
-from pyPdf.pdf import PageObject
-
 from io import BytesIO
-from openerp.tools.config import config
-from smb.SMBConnection import SMBConnection
-from smb.smb_structs import OperationFailure
 
-from openerp.addons.connector.session import ConnectorSession
-from openerp.addons.sbc_compassion.models import import_letters_history as ilh
-
+from odoo import fields, models, api, _, exceptions
+from odoo.tools.config import config
+from odoo.addons.sbc_compassion.tools import import_letter_functions as func
+from odoo.addons.queue_job.job import job, related_action
 from . import translate_connector
 
 logger = logging.getLogger(__name__)
+
+try:
+    from smb.SMBConnection import SMBConnection
+    from smb.smb_structs import OperationFailure
+    from pyPdf import PdfFileWriter, PdfFileReader
+    from pyPdf.pdf import PageObject
+except ImportError:
+    logger.warning("Please install python dependencies.")
 
 
 class ImportLettersHistory(models.Model):
@@ -45,85 +42,85 @@ class ImportLettersHistory(models.Model):
     The code is reading QR codes in order to detect child and partner codes
     for every letter, using the zxing library for code detection.
     """
-    _name = 'import.letters.history'
-    _inherit = ['import.letters.history', 'import.letter.config']
+    _inherit = 'import.letters.history'
 
-    manual_import = fields.Boolean(
-        string=_("Manual import"),
-        default=False)
+    manual_import = fields.Boolean("Manual import", default=False)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    @api.one
     @api.onchange("data", "import_folder_path")
     def _count_nber_letters(self):
         """
         Counts the number of scans. If a zip file is given, the number of
         scans inside is counted.
         """
-        if self.manual_import or (
-                self.state and self.state != 'draft'):
-            super(ImportLettersHistory, self)._count_nber_letters()
-        else:
-            # files are not selected by user so we find them on NAS
-            # folder 'Imports' counter
-            tmp = 0
-
-            smb_conn = self._get_smb_connection()
-            share_nas = self.env.ref('sbc_switzerland.share_on_nas').value
-            imported_letter_path = self.import_folder_path
-
-            if smb_conn and smb_conn.connect(
-                SmbConfig.smb_ip, SmbConfig.smb_port) and \
-                    imported_letter_path:
-                imported_letter_path = self.check_path(imported_letter_path)
-
-                try:
-                    listPaths = smb_conn.listPath(
-                        share_nas,
-                        imported_letter_path)
-                except OperationFailure:
-                    logger.info('--------------- PATH NO CORRECT -----------')
-                    listPaths = []
-
-                for sharedFile in listPaths:
-                    if func.check_file(sharedFile.filename) == 1:
-                        tmp += 1
-                    elif func.isZIP(sharedFile.filename):
-                        logger.info(
-                            'File to retrieve: {}'.format(
-                                imported_letter_path +
-                                sharedFile.filename))
-
-                        file_obj = BytesIO()
-                        smb_conn.retrieveFile(
-                            share_nas,
-                            imported_letter_path +
-                            sharedFile.filename,
-                            file_obj)
-                        try:
-                            zip_ = zipfile.ZipFile(file_obj, 'r')
-                            list_file = zip_.namelist()
-                            # loop over all files in zip
-                            for tmp_file in list_file:
-                                tmp += (func.check_file(
-                                    tmp_file) == 1)
-                        except zipfile.BadZipfile:
-                            raise exceptions.Warning(
-                                _('Zip file corrupted (' +
-                                  sharedFile.filename + ')'))
-                        except zipfile.LargeZipFile:
-                            raise exceptions.Warning(
-                                _('Zip64 is not supported(' +
-                                  sharedFile.filename + ')'))
-                smb_conn.close()
+        for letter in self:
+            if letter.manual_import or (
+                    letter.state and letter.state != 'draft'):
+                super(ImportLettersHistory, letter)._count_nber_letters()
             else:
-                logger.info("""Failed to list files in imported \
-                folder Imports oh the NAS in emplacement: {}""".format(
-                    imported_letter_path))
+                # files are not selected by user so we find them on NAS
+                # folder 'Imports' counter
+                tmp = 0
 
-            self.nber_letters = tmp
+                smb_conn = letter._get_smb_connection()
+                share_nas = letter.env.ref(
+                    'sbc_switzerland.share_on_nas').value
+                imported_letter_path = letter.import_folder_path
+
+                if smb_conn and smb_conn.connect(
+                    SmbConfig.smb_ip, SmbConfig.smb_port) and \
+                        imported_letter_path:
+                    imported_letter_path = letter.check_path(
+                        imported_letter_path)
+
+                    try:
+                        listPaths = smb_conn.listPath(
+                            share_nas,
+                            imported_letter_path)
+                    except OperationFailure:
+                        logger.info('--------------- PATH NO CORRECT ------'
+                                    '-----')
+                        listPaths = []
+
+                    for sharedFile in listPaths:
+                        if func.check_file(sharedFile.filename) == 1:
+                            tmp += 1
+                        elif func.isZIP(sharedFile.filename):
+                            logger.info(
+                                'File to retrieve: {}'.format(
+                                    imported_letter_path +
+                                    sharedFile.filename))
+
+                            file_obj = BytesIO()
+                            smb_conn.retrieveFile(
+                                share_nas,
+                                imported_letter_path +
+                                sharedFile.filename,
+                                file_obj)
+                            try:
+                                zip_ = zipfile.ZipFile(file_obj, 'r')
+                                list_file = zip_.namelist()
+                                # loop over all files in zip
+                                for tmp_file in list_file:
+                                    tmp += (func.check_file(
+                                        tmp_file) == 1)
+                            except zipfile.BadZipfile:
+                                raise exceptions.UserError(
+                                    _('Zip file corrupted (' +
+                                      sharedFile.filename + ')'))
+                            except zipfile.LargeZipFile:
+                                raise exceptions.UserError(
+                                    _('Zip64 is not supported(' +
+                                      sharedFile.filename + ')'))
+                    smb_conn.close()
+                else:
+                    logger.info("""Failed to list files in imported \
+                    folder Imports oh the NAS in emplacement: {}""".format(
+                        imported_letter_path))
+
+                letter.nber_letters = tmp
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
@@ -138,9 +135,7 @@ class ImportLettersHistory(models.Model):
             for letters_import in self:
                 letters_import.state = 'pending'
                 if self.env.context.get('async_mode', True):
-                    session = ConnectorSession.from_env(self.env)
-                    ilh.import_letters_job.delay(
-                        session, self._name, letters_import.id)
+                    letters_import.with_delay()._run_analyze()
                 else:
                     letters_import._run_analyze()
             return True
@@ -253,6 +248,8 @@ class ImportLettersHistory(models.Model):
     #########################################################################
     #                             PRIVATE METHODS                           #
     #########################################################################
+    @job(default_channel='root.sbc_compassion')
+    @related_action(action='related_action_s2b_imports')
     def _run_analyze(self):
         """
         Analyze each attachment:
@@ -334,7 +331,7 @@ class ImportLettersHistory(models.Model):
             - attachment : the attachment to save
         Done by Michael Sandoz 02.2016
         """
-        """ Store letter on a shared folder on the NAS: """
+        # Store letter on a shared folder on the NAS:
         # Copy file in the imported letter folder
         smb_conn = self._get_smb_connection()
         if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
@@ -345,7 +342,6 @@ class ImportLettersHistory(models.Model):
 
             share_nas = self.env.ref('sbc_switzerland.share_on_nas').value
 
-            imported_letter_path = ""
             if self.manual_import:
                 imported_letter_path = self.env.ref(
                     'sbc_switzerland.scan_letter_imported'
@@ -461,8 +457,9 @@ class ImportLettersHistory(models.Model):
             # Add end path corresponding to the end of the import folder path
             end_path = ""
             if self.import_folder_path:
-                end_path = self.check_path(self.import_folder_path)
-                end_path = end_path.split("\\")[-2] + "\\"
+                end_path = self.check_path(self.import_folder_path).replace(
+                    '\\', '/').replace('//', '/')
+                end_path = end_path.split("/")[-2] + "/"
             done_letter_path = self.env.ref(
                 'sbc_switzerland.scan_letter_done').value + end_path + filename
 
@@ -470,7 +467,6 @@ class ImportLettersHistory(models.Model):
 
             # Delete file in the imported letter folder
             if deleteFile:
-                imported_letter_path = ""
                 if self.manual_import:
                     imported_letter_path = self.env.ref(
                         'sbc_switzerland.scan_letter_imported'
@@ -489,7 +485,7 @@ class ImportLettersHistory(models.Model):
         return True
 
     def check_path(self, path):
-        """" Add \ at end of path if not contains ever one """
+        """" Add backslash at end of path if not contains ever one """
         if path and not path[-1] == '\\':
             path = path + "\\"
         return path
@@ -502,131 +498,6 @@ class ImportLettersHistory(models.Model):
         else:
             return SMBConnection(
                 SmbConfig.smb_user, SmbConfig.smb_pass, 'openerp', 'nas')
-
-    @api.model
-    def import_web_letter(self, child_code, sponsor_ref,
-                          original_text, template_name, pdf_filename,
-                          attachment_filename, ext):
-        """
-        Call when a letter is set on web site:
-            - add web letter to an import set with import letter config
-              'Web letter'
-        """
-        try:
-            # Find existing config or create a new one
-            web_letter_id = self.env.ref('sbc_switzerland.web_letter').id
-            import_config = self.search([
-                ('config_id', '=', web_letter_id),
-                ('state', '!=', 'done')], limit=1)
-            if not import_config:
-                import_config = self.create({
-                    'config_id': web_letter_id, 'state': 'open'})
-
-            # Find child
-            if child_code:
-                # Retrieve child code and find corresponding id
-                child_field = 'local_id'
-                if len(child_code) == 9:
-                    child_field = 'code'
-                model_child = self.env['compassion.child'].search(
-                    [(child_field, '=', child_code), ('state', '=', 'P')])
-
-                child_id = model_child.id
-
-            if sponsor_ref:
-                # Retrieve sponsor reference and find corresponding id
-                model_sponsor = self.env['res.partner'].search(
-                    ['|', ('ref', '=', sponsor_ref),
-                     ('global_id', '=', sponsor_ref),
-                     ('has_sponsorships', '=', True)])
-                sponsor_id = model_sponsor.id
-
-            # Check if a sponsorship exists
-            self.env['recurring.contract'].search([
-                ('child_id', '=', child_id),
-                ('correspondant_id', '=', sponsor_id),
-                ('is_active', '=', True)], limit=1).ensure_one()
-
-            lang = self.env['correspondence'].detect_lang(original_text)
-            lang_id = None
-            if lang:
-                lang_id = lang.id
-
-            template = None
-            if template_name:
-                # Retrieve template name and find corresponding id
-                template = self.env['correspondence.template'].search(
-                    [('name', '=', template_name)], limit=1)
-
-            # save_letter pdf
-            sftp_host = config.get('wp_sftp_host')
-            sftp_user = config.get('wp_sftp_user')
-            sftp_pw = config.get('wp_sftp_pwd')
-            sftp = pysftp.Connection(sftp_host, sftp_user, password=sftp_pw)
-            pdf_data = sftp.open(pdf_filename).read()
-            filename = 'WEB_' + sponsor_ref + '_' + \
-                child_code + '_' + str(time.time())[:10] + '.pdf'
-
-            pdf_letter = self.analyze_webletter(pdf_data)
-
-            # analyze attachment to check template and create image preview
-            line_vals, document_vals = func.analyze_attachment(
-                self.env, pdf_letter, filename,
-                template)
-
-            for i in xrange(0, len(line_vals)):
-                line_vals[i].update({
-                    'import_id': import_config.id,
-                    'partner_id': sponsor_id,
-                    'child_id': child_id,
-                    'letter_language_id': lang_id,
-                    'original_text': original_text,
-                    'source': 'website'
-                })
-                letters_line = self.env[
-                    'import.letter.line'].create(line_vals[i])
-                document_vals[i].update({
-                    'res_id': letters_line.id,
-                    'res_model': 'import.letter.line'
-                })
-                letters_line.letter_image = self.env[
-                    'ir.attachment'].create(document_vals[i])
-
-            import_config.import_completed = True
-
-            logger.info("Try to copy file {} !".format(filename))
-            # Copy file in attachment in the done letter folder
-            share_nas = self.env.ref('sbc_switzerland.share_on_nas').value
-            import_letter_path = self.env.ref(
-                'sbc_switzerland.scan_letter_imported').value + filename
-
-            file_pdf = BytesIO(pdf_letter)
-            smb_conn = self._get_smb_connection()
-            if smb_conn and smb_conn.connect(
-                    SmbConfig.smb_ip, SmbConfig.smb_port):
-                smb_conn.storeFile(share_nas, import_letter_path, file_pdf)
-
-                # save eventual attachment
-                if attachment_filename:
-                    attachment_data = sftp.open(attachment_filename).read()
-                    filename_attachment = filename.replace(".pdf", "." + ext)
-                    logger.info("Try save attachment {} !"
-                                .format(filename_attachment))
-
-                    import_letter_path = self.env.ref(
-                        'sbc_switzerland.scan_letter_imported').value + \
-                        filename_attachment
-
-                    file_attachment = BytesIO(attachment_data)
-                    smb_conn.storeFile(
-                        share_nas,
-                        import_letter_path,
-                        file_attachment)
-                smb_conn.close()
-            sftp.close()
-            return True
-        except:
-            return False
 
     def analyze_webletter(self, pdf_letter):
         """

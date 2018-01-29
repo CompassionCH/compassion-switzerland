@@ -1,16 +1,16 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 from urllib import urlencode
 from urlparse import urljoin
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 class DisasterAlert(models.Model):
@@ -40,22 +40,28 @@ class DisasterAlert(models.Model):
             action = "/web?%s#%s" % (urlencode(query), urlencode(fragment))
             disaster.access_link = urljoin(base_url, action)
 
+
+class ChildImpact(models.Model):
+    _inherit = 'child.disaster.impact'
+
+    communication_id = fields.Many2one(
+        'partner.communication.job', 'Communication')
+    state = fields.Selection(related='communication_id.state')
+
     @api.model
     def create(self, vals):
-        disaster = super(DisasterAlert, self).create(vals)
-        children = disaster.mapped(
-            'child_disaster_impact_ids.child_id').filtered('sponsor_id')
-        sponsors = children.mapped('sponsor_id')
-        communication_config = self.env.ref(
-            'partner_communication_switzerland.disaster_alert')
-        job_obj = self.env['partner.communication.job']
-        for partner in sponsors:
+        impact = super(ChildImpact, self).create(vals)
+        partner = impact.child_id.sponsor_id
+        if partner:
+            communication_config = self.env.ref(
+                'partner_communication_switzerland.disaster_alert')
             sponsorships = partner.sponsorship_ids.filtered(
-                lambda s: s.child_id in children)
-            job_obj.create({
+                lambda s: s.child_id == impact.child_id)
+            comm = self.env['partner.communication.job'].create({
                 'partner_id': partner.id,
                 'config_id': communication_config.id,
                 'object_ids': sponsorships.ids,
                 'user_id': communication_config.user_id.id,
             })
-        return disaster
+            impact.communication_id = comm
+        return impact

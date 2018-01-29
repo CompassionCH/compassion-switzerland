@@ -2,9 +2,9 @@
 <!--
     Copyright (C) 2015 Compassion (http://www.compassion.ch)
     @author Michael Sandoz <michaelsandoz87@gmail.com>
-    The licence is in the file __openerp__.py
+    The licence is in the file __manifest__.py
 -->
-<openerp>
+<odoo>
     <data noupdate="1"> <!-- noupdate = 1 for the 'active' field -->
         <record id="check_local_translated_letters" model="ir.cron">
             <field name="name">Check translated letters on local translation platform</field>
@@ -19,4 +19,4 @@
             <field name="args" eval="'()'"/>
         </record>
     </data>
-</openerp>
+</odoo>

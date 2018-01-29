@@ -1,15 +1,15 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 
-from openerp import api, models
+from odoo import api, models
 
 
 class CompassionChild(models.TransientModel):
@@ -20,7 +20,7 @@ class CompassionChild(models.TransientModel):
     @api.model
     def init_templates(self):
         """ Add sendgrid template configuration and add substitutions. """
-        templates = self.env['email.template'].search([
+        templates = self.env['mail.template'].search([
             '|', '|', '|',
             ('name', 'like', 'Major Revision'),
             ('name', 'like', 'Child Lifecycle'),
@@ -41,6 +41,8 @@ class CompassionChild(models.TransientModel):
             ('name', '=', 'General IT')]) or test_template
         fr_template = sendgrid_template_obj.search([
             ('name', '=', 'General FR')]) or test_template
+        if not test_template or fr_template:
+            return
         for email_template in templates:
             lang_template_obj.create({
                 'email_template_id': email_template.id,

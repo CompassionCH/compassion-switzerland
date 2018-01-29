@@ -1,14 +1,14 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Philippe Heer <heerphilippe@msn.com>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from openerp import api, models
+from odoo import api, models
 
 
 class ChildLifecycle(models.Model):
@@ -23,6 +23,8 @@ class ChildLifecycle(models.Model):
                 'partner.communication.config'].search([
                     ('name', 'ilike', lifecycle.type),
                     ('name', 'like', 'Beneficiary'),
+                    ('name', 'not like', 'Exit')  # Departures are treated
+                                                  # when sub is created.
                 ])
             if communication_type:
                 self.env['partner.communication.job'].create({
@@ -43,28 +45,30 @@ class ProjectLifecycle(models.Model):
         ids = super(ProjectLifecycle, self).process_commkit(commkit_data)
 
         for lifecycle in self.browse(ids):
-            search = [
-                ('name', 'ilike', lifecycle.type),
-                ('name', 'like', 'Project'),
-            ]
+            if lifecycle.hold_cdsp_funds:
+                search = [
+                    ('name', 'ilike', lifecycle.type),
+                    ('name', 'like', 'Project'),
+                ]
 
-            if lifecycle.type == 'Suspension':
-                if lifecycle.extension_2:
-                    search.append(('name', 'ilike', 'Extension 2'))
-                elif lifecycle.extension_1:
-                    search.append(('name', 'ilike', 'Extension 1'))
-                else:
-                    search.append(('name', '=', 'Project Suspension'))
-            communication_type = self.env[
-                'partner.communication.config'].search(search)
-            if communication_type:
-                for child in self.env['compassion.child'].\
-                        search([('project_id', '=', lifecycle.project_id.id),
-                                ('sponsor_id', '!=', False)]):
-                    self.env['partner.communication.job'].create({
-                        'config_id': communication_type.id,
-                        'partner_id': child.sponsor_id.id,
-                        'object_ids': child.id,
-                        'user_id': communication_type.user_id.id,
-                    })
+                if lifecycle.type == 'Suspension':
+                    if lifecycle.extension_2:
+                        search.append(('name', 'ilike', 'Extension 2'))
+                    elif lifecycle.extension_1:
+                        search.append(('name', 'ilike', 'Extension 1'))
+                    else:
+                        search.append(('name', '=', 'Project Suspension'))
+                communication_type = self.env[
+                    'partner.communication.config'].search(search)
+                if communication_type:
+                    for child in self.env['compassion.child']. \
+                            search(
+                            [('project_id', '=', lifecycle.project_id.id),
+                             ('sponsor_id', '!=', False)]):
+                        self.env['partner.communication.job'].create({
+                            'config_id': communication_type.id,
+                            'partner_id': child.sponsor_id.id,
+                            'object_ids': child.id,
+                            'user_id': communication_type.user_id.id,
+                        })
         return ids

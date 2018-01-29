@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_recurring_contract_tree_compassion" model="ir.ui.view">
+        <field name="name">recurring.contract.compassion.tree</field>
+        <field name="model">recurring.contract</field>
+        <field name="inherit_id" ref="crm_compassion.view_contract_tree_crm"/>
+        <field eval="18" name="priority"/>
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="colors">blue:state == 'draft';red:state == 'mandate';green:state == 'waiting';black:state == 'active';gray:state in ('terminated','cancelled')</attribute>
+            </tree>
+            <field name="origin_id" position="after">
+                <field name="previous_child_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_recurring_contract_form_compassion" model="ir.ui.view">
+        <field name="name">recurring.contract.compassion.form</field>
+        <field name="model">recurring.contract</field>
+        <field name="inherit_id" ref="sponsorship_compassion.view_sponsorship_contract_form_compassion"/>
+        <field name="arch" type="xml">
+            <field name="next_invoice_date" position="attributes">
+                <attribute name="states">draft,waiting,mandate,active</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_contract_group_form_bvr_compassion" model="ir.ui.view">
+        <field name="name">contract.group.compassion.bvr.form</field>
+        <field name="model">recurring.contract.group</field>
+        <field name="inherit_id" ref="sponsorship_compassion.view_contract_group_form_sponsorship"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="bvr_reference"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Add church in SDS view -->
+    <record id="view_sds_contract_form_church_compassion" model="ir.ui.view">
+        <field name="name">recurring.contract.sds.church.form</field>
+        <field name="model">recurring.contract</field>
+        <field name="inherit_id" ref="sponsorship_tracking.view_follow_contract_form_compassion"/>
+        <field name="arch" type="xml">
+            <field name="channel" position="after">
+                <field name="church_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,20 +1,21 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: David Coninckx <david@coninckx.com>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import logging
 
 import sys
+from datetime import datetime
 
-from openerp import api, models, _
-from openerp.exceptions import Warning
-from openerp.addons.child_compassion.models.compassion_hold import HoldType
+from odoo import api, models, fields
+from odoo.tools import relativedelta
+from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync
 
@@ -27,39 +28,29 @@ class CompassionChild(models.Model):
 
     @api.multi
     def add_to_wordpress(self):
-
         # Solve the encoding problems on child's descriptions
         reload(sys)
         sys.setdefaultencoding('UTF8')
 
-        valid_children = self.filtered(lambda c: c.state == 'N')
+        in_two_years = datetime.today() + relativedelta(years=2)
+        valid_children = self.filtered(
+            lambda c: c.state == 'N' and c.desc_de and
+            c.desc_fr and c.desc_it and
+            c.project_id.description_fr and c.project_id.description_de and
+            c.project_id.description_it and c.fullshot and
+            (not c.completion_date or
+             fields.Datetime.from_string(c.completion_date) > in_two_years)
+        )
 
-        for child in valid_children:
-            # Check for descriptions
-            if not (child.desc_de and child.desc_fr and child.desc_it):
-                raise Warning(
-                    _('Missing descriptions for child %s') % child.local_id)
-            if not (child.project_id.description_fr and
-                    child.project_id.description_de and
-                    child.project_id.description_it):
-                raise Warning(
-                    _('Missing descriptions for project %s') %
-                    child.project_id.icp_id)
-
-            # Check for pictures
-            if not child.fullshot:
-                self.env['compassion.child.pictures'].create({
-                    'child_id': child.id})
-                child = self.browse(child.id)
-                if not child.fullshot:
-                    raise Warning(
-                        _('Child %s has no picture') % child.local_id)
+        error = self - valid_children
+        if error:
+            logger.error(
+                "%s children have invalid data and were not pushed to "
+                "wordpress." % str(len(error))
+            )
 
         wp = WPSync()
-        res = wp.upload_children(valid_children)
-        if res:
-            valid_children.write({'state': 'I'})
-        return res
+        return wp.upload_children(valid_children)
 
     @api.multi
     def remove_from_wordpress(self):
@@ -122,7 +113,7 @@ class CompassionChild(models.Model):
             'type': HoldType.CONSIGNMENT_HOLD.value,
             'expiration_date': self.env[
                 'compassion.hold'].get_default_hold_expiration(
-                    HoldType.CONSIGNMENT_HOLD),
+                HoldType.CONSIGNMENT_HOLD),
             'primary_owner': 1,
             'channel': 'web',
         })
@@ -143,15 +134,23 @@ class CompassionChild(models.Model):
             ('state', '=', 'I'),
             ('hold_id.type', '!=', HoldType.NO_MONEY_HOLD.value)
         ])
-        self.raz_wordpress()
 
         # Put children 5 by 5 to avoid delays
         def loop_five(n, max):
             while n < max:
                 yield n
                 n += 5
-        for i in loop_five(0, len(valid_children)):
-            valid_children[i:i+5].add_to_wordpress()
+        try:
+            with self.env.cr.savepoint():
+                self.raz_wordpress()
+                for i in loop_five(0, len(valid_children)):
+                    try:
+                        valid_children[i:i+5].add_to_wordpress()
+                    except:
+                        continue
 
-        old_children.mapped('hold_id').release_hold()
+                old_children.mapped('hold_id').release_hold()
+        except:
+            logger.error("Error when refreshing wordpress children.")
+
         return True

@@ -1,36 +1,41 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
 
-from sendgrid import SendGridAPIClient
+from odoo import models, api, _
+from odoo.exceptions import UserError
+from odoo.tools.config import config
 
-from openerp import models, api
-from openerp.exceptions import Warning
-from openerp.tools.config import config
+_logger = logging.getLogger(__name__)
+
+try:
+    from sendgrid import SendGridAPIClient
+except ImportError:
+    _logger.warning("Please install sendgrid.")
 
 
 class MailTrackingEvent(models.Model):
     _inherit = "mail.tracking.event"
 
     @api.model
-    def process_open(self, tracking_email, metadata):
+    def process_delivered(self, tracking_email, metadata):
         """ Mark correspondence as read. """
         correspondence = self.env['correspondence'].search([
             ('email_id', '=', tracking_email.mail_id.id),
-            ('email_read', '=', False)
+            ('letter_delivered', '=', False)
         ])
         correspondence.write({
-            'email_read': True,
-            'letter_read': True
+            'letter_delivered': True
         })
-        return super(MailTrackingEvent, self).process_open(
+        return super(MailTrackingEvent, self).process_delivered(
             tracking_email, metadata)
 
     @api.model
@@ -52,17 +57,19 @@ class MailTrackingEvent(models.Model):
 
     @api.model
     def process_reject(self, tracking_email, metadata):
+        partner = tracking_email.partner_id
         if metadata.get('error_type') == 'Invalid' and 'RBL' not in \
-                metadata.get('error_description', ''):
+                metadata.get('error_description', '') and not partner.user_ids:
             self._invalid_email(tracking_email)
-            tracking_email.partner_id.email = False
+            partner.email = False
         return super(MailTrackingEvent, self).process_reject(
             tracking_email, metadata)
 
     @api.model
     def process_hard_bounce(self, tracking_email, metadata):
-        self._invalid_email(tracking_email)
-        tracking_email.partner_id.email = False
+        if not tracking_email.partner_id.user_ids:
+            self._invalid_email(tracking_email)
+            tracking_email.partner_id.email = False
         return super(MailTrackingEvent, self).process_hard_bounce(
             tracking_email, metadata)
 
@@ -83,8 +90,8 @@ class MailTrackingEvent(models.Model):
     def _get_sendgrid(self):
         api_key = config.get('sendgrid_api_key')
         if not api_key:
-            raise Warning(
-                'ConfigError',
-                'Missing sendgrid_api_key in conf file')
+            raise UserError(
+                _('ConfigError'),
+                _('Missing sendgrid_api_key in conf file'))
 
         return SendGridAPIClient(apikey=api_key)

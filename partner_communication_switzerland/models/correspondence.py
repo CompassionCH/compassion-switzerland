@@ -1,21 +1,28 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import base64
-import detectlanguage
+import logging
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-from openerp import models, api, fields
-from openerp.tools import config
+from odoo import models, api, fields
+from odoo.tools import config
+
+_logger = logging.getLogger(__name__)
+
+try:
+    import detectlanguage
+except ImportError:
+    _logger.warning("Please install detectlanguage")
 
 
 class Correspondence(models.Model):
@@ -24,6 +31,8 @@ class Correspondence(models.Model):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
+    letter_delivery_preference = fields.Selection(
+        related='correspondant_id.letter_delivery_preference')
     communication_id = fields.Many2one(
         'partner.communication.job', 'Communication')
     email_id = fields.Many2one(
@@ -33,11 +42,13 @@ class Correspondence(models.Model):
     sent_date = fields.Datetime(
         'Communication sent', related='communication_id.sent_date',
         store=True, track_visibility='onchange')
-    email_read = fields.Boolean()
-    letter_read = fields.Boolean()
+    email_read = fields.Boolean(
+        related='communication_id.email_id.opened', store=True
+    )
+    letter_delivered = fields.Boolean(oldname='letter_read')
     zip_id = fields.Many2one('ir.attachment')
     has_valid_language = fields.Boolean(
-        compute='compute_has_valid_language', store=True)
+        compute='_compute_valid_language', store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -50,20 +61,21 @@ class Correspondence(models.Model):
             else:
                 super(Correspondence, letter)._compute_letter_format()
 
-    @api.one
+    @api.multi
     @api.depends('supporter_languages_ids', 'page_ids',
                  'page_ids.translated_text', 'translation_language_id')
-    def compute_has_valid_language(self):
+    def _compute_valid_language(self):
         """ Detect if text is written in the language corresponding to the
         language_id """
-        self.has_valid_language = False
-        if self.translated_text is not None and \
-                self.translation_language_id is not None:
-            s = self.translated_text.strip(' \t\n\r.')
-            if s:
-                # find the language of text argument
-                lang = self.detect_lang(self.translated_text)
-                self.has_valid_language = lang in self.supporter_languages_ids
+        for letter in self:
+            letter.has_valid_language = False
+            if letter.translated_text and letter.translation_language_id:
+                s = letter.translated_text.strip(' \t\n\r.')
+                if s:
+                    # find the language of text argument
+                    lang = letter.detect_lang(letter.translated_text)
+                    letter.has_valid_language = lang in letter.\
+                        supporter_languages_ids
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
@@ -226,7 +238,7 @@ class Correspondence(models.Model):
         ten_days_ago = datetime.today() - relativedelta(days=10)
         domain = [('direction', '=', 'Beneficiary To Supporter'),
                   ('state', '=', 'Published to Global Partner'),
-                  ('letter_read', '=', False),
+                  ('letter_delivered', '=', False),
                   ('sent_date', '<', fields.Date.to_string(ten_days_ago))]
         return domain
 

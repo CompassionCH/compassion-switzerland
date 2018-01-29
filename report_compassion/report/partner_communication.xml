@@ -1,261 +1,287 @@
-<openerp>
-    <data>
-        <!-- Report for printing a letter on Compassion Paper -->
-        <report id="report_partner_communication"
-                model="partner.communication.job"
-                string="A4 Letterhead"
-                report_type="qweb-pdf"
-                name="report_compassion.partner_communication"
-        />
-        <record id="report_partner_communication" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="paperformat_a4_letter"/>
-        </record>
+<odoo>
+    <!-- Report for printing a letter on Compassion Paper -->
+    <report id="report_partner_communication"
+            model="partner.communication.job"
+            string="A4 Letterhead"
+            report_type="qweb-pdf"
+            name="report_compassion.partner_communication"
+    />
+    <record id="report_partner_communication" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="paperformat_a4_letter"/>
+    </record>
 
-        <template id="partner_communication">
-            <t t-set="success_story" t-value="docs.mapped('success_story_id')"/>
-            <t t-set="bvr" t-value="docs.mapped('product_id')"/>
-            <t t-set="custom_css">
-                #header {
-                    margin-left: 15mm;
-                    height: 45mm;
-                    font-size: 8pt;
-                }
-                #logo {
-                    display: inline-block;
-                    margin-top: 6mm;
-                    width: 100mm;
-                    height: 40mm;
-                }
-                #logo img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    margin: auto;
-                }
-                #square {
-                    display: inline-block;
-                    float: right;
-                    margin-top: 6mm;
-                    margin-right: 6mm;
-                    width: 19mm;
-                    height: 19mm;
-                }
-                #square img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    margin: auto;
-                }
-                #compassion_address {
-                    margin-left: 7mm;
-                }
-                #letter {
-                    font-family: "tetriaLight";
-                    font-size: 10pt;
-                    <t t-if="success_story">
-                        margin-left: 6mm;
-                        margin-right: 6mm;
-                        <t t-if="not bvr">
-                            margin-bottom: 6mm;
-                        </t>
-                    </t>
-                    <t t-if="not success_story">
-                        margin-left: 20mm;
-                        margin-right: 20mm;
-                        <t t-if="not bvr">
-                            margin-bottom: 20mm;
-                        </t>
-                    </t>
-                    <t t-if="bvr">
-                        height: 145mm;
-                        overflow: hidden;
-                    </t>
-                }
-                .right {
-                    width: 44%;
-                    margin-left: auto;
-                }
-                .blue {
-                    color: blue;
-                    font-weight: bold;
-                }
-                #pp {
-                    font-family: verdana;
-                }
-                #pp-box {
-                    display: inline-block;
-                    padding: 1mm;
-                    width: 50mm;
-                    line-height: initial;
-                    border-style: solid;
-                    border-width: 1pt;
-                }
-                #pp-box div:first-child{
-                    font-size: 12pt;
-                    font-weight: bold;
-                }
-                #pp-box div:last-child{
-                    font-size: 8pt;
-                }
-                #pp-post {
-                    display: inline-block;
-                    font-size: 6pt;
-                }
-                #pp hr {
-                    margin-top: 0.5mm;
-                    margin-bottom: 3mm;
-                }
-                #date {
-                    margin-top: 3mm;
-                }
-                #content {
-                    <t t-if="not reduce(lambda x,y: x and y, docs.mapped('print_subject'))">
-                        margin-top: 5mm;
-                    </t>
-                    width: 100%;
-                }
-                #success-story {
-                    display: inline-block;
-                    margin-right: 5mm;
-                    vertical-align: top;
-                    padding: 3mm;
-                    width: 28%;
-                    min-height: 170mm;
-                    max-height: 170mm;
-                    background-color: #2B2B5D;
-                    color: white;
-                    font-size: 12pt;
-                }
-                #body {
-                    display: inline-block;
-                    <t t-if="success_story">
-                        width: 62%;
-                    </t>
-                }
-                .body_text {
-                    display: inline-block;
-                    min-height: 145mm;
-                }
-                hr {
-                    margin-top: 0px;
-                    border: none;
-                    height: 1pt;
-                    background-color: black;
-                    <t t-if="success_story">
-                        width: 90%;
-                    </t>
-                }
-                #success-story hr {
-                    background-color: white;
-                }
-                /* Format lists for PDF */
-                ul {
-                    list-style: none;
-                }
-                li {
-                    padding-left: 16px;
-                }
-                li:before {
-                    content: "-";
-                    padding-right: 8px;
-                }
-
-                #ambassador_quote tr td:first-child {
-                    padding-right: 2mm;
-                    vertical-align: top;
-                }
-                #ambassador_quote tr td {
-                    vertical-align: middle;
-                }
-            </t>
-            <t t-call="report_compassion.bvr_container">
-                <t t-foreach="docs" t-as="o">
-                    <t t-raw="translate_doc(o.id, 'partner.communication.job', 'partner_id.lang', 'report_compassion.partner_communication_document')"/>
+    <template id="communication_style">
+        <t t-set="custom_css">
+            #header {
+                margin-left: 15mm;
+                <t t-if="not bvr and not print_header">
+                    margin-top: -20mm;
                 </t>
+                height: 45mm;
+                font-size: 8pt;
+            }
+            #logo {
+                display: inline-block;
+                margin-top: 6mm;
+                width: 100mm;
+                height: 40mm;
+            }
+            #logo img {
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
+            }
+            #square {
+                display: inline-block;
+                float: right;
+                margin-top: 6mm;
+                margin-right: 6mm;
+                width: 19mm;
+                height: 19mm;
+            }
+            #square img {
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
+            }
+            #compassion_address {
+                margin-left: 7mm;
+            }
+            #letter {
+                font-family: "tetriaLight";
+                font-size: 10pt;
+                <t t-if="success_story">
+                    margin-left: 6mm;
+                    margin-right: 6mm;
+                    <t t-if="not bvr">
+                        margin-bottom: 6mm;
+                    </t>
+                </t>
+                <t t-if="not success_story">
+                    margin-left: 20mm;
+                    margin-right: 20mm;
+                    <t t-if="not bvr">
+                        margin-bottom: 20mm;
+                    </t>
+                </t>
+                <t t-if="bvr">
+                    height: 145mm;
+                    overflow: hidden;
+                </t>
+            }
+            .right {
+                width: 44%;
+                margin-left: auto;
+            }
+            .blue {
+                color: blue;
+                font-weight: bold;
+            }
+            #pp {
+                font-family: verdana;
+            }
+            #pp-box {
+                display: inline-block;
+                padding: 1mm;
+                width: 50mm;
+                line-height: initial;
+                border-style: solid;
+                border-width: 1pt;
+            }
+            #pp-box div:first-child{
+                font-size: 12pt;
+                font-weight: bold;
+            }
+            #pp-box div:last-child{
+                font-size: 8pt;
+            }
+            #pp-post {
+                display: inline-block;
+                font-size: 6pt;
+            }
+            #pp hr {
+                margin-top: 0.5mm;
+                margin-bottom: 3mm;
+            }
+            #date {
+                margin-top: 3mm;
+            }
+            #content {
+                <t t-if="not print_subject">
+                    margin-top: 5mm;
+                </t>
+                width: 100%;
+            }
+            #success-story {
+                display: inline-block;
+                margin-right: 5mm;
+                vertical-align: top;
+                padding: 3mm;
+                width: 28%;
+                min-height: 170mm;
+                max-height: 170mm;
+                background-color: #2B2B5D;
+                color: white;
+                font-size: 12pt;
+            }
+            #body {
+                display: inline-block;
+                <t t-if="success_story">
+                    width: 62%;
+                </t>
+            }
+            .body_text {
+                display: inline-block;
+                <t t-if="show_signature">
+                    min-height: 130mm;
+                </t>
+                <t t-if="not show_signature">
+                    min-height: 140mm;
+                </t>
+            }
+            hr {
+                margin-top: 0px;
+                padding: 0mm;
+                border: none;
+                height: 1pt;
+                background-color: black;
+                <t t-if="success_story">
+                    width: 90%;
+                </t>
+            }
+            #success-story hr {
+                background-color: white;
+            }
+            /* Format lists for PDF */
+            ul {
+                list-style: none;
+            }
+            li {
+                padding-left: 16px;
+            }
+            li:before {
+                content: "-";
+                padding-right: 8px;
+            }
+
+            #ambassador_quote tr td:first-child {
+                padding-right: 2mm;
+                vertical-align: top;
+            }
+            #ambassador_quote tr td {
+                vertical-align: middle;
+            }
+        </t>
+        <t t-call="report_compassion.bvr_style"/>
+    </template>
+
+    <template id="partner_communication">
+        <t t-set="success_story" t-value="docs.mapped('success_story_id')"/>
+        <t t-set="bvr" t-value="docs.mapped('product_id')"/>
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                <t t-set="print_header" t-value="o.print_header"/>
+                <t t-set="partner" t-value="o.partner_id"/>
+                <t t-set="print_subject" t-value="o.print_subject"/>
+                <t t-set="subject" t-value="o.subject"/>
+                <t t-set="success_story" t-value="o.success_story_id"/>
+                <t t-set="body_html" t-value="o.body_html"/>
+                <t t-set="user" t-value="o.user_id"/>
+                <t t-set="show_signature" t-value="o.show_signature and user.signature_image"/>
+                <t t-set="product" t-value="o.product_id.with_context(lang=partner.lang)"/>
+                <t t-set="preprinted" t-value="o.preprinted"/>
+                <t t-call="report_compassion.partner_communication_document" t-lang="o.partner_id.lang"/>
             </t>
-        </template>
+        </t>
+    </template>
 
-        <template id="partner_communication_document">
-            <div class="page">
-                <div id="header">
-                    <t t-if="o.product_id or o.print_header">
-                        <div id="logo" t-field="o.compassion_logo" t-field-options='{"widget": "image"}'/>
-                        <div id="square" t-field="o.compassion_square" t-field-options='{"widget": "image"}'/>
-                        <div id="compassion_address">
-                            <span class="blue">COMPASSION</span>
-                            <span>, Rue Galilée 3, 1400 Yverdon-les-Bains</span>
-                            <br/>
-                            <span class="blue">TEL</span>
-                            <span>.: 0800 784 773</span>
-                            <br/>
-                            <span class="blue">MAIL</span>
-                            <span>: info@compassion.ch</span>
-                            <br/>
-                            <span class="blue">WWW</span>
-                            <span>.compassion.ch</span>
-                            <br/>
-                            <span class="blue">CCP/PC</span>
-                            <span> 17-312562-0</span>
-                        </div>
-                    </t>
-                </div>
-                <div id="letter">
-                    <div id="address" class="right">
-                        <div id="pp">
-                            <div id="pp-box">
-                                <div>P.P.</div>
-                                <div>CH-1400 Yverdon-les-Bains</div>
-                            </div>
-                            <div id="pp-post">
-                                <p>Poste CH SA</p>
-                            </div>
-                            <hr/>
-                        </div>
-                        <span t-raw="o.partner_id.short_address"/>
+    <template id="partner_communication_document">
+        <div class="page">
+            <t t-call="report_compassion.communication_style"/>
+            <div id="header">
+                <t t-if="print_header">
+                    <div id="logo">
+                        <img src="/report_compassion/static/img/compassion_logo.png"/>
                     </div>
-                    <div id="date" class="right">
-                        <span t-raw="o.date_communication"/>
+                    <div id="square">
+                        <img src="/report_compassion/static/img/bluesquare.png"/>
                     </div>
-
-                    <div id="title" t-if="o.print_subject">
-                        <b><span t-raw="o.subject"/></b>
-                        <hr/>
+                    <div id="compassion_address">
+                        <span class="blue">COMPASSION</span>
+                        <span>, Rue Galilée 3, 1400 Yverdon-les-Bains</span>
+                        <br/>
+                        <span class="blue">TEL</span>
+                        <span>.: 0800 784 773</span>
+                        <br/>
+                        <span class="blue">MAIL</span>
+                        <span>: info@compassion.ch</span>
+                        <br/>
+                        <span class="blue">WWW</span>
+                        <span>.compassion.ch</span>
+                        <br/>
+                        <span class="blue">CCP/PC</span>
+                        <span> 17-312562-0</span>
                     </div>
-
-                    <div id="content">
-                        <div id="success-story" t-if="o.success_story_id">
-                            <span t-raw="o.success_story_id.body"/>
-                        </div>
-                        <div id="body">
-                            <span t-raw="o.body_html" class="body_text"/>
-                            <div class="right" style="margin-top: 10mm">
-                                <span t-raw="o.signature"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <t t-set="product" t-value="o.product_id.with_context(lang=o.partner_id.lang)"/>
-                <t t-if="product">
-                    <t t-set="partner" t-value="o.partner_id"/>
-                    <t t-set="partner_address" t-value="partner.short_address"/>
-                    <t t-set="company_account" t-value="o.env['recurring.contract.group'].get_company_bvr_account()"/>
-                    <t t-set="position" t-value="0"/>
-
-                    <!-- Print BVR Fund -->
-                    <t t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship'">
-                        <t t-set="reference" t-value="product.generate_bvr_reference(partner)"/>
-                        <t t-set="communication" t-value="product.name"/>
-                        <t t-set="scan_line" t-value="o.env['recurring.contract.group'].get_scan_line(company_account, reference)"/>
-                        <t t-call="report_compassion.report_sponsorship_single_slip"/>
-                    </t>
-                    <!-- Print BVR Sponsorship Due : if product is sponsorship, use sponsorship due template -->
-                    <t t-if="product.with_context(lang='en_US').categ_name == 'Sponsorship'">
-                        <t t-call="report_compassion.report_bvr_due_document">
-                            <t t-set="docs" t-value="o.get_objects()"/>
-                            <t t-set="o" t-value="partner"/>
-                        </t>
-                    </t>
                 </t>
             </div>
-        </template>
-    </data>
-</openerp>
+            <div id="letter">
+                <div id="address" class="right">
+                    <div id="pp">
+                        <div id="pp-box">
+                            <div>P.P.</div>
+                            <div>CH-1400 Yverdon-les-Bains</div>
+                        </div>
+                        <div id="pp-post">
+                            <p>Poste CH SA</p>
+                        </div>
+                        <hr/>
+                    </div>
+                    <span t-raw="partner.short_address"/>
+                </div>
+                <div id="date" class="right">
+                    <span t-raw="partner.date_communication"/>
+                </div>
+
+                <div id="title" t-if="print_subject">
+                    <b><span t-raw="subject"/></b>
+                    <hr/>
+                </div>
+
+                <div id="content">
+                    <div id="success-story" t-if="success_story">
+                        <t t-raw="success_story.body"/>
+                    </div>
+                    <div id="body">
+                        <div t-raw="body_html" class="body_text"/>
+                        <img t-if="show_signature" t-attf-src="data:image/jpg;base64,{{ user.signature_image }}" class="right" t-attf-style="margin-left: {{ 20 if success_story else 65 }}mm"/>
+                        <div class="right" t-attf-style="margin-top: {{ 10 if not show_signature else 0 }}mm; margin-left: {{ 50 if success_story else 95 }}mm">
+                            <t t-raw="user.signature_letter"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <t t-if="product">
+                <t t-set="partner_address" t-value="partner.short_address"/>
+                <t t-set="company_account" t-value="product.env['recurring.contract.group'].get_company_bvr_account()"/>
+                <t t-set="position" t-value="0"/>
+
+                <!-- Print BVR Fund -->
+                <t t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship'">
+                    <t t-set="reference" t-value="product.generate_bvr_reference(partner)"/>
+                    <t t-set="communication" t-value="product.name"/>
+                    <t t-set="scan_line" t-value="product.env['recurring.contract.group'].get_scan_line(company_account, reference)"/>
+                    <t t-call="report_compassion.report_sponsorship_single_slip"/>
+                </t>
+                <!-- Print BVR Sponsorship Due : if product is sponsorship, use sponsorship due template -->
+                <t t-if="product.with_context(lang='en_US').categ_name == 'Sponsorship'">
+                    <t t-call="report_compassion.report_bvr_due_document">
+                        <t t-set="docs" t-value="o.get_objects()"/>
+                        <t t-set="o" t-value="partner"/>
+                    </t>
+                </t>
+            </t>
+        </div>
+    </template>
+</odoo>

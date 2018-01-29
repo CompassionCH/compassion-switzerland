@@ -1,15 +1,15 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from openerp.addons.sponsorship_compassion.models.product import GIFT_NAMES
-from openerp import api, models, fields
+from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
+from odoo import api, models, fields
 
 
 class AccountInvoice(models.Model):
@@ -29,8 +29,6 @@ class AccountInvoice(models.Model):
 
 class Contract(models.Model):
     _inherit = 'recurring.contract'
-
-    bvr_background = fields.Binary(related='group_id.bvr_background')
 
     @api.multi
     def get_gift_communication(self, product):

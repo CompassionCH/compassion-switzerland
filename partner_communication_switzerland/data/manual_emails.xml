@@ -1,7 +1,7 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!-- Address Change -->
-        <record id="email_address_change" model="email.template">
+        <record id="email_address_change" model="mail.template">
             <field name="name">Address Change</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="use_default_to" eval="True"/>
@@ -33,7 +33,7 @@
         </record>
 
         <!-- Invalid email -->
-        <record id="email_invalid_email" model="email.template">
+        <record id="email_invalid_email" model="mail.template">
             <field name="name">Invalid Email</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="use_default_to" eval="True"/>
@@ -59,5 +59,27 @@
                 </p>
             </field>
         </record>
+
+        <record id="email_new_labels" model="mail.template">
+            <field name="name">New labels</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">New labels for your sponsorship</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set sponsorships = object.get_objects()
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    Enclosed to this letter you will find the requested labels.
+                    <br/>
+                    <br/>
+                    Your sincerely
+                </p>
+            </field>
+        </record>
     </data>
-</openerp>
+</odoo>

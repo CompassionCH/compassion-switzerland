@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0-20140602-231022\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 08:26+0000\n"
-"PO-Revision-Date: 2014-11-25 10:54+0100\n"
+"POT-Creation-Date: 2017-06-08 14:30+0200\n"
+"PO-Revision-Date: 2017-06-08 14:31+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -15,88 +15,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #. module: lsv_compassion
-#: code:addons/lsv_compassion/model/export_tools.py:137
-#, python-format
-msgid "%d other engagements"
-msgstr "%d autres engagements"
-
-#. module: lsv_compassion
-#: code:addons/lsv_compassion/model/export_tools.py:27
-#, python-format
-msgid "%d %s"
-msgstr "%d %s"
-
-# Ne pas traduire
-#. module: lsv_compassion
-#: model:ir.model,name:lsv_compassion.model_payment_order_create
-msgid "payment.order.create"
-msgstr "payment.order.create"
-
-#. module: lsv_compassion
-#: code:addons/lsv_compassion/model/export_tools.py:115
-#, python-format
-msgid "gift"
-msgstr "cadeau"
-
-#. module: lsv_compassion
-#: view:payment.mode:0
-msgid "Optional filter by payment term"
-msgstr "Filtre optionnel par type de paiement"
-
-#. module: lsv_compassion
-#: code:addons/lsv_compassion/model/dd_export_wizard.py:72
-#: code:addons/lsv_compassion/model/lsv_export_wizard.py:64
-#, python-format
-msgid "debit for %d period(s)"
-msgstr "Prelevement pour %d periode(s)"
-
-#. module: lsv_compassion
-#: help:payment.mode,payment_term_ids:0
-msgid "Limit selected invoices to invoices with these payment terms"
+#: model:ir.model,name:lsv_compassion.model_bank_payment_line
+msgid "Bank Payment Lines"
 msgstr ""
-"Limite les factures sélectionnées à celles qui contiennent ces moyens de "
-"paiement"
 
 #. module: lsv_compassion
-#: model:ir.model,name:lsv_compassion.model_lsv_export_wizard
-msgid "Export LSV Direct Debit File"
-msgstr "Exporter ficher LSV"
+#: model:ir.model.fields,field_description:lsv_compassion.field_account_payment_line_invoice_type
+#: model:ir.model.fields,field_description:lsv_compassion.field_bank_payment_line_invoice_type
+msgid "Invoice type"
+msgstr "Type de facture"
 
 #. module: lsv_compassion
-#: code:addons/lsv_compassion/model/export_tools.py:29
+#: model:ir.model,name:lsv_compassion.model_account_payment_line
+msgid "Payment Lines"
+msgstr ""
+
+#. module: lsv_compassion
+#: model:ir.model,name:lsv_compassion.model_account_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: lsv_compassion
+#: code:addons/lsv_compassion/models/payment_order.py:79
 #, python-format
-msgid "%d %ss"
-msgstr "%d %ss"
+msgid "Period: "
+msgstr "Période : "
 
 #. module: lsv_compassion
-#: model:ir.model,name:lsv_compassion.model_payment_mode
-msgid "Payment Mode"
-msgstr "Mode de paiement"
-
-#. module: lsv_compassion
-#: code:addons/lsv_compassion/model/export_tools.py:116
+#: code:addons/lsv_compassion/models/payment_order.py:66
 #, python-format
-msgid "period: %s "
-msgstr "periode: %s "
+msgid "Sponsorship"
+msgstr "Parrainage"
 
 #. module: lsv_compassion
-#: code:addons/lsv_compassion/model/export_tools.py:125
+#: code:addons/lsv_compassion/models/payment_order.py:41
 #, python-format
-msgid "period: %s to %s"
-msgstr "periode: %s a %s"
+msgid "The %s order has been cancelled."
+msgstr ""
 
 #. module: lsv_compassion
-#: field:payment.mode,payment_term_ids:0
-msgid "Payment terms"
-msgstr "Moyens de paiement"
+#: code:addons/lsv_compassion/models/payment_order.py:28
+#, python-format
+msgid "The invoice has been imported in a %s payment order."
+msgstr ""
 
 #. module: lsv_compassion
-#: model:ir.model,name:lsv_compassion.model_post_dd_export_wizard
-msgid "Export Postfinance Direct Debit File"
-msgstr "Exporter fichier Postfinance Debit Direct"
+#: code:addons/lsv_compassion/models/payment_order.py:68
+#: code:addons/lsv_compassion/models/payment_order.py:70
+#, python-format
+msgid "for"
+msgstr "pour"
 
-#~ msgid "sponsorship"
-#~ msgstr "parrainage"
+#. module: lsv_compassion
+#: code:addons/lsv_compassion/models/payment_order.py:84
+#, python-format
+msgid "months"
+msgstr "mois"
+
+#. module: lsv_compassion
+#: code:addons/lsv_compassion/models/payment_order.py:70
+#: code:addons/lsv_compassion/models/payment_order.py:77
+#, python-format
+msgid "sponsorship gifts"
+msgstr "cadeaux de parrainage"
+
+#. module: lsv_compassion
+#: code:addons/lsv_compassion/models/payment_order.py:75
+#, python-format
+msgid "sponsorships"
+msgstr "parrainages"

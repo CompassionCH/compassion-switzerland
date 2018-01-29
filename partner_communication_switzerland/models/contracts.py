@@ -1,11 +1,11 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016-2017 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import base64
@@ -15,7 +15,7 @@ from datetime import datetime, date
 
 from dateutil.relativedelta import relativedelta
 
-from openerp import api, models, fields, _
+from odoo import api, models, fields, _
 
 logger = logging.getLogger(__name__)
 
@@ -38,18 +38,19 @@ class RecurringContract(models.Model):
     birthday_paid = fields.Many2many(
         'sponsorship.gift', compute='_compute_birthday_paid')
     due_invoice_ids = fields.Many2many(
-        'account.invoice', compute='_compute_due_invoices'
+        'account.invoice', compute='_compute_due_invoices', store=True
     )
-    amount_due = fields.Integer(compute='_compute_due_invoices')
+    amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
+    months_due = fields.Integer(compute='_compute_due_invoices', store=True)
 
     def _compute_payment_type_attachment(self):
         for contract in self:
-            payment_term = contract.with_context(
-                lang='en_US').payment_term_id.name
-            if payment_term == 'Permanent Order':
+            payment_mode = contract.with_context(
+                lang='en_US').payment_mode_id.name or ''
+            if payment_mode == 'Permanent Order':
                 phrase = _('1 payment slip to set up a standing order ('
                            'monthly payment of the sponsorship)')
-            elif 'LSV' in payment_term or 'Postfinance' in payment_term:
+            elif 'LSV' in payment_mode or 'Postfinance' in payment_mode:
                 if contract.state == 'mandate':
                     phrase = _("1 LSV or Direct Debit authorization form to "
                                "fill in if you don't already have done it!")
@@ -76,6 +77,7 @@ class RecurringContract(models.Model):
                 ('sponsorship_gift_type', '=', 'Birthday'),
             ])
 
+    @api.depends('invoice_line_ids')
     def _compute_due_invoices(self):
         """
         Useful for reminders giving open invoices in the past.
@@ -92,34 +94,69 @@ class RecurringContract(models.Model):
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
                     'price_subtotal')))
+                months = set()
+                for invoice in invoice_lines.mapped('invoice_id'):
+                    idate = fields.Date.from_string(invoice.date)
+                    months.add((idate.month, idate.year))
+                contract.months_due = len(months)
+
+    def _get_sds_states(self):
+        """ Add waiting_welcome state """
+        res = super(RecurringContract, self)._get_sds_states()
+        res.insert(1, ('waiting_welcome', _('Waiting welcome')))
+        return res
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    def send_communication(self, communication, correspondent=True):
+    def send_communication(self, communication, correspondent=True,
+                           both=False):
         """
         Sends a communication to selected sponsorships.
         :param communication: the communication config to use
         :param correspondant: put to false for sending to payer instead of
                               correspondent.
+        :param both:          send to both correspondent and payer
+                              (overrides the previous parameter)
         :return: communication created recordset
         """
         partner_field = 'correspondant_id' if correspondent else 'partner_id'
-        sponsorships = self.filtered(lambda s: 'S' in s.type)
-        partners = sponsorships.mapped(partner_field)
+        partners = self.mapped(partner_field)
         communications = self.env['partner.communication.job']
-        for partner in partners:
-            objects = sponsorships.filtered(
-                lambda c: c.correspondant_id.id == partner.id if correspondent
-                else c.partner_id.id == partner.id
-            )
-            communications += self.env['partner.communication.job'].create({
-                'config_id': communication.id,
-                'partner_id': partner.id,
-                'object_ids': self.env.context.get(
-                    'default_object_ids', objects.ids),
-                'user_id': communication.user_id.id,
-            })
+        if both:
+            for contract in self:
+                communications += self.env['partner.communication.job'].create(
+                    {
+                        'config_id': communication.id,
+                        'partner_id': contract.partner_id.id,
+                        'object_ids': self.env.context.get(
+                            'default_object_ids', contract.id),
+                        'user_id': communication.user_id.id,
+                    })
+                if contract.correspondant_id != contract.partner_id:
+                    communications += self.env[
+                        'partner.communication.job'].create({
+                            'config_id': communication.id,
+                            'partner_id': contract.correspondant_id.id,
+                            'object_ids': self.env.context.get(
+                                'default_object_ids', contract.id),
+                            'user_id': communication.user_id.id,
+                            })
+        else:
+            for partner in partners:
+                objects = self.filtered(
+                    lambda c: c.correspondant_id == partner if correspondent
+                    else c.partner_id == partner
+                )
+                communications += self.env['partner.communication.job'].create(
+                    {
+                        'config_id': communication.id,
+                        'partner_id': partner.id,
+                        'object_ids': self.env.context.get(
+                            'default_object_ids', objects.ids),
+                        'user_id': communication.user_id.id,
+                    }
+                )
         return communications
 
     @api.model
@@ -162,7 +199,7 @@ class RecurringContract(models.Model):
             ('type', 'like', 'S')
         ])
         config = self.env.ref(module + 'planned_completion')
-        completion.send_communication(config)
+        completion.send_communication(config, both=True)
         logger.info("Sponsorship Planned Communications finished!")
 
     @api.model
@@ -175,19 +212,7 @@ class RecurringContract(models.Model):
           (deactivated for now)
         """
         module = 'partner_communication_switzerland.'
-
-        # Welcome letter
         logger.info("Sponsorship Planned Communications started!")
-        logger.info("....Creating Welcome Letters Communications")
-        config = self.env.ref(module + 'planned_welcome')
-        welcome_due = self.search([
-            ('type', 'like', 'S'),
-            ('partner_id.email', '!=', False),
-            ('sds_state', '=', 'waiting_welcome'),
-            ('color', '=', 4)
-        ])
-        welcome_due.send_communication(config)
-        welcome_due.signal_workflow('mail_sent')
 
         # Birthday Reminder
         logger.info("....Creating Birthday Reminder Communications")
@@ -204,7 +229,18 @@ class RecurringContract(models.Model):
             c.child_id.project_id.hold_s2b_letters)
         )
         config = self.env.ref(module + 'planned_birthday_reminder')
-        comms = birthday.send_communication(config)
+        comms = self.env['partner.communication.job']
+        for sponsorship in birthday:
+
+            # Send the communication to the correspondent in any case.
+            correspondent = True
+
+            # Send the communication to both the partner and the correspondent
+            # if the partner is the one who paid the gift.
+            send_to_both = sponsorship.send_gifts_to == 'partner_id'
+
+            comms += sponsorship.send_communication(config, correspondent,
+                                                    send_to_both)
         # Remove communication for those who have no e-mail address
         comms.filtered(lambda c: not c.send_mode).unlink()
 
@@ -251,9 +287,13 @@ class RecurringContract(models.Model):
         second_reminder_config = self.env.ref(
             'partner_communication_switzerland.sponsorship_reminder_2')
         first_reminder = self.with_context(
-            default_print_subject=False, default_auto_send=False)
+            default_print_subject=False, default_auto_send=False,
+            default_print_header=True
+        )
         second_reminder = self.with_context(
-            default_print_subject=False, default_auto_send=False)
+            default_print_subject=False, default_auto_send=False,
+            default_print_header=True
+        )
         fifty_ago = today - relativedelta(days=50)
         twenty_ago = today - relativedelta(days=20)
         comm_obj = self.env['partner.communication.job']
@@ -266,7 +306,9 @@ class RecurringContract(models.Model):
                 ('child_id.project_id.suspension', '=', False),
         ]):
             due = sponsorship.due_invoice_ids
-            if due and len(due) > 1:
+            advance_billing = sponsorship.group_id.advance_billing_months
+            if due and len(due) > 1 and not (advance_billing > 1 and len(
+                    due) < 3):
                 has_first_reminder = comm_obj.search_count([
                     ('config_id', 'in', [first_reminder_config.id,
                                          second_reminder_config.id]),
@@ -309,7 +351,7 @@ class RecurringContract(models.Model):
         attachments[product_name + '.pdf'] = [
             report,
             base64.b64encode(report_obj.get_pdf(
-                self, report,
+                self.ids, report,
                 data={
                     'doc_ids': self.ids,
                     'product_ids': products.ids,
@@ -319,29 +361,68 @@ class RecurringContract(models.Model):
         ]
         return attachments
 
+    def intersect(self, other):
+        """ Utility to intersect from template """
+        return self & other
+
+    def must_pay_next_year(self):
+        """ Utility to tell if sponsorship must be paid next year. """
+        return max(self.mapped('months_paid')) < 24
+
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################
     @api.multi
     def contract_waiting_mandate(self):
         res = super(RecurringContract, self).contract_waiting_mandate()
-        self.filtered(
-            lambda c: 'S' in c.type and not c.is_active)._new_dossier()
+        new_spons = self.filtered(lambda c: 'S' in c.type and not c.is_active)
+        new_spons._new_dossier()
+        new_spons.filtered(
+            lambda s: s.correspondant_id.email and s.sds_state == 'draft' and
+            s.partner_id.ref != '1502623').write({
+                'sds_state': 'waiting_welcome',
+                'sds_state_date': fields.Date.today()
+            })
+        if 'CSP' in self.name:
+            module = 'partner_communication_switzerland.'
+            selected_config = self.env.ref(module + 'csp_mail')
+            self.send_communication(selected_config, correspondent=False)
+
         return res
 
     @api.multi
     def contract_waiting(self):
+        # Waiting welcome for partners with e-mail (except Demaurex)
+        welcome = self.filtered(
+            lambda s: 'S' in s.type and s.sds_state == 'draft' and
+            s.correspondant_id.email and s.partner_id.ref != '1502623')
+        welcome.write({
+            'sds_state': 'waiting_welcome'
+        })
+
+        mandates_valid = self.filtered(lambda c: c.state == 'mandate')
         res = super(RecurringContract, self).contract_waiting()
         self.filtered(
-            lambda c: 'S' in c.type and not c.is_active)._new_dossier()
+            lambda c: 'S' in c.type and not c.is_active and c not in
+            mandates_valid
+        )._new_dossier()
+
+        if 'CSP' in self.name:
+            module = 'partner_communication_switzerland.'
+            selected_config = self.env.ref(module + 'csp_mail')
+            self.send_communication(selected_config, correspondent=False)
+
         return res
 
     @api.multi
-    def no_sub(self):
-        no_sub_config = self.env.ref(
-            'partner_communication_switzerland.planned_no_sub')
-        self.send_communication(no_sub_config, correspondent=False)
-        return super(RecurringContract, self).no_sub()
+    def send_welcome_letter(self):
+        logger.info("Creating Welcome Letters Communications")
+        config = self.env.ref(
+            'partner_communication_switzerland.planned_welcome')
+        self.send_communication(config)
+        self.write({'sds_state': 'active'})
+        logger.info("Welcome Letters Sent !")
+        return True
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
@@ -354,16 +435,16 @@ class RecurringContract(models.Model):
         no_sub = self.env.ref(
             'partner_communication_switzerland.planned_no_sub')
         self.filtered(
-            lambda s: s.end_reason != '1' and s.origin_id.type != 'sub'
-        ).send_communication(cancellation)
+            lambda s: s.end_reason != '1' and not s.parent_id
+        ).send_communication(cancellation, both=True)
         self.filtered(
-            lambda s: s.end_reason != '1' and s.origin_id.type == 'sub'
-        ).send_communication(no_sub)
+            lambda s: s.end_reason != '1' and s.parent_id
+        ).send_communication(no_sub, correspondent=False)
 
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
-        correspondent. Separates the case where the new sponsosrship is a
+        correspondent. Separates the case where the new sponsorship is a
         SUB proposal or if the sponsorship is selected by the sponsor.
         """
         module = 'partner_communication_switzerland.'
@@ -371,11 +452,12 @@ class RecurringContract(models.Model):
         selected_payer_config = self.env.ref(module + 'planned_dossier_payer')
         selected_corr_config = self.env.ref(
             module + 'planned_dossier_correspondent')
-        sub_proposal_config = self.env.ref(module + 'planned_sub_dossier')
 
-        sub_proposal = self.filtered(
-            lambda c: c.origin_id.name == 'SUB Sponsorship' and
-            c.channel == 'direct')
+        success_story = self.env['success.story'].search([
+            ('is_active', '=', True)], limit=1)
+        sub_proposal = self.filtered(lambda c: c.parent_id).with_context(
+            default_success_story_id=success_story.id)
+        sub_proposal_config = self.env.ref(module + 'planned_sub_dossier')
         selected = self - sub_proposal
 
         for spo in selected:

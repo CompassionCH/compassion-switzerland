@@ -1,25 +1,25 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from openerp.tools import mod10r
+from odoo.tools import mod10r
 
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     fund_id = fields.Integer(size=4)
 
 
-class product(models.Model):
+class Product(models.Model):
     _inherit = 'product.product'
 
     fund_id = fields.Integer(related='product_tmpl_id.fund_id')
@@ -34,8 +34,8 @@ class product(models.Model):
         self.ensure_one()
         ref = partner.ref
         bvr_reference = '0' * (9 + (7 - len(ref))) + ref
-        num_pol_ga = '0'
-        bvr_reference += '0' * (5 - len(num_pol_ga)) + num_pol_ga
+        commitment_number = '0'
+        bvr_reference += '0' * (5 - len(commitment_number)) + commitment_number
         # Type for Funds => 6
         bvr_reference += '6'
         # Fund id

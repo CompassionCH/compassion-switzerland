@@ -1,21 +1,28 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import base64
-import locale
+import logging
 
-from wand.color import Color
-from wand.drawing import Drawing
-from wand.image import Image
+from odoo import api, models, fields, _
 
-from openerp import api, models, fields, _
+from odoo.addons.report_compassion.models.contract_group import setlocale
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from wand.color import Color
+    from wand.drawing import Drawing
+    from wand.image import Image
+except ImportError:
+    _logger.warning("Please install wand.")
 
 # Ratio of white frame around the child picture
 FRAME_RATIO = 0.08
@@ -70,13 +77,11 @@ class CompassionChild(models.Model):
 
     def _compute_completion_month(self):
         """ Completion month in full text. """
-        current_locale = '.'.join(locale.getlocale())
         for child in self.filtered('completion_date'):
             lang = child.sponsor_id.lang or self.env.lang or 'en_US'
             completion = fields.Date.from_string(child.completion_date)
-            locale.setlocale(locale.LC_TIME, lang + '.UTF-8')
-            child.completion_month = completion.strftime("%B")
-            locale.setlocale(locale.LC_TIME, current_locale)
+            with setlocale(lang):
+                child.completion_month = completion.strftime("%B")
 
     def _compute_picture_frame(self):
         for child in self.filtered('fullshot'):
@@ -101,8 +106,15 @@ class CompassionChild(models.Model):
 
     @api.multi
     def depart(self):
-        """ Send communication to sponsor. """
+        """ Send depart communication to sponsor if no sub. """
         for child in self.filtered('sponsor_id'):
+            sponsorship = self.env['recurring.contract'].search([
+                ('child_id', '=', child.id),
+                ('state', 'not in', ['terminated', 'cancelled']),
+                ('sds_state', '=', 'no_sub')
+            ])
+            if not sponsorship:
+                continue
             if child.lifecycle_ids[0].type == 'Planned Exit':
                 communication_type = self.env.ref(
                     'partner_communication_switzerland.'
@@ -111,12 +123,7 @@ class CompassionChild(models.Model):
                 communication_type = self.env.ref(
                     'partner_communication_switzerland.'
                     'lifecycle_child_unplanned_exit')
-            self.env['partner.communication.job'].create({
-                'config_id': communication_type.id,
-                'partner_id': child.sponsor_id.id,
-                'object_ids': child.id,
-                'user_id': communication_type.user_id.id,
-            })
+            sponsorship.send_communication(communication_type, both=True)
         super(CompassionChild, self).depart()
 
     @api.multi

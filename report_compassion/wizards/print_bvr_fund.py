@@ -1,16 +1,16 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import base64
 
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 class PrintBvrFund(models.TransientModel):
@@ -27,6 +27,18 @@ class PrintBvrFund(models.TransientModel):
     pdf = fields.Boolean()
     pdf_name = fields.Char(default='fund.pdf')
     pdf_download = fields.Binary(readonly=True)
+    preprinted = fields.Boolean(
+        help='Enable if you print on a payment slip that already has company '
+             'information printed on it.'
+    )
+
+    @api.onchange('pdf')
+    def onchange_pdf(self):
+        if self.pdf:
+            self.draw_background = True
+            self.preprinted = False
+        else:
+            self.draw_background = False
 
     @api.multi
     def print_report(self):
@@ -41,6 +53,7 @@ class PrintBvrFund(models.TransientModel):
             'doc_ids': partners.ids,
             'product_id': self.product_id.id,
             'background': self.draw_background,
+            'preprinted': self.preprinted,
         }
         report = 'report_compassion.bvr_fund'
         if self.pdf:
@@ -48,8 +61,8 @@ class PrintBvrFund(models.TransientModel):
             self.pdf_name = self.product_id.name + '.pdf'
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(
-                    must_skip_send_to_printer=True).get_pdf(partners, report,
-                                                            data=data))
+                    must_skip_send_to_printer=True).get_pdf(
+                        partners.ids, report, data=data))
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -60,4 +73,4 @@ class PrintBvrFund(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env['report'].get_action(partners, report, data)
+        return self.env['report'].get_action(partners.ids, report, data)

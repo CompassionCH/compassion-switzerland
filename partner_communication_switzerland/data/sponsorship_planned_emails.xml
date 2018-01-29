@@ -1,9 +1,9 @@
-<openerp>
+<odoo>
     <data noupdate="1">
         <!--
         New Sponsorship Dossier
         -->
-        <record id="email_sponsorship_dossier" model="email.template">
+        <record id="email_sponsorship_dossier" model="mail.template">
             <field name="name">Sponsorship - New Dossier</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -18,6 +18,8 @@
                     % set his = child.get('his')
                     % set he = child.get('he')
                     % set him = child.get('him')
+                    % set parent_lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
+                    % set planned_sub = parent_lifecycle and parent_lifecycle[0].type == 'Planned Exit'
                 </div>
                 <p>
                     ${object.partner_id.salutation},
@@ -33,7 +35,11 @@
                     With this letter you will find:
                     <br/>
                     <ul>
-                        <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
+                        <li>1 photo of ${child.get('your sponsored child')}
+                        % if not planned_sub:
+                             <!-- space --> and an explanation concerning ${his} situation
+                        % endif
+                        </li>
                         <li>1 label sheet. Please use the labels on everything you are going to send to ${him} (cards, letters, stickers, drawings, etc.).</li>
                         <li>An introduction letter for you to write</li>
                         <li>3 payment slips for a payment in favour of ${child.get('your sponsored child')} (birthday, family present or other)</li>
@@ -59,7 +65,7 @@
             <!-- This field could be used to attach the labels sheet. -->
             <field name="report_remplate"/>
         </record>
-        <record id="email_sponsorship_dossier_correspondent" model="email.template">
+        <record id="email_sponsorship_dossier_correspondent" model="mail.template">
             <field name="name">Sponsorship - New Dossier for Correspondent only</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -73,6 +79,8 @@
                     % set firstname = child.get_list('firstname', 3, child.get_number())
                     % set his = child.get('his')
                     % set he = child.get('he')
+                    % set parent_lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
+                    % set planned_sub = parent_lifecycle and parent_lifecycle[0].type == 'Planned Exit'
                 </div>
                 <p>
                     ${object.partner_id.salutation},
@@ -88,7 +96,11 @@
                     With this letter you will find:
                     <br/>
                     <ul>
-                        <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
+                        <li>1 photo of ${child.get('your sponsored child')}
+                            % if not planned_sub:
+                                <!-- space --> and an explanation concerning ${his} situation
+                            % endif
+                            and an explanation concerning ${his} situation</li>
                         <li>1 label sheet. Please use the labels on everything you are going to send to ${firstname} (cards, letters, stickers, drawings, etc.).</li>
                         <li>An introduction letter for you to write</li>
                         <li>3 payment slips for a payment in favour of ${child.get('your sponsored child')} (birthday, family present or other)</li>
@@ -110,7 +122,7 @@
             <!-- This field could be used to attach the labels sheet. -->
             <field name="report_remplate"/>
         </record>
-        <record id="email_sponsorship_dossier_payer" model="email.template">
+        <record id="email_sponsorship_dossier_payer" model="mail.template">
             <field name="name">Sponsorship - New Dossier for Payer only</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -124,6 +136,8 @@
                     % set firstname = child.get_list('firstname', 3, child.get_number())
                     % set his = child.get('his')
                     % set he = child.get('he')
+                    % set parent_lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
+                    % set planned_sub = parent_lifecycle and parent_lifecycle[0].type == 'Planned Exit'
                 </div>
                 <p>
                     ${object.partner_id.salutation},
@@ -139,7 +153,11 @@
                     With this letter you will find:
                     <br/>
                     <ul>
-                        <li>1 photo of ${child.get('your sponsored child')} and an explanation concerning ${his} situation</li>
+                        <li>1 photo of ${child.get('your sponsored child')}
+                            % if not planned_sub:
+                                 <!-- space --> and an explanation concerning ${his} situation
+                            % endif
+                            and an explanation concerning ${his} situation</li>
                         <li>A booklet with informations about the sponsorship</li>
                         <li>${sponsorships[0].payment_type_attachment}</li>
                     </ul>
@@ -164,7 +182,7 @@
         <!--
         Welcome Letter
         -->
-        <record id="email_sponsorship_welcome" model="email.template">
+        <record id="email_sponsorship_welcome" model="mail.template">
             <field name="name">Sponsorship - Welcome Letter</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -216,7 +234,7 @@
         <!--
         Sponsorship anniversary
         -->
-        <record id="email_sponsorship_anniversary_1" model="email.template">
+        <record id="email_sponsorship_anniversary_1" model="mail.template">
             <field name="name">Sponsorship - Anniversary 1 year</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -250,7 +268,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_anniversary_3" model="email.template">
+        <record id="email_sponsorship_anniversary_3" model="mail.template">
             <field name="name">Sponsorship - Anniversary 3 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -284,7 +302,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_anniversary_5" model="email.template">
+        <record id="email_sponsorship_anniversary_5" model="mail.template">
             <field name="name">Sponsorship - Anniversary 5 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -317,7 +335,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_anniversary_10" model="email.template">
+        <record id="email_sponsorship_anniversary_10" model="mail.template">
             <field name="name">Sponsorship - Anniversary 10 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -347,7 +365,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_anniversary_15" model="email.template">
+        <record id="email_sponsorship_anniversary_15" model="mail.template">
             <field name="name">Sponsorship - Anniversary 15 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -384,7 +402,7 @@
         <!--
         Birthday Reminder
         -->
-        <record id="email_sponsorship_birthday_reminder" model="email.template">
+        <record id="email_sponsorship_birthday_reminder" model="mail.template">
             <field name="name">Sponsorship - Birthday Reminder</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -427,7 +445,7 @@
         <!--
         Completion in 4 months
         -->
-        <record id="email_sponsorship_completion" model="email.template">
+        <record id="email_sponsorship_completion" model="mail.template">
             <field name="name">Sponsorship - Completion</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -471,38 +489,39 @@
         <!--
         SUB Sponsorship proposal e-mails
         -->
-        <record id="email_sponsorship_sub_dossier" model="email.template">
-            <field name="name">Sponsorship - SUB Proposal</field>
+        <record id="email_sponsorship_sub_dossier_new" model="mail.template">
+            <field name="name">Sponsorship - SUB Dossier</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">New sponsorship proposal</field>
+            <field name="subject">Your new sponsorship</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorships = object.get_objects()
                     % set child = sponsorships.mapped('child_id')
-                    % set name = child.get_list('name', 3, child.get_number())
+                    % set previous = sponsorships.mapped('parent_id.child_id')
+                    % set previous_name = previous.get_list('preferred_name', 3, '', translate=False)
+                    % set name = child.get_list('preferred_name', 3, child.get_number(), False)
                 </div>
                 <p>
                     ${object.partner_id.salutation},
                     <br/>
                     <br/>
-                    Not so long ago, we informed you about the departure of ${sponsorships.get_list('parent_id.child_id.name')}.
+                    We recently informed you that ${previous.get('your sponsored child')}, ${previous_name} ${previous.get('is')} no longer participating in the sponsorship program.  As mentioned in the previous letter, we are happy to send you the documents for ${name}.  ${child.get('he').title()} ${'lives' if len(child) == 1 else 'live'} in ${child.get_list('project_id.country_id.name')} and like ${previous_name}, ${name} ${child.get('is')} growing up in extreme poverty.  In the documents attached, you will find additional information about ${child.get('him')}.
                     <br/>
                     <br/>
-                    We propose you to support ${name} (${child.get_list('project_id.country_id.name')}) and send you the documents about it.
+                    For ${name}, sponsorship is a great opportunity and we would like to thank you wholeheartedly for investing in ${child.get('his')} life.  You will soon receive an introductory letter from ${name}.
                     <br/>
                     <br/>
-                    <b>In the case you would not like to sponsor ${child.get('this child')}, please inform us as soon as possible.</b>
-                    If you have any further questions or remarks, please contact us.
+                    Thank you again for your previous commitment to ${previous_name} and your new sponsorship for ${name}.  If you have any questions about your sponsorship, please do not hesitate to contact us.  You can reach us by phone at 0800 784 773 or by e-mail at info@compassion.ch
                     <br/>
                     <br/>
                     Yours sincerely
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_no_sub" model="email.template">
+        <record id="email_sponsorship_no_sub" model="mail.template">
             <field name="name">Sponsorship - No SUB</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -525,7 +544,7 @@
         </record>
 
         <!-- E-mail for Sponsorship Reminders -->
-        <record id="email_sponsorship_reminder_1" model="email.template">
+        <record id="email_sponsorship_reminder_1" model="mail.template">
             <field name="name">Sponsorship Reminder 1</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -536,8 +555,8 @@
                 <div>
                     % set partner = object.partner_id
                     % set sponsorships = object.get_objects()
-                    % set payment_term = sponsorships.mapped('payment_term_id.name')[0]
-                    % set lsv_dd = 'LSV' in payment_term or 'Postfinance' in payment_term
+                    % set payment_mode = sponsorships.mapped('payment_mode_id.name')[0]
+                    % set lsv_dd = 'LSV' in payment_mode or 'Postfinance' in payment_mode
                     % set children = sponsorships.mapped('child_id')
                     % set firstname = children.get_list('firstname', 3, 'many children')
                     % set invoices = sponsorships.mapped('due_invoice_ids')
@@ -579,7 +598,7 @@
             </field>
         </record>
 
-        <record id="email_sponsorship_reminder_2" model="email.template">
+        <record id="email_sponsorship_reminder_2" model="mail.template">
             <field name="name">Sponsorship Reminder 2</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -621,7 +640,7 @@
         </record>
 
         <!-- E-mail for Waiting Sponsorship Reminders -->
-        <record id="email_sponsorship_waiting_reminder_1" model="email.template">
+        <record id="email_sponsorship_waiting_reminder_1" model="mail.template">
             <field name="name">Sponsorship Waiting Reminder 1</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -632,8 +651,8 @@
                 <div>
                     % set partner = object.partner_id
                     % set sponsorships = object.get_objects()
-                    % set payment_term = sponsorships.mapped('payment_term_id.name')[0]
-                    % set lsv_dd = 'LSV' in payment_term or 'Postfinance' in payment_term
+                    % set payment_mode = sponsorships.mapped('payment_mode_id.name')[0]
+                    % set lsv_dd = 'LSV' in payment_mode or 'Postfinance' in payment_mode
                     % set lsv_form_received = partner.bank_ids
                     % set children = sponsorships.mapped('child_id')
                     % set firstname = children.get_list('firstname', 3, 'many children')
@@ -669,7 +688,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_waiting_reminder_2" model="email.template">
+        <record id="email_sponsorship_waiting_reminder_2" model="mail.template">
             <field name="name">Sponsorship Waiting Reminder 2</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -705,7 +724,7 @@
                 </p>
             </field>
         </record>
-        <record id="email_sponsorship_waiting_reminder_3" model="email.template">
+        <record id="email_sponsorship_waiting_reminder_3" model="mail.template">
             <field name="name">Sponsorship Waiting Reminder 3</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -735,7 +754,7 @@
         </record>
 
         <!-- Sponsorship Cancellation -->
-        <record id="email_sponsorship_cancellation" model="email.template">
+        <record id="email_sponsorship_cancellation" model="mail.template">
             <field name="name">Sponsorship Cancellation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
@@ -769,4 +788,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

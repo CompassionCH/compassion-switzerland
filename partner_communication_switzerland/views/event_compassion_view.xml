@@ -1,0 +1,15 @@
+<odoo>
+    <!-- Add text for donation receipts -->
+    <record id="view_events_thank_donation" model="ir.ui.view">
+        <field name="name">crm.event.compassion.thankyou.form</field>
+        <field name="model">crm.event.compassion</field>
+        <field name="inherit_id" ref="crm_compassion.view_events_form"/>
+        <field name="arch" type="xml">
+            <notebook>
+                <page string="Donation Receipts">
+                    <field name="thank_you_text" widget="html" options="{'style-inline': true}"/>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

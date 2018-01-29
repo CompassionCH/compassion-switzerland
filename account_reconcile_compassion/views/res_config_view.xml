@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_account_config_settings_default_analytic" model="ir.ui.view">
+        <field name="name">account.settings.analytic</field>
+        <field name="model">account.config.settings</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.view_account_config_settings" />
+        <field name="arch" type="xml">
+            <field name="currency_exchange_journal_id" position="after">
+                <field name="currency_exchange_analytic_account"/>
+            </field>
+        </field>
+    </record>
+</odoo>

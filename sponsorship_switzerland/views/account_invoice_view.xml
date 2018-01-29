@@ -1,46 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
-        <record model="ir.ui.view" id="invoice_tree_compassion_ch">
-            <field name="name">account.invoice.tree.compassion.ch</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="base_transaction_id.invoice_tree_custom"/>
-            <field name="arch" type="xml">
-                <!-- Order invoices by date -->
-                <xpath expr="//tree" position="attributes">
-                    <attribute name="default_order">date_invoice desc</attribute>
-                </xpath>
+<odoo>
+    <record model="ir.ui.view" id="invoice_tree_compassion_ch">
+        <field name="name">account.invoice.tree.compassion.ch</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="base_transaction_id.invoice_tree_custom"/>
+        <field name="arch" type="xml">
+            <!-- Order invoices by date -->
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">date_invoice desc</attribute>
+            </xpath>
 
-                <!-- Remove unneeded fields -->
-                <field name="number" position="replace"/>
-                <field name="date_due" position="after">
-                    <field name="last_payment"/>
-                </field>
-                <field name="transaction_id" position="replace"/>
-                <field name="residual" position="replace"/>
-                <field name="amount_untaxed" position="replace"/>
-
-                <field name="state" position="before">
-                    <field name="payment_term"/>
-                    <field name="invoice_type"/>
-                </field>
+            <!-- Remove unneeded fields -->
+            <field name="number" position="replace"/>
+            <field name="date_due" position="after">
+                <field name="last_payment"/>
             </field>
-        </record>
-
-        <record id="view_account_invoice_sponsorship_filter" model="ir.ui.view">
-            <field name="name">account.invoice.sponsorship.filter</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
-            <field name="arch" type="xml">
-                <field name="period_id" position="after">
-                    <field name="payment_term"/>
-                    <field name="invoice_type"/>
-                </field>
-                <xpath expr="//group[@string='Group By']">
-                    <separator/>
-                    <filter string="Invoice type" context="{'group_by':'invoice_type'}"/>
-                </xpath>
+            <field name="transaction_id" position="replace"/>
+            <field name="state" position="before">
+                <field name="invoice_type"/>
             </field>
-        </record>
-    </data>
-</openerp>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_sponsorship_filter" model="ir.ui.view">
+        <field name="name">account.invoice.sponsorship.filter</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="payment_mode_id"/>
+                <field name="invoice_type"/>
+            </field>
+            <xpath expr="//group">
+                <separator/>
+                <filter string="Invoice type" context="{'group_by':'invoice_type'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Add a button to open unreconciled items from invoices -->
+    <record id="invoice_view_form_compassion" model="ir.ui.view">
+        <field name="name">invoice_compassion.view_form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form" />
+        <field eval="16" name="priority"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/h1" position="after">
+                <div class="oe_right oe_button_box" name="buttons">
+                    <button name="show_transactions" type="object" string="Invoice Lines" class="oe_stat_button" icon="fa-list-alt" />
+                    <button name="show_move_lines" type="object" class="oe_stat_button" icon="fa-exchange">
+                        <field name="unrec_items" widget="statinfo" string="Unreconciled Items"/>
+                    </button>
+                </div>
+            </xpath>
+        </field>
+     </record>
+</odoo>

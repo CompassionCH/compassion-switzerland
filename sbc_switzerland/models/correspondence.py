@@ -1,11 +1,11 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Stephane Eicher <eicher31@hotmail.com>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import sys
@@ -14,19 +14,22 @@ import logging
 
 from io import BytesIO
 
-from pyPdf.pdf import PdfFileReader, PdfFileWriter
-from smb.SMBConnection import SMBConnection
-
 from . import translate_connector
 
-from openerp import models, api, fields, _
-from openerp.tools.config import config
-from openerp.exceptions import Warning
-from openerp.addons.sbc_compassion.models.correspondence_page import \
+from odoo import models, api, registry, fields, _
+from odoo.tools.config import config
+from odoo.exceptions import UserError
+from odoo.addons.sbc_compassion.models.correspondence_page import \
     BOX_SEPARATOR
 
 
 logger = logging.getLogger(__name__)
+
+try:
+    from pyPdf.pdf import PdfFileReader, PdfFileWriter
+    from smb.SMBConnection import SMBConnection
+except ImportError:
+    logger.warning("Please install pyPdf and smb.")
 
 
 class S2BGenerator(models.Model):
@@ -125,12 +128,13 @@ class Correspondence(models.Model):
         letters_to_send.send_communication()
         return True
 
-    @api.one
+    @api.multi
     def send_local_translate(self):
         """
         Sends the letter to the local translation platform.
         :return: None
         """
+        self.ensure_one()
         child = self.sponsorship_id.child_id
 
         # Specify the src and dst language
@@ -154,13 +158,14 @@ class Correspondence(models.Model):
         self._transfer_file_on_nas(file_name)
         self.state = 'Global Partner translation queue'
 
-    @api.one
+    @api.multi
     def remove_local_translate(self):
         """
         Remove a letter from local translation platform and change state of
         letter in Odoo
         :return: None
         """
+        self.ensure_one()
         tc = translate_connector.TranslateConnect()
         tc.remove_translation_with_odoo_id(self.id)
         if self.direction == 'Supporter To Beneficiary':
@@ -169,7 +174,7 @@ class Correspondence(models.Model):
         else:
             self.state = 'Published to Global Partner'
 
-    @api.one
+    @api.multi
     def update_translation(self, translate_lang, translate_text, translator):
         """
         Puts the translated text into the correspondence.
@@ -177,6 +182,7 @@ class Correspondence(models.Model):
         :param translate_text: text of the translation
         :return: None
         """
+        self.ensure_one()
         translate_lang_id = self.env['res.lang.compassion'].search(
             [('code_iso', '=', translate_lang)]).id
         translator_partner = self.env['res.partner'].search([
@@ -253,7 +259,7 @@ class Correspondence(models.Model):
         if self.direction == 'Supporter To Beneficiary':
             # Check that the letter is not yet sent to GMC
             if self.kit_identifier:
-                raise Warning(_("Letter already sent to GMC cannot be "
+                raise UserError(_("Letter already sent to GMC cannot be "
                                 "translated! [%s]") % self.kit_identifier)
 
             src_lang_id = self.original_language_id
@@ -309,7 +315,7 @@ class Correspondence(models.Model):
             logger.info('File {} store on NAS with success'
                         .format(self.letter_image.name))
         else:
-            raise Warning(_('Connection to NAS failed'))
+            raise UserError(_('Connection to NAS failed'))
 
     # CRON Methods
     ##############
@@ -321,22 +327,26 @@ class Correspondence(models.Model):
         letters_to_update = tc.get_translated_letters()
 
         for letter in letters_to_update:
-            correspondence = self.browse(letter["letter_odoo_id"])
-            logger.info(".....CHECK TRANSLATION FOR LETTER {}".format(
-                correspondence.id))
-            if not correspondence.exists():
-                logger.warning(("The correspondence id {} doesn't exist in the"
-                                "Odoo DB. Remove it manually on MySQL DB. \
-                                'todo_id' is set to 5 => 'Pas sur Odoo'")
-                               .format(correspondence.id))
-                tc.update_translation_to_not_in_odoo(letter["id"])
-                continue
-
-            correspondence.update_translation(letter["target_lang"],
-                                              letter["text"],
-                                              letter["translator"])
-            # tc.remove_letter(letter["text_id"])
-            # update: don't remove letter but set todo id to 'Traité'
-            tc.update_translation_to_treated(letter["id"])
-            self.env.cr.commit()
+            try:
+                with api.Environment.manage():
+                    with registry(
+                            self.env.cr.dbname).cursor() as new_cr:
+                        # Create a new environment with new cursor database
+                        new_env = api.Environment(new_cr, self.env.uid,
+                                                  self.env.context)
+                        correspondence = self.with_env(new_env).browse(
+                            letter["letter_odoo_id"])
+                        logger.info(
+                            ".....CHECK TRANSLATION FOR LETTER {}"
+                            .format(correspondence.id)
+                        )
+                        correspondence.update_translation(
+                            letter["target_lang"], letter["text"],
+                            letter["translator"])
+                        tc.update_translation_to_treated(letter["id"])
+            except Exception as e:
+                logger.error(
+                    "Error fetching a translation on translation platform: {}"
+                    .format(e.message)
+                )
         return True

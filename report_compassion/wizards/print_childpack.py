@@ -1,16 +1,19 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 import base64
+from datetime import datetime
 
-from openerp import api, models, fields
+from odoo.tools import relativedelta
+
+from odoo import api, models, fields
 
 
 class PrintChildpack(models.TransientModel):
@@ -22,6 +25,7 @@ class PrintChildpack(models.TransientModel):
     type = fields.Selection([
         ('report_compassion.childpack_full', 'Full Childpack'),
         ('report_compassion.childpack_small', 'Small Childpack'),
+        ('report_compassion.childpack_mini', 'Mini Childpack'),
     ], default=lambda s: s._default_type())
     lang = fields.Selection(
         '_lang_selection', default=lambda s: s._default_lang())
@@ -58,19 +62,28 @@ class PrintChildpack(models.TransientModel):
         :return: Generated report
         """
         model = 'compassion.child'
+        # Prevent printing dossier if completion date is in less than 2 years
+        in_two_years = datetime.today() + relativedelta(years=2)
         records = self.env[model].browse(self.env.context.get(
-            'active_ids')).filtered(lambda c: c.state in ('N', 'I', 'P'))
+            'active_ids')).filtered(
+            lambda c: c.state in ('N', 'I', 'P') and c.desc_en and
+            (not c.completion_date or fields.Datetime.from_string(
+                c.completion_date) > in_two_years)
+        ).with_context(lang=self.lang)
         data = {
             'lang': self.lang,
-            'doc_ids': records.ids
+            'doc_ids': records.ids,
+            'is_pdf': self.pdf,
+            'type': self.type
         }
+        report_obj = self.env['report'].with_context(lang=self.lang)
         if self.pdf:
             name = records.local_id if len(records) == 1 else 'dossiers'
             self.pdf_name = name + '.pdf'
             self.pdf_download = base64.b64encode(
-                self.env['report'].with_context(
-                    must_skip_send_to_printer=True).get_pdf(records, self.type,
-                                                            data=data))
+                report_obj.with_context(
+                    must_skip_send_to_printer=True).get_pdf(
+                        records.ids, self.type, data=data))
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -81,4 +94,4 @@ class PrintChildpack(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env['report'].get_action(records, self.type, data=data)
+        return report_obj.get_action(records.ids, self.type, data=data)

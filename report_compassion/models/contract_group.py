@@ -1,28 +1,27 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import base64
 import logging
 import threading
 import locale
 
 from dateutil.relativedelta import relativedelta
 from contextlib import contextmanager
-from res_partner import IMG_DIR
 
-from openerp import api, models, fields, _
-from openerp.exceptions import Warning
+from odoo import api, models, fields, _
+from odoo.exceptions import Warning
 
 logger = logging.getLogger(__name__)
 
 LOCALE_LOCK = threading.Lock()
+COMPASSION_BVR = '01-44443-7'
 
 
 @contextmanager
@@ -31,6 +30,9 @@ def setlocale(name):
         saved = locale.setlocale(locale.LC_ALL)
         try:
             yield locale.setlocale(locale.LC_ALL, (name, 'UTF-8'))
+        except:
+            logger.error("Error when setting locale to " + str(name))
+            yield
         finally:
             locale.setlocale(locale.LC_ALL, saved)
 
@@ -40,7 +42,6 @@ class ContractGroup(models.Model):
 
     scan_line = fields.Char(compute='_compute_scan_line')
     format_ref = fields.Char(compute='_compute_format_ref')
-    bvr_background = fields.Binary(compute='_compute_bvr_background')
 
     @api.multi
     def _compute_scan_line(self):
@@ -58,13 +59,6 @@ class ContractGroup(models.Model):
             group.format_ref = slip_obj._space(ref.lstrip('0'))
 
     @api.multi
-    def _compute_bvr_background(self):
-        with open(IMG_DIR + '/bvr.jpg') as bgf:
-            data = base64.b64encode(bgf.read())
-            for group in self:
-                group.bvr_background = data
-
-    @api.multi
     def get_months(self, months, sponsorships):
         """
         Given the list of months to print,
@@ -76,7 +70,7 @@ class ContractGroup(models.Model):
         """
         self.ensure_one()
         freq = self.advance_billing_months
-        payment_term = self.with_context(lang='en_US').payment_term_id
+        payment_mode = self.with_context(lang='en_US').payment_mode_id
         # Take first open invoice or next_invoice_date
         open_invoice = min(
             [fields.Date.from_string(i)
@@ -92,7 +86,7 @@ class ContractGroup(models.Model):
             month for month in months
             if fields.Date.from_string(month) >= first_invoice_date
         ]
-        if 'Permanent' in payment_term.name:
+        if 'Permanent' in payment_mode.name:
             return valid_months[:1]
         if freq == 1:
             return valid_months
@@ -125,7 +119,7 @@ class ContractGroup(models.Model):
         :return: string of the communication
         """
         self.ensure_one()
-        payment_term = self.with_context(lang='en_US').payment_term_id
+        payment_mode = self.with_context(lang='en_US').payment_mode_id
         amount = sum(sponsorships.mapped('total_amount'))
         number_sponsorship = 0
 
@@ -148,6 +142,7 @@ class ContractGroup(models.Model):
         vals = {
             'amount': "CHF {:.0f}".format(amount),
             'subject': _("for") + " ",
+            'date': '',
         }
         with setlocale(self.partner_id.lang):
             if start and stop and start == stop:
@@ -155,7 +150,7 @@ class ContractGroup(models.Model):
             elif start and stop:
                 vals['date'] = date_start.strftime("%B %Y").decode('utf-8') + \
                     " - " + date_stop.strftime("%B %Y").decode('utf-8')
-            if 'Permanent' in payment_term.name:
+            if 'Permanent' in payment_mode.name:
                 vals['payment_type'] = _('ISR for standing order')
                 vals['date'] = ''
             else:
@@ -164,9 +159,17 @@ class ContractGroup(models.Model):
             if number_sponsorship > 1:
                 vals['subject'] += str(number_sponsorship) + " " + _(
                     "sponsorships")
-            elif number_sponsorship:
+            elif number_sponsorship and valid.child_id:
                 vals['subject'] = valid.child_id.firstname + " ({})".format(
                     valid.child_id.local_id)
+            elif number_sponsorship and not valid.child_id \
+                    and valid.display_name:
+                product_name = self.env['product.product'].search(
+                    [('id',
+                      'in',
+                      valid.mapped('contract_line_ids.product_id').ids)])
+
+                vals['subject'] = ", ".join(product_name.mapped('thanks_name'))
 
         return u"{payment_type} {amount}<br/>{subject}<br/>{date}".format(
             **vals)
@@ -190,7 +193,4 @@ class ContractGroup(models.Model):
     @api.model
     def get_company_bvr_account(self):
         """ Utility to find the bvr account of the company. """
-        company = self.env['res.company'].browse(1)
-        bank = company.bank_ids.filtered(lambda b: b.state == 'bvr')[0]
-        bank.ensure_one()
-        return bank.acc_number
+        return COMPASSION_BVR

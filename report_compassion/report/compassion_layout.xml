@@ -1,50 +1,37 @@
-<openerp>
-    <data>
-        <!-- Override general report layout to add custom css -->
-        <template id="layout" inherit_id="report.layout" primary="True">
-            <!-- Add report style -->
-            <xpath expr="//head" position="inside">
-                <style type="text/css">
-                    /* Remove padding of reports to allow precise positionning */
-                    .container {
-                        padding: 0mm;
-                    }
+<odoo>
+    <!-- Custom css for PDF pages -->
+    <template id="style">
+        <style type="text/css">
+            /* Remove padding of reports to allow precise positionning */
+            .container {
+                padding: 0mm;
+            }
 
-                    /* Declare fonts */
-                    @font-face {
-                        font-family: tetria;
-                        src: url(/report_compassion/static/font/TetriaLTComBlack.ttf);
-                    }
-                    @font-face {
-                        font-family: tetriaBold;
-                        src: url(/report_compassion/static/font/TetriaLTComBold.ttf);
-                    }
-                    @font-face {
-                        font-family: tetriaLight;
-                        src: url(/report_compassion/static/font/TetriaLTComLight.ttf);
-                    }
-                    @font-face {
-                        font-family: tetriaTab;
-                        src: url(/report_compassion/static/font/TetriaTab.ttf);
-                    }
-                    @font-face {
-                        font-family: ocr;
-                        src: url(/l10n_ch_payment_slip/static/src/font/ocrbb.ttf);
-                    }
+            /* Declare fonts */
+            @font-face {
+                font-family: tetria;
+                src: url(/report_compassion/static/font/TetriaLTComBlack.ttf);
+            }
+            @font-face {
+                font-family: tetriaBold;
+                src: url(/report_compassion/static/font/TetriaLTComBold.ttf);
+            }
+            @font-face {
+                font-family: tetriaLight;
+                src: url(/report_compassion/static/font/TetriaLTComLight.ttf);
+            }
+            @font-face {
+                font-family: tetriaTab;
+                src: url(/report_compassion/static/font/TetriaTab.ttf);
+            }
+            @font-face {
+                font-family: ocr;
+                src: url(/l10n_ch_payment_slip/static/src/font/ocrbb.ttf);
+            }
 
-                    /* Allow custom style for each report */
-                    <t t-raw="custom_css"/>
-                    <t t-raw="custom_css_2"/>
-                </style>
-            </xpath>
-        </template>
-
-        <!-- Default container -->
-        <template id="html_container">
-            <t t-set="body_classname" t-value="'container'"/>
-            <t t-call="report_compassion.layout">
-                <t t-raw="0"/>
-            </t>
-        </template>
-    </data>
-</openerp>
+            /* Allow custom style for each report */
+            <t t-raw="custom_css"/>
+            <t t-raw="custom_css_2"/>
+        </style>
+    </template>
+</odoo>

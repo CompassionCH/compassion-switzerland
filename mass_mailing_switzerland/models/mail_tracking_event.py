@@ -1,18 +1,15 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 
-from openerp import models, api
-
-from openerp.addons.connector.queue.job import job
-from openerp.addons.connector.session import ConnectorSession
+from odoo import models, api
 
 
 class MailTrackingEvent(models.Model):
@@ -23,9 +20,13 @@ class MailTrackingEvent(models.Model):
         """ Update mass mailing stats. """
         mass_mail = tracking_email.mass_mailing_id
         if mass_mail:
-            session = ConnectorSession.from_env(self.env)
-            update_mass_mail_stats.delay(
-                session, mass_mail._name, mass_mail.id)
+            # Avoid too much computation
+            job = self.env['queue.job'].search_count([
+                ('channel', '=', 'root.mass_mailing_switzerland'),
+                ('state', 'not in', ['done', 'failed'])
+            ])
+            if not job:
+                mass_mail.with_delay()._compute_events()
         return super(MailTrackingEvent, self).process_click(
             tracking_email, metadata)
 
@@ -34,14 +35,12 @@ class MailTrackingEvent(models.Model):
         """ Update mass mailing stats. """
         mass_mail = tracking_email.mass_mailing_id
         if mass_mail:
-            session = ConnectorSession.from_env(self.env)
-            update_mass_mail_stats.delay(
-                session, mass_mail._name, mass_mail.id)
+            # Avoid too much computation
+            job = self.env['queue.job'].search_count([
+                ('channel', '=', 'root.mass_mailing_switzerland'),
+                ('state', 'not in', ['done', 'failed'])
+            ])
+            if not job:
+                mass_mail.with_delay()._compute_events()
         return super(MailTrackingEvent, self).process_unsub(
             tracking_email, metadata)
-
-
-@job(default_channel='root.mass_mailing_switzerland')
-def update_mass_mail_stats(session, model_name, mass_mail_id):
-    """Job for updating mass mailing click statistics."""
-    session.env[model_name].browse(mass_mail_id).compute_events()

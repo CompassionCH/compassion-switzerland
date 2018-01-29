@@ -1,16 +1,16 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
-#    The licence is in the file __openerp__.py
+#    The licence is in the file __manifest__.py
 #
 ##############################################################################
 from datetime import datetime
 
-from openerp import api, models, fields
+from odoo import api, models, fields
 
 
 class CompassionHold(models.Model):
@@ -51,6 +51,7 @@ class CompassionHold(models.Model):
                 'partner_id': hold.primary_owner.partner_id.id,
                 'object_ids': hold.id,
                 'user_id': communication_type.user_id.id,
+                'auto_send': True,
             })
             if hold.ambassador:
                 job_obj.create({
@@ -70,11 +71,12 @@ class CompassionHold(models.Model):
         :param additional_text: text to add in the notification to hold owner
         :return: None
         """
+        failed = self.env[self._name]
         # Last reminder: cancellation notice
         communication_type = self.env.ref(
             'partner_communication_switzerland.'
             'sponsorship_waiting_reminder_3')
-        self.filtered(
+        failed += self.filtered(
             lambda h: h.no_money_extension > 1)._send_hold_reminder(
             communication_type)
 
@@ -82,7 +84,7 @@ class CompassionHold(models.Model):
         communication_type = self.env.ref(
             'partner_communication_switzerland.'
             'sponsorship_waiting_reminder_2')
-        self.filtered(
+        failed += self.filtered(
             lambda h: h.no_money_extension == 1)._send_hold_reminder(
             communication_type)
 
@@ -90,31 +92,65 @@ class CompassionHold(models.Model):
         communication_type = self.env.ref(
             'partner_communication_switzerland.'
             'sponsorship_waiting_reminder_1')
-        self.filtered(
+        failed += self.filtered(
             lambda h: h.no_money_extension == 0)._send_hold_reminder(
             communication_type)
+
+        if failed:
+            # Send warning to Admin users
+            child_codes = failed.mapped('child_id').read(['local_id'])
+            base_url = self.env['ir.config_parameter'].get_param(
+                'web.base.url')
+            links = [
+                '<a href="{}web#id={}&view_type=form&model=compassion.child'
+                '&menu_id=442&action=581">{}</a>'.format(
+                    base_url, data['id'], data['local_id'])
+                for data in child_codes
+            ]
+            hold_string = list()
+            for i in range(0, len(failed)):
+                hold_string.append(failed[i].hold_id + ' (' + links[i] + ' )')
+            self.env['mail.mail'].create({
+                'subject': 'URGENT: Postpone no money holds failed!',
+                'author_id': self.env.user.partner_id.id,
+                'recipient_ids': [(6, 0, [18000, 13])],
+                'body_html': 'These holds should be urgently verified: <br/>'
+                '<br/>' + ', '.join(hold_string)
+            }).send()
 
     def _send_hold_reminder(self, communication):
         """
         Sends the hold reminder communication to sponsors and postpone the
         hold.
         :param communication: the type of communication
-        :return: None
+        :return: recordset of failed updated holds.
         """
-        notification_text = "\n\nA reminder was sent to the sponsor {} ({})"
-        sponsorships = self.env['recurring.contract'].with_context(
-            default_auto_send=False)
-        for hold in self.filtered('child_id.sponsorship_ids'):
+        notification_text = "\n\nA reminder has been prepared for the " \
+            "sponsor {} ({})"
+        failed = self.env[self._name]
+        for hold in self.filtered('child_id.sponsorship_ids').with_context(
+                default_auto_send=False, default_print_subject=False,
+                default_print_header=True):
             sponsorship = hold.child_id.sponsorship_ids[0]
             sponsor = hold.child_id.sponsor_id
             # Filter sponsorships where we wait for the bank authorization
             if sponsorship.state == 'mandate' and sponsor.bank_ids:
-                continue
+                try:
+                    super(CompassionHold, hold).postpone_no_money_hold()
+                    hold.no_money_extension -= 1
+                    continue
+                except:
+                    failed += hold
+                    continue
             # Cancel old invoices
             if len(sponsorship.due_invoice_ids) > 1:
                 for invoice in sponsorship.due_invoice_ids[:-1]:
-                    invoice.signal_workflow('invoice_cancel')
-            sponsorships += sponsorship
-            super(CompassionHold, hold).postpone_no_money_hold(
-                notification_text.format(sponsor.name, sponsor.ref))
-        sponsorships.send_communication(communication, correspondent=False)
+                    invoice.action_invoice_cancel()
+            try:
+                super(CompassionHold, hold).postpone_no_money_hold(
+                    notification_text.format(sponsor.name, sponsor.ref))
+                sponsorship.send_communication(communication,
+                                               correspondent=False)
+            except:
+                failed += hold
+        return failed
