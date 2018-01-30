@@ -36,13 +36,11 @@
     'category': 'Finance',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'sponsorship_switzerland'
+        'sponsorship_switzerland', 'account_reconcile_create_invoice'
     ],
     'data': [
         'data/statement_operation.xml',
-        'views/statement_view.xml',
         'views/account_reconcile_compassion.xml',
-        'views/statement_operation_view.xml',
         'views/reconcile_fund_wizard_view.xml',
         'views/reconcile_split_payment_wizard_view.xml',
         'views/change_attribution_wizard_view.xml',

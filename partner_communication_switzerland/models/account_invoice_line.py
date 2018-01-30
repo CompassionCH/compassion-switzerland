@@ -22,7 +22,7 @@ class AccountInvoiceLine(models.Model):
     @api.multi
     def _compute_event(self):
         event_obj = self.env['crm.event.compassion']
-        for line in self:
+        for line in self.filtered(lambda l: not l.contract_id):
             line.event_id = event_obj.search([
                 ('analytic_id', '=', line.account_analytic_id.id)
             ], limit=1)
@@ -66,6 +66,11 @@ class AccountInvoiceLine(models.Model):
         Creates a thank you letter communication.
         Must be called only on a single partner and single event at a time.
         """
+        invoice_lines = self.filtered('product_id.requires_thankyou')
+        if not invoice_lines:
+            # Avoid generating thank you if no valid invoice lines are present
+            return
+
         comm_obj = self.env['partner.communication.job']
         small = self.env.ref('thankyou_letters.config_thankyou_small') + \
             self.env.ref(
@@ -76,7 +81,6 @@ class AccountInvoiceLine(models.Model):
         large = self.env.ref('thankyou_letters.config_thankyou_large') + \
             self.env.ref('partner_communication_switzerland.'
                          'config_event_large')
-        invoice_lines = self
 
         partner = self.mapped('partner_id')
         partner.ensure_one()
