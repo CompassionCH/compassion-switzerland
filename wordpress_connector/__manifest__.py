@@ -9,8 +9,8 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2015-2017 Compassion CH (http://www.compassion.ch)
-#    @author: Emanuel Cino <ecino@compassion.ch>
+#    Copyright (C) 2016-2017 Compassion CH (http://www.compassion.ch)
+#    @author: Philippe Heer <heerphilippe@msn.com>, Emanuel Cino
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -29,34 +29,21 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Tailor Sponsorships to Compassion CH needs',
-    'version': '10.0.1.2.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
+    'name': 'Compassion CH Wordpress Connector',
+    'version': '10.0.1.0.0',
+    'category': 'Social',
+    'author': 'Emanuel Cino',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
-    'depends': [
-        'crm_compassion',
-        'sponsorship_tracking',
-        'partner_compassion',
-        'account_statement_completion',
-        'l10n_ch_lsv_dd',
-        'gift_compassion',
-    ],
-    'demo': [
-        'data/demo_journal.xml'
-    ],
     'data': [
-        'data/product.xml',
-        'data/completion_rules.xml',
-        'data/payment_modes.xml',
-        'data/sequence.xml',
-        'workflow/contract_workflow.xml',
-        'security/ir.model.access.csv',
-        'views/account_invoice_view.xml',
-        'views/res_partner_view.xml',
-        'views/contract_view.xml',
+        'views/sponsorship_view.xml',
     ],
+    'depends': ['mass_mailing_switzerland', 'child_sync_wp',
+                'sbc_switzerland'],
+    'external_dependencies': {
+        'python': ['pysftp']
+    },
+    'demo': [],
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
 }

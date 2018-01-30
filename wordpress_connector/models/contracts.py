@@ -45,14 +45,13 @@ class Contracts(models.Model):
     web_data = fields.Text(help='Form data filled from website')
     group_id = fields.Many2one(required=False)
     partner_id = fields.Many2one(required=False)
-    mailing_campaign_id = fields.Many2one('mail.mass_mailing.campaign')
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
     @api.model
     def create_sponsorship(self, child_local_id, form_data, sponsor_lang,
-                           mailing_slug):
+                           utm_source, utm_medium, utm_campaign):
         """
         Called by Wordpress to add a new sponsorship.
         :param form_data: all form values entered on the site
@@ -85,7 +84,9 @@ class Contracts(models.Model):
         }
         :param child_local_id: local id of child
         :param sponsor_lang: language used in the website
-        :param mailing_slug: slug of the mailing campaign
+        :param utm_source: identifier from the url tracking
+        :param utm_medium: identifier from the url tracking
+        :param utm_campaign: identifier from the url tracking
         :return: True if process is good.
         """
         # Format birthday
@@ -106,11 +107,10 @@ class Contracts(models.Model):
         partner_ok = partner and len(partner) == 1
 
         # Check origin
-        campaign_id = False
-        if mailing_slug:
-            campaign_id = self.env['mail.mass_mailing.campaign'].search([
-                ('mailing_slug', '=', mailing_slug)
-            ], limit=1).id
+        internet_id = self.env.ref('utm.utm_medium_website').id
+        utms = self.env['utm.mixin'].get_utms(
+            utm_source, utm_medium, utm_campaign)
+
         # Create sponsorship
         child = self.env['compassion.child'].search([
             ('local_id', '=', child_local_id)])
@@ -126,8 +126,9 @@ class Contracts(models.Model):
             'type': 'S',
             'contract_line_ids': lines,
             'next_invoice_date': fields.Date.today(),
-            'channel': 'internet',
-            'mailing_campaign_id': campaign_id,
+            'source_id': utms['source'],
+            'medium_id': utms.get('medium', internet_id),
+            'campaign_id': utms['campaign'],
         })
 
         # Notify staff

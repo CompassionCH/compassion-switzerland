@@ -44,7 +44,8 @@ class ImportLettersHistory(models.Model):
     @api.model
     def import_web_letter(self, child_code, sponsor_ref,
                           original_text, template_name, pdf_filename,
-                          attachment_filename, ext, campaign_slug):
+                          attachment_filename, ext, utm_source, utm_medium,
+                          utm_campaign):
         """
         Call when a letter is set on web site:
             - add web letter to an import set with import letter config
@@ -121,13 +122,10 @@ class ImportLettersHistory(models.Model):
                 self.env, pdf_letter, filename,
                 template)
 
-            # Check campaign
-            campaign_id = False
-            if campaign_slug:
-                campaign = self.env['mail.mass_mailing.campaign'].search([
-                    ('mailing_slug', '=', campaign_slug)
-                ], limit=1)
-                campaign_id = campaign.id
+            # Check UTM
+            internet_id = self.env.ref('utm.utm_medium_website').id
+            utms = self.env['utm.mixin'].get_utms(
+                utm_source, utm_medium, utm_campaign)
 
             for i in xrange(0, len(line_vals)):
                 line_vals[i].update({
@@ -137,7 +135,9 @@ class ImportLettersHistory(models.Model):
                     'letter_language_id': lang_id,
                     'original_text': original_text,
                     'source': 'website',
-                    'mailing_campaign_id': campaign_id
+                    'source_id': utms['source'],
+                    'medium_id': utms.get('medium', internet_id),
+                    'campaign_id': utms['campaign'],
                 })
                 letters_line = self.env[
                     'import.letter.line'].create(line_vals[i])

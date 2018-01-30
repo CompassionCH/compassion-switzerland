@@ -8,11 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import mass_mailing
-from . import mail_tracking_event
 from . import queue_job
-from . import correspondence_metadata
-from . import mass_mailing_campaign
+from . import contracts
+from . import import_letters_history
 from . import account_invoice
-from . import mail_template
-from . import utm
