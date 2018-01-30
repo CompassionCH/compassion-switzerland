@@ -22,7 +22,7 @@ class AccountInvoiceLine(models.Model):
     @api.multi
     def _compute_event(self):
         event_obj = self.env['crm.event.compassion']
-        for line in self:
+        for line in self.filtered(lambda l: not l.contract_id):
             line.event_id = event_obj.search([
                 ('analytic_id', '=', line.account_analytic_id.id)
             ], limit=1)
