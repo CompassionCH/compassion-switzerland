@@ -12,6 +12,13 @@ amount. If many invoices are found, the first reconciled invoice is the
 current invoice (last invoice that is not in future).
 Then it reconciles the other invoices from last invoice to first.
 
+Configuration
+=============
+
+You can add the following system parameter to enable an analytic account to be set on exchange rate move lines:
+
+* account_reconcile_compassion.currency_exchange_analytic_account
+
 Usage
 =====
 
