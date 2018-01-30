@@ -27,17 +27,23 @@
 #
 ##############################################################################
 
+# pylint: disable=C8101
 {
     'name': 'Compassion CH - HR Management',
     'version': '10.0.1.0.0',
+    'license': 'AGPL-3',
     'category': 'HR',
     'author': 'Emanuel Cino',
     'website': 'http://www.compassion.ch',
     'data': [
         'views/hr_expense_custom.xml',
+        'views/attendance.xml',
     ],
     'depends': ['hr_expense', 'hr_holidays'],
     'demo': [],
     'installable': True,
     'auto_install': False,
+    'qweb': [
+        "static/src/xml/attendance.xml",
+    ],
 }
