@@ -16,3 +16,4 @@ from . import mass_mailing_campaign
 from . import account_invoice
 from . import mail_template
 from . import utm
+from . import sendgrid_substitution

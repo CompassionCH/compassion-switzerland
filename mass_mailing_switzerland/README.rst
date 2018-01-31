@@ -4,7 +4,16 @@
 Mass Mailing Switzerland
 ========================
 
-Tailors mass mailings to Compassion CH needs.
+Tailors mass mailings to Compassion CH needs. This will enable tracking of links in mass mailings with utm objects.
+
+Configuration
+-------------
+
+You can add links to Compassion website in your sendgrid template in the following format:
+
+* {wp/path/to/page}
+
+which will translate to https://www.compasion.ch/path/to/page and enable tracking on this link.
 
 Contributors
 ------------

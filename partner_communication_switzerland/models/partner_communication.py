@@ -23,16 +23,13 @@ from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
 
 
 class CommunicationConfig(models.Model):
+    """ Link communication config to UTM Source """
     _inherit = 'partner.communication.config'
+    _inherits = {'utm.source': 'source_id'}
+
+    _name = 'partner.communication.config'
 
     source_id = fields.Many2one('utm.source', 'UTM Source')
-
-    @api.model
-    def create(self, vals):
-        """ Create a utm_source for the communication type """
-        utm_source = self.env['utm.source'].create(vals['name'])
-        vals['source_id'] = utm_source.id
-        return super(CommunicationConfig, self).create(vals)
 
 
 class PartnerCommunication(models.Model):

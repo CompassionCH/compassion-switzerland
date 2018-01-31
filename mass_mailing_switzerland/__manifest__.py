@@ -38,8 +38,12 @@
     'data': [
         'views/mass_mailing_view.xml',
         'views/mail_template_view.xml',
+        'data/refresh_sendgrid_tracking_cron.xml',
     ],
-    'depends': ['mail_sendgrid_mass_mailing', 'sbc_compassion'],
+    'depends': [
+        'mail_sendgrid_mass_mailing',
+        'partner_communication_switzerland'
+    ],
     'external_dependencies': {
         'python': ['pysftp']
     },
