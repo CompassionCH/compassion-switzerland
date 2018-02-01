@@ -74,7 +74,7 @@
                 margin-left: auto;
             }
             .blue {
-                color: blue;
+                color: #0054A6;
                 font-weight: bold;
             }
             #pp {
