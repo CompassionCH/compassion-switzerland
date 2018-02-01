@@ -8,9 +8,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import datetime
-
 import math
+
+from datetime import datetime
 
 from odoo import models, fields
 
@@ -49,7 +49,7 @@ class HrEmployee(models.Model):
     def _compute_time_warning_today(self):
         for employee in self:
             employee.time_warning_today = 'red' if employee._today_hour() < \
-                                                   8 else 'green'
+                8 else 'green'
 
     def _compute_today_hour(self):
         for employee in self:
@@ -66,8 +66,18 @@ class HrEmployee(models.Model):
         return '{:02d}:{:02d}'.format(*divmod(int(math.fabs(hour*60)), 60))
 
     def _today_hour(self):
-        return sum(self.env['hr.attendance'].search([('employee_id',
-                                                      '=',
-                                                      self.id)]).filtered(
-            lambda i: datetime.strptime(i.create_date, "%Y-%m-%d %H:%M:%S").
-            date() >= datetime.now().date()).mapped('worked_hours'))
+        self.ensure_one()
+        today = fields.Date.today()
+        attendances_today = self.env['hr.attendance'].search([
+            ('employee_id', '=', self.id),
+            ('check_in', '>=', today)
+        ])
+        worked_hours = 0
+        for attendance in attendances_today:
+            if attendance.check_out:
+                worked_hours += attendance.worked_hours
+            else:
+                delta = datetime.now() - fields.Datetime.from_string(
+                    attendance.check_in)
+                worked_hours += delta.total_seconds() / 3600.0
+        return worked_hours

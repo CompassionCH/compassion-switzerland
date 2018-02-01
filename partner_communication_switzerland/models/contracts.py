@@ -208,8 +208,6 @@ class RecurringContract(models.Model):
         Prepare daily communications to send.
         - Welcome letters for started sponsorships since 10 days (only e-mail)
         - Birthday reminders
-        - B2S letters that must be printed because e-mail is not read
-          (deactivated for now)
         """
         module = 'partner_communication_switzerland.'
         logger.info("Sponsorship Planned Communications started!")
@@ -243,38 +241,6 @@ class RecurringContract(models.Model):
                                                     send_to_both)
         # Remove communication for those who have no e-mail address
         comms.filtered(lambda c: not c.send_mode).unlink()
-
-        # B2S Letters that must be printed (if not read after 10 days)
-        # logger.info("....Creating B2S Printed Communications")
-        ten_days_ago = today - relativedelta(days=10)
-        # letters = self.env['correspondence'].search([
-        #     ('state', '=', 'Published to Global Partner'),
-        #     ('sent_date', '<', fields.Date.to_string(ten_days_ago)),
-        #     ('letter_read', '=', False)
-        # ])
-        # letters.with_context(overwrite=True, comm_vals={
-        #     'send_mode': 'physical',
-        #     'auto_send': False,
-        # }).send_communication()
-
-        # First reminders not read must be printed for that still have
-        # some amount due.
-        first_reminders = self.env.ref(
-            module + 'sponsorship_waiting_reminder_1') + self.env.ref(
-            module + 'sponsorship_reminder_1')
-        communications = self.env['partner.communication.job'].search([
-            ('config_id', 'in', first_reminders.ids),
-            ('send_mode', '=', 'digital'),
-            ('sent_date', '=', fields.Date.to_string(ten_days_ago)),
-            ('email_id.opened', '=', False)
-        ])
-        to_print = self.env['partner.communication.job']
-        for comm in communications:
-            sponsorships = comm.get_objects().filtered(
-                lambda s: s.amount_due > s.total_amount)
-            if sponsorships:
-                to_print += comm
-        to_print.write({'send_mode': 'physical', 'state': 'pending'})
 
         logger.info("Sponsorship Planned Communications finished!")
 

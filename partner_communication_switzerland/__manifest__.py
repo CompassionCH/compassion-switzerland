@@ -59,6 +59,7 @@
         'data/label_print.xml',
         'data/sponsorship_server_actions.xml',
         'data/sponsorship_action_rules.xml',
+        'data/utm_data.xml',
         'report/child_picture.xml',
         'views/communication_job_view.xml',
         'views/download_child_pictures_view.xml',

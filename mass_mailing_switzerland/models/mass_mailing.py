@@ -55,12 +55,32 @@ class MassMailing(models.Model):
 
     @api.multi
     def send_mail(self):
-        result = super(MassMailing, self).send_mail()
-        if self.email_template_id:
+        # Refresh the sendgrid templates in Odoo
+        if self.filtered('email_template_id'):
+            self.env['sendgrid.template'].update_templates()
+            self.mapped('email_template_id').update_substitutions()
+
+        # Prepare Sendgrid keywords for replacing all urls found
+        # in Sendgrid template with tracked URL from Odoo
+        emails = self.env['mail.mail']
+        mass_mailing_medium_id = self.env.ref(
+            'contract_compassion.utm_medium_mass_mailing').id
+        for mailing in self:
+            substitutions = mailing.mapped(
+                'email_template_id.substitution_ids')
+            substitutions.replace_tracking_link(
+                campaign_id=mailing.mass_mailing_campaign_id.campaign_id.id,
+                medium_id=mass_mailing_medium_id,
+                source_id=mailing.source_id.id
+            )
+            emails += super(MassMailing, mailing).send_mail()
+
+        for email in emails:
             # Used for Sendgrid -> Send e-mails in a job
-            result.with_delay().send_sendgrid_job(self)
-            self.write({'state': 'sending'})
-        return result
+            email.with_delay().send_sendgrid_job(self)
+
+        emails.mapped('mailing_id').write({'state': 'sending'})
+        return emails
 
     @api.multi
     def send_pending(self):
