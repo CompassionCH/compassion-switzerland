@@ -135,7 +135,7 @@ class ResPartner(models.Model):
         partner_ids = [r[0] for r in self.env.cr.fetchall()]
         config = self.env.ref('partner_communication_switzerland.'
                               'tax_receipt_config')
-        for partner_id in partner_ids[:10]:
+        for partner_id in partner_ids:
             self.env['partner.communication.job'].create({
                 'config_id': config.id,
                 'partner_id': partner_id,
