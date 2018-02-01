@@ -12,8 +12,6 @@ from odoo import api, models, fields, _
 
 from odoo.addons.queue_job.job import job, related_action
 
-from odoo.tools import config
-
 
 class MassMailing(models.Model):
     """ Add the mailing domain to be viewed in a text field

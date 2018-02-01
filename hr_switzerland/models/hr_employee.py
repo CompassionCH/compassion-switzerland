@@ -49,7 +49,7 @@ class HrEmployee(models.Model):
     def _compute_time_warning_today(self):
         for employee in self:
             employee.time_warning_today = 'red' if employee._today_hour() < \
-                                                   8 else 'green'
+                8 else 'green'
 
     def _compute_today_hour(self):
         for employee in self:
