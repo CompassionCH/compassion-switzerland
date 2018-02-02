@@ -17,3 +17,4 @@ from . import account_invoice
 from . import mail_template
 from . import utm
 from . import sendgrid_substitution
+from . import link_tracker
