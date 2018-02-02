@@ -43,7 +43,7 @@
         <field name="model">recurring.contract</field>
         <field name="inherit_id" ref="sponsorship_tracking.view_follow_contract_form_compassion"/>
         <field name="arch" type="xml">
-            <field name="channel" position="after">
+            <field name="medium_id" position="after">
                 <field name="church_id"/>
             </field>
         </field>

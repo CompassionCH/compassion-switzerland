@@ -22,6 +22,16 @@ from odoo.exceptions import MissingError
 from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
 
 
+class CommunicationConfig(models.Model):
+    """ Link communication config to UTM Source """
+    _inherit = 'partner.communication.config'
+    _inherits = {'utm.source': 'source_id'}
+
+    _name = 'partner.communication.config'
+
+    source_id = fields.Many2one('utm.source', 'UTM Source')
+
+
 class PartnerCommunication(models.Model):
     _inherit = 'partner.communication.job'
 

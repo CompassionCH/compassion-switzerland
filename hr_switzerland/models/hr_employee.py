@@ -10,6 +10,8 @@
 ##############################################################################
 import math
 
+from datetime import datetime
+
 from odoo import models, fields
 
 
@@ -47,7 +49,7 @@ class HrEmployee(models.Model):
     def _compute_time_warning_today(self):
         for employee in self:
             employee.time_warning_today = 'red' if employee._today_hour() < \
-                                                   8 else 'green'
+                8 else 'green'
 
     def _compute_today_hour(self):
         for employee in self:
@@ -72,8 +74,10 @@ class HrEmployee(models.Model):
         ])
         worked_hours = 0
         for attendance in attendances_today:
-            check_out = attendance.check_out or fields.Datetime.now()
-            delta = fields.Datetime.from_string(
-                check_out) - fields.Datetime.from_string(attendance.check_in)
-            worked_hours += delta.total_seconds() / 3600.0
+            if attendance.check_out:
+                worked_hours += attendance.worked_hours
+            else:
+                delta = datetime.now() - fields.Datetime.from_string(
+                    attendance.check_in)
+                worked_hours += delta.total_seconds() / 3600.0
         return worked_hours

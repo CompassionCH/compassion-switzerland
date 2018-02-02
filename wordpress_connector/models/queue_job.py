@@ -16,25 +16,15 @@ class QueueJob(models.Model):
     _inherit = 'queue.job'
 
     @api.multi
-    def related_action_mass_mailing(self):
-        self.ensure_one()
+    def related_action_sponsorship(self):
+        sponsorship_id = self.record_ids
         action = {
-            'name': _("Mass Mailing"),
+            'name': _("Sponsorship"),
             'type': 'ir.actions.act_window',
-            'res_model': 'mail.mass_mailing',
-            'view_mode': 'form',
-            'res_id': self.object_ids,
-        }
-        return action
-
-    @api.multi
-    def related_action_emails(self):
-        action = {
-            'name': "E-mails",
-            'type': 'ir.actions.act_window',
-            'res_model': 'mail.mail',
+            'res_model': 'recurring.contract',
+            'res_id': sponsorship_id,
             'view_type': 'form',
-            'view_mode': 'tree,form',
-            'domain': [('id', 'in', self.object_ids)],
+            'view_mode': 'form',
+            'context': {'default_type': 'S'},
         }
         return action

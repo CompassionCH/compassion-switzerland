@@ -3,17 +3,10 @@
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Philippe Heer
+#    @author: Philippe Heer <heerphilippe@msn.com>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import mass_mailing
-from . import mail_tracking_event
-from . import queue_job
-from . import correspondence_metadata
-from . import mass_mailing_campaign
-from . import account_invoice
-from . import mail_template
-from . import utm
-from . import sendgrid_substitution
+
+from . import models

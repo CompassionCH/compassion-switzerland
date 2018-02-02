@@ -27,15 +27,13 @@ class MassMailingCampaign(models.Model):
                                                         False)])
     mailing_slug = fields.Char()
     contract_ids = fields.One2many(
-        'recurring.contract', 'mailing_campaign_id', 'Sponsorships',
-        readonly=True
+        'recurring.contract', related='campaign_id.contract_ids'
     )
     correspondence_ids = fields.One2many(
-        'correspondence', 'mailing_campaign_id', 'Sponsor letters',
-        readonly=True
+        'correspondence', related='campaign_id.correspondence_ids'
     )
     invoice_ids = fields.One2many(
-        'account.invoice', 'mailing_campaign_id', 'Donations', readonly=True
+        'account.invoice', related='campaign_id.invoice_ids'
     )
 
     @api.depends('mass_mailing_ids.clicks_ratio',
