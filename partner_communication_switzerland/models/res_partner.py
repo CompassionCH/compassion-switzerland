@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016-2018 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
 from datetime import date
 
 from odoo import api, models, fields, _
+
+_logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
@@ -121,6 +124,8 @@ class ResPartner(models.Model):
         today = date.today()
         start_date = today.replace(today.year-1, 1, 1)
         end_date = today.replace(today.year-1, 12, 31)
+        config = self.env.ref('partner_communication_switzerland.'
+                              'tax_receipt_config')
         self.env.cr.execute("""
             SELECT DISTINCT m.partner_id
             FROM account_move_line m JOIN res_partner p ON m.partner_id = p.id
@@ -129,13 +134,20 @@ class ResPartner(models.Model):
             AND m.credit > 0
             AND p.tax_certificate != 'no'
             AND m.date BETWEEN %s AND %s
+            AND NOT EXISTS (
+              SELECT id FROM partner_communication_job
+              WHERE partner_id = p.id
+              AND config_id = %s AND state IN ('sent','pending') AND date > %s
+            )
         """, [account_id, journal_id, fields.Date.to_string(start_date),
-              fields.Date.to_string(end_date)])
+              fields.Date.to_string(end_date), config.id, end_date])
 
         partner_ids = [r[0] for r in self.env.cr.fetchall()]
-        config = self.env.ref('partner_communication_switzerland.'
-                              'tax_receipt_config')
+        total = len(partner_ids)
+        count = 1
         for partner_id in partner_ids:
+            _logger.info("Generating tax receipts: {}/{}".format(
+                count, total))
             self.env['partner.communication.job'].create({
                 'config_id': config.id,
                 'partner_id': partner_id,
@@ -144,6 +156,10 @@ class ResPartner(models.Model):
                 'show_signature': True,
                 'print_subject': False
             })
+            # Commit at each creation of communication to avoid starting all
+            # again in case the job failed
+            self.env.cr.commit()    # pylint: disable=invalid-commit
+            count += 1
         return True
 
 
