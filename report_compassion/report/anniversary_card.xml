@@ -86,7 +86,7 @@
                 width: 190mm;
             }
             .blue {
-                color: blue;
+                color: #0054A6;
                 font-weight: bold;
             }
         </t>
@@ -108,7 +108,7 @@
                         <span t-raw="o.partner_id.short_address" id="partner_address"/>
                     </div>
                     <div id="date">
-                        <span t-raw="o.date_communication"/>
+                        <span t-raw="o.partner_id.date_communication"/>
                     </div>
 
                     <div id="title">
