@@ -38,8 +38,8 @@ class ResPartner(models.Model):
             ('partner_id', '=', self.id),
             ('date', '>=', fields.Date.to_string(start_date)),
             ('date', '<=', fields.Date.to_string(end_date)),
-            ('account_id.code', '=', '1050'),
-            ('journal_id.code', '!=', 'SAJ'),
+            ('account_id.code', '>=', '6000'),
+            ('account_id.code', '<=', '6100'),
+            ('credit', '>', 0)
         ])
-        return sum(move_lines.mapped('credit')) - sum(
-            move_lines.mapped('debit'))
+        return sum(move_lines.mapped('credit'))
