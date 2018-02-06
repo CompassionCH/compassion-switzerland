@@ -285,6 +285,7 @@ class PartnerCommunication(models.Model):
 
     def get_childpack_attachment(self):
         self.ensure_one()
+        lang = self.partner_id.lang
         sponsorships = self.get_objects()
         exit_conf = self.env.ref(
             'partner_communication_switzerland.lifecycle_child_planned_exit')
@@ -297,7 +298,7 @@ class PartnerCommunication(models.Model):
             _('child dossier.pdf'): [
                 report_name,
                 base64.b64encode(self.env['report'].get_pdf(
-                    children.ids, report_name))
+                    children.ids, report_name, data={'lang': lang}))
             ]
         }
 
