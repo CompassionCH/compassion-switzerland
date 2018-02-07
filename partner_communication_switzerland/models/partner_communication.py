@@ -293,6 +293,8 @@ class PartnerCommunication(models.Model):
                 'sub_sponsorship_id'):
             sponsorships = sponsorships.mapped('sub_sponsorship_id')
         children = sponsorships.mapped('child_id')
+        # Always retrieve latest information before printing dossier
+        children.get_infos()
         report_name = 'report_compassion.childpack_small'
         return {
             _('child dossier.pdf'): [
