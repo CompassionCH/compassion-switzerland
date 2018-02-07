@@ -480,7 +480,7 @@
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">digital</field>
             <field name="send_mode_pref_field">tax_receipt_preference</field>
-            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="model_id" ref="model_res_partner"/>
             <field name="print_if_not_email">True</field>
             <field name="user_id" search="[('name', 'like', 'Willi')]"/>
             <field name="attachments_function">get_tax_receipt</field>
