@@ -41,7 +41,8 @@ class GenerateCommunicationWizard(models.TransientModel):
         sponsorship_ids = self.env.context.get('default_sponsorship_ids')
         if sponsorship_ids:
             return "[('id', 'in', {})]".format(str(sponsorship_ids[0][2]))
-        return "[]"
+        else:
+            return "[('id', 'in', {})]".format(self._default_partners())
 
     @api.multi
     def _compute_progress(self):

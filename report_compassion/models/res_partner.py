@@ -34,12 +34,11 @@ class ResPartner(models.Model):
         self.ensure_one()
         start_date = date(year, 1, 1)
         end_date = date(year, 12, 31)
-        move_lines = self.env['account.move.line'].search([
+        invoice_lines = self.env['account.invoice.line'].search([
             ('partner_id', '=', self.id),
-            ('date', '>=', fields.Date.to_string(start_date)),
-            ('date', '<=', fields.Date.to_string(end_date)),
-            ('account_id.code', '=', '1050'),
-            ('journal_id.code', '!=', 'SAJ'),
+            ('last_payment', '>=', fields.Date.to_string(start_date)),
+            ('last_payment', '<=', fields.Date.to_string(end_date)),
+            ('state', '=', 'paid'),
+            ('product_id.requires_thankyou', '=', True),
         ])
-        return sum(move_lines.mapped('credit')) - sum(
-            move_lines.mapped('debit'))
+        return sum(invoice_lines.mapped('price_subtotal'))

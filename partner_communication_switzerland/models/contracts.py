@@ -77,7 +77,7 @@ class RecurringContract(models.Model):
                 ('sponsorship_gift_type', '=', 'Birthday'),
             ])
 
-    @api.depends('invoice_line_ids')
+    @api.depends('invoice_line_ids', 'invoice_line_ids.state')
     def _compute_due_invoices(self):
         """
         Useful for reminders giving open invoices in the past.
@@ -99,6 +99,11 @@ class RecurringContract(models.Model):
                     idate = fields.Date.from_string(invoice.date)
                     months.add((idate.month, idate.year))
                 contract.months_due = len(months)
+
+    @api.multi
+    def compute_due_invoices(self):
+        self._compute_due_invoices()
+        return True
 
     def _get_sds_states(self):
         """ Add waiting_welcome state """
