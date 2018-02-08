@@ -1,0 +1,18 @@
+<odoo>
+    <record model="ir.ui.view" id="generate_communication_wizard_ch_form">
+        <field name="name">postpone.waiting.reminder.wizard.form</field>
+        <field name="model">postpone.waiting.reminder.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="sponsorship_id" invisible="1"/>
+                    <field name="next_reminder"/>
+                    <field name="next_reminder_type"/>
+                </group>
+                <footer>
+                    <button name="postpone_reminder" string="Postpone reminder" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

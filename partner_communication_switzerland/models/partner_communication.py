@@ -11,7 +11,7 @@
 import base64
 from collections import OrderedDict
 
-from datetime import date
+from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 from pyPdf import PdfFileWriter, PdfFileReader
 from io import BytesIO
@@ -293,6 +293,8 @@ class PartnerCommunication(models.Model):
                 'sub_sponsorship_id'):
             sponsorships = sponsorships.mapped('sub_sponsorship_id')
         children = sponsorships.mapped('child_id')
+        # Always retrieve latest information before printing dossier
+        children.get_infos()
         report_name = 'report_compassion.childpack_small'
         return {
             _('child dossier.pdf'): [
@@ -361,8 +363,7 @@ class PartnerCommunication(models.Model):
             if extension:
                 holds = communication.get_objects().mapped('child_id.hold_id')
                 for hold in holds:
-                    expiration = fields.Datetime.from_string(
-                        hold.expiration_date) + relativedelta(days=extension)
+                    expiration = datetime.now() + relativedelta(days=extension)
                     hold.expiration_date = fields.Datetime.to_string(
                         expiration)
 

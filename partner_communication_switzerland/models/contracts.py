@@ -386,6 +386,16 @@ class RecurringContract(models.Model):
         return res
 
     @api.multi
+    def contract_active(self):
+        """ Remove waiting reminders if any. """
+        self.env['partner.communication.job'].search([
+            ('config_id.name', 'ilike', 'Waiting reminder'),
+            ('state', '!=', 'done'),
+            ('partner_id', 'in', self.mapped('partner_id').ids)
+        ]).unlink()
+        return super(RecurringContract, self).contract_active()
+
+    @api.multi
     def send_welcome_letter(self):
         logger.info("Creating Welcome Letters Communications")
         config = self.env.ref(
