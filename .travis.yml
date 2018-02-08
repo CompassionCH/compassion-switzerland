@@ -58,7 +58,6 @@ before_script:
   - psql -U postgres -c "create extension postgis_topology"
 
 script:
-  - travis/travis_header.sh
   - travis_run_tests
 
 after_success:
