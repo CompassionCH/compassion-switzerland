@@ -13,6 +13,8 @@ import mock
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion \
     import BaseSponsorshipTest
 
+from odoo.tools import file_open
+
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +42,9 @@ class TestSponsorship(BaseSponsorshipTest):
             dossier communication for the sponsor.
         """
         update_hold.return_value = True
-        get_pdf.return_value = "fakepdfdata"
+        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
+        with file_open(f_path) as pdf_file:
+            get_pdf.return_value = pdf_file.read()
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))

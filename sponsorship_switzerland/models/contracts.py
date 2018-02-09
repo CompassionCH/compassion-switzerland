@@ -34,6 +34,10 @@ class RecurringContracts(models.Model):
     )
     previous_child_id = fields.Many2one(
         'compassion.child', 'Previous child', related='parent_id.child_id')
+    next_waiting_reminder = fields.Datetime(
+        'Next reminder',
+        compute='_compute_next_reminder', store=True
+    )
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -101,6 +105,16 @@ class RecurringContracts(models.Model):
         if 'S' in self.env.context.get('default_type', 'O'):
             return self._get_sponsorship_standard_lines()
         return []
+
+    @api.depends('child_id.hold_id.expiration_date')
+    @api.multi
+    def _compute_next_reminder(self):
+        for sponsorship in self.filtered(lambda s: s.child_id.hold_id):
+            hold_expiration = fields.Datetime.from_string(
+                sponsorship.child_id.hold_id.expiration_date)
+            sponsorship.next_waiting_reminder = fields.Datetime.to_string(
+                hold_expiration - relativedelta(days=7)
+            )
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -173,6 +187,28 @@ class RecurringContracts(models.Model):
                 'LSV', 'Postfinance') and not is_active):
             next_invoice_date += relativedelta(months=+1)
         self.next_invoice_date = fields.Date.to_string(next_invoice_date)
+
+    @api.multi
+    def postpone_reminder(self):
+        self.ensure_one()
+        extension = self.child_id.hold_id.no_money_extension
+        if extension > 2:
+            extension = 2
+        wizard = self.env['postpone.waiting.reminder.wizard'].create({
+            'sponsorship_id': self.id,
+            'next_reminder': self.next_waiting_reminder,
+            'next_reminder_type': str(extension)
+        })
+        return {
+            'name': _('Postpone reminder'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': wizard._name,
+            'context': self.env.context,
+            'res_id': wizard.id,
+            'target': 'new',
+        }
 
     ##########################################################################
     #                            WORKFLOW METHODS                            #

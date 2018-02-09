@@ -20,6 +20,12 @@
         <field name="model">recurring.contract</field>
         <field name="inherit_id" ref="sponsorship_compassion.view_sponsorship_contract_form_compassion"/>
         <field name="arch" type="xml">
+            <header>
+                <button name="postpone_reminder" string="Postpone reminder" type="object" attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}"/>
+            </header>
+            <field name="next_invoice_date" position="before">
+                <field name="next_waiting_reminder" attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}" style="color: red;"/>
+            </field>
             <field name="next_invoice_date" position="attributes">
                 <attribute name="states">draft,waiting,mandate,active</attribute>
             </field>

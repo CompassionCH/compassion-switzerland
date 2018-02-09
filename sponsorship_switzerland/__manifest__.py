@@ -56,6 +56,7 @@
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
         'views/contract_view.xml',
+        'views/postpone_waiting_reminder_wizard_view.xml',
     ],
     'installable': True,
     'auto_install': False,
