@@ -95,11 +95,6 @@
                 <attribute name="name">open_clicks</attribute>
                 <attribute name="type">object</attribute>
             </xpath>
-            <!-- Add fields for mailing origin and mailing slug -->
-            <xpath expr="//sheet/group[1]">
-                <field name="mailing_origin_id" context="{'default_type':'marketing'}"/>
-                <field name="mailing_slug"/>
-            </xpath>
             <!-- Add tracking -->
             <xpath expr="//notebook/page[1]">
                 <group>

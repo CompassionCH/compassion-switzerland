@@ -22,10 +22,6 @@ class MassMailingCampaign(models.Model):
     clicks_ratio = fields.Integer(compute='_compute_ratios', store=True,
                                   oldname='click_ratio')
     unsub_ratio = fields.Integer(compute='_compute_ratios', store=True)
-    mailing_origin_id = fields.Many2one(
-        'recurring.contract.origin', 'Origin', domain=[('analytic_id', '!=',
-                                                        False)])
-    mailing_slug = fields.Char()
     contract_ids = fields.One2many(
         'recurring.contract', related='campaign_id.contract_ids'
     )
@@ -61,16 +57,6 @@ class MassMailingCampaign(models.Model):
     def open_clicks(self):
         return self.mass_mailing_ids.open_clicks()
 
-    @api.onchange('mailing_origin_id')
-    def _onchange_update_slug(self):
-        if self.mailing_origin_id.name:
-            self.mailing_slug = self.mailing_origin_id.name
-
-    @api.onchange('mailing_slug')
-    def _onchange_mailing_slug(self):
-        if self.mailing_slug:
-            self.mailing_slug = slugify(self.mailing_slug)
-
 
 class Mail(models.Model):
     _inherit = 'mail.mail'
@@ -79,13 +65,6 @@ class Mail(models.Model):
     @related_action(action='related_action_emails')
     @api.multi
     def send_sendgrid_job(self, mass_mailings):
-        regex = r'(?<=")((?:https|http)://(?:www\.|)compassion\.ch[^"]*)(?=")'
-        for msg in self.filtered(lambda e: e.state == 'outgoing'):
-            slug = msg.mailing_id.mass_mailing_campaign_id.mailing_slug
-            if slug:
-                # Append a param. c (as campaign) to all Compassion URLs
-                msg.mail_message_id.body = \
-                    re.sub(regex, r'\1?c=' + slug, msg.mail_message_id.body)
         # Make send method callable in a job
         self.send_sendgrid()
         mass_mailings.write({'state': 'done'})
