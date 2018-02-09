@@ -42,7 +42,7 @@ class MailThread(models.AbstractModel):
         partner_obj = self.env['res.partner']
         for message_id, suggestion in result.iteritems():
             if suggestion:
-                partner = partner_obj.browse(suggestion[0])
+                partner = partner_obj.browse(suggestion[0][0])
                 users = partner.mapped('user_ids').filtered(
                     lambda u: not u.share)
                 if not users:
