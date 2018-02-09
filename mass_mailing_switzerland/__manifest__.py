@@ -38,6 +38,7 @@
     'data': [
         'views/mass_mailing_view.xml',
         'views/mail_template_view.xml',
+        'views/utm_view.xml',
         'data/refresh_sendgrid_tracking_cron.xml',
     ],
     'depends': [

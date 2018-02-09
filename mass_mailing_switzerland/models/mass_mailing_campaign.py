@@ -11,8 +11,6 @@
 from odoo import api, models, fields
 
 from odoo.addons.queue_job.job import job, related_action
-from odoo.addons.website.models.website import slugify
-import re
 
 
 class MassMailingCampaign(models.Model):
@@ -64,8 +62,11 @@ class Mail(models.Model):
     @job(default_channel='root.mass_mailing')
     @related_action(action='related_action_emails')
     @api.multi
-    def send_sendgrid_job(self, mass_mailings):
+    def send_sendgrid_job(self, mass_mailing_ids=False):
         # Make send method callable in a job
         self.send_sendgrid()
-        mass_mailings.write({'state': 'done'})
+        if mass_mailing_ids:
+            mass_mailings = self.env['mail.mass_mailing'].browse(
+                mass_mailing_ids)
+            mass_mailings.write({'state': 'done'})
         return True
