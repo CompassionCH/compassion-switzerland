@@ -1,4 +1,42 @@
 <odoo>
+    <!-- Tree views -->
+    <record id="view_utm_medium_stats_tree" model="ir.ui.view">
+        <field name="name">utm.medium.stats.tree</field>
+        <field name="model">utm.medium</field>
+        <field name="inherit_id" ref="utm.utm_medium_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sponsorship_count"/>
+                <field name="letters_count"/>
+                <field name="donation_amount"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_utm_campaign_stats_tree" model="ir.ui.view">
+        <field name="name">utm.campaign.stats.tree</field>
+        <field name="model">utm.campaign</field>
+        <field name="inherit_id" ref="utm.utm_campaign_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sponsorship_count"/>
+                <field name="letters_count"/>
+                <field name="donation_amount"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_utm_source_stats_tree" model="ir.ui.view">
+        <field name="name">utm.source.stats.tree</field>
+        <field name="model">utm.source</field>
+        <field name="inherit_id" ref="utm.utm_source_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sponsorship_count"/>
+                <field name="letters_count"/>
+                <field name="donation_amount"/>
+            </field>
+        </field>
+    </record>
+
     <!-- Form views -->
     <record id="view_utm_medium_stats" model="ir.ui.view">
         <field name="name">utm.medium.stats</field>

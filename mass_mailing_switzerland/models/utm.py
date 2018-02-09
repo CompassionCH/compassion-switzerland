@@ -65,6 +65,8 @@ class UtmObjects(models.AbstractModel):
         compute='_compute_sponsorship_count', store=True, readonly=True)
     letters_count = fields.Integer(
         compute='_compute_letters_count', store=True, readonly=True)
+    donation_amount = fields.Float(
+        compute='_compute_total_donation', store=True, readonly=True)
     total_donation = fields.Char(
         compute='_compute_total_donation', store=True, readonly=True)
 
@@ -83,6 +85,7 @@ class UtmObjects(models.AbstractModel):
         # Put a nice formatting
         for utm in self:
             total_donation = sum(utm.invoice_ids.mapped('amount_total'))
+            utm.donation_amount = total_donation
             utm.total_donation = 'CHF {:,.2f}'.format(total_donation).replace(
                 '.00', '.-').replace(',', "'")
 
