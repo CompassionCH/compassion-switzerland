@@ -92,7 +92,7 @@ class ImportLettersHistory(models.Model):
                     ('end_date', '=', False),
                     ('end_date', '<=',
                      fields.Datetime.to_string(limit_date))
-                    ],
+                ],
                 limit=1).ensure_one()
 
             lang = self.env['correspondence'].detect_lang(original_text)

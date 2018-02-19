@@ -43,7 +43,7 @@ class MoveLine(models.Model):
         move.button_cancel()
         move.write({
             'line_ids': [
-                (1, move_line.id, {'credit': move_line.credit-residual}),
+                (1, move_line.id, {'credit': move_line.credit - residual}),
                 (0, 0, {
                     'credit': residual,
                     'name': self.env.context.get('residual_comment',

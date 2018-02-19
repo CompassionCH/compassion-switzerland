@@ -63,7 +63,7 @@ class HrEmployee(models.Model):
                 employee._convert_hour_to_time(math.fabs(employee.bonus_malus))
 
     def _convert_hour_to_time(self, hour):
-        return '{:02d}:{:02d}'.format(*divmod(int(math.fabs(hour*60)), 60))
+        return '{:02d}:{:02d}'.format(*divmod(int(math.fabs(hour * 60)), 60))
 
     def _today_hour(self):
         self.ensure_one()

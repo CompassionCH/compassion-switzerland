@@ -51,7 +51,8 @@ class GenerateCommunicationWizard(models.TransientModel):
         for wizard in s_wizards:
             wizard.progress = float(len(wizard.communication_ids) * 100) / (
                 len(wizard.sponsorship_ids.mapped(wizard.partner_source)) or 1)
-        super(GenerateCommunicationWizard, self-s_wizards)._compute_progress()
+        super(GenerateCommunicationWizard,
+              self - s_wizards)._compute_progress()
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #

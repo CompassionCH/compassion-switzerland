@@ -301,7 +301,7 @@ class PartnerCommunication(models.Model):
             report_name = 'report_compassion.tax_receipt'
             data = {
                 'doc_ids': self.partner_id.ids,
-                'year': self.env.context.get('year', date.today().year-1),
+                'year': self.env.context.get('year', date.today().year - 1),
                 'lang': self.partner_id.lang,
             }
             res = {
@@ -473,7 +473,7 @@ class PartnerCommunication(models.Model):
             page = pdf.getPage(i)
             corner = [float(x) for x in page.mediaBox.getUpperRight()]
             if corner[0] > a4_width or corner[1] > a4_height:
-                page.scaleBy(max(a4_width/corner[0], a4_height/corner[1]))
+                page.scaleBy(max(a4_width / corner[0], a4_height / corner[1]))
             elif corner[0] < a4_width or corner[1] < a4_height:
                 tx = (a4_width - corner[0]) / 2
                 ty = (a4_height - corner[1]) / 2

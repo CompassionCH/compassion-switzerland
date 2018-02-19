@@ -122,8 +122,8 @@ class ResPartner(models.Model):
         journal_id = self.env['account.journal'].search([
             ('code', '=', 'SAJ')]).id
         today = date.today()
-        start_date = today.replace(today.year-1, 1, 1)
-        end_date = today.replace(today.year-1, 12, 31)
+        start_date = today.replace(today.year - 1, 1, 1)
+        end_date = today.replace(today.year - 1, 12, 31)
         config = self.env.ref('partner_communication_switzerland.'
                               'tax_receipt_config')
         self.env.cr.execute("""
