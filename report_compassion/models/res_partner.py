@@ -35,10 +35,11 @@ class ResPartner(models.Model):
         start_date = date(year, 1, 1)
         end_date = date(year, 12, 31)
         invoice_lines = self.env['account.invoice.line'].search([
-            ('partner_id', '=', self.id),
             ('last_payment', '>=', fields.Date.to_string(start_date)),
             ('last_payment', '<=', fields.Date.to_string(end_date)),
             ('state', '=', 'paid'),
             ('product_id.requires_thankyou', '=', True),
+            '|',('partner_id', '=', self.id),
+            ('partner_id.parent_id', '=', self.id),
         ])
         return sum(invoice_lines.mapped('price_subtotal'))

@@ -67,3 +67,18 @@ class ResPartner(models.Model):
                 except:
                     tc.disable_user(partner)
         return True
+    
+    @api.model
+    def find_missing_translator(self):
+        translator_id = self.env.ref(
+            'partner_compassion.res_partner_category_translator').id
+        translators = self.search([
+            ('category_id', '=', translator_id)
+        ])
+        tc = translate_connector.TranslateConnect()
+        missing = list()
+        for translator in translators:
+            if not tc.selectOne("SELECT id FROM user WHERE number = %s", translator.ref):
+                translator.with_context(force_create=True).write({'ref': translator.ref})
+                missing.append(translator.ref)
+        return ','.join(missing)
