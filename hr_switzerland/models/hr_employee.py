@@ -18,30 +18,30 @@ from odoo import models, fields
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    bonus_malus_hour = fields.Char(string="Bonus/Malus",
-                                   compute='_compute_bonus_malus_hour')
+    extra_hours_formatted = fields.Char(string="Balance",
+                                   compute='_compute_extra_hours')
 
     time_warning_balance = fields.Char(compute='_compute_time_warning_balance')
 
     time_warning_today = fields.Char(compute='_compute_time_warning_today')
 
-    bonus_malus_today = fields.Char(compute='_compute_bonus_malus_today')
+    extra_hours_today = fields.Char(compute='_compute_extra_hours_today')
 
     today_hour = fields.Char(compute='_compute_today_hour')
 
-    def _compute_bonus_malus_today(self):
+    def _compute_extra_hours_today(self):
         for employee in self:
             today_hour = employee._today_hour() - 8
 
-            employee.bonus_malus_today = '- ' if today_hour < 0 else '+'
-            employee.bonus_malus_today += employee.\
+            employee.extra_hours_today = '- ' if today_hour < 0 else '+'
+            employee.extra_hours_today += employee.\
                 _convert_hour_to_time(today_hour)
 
     def _compute_time_warning_balance(self):
         for employee in self:
-            if employee.bonus_malus < 0:
+            if employee.extra_hours < 0:
                 employee.time_warning_balance = 'red'
-            elif employee.bonus_malus >= 19:
+            elif employee.extra_hours >= 19:
                 employee.time_warning_balance = 'orange'
             else:
                 employee.time_warning_balance = 'green'
@@ -56,11 +56,11 @@ class HrEmployee(models.Model):
             employee.today_hour = employee._convert_hour_to_time(
                 employee._today_hour())
 
-    def _compute_bonus_malus_hour(self):
+    def _compute_extra_hours(self):
         for employee in self:
-            employee.bonus_malus_hour = '-' if employee.bonus_malus < 0 else ''
-            employee.bonus_malus_hour += \
-                employee._convert_hour_to_time(math.fabs(employee.bonus_malus))
+            employee.extra_hours_formatted = '-' if employee.extra_hours < 0 else ''
+            employee.extra_hours_formatted += \
+                employee._convert_hour_to_time(math.fabs(employee.extra_hours))
 
     def _convert_hour_to_time(self, hour):
         return '{:02d}:{:02d}'.format(*divmod(int(math.fabs(hour*60)), 60))
