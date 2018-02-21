@@ -9,7 +9,6 @@
 #
 ##############################################################################
 from odoo import models, fields, api
-from odoo.addons.mysql_connector.models.mysql_connector import MysqlConnector
 
 
 class CompassionChild(models.Model):
@@ -42,7 +41,8 @@ class CompassionChild(models.Model):
                 global_search.do_search()
                 if global_search.global_child_ids:
                     child.global_id = global_search.global_child_ids.global_id
-                self.env.cr.commit()
+                # Commit at each fix
+                self.env.cr.commit()    # pylint: disable=invalid-commit
             except:
                 self.env.invalidate_all()
             finally:
