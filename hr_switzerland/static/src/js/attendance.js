@@ -15,7 +15,7 @@ odoo.define('hr_switzerland.attendance', function (require) {
             var self = this;
             var result = this._super();
             var hr_employee = new Model('hr.employee');
-            hr_employee.query(['attendance_state', 'name', 'bonus_malus_hour', 'today_hour', 'time_warning_balance', 'time_warning_today', 'bonus_malus_today'])
+            hr_employee.query(['attendance_state', 'name', 'extra_hours_formatted', 'today_hour_formatted', 'time_warning_balance', 'time_warning_today', 'extra_hours_today'])
                 .filter([['user_id', '=', self.session.uid]])
                 .all()
                 .then(function (res) {
