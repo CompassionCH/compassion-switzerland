@@ -33,12 +33,12 @@
     </record>
     <record model="workflow.transition" id="recurring_contract.t1">
         <!-- Add condition to go in waiting state -->
-        <field name="condition">not ('LSV' in group_id.payment_mode_id.name or 'Postfinance' in group_id.payment_mode_id.name)</field>
+        <field name="condition">type != 'SC' and not ('LSV' in group_id.payment_mode_id.name or 'Postfinance' in group_id.payment_mode_id.name)</field>
     </record>
     <record model="workflow.transition" id="t1b">
         <field name="act_from" ref="recurring_contract.act_draft" />
         <field name="act_to" ref="act_banking_validation" />
-        <field name="condition">'LSV' in group_id.payment_mode_id.name or 'Postfinance' in group_id.payment_mode_id.name</field>
+        <field name="condition">type != 'SC' and 'LSV' in group_id.payment_mode_id.name or 'Postfinance' in group_id.payment_mode_id.name</field>
         <field name="signal">contract_validated</field>
     </record>
     <record model="workflow.transition" id="t5">
