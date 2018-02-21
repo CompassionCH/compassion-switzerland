@@ -90,7 +90,7 @@ class RecurringContract(models.Model):
                         lambda i: i.state == 'open' and
                         fields.Date.from_string(i.due_date) < this_month and
                         i.invoice_id.invoice_type == 'sponsorship'
-                    )
+                )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
                     'price_subtotal')))
@@ -146,7 +146,7 @@ class RecurringContract(models.Model):
                             'object_ids': self.env.context.get(
                                 'default_object_ids', contract.id),
                             'user_id': communication.user_id.id,
-                            })
+                        })
         else:
             for partner in partners:
                 objects = self.filtered(

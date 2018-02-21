@@ -38,7 +38,7 @@
     <!-- BVR page for sponsorship gift -->
     <template id="report_bvr_sponsorship_gift_document">
         <t t-set="o" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
-        <t t-set="partner" t-value="o.correspondant_id"/>
+        <t t-set="partner" t-value="o.gift_partner_id"/>
         <t t-set="partner_address" t-value="partner.short_address"/>
         <t t-set="company_account" t-value="o.group_id.get_company_bvr_account()"/>
         <div class="page">

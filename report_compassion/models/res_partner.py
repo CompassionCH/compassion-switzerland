@@ -39,7 +39,7 @@ class ResPartner(models.Model):
             ('last_payment', '<=', fields.Date.to_string(end_date)),
             ('state', '=', 'paid'),
             ('product_id.requires_thankyou', '=', True),
-            '|',('partner_id', '=', self.id),
+            '|', ('partner_id', '=', self.id),
             ('partner_id.parent_id', '=', self.id),
         ])
         return sum(invoice_lines.mapped('price_subtotal'))

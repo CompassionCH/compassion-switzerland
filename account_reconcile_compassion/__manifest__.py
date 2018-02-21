@@ -46,7 +46,7 @@
         'views/change_attribution_wizard_view.xml',
         'views/account_invoice_view.xml',
         'views/res_config_view.xml',
-        ],
+    ],
     'qweb': ['static/src/xml/account_move_reconciliation.xml'],
     'demo': [],
     'test': [],

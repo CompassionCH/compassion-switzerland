@@ -23,7 +23,7 @@ class PrintTaxReceipt(models.TransientModel):
     _name = 'print.tax_receipt'
 
     state = fields.Selection([('new', 'new'), ('pdf', 'pdf')], default='new')
-    year = fields.Integer(default=date.today().year-1)
+    year = fields.Integer(default=date.today().year - 1)
     pdf = fields.Boolean()
     pdf_name = fields.Char(default='tax_receipt.pdf')
     pdf_download = fields.Binary(readonly=True)
