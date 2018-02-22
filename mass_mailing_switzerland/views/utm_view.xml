@@ -9,6 +9,7 @@
                 <field name="sponsorship_count"/>
                 <field name="letters_count"/>
                 <field name="donation_amount"/>
+                <field name="click_count"/>
             </field>
         </field>
     </record>
@@ -21,6 +22,7 @@
                 <field name="sponsorship_count"/>
                 <field name="letters_count"/>
                 <field name="donation_amount"/>
+                <field name="click_count"/>
             </field>
         </field>
     </record>
@@ -33,6 +35,7 @@
                 <field name="sponsorship_count"/>
                 <field name="letters_count"/>
                 <field name="donation_amount"/>
+                <field name="click_count"/>
             </field>
         </field>
     </record>
@@ -54,6 +57,9 @@
                     <button name="open_invoices" type="object" icon="fa-money" class="oe_stat_button">
                         <field name="total_donation" string="Donations" widget="statinfo"/>
                     </button>
+                    <button name="open_clicks" type="object" icon="fa-click" class="oe_stat_button">
+                        <field name="click_count" string="Clicks" widget="statinfo"/>
+                    </button>
                 </div>
             </xpath>
         </field>
@@ -74,6 +80,9 @@
                     </button>
                     <button name="open_invoices" type="object" icon="fa-money" class="oe_stat_button">
                         <field name="total_donation" string="Donations" widget="statinfo"/>
+                    </button>
+                    <button name="open_clicks" type="object" icon="fa-click" class="oe_stat_button">
+                        <field name="click_count" string="Clicks" widget="statinfo"/>
                     </button>
                 </div>
             </xpath>
@@ -99,6 +108,9 @@
                     </button>
                     <button name="open_invoices" type="object" icon="fa-money" class="oe_stat_button">
                         <field name="total_donation" string="Donations" widget="statinfo"/>
+                    </button>
+                    <button name="open_clicks" type="object" icon="fa-click" class="oe_stat_button">
+                        <field name="click_count" string="Clicks" widget="statinfo"/>
                     </button>
                 </div>
             </xpath>
