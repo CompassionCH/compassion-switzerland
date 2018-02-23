@@ -109,4 +109,4 @@ class GenerateCommunicationWizard(models.TransientModel):
             return True
         else:
             return super(GenerateCommunicationWizard,
-                         self).generate_communications()
+                         self).generate_communications(async_mode)
