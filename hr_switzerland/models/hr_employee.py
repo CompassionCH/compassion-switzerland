@@ -8,7 +8,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import math
 
 from datetime import datetime
 
@@ -38,7 +37,7 @@ class HrEmployee(models.Model):
             employee.extra_hours_today = \
                 '- ' if employee.today_hour < 0 else '+'
             employee.extra_hours_today += employee.\
-                _convert_hour_to_time(employee.today_hour)
+                convert_hour_to_time(employee.today_hour)
 
     @api.multi
     def _compute_time_warning_balance(self):
@@ -64,7 +63,7 @@ class HrEmployee(models.Model):
                 ('employee_id', '=', employee.id),
                 ('date', '=', fields.Date.today())])
             employee.today_hour = \
-                current_att_day.worked_hours - current_att_day.due_hours
+                employee.compute_today_hour() - current_att_day.due_hours
 
     @api.multi
     def _compute_extra_hours(self):
@@ -72,16 +71,35 @@ class HrEmployee(models.Model):
             employee.extra_hours_formatted = \
                 '-' if employee.extra_hours < 0 else ''
             employee.extra_hours_formatted += \
-                employee._convert_hour_to_time(math.fabs(employee.extra_hours))
+                employee.convert_hour_to_time(abs(employee.extra_hours))
 
     @api.multi
     @api.depends('today_hour')
     def _compute_today_hour_formatted(self):
         for employee in self:
             employee.today_hour_formatted = \
-                employee._convert_hour_to_time(employee.today_hour)
+                employee.convert_hour_to_time(employee.today_hour)
 
     @api.multi
-    def _convert_hour_to_time(self, hour):
+    def convert_hour_to_time(self, hour):
         hour = float(hour)
-        return '{:02d}:{:02d}'.format(*divmod(int(math.fabs(hour*60)), 60))
+        return '{:02d}:{:02d}'.format(*divmod(int(abs(hour*60)), 60))
+
+    @api.multi
+    def compute_today_hour(self):
+        self.ensure_one()
+
+        today = fields.Date.today()
+        attendances_today = self.env['hr.attendance'].search([
+            ('employee_id', '=', self.id), ('check_in', '>=', today)])
+        worked_hours = 0
+
+        for attendance in attendances_today:
+            if attendance.check_out:
+                worked_hours += attendance.worked_hours
+            else:
+                delta = datetime.now() - fields.Datetime.from_string(
+                        attendance.check_in)
+                worked_hours += delta.total_seconds() / 3600.0
+
+        return worked_hours
