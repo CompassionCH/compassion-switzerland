@@ -69,7 +69,9 @@ class MailTrackingEvent(models.Model):
     def process_hard_bounce(self, tracking_email, metadata):
         if not tracking_email.partner_id.user_ids:
             self._invalid_email(tracking_email)
-            tracking_email.partner_id.email = False
+            partner_id = tracking_email.partner_id
+            partner_id.invalid_mail = partner_id.email
+            partner_id.email = False
         return super(MailTrackingEvent, self).process_hard_bounce(
             tracking_email, metadata)
 
