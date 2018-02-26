@@ -37,13 +37,9 @@
     'website': 'http://www.compassion.ch',
     'data': [
         'views/hr_expense_custom.xml',
-        'views/attendance.xml',
     ],
     'depends': ['hr_expense', 'hr_holidays'],
     'demo': [],
     'installable': True,
     'auto_install': False,
-    'qweb': [
-        "static/src/xml/attendance.xml",
-    ],
 }
