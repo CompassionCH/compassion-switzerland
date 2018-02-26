@@ -151,7 +151,10 @@ class CompassionChild(models.Model):
         communication_config = self.env.ref(
             'partner_communication_switzerland.biennial')
         job_obj = self.env['partner.communication.job']
-        for child in self.filtered('sponsor_id').filtered('pictures_ids'):
+        for child in self.filtered(
+                lambda r: r.sponsor_id and r.pictures_ids and
+                r.sponsorship_ids[0].state in ('active', 'waiting', 'mandate')
+        ):
             sponsor = child.sponsor_id
             delivery = sponsor.photo_delivery_preference
             if 'physical' in delivery or delivery == 'both':

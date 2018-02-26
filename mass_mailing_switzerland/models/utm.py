@@ -188,7 +188,7 @@ class UtmCampaign(models.Model):
         for campaign in self:
             campaign.mailing_campaign_id = self.env[
                 'mail.mass_mailing.campaign'].search([
-                ('campaign_id', '=', campaign.id)])
+                    ('campaign_id', '=', campaign.id)])
 
     @api.depends('link_ids', 'link_ids.count')
     def _compute_click_count(self):

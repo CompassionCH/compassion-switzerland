@@ -405,6 +405,12 @@ class RecurringContract(models.Model):
         logger.info("Welcome Letters Sent !")
         return True
 
+    @api.multi
+    def contract_terminated(self):
+        super(RecurringContract, self).contract_terminated()
+        self.child_id.sponsorship_ids[0].order_photo = False
+        return True
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
