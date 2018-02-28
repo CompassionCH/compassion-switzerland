@@ -9,8 +9,8 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2016-2017 Compassion CH (http://www.compassion.ch)
-#    @author: Philippe Heer <heerphilippe@msn.com>, Emanuel Cino
+#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    @author: Sebastien Toth <popod@me.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -29,25 +29,18 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Mass Mailing Switzerland',
-    'version': '10.0.2.0.2',
-    'category': 'Mailing',
-    'author': 'Emanuel Cino',
+    'name': 'Calendar Switzerland',
+    'version': '10.0.1.0.0',
+    'category': 'Calendar',
+    'author': 'Sebastien Toth',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'data': [
-        'views/mass_mailing_view.xml',
-        'views/mail_template_view.xml',
-        'views/utm_view.xml',
-        'data/refresh_sendgrid_tracking_cron.xml',
+        'views/calendar_switzerland_view.xml'
     ],
     'depends': [
-        'mail_sendgrid_mass_mailing',
-        'partner_communication_switzerland'
+        'calendar',
     ],
-    'external_dependencies': {
-        'python': ['pysftp']
-    },
     'demo': [],
     'installable': True,
     'auto_install': False,
