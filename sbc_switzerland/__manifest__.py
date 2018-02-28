@@ -45,6 +45,8 @@
         'data/scan_letter_params.xml',
         'data/nas_parameters.xml',
         'data/local_letters_cron.xml',
+        'data/translator_email.xml',
+        'data/communication_config.xml',
         'views/import_config_view.xml',
         'views/import_letters_history_view.xml',
         'views/correspondence_view.xml',
