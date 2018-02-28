@@ -12,9 +12,6 @@
 from openupgradelib import openupgrade
 import re
 
-# on doit pouvoir faire en sorte que les mails déjà existants à qui on a envoyé
-# des lettres se mettent automatiquement dans invalid emails, sauf si il y a
-# déjà un nouveau mail remis
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
