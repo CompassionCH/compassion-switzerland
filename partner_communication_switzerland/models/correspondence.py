@@ -17,6 +17,9 @@ from dateutil.relativedelta import relativedelta
 from odoo import models, api, fields
 from odoo.tools import config
 
+from odoo.addons.sbc_compassion.models.correspondence_page import \
+    BOX_SEPARATOR, PAGE_SEPARATOR
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -70,7 +73,8 @@ class Correspondence(models.Model):
         for letter in self:
             letter.has_valid_language = False
             if letter.translated_text and letter.translation_language_id:
-                s = letter.translated_text.strip(' \t\n\r.')
+                s = letter.translated_text.strip(' \t\n\r.').replace(
+                    BOX_SEPARATOR, '').replace(PAGE_SEPARATOR, '')
                 if s:
                     # find the language of text argument
                     lang = letter.detect_lang(letter.translated_text)
