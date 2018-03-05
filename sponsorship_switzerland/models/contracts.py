@@ -34,10 +34,15 @@ class RecurringContracts(models.Model):
     )
     previous_child_id = fields.Many2one(
         'compassion.child', 'Previous child', related='parent_id.child_id')
+    is_already_a_sponsor = fields.Boolean(
+        compute="_compute_already_a_sponsor", store=True)
     next_waiting_reminder = fields.Datetime(
         'Next reminder',
         compute='_compute_next_reminder', store=True
     )
+    partner_lang = fields.Selection(
+        'res.partner', 'Partner language', related='partner_id.lang',
+        store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -74,6 +79,12 @@ class RecurringContracts(models.Model):
                     ('partner_id', '=', contract.partner_id.parent_id.id),
                     ('state', '=', 'valid')])
             contract.has_mandate = bool(count)
+
+    @api.multi
+    def _compute_already_a_sponsor(self):
+        for contract in self:
+            contract.is_already_a_sponsor =\
+                True if contract.previous_child_id else False
 
     @api.model
     def _get_sponsorship_standard_lines(self):
