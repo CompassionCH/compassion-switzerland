@@ -53,6 +53,8 @@
         'data/sequence.xml',
         'workflow/contract_workflow.xml',
         'security/ir.model.access.csv',
+        'reports/sponsorships_evolution_reports_view.xml',
+        'reports/new_sponsorships_report_view.xml',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
         'views/contract_view.xml',
