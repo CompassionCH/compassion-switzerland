@@ -42,6 +42,7 @@
         'account_statement_completion',
         'l10n_ch_lsv_dd',
         'gift_compassion',
+        'donation_report_compassion'
     ],
     'demo': [
         'data/demo_journal.xml'
@@ -53,10 +54,13 @@
         'data/sequence.xml',
         'workflow/contract_workflow.xml',
         'security/ir.model.access.csv',
+        'reports/sponsorships_evolution_reports_view.xml',
+        'reports/new_sponsorships_report_view.xml',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
         'views/contract_view.xml',
         'views/postpone_waiting_reminder_wizard_view.xml',
+        'reports/end_sponsorships_report_view.xml',
     ],
     'installable': True,
     'auto_install': False,
