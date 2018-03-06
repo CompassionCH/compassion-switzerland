@@ -12,6 +12,5 @@
 from . import bank_statement
 from . import bank_statement_line
 from . import statement_operation
-from . import move_line
 from . import account_partial_reconcile
 from . import res_config
