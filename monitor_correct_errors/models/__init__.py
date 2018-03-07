@@ -8,5 +8,5 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import  monitor_correct_errors
+from . import monitor_correct_errors
 from . import error_log

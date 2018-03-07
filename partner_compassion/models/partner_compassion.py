@@ -330,12 +330,14 @@ class ResPartner(models.Model):
                 'res_model': 'recurring.contract',
                 'views': [[False, "tree"], [False, "form"]],
                 'domain': ['|', '|',
-                           ('correspondant_id', '=', self.member_ids.ids),
+                           ('correspondant_id', 'in', self.member_ids.ids),
                            ('correspondant_id', '=', self.id), '|',
                            ('partner_id', '=', self.id),
                            ('partner_id', 'in', self.member_ids.ids)],
                 'context': self.with_context({
-                    'default_type': 'S'}).env.context,
+                    'default_type': 'S',
+                    'search_default_active': True
+                }).env.context,
             }
         else:
             return super(ResPartner, self).open_contracts()
@@ -364,9 +366,32 @@ class ResPartner(models.Model):
         }
 
     def update_church_sponsorships_number(self, inc):
+        """
+        Update the count of sponsorships for the church of the partner
+        :param inc: increase count if True
+        :return: None
+        """
         for partner in self:
             church = self.search([('member_ids', '=', partner.id)])
             if inc and church:
                 church.number_sponsorships += 1
             elif church:
                 church.number_sponsorships -= 1
+
+    def update_sponsorship_number(self):
+        """
+        Forces recompute of the sponsorship number
+        :return: True
+        """
+        for partner in self:
+            partner.number_sponsorships = self.env[
+                'recurring.contract'].search_count([
+                    '|', '|',
+                    ('correspondant_id', 'in', partner.member_ids.ids),
+                    ('correspondant_id', '=', partner.id), '|',
+                    ('partner_id', '=', partner.id),
+                    ('partner_id', 'in', partner.member_ids.ids),
+                    ('state', 'in', ['active', 'mandate']),
+                    ('global_id', '!=', False)
+                ])
+        return True

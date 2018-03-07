@@ -59,7 +59,7 @@
 
     <!-- sponsorships reports menu -->
     <menuitem id="sponsorships_report_menu_base" name="Reports" parent="child_compassion.menu_sponsorship_root" sequence="8"/>
-    <menuitem id="sponsorships_report_menu_evolution_months" name="Sponsorships Evolution By Months" parent="sponsorships_report_menu_base" action="action_sponsorships_evolution_months_report"/>
-    <menuitem id="sponsorships_report_menu_evolution_year" name="Sponsorships Evolution By Years" parent="sponsorships_report_menu_base" action="action_sponsorships_evolution_years_report"/>
+    <menuitem id="sponsorships_report_menu_evolution_months" name="Sponsorships Evolution By Months" parent="sponsorships_report_menu_base" action="action_sponsorships_evolution_months_report" sequence="1"/>
+    <menuitem id="sponsorships_report_menu_evolution_year" name="Sponsorships Evolution By Years" parent="sponsorships_report_menu_base" action="action_sponsorships_evolution_years_report" sequence="2"/>
 
 </odoo>

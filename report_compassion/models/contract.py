@@ -46,7 +46,7 @@ class Contract(models.Model):
         birthdate = fields.Date.from_string(child.birthdate).strftime(
             "%d.%m.%Y")
         vals = {
-            'firstname': child.firstname,
+            'firstname': child.preferred_name,
             'local_id': child.local_id,
             'product': product.with_context(lang=lang).name,
             'birthdate': born[lang] + ' ' + birthdate

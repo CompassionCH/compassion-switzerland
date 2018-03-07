@@ -158,6 +158,73 @@ class Correspondence(models.Model):
         self._transfer_file_on_nas(file_name)
         self.state = 'Global Partner translation queue'
 
+    @api.model
+    def fix_priority(self):
+        tc = translate_connector.TranslateConnect()
+        supporter_lettres = self.search([
+            ('direction', '=', 'Beneficiary To Supporter'),
+            ('state', '=', 'Global Partner translation queue'),
+            ('scanned_date', '<', '2017-11-01'),
+            ('scanned_date', '>=', '2017-10-01'),
+        ])
+        logger.info(len(supporter_lettres))
+        cpt = 1
+        for letter in supporter_lettres:
+            translation_id = tc.upsert("translation", {
+                'letter_odoo_id': letter.id,
+                'createdat': letter.scanned_date
+            })
+            text_id = tc.selectOne(
+                "SELECT text_id FROM translation WHERE id = %s", [
+                    translation_id]).get('text_id')
+            if text_id:
+                tc.upsert("text", {
+                    'id': text_id,
+                    'priority_id': 3
+                })
+                logger.info(str(cpt) + '/' + str(len(supporter_lettres)))
+            else:
+                logger.info("Not found letter")
+            cpt += 1
+        return True
+
+    @api.model
+    def clean_translate(self):
+        tc = translate_connector.TranslateConnect()
+        letters = self.search([
+            ('state', '!=', 'Global Partner translation queue')
+        ])
+        for letter in letters:
+            translation = tc.selectOne(
+                "SELECT t.id as id, s.id as status "
+                "FROM translation t join translation_status s on "
+                "s.translation_id = t.id "
+                "WHERE t.letter_odoo_id = %s AND s.status_id = 1", [letter.id]
+            )
+            letter_id = translation.get('id')
+            status = translation.get('status')
+            if letter_id and status:
+                tc.update_translation_to_treated(letter_id)
+                tc.upsert('translation_status', {'id': status, 'status_id': 3})
+                logger.info("Correct " + str(letter.id))
+        return True
+
+    @api.model
+    def check_missing_translate(self):
+        tc = translate_connector.TranslateConnect()
+        letters = self.search([
+            ('state', '=', 'Global Partner translation queue')
+        ])
+        logger.info("Found {} letters to transalte.".format(str(len(letters))))
+        for letter in letters:
+            letter_id = tc.selectOne(
+                "SELECT id FROM translation WHERE letter_odoo_id = %s",
+                [letter.id]).get('id')
+            if not letter_id:
+                letter.send_local_translate()
+                logger.info("Send missing: " + letter.kit_identifier)
+        return True
+
     @api.multi
     def remove_local_translate(self):
         """
@@ -180,6 +247,7 @@ class Correspondence(models.Model):
         Puts the translated text into the correspondence.
         :param translate_lang: code_iso of the language of the translation
         :param translate_text: text of the translation
+        :param translator: reference of the translator
         :return: None
         """
         self.ensure_one()
@@ -260,7 +328,7 @@ class Correspondence(models.Model):
             # Check that the letter is not yet sent to GMC
             if self.kit_identifier:
                 raise UserError(_("Letter already sent to GMC cannot be "
-                                "translated! [%s]") % self.kit_identifier)
+                                  "translated! [%s]") % self.kit_identifier)
 
             src_lang_id = self.original_language_id
             child_langs = self.beneficiary_language_ids.filtered(

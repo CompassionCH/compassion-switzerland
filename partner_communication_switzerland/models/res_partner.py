@@ -95,11 +95,7 @@ class ResPartner(models.Model):
     @api.multi
     def _compute_new_donor(self):
         invl_obj = self.env['account.invoice.line'].with_context(lang='en_US')
-        donor = self.env.ref('partner_compassion.res_partner_category_donor')
         for partner in self:
-            if donor in partner.category_id:
-                partner.is_new_donor = False
-                continue
             donation_invl = invl_obj.search([
                 ('partner_id', '=', partner.id),
                 ('state', '=', 'paid'),
@@ -122,8 +118,8 @@ class ResPartner(models.Model):
         journal_id = self.env['account.journal'].search([
             ('code', '=', 'SAJ')]).id
         today = date.today()
-        start_date = today.replace(today.year-1, 1, 1)
-        end_date = today.replace(today.year-1, 12, 31)
+        start_date = today.replace(today.year - 1, 1, 1)
+        end_date = today.replace(today.year - 1, 12, 31)
         config = self.env.ref('partner_communication_switzerland.'
                               'tax_receipt_config')
         self.env.cr.execute("""

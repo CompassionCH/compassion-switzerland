@@ -160,8 +160,8 @@ class ContractGroup(models.Model):
                 vals['subject'] += str(number_sponsorship) + " " + _(
                     "sponsorships")
             elif number_sponsorship and valid.child_id:
-                vals['subject'] = valid.child_id.firstname + " ({})".format(
-                    valid.child_id.local_id)
+                vals['subject'] = valid.child_id.preferred_name + \
+                    " ({})".format(valid.child_id.local_id)
             elif number_sponsorship and not valid.child_id \
                     and valid.display_name:
                 product_name = self.env['product.product'].search(

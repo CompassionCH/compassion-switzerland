@@ -29,7 +29,7 @@ class MassMailing(models.Model):
         'mail.tracking.event', compute='_compute_events')
 
     _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
-                        'You have to choose a new slug for each mailing !')]
+                         'You have to choose a new slug for each mailing !')]
 
     @api.depends('statistics_ids', 'statistics_ids.tracking_event_ids')
     @job(default_channel='root.mass_mailing_switzerland')
