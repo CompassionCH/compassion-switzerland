@@ -74,7 +74,7 @@ class PartnerCommunication(models.Model):
         background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects().filtered(
             lambda s: not s.birthday_paid)
-        gifts_to = getattr(sponsorships[0], sponsorships[0].send_gifts_to)
+        gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             birthday_gift = self.env['product.product'].with_context(
                 lang='en_US').search([('name', '=', GIFT_NAMES[0])])
@@ -93,7 +93,7 @@ class PartnerCommunication(models.Model):
         sponsorships = self.get_objects()
         graduation = self.env['product.product'].with_context(
             lang='en_US').search([('name', '=', GIFT_NAMES[4])])
-        gifts_to = getattr(sponsorships[0], sponsorships[0].send_gifts_to)
+        gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.get_bvr_gift_attachment(
                 graduation, background)
@@ -301,7 +301,7 @@ class PartnerCommunication(models.Model):
             report_name = 'report_compassion.tax_receipt'
             data = {
                 'doc_ids': self.partner_id.ids,
-                'year': self.env.context.get('year', date.today().year-1),
+                'year': self.env.context.get('year', date.today().year - 1),
                 'lang': self.partner_id.lang,
             }
             res = {
@@ -427,8 +427,7 @@ class PartnerCommunication(models.Model):
         # Gifts
         sponsorships = self.get_objects()
         gifts_sponsorship = sponsorships.filtered(
-            lambda s: getattr(s, s.send_gifts_to, s.correspondant_id) ==
-            self.partner_id)
+            lambda s: s.gift_partner_id == self.partner_id)
         report_name = 'report_compassion.3bvr_gift_sponsorship'
         if gifts_sponsorship:
             attachments.update({
@@ -474,7 +473,7 @@ class PartnerCommunication(models.Model):
             page = pdf.getPage(i)
             corner = [float(x) for x in page.mediaBox.getUpperRight()]
             if corner[0] > a4_width or corner[1] > a4_height:
-                page.scaleBy(max(a4_width/corner[0], a4_height/corner[1]))
+                page.scaleBy(max(a4_width / corner[0], a4_height / corner[1]))
             elif corner[0] < a4_width or corner[1] < a4_height:
                 tx = (a4_width - corner[0]) / 2
                 ty = (a4_height - corner[1]) / 2

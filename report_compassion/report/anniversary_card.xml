@@ -71,11 +71,11 @@
                 position: absolute;
                 top: 30mm;
                 left: 7mm;
-                width: 95mm;
+                width: 110mm;
             }
             #signature {
                 position: absolute;
-                top: 122mm;
+                top: 118mm;
                 left: 75mm;
             }
             #footer {

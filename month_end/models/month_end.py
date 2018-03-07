@@ -94,7 +94,7 @@ class MonthEnd(models.AbstractModel):
             'contract_line_ids').filtered(
                 lambda line: line.product_id.property_account_expense_id ==
                 sponsorship_account
-            ).mapped('subtotal'))
+        ).mapped('subtotal'))
         sponsorship_line_vals = {
             'account_id': sponsorship_account.id,
             'name': sponsorship_name,

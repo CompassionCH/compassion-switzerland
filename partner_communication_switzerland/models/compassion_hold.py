@@ -12,6 +12,8 @@ from datetime import datetime
 
 from odoo import api, models, fields
 
+from odoo.addons.child_compassion.models.compassion_hold import HoldType
+
 
 class CompassionHold(models.Model):
     """ Send Communication when Hold Removal is received. """
@@ -128,7 +130,9 @@ class CompassionHold(models.Model):
         notification_text = "\n\nA reminder has been prepared for the " \
             "sponsor {} ({})"
         failed = self.env[self._name]
-        for hold in self.filtered('child_id.sponsorship_ids').with_context(
+        for hold in self.filtered(
+                lambda h: h.child_id.sponsorship_ids and
+                h.type == HoldType.NO_MONEY_HOLD.value).with_context(
                 default_auto_send=False, default_print_subject=False,
                 default_print_header=True):
             sponsorship = hold.child_id.sponsorship_ids[0]

@@ -116,7 +116,7 @@ class DatabaseCleanup(models.AbstractModel):
         self.env.cr.execute(
             "DELETE FROM mail_message WHERE model='recurring.contract' AND "
             "res_id IN (SELECT id FROM recurring_contract WHERE "
-            "state IN ('terminated', 'cancelled') AND end_date < %s))",
+            "state IN ('terminated', 'cancelled') AND end_date < %s)",
             [limit_str]
         )
         count = self.env.cr.rowcount
