@@ -43,11 +43,24 @@ class ResPartner(models.Model):
             if not was_translator and is_translator:
                 tc = translate_connector.TranslateConnect()
                 logger.info("translator tag added, we insert partner in "
-                            "translation platform")
+                            "translation platform and prepare a welcome "
+                            "communication")
                 try:
                     tc.upsert_user(partner, create=True)
                 except:
                     tc.upsert_user(partner, create=False)
+
+                # prepare welcome communication
+                config = self.env.ref('sbc_switzerland.new_translator_config')
+                self.env['partner.communication.job'].create({
+                    'config_id': config.id,
+                    'partner_id': partner.id,
+                    'object_ids': partner.id,
+                    'user_id': config.user_id.id,
+                    'show_signature': True,
+                    'print_subject': True
+                })
+
             if was_translator and is_translator:
                 tc_values = ['name', 'email', 'ref', 'lang', 'firstname',
                              'lastname']

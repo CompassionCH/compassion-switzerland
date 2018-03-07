@@ -125,6 +125,18 @@ class UtmObjects(models.AbstractModel):
             'target': 'current',
         }
 
+    def open_clicks(self):
+        return {
+            'name': _('Clicks'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'link.tracker',
+            'context': self.env.context,
+            'domain': [('id', 'in', self.link_ids.ids)],
+            'target': 'current',
+        }
+
 
 class UtmSource(models.Model):
     _inherit = ['utm.source', 'utm.object']
@@ -134,10 +146,23 @@ class UtmSource(models.Model):
         'mail.mass_mailing', compute='_compute_mailing_id'
     )
 
+    link_ids = fields.One2many(
+        'link.tracker', 'source_id', 'Clicks', readonly=True
+    )
+
+    click_count = fields.Integer(
+        compute='_compute_click_count', store=True, readonly=True)
+
     def _compute_mailing_id(self):
         for source in self:
             source.mailing_id = self.env['mail.mass_mailing'].search([
                 ('source_id', '=', source.id)])
+
+    @api.depends('link_ids', 'link_ids.count')
+    def _compute_click_count(self):
+        for source in self:
+            source.click_count = sum(self.env['link.tracker'].search([
+                ('source_id', '=', source.id)]).mapped('count'))
 
 
 class UtmCampaign(models.Model):
@@ -152,11 +177,24 @@ class UtmCampaign(models.Model):
         'mail.mass_mailing.campaign', compute='_compute_mass_mailing_id'
     )
 
+    link_ids = fields.One2many(
+        'link.tracker', 'campaign_id', 'Clicks', readonly=True
+    )
+
+    click_count = fields.Integer(
+        compute='_compute_click_count', store=True, readonly=True)
+
     def _compute_mass_mailing_id(self):
         for campaign in self:
             campaign.mailing_campaign_id = self.env[
                 'mail.mass_mailing.campaign'].search([
                     ('campaign_id', '=', campaign.id)])
+
+    @api.depends('link_ids', 'link_ids.count')
+    def _compute_click_count(self):
+        for campaign in self:
+            campaign.click_count = sum(self.env['link.tracker'].search([
+                ('campaign_id', '=', campaign.id)]).mapped('count'))
 
 
 class UtmMedium(models.Model):
@@ -166,3 +204,16 @@ class UtmMedium(models.Model):
     contract_ids = fields.One2many(inverse_name='medium_id')
     correspondence_ids = fields.One2many(inverse_name='medium_id')
     invoice_ids = fields.One2many(inverse_name='medium_id')
+
+    link_ids = fields.One2many(
+        'link.tracker', 'medium_id', 'Clicks', readonly=True
+    )
+
+    click_count = fields.Integer(
+        compute='_compute_click_count', store=True, readonly=True)
+
+    @api.depends('link_ids', 'link_ids.count')
+    def _compute_click_count(self):
+        for medium in self:
+            medium.click_count = sum(self.env['link.tracker'].search([
+                ('medium_id', '=', medium.id)]).mapped('count'))

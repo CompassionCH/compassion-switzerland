@@ -1,0 +1,51 @@
+<odoo>
+    <data noupdate="1">
+        <!-- New translator notification -->
+        <record id="email_new_translator" model="mail.template">
+            <field name="name">New Translator</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">New translator</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                </div>
+                <p>
+                    Dear ${partner.salutation},
+                    <br/>
+                    <br/>
+                    Welcome in the Compassion Translator Family. You will receive an automatic email with you acces to our translation platform.
+                    <br/>
+                    <br/>
+                    Here you will find some useful informations about translations:
+                    <br/>
+                    <br/>
+                    <b>About translations</b>
+                    <ul>
+                        <li>We doesn't "tutoyons" the sponsors</li>
+                        <li>xxx</li>
+                        <li>xxx</li>
+                    </ul>
+                    <b>About your profile</b>
+                    <ul>
+                        <li>xxx</li>
+                        <li>xxx</li>
+                    </ul>
+                     <b>About the translation platform</b>
+                    <ul>
+                        <li>xxx</li>
+                        <li>xxx</li>
+                    </ul>
+
+                    <br/>
+                    If you have questions, do not hesitate to contact us.
+                    <br/>
+                    <br/>
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
