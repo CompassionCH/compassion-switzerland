@@ -37,6 +37,7 @@
     'website': 'http://www.compassion.ch',
     'data': [
         'views/hr_expense_custom.xml',
+        'data/hr_config.xml'
     ],
     'depends': ['hr_expense', 'hr_holidays'],
     'demo': [],
