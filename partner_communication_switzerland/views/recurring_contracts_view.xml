@@ -1,0 +1,32 @@
+<odoo>
+    <record id="view_sponsorship_contract_form_compassion_2" model="ir.ui.view">
+        <field name="name">sponsorship.contract.compassion.form</field>
+        <field name="model">recurring.contract</field>
+        <field name="inherit_id" ref="contract_compassion.view_recurring_contract_form_compassion"/>
+        <field name="arch" type="xml">
+            <field name="last_paid_invoice_date" position="after">
+                <field name="send_to_4m"/>
+            </field>
+        </field>
+    </record>
+    <record id="invoice_line_inherit_muskathlon" model="ir.ui.view">
+        <field name="name">Invoice line inherit muskathlon</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <field name="invoice_line_tax_ids" position="after">
+                <field name="send_to_4m"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_invoice_line_form_inherit_muskathlon" model="ir.ui.view">
+        <field name="name">Invoice line view inherit muskathlon</field>
+        <field name="model">account.invoice.line</field>
+        <field name="inherit_id" ref="account.view_invoice_line_form"/>
+        <field name="arch" type="xml">
+            <field name="account_id" position="before">
+                <field name="send_to_4m"/>
+            </field>
+        </field>
+    </record>
+</odoo>
