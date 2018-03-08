@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
-#    Releasing children from poverty in Jesus' name
-#    @author: Emanuel Cino <ecino@compassion.ch>
+#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    @author: Sebastien Toth <popod@me.com>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import hr_expense
-from . import hr_holidays
+
+from . import calendar_switzerland

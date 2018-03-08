@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_calendar_switzerland_event_form" model="ir.ui.view">
+        <field name="name">calendar.switzerland.event.form</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='attendee_ids']" position="before">
+                <span>The invitation is only sent to Compassion employees</span>
+            </xpath>
+
+            <xpath expr="//button[@name='do_decline']" position="after">
+                <button name="send_invitation_to_partner" string="Send invitation to partner" type="object" icon="fa-envelope"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

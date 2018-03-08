@@ -31,6 +31,19 @@ class BankStatementLine(models.Model):
     #                             PUBLIC METHODS                             #
     ##########################################################################
     @api.multi
+    def write(self, vals):
+        """
+        Override write method to link partner to bank when a statement line
+        is added or updated
+        """
+        if 'partner_id' in vals:
+            partner_bank = self.env['res.partner.bank'].search(
+                ['|', ('acc_number', 'like', self.partner_account),
+                 ('sanitized_acc_number', 'like', self.partner_account)])
+            partner_bank.write({'partner_id': vals['partner_id']})
+        return super(BankStatementLine, self).write(vals)
+
+    @api.multi
     def get_reconciliation_proposition(self, excluded_ids=None):
         """
         Override completely reconcile proposition.
