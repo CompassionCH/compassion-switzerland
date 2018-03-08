@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2015-2017 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2015-2018 Compassion CH (http://www.compassion.ch)
 #    @author: Samuel Fringeli
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,11 +29,12 @@
 
 {
     "name": "Gifts payments",
-    "version": "1.0",
+    "version": "10.0.1.0.0",
     "author": "Samuel Fringeli",
     "category": "Tools",
     'depends': [
-        'account_payment_order'
+        'account_payment_order',
+        'gift_compassion'
     ],
     'data': [
         'views/main_view.xml',

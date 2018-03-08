@@ -3,7 +3,7 @@
     <data>
         <record id="result_wizard_view" model="ir.ui.view">
             <field name="name">Gifts payments wizard</field>
-            <field name="model">gifts.results</field>
+            <field name="model">gifts.payments.results</field>
             <field name="arch" type="xml">
                 <form style="padding-top: 0px;">
                     <group string="Entries to reconcile">
@@ -16,6 +16,6 @@
                 </form>
             </field>
         </record>
-        <act_window id="result_wizard_gift_payments" name="Gifts payments results" res_model="gifts.results" view_mode="form" target="new"/>
+        <act_window id="result_wizard_gift_payments" name="Gifts payments results" res_model="gifts.payments.results" view_mode="form" target="new"/>
     </data>
 </odoo>
