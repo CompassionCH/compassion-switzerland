@@ -16,17 +16,6 @@ from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
-    event_id = fields.Many2one(
-        'crm.event.compassion', compute='_compute_event')
-
-    @api.multi
-    def _compute_event(self):
-        event_obj = self.env['crm.event.compassion']
-        for line in self.filtered(lambda l: not l.contract_id):
-            line.event_id = event_obj.search([
-                ('analytic_id', '=', line.account_analytic_id.id)
-            ], limit=1)
-
     @api.multi
     def get_donations(self):
         """
