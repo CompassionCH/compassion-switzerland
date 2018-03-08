@@ -408,7 +408,8 @@ class RecurringContract(models.Model):
     @api.multi
     def contract_terminated(self):
         super(RecurringContract, self).contract_terminated()
-        self.child_id.sponsorship_ids[0].order_photo = False
+        if self.child_id:
+            self.child_id.sponsorship_ids[0].order_photo = False
         return True
 
     ##########################################################################
