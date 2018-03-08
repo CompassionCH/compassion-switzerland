@@ -464,3 +464,16 @@ class RecurringContract(models.Model):
             if sub.correspondant_id.id != sub.partner_id.id:
                 sub.send_communication(
                     sub_proposal_config, correspondent=False)
+
+
+class ContractGroup(models.Model):
+    _inherit = 'recurring.contract'
+
+    send_to_4m = fields.Date('Sent to 4M')
+
+
+class AccountInvoiceLine(models.Model):
+    _name = 'account.invoice.line'
+    _inherit = 'account.invoice.line'
+
+    send_to_4m = fields.Date('Sent to 4M')
