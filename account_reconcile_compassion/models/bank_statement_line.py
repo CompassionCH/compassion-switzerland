@@ -37,10 +37,11 @@ class BankStatementLine(models.Model):
         is added or updated
         """
         if 'partner_id' in vals:
-            partner_bank = self.env['res.partner.bank'].search(
-                ['|', ('acc_number', 'like', self.partner_account),
-                 ('sanitized_acc_number', 'like', self.partner_account)])
-            partner_bank.write({'partner_id': vals['partner_id']})
+            for line in self.filtered('partner_account'):
+                partner_bank = self.env['res.partner.bank'].search(
+                    ['|', ('acc_number', 'like', line.partner_account),
+                     ('sanitized_acc_number', 'like', line.partner_account)])
+                partner_bank.write({'partner_id': vals['partner_id']})
         return super(BankStatementLine, self).write(vals)
 
     @api.multi
