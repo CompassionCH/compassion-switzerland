@@ -1,0 +1,14 @@
+<odoo>
+    <record model="ir.ui.view" id="communication_switzerland_config_form">
+        <field name="name">communication_switzerland.config.form</field>
+        <field name="model">partner.communication.config</field>
+        <field name="inherit_id" ref="partner_communication.communication_config_form"/>
+        <field name="arch" type="xml">
+            <field name="print_if_not_email" position="after">
+                <field name="omr_enable_marks"/>
+                <field name="omr_should_close_envelope" string="Close the envelope" attrs="{'readonly': [('omr_enable_marks', '=', False)]}"/>
+                <field name="display_pp"/>
+            </field>
+        </field>
+    </record>
+</odoo>
