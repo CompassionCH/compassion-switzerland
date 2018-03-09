@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from odoo import models, api, fields
+from odoo import models, api
 from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
 
 
