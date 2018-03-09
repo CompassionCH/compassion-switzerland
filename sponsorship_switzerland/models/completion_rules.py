@@ -93,8 +93,7 @@ class StatementCompletionRule(models.Model):
                     stmts_vals, st_line, partner)
                 res.update(line_vals)
                 # Get the accounting partner (company)
-                res['partner_id'] = partner.commercial_partner_id.id if \
-                    new_invoice else partner.id
+                res['partner_id'] = partner.commercial_partner_id.id
             else:
                 logger.warning(
                     'Line named "%s" (Ref:%s) was matched by more '
@@ -114,7 +113,7 @@ class StatementCompletionRule(models.Model):
         partner = self._search_partner_by_bvr_ref(ref)
 
         if partner:
-            res['partner_id'] = partner.id
+            res['partner_id'] = partner.commercial_partner_id.id
 
         return res
 
@@ -129,7 +128,7 @@ class StatementCompletionRule(models.Model):
         partner = self._search_partner_by_bvr_ref(ref, True)
 
         if partner:
-            res['partner_id'] = partner.id
+            res['partner_id'] = partner.commercial_partner_id.id.id
 
         return res
 
@@ -149,12 +148,14 @@ class StatementCompletionRule(models.Model):
                 account_id = self.env['account.account'].search(
                     [('code', '=', '2000')], limit=1).id
                 res['partner_id'] = self.env['res.partner'].search([
-                    ('name', '=', 'Postfinance SA')], limit=1).id
+                    ('name', '=', 'Postfinance SA')
+                ], limit=1).commercial_partner_id.id
             elif u'CRÉDIT TRANSACTIONS E-PAYMENT POSTFINANCE CARD' in label:
                 account_id = self.env['account.account'].search(
                     [('code', '=', '1015')], limit=1).id
                 res['partner_id'] = self.env['res.partner'].search([
-                    ('name', '=', 'Postfinance SA')], limit=1).id
+                    ('name', '=', 'Postfinance SA')
+                ], limit=1).commercial_partner_id.id
             else:
                 for credit_string in lsv_dd_strings:
                     is_lsv_dd = is_lsv_dd or credit_string in label
@@ -201,7 +202,7 @@ class StatementCompletionRule(models.Model):
                         ('is_company', '=', True)
                     ])
                 if partner and len(partner) == 1:
-                    res['partner_id'] = partner.id
+                    res['partner_id'] = partner.commercial_partner_id.id
 
         return res
 
