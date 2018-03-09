@@ -214,7 +214,7 @@ class BankStatementLine(models.Model):
     @job(default_channel='root.bank_reconciliation')
     def _process_reconciliation(self, counterpart_aml_dicts=None,
                                 payment_aml_rec=None, new_aml_dicts=None):
-        """ Call super public method. """
+        """Bank statement line reconciliation job"""
         return super(BankStatementLine, self).process_reconciliation(
             counterpart_aml_dicts, payment_aml_rec, new_aml_dicts)
 
@@ -252,5 +252,12 @@ class BankStatementLine(models.Model):
         analytic = invl_vals.get('account_analytic_id')
         if not analytic and default_analytic:
             invl_vals['account_analytic_id'] = default_analytic.id
+
+        # Set the partner of the invoice
+        if contract:
+            if product.categ_name in (GIFT_CATEGORY, SPONSORSHIP_CATEGORY):
+                invoice.partner_id = contract.gift_partner_id
+            else:
+                invoice.partner_id = contract.partner_id
 
         return invl_vals

@@ -20,6 +20,7 @@ web
 report-print-send
 server-tools
 connector-telephony
+hr
 l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 10.0-pain-sepa
 compassion-accounting https://github.com/CompassionCH/compassion-accounting 10.0
 compassion-modules https://github.com/CompassionCH/compassion-modules 10.0
