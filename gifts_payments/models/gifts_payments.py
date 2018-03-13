@@ -1,4 +1,4 @@
-from odoo import models, fields, api, exceptions
+from odoo import models, fields, api, exceptions, _
 import re
 
 
@@ -17,12 +17,13 @@ class GiftsPayments(models.TransientModel):
             {'gifts_list': self.gifts_ids_text, 'move': self.move_id.id})
 
         return {
+            'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'gifts.payments.results',
-            'type': 'ir.actions.act_window',
             'target': 'new',
             'res_id': results.id,
+            'context': self.env.context,
         }
 
 
@@ -41,13 +42,21 @@ class GiftsPaymentsResults(models.TransientModel):
     def _compute_move_lines(self):
         self.ensure_one()
         accounts = self.env['account.account']
-        ids = re.findall('[0-9]{3,6}', self.gifts_list)
-        gifts = self.env['sponsorship.gift'].browse([int(i) for i in ids])
+        ids = [int(i) for i in re.findall('[0-9]{3,6}', self.gifts_list)]
+        gifts = self.env['sponsorship.gift'].browse(ids).exists()
+        if len(ids) > len(gifts):
+            missing_ids = set(ids) - set(gifts.ids)
+            raise exceptions.UserError(
+                _("Following gift ids were not found in database: %s")
+                % ','.join([str(_id) for _id in missing_ids])
+            )
 
-        for gift in gifts:
-            if not gift.gmc_gift_id:
-                raise exceptions.AccessError(
-                    'Gift with global_id '+str(gift.id)+' has no gmc_gift_id')
+        missing_gmc_ids = gifts.filtered(lambda g: not g.gmc_gift_id)
+        if missing_gmc_ids:
+            raise exceptions.UserError(
+                _('Following gift ids have no gmc_gift_id : %s')
+                % ','.join([str(_id) for _id in missing_gmc_ids.ids])
+            )
 
         move_lines = gifts.mapped('payment_id.line_ids').filtered(
             lambda r: r.account_id.code == '2002')
