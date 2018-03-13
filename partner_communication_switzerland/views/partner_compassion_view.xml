@@ -32,7 +32,7 @@
                         </field>
                     </group>
                     <p>Set a custom text used in thank you letters for donations linked to an event and to this partner.</p>
-                    <field name="ambassador_quote" options="{'style-inline': true}"/>
+                    <field name="ambassador_quote" widget="text_ckeditor4"/>
                 </page>
             </notebook>
         </field>
