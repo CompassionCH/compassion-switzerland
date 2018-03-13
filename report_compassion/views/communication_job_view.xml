@@ -9,15 +9,8 @@
                 <field name="product_id" domain="[('fund_id', '!=', False)]" attrs="{'invisible': [('send_mode', '=', 'digital')]}"/>
                 <field name="preprinted" attrs="{'invisible': [('product_id', '=', False)]}"/>
             </field>
-            <field name="subject" position="replace">
-                <group>
-                    <field name="subject"/>
-                </group>
-                <group>
-                    <field name="omr_enable_marks"/>
-                    <field name="omr_should_close_envelope" string="Close the envelope" attrs="{'readonly': [('omr_enable_marks', '=', False)]}"/>
-                    <field name="display_pp"/>
-                </group>
+            <field name="subject" position="after">
+                <field name="display_pp"/>
             </field>
         </field>
     </record>

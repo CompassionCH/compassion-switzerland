@@ -8,20 +8,13 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api
+from odoo import models, fields
 
 
 class PartnerCommunicationSwitzerlandConfig(models.Model):
     _inherit = "partner.communication.config"
 
-    omr_enable_marks = fields.Boolean(string="Enable OMR",
-        help="If set to True, the OMR marks are displayed in the "
-        "communication."
-    )
-    omr_should_close_envelope = fields.Boolean(string="OMR should close the "
-        "envelope", help="If set to True, the OMR mark for closing the "
-        "envelope is added to the communication."
-    )
-    display_pp = fields.Boolean(string="Display PP",
-        help="If not set, the PP is not printed upper the address."
+    display_pp = fields.Boolean(
+        string='Display PP',
+        help='If not set, the PP is not printed upper the address.'
     )
