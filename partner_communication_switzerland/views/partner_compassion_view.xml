@@ -18,7 +18,19 @@
                 <field name="letter_delivery_preference"/>
             </field>
             <notebook>
-                <page string="Donation Receipts">
+                <page string="Muskathlons">
+                    <group col="6">
+                        <field name="muskathlon_participant_id" colspan="4"/><label string="" nolabel="1" colspan="2"/>
+                    </group>
+                    <group>
+                        <field name="muskathlon_registration_ids">
+                            <tree>
+                                <field name="event_id"/>
+                                <field name="muskathlon_event_id"/>
+                                <field name="reg_id"/>
+                            </tree>
+                        </field>
+                    </group>
                     <p>Set a custom text used in thank you letters for donations linked to an event and to this partner.</p>
                     <field name="ambassador_quote" options="{'style-inline': true}"/>
                 </page>

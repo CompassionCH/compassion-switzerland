@@ -43,6 +43,8 @@ class RecurringContract(models.Model):
     amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
 
+    sent_to_4m = fields.Date('Sent to 4M')
+
     def _compute_payment_type_attachment(self):
         for contract in self:
             payment_mode = contract.with_context(
@@ -408,7 +410,8 @@ class RecurringContract(models.Model):
     @api.multi
     def contract_terminated(self):
         super(RecurringContract, self).contract_terminated()
-        self.child_id.sponsorship_ids[0].order_photo = False
+        if self.child_id:
+            self.child_id.sponsorship_ids[0].order_photo = False
         return True
 
     ##########################################################################
