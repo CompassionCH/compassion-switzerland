@@ -16,24 +16,24 @@ class EventCompassion(models.Model):
 
     thank_you_text = fields.Html(translate=True)
 
-    muskathlon_project_id = fields.Char(
-        string="Muskathlon project ID", size=128)
+    muskathlon_event_id = fields.Char(
+        string="Muskathlon event ID", size=128)
     muskathlon_registration_ids = fields.One2many(
-        'muskathlon.registration', 'project_id')
+        'muskathlon.registration', 'event_id')
 
 
 class MuskathlonRegistration(models.Model):
     _name = 'muskathlon.registration'
 
-    project_id = fields.Many2one(comodel_name='crm.event.compassion',
-                                 string='Muskathlon project')
+    event_id = fields.Many2one(comodel_name='crm.event.compassion',
+                               string='Muskathlon event')
     partner_id = fields.Many2one(
         comodel_name='res.partner', string='Muskathlon participant')
 
-    muskathlon_ambassador_id = fields.Char(
-        related='partner_id.muskathlon_ambassador_id')
+    muskathlon_participant_id = fields.Char(
+        related='partner_id.muskathlon_participant_id')
 
-    muskathlon_project_id = fields.Char(
-        related='project_id.muskathlon_project_id')
+    muskathlon_event_id = fields.Char(
+        related='event_id.muskathlon_event_id')
 
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)

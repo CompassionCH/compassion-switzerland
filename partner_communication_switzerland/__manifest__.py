@@ -43,6 +43,7 @@
         'python': ['wand', 'detectlanguage', 'sendgrid']
     },
     'data': [
+        'security/ir.model.access.csv',
         'data/major_revision_emails.xml',
         'data/child_letter_emails.xml',
         'data/lifecycle_emails.xml',

@@ -9,12 +9,13 @@
 #
 ##############################################################################
 
-from odoo import models, api
+from odoo import models, api, fields
 from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
 
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
+    sent_to_4m = fields.Date('Sent to 4M')
 
     @api.multi
     def get_donations(self):

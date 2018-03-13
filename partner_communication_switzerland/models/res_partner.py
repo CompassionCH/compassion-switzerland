@@ -41,16 +41,9 @@ class ResPartner(models.Model):
         help='Used in thank you letters for donations linked to an event '
              'and to this partner.',
     )
-    muskathlon_ambassador_id = fields.Char('Muskathlon participant ID')
+    muskathlon_participant_id = fields.Char('Muskathlon participant ID')
     muskathlon_registration_ids = fields.One2many(
         'muskathlon.registration', 'partner_id')
-
-    test_field = fields.Char(compute="_test_field", string="Test field")
-
-    @api.multi
-    def _test_field(self):
-        for partner in self:
-            partner.test_field = 'hello world'
 
     @api.multi
     def _compute_salutation(self):

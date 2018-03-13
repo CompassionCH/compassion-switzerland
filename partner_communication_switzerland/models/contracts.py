@@ -43,6 +43,8 @@ class RecurringContract(models.Model):
     amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
 
+    sent_to_4m = fields.Date('Sent to 4M')
+
     def _compute_payment_type_attachment(self):
         for contract in self:
             payment_mode = contract.with_context(
@@ -465,16 +467,3 @@ class RecurringContract(models.Model):
             if sub.correspondant_id.id != sub.partner_id.id:
                 sub.send_communication(
                     sub_proposal_config, correspondent=False)
-
-
-class ContractGroup(models.Model):
-    _inherit = 'recurring.contract'
-
-    send_to_4m = fields.Date('Sent to 4M')
-
-
-class AccountInvoiceLine(models.Model):
-    _name = 'account.invoice.line'
-    _inherit = 'account.invoice.line'
-
-    send_to_4m = fields.Date('Sent to 4M')
