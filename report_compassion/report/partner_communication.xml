@@ -229,18 +229,16 @@
             </div>
             <div id="letter">
                 <div id="address" class="right">
-                    <t t-if="display_pp">
-                        <div id="pp">
-                            <div id="pp-box">
-                                <div>P.P.</div>
-                                <div>CH-1400 Yverdon-les-Bains</div>
-                            </div>
-                            <div id="pp-post">
-                                <p>Poste CH SA</p>
-                            </div>
-                            <hr/>
+                    <div id="pp" t-attf-style="visibility: {{ 'visible' if display_pp else 'hidden' }};">
+                        <div id="pp-box">
+                            <div>P.P.</div>
+                            <div>CH-1400 Yverdon-les-Bains</div>
                         </div>
-                    </t>
+                        <div id="pp-post">
+                            <p>Poste CH SA</p>
+                        </div>
+                        <hr/>
+                    </div>
                     <span t-raw="partner.short_address"/>
                 </div>
                 <div id="date" class="right">
