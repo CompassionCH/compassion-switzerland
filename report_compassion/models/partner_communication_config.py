@@ -16,5 +16,6 @@ class PartnerCommunicationSwitzerlandConfig(models.Model):
 
     display_pp = fields.Boolean(
         string='Display PP',
-        help='If not set, the PP is not printed upper the address.'
+        help='If not set, the PP is not printed upper the address.',
+        default=True
     )

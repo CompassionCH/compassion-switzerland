@@ -27,7 +27,8 @@ class PartnerCommunication(models.Model):
     )
     display_pp = fields.Boolean(
         string='Display PP',
-        help='If not set, the PP is not printed upper the address.'
+        help='If not set, the PP is not printed upper the address.',
+        default=True
     )
 
     @api.model
@@ -56,3 +57,11 @@ class PartnerCommunication(models.Model):
         print_bvr.write({'report_id': self.env.ref(
             'report_compassion.report_a4_bvr').id})
         return super(PartnerCommunication, self).send()
+
+    @api.model
+    def _get_default_vals(self, vals, default_vals=None):
+        if default_vals is None:
+            default_vals = []
+        default_vals.append('display_pp')
+        return super(PartnerCommunication, self)._get_default_vals(
+            vals, default_vals)
