@@ -43,7 +43,7 @@ class ResPartner(models.Model):
     )
     muskathlon_participant_id = fields.Char('Muskathlon participant ID')
     muskathlon_registration_ids = fields.One2many(
-        'muskathlon.registration', 'partner_id')
+        'muskathlon.registration', 'partner_id', 'Muskathlon registrations')
 
     @api.multi
     def _compute_salutation(self):
