@@ -132,6 +132,7 @@
             }
             .body_text {
                 display: inline-block;
+                margin-right: 2mm; /* omr code need nothing 5mm all over it */
                 <t t-if="show_signature">
                     min-height: 130mm;
                 </t>
@@ -182,6 +183,7 @@
             <t t-foreach="docs" t-as="o">
                 <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
                 <t t-set="print_header" t-value="o.print_header"/>
+                <t t-set="display_pp" t-value="o.display_pp"/>
                 <t t-set="partner" t-value="o.partner_id"/>
                 <t t-set="print_subject" t-value="o.print_subject"/>
                 <t t-set="subject" t-value="o.subject"/>
@@ -227,16 +229,18 @@
             </div>
             <div id="letter">
                 <div id="address" class="right">
-                    <div id="pp">
-                        <div id="pp-box">
-                            <div>P.P.</div>
-                            <div>CH-1400 Yverdon-les-Bains</div>
+                    <t t-if="display_pp">
+                        <div id="pp">
+                            <div id="pp-box">
+                                <div>P.P.</div>
+                                <div>CH-1400 Yverdon-les-Bains</div>
+                            </div>
+                            <div id="pp-post">
+                                <p>Poste CH SA</p>
+                            </div>
+                            <hr/>
                         </div>
-                        <div id="pp-post">
-                            <p>Poste CH SA</p>
-                        </div>
-                        <hr/>
-                    </div>
+                    </t>
                     <span t-raw="partner.short_address"/>
                 </div>
                 <div id="date" class="right">

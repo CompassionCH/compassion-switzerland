@@ -25,6 +25,10 @@ class PartnerCommunication(models.Model):
         help='Enable if you print on a payment slip that already has company '
              'information printed on it.'
     )
+    display_pp = fields.Boolean(
+        string='Display PP',
+        help='If not set, the PP is not printed upper the address.'
+    )
 
     @api.model
     def create(self, vals):
