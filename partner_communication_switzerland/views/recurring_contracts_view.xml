@@ -1,0 +1,58 @@
+<odoo>
+    <record id="view_sponsorship_contract_form_compassion_2" model="ir.ui.view">
+        <field name="name">sponsorship.contract.compassion.form</field>
+        <field name="model">recurring.contract</field>
+        <field name="inherit_id" ref="contract_compassion.view_recurring_contract_form_compassion"/>
+        <field name="arch" type="xml">
+            <field name="last_paid_invoice_date" position="after">
+                <field name="sent_to_4m"/>
+            </field>
+        </field>
+    </record>
+    <record id="invoice_line_inherit_muskathlon" model="ir.ui.view">
+        <field name="name">Invoice line inherit muskathlon</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <field name="invoice_line_tax_ids" position="after">
+                <field name="sent_to_4m"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_invoice_line_form_inherit_muskathlon" model="ir.ui.view">
+        <field name="name">Invoice line view inherit muskathlon</field>
+        <field name="model">account.invoice.line</field>
+        <field name="inherit_id" ref="account.view_invoice_line_form"/>
+        <field name="arch" type="xml">
+            <field name="account_id" position="before">
+                <field name="sent_to_4m"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_invoice_line_tree_4m" model="ir.ui.view">
+        <field name="name">account.invoice.line.4m.tree</field>
+        <field name="model">account.invoice.line</field>
+        <field name="inherit_id" ref="sponsorship_compassion.view_invoice_line_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="price_subtotal" position="after">
+                <field name="sent_to_4m"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Action for writing sent_to_4m on invoice lines -->
+    <record id="send_4m_action" model="ir.actions.server">
+        <field name="name">Send to 4M</field>
+        <field name="model_id" ref="model_account_invoice_line"/>
+        <field name="state">code</field>
+        <field name="code">records.write({'sent_to_4m': datetime.date.today().strftime('%Y-%m-%d')})</field>
+    </record>
+
+    <record id="send_4m_action_menu" model="ir.values">
+        <field eval="'client_action_multi'" name="key2"/>
+        <field eval="'account.invoice.line'" name="model"/>
+        <field name="name">Send to 4M</field>
+        <field eval="'ir.actions.server,%d'%send_4m_action" name="value"/>
+    </record>
+
+</odoo>

@@ -31,7 +31,7 @@
             <field name="type">normal</field>
             <field name="python_expression" eval="True"/>
             <field name="fontsize">12.0</field>
-            <field name="python_field">obj.child_code + ' - ' + obj.child_id.firstname</field>
+            <field name="python_field">obj.child_code + ' - ' + obj.child_id.preferred_name</field>
         </record>
     </data>
 </odoo>

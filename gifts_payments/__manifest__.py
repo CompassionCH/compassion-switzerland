@@ -9,8 +9,8 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
-#    @author: Emanuel Cino <ecino@compassion.ch>
+#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    @author: Samuel Fringeli
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,44 +27,19 @@
 #
 ##############################################################################
 
-# pylint: disable=C8101
 {
-    'name': 'Compassion CH PDF-Qweb Reports',
-    'version': '10.0.1.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
+    "name": "Gifts payments",
+    "version": "10.0.1.0.0",
+    "author": "Samuel Fringeli",
+    "category": "Tools",
     'depends': [
-        'label',
-        'sponsorship_switzerland'
+        'account_payment_order',
+        'gift_compassion'
     ],
-    'external_dependencies': {
-        'python': ['pyquery']
-    },
     'data': [
-        'report/compassion_layout.xml',
-        'report/paperformats.xml',
-        'report/childpack.xml',
-        'report/bvr_layout.xml',
-        'report/bvr_sponsorship.xml',
-        'report/partner_communication.xml',
-        'report/bvr_gift.xml',
-        'report/anniversary_card.xml',
-        'report/a4_bvr.xml',
-        'report/bvr_fund.xml',
-        'report/tax_receipt.xml',
-        'views/print_sponsorship_bvr_view.xml',
-        'views/print_sponsorship_gift_bvr_view.xml',
-        'views/print_childpack_view.xml',
-        'views/print_bvr_fund_view.xml',
-        'views/communication_job_view.xml',
-        'views/communication_config_view.xml',
-        'views/generate_communication_wizard_view.xml',
-        'views/print_tax_receipt_view.xml',
-        'data/tax_receipt_email_template.xml',
+        'views/main_view.xml',
+        'views/results.xml'
     ],
-    'demo': [],
     'installable': True,
     'auto_install': False,
 }

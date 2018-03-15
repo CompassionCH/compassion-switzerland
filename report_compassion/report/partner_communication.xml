@@ -45,7 +45,8 @@
                 margin: auto;
             }
             #compassion_address {
-                margin-left: 7mm;
+                float: left;
+                margin-bottom: 5mm;
             }
             #letter {
                 font-family: "tetriaLight";
@@ -103,12 +104,9 @@
                 margin-top: 0.5mm;
                 margin-bottom: 3mm;
             }
-            #date {
-                margin-top: 3mm;
-            }
             #content {
                 <t t-if="not print_subject">
-                    margin-top: 5mm;
+                    margin-top: -5mm;
                 </t>
                 width: 100%;
             }
@@ -129,11 +127,16 @@
                 <t t-if="success_story">
                     width: 62%;
                 </t>
+                <t t-if="not display_pp and not print_header and not print_subject">
+                    /* Put the text down to avoid showing in the address window */
+                    margin-top: 9mm;
+                </t>
             }
             .body_text {
                 display: inline-block;
+                margin-right: 2mm; /* omr code need nothing 5mm all over it */
                 <t t-if="show_signature">
-                    min-height: 130mm;
+                    min-height: 120mm;
                 </t>
                 <t t-if="not show_signature">
                     min-height: 140mm;
@@ -182,6 +185,7 @@
             <t t-foreach="docs" t-as="o">
                 <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
                 <t t-set="print_header" t-value="o.print_header"/>
+                <t t-set="display_pp" t-value="o.display_pp"/>
                 <t t-set="partner" t-value="o.partner_id"/>
                 <t t-set="print_subject" t-value="o.print_subject"/>
                 <t t-set="subject" t-value="o.subject"/>
@@ -207,6 +211,13 @@
                     <div id="square">
                         <img src="/report_compassion/static/img/bluesquare.png"/>
                     </div>
+                </t>
+            </div>
+            <div id="letter">
+                <div id="date" t-if="not print_header" style="float: left; margin-top: 15mm;">
+                    <span t-raw="partner.date_communication"/>
+                </div>
+                <t t-if="print_header">
                     <div id="compassion_address">
                         <span class="blue">COMPASSION</span>
                         <span>, Rue Galilée 3, 1400 Yverdon-les-Bains</span>
@@ -224,10 +235,8 @@
                         <span> 17-312562-0</span>
                     </div>
                 </t>
-            </div>
-            <div id="letter">
                 <div id="address" class="right">
-                    <div id="pp">
+                    <div id="pp" t-if="display_pp">
                         <div id="pp-box">
                             <div>P.P.</div>
                             <div>CH-1400 Yverdon-les-Bains</div>
@@ -238,12 +247,12 @@
                         <hr/>
                     </div>
                     <span t-raw="partner.short_address"/>
-                </div>
-                <div id="date" class="right">
-                    <span t-raw="partner.date_communication"/>
+                    <div id="date" t-if="print_header" t-attf-style="margin-top: {{ '10' if display_pp else '20' }}mm;">
+                        <span t-raw="partner.date_communication"/>
+                    </div>
                 </div>
 
-                <div id="title" t-if="print_subject">
+                <div id="title" t-if="print_subject" t-attf-style="margin-top: {{ -5 if print_header or display_pp else 0 }}mm;">
                     <b><span t-raw="subject"/></b>
                     <hr/>
                 </div>
