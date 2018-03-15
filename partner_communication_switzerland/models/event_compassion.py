@@ -25,6 +25,7 @@ class EventCompassion(models.Model):
 class MuskathlonRegistration(models.Model):
     _name = 'muskathlon.registration'
     _description = 'Muskathlon registration'
+    _order = 'id desc'
 
     event_id = fields.Many2one(
         'crm.event.compassion', 'Muskathlon event',
@@ -40,3 +41,8 @@ class MuskathlonRegistration(models.Model):
         related='event_id.muskathlon_event_id')
 
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)
+
+    _sql_constraints = [
+        ('reg_unique', 'unique(event_id,partner_id)',
+         'Only one registration per participant/event is allowed!')
+    ]

@@ -22,6 +22,7 @@
                 <t t-set="show_signature" t-value="1"/>
                 <t t-set="user" t-value="director.user_id"/>
                 <t t-call="report_compassion.partner_communication_document" t-lang="partner.lang"/>
+                <t t-set="display_pp" t-value="1"/>
             </t>
         </t>
     </template>
