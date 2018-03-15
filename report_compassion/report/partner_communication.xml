@@ -47,7 +47,6 @@
             #compassion_address {
                 float: left;
                 margin-bottom: 5mm;
-                margin-left: 7mm;
             }
             #letter {
                 font-family: "tetriaLight";
@@ -248,7 +247,7 @@
                         <hr/>
                     </div>
                     <span t-raw="partner.short_address"/>
-                    <div id="date" t-if="print_header" t-attf-style="margin-top: {{ '5' if display_pp else '17' }}mm;">
+                    <div id="date" t-if="print_header" t-attf-style="margin-top: {{ '10' if display_pp else '20' }}mm;">
                         <span t-raw="partner.date_communication"/>
                     </div>
                 </div>
