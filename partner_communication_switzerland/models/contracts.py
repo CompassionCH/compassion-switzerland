@@ -44,6 +44,9 @@ class RecurringContract(models.Model):
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
 
     sent_to_4m = fields.Date('Sent to 4M')
+    muskathlon_registration_id = fields.Many2one(
+        'muskathlon.registration', compute='_compute_muskathlon_registration'
+    )
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -106,6 +109,14 @@ class RecurringContract(models.Model):
     def compute_due_invoices(self):
         self._compute_due_invoices()
         return True
+
+    @api.multi
+    def _compute_muskathlon_registration(self):
+        for contract in self:
+            contract.muskathlon_registration_id = \
+                contract.user_id.muskathlon_registration_ids.filtered(
+                    lambda r: r.event_id == contract.origin_id.event_id
+                )
 
     def _get_sds_states(self):
         """ Add waiting_welcome state """
