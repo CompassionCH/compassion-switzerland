@@ -64,7 +64,7 @@
         <field eval="'client_action_multi'" name="key2"/>
         <field eval="'recurring.contract'" name="model"/>
         <field name="name">Send to 4M</field>
-        <field eval="'ir.actions.server,%d'%send_4m_action" name="value"/>
+        <field eval="'ir.actions.server,%d'%send_4m_action_contract" name="value"/>
     </record>
 
 </odoo>
