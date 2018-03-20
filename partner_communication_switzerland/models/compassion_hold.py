@@ -132,7 +132,8 @@ class CompassionHold(models.Model):
         failed = self.env[self._name]
         for hold in self.filtered(
                 lambda h: h.child_id.sponsorship_ids and
-                h.type == HoldType.NO_MONEY_HOLD.value).with_context(
+                h.type in (HoldType.NO_MONEY_HOLD.value,
+                           HoldType.SUB_CHILD_HOLD.value)).with_context(
                 default_auto_send=False, default_print_subject=False,
                 default_print_header=True):
             sponsorship = hold.child_id.sponsorship_ids[0]

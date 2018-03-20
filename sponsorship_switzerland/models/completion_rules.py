@@ -128,7 +128,7 @@ class StatementCompletionRule(models.Model):
         partner = self._search_partner_by_bvr_ref(ref, True)
 
         if partner:
-            res['partner_id'] = partner.commercial_partner_id.id.id
+            res['partner_id'] = partner.commercial_partner_id.id
 
         return res
 
