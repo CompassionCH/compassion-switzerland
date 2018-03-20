@@ -11,8 +11,11 @@
 
 import logging
 
+from datetime import date
 
-from odoo import api, models
+from dateutil.relativedelta import relativedelta
+
+from odoo import api, models, fields
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +46,13 @@ class ReportChildpackFull(models.AbstractModel):
             'doc_model': report.model,
             'docs': docs.with_context(lang=lang)
         })
+        # Update project information if data is old
+        date_limit = date.today() - relativedelta(days=30)
+        for project in docs.mapped('project_id').filtered(
+                lambda p: not p.last_update_date or p.last_update_date <
+                fields.Date.to_string(date_limit) or not p.country_id
+        ):
+            project.with_context(async_mode=False).update_informations()
 
         return self.env['report'].with_context(lang=lang).render(
             report.report_name, data)
