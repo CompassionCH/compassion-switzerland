@@ -9,4 +9,4 @@
 #
 ##############################################################################
 
-import gifts_payments
+from . import gifts_payments

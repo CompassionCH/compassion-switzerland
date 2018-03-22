@@ -57,7 +57,7 @@ class PartnerCommunication(models.Model):
                     self.send_mode = False
                     self.auto_send = False
                     self.message_post(
-                        "The letter image is missing!", "Missing letter")
+                        _('The letter image is missing!'), _("Missing letter"))
                     continue
         else:
             # Attach directly a zip in the letters

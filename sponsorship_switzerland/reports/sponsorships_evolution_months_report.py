@@ -28,15 +28,15 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
          Used to aggregate data in various formats (in subclasses) "
         :return: (date_trunc value, date format)
         """""
-        return ('month', 'YYYY.MM')
+        return 'month', 'YYYY.MM'
 
     @api.model_cr
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr, self._table)
         date_format = self._date_format()
-        self.env.cr.execute("""
-            CREATE OR REPLACE VIEW {table} AS
+        query = """
+            CREATE OR REPLACE VIEW %s AS
             SELECT
               coalesce(sub.activation_date, jq.end_date) AS activation_date,
               ROW_NUMBER() OVER (ORDER BY (SELECT 100)) AS id,
@@ -48,25 +48,25 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
                 AS active_sponsorships
             FROM (
               SELECT
-                to_char(date_trunc('{date_trunc}', rc.activation_date),
-                        '{date_format}') AS activation_date,
+                to_char(date_trunc(%s, rc.activation_date), %s) AS 
+                activation_date,
                 count(rc.activation_date) AS total
               FROM recurring_contract AS rc
               WHERE rc.activation_date IS NOT NULL AND rc.child_id IS NOT NULL
-              GROUP BY date_trunc('{date_trunc}', rc.activation_date)
+              GROUP BY date_trunc(%s, rc.activation_date)
               ORDER BY activation_date
             ) AS sub
             FULL OUTER JOIN (
               SELECT
-                to_char(date_trunc('{date_trunc}', rc.end_date),
-                        '{date_format}')
+                to_char(date_trunc(%s, rc.end_date), %s)
                 AS end_date, count(rc.end_date) AS total
               FROM recurring_contract AS rc
               WHERE rc.activation_date IS NOT NULL AND rc.end_date IS NOT NULL
                 AND rc.child_id IS NOT NULL
-              GROUP BY date_trunc('{date_trunc}', rc.end_date)
+              GROUP BY date_trunc(%s, rc.end_date)
               ORDER BY end_date
             ) AS jq ON sub.activation_date = jq.end_date
-        """.format(table=self._table, date_trunc=date_format[0],
-                   date_format=date_format[1])
-        )
+        """
+        params = (self._table, date_format[0], date_format[1], date_format[0],
+                  date_format[0], date_format[1], date_format[0])
+        self.env.cr.execute(query, params)
