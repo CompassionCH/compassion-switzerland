@@ -61,12 +61,11 @@ class CompassionChild(models.Model):
                 valid_children.write({'state': 'N'})
         return True
 
-    @api.model
+    @api.multi
     def raz_wordpress(self):
         wp = WPSync()
         if wp.remove_all_children():
-            children = self.search([('state', '=', 'I')])
-            children.write({'state': 'N'})
+            self.write({'state': 'N'})
         return True
 
     @api.multi
@@ -142,7 +141,7 @@ class CompassionChild(models.Model):
                 n += 5
         try:
             with self.env.cr.savepoint():
-                self.raz_wordpress()
+                old_children.raz_wordpress()
                 for i in loop_five(0, len(valid_children)):
                     try:
                         valid_children[i:i + 5].add_to_wordpress()

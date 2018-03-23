@@ -105,9 +105,6 @@
                 margin-bottom: 3mm;
             }
             #content {
-                <t t-if="not print_subject">
-                    margin-top: -5mm;
-                </t>
                 width: 100%;
             }
             #success-story {
@@ -252,7 +249,7 @@
                     </div>
                 </div>
 
-                <div id="title" t-if="print_subject" t-attf-style="margin-top: {{ -5 if print_header or display_pp else 0 }}mm;">
+                <div id="title" t-if="print_subject">
                     <b><span t-raw="subject"/></b>
                     <hr/>
                 </div>
