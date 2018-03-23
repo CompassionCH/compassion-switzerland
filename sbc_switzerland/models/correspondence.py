@@ -36,7 +36,7 @@ class S2BGenerator(models.Model):
     _inherit = 'correspondence.s2b.generator'
 
     selection_domain = fields.Char(
-        default="[('correspondant_id.category_id', '=', 23),"
+        default="[('partner_id.category_id', '=', 23),"
                 " ('state', '=', 'active')]"
     )
 
@@ -348,7 +348,7 @@ class Correspondence(models.Model):
                     'child_compassion.lang_compassion_english')
             dst_lang_id = self.supporter_languages_ids.filtered(
                 lambda lang: lang.lang_id and lang.lang_id.code ==
-                self.correspondant_id.lang)
+                self.partner_id.lang)
 
         return src_lang_id, dst_lang_id
 

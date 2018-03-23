@@ -34,7 +34,7 @@ class TranslateConnect(MysqlConnector):
         """Push or update text (db table) on local translate platform
         """
         child = correspondence.child_id
-        sponsor = correspondence.correspondant_id
+        sponsor = correspondence.partner_id
 
         self.letter_name = file_name
         child_age = datetime.date.today().year - int(child.birthdate[:4])
