@@ -150,3 +150,21 @@ class MassMailing(models.Model):
             'target': 'current',
             'context': self.env.context
         }
+
+    @api.model
+    def _process_mass_mailing_queue(self):
+        """
+        Override cron to take only "in_queue" mass mailings.
+        Pending mass_mailings may be still processing.
+        :return: None
+        """
+        mass_mailings = self.search(
+            [('state', '=', 'in_queue'), '|',
+             ('schedule_date', '<', fields.Datetime.now()),
+             ('schedule_date', '=', False)])
+        for mass_mailing in mass_mailings:
+            if len(mass_mailing.get_remaining_recipients()) > 0:
+                mass_mailing.state = 'sending'
+                mass_mailing.send_mail()
+            else:
+                mass_mailing.state = 'done'
