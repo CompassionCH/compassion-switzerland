@@ -35,7 +35,7 @@ class Correspondence(models.Model):
     #                                 FIELDS                                 #
     ##########################################################################
     letter_delivery_preference = fields.Selection(
-        related='correspondant_id.letter_delivery_preference')
+        related='partner_id.letter_delivery_preference')
     communication_id = fields.Many2one(
         'partner.communication.job', 'Communication')
     email_id = fields.Many2one(
@@ -161,7 +161,7 @@ class Correspondence(models.Model):
                           already exists.
         :return: True
         """
-        partners = self.mapped('correspondant_id')
+        partners = self.mapped('partner_id')
         final_letter = self.env.ref(
             'sbc_compassion.correspondence_type_final')
         final_template = self.env.ref(
@@ -173,7 +173,7 @@ class Correspondence(models.Model):
         old_limit = datetime.today() - relativedelta(months=2)
 
         for partner in partners:
-            letters = self.filtered(lambda l: l.correspondant_id == partner)
+            letters = self.filtered(lambda l: l.partner_id == partner)
             no_comm = letters.filtered(lambda l: not l.communication_id)
             to_generate = letters if self.env.context.get(
                 'overwrite') else no_comm
@@ -218,7 +218,7 @@ class Correspondence(models.Model):
         if not self:
             return True
 
-        partner = self.mapped('correspondant_id')
+        partner = self.mapped('partner_id')
         auto_send = [l._can_auto_send() for l in self]
         auto_send = reduce(lambda l1, l2: l1 and l2, auto_send)
         comm_vals = {
@@ -257,7 +257,7 @@ class Correspondence(models.Model):
             self.sponsorship_id.state == 'active' and
             'Final Letter' not in types and
             'HA' not in self.child_id.local_id and
-            'auto' in self.correspondant_id.letter_delivery_preference
+            'auto' in self.partner_id.letter_delivery_preference
         )
         if not (partner_langs & self.beneficiary_language_ids):
             valid &= self.has_valid_language

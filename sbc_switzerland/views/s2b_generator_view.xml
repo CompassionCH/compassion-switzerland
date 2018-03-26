@@ -9,7 +9,7 @@
             <search>
                 <separator />
                 <!-- Correspondence by Compassion tag has id 23-->
-                <filter name="corr_compassion" string="Corr. Compassion" domain="[('correspondant_id.category_id','=',23)]" />
+                <filter name="corr_compassion" string="Corr. Compassion" domain="[('partner_id.category_id','=',23)]" />
             </search>
         </field>
     </record>
