@@ -9,30 +9,12 @@
 #
 ##############################################################################
 
-from odoo import models, api, fields
+from odoo import models, api
 from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
 
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
-    sent_to_4m = fields.Date('Sent to 4M')
-    price_cents = fields.Float(compute='_compute_amount_cents')
-    muskathlon_registration_id = fields.Many2one(
-        'muskathlon.registration', compute='_compute_muskathlon_registration'
-    )
-
-    @api.multi
-    def _compute_muskathlon_registration(self):
-        for line in self:
-            line.muskathlon_registration_id =\
-                line.user_id.muskathlon_registration_ids.filtered(
-                    lambda r: r.event_id == line.event_id
-                )
-
-    @api.multi
-    def _compute_amount_cents(self):
-        for line in self:
-            line.price_cents = line.price_subtotal*100
 
     @api.multi
     def get_donations(self):
