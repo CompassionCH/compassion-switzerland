@@ -23,8 +23,7 @@ class EndSponsorshipsMonthReport(models.Model):
     ], readonly=True)
     end_reason = fields.Selection('get_ending_reasons', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
-    lang = fields.Selection(related='partner_id.lang', store=True,
-                            readonly=True)
+    lang = fields.Selection('select_lang', readonly=True)
     sds_state = fields.Selection('_get_sds_states', readonly=True)
     active_percentage = fields.Float(
         string='Percentage (/active)',
@@ -35,6 +34,11 @@ class EndSponsorshipsMonthReport(models.Model):
         help='Percentage on total ended sponsorships in that period',
         readonly=True
     )
+
+    @api.model
+    def select_lang(self):
+        langs = self.env['res.lang'].search([])
+        return [(lang.code, lang.name) for lang in langs]
 
     def get_ending_reasons(self):
         return self.env['recurring.contract'].with_context(
