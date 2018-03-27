@@ -45,6 +45,11 @@ class MailMessage(models.Model):
         """
         res = dict()
         for message in self:
+            # if the message is not an email, it will not have a tracking
+            # number.
+            if message.message_type != "email":
+                res[message.id] = []
+                continue
             search_messages = message
             parent = message.parent_id
             while parent:
