@@ -81,8 +81,11 @@ class StatementCompletionRule(models.Model):
         res = {}
         partner_obj = self.env['res.partner']
         partner = partner_obj.search(
-            [('ref', '=', str(int(ref[9:16]))),
-             ('is_company', '=', False)])
+            [('ref', '=', str(int(ref[9:16])))])
+        if len(partner) > 1:
+            # Take only those who have active sponsorships
+            partner = partner.filtered(lambda p: p.sponsorship_ids.filtered(
+                lambda s: s.state not in ('terminated', 'cancelled')))
         # Test that only one partner matches.
         if partner:
             if len(partner) == 1:
