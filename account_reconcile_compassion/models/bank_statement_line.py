@@ -254,11 +254,4 @@ class BankStatementLine(models.Model):
         if not analytic and default_analytic:
             invl_vals['account_analytic_id'] = default_analytic.id
 
-        # Set the partner of the invoice
-        if contract:
-            if product.categ_name in (GIFT_CATEGORY, SPONSORSHIP_CATEGORY):
-                invoice.partner_id = contract.gift_partner_id
-            else:
-                invoice.partner_id = contract.partner_id
-
         return invl_vals
