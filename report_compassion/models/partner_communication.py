@@ -31,17 +31,6 @@ class PartnerCommunication(models.Model):
         default=True
     )
 
-    @api.model
-    def create(self, vals):
-        """
-        Fetch a success story at creation
-        :param vals: values for record creation
-        :return: partner.communication.job record
-        """
-        job = super(PartnerCommunication, self).create(vals)
-        job.set_success_story()
-        return job
-
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
