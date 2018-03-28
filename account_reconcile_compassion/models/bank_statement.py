@@ -54,7 +54,7 @@ class AccountStatement(models.Model):
         # The ORDER BY is the change that order the lines in a more
         # comfortable way for reconciliation.
         sql_query = """SELECT stl.id
-                        FROM account_bank_statement_line AS stl  
+                        FROM account_bank_statement_line AS stl
                         WHERE stl.id IN %s
                         ORDER BY stl.partner_id
                 """
