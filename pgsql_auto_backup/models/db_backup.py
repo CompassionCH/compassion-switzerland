@@ -47,7 +47,7 @@ def execute(connector, method, *args):
 addons_path = tools.config['addons_path'] + '/pgsql_auto_backup/DBbackups'
 
 
-class db_backup(models.Model):
+class DbBackup(models.Model):
     _name = 'db.backup'
 
     @api.multi

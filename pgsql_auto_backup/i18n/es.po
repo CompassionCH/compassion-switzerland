@@ -35,7 +35,7 @@ msgid "Invalid model name in the action definition."
 msgstr "Nombre del modelo inválido en la definición de acción."
 
 #. module: pgsql_auto_backup
-#: model:ir.model,name:auto_backup.model_db_backup
+#: model:ir.model,name:auto_backup.model_DbBackup
 msgid "db.backup"
 msgstr "backup.BBDD"
 
