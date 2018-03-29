@@ -48,7 +48,7 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
                 AS active_sponsorships
             FROM (
               SELECT
-                to_char(date_trunc(%s, rc.activation_date), %s) AS 
+                to_char(date_trunc(%s, rc.activation_date), %s) AS
                 activation_date,
                 count(rc.activation_date) AS total
               FROM recurring_contract AS rc
