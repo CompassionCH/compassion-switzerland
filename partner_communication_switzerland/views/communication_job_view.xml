@@ -71,7 +71,7 @@
     <menuitem id="partner_communication.menu_communication_jobs" parent="thankyou_letters.menu_donation" name="Partner Communications" sequence="1"/>
     <menuitem id="partner_communication.menu_communication_generate" parent="thankyou_letters.menu_donation" name="Generate Communications" sequence="2"/>
     <menuitem name="Templates" id="menu_communication_templates" parent="child_compassion.menu_communication_config" sequence="4" action="action_communication_template"/>
-    <menuitem id="partner_communication.menu_communication_config" parent="child_compassion.menu_communication_config" name="Communication Rules" sequence="5"/>
+    <menuitem id="partner_communication.menu_communication_config" parent="thankyou_letters.menu_donation" name="Communication Rules" sequence="3"/>
     <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>
 
     <!-- Add Event Donation -->
