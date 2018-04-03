@@ -28,6 +28,8 @@ class ResPartner(models.Model):
     def message_post(self, body='', subject=None, message_type='notification',
                      subtype=None, parent_id=False, attachments=None,
                      content_subtype='html', **kwargs):
+        new_body = body
+
         # Find if the message is a reply to partner message
         if subtype == 'mail.mt_comment' and subject:
             parent = self.message_ids.filtered(
@@ -36,10 +38,24 @@ class ResPartner(models.Model):
             if parent:
                 parent_id = parent[0].id
                 kwargs['partner_ids'] = [(6, 0, self.ids)]
+                # include previous message at the bottom of the email
+                new_body += '\r\n<br/>\r\n<br/>\r\n<br/>'
+                new_body += '-------------'
+                new_body += '\r\n<br/>'
+                new_body += 'Email from: '
+                new_body += parent[0].email_from
+                new_body += '\r\n<br/>'
+                new_body += 'Date: '
+                new_body += parent[0].date
+                new_body += '\r\n<br/>'
+                new_body += 'Subject: '
+                new_body += parent[0].subject
+                new_body += '\r\n<br/>\r\n<br/>'
+                new_body += parent[0].body
         message = super(ResPartner, self.with_context(
             # Disable autosubscription
             mail_create_nosubscribe=True)).message_post(
-            body=body, subject=subject, message_type=message_type,
+            body=new_body, subject=subject, message_type=message_type,
             subtype=subtype, parent_id=parent_id, attachments=attachments,
             content_subtype=content_subtype, **kwargs)
         return message

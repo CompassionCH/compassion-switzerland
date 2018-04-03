@@ -43,7 +43,6 @@
         'python': ['wand', 'detectlanguage', 'sendgrid']
     },
     'data': [
-        'security/ir.model.access.csv',
         'data/major_revision_emails.xml',
         'data/child_letter_emails.xml',
         'data/lifecycle_emails.xml',
@@ -69,7 +68,6 @@
         'views/partner_compassion_view.xml',
         'views/change_text_wizard_view.xml',
         'views/correspondence_view.xml',
-        'views/event_compassion_view.xml',
         'views/generate_communication_wizard_view.xml',
         'views/recurring_contracts_view.xml',
     ],

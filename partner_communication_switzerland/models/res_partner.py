@@ -37,13 +37,6 @@ class ResPartner(models.Model):
         compute='_compute_tax_receipt_preference', store=True
     )
     is_new_donor = fields.Boolean(compute='_compute_new_donor')
-    ambassador_quote = fields.Html(
-        help='Used in thank you letters for donations linked to an event '
-             'and to this partner.',
-    )
-    muskathlon_participant_id = fields.Char('Muskathlon participant ID')
-    muskathlon_registration_ids = fields.One2many(
-        'muskathlon.registration', 'partner_id', 'Muskathlon registrations')
 
     @api.multi
     def _compute_salutation(self):

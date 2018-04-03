@@ -4,7 +4,7 @@
 Compassion CH Partner Communications
 ====================================
 
-This module adds all Sponsorship communications for Compassion Switzerland and infos for muskathlons.
+This module adds all Sponsorship communications for Compassion Switzerland.
 
 Credits
 =======

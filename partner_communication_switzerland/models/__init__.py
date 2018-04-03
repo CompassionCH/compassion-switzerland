@@ -20,5 +20,4 @@ from . import disaster_alert
 from . import partner_communication
 from . import account_invoice
 from . import account_invoice_line
-from . import event_compassion
 from . import payment_order
