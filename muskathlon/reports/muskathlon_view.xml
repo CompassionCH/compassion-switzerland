@@ -1,5 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="view_muskathlon_tree" model="ir.ui.view">
+        <field name="name">muskathlon.report.tree</field>
+        <field name="model">muskathlon.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="amount"/>
+                <field name="payment_mode_id"/>
+                <field name="event_id"/>
+                <field name="journal_id"/>
+                <field name="sent_to_4m"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_muskathlon_form" model="ir.ui.view">
+        <field name="name">muskathlon.report.form</field>
+        <field name="model">muskathlon.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="event_id"/>
+                            <field name="payment_mode_id"/>
+                            <field name="journal_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                            <field name="sent_to_4m"/>
+                            <field name="amount" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="invoice_line_id"/>
+                            <field name="contract_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="view_muskathlon_search" model="ir.ui.view">
         <field name="name">muskathlon.report.search</field>
         <field name="model">muskathlon.report</field>
@@ -27,24 +73,8 @@
         <field name="name">Muskathlons</field>
         <field name="res_model">muskathlon.report</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,graph</field>
+        <field name="view_mode">tree,form,graph</field>
         <field name="search_view_id" ref="view_muskathlon_search"/>
-    </record>
-
-    <record id="view_muskathlon_tree" model="ir.ui.view">
-        <field name="name">muskathlon.report.tree</field>
-        <field name="model">muskathlon.report</field>
-        <field name="arch" type="xml">
-            <tree string="Muskathlons Report" default_order='user_id'>
-                <field name="partner_id"/>
-                <field name="user_id"/>
-                <field name="amount"/>
-                <field name="sent_to_4m"/>
-                <field name="payment_mode_id"/>
-                <field name="event_id"/>
-                <field name="journal_id"/>
-            </tree>
-        </field>
     </record>
 
     <record id="view_muskathlon_report_graph" model="ir.ui.view">
