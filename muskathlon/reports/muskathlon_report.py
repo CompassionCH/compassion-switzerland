@@ -17,36 +17,43 @@ class Muskathlon(models.Model):
     _description = "Muskathlon report"
     _auto = False
     _table = "muskathlon_report"
+    _order = "event_id asc,date desc"
 
     # fields needed for display in tree view
-    partner_id = fields.Many2one('res.partner', string='Partner',
+    partner_id = fields.Many2one('res.partner', 'Partner',
                                  readonly=True)
-    user_id = fields.Many2one('res.partner', string="Ambassador",
+    user_id = fields.Many2one('res.partner', "Ambassador",
                               readonly=True)
-    amount = fields.Float(string="Amount", readonly=True)
-    amount_cent = fields.Float(string="Amount in currency (cents)",
+    amount = fields.Float("Amount", readonly=True)
+    amount_cent = fields.Float("Amount in cents",
                                readonly=True)
-    sent_to_4m = fields.Datetime(string="Date sent to 4M", readonly=True)
+    sent_to_4m = fields.Date("Date sent to 4M", readonly=True)
     payment_mode_id = fields.Many2one('account.payment.mode',
-                                      string="Payment mode", readonly=True)
-    event_id = fields.Many2one('crm.event.compassion', string="Event",
+                                      "Payment mode", readonly=True)
+    event_id = fields.Many2one('crm.event.compassion', "Event",
                                readonly=True)
-    journal_id = fields.Many2one('account.journal', string='Journal',
+    journal_id = fields.Many2one('account.journal', 'Journal',
                                  readonly=True)
 
     # fields needed for csv exportation
     # we cannot use relation fields define before due to csv exportation..
     status = fields.Char(string="Status", readonly=True)
     type = fields.Char(string="Type", readonly=True)
-    payment_methode = fields.Char(string="Paymentmethod", readonly=True)
-    project_id = fields.Integer(string="ProjectId", readonly=True)
-    date = fields.Datetime(string="Date/time", readonly=True)
-    currency = fields.Char(string="Currency", readonly=True)
-    muskathlon_participant_id = fields.Char(string="ParticipantID",
+    payment_methode = fields.Char("Payment method", readonly=True)
+    project_id = fields.Integer("ProjectId", readonly=True)
+    date = fields.Date(readonly=True)
+    currency = fields.Char("Currency", readonly=True)
+    muskathlon_participant_id = fields.Char("ParticipantID",
                                             readonly=True)
-    muskathlon_registration_id = fields.Char(string='RegistrationID',
+    muskathlon_registration_id = fields.Char('RegistrationID',
                                              readonly=True)
-    sponsorship_name = fields.Char(string="Sponsorship name", readonly=True)
+    sponsorship_name = fields.Char("Sponsorship name", readonly=True)
+
+    # Fields for viewing related objects
+    contract_id = fields.Many2one('recurring.contract', 'Sponsorship',
+                                  readonly=True)
+    invoice_line_id = fields.Many2one('account.invoice.line', 'Invoice line',
+                                      readonly=True)
 
     @api.model_cr
     def init(self):
@@ -58,7 +65,8 @@ class Muskathlon(models.Model):
             CREATE OR REPLACE VIEW %s AS (
               SELECT
                 (2 * ROW_NUMBER() OVER (ORDER BY (SELECT 100))) AS id,
-                rc.id AS rc_id,
+                rc.id AS contract_id,
+                NULL AS invoice_line_id,
                 rc.partner_id,
                 rc.user_id,
                 1000 AS amount,
@@ -86,7 +94,8 @@ class Muskathlon(models.Model):
             UNION ALL (
               SELECT
                 (2 * ROW_NUMBER() OVER (ORDER BY (SELECT 100)) - 1) AS id,
-                ail.id AS ail_id,
+                NULL AS contract_line_id,
+                ail.id AS invoice_line_id,
                 ail.partner_id,
                 ail.user_id,
                 ail.price_subtotal,
@@ -114,7 +123,14 @@ class Muskathlon(models.Model):
                 ON ai.id = aiamlr.account_invoice_id
               LEFT JOIN account_move_line AS aml
                 ON aml.id = aiamlr.account_move_line_id
-              WHERE ail.state = 'paid' AND ail.account_id != 2775
+              WHERE ail.state = 'paid' AND ail.account_id = 2775
                 AND cec.muskathlon_event_id IS NOT NULL
+                AND ail.user_id IS NOT NULL
             )
         """ % self._table)
+
+    @api.multi
+    def send_to_4m(self):
+        self.mapped('contract_id').write({'sent_to_4m': fields.Date.today()})
+        self.mapped('invoice_line_id').write({
+            'sent_to_4m': fields.Date.today()})
