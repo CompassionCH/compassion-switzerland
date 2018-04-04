@@ -114,6 +114,7 @@ class Muskathlon(models.Model):
                 ON ai.id = aiamlr.account_invoice_id
               LEFT JOIN account_move_line AS aml
                 ON aml.id = aiamlr.account_move_line_id
-              WHERE ail.state = 'paid' AND cec.muskathlon_event_id IS NOT NULL
+              WHERE ail.state = 'paid' AND ail.account_id != 2775
+                AND cec.muskathlon_event_id IS NOT NULL
             )
         """ % self._table)

@@ -6,13 +6,15 @@
         <field name="type">search</field>
         <field name="arch" type="xml">
             <search>
-                <field name="partner_id"/>
+                <field name="event_id"/>
                 <field name="user_id"/>
+                <field name="partner_id"/>
                 <field name="amount"/>
                 <field name="sent_to_4m"/>
                 <field name="payment_mode_id"/>
-                <field name="event_id"/>
                 <field name="journal_id"/>
+
+                <filter string="Not Paypal" name="group_not_paypal" domain="[('journal_id', 'not like', 'Paypal')]"/>
 
                 <!-- group by -->
                 <filter string="Ambassador" name="group_ambassador" context="{'group_by':'user_id'}"/>
