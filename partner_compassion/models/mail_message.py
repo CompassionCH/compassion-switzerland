@@ -47,7 +47,8 @@ class MailMessage(models.Model):
         for message in self:
             # if the message is not an email, it will not have a tracking
             # number.
-            if message.message_type != "email":
+            if message.message_type != "email" and message.subtype_id.name \
+                    != "Discussions":
                 res[message.id] = []
                 continue
             search_messages = message

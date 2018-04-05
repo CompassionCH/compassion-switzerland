@@ -232,7 +232,7 @@
                         <span> 17-312562-0</span>
                     </div>
                 </t>
-                <div id="address" class="right">
+                <div id="address" class="right" t-attf-style="margin-bottom: {{'0' if display_pp or print_header else '10'}}mm;">
                     <div id="pp" t-if="display_pp">
                         <div id="pp-box">
                             <div>P.P.</div>
@@ -249,7 +249,7 @@
                     </div>
                 </div>
 
-                <div id="title" t-if="print_subject">
+                <div id="title" t-if="print_subject" style="max-width: 80mm;">
                     <b><span t-raw="subject"/></b>
                     <hr/>
                 </div>

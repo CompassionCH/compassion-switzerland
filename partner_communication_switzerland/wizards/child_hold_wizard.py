@@ -25,5 +25,5 @@ class ChildHoldWizard(models.TransientModel):
             contract = sub_contract.parent_id
             action = self.env[
                 'sds.subsponsorship.wizard'].send_sub_communication(
-                    contract, True) or action
+                    contract) or action
         return action

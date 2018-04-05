@@ -22,7 +22,7 @@ class SubSponsorshipWizard(models.TransientModel):
             # we generate the departure letter.
             sponsorship_id = self.env.context.get('active_id')
             sponsorship = self.env['recurring.contract'].browse(sponsorship_id)
-            res = self.send_sub_communication(sponsorship, True) or res
+            res = self.send_sub_communication(sponsorship) or res
         return res
 
     @api.multi
@@ -31,22 +31,23 @@ class SubSponsorshipWizard(models.TransientModel):
         res = super(SubSponsorshipWizard, self).no_sub()
         sponsorship_id = self.env.context.get('active_id')
         contract = self.env['recurring.contract'].browse(sponsorship_id)
-        res = self.send_sub_communication(contract, False) or res
+        res = self.send_sub_communication(contract) or res
         return res
 
     @api.model
-    def send_sub_communication(self, sponsorship, sub_proposal):
+    def send_sub_communication(self, sponsorship):
         """
         Selects and send the correct communication after making sub sponsorship
         :param sponsorship: recurring.contract record
-        :param sub_proposal: True if we send a sub sponsorship, or False if
-                             we are making a No Sub.
         :return: Action for opening generated communication or False if no
                  communication was generated
         """
         config = False
         res = False
         if sponsorship.state != 'active':
+            # Make sure new child has all info
+            sponsorship.sub_sponsorship_id.child_id.with_context(
+                async_mode=False).get_infos()
             # Generate depart letter
             child = sponsorship.child_id
             lifecycle_type = (
