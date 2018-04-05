@@ -1,6 +1,6 @@
 <odoo>
     <!-- Add text for donation receipts -->
-    <record id="view_events_thank_donation" model="ir.ui.view">
+    <record id="view_muskathlon_events_thank_donation" model="ir.ui.view">
         <field name="name">crm.event.compassion.thankyou.form</field>
         <field name="model">crm.event.compassion</field>
         <field name="inherit_id" ref="crm_compassion.view_events_form"/>
