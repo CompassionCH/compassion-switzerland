@@ -149,6 +149,16 @@ class Correspondence(models.Model):
         return True
 
     @api.multi
+    def compose_letter_image(self):
+        """
+        Regenerate communication if already existing
+        """
+        res = super(Correspondence, self).compose_letter_image()
+        if self.communication_id:
+            self.communication_id.refresh_text()
+        return res
+
+    @api.multi
     def send_communication(self):
         """
         Sends the communication to the partner. By default it won't do

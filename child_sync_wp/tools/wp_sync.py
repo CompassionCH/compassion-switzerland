@@ -93,7 +93,7 @@ class WPSync(object):
                 child_values = {
                     'local_id': child.local_id,
                     'number': child.local_id,
-                    'first_name': child.firstname,
+                    'first_name': child.preferred_name,
                     'name': child.name,
                     'full_name': child.name,
                     'birthday': child.birthdate,
