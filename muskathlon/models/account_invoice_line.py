@@ -23,8 +23,7 @@ class AccountInvoiceLine(models.Model):
     )
 
     @api.multi
-    @api.depends('muskathlon_registration_id',
-                 'user_id.muskathlon_registration_ids')
+    @api.depends('user_id.muskathlon_registration_ids', 'event_id')
     def _compute_muskathlon_registration(self):
         for line in self:
             line.muskathlon_registration_id =\
