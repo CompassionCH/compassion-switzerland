@@ -436,32 +436,27 @@ class RecurringContract(models.Model):
         SUB proposal or if the sponsorship is selected by the sponsor.
         """
         module = 'partner_communication_switzerland.'
-        selected_config = self.env.ref(module + 'planned_dossier')
-        selected_payer_config = self.env.ref(module + 'planned_dossier_payer')
-        selected_corr_config = self.env.ref(
-            module + 'planned_dossier_correspondent')
+        new_dossier = self.env.ref(module + 'planned_dossier')
 
         success_story = self.env['success.story'].search([
             ('is_active', '=', True)], limit=1)
-        sub_proposal = self.filtered(lambda c: c.parent_id).with_context(
+        sub_sponsorships = self.filtered(lambda c: c.parent_id).with_context(
             default_success_story_id=success_story.id)
-        sub_proposal_config = self.env.ref(module + 'planned_sub_dossier')
-        selected = self - sub_proposal
+        sub_proposal = self.env.ref(module + 'planned_sub_dossier')
+        selected = self - sub_sponsorships
 
         for spo in selected:
             if spo.correspondant_id.id != spo.partner_id.id:
                 corresp = spo.correspondant_id
                 payer = spo.partner_id
                 if corresp.contact_address != payer.contact_address:
-                    spo.send_communication(selected_corr_config)
-                    spo.send_communication(
-                        selected_payer_config, correspondent=False)
+                    spo.send_communication(new_dossier)
+                    spo.send_communication(new_dossier, correspondent=False)
                     continue
 
-            spo.send_communication(selected_config)
+            spo.send_communication(new_dossier)
 
-        for sub in sub_proposal:
-            sub.send_communication(sub_proposal_config)
+        for sub in sub_sponsorships:
+            sub.send_communication(sub_proposal)
             if sub.correspondant_id.id != sub.partner_id.id:
-                sub.send_communication(
-                    sub_proposal_config, correspondent=False)
+                sub.send_communication(sub_proposal, correspondent=False)

@@ -28,15 +28,6 @@ class PartnerCommunication(models.Model):
     event_id = fields.Many2one('crm.event.compassion', 'Event')
     ambassador_id = fields.Many2one('res.partner', 'Ambassador')
 
-    def get_dossier_full_attachments(self):
-        return self._get_new_dossier_attachments()
-
-    def get_dossier_payer_attachments(self):
-        return self._get_new_dossier_attachments(correspondence=False)
-
-    def get_dossier_correspondent_attachments(self):
-        return self._get_new_dossier_attachments(payment=False)
-
     def get_correspondence_attachments(self):
         """
         Include PDF of letters only if less than 3 letters are sent,
@@ -377,7 +368,7 @@ class PartnerCommunication(models.Model):
             ).env.context
         return res
 
-    def _get_new_dossier_attachments(self, correspondence=True, payment=True):
+    def get_new_dossier_attachments(self):
         """
         Returns pdfs for the New Dossier Communication, including:
         - Sponsorship payment slips (if payment is True)
@@ -389,8 +380,8 @@ class PartnerCommunication(models.Model):
         attachments = OrderedDict()
         report_obj = self.env['report']
         account_payment_mode_obj = self.env['account.payment.mode']
-
         sponsorships = self.get_objects()
+
         # Include all active sponsorships for Permanent Order
         if 'Permanent Order' in sponsorships.with_context(
                 lang='en_US').mapped('payment_mode_id.name'):
@@ -398,6 +389,9 @@ class PartnerCommunication(models.Model):
                 'group_id.contract_ids').filtered(
                 lambda s: s.state == 'active')
 
+        payment = self.partner_id in sponsorships.mapped('partner_id')
+        correspondence = self.partner_id in sponsorships.mapped(
+            'correspondant_id')
         make_payment_pdf = True
 
         groups = sponsorships.mapped('group_id')
