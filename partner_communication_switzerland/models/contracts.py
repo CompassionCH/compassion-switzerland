@@ -340,6 +340,14 @@ class RecurringContract(models.Model):
         """ Utility to tell if sponsorship must be paid next year. """
         return max(self.mapped('months_paid')) < 24
 
+    @api.multi
+    def action_sub_reject(self):
+        res = super(RecurringContract, self).action_sub_reject()
+        no_sub_config = self.env.ref(
+            'partner_communication_switzerland.planned_no_sub')
+        self.send_communication(no_sub_config, correspondent=False)
+        return res
+
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################
