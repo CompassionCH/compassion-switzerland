@@ -20,33 +20,29 @@ class Muskathlon(models.Model):
     _order = "event_id asc,date desc"
 
     # fields needed for display in tree view
-    partner_id = fields.Many2one('res.partner', 'Partner',
-                                 readonly=True)
-    user_id = fields.Many2one('res.partner', "Ambassador",
-                              readonly=True)
+    # WARNING: do not change fields name (used in csv export file)
+    date_display = fields.Date(readonly=True)
+    partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
+    user_id = fields.Many2one('res.partner', "Ambassador", readonly=True)
     amount = fields.Float("Amount", readonly=True)
-    amount_cent = fields.Float("Amount in cents",
-                               readonly=True)
+    amount_cent = fields.Integer("Amount in currency (cents)", readonly=True)
     sent_to_4m = fields.Date("Date sent to 4M", readonly=True)
-    payment_mode_id = fields.Many2one('account.payment.mode',
-                                      "Payment mode", readonly=True)
-    event_id = fields.Many2one('crm.event.compassion', "Event",
-                               readonly=True)
-    journal_id = fields.Many2one('account.journal', 'Journal',
-                                 readonly=True)
+    payment_mode_id = fields.Many2one('account.payment.mode', "Payment mode",
+                                      readonly=True)
+    event_id = fields.Many2one('crm.event.compassion', "Event", readonly=True)
+    journal_id = fields.Many2one('account.journal', 'Journal', readonly=True)
 
     # fields needed for csv exportation
     # we cannot use relation fields define before due to csv exportation..
+    # WARNING: do not change fields name (used in csv export file)
     status = fields.Char(string="Status", readonly=True)
     type = fields.Char(string="Type", readonly=True)
-    payment_methode = fields.Char("Payment method", readonly=True)
-    project_id = fields.Integer("ProjectId", readonly=True)
-    date = fields.Date(readonly=True)
+    payment_methode = fields.Char("Paymentmethod", readonly=True)
+    project_id = fields.Char("ProjectID", readonly=True)
+    date = fields.Datetime("Date/time", readonly=True)
     currency = fields.Char("Currency", readonly=True)
-    muskathlon_participant_id = fields.Char("ParticipantID",
-                                            readonly=True)
-    muskathlon_registration_id = fields.Char('RegistrationID',
-                                             readonly=True)
+    muskathlon_participant_id = fields.Char("ParticipantID", readonly=True)
+    muskathlon_registration_id = fields.Char('RegistrationID', readonly=True)
     sponsorship_name = fields.Char("Sponsorship name", readonly=True)
 
     # Fields for viewing related objects
@@ -76,19 +72,22 @@ class Muskathlon(models.Model):
                 rco.event_id,
                 NULL AS journal_id,
                 'CHF' AS currency,
-                rc.muskathlon_registration_id,
+                -- rc.muskathlon_registration_id,
                 rp.muskathlon_participant_id,
                 rp.name AS sponsorship_name,
                 rc.start_date AS date,
+                rc.start_date AS date_display,
                 'success' AS status,
                 'sponsor' AS type,
                 'transfer' AS payment_methode,
-                rco.event_id AS project_id
+                cec.muskathlon_event_id AS project_id,
+                mr.reg_id AS muskathlon_registration_id
               FROM recurring_contract AS rc
               LEFT JOIN res_partner AS rp ON rp.id = rc.partner_id
               LEFT JOIN recurring_contract_origin AS rco
                 ON rc.origin_id = rco.id
               LEFT JOIN crm_event_compassion AS cec ON rco.event_id = cec.id
+              LEFT JOIN muskathlon_registration mr ON rp.id = mr.partner_id
               WHERE cec.muskathlon_event_id IS NOT NULL
             )
             UNION ALL (
@@ -103,22 +102,24 @@ class Muskathlon(models.Model):
                 ail.sent_to_4m,
                 ai.payment_mode_id,
                 ail.event_id,
-                aml.journal_id
-                AS journal_id,
+                aml.journal_id AS journal_id,
                 rcu.name as currency,
-                ail.muskathlon_registration_id,
+                -- ail.muskathlon_registration_id,
                 rp.muskathlon_participant_id,
                 rp.name AS sponsorship_name,
                 ai.date_invoice AS date,
+                ai.date_invoice AS date_display,
                 'success' AS status,
                 'sponsor' AS type,
                 'transfer' AS payment_methode,
-                ail.event_id AS project_id
+                cec.muskathlon_event_id AS project_id,
+                mr.reg_id AS muskathlon_registration_id
               FROM account_invoice_line AS ail
               LEFT JOIN account_invoice AS ai ON ail.invoice_id = ai.id
               LEFT JOIN res_partner AS rp ON rp.id = ai.partner_id
               LEFT JOIN res_currency AS rcu ON rcu.id = ai.currency_id
               LEFT JOIN crm_event_compassion AS cec ON ail.event_id = cec.id
+              LEFT JOIN muskathlon_registration AS mr ON mr.partner_id = rp.id
               LEFT JOIN account_invoice_account_move_line_rel AS aiamlr
                 ON ai.id = aiamlr.account_invoice_id
               LEFT JOIN account_move_line AS aml
