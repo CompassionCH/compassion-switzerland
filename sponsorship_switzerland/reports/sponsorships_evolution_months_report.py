@@ -35,8 +35,13 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
         tools.drop_view_if_exists(
             self.env.cr, self._table)
         date_format = self._date_format()
-        query = """
+        # We disable the check for SQL injection. The only risk of sql
+        # injection is from 'self._table' which is not controlled by an
+        # external source.
+        # pylint:disable=E8103
+        self.env.cr.execute(("""
             CREATE OR REPLACE VIEW %s AS
+            """ % self._table + """
             SELECT
               coalesce(sub.activation_date, jq.end_date) AS activation_date,
               ROW_NUMBER() OVER (ORDER BY (SELECT 100)) AS id,
@@ -48,8 +53,8 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
                 AS active_sponsorships
             FROM (
               SELECT
-                to_char(date_trunc(%s, rc.activation_date), %s) AS
-                activation_date,
+                to_char(date_trunc(%s, rc.activation_date),
+                        %s) AS activation_date,
                 count(rc.activation_date) AS total
               FROM recurring_contract AS rc
               WHERE rc.activation_date IS NOT NULL AND rc.child_id IS NOT NULL
@@ -58,7 +63,8 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
             ) AS sub
             FULL OUTER JOIN (
               SELECT
-                to_char(date_trunc(%s, rc.end_date), %s)
+                to_char(date_trunc(%s, rc.end_date),
+                        %s)
                 AS end_date, count(rc.end_date) AS total
               FROM recurring_contract AS rc
               WHERE rc.activation_date IS NOT NULL AND rc.end_date IS NOT NULL
@@ -66,7 +72,6 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
               GROUP BY date_trunc(%s, rc.end_date)
               ORDER BY end_date
             ) AS jq ON sub.activation_date = jq.end_date
-        """
-        params = (self._table, date_format[0], date_format[1], date_format[0],
-                  date_format[0], date_format[1], date_format[0])
-        self.env.cr.execute(query, params)
+        """), (date_format[0], date_format[1], date_format[0],
+               date_format[0], date_format[1], date_format[0])
+        )
