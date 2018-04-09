@@ -21,12 +21,13 @@ class MailTrackingEvent(models.Model):
     def create(self, data):
         result = super(MailTrackingEvent, self).create(data)
 
-        p = re.compile(r'\/([a-zA-Z0-9]{3,6})')
-        code = p.findall(result.url)[-1]
+        if result.url:
+            p = re.compile(r'\/([a-zA-Z0-9]{3,6})')
+            code = p.findall(result.url)[-1]
 
-        link = self.env['link.tracker.code'].search([('code', '=', code)])
+            link = self.env['link.tracker.code'].search([('code', '=', code)])
 
-        result.url = link.link_id.url
+            result.url = link.link_id.url
 
         return result
 
