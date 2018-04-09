@@ -27,9 +27,11 @@
 #
 ##############################################################################
 
+# pylint: disable=C8101
 {
     "name": "Gifts payments",
     "version": "10.0.1.0.0",
+    'license': 'AGPL-3',
     "author": "Samuel Fringeli",
     "category": "Tools",
     'depends': [

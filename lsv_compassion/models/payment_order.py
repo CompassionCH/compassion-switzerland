@@ -30,8 +30,8 @@ class PaymentOrder(models.Model):
                     format(order.id, order.name)
 
                 invoice.message_post(
-                    "The invoice has been imported in a %s payment "
-                    "order : " % mode + url)
+                    _((('The invoice has been imported in '
+                        'a %s payment order : ') % mode) + url))
 
         return super(PaymentOrder, self).draft2open()
 
@@ -43,7 +43,7 @@ class PaymentOrder(models.Model):
             for invoice in order.mapped(
                     'payment_line_ids.move_line_id.invoice_id'):
                 invoice.message_post(
-                    "The %s order has been cancelled." % mode)
+                    _('The %s order has been cancelled.' % mode))
 
         return super(PaymentOrder, self).action_cancel()
 

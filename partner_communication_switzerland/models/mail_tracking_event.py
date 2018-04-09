@@ -46,7 +46,7 @@ class MailTrackingEvent(models.Model):
         """
         tracking_email.partner_id.opt_out = True
         tracking_email.partner_id.message_post(
-            "Partner Unsubscribed from marketing e-mails", "Opt-out")
+            _('Partner Unsubscribed from marketing e-mails'), _("Opt-out"))
         sg = self._get_sendgrid()
         try:
             sg.client.suppression.unsubscribes._(

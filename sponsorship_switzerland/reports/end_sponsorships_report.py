@@ -77,6 +77,10 @@ class EndSponsorshipsMonthReport(models.Model):
     @api.model_cr
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
+        # We disable the check for SQL injection. The only risk of sql
+        # injection is from 'self._table' which is not controlled by an
+        # external source.
+        # pylint:disable=E8103
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW %s AS
             SELECT c.id, c.end_date, c.end_reason, c.sub_sponsorship_id,

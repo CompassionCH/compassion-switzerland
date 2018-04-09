@@ -1,11 +1,9 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Calendar Switzerland
-====================
-Add custom functionality for Switzerland:
-- Only send calendar invitation to Compassion staff
-- Allow to send individual invitation to calendar event members
+Compassion CH Gifts payments
+==============================
+Adds possibilites for gifts payments
 
 Installation
 ============
@@ -20,8 +18,8 @@ Credits
 
 Contributors
 ------------
-
-* Sebastien Toth <popod@me.com>
+* Samuel Fringeli <samuel.fringeli@me.com>
+* Nicolas Badoux <n.badoux@hotmail.com>
 
 Maintainer
 ----------
