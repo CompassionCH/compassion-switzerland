@@ -61,6 +61,7 @@
                 <field name="journal_id"/>
 
                 <filter string="Not Paypal" name="group_not_paypal" domain="[('journal_id', 'not like', 'Paypal')]"/>
+                <filter string="Not sent to 4M" name="group_not_sent_to_4m" domain="[('sent_to_4m', '=', False)]"/>
 
                 <!-- group by -->
                 <filter string="Ambassador" name="group_ambassador" context="{'group_by':'user_id'}"/>

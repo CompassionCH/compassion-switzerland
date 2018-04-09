@@ -83,7 +83,7 @@ class Muskathlon(models.Model):
                 cec.muskathlon_event_id AS project_id,
                 mr.reg_id AS muskathlon_registration_id
               FROM recurring_contract AS rc
-              LEFT JOIN res_partner AS rp ON rp.id = rc.partner_id
+              LEFT JOIN res_partner AS rp ON rp.id = rc.user_id
               LEFT JOIN recurring_contract_origin AS rco
                 ON rc.origin_id = rco.id
               LEFT JOIN crm_event_compassion AS cec ON rco.event_id = cec.id
@@ -116,7 +116,7 @@ class Muskathlon(models.Model):
                 mr.reg_id AS muskathlon_registration_id
               FROM account_invoice_line AS ail
               LEFT JOIN account_invoice AS ai ON ail.invoice_id = ai.id
-              LEFT JOIN res_partner AS rp ON rp.id = ai.partner_id
+              LEFT JOIN res_partner AS rp ON rp.id = ail.user_id
               LEFT JOIN res_currency AS rcu ON rcu.id = ai.currency_id
               LEFT JOIN crm_event_compassion AS cec ON ail.event_id = cec.id
               LEFT JOIN muskathlon_registration AS mr ON mr.partner_id = rp.id
