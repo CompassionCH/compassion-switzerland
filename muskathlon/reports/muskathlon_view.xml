@@ -5,7 +5,7 @@
         <field name="model">muskathlon.report</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="date"/>
+                <field name="date_display"/>
                 <field name="partner_id"/>
                 <field name="user_id"/>
                 <field name="amount"/>
@@ -61,6 +61,8 @@
                 <field name="journal_id"/>
 
                 <filter string="Not Paypal" name="group_not_paypal" domain="[('journal_id', 'not like', 'Paypal')]"/>
+                <separator/>
+                <filter string="Not sent to 4M" name="group_not_sent_to_4m" domain="[('sent_to_4m', '=', False)]"/>
 
                 <!-- group by -->
                 <filter string="Ambassador" name="group_ambassador" context="{'group_by':'user_id'}"/>
