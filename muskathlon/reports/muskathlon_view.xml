@@ -5,7 +5,7 @@
         <field name="model">muskathlon.report</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="date"/>
+                <field name="date_display"/>
                 <field name="partner_id"/>
                 <field name="user_id"/>
                 <field name="amount"/>
