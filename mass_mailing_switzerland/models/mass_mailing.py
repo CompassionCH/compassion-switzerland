@@ -54,6 +54,11 @@ class MassMailing(models.Model):
                 float(number_unsub) / len(mass_mail.statistics_ids))
 
     @api.multi
+    def recompute_events(self):
+        self._compute_events()
+        return True
+
+    @api.multi
     def send_mail(self):
         # Refresh the sendgrid templates in Odoo
         if self.filtered('email_template_id'):
