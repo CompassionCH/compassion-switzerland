@@ -8,7 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class EventCompassion(models.Model):
@@ -16,10 +16,27 @@ class EventCompassion(models.Model):
 
     thank_you_text = fields.Html(translate=True)
 
+    # public_description = fields.Char()
+
     muskathlon_event_id = fields.Char(
         string="Muskathlon event ID", size=128)
     muskathlon_registration_ids = fields.One2many(
         'muskathlon.registration', 'event_id', 'Muskathlon registrations')
+
+    @api.model
+    def getEventParticipants(self, event_id):
+        participants = self.env['muskathlon.registration'].search([('event_id', '=', event_id)])
+
+        # Convert to json compatible
+        ret = []
+        for participant in participants:
+            ret.append({
+                'id': participant.partner_id.id,
+                'name': participant.partner_id.name,
+                'gender': participant.partner_id.gender,
+                'country': participant.partner_id.country_id.name
+            })
+        return ret
 
 
 class MuskathlonRegistration(models.Model):

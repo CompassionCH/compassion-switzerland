@@ -40,9 +40,11 @@
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
-        'views/recurring_contracts_view.xml'
+        'views/recurring_contracts_view.xml',
+        'views/website_muskathlon_list.xml',
+        'views/assets.xml'
     ],
-    'depends': ['partner_compassion', 'crm_compassion'],
+    'depends': ['partner_compassion', 'crm_compassion', 'website'],
     'demo': [],
     'installable': True,
     'auto_install': False,

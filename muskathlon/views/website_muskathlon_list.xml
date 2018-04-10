@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data> <!-- add to data: noupdate="1" -->
+        <!-- Muskathlons website list of events -->
+        <template id="muskathlon.list">
+            <t t-call="website.layout">
+                <t t-set="title">Muskathlons</t>
+                <div class="oe_structure">
+                    <div class="container" style="margin-top: 40px;">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Muskathlon ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="events" t-as="event">
+                                    <tr>
+                                        <td><t t-esc="event.id"/></td>
+                                        <td><t t-esc="time.strftime('%d.%m.%Y',time.strptime(event.start_date,'%Y-%m-%d %H:%M:%S'))"/></td>
+                                        <td>
+                                            <a t-attf-href="/event/{{ event.id }}">
+                                                <t t-esc="event.name"/>
+                                            </a>
+                                        </td>
+                                        <td><t t-esc="event.muskathlon_event_id"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="oe_structure"/>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Muskathlons website details for an event -->
+        <template id="muskathlon.details" page="True">
+            <t t-call="website.layout">
+                <t t-set="title">Muskathlon detail</t>
+                <div id="wrap">
+                    <div class="oe_structure" />
+                    <div class="container" style="margin-top: 40px;">
+                        <h2><t t-esc="event.name"/></h2>
+                        <p><t t-esc="time.strftime('%A, %d %B %Y',time.strptime(event.start_date,'%Y-%m-%d %H:%M:%S'))"/> - <t t-esc="time.strftime('%A, %d %B %Y',time.strptime(event.end_date,'%Y-%m-%d %H:%M:%S'))"/></p>
+                        <p><div t-field="event.description"/></p>
+                    </div>
+                    <t t-snippet="muskathlon.participants_list"/>
+                    <div class="oe_structure" />
+                </div>
+            </t>
+        </template>
+
+        <!-- Muskathlons website details for an event participant -->
+        <template id="muskathlon.participant_details">
+            <t t-call="website.layout">
+                <t t-set="title">Participant detail</t>
+                <div class="oe_structure">
+                    <div class="container" style="margin-top: 40px;">
+                        <h2><t t-esc="participant.name"/></h2>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="panel panel-default">
+                                    <!--<img t-attf-src="{{ participant.image_medium }}" class="img-circle"/>-->
+                                    <span t-field="participant.image_medium" t-options='{"widget": "image" }'/>
+                                    <!--<img t-att-src="'/module_name/static/src/img/image_name.png'" />-->
+                                    <!--<img t-att-src="kanban_image('res.partner', 'image_medium', participant.id)"/>-->
+                                    <div class="caption">
+                                        <table class="caption table">
+                                            <tr>
+                                                <th>Gender:</th>
+                                                <td><t t-esc="participant.gender"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Birth date:</th>
+                                                <td><t t-if="participant.birthdate" t-esc="time.strftime('%d.%m.%Y',time.strptime(participant.birthdate,'%Y-%m-%d'))"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Language:</th>
+                                                <td><t t-esc="participant.lang"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Contry:</th>
+                                                <td><t t-esc="participant.country_id.name"/></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="panel panel-default">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Event:</th>
+                                            <td>
+                                                <a t-attf-href="/event/{{ event.id }}">
+                                                    <t t-esc="event.name"/>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Date:</th>
+                                            <td><t t-esc="event.start_date"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Raised:</th>
+                                            <td>
+                                                 <t t-esc="amount_win" /> / 10'000 CHF
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Goal:</th>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" t-attf-aria-valuenow="{{ amount_win_percents }}" aria-valuemin="0" aria-valuemax="100" t-attf-style="width: {{ amount_win_percents }}%;">
+                                                        <t t-esc=" amount_win_percents" />%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-center">
+                                                <button class="btn btn-primary">Donate</button>
+                                                <button class="btn btn-primary">Sponsor a child</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="row">
+                             <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <p><t t-raw="participant.ambassador_quote"/></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Snippets registration (add them in the website builder editor pannel) -->
+        <template id="place_into_bar" inherit_id="website.snippets" name="Place into bar">
+          <xpath expr="//div[@id='snippet_content']/div[@class='o_panel_body']" position="inside">
+              <t t-snippet="muskathlon.participants_list" t-thumbnail="/theme_tutorial/static/src/img/ui/snippet_thumb.jpg"/>
+          </xpath>
+        </template>
+
+        <!-- Event participants list Snippet -->
+        <template id="participants_list" name="Participant list">
+            <section class="o_participants_list">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Participants</h3>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Country</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="participants_list_content"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </template>
+
+    </data>
+</odoo>
