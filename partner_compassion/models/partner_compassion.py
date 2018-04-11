@@ -192,7 +192,7 @@ class ResPartner(models.Model):
                     ids = self.search(
                         [('name', 'ilike', name)] + args,
                         limit=limit
-                    )
+                    ).ids
         else:
             ids = self.search(
                 args,

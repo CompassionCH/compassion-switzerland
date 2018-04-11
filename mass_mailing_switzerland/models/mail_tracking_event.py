@@ -42,7 +42,7 @@ class MailTrackingEvent(models.Model):
                 ('state', 'not in', ['done', 'failed'])
             ])
             if not job:
-                mass_mail.with_delay()._compute_events()
+                mass_mail.with_delay().compute_clicks_ratio()
         return super(MailTrackingEvent, self).process_click(
             tracking_email, metadata)
 
@@ -57,6 +57,6 @@ class MailTrackingEvent(models.Model):
                 ('state', 'not in', ['done', 'failed'])
             ])
             if not job:
-                mass_mail.with_delay()._compute_events()
+                mass_mail.with_delay().compute_unsub_ratio()
         return super(MailTrackingEvent, self).process_unsub(
             tracking_email, metadata)
