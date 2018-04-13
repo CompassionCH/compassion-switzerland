@@ -1,6 +1,6 @@
 // https://github.com/open-synergy/odoo-design-theme/blob/8.0/snippet_latest_posts/views/s_latest_posts.xml
 
-// console.log('loaded first..');
+// console.log('Loaded..');
 
 odoo.define('muskathlon.participants_list', function (require) {
     'use strict';
