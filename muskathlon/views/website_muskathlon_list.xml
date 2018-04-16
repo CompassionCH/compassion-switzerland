@@ -57,7 +57,7 @@
                                                     <div class="siteorigin-widget-tinymce textwidget">
                                                         <h2 style="text-align: center;"><t t-esc="event.name"/></h2>
                                                         <p style="text-align: center;"><t t-esc="time.strftime('%d %B %Y',time.strptime(event.start_date,'%Y-%m-%d %H:%M:%S'))"/> - <t t-esc="time.strftime('%d %B %Y',time.strptime(event.end_date,'%Y-%m-%d %H:%M:%S'))"/></p>
-                                                        <p class="subtitle" style="text-align: center;" t-raw="event.public_description"/>
+                                                        <p class="subtitle" style="text-align: center;" t-field="event.public_description"/>
 
                                                         <hr style="width: 100px; border-width: 2px;"/>
 
@@ -94,8 +94,7 @@
                                 <article class="column medium-6 large-3 blog-teaser child-teaser child" data-equalizer-watch="" style="height: 391px;">
                                     <div class="content-wrapper">
                                         <a t-attf-href="/event/{{ event.id }}/participant/{{ registration.partner_id.id }}">
-                                            <!--<div class="thumbnail" style="background-image: url(https://media.ci.org/g_face,c_thumb,w_609,h_205,z_0.8,q_70/v1518197268/ChildPhotos/Published/04995227_bff8ef.jpg); background-position:center center;"/>-->
-                                            <div class="thumbnail" t-attf-style="background-image: url(data:image/*;base64,{{registration.photo_1}}); background-position:center center;" t-field-options='{"widget": "image"}'/>
+                                            <div class="thumbnail" t-attf-style="background-image: url(data:image/*;base64,{{registration.picture_1}}); background-position:center center;" t-field-options='{"widget": "image"}'/>
                                         </a>
                                         <span class="child-waiting" style="background-color: rgb(255, 255, 255, 0.7); height: 40px; width: 40px;">
                                             <!-- https://icons8.com/icon/915/running -->
@@ -164,7 +163,7 @@
                             <div class="section background-beige section_gradient_unten" style="margin-top: 50px; margin-bottom: 50px;">
                                 <div class="row profile">
                                     <div class="large-4 column">
-                                        <div class="image" t-field="registration.photo_1" t-field-options='{"widget": "image"}' style="height: auto; max-height:420px;"/>
+                                        <div class="image" t-field="registration.picture_1" t-field-options='{"widget": "image"}' style="height: auto; max-height:420px;"/>
                                         <div>
                                             <a href="https://compassion.ch/" class="button button-large">Donate</a>
                                         </div>
@@ -204,50 +203,6 @@
                                         <h4 class="svg-divider"><t t-esc="participant.name"/></h4>
                                         <p class="subtitle" t-field="registration.public_description"/>
                                         <blockquote t-field="registration.ambassador_quote_public"/>
-                                        <!--<ul>
-                                            <li>
-                                                <div class="single-icon icon-small">
-                                                        <span class="child-waiting" style="background-color: rgb(255, 255, 255, 0.7); height: 40px; width: 40px;">
-                                                            <t t-if="'run' in registration.sport_type">
-                                                                <img style="height: 30px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANlSURBVGhD7dlZyA1hHMfx154tyw0iS7ZIXNiSECluUApxIWtyZcl+xw0ucGFXSihRhCzJGiES95YiIkT2ffv+6p38e/qfc+Z13pkzU371uTnvOe88/5ln5lmmKkNpi9U4heNYgmbIVQbhFX4HHqAbcpGmeIqwiMgN1EHmMx1eAdZQZD7r4DXemovMZyW8xluTkfn0xS94BchHtEaq6YFjuIsjWIZh0A1dLJvhFSELkGom4S28xnzHbWyFbu7usKmLVbC/f4YZSC0NsBHFuofnJvrBphHU1Xqjnj5IK+1xBV5D4/iCpdAVqVhG4jm8Btb06lxAZ6SeFfiBsEE/sQ9d0BG6bzbhKnT2w+9bH6AulVrWwGvICah/e2kHby4VOohUojMWdptrGI5iUZH2N4Xo6aYrmXgGIirkDiagVGYhbHAxG5BKNAbEnVrr7L6B1+BC3qMlMhNNvc/Ca2wpWlRlJvPhNTJ02vnsEeqj4ukKdZGwgaGH0DzsuvksUvEZr0bpywgb5hkHRY0O/6arsgdroYnjVIxAL7RA4lmEsFGew4iibqSGe9/z6Ml5Ca2QSNpA6wfv4NY7dIDNYnjfLWY8Esl6eAcMLUQYzXYvwvt+6AW2oAkSyWN4B7a0Lik0RVcXGwOd6dHVhqB/NY1fuuqJx5tIWvq7ZgeZzy14BUTuI5UzWm7ULUqtRV5C0/tMRtP0KFpnf4ZXhHUAiT0+/yUzoQFQa/couinPwCvAeoKxqHh6Qis7NeooGsJmCvSoDAuw1BV3ojkqEjVaj1LbKG1EaEPCRje3XhPY73nuoVbX7XqWax2hrRptMEzEHGi3Q/OeHTgELay8BmlDwuv7s6ER3ftNRFe17GjBdA7f4B0kLhVaKNqUKDah1D1TdjQJ8/55TWicKPWWSbPjXfB+r7VJ2TkP75/HpVE77nuMQivHUSg7nbAfpZ4yhej9X5xoo9sbNFVcrUeLfz1aB0OjtR6j86CNOb2Y0eNSe1AaK7T7Pg1xo33isAgVpmPlJo3xGmEhegWRq2gWEBahbdY+yFX0KiEsZC9ylQEIi/gKjS25ym6EhWxDrqLtm0+wRWiTwk7/cxGtUWwRoo2K3OUkbBFaJab+yrk2osmgLaQmA2imoisQFaElQG6zHHpvvh3hKvJ//qaq6g8ywFEhYy/RzwAAAABJRU5ErkJggg=="/>
-                                                            </t>
-                                                            <t t-if="'walk' in registration.sport_type">
-                                                                <img style="height: 30px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANuSURBVGhD7dpJyE1hHMfxa57nIWVMMicWhpJQpigLErEgmVZEGVKUIWNSFhaKsBEiWUg2khILw8K0sCAklDEy8/2571P/np5zr/flnPOc8qtP3XvOvfc8z3vOc57hvKUM0g578BBf8ACb0AKFSReo4D8DbqANCpEzCFXCOYDoo7PxHaEKOB8R/SU2BqHC+wYg6gxFqOC+bog69fEEocI7t1CIzEaoAvINE1GYLMI72Eq8xAwULuoU52AVZqIV/iertMUaHMYJHMdeDERhMhYvYNuD8x7R9xnKAnxGqBLOBUSbetiGUMFDRiG6NMNJhAqcRAPJqKJB4TWEClvJD0TT8AfjEUIFVaMObbd0R8s9jREaQ6kC83DdbEuim0IP5JrR8At2DzpLTfG1Zls16ltyzULYAp1CSyi6I9l9legMdkBu2QFbINtwl8Pu82kBwr4/gvbIJXYe/gkN4XIUtqDWB/SDPxJ+i63I/OzcgSvETW0wuQ9bSOsilMUI7VcF1bF2ROrRX98OQ3QGXLS0U2mxYQtcNiJpOKO2sxOdkFr6wB50LVyqNfRJsOkOLdz5l5rzCsORSqbCHmwaXCbD7rM0rU2aTGnYvx7P4H/vGFKJZnj2QLZT6wq7z1InWS3qg5ZAfZL73kqkEjvKfaMNXjRMd/stVUSrKn+a3uhbfplORsCNpUI98zAk9ezLEFW0kNC//DKYXQhVRI23M6LOEIwrvyw1R9IKvL1dR5l1eAw33JgAzTv8imib5vXR5jJU0NO/35WjOYdfEbmLRogu6tFtA18KRWOn57CVcHQGo8ss2EJqcOiWfebC7rOf6YWochB+QVfD5Rz8/XIW0UTX+lPYAmrgaJ959ETSPH46oshm+IU7Dz8r4H9OtICR+6M39fKhXjz0uKABrsD/rGjGmVu0MGcHd47WuZLGVBoNaEbpf0fP3gchl2ic5RdI7UBT2UrRcN3/nlyCll4zzXiEem3daqtFM0z9o4D/XZmPzNIa/kqI1ObBv5726nLyf0OPIzJbUTkEvwBagFCbqU00f/d/R/Yj9egJrH9gzbertYtQmuA2/N/TgoQWx1ON+gf/wHrAWddosUJzef83U+8kr8IecB/+NqFLbCRSzRS8hv6K2/Evbpf6jQ3QJaXb9+6abalHs7807iwas6nd1DGl0i8b1QjsGEl2AQAAAABJRU5ErkJggg=="/>
-                                                            </t>
-                                                            <t t-if="'climb' in registration.sport_type">
-                                                                <img style="height: 30px;" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9JzIwMCcgd2lkdGg9JzIwMCcgIGZpbGw9IiMwMDAwMDAiIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6Y2M9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL25zIyIgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIiB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnNvZGlwb2RpPSJodHRwOi8vc29kaXBvZGkuc291cmNlZm9yZ2UubmV0L0RURC9zb2RpcG9kaS0wLmR0ZCIgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiIHZlcnNpb249IjEuMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLC05NTIuMzYyMTgpIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNC4wMDAwMDEsOTY1LjM0MTc0KSI+PHBhdGggZD0ibSAyOC45ODQyNTEsMC4wMzU0MzMwNyBjIC0zLjI5NTI3NSwwIC01Ljk4ODE4OSwyLjY1NzQ4MDIzIC01Ljk4ODE4OSw1Ljk1Mjc1NTgzIDAsMy4yOTUyNzU1IDIuNjkyOTE0LDUuOTUyNzU2MSA1Ljk4ODE4OSw1Ljk1Mjc1NjEgMy4zMzA3MDksMCA2LjAyMzYyMiwtMi42NTc0ODA2IDYuMDIzNjIyLC01Ljk1Mjc1NjEgMCwtMy4yOTUyNzU2IC0yLjY5MjkxMywtNS45NTI3NTU4MyAtNi4wMjM2MjIsLTUuOTUyNzU1ODMgeiBtIDM1Ljk5OTk5OSwwIC0zLjk2ODUwNCwxNy44OTM3MDA5MyAtNi4wMjM2MjIsMi45NzYzNzcgLTUuOTg4MTg4LDE1LjkwOTQ0OSA1Ljk4ODE4OCwxMi45MzMwNzEgLTEuOTg0MjUyLDQuOTYwNjMgLTEzLjAwMzkzNiwyLjk3NjM3NyAtMC45OTIxMjYsNS45ODgxODkgLTIwLjAxOTY4NSw0Ljk2MDYzIDAsMy45Njg1MDQgNTMuMDA3ODczLDAgMCwtNzAuNTgyNjc2IHogTSAxMi4wMTE4MTEsOS45NTY2OTI4IDAuOTkyMTI1OTUsMjcuODUwMzkzIDcuMDE1NzQ3OCwzMC44NjIyMDQgMTcuOTk5OTk5LDEzLjkyNTE5NyB6IG0gMTAuODA3MDg2LDIuOTc2Mzc4MiBjIC0yLjEyNTk4NCwwLjA3MDg3IC00LjUzNTQzMywxLjIwNDcyNCAtNS43NDAxNTcsMy4xNTM1NDMgTCA3LjAxNTc0NzgsMzEuODU0MzMgbCAwLDIxLjg2MjIwNSBMIDAsNjguNjMzODU3IGMgMCwwLjk5MjEyNiAwLDMuOTY4NTA0IDEuOTg0MjUxOSw0Ljk2MDYzIDIuMDE5Njg1LDAuOTkyMTI2IDUuMDMxNDk1OSwwIDYuMDIzNjIxOSwtMC45OTIxMjYgbCA4LjAwNzg3NDIsLTE2LjkwMTU3NSAwLC0xMi45MzMwNyAxMC45ODQyNTEsNC45OTYwNjMgMC45OTIxMjYsOC45MjkxMzMgYyAwLDAuOTkyMTI2IDIuMDE5Njg1LDQuMDAzOTM3IDQuOTk2MDYzLDQuMDAzOTM3IDMuMDExODExLDAgNC4wMDM5MzcsLTMuMDExODExIDQuMDAzOTM3LC00LjAwMzkzNyBsIC0xLjk4NDI1MiwtMTMuOTI1MTk2IC0xMi4wMTE4MTEsLTYuOTQ0ODgyIDUuOTg4MTg5LC05Ljk1NjY5MyA0LjAwMzkzNyw0Ljk5NjA2MyAxMi4wMTE4MTEsMi45NzYzNzggYyAxLjAyNzU1OSwwLjI0ODAzMiAxLjk4NDI1MiwwIDMuMDExODExLC0xLjk4NDI1MiAwLjk5MjEyNiwtMS45ODQyNTIgMCwtMy4wMTE4MTEgLTEuMDI3NTU5LC00LjAwMzkzNyBMIDM1Ljk5OTk5OSwyNC44NzQwMTUgMjYuMDA3ODczLDEzLjkyNTE5NyBjIC0wLjc0NDA5NCwtMC43NDQwOTUgLTEuOTEzMzg2LC0xLjA2Mjk5MiAtMy4xODg5NzYsLTAuOTkyMTI2IHoiIHN0eWxlPSIiIGZpbGw9IiMwMDAwMDAiIGZpbGwtb3BhY2l0eT0iMSIgZmlsbC1ydWxlPSJub256ZXJvIiBzdHJva2U9Im5vbmUiPjwvcGF0aD48L2c+PC9nPjwvc3ZnPg=="/>
-                                                            </t>
-                                                            <t t-if="'bike' in registration.sport_type">
-                                                                <img style="height: 30px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAASnSURBVGhD7dpXiCxFFIfxNWevOWBGMGcxo6AiJuSKERQU45MPihkUTKCCimIWTBjRF3MAUcGAAROCOWDEiOHBhOn7hq3lbHG6p1fn7szC/uH3cDvMdG93VZ2quWOzmc1sZjOMrIQ9sTvmuGGmZUncjL/wz7jfcCEWxIyIF/oUyg3UbsGMyJHIbiDaCSOf+5FdfHQpRj7PI7v46HaMRLbGubgBZ2B1lNyF7OKjCzDUrIr7UF/Yz9gZZh/U+6M/sSGGloPxHbKL05dYFsaeKTtGZ2IocUy4DdlF1XzVzHw4CV+g7HsXh2Mo2QLvIF5sm7+xC0rmx2pYpfevIeV4/Irsgtt444tg6Fkcdo/ZRXZ1PoaatfEqsotrUz+537ExhpId8C3iBfVjT2Vluya+Gd9WPAfbyLRmOXyNeCH9WBjGRmy5HqtdnQUHzyYbYaDV8ImIF9DGnukiZBdg28jOafM2/EMOJHcg+5LaD9gfTVkATyA7t82xGEgeQfYF0WtYF/2yMmw72WdkfMI7YiC5CtmXFNZSm6Br1oev3/V9XIO5GFjWgq9NdhOFXeolWAojHR9vrI2afIaB/hXnRVbErfC9zW4ispxfBiMdB7n3kN1AZBWwMEY6i8JZoG0ju4liP0xrNofTUnuLe3AtTsEGaIv7n0Z2EzoEbbE7Pg5X4G446XLg3BVTGtV9TV5BdhHFs9geTXGidBSysn4bZLEntIquy5bIzuUYOJA2xoLNvjz7gIxf6BPzopvieBLPcf5t2V/HeftPiMe2cUBuXFJ1sMlO6uc8ZFke9bFvoc6+8AbrY/t5AbbLSTkC9YGWDadhK1h2+0pYndalu11v1oCtVuNxuhMxzmd+RDzGzsLKoZT7Vry+Ttm85zpMZAnUtc7jWBpZVsAziMfb9S6EmIMQj9GpiKlnlp9jM2Tx1b8Y8Xhfb9cJerGSjDtfR/Yex/h+foB43gGIsYeL+7UHSpybxIbtk2i6iRhX7eNnTixyP4i4Y290yWGI59Wr5llhaSVQUv8BbaNd4m8o/uRQzvNV7/ViH49vkO9ra9cW4isZBz+77JiHUPbJrjPmcsT9jhNd8yjiub0l2Hh3b7phCvkU5dyv3BBiD1X26WHEOMjG/euga65GPHdbTFrW9L2fSmIP9r4bQn5B2ad6IfomxP1TWd+t24k929gbYYONzxKhS5wMxQ9zcaHEHiw+aR2ImHq+fjS6xuXUcp7df29wvGx8Q9F1Cd/aK553NmJuRNn3Ieqe0DYRz3dq3GU5qF69fwm9bIe4wwa8G9riRCmOxj7J9RDjhbswfQ78eaGOnYrjRvxuS6S2rAEnavGckzGRBxB3WuydgLradC5xOv5APN73/b/EETt+juzGHXTr7IX6xu1sFsNE7L7qlT+5CGcpfSXuxfeoj/kIcXyYSnwq9mb1Z/qHtLrwe72x2CYK34g4wE7ELiy70DaODZvi/8SGagGYfX4Tb8Kn2RjXoV5EdnLtSfhbxiBiFWsBGEuWJp8gfRJ1nF8cisdQT1sdG2xP82pVZEs4RmQV9suwYU9qE13jX8reyNfOpzVdP8jYdmy3Th38uaHP/0sZG/sXnjruHtF0xVYAAAAASUVORK5CYII="/>
-                                                            </t>
-                                                        </span>
-                                                </div>
-                                                <span>
-                                                    <strong>Sport:</strong> <t t-esc="registration.get_sport_type_name()"/>
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <div class="single-icon icon-small">
-                                                    <object type="image/svg+xml" data="https://compassion.ch/wp-content/themes/compassion/assets/img/person.svg">
-                                                        <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/person.png" alt="No SVG support"/>
-                                                    </object>
-                                                </div>
-                                                <span>
-                                                    <strong>Distance:</strong> <t t-esc="registration.get_sport_type_name()"/>
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <div class="single-icon icon-small">
-                                                    <object type="image/svg+xml" data="https://compassion.ch/wp-content/themes/compassion/assets/img/person.svg">
-                                                        <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/person.png" alt="No SVG support"/>
-                                                    </object>
-                                                </div>
-                                                <span>
-                                                    <strong>Goal:</strong> <t t-esc="registration.amount_objective"/> CHF
-                                                </span>
-                                            </li>
-                                        </ul>-->
-
                                         <table style="border: 0px">
                                             <tbody>
                                                 <tr>

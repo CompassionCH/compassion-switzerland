@@ -21,9 +21,9 @@ class EventCompassion(models.Model):
     muskathlon_registration_ids = fields.One2many(
         'muskathlon.registration', 'event_id', 'Muskathlon registrations')
 
-    public_description = fields.Char('Description publique')
-    photo_1 = fields.Binary('Photo 1')
-    photo_2 = fields.Binary('Photo 2')
+    public_description = fields.Text('Description publique')
+    picture_1 = fields.Binary('Picture 1')
+    picture_2 = fields.Binary('Picture 2')
     video_url = fields.Char("Video URL")
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000, require=True)
@@ -78,10 +78,10 @@ class MuskathlonRegistration(models.Model):
         'res.partner', 'Muskathlon participant',
     )
 
-    public_description = fields.Char('Public description')
-    ambassador_quote_public = fields.Char("Ambassador public quote")
-    photo_1 = fields.Binary('Photo 1')
-    photo_2 = fields.Binary('Photo 2')
+    public_description = fields.Text('Public description')
+    ambassador_quote_public = fields.Text("Ambassador public quote")
+    picture_1 = fields.Binary('Picture 1')
+    picture_2 = fields.Binary('Picture 2')
     sport_type = fields.Selection([
         ('run_21', 'Run 21 Km'),
         ('run_42', 'Run 42 Km'),
@@ -90,7 +90,7 @@ class MuskathlonRegistration(models.Model):
         ('climb', 'Climb'),
         ('bike_120', 'Bike 120 Km'),
         ('bike_400', 'Bike 400 Km')
-    ], string='Type de sport', require=True)
+    ], string='Sport', require=True)
     amount_objective = fields.Integer('Raise objective', default=10000,
                                       require=True)
     amount_raised = fields.Integer(readonly=True,

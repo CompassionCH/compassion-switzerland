@@ -12,13 +12,12 @@ from odoo import http
 
 
 class MuskathlonWebsite(http.Controller):
-    @http.route('/events/', auth='public', website=True)
+    @http.route('/events/', auth='user', website=True)
     def list(self, **kw):
         events = http.request.env['crm.event.compassion']
         return http.request.render('muskathlon.list', {
             'events': events.search([]).filtered(
-                lambda x: x.muskathlon_event_id),
-            # event.year = current_year !
+                lambda x: x.muskathlon_event_id)
         })
 
     @http.route('/event/<model("crm.event.compassion"):event>/',
@@ -44,18 +43,3 @@ class MuskathlonWebsite(http.Controller):
             'participant': partner,
             'registration': registration
         })
-
-    # snippet route for participants_list
-    # @http.route('/event-participants/<int:event_id>/', type='json', auth='public', website=True)
-    # def participants_list(self, event_id):
-    #     participants = http.request.env['muskathlon.registration'].search([('event_id', '=', event_id)])
-    #
-    #     return http.request.env['ir.ui.view'].render('muskathlon.media_list_template', {
-    #         'posts': participants
-    #     })
-    #
-    #     # return http.request.registry['ir.ui.view'].render(http.request.cr, http.request.uid, 'muskathlon.media_list_template', {'posts': participants}, context=http.request.context)
-    #
-    #     return http.request.render('muskathlon.media_list_template', {
-    #         'posts': participants
-    #     })
