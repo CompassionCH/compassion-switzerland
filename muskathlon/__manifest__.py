@@ -42,6 +42,7 @@
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
         'views/recurring_contracts_view.xml',
+        'views/muskathlon_registrations.xml',
         'views/website_muskathlon_list.xml',
         'views/assets.xml'
     ],
