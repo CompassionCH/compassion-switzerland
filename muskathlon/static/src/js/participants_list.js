@@ -3,11 +3,6 @@
 odoo.define('muskathlon.participants_list', function (require) {
     'use strict';
 
-    // display debug message if set to true
-    const DEBUG = false;
-
-    if (DEBUG) console.log('Begin...');
-
     var ajax = require('web.ajax');
     var animation = require('web_editor.snippets.animation');
     var Model = require('web.Model');
@@ -16,8 +11,6 @@ odoo.define('muskathlon.participants_list', function (require) {
     animation.registry.participants_list = animation.Class.extend({
         selector: ".o_participants_list",
         start: function () {
-            if (DEBUG) console.log('start event fired..');
-
             var self = this;
             var tableContent = $(self.$target).find('#participants_list_content');
 
@@ -27,11 +20,9 @@ odoo.define('muskathlon.participants_list', function (require) {
             // get current event id
             var url = window.location.href;
             var eventId = parseInt(url.match(/event\/[a-z0-9\-]{1,}-([0-9]{1,})\//)[1]);
-            if (DEBUG) console.log(window.location.href, eventId);
 
             // call posts
             crmEventCompassion.call('getEventParticipants', [eventId]).then(function (participants) {
-                if (DEBUG) console.log(participants);
 
                 if (participants.length > 0) {
                     participantListHtml = '<tr><td colspan="3">No participants found...</td></tr>';
@@ -52,6 +43,4 @@ odoo.define('muskathlon.participants_list', function (require) {
             });
         }
     });
-
-    if (DEBUG) console.log('End...');
 });
