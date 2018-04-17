@@ -5,11 +5,8 @@
 odoo.define('muskathlon.participant_details', function (require) {
     'use strict';
 
-    // display debug message if set to true
-    const DEBUG = true;
     const ENVIRONMENT = 'TEST'; // could be PROD
 
-    var ajax = require('web.ajax');
     var animation = require('web_editor.snippets.animation');
     var Model = require('web.Model');
     var payment_acquirer = new Model('payment.acquirer');
@@ -38,15 +35,11 @@ odoo.define('muskathlon.participant_details', function (require) {
             form.submit();
         },
         start: function () {
-            if (DEBUG) console.log('start event fired..');
-
             // get participant ID
             var url = window.location.href;
             var participant_id = parseInt(url.match(/participant\/[a-z0-9\-]{1,}-([0-9]{1,})\//)[1]);
-            if (DEBUG) console.log(window.location.href, participant_id);
             // get current event id
             var event_id = parseInt(url.match(/event\/[a-z0-9\-]{1,}-([0-9]{1,})\//)[1]);
-            if (DEBUG) console.log(window.location.href, event_id);
 
             var self = this;
 
