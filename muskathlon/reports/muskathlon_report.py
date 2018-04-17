@@ -37,7 +37,8 @@ class Muskathlon(models.Model):
     # WARNING: do not change fields name (used in csv export file)
     status = fields.Char(string="Status", readonly=True)
     type = fields.Char(string="Type", readonly=True)
-    payment_methode = fields.Char("Paymentmethod", readonly=True)
+    payment_method = fields.Char("Paymentmethod", readonly=True,
+                                 oldname="payment_methode")
     project_id = fields.Char("ProjectID", readonly=True)
     date = fields.Datetime("Date/time", readonly=True)
     currency = fields.Char("Currency", readonly=True)
@@ -79,7 +80,7 @@ class Muskathlon(models.Model):
                 rc.start_date AS date_display,
                 'success' AS status,
                 'sponsor' AS type,
-                'transfer' AS payment_methode,
+                'transfer' AS payment_method,
                 cec.muskathlon_event_id AS project_id,
                 mr.reg_id AS muskathlon_registration_id
               FROM recurring_contract AS rc
@@ -112,7 +113,7 @@ class Muskathlon(models.Model):
                 ai.date_invoice AS date_display,
                 'success' AS status,
                 'sponsor' AS type,
-                'transfer' AS payment_methode,
+                'transfer' AS payment_method,
                 cec.muskathlon_event_id AS project_id,
                 mr.reg_id AS muskathlon_registration_id
               FROM account_invoice_line AS ail
