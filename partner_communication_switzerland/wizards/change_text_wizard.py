@@ -100,7 +100,7 @@ class ChangeTextWizard(models.TransientModel):
                 ambassador.ambassador_quote = self.ambassador_text
             template = config.email_template_id
             new_texts = template.render_template(
-                self.template_text, template.model, communications.ids)
+                template.body_html, template.model, communications.ids)
             for comm in communications:
                 comm.body_html = new_texts[comm.id].replace(
                     event.name, self.event_name)
