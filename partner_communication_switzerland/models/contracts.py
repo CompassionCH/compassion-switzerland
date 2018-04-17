@@ -451,10 +451,7 @@ class RecurringContract(models.Model):
         module = 'partner_communication_switzerland.'
         new_dossier = self.env.ref(module + 'planned_dossier')
 
-        success_story = self.env['success.story'].search([
-            ('is_active', '=', True)], limit=1)
-        sub_sponsorships = self.filtered(lambda c: c.parent_id).with_context(
-            default_success_story_id=success_story.id)
+        sub_sponsorships = self.filtered(lambda c: c.parent_id)
         sub_proposal = self.env.ref(module + 'planned_sub_dossier')
         selected = self - sub_sponsorships
 
