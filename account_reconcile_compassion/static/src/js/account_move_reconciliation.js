@@ -19,7 +19,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
             var self = this;
             _.each(self.create_form, function(field) {
                 if (field.name === 'sponsorship_id') {
-                    field.field.domain = ['|', '|', ['partner_id', '=', self.partner_id], ['partner_id.parent_id', '=', self.partner_id], ['correspondant_id', '=', self.partner_id], ['state', '!=', 'draft']];
+                    field.field.domain = ['|', '|', ['partner_id', '=', self.partner_id], ['partner_id.parent_id', '=', self.partner_id], ['correspondent_id', '=', self.partner_id], ['state', '!=', 'draft']];
                 }
             });
             this._super();
@@ -43,7 +43,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 var sponsorship_search = [
                     ['child_code', 'like', child_code],
                     '|',
-                    ['correspondant_id', '=', self.st_line.partner_id],
+                    ['correspondent_id', '=', self.st_line.partner_id],
                     ['partner_id', '=', self.st_line.partner_id],
                 ];
                 $.when(sponsorship_obj.call("search", [sponsorship_search])).then(function(sponsorship_ids){

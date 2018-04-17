@@ -142,7 +142,7 @@ class RecurringContracts(models.Model):
     @api.onchange('child_id')
     def onchange_child_id(self):
         res = super(RecurringContracts, self).onchange_child_id()
-        warn_categories = self.correspondant_id.category_id.filtered(
+        warn_categories = self.correspondent_id.category_id.filtered(
             'warn_sponsorship')
         if warn_categories:
             cat_names = warn_categories.mapped('name')
@@ -240,11 +240,11 @@ class RecurringContracts(models.Model):
             (3, old_sponsor_cat_id)
         ]}
         sponsorships.mapped('partner_id').write(add_sponsor_vals)
-        sponsorships.mapped('correspondant_id').write(add_sponsor_vals)
+        sponsorships.mapped('correspondent_id').write(add_sponsor_vals)
         sponsorships.mapped('partner_id').update_church_sponsorships_number(
             True)
         sponsorships.mapped(
-            'correspondant_id').update_church_sponsorships_number(
+            'correspondent_id').update_church_sponsorships_number(
             True)
         return True
 
@@ -342,11 +342,11 @@ class RecurringContracts(models.Model):
 
         for sponsorship in self:
             partner_id = sponsorship.partner_id.id
-            correspondant_id = sponsorship.correspondant_id.id
+            correspondent_id = sponsorship.correspondent_id.id
             # Partner
             contract_count = self.search_count([
                 '|',
-                ('correspondant_id', '=', partner_id),
+                ('correspondent_id', '=', partner_id),
                 ('partner_id', '=', partner_id),
                 ('state', '=', 'active'),
                 ('type', 'like', 'S')])
@@ -358,18 +358,18 @@ class RecurringContracts(models.Model):
             # Correspondant
             contract_count = self.search_count([
                 '|',
-                ('correspondant_id', '=', correspondant_id),
-                ('partner_id', '=', correspondant_id),
+                ('correspondent_id', '=', correspondent_id),
+                ('partner_id', '=', correspondent_id),
                 ('state', '=', 'active'),
                 ('type', 'like', 'S')])
             if not contract_count:
                 # Replace sponsor category by old sponsor category
-                sponsorship.correspondant_id.write({
+                sponsorship.correspondent_id.write({
                     'category_id': [(3, sponsor_cat_id),
                                     (4, old_sponsor_cat_id)]})
 
             sponsorship.partner_id.update_church_sponsorships_number(False)
-            sponsorship.correspondant_id.update_church_sponsorships_number(
+            sponsorship.correspondent_id.update_church_sponsorships_number(
                 False)
 
     def _on_change_group_id(self, group_id):

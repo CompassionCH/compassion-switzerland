@@ -19,7 +19,7 @@
             <field name="partner_id" position="attributes">
                 <attribute name="attrs">{'required': [('web_data', '=', False)]}</attribute>
             </field>
-            <field name="correspondant_id" position="attributes">
+            <field name="correspondent_id" position="attributes">
                 <attribute name="attrs">{'required': [('web_data', '=', False), ('type', 'in', ['S','SC'])]}</attribute>
             </field>
             <field name="origin_id" position="attributes">
