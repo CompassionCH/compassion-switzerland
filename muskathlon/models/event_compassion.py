@@ -26,7 +26,7 @@ class EventCompassion(models.Model):
     picture_2 = fields.Binary('Picture 2')
     video_url = fields.Char("Video URL")
     participants_amount_objective = fields.Integer(
-        'Default raise objective by participant', default=10000, require=True)
+        'Default raise objective by participant', default=10000, required=True)
     amount_objective = fields.Integer(readonly=True,
                                       compute='_compute_amount_raised')
     amount_raised = fields.Integer(readonly=True,
@@ -49,7 +49,7 @@ class EventCompassion(models.Model):
                 amount_raised * 100 / amount_objective)
 
     @api.model
-    def getEventParticipants(self, event_id):
+    def get_event_participants(self, event_id):
         participants = self.env['muskathlon.registration'].search(
             [('event_id', '=', event_id)]
         )
@@ -90,9 +90,9 @@ class MuskathlonRegistration(models.Model):
         ('climb', 'Climb'),
         ('bike_120', 'Bike 120 Km'),
         ('bike_400', 'Bike 400 Km')
-    ], string='Sport', require=True)
+    ], string='Sport', required=True)
     amount_objective = fields.Integer('Raise objective', default=10000,
-                                      require=True)
+                                      required=True)
     amount_raised = fields.Integer(readonly=True,
                                    compute='_compute_amount_raised')
     amount_raised_percents = fields.Integer(readonly=True,
@@ -116,8 +116,10 @@ class MuskathlonRegistration(models.Model):
 
         for registration in self:
             amount_raised = int(sum(
-                item.amount for item in muskathlon_report.search([]) if
-                item.user_id.id == registration.partner_id.id))
+                item.amount for item in muskathlon_report.search([
+                    ('user_id', '=', registration.partner_id.id)
+                ])
+            ))
 
             registration.amount_raised = amount_raised
             registration.amount_raised_percents = int(

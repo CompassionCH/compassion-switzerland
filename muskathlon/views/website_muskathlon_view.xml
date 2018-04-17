@@ -228,9 +228,7 @@
                                 </div>
                             </div>
 
-                            <hr />
                             <t t-call="muskathlon.modal_donation"/>
-
                         </article>
                     </div>
                 </div>
@@ -255,8 +253,8 @@
                                         <div class="col-sm-3">
                                             <select class="form-control" id="currency" name="CURRENCY">
                                                 <option value="CHF">CHF</option>
-                                                <option value="EUR">EUR</option>
-                                                <option value="USD">USD</option>
+                                                <!--<option value="EUR">EUR</option>
+                                                <option value="USD">USD</option>-->
                                             </select>
                                         </div>
                                     </div>
@@ -266,7 +264,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="firstname">Firstname</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" name="FIRSTNAME" id="firstname" value="" placeholder="First name"/>
+                                            <input class="form-control" pattern="[a-z]{0,}" name="FIRSTNAME" id="firstname" value="" placeholder="First name"/>
                                         </div>
 
                                         <label class="col-sm-2 control-label" for="lastname">Lastname</label>
@@ -583,35 +581,5 @@
                 </select>
             </div>
         </template>
-        <!-- Snippets registration (add them in the website builder editor pannel) -->
-        <template id="place_into_bar" inherit_id="website.snippets" name="Place into bar">
-            <xpath expr="//div[@id='snippet_content']/div[@class='o_panel_body']" position="inside">
-                <t t-snippet="muskathlon.participants_list" t-thumbnail="/theme_tutorial/static/src/img/ui/snippet_thumb.jpg"/>
-            </xpath>
-        </template>
-
-        <!-- Event participants list Snippet -->
-        <template id="participants_list" name="Participant list">
-            <section class="o_participants_list">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>Participants</h3>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Gender</th>
-                                        <th>Country</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="participants_list_content"/>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </template>
-
     </data>
 </odoo>

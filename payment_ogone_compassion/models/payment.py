@@ -9,10 +9,9 @@
 ##############################################################################
 
 import logging
+import copy
 
-from odoo import api, fields, models, _
-from .. import controller
-import urlparse
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -28,8 +27,8 @@ class PaymentAcquirerOgone(models.Model):
                 'https://e-payment.postfinance.ch/ncol/%s/orderstandard_utf8'
                 '.asp' % (environment,),
             'ogone_direct_order_url':
-                'https://e-payment.postfinance.ch/ncol/%s/orderdirect_utf8.asp'
-                '' % (environment,),
+                'https://e-payment.postfinance.ch/ncol/%s/orderdirect_utf8'
+                '.asp' % (environment,),
             'ogone_direct_query_url':
                 'https://e-payment.postfinance.ch/ncol/%s/querydirect_utf8'
                 '.asp' % (environment,),
@@ -89,7 +88,7 @@ class PaymentAcquirerOgone(models.Model):
             self.update_invoice_line_for_muksathlon(invoice_line, values[
                 'ambassador'], values['event_id'])
 
-        tx_data ={
+        tx_data = {
             'state': u'draft',
             'acquirer_id': ogone.id,
             'partner_id': partner.id,
@@ -107,7 +106,15 @@ class PaymentAcquirerOgone(models.Model):
             'reference': unicode(invoice_line.id)
         }
 
+        # The creation of the transaction overwrite some values in tx_data
+        # with the values in stored in partner. If there is the value is
+        # missing in partner, the field will be set to False. This will
+        # result in a rejected SHA1 signature. We therefore reset tx_data
+        # after the create.
+        tx_data_old = copy.copy(tx_data)
         tx = self.env['payment.transaction'].create(tx_data)
+        tx_data = tx_data_old
+
         tx_data.update({
             'partner_country': tx.partner_country_id,
             'currency': tx.currency_id
@@ -121,22 +128,21 @@ class PaymentAcquirerOgone(models.Model):
         return ogone.ogone_get_form_action_url(), res
 
     def validate_invoice_line(self, invoice_id):
-        invoice_line = self.env['account.invoice.line'].search([('id', '=',
-                                                                 invoice_id)])
+        invoice_line = self.env['account.invoice.line'].browse(
+            int(invoice_id))
         invoice_line.state = 'paid'
         invoice_line.invoice_id.state = 'paid'
 
     def update_invoice_line_for_muksathlon(self, invoice_line,
                                            ambassador_str, event_id_str):
-        ambassador = self.env['res.partner'].search(
-            [('id', '=', ambassador_str)])
-        event = self.env['crm.event.compassion'].search([('id', '=',
-                                                          event_id_str)])
+        ambassador = self.env['res.partner'].browse(int(ambassador_str))
+        event = self.env['crm.event.compassion'].browse(int(event_id_str))
 
         val = {
-            'account_analytic_id': self.env['account.analytic.account'].search(
+            'account_analytic_id': self.env[
+                'account.analytic.account'].search(
                 [('event_id', '=', event.id)], limit=1).id,
             'name': 'Gift for ' + event.name + ' for ' + ambassador.name,
-            'user_id': ambassador.id
+            'user_id': ambassador.id,
         }
         invoice_line.write(val)

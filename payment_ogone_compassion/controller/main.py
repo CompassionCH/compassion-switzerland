@@ -34,8 +34,8 @@ class OgoneController2(http.Controller):
         """ Ogone contacts using GET, at least for accept """
         _logger.info('Ogone: entering form_feedback with post data %s',
                      pprint.pformat(post))  # debug
-        if request.env['payment.transaction'].sudo().form_feedback(post,
-                                                                  'ogone'):
+        if request.env['payment.transaction'].sudo().form_feedback(
+                post, 'ogone'):
             http.request.env['payment.acquirer']\
                 .validate_invoice_line(post['orderID'])
         return http.request.render('payment_ogone_compassion.accept')
