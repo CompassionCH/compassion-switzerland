@@ -1,11 +1,7 @@
-// https://github.com/open-synergy/odoo-design-theme/blob/8.0/snippet_latest_posts/views/s_latest_posts.xml
-
-// console.log('loaded first..');
-
 odoo.define('muskathlon.participant_details', function (require) {
     'use strict';
 
-    const ENVIRONMENT = 'TEST'; // could be PROD
+    const ENVIRONMENT = 'TEST'; // could be PROD or TEST
 
     var animation = require('web_editor.snippets.animation');
     var Model = require('web.Model');
@@ -47,7 +43,7 @@ odoo.define('muskathlon.participant_details', function (require) {
 
             payment_form.attr('action', 'https://e-payment.postfinance.ch/ncol/' + ENVIRONMENT + '/orderstandard_utf8.asp');
             $('#donate_button').on('click', function(e) {
-                var objectifyFormFunc = function objectifyForm(formArray) {//serialize data function
+                var objectifyFormFunc = function objectifyForm(formArray) { // serialize data function
                     var returnArray = {};
                     for (var i = 0; i < formArray.length; i++){
                         returnArray[formArray[i]['name']] = formArray[i]['value'];
