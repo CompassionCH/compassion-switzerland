@@ -120,7 +120,7 @@ class Contracts(models.Model):
         form_data['lang'] = LANG_MAPPING[sponsor_lang]
         sponsorship = self.create({
             'partner_id': partner_ok and partner.id,
-            'correspondant_id': partner_ok and partner.id,
+            'correspondent_id': partner_ok and partner.id,
             'child_id': child.id,
             'web_data': simplejson.dumps(form_data),
             'type': 'S',
@@ -215,7 +215,7 @@ class Contracts(models.Model):
             default_type=None).create(vals)
         self.write({
             'partner_id': partner.id,
-            'correspondant_id': partner.id,
+            'correspondent_id': partner.id,
             'web_data': False,
         })
         self.child_id.sponsor_id = partner

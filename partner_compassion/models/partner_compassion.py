@@ -330,8 +330,8 @@ class ResPartner(models.Model):
                 'res_model': 'recurring.contract',
                 'views': [[False, "tree"], [False, "form"]],
                 'domain': ['|', '|',
-                           ('correspondant_id', 'in', self.member_ids.ids),
-                           ('correspondant_id', '=', self.id), '|',
+                           ('correspondent_id', 'in', self.member_ids.ids),
+                           ('correspondent_id', '=', self.id), '|',
                            ('partner_id', '=', self.id),
                            ('partner_id', 'in', self.member_ids.ids)],
                 'context': self.with_context({
@@ -387,8 +387,8 @@ class ResPartner(models.Model):
             partner.number_sponsorships = self.env[
                 'recurring.contract'].search_count([
                     '|', '|',
-                    ('correspondant_id', 'in', partner.member_ids.ids),
-                    ('correspondant_id', '=', partner.id), '|',
+                    ('correspondent_id', 'in', partner.member_ids.ids),
+                    ('correspondent_id', '=', partner.id), '|',
                     ('partner_id', '=', partner.id),
                     ('partner_id', 'in', partner.member_ids.ids),
                     ('state', 'in', ['active', 'mandate']),

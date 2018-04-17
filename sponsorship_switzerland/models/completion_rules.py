@@ -235,7 +235,7 @@ class StatementCompletionRule(models.Model):
             contract = contract_obj.search(
                 ['|',
                  ('partner_id', '=', partner.id),
-                 ('correspondant_id', '=', partner.id),
+                 ('correspondent_id', '=', partner.id),
                  ('commitment_number', '=', contract_number),
                  ('state', '!=', 'draft'),
                  ('type', 'like', 'S')])
