@@ -11,6 +11,8 @@
 import logging
 
 from odoo import api, fields, models, _
+from .. import controller
+import urlparse
 
 _logger = logging.getLogger(__name__)
 
@@ -88,7 +90,7 @@ class PaymentAcquirerOgone(models.Model):
                 'ambassador'], values['event_id'])
 
         tx_data ={
-            'state': 'draft',
+            'state': u'draft',
             'acquirer_id': ogone.id,
             'partner_id': partner.id,
             'currency_id': currency_id,
@@ -102,7 +104,7 @@ class PaymentAcquirerOgone(models.Model):
             'partner_city': values['OWNERTOWN'],
             'partner_state': None,
             'amount': float(values['AMOUNT']),
-            'reference': str(invoice_line.id)
+            'reference': unicode(invoice_line.id)
         }
 
         tx = self.env['payment.transaction'].create(tx_data)
@@ -111,8 +113,12 @@ class PaymentAcquirerOgone(models.Model):
             'currency': tx.currency_id
         })
 
-        return ogone.ogone_get_form_action_url(),\
-            ogone.ogone_form_generate_values(tx_data)
+        res = ogone.ogone_form_generate_values(tx_data)
+
+        # filter field to send to Ogone
+        res = {k: v for k, v in res.iteritems() if k.isupper()}
+        del res['PARAMPLUS']
+        return ogone.ogone_get_form_action_url(), res
 
     def validate_invoice_line(self, invoice_id):
         invoice_line = self.env['account.invoice.line'].search([('id', '=',
