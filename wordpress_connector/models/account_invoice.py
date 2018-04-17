@@ -44,7 +44,7 @@ class AccountInvoice(models.Model):
         if child_code:
             sponsorship = sponsorship.search([
                 '|', ('partner_id', '=', partner_id),
-                ('correspondant_id', '=', partner_id),
+                ('correspondent_id', '=', partner_id),
                 ('child_code', '=', child_code)
             ], order='id desc', limit=1)
         payment_mode = self.env['account.payment.mode'].search([

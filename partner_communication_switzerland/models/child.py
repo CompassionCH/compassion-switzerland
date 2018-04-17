@@ -134,7 +134,7 @@ class CompassionChild(models.Model):
         for child in self.filtered('sponsorship_ids'):
             self.env['partner.communication.job'].create({
                 'config_id': communication_type.id,
-                'partner_id': child.sponsorship_ids[0].correspondant_id.id,
+                'partner_id': child.sponsorship_ids[0].correspondent_id.id,
                 'object_ids': child.id,
                 'user_id': communication_type.user_id.id,
             })
