@@ -14,6 +14,10 @@ Configuration
 =============
 Nothing.
 
+Todo / Improvements
+===================
+- Style payments success and aborted pages
+
 Credits
 =======
 
