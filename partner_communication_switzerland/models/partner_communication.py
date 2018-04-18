@@ -9,17 +9,21 @@
 #
 ##############################################################################
 import base64
-from collections import OrderedDict
+import time
+import logging
 
+from collections import OrderedDict
 from datetime import date, datetime
-from dateutil.relativedelta import relativedelta
-from pyPdf import PdfFileWriter, PdfFileReader
 from io import BytesIO
 
-from odoo import api, models, _, fields
-from odoo.exceptions import MissingError
-
+from dateutil.relativedelta import relativedelta
 from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
+from pyPdf import PdfFileWriter, PdfFileReader
+
+from odoo import api, models, _, fields
+from odoo.exceptions import MissingError, UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class PartnerCommunication(models.Model):
@@ -309,11 +313,41 @@ class PartnerCommunication(models.Model):
     @api.multi
     def send(self):
         """
+        - Prevent sending communication when invoices are being reconciled
         - Mark B2S correspondence as read when printed.
         - Postpone no money holds when reminders sent.
         - Update donor tag
         :return: True
         """
+        for job in self.filtered(lambda j: j.model in ('recurring.contract',
+                                                       'account.invoice')):
+            queue_job = self.env['queue.job'].search([
+                ('channel', '=', 'root.group_reconcile'),
+                ('state', '!=', 'done'),
+            ])
+            if queue_job:
+                invoices = self.env['account.invoice'].browse(
+                    queue_job.record_ids)
+                if job.partner_id in invoices.mapped('partner_id'):
+                    retry = 0
+                    state = queue_job.state
+                    while state != 'done' and retry < 5:
+                        if queue_job.state == 'failed':
+                            raise UserError(_(
+                                "A reconcile job has failed. Please call "
+                                "an admin for help."
+                            ))
+                        _logger.info("Reconcile job is processing! Going in "
+                                     "sleep for five seconds...")
+                        time.sleep(5)
+                        state = queue_job.read(['state'])[0]['state']
+                        retry += 1
+                    if queue_job.state != 'done':
+                        raise UserError(_(
+                            "Some invoices of the partner are just being "
+                            "reconciled now. Please wait the process to finish"
+                            " before printing the communication."
+                        ))
         super(PartnerCommunication, self).send()
         b2s_printed = self.filtered(
             lambda c: c.config_id.model == 'correspondence' and
@@ -389,24 +423,26 @@ class PartnerCommunication(models.Model):
                 'group_id.contract_ids').filtered(
                 lambda s: s.state == 'active')
 
-        payment = self.partner_id in sponsorships.mapped('partner_id')
+        is_payer = self.partner_id in sponsorships.mapped('partner_id')
         correspondence = self.partner_id in sponsorships.mapped(
             'correspondent_id')
         make_payment_pdf = True
 
+        # LSV/DD don't need a payment slip
         groups = sponsorships.mapped('group_id')
-
         lsv_dd_modes = account_payment_mode_obj.search(
             ['|', ('name', 'like', 'Direct Debit'), ('name', 'like', 'LSV')])
-
         lsv_dd_groups = groups.filtered(
             lambda r: r.payment_mode_id in lsv_dd_modes)
-
         if len(lsv_dd_groups) == len(groups):
             make_payment_pdf = False
 
+        # If sponsor already paid, avoid payment slip
+        if len(sponsorships.filtered('period_paid')) == len(sponsorships):
+            make_payment_pdf = False
+
         # Payment slips
-        if payment and make_payment_pdf:
+        if is_payer and make_payment_pdf:
             report_name = 'report_compassion.3bvr_sponsorship'
             attachments.update({
                 _('sponsorship payment slips.pdf'): [

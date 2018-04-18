@@ -50,9 +50,8 @@ class SubSponsorshipWizard(models.TransientModel):
                 async_mode=False).get_infos()
             # Generate depart letter
             child = sponsorship.child_id
-            lifecycle_type = (
-                child.lifecycle_ids and child.lifecycle_ids[0].type
-            ) or 'Unplanned Exit'
+            lifecycle = child.lifecycle_ids and child.lifecycle_ids[0]
+            lifecycle_type = lifecycle and lifecycle.type or 'Unplanned Exit'
             if lifecycle_type == 'Planned Exit':
                 config = self.env.ref(
                     'partner_communication_switzerland.'
@@ -63,7 +62,7 @@ class SubSponsorshipWizard(models.TransientModel):
                     'partner_communication_switzerland.'
                     'lifecycle_child_unplanned_exit'
                 )
-                if child.lifecycle_ids[0].request_reason == 'deceased':
+                if lifecycle and lifecycle.request_reason == 'deceased':
                     sponsorship = sponsorship.with_context(
                         default_need_call=True)
         else:

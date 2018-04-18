@@ -264,7 +264,9 @@ class RecurringContracts(models.Model):
 
     @api.multi
     def contract_waiting(self):
-        for contract in self.filtered(lambda s: 'S' in s.type):
+        """ If sponsor has open payments, generate invoices and reconcile. """
+        sponsorships = self.filtered(lambda s: 'S' in s.type)
+        for contract in sponsorships:
             payment_mode = contract.payment_mode_id.name
             if contract.type == 'S' and ('LSV' in payment_mode or
                                          'Postfinance' in payment_mode):
@@ -280,8 +282,11 @@ class RecurringContracts(models.Model):
                 if next_invoice_date > old_invoice_date:
                     contract.next_invoice_date = fields.Date.to_string(
                         next_invoice_date)
+            super(RecurringContracts, contract).contract_waiting()
+            contract._reconcile_open_amount()
 
-        return super(RecurringContracts, self).contract_waiting()
+        super(RecurringContracts, self-sponsorships).contract_waiting()
+        return True
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
@@ -403,3 +408,22 @@ class RecurringContracts(models.Model):
                 seq = self.env['ir.sequence']
                 ref = mod10r(seq.next_by_code('contract.bvr.ref'))
             invoices.write({'reference': ref})
+
+    def _reconcile_open_amount(self):
+        # Reconcile open amount of partner with contract invoices
+        self.ensure_one()
+        move_lines = self.env['account.move.line'].search([
+            ('partner_id', '=', self.partner_id.id),
+            ('account_id.code', '=', '1050'),
+            ('credit', '>', 0),
+            ('reconciled', '=', False)
+        ])
+        number_to_reconcile = int(
+            sum(move_lines.mapped('credit') or [0])) / int(self.total_amount)
+        if number_to_reconcile:
+            self.button_generate_invoices()
+            invoices = self.invoice_line_ids.mapped('invoice_id')
+            number = min(len(invoices), number_to_reconcile)
+            invoices = invoices[:number]
+            if invoices:
+                invoices.with_delay().group_or_split_reconcile()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2015-2018 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
@@ -12,6 +12,7 @@
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
+from odoo.addons.queue_job.job import job, related_action
 from odoo.addons.sponsorship_compassion.models.product import \
     GIFT_CATEGORY, SPONSORSHIP_CATEGORY, FUND_CATEGORY
 
@@ -98,3 +99,10 @@ class AccountInvoice(models.Model):
         }
 
         return action
+
+    @job(default_channel='root.group_reconcile')
+    @related_action(action='related_action_invoices')
+    def group_or_split_reconcile(self):
+        """Reconcile given invoices with partner open payments.
+        """
+        return self._group_or_split_reconcile()
