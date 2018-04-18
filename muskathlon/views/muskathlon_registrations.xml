@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_muskathlon_registration_form" model="ir.ui.view">
+        <field name="name">muskathlon.registration.form</field>
+        <field name="model">muskathlon.registration</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="event_id"/>
+                            <field name="partner_id"></field>
+                            <field name="muskathlon_participant_id"></field>
+                        </group>
+                        <group>
+                            <field name="muskathlon_event_id"></field>
+                            <field name="sport_type"></field>
+                            <field name="reg_id"></field>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="public_description"></field>
+                        <field name="ambassador_quote_public"></field>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="picture_1"/>
+                            <field name="amount_objective"></field>
+                            <field name="amount_raised_percents"></field>
+                        </group>
+                        <group>
+                            <field name="picture_2"></field>
+                            <field name="amount_raised"></field>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data> <!-- add to data: noupdate="1" -->
+        <template id="payment_ogone_compassion.accept" page="True">
+            <t t-call="website.layout">
+                <t t-set="title">Muskathlons</t>
+                <div class="oe_structure">
+                    blabla
+                </div>
+            </t>
+        </template>
+
+        <template id="payment_ogone_compassion.decline" page="True">
+            <t t-call="website.layout">
+                <t t-set="title">Muskathlons</t>
+                <div class="oe_structure">
+                    blabla
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

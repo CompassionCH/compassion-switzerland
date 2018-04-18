@@ -29,25 +29,19 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Muskathlon',
+    'name': 'Website',
     'version': '10.0.1.0.0',
-    'category': 'Reports',
+    'category': 'Website',
     'author': 'Sebastien Toth',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'data': [
-        'security/ir.model.access.csv',
-        'security/partner_access.xml',
-        'reports/muskathlon_view.xml',
-        'views/event_compassion_view.xml',
-        'views/partner_compassion_view.xml',
-        'views/recurring_contracts_view.xml',
-        'views/muskathlon_registrations.xml',
-        'views/website_muskathlon_list_view.xml',
-        'views/assets.xml'
+        'views/header.xml',
+        'views/footer.xml',
+        'views/assets.xml',
+        'views/homepage.xml'
     ],
-    'depends': ['partner_compassion', 'crm_compassion', 'website',
-                'payment_ogone_compassion'],
+    'depends': ['website'],
     'demo': [],
     'installable': True,
     'auto_install': False,
