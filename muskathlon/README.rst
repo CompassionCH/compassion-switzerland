@@ -19,6 +19,7 @@ Nothing.
 Todo / Improvements
 ===================
 - When defined, display a background image in muskathlon detail page header
+- Validate input fields in payment modal
 - Remove muskathlon list page (only admin access for now) ?
 - Pretty format numbers (10'000 in place of 10000)
 - Improve design for amount stats in participants detail page
