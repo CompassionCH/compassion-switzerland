@@ -3,7 +3,6 @@
 odoo.define('muskathlon.participants_list', function (require) {
     'use strict';
 
-    var ajax = require('web.ajax');
     var animation = require('web_editor.snippets.animation');
     var Model = require('web.Model');
     var crmEventCompassion = new Model('crm.event.compassion');
@@ -19,16 +18,16 @@ odoo.define('muskathlon.participants_list', function (require) {
 
             // get current event id
             var url = window.location.href;
-            var eventId = parseInt(url.match(/event\/[a-z0-9\-]{1,}-([0-9]{1,})\//)[1]);
+            var eventId = parseInt(url.match(/event\/[a-z0-9-]{1,}-([0-9]{1,})\//)[1], 10);
 
             // call posts
             crmEventCompassion.call('getEventParticipants', [eventId]).then(function (participants) {
+                var participantListHtml = '';
 
                 if (participants.length > 0) {
                     participantListHtml = '<tr><td colspan="3">No participants found...</td></tr>';
                 }
 
-                var participantListHtml = '';
                 participants.forEach(function (participant) {
                     participantListHtml += '<tr>';
                     participantListHtml += '<td><a href="/event/' + eventId + '/participant/' + participant.id + '/">' + participant.name + '</a></td>';
@@ -39,7 +38,7 @@ odoo.define('muskathlon.participants_list', function (require) {
 
                 tableContent.html(participantListHtml);
             }).fail(function (err) {
-                console.log('error', err);
+                console.log('error', err); // eslint-disable-line no-console
             });
         }
     });
