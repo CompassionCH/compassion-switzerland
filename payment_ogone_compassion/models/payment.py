@@ -10,9 +10,7 @@
 
 import logging
 
-from odoo import api, fields, models, _
-from .. import controller
-import urlparse
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -89,7 +87,7 @@ class PaymentAcquirerOgone(models.Model):
             self.update_invoice_line_for_muksathlon(invoice_line, values[
                 'ambassador'], values['event_id'])
 
-        tx_data ={
+        tx_data = {
             'state': u'draft',
             'acquirer_id': ogone.id,
             'partner_id': partner.id,
