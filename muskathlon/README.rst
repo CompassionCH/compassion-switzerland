@@ -16,6 +16,14 @@ Configuration
 =============
 Nothing.
 
+Todo / Improvements
+===================
+- When defined, display a background image in muskathlon detail page header
+- Remove muskathlon list page (only admin access for now) ?
+- Pretty format numbers (10'000 in place of 10000)
+- Improve design for amount stats in participants detail page
+- Clean code (remove some HTML tags and class copied from compassion website)
+
 Credits
 =======
 

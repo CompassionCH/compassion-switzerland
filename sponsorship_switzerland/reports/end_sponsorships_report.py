@@ -90,7 +90,7 @@ class EndSponsorshipsMonthReport(models.Model):
                    s.terminated_sponsorships,
                    s.activation_date
             FROM recurring_contract c JOIN res_partner p
-              ON c.correspondant_id = p.id
+              ON c.correspondent_id = p.id
               %s
             WHERE c.state = 'terminated' AND c.child_id IS NOT NULL
             AND c.end_date IS NOT NULL

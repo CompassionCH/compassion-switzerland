@@ -125,7 +125,7 @@ class RecurringContract(models.Model):
                               (overrides the previous parameter)
         :return: communication created recordset
         """
-        partner_field = 'correspondant_id' if correspondent else 'partner_id'
+        partner_field = 'correspondent_id' if correspondent else 'partner_id'
         partners = self.mapped(partner_field)
         communications = self.env['partner.communication.job']
         if both:
@@ -138,11 +138,11 @@ class RecurringContract(models.Model):
                             'default_object_ids', contract.id),
                         'user_id': communication.user_id.id,
                     })
-                if contract.correspondant_id != contract.partner_id:
+                if contract.correspondent_id != contract.partner_id:
                     communications += self.env[
                         'partner.communication.job'].create({
                             'config_id': communication.id,
-                            'partner_id': contract.correspondant_id.id,
+                            'partner_id': contract.correspondent_id.id,
                             'object_ids': self.env.context.get(
                                 'default_object_ids', contract.id),
                             'user_id': communication.user_id.id,
@@ -150,7 +150,7 @@ class RecurringContract(models.Model):
         else:
             for partner in partners:
                 objects = self.filtered(
-                    lambda c: c.correspondant_id == partner if correspondent
+                    lambda c: c.correspondent_id == partner if correspondent
                     else c.partner_id == partner
                 )
                 communications += self.env['partner.communication.job'].create(
@@ -224,7 +224,7 @@ class RecurringContract(models.Model):
             day=today.day)
         birthday = self.search([
             ('child_id.birthdate', '=like', in_two_month.strftime("%%-%m-%d")),
-            ('correspondant_id.birthday_reminder', '=', True),
+            ('correspondent_id.birthday_reminder', '=', True),
             ('state', '=', 'active'),
             ('type', 'like', 'S')
         ]).filtered(lambda c: not (
@@ -317,7 +317,7 @@ class RecurringContract(models.Model):
         report = 'report_compassion.bvr_gift_sponsorship'
         report_obj = self.env['report']
         attachments = dict()
-        partner_lang = self.mapped('correspondant_id')[0].lang
+        partner_lang = self.mapped('correspondent_id')[0].lang
         product_name = products[0].with_context(lang=partner_lang).name
         attachments[product_name + '.pdf'] = [
             report,
@@ -357,7 +357,7 @@ class RecurringContract(models.Model):
         new_spons = self.filtered(lambda c: 'S' in c.type and not c.is_active)
         new_spons._new_dossier()
         new_spons.filtered(
-            lambda s: s.correspondant_id.email and s.sds_state == 'draft' and
+            lambda s: s.correspondent_id.email and s.sds_state == 'draft' and
             s.partner_id.ref != '1502623').write({
                 'sds_state': 'waiting_welcome',
                 'sds_state_date': fields.Date.today()
@@ -374,7 +374,7 @@ class RecurringContract(models.Model):
         # Waiting welcome for partners with e-mail (except Demaurex)
         welcome = self.filtered(
             lambda s: 'S' in s.type and s.sds_state == 'draft' and
-            s.correspondant_id.email and s.partner_id.ref != '1502623')
+            s.correspondent_id.email and s.partner_id.ref != '1502623')
         welcome.write({
             'sds_state': 'waiting_welcome'
         })
@@ -456,8 +456,8 @@ class RecurringContract(models.Model):
         selected = self - sub_sponsorships
 
         for spo in selected:
-            if spo.correspondant_id.id != spo.partner_id.id:
-                corresp = spo.correspondant_id
+            if spo.correspondent_id.id != spo.partner_id.id:
+                corresp = spo.correspondent_id
                 payer = spo.partner_id
                 if corresp.contact_address != payer.contact_address:
                     spo.send_communication(new_dossier)
@@ -468,5 +468,5 @@ class RecurringContract(models.Model):
 
         for sub in sub_sponsorships:
             sub.send_communication(sub_proposal)
-            if sub.correspondant_id.id != sub.partner_id.id:
+            if sub.correspondent_id.id != sub.partner_id.id:
                 sub.send_communication(sub_proposal, correspondent=False)

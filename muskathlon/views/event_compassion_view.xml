@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Add text for donation receipts -->
     <record id="view_muskathlon_events_thank_donation" model="ir.ui.view">
@@ -9,9 +10,18 @@
                 <page string="Donation Receipts">
                     <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>
                 </page>
+                <page string="Public informations">
+                    <group>
+                        <field name="public_description"/>
+                        <field name="picture_1"/>
+                        <field name="picture_2"/>
+                        <field name="video_url"/>
+                    </group>
+                </page>
                 <page string="4M registrations">
                     <group col="6">
                         <field name="muskathlon_event_id" colspan="4"/><label string="" nolabel="1" colspan="2"/>
+                        <field name="participants_amount_objective" colspan="4"/><label string="" nolabel="1" colspan="2"/>
                     </group>
                     <group>
                         <field name="muskathlon_registration_ids" context="{'default_event_id': id}">

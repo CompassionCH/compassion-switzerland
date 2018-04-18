@@ -26,8 +26,8 @@ class GenerateCommunicationWizard(models.TransientModel):
     )
     partner_source = fields.Selection(
         [('partner_id', 'Payer'),
-         ('correspondant_id', 'Correspondent')],
-        'Send to', default='correspondant_id', required=True
+         ('correspondent_id', 'Correspondent')],
+        'Send to', default='correspondent_id', required=True
     )
     selection_domain = fields.Char(default=lambda s: s._default_domain())
     # Remove domain filter and handle it in the view

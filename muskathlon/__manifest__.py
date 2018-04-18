@@ -37,12 +37,18 @@
     'website': 'http://www.compassion.ch',
     'data': [
         'security/ir.model.access.csv',
+        'security/partner_access.xml',
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
-        'views/recurring_contracts_view.xml'
+        'views/recurring_contracts_view.xml',
+        'views/muskathlon_registrations.xml',
+        'views/website_muskathlon_snippet.xml',
+        'views/website_muskathlon_view.xml',
+        'views/assets.xml'
     ],
-    'depends': ['partner_compassion', 'crm_compassion'],
+    'depends': ['partner_compassion', 'crm_compassion', 'website',
+                'payment_ogone_compassion'],
     'demo': [],
     'installable': True,
     'auto_install': False,
