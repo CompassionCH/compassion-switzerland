@@ -1,7 +1,8 @@
 odoo.define('muskathlon.participant_details', function (require) {
     'use strict';
 
-    var ENVIRONMENT = 'TEST';  // could be PROD or TEST
+    // Could be PROD or TEST
+    var ENVIRONMENT = 'TEST';
 
     var animation = require('web_editor.snippets.animation');
     var Model = require('web.Model');
@@ -43,7 +44,8 @@ odoo.define('muskathlon.participant_details', function (require) {
 
             payment_form.attr('action', 'https://e-payment.postfinance.ch/ncol/' + ENVIRONMENT + '/orderstandard_utf8.asp');
             $('#donate_button').on('click', function(e) {
-                var objectifyFormFunc = function objectifyForm(formArray) {  // serialize data function
+                // Serialize data function
+                var objectifyFormFunc = function objectifyForm(formArray) {
                     var returnArray = {};
                     for (var i = 0; i < formArray.length; i++){
                         returnArray[formArray[i].name] = formArray[i].value;
