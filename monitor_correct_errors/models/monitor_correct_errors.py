@@ -223,7 +223,7 @@ class MonitorCorrectErrors(models.Model):
                 'record_model': 'recurring.contract'
             })
 
-            child.sponsor_id = error_sponsorship.correspondant_id
+            child.sponsor_id = error_sponsorship.correspondent_id
 
             error_log.update({
                 'action': 'ink created',

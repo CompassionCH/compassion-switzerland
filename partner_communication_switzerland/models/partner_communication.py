@@ -249,7 +249,7 @@ class PartnerCommunication(models.Model):
             })
         # Attach gifts for correspondents
         corresponding = sponsorships.filtered(
-            lambda s: s.correspondant_id == self.partner_id
+            lambda s: s.correspondent_id == self.partner_id
         )
         if corresponding:
             report_name = 'report_compassion.3bvr_gift_sponsorship'
@@ -391,7 +391,7 @@ class PartnerCommunication(models.Model):
 
         payment = self.partner_id in sponsorships.mapped('partner_id')
         correspondence = self.partner_id in sponsorships.mapped(
-            'correspondant_id')
+            'correspondent_id')
         make_payment_pdf = True
 
         groups = sponsorships.mapped('group_id')

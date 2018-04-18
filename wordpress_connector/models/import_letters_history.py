@@ -87,7 +87,7 @@ class ImportLettersHistory(models.Model):
             self.env['recurring.contract'].search(
                 [
                     ('child_id', '=', child_id),
-                    ('correspondant_id', '=', sponsor_id),
+                    ('correspondent_id', '=', sponsor_id),
                     '|',
                     ('end_date', '=', False),
                     ('end_date', '<=',

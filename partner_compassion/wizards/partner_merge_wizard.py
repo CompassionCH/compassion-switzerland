@@ -27,7 +27,7 @@ class PartnerMergeWizard(models.TransientModel):
         geo_point = self.dst_partner_id.geo_point
         self.partner_ids.write({'geo_point': False})
         sponsorships = self.env['recurring.contract'].search([
-            ('correspondant_id', 'in', removing.ids),
+            ('correspondent_id', 'in', removing.ids),
             ('state', '=', 'active'),
             ('type', 'like', 'S')
         ])

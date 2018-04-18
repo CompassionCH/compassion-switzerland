@@ -45,7 +45,7 @@
                     We are convinced that these seeds you have sown will bear fruit in ${child.get('his')} life. In addition, ${child.get('his')} family ${child.get('has')} also benefited from the support of your sponsorship. They have been encouraged and have also participated in various activities and trainings organized by the project.
                     <br/>
                     <br/>
-                    % if object.partner_id in sponsorships.mapped('correspondant_id'):
+                    % if object.partner_id in sponsorships.mapped('correspondent_id'):
                         Please feel free to send a farewell letter to ${name} to encourage ${child.get('him')} as ${child.get('he')} ${'enters' if one else 'enter'} the next chapter in ${child.get('his')} life.
                         <br/>
                         <br/>
