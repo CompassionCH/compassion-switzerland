@@ -13,6 +13,11 @@ Configuration
 =============
 Nothing.
 
+Todo / Improvements
+===================
+- Do not copy css style into odoo, but use that from compassion website ?
+- Clean code (remove some HTML tags and class copied from compassion website)
+
 Credits
 =======
 

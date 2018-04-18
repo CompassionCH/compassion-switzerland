@@ -119,21 +119,18 @@ class PaymentAcquirerOgone(models.Model):
         return ogone.ogone_get_form_action_url(), res
 
     def validate_invoice_line(self, invoice_id):
-        invoice_line = self.env['account.invoice.line'].search([('id', '=',
-                                                                 invoice_id)])
+        invoice_line = self.env['account.invoice.line'].browse(invoice_id)
         invoice_line.state = 'paid'
         invoice_line.invoice_id.state = 'paid'
 
     def update_invoice_line_for_muksathlon(self, invoice_line,
                                            ambassador_str, event_id_str):
-        ambassador = self.env['res.partner'].search(
-            [('id', '=', ambassador_str)])
-        event = self.env['crm.event.compassion'].search([('id', '=',
-                                                          event_id_str)])
+        ambassador = self.env['res.partner'].browse(ambassador_str)
+        event = self.env['crm.event.compassion'].browse(event_id_str)
 
         val = {
-            'account_analytic_id': self.env['account.analytic.account'].search(
-                [('event_id', '=', event.id)], limit=1).id,
+            'account_analytic_id': self.env[
+                'account.analytic.account'].browse(event.id).id,
             'name': 'Gift for ' + event.name + ' for ' + ambassador.name,
             'user_id': ambassador.id
         }

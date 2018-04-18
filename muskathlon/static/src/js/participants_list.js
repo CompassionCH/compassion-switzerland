@@ -21,7 +21,7 @@ odoo.define('muskathlon.participants_list', function (require) {
             var eventId = parseInt(url.match(/event\/[a-z0-9-]{1,}-([0-9]{1,})\//)[1], 10);
 
             // call posts
-            crmEventCompassion.call('getEventParticipants', [eventId]).then(function (participants) {
+            crmEventCompassion.call('get_event_participants', [eventId]).then(function (participants) {
                 var participantListHtml = '';
 
                 if (participants.length > 0) {
