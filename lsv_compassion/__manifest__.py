@@ -39,6 +39,6 @@
     'external_dependencies': {},
     'data': [],
     'demo': [],
-    'active': False,
+    'auto_install': False,
     'installable': True,
 }

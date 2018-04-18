@@ -23,7 +23,7 @@ class QueueJob(models.Model):
             'type': 'ir.actions.act_window',
             'res_model': 'mail.mass_mailing',
             'view_mode': 'form',
-            'res_id': self.object_ids,
+            'res_id': self.record_ids[0],
         }
         return action
 
@@ -35,6 +35,6 @@ class QueueJob(models.Model):
             'res_model': 'mail.mail',
             'view_type': 'form',
             'view_mode': 'tree,form',
-            'domain': [('id', 'in', self.object_ids)],
+            'domain': [('id', 'in', self.record_ids)],
         }
         return action

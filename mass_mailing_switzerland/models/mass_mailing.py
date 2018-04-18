@@ -19,39 +19,56 @@ class MassMailing(models.Model):
     _inherit = 'mail.mass_mailing'
 
     mailing_domain_copy = fields.Char(related='mailing_domain')
-    clicks_ratio = fields.Integer(
-        compute='_compute_events', store=True, oldname='click_ratio')
+    clicks_ratio = fields.Integer(compute=False)
     click_event_ids = fields.Many2many(
         'mail.tracking.event', compute='_compute_events')
-    unsub_ratio = fields.Integer(
-        compute='_compute_events', store=True)
+    unsub_ratio = fields.Integer()
     unsub_event_ids = fields.Many2many(
         'mail.tracking.event', compute='_compute_events')
 
     _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
                          'You have to choose a new slug for each mailing !')]
 
-    @api.depends('statistics_ids', 'statistics_ids.tracking_event_ids')
     @job(default_channel='root.mass_mailing_switzerland')
     @related_action('related_action_mass_mailing')
+    def compute_clicks_ratio(self):
+        for mass_mail in self:
+            clicks = self.env['mail.mail.statistics'].search_count([
+                ('tracking_event_ids.event_type', '=', 'click'),
+                ('mass_mailing_id', '=', mass_mail.id)
+            ])
+            mass_mail.clicks_ratio = 100 * (
+                float(clicks) / len(mass_mail.statistics_ids))
+
+    @job(default_channel='root.mass_mailing_switzerland')
+    @related_action('related_action_mass_mailing')
+    def compute_unsub_ratio(self):
+        for mass_mail in self:
+            unsub = self.env['mail.mail.statistics'].search_count([
+                ('tracking_event_ids.event_type', '=', 'unsub'),
+                ('mass_mailing_id', '=', mass_mail.id)
+            ])
+            mass_mail.unsub_ratio = 100 * (
+                float(unsub) / len(mass_mail.statistics_ids))
+
     def _compute_events(self):
         for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):
-            has_click = mass_mail.statistics_ids.mapped(
-                'tracking_event_ids').filtered(
-                lambda e: e.event_type == 'click')
-            unsub = mass_mail.statistics_ids.mapped(
-                'tracking_event_ids').filtered(
-                lambda e: e.event_type == 'unsub')
-            mass_mail.click_event_ids = has_click
+            unsub = self.env['mail.tracking.event'].search([
+                ('event_type', '=', 'unsub'),
+                ('mass_mailing_id', '=', mass_mail.id)
+            ])
+            clicks = self.env['mail.tracking.event'].search([
+                ('event_type', '=', 'click'),
+                ('mass_mailing_id', '=', mass_mail.id)
+            ])
+            mass_mail.click_event_ids = clicks
             mass_mail.unsub_event_ids = unsub
-            number_click = len(has_click.mapped(
-                'tracking_email_id.mail_stats_id'))
-            number_unsub = len(unsub.mapped(
-                'tracking_email_id.mail_stats_id'))
-            mass_mail.clicks_ratio = 100 * (
-                float(number_click) / len(mass_mail.statistics_ids))
-            mass_mail.unsub_ratio = 100 * (
-                float(number_unsub) / len(mass_mail.statistics_ids))
+
+    @api.multi
+    def recompute_events(self):
+        self.with_delay().compute_unsub_ratio()
+        self.with_delay().compute_clicks_ratio()
+        return True
 
     @api.multi
     def send_mail(self):

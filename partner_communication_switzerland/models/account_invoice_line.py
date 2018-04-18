@@ -101,6 +101,10 @@ class AccountInvoiceLine(models.Model):
         if partner.is_new_donor:
             comm_vals['send_mode'] = 'physical'
 
+        # Specify Success Story for Toilets Fund Donations
+        if 124 in invoice_lines.mapped('product_id.id'):
+            comm_obj = comm_obj.with_context(default_success_story_id=46)
+
         if existing_comm:
             existing_comm.write(comm_vals)
             existing_comm.refresh_text()

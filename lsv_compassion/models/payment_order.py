@@ -13,14 +13,26 @@ from odoo import models, api, _
 
 from odoo.addons.report_compassion.models.contract_group import setlocale
 
+from odoo.exceptions import UserError
+
 
 class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
     @api.multi
     def draft2open(self):
-        """ Logs a note in invoices when imported in payment order """
+        """
+        Check the partner bank
+        Logs a note in invoices when imported in payment order
+        """
         for order in self:
+            for line in order.payment_line_ids:
+                if line.partner_bank_id not in line.partner_id.bank_ids:
+                    raise UserError(
+                        _("The bank account %s is not related to %s.")
+                        % (line.partner_bank_id.acc_number,
+                           line.partner_id.name)
+                    )
             mode = order.payment_mode_id.name
             for invoice in order.mapped(
                     'payment_line_ids.move_line_id.invoice_id'):
@@ -30,8 +42,8 @@ class PaymentOrder(models.Model):
                     format(order.id, order.name)
 
                 invoice.message_post(
-                    "The invoice has been imported in a %s payment "
-                    "order : " % mode + url)
+                    _((('The invoice has been imported in '
+                        'a %s payment order : ') % mode) + url))
 
         return super(PaymentOrder, self).draft2open()
 
@@ -43,7 +55,7 @@ class PaymentOrder(models.Model):
             for invoice in order.mapped(
                     'payment_line_ids.move_line_id.invoice_id'):
                 invoice.message_post(
-                    "The %s order has been cancelled." % mode)
+                    _('The %s order has been cancelled.' % mode))
 
         return super(PaymentOrder, self).action_cancel()
 

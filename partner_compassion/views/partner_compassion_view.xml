@@ -173,7 +173,7 @@
                 <field name="city"/>
             </field>
             <field name="email" position="after">
-                <field name="number_sponsorships"/>
+                <field name="number_sponsorships" type="char"/>
             </field>
         </field>
     </record>

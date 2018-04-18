@@ -1,7 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 acces_muskathlon_registrations,Full access on muskathlons registrations,model_muskathlon_registration,child_compassion.group_sponsorship,1,1,1,1
 acces_muskathlon_report,Full access on muskathlons reports,model_muskathlon_report,child_compassion.group_sponsorship,1,1,1,1
-acces_crm_event_website,Muskathlons events for website,model_crm_event_compassion,,1,0,0,0
-acces_muskathlon_registration_website,Muskathlons registrations for website,model_muskathlon_registration,,1,0,0,0
-acces_muskathlon_report_website,Muskathlons report for website,model_muskathlon_report,,1,0,0,0
-acces_res_partner,Res partner for website,model_res_partner,,1,0,0,0

@@ -202,10 +202,18 @@
             <field name="attachments_function">get_new_dossier_attachments</field>
         </record>
         <record id="planned_welcome" model="partner.communication.config">
-            <field name="name">Sponsorship - Welcome Letter</field>
+            <field name="name">Sponsorship - Welcome Email</field>
             <field name="email_template_id" ref="email_sponsorship_welcome"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">digital</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+        </record>
+        <record id="welcome_activation" model="partner.communication.config">
+            <field name="name">Sponsorship - Welcome Active</field>
+            <field name="email_template_id" ref="email_sponsorship_welcome_activation"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="send_mode">auto_digital</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>

@@ -17,10 +17,6 @@
             <field name="alias_contact">everyone</field>
         </record>
 
-        <record model="mail.channel" id="info_inbox">
-            <field name="alias_id" ref="mail_alias_info"/>
-        </record>
-
         <!-- Notified partners when receiving e-mail in the inbox -->
         <record model="mail.channel.partner" id="subscribe_rm">
             <field name="partner_id" search="[('ref', '=', '776')]"/>

@@ -13,7 +13,7 @@ import simplejson
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 from odoo.addons.queue_job.job import job, related_action
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 # Mapping from Website form fields to res.partner fields in Odoo
 SPONSOR_MAPPING = {
@@ -150,7 +150,7 @@ class Contracts(models.Model):
 
         sponsorship.message_post(
             body=notify_text,
-            subject="New sponsorship from the website",
+            subject=_('New sponsorship from the website'),
             partner_ids=[staff],
             type='comment',
             subtype='mail.mt_comment',

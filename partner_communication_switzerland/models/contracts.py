@@ -395,12 +395,17 @@ class RecurringContract(models.Model):
 
     @api.multi
     def contract_active(self):
-        """ Remove waiting reminders if any. """
+        """ Remove waiting reminders if any, and send welcome """
         self.env['partner.communication.job'].search([
             ('config_id.name', 'ilike', 'Waiting reminder'),
             ('state', '!=', 'done'),
             ('partner_id', 'in', self.mapped('partner_id').ids)
         ]).unlink()
+        welcome = self.env.ref(
+            'partner_communication_switzerland.welcome_activation')
+        to_send = self.filtered('child_id')
+        to_send.send_communication(welcome, both=True)
+        to_send.write({'sds_state': 'active'})
         return super(RecurringContract, self).contract_active()
 
     @api.multi
@@ -408,7 +413,7 @@ class RecurringContract(models.Model):
         logger.info("Creating Welcome Letters Communications")
         config = self.env.ref(
             'partner_communication_switzerland.planned_welcome')
-        self.send_communication(config)
+        self.send_communication(config, both=True)
         self.write({'sds_state': 'active'})
         logger.info("Welcome Letters Sent !")
         return True
@@ -446,10 +451,7 @@ class RecurringContract(models.Model):
         module = 'partner_communication_switzerland.'
         new_dossier = self.env.ref(module + 'planned_dossier')
 
-        success_story = self.env['success.story'].search([
-            ('is_active', '=', True)], limit=1)
-        sub_sponsorships = self.filtered(lambda c: c.parent_id).with_context(
-            default_success_story_id=success_story.id)
+        sub_sponsorships = self.filtered(lambda c: c.parent_id)
         sub_proposal = self.env.ref(module + 'planned_sub_dossier')
         selected = self - sub_sponsorships
 

@@ -26,9 +26,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+# pylint: disable=C8101
 {
     'name': 'Database Auto-Backup',
     'version': '10.0.1.0.0',
+    'license': 'AGPL-3',
     'author': 'VanRoey.be - Yenthe Van Ginneken',
     'website': 'http://www.vanroey.be/applications/bedrijfsbeheer/odoo',
     'category': 'Generic Modules',

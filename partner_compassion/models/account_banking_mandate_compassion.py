@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from odoo import api, models
+from odoo import api, models, _
 
 
 MANDATE_STATE = {'create': 'created',
@@ -33,8 +33,8 @@ class AccountBankingMandate(models.Model):
 
         if action in MANDATE_STATE:
             self.partner_id.message_post(
-                "For account: " + (self.partner_bank_id.acc_number or ''),
-                "Mandate " + MANDATE_STATE[action], 'comment')
+                _("For account: " + (self.partner_bank_id.acc_number or '')),
+                _("Mandate " + MANDATE_STATE[action]), 'comment')
 
     @api.model
     def create(self, data):
