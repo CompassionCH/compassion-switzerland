@@ -40,6 +40,10 @@ class RecurringContract(models.Model):
     due_invoice_ids = fields.Many2many(
         'account.invoice', compute='_compute_due_invoices', store=True
     )
+    period_paid = fields.Boolean(
+        compute='_compute_period_paid',
+        help='Tells if the advance billing period is already paid'
+    )
     amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
 
@@ -99,6 +103,14 @@ class RecurringContract(models.Model):
                     idate = fields.Date.from_string(invoice.date)
                     months.add((idate.month, idate.year))
                 contract.months_due = len(months)
+
+    @api.multi
+    def _compute_period_paid(self):
+        for contract in self:
+            advance_billing = contract.group_id.advance_billing_months
+            # Don't consider next year in the period to pay
+            to_pay_period = min(date.today().month + advance_billing, 12)
+            contract.period_paid = contract.months_paid >= to_pay_period
 
     @api.multi
     def compute_due_invoices(self):
