@@ -14,7 +14,7 @@ from odoo import models
 
 class AccountPartialReconcile(models.Model):
     """
-    The methdod below add the functionnality to set a default analytic account
+    The method below add the functionality to set a default analytic account
     when there is none.
     """
 
