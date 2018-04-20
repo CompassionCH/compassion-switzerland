@@ -10,7 +10,6 @@ odoo.define('muskathlon.participant_details', function (require) {
 
     animation.registry.participant_details = animation.Class.extend({
         selector: ".o_participant_details",
-
         postURL: function(url, multipart) {
             var form = document.createElement("FORM");
             form.method = "POST";
@@ -32,6 +31,10 @@ odoo.define('muskathlon.participant_details', function (require) {
             form.submit();
         },
         start: function () {
+            $.validate({
+                lang: 'en'
+            });
+
             // get participant ID
             var url = window.location.href;
             var participant_id = parseInt(url.match(/participant\/[a-z0-9-]{1,}-([0-9]{1,})\//)[1], 10);
