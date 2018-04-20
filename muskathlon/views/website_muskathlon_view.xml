@@ -5,8 +5,10 @@
         <template id="muskathlon.list">
             <t t-call="website.layout">
                 <t t-set="title">Muskathlons</t>
+                <div class="oe_structure"/>
                 <div class="oe_structure">
                     <div class="container" style="margin-top: 40px;">
+                        <h3 class="text-center" style="margin-bottom: 20px;">Events</h3>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -31,9 +33,9 @@
                                 </t>
                             </tbody>
                         </table>
-                        <div class="oe_structure"/>
                     </div>
                 </div>
+                <div class="oe_structure"/>
             </t>
         </template>
 
@@ -42,8 +44,6 @@
             <t t-call="website.layout">
                 <t t-set="title">Muskathlon detail</t>
                 <div id="wrap">
-                    <div class="oe_structure" />
-
                     <!-- event description -->
                     <article class="page type-page status-publish hentry">
                         <div class="panel-layout">
@@ -68,7 +68,7 @@
                                                             </div>
                                                         </div>
                                                         <div style="text-align: center; font-size: 0.8em; color: whith;">
-                                                            <t t-esc="event.amount_raised"/> / <t t-esc="event.amount_objective"/> CHF
+                                                            <t t-esc="'{:n}'.format(event.amount_raised)"/> / <t t-esc="'{:n}'.format(event.amount_objective)"/> CHF
                                                         </div>
                                                     </div>
                                                 </div>
@@ -83,6 +83,7 @@
 
                     <div class="section background-beige-gradient background-beige" style="margin-top: 50px; margin-bottom: 50px;">
                         <div class="row section_row posts-container">
+                            <div class="oe_structure"/>
                             <div class="so-panel widget widget_sow-editor panel-first-child" data-index="3">
                                 <div class="so-widget-sow-editor so-widget-sow-editor-base">
                                     <div class="siteorigin-widget-tinymce textwidget">
@@ -124,7 +125,7 @@
                                                         </div>
                                                     </div>
                                                     <div style="text-align: center; font-size: 0.8em; color: gray;">
-                                                        <t t-esc="registration.amount_raised"/> / <t t-esc="registration.amount_objective"/> CHF
+                                                        <t t-esc="'{:n}'.format(registration.amount_raised)"/> / <t t-esc="'{:n}'.format(registration.amount_objective)"/> CHF
                                                     </div>
                                                 </div>
                                                 <div class="hover-overlay" style="top: -23px;">
@@ -148,7 +149,6 @@
         <template id="participant_details">
             <t t-call="website.layout">
                 <t t-set="title">Participant detail</t>
-                <div class="oe_structure"/>
                 <div class="wrap o_participant_details">
                     <div class="child-template-default single single-child">
                         <article class="child type-child status-publish has-post-thumbnail hentry">
@@ -160,6 +160,8 @@
                                 </div>
                             </div>
 
+                            <div class="oe_structure" />
+
                             <div class="section background-beige section_gradient_unten" style="margin-top: 50px; margin-bottom: 50px;">
                                 <div class="row profile">
                                     <div class="large-4 column">
@@ -169,7 +171,7 @@
 
                                         </div>
                                         <div style="margin-top: 10px;">
-                                            <a t-attf-href="https://compassion.ch/parrainer-un-enfant/?eventId={{event.id}}&amp;registrationId={{registration.id}}" class="button button-large">Sponsor a child</a>
+                                            <a t-attf-href="https://compassion.ch/parrainer-un-enfant/?eventId={{event.id}}&amp;registrationId={{registration.id}}" target="_blank" class="button button-large">Sponsor a child</a>
                                         </div>
                                     </div>
                                     <div class="large-8 column">
@@ -209,7 +211,7 @@
                                                 <tr>
                                                     <th>Raised:</th>
                                                     <td>
-                                                        <t t-esc=" registration.amount_raised" /> / <t t-esc="registration.amount_objective"/> CHF
+                                                        <t t-esc="'{:n}'.format(registration.amount_raised)"/> / <t t-esc="'{:n}'.format(registration.amount_objective)"/> CHF
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -217,7 +219,7 @@
                                                     <td>
                                                         <div class="progress" style="border-radius: 5px;">
                                                             <div class="progress-bar" role="progressbar" t-attf-aria-valuenow="{{ registration.amount_raised_percents }}" aria-valuemin="0" aria-valuemax="100" t-attf-style="width: {{ registration.amount_raised_percents }}%; background-color: #e6b414;">
-                                                                <t t-esc=" registration.amount_raised_percents" />%
+                                                                <t t-esc="registration.amount_raised_percents" />%
                                                             </div>
                                                         </div>
                                                     </td>
@@ -227,6 +229,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="oe_structure" />
 
                             <t t-call="muskathlon.modal_donation"/>
                         </article>
@@ -248,7 +252,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="amount_div_100">Amount</label>
                                         <div class="col-sm-7">
-                                            <input class="form-control" type="number" id="amount_div_100" name="AMOUNT" value="" placeholder="Amount"/>
+                                            <input class="form-control" type="number" id="amount_div_100" name="AMOUNT" value="" placeholder="Amount" data-validation="required number"/>
                                         </div>
                                         <div class="col-sm-3">
                                             <select class="form-control" id="currency" name="CURRENCY">
@@ -264,26 +268,25 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="firstname">Firstname</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" pattern="[a-z]{0,}" name="FIRSTNAME" id="firstname" value="" placeholder="First name"/>
+                                            <input class="form-control" pattern="[a-z]{0,}" name="FIRSTNAME" id="firstname" value="" placeholder="First name" data-validation="required alphanumeric"/>
                                         </div>
 
                                         <label class="col-sm-2 control-label" for="lastname">Lastname</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" id="lastname" name="LASTNAME" value="" placeholder="Last name"/>
+                                            <input class="form-control" id="lastname" name="LASTNAME" value="" placeholder="Last name" data-validation="required alphanumeric"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="email">Email</label>
                                         <!-- pattern doesnt seem to have any effect in chrome-->
                                         <div class="col-sm-10">
-                                            <input class="form-control" type="email" name="EMAIL" id="email" value="" placeholder="Email"
-                                                   pattern='^(([^&lt;&gt;()\[\]\.,;:\s@\"]+(\.[^&lt;&gt;()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^&lt;&gt;()[\]\.,;:\s@\"]+\.)+[^&lt;&gt;()[\]\.,;:\s@\"]{2,})$'/>
+                                            <input class="form-control" type="email" name="EMAIL" id="email" value="" placeholder="Email" data-validation="required email"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="tel">Telephone</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" type="tel" id="tel" name="OWNERTELNO" value="" placeholder="Telephone number"/>
+                                            <input class="form-control" type="tel" id="tel" name="OWNERTELNO" value="" placeholder="Telephone number" data-validation="required number"/>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -292,17 +295,17 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" id="address"> Address</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" name="OWNERADDRESS" id="address"  value="" placeholder="Street &amp; house number"/>
+                                            <input class="form-control" name="OWNERADDRESS" id="address"  value="" placeholder="Street &amp; house number" data-validation="required alphanumeric"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="zip">ZIP code</label>
                                         <div class="col-sm-3">
-                                            <input class="form-control" type="number" id="zip" name="OWNERZIP" value=""  placeholder="Zip code"/>
+                                            <input class="form-control" type="number" id="zip" name="OWNERZIP" value=""  placeholder="Zip code" data-validation="required number"/>
                                         </div>
                                         <label class="col-sm-2 control-label" for="town">City</label>
                                         <div class="col-sm-5">
-                                            <input class="form-control" name="OWNERTOWN" id="town" value="" placeholder="City"/>
+                                            <input class="form-control" name="OWNERTOWN" id="town" value="" placeholder="City" data-validation="required alphanumeric"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
