@@ -30,10 +30,11 @@ class MailChannel(models.Model):
             subtype=subtype, parent_id=parent_id, attachments=attachments,
             content_subtype=content_subtype, **kwargs)
         info = self.env.ref('shared_inbox_switzerland.info_inbox')
-        if self == info:
-            # Notify channel members
+        reply = self.env.ref('shared_inbox_switzerland.reply_inbox')
+        if self in info | reply:
+            # Notify info channel members
             vals = {
-                'partner_ids': [(6, 0, self.channel_partner_ids.ids)],
+                'partner_ids': [(6, 0, info.channel_partner_ids.ids)]
             }
             author = message.author_id
             if author:
