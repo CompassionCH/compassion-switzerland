@@ -76,7 +76,7 @@
 
             <!-- Add street3 in the form of the partner -->
             <field name="street2" position="after">
-                <field name="street3"   />
+                <field name="street3"/>
             </field>
 
             <!-- Add the church and invalid email fields -->
