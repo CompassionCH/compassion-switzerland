@@ -61,7 +61,10 @@ class MailTrackingEvent(models.Model):
         if metadata.get('error_type') == 'Invalid' and 'RBL' not in \
                 metadata.get('error_description', '') and not partner.user_ids:
             self._invalid_email(tracking_email)
-            partner.email = False
+            partner.write({
+                'invalid_mail': partner.email,
+                'email': False
+            })
         return super(MailTrackingEvent, self).process_reject(
             tracking_email, metadata)
 
