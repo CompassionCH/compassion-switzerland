@@ -9,6 +9,7 @@
 #
 ##############################################################################
 import simplejson
+import re
 
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 from odoo.addons.queue_job.job import job, related_action
@@ -98,8 +99,8 @@ class Contracts(models.Model):
 
         # Search for existing partner
         partner = self.env['res.partner'].search([
-            ('lastname', 'like', form_data['last_name']),
-            ('firstname', 'like', form_data['first_name']),
+            ('lastname', 'ilike', form_data['last_name']),
+            ('firstname', 'ilike', form_data['first_name']),
             ('zip', '=', form_data['zipcode'])
         ])
         if partner and len(partner) > 1:
@@ -130,6 +131,19 @@ class Contracts(models.Model):
             'medium_id': utms.get('medium', internet_id),
             'campaign_id': utms['campaign'],
         })
+
+        ambassador_id = re.match(r'^msk(\d{1,8})_', form_data[
+            'consumer_source_text'])
+        event_id = re.match(r'^msk(\d{1,8})_', form_data['consumer_source'])
+        # The sponsoships consumer_source fields were set automatically due
+        # to a redirect from the sponsorship button on the muskathlon page.
+        if ambassador_id and event_id:
+            sponsorship.update({'user_id': ambassador_id,
+                                'origin_id': self.env[
+                                    'recurring.contract.origin'].search([
+                                        ('event_id', '=', event_id)],
+                                    limit=1).id
+                                })
 
         # Notify staff
         staff_param = 'sponsorship_' + sponsor_lang + '_id'
