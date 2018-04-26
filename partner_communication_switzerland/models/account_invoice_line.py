@@ -60,7 +60,6 @@ class AccountInvoiceLine(models.Model):
             # Avoid generating thank you if no valid invoice lines are present
             return
 
-        comm_obj = self.env['partner.communication.job']
         small = self.env.ref('thankyou_letters.config_thankyou_small') + \
             self.env.ref(
                 'partner_communication_switzerland.config_event_small')
@@ -76,7 +75,7 @@ class AccountInvoiceLine(models.Model):
         event = self.mapped('event_id')
         ambassador = self.mapped('user_id')
 
-        existing_comm = comm_obj.search([
+        existing_comm = self.env['partner.communication.job'].search([
             ('partner_id', '=', partner.id),
             ('state', 'in', ('call', 'pending')),
             ('config_id', 'in', (small + standard + large).ids),
@@ -101,16 +100,17 @@ class AccountInvoiceLine(models.Model):
         if partner.is_new_donor:
             comm_vals['send_mode'] = 'physical'
 
-        # Specify Success Story for Toilets Fund Donations
-        if 124 in invoice_lines.mapped('product_id.id'):
-            comm_obj = comm_obj.with_context(default_success_story_id=46)
+        success_stories = invoice_lines.mapped('product_id.success_story_id')
+        if success_stories:
+            existing_comm = existing_comm.with_context(
+                default_success_story_id=success_stories[0].id)
 
         if existing_comm:
             existing_comm.write(comm_vals)
             existing_comm.refresh_text()
         else:
             # Do not group communications which have not same event linked.
-            existing_comm = comm_obj.with_context(
+            existing_comm = existing_comm.with_context(
                 same_job_search=[('event_id', '=', event.id)]
             ).create(comm_vals)
         self.mapped('invoice_id').write({
