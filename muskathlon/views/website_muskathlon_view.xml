@@ -56,6 +56,8 @@
                                                 <div class="so-widget-sow-editor so-widget-sow-editor-base">
                                                     <div class="siteorigin-widget-tinymce textwidget">
                                                         <h2 style="text-align: center;"><t t-esc="event.name"/></h2>
+                                                        <style>.picture_1_event img { height: auto; max-height:420px; }</style>
+                                                        <div class="image picture_1_event" t-field="event.picture_1" t-field-options='{"widget": "image"}' style="margin-bottom: 15px; margin-top: 25px;"/>
                                                         <p style="text-align: center;"><t t-esc="time.strftime('%d %B %Y',time.strptime(event.start_date,'%Y-%m-%d %H:%M:%S'))"/> - <t t-esc="time.strftime('%d %B %Y',time.strptime(event.end_date,'%Y-%m-%d %H:%M:%S'))"/></p>
                                                         <p class="subtitle" style="text-align: center;" t-field="event.public_description"/>
 
@@ -165,7 +167,7 @@
                             <div class="section background-beige section_gradient_unten" style="margin-top: 50px; margin-bottom: 50px;">
                                 <div class="row profile">
                                     <div class="large-4 column">
-                                        <div class="image" t-field="registration.picture_1" t-field-options='{"widget": "image"}' style="height: auto; max-height:420px;"/>
+                                        <div class="image" t-field="registration.picture_2" t-field-options='{"widget": "image"}' style="height: auto; max-height:420px;"/>
                                         <div>
                                             <a href="https://compassion.ch/" class="button button-large" data-toggle="modal" data-target="#donation_modal">Donate</a>
 
