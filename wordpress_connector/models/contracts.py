@@ -77,10 +77,8 @@ class Contracts(models.Model):
             'patenschaftplus': {
                 'checkbox': 'on'
             },
-            'email':
-                'ecino@compassion.ch',
-            'childID':
-                '15783',
+            'email': 'ecino@compassion.ch',
+            'childID': '15783',
             'land': 'Suisse'
         }
         :param child_local_id: local id of child
