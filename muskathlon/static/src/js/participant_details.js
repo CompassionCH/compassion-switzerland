@@ -31,10 +31,6 @@ odoo.define('muskathlon.participant_details', function (require) {
             form.submit();
         },
         start: function () {
-            $.validate({
-                lang: 'en'
-            });
-
             // get participant ID
             var url = window.location.href;
             var participant_id = parseInt(url.match(/participant\/[a-z0-9-]{1,}-([0-9]{1,})\//)[1], 10);

@@ -78,6 +78,15 @@ class MuskathlonRegistration(models.Model):
         'res.partner', 'Muskathlon participant',
     )
 
+    # The 4 following fields avoid giving read access to the public on the
+    # res.partner participating in the muskathlon.
+    partner_id_id = fields.Integer(related="partner_id.id", readonly=True)
+    partner_display_name = fields.Char(related="partner_id.display_name",
+                                       readonly=True)
+    partner_preferred_name = fields.Char(
+        related="partner_id.preferred_name", readonly=True)
+    partner_name = fields.Char(related="partner_id.name", readonly=True)
+
     public_description = fields.Text('Public description')
     ambassador_quote_public = fields.Text("Ambassador public quote")
     picture_1 = fields.Binary('Picture 1')
