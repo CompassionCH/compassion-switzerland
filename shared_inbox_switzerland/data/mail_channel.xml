@@ -7,12 +7,26 @@
             <field name="public">groups</field>
             <field name="group_public_id" ref="base.group_user"/>
         </record>
+        <record model="mail.channel" id="reply_inbox">
+            <field name="name">reply</field>
+            <field name="description">All answers to odoo mail to reply@compassion.ch</field>
+            <field name="alias_contact">everyone</field>
+            <field name="public">groups</field>
+            <field name="group_public_id" ref="base.group_user"/>
+        </record>
 
         <!-- Mail Alias to redirect incoming messages to info inbox channel -->
         <record model="mail.alias" id="mail_alias_info">
             <field name="alias_name">info</field>
             <field name="alias_model_id" search="[('model', '=', 'mail.channel')]"/>
             <field name="alias_force_thread_id" ref="info_inbox"/>
+            <field name="alias_defaults">{}</field>
+            <field name="alias_contact">everyone</field>
+        </record>
+        <record model="mail.alias" id="mail_alias_reply">
+            <field name="alias_name">reply</field>
+            <field name="alias_model_id" search="[('model', '=', 'mail.channel')]"/>
+            <field name="alias_force_thread_id" ref="reply_inbox"/>
             <field name="alias_defaults">{}</field>
             <field name="alias_contact">everyone</field>
         </record>
