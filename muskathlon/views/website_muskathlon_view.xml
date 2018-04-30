@@ -253,14 +253,14 @@
                                     <legend>Donation</legend>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="amount_div_100">Amount</label>
-                                        <div class="col-sm-7">
-                                            <input class="form-control" type="number" id="amount_div_100" name="AMOUNT" value="" placeholder="Amount" data-validation="required number"/>
+                                            <div class="col-sm-7">
+                                            <input class="form-control" type="number" step="any" min="0" id="amount_div_100" name="AMOUNT" value="" placeholder="Amount" required="true"/>
                                         </div>
                                         <div class="col-sm-3">
                                             <select class="form-control" id="currency" name="CURRENCY">
-                                                <option value="CHF">CHF</option>
-                                                <!--<option value="EUR">EUR</option>
-                                                <option value="USD">USD</option>-->
+                                                <option value="CHF" selected="selected">CHF</option>
+                                                <!--<option value="EUR" disabled="disabled">EUR</option>
+                                                <option value="USD" disabled="disabled">USD</option>-->
                                             </select>
                                         </div>
                                     </div>
@@ -270,25 +270,25 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="firstname">Firstname</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" pattern="[a-z]{0,}" name="FIRSTNAME" id="firstname" value="" placeholder="First name" data-validation="required alphanumeric"/>
+                                            <input class="form-control" type="text" name="FIRSTNAME" id="firstname" value="" placeholder="First name" required="true"/>
                                         </div>
 
                                         <label class="col-sm-2 control-label" for="lastname">Lastname</label>
                                         <div class="col-sm-4">
-                                            <input class="form-control" id="lastname" name="LASTNAME" value="" placeholder="Last name" data-validation="required alphanumeric"/>
+                                            <input class="form-control" type="text" name="LASTNAME" id="lastname" value="" placeholder="Last name" required="true"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="email">Email</label>
-                                        <!-- pattern doesnt seem to have any effect in chrome-->
                                         <div class="col-sm-10">
-                                            <input class="form-control" type="email" name="EMAIL" id="email" value="" placeholder="Email" data-validation="required email"/>
+                                            <input class="form-control" type="email" name="EMAIL" id="email" value="" placeholder="Email" required="true"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="tel">Telephone</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" type="tel" id="tel" name="OWNERTELNO" value="" placeholder="Telephone number" data-validation="required number"/>
+                                            <!-- should accept a + at the beginning-->Y
+                                            <input class="form-control" type="tel" id="tel" name="OWNERTELNO" value="" placeholder="Telephone number" required="true"/>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -297,17 +297,18 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" id="address"> Address</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" name="OWNERADDRESS" id="address"  value="" placeholder="Street &amp; house number" data-validation="required alphanumeric"/>
+                                            <input class="form-control" type="text" name="OWNERADDRESS" id="address"  value="" placeholder="Street &amp; house number" required="true"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="zip">ZIP code</label>
                                         <div class="col-sm-3">
-                                            <input class="form-control" type="number" id="zip" name="OWNERZIP" value=""  placeholder="Zip code" data-validation="required number"/>
+                                            <!-- Some ZIP code (e.g. UK ones) contains letters -->
+                                            <input class="form-control" type="text" name="OWNERZIP" id="zip" value=""  placeholder="Zip code" required="true"/>
                                         </div>
                                         <label class="col-sm-2 control-label" for="town">City</label>
                                         <div class="col-sm-5">
-                                            <input class="form-control" name="OWNERTOWN" id="town" value="" placeholder="City" data-validation="required alphanumeric"/>
+                                            <input class="form-control" type="text" name="OWNERTOWN" id="town" value="" placeholder="City" required="true"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
