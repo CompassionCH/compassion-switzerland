@@ -9,6 +9,7 @@
 #
 ##############################################################################
 from odoo import models, fields, api
+from odoo.tools import config
 import re
 
 
@@ -105,6 +106,7 @@ class MuskathlonRegistration(models.Model):
         related='event_id.muskathlon_event_id')
 
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)
+    host = fields.Char(compute='_compute_host')
 
     _sql_constraints = [
         ('reg_unique', 'unique(event_id,partner_id)',
@@ -124,6 +126,9 @@ class MuskathlonRegistration(models.Model):
             registration.amount_raised = amount_raised
             registration.amount_raised_percents = int(
                 amount_raised * 100 / registration.amount_objective)
+
+    def _compute_host(self):
+        config.get('wordpress_host')
 
     def get_sport_type_name(self):
         match = re.match(r'([a-z]{1,})(_([0-9]{1,}))?', self.sport_type)

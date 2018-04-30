@@ -169,11 +169,11 @@
                                     <div class="large-4 column">
                                         <div class="image" t-field="registration.picture_2" t-field-options='{"widget": "image"}' style="height: auto; max-height:420px;"/>
                                         <div>
-                                            <a href="https://compassion.ch/" class="button button-large" data-toggle="modal" data-target="#donation_modal">Donate</a>
+                                            <a href="{{registration.host}}" class="button button-large" data-toggle="modal" data-target="#donation_modal">Donate</a>
 
                                         </div>
                                         <div style="margin-top: 10px;">
-                                            <a t-attf-href="https://compassion.ch/parrainer-un-enfant/?eventId={{event.id}}&amp;registrationId={{registration.id}}&amp;participantId={{participant.id}}&amp;participantName={{participant.name}}" target="_blank" class="button button-large">Sponsor a child</a>
+                                                <a t-attf-href="{{registration.host}}/parrainer-un-enfant/?eventId={{event.id}}&amp;registrationId={{registration.id}}&amp;participantId={{participant.id}}&amp;participantName={{participant.name}}" target="_blank" class="button button-large">Sponsor a child</a>
                                         </div>
                                     </div>
                                     <div class="large-8 column">
