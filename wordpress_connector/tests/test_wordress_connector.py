@@ -9,17 +9,12 @@
 ##############################################################################
 
 from odoo import fields
-from odoo.addons.contract_compassion.tests.test_contract_compassion \
-    import BaseContractCompassionTest
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion \
     import BaseSponsorshipTest
 import logging
 import simplejson
-import random
-import string
 import mock
 logger = logging.getLogger(__name__)
-from ..models import contracts
 
 
 mock_project_infos = ('odoo.addons.child_compassion.models.project_compassion'
@@ -32,7 +27,8 @@ mock_get_staff = ('odoo.addons.child_compassion.wizards'
                   '.staff_notification_settings.StaffNotificationSettings'
                   '.get_param')
 mock_new_dossier = ('odoo.addons.partner_communication_switzerland.models'
-                     '.contracts.RecurringContract._new_dossier')
+                    '.contracts.RecurringContract._new_dossier')
+
 
 class TestWordpressConnector(BaseSponsorshipTest):
 
@@ -90,7 +86,7 @@ class TestWordpressConnector(BaseSponsorshipTest):
             [{'amount': 50.0}]
         )
         self.validate_sponsorship(sponsorship)
-        self.pay_sponsorship(sponsorship)
+        super(TestWordpressConnector, self).pay_sponsorship(sponsorship)
         return sponsorship, child_sponsored
 
     def create_sponsorship_default(self, child_local_id, form_data=None,
@@ -106,8 +102,8 @@ class TestWordpressConnector(BaseSponsorshipTest):
                                utm_medium, utm_campaign)
 
     def check_sponsorship(self, s, child, utm_source=None,
-                             fully_managed=True, is_active=False,
-                             user_id=False, origin_id=False, partner_id=False):
+                          fully_managed=True, is_active=False,
+                          user_id=False, origin_id=False, partner_id=False):
         self.assertEqual(s.child_id, child)
         self.assertEqual(s.child_code, child.local_id)
         self.assertEqual(s.state, 'draft')
@@ -251,7 +247,8 @@ class TestWordpressConnector(BaseSponsorshipTest):
         michel_form_data.update({
             'first_name': self.michel.firstname,
             'last_name': self.michel.lastname,
-            'zipcode': self.michel.zip
+            'zipcode': self.michel.zip,
+            'city': 'Wadi'
         })
 
         sponsorship_res = self.create_sponsorship_default(
@@ -261,3 +258,45 @@ class TestWordpressConnector(BaseSponsorshipTest):
         s = self.env['recurring.contract'].search([
             ('web_data', '=', simplejson.dumps(michel_form_data))], limit=1)
         self.check_sponsorship(s, child)
+
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_staff)
+    def test_muskathlon(self, get_staff, update_hold):
+        get_staff.return_value = [2]
+        update_hold.return_value = True
+
+        event = self.env['crm.event.compassion'].create({
+            'name': "Muskathlon Test",
+            'type': 'sport',
+            'number_allocate_children': 2,
+            'planned_sponsorships': 12,
+            'start_date': fields.Date.today(),
+            'end_date': fields.Date.today(),
+            'hold_start_date': fields.Date.today(),
+            'hold_end_date': fields.Date.today(),
+        })
+        # origin = self.env['recurring.contract.origin'].create({
+        #    'type': 'event',
+        #    'event_id': event.id
+        # })
+
+        michel_form_data = self.form_data.copy()
+        michel_form_data.update({
+            'first_name': self.michel.firstname,
+            'last_name': self.michel.lastname,
+            'zipcode': self.michel.zip,
+            'city': 'Big Apple',
+            'consumer_source': 'msk' + str(event.id) + '_Muskathlon',
+            'consumer_source_text': 'msk' + str(self.thomas.id) +
+                                    '_FirstnameLastName'
+        })
+
+        child = self.create_child('UG1a51182')
+        sponsorship_res = self.create_sponsorship_default(
+            child.local_id, form_data=michel_form_data)
+        self.assertTrue(sponsorship_res)
+
+        s = self.env['recurring.contract'].search([
+            ('web_data', '=', simplejson.dumps(michel_form_data))], limit=1)
+        self.check_sponsorship(s, child, user_id=self.thomas.id,
+                               partner_id=self.michel.id)

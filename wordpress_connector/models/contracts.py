@@ -132,14 +132,15 @@ class Contracts(models.Model):
 
         ambassador_id = re.match(r'^msk(\d{1,8})_', form_data[
             'consumer_source_text'])
-        event_id = re.match(r'^msk(\d{1,8})_', form_data['consumer_source'])
+        event_id = re.match(r'^msk(\d{1,8})_', form_data[
+            'consumer_source'])
         # The sponsoships consumer_source fields were set automatically due
         # to a redirect from the sponsorship button on the muskathlon page.
         if ambassador_id and event_id:
-            sponsorship.update({'user_id': ambassador_id,
+            sponsorship.update({'user_id': ambassador_id.group(1),
                                 'origin_id': self.env[
                                     'recurring.contract.origin'].search([
-                                        ('event_id', '=', event_id)],
+                                        ('event_id', '=', event_id.group(1))],
                                     limit=1).id
                                 })
 
