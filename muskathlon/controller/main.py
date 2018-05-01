@@ -28,11 +28,18 @@ class MuskathlonWebsite(http.Controller):
         })
 
     @http.route('/event/<model("crm.event.compassion"):event>/participant'
-                '/<model("res.partner"):partner>/', auth='public',
+                '/<int:partner_id>-<string:partner_name>/', auth='public',
                 website=True)
-    def participant_details(self, event, partner):
+    def participant_details(self, event, partner_id, partner_name):
+        """
+        :param event: the event record
+        :param partner_id: an integer which is the partner_id
+        :param partner_name: this field is added only to make the url more
+        human. Not used.
+        :return:the rendered page
+        """
         registration = event.muskathlon_registration_ids.filtered(
-            lambda item: item.partner_id.id == partner.id)
+            lambda item: item.partner_id.id == partner_id)
 
         # if partner exist, but is not part of the muskathlon, return 404
         if not registration:
@@ -40,6 +47,5 @@ class MuskathlonWebsite(http.Controller):
 
         return http.request.render('muskathlon.participant_details', {
             'event': event,
-            'participant': partner,
             'registration': registration
         })
