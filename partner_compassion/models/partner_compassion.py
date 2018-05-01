@@ -276,8 +276,7 @@ class ResPartner(models.Model):
         bvr_reference = '0' * (9 + (7 - len(ref))) + ref
         bvr_reference += '0' * 5
         bvr_reference += '6'    # Fund donation
-        bvr_reference += '0' * (4 -
-                                len(product.fund_id)) + product.fund_id
+        bvr_reference += '0' * (4 - len(product.fund_id)) + product.fund_id
         bvr_reference += '0' * 4
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)

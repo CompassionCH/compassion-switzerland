@@ -40,7 +40,7 @@
         'data/hr_config.xml'
     ],
     'depends': [
-        'hr_expense', 'hr_holidays', 'hr_attendance_calendar'],
+        'hr_expense', 'hr_attendance_extra_hours'],
     'demo': [],
     'installable': True,
     'auto_install': False,

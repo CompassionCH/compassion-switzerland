@@ -14,6 +14,11 @@ B. E-mail tracking :
     - Track the reception of message inside the thread
     - Restrict e-mail followers
 
+Known issues / Roadmap
+======================
+
+* Missing tests for mail_message and mail_thread
+
 Credits
 =======
 

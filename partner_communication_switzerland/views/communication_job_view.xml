@@ -67,13 +67,6 @@
         </field>
     </record>
 
-    <!-- Move Partner Communication Section -->
-    <menuitem id="partner_communication.menu_communication_jobs" parent="thankyou_letters.menu_donation" name="Partner Communications" sequence="1"/>
-    <menuitem id="partner_communication.menu_communication_generate" parent="thankyou_letters.menu_donation" name="Generate Communications" sequence="2"/>
-    <menuitem name="Templates" id="menu_communication_templates" parent="child_compassion.menu_communication_config" sequence="4" action="action_communication_template"/>
-    <menuitem id="partner_communication.menu_communication_config" parent="thankyou_letters.menu_donation" name="Communication Rules" sequence="3"/>
-    <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>
-
     <!-- Add Event Donation -->
     <record id="thankyou_letters.action_thank_you" model="ir.actions.act_window">
         <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '=', False)]</field>
@@ -86,9 +79,26 @@
         <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '!=', False)]</field>
         <field name="context">{'search_default_pending': True, 'search_default_config': True, 'search_default_event': True, 'default_user_id': uid}</field>
     </record>
-    <menuitem id="menu_donation_event" name="Event Donations" parent="thankyou_letters.menu_donation" action="action_thank_you_event"/>
 
-    <!-- Add menu in Sales-->
+    <!-- Communication menus -->
+    <menuitem id="menu_donation"
+              name="Communications"
+              parent="child_compassion.menu_sponsorship_root"
+              sequence="6"/>
+
+     <menuitem id="menu_donation_success_story"
+              name="Success Stories"
+              parent="menu_donation"
+              action="thankyou_letters.action_success_story"/>
+
+    <!-- Move Partner Communication Section -->
+    <menuitem id="partner_communication.menu_communication_jobs" parent="menu_donation" name="Partner Communications" sequence="1"/>
+    <menuitem id="partner_communication.menu_communication_generate" parent="menu_donation" name="Generate Communications" sequence="2"/>
+    <menuitem name="Templates" id="menu_communication_templates" parent="child_compassion.menu_communication_config" sequence="4" action="action_communication_template"/>
+    <menuitem id="partner_communication.menu_communication_config" parent="menu_donation" name="Communication Rules" sequence="3"/>
+    <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>
+
+    <!-- Add event donation menu in Sales-->
     <menuitem id="menu_donation_event" name="Event Donations" parent="thankyou_letters.menu_donation_sales" action="action_thank_you_event"/>
 
 
