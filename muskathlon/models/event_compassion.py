@@ -10,6 +10,7 @@
 ##############################################################################
 from odoo import models, fields, api
 from odoo.tools import config
+from odoo.exceptions import MissingError
 import re
 
 
@@ -128,7 +129,11 @@ class MuskathlonRegistration(models.Model):
                 amount_raised * 100 / registration.amount_objective)
 
     def _compute_host(self):
-        config.get('wordpress_host')
+        host = config.get('wordpress_host')
+        if not host:
+            raise MissingError('Missing wordpress_host in odoo config file')
+        for registration in self:
+            registration.host = host
 
     def get_sport_type_name(self):
         match = re.match(r'([a-z]{1,})(_([0-9]{1,}))?', self.sport_type)
