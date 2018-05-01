@@ -96,12 +96,11 @@ class PaymentAcquirerOgone(models.Model):
             'partner_country_id': country_id,
             'partner_name': partner.firstname + partner.lastname,
             'partner_phone': values['OWNERTELNO'],
-            'partner_addres': values['OWNERADDRESS'],
+            'partner_address': values['OWNERADDRESS'],
             'partner_lang': values['LANGUAGE'],
             'partner_email': values['EMAIL'],
             'partner_zip': values['OWNERZIP'],
             'partner_city': values['OWNERTOWN'],
-            'partner_state': None,
             'amount': float(values['AMOUNT']),
             'reference': unicode(invoice_line.id)
         }
