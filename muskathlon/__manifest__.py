@@ -37,7 +37,6 @@
     'website': 'http://www.compassion.ch',
     'data': [
         'security/ir.model.access.csv',
-        'security/partner_access.xml',
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
