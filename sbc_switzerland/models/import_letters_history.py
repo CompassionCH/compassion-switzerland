@@ -14,11 +14,14 @@ between the database and the mail.
 """
 import base64
 import logging
+import subprocess
 import zipfile
 from io import BytesIO
+from tempfile import NamedTemporaryFile
 
 from odoo import fields, models, api, _, exceptions
 from odoo.tools.config import config
+from odoo.tools.misc import find_in_path
 from odoo.addons.sbc_compassion.tools import import_letter_functions as func
 from odoo.addons.queue_job.job import job, related_action
 from . import translate_connector
@@ -277,18 +280,17 @@ class ImportLettersHistory(models.Model):
                         logger.info("Analyzing letter {}/{}".format(
                             progress, self.nber_letters))
 
-                        file_obj = BytesIO()
-                        smb_conn.retrieveFile(
-                            share_nas,
-                            imported_letter_path +
-                            sharedFile.filename,
-                            file_obj)
-                        file_obj.seek(0)
-                        self._analyze_attachment(
-                            file_obj.read(),
-                            sharedFile.filename)
+                        with NamedTemporaryFile() as file_obj:
+                            smb_conn.retrieveFile(
+                                share_nas,
+                                imported_letter_path +
+                                sharedFile.filename,
+                                file_obj)
+                            self._analyze_attachment(
+                                self._convert_pdf(file_obj),
+                                sharedFile.filename)
 
-                        progress += 1
+                            progress += 1
                     elif func.isZIP(sharedFile.filename):
 
                         zip_file = BytesIO()
@@ -308,7 +310,8 @@ class ImportLettersHistory(models.Model):
                                 "Analyzing letter {}/{}".format(
                                     progress, self.nber_letters))
 
-                            self._analyze_attachment(zip_.read(f), f)
+                            self._analyze_attachment(
+                                self._convert_pdf(zip_.open(f)), f)
                             progress += 1
                 smb_conn.close()
             else:
@@ -522,6 +525,30 @@ class ImportLettersHistory(models.Model):
             pdf_letter = output_stream.read()
             output_stream.close()
         return pdf_letter
+
+    def _convert_pdf(self, temp_pdf_file):
+        """
+        Converts pdf to ensure the import is capable of reading pdf
+        :param temp_pdf_file: File object
+        :return: converted pdf data
+        """
+        temp_pdf_file.seek(0)
+        gs = find_in_path('gs')
+        args = ['-sDEVICE=pdfwrite', '-dCompatibilityLevel=1.4',
+                '-dPDFSETTINGS=/screen', '-dNOPAUSE', '-dQUIET', '-dBATCH']
+        with NamedTemporaryFile() as output:
+            command = [gs] + args + [
+                '-sOutputFile=' + output.name,
+                temp_pdf_file.name
+            ]
+            process = subprocess.Popen(command, stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE)
+            process.communicate()
+            if process.returncode not in [0, 1]:
+                # Convert failed, we return original pdf
+                return temp_pdf_file.read()
+            output.seek(0)
+            return output.read()
 
 
 class SmbConfig():
