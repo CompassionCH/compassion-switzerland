@@ -47,6 +47,7 @@
     'data': [
         'data/partner_category_data.xml',
         'data/partner_title_data.xml',
+        'views/ambassador_details.xml',
         'views/partner_compassion_view.xml',
         'views/product_view.xml',
         'views/partner_check_double.xml',

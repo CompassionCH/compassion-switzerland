@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <template id="progress_bar">
+            <div class="progress-bar" role="progressbar"
+                 t-attf-aria-valuenow="{{ registration.amount_raised_percents }}"
+                 aria-valuemin="0" aria-valuemax="100"
+                 t-attf-style="width: {{ registration.amount_raised_percents }}%; background-color: #e6b414;">
+                <span t-attf-class="{{ to_hide }}"><t
+                        t-esc="registration.amount_raised_percents"/>%
+                </span>
+            </div>
+        </template>
+        <template id="sport_icon">
+            <span class="child-waiting"
+                  style="background-color: rgb(255, 255, 255, 0.7); height: 40px; width: 40px; margin-top: -8px; padding-top: 3px;">
+                <t t-if="'bike' in registration.sport_type">
+                    <img style="height: 30px;"
+                         src="/muskathlon/static/src/data/biking.png"/>
+                </t>
+                <t t-if="'climb' in registration.sport_type">
+                    <img style="height: 30px;"
+                         src="/muskathlon/static/src/data/climbing.png"/>
+                </t>
+                <t t-if="'run' in registration.sport_type">
+                    <img style="height: 30px;"
+                         src="/muskathlon/static/src/data/running.png"/>
+                </t>
+                <t t-if="'walk' in registration.sport_type">
+                    <img style="height: 30px;"
+                         src="/muskathlon/static/src/data/walking.png"/>
+                </t>
+            </span>
+        </template>
+    </data>
+</odoo>

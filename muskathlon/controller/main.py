@@ -59,7 +59,8 @@ class MuskathlonWebsite(http.Controller):
 
         return http.request.render('muskathlon.participant_details', {
             'event': event,
-            'registration': registration
+            'registration': registration,
+            'countries': http.request.env['res.country'].sudo().search([])
         })
 
 
@@ -71,4 +72,3 @@ class WebsiteAccount(website_account):
             .search([('partner_id', '=', values['user'].partner_id.id)])
 
         return values
-

@@ -21,6 +21,7 @@
                     <group>
                         <field name="ambassador_description"/>
                         <field name="ambassador_quote"/>
+                        <field name="ambassador_thank_you_quote"/>
                     </group>
                     <group>
                         <group>

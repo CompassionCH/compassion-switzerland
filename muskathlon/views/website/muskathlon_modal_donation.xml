@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="modal_donation">
+            <!-- Modal -->
+            <div class="modal fade" id="donation_modal" tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="donation_modal_label" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form class="form-horizontal" id="payment_form"
+                                  action="https://e-payment.postfinance.ch/ncol/test/orderstandard_utf8.asp">
+                                <fieldset>
+                                    <legend>Donation</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"
+                                               for="amount_div_100">Amount
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control"
+                                                   type="number" step="any"
+                                                   min="0" id="amount_div_100"
+                                                   name="AMOUNT" value=""
+                                                   placeholder="Amount"
+                                                   required="true"/>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select class="form-control"
+                                                    id="currency"
+                                                    name="CURRENCY">
+                                                <option value="CHF"
+                                                        selected="selected">CHF
+                                                </option>
+                                                <!--<option value="EUR" disabled="disabled">EUR</option>
+                                                <option value="USD" disabled="disabled">USD</option>-->
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Your personal details</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"
+                                               for="firstname">Firstname
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control"
+                                                   type="text" name="FIRSTNAME"
+                                                   id="firstname" value=""
+                                                   placeholder="First name"
+                                                   required="true"/>
+                                        </div>
+
+                                        <label class="col-sm-2 control-label"
+                                               for="lastname">Lastname
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control"
+                                                   type="text" name="LASTNAME"
+                                                   id="lastname" value=""
+                                                   placeholder="Last name"
+                                                   required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"
+                                               for="email">Email
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control"
+                                                   type="email" name="EMAIL"
+                                                   id="email" value=""
+                                                   placeholder="Email"
+                                                   required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"
+                                               for="tel">Telephone
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <!-- should accept a + at the beginning-->
+                                            Y
+                                            <input class="form-control"
+                                                   type="tel" id="tel"
+                                                   name="OWNERTELNO" value=""
+                                                   placeholder="Telephone number"
+                                                   required="true"/>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Home address</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"
+                                               id="address">Address
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control"
+                                                   type="text"
+                                                   name="OWNERADDRESS"
+                                                   id="address" value=""
+                                                   placeholder="Street &amp; house number"
+                                                   required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"
+                                               for="zip">ZIP code
+                                        </label>
+                                        <div class="col-sm-3">
+                                            <!-- Some ZIP code (e.g. UK ones) contains letters -->
+                                            <input class="form-control"
+                                                   type="text" name="OWNERZIP"
+                                                   id="zip" value=""
+                                                   placeholder="Zip code"
+                                                   required="true"/>
+                                        </div>
+                                        <label class="col-sm-2 control-label"
+                                               for="town">City
+                                        </label>
+                                        <div class="col-sm-5">
+                                            <input class="form-control"
+                                                   type="text" name="OWNERTOWN"
+                                                   id="town" value=""
+                                                   placeholder="City"
+                                                   required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <t t-call="muskathlon.select_country"/>
+                                    </div>
+                                </fieldset>
+
+                                <div class="modal-footer">
+                                    <button type="button"
+                                            class="btn btn-secondary"
+                                            data-dismiss="modal">Close
+                                    </button>
+                                    <!-- will not work on IE-->
+                                    <input type="submit"
+                                           class="btn btn-primary"
+                                           id="donate_button"
+                                           value="Proceed to payment">
+                                    </input>
+                                </div>
+                                <input type="hidden" name="LANGUAGE" value=""/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="select_country">
+            <label class="col-sm-2 control-label" for="country">Country</label>
+            <div class="col-sm-10">
+                <select name="OWNERCTY" class="form-control">
+                    <t t-foreach="countries or []" t-as="country">
+                        <t t-if="country.code == 'CH'">
+                            <option t-att-value="country.id" selected="True">
+                                <t t-esc="country.name" />
+                            </option>
+                        </t>
+                        <t t-else="">
+                            <option t-att-value="country.id">
+                                <t t-esc="country.name" />
+                            </option>
+                        </t>
+                    </t>
+                </select>
+            </div>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="details" page="True">
+            <t t-call="website.layout">
+                <span class="compassion-wp">
+                    <t t-set="title">Muskathlon detail</t>
+                    <div id="wrap">
+                        <!-- event description -->
+                        <article class="page type-page status-publish hentry">
+                            <div class="panel-layout">
+                                <div class="section background-blue section_abgerissen_unten remove_margin_bottom has_breadcrumb"
+                                     style="padding-top: 30px;">
+                                    <div class="row section_row">
+                                        <div class="panel-grid panel-no-style">
+                                            <div class="panel-grid-cell panel-grid-cell-empty"/>
+                                            <div class="panel-grid-cell panel-grid-cell-mobile-last">
+                                                <div class="so-panel widget widget_sow-editor panel-first-child panel-last-child"
+                                                     data-index="0">
+                                                    <div class="so-widget-sow-editor so-widget-sow-editor-base">
+                                                        <div class="siteorigin-widget-tinymce textwidget">
+                                                            <h2 style="text-align: center;">
+                                                                <t t-esc="event.name"/>
+                                                            </h2>
+                                                            <style>
+                                                                .picture_1_event
+                                                                img { height:
+                                                                auto;
+                                                                max-height:420px;
+                                                                display: inline-block;
+                                                                text-align: center;
+                                                                }
+                                                            </style>
+                                                            <div class="image picture_1_event"
+                                                                 t-field="event.picture_1"
+                                                                 t-field-options='{"widget": "image"}'
+                                                                 style="margin-bottom: 15px; margin-top: 25px; text-align: center;"/>
+                                                            <p style="text-align: center;">
+                                                                <t t-esc="time.strftime('%d %B %Y',time.strptime(event.start_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                                -
+                                                                <t t-esc="time.strftime('%d %B %Y',time.strptime(event.end_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                            </p>
+                                                            <p class="subtitle"
+                                                               style="text-align: center;"
+                                                               t-field="registration.ambassador_description"/>
+
+                                                            <hr style="width: 100px; border-width: 2px;"/>
+
+                                                            <p>Found raised :
+                                                            </p>
+                                                            <div class="progress"
+                                                                 style="height: 10px; border-radius: 5px; margin-bottom: 5px;">
+                                                                <div class="progress-bar progress-bar-danger"
+                                                                     role="progressbar"
+                                                                     t-attf-aria-valuenow="{{ event.amount_raised_percents }}"
+                                                                     aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     t-attf-style="width: {{ event.amount_raised_percents }}%; background-color: #e6b414;">
+                                                                    <span class="sr-only">
+                                                                        <t t-esc="event.amount_raised_percents"/>
+                                                                        %
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div style="text-align: center; font-size: 0.8em; color: whith;">
+                                                                <t t-esc="'{:n}'.format(event.amount_raised)"/>
+                                                                /
+                                                                <t t-esc="'{:n}'.format(event.amount_objective)"/>
+                                                                CHF
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-grid-cell panel-grid-cell-empty"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <div class="section background-beige-gradient background-beige"
+                             style="margin-top: 50px; margin-bottom: 50px;">
+                            <div class="row section_row posts-container" style="max-width: 130rem;">
+                                <div class="oe_structure"/>
+                                <div class="so-panel widget widget_sow-editor panel-first-child"
+                                     data-index="3">
+                                    <div class="so-widget-sow-editor so-widget-sow-editor-base">
+                                        <div class="siteorigin-widget-tinymce textwidget">
+                                            <h3 style="text-align: center; margin-bottom: 30px;">
+                                                Participants
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <t t-foreach="event.muskathlon_registration_ids"
+                                   t-as="registration">
+                                    <t t-set="participant_url"
+                                       t-value="'/event/'+str(event.id)+'/participant/'+str(registration.partner_id_id)+'-'+registration.partner_name"/>
+                                    <div class="col-md-6 col-lg-3" style="padding-left: 10px; padding-right: 18px;">
+                                    <article
+                                            class="blog-teaser child-teaser child"
+                                            data-equalizer-watch=""
+                                            style="height: 391px; margin-bottom: 0px;">
+                                        <div class="content-wrapper">
+                                            <a t-attf-href="{{ participant_url }}">
+                                                <div class="thumbnail" t-attf-style="background-image: url(data:image/*;base64,{{registration.ambassador_picture_1}}); background-position:center center;" t-field-options='{"widget": "image"}'/>
+                                            </a>
+
+                                            <t t-call="muskathlon.sport_icon"/>
+
+                                            <div class="content"
+                                                 style="padding:5px;">
+                                                <a t-attf-href="{{ participant_url }}">
+                                                    <h4 class="title"
+                                                        style="font-size: 1.2em; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                                                        <t t-esc="registration.partner_display_name"/>
+                                                    </h4>
+                                                    <div>
+                                                        <div class="progress"
+                                                             style="height: 6px; border-radius: 3px; margin-bottom: 5px;">
+                                                            <t t-set="to_hide"
+                                                               t-value="'sr-only'"/>
+                                                            <t t-call="muskathlon.progress_bar"/>
+                                                        </div>
+                                                        <div style="text-align: center; font-size: 0.8em; color: gray;">
+                                                            <t t-esc="'{:n}'.format(registration.amount_raised)"/>
+                                                            /
+                                                            <t t-esc="'{:n}'.format(registration.amount_objective)"/>
+                                                            CHF
+                                                        </div>
+                                                    </div>
+                                                    <div class="hover-overlay"
+                                                         style="top: -23px;">
+                                                        <h5 class="text-uppercase">
+                                                            Participant
+                                                            <br/>
+                                                            details
+                                                        </h5>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!--<t t-snippet="muskathlon.participants_list"/>-->
+                        <div class="oe_structure"/>
+                    </div>
+                </span>
+            </t>
+        </template>
+    </data>
+</odoo>
