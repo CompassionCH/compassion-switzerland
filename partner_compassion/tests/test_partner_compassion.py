@@ -49,22 +49,12 @@ class TestMessages(TransactionCase):
         lang = self.env['res.partner'].get_lang_from_phone_number(phone)
         self.assertEqual(lang, 'en_US')
 
-    def test_update_church_sponsorships_number(self):
-        self.partner.update_church_sponsorships_number(inc=True)
-        self.assertEqual(self.partner.church_id.number_sponsorships, 1)
-
-        self.partner.update_church_sponsorships_number(inc=True)
-        self.assertEqual(self.partner.church_id.number_sponsorships, 2)
-
-        self.partner.update_church_sponsorships_number(inc=False)
-        self.assertEqual(self.partner.church_id.number_sponsorships, 1)
-
     def test_update_sponsorship_number(self):
         # fake sponsorship number (real is 0)
         self.partner.number_sponsorships = 5
         self.assertEqual(self.partner.number_sponsorships, 5)
 
-        self.partner.update_sponsorship_number()
+        self.partner.update_number_sponsorships()
         self.assertEqual(self.partner.number_sponsorships, 0)
 
     # things with duplicated partners and onchange method don't work
