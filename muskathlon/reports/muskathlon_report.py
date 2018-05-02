@@ -23,6 +23,8 @@ class Muskathlon(models.Model):
     # WARNING: do not change fields name (used in csv export file)
     date_display = fields.Date(readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
+    partner_name = fields.Char(related="partner_id.display_name",
+                               readonly=True)
     user_id = fields.Many2one('res.partner', "Ambassador", readonly=True)
     amount = fields.Float("Amount", readonly=True)
     amount_cent = fields.Integer("Amount in currency (cents)", readonly=True)

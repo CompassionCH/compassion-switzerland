@@ -8,6 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from . import ambassador_details
 from . import account_banking_mandate_compassion
 from . import partner_bank_compassion
 from . import partner_compassion

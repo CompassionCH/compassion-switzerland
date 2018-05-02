@@ -10,25 +10,27 @@
 
         <!-- Event participants list Snippet -->
         <template id="participants_list" name="Participant list">
-            <section class="o_participants_list">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>Participants</h3>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Gender</th>
-                                        <th>Country</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="participants_list_content"/>
-                            </table>
+            <div class="compassion-wp">
+                <section class="o_participants_list">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Participants</h3>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Gender</th>
+                                            <th>Country</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="participants_list_content"/>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </template>
     </data>
 </odoo>
