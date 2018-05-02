@@ -20,4 +20,8 @@ class AmbassadorDetails(models.Model):
     quote = fields.Text(translate=True)
     picture_1 = fields.Binary()
     picture_2 = fields.Binary()
+    thank_you_quote = fields.Html(
+        help='Used in thank you letters for donations linked to an event '
+             'and to this partner.',
+    )
     mail_copy_when_donation = fields.Boolean()

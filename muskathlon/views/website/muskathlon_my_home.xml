@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="custom_portal_my_home"
+                  inherit_id="website_portal.portal_layout"
+                  name="Custom My Portal">
+            <xpath expr="//div[@id='wrap']" position="replace">
+                <!--<style>.navbar-default { display: none; }</style>-->
+                <div class="container mb64">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4"
+                             style="padding-left: 5px;">
+                            <div class="o_my_details">
+                                <h3 class="page-header"
+                                    style="margin-bottom: 8px; margin-top: 10px;">
+                                    Coordinates
+                                    <a href="/my/account"
+                                       class="btn btn-default btn-xs">Change
+                                    </a>
+                                </h3>
+                                <div t-field="user.partner_id"
+                                     t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"
+                         style="margin-top: 10px; margin-bottom: 5px;">
+                        <div class="btn btn-default">Notifications settings
+                        </div>
+                    </div>
+                    <t t-if="user.partner_id.ambassador_details_id.thank_you_quote">
+                        <div class="row">
+                            <h3 class="page-header"
+                                style="margin-top: 25px; margin-bottom: 10px;">
+                                Ambassador quote
+                                <a href="/my/account"
+                                   class="btn btn-default btn-xs">Change
+                                </a>
+                            </h3>
+                            <div t-raw="user.partner_id.ambassador_details_id.thank_you_quote"/>
+                        </div>
+                    </t>
+                    <t t-if="registrations">
+                        <div class="row">
+                            <h3 class="page-header"
+                                style="margin-top: 25px; margin-bottom: 10px;">
+                                Muskathlons
+                            </h3>
+                            <div class="alert alert-info">Click on a muskathlon
+                                event to access to all related infos
+                            </div>
+                            <table class="table table-striped"
+                                   style="margin-top: -5px;">
+                                <thead>
+                                    <tr>
+                                        <th>Muskathlon</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="registrations"
+                                       t-as="registration">
+                                        <tr>
+                                            <td>
+                                                <a t-attf-href="/my/muskathlons/{{ registration.event_id.id }}">
+                                                    <t t-esc="registration.event_id.name"/>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <t t-esc="time.strftime('%d.%m.%Y',time.strptime(registration.event_id.start_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -44,7 +44,7 @@ class OgoneController2(http.Controller):
         '/payment/donation/exception', '/payment/donation/test/exception',
         '/payment/donation/decline', '/payment/donation/test/decline',
         '/payment/donation/cancel', '/payment/donation/test/cancel',
-    ], type='http', auth='none')
+    ], type='http', auth='public', website=True)
     def ogone_form_feedback_decline(self, **post):
         """ Ogone contacts using GET, at least for accept """
         return http.request.render('payment_ogone_compassion.decline')

@@ -39,7 +39,7 @@ odoo.define('muskathlon.participant_details', function (require) {
 
             var self = this;
 
-            var payment_form = $(self.$target).find('#payment_form');
+            var payment_form = $('#payment_form');
 
             payment_form.attr('action', 'https://e-payment.postfinance.ch/ncol/' + ENVIRONMENT + '/orderstandard_utf8.asp');
             $('#donate_button').on('click', function(e) {

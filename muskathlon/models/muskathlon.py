@@ -55,8 +55,7 @@ class MuskathlonRegistration(models.Model):
         'res.partner', 'Muskathlon participant',
     )
     ambassador_details_id = fields.Many2one(
-        'ambassador.details', 'Ambassador details',
-    )
+        'ambassador.details', related='partner_id.ambassador_details_id')
 
     # The 4 following fields avoid giving read access to the public on the
     # res.partner participating in the muskathlon.
@@ -67,13 +66,15 @@ class MuskathlonRegistration(models.Model):
                                          readonly=True)
     partner_name = fields.Char(related="partner_id.name", readonly=True)
     ambassador_picture_1 = fields.Binary(
-        related='ambassador_details_id.picture_1')
+        related='ambassador_details_id.picture_1', readonly=True)
     ambassador_picture_2 = fields.Binary(
-        related='ambassador_details_id.picture_2')
+        related='ambassador_details_id.picture_2', readonly=True)
     ambassador_description = fields.Text(
-        related='ambassador_details_id.description')
+        related='ambassador_details_id.description', readonly=True)
     ambassador_quote = fields.Text(
-        related='ambassador_details_id.quote')
+        related='ambassador_details_id.quote', readonly=True)
+    ambassador_thank_you_quote = fields.Html(
+        related='ambassador_details_id.thank_you_quote', readonly=True)
 
     sport_type = fields.Selection([
         ('run_21', 'Run 21 Km'),
