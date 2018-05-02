@@ -9,28 +9,28 @@
                     <group>
                         <group>
                             <field name="event_id"/>
-                            <field name="partner_id"></field>
-                            <field name="muskathlon_participant_id"></field>
+                            <field name="partner_id"/>
+                            <field name="muskathlon_participant_id"/>
                         </group>
                         <group>
-                            <field name="muskathlon_event_id"></field>
-                            <field name="sport_type"></field>
-                            <field name="reg_id"></field>
+                            <field name="muskathlon_event_id"/>
+                            <field name="sport_type"/>
+                            <field name="reg_id"/>
                         </group>
                     </group>
                     <group>
-                        <field name="public_description"></field>
-                        <field name="ambassador_quote_public"></field>
+                        <field name="ambassador_description"/>
+                        <field name="ambassador_quote"/>
                     </group>
                     <group>
                         <group>
-                            <field name="picture_1"/>
-                            <field name="amount_objective"></field>
-                            <field name="amount_raised_percents"></field>
+                            <field name="ambassador_picture_1"/>
+                            <field name="amount_objective"/>
+                            <field name="amount_raised_percents"/>
                         </group>
                         <group>
-                            <field name="picture_2"></field>
-                            <field name="amount_raised"></field>
+                            <field name="ambassador_picture_2"/>
+                            <field name="amount_raised"/>
                         </group>
                     </group>
                 </sheet>

@@ -9,6 +9,8 @@
 ##############################################################################
 
 from odoo import http
+from odoo.http import request
+from odoo.addons.website_portal.controllers.main import website_account
 
 
 class MuskathlonWebsite(http.Controller):
@@ -25,6 +27,16 @@ class MuskathlonWebsite(http.Controller):
     def details(self, event):
         return http.request.render('muskathlon.details', {
             'event': event
+        })
+
+    @http.route('/my/muskathlons/<int:muskathlon_id>',
+                auth='user', website=True)
+    def muskathlon_details(self, muskathlon_id):
+        reports = request.env['muskathlon.report'].search(
+            [('user_id', '=', request.env.user.partner_id.id),
+             ('event_id', '=', muskathlon_id)])
+        return http.request.render('muskathlon.my_details', {
+            'reports': reports
         })
 
     @http.route('/event/<model("crm.event.compassion"):event>/participant'
@@ -49,3 +61,14 @@ class MuskathlonWebsite(http.Controller):
             'event': event,
             'registration': registration
         })
+
+
+class WebsiteAccount(website_account):
+
+    def _prepare_portal_layout_values(self):
+        values = super(WebsiteAccount, self)._prepare_portal_layout_values()
+        values['registrations'] = request.env['muskathlon.registration']\
+            .search([('partner_id', '=', values['user'].partner_id.id)])
+
+        return values
+

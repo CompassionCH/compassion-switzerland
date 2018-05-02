@@ -84,6 +84,11 @@ class ResPartner(models.Model):
     church_member_count = fields.Integer(compute='_compute_is_church',
                                          store=True)
 
+    ambassador_details_id = fields.Many2one('muskathlon.details',
+                                            'Details of Muskathlon '
+                                            'participant')
+
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
