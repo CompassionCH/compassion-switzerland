@@ -202,23 +202,6 @@ class RecurringContract(models.Model):
             config = self.env.ref(module + 'planned_anniversary_' + str(year))
             anniversary.send_communication(config)
 
-        # Completion
-        logger.info("....Creating Completion Communications")
-        in_three_month = today + relativedelta(months=3)
-        start = in_three_month.replace(day=1)
-        stop = in_three_month.replace(
-            day=calendar.monthrange(in_three_month.year,
-                                    in_three_month.month)[1])
-        completion = self.search([
-            ('child_id.completion_date', '>=', fields.Date.to_string(start)),
-            ('child_id.completion_date', '<=', fields.Date.to_string(stop)),
-            ('state', '=', 'active'),
-            ('type', 'like', 'S')
-        ])
-        config = self.env.ref(module + 'planned_completion')
-        completion.send_communication(config, both=True)
-        logger.info("Sponsorship Planned Communications finished!")
-
     @api.model
     def send_daily_communication(self):
         """
