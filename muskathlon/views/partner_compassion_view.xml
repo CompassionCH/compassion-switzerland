@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_muskathlon_partner_letter_delivery" model="ir.ui.view">
-        <field name="name">muskathlon.partner.letter.delivery</field>
+    <record id="view_muskathlon_partner" model="ir.ui.view">
+        <field name="name">muskathlon.partner</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
+        <field name="inherit_id" ref="partner_compassion.view_ambassador_details_partner"/>
         <field name="arch" type="xml">
-            <notebook>
+            <xpath expr="//page[@name='page_title']" position="attributes">
+                <attribute name="string">Muskathlon</attribute>
+            </xpath>
+            <xpath expr="//group[@name='ambassador_details_group']" position="after">
+                <group attrs="{'invisible': [('muskathlon_participant_id', '==', False)]}">
+                        <field name="muskathlon_participant_id"/>
+                        <field name="muskathlon_registration_ids" context="{'default_partner_id': id}">
+                            <tree>
+                                <field name="event_id"/>
+                                <field name="muskathlon_event_id"/>
+                                <field name="reg_id"/>
+                            </tree>
+                        </field>
+                </group>
+            </xpath>
+
+
+            <!--<notebook>
                 <page string="Muskathlon">
                     <group col="6">
                         <field name="muskathlon_participant_id" colspan="4"/><label string="" nolabel="1" colspan="2"/>
                     </group>
-                    <group>
+                    <group name="test_name">
                         <field name="muskathlon_registration_ids" context="{'default_partner_id': id}">
                             <tree>
                                 <field name="event_id"/>
@@ -19,10 +36,8 @@
                             </tree>
                         </field>
                     </group>
-                    <p>Set a custom text used in thank you letters for donations linked to an event and to this partner.</p>
-                    <field name="ambassador_quote" widget="text_ckeditor4"/>
                 </page>
-            </notebook>
+            </notebook>-->
         </field>
     </record>
 </odoo>

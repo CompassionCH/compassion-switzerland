@@ -33,13 +33,13 @@ odoo.define('muskathlon.participant_details', function (require) {
         start: function () {
             // get participant ID
             var url = window.location.href;
-            var participant_id = parseInt(url.match(/participant\/[a-z0-9-]{1,}-([0-9]{1,})\//)[1], 10);
+            var participant_id = parseInt(url.match("/participant/([0-9]+)-[A-z0-9\-%]+/")[1], 10);
             // get current event id
-            var event_id = parseInt(url.match(/event\/[a-z0-9-]{1,}-([0-9]{1,})\//)[1], 10);
+            var event_id = parseInt(url.match("/event/[A-z0-9\-]+-([0-9]+)/")[1], 10);
 
             var self = this;
 
-            var payment_form = $(self.$target).find('#payment_form');
+            var payment_form = $('#payment_form');
 
             payment_form.attr('action', 'https://e-payment.postfinance.ch/ncol/' + ENVIRONMENT + '/orderstandard_utf8.asp');
             $('#donate_button').on('click', function(e) {

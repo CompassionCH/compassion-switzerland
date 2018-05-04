@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data> <!-- add to data: noupdate="1" -->
+    <data>
         <template id="payment_ogone_compassion.accept" page="True">
             <t t-call="website.layout">
                 <t t-set="title">Muskathlons</t>
-                <div class="oe_structure">
-                    blabla
+                <div class="oe_structure compassion-wp">
+                    <div class="thank_you_container">
+                        <div class="thank_you_image_container">
+                            <img class="img-responsive" style="width: 100%" src="https://compassion.ch/wp-content/uploads/2017/02/compassion_thankyou_donation.jpg"/>
+                        </div>
+                        <div class="thank_you_text_container">
+                            <h1>Merci ! Votre soutien libère des enfants de la pauvreté</h1>
+                        </div>
+                    </div>
                 </div>
             </t>
         </template>
@@ -13,8 +20,16 @@
         <template id="payment_ogone_compassion.decline" page="True">
             <t t-call="website.layout">
                 <t t-set="title">Muskathlons</t>
-                <div class="oe_structure">
-                    blabla
+                <div class="oe_structure compassion-wp">
+                    <div class="thank_you_container">
+                        <div class="thank_you_image_container">
+                            <img class="img-responsive" style="width: 100%" src="https://compassion.ch/wp-content/uploads/2017/02/compassion_thankyou_donation.jpg"/>
+                        </div>
+                        <div class="thank_you_text_container">
+                            <h1>Vous avez annulé votre don ou il y a eu une erreur</h1>
+                            <p class="quote">Si vous le désirez, <a href="https://compassion.ch/donations/">vous pouvez essayer à nouveau</a>.</p>
+                        </div>
+                    </div>
                 </div>
             </t>
         </template>

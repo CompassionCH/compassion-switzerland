@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_ambassador_details_partner" model="ir.ui.view">
+        <field name="name">ambassador.details.partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
+        <field name="arch" type="xml">
+            <notebook>
+                <page string="Ambassador details" name="page_title">
+                    <group name="ambassador_details_group">
+                        <field name="ambassador_details_id"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="view_ambassador_details_default" model="ir.ui.view">
+        <field name="name">view.ambassador.details.default</field>
+        <field name="model">ambassador.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="description"/>
+                        <field name="quote"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="picture_1"/>
+                        </group>
+                        <group>
+                            <field name="picture_2"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="mail_copy_when_donation"/>
+                    </group>
+                    <p>Set a custom text used in thank you letters for donations linked to an event and to this partner.</p>
+                    <group>
+                        <field name="thank_you_quote" widget="text_ckeditor4"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

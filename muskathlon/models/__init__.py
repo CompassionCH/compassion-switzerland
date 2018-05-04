@@ -8,7 +8,8 @@
 #
 ##############################################################################
 
-from . import contracts
 from . import account_invoice_line
-from . import res_partner
+from . import contracts
 from . import event_compassion
+from . import muskathlon
+from . import res_partner

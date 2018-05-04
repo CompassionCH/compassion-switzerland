@@ -4,6 +4,7 @@
         <xpath expr="link[last()]" position="after">
             <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"/>
             <link href="/website_compassion/static/src/style/main.css" rel="stylesheet" type="text/css"/>
+            <link href="/website_compassion/static/src/style/custom.css" rel="stylesheet" type="text/css"/>
         </xpath>
     </template>
 </odoo>

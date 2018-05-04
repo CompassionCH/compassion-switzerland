@@ -130,9 +130,9 @@ class Contracts(models.Model):
             'campaign_id': utms['campaign'],
         })
 
-        ambassador_id = re.match(r'^msk(\d{1,8})_', form_data[
+        ambassador_id = re.match(r'^msk_(\d{1,8})', form_data[
             'consumer_source_text'])
-        event_id = re.match(r'^msk(\d{1,8})_', form_data[
+        event_id = re.match(r'^msk_(\d{1,8})', form_data[
             'consumer_source'])
         # The sponsoships consumer_source fields were set automatically due
         # to a redirect from the sponsorship button on the muskathlon page.

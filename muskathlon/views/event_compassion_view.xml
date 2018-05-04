@@ -12,7 +12,7 @@
                 </page>
                 <page string="Public informations">
                     <group>
-                        <field name="public_description"/>
+                        <field name="description"/>
                         <field name="picture_1"/>
                         <field name="picture_2"/>
                         <field name="video_url"/>
