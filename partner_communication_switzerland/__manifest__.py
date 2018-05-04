@@ -69,7 +69,6 @@
         'views/change_text_wizard_view.xml',
         'views/correspondence_view.xml',
         'views/generate_communication_wizard_view.xml',
-        'views/recurring_contracts_view.xml',
     ],
     'demo': [],
     'installable': True,
