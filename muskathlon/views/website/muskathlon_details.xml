@@ -42,7 +42,7 @@
                                                             </p>
                                                             <p class="subtitle"
                                                                style="text-align: center;"
-                                                               t-field="registration.ambassador_description"/>
+                                                               t-field="event.public_description"/>
 
                                                             <hr style="width: 100px; border-width: 2px;"/>
 
