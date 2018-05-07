@@ -127,7 +127,7 @@ class PaymentAcquirerOgone(models.Model):
         del res['PARAMPLUS']
         return ogone.ogone_get_form_action_url(), res
 
-    def validate_invoice_line(self, invoice_id):
+    def validate_order_id(self, invoice_id):
         invoice_line = self.env['account.invoice.line'].browse(
             int(invoice_id))
         invoice_line.state = 'paid'

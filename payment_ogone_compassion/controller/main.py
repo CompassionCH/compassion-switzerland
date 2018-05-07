@@ -14,6 +14,7 @@ import pprint
 from odoo import http
 from odoo.http import request
 from odoo.addons.payment_ogone.controllers.main import OgoneController
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -24,27 +25,33 @@ OgoneController._except_url = '/payment/donation/test/except'
 
 
 class OgoneController2(http.Controller):
-    # TODO
-    # need to skim
-    # https://compassion.ch/fr/annulation-don
     @http.route([
-        '/payment/donation/accept', '/payment/donation/test/accept/',
+        '/payment/donation/<string:result>/',
+        '/payment/donation/test/<string:result>/',
     ], type='http', auth='public', website=True)
-    def ogone_form_feedback_accept(self, **post):
+    def ogone_form_feedback(self, result, **post):
         """ Ogone contacts using GET, at least for accept """
-        _logger.info('Ogone: entering form_feedback with post data %s',
+        _logger.info('Donation from Ogone: entering form_feedback with post '
+                     'data %s',
                      pprint.pformat(post))  # debug
-        if request.env['payment.transaction'].sudo().form_feedback(
-                post, 'ogone'):
-            http.request.env['payment.acquirer']\
-                .validate_invoice_line(post['orderID'])
-        return http.request.render('payment_ogone_compassion.accept')
+        if result != 'accept':
+            result = 'decline'
 
-    @http.route([
-        '/payment/donation/exception', '/payment/donation/test/exception',
-        '/payment/donation/decline', '/payment/donation/test/decline',
-        '/payment/donation/cancel', '/payment/donation/test/cancel',
-    ], type='http', auth='public', website=True)
-    def ogone_form_feedback_decline(self, **post):
-        """ Ogone contacts using GET, at least for accept """
-        return http.request.render('payment_ogone_compassion.decline')
+        try:
+            feedback = request.env['payment.transaction'].sudo().form_feedback(
+                post, 'ogone')
+        except ValidationError:
+            feedback = False
+
+        invoice_line = http.request.env['account.invoice.line'].browse(int(
+            post['orderID']))
+        registration = invoice_line.event_id.muskathlon_registration_ids \
+            .filtered(lambda item: item.partner_id == invoice_line.user_id)
+
+        if feedback:
+            http.request.env['payment.acquirer'] \
+                .validate_order_id(post['orderID'])
+        return http.request.render('payment_ogone_compassion.' + result, {
+            'event': invoice_line.event_id,
+            'registration': registration
+        })
