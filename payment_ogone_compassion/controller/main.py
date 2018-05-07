@@ -55,3 +55,24 @@ class OgoneController2(http.Controller):
             'event': invoice_line.event_id,
             'registration': registration
         })
+        if result != 'accept':
+            result = 'decline'
+
+        try:
+            feedback = request.env['payment.transaction'].sudo().form_feedback(
+                post, 'ogone')
+        except ValidationError:
+            feedback = False
+
+        invoice_line = http.request.env['account.invoice.line'].browse(int(
+            post['orderID']))
+        registration = invoice_line.event_id.muskathlon_registration_ids \
+            .filtered(lambda item: item.partner_id == invoice_line.user_id)
+
+        if feedback:
+            http.request.env['payment.acquirer'] \
+                .validate_order_id(post['orderID'])
+        return http.request.render('payment_ogone_compassion.' + result, {
+            'event': invoice_line.event_id,
+            'registration': registration
+        })
