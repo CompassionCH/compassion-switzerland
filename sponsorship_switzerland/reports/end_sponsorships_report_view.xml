@@ -88,6 +88,7 @@
                 (0, 0, {'view_mode': 'pivot', 'view_id': ref('sponsorship_switzerland.end_sponsorships_details_pivot')})]"/>
     </record>
 
-    <menuitem name="Ended Sponsorships (percentage)" action="action_ended_sponsorships_report" id="menu_ended_sponsorships" parent="sponsorships_report_menu_base" sequence="4"/>
-    <menuitem name="Ended Sponsorships (details)" action="action_ended_sponsorships_details_report" id="menu_ended_sponsorships_details" parent="sponsorships_report_menu_base" sequence="5"/>
+    <menuitem id="sponsorships_report_menu_ending" name="Ending Analysis" parent="sponsorships_report_menu_base" sequence="1"/>
+    <menuitem name="Ended Sponsorships (percentage)" action="action_ended_sponsorships_report" id="menu_ended_sponsorships" parent="sponsorships_report_menu_ending" sequence="4"/>
+    <menuitem name="Ended Sponsorships (details)" action="action_ended_sponsorships_details_report" id="menu_ended_sponsorships_details" parent="sponsorships_report_menu_ending" sequence="5"/>
 </odoo>
