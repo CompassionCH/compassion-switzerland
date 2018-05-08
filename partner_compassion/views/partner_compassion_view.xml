@@ -132,6 +132,11 @@
                         </group>
                     </group>
                 </page>
+                <page string="Ambassador details" name="ambassador_details">
+                    <group name="ambassador_details_group">
+                        <field name="ambassador_details_id" context="{'default_partner_id': active_id}"/>
+                    </group>
+                </page>
             </xpath>
 
             <!-- Put reference fields at top -->
