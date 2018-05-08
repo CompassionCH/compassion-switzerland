@@ -46,6 +46,7 @@
         'base_geolocalize',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'data/partner_category_data.xml',
         'data/partner_title_data.xml',
         'views/ambassador_details.xml',

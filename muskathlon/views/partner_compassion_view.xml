@@ -3,9 +3,9 @@
     <record id="view_muskathlon_partner" model="ir.ui.view">
         <field name="name">muskathlon.partner</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="partner_compassion.view_ambassador_details_partner"/>
+        <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='page_title']" position="attributes">
+            <xpath expr="//page[@name='ambassador_details']" position="attributes">
                 <attribute name="string">Muskathlon</attribute>
             </xpath>
             <xpath expr="//group[@name='ambassador_details_group']" position="after">
@@ -20,24 +20,6 @@
                         </field>
                 </group>
             </xpath>
-
-
-            <!--<notebook>
-                <page string="Muskathlon">
-                    <group col="6">
-                        <field name="muskathlon_participant_id" colspan="4"/><label string="" nolabel="1" colspan="2"/>
-                    </group>
-                    <group name="test_name">
-                        <field name="muskathlon_registration_ids" context="{'default_partner_id': id}">
-                            <tree>
-                                <field name="event_id"/>
-                                <field name="muskathlon_event_id"/>
-                                <field name="reg_id"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
-            </notebook>-->
         </field>
     </record>
 </odoo>

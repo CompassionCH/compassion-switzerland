@@ -286,8 +286,8 @@ class TestWordpressConnector(BaseSponsorshipTest):
             'last_name': self.michel.lastname,
             'zipcode': self.michel.zip,
             'city': 'Big Apple',
-            'consumer_source': 'msk' + str(event.id) + '_Muskathlon',
-            'consumer_source_text': 'msk' + str(self.thomas.id) +
+            'consumer_source': 'msk_' + str(event.id) + '_Muskathlon',
+            'consumer_source_text': 'msk_' + str(self.thomas.id) +
                                     '_FirstnameLastName'
         })
 
@@ -299,4 +299,5 @@ class TestWordpressConnector(BaseSponsorshipTest):
         s = self.env['recurring.contract'].search([
             ('web_data', '=', simplejson.dumps(michel_form_data))], limit=1)
         self.check_sponsorship(s, child, user_id=self.thomas.id,
+                               origin_id=event.origin_id.id,
                                partner_id=self.michel.id)
