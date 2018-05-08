@@ -43,6 +43,7 @@
         'views/partner_compassion_view.xml',
         'views/recurring_contracts_view.xml',
         'views/muskathlon_registrations.xml',
+        'views/ambassador_details_view.xml',
         'views/website/muskathlon_details.xml',
         'views/website/muskathlon_list.xml',
         'views/website/muskathlon_modal_donation.xml',
@@ -52,6 +53,7 @@
         'views/website/muskathlon_modal_registration.xml',
         'views/website/muskathlon_snippet.xml',
         'views/website/muskathlon_views.xml',
+        'views/website/muskathlon_my_home_modals.xml',
         'views/assets.xml'
     ],
     'depends': ['partner_compassion', 'crm_compassion', 'website',

@@ -11,6 +11,7 @@
 from odoo import http, fields
 from odoo.http import request
 from odoo.addons.website_portal.controllers.main import website_account
+from base64 import b64encode
 
 
 class MuskathlonWebsite(http.Controller):
@@ -142,6 +143,40 @@ class MuskathlonWebsite(http.Controller):
             'countries': http.request.env['res.country'].sudo().search([])
         })
 
+    @http.route(['/my/api'], type='http', auth='user', website=True)
+    def details(self, redirect=None, **post):
+        user = request.env.user
+        partner = user.partner_id
+        vals = {'user': user, 'partner': partner}
+
+        if 'type_coordinates' in post:
+            post['zip'] = post.pop('zipcode')
+            partner.sudo().write(post)
+            return request.render('muskathlon.coordinates_formatted', vals)
+
+        if 'type_aboutme' in post:
+            partner.ambassador_details_id.sudo().write(post)
+            return request.render('muskathlon.aboutme_formatted', vals)
+
+        if 'type_settings' in post:
+            post['mail_copy_when_donation'] = 'mail_copy_when_donation' in post
+            partner.ambassador_details_id.sudo().write(post)
+            return
+
+        if 'type_tripinfos' in post:
+            partner.ambassador_details_id.sudo().write(post)
+            return request.render('muskathlon.tripinfos_formatted', vals)
+
+        for picture in ['picture_1', 'picture_2']:
+            if picture in post:
+                image_value = post[picture].stream.getvalue()
+                if not image_value:
+                    return 'no image uploaded'
+                partner.ambassador_details_id.sudo().write({
+                    picture: b64encode(image_value)
+                })
+                return request.render('muskathlon.'+picture+'_formatted', vals)
+
 
 class WebsiteAccount(website_account):
 
@@ -149,5 +184,11 @@ class WebsiteAccount(website_account):
         values = super(WebsiteAccount, self)._prepare_portal_layout_values()
         values['registrations'] = request.env['muskathlon.registration']\
             .search([('partner_id', '=', values['user'].partner_id.id)])
+
+        values['partner'] = values['user'].partner_id
+        values['countries'] = request.env['res.country'].sudo().search([])
+        values['states'] = request.env['res.country.state'].sudo().search([])
+        values['tshirt'] = request.env['ambassador.details'].TSHIRT_SELECTION
+        values['ert'] = request.env['ambassador.details'].ERT_SELECTION
 
         return values

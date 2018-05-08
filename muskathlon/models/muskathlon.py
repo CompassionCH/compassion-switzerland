@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 from odoo.tools import config
 from odoo.exceptions import MissingError
 
@@ -16,10 +16,8 @@ from odoo.exceptions import MissingError
 class MuskathlonDetails(models.Model):
     _inherit = "ambassador.details"
 
-    emergency_name = fields.Char('Emergency contact name')
-    emergency_phone = fields.Char('Emergency contact phone number')
-    emergency_relation_type = fields.Selection(
-        [('husband', 'Husband'),
+    # emergency relation type selection
+    ERT_SELECTION = [('husband', 'Husband'),
          ('wife', 'Wife'),
          ('father', 'Father'),
          ('mother', 'Mother'),
@@ -28,17 +26,24 @@ class MuskathlonDetails(models.Model):
          ('son', 'Son'),
          ('daughter', 'Daughter'),
          ('friend', 'Friend'),
-         ('other', 'Other')], string='Emergency contact relation type')
+         ('other', 'Other')]
+
+    TSHIRT_SELECTION = [
+        ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL')
+    ]
+
+    emergency_name = fields.Char('Emergency contact name')
+    emergency_phone = fields.Char('Emergency contact phone number')
+    emergency_relation_type = fields.Selection(ERT_SELECTION,
+        string='Emergency contact relation type')
     birth_name = fields.Char()
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
     message_when_donation = fields.Boolean()
-    tshirt_size = fields.Selection([
-        ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL')
-    ])
+    tshirt_size = fields.Selection(TSHIRT_SELECTION)
 
     sql_constraints = [
-        ('partner_uniqe', 'UNIQUE (partner_id)', 'Partner must be unique.')
+        ('partner_unique', 'UNIQUE (partner_id)', 'Partner must be unique.')
     ]
 
 
