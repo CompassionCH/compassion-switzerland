@@ -53,6 +53,15 @@ class Muskathlon(models.Model):
                                   readonly=True)
     invoice_line_id = fields.Many2one('account.invoice.line', 'Invoice line',
                                       readonly=True)
+    donation_type = fields.Selection(
+        [('sponsorship', 'Sponsorship'),
+         ('donation', 'Donation')], compute='_compute_donation_type')
+
+    @api.multi
+    def _compute_donation_type(self):
+        for line in self:
+            line.donation_type = 'donation' if line.invoice_line_id else \
+                'sponsorship'
 
     @api.model_cr
     def init(self):
