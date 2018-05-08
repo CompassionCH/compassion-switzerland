@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-
         <template id="progress_bar">
             <div class="progress-bar" role="progressbar"
                  t-attf-aria-valuenow="{{ registration.amount_raised_percents }}"
@@ -12,6 +11,7 @@
                 </span>
             </div>
         </template>
+
         <template id="sport_icon">
             <span class="child-waiting"
                   style="background-color: rgb(255, 255, 255, 0.7); height: 40px; width: 40px; margin-top: -8px; padding-top: 3px;">
@@ -32,6 +32,45 @@
                          src="/muskathlon/static/src/data/walking.png"/>
                 </t>
             </span>
+        </template>
+
+        <template id="coordinates_formatted">
+            <div t-field="user.partner_id" t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+        </template>
+
+        <template id="aboutme_formatted">
+            <div class="row">
+                <h3 class="page-header"
+                    style="margin-top: 25px; margin-bottom: 10px;">
+                    About me
+                    <button type="button"
+                            class="btn btn-default btn-xs"
+                            data-toggle="modal"
+                            data-target="#modal_change_aboutme">
+                        Change
+                    </button>
+                </h3>
+                <p>
+                    <t t-raw="partner.ambassador_details_id.description"/>
+                </p>
+                <blockquote>
+                    <p>
+                        <t t-raw="partner.ambassador_details_id.quote"/>
+                    </p>
+                </blockquote>
+            </div>
+        </template>
+
+        <template id="picture_1_formatted">
+            <div class="image picture_event"
+                 t-field="partner.ambassador_details_id.picture_1"
+                 t-field-options='{"widget": "image"}'/>
+        </template>
+
+        <template id="picture_2_formatted">
+            <div class="image picture_event"
+                 t-field="partner.ambassador_details_id.picture_2"
+                 t-field-options='{"widget": "image"}'/>
         </template>
     </data>
 </odoo>

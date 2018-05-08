@@ -5,8 +5,30 @@
                   inherit_id="website_portal.portal_layout"
                   name="Custom My Portal">
             <xpath expr="//div[@id='wrap']" position="replace">
-                <!--<style>.navbar-default { display: none; }</style>-->
+                <!-- save changes in odoo -->
+                <script>
+                    $(function() {
+                        $('form[id^="form_"]').each(function() {
+                            var id = $(this).prop('id');
+                            var save_button = $('#' + id.replace('form', 'save'));
+                            var type_id = id.replace('form', 'type');
+                            if (!$('#'+type_id).length) {
+                                $(this).append($(document.createElement('input')).attr('type', 'hidden').attr('name', type_id));
+                            }
+
+                            save_button.click(function() {
+                                $.post('/my/api', $('#'+id).serialize(), function(data) {
+                                    $('#'+id.replace('form', 'text')).html(data);
+                                    $('#success_message').show();
+                                });
+                            });
+                        });
+                    });
+                </script>
+                <!-- hides navbar from my portal -->
+                <style>.mt16 .navbar { display: none !important; }</style>
                 <div class="container mb64">
+                    <div id="success_message" style="display: none;" class="alert alert-success">Your informations were successfuly updated</div>
                     <div class="row">
                         <div class="col-sm-6 col-md-4"
                              style="padding-left: 5px;">
@@ -14,32 +36,93 @@
                                 <h3 class="page-header"
                                     style="margin-bottom: 8px; margin-top: 10px;">
                                     Coordinates
-                                    <a href="/my/account"
-                                       class="btn btn-default btn-xs">Change
-                                    </a>
+                                    <button type="button"
+                                            class="btn btn-default btn-xs"
+                                            data-toggle="modal"
+                                            data-target="#modal_change_coordinates">
+                                        Change
+                                    </button>
                                 </h3>
-                                <div t-field="user.partner_id"
-                                     t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                                <div id="text_coordinates">
+                                    <t t-call="muskathlon.coordinates_formatted"/>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row"
-                         style="margin-top: 10px; margin-bottom: 5px;">
-                        <div class="btn btn-default">Notifications settings
+                         style="margin-top: 15px; margin-bottom: 5px;">
+                        <button type="button" class="btn btn-default"
+                                data-toggle="modal"
+                                data-target="#modal_change_settings">
+                            Settings
+                        </button>
+                    </div>
+                    <div id="text_aboutme">
+                        <t t-call="muskathlon.aboutme_formatted"/>
+                    </div>
+                    <div class="row">
+                        <h3 class="page-header"
+                            style="margin-top: 25px; margin-bottom: 10px;">
+                            Pictures
+                            <label for="upload_picture_1" type="button" class="btn btn-default btn-xs">
+                                Change picture 1
+                            </label>
+                            <label for="upload_picture_2" type="button" class="btn btn-default btn-xs">
+                                Change picture 2
+                            </label>
+
+                            <form id="form_picture_1" action="/my/api" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="file"
+                                       name="picture_1"
+                                       id="upload_picture_1"
+                                       accept="image/*"
+                                       style="opacity: 0; position: absolute; z-index: -1;"/>
+                            </form>
+
+                            <form id="form_picture_2" action="/my/api" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="file"
+                                       name="picture_2"
+                                       id="upload_picture_2"
+                                       accept="image/*"
+                                       style="opacity: 0; position: absolute; z-index: -1;"/>
+                            </form>
+
+                            <!-- auto-submit files -->
+                            <script>
+                                $(function() {
+                                    $('#upload_picture_1, #upload_picture_2').change(function() {
+                                        var form_id = $(this).prop('id').replace('upload', 'form');
+                                        var content_id = form_id.replace('form', 'content');
+                                        $.ajax({
+                                            url: '/my/api',
+                                            type: 'POST',
+                                            data: new FormData($('#'+form_id)[0]),
+                                            processData: false,
+                                            contentType: false
+                                        })
+                                        .done(function(data) {
+                                            if (!/no image uploaded/.test(data)) {
+                                                $('#'+content_id).html(data);
+                                                $('#success_message').show();
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                        </h3>
+                        <div class="pictures-container" style="max-width: 600px;">
+                            <div class="row">
+                                <div id="content_picture_1" class="col-sm-6">
+                                    <t t-call="muskathlon.picture_1_formatted"/>
+                                </div>
+                                <div id="content_picture_2" class="col-sm-6">
+                                    <t t-call="muskathlon.picture_2_formatted"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <t t-if="user.partner_id.ambassador_details_id.thank_you_quote">
-                        <div class="row">
-                            <h3 class="page-header"
-                                style="margin-top: 25px; margin-bottom: 10px;">
-                                Ambassador quote
-                                <a href="/my/account"
-                                   class="btn btn-default btn-xs">Change
-                                </a>
-                            </h3>
-                            <div t-raw="user.partner_id.ambassador_details_id.thank_you_quote"/>
-                        </div>
-                    </t>
                     <t t-if="registrations">
                         <div class="row">
                             <h3 class="page-header"
@@ -47,7 +130,7 @@
                                 Muskathlons
                             </h3>
                             <div class="alert alert-info">Click on a muskathlon
-                                event to access to all related infos
+                                event to access to all related donations
                             </div>
                             <table class="table table-striped"
                                    style="margin-top: -5px;">
@@ -75,6 +158,9 @@
                             </table>
                         </div>
                     </t>
+                    <t t-call="muskathlon.modal_coordinates"/>
+                    <t t-call="muskathlon.modal_aboutme"/>
+                    <t t-call="muskathlon.modal_settings"/>
                 </div>
             </xpath>
         </template>

@@ -15,6 +15,9 @@
         display: inline-block !important;
         max-height: 310px !important;
     }
+    .pictures-container {
+        max-width: 600px !important;
+    }
 }
 @media(max-width: 1050px) {
     .thank_you_text_container {
@@ -42,6 +45,12 @@
     .image-and-buttons .image {
         display: block !important;
         max-height: 310px !important;
+    }
+    .pictures-container {
+        max-width: 300px !important;
+    }
+    .pictures-container img:first-child {
+        margin-bottom: 20px;
     }
 }
 .quote {
