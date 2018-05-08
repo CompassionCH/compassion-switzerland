@@ -22,8 +22,8 @@ class EventCompassion(models.Model):
         'muskathlon.registration', 'event_id', 'Muskathlon registrations')
 
     public_description = fields.Text(translate=True)
-    picture_1 = fields.Binary()
-    picture_2 = fields.Binary()
+    picture_1 = fields.Binary(attachment=True)
+    picture_2 = fields.Binary(attachment=True)
     video_url = fields.Char("Video URL")
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000, required=True)

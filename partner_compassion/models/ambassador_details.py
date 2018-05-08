@@ -18,8 +18,8 @@ class AmbassadorDetails(models.Model):
     partner_id = fields.Many2one('res.partner')
     description = fields.Text(translate=True)
     quote = fields.Text(translate=True)
-    picture_1 = fields.Binary()
-    picture_2 = fields.Binary()
+    picture_1 = fields.Binary(attachment=True)
+    picture_2 = fields.Binary(attachment=True)
     thank_you_quote = fields.Html(
         help='Used in thank you letters for donations linked to an event '
              'and to this partner.',
