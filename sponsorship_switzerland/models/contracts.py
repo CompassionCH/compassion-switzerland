@@ -239,13 +239,10 @@ class RecurringContracts(models.Model):
             (4, sponsor_cat_id),
             (3, old_sponsor_cat_id)
         ]}
-        sponsorships.mapped('partner_id').write(add_sponsor_vals)
-        sponsorships.mapped('correspondent_id').write(add_sponsor_vals)
-        sponsorships.mapped('partner_id').update_church_sponsorships_number(
-            True)
-        sponsorships.mapped(
-            'correspondent_id').update_church_sponsorships_number(
-            True)
+        partners = sponsorships.mapped('partner_id') | sponsorships.mapped(
+            'correspondent_id')
+        partners.write(add_sponsor_vals)
+        partners.update_church_sponsorships_number()
         return True
 
     @api.multi
@@ -373,9 +370,8 @@ class RecurringContracts(models.Model):
                     'category_id': [(3, sponsor_cat_id),
                                     (4, old_sponsor_cat_id)]})
 
-            sponsorship.partner_id.update_church_sponsorships_number(False)
-            sponsorship.correspondent_id.update_church_sponsorships_number(
-                False)
+        partners = self.mapped('partner_id') | self.mapped('correspondent_id')
+        partners.update_church_sponsorships_number()
 
     def _on_change_group_id(self, group_id):
         """ Change state of contract if payment is changed to/from LSV or DD.
