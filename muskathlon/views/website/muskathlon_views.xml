@@ -15,19 +15,19 @@
         <template id="sport_icon">
             <span class="child-waiting"
                   style="background-color: rgb(255, 255, 255, 0.7); height: 40px; width: 40px; margin-top: -8px; padding-top: 3px;">
-                <t t-if="'bike' in registration.sport_type">
+                <t t-if="'Biking' == registration.sport_discipline_id.sport">
                     <img style="height: 30px;"
                          src="/muskathlon/static/src/data/biking.png"/>
                 </t>
-                <t t-if="'climb' in registration.sport_type">
+                <t t-if="'Climbing' == registration.sport_discipline_id.sport">
                     <img style="height: 30px;"
                          src="/muskathlon/static/src/data/climbing.png"/>
                 </t>
-                <t t-if="'run' in registration.sport_type">
+                <t t-if="'Running' == registration.sport_discipline_id.sport">
                     <img style="height: 30px;"
                          src="/muskathlon/static/src/data/running.png"/>
                 </t>
-                <t t-if="'walk' in registration.sport_type">
+                <t t-if="'Walking' == registration.sport_discipline_id.sport">
                     <img style="height: 30px;"
                          src="/muskathlon/static/src/data/walking.png"/>
                 </t>
