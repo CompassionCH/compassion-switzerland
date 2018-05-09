@@ -36,11 +36,10 @@
                                                              t-field="registration.ambassador_picture_2"
                                                              t-field-options='{"widget": "image"}'/>
                                                         <div>
-                                                            <a href="{{registration.host}}"
-                                                               class="button button-large"
+                                                            <a class="button button-large"
                                                                data-toggle="modal"
                                                                data-target="#donation_modal">
-                                                                Donate
+                                                               Donate
                                                             </a>
 
                                                         </div>
@@ -48,7 +47,7 @@
                                                             <a t-attf-href="https://{{registration.host}}/parrainer-un-enfant/?eventId={{event.id}}&amp;eventName={{event.name}}&amp;registrationId={{registration.id}}&amp;participantId={{registration.partner_id_id}}&amp;participantName={{registration.partner_name}}"
                                                                target="_blank"
                                                                class="button button-large">
-                                                                Sponsor a child
+                                                               Sponsor a child
                                                             </a>
                                                         </div>
                                                     </div>
@@ -65,7 +64,7 @@
                                                         </span>
                                                         <span class="waiting">
                                                             <p style="vertical-align: top;">
-                                                                <t t-esc="registration.get_sport_type_name()"/>
+                                                                <t t-esc="registration.get_sport_discipline_name()"/>
                                                             </p>
                                                             <t t-call="muskathlon.sport_icon"/>
                                                         </span>
@@ -105,10 +104,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-sm-1"></div>
                                     </div>
                                 </div>
-
                                 <div class="oe_structure"/>
                             </article>
                         </div>

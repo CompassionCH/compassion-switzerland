@@ -37,6 +37,7 @@
     'website': 'http://www.compassion.ch',
     'data': [
         'security/ir.model.access.csv',
+        'data/default_sports.xml',
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
@@ -48,6 +49,7 @@
         'views/website/muskathlon_my_details.xml',
         'views/website/muskathlon_my_home.xml',
         'views/website/muskathlon_participant_details.xml',
+        'views/website/muskathlon_modal_registration.xml',
         'views/website/muskathlon_snippet.xml',
         'views/website/muskathlon_views.xml',
         'views/assets.xml'
