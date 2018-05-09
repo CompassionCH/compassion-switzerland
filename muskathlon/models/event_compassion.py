@@ -22,8 +22,10 @@ class EventCompassion(models.Model):
         'muskathlon.registration', 'event_id', 'Muskathlon registrations')
 
     public_description = fields.Text(translate=True)
-    picture_1 = fields.Binary()
-    picture_2 = fields.Binary()
+    picture_1 = fields.Binary(attachment=True)
+    filename_1 = fields.Char(compute='_compute_filenames')
+    picture_2 = fields.Binary(attachment=True)
+    filename_2 = fields.Char(compute='_compute_filenames')
     video_url = fields.Char("Video URL")
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000, required=True)
@@ -34,6 +36,13 @@ class EventCompassion(models.Model):
     amount_raised_percents = fields.Integer(readonly=True,
                                             compute='_compute_amount_raised')
 
+    @api.multi
+    def _compute_filenames(self):
+        for event in self:
+            event.filename_1 = event.name + '-1.jpg'
+            event.filename_2 = event.name + '-2.jpg'
+
+    @api.multi
     def _compute_amount_raised(self):
         for event in self:
             amount_raised = 0

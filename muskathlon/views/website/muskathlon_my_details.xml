@@ -10,6 +10,7 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Donator</th>
+                                <th>Support Type</th>
                                 <th>Amount</th>
                             </tr>
                         </thead>
@@ -21,6 +22,9 @@
                                     </td>
                                     <td>
                                         <t t-esc="report.partner_name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="report.donation_type"/>
                                     </td>
                                     <td>
                                         <t t-esc="report.amount"/>
