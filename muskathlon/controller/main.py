@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import http
+from odoo import http, fields
 from odoo.http import request
 from odoo.addons.website_portal.controllers.main import website_account
 
@@ -25,9 +25,88 @@ class MuskathlonWebsite(http.Controller):
     @http.route('/event/<model("crm.event.compassion"):event>/',
                 auth='public', website=True)
     def details(self, event):
+        events = http.request.env['crm.event.compassion'].search([
+            ('start_date', '>', fields.Date.today()),
+            ('muskathlon_event_id', '!=', None)
+        ])
         return http.request.render('muskathlon.details', {
-            'event': event
+            'event': event,
+            'events': events,
+            'countries': http.request.env['res.country'].sudo().search([]),
+            'languages': http.request.env['res.lang'].search([]),
+
         })
+
+    @http.route('/muskathlon_registration/event/<model('
+                '"crm.event.compassion"):event>/',
+                auth='public', website=True, methods=['GET'])
+    @http.route('/muskathlon_registration/', defaults={'event': None},
+                auth='public', website=True, methods=['GET'])
+    def new_registration(self, event):
+        events = http.request.env['crm.event.compassion'].search([
+            ('start_date', '>', fields.Date.today()),
+            ('muskathlon_event_id', '!=', None)
+        ])
+        return http.request.render('muskathlon.new_registration', {
+            'event': event,
+            'events': events,
+            'countries': http.request.env['res.country'].sudo().search([]),
+            'languages': http.request.env['res.lang'].search([]),
+
+        })
+
+    @http.route('/muskathlon_registration/event/<model('
+                '"crm.event.compassion"):event>/',
+                auth='public', website=True, methods=['POST'])
+    @http.route('/muskathlon_registration/', defaults={'event': None},
+                auth='public', website=True, methods=['POST'])
+    def receive_form_registration(self, event, **post):
+        # find partner
+        partner = http.request.env['res.partner'].search([
+            ('email', '=ilike', post['email'])], limit=1)
+        country_id = http.request.env['res.country'].search([(
+            'code', '=', post['OWNERCTY'])]).id
+        if not partner:
+            partner = http.request.env['res.partner'].search([
+                ('lastname', '=ilike', post['lastname']),
+                ('firstname', '=ilike', post['firstname']),
+                ('zip', '=', post['zip'])], limit=1)
+        if not partner:
+            # no match found -> creating a new one.
+            partner = http.request.env['res.partner'].create({
+                'firstname': post['firstname'],
+                'lastname': post['lastname'],
+                'email': post['email'],
+                'phone': post['tel'],
+                'street': post['street'],
+                'city': post['town'],
+                'zip': post['zip'],
+                'country_id': country_id
+            })
+
+        sport = http.request.env['sport.discipline'].browse(post[
+                                                                   'sport_id'])
+        event = http.request.env['crm.event.compassion'].browse(post[
+                                                                   'event_id'])
+        registration = http.request.env['muskathlon.registration'].create({
+            'event_id': event.id,
+            'partner_id': partner.id,
+            'sport_discipline_id': sport.id
+        })
+        # TODO
+        # Ajouter un booléan registration_open pour afficher ou non le bouton
+        #  d'inscription sur la page web de l'event
+        # TODO add picture_1, picture_2, motivation, description, to the
+        # ambassador details
+        # TODO Create a Lead in odoo +notifier
+        # TODO payment 100chf (could be done in a second step)
+
+        if registration:
+            return http.request.render(
+                'muskathlon.new_registration_successful', {
+                    'event': event
+        })
+        # TODO do something is the registration is unsuccessful
 
     @http.route('/my/muskathlons/<int:muskathlon_id>',
                 auth='user', website=True)

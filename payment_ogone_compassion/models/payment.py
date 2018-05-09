@@ -49,9 +49,10 @@ class PaymentAcquirerOgone(models.Model):
         if not partner:
             partner = self.env['res.partner'].search([
                 ('lastname', '=ilike', values['LASTNAME']),
-                ('firstname', '=ilike', values['FIRSTNAME'])], limit=1)
+                ('firstname', '=ilike', values['FIRSTNAME']),
+                ('zip', '=', values['OWNERZIP'])], limit=1)
         if not partner:
-            # no match fonud -> creating a new one.
+            # no match found -> creating a new one.
             partner = self.env['res.partner'].create({
                 'firstname': values['FIRSTNAME'],
                 'lastname': values['LASTNAME'],
