@@ -8,10 +8,9 @@
 #
 ##############################################################################
 
-from odoo import models, fields
+from odoo import models, fields, api, _
 from odoo.tools import config
 from odoo.exceptions import MissingError
-import re
 
 
 class MuskathlonDetails(models.Model):
@@ -49,10 +48,11 @@ class MuskathlonRegistration(models.Model):
     _order = 'id desc'
 
     event_id = fields.Many2one(
-        'crm.event.compassion', 'Muskathlon event',
+        'crm.event.compassion', 'Muskathlon event', required=True,
+        domain="[('type', '=', 'sport')]"
     )
     partner_id = fields.Many2one(
-        'res.partner', 'Muskathlon participant',
+        'res.partner', 'Muskathlon participant', required=True
     )
     ambassador_details_id = fields.Many2one(
         'ambassador.details', related='partner_id.ambassador_details_id')
@@ -78,15 +78,7 @@ class MuskathlonRegistration(models.Model):
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                     readonly=True)
 
-    sport_type = fields.Selection([
-        ('run_21', 'Run 21 Km'),
-        ('run_42', 'Run 42 Km'),
-        ('run_60', 'Run 60 Km'),
-        ('walk_60', 'Walk 60 Km'),
-        ('climb', 'Climb'),
-        ('bike_120', 'Bike 120 Km'),
-        ('bike_400', 'Bike 400 Km')
-    ], string='Sport', required=True)
+    sport_discipline_id = fields.Many2one('sport.discipline', required=True)
     amount_objective = fields.Integer('Raise objective', default=10000,
                                       required=True)
     amount_raised = fields.Integer(readonly=True,
@@ -129,11 +121,23 @@ class MuskathlonRegistration(models.Model):
         for registration in self:
             registration.host = host
 
-    def get_sport_type_name(self):
-        match = re.match(r'([a-z]{1,})(_([0-9]{1,}))?', self.sport_type)
-        label = match.group(1).capitalize()
+    def get_sport_discipline_name(self):
+        return self.sport_discipline.get_label()
 
-        if (match.group(2)):
-            label += ' for ' + match.group(3) + ' Km'
+    @api.onchange('event_id')
+    def onchange_event_id(self):
+        return {
+            'domain': {'sport_discipline': [('id', 'in',
+                                       self.event_id.sport_discipline_ids.ids)]}
+        }
 
-        return label
+    @api.onchange('sport_discipline')
+    def onchange_sport_discipline(self):
+        if self.sport_discipline and self.sport_discipline not in self.event_id.sport_discipline_ids:
+            self.sport_discipline = False
+            return {
+                'warning': {
+                    'title': _('Invalid sport'),
+                    'message': _('This sport is not in muskathlon')
+                }
+            }
