@@ -75,6 +75,8 @@ class MuskathlonRegistration(models.Model):
         related='ambassador_details_id.quote', readonly=True)
     ambassador_thank_you_quote = fields.Html(
         related='ambassador_details_id.thank_you_quote', readonly=True)
+    partner_gender = fields.Selection(related='partner_id.title.gender',
+                                    readonly=True)
 
     sport_type = fields.Selection([
         ('run_21', 'Run 21 Km'),
