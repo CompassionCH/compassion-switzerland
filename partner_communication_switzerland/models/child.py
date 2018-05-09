@@ -61,8 +61,7 @@ class CompassionChild(models.Model):
 
     def _compute_revised_values(self):
         for child in self:
-            child.old_values = ', '.join(child.revised_value_ids.translate(
-                'old_value'))
+            child.old_values = child.revised_value_ids.get_list('old_value')
             child.current_values = child.revised_value_ids.get_field_value()
             child.old_firstname = child.revised_value_ids.filtered(
                 lambda c: c.name == 'First Name').old_value or child.firstname

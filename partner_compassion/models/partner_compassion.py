@@ -123,14 +123,6 @@ class ResPartner(models.Model):
             res += move_line.credit
         return res
 
-    @api.multi
-    def _compute_children(self):
-        for partner in self:
-            partner.number_children = len(partner.sponsored_child_ids)
-            if partner.is_church:
-                partner.number_children += len(partner.mapped(
-                    'member_ids.sponsored_child_ids'))
-
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
@@ -367,22 +359,16 @@ class ResPartner(models.Model):
             "target": "new",
         }
 
-    def update_church_sponsorships_number(self, inc):
+    def update_church_sponsorships_number(self):
         """
         Update the count of sponsorships for the church of the partner
-        :param inc: increase count if True
-        :return: None
+        :return: True
         """
-        for partner in self:
-            church = self.search([('member_ids', '=', partner.id)])
-            if inc and church:
-                church.number_sponsorships += 1
-            elif church:
-                church.number_sponsorships -= 1
+        return self.mapped('church_id').update_number_sponsorships()
 
-    def update_sponsorship_number(self):
+    def update_number_sponsorships(self):
         """
-        Forces recompute of the sponsorship number
+        Includes church members sponsorships in the count
         :return: True
         """
         for partner in self:
@@ -393,7 +379,8 @@ class ResPartner(models.Model):
                     ('correspondent_id', '=', partner.id), '|',
                     ('partner_id', '=', partner.id),
                     ('partner_id', 'in', partner.member_ids.ids),
-                    ('state', 'in', ['active', 'mandate']),
-                    ('global_id', '!=', False)
+                    ('state', 'not in', ['cancelled', 'terminated']),
+                    ('child_id', '!=', False),
+                    ('activation_date', '!=', False),
                 ])
         return True
