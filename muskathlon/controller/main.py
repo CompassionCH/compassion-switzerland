@@ -188,5 +188,7 @@ class WebsiteAccount(website_account):
         values['partner'] = values['user'].partner_id
         values['countries'] = request.env['res.country'].sudo().search([])
         values['states'] = request.env['res.country.state'].sudo().search([])
+        values['tshirt'] = request.env['ambassador.details'].TSHIRT_SELECTION
+        values['ert'] = request.env['ambassador.details'].ERT_SELECTION
 
         return values

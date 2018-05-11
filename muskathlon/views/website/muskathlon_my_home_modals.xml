@@ -73,7 +73,6 @@
                                         </label>
                                         <select name="country_id"
                                                 class="form-control">
-                                            <option value="">Country...</option>
                                             <t t-foreach="countries or []"
                                                t-as="country">
                                                 <option t-att-value="country.id"
@@ -89,7 +88,6 @@
                                         </label>
                                         <select name="state_id"
                                                 class="form-control">
-                                            <option value="">select...</option>
                                             <t t-foreach="states or []"
                                                t-as="state">
                                                 <option t-att-value="state.id"
@@ -99,6 +97,20 @@
                                                 </option>
                                             </t>
                                         </select>
+                                        <!-- select states related to country -->
+                                        <script>
+                                            $(function() {
+                                                var state_options = $("select[name='state_id']:enabled option:not(:first)");
+                                                $('#form_coordinates').on('change', "select[name='country_id']", function() {
+                                                    var select = $("select[name='state_id']");
+                                                    state_options.detach();
+                                                    var displayed_state = state_options.filter("[data-country_id=" + ($(this).val() || 0) + "]");
+                                                    var nb = displayed_state.appendTo(select).show().size();
+                                                    select.parent().toggle(nb >= 1);
+                                                });
+                                                $('#form_coordinates').find("select[name='country_id']").change();
+                                            });
+                                        </script>
                                     </div>
                                 </div>
                             </form>
@@ -184,7 +196,12 @@
                                         <label class="control-label" for="mail_copy_when_donation">
                                             Mail copy when donation
                                         </label>
-                                        <input name="mail_copy_when_donation" type="checkbox"/>
+                                        <t t-if="partner.ambassador_details_id.mail_copy_when_donation">
+                                            <input name="mail_copy_when_donation" type="checkbox" checked=""/>
+                                        </t>
+                                        <t t-if="not partner.ambassador_details_id.mail_copy_when_donation">
+                                            <input name="mail_copy_when_donation" type="checkbox"/>
+                                        </t>
                                         <p class="help-block">Select this if you want a copy for each mail sent to your donators.</p>
                                     </div>
                                     <div class="form-group col-xs-12">
@@ -238,13 +255,11 @@
                                             <label class="control-label">
                                                 T-shirt size
                                             </label>
-                                            <select name="tshirt_size"
-                                                class="form-control">
-                                            <option value="">select...</option>
-                                                <t t-foreach="tshirt_sizes" t-as="size">
-                                                    <option t-att-value="size"
-                                                            t-att-selected="size == partner.ambassador_details_id.tshirt_size">
-                                                        <t t-esc="size"/>
+                                            <select name="tshirt_size" class="form-control">
+                                                <t t-foreach="tshirt" t-as="size">
+                                                    <option t-att-value="size[0]"
+                                                            t-att-selected="size[0] == partner.ambassador_details_id.tshirt_size">
+                                                        <t t-esc="size[1]"/>
                                                     </option>
                                                 </t>
                                             </select>
@@ -271,8 +286,13 @@
                                             <label class="control-label" for="emergency_relation_type">
                                                 Relation type
                                             </label>
-                                            <select class="form-control" name="emergency_relation_type" t-att-value="partner.ambassador_details_id.emergency_relation_type">
-                                                <option value="friend">Friend</option>
+                                            <select name="emergency_relation_type" class="form-control">
+                                                <t t-foreach="ert" t-as="type">
+                                                    <option t-att-value="type[0]"
+                                                            t-att-selected="type[0] == partner.ambassador_details_id.emergency_relation_type">
+                                                        <t t-esc="type[1]"/>
+                                                    </option>
+                                                </t>
                                             </select>
                                         </div>
                                     </div>
@@ -297,6 +317,12 @@
                                                 Passport expiration date
                                             </label>
                                             <input class="form-control" type="text" name="passport_expiration_date" t-att-value="partner.ambassador_details_id.passport_expiration_date"/>
+                                            <!-- adds datepicker to password expiration date field -->
+                                            <script>
+                                                $(function() {
+                                                    $('input[name="passport_expiration_date"]').datepicker({ dateFormat: 'yy-mm-dd' });
+                                                });
+                                            </script>
                                         </div>
                                     </div>
                                 </fieldset>
