@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 from odoo.tools import config
 from odoo.exceptions import MissingError
 
@@ -19,16 +19,8 @@ class MuskathlonDetails(models.Model):
     emergency_name = fields.Char('Emergency contact name')
     emergency_phone = fields.Char('Emergency contact phone number')
     emergency_relation_type = fields.Selection(
-        [('husband', 'Husband'),
-         ('wife', 'Wife'),
-         ('father', 'Father'),
-         ('mother', 'Mother'),
-         ('brother', 'Brother'),
-         ('sister', 'Sister'),
-         ('son', 'Son'),
-         ('daughter', 'Daughter'),
-         ('friend', 'Friend'),
-         ('other', 'Other')], string='Emergency contact relation type')
+        selection=lambda self: self.compute_emergency_relation_type,
+        string='Emergency contact relation type')
     birth_name = fields.Char()
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
@@ -41,6 +33,18 @@ class MuskathlonDetails(models.Model):
         ('partner_uniqe', 'UNIQUE (partner_id)', 'Partner must be unique.')
     ]
 
+    @api.model
+    def compute_emergency_relation_type(self):
+        return [('husband', 'Husband'),
+         ('wife', 'Wife'),
+         ('father', 'Father'),
+         ('mother', 'Mother'),
+         ('brother', 'Brother'),
+         ('sister', 'Sister'),
+         ('son', 'Son'),
+         ('daughter', 'Daughter'),
+         ('friend', 'Friend'),
+         ('other', 'Other')]
 
 class MuskathlonRegistration(models.Model):
     _name = 'muskathlon.registration'

@@ -30,35 +30,49 @@
                 <div class="container mb64">
                     <div id="success_message" style="display: none;" class="alert alert-success">Your informations were successfuly updated</div>
                     <div class="row">
-                        <div class="col-sm-6 col-md-4"
-                             style="padding-left: 5px;">
-                            <div class="o_my_details">
-                                <h3 class="page-header"
-                                    style="margin-bottom: 8px; margin-top: 10px;">
-                                    Coordinates
-                                    <button type="button"
-                                            class="btn btn-default btn-xs"
-                                            data-toggle="modal"
-                                            data-target="#modal_change_coordinates">
-                                        Change
-                                    </button>
-                                </h3>
-                                <div id="text_coordinates">
-                                    <t t-call="muskathlon.coordinates_formatted"/>
+                        <div class="col-sm-6 col-md-5 col-lg-4">
+                            <div class="row">
+                                <div class="col-xs-12"
+                                     style="padding-left: 5px;">
+                                    <div class="o_my_details">
+                                        <h3 class="page-header"
+                                            style="margin-bottom: 8px; margin-top: 10px;">
+                                            Coordinates
+                                            <button type="button"
+                                                    class="btn btn-default btn-xs"
+                                                    data-toggle="modal"
+                                                    data-target="#modal_change_coordinates">
+                                                Change
+                                            </button>
+                                        </h3>
+                                        <div id="text_coordinates">
+                                            <t t-call="muskathlon.coordinates_formatted"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="row"
+                                 style="margin-top: 15px; margin-bottom: 20px;">
+                                <button type="button" class="btn btn-default"
+                                        data-toggle="modal"
+                                        data-target="#modal_change_settings">
+                                    Settings
+                                </button>
+                            </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div id="text_tripinfos">
+                                <t t-call="muskathlon.tripinfos_formatted"/>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-lg-2"/>
                     </div>
-                    <div class="row"
-                         style="margin-top: 15px; margin-bottom: 5px;">
-                        <button type="button" class="btn btn-default"
-                                data-toggle="modal"
-                                data-target="#modal_change_settings">
-                            Settings
-                        </button>
-                    </div>
-                    <div id="text_aboutme">
-                        <t t-call="muskathlon.aboutme_formatted"/>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="text_aboutme">
+                                <t t-call="muskathlon.aboutme_formatted"/>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <h3 class="page-header"
@@ -160,6 +174,7 @@
                     </t>
                     <t t-call="muskathlon.modal_coordinates"/>
                     <t t-call="muskathlon.modal_aboutme"/>
+                    <t t-call="muskathlon.modal_tripinfos"/>
                     <t t-call="muskathlon.modal_settings"/>
                 </div>
             </xpath>

@@ -163,6 +163,10 @@ class MuskathlonWebsite(http.Controller):
             partner.ambassador_details_id.sudo().write(post)
             return
 
+        if 'type_tripinfos' in post:
+            partner.ambassador_details_id.sudo().write(post)
+            return request.render('muskathlon.tripinfos_formatted', vals)
+
         for picture in ['picture_1', 'picture_2']:
             if picture in post:
                 image_value = post[picture].stream.getvalue()
@@ -172,8 +176,6 @@ class MuskathlonWebsite(http.Controller):
                     picture: b64encode(image_value)
                 })
                 return request.render('muskathlon.'+picture+'_formatted', vals)
-
-
 
 
 class WebsiteAccount(website_account):

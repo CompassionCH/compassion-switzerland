@@ -12,7 +12,6 @@
                             <button type="button" class="close"
                                     data-dismiss="modal"
                                     aria-label="Close">
-                                <!--<span aria-hidden="true">&times;</span>-->
                             </button>
                         </div>
                         <div class="modal-body">
@@ -209,6 +208,106 @@
                                     data-dismiss="modal">Close
                             </button>
                             <button type="button" id="save_settings" class="btn btn-primary" data-dismiss="modal">Save changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="modal_tripinfos">
+            <div class="modal fade" id="modal_change_tripinfos" tabindex="-1"
+                 role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Trip infos
+                            </h3>
+                            <button type="button" class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close">
+                                <!--<span aria-hidden="true">&times;</span>-->
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="form_tripinfos">
+                                <fieldset>
+                                    <div class="row">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <div t-attf-class="form-group col-sm-6">
+                                            <label class="control-label">
+                                                T-shirt size
+                                            </label>
+                                            <select name="tshirt_size"
+                                                class="form-control">
+                                            <option value="">select...</option>
+                                                <t t-foreach="tshirt_sizes" t-as="size">
+                                                    <option t-att-value="size"
+                                                            t-att-selected="size == partner.ambassador_details_id.tshirt_size">
+                                                        <t t-esc="size"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6"/>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Emergency person</legend>
+                                    <div class="row">
+                                        <div t-attf-class="form-group col-xs-12">
+                                            <label class="control-label" for="emergency_name">
+                                                Name
+                                            </label>
+                                            <input class="form-control" type="text" name="emergency_name" t-att-value="partner.ambassador_details_id.emergency_name"/>
+                                        </div>
+                                        <div t-attf-class="form-group col-sm-6">
+                                            <label class="control-label" for="emergency_phone">
+                                                Phone
+                                            </label>
+                                            <input class="form-control" type="phone" name="emergency_phone" t-att-value="partner.ambassador_details_id.emergency_phone"/>
+                                        </div>
+                                        <div t-attf-class="form-group col-sm-6">
+                                            <label class="control-label" for="emergency_relation_type">
+                                                Relation type
+                                            </label>
+                                            <select class="form-control" name="emergency_relation_type" t-att-value="partner.ambassador_details_id.emergency_relation_type">
+                                                <option value="friend">Friend</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Passport</legend>
+                                    <div class="row">
+                                        <div t-attf-class="form-group col-xs-12">
+                                            <label class="control-label" for="birth_name">
+                                                Birth name
+                                            </label>
+                                            <input class="form-control" type="text" name="birth_name" t-att-value="partner.ambassador_details_id.birth_name"/>
+                                        </div>
+                                        <div t-attf-class="form-group col-sm-6">
+                                            <label class="control-label" for="passport_number">
+                                                Passport number
+                                            </label>
+                                            <input class="form-control" type="text" name="passport_number" t-att-value="partner.ambassador_details_id.passport_number"/>
+                                        </div>
+                                        <div t-attf-class="form-group col-sm-6">
+                                            <label class="control-label" for="passport_expiration_date">
+                                                Passport expiration date
+                                            </label>
+                                            <input class="form-control" type="text" name="passport_expiration_date" t-att-value="partner.ambassador_details_id.passport_expiration_date"/>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">Close
+                            </button>
+                            <button type="button" id="save_tripinfos" class="btn btn-primary" data-dismiss="modal">Save
+                                changes
                             </button>
                         </div>
                     </div>
