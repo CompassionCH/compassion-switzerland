@@ -24,6 +24,9 @@
                         <field name="mail_copy_when_donation"/>
                     </group>
                     <group>
+                        <field name="sport_description"/>
+                    </group>
+                    <group>
                         <field name="thank_you_quote" widget="text_ckeditor4"/>
                     </group>
                 </sheet>

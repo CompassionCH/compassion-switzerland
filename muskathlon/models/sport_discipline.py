@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api
+from odoo import models, fields
 
 
 class SportDiscipline(models.Model):
@@ -21,5 +21,4 @@ class SportDiscipline(models.Model):
     distance = fields.Integer(string='Distance (m)', required=True)
 
     def get_label(self):
-        return self.sport.capitalize() + "for" + str(self.distance / 1000) +\
-               "km"
+        return self.sport.capitalize()+" for "+str(self.distance/1000)+"km"

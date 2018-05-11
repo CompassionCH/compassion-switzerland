@@ -19,6 +19,7 @@ class AmbassadorDetails(models.Model):
     partner_id = fields.Many2one(
         'res.partner', required=True, ondelete='cascade')
     description = fields.Text(translate=True)
+    sport_description = fields.Text()
     quote = fields.Text(translate=True)
     picture_1 = fields.Binary(attachment=True)
     filename_1 = fields.Char(compute='_compute_filenames')
