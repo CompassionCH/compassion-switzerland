@@ -127,22 +127,4 @@ class MuskathlonRegistration(models.Model):
             registration.host = host
 
     def get_sport_discipline_name(self):
-        return self.sport_discipline.get_label()
-
-    @api.onchange('event_id')
-    def onchange_event_id(self):
-        return {
-            'domain': {'sport_discipline': [('id', 'in',
-                                       self.event_id.sport_discipline_ids.ids)]}
-        }
-
-    @api.onchange('sport_discipline')
-    def onchange_sport_discipline(self):
-        if self.sport_discipline and self.sport_discipline not in self.event_id.sport_discipline_ids:
-            self.sport_discipline = False
-            return {
-                'warning': {
-                    'title': _('Invalid sport'),
-                    'message': _('This sport is not in muskathlon')
-                }
-            }
+        return self.sport_discipline_id.get_label()

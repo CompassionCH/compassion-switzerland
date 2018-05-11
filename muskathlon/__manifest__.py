@@ -50,7 +50,7 @@
         'views/website/muskathlon_my_details.xml',
         'views/website/muskathlon_my_home.xml',
         'views/website/muskathlon_participant_details.xml',
-        'views/website/muskathlon_modal_registration.xml',
+        'views/website/muskathlon_registration_form.xml',
         'views/website/muskathlon_snippet.xml',
         'views/website/muskathlon_views.xml',
         'views/website/muskathlon_my_home_modals.xml',

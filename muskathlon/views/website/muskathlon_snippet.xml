@@ -15,7 +15,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <h3>Participants</h3>
+                                <h>Participants</h>
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>

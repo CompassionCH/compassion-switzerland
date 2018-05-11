@@ -25,7 +25,7 @@ class MuskathlonWebsite(http.Controller):
 
     @http.route('/event/<model("crm.event.compassion"):event>/',
                 auth='public', website=True)
-    def details(self, event):
+    def musk_infos(self, event):
         events = http.request.env['crm.event.compassion'].search([
             ('start_date', '>', fields.Date.today()),
             ('muskathlon_event_id', '!=', None)
@@ -51,8 +51,12 @@ class MuskathlonWebsite(http.Controller):
         return http.request.render('muskathlon.new_registration', {
             'event': event,
             'events': events,
-            'countries': http.request.env['res.country'].sudo().search([]),
-            'languages': http.request.env['res.lang'].search([]),
+            'sports': request.env['sport.discipline'].sudo().search([]),
+            'countries': request.env['res.country'].sudo().search([]),
+            'states': request.env['res.country.state'].sudo().search([]),
+            'tshirt': request.env['ambassador.details'].TSHIRT_SELECTION,
+            'ert': request.env['ambassador.details'].ERT_SELECTION,
+            'languages': request.env['res.lang'].search([]),
 
         })
 
@@ -85,21 +89,25 @@ class MuskathlonWebsite(http.Controller):
                 'country_id': country_id
             })
 
-        sport = http.request.env['sport.discipline'].browse(post[
-                                                                   'sport_id'])
-        event = http.request.env['crm.event.compassion'].browse(post[
-                                                                   'event_id'])
-        registration = http.request.env['muskathlon.registration'].create({
+        sport = request.env['sport.discipline'].browse(post['sport_id'])
+        event = request.env['crm.event.compassion'].browse(post['event_id'])
+        registration = request.env['muskathlon.registration'].create({
             'event_id': event.id,
             'partner_id': partner.id,
             'sport_discipline_id': sport.id
         })
+        ambassador_details = request.env['ambassador.details'].sudo().create({
+            'description': post['description'],
+            'picture_1': b64encode(post['picture_1'].stream.getvalue()),
+            'picture_2': b64encode(post['picture_2'].stream.getvalue()),
+        })
+
         # TODO
         # Ajouter un booléan registration_open pour afficher ou non le bouton
         #  d'inscription sur la page web de l'event
         # TODO add picture_1, picture_2, motivation, description, to the
         # ambassador details
-        # TODO Create a Lead in odoo +notifier
+        # TODO Create a Lead in odoo + notifier
         # TODO payment 100chf (could be done in a second step)
 
         if registration:

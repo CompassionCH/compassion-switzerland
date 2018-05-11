@@ -94,6 +94,105 @@
             </div>
         </template>
 
+        <template id="coordinates_fields">
+            <div class="row">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="name">
+                        Your Name
+                    </label>
+                    <input type="text" name="name"
+                           class="form-control"
+                           t-att-value="name or partner.name"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="email">
+                        Email
+                    </label>
+                    <input type="email" name="email"
+                           class="form-control"
+                           t-att-value="email or partner.email"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="phone">
+                        Phone
+                    </label>
+                    <input type="tel" name="phone"
+                           class="form-control"
+                           t-att-value="phone or partner.phone"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label label-optional"
+                           for="street">Street
+                    </label>
+                    <input type="text" name="street"
+                           class="form-control"
+                           t-att-value="street or partner.street"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="city">
+                        City
+                    </label>
+                    <input type="text" name="city"
+                           class="form-control"
+                           t-att-value="city or partner.city"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="zipcode">
+                        Zip / Postal Code
+                    </label>
+                    <input type="text" name="zipcode"
+                           class="form-control"
+                           t-att-value="zipcode or partner.zip"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label"
+                           for="country_id">Country
+                    </label>
+                    <select name="country_id"
+                            class="form-control">
+                        <t t-foreach="countries or []"
+                           t-as="country">
+                            <option t-att-value="country.id"
+                                    t-att-selected="country.id == partner.country_id.id">
+                                <t t-esc="country.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label label-optional"
+                           for="state_id">State / Province
+                    </label>
+                    <select name="state_id"
+                            class="form-control">
+                        <t t-foreach="states or []"
+                           t-as="state">
+                            <option t-att-value="state.id"
+                                    t-att-data-country_id="state.country_id.id"
+                                    t-att-selected="state.id == partner.state_id.id">
+                                <t t-esc="state.name"/>
+                            </option>
+                        </t>
+                    </select>
+                    <!-- select states related to country -->
+                    <script>
+                        $(function() {
+                            var state_options = $("select[name='state_id']:enabled option:not(:first)");
+                            $('#form_coordinates').on('change', "select[name='country_id']", function() {
+                                var select = $("select[name='state_id']");
+                                state_options.detach();
+                                var displayed_state = state_options.filter("[data-country_id=" + ($(this).val() || 0) + "]");
+                                var nb = displayed_state.appendTo(select).show().size();
+                                select.parent().toggle(nb >= 1);
+                            });
+                            $('#form_coordinates').find("select[name='country_id']").change();
+                        });
+                    </script>
+                </div>
+            </div>
+        </template>
+
         <template id="picture_1_formatted">
             <div class="image picture_event"
                  t-field="partner.ambassador_details_id.picture_1"
