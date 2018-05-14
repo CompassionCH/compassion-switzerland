@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-
         <template id="progress_bar">
             <div class="progress-bar" role="progressbar"
                  t-attf-aria-valuenow="{{ registration.amount_raised_percents }}"
@@ -12,26 +11,198 @@
                 </span>
             </div>
         </template>
+
         <template id="sport_icon">
             <span class="child-waiting"
                   style="background-color: rgb(255, 255, 255, 0.7); height: 40px; width: 40px; margin-top: -8px; padding-top: 3px;">
-                <t t-if="'bike' in registration.sport_type">
+                <t t-if="'Biking' == registration.sport_discipline_id.sport">
                     <img style="height: 30px;"
                          src="/muskathlon/static/src/data/biking.png"/>
                 </t>
-                <t t-if="'climb' in registration.sport_type">
+                <t t-if="'Climbing' == registration.sport_discipline_id.sport">
                     <img style="height: 30px;"
                          src="/muskathlon/static/src/data/climbing.png"/>
                 </t>
-                <t t-if="'run' in registration.sport_type">
+                <t t-if="'Running' == registration.sport_discipline_id.sport">
                     <img style="height: 30px;"
                          src="/muskathlon/static/src/data/running.png"/>
                 </t>
-                <t t-if="'walk' in registration.sport_type">
+                <t t-if="'Walking' == registration.sport_discipline_id.sport">
                     <img style="height: 30px;"
                          src="/muskathlon/static/src/data/walking.png"/>
                 </t>
             </span>
+        </template>
+
+        <template id="coordinates_formatted">
+            <div t-field="user.partner_id" t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+        </template>
+
+        <template id="aboutme_formatted">
+            <div class="row">
+                <h3 class="page-header"
+                    style="margin-top: 25px; margin-bottom: 10px;">
+                    About me
+                    <button type="button"
+                            class="btn btn-default btn-xs"
+                            data-toggle="modal"
+                            data-target="#modal_change_aboutme">
+                        Change
+                    </button>
+                </h3>
+                <p>
+                    <t t-raw="partner.ambassador_details_id.description"/>
+                </p>
+                <blockquote>
+                    <p>
+                        <t t-raw="partner.ambassador_details_id.quote"/>
+                    </p>
+                </blockquote>
+            </div>
+        </template>
+
+        <template id="tripinfos_formatted">
+            <div class="row">
+                <h3 class="page-header"
+                    style="margin-top: 10px; margin-bottom: -5px;">
+                    Trip infos
+                    <button type="button"
+                            class="btn btn-default btn-xs"
+                            data-toggle="modal"
+                            data-target="#modal_change_tripinfos">
+                        Change
+                    </button>
+                </h3>
+                <p>
+                    <h4>T-shirt Size : <t t-esc="partner.ambassador_details_id.tshirt_size"/></h4>
+
+                    <h4>Emergency person</h4>
+                    <span class="custom_icon fa fa-user"/>
+                    <t t-esc="partner.ambassador_details_id.emergency_name"/>,
+                    <t t-esc="partner.ambassador_details_id.emergency_relation_type"/><br/>
+                    <span class="custom_icon fa fa-phone"/>
+                    <t t-esc="partner.ambassador_details_id.emergency_phone"/><br/>
+
+                    <h4>Passport</h4>
+                    <span class="custom_icon fa fa-user"/>
+                    <t t-esc="partner.ambassador_details_id.birth_name"/><br/>
+                    <span class="custom_icon fa fa-file"/>
+                    <t t-esc="partner.ambassador_details_id.passport_number"/><br/>
+                    <span class="custom_icon fa fa-calendar"/>
+                    <t t-esc="partner.ambassador_details_id.passport_expiration_date"/><br/>
+                </p>
+            </div>
+        </template>
+
+        <template id="coordinates_fields">
+            <div class="row">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="name">
+                        Your Name
+                    </label>
+                    <input type="text" name="name"
+                           class="form-control"
+                           t-att-value="name or partner.name"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="email">
+                        Email
+                    </label>
+                    <input type="email" name="email"
+                           class="form-control"
+                           t-att-value="email or partner.email"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="phone">
+                        Phone
+                    </label>
+                    <input type="tel" name="phone"
+                           class="form-control"
+                           t-att-value="phone or partner.phone"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label label-optional"
+                           for="street">Street
+                    </label>
+                    <input type="text" name="street"
+                           class="form-control"
+                           t-att-value="street or partner.street"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="city">
+                        City
+                    </label>
+                    <input type="text" name="city"
+                           class="form-control"
+                           t-att-value="city or partner.city"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label" for="zipcode">
+                        Zip / Postal Code
+                    </label>
+                    <input type="text" name="zipcode"
+                           class="form-control"
+                           t-att-value="zipcode or partner.zip"/>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label"
+                           for="country_id">Country
+                    </label>
+                    <select name="country_id"
+                            class="form-control">
+                        <t t-foreach="countries or []"
+                           t-as="country">
+                            <option t-att-value="country.id"
+                                    t-att-selected="country.id == partner.country_id.id">
+                                <t t-esc="country.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div t-attf-class="form-group col-lg-6">
+                    <label class="control-label label-optional"
+                           for="state_id">State / Province
+                    </label>
+                    <select name="state_id"
+                            class="form-control">
+                        <t t-foreach="states or []"
+                           t-as="state">
+                            <option t-att-value="state.id"
+                                    t-att-data-country_id="state.country_id.id"
+                                    t-att-selected="state.id == partner.state_id.id">
+                                <t t-esc="state.name"/>
+                            </option>
+                        </t>
+                    </select>
+                    <!-- select states related to country -->
+                    <script>
+                        $(function() {
+                            var state_options = $("select[name='state_id']:enabled option:not(:first)");
+                            $('#form_coordinates').on('change', "select[name='country_id']", function() {
+                                var select = $("select[name='state_id']");
+                                state_options.detach();
+                                var displayed_state = state_options.filter("[data-country_id=" + ($(this).val() || 0) + "]");
+                                var nb = displayed_state.appendTo(select).show().size();
+                                select.parent().toggle(nb >= 1);
+                            });
+                            $('#form_coordinates').find("select[name='country_id']").change();
+                        });
+                    </script>
+                </div>
+            </div>
+        </template>
+
+        <template id="picture_1_formatted">
+            <div class="image picture_event"
+                 t-field="partner.ambassador_details_id.picture_1"
+                 t-field-options='{"widget": "image"}'/>
+        </template>
+
+        <template id="picture_2_formatted">
+            <div class="image picture_event"
+                 t-field="partner.ambassador_details_id.picture_2"
+                 t-field-options='{"widget": "image"}'/>
         </template>
     </data>
 </odoo>

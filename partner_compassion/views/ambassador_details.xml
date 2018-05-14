@@ -23,7 +23,9 @@
                     <group>
                         <field name="mail_copy_when_donation"/>
                     </group>
-                    <p>Set a custom text used in thank you letters for donations linked to an event and to this partner.</p>
+                    <group>
+                        <field name="sport_description"/>
+                    </group>
                     <group>
                         <field name="thank_you_quote" widget="text_ckeditor4"/>
                     </group>

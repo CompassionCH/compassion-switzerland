@@ -18,6 +18,7 @@
                         <field name="picture_1" filename="filename_1"/>
                         <field name="picture_2" filename="filename_2"/>
                         <field name="video_url"/>
+                        <field name="sport_discipline_ids"/>
                     </group>
                 </page>
                 <page string="4M registrations">

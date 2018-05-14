@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="new_registration_successful">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2"/>
+                        <div class="col-md-8">
+                            TODO Do something nicer
+                            Thank you! Your registration for
+                            <t t-esc="event.name" />was successful!
+                            We will contact you in the coming days to complete your registration.
+                        </div>
+                        <div class="col-md-2"/>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="new_registration">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2"/>
+                        <div class="col-md-8">
+                            <form class="form-horizontal" id="registration_form" style="margin-bottom: 30px;"
+                                  action="" method="POST" enctype="multipart/form-data">
+                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div>
+                                    <fieldset style="margin-top: 20px;">
+                                        <legend>Event infos</legend>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="event">Event
+                                            </label>
+                                            <div class="col-sm-10" id="event">
+                                                <select name="event_id" class="form-control" required="true">
+                                                    <t t-if="event == None">
+                                                        <option value="" disabled="True" selected="True">
+                                                            Please select an event
+                                                        </option>
+                                                    </t>
+                                                    <t t-foreach="events or []" t-as="event_list">
+                                                        <t t-if="event != None and event_list.id == event.id">
+                                                            <option t-att-value="event_list.id" selected="True">
+                                                                <t t-esc="event_list.name" />
+                                                            </option>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <option t-att-value="event_list.id">
+                                                                <t t-esc="event_list.name" />
+                                                            </option>
+                                                        </t>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="sport">Sport
+                                            </label>
+                                            <div class="col-sm-10" id="sport">
+                                                <select name="sport_id" class="form-control" required="true">
+                                                    <option value="" disabled="True" selected="True">
+                                                        Select your option
+                                                    </option>
+                                                    <t t-foreach="sports" t-as="sport">
+                                                        <option t-att-value="sport.id">
+                                                            <t t-esc="sport.name" />
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="level">Level
+                                            </label>
+                                            <div class="col-sm-10" id="level">
+                                                <select name="level" class="form-control" required="true">
+                                                    <option value="" disabled="True" selected="True">
+                                                        Select your option
+                                                    </option>
+                                                    <option value="beginner">
+                                                        Beginner
+                                                    </option>
+                                                    <option value="average">
+                                                        Average level
+                                                    </option>
+                                                    <option value="advanced">
+                                                        Advanced level
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="sport_description">
+                                                Describe your sport experience
+                                            </label>
+                                            <div class="col-sm-10" id="sport_description">
+                                                <textarea class="form-control" rows="6" required="true"/>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Public profile</legend>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="description">
+                                                Your description
+                                            </label>
+                                            <div class="col-sm-10" id="description">
+                                                <textarea class="form-control" rows="6" required="true"/>
+                                                <div class="help-block"> ~200 words. It will be used on your public profile page.</div>
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="quote">
+                                                Quote
+                                            </label>
+                                            <div class="col-sm-10" id="quote">
+                                                <textarea class="form-control" rows="2" required="true"/>
+                                                <div class="help-block"> Put there a quote that means something to you.</div>
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="thank_you_quote">
+                                                Thank you quote
+                                            </label>
+                                            <div class="col-sm-10" id="thank_you_quote">
+                                                <textarea class="form-control" rows="2" required="true"/>
+                                                <div class="help-block"> Used to thank somebody who donates something for you.</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="picture_1">
+                                                    Profile picture
+                                                </label>
+                                                <div class="col-sm-4" id="picture_1">
+                                                    <input class="form-control" type="file" name="picture_1" accept="image/*" required="true"/>
+                                                </div>
+                                                <label class="col-sm-2 control-label" for="picture_2">
+                                                    Second profile picture
+                                                </label>
+                                                <div class="col-sm-4" id="picture_2">
+                                                    <input class="form-control" type="file" name="picture_2" accept="image/*" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Your coordinates</legend>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="firstname">Firstname
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control"
+                                                       type="text" name="firstname"
+                                                       id="firstname" value=""
+                                                       placeholder="First name"
+                                                       required="true"/>
+                                            </div>
+
+                                            <label class="col-sm-2 control-label"
+                                                   for="lastname">Lastname
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control"
+                                                       type="text" name="lastname"
+                                                       id="lastname" value=""
+                                                       placeholder="Last name"
+                                                       required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="email">Email
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control"
+                                                       type="email" name="email"
+                                                       id="email" value=""
+                                                       placeholder="Email"
+                                                       required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="tel">Telephone
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <!-- should accept a + at the beginning-->
+                                                Y
+                                                <input class="form-control"
+                                                       type="tel" id="tel"
+                                                       name="tel" value=""
+                                                       placeholder="Telephone number"
+                                                       required="true"/>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Home address</legend>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   id="address">Address
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control"
+                                                       type="text"
+                                                       name="street"
+                                                       id="address" value=""
+                                                       placeholder="Street &amp; house number"
+                                                       required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="zip">ZIP code
+                                            </label>
+                                            <div class="col-sm-3">
+                                                <!-- Some ZIP code (e.g. UK ones) contains letters -->
+                                                <input class="form-control"
+                                                       type="text" name="zip"
+                                                       id="zip" value=""
+                                                       placeholder="Zip code"
+                                                       required="true"/>
+                                            </div>
+                                            <label class="col-sm-2 control-label"
+                                                   for="town">City
+                                            </label>
+                                            <div class="col-sm-5">
+                                                <input class="form-control"
+                                                       type="text" name="town"
+                                                       id="town" value=""
+                                                       placeholder="City"
+                                                       required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2"
+                                                   for="country_id">Country
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <select name="country_id"
+                                                        class="form-control">
+                                                    <t t-foreach="countries or []"
+                                                       t-as="country">
+                                                        <option t-att-value="country.id" t-att-selected="country.id == 44">
+                                                            <t t-esc="country.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="ne_pas_toucher_ce_div">
+                                                <label class="control-label label-optional col-sm-2"
+                                                       for="state_id">State
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <select name="state_id"
+                                                            class="form-control col-sm-4">
+                                                        <t t-foreach="states or []"
+                                                           t-as="state">
+                                                            <option t-att-value="state.id"
+                                                                    t-att-data-country_id="state.country_id.id"
+                                                                    t-att-selected="state.id == 90">
+                                                                <t t-esc="state.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- select states related to country -->
+                                            <script>
+                                                $(function() {
+                                                    var state_options = $("select[name='state_id']:enabled option:not(:first)");
+                                                    $('#registration_form').on('change', "select[name='country_id']", function() {
+                                                        var select = $("select[name='state_id']");
+                                                        state_options.detach();
+                                                        var displayed_state = state_options.filter("[data-country_id=" + ($(this).val() || 0) + "]");
+                                                        var nb = displayed_state.appendTo(select).show().size();
+                                                        select.parent().parent().toggle(nb >= 1);
+                                                    });
+                                                    $('#registration_form').find("select[name='country_id']").change();
+                                                });
+                                            </script>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Emergency person</legend>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="emergency_name">Name
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control"
+                                                       type="text" name="emergency_name"
+                                                       id="emergency_name" value=""
+                                                       required="true"/>
+                                            </div>
+                                            <label class="col-sm-2 control-label"
+                                                   for="emergency_phone">Phone
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control"
+                                                       type="tel" name="emergency_phone"
+                                                       id="emergency_phone" value=""
+                                                       required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="emergency_relation_type">Relation type
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <select name="emergency_relation_type" class="form-control">
+                                                    <t t-foreach="ert" t-as="type">
+                                                        <option t-att-value="type[0]">
+                                                            <t t-esc="type[1]"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Passport</legend>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="birth_name">
+                                                Birth name
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="birth_name" id="birth_name" required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="passport_number">
+                                                Passport number
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" name="passport_number" id="passport_number" required="true"/>
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="passport_expiration_date">
+                                                Passport expiration date
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" name="passport_expiration_date" id="passport_expiration_date" required="true"/>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Others infos</legend>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" for="language">Language
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <select name="language" class="form-control" id="language">
+                                                    <t t-foreach="languages or []" t-as="language">
+                                                        <option t-att-value="language.id">
+                                                            <t t-esc="language.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-2 control-label" for="tshirt_size">T-Shirt Size
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <select name="tshirt_size" class="form-control" id="tshirt_size">
+                                                    <t t-foreach="tshirt" t-as="size">
+                                                        <option t-att-value="size[0]">
+                                                            <t t-esc="size[1]"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2" for="mail_copy_when_donation">
+                                                Mail copy when donation
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input name="mail_copy_when_donation" type="checkbox"/>
+                                            </div>
+                                            <div class="col-sm-offset-2 col-sm-10 help-block">
+                                                Select this if you want a copy for each mail sent to your donators.
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <div class="modal-footer">
+                                        <button type="button"
+                                                class="btn btn-secondary"
+                                                data-dismiss="modal">Close
+                                        </button>
+                                        <!-- will not work on IE-->
+                                        <input type="submit"
+                                               class="btn btn-primary"
+                                               id="donate_button"
+                                               value="Proceed to payment">
+                                        </input>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-2"/>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

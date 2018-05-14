@@ -8,38 +8,43 @@
 #
 ##############################################################################
 
-from odoo import models, fields
+from odoo import models, fields, _
 from odoo.tools import config
 from odoo.exceptions import MissingError
-import re
 
 
 class MuskathlonDetails(models.Model):
     _inherit = "ambassador.details"
 
+    # emergency relation type selection
+    ERT_SELECTION = [('husband', 'Husband'),
+                     ('wife', 'Wife'),
+                     ('father', 'Father'),
+                     ('mother', 'Mother'),
+                     ('brother', 'Brother'),
+                     ('sister', 'Sister'),
+                     ('son', 'Son'),
+                     ('daughter', 'Daughter'),
+                     ('friend', 'Friend'),
+                     ('other', 'Other')]
+
+    TSHIRT_SELECTION = [
+        ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL')
+    ]
+
     emergency_name = fields.Char('Emergency contact name')
     emergency_phone = fields.Char('Emergency contact phone number')
-    emergency_relation_type = fields.Selection(
-        [('husband', 'Husband'),
-         ('wife', 'Wife'),
-         ('father', 'Father'),
-         ('mother', 'Mother'),
-         ('brother', 'Brother'),
-         ('sister', 'Sister'),
-         ('son', 'Son'),
-         ('daughter', 'Daughter'),
-         ('friend', 'Friend'),
-         ('other', 'Other')], string='Emergency contact relation type')
+    emergency_relation_type = fields.Selection(ERT_SELECTION,
+                                               string='Emergency contact '
+                                                      'relation type')
     birth_name = fields.Char()
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
     message_when_donation = fields.Boolean()
-    tshirt_size = fields.Selection([
-        ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL')
-    ])
+    tshirt_size = fields.Selection(TSHIRT_SELECTION)
 
     sql_constraints = [
-        ('partner_uniqe', 'UNIQUE (partner_id)', 'Partner must be unique.')
+        ('partner_unique', 'UNIQUE (partner_id)', 'Partner must be unique.')
     ]
 
 
@@ -49,10 +54,11 @@ class MuskathlonRegistration(models.Model):
     _order = 'id desc'
 
     event_id = fields.Many2one(
-        'crm.event.compassion', 'Muskathlon event',
+        'crm.event.compassion', 'Muskathlon event', required=True,
+        domain="[('type', '=', 'sport')]"
     )
     partner_id = fields.Many2one(
-        'res.partner', 'Muskathlon participant',
+        'res.partner', 'Muskathlon participant', required=True
     )
     ambassador_details_id = fields.Many2one(
         'ambassador.details', related='partner_id.ambassador_details_id')
@@ -76,17 +82,9 @@ class MuskathlonRegistration(models.Model):
     ambassador_thank_you_quote = fields.Html(
         related='ambassador_details_id.thank_you_quote', readonly=True)
     partner_gender = fields.Selection(related='partner_id.title.gender',
-                                    readonly=True)
+                                      readonly=True)
 
-    sport_type = fields.Selection([
-        ('run_21', 'Run 21 Km'),
-        ('run_42', 'Run 42 Km'),
-        ('run_60', 'Run 60 Km'),
-        ('walk_60', 'Walk 60 Km'),
-        ('climb', 'Climb'),
-        ('bike_120', 'Bike 120 Km'),
-        ('bike_400', 'Bike 400 Km')
-    ], string='Sport', required=True)
+    sport_discipline_id = fields.Many2one('sport.discipline', required=True)
     amount_objective = fields.Integer('Raise objective', default=10000,
                                       required=True)
     amount_raised = fields.Integer(readonly=True,
@@ -125,15 +123,9 @@ class MuskathlonRegistration(models.Model):
     def _compute_host(self):
         host = config.get('wordpress_host')
         if not host:
-            raise MissingError('Missing wordpress_host in odoo config file')
+            raise MissingError(_('Missing wordpress_host in odoo config file'))
         for registration in self:
             registration.host = host
 
-    def get_sport_type_name(self):
-        match = re.match(r'([a-z]{1,})(_([0-9]{1,}))?', self.sport_type)
-        label = match.group(1).capitalize()
-
-        if (match.group(2)):
-            label += ' for ' + match.group(3) + ' Km'
-
-        return label
+    def get_sport_discipline_name(self):
+        return self.sport_discipline_id.get_label()

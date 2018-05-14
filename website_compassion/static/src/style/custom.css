@@ -15,6 +15,9 @@
         display: inline-block !important;
         max-height: 310px !important;
     }
+    .pictures-container {
+        max-width: 600px !important;
+    }
 }
 @media(max-width: 1050px) {
     .thank_you_text_container {
@@ -43,7 +46,28 @@
         display: block !important;
         max-height: 310px !important;
     }
+    .pictures-container {
+        max-width: 300px !important;
+    }
+    .pictures-container img:first-child {
+        margin-bottom: 20px;
+    }
 }
 .quote {
     font-size: 20px !important;
+}
+.custom_icon, .fa-map-marker {
+    margin-right: 4px;
+}
+.fa-user {
+    margin-right: 5px;
+}
+#text_tripinfos h4 {
+    margin-top: 18px;
+}
+/* add user icon to address */
+span[itemprop="name"]:before {
+    font-family: FontAwesome;
+    content: "\f007";
+    margin-right: 5px;
 }

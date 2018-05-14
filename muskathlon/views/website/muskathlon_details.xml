@@ -22,6 +22,14 @@
                                                             <h2 style="text-align: center;">
                                                                 <t t-esc="event.name"/>
                                                             </h2>
+                                                            <div>
+                                                                TODO better style/move this button, hide on boolean
+                                                                <t t-set="new_registration_url"
+                                       t-value="'/event/'+str(event.id)"/>
+                                                                <a t-attf-href="/muskathlon_registration/{{new_registration_url}}" class="button button-large">
+                                                                    Register
+                                                                </a>
+                                                            </div>
                                                             <style>
                                                                 .picture_1_event
                                                                 img { height:
@@ -104,7 +112,10 @@
                                             style="height: 391px; margin-bottom: 0px;">
                                         <div class="content-wrapper">
                                             <a t-attf-href="{{ participant_url }}">
-                                                <div class="thumbnail" t-attf-style="background-image: url(data:image/*;base64,{{registration.ambassador_picture_1}}); background-position:center center;" t-field-options='{"widget": "image"}'/>
+                                                <div class="thumbnail"
+                                                     style="margin-bottom: 18px; overflow: hidden;"
+                                                     t-field="registration.ambassador_picture_2"
+                                                     t-field-options='{"widget": "image"}'/>
                                             </a>
 
                                             <t t-call="muskathlon.sport_icon"/>

@@ -5,3 +5,5 @@ acces_crm_event_website,Muskathlons events for website,model_crm_event_compassio
 acces_muskathlon_registration_website,Muskathlons registrations for website,model_muskathlon_registration,,1,0,0,0
 acces_muskathlon_report_website,Muskathlons report for website,model_muskathlon_report,,1,0,0,0
 acces_res_partner,Res partner for website,model_res_partner,,1,0,0,0
+write_acces_sports,Write access on sport discipline,model_sport_discipline,base.group_user,1,1,1,0
+full_acces_sports,Full access on sport discipline,model_sport_discipline,base.group_system,1,1,1,1
