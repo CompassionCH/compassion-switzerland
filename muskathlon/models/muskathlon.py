@@ -47,6 +47,29 @@ class MuskathlonDetails(models.Model):
         ('partner_unique', 'UNIQUE (partner_id)', 'Partner must be unique.')
     ]
 
+    @api.multi
+    def has_all_trip_infos(self):
+        result = True
+        for record in self:
+            trip_infos = [record.emergency_name, record.emergency_phone,
+                          record.emergency_relation_type, record.tshirt_size,
+                          record.passport_number,
+                          record.passport_expiration_date, record.birth_name]
+            for trip_info in trip_infos:
+                if trip_info == '' or not trip_info:
+                    result = False
+        return result
+
+    @api.multi
+    def has_about_me_infos(self):
+        result = True
+        for record in self:
+            if record.description == '' or not record.description or \
+                            record.quote == '' or not record.quote:
+                result = False
+        return result
+
+
 
 class MuskathlonRegistration(models.Model):
     _name = 'muskathlon.registration'
