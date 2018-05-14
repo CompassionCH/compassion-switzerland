@@ -25,36 +25,12 @@
                         <div class="col-md-8">
                             <form class="form-horizontal" id="registration_form" style="margin-bottom: 30px;"
                                   action="" method="POST" enctype="multipart/form-data">
-                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="event_id" t-att-value="event.id"/>
                                 <div>
+                                    <h3 style="text-align: center;">Registration for <t t-esc="event.name"/></h3>
                                     <fieldset style="margin-top: 20px;">
                                         <legend>Event infos</legend>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label"
-                                                   for="event">Event
-                                            </label>
-                                            <div class="col-sm-10" id="event">
-                                                <select name="event_id" class="form-control" required="true">
-                                                    <t t-if="event == None">
-                                                        <option value="" disabled="True" selected="True">
-                                                            Please select an event
-                                                        </option>
-                                                    </t>
-                                                    <t t-foreach="events or []" t-as="event_list">
-                                                        <t t-if="event != None and event_list.id == event.id">
-                                                            <option t-att-value="event_list.id" selected="True">
-                                                                <t t-esc="event_list.name" />
-                                                            </option>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <option t-att-value="event_list.id">
-                                                                <t t-esc="event_list.name" />
-                                                            </option>
-                                                        </t>
-                                                    </t>
-                                                </select>
-                                            </div>
-                                        </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label"
                                                    for="sport">Sport
@@ -91,54 +67,6 @@
                                                         Advanced level
                                                     </option>
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="sport_description">
-                                                Describe your sport experience
-                                            </label>
-                                            <div class="col-sm-10" id="sport_description">
-                                                <textarea class="form-control" rows="6" required="true"/>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset>
-                                        <legend>Public profile</legend>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="description">
-                                                Your description
-                                            </label>
-                                            <div class="col-sm-10" id="description">
-                                                <textarea class="form-control" rows="6" required="true"/>
-                                                <div class="help-block"> ~200 words. It will be used on your public profile page.</div>
-                                            </div>
-                                            <label class="col-sm-2 control-label" for="quote">
-                                                Quote
-                                            </label>
-                                            <div class="col-sm-10" id="quote">
-                                                <textarea class="form-control" rows="2" required="true"/>
-                                                <div class="help-block"> Put there a quote that means something to you.</div>
-                                            </div>
-                                            <label class="col-sm-2 control-label" for="thank_you_quote">
-                                                Thank you quote
-                                            </label>
-                                            <div class="col-sm-10" id="thank_you_quote">
-                                                <textarea class="form-control" rows="2" required="true"/>
-                                                <div class="help-block"> Used to thank somebody who donates something for you.</div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="picture_1">
-                                                    Profile picture
-                                                </label>
-                                                <div class="col-sm-4" id="picture_1">
-                                                    <input class="form-control" type="file" name="picture_1" accept="image/*" required="true"/>
-                                                </div>
-                                                <label class="col-sm-2 control-label" for="picture_2">
-                                                    Second profile picture
-                                                </label>
-                                                <div class="col-sm-4" id="picture_2">
-                                                    <input class="form-control" type="file" name="picture_2" accept="image/*" required="true"/>
-                                                </div>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -281,107 +209,6 @@
                                             </script>
                                         </div>
                                     </fieldset>
-                                    <fieldset>
-                                        <legend>Emergency person</legend>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label"
-                                                   for="emergency_name">Name
-                                            </label>
-                                            <div class="col-sm-4">
-                                                <input class="form-control"
-                                                       type="text" name="emergency_name"
-                                                       id="emergency_name" value=""
-                                                       required="true"/>
-                                            </div>
-                                            <label class="col-sm-2 control-label"
-                                                   for="emergency_phone">Phone
-                                            </label>
-                                            <div class="col-sm-4">
-                                                <input class="form-control"
-                                                       type="tel" name="emergency_phone"
-                                                       id="emergency_phone" value=""
-                                                       required="true"/>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label"
-                                                   for="emergency_relation_type">Relation type
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <select name="emergency_relation_type" class="form-control">
-                                                    <t t-foreach="ert" t-as="type">
-                                                        <option t-att-value="type[0]">
-                                                            <t t-esc="type[1]"/>
-                                                        </option>
-                                                    </t>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset>
-                                        <legend>Passport</legend>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="birth_name">
-                                                Birth name
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="birth_name" id="birth_name" required="true"/>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="passport_number">
-                                                Passport number
-                                            </label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" name="passport_number" id="passport_number" required="true"/>
-                                            </div>
-                                            <label class="col-sm-2 control-label" for="passport_expiration_date">
-                                                Passport expiration date
-                                            </label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" name="passport_expiration_date" id="passport_expiration_date" required="true"/>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset>
-                                        <legend>Others infos</legend>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label" for="language">Language
-                                            </label>
-                                            <div class="col-sm-4">
-                                                <select name="language" class="form-control" id="language">
-                                                    <t t-foreach="languages or []" t-as="language">
-                                                        <option t-att-value="language.id">
-                                                            <t t-esc="language.name"/>
-                                                        </option>
-                                                    </t>
-                                                </select>
-                                            </div>
-                                            <label class="col-sm-2 control-label" for="tshirt_size">T-Shirt Size
-                                            </label>
-                                            <div class="col-sm-4">
-                                                <select name="tshirt_size" class="form-control" id="tshirt_size">
-                                                    <t t-foreach="tshirt" t-as="size">
-                                                        <option t-att-value="size[0]">
-                                                            <t t-esc="size[1]"/>
-                                                        </option>
-                                                    </t>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2" for="mail_copy_when_donation">
-                                                Mail copy when donation
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input name="mail_copy_when_donation" type="checkbox"/>
-                                            </div>
-                                            <div class="col-sm-offset-2 col-sm-10 help-block">
-                                                Select this if you want a copy for each mail sent to your donators.
-                                            </div>
-                                        </div>
-                                    </fieldset>
-
                                     <div class="modal-footer">
                                         <button type="button"
                                                 class="btn btn-secondary"
