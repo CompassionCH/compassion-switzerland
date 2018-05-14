@@ -96,7 +96,7 @@ class MuskathlonWebsite(http.Controller):
             'partner_id': partner.id,
             'sport_discipline_id': sport.id
         })
-        ambassador_details = request.env['ambassador.details'].sudo().create({
+        request.env['ambassador.details'].sudo().create({
             'description': post['description'],
             'picture_1': b64encode(post['picture_1'].stream.getvalue()),
             'picture_2': b64encode(post['picture_2'].stream.getvalue()),
@@ -114,7 +114,7 @@ class MuskathlonWebsite(http.Controller):
             return http.request.render(
                 'muskathlon.new_registration_successful', {
                     'event': event
-        })
+                })
         # TODO do something is the registration is unsuccessful
 
     @http.route('/my/muskathlons/<int:muskathlon_id>',

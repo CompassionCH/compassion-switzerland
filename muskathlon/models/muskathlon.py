@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api
+from odoo import models, fields, _
 from odoo.tools import config
 from odoo.exceptions import MissingError
 
@@ -18,15 +18,15 @@ class MuskathlonDetails(models.Model):
 
     # emergency relation type selection
     ERT_SELECTION = [('husband', 'Husband'),
-         ('wife', 'Wife'),
-         ('father', 'Father'),
-         ('mother', 'Mother'),
-         ('brother', 'Brother'),
-         ('sister', 'Sister'),
-         ('son', 'Son'),
-         ('daughter', 'Daughter'),
-         ('friend', 'Friend'),
-         ('other', 'Other')]
+                     ('wife', 'Wife'),
+                     ('father', 'Father'),
+                     ('mother', 'Mother'),
+                     ('brother', 'Brother'),
+                     ('sister', 'Sister'),
+                     ('son', 'Son'),
+                     ('daughter', 'Daughter'),
+                     ('friend', 'Friend'),
+                     ('other', 'Other')]
 
     TSHIRT_SELECTION = [
         ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL')
@@ -35,7 +35,8 @@ class MuskathlonDetails(models.Model):
     emergency_name = fields.Char('Emergency contact name')
     emergency_phone = fields.Char('Emergency contact phone number')
     emergency_relation_type = fields.Selection(ERT_SELECTION,
-        string='Emergency contact relation type')
+                                               string='Emergency contact '
+                                                      'relation type')
     birth_name = fields.Char()
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
@@ -81,7 +82,7 @@ class MuskathlonRegistration(models.Model):
     ambassador_thank_you_quote = fields.Html(
         related='ambassador_details_id.thank_you_quote', readonly=True)
     partner_gender = fields.Selection(related='partner_id.title.gender',
-                                    readonly=True)
+                                      readonly=True)
 
     sport_discipline_id = fields.Many2one('sport.discipline', required=True)
     amount_objective = fields.Integer('Raise objective', default=10000,
@@ -122,7 +123,7 @@ class MuskathlonRegistration(models.Model):
     def _compute_host(self):
         host = config.get('wordpress_host')
         if not host:
-            raise MissingError('Missing wordpress_host in odoo config file')
+            raise MissingError(_('Missing wordpress_host in odoo config file'))
         for registration in self:
             registration.host = host
 
