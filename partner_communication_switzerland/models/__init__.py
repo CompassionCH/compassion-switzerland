@@ -21,3 +21,4 @@ from . import partner_communication
 from . import account_invoice
 from . import account_invoice_line
 from . import payment_order
+from . import staff_notifications_settings
