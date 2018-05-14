@@ -44,18 +44,11 @@ class MuskathlonWebsite(http.Controller):
     @http.route('/muskathlon_registration/', defaults={'event': None},
                 auth='public', website=True, methods=['GET'])
     def new_registration(self, event):
-        events = http.request.env['crm.event.compassion'].search([
-            ('start_date', '>', fields.Date.today()),
-            ('muskathlon_event_id', '!=', None)
-        ])
         return http.request.render('muskathlon.new_registration', {
             'event': event,
-            'events': events,
-            'sports': request.env['sport.discipline'].sudo().search([]),
+            'sports': event.sport_discipline_ids,
             'countries': request.env['res.country'].sudo().search([]),
             'states': request.env['res.country.state'].sudo().search([]),
-            'tshirt': request.env['ambassador.details'].TSHIRT_SELECTION,
-            'ert': request.env['ambassador.details'].ERT_SELECTION,
             'languages': request.env['res.lang'].search([]),
 
         })
