@@ -183,10 +183,16 @@ class WebsiteAccount(website_account):
 
     def _prepare_portal_layout_values(self):
         values = super(WebsiteAccount, self)._prepare_portal_layout_values()
-        values['registrations'] = request.env['muskathlon.registration']\
+        registrations = request.env['muskathlon.registration']\
             .search([('partner_id', '=', values['user'].partner_id.id)])
+        partner = values['user'].partner_id
 
-        values['partner'] = values['user'].partner_id
+        if registrations and partner.ambassador_details_id:
+            values['registrations'] = registrations
+        else:
+            values['muskathlete_without_ambassador_details'] = True
+
+        values['partner'] = partner
         values['countries'] = request.env['res.country'].sudo().search([])
         values['states'] = request.env['res.country.state'].sudo().search([])
         values['tshirt'] = request.env['ambassador.details'].TSHIRT_SELECTION

@@ -29,6 +29,9 @@
                 <style>.mt16 .navbar { display: none !important; }</style>
                 <div class="container mb64">
                     <div id="success_message" style="display: none;" class="alert alert-success">Your informations were successfuly updated</div>
+                    <t t-if="muskathlete_without_ambassador_details">
+                        <div class="alert alert-danger">This partner is registered in a muskathlon but has no ambassador_details</div>
+                    </t>
                     <div class="row">
                         <div class="col-sm-6 col-md-5 col-lg-4">
                             <div class="row">
@@ -51,92 +54,103 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row"
-                                 style="margin-top: 15px; margin-bottom: 20px;">
-                                <button type="button" class="btn btn-default"
-                                        data-toggle="modal"
-                                        data-target="#modal_change_settings">
-                                    Settings
-                                </button>
-                            </div>
+                            <t t-if="registrations">
+                                <div class="row"
+                                     style="margin-top: 15px; margin-bottom: 20px;">
+                                    <button type="button" class="btn btn-default"
+                                            data-toggle="modal"
+                                            data-target="#modal_change_settings">
+                                        Settings
+                                    </button>
+                                </div>
+                            </t>
                         </div>
-                        <div class="col-sm-6">
-                            <div id="text_tripinfos">
-                                <t t-call="muskathlon.tripinfos_formatted"/>
+                        <t t-if="registrations">
+                            <div class="col-sm-6">
+                                <div id="text_tripinfos">
+                                    <t t-call="muskathlon.tripinfos_formatted"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-1 col-lg-2"/>
+                            <div class="col-md-1 col-lg-2"/>
+                        </t>
+                        <t t-else="">
+                            <div class="col-sm-6 col-md-7 col-lg-8"/>
+                        </t>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div id="text_aboutme">
-                                <t t-call="muskathlon.aboutme_formatted"/>
+                    <t t-if="registrations">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="text_aboutme">
+                                    <t t-call="muskathlon.aboutme_formatted"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <h3 class="page-header"
-                            style="margin-top: 25px; margin-bottom: 10px;">
-                            Pictures
-                            <label for="upload_picture_1" type="button" class="btn btn-default btn-xs">
-                                Change picture 1
-                            </label>
-                            <label for="upload_picture_2" type="button" class="btn btn-default btn-xs">
-                                Change picture 2
-                            </label>
+                    </t>
+                    <t t-if="registrations">
+                        <div class="row">
+                            <h3 class="page-header"
+                                style="margin-top: 25px; margin-bottom: 10px;">
+                                Pictures
+                                <label for="upload_picture_1" type="button" class="btn btn-default btn-xs">
+                                    Change picture 1
+                                </label>
+                                <label for="upload_picture_2" type="button" class="btn btn-default btn-xs">
+                                    Change picture 2
+                                </label>
 
-                            <form id="form_picture_1" action="/my/api" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                <input type="file"
-                                       name="picture_1"
-                                       id="upload_picture_1"
-                                       accept="image/*"
-                                       style="opacity: 0; position: absolute; z-index: -1;"/>
-                            </form>
+                                <form id="form_picture_1" action="/my/api" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="file"
+                                           name="picture_1"
+                                           id="upload_picture_1"
+                                           accept="image/*"
+                                           style="opacity: 0; position: absolute; z-index: -1;"/>
+                                </form>
 
-                            <form id="form_picture_2" action="/my/api" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                <input type="file"
-                                       name="picture_2"
-                                       id="upload_picture_2"
-                                       accept="image/*"
-                                       style="opacity: 0; position: absolute; z-index: -1;"/>
-                            </form>
+                                <form id="form_picture_2" action="/my/api" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="file"
+                                           name="picture_2"
+                                           id="upload_picture_2"
+                                           accept="image/*"
+                                           style="opacity: 0; position: absolute; z-index: -1;"/>
+                                </form>
 
-                            <!-- auto-submit files -->
-                            <script>
-                                $(function() {
-                                    $('#upload_picture_1, #upload_picture_2').change(function() {
-                                        var form_id = $(this).prop('id').replace('upload', 'form');
-                                        var content_id = form_id.replace('form', 'content');
-                                        $.ajax({
-                                            url: '/my/api',
-                                            type: 'POST',
-                                            data: new FormData($('#'+form_id)[0]),
-                                            processData: false,
-                                            contentType: false
-                                        })
-                                        .done(function(data) {
-                                            if (!/no image uploaded/.test(data)) {
-                                                $('#'+content_id).html(data);
-                                                $('#success_message').show();
-                                            }
+                                <!-- auto-submit files -->
+                                <script>
+                                    $(function() {
+                                        $('#upload_picture_1, #upload_picture_2').change(function() {
+                                            var form_id = $(this).prop('id').replace('upload', 'form');
+                                            var content_id = form_id.replace('form', 'content');
+                                            $.ajax({
+                                                url: '/my/api',
+                                                type: 'POST',
+                                                data: new FormData($('#'+form_id)[0]),
+                                                processData: false,
+                                                contentType: false
+                                            })
+                                            .done(function(data) {
+                                                if (!/no image uploaded/.test(data)) {
+                                                    $('#'+content_id).html(data);
+                                                    $('#success_message').show();
+                                                }
+                                            });
                                         });
                                     });
-                                });
-                            </script>
-                        </h3>
-                        <div class="pictures-container" style="max-width: 600px;">
-                            <div class="row">
-                                <div id="content_picture_1" class="col-sm-6">
-                                    <t t-call="muskathlon.picture_1_formatted"/>
-                                </div>
-                                <div id="content_picture_2" class="col-sm-6">
-                                    <t t-call="muskathlon.picture_2_formatted"/>
+                                </script>
+                            </h3>
+                            <div class="pictures-container" style="max-width: 600px;">
+                                <div class="row">
+                                    <div id="content_picture_1" class="col-sm-6">
+                                        <t t-call="muskathlon.picture_1_formatted"/>
+                                    </div>
+                                    <div id="content_picture_2" class="col-sm-6">
+                                        <t t-call="muskathlon.picture_2_formatted"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </t>
                     <t t-if="registrations">
                         <div class="row">
                             <h3 class="page-header"
@@ -173,9 +187,11 @@
                         </div>
                     </t>
                     <t t-call="muskathlon.modal_coordinates"/>
-                    <t t-call="muskathlon.modal_aboutme"/>
-                    <t t-call="muskathlon.modal_tripinfos"/>
-                    <t t-call="muskathlon.modal_settings"/>
+                    <t t-if="registrations">
+                        <t t-call="muskathlon.modal_aboutme"/>
+                        <t t-call="muskathlon.modal_tripinfos"/>
+                        <t t-call="muskathlon.modal_settings"/>
+                    </t>
                 </div>
             </xpath>
         </template>
