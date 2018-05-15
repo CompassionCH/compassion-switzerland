@@ -7,8 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-
-from odoo import http, fields
+from odoo import http, fields, _
 from odoo.http import request
 from odoo.addons.website_portal.controllers.main import website_account
 from base64 import b64encode
@@ -38,78 +37,6 @@ class MuskathlonWebsite(http.Controller):
 
         })
 
-    @http.route('/muskathlon_registration/event/<model('
-                '"crm.event.compassion"):event>/',
-                auth='public', website=True, methods=['GET'])
-    @http.route('/muskathlon_registration/', defaults={'event': None},
-                auth='public', website=True, methods=['GET'])
-    def new_registration(self, event):
-        return http.request.render('muskathlon.new_registration', {
-            'event': event,
-            'sports': event.sport_discipline_ids,
-            'countries': request.env['res.country'].sudo().search([]),
-            'states': request.env['res.country.state'].sudo().search([]),
-            'languages': request.env['res.lang'].search([]),
-
-        })
-
-    @http.route('/muskathlon_registration/event/<model('
-                '"crm.event.compassion"):event>/',
-                auth='public', website=True, methods=['POST'])
-    @http.route('/muskathlon_registration/', defaults={'event': None},
-                auth='public', website=True, methods=['POST'])
-    def receive_form_registration(self, event, **post):
-        # find partner
-        partner = http.request.env['res.partner'].search([
-            ('email', '=ilike', post['email'])], limit=1)
-        country_id = http.request.env['res.country'].search([(
-            'code', '=', post['OWNERCTY'])]).id
-        if not partner:
-            partner = http.request.env['res.partner'].search([
-                ('lastname', '=ilike', post['lastname']),
-                ('firstname', '=ilike', post['firstname']),
-                ('zip', '=', post['zip'])], limit=1)
-        if not partner:
-            # no match found -> creating a new one.
-            partner = http.request.env['res.partner'].create({
-                'firstname': post['firstname'],
-                'lastname': post['lastname'],
-                'email': post['email'],
-                'phone': post['tel'],
-                'street': post['street'],
-                'city': post['town'],
-                'zip': post['zip'],
-                'country_id': country_id
-            })
-
-        sport = request.env['sport.discipline'].browse(post['sport_id'])
-        event = request.env['crm.event.compassion'].browse(post['event_id'])
-        registration = request.env['muskathlon.registration'].create({
-            'event_id': event.id,
-            'partner_id': partner.id,
-            'sport_discipline_id': sport.id
-        })
-        request.env['ambassador.details'].sudo().create({
-            'description': post['description'],
-            'picture_1': b64encode(post['picture_1'].stream.getvalue()),
-            'picture_2': b64encode(post['picture_2'].stream.getvalue()),
-        })
-
-        # TODO
-        # Ajouter un booléan registration_open pour afficher ou non le bouton
-        #  d'inscription sur la page web de l'event
-        # TODO add picture_1, picture_2, motivation, description, to the
-        # ambassador details
-        # TODO Create a Lead in odoo + notifier
-        # TODO payment 100chf (could be done in a second step)
-
-        if registration:
-            return http.request.render(
-                'muskathlon.new_registration_successful', {
-                    'event': event
-                })
-        # TODO do something is the registration is unsuccessful
-
     @http.route('/my/muskathlons/<int:muskathlon_id>',
                 auth='user', website=True)
     def muskathlon_details(self, muskathlon_id):
@@ -121,27 +48,48 @@ class MuskathlonWebsite(http.Controller):
         })
 
     @http.route('/event/<model("crm.event.compassion"):event>/participant'
-                '/<int:partner_id>-<string:partner_name>/', auth='public',
+                '/<model("res.partner"):partner>/', auth='public',
                 website=True)
-    def participant_details(self, event, partner_id, partner_name):
+    def participant_details(self, event, partner):
         """
         :param event: the event record
-        :param partner_id: an integer which is the partner_id
-        :param partner_name: this field is added only to make the url more
-        human. Not used.
+        :param partner: a partner record
         :return:the rendered page
         """
         registration = event.muskathlon_registration_ids.filtered(
-            lambda item: item.partner_id.id == partner_id)
+            lambda item: item.partner_id == partner)
 
         # if partner exist, but is not part of the muskathlon, return 404
         if not registration:
             return http.request.render('website.404')
 
+        # Fetch the payment acquirers to display a selection with pay button
+        # See https://github.com/odoo/odoo/blob/10.0/addons/
+        # website_sale/controllers/main.py#L703
+        # for reference
+        acquirers = request.env['payment.acquirer'].search(
+            [('website_published', '=', True)]
+        )
+        acquirer_final = []
+        for acquirer in acquirers:
+            acquirer_button = acquirer.with_context(
+                submit_class='btn btn-primary',
+                submit_txt=_('Pay Now')).sudo().render(
+                '/',
+                100.0,  # This is a default amount which will be overridden
+                request.env.ref('base.CHF').id,
+                values={
+                    'return_url': '/muskathlon_registration/payment/validate',
+                }
+            )
+            acquirer.button = acquirer_button
+            acquirer_final.append(acquirer)
+
         return http.request.render('muskathlon.participant_details', {
             'event': event,
             'registration': registration,
-            'countries': http.request.env['res.country'].sudo().search([])
+            'countries': http.request.env['res.country'].sudo().search([]),
+            'acquirers': acquirer_final
         })
 
     @http.route(['/my/api'], type='http', auth='user', website=True)

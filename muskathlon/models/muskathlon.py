@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.tools import config
 from odoo.exceptions import MissingError
 
@@ -65,7 +65,7 @@ class MuskathlonDetails(models.Model):
         result = True
         for record in self:
             if record.description == '' or not record.description or \
-                            record.quote == '' or not record.quote:
+                    record.quote == '' or not record.quote:
                 result = False
         return result
 
@@ -80,7 +80,10 @@ class MuskathlonRegistration(models.Model):
         domain="[('type', '=', 'sport')]"
     )
     partner_id = fields.Many2one(
-        'res.partner', 'Muskathlon participant', required=True
+        'res.partner', 'Muskathlon participant'
+    )
+    lead_id = fields.Many2one(
+        'crm.lead', 'Lead'
     )
     ambassador_details_id = fields.Many2one(
         'ambassador.details', related='partner_id.ambassador_details_id')
@@ -108,6 +111,12 @@ class MuskathlonRegistration(models.Model):
                                       readonly=True)
 
     sport_discipline_id = fields.Many2one('sport.discipline', required=True)
+    sport_level = fields.Selection([
+        ('beginner', 'Beginner'),
+        ('average', 'Average'),
+        ('advanced', 'Advanced')
+    ])
+    sport_level_description = fields.Text()
     amount_objective = fields.Integer('Raise objective', default=10000,
                                       required=True)
     amount_raised = fields.Integer(readonly=True,
@@ -175,13 +184,15 @@ class MuskathlonRegistration(models.Model):
     @api.onchange('event_id')
     def onchange_event_id(self):
         return {
-            'domain': {'sport_discipline': [('id', 'in', self.event_id.sport_discipline_ids.ids)]}
+            'domain': {'sport_discipline_id': [
+                ('id', 'in', self.event_id.sport_discipline_ids.ids)]}
         }
 
-    @api.onchange('sport_discipline')
+    @api.onchange('sport_discipline_id')
     def onchange_sport_discipline(self):
-        if self.sport_discipline and self.sport_discipline not in self.event_id.sport_discipline_ids:
-            self.sport_discipline = False
+        if self.sport_discipline_id and self.sport_discipline_id not in \
+                self.event_id.sport_discipline_ids:
+            self.sport_discipline_id = False
             return {
                 'warning': {
                     'title': _('Invalid sport'),

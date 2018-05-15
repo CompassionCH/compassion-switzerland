@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2018 Compassion (http://www.compassion.ch)
+    @author Emanuel Cino <ecino@compassion.ch>
+    The licence is in the file __manifest__.py
+-->
+<odoo>
+    <!-- Configuration View -->
+    <record id="view_notification_settings_muskathlon_form" model="ir.ui.view">
+        <field name="name">staff.notification.settings.muksathlon.form</field>
+        <field name="model">staff.notification.settings</field>
+        <field name="priority" eval="25"/>
+        <field name="inherit_id" ref="child_compassion.view_notification_settings_form"/>
+        <field name="arch" type="xml">
+            <field name="disaster_notify_ids" position="after">
+                <field name="muskathlon_lead_notify_ids" widget="many2many_tags"/>
+            </field>
+        </field>
+    </record>
+</odoo>

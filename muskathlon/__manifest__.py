@@ -38,6 +38,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/default_sports.xml',
+        'data/res_users.xml',
         'data/survey_muskathlon_medical_infos.xml',
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
@@ -45,6 +46,9 @@
         'views/recurring_contracts_view.xml',
         'views/muskathlon_registrations.xml',
         'views/ambassador_details_view.xml',
+        'views/notification_settings_view.xml',
+        'views/payment_transaction_view.xml',
+        'views/website/payment.xml',
         'views/website/muskathlon_details.xml',
         'views/website/muskathlon_list.xml',
         'views/website/muskathlon_modal_donation.xml',
