@@ -30,14 +30,13 @@
 # pylint: disable=C8101
 {
     'name': 'Payment Ogone compassion',
-    'version': '10.0.1.0.0',
+    'version': '10.0.1.1.0',
     'category': 'Reports',
     'author': 'Nicolas Badoux',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'data': [
-        'views/website_payment_result_view.xml',
-        'security/ir.model.access.csv'
+        'data/payment_acquirer.xml',
     ],
     'depends': ['website', 'payment_ogone'],
     'demo': [],

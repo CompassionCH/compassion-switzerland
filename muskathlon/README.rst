@@ -14,7 +14,7 @@ Nothing.
 
 Configuration
 =============
-Nothing.
+Specify who will be notified for new muskathlon registrations in Staff Notification Settings.
 
 Todo / Improvements
 ===================
@@ -23,6 +23,8 @@ Todo / Improvements
 - Remove muskathlon list page (only admin access for now) ?
 - Improve design for amount stats in participants detail page
 - Clean code (remove some HTML tags and class copied from compassion website)
+- Standardize ogone payment like it should be used (see website_sale module)
+- Standardize website forms using OCA module
 
 Credits
 =======
@@ -31,6 +33,9 @@ Contributors
 ------------
 
 * Sebastien Toth <popod@me.com>
+* Nicolas Badoux
+* Samuel Fringeli
+* Emanuel Cino <ecino@compassion.ch>
 
 Maintainer
 ----------
