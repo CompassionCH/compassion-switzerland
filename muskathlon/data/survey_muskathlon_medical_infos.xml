@@ -47,14 +47,12 @@
                 <field name="question">Number of years engaged in the sporting activity</field>
                 <field name="type">textbox</field>
                 <field name="constr_mandatory" eval="True"/>
-                <field name="constr_mandatory" eval="True"/>
             </record>
             <record model="survey.question" id="muskathlon_1_5">
                 <field name="page_id" ref="muskathlon_1"/>
                 <field name="sequence">5</field>
                 <field name="question">Sport experience (in years)</field>
                 <field name="type">textbox</field>
-                <field name="constr_mandatory" eval="True"/>
                 <field name="constr_mandatory" eval="True"/>
             </record>
             <record model="survey.question" id="muskathlon_1_6">
@@ -63,14 +61,12 @@
                 <field name="question">Average km per year</field>
                 <field name="type">textbox</field>
                 <field name="constr_mandatory" eval="True"/>
-                <field name="constr_mandatory" eval="True"/>
             </record>
             <record model="survey.question" id="muskathlon_1_7">
                 <field name="page_id" ref="muskathlon_1"/>
                 <field name="sequence">7</field>
                 <field name="question">Climbing experience</field>
                 <field name="type">textbox</field>
-                <field name="constr_mandatory" eval="True"/>
                 <field name="constr_mandatory" eval="True"/>
             </record>
             <record model="survey.question" id="muskathlon_1_10">

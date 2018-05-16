@@ -58,7 +58,7 @@
         'views/assets.xml'
     ],
     'depends': ['partner_compassion', 'crm_compassion', 'website',
-                'website_portal', 'payment_ogone_compassion'],
+                'website_portal', 'payment_ogone_compassion', 'survey'],
     'demo': [],
     'installable': True,
     'auto_install': False,
