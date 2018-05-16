@@ -38,6 +38,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/default_sports.xml',
+        'data/survey_muskathlon_medical_infos.xml',
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
@@ -57,7 +58,7 @@
         'views/assets.xml'
     ],
     'depends': ['partner_compassion', 'crm_compassion', 'website',
-                'website_portal', 'payment_ogone_compassion'],
+                'website_portal', 'payment_ogone_compassion', 'survey'],
     'demo': [],
     'installable': True,
     'auto_install': False,

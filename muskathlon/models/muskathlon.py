@@ -70,7 +70,6 @@ class MuskathlonDetails(models.Model):
         return result
 
 
-
 class MuskathlonRegistration(models.Model):
     _name = 'muskathlon.registration'
     _description = 'Muskathlon registration'
@@ -103,7 +102,8 @@ class MuskathlonRegistration(models.Model):
     ambassador_quote = fields.Text(
         related='ambassador_details_id.quote', readonly=True)
     ambassador_thank_you_quote = fields.Html(
-        related='ambassador_details_id.thank_you_quote', readonly=True)
+        related='ambassador_details_id.thank_you_quote', readonly=True,
+        default='Thank you for your donation !')
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                       readonly=True)
 
@@ -152,6 +152,25 @@ class MuskathlonRegistration(models.Model):
 
     def get_sport_discipline_name(self):
         return self.sport_discipline_id.get_label()
+
+    @api.multi
+    def can_be_displayed(self):
+        if not self:
+            result = False
+        elif len(self) == 1:
+            result = True
+            required_fields = ['partner_name', 'partner_preferred_name',
+                               'ambassador_quote', 'ambassador_description',
+                               'ambassador_picture_1', 'ambassador_picture_2']
+            for field in required_fields:
+                if not getattr(self, field):
+                    result = False
+        else:
+            result = False
+            for r in self:
+                if r.can_be_displayed():
+                    result = True
+        return result
 
     @api.onchange('event_id')
     def onchange_event_id(self):
