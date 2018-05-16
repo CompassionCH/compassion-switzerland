@@ -103,7 +103,8 @@ class MuskathlonRegistration(models.Model):
     ambassador_quote = fields.Text(
         related='ambassador_details_id.quote', readonly=True)
     ambassador_thank_you_quote = fields.Html(
-        related='ambassador_details_id.thank_you_quote', readonly=True)
+        related='ambassador_details_id.thank_you_quote', readonly=True,
+        default='Thank you for your donation !')
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                       readonly=True)
 

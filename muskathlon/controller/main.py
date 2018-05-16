@@ -186,10 +186,14 @@ class WebsiteAccount(website_account):
         registrations = request.env['muskathlon.registration']\
             .search([('partner_id', '=', values['user'].partner_id.id)])
         partner = values['user'].partner_id
+        surveys = request.env['survey.user_input']\
+            .search([('partner_id', '=', partner.id)])
+        survey_already_filled = surveys\
+            .filtered(lambda r: r.state == 'done')[0] if surveys else False
 
         if registrations and partner.ambassador_details_id:
             values['registrations'] = registrations
-        else:
+        elif registrations:
             values['muskathlete_without_ambassador_details'] = True
 
         values['partner'] = partner
@@ -197,5 +201,8 @@ class WebsiteAccount(website_account):
         values['states'] = request.env['res.country.state'].sudo().search([])
         values['tshirt'] = request.env['ambassador.details'].TSHIRT_SELECTION
         values['ert'] = request.env['ambassador.details'].ERT_SELECTION
+        values['survey_url'] = request.env\
+            .ref('muskathlon.muskathlon_form').public_url
+        values['survey_already_filled'] = survey_already_filled
 
         return values
