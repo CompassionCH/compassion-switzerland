@@ -100,9 +100,9 @@ class MuskathlonRegistration(models.Model):
                                          readonly=True)
     partner_name = fields.Char(related="partner_id.name", readonly=True)
     ambassador_picture_1 = fields.Binary(
-        related='ambassador_details_id.picture_1', readonly=True)
+        related='partner_id.image', readonly=True)
     ambassador_picture_2 = fields.Binary(
-        related='ambassador_details_id.picture_2', readonly=True)
+        related='ambassador_details_id.picture_large', readonly=True)
     ambassador_description = fields.Text(
         related='ambassador_details_id.description', readonly=True)
     ambassador_quote = fields.Text(
@@ -174,14 +174,12 @@ class MuskathlonRegistration(models.Model):
 
     @api.multi
     @api.depends(
-        'partner_id', 'ambassador_details_id',
-        'ambassador_details_id.quote', 'ambassador_details_id.description',
-        'ambassador_details_id.picture_1', 'ambassador_details_id.picture_2')
+        'partner_id', 'partner_id.image', 'ambassador_details_id',
+        'ambassador_details_id.quote', 'ambassador_details_id.description')
     def _compute_website_published(self):
         required_fields = [
             'partner_preferred_name', 'ambassador_quote',
             'ambassador_description', 'ambassador_picture_1',
-            'ambassador_picture_2'
         ]
         for registration in self:
             published = True

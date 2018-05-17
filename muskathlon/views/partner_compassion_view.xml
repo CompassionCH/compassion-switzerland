@@ -12,7 +12,7 @@
                 <group>
                     <field name="muskathlon_participant_id"/>
                 </group>
-                <group attrs="{'invisible': [('muskathlon_participant_id', '==', False)]}">
+                <group attrs="{'invisible': [('muskathlon_registration_ids', '=', False)]}">
                         <field name="muskathlon_registration_ids" context="{'default_partner_id': id}">
                             <tree>
                                 <field name="event_id"/>

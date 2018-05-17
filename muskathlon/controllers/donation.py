@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import http
+from odoo import http, fields
 from odoo.http import request
 
 
@@ -82,15 +82,14 @@ class DonationController(http.Controller):
             return http.request.render('muskathlon.donation_failure')
 
         invoice = tx.invoice_id
-        if tx.state in ['pending', 'done', 'authorized']:
-            # Pay invoice
-            invoice.action_invoice_open()
+        if tx.state == 'done':
+            # Create payment
             payment_vals = {
                 'journal_id': env['account.journal'].search(
                     [('name', '=', 'Web')]).id,
                 'payment_method_id': env['account.payment.method'].search(
                     [('code', '=', 'sepa_direct_debit')]).id,
-                'payment_date': invoice.date,
+                'payment_date': fields.Date.today(),
                 'communication': invoice.reference,
                 'invoice_ids': [(6, 0, invoice.ids)],
                 'payment_type': 'inbound',
@@ -102,7 +101,10 @@ class DonationController(http.Controller):
                 'payment_difference': invoice.amount_total,
             }
             account_payment = env['account.payment'].create(payment_vals)
-            account_payment.post()
+            if invoice.partner_id.write_uid.id != uid:
+                # Validate invoice and post the payment.
+                invoice.action_invoice_open()
+                account_payment.post()
         elif tx and tx.state == 'cancel':
             # Cancel the invoice
             tx.invoice_id.unlink()
@@ -121,7 +123,7 @@ class DonationController(http.Controller):
     @http.route('/muskathlon_donation/confirmation/'
                 '<int:invoice_id>',
                 type='http', auth="public", website=True)
-    def payment_confirmation(self, invoice_id):
+    def payment_confirmation(self, invoice_id, **kwargs):
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
         env = request.env(user=uid)
         invoice = env['account.invoice'].browse(invoice_id)
