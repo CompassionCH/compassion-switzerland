@@ -51,13 +51,9 @@
                     </button>
                 </h3>
                 <t t-if="partner.ambassador_details_id.has_about_me_infos()">
-                    <p>
-                        <t t-raw="partner.ambassador_details_id.description"/>
-                    </p>
+                    <p t-field="partner.ambassador_details_id.description"/>
                     <blockquote>
-                        <p>
-                            <t t-raw="partner.ambassador_details_id.quote"/>
-                        </p>
+                        <p t-field="partner.ambassador_details_id.quote"/>
                     </blockquote>
                 </t>
                 <t t-else="">
@@ -211,13 +207,13 @@
 
         <template id="picture_1_formatted">
             <div class="image picture_event"
-                 t-field="partner.ambassador_details_id.picture_1"
+                 t-field="partner.image"
                  t-field-options='{"widget": "image"}'/>
         </template>
 
         <template id="picture_2_formatted">
             <div class="image picture_event"
-                 t-field="partner.ambassador_details_id.picture_2"
+                 t-field="partner.ambassador_details_id.picture_large"
                  t-field-options='{"widget": "image"}'/>
         </template>
     </data>

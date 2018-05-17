@@ -41,6 +41,7 @@
         'data/default_sports.xml',
         'data/res_users.xml',
         'data/survey_muskathlon_medical_infos.xml',
+        'data/product.xml',
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
