@@ -63,29 +63,46 @@
                             <input type="hidden" id="ambassador_id" name="ambassador_id" t-att-value="registration.partner_id.id"/>
                             <input type="hidden" id="event_id" name="event_id" t-att-value="registration.event_id.id"/>
                             <fieldset>
-                                <legend>Donation</legend>
+                                <div class="row">
+                                    <div class="col-xs-11">
+                                        <legend>Donation</legend>
+                                    </div>
+                                    <div class="col-xs-1" style="border-bottom: 1px solid #e5e5e5; margin-left: -16px; margin-top: 9px;">
+                                        <button type="button"
+                                                class="close"
+                                                data-dismiss="modal"
+                                                aria-label="Close"
+                                                style="position: relative; bottom: 9px; left: 12px;">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label"
                                            for="amount_div_100">Amount
                                     </label>
-                                    <div class="col-sm-7">
-                                        <input class="form-control"
-                                               type="number" step="any"
-                                               min="0" id="amount_div_100"
-                                               name="amount" t-att-value="amount or ''"
-                                               placeholder="Amount"
-                                               required="true"/>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <select class="form-control"
-                                                id="currency"
-                                                name="currency">
-                                            <option value="CHF"
-                                                    selected="selected">CHF
-                                            </option>
-                                            <!--<option value="EUR" disabled="disabled">EUR</option>
-                                            <option value="USD" disabled="disabled">USD</option>-->
-                                        </select>
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <div class="col-xs-7 col-sm-9">
+                                                <input class="form-control"
+                                                       type="number" step="any"
+                                                       min="0" id="amount_div_100"
+                                                       name="amount" t-att-value="amount or ''"
+                                                       placeholder="Amount"
+                                                       required="true"/>
+                                            </div>
+                                            <div class="col-xs-5 col-sm-3">
+                                                <select class="form-control"
+                                                        id="currency"
+                                                        name="currency">
+                                                    <option value="CHF"
+                                                            selected="selected">CHF
+                                                    </option>
+                                                    <!--<option value="EUR" disabled="disabled">EUR</option>
+                                                    <option value="USD" disabled="disabled">USD</option>-->
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </fieldset>
