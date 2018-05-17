@@ -67,7 +67,12 @@
                                             <a class="btn btn-primary" t-attf-href="{{survey_url.replace('start', 'print')}}/{{survey_already_filled.token}}">See completed medical survey</a>
                                         </t>
                                         <t t-else="">
-                                            <a class="btn btn-primary" t-attf-href="{{survey_url}}">Complete medical survey</a>
+                                            <t t-if="survey_not_started">
+                                                <a class="btn btn-primary" t-attf-href="{{survey_url}}/{{survey_not_started.token}}">Complete medical survey</a>
+                                            </t>
+                                            <t t-else="">
+                                                <a class="btn btn-primary" t-attf-href="{{survey_url}}">Complete medical survey</a>
+                                            </t>
                                         </t>
                                     </div>
                                 </t>
