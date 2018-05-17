@@ -105,8 +105,8 @@ class MuskathlonWebsite(http.Controller):
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
         env = request.env(user=uid)
         if transaction_id is None:
-            tx = request.website.sale_get_transaction()
-        else:
+            transaction_id = request.session.get('sale_transaction_id')
+        if transaction_id:
             tx = env['payment.transaction'].browse(transaction_id)
 
         if not tx or not tx.registration_id:
@@ -150,21 +150,19 @@ class MuskathlonWebsite(http.Controller):
             tx.registration_id.unlink()
 
         # clean context and session, then redirect to the confirmation page
-        request.website.sale_reset()
+        request.session['sale_transaction_id'] = False
         if tx and tx.state == 'draft':
             return request.redirect('/event/' + str(event.id))
 
         return request.redirect(
             '/muskathlon_registration/confirmation/' +
-            str(tx.registration_id.id))
+            str(tx.registration_id.event_id.id))
 
     @http.route('/muskathlon_registration/confirmation/'
-                '<int:registration_id>',
+                '<int:event_id>',
                 type='http', auth="public", website=True)
-    def payment_confirmation(self, registration_id):
-        registration = request.env['muskathlon.registration'].browse(
-            registration_id)
+    def payment_confirmation(self, event_id):
+        event = request.env['crm.event.compassion'].browse(event_id)
         return http.request.render('muskathlon.new_registration_successful', {
-            'registration': registration,
-            'event': registration.event_id
+            'event': event
         })

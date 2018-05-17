@@ -11,6 +11,7 @@
 from odoo import models, fields, api, _
 from odoo.tools import config
 from odoo.exceptions import MissingError
+from odoo.addons.website.models.website import slug
 
 
 class MuskathlonDetails(models.Model):
@@ -72,7 +73,9 @@ class MuskathlonDetails(models.Model):
 
 class MuskathlonRegistration(models.Model):
     _name = 'muskathlon.registration'
+    _inherit = ['website.published.mixin']
     _description = 'Muskathlon registration'
+    _rec_name = 'partner_preferred_name'
     _order = 'id desc'
 
     event_id = fields.Many2one(
@@ -130,6 +133,9 @@ class MuskathlonRegistration(models.Model):
     muskathlon_event_id = fields.Char(
         related='event_id.muskathlon_event_id')
 
+    website_published = fields.Boolean(
+        compute='_compute_website_published', store=True)
+
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)
     host = fields.Char(compute='_compute_host', readonly=True)
 
@@ -137,6 +143,13 @@ class MuskathlonRegistration(models.Model):
         ('reg_unique', 'unique(event_id,partner_id)',
          'Only one registration per participant/event is allowed!')
     ]
+
+    @api.multi
+    def _compute_website_url(self):
+        for registration in self:
+            registration.website_url = "/event/{}/{}".format(
+                slug(registration.event_id), slug(registration)
+            )
 
     def _compute_amount_raised(self):
         muskathlon_report = self.env['muskathlon.report']
@@ -159,27 +172,27 @@ class MuskathlonRegistration(models.Model):
         for registration in self:
             registration.host = host
 
+    @api.multi
+    @api.depends(
+        'partner_id', 'ambassador_details_id',
+        'ambassador_details_id.quote', 'ambassador_details_id.description',
+        'ambassador_details_id.picture_1', 'ambassador_details_id.picture_2')
+    def _compute_website_published(self):
+        required_fields = [
+            'partner_preferred_name', 'ambassador_quote',
+            'ambassador_description', 'ambassador_picture_1',
+            'ambassador_picture_2'
+        ]
+        for registration in self:
+            published = True
+            for field in required_fields:
+                if not getattr(registration, field):
+                    published = False
+                    break
+            registration.website_published = published
+
     def get_sport_discipline_name(self):
         return self.sport_discipline_id.get_label()
-
-    @api.multi
-    def can_be_displayed(self):
-        if not self:
-            result = False
-        elif len(self) == 1:
-            result = True
-            required_fields = ['partner_name', 'partner_preferred_name',
-                               'ambassador_quote', 'ambassador_description',
-                               'ambassador_picture_1', 'ambassador_picture_2']
-            for field in required_fields:
-                if not getattr(self, field):
-                    result = False
-        else:
-            result = False
-            for r in self:
-                if r.can_be_displayed():
-                    result = True
-        return result
 
     @api.onchange('event_id')
     def onchange_event_id(self):
