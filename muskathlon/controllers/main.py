@@ -14,12 +14,14 @@ from base64 import b64encode
 
 
 class MuskathlonWebsite(http.Controller):
-    @http.route('/events/', auth='user', website=True)
-    def list(self, **kw):
-        events = http.request.env['crm.event.compassion']
+    @http.route('/events/', auth='public', website=True)
+    def list(self):
+        events = http.request.env['crm.event.compassion'].search([
+            ('website_published', '=', True),
+            ('muskathlon_event_id', '!=', False)
+        ])
         return http.request.render('muskathlon.list', {
-            'events': events.search([]).filtered(
-                lambda x: x.muskathlon_event_id)
+            'events': events
         })
 
     @http.route('/event/<model("crm.event.compassion"):event>/',
@@ -47,22 +49,15 @@ class MuskathlonWebsite(http.Controller):
             'reports': reports
         })
 
-    @http.route('/event/<model("crm.event.compassion"):event>/participant'
-                '/<model("res.partner"):partner>/', auth='public',
-                website=True)
-    def participant_details(self, event, partner):
+    @http.route('/event/<model("crm.event.compassion"):event>'
+                '/<model("muskathlon.registration"):registration>/',
+                auth='public', website=True)
+    def participant_details(self, event, registration):
         """
         :param event: the event record
-        :param partner: a partner record
+        :param registration: a partner record
         :return:the rendered page
         """
-        registration = event.muskathlon_registration_ids.filtered(
-            lambda item: item.partner_id == partner)
-
-        # if partner exist, but is not part of the muskathlon, return 404
-        if not registration:
-            return http.request.render('website.404')
-
         # Fetch the payment acquirers to display a selection with pay button
         # See https://github.com/odoo/odoo/blob/10.0/addons/
         # website_sale/controllers/main.py#L703
@@ -118,7 +113,7 @@ class MuskathlonWebsite(http.Controller):
 
         for picture in ['picture_1', 'picture_2']:
             if picture in post:
-                image_value = post[picture].stream.getvalue()
+                image_value = post[picture].stream.read()
                 if not image_value:
                     return 'no image uploaded'
                 partner.ambassador_details_id.sudo().write({

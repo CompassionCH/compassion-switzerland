@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="event_compassion_public" model="ir.rule">
+        <field name="name">Compassion event: Public</field>
+        <field name="model_id" ref="model_crm_event_compassion"/>
+        <field name="domain_force">[('website_published', '=', True)]</field>
+        <field name="groups" eval="[(4, ref('base.group_public')), (4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="muskathlon_registration_public" model="ir.rule">
+        <field name="name">Muskathlon Registration: Public</field>
+        <field name="model_id" ref="model_muskathlon_registration"/>
+        <field name="domain_force">[('website_published', '=', True)]</field>
+        <field name="groups" eval="[(4, ref('base.group_public')), (4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="muskathlon_registration_personal" model="ir.rule">
+        <field name="name">Muskathlon Registration: My Registrations</field>
+        <field name="model_id" ref="model_muskathlon_registration"/>
+        <field name="domain_force">[('partner_id.user_ids', 'in', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="ambassador_details_personal" model="ir.rule">
+        <field name="name">Ambassador Details: My Details</field>
+        <field name="model_id" ref="model_ambassador_details"/>
+        <field name="domain_force">[('partner_id.user_ids', 'in', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

@@ -13,8 +13,7 @@ from odoo import models, fields
 
 class SportDiscipline(models.Model):
     _name = "sport.discipline"
-    _description = "Represent the different discipline one athlete can " \
-                   "practice."
+    _description = "Sport Discipline"
 
     name = fields.Char(required=True)
     sport = fields.Char(required=True)

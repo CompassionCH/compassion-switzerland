@@ -73,7 +73,7 @@
                                                         <t t-esc="registration.partner_name"/>
                                                     </h4>
                                                     <p class="subtitle"
-                                                       t-field="event.public_description"/>
+                                                       t-field="registration.ambassador_description"/>
                                                     <blockquote
                                                             t-field="registration.ambassador_quote"/>
                                                     <table style="border: 0px">
