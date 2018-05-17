@@ -136,8 +136,14 @@ class WebsiteAccount(website_account):
         partner = values['user'].partner_id
         surveys = request.env['survey.user_input']\
             .search([('partner_id', '=', partner.id)])
-        survey_already_filled = surveys\
-            .filtered(lambda r: r.state == 'done')[0] if surveys else False
+        surveys_not_started = surveys.filtered(lambda r: r.state == 'new') \
+            if surveys else False
+        survey_not_started = surveys_not_started[0] \
+            if surveys_not_started else False
+        surveys_done = surveys.filtered(lambda r: r.state == 'done') \
+            if surveys else False
+        survey_already_filled = surveys_done[0] \
+            if surveys_done else False
 
         if registrations and partner.ambassador_details_id:
             values['registrations'] = registrations
@@ -151,6 +157,7 @@ class WebsiteAccount(website_account):
         values['ert'] = request.env['ambassador.details'].ERT_SELECTION
         values['survey_url'] = request.env\
             .ref('muskathlon.muskathlon_form').public_url
+        values['survey_not_started'] = survey_not_started
         values['survey_already_filled'] = survey_already_filled
 
         return values
