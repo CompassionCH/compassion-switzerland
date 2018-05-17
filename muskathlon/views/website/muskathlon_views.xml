@@ -14,7 +14,7 @@
 
         <template id="sport_icon">
             <span class="child-waiting"
-                  style="background-color: rgb(255, 255, 255, 0.7); height: 40px; width: 40px; margin-top: -8px; padding-top: 3px;">
+                  style="background-color: rgba(255, 255, 255, 0.7); height: 40px; width: 40px; margin-top: -8px; padding-top: 3px;">
                 <t t-if="'Biking' == registration.sport_discipline_id.sport">
                     <img style="height: 30px;"
                          src="/muskathlon/static/src/data/biking.png"/>
@@ -50,14 +50,22 @@
                         Change
                     </button>
                 </h3>
-                <p>
-                    <t t-raw="partner.ambassador_details_id.description"/>
-                </p>
-                <blockquote>
+                <t t-if="partner.ambassador_details_id.has_about_me_infos()">
                     <p>
-                        <t t-raw="partner.ambassador_details_id.quote"/>
+                        <t t-raw="partner.ambassador_details_id.description"/>
                     </p>
-                </blockquote>
+                    <blockquote>
+                        <p>
+                            <t t-raw="partner.ambassador_details_id.quote"/>
+                        </p>
+                    </blockquote>
+                </t>
+                <t t-else="">
+                    <p style="margin-top: 13px;">
+                        Your informations are incomplete. Please correct them by clicking
+                        <a href="#" data-toggle="modal" data-target="#modal_change_aboutme">here</a>.
+                    </p>
+                </t>
             </div>
         </template>
 
@@ -73,24 +81,32 @@
                         Change
                     </button>
                 </h3>
-                <p>
-                    <h4>T-shirt Size : <t t-esc="partner.ambassador_details_id.tshirt_size"/></h4>
+                <t t-if="partner.ambassador_details_id.has_all_trip_infos()">
+                    <p>
+                        <h4>T-shirt Size : <t t-esc="partner.ambassador_details_id.tshirt_size"/></h4>
 
-                    <h4>Emergency person</h4>
-                    <span class="custom_icon fa fa-user"/>
-                    <t t-esc="partner.ambassador_details_id.emergency_name"/>,
-                    <t t-esc="partner.ambassador_details_id.emergency_relation_type"/><br/>
-                    <span class="custom_icon fa fa-phone"/>
-                    <t t-esc="partner.ambassador_details_id.emergency_phone"/><br/>
+                        <h4>Emergency person</h4>
+                        <span class="custom_icon fa fa-user"/>
+                        <t t-esc="partner.ambassador_details_id.emergency_name"/>,
+                        <t t-esc="partner.ambassador_details_id.emergency_relation_type"/><br/>
+                        <span class="custom_icon fa fa-phone"/>
+                        <t t-esc="partner.ambassador_details_id.emergency_phone"/><br/>
 
-                    <h4>Passport</h4>
-                    <span class="custom_icon fa fa-user"/>
-                    <t t-esc="partner.ambassador_details_id.birth_name"/><br/>
-                    <span class="custom_icon fa fa-file"/>
-                    <t t-esc="partner.ambassador_details_id.passport_number"/><br/>
-                    <span class="custom_icon fa fa-calendar"/>
-                    <t t-esc="partner.ambassador_details_id.passport_expiration_date"/><br/>
-                </p>
+                        <h4>Passport</h4>
+                        <span class="custom_icon fa fa-user"/>
+                        <t t-esc="partner.ambassador_details_id.birth_name"/><br/>
+                        <span class="custom_icon fa fa-file"/>
+                        <t t-esc="partner.ambassador_details_id.passport_number"/><br/>
+                        <span class="custom_icon fa fa-calendar"/>
+                        <t t-esc="partner.ambassador_details_id.passport_expiration_date"/><br/>
+                    </p>
+                </t>
+                <t t-else="">
+                    <p style="margin-top: 13px;">
+                        Your trip informations are incomplete. Please correct them by clicking
+                        <a href="#" data-toggle="modal" data-target="#modal_change_tripinfos">here</a>.
+                    </p>
+                </t>
             </div>
         </template>
 

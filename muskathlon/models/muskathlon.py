@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, _
+from odoo import models, fields, api, _
 from odoo.tools import config
 from odoo.exceptions import MissingError
 
@@ -47,6 +47,28 @@ class MuskathlonDetails(models.Model):
         ('partner_unique', 'UNIQUE (partner_id)', 'Partner must be unique.')
     ]
 
+    @api.multi
+    def has_all_trip_infos(self):
+        result = True
+        for record in self:
+            trip_infos = [record.emergency_name, record.emergency_phone,
+                          record.emergency_relation_type, record.tshirt_size,
+                          record.passport_number,
+                          record.passport_expiration_date, record.birth_name]
+            for trip_info in trip_infos:
+                if trip_info == '' or not trip_info:
+                    result = False
+        return result
+
+    @api.multi
+    def has_about_me_infos(self):
+        result = True
+        for record in self:
+            if record.description == '' or not record.description or \
+                    record.quote == '' or not record.quote:
+                result = False
+        return result
+
 
 class MuskathlonRegistration(models.Model):
     _name = 'muskathlon.registration'
@@ -58,7 +80,10 @@ class MuskathlonRegistration(models.Model):
         domain="[('type', '=', 'sport')]"
     )
     partner_id = fields.Many2one(
-        'res.partner', 'Muskathlon participant', required=True
+        'res.partner', 'Muskathlon participant'
+    )
+    lead_id = fields.Many2one(
+        'crm.lead', 'Lead'
     )
     ambassador_details_id = fields.Many2one(
         'ambassador.details', related='partner_id.ambassador_details_id')
@@ -80,11 +105,18 @@ class MuskathlonRegistration(models.Model):
     ambassador_quote = fields.Text(
         related='ambassador_details_id.quote', readonly=True)
     ambassador_thank_you_quote = fields.Html(
-        related='ambassador_details_id.thank_you_quote', readonly=True)
+        related='ambassador_details_id.thank_you_quote', readonly=True,
+        default='Thank you for your donation !')
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                       readonly=True)
 
     sport_discipline_id = fields.Many2one('sport.discipline', required=True)
+    sport_level = fields.Selection([
+        ('beginner', 'Beginner'),
+        ('average', 'Average'),
+        ('advanced', 'Advanced')
+    ])
+    sport_level_description = fields.Text()
     amount_objective = fields.Integer('Raise objective', default=10000,
                                       required=True)
     amount_raised = fields.Integer(readonly=True,
@@ -129,3 +161,41 @@ class MuskathlonRegistration(models.Model):
 
     def get_sport_discipline_name(self):
         return self.sport_discipline_id.get_label()
+
+    @api.multi
+    def can_be_displayed(self):
+        if not self:
+            result = False
+        elif len(self) == 1:
+            result = True
+            required_fields = ['partner_name', 'partner_preferred_name',
+                               'ambassador_quote', 'ambassador_description',
+                               'ambassador_picture_1', 'ambassador_picture_2']
+            for field in required_fields:
+                if not getattr(self, field):
+                    result = False
+        else:
+            result = False
+            for r in self:
+                if r.can_be_displayed():
+                    result = True
+        return result
+
+    @api.onchange('event_id')
+    def onchange_event_id(self):
+        return {
+            'domain': {'sport_discipline_id': [
+                ('id', 'in', self.event_id.sport_discipline_ids.ids)]}
+        }
+
+    @api.onchange('sport_discipline_id')
+    def onchange_sport_discipline(self):
+        if self.sport_discipline_id and self.sport_discipline_id not in \
+                self.event_id.sport_discipline_ids:
+            self.sport_discipline_id = False
+            return {
+                'warning': {
+                    'title': _('Invalid sport'),
+                    'message': _('This sport is not in muskathlon')
+                }
+            }

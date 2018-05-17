@@ -9,3 +9,5 @@
 ##############################################################################
 
 from . import main
+from . import registration
+from . import donation
