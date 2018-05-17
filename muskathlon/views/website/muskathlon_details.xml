@@ -2,6 +2,10 @@
 <odoo>
     <data>
         <template id="details" page="True">
+            <t t-call="website.publish_management">
+                <t t-set="object" t-value="event"/>
+                <t t-set="publish_edit" t-value="True"/>
+            </t>
             <t t-call="website.layout">
                 <span class="compassion-wp">
                     <t t-set="title">Muskathlon detail</t>
@@ -96,7 +100,7 @@
                                     <div class="so-widget-sow-editor so-widget-sow-editor-base">
                                         <div class="siteorigin-widget-tinymce textwidget">
                                             <h3 style="text-align: center; margin-bottom: 30px;">
-                                                <t t-if="event.muskathlon_registration_ids.can_be_displayed()">
+                                                <t t-if="event.muskathlon_registration_ids.filtered('website_published')">
                                                     Participants
                                                 </t>
                                                 <t t-else="">
@@ -107,59 +111,56 @@
                                         </div>
                                     </div>
                                 </div>
-                                <t t-foreach="event.muskathlon_registration_ids" t-as="registration">
-                                    <t t-if="registration.can_be_displayed()">
-                                        <t t-set="participant_url" t-value="'/event/'+str(event.id)+'/participant/'+str(registration.partner_id.id)"/>
-                                        <div class="col-md-6 col-lg-3" style="padding-left: 10px; padding-right: 18px;">
-                                            <article
-                                                    class="blog-teaser child-teaser child"
-                                                    data-equalizer-watch=""
-                                                    style="height: 391px; margin-bottom: 0px;">
-                                                <div class="content-wrapper">
-                                                    <a t-attf-href="{{ participant_url }}">
-                                                        <div class="thumbnail"
-                                                             style="margin-bottom: 18px; overflow: hidden;"
-                                                             t-field="registration.ambassador_picture_2"
-                                                             t-field-options='{"widget": "image"}'/>
+                                <t t-foreach="event.muskathlon_registration_ids.filtered('website_published')" t-as="registration">
+                                    <div class="col-md-6 col-lg-3" style="padding-left: 10px; padding-right: 18px;">
+                                        <article
+                                                class="blog-teaser child-teaser child"
+                                                data-equalizer-watch=""
+                                                style="height: 391px; margin-bottom: 0px;">
+                                            <div class="content-wrapper">
+                                                <a t-att-href="registration.website_url">
+                                                    <div class="thumbnail"
+                                                         style="margin-bottom: 18px; overflow: hidden;"
+                                                         t-field="registration.ambassador_picture_1"
+                                                         t-field-options='{"widget": "image"}'/>
+                                                </a>
+
+                                                <t t-call="muskathlon.sport_icon"/>
+
+                                                <div class="content"
+                                                     style="padding:5px;">
+                                                    <a t-att-href="registration.website_url">
+                                                        <h4 class="title"
+                                                            style="font-size: 1.2em; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                                                            <t t-esc="registration.partner_display_name"/>
+                                                        </h4>
+                                                        <div>
+                                                            <div class="progress"
+                                                                 style="height: 6px; border-radius: 3px; margin-bottom: 5px;">
+                                                                <t t-set="to_hide"
+                                                                   t-value="'sr-only'"/>
+                                                                <t t-call="muskathlon.progress_bar"/>
+                                                            </div>
+                                                            <div style="text-align: center; font-size: 0.8em; color: gray;">
+                                                                <t t-esc="'{:n}'.format(registration.amount_raised)"/>
+                                                                /
+                                                                <t t-esc="'{:n}'.format(registration.amount_objective)"/>
+                                                                CHF
+                                                            </div>
+                                                        </div>
+                                                        <div class="hover-overlay"
+                                                             style="top: -23px;">
+                                                            <h5 class="text-uppercase">
+                                                                Participant
+                                                                <br/>
+                                                                details
+                                                            </h5>
+                                                        </div>
                                                     </a>
-
-                                                    <t t-call="muskathlon.sport_icon"/>
-
-                                                    <div class="content"
-                                                         style="padding:5px;">
-                                                        <a t-attf-href="{{ participant_url }}">
-                                                            <h4 class="title"
-                                                                style="font-size: 1.2em; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-                                                                <t t-esc="registration.partner_display_name"/>
-                                                            </h4>
-                                                            <div>
-                                                                <div class="progress"
-                                                                     style="height: 6px; border-radius: 3px; margin-bottom: 5px;">
-                                                                    <t t-set="to_hide"
-                                                                       t-value="'sr-only'"/>
-                                                                    <t t-call="muskathlon.progress_bar"/>
-                                                                </div>
-                                                                <div style="text-align: center; font-size: 0.8em; color: gray;">
-                                                                    <t t-esc="'{:n}'.format(registration.amount_raised)"/>
-                                                                    /
-                                                                    <t t-esc="'{:n}'.format(registration.amount_objective)"/>
-                                                                    CHF
-                                                                </div>
-                                                            </div>
-                                                            <div class="hover-overlay"
-                                                                 style="top: -23px;">
-                                                                <h5 class="text-uppercase">
-                                                                    Participant
-                                                                    <br/>
-                                                                    details
-                                                                </h5>
-                                                            </div>
-                                                        </a>
-                                                    </div>
                                                 </div>
-                                            </article>
-                                        </div>
-                                    </t>
+                                            </div>
+                                        </article>
+                                    </div>
                                 </t>
                             </div>
                         </div>

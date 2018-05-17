@@ -37,6 +37,7 @@
     'website': 'http://www.compassion.ch',
     'data': [
         'security/ir.model.access.csv',
+        'security/access_rules.xml',
         'data/default_sports.xml',
         'data/res_users.xml',
         'data/survey_muskathlon_medical_infos.xml',
@@ -61,9 +62,8 @@
         'views/website/muskathlon_my_home_modals.xml',
         'views/assets.xml'
     ],
-    'depends': ['partner_compassion', 'crm_compassion', 'website',
-                'website_portal', 'website_compassion',
-                'payment_ogone_compassion', 'survey'],
+    'depends': ['partner_compassion', 'crm_compassion', 'website_payment',
+                'payment_ogone_compassion', 'survey', 'website_compassion'],
     'demo': [],
     'installable': True,
     'auto_install': False,

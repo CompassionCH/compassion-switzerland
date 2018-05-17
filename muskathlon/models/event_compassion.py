@@ -10,10 +10,12 @@
 #
 ##############################################################################
 from odoo import models, fields, api
+from odoo.addons.website.models.website import slug
 
 
 class EventCompassion(models.Model):
-    _inherit = 'crm.event.compassion'
+    _name = 'crm.event.compassion'
+    _inherit = ['crm.event.compassion', 'website.published.mixin']
 
     thank_you_text = fields.Html(translate=True)
     muskathlon_event_id = fields.Char(
@@ -36,6 +38,11 @@ class EventCompassion(models.Model):
     amount_raised_percents = fields.Integer(readonly=True,
                                             compute='_compute_amount_raised')
     sport_discipline_ids = fields.Many2many('sport.discipline', required=True)
+
+    @api.multi
+    def _compute_website_url(self):
+        for event in self:
+            event.website_url = "/event/{}".format(slug(event))
 
     @api.multi
     def _compute_filenames(self):

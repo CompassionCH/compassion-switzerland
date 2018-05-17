@@ -74,8 +74,8 @@ class DonationController(http.Controller):
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
         env = request.env(user=uid)
         if transaction_id is None:
-            tx = request.website.sale_get_transaction()
-        else:
+            transaction_id = request.session.get('sale_transaction_id')
+        if transaction_id:
             tx = env['payment.transaction'].browse(transaction_id)
 
         if not tx or not tx.invoice_id:
@@ -108,7 +108,7 @@ class DonationController(http.Controller):
             tx.invoice_id.unlink()
 
         # clean context and session, then redirect to the confirmation page
-        request.website.sale_reset()
+        request.session['sale_transaction_id'] = False
         if tx and tx.state == 'draft':
             event = invoice.invoice_line_ids.mapped('event_id')
             ambassador = invoice.invoice_line_ids.mapped('user_id')
@@ -122,10 +122,13 @@ class DonationController(http.Controller):
                 '<int:invoice_id>',
                 type='http', auth="public", website=True)
     def payment_confirmation(self, invoice_id):
-        invoice = request.env['account.invoice'].browse(invoice_id)
+        uid = request.env.ref('muskathlon.user_muskathlon_portal').id
+        env = request.env(user=uid)
+        invoice = env['account.invoice'].browse(invoice_id)
         event = invoice.invoice_line_ids.mapped('event_id')
-        ambassador = invoice.invoice_line_ids.mapped('user_id')
+        registration = event.muskathlon_registration_ids.filtered(
+            lambda r: r.partner_id == invoice.partner_id)
         return http.request.render('muskathlon.donation_successful', {
-            'ambassador': ambassador,
+            'registration': registration,
             'event': event
         })
