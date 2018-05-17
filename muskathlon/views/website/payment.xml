@@ -8,6 +8,7 @@
         <div class="js_payment mb64 row" t-if="acquirers" id="payment_compassion">
             <!-- Error message if any -->
             <div class="col-xs-12">
+                <div style="margin-top: 25px;"/>
                 <div class="alert alert-danger text-center" style="display: none;">
                     <t t-raw="error_message"/>
                 </div>
