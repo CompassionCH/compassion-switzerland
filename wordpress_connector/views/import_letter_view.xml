@@ -2,7 +2,7 @@
 <odoo>
     <record id="view_import_letter_form_wp" model="ir.ui.view">
         <field name="name">import.letter.wp.form</field>
-        <field name="model">recurring.contract</field>
+        <field name="model">import.letters.review</field>
         <field name="inherit_id" ref="sbc_compassion.view_import_letter_review"/>
         <field name="arch" type="xml">
             <field name="state" position="after">
