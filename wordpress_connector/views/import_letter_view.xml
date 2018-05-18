@@ -6,6 +6,7 @@
         <field name="inherit_id" ref="sbc_compassion.view_import_letter_review"/>
         <field name="arch" type="xml">
             <field name="state" position="after">
+                <field name="partner_name" attrs="{'invisible': [('partner_name', '=', False)]}"/>
                 <field name="email" attrs="{'invisible': [('email', '=', False)]}"/>
             </field>
         </field>
