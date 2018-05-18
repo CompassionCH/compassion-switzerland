@@ -97,3 +97,8 @@ span[itemprop="name"]:before {
 .mt16 > button {
     float: right;
 }
+
+/* hides "manage your payment methods" button */
+.o_my_details .manage_payment_method {
+    display: none;
+}

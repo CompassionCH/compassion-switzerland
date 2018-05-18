@@ -11,9 +11,6 @@
                     <p>
                         <a class="btn btn-lg btn-primary" href="https://www.compassion.ch" role="button">Go to our website</a>
                     </p>
-                    <p>
-                        <a class="btn btn-lg btn-primary" href="/web" role="button">Login</a>
-                    </p>
                     <div class="oe_structure"/>
                 </div>
             </xpath>
