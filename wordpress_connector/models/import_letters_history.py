@@ -36,6 +36,12 @@ class ImportLetterLine(models.Model):
     email = fields.Char(help='Origin e-mail of submission')
 
 
+class ImportLetterReview(models.Model):
+    _inherit = 'import.letters.review'
+
+    email = fields.Char(related='current_line_id.email')
+
+
 class ImportLettersHistory(models.Model):
     """
     Keep history of imported letters.
