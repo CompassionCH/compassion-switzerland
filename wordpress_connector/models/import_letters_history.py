@@ -33,13 +33,15 @@ except ImportError:
 class ImportLetterLine(models.Model):
     _inherit = 'import.letter.line'
 
-    email = fields.Char(help='Origin e-mail of submission')
+    email = fields.Char(help='Origin e-mail of submission', readonly=True)
+    partner_name = fields.Char(help='Origin name of submission', readonly=True)
 
 
 class ImportLetterReview(models.TransientModel):
     _inherit = 'import.letters.review'
 
     email = fields.Char(related='current_line_id.email')
+    partner_name = fields.Char(related='current_line_id.partner_name')
 
 
 class ImportLettersHistory(models.Model):
@@ -53,7 +55,7 @@ class ImportLettersHistory(models.Model):
     _inherit = 'import.letters.history'
 
     @api.model
-    def import_web_letter(self, child_code, sponsor_ref, email,
+    def import_web_letter(self, child_code, sponsor_ref, name, email,
                           original_text, template_name, pdf_filename,
                           attachment_filename, ext, utm_source, utm_medium,
                           utm_campaign):
@@ -127,7 +129,8 @@ class ImportLettersHistory(models.Model):
                     'source_id': utms['source'],
                     'medium_id': utms.get('medium', internet_id),
                     'campaign_id': utms['campaign'],
-                    'email': email
+                    'email': email,
+                    'partner_name': name
                 })
                 letters_line = self.env[
                     'import.letter.line'].create(line_vals[i])
