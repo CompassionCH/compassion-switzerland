@@ -59,6 +59,7 @@ class Website(models.Model):
         transaction_obj = self.env['payment.transaction'].sudo()
         transaction = request.session.get('sale_transaction_id')
         if transaction:
+            transaction = transaction_obj.browse(transaction)
             if token and transaction.payment_token_id and \
                     token != transaction.payment_token_id.id:
                 # new or distinct token

@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import http, _
+from odoo import http, _, fields
 from odoo.http import request
 
 
@@ -113,25 +113,47 @@ class MuskathlonWebsite(http.Controller):
             return http.request.render('muskathlon.registration_failure')
 
         event = tx.registration_id.event_id
-        if tx.state in ['pending', 'done', 'authorized']:
+        if tx.state == 'done':
             # Create invoice and lead
             partner = tx.partner_id
-            env['account.invoice'].create({
+            fee_template = env.ref('muskathlon.product_registration')
+            product = fee_template.product_variant_ids[:1]
+            invoice = env['account.invoice'].create({
                 'partner_id': partner.id,
                 'currency_id': tx.currency_id.id,
                 'invoice_line_ids': [(0, 0, {
                     'quantity': 1.0,
                     'price_unit': 100,
                     'account_analytic_id': event.analytic_id.id,
-                    # TODO Set correctly invoice line info
-                    'account_id': 2775,
+                    'account_id': product.property_account_income_id.id,
                     'name': 'Muskathlon registration fees',
-                    'product_id': env.ref(
-                        'sponsorship_switzerland.product_template_fund_4mu').id
+                    'product_id': product.id
                 })]
             })
+            payment_vals = {
+                'journal_id': env['account.journal'].search(
+                    [('name', '=', 'Web')]).id,
+                'payment_method_id': env['account.payment.method'].search(
+                    [('code', '=', 'sepa_direct_debit')]).id,
+                'payment_date': fields.Date.today(),
+                'communication': invoice.reference,
+                'invoice_ids': [(6, 0, invoice.ids)],
+                'payment_type': 'inbound',
+                'amount': invoice.amount_total,
+                'currency_id': invoice.currency_id.id,
+                'partner_id': invoice.partner_id.id,
+                'partner_type': 'customer',
+                'payment_difference_handling': 'reconcile',
+                'payment_difference': invoice.amount_total,
+            }
+            account_payment = env['account.payment'].create(payment_vals)
+            if partner.write_uid.id != uid:
+                # Validate invoice and post the payment.
+                invoice.action_invoice_open()
+                account_payment.post()
             staff_id = env['staff.notification.settings'].get_param(
                 'muskathlon_lead_notify_ids')
+            sport_desc = tx.registration_id.sport_level_description
             tx.registration_id.lead_id = env['crm.lead'].create({
                 'name': u'Muskathlon Registration - ' + partner.name,
                 'partner_id': partner.id,
@@ -142,8 +164,13 @@ class MuskathlonWebsite(http.Controller):
                 'zip': partner.zip,
                 'city': partner.city,
                 'user_id': staff_id and staff_id[0] or 1,
-                'description': tx.registration_id.sport_level_description
+                'description': sport_desc
             })
+            if not partner.ambassador_details_id:
+                partner.ambassador_details_id = env[
+                    'ambassador.details'].create({
+                        'partner_id': partner.id,
+                    })
             # TODO prepare communication for sponsor.
         elif tx and tx.state == 'cancel':
             # cancel the registration
@@ -161,7 +188,7 @@ class MuskathlonWebsite(http.Controller):
     @http.route('/muskathlon_registration/confirmation/'
                 '<int:event_id>',
                 type='http', auth="public", website=True)
-    def payment_confirmation(self, event_id):
+    def payment_confirmation(self, event_id, **kwargs):
         event = request.env['crm.event.compassion'].browse(event_id)
         return http.request.render('muskathlon.new_registration_successful', {
             'event': event

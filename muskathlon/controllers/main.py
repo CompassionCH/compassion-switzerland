@@ -7,52 +7,52 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import http, fields, _
-from odoo.http import request
+from odoo import fields, _
+from odoo.http import request, route
 from odoo.addons.website_portal.controllers.main import website_account
 from base64 import b64encode
 
 
-class MuskathlonWebsite(http.Controller):
-    @http.route('/events/', auth='public', website=True)
-    def list(self):
-        events = http.request.env['crm.event.compassion'].search([
+class MuskathlonWebsite(website_account):
+    @route('/events/', auth='public', website=True)
+    def list(self, **kwargs):
+        events = request.env['crm.event.compassion'].search([
             ('website_published', '=', True),
             ('muskathlon_event_id', '!=', False)
         ])
-        return http.request.render('muskathlon.list', {
+        return request.render('muskathlon.list', {
             'events': events
         })
 
-    @http.route('/event/<model("crm.event.compassion"):event>/',
-                auth='public', website=True)
-    def musk_infos(self, event):
-        events = http.request.env['crm.event.compassion'].search([
+    @route('/event/<model("crm.event.compassion"):event>/',
+           auth='public', website=True)
+    def musk_infos(self, event, **kwargs):
+        events = request.env['crm.event.compassion'].search([
             ('start_date', '>', fields.Date.today()),
             ('muskathlon_event_id', '!=', None)
         ])
-        return http.request.render('muskathlon.details', {
+        return request.render('muskathlon.details', {
             'event': event,
             'events': events,
-            'countries': http.request.env['res.country'].sudo().search([]),
-            'languages': http.request.env['res.lang'].search([]),
+            'countries': request.env['res.country'].sudo().search([]),
+            'languages': request.env['res.lang'].search([]),
 
         })
 
-    @http.route('/my/muskathlons/<int:muskathlon_id>',
-                auth='user', website=True)
-    def muskathlon_details(self, muskathlon_id):
+    @route('/my/muskathlons/<int:muskathlon_id>',
+           auth='user', website=True)
+    def muskathlon_details(self, muskathlon_id, **kwargs):
         reports = request.env['muskathlon.report'].search(
             [('user_id', '=', request.env.user.partner_id.id),
              ('event_id', '=', muskathlon_id)])
-        return http.request.render('muskathlon.my_details', {
+        return request.render('muskathlon.my_details', {
             'reports': reports
         })
 
-    @http.route('/event/<model("crm.event.compassion"):event>'
-                '/<model("muskathlon.registration"):registration>/',
-                auth='public', website=True)
-    def participant_details(self, event, registration):
+    @route('/event/<model("crm.event.compassion"):event>'
+           '/<model("muskathlon.registration"):registration>/',
+           auth='public', website=True)
+    def participant_details(self, event, registration, **kwargs):
         """
         :param event: the event record
         :param registration: a partner record
@@ -80,52 +80,62 @@ class MuskathlonWebsite(http.Controller):
             acquirer.button = acquirer_button
             acquirer_final.append(acquirer)
 
-        return http.request.render('muskathlon.participant_details', {
+        return request.render('muskathlon.participant_details', {
             'event': event,
             'registration': registration,
-            'countries': http.request.env['res.country'].sudo().search([]),
+            'countries': request.env['res.country'].sudo().search([]),
             'acquirers': acquirer_final
         })
 
-    @http.route(['/my/api'], type='http', auth='user', website=True)
-    def details(self, redirect=None, **post):
+    @route(['/my/api'], type='http', auth='user', website=True)
+    def save_ambassador_details(self, **post):
         user = request.env.user
         partner = user.partner_id
-        vals = {'user': user, 'partner': partner}
+        return_view = 'website_portal.portal_my_home'
+        partner_vals = {}
+        details_vals = {}
 
         if 'type_coordinates' in post:
-            post['zip'] = post.pop('zipcode')
-            partner.sudo().write(post)
-            return request.render('muskathlon.coordinates_formatted', vals)
+            partner_vals.update(post)
+            partner_vals['zip'] = partner_vals.pop('zipcode')
+            return_view = 'muskathlon.coordinates_formatted'
 
-        if 'type_aboutme' in post:
-            partner.ambassador_details_id.sudo().write(post)
-            return request.render('muskathlon.aboutme_formatted', vals)
+        elif 'type_aboutme' in post:
+            details_vals.update(post)
+            return_view = 'muskathlon.aboutme_formatted'
 
-        if 'type_settings' in post:
-            post['mail_copy_when_donation'] = 'mail_copy_when_donation' in post
-            partner.ambassador_details_id.sudo().write(post)
-            return
+        elif 'type_tripinfos' in post:
+            details_vals.update(post)
+            return_view = 'muskathlon.tripinfos_formatted'
 
-        if 'type_tripinfos' in post:
-            partner.ambassador_details_id.sudo().write(post)
-            return request.render('muskathlon.tripinfos_formatted', vals)
+        elif 'type_settings' in post:
+            details_vals.update(post)
+            details_vals['mail_copy_when_donation'] =\
+                'mail_copy_when_donation' in post
 
-        for picture in ['picture_1', 'picture_2']:
-            if picture in post:
-                image_value = post[picture].stream.read()
-                if not image_value:
-                    return 'no image uploaded'
-                partner.ambassador_details_id.sudo().write({
-                    picture: b64encode(image_value)
-                })
-                return request.render('muskathlon.'+picture+'_formatted', vals)
+        else:
+            for picture in ['picture_1', 'picture_2']:
+                picture_post = post.get(picture)
+                if picture_post:
+                    return_view = 'muskathlon.'+picture+'_formatted'
+                    image_value = b64encode(picture_post.stream.read())
+                    if not image_value:
+                        return 'no image uploaded'
+                    if picture == 'picture_1':
+                        partner_vals['image'] = image_value
+                    else:
+                        details_vals['picture_large'] = image_value
 
+        if partner_vals:
+            partner.write(partner_vals)
+        if details_vals:
+            partner.ambassador_details_id.write(details_vals)
 
-class WebsiteAccount(website_account):
+        values = self._prepare_portal_layout_values()
+        return request.render(return_view, values)
 
     def _prepare_portal_layout_values(self):
-        values = super(WebsiteAccount, self)._prepare_portal_layout_values()
+        values = super(MuskathlonWebsite, self)._prepare_portal_layout_values()
         registrations = request.env['muskathlon.registration']\
             .search([('partner_id', '=', values['user'].partner_id.id)])
         partner = values['user'].partner_id
@@ -145,14 +155,15 @@ class WebsiteAccount(website_account):
         elif registrations:
             values['muskathlete_without_ambassador_details'] = True
 
-        values['partner'] = partner
-        values['countries'] = request.env['res.country'].sudo().search([])
-        values['states'] = request.env['res.country.state'].sudo().search([])
-        values['tshirt'] = request.env['ambassador.details'].TSHIRT_SELECTION
-        values['ert'] = request.env['ambassador.details'].ERT_SELECTION
-        values['survey_url'] = request.env\
-            .ref('muskathlon.muskathlon_form').public_url
-        values['survey_not_started'] = survey_not_started
-        values['survey_already_filled'] = survey_already_filled
-
+        values.update({
+            'partner': partner,
+            'countries': request.env['res.country'].sudo().search([]),
+            'states': request.env['res.country.state'].sudo().search([]),
+            'tshirt': request.env['ambassador.details'].TSHIRT_SELECTION,
+            'ert': request.env['ambassador.details'].ERT_SELECTION,
+            'survey_url': request.env.ref(
+                'muskathlon.muskathlon_form').public_url,
+            'survey_not_started': survey_not_started,
+            'survey_already_filled': survey_already_filled
+        })
         return values
