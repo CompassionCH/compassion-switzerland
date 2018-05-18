@@ -37,6 +37,7 @@
     'website': 'http://www.compassion.ch',
     'data': [
         'views/sponsorship_view.xml',
+        'views/import_letter_view.xml',
     ],
     'depends': ['mass_mailing_switzerland', 'child_sync_wp',
                 'sbc_switzerland'],

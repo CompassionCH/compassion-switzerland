@@ -16,12 +16,11 @@ import logging
 import time
 from io import BytesIO
 
-from datetime import datetime, timedelta
+from odoo.addons.sbc_compassion.tools import import_letter_functions as func
+from odoo.addons.sbc_switzerland.models.import_letters_history import SmbConfig
 
 from odoo import models, api, fields
 from odoo.tools.config import config
-from odoo.addons.sbc_compassion.tools import import_letter_functions as func
-from odoo.addons.sbc_switzerland.models.import_letters_history import SmbConfig
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +28,12 @@ try:
     import pysftp
 except ImportError:
     logger.warning("Please install python dependencies.")
+
+
+class ImportLetterLine(models.Model):
+    _inherit = 'import.letter.line'
+
+    email = fields.Char(help='Origin e-mail of submission')
 
 
 class ImportLettersHistory(models.Model):
@@ -42,7 +47,7 @@ class ImportLettersHistory(models.Model):
     _inherit = 'import.letters.history'
 
     @api.model
-    def import_web_letter(self, child_code, sponsor_ref,
+    def import_web_letter(self, child_code, sponsor_ref, email,
                           original_text, template_name, pdf_filename,
                           attachment_filename, ext, utm_source, utm_medium,
                           utm_campaign):
@@ -61,50 +66,29 @@ class ImportLettersHistory(models.Model):
                 import_config = self.create({
                     'config_id': web_letter_id, 'state': 'open'})
 
-            # Find child
-            if child_code:
-                # Retrieve child code and find corresponding id
-                child_field = 'local_id'
-                if len(child_code) == 9:
-                    child_field = 'code'
-                model_child = self.env['compassion.child'].search(
-                    [(child_field, '=', child_code), ('state', '=', 'P')])
+            # Retrieve child code and find corresponding id
+            child_field = 'local_id'
+            if len(child_code) == 9:
+                child_field = 'code'
+            model_child = self.env['compassion.child'].search(
+                [(child_field, '=', child_code)])
 
-                child_id = model_child.id
+            child_id = model_child.id
 
-            if sponsor_ref:
-                # Retrieve sponsor reference and find corresponding id
-                model_sponsor = self.env['res.partner'].search(
-                    ['|', ('ref', '=', sponsor_ref),
-                     ('global_id', '=', sponsor_ref)])
-                if len(model_sponsor) > 1:
-                    model_sponsor = model_sponsor.filtered('has_sponsorships')
-                sponsor_id = model_sponsor.id
-
-            # Check if a sponsorship exists
-            current_date = datetime.now()
-            limit_date = current_date + timedelta(weeks=12)
-            self.env['recurring.contract'].search(
-                [
-                    ('child_id', '=', child_id),
-                    ('correspondent_id', '=', sponsor_id),
-                    '|',
-                    ('end_date', '=', False),
-                    ('end_date', '<=',
-                     fields.Datetime.to_string(limit_date))
-                ],
-                limit=1).ensure_one()
+            # Retrieve sponsor reference and find corresponding id
+            model_sponsor = self.env['res.partner'].search(
+                ['|', ('ref', '=', sponsor_ref),
+                 ('global_id', '=', sponsor_ref)])
+            if len(model_sponsor) > 1:
+                model_sponsor = model_sponsor.filtered('has_sponsorships')
+            sponsor_id = model_sponsor[:1].id
 
             lang = self.env['correspondence'].detect_lang(original_text)
-            lang_id = None
-            if lang:
-                lang_id = lang.id
+            lang_id = lang and lang.id
 
-            template = None
-            if template_name:
-                # Retrieve template name and find corresponding id
-                template = self.env['correspondence.template'].search(
-                    [('name', '=', template_name)], limit=1)
+            # Retrieve template name and find corresponding id
+            template = self.env['correspondence.template'].search(
+                [('name', '=', template_name)], limit=1)
 
             # save_letter pdf
             sftp_host = config.get('wp_sftp_host')
@@ -119,8 +103,7 @@ class ImportLettersHistory(models.Model):
 
             # analyze attachment to check template and create image preview
             line_vals, document_vals = func.analyze_attachment(
-                self.env, pdf_letter, filename,
-                template)
+                self.env, pdf_letter, filename, template)
 
             # Check UTM
             internet_id = self.env.ref('utm.utm_medium_website').id
@@ -138,6 +121,7 @@ class ImportLettersHistory(models.Model):
                     'source_id': utms['source'],
                     'medium_id': utms.get('medium', internet_id),
                     'campaign_id': utms['campaign'],
+                    'email': email
                 })
                 letters_line = self.env[
                     'import.letter.line'].create(line_vals[i])
