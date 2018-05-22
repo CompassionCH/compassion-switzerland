@@ -86,6 +86,12 @@ class ResPartner(models.Model):
 
     ambassador_details_id = fields.Many2one('ambassador.details',
                                             'Details of ambassador')
+    # TODO Delete these fields after production migration
+    ambassador_quote = fields.Text(
+        readonly=True,
+        help='Old ambassador quote field kept for migration purpose.'
+             'Not used anymore')
+    quote_migrated = fields.Boolean()
 
     ##########################################################################
     #                             FIELDS METHODS                             #
