@@ -26,22 +26,29 @@
                                      style="margin-top: 50px; margin-bottom: 50px;">
                                     <div class="row profile"
                                          style="margin-left: 20px; margin-right: 20px; max-width: 100%">
-                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-1"/>
                                         <div class="col-lg-8 col-sm-11">
                                             <div class="row-fluid">
                                                 <div class="col-sm-6" style="min-width: 330px;">
                                                     <div class="image-and-buttons" style="padding-right: 30px;">
-                                                        <div class="image"
-                                                             style="display: inline-block; max-height: 310px;"
-                                                             t-field="registration.ambassador_picture_2"
-                                                             t-field-options='{"widget": "image"}'/>
+                                                        <t t-if="not registration.ambassador_picture_2">
+                                                            <div class="image"
+                                                                 style="display: inline-block; max-height: 310px;"
+                                                                 t-field="registration.ambassador_picture_1"
+                                                                 t-field-options='{"widget": "image"}'/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <div class="image"
+                                                                 style="display: inline-block; max-height: 310px;"
+                                                                 t-field="registration.ambassador_picture_2"
+                                                                 t-field-options='{"widget": "image"}'/>
+                                                        </t>
                                                         <div>
                                                             <a class="button button-large"
                                                                data-toggle="modal"
                                                                data-target="#donation_modal">
                                                                Donate
                                                             </a>
-
                                                         </div>
                                                         <div style="margin-top: 10px;">
                                                             <a t-attf-href="https://{{registration.host}}/parrainer-un-enfant/?eventId={{event.id}}&amp;eventName={{event.name}}&amp;registrationId={{registration.id}}&amp;participantId={{registration.partner_id_id}}&amp;participantName={{registration.partner_name}}"
