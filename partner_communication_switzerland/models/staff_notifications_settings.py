@@ -17,7 +17,9 @@ class StaffNotificationSettings(models.TransientModel):
 
     # Users to notify after Disaster Alert
     invalid_mail_notify_ids = fields.Many2many(
-        'res.partner', string='Invalid mail ids',
+        comodel_name='res.partner', string='Invalid mail',
+        relation='invalid_mail_staff_notify_rel',
+        column1='staff_id', column2='partner_id',
         domain=[
             ('user_ids', '!=', False),
             ('user_ids.share', '=', False),
@@ -33,14 +35,11 @@ class StaffNotificationSettings(models.TransientModel):
     @api.model
     def get_default_values(self, _fields):
         param_obj = self.env['ir.config_parameter']
-        res = {'invalid_mail_notify_ids': False}
+        res = super(StaffNotificationSettings, self)\
+            .get_default_values(_fields)
+        res['invalid_mail_notify_ids'] = False
         partners = param_obj.get_param(
             'partner_communication_switzerland.invalid_mail_notify_ids', False)
         if partners:
             res['invalid_mail_notify_ids'] = map(int, partners.split(','))
         return res
-
-    @api.model
-    def get_param(self, param):
-        """ Retrieve a single parameter. """
-        return self.get_default_values([param])[param]
