@@ -118,4 +118,9 @@
         </field>
     </record>
 
+    <!-- Limit Mass Mailing Menu to Mass Mailing Users -->
+    <record id="mass_mailing.mass_mailing_menu_root" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('mass_mailing.group_mass_mailing_user'))]"/>
+    </record>
+
 </odoo>

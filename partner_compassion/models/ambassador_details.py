@@ -9,6 +9,7 @@
 ##############################################################################
 
 from odoo import api, models, fields
+from odoo.tools import file_open
 
 
 class AmbassadorDetails(models.Model):
@@ -24,6 +25,7 @@ class AmbassadorDetails(models.Model):
         attachment=True, help='Large picture for profile page')
     picture_filename = fields.Char(compute='_compute_filename')
     thank_you_quote = fields.Html(
+        compute='_compute_thank_you_quote',
         help='Used in thank you letters for donations linked to an event '
              'and to this partner.',
     )
@@ -34,3 +36,17 @@ class AmbassadorDetails(models.Model):
         for details in self:
             partner_name = details.display_name
             details.picture_filename = partner_name + '-large.jpg'
+
+    @api.multi
+    def _compute_thank_you_quote(self):
+        html_file = file_open(
+            'partner_compassion/static/src/html/thank_you_quote_template.html')
+        template_html = unicode(html_file.read())
+        for details in self:
+            html_vals = {
+                u'img_alt': details.display_name,
+                u'image_data': details.partner_id.with_context(
+                    bin_size=False).image,
+                u'text': details.quote
+            }
+            details.thank_you_quote = template_html.format(**html_vals)
