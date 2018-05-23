@@ -55,13 +55,15 @@
                                         <label class="control-label" for="description">
                                             Description
                                         </label>
-                                        <textarea name="description" class="form-control" t-field="partner.ambassador_details_id.description"/>
+                                        <!-- t-field doesn't work here in some cases -->
+                                        <textarea name="description" class="form-control"><t t-esc="partner.ambassador_details_id.description"/></textarea>
                                     </div>
                                     <div t-attf-class="form-group col-xs-12">
                                         <label class="control-label" for="quote">
                                             Quote
                                         </label>
-                                        <textarea name="quote" class="form-control" t-field="partner.ambassador_details_id.quote"/>
+                                        <!-- t-field doesn't work here in some cases -->
+                                        <textarea name="quote" class="form-control"><t t-esc="partner.ambassador_details_id.quote"/></textarea>
                                     </div>
                                 </div>
                             </form>
