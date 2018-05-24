@@ -1,0 +1,10 @@
+.field-hidden {
+    display: none;
+}
+
+.section-header {
+    border-bottom: 1px solid #eeeeee;
+}
+
+/* This ensures the datepicker is above the modal */
+.ui-datepicker { position: relative; z-index: 10000 !important; }

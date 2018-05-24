@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="custom_portal_my_home" inherit_id="website_portal.portal_layout" name="Custom My Portal">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <!-- hides navbar from my portal -->
+            <style>.mt16 .navbar { display: none !important; }</style>
+
+            <!-- Page content -->
+            <div id="my_home" class="container mb64">
+                <!-- Load modals for forms -->
+                <t t-call="muskathlon.modal_form">
+                    <t t-set="form" t-value="coordinates_form"/>
+                </t>
+                <t t-if="registrations">
+                    <t t-call="muskathlon.modal_form">
+                        <t t-set="form" t-value="about_me_form"/>
+                    </t>
+                    <t t-call="muskathlon.modal_form">
+                        <t t-set="form" t-value="trip_info_form"/>
+                    </t>
+                </t>
+
+                <t t-if="muskathlete_without_ambassador_details">
+                    <div class="alert alert-danger">This partner is registered in a muskathlon but has no ambassador_details</div>
+                </t>
+                <h2 class="section-header">Public profile</h2>
+                <div class="row">
+                    <!-- Profile picture -->
+                    <div class="col-sm-6 col-md-5 col-lg-4">
+                        <h3 class="section-header" style="margin-top: 25px; margin-bottom: 10px;">
+                            Profile picture
+                            <label for="upload_picture_1" type="button" class="btn btn-default btn-xs">
+                                Change
+                            </label>
+                        </h3>
+                        <form id="form_picture_1" action="/my/api" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="file"
+                                   name="picture_1"
+                                   id="upload_picture_1"
+                                   accept="image/*"
+                                   style="opacity: 0; position: absolute; z-index: -1;"/>
+                        </form>
+                        <div class="pictures-container" style="max-width: 600px;">
+                            <t t-call="muskathlon.picture_1_formatted"/>
+                        </div>
+                    </div>
+                    <!-- Profile page -->
+                    <div class="col-sm-6 col-md-7 col-lg-8">
+                        <t t-call="muskathlon.aboutme_formatted"/>
+                    </div>
+                </div>
+                <h2 class="section-header">Personal data</h2>
+                <div class="row">
+                    <!-- Coordinates -->
+                    <div class="col-sm-6 col-md-5 col-lg-4">
+                        <div class="o_my_details">
+                            <h3 class="section-header">
+                                Coordinates
+                                <button type="button"
+                                        class="btn btn-default btn-xs"
+                                        data-toggle="modal"
+                                        data-target="#modal_coordinates">
+                                    Change
+                                </button>
+                            </h3>
+                            <div t-field="user.partner_id" t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                        </div>
+                    </div>
+                    <!-- Muskathlon trip data -->
+                    <div class="col-sm-6 col-md-7 col-lg-8" t-if="registrations">
+                        <t t-call="muskathlon.tripinfos_formatted"/>
+                    </div>
+                </div>
+                <t t-if="registrations">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="section-header"
+                                style="margin-top: 25px; margin-bottom: 10px;">
+                                My donations
+                            </h3>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Event</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="registrations"
+                                       t-as="registration">
+                                        <tr>
+                                            <td>
+                                                <a t-attf-href="/my/muskathlons/{{ registration.event_id.id }}">
+                                                    <t t-esc="registration.event_id.name"/>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <t t-esc="time.strftime('%d.%m.%Y',time.strptime(registration.event_id.start_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

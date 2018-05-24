@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
-        <template id="details" page="True">
-            <t t-call="website.publish_management">
-                <t t-set="object" t-value="event"/>
-                <t t-set="publish_edit" t-value="True"/>
-            </t>
-            <t t-call="website.layout">
+    <template id="details" page="True">
+        <t t-call="website.publish_management">
+            <t t-set="object" t-value="event"/>
+            <t t-set="publish_edit" t-value="True"/>
+        </t>
+        <t t-call="website.layout">
+            <div id="muskathlon_details">
+                <!-- Include modal for registration -->
+                <t t-call="muskathlon.modal_form"/>
                 <span class="compassion-wp">
                     <t t-set="title">Muskathlon detail</t>
                     <div id="wrap">
+                        <!-- Just hold available disciplines for registration form -->
+                        <div>
+                            <ul id="available_disciplines" style="display: none;">
+                                <t t-foreach="disciplines" t-as="discipline">
+                                    <li t-att-value="discipline" t-esc="discipline"/>
+                                </t>
+                            </ul>
+                        </div>
                         <!-- event description -->
                         <article class="page type-page status-publish hentry">
                             <div class="panel-layout">
@@ -27,22 +37,21 @@
                                                                 <div class="col-xs-8 col-sm-10">
                                                                     <h2 style="text-align: center;">
                                                                         <t t-esc="event.name"/>
-                                                                        <t t-set="new_registration_url"
-                                                                        t-value="'/event/'+str(event.id)"/>
+                                                                        <t t-set="new_registration_url" t-value="'/muskathlon_registration/?event_id='+str(event.id)"/>
                                                                     </h2>
                                                                 </div>
                                                                 <div class="col-xs-4 col-sm-2">
-                                                                    <a t-attf-href="/muskathlon_registration/{{new_registration_url}}" class="button button-large">
+                                                                    <a class="button button-large" data-toggle="modal" data-target="#modal_muskathlon_registration">
                                                                         Register
                                                                     </a>
                                                                 </div>
                                                                 <div class="col-xs-12">
                                                                     <style>
                                                                         .picture_1_event img {
-                                                                            height: auto;
-                                                                            max-height:420px;
-                                                                            display: inline-block;
-                                                                            text-align: center;
+                                                                        height: auto;
+                                                                        max-height:420px;
+                                                                        display: inline-block;
+                                                                        text-align: center;
                                                                         }
                                                                     </style>
                                                                     <div class="image picture_1_event"
@@ -104,8 +113,7 @@
                                                     Participants
                                                 </t>
                                                 <t t-else="">
-                                                    This muskathlon has no participant yet. You can register by clicking
-                                                    <a t-attf-href="/muskathlon_registration/{{new_registration_url}}">here</a>
+                                                    This muskathlon has no participant yet.
                                                 </t>
                                             </h3>
                                         </div>
@@ -169,7 +177,7 @@
                         <div class="oe_structure"/>
                     </div>
                 </span>
-            </t>
-        </template>
-    </data>
+            </div>
+        </t>
+    </template>
 </odoo>

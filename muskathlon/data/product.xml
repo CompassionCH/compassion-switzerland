@@ -6,6 +6,7 @@
             <field name="type">service</field>
             <field name="categ_id" ref="contract_compassion.product_category_fund" />
             <field name="list_price">100.0</field>
+            <field name="requires_thankyou" eval="False"/>
             <field name="property_account_income_id" search="[('code','=','1040')]"/>
             <field name="property_account_expense_id" search="[('code','=','1040')]"/>
         </record>

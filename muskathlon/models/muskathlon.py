@@ -41,7 +41,6 @@ class MuskathlonDetails(models.Model):
     birth_name = fields.Char()
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
-    message_when_donation = fields.Boolean()
     tshirt_size = fields.Selection(TSHIRT_SELECTION)
 
     sql_constraints = [
@@ -59,15 +58,6 @@ class MuskathlonDetails(models.Model):
             for trip_info in trip_infos:
                 if trip_info == '' or not trip_info:
                     result = False
-        return result
-
-    @api.multi
-    def has_about_me_infos(self):
-        result = True
-        for record in self:
-            if record.description == '' or not record.description or \
-                    record.quote == '' or not record.quote:
-                result = False
         return result
 
 
@@ -113,13 +103,15 @@ class MuskathlonRegistration(models.Model):
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                       readonly=True)
 
-    sport_discipline_id = fields.Many2one('sport.discipline', required=True)
+    sport_discipline_id = fields.Many2one(
+        'sport.discipline', 'Sport discipline', required=True
+    )
     sport_level = fields.Selection([
         ('beginner', 'Beginner'),
         ('average', 'Average'),
         ('advanced', 'Advanced')
     ])
-    sport_level_description = fields.Text()
+    sport_level_description = fields.Text('Describe your sport experience')
     amount_objective = fields.Integer('Raise objective', default=10000,
                                       required=True)
     amount_raised = fields.Integer(readonly=True,
@@ -163,7 +155,7 @@ class MuskathlonRegistration(models.Model):
 
             registration.amount_raised = amount_raised
             registration.amount_raised_percents = int(
-                amount_raised * 100 / registration.amount_objective)
+                amount_raised * 100 / (registration.amount_objective or 10000))
 
     def _compute_host(self):
         host = config.get('wordpress_host')

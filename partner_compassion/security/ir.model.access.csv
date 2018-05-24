@@ -1,4 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 read_acces_ambassador_details,Read access on ambassador details,model_ambassador_details,,1,0,0,0
-write_acces_ambassador_details,Write access on ambassador details,model_ambassador_details,base.group_user,1,1,1,0
+write_acces_ambassador_details,Write access on ambassador details,model_ambassador_details,base.group_portal,1,1,0,0
+create_acces_ambassador_details,Create access on ambassador details,model_ambassador_details,base.group_user,1,1,1,0
 full_acces_ambassador_details,Full access on ambassador details,model_ambassador_details,base.group_system,1,1,1,1
+translation_access,Write access on translations,base.model_ir_translation,base.group_portal,1,1,0,0
