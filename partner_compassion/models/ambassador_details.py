@@ -22,7 +22,9 @@ class AmbassadorDetails(models.Model):
     description = fields.Text(translate=True)
     quote = fields.Text(translate=True)
     picture_large = fields.Binary(
-        attachment=True, help='Large picture for profile page')
+        string='Large picture', attachment=True,
+        help='Optional large picture for your profile page'
+    )
     picture_filename = fields.Char(compute='_compute_filename')
     thank_you_quote = fields.Html(
         compute='_compute_thank_you_quote',

@@ -3,6 +3,8 @@
     <data>
         <template id="participant_details">
             <t t-call="website.layout">
+                <!-- Include donation form -->
+                <t t-call="muskathlon.modal_form"/>
                 <t t-set="title">Participant details</t>
                 <div class="compassion-wp">
                     <div class="wrap o_participant_details">
@@ -46,7 +48,7 @@
                                                         <div>
                                                             <a class="button button-large"
                                                                data-toggle="modal"
-                                                               data-target="#donation_modal">
+                                                               data-target="#modal_muskathlon_donation">
                                                                Donate
                                                             </a>
                                                         </div>
@@ -118,7 +120,6 @@
                         </div>
                     </div>
                 </div>
-                <t t-call="muskathlon.modal_donation"/>
             </t>
         </template>
     </data>

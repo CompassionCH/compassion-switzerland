@@ -15,6 +15,7 @@
                         <group>
                             <field name="muskathlon_event_id"/>
                             <field name="sport_discipline_id"/>
+                            <field name="sport_level_description"/>
                             <field name="reg_id"/>
                         </group>
                     </group>

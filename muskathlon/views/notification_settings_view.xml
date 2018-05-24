@@ -13,7 +13,7 @@
         <field name="inherit_id" ref="child_compassion.view_notification_settings_form"/>
         <field name="arch" type="xml">
             <field name="disaster_notify_ids" position="after">
-                <field name="muskathlon_lead_notify_ids" widget="many2many_tags"/>
+                <field name="muskathlon_lead_notify_id"/>
             </field>
         </field>
     </record>

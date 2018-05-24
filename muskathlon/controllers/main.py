@@ -10,10 +10,11 @@
 from odoo import fields, _
 from odoo.http import request, route
 from odoo.addons.website_portal.controllers.main import website_account
+from odoo.addons.cms_form.controllers.main import FormControllerMixin
 from base64 import b64encode
 
 
-class MuskathlonWebsite(website_account):
+class MuskathlonWebsite(website_account, FormControllerMixin):
     @route('/events/', auth='public', website=True)
     def list(self, **kwargs):
         events = request.env['crm.event.compassion'].search([
@@ -31,13 +32,16 @@ class MuskathlonWebsite(website_account):
             ('start_date', '>', fields.Date.today()),
             ('muskathlon_event_id', '!=', None)
         ])
-        return request.render('muskathlon.details', {
+        kwargs.update({
             'event': event,
             'events': events,
             'countries': request.env['res.country'].sudo().search([]),
             'languages': request.env['res.lang'].search([]),
-
+            'disciplines': event.sport_discipline_ids.ids
         })
+        return self.make_response(
+            'muskathlon.registration', **kwargs
+        )
 
     @route('/my/muskathlons/<int:muskathlon_id>',
            auth='user', website=True)
@@ -58,81 +62,184 @@ class MuskathlonWebsite(website_account):
         :param registration: a partner record
         :return:the rendered page
         """
-        # Fetch the payment acquirers to display a selection with pay button
-        # See https://github.com/odoo/odoo/blob/10.0/addons/
-        # website_sale/controllers/main.py#L703
-        # for reference
-        acquirers = request.env['payment.acquirer'].search(
-            [('website_published', '=', True)]
-        )
-        acquirer_final = []
-        for acquirer in acquirers:
-            acquirer_button = acquirer.with_context(
-                submit_class='btn btn-primary',
-                submit_txt=_('Pay Now')).sudo().render(
-                '/',
-                100.0,  # This is a default amount which will be overridden
-                request.env.ref('base.CHF').id,
-                values={
-                    'return_url': '/muskathlon_registration/payment/validate',
-                }
-            )
-            acquirer.button = acquirer_button
-            acquirer_final.append(acquirer)
-
-        return request.render('muskathlon.participant_details', {
+        kwargs.update({
             'event': event,
             'registration': registration,
-            'countries': request.env['res.country'].sudo().search([]),
-            'acquirers': acquirer_final
+            'form_model_key': 'cms.form.muskathlon.donation'
         })
+        return self.make_response(False, **kwargs)
+
+    @route(['/my', '/my/home'], type='http', auth="user", website=True)
+    def account(self, **kw):
+        """ Inject data for forms. """
+        values = self._prepare_portal_layout_values()
+        partner = values['partner']
+        ambassador_details_id = partner.ambassador_details_id.id
+
+        # Load forms
+        kw['form_model_key'] = 'cms.form.muskathlon.trip.information'
+        trip_info_form = self.get_form(
+            'ambassador.details', ambassador_details_id, **kw)
+        trip_info_form.form_process()
+
+        kw['form_model_key'] = 'cms.form.partner.coordinates'
+        coordinates_form = self.get_form('res.partner', partner.id, **kw)
+        coordinates_form.form_process()
+
+        kw['form_model_key'] = 'cms.form.partner.coordinates'
+        coordinates_form = self.get_form('res.partner', partner.id, **kw)
+        coordinates_form.form_process()
+
+        kw['form_model_key'] = 'cms.form.ambassador.details'
+        about_me_form = self.get_form(
+            'ambassador.details', ambassador_details_id, **kw)
+        about_me_form.form_process()
+
+        values.update({
+            'trip_info_form': trip_info_form,
+            'coordinates_form': coordinates_form,
+            'about_me_form': about_me_form
+        })
+        return request.render("website_portal.portal_my_home", values)
 
     @route(['/my/api'], type='http', auth='user', website=True)
-    def save_ambassador_details(self, **post):
+    def save_ambassador_picture(self, **post):
         user = request.env.user
         partner = user.partner_id
         return_view = 'website_portal.portal_my_home'
-        partner_vals = {}
-        details_vals = {}
 
-        if 'type_coordinates' in post:
-            partner_vals.update(post)
-            partner_vals['zip'] = partner_vals.pop('zipcode')
-            return_view = 'muskathlon.coordinates_formatted'
+        picture = 'picture_1'
+        picture_post = post.get(picture)
+        if not picture_post:
+            picture = 'picture_2'
+            picture_post = post.get(picture)
 
-        elif 'type_aboutme' in post:
-            details_vals.update(post)
-            return_view = 'muskathlon.aboutme_formatted'
+        if picture_post:
+            return_view = 'muskathlon.'+picture+'_formatted'
+            image_value = b64encode(picture_post.stream.read())
+            if not image_value:
+                return 'no image uploaded'
+            if picture == 'picture_1':
+                partner.write({'image': image_value})
+            else:
+                partner.ambassador_details_id.write({
+                    'picture_large': image_value
+                })
 
-        elif 'type_tripinfos' in post:
-            details_vals.update(post)
-            return_view = 'muskathlon.tripinfos_formatted'
+        return request.render(return_view,
+                              self._prepare_portal_layout_values())
 
-        elif 'type_settings' in post:
-            details_vals.update(post)
-            details_vals['mail_copy_when_donation'] =\
-                'mail_copy_when_donation' in post
+    @route(['/muskathlon/payment/<int:transaction_id>'],
+           auth="public", website=True)
+    def payment(self, transaction_id, **kwargs):
+        """ Controller for redirecting to the payment submission, using
+        an existing transaction.
 
+        :param int transaction_id: id of a payment.transaction record.
+        """
+        # uid = request.env.ref('muskathlon.user_muskathlon_portal').id
+        # env = request.env(user=uid)
+        # partner = request.website.find_partner(kwargs)
+        transaction = request.env['payment.transaction'].sudo().browse(
+            transaction_id)
+        values = {
+            'payment_form': transaction.acquirer_id.with_context(
+                submit_class='btn btn-primary',
+                submit_txt=_('Next')).sudo().render(
+                transaction.reference,
+                transaction.amount,
+                transaction.currency_id.id,
+                values={
+                    'return_url': kwargs['redirect_url'],
+                    'partner_id': transaction.partner_id.id,
+                    'billing_partner_id': transaction.partner_id.id,
+                }
+            )
+        }
+        return request.render('muskathlon.payment_submit', values)
+
+    @route('/muskathlon_registration/payment/validate',
+           type='http', auth="public", website=True)
+    def registration_payment_validate(self, transaction_id=None, **post):
+        """ Method that should be called by the server when receiving an update
+        for a transaction.
+        """
+        uid = request.env.ref('muskathlon.user_muskathlon_portal').id
+        env = request.env(user=uid)
+        if transaction_id is None:
+            transaction_id = request.session.get('sale_transaction_id')
+        if transaction_id:
+            tx = env['payment.transaction'].browse(transaction_id)
+
+        if not tx or not tx.registration_id:
+            return request.render('muskathlon.registration_failure')
+
+        event = tx.registration_id.event_id
+        post.update({'event': event})
+        return self.muskathlon_payment_validate(
+            tx, 'muskathlon.new_registration_successful',
+            'muskathlon.registration_failure', **post
+        )
+
+    @route('/muskathlon_donation/payment/validate',
+           type='http', auth="public", website=True)
+    def donation_payment_validate(self, transaction_id=None, **post):
+        """ Method that should be called by the server when receiving an update
+        for a transaction.
+        """
+        uid = request.env.ref('muskathlon.user_muskathlon_portal').id
+        env = request.env(user=uid)
+        if transaction_id is None:
+            transaction_id = request.session.get('sale_transaction_id')
+        if transaction_id:
+            tx = env['payment.transaction'].browse(transaction_id)
+
+        if not transaction_id or not tx.invoice_id:
+            return request.render('muskathlon.donation_failure')
+
+        invoice_lines = tx.invoice_id.invoice_line_ids
+        event = invoice_lines.mapped('event_id')
+        ambassador = invoice_lines.mapped('user_id')
+        registration = event.muskathlon_registration_ids.filtered(
+            lambda r: r.partner_id == ambassador)
+        post.update({
+            'registration': registration,
+            'event': event
+        })
+        return self.muskathlon_payment_validate(
+            tx, 'muskathlon.donation_successful',
+            'muskathlon.donation_failure', **post
+        )
+
+    def muskathlon_payment_validate(
+            self, transaction, success_template, fail_template, **kwargs):
+        """
+        Common payment validate method: checks state of transaction and
+        pay related invoice if everything is fine. Redirects to given urls.
+        :param transaction: payment.transaction record
+        :param success_template: payment success redirect url
+        :param fail_template: payment failure redirect url
+        :param kwargs: post data
+        :return: web page
+        """
+        invoice = transaction.invoice_id
+        success = False
+        if transaction.state == 'done':
+            # Create payment
+            success = True
+            invoice.pay_muskathlon_invoice()
+        elif transaction.state in ('cancel', 'error'):
+            # Cancel the invoice and potential registration
+            transaction.invoice_id.unlink()
+            transaction.registration_id.unlink()
+
+        # clean context and session, then redirect to the confirmation page
+        request.session['sale_transaction_id'] = False
+
+        if success:
+            return request.render(success_template, kwargs)
         else:
-            for picture in ['picture_1', 'picture_2']:
-                picture_post = post.get(picture)
-                if picture_post:
-                    return_view = 'muskathlon.'+picture+'_formatted'
-                    image_value = b64encode(picture_post.stream.read())
-                    if not image_value:
-                        return 'no image uploaded'
-                    if picture == 'picture_1':
-                        partner_vals['image'] = image_value
-                    else:
-                        details_vals['picture_large'] = image_value
-
-        if partner_vals:
-            partner.write(partner_vals)
-        if details_vals:
-            partner.ambassador_details_id.write(details_vals)
-
-        values = self._prepare_portal_layout_values()
-        return request.render(return_view, values)
+            return request.render(fail_template, kwargs)
 
     def _prepare_portal_layout_values(self):
         values = super(MuskathlonWebsite, self)._prepare_portal_layout_values()
