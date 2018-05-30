@@ -173,6 +173,21 @@ class ImportLettersHistory(models.Model):
                         file_attachment)
                 smb_conn.close()
             sftp.close()
+
+            # Accept privacy statement
+            contract = self.env['privacy.statement.agreement'].search(
+                [['partner_id', '=', sponsor_id]], order='date desc',
+                limit=1)
+            if contract:
+                contract.agreement_date = fields.Date.today()
+            else:
+                statement = self.env[
+                    'compassion.privacy.statement'].get_current()
+                self.env['privacy.statement.agreement'].create(
+                    {'partner_id': sponsor_id,
+                     'agreement_date': fields.Date.today(),
+                     'privacy_statement_id': statement.id})
+
             return True
         except:
             logger.error("Failed to create webletter", exc_info=True)
