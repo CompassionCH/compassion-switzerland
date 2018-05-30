@@ -43,9 +43,10 @@ if not testing:
                     'title': _('Your coordinates'),
                     'description': '',
                     'fields': [
+                        'partner_title',
                         'partner_name', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
-                        'partner_country_id']
+                        'partner_country_id', 'partner_state_id']
                 },
 
             ]
@@ -58,7 +59,8 @@ if not testing:
         @property
         def form_title(self):
             if self.ambassador_id:
-                return _("Donation for ") + self.ambassador_id.preferred_name
+                return _("Donation for ") +\
+                    self.ambassador_id.sudo().preferred_name
             else:
                 return _("Donation")
 

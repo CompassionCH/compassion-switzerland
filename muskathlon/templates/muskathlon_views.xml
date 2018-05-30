@@ -144,4 +144,12 @@
             </div>
         </div>
     </template>
+
+    <template id="states" name="States">
+        <ul id="state_filter" style="display: none;">
+            <t t-foreach="states" t-as="state">
+                <li t-att-value="state.country_id.id" t-esc="state.id"/>
+            </t>
+        </ul>
+    </template>
 </odoo>

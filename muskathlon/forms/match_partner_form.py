@@ -27,6 +27,8 @@ if not testing:
         _inherit = 'cms.form'
 
         partner_id = fields.Many2one('res.partner')
+        partner_title = fields.Many2one(
+            'res.partner.title', 'Title', required=True)
         partner_name = fields.Char('Name', required=True)
         partner_email = fields.Char('Email', required=True)
         partner_phone = fields.Char('Phone', required=True)
@@ -35,6 +37,8 @@ if not testing:
         partner_city = fields.Char('City', required=True)
         partner_country_id = fields.Many2one(
             'res.country', 'Country', required=True)
+        partner_state_id = fields.Many2one(
+            'res.country.state', 'State')
 
         def _form_load_partner_country_id(
                 self, fname, field, value, **req_values):
@@ -84,6 +88,7 @@ if not testing:
                     ('zip', '=', source_vals['zip'])], limit=1)
             if not partner:
                 # no match found -> creating a new one.
+                source_vals['lang'] = self.env.lang
                 partner = partner_obj.create(source_vals)
             self.partner_id = partner.id
             values['partner_id'] = partner.id
@@ -92,7 +97,7 @@ if not testing:
         def _get_partner_vals(self, values, extra_values):
             keys = [
                 'name', 'email', 'phone', 'street', 'city', 'zip',
-                'country_id'
+                'country_id', 'state_id', 'title'
             ]
             return {
                 key: extra_values.get(

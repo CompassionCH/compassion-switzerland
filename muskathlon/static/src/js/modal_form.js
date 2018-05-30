@@ -18,6 +18,9 @@ odoo.define('muskathlon.modal_form', function (require) {
                 // Send form in ajax (remove translation url)
                 var post_url = window.location.pathname;
                 var form_data = self.$("form").serialize();
+                // Inject form name in data to help the controller know which form is submitted,
+                // in case several modals are present.
+                form_data += "&form_id=" + form_id;
                 $.post(post_url, form_data, function(render_result) {
                     var new_form = $(render_result).find("#" + form_id).find("form");
                     if (new_form.length) {

@@ -28,15 +28,9 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
     @route('/event/<model("crm.event.compassion"):event>/',
            auth='public', website=True)
     def musk_infos(self, event, **kwargs):
-        events = request.env['crm.event.compassion'].search([
-            ('start_date', '>', fields.Date.today()),
-            ('muskathlon_event_id', '!=', None)
-        ])
         kwargs.update({
             'event': event,
-            'events': events,
-            'countries': request.env['res.country'].sudo().search([]),
-            'languages': request.env['res.lang'].search([]),
+            'states': request.env['res.country.state'].sudo().search([]),
             'disciplines': event.sport_discipline_ids.ids
         })
         return self.make_response(
@@ -65,12 +59,13 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         kwargs.update({
             'event': event,
             'registration': registration,
+            'states': request.env['res.country.state'].sudo().search([]),
             'form_model_key': 'cms.form.muskathlon.donation'
         })
         return self.make_response(False, **kwargs)
 
     @route(['/my', '/my/home'], type='http', auth="user", website=True)
-    def account(self, **kw):
+    def account(self, form_id=None, **kw):
         """ Inject data for forms. """
         values = self._prepare_portal_layout_values()
         partner = values['partner']
@@ -80,16 +75,19 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         kw['form_model_key'] = 'cms.form.muskathlon.trip.information'
         trip_info_form = self.get_form(
             'ambassador.details', ambassador_details_id, **kw)
-        trip_info_form.form_process()
+        if form_id is None or form_id == trip_info_form.form_id:
+            trip_info_form.form_process()
 
         kw['form_model_key'] = 'cms.form.partner.coordinates'
         coordinates_form = self.get_form('res.partner', partner.id, **kw)
-        coordinates_form.form_process()
+        if form_id is None or form_id == coordinates_form.form_id:
+            coordinates_form.form_process()
 
         kw['form_model_key'] = 'cms.form.ambassador.details'
         about_me_form = self.get_form(
             'ambassador.details', ambassador_details_id, **kw)
-        about_me_form.form_process()
+        if form_id is None or form_id == about_me_form.form_id:
+            about_me_form.form_process()
 
         values.update({
             'trip_info_form': trip_info_form,
@@ -263,6 +261,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'survey_url': request.env.ref(
                 'muskathlon.muskathlon_form').public_url,
             'survey_not_started': survey_not_started,
-            'survey_already_filled': survey_already_filled
+            'survey_already_filled': survey_already_filled,
+            'states': request.env['res.country.state'].sudo().search([])
         })
         return values
