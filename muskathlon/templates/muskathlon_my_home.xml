@@ -11,8 +11,10 @@
                 <t t-call="muskathlon.modal_form">
                     <t t-set="form" t-value="coordinates_form"/>
                 </t>
-                <t t-call="muskathlon.modal_form">
-                    <t t-set="form" t-value="about_me_form"/>
+                <t t-if="partner.ambassador_details_id">
+                    <t t-call="muskathlon.modal_form">
+                        <t t-set="form" t-value="about_me_form"/>
+                    </t>
                 </t>
                 <t t-if="registrations">
                     <t t-call="muskathlon.modal_form">
@@ -46,7 +48,7 @@
                         </div>
                     </div>
                     <!-- Profile page -->
-                    <div class="col-sm-6 col-md-7 col-lg-8">
+                    <div class="col-sm-6 col-md-7 col-lg-8" t-if="partner.ambassador_details_id">
                         <t t-call="muskathlon.aboutme_formatted"/>
                     </div>
                 </div>

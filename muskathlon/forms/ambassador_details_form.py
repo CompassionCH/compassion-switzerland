@@ -22,19 +22,21 @@ if not testing:
         form_buttons_template = 'muskathlon.modal_form_buttons'
         form_id = 'modal_ambassador_details'
         _form_model = 'ambassador.details'
+        _form_model_fields = [
+            'description', 'quote', 'mail_copy_when_donation'
+        ]
         _form_fields_order = [
             'description', 'quote', 'mail_copy_when_donation',
         ]
-        _form_required_fields = [
-            'description', 'quote', 'picture'
-        ]
+        _form_required_fields = ['description', 'quote']
 
         description = fields.Text(
-            string='About me',
+            string='About me', default="",
             help="Write a small presentation text that will appear "
-                 "on your profile page.")
+                 "on your profile page.",
+        )
         quote = fields.Text(
-            string='My motto',
+            string='My motto', default="",
             help="Write a small quote that will appear on your profile page "
                  "and will be used in thank you letters your donors will "
                  "receive."
