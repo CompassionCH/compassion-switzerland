@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <template id="participant_details">
+        <template id="participant_details" name="Muskathlon participant page">
             <t t-call="website.layout">
                 <!-- Include donation form -->
                 <t t-call="muskathlon.modal_form"/>
