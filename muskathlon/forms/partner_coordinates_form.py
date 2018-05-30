@@ -29,11 +29,11 @@ if not testing:
         ]
         _form_required_fields = [
             'name', 'email', 'phone', 'street', 'zip',
-            'city', 'country_id', 'state_id',
+            'city', 'country_id',
         ]
         _form_fields_order = [
             'name', 'email', 'phone', 'street', 'zip',
-            'city', 'state_id', 'country_id',
+            'city', 'country_id', 'state_id'
         ]
 
         @property

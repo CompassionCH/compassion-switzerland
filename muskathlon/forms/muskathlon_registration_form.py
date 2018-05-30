@@ -50,9 +50,10 @@ if not testing:
                     'title': _('Your coordinates'),
                     'description': '',
                     'fields': [
+                        'partner_title',
                         'partner_name', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
-                        'partner_country_id']
+                        'partner_country_id', 'partner_state_id']
                 },
                 {
                     'id': 'payment',
@@ -133,6 +134,16 @@ if not testing:
                     'product_id': product.id
                 })]
             })
+            # This field is not needed in muskathlon registration.
+            values.pop('partner_name')
+            # Force default value instead of setting 0.
+            values.pop('amount_objective')
+            # Parse integer
+            values['event_id'] = int(values['event_id'])
+
+        def _form_create(self, values):
+            uid = self.env.ref('muskathlon.user_muskathlon_portal').id
+            self.main_object = self.form_model.sudo(uid).create(values.copy())
 
         def _edit_transaction_values(self, tx_values):
             """ Add registration link and change reference. """

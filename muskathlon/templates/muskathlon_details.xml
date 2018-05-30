@@ -20,7 +20,10 @@
                                 </t>
                             </ul>
                         </div>
-                        <!-- event description -->
+                        <!-- States and country for registration form -->
+                        <t t-call="muskathlon.states"/>
+
+                        <!-- Event description -->
                         <article class="page type-page status-publish hentry">
                             <div class="panel-layout">
                                 <div class="section background-blue section_abgerissen_unten remove_margin_bottom has_breadcrumb"

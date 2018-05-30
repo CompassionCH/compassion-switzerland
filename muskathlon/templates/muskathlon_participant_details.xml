@@ -5,6 +5,8 @@
             <t t-call="website.layout">
                 <!-- Include donation form -->
                 <t t-call="muskathlon.modal_form"/>
+                <!-- States and country for donation form -->
+                <t t-call="muskathlon.states"/>
                 <t t-set="title">Participant details</t>
                 <div class="compassion-wp">
                     <div class="wrap o_participant_details">
