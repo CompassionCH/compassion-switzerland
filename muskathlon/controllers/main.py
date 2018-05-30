@@ -86,10 +86,6 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         coordinates_form = self.get_form('res.partner', partner.id, **kw)
         coordinates_form.form_process()
 
-        kw['form_model_key'] = 'cms.form.partner.coordinates'
-        coordinates_form = self.get_form('res.partner', partner.id, **kw)
-        coordinates_form.form_process()
-
         kw['form_model_key'] = 'cms.form.ambassador.details'
         about_me_form = self.get_form(
             'ambassador.details', ambassador_details_id, **kw)
@@ -264,10 +260,6 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
 
         values.update({
             'partner': partner,
-            'countries': request.env['res.country'].sudo().search([]),
-            'states': request.env['res.country.state'].sudo().search([]),
-            'tshirt': request.env['ambassador.details'].TSHIRT_SELECTION,
-            'ert': request.env['ambassador.details'].ERT_SELECTION,
             'survey_url': request.env.ref(
                 'muskathlon.muskathlon_form').public_url,
             'survey_not_started': survey_not_started,

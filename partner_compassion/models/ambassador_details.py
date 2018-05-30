@@ -33,6 +33,11 @@ class AmbassadorDetails(models.Model):
     )
     mail_copy_when_donation = fields.Boolean()
 
+    _sql_constraints = [
+        ('details_unique', 'unique(partner_id)',
+         'Only one details per ambassador is allowed!')
+    ]
+
     @api.multi
     def _compute_filename(self):
         for details in self:
