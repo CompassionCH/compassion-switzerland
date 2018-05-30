@@ -5,7 +5,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 -->
 <odoo>
     <!-- Display a form in modal popup -->
-    <template id="modal_form">
+    <template id="modal_form" name="CMS Modal Form">
         <div t-att-id="form.form_id" class="modal fade cms_modal_form" tabindex="-1" role="dialog" aria-labelledby="donation_modal_label" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div t-attf-class="modal-content {{form.form_wrapper_css_klass}}">
@@ -34,7 +34,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
     </template>
 
     <!-- Hide fields in forms -->
-    <template id="field_widget_hidden">
+    <template id="field_widget_hidden" name="CMS Widget Field Hidden">
         <input type="hidden"
                t-att-name="widget.w_fname"
                t-att-value="widget.w_field_value"
@@ -45,7 +45,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
     </template>
 
     <!-- Payment acquirer in form -->
-    <template id="widget_payment">
+    <template id="widget_payment" name="CMS Widget Payment Acquirer">
         <!-- Select payment acquirer -->
         <ul class="list-unstyled">
             <t t-foreach="widget.w_acquirers or []" t-as="acquirer">
@@ -62,7 +62,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
     </template>
 
     <!-- Called after submission of form, display form for redirecting to Payment Provider -->
-    <template id="payment_submit">
+    <template id="payment_submit" name="Payment redirection page">
         <t t-call="website.layout">
             <div id="wrap">
                 <div class="container text-center">

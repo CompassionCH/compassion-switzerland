@@ -11,10 +11,10 @@
                 <t t-call="muskathlon.modal_form">
                     <t t-set="form" t-value="coordinates_form"/>
                 </t>
+                <t t-call="muskathlon.modal_form">
+                    <t t-set="form" t-value="about_me_form"/>
+                </t>
                 <t t-if="registrations">
-                    <t t-call="muskathlon.modal_form">
-                        <t t-set="form" t-value="about_me_form"/>
-                    </t>
                     <t t-call="muskathlon.modal_form">
                         <t t-set="form" t-value="trip_info_form"/>
                     </t>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="donation_successful" page="True">
+    <template id="donation_successful" page="True" name="Muskathlon donation success">
         <t t-call="website.layout">
             <t t-set="title">Muskathlon</t>
             <div class="oe_structure compassion-wp">
@@ -28,9 +28,9 @@
             </div>
         </t>
     </template>
-    <template id="donation_failure">
+    <template id="donation_failure" name="Muskathlon donation failure">
         <t t-call="website.layout">
-            <t t-set="title">Muskathlon Registration</t>
+            <t t-set="title">Muskathlon</t>
             <div id="wrap">
                 <div class="container text-center">
                     <h1>Donation Aborted</h1>

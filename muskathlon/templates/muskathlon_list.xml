@@ -7,7 +7,7 @@
         <field name="sequence" type="int">20</field>
     </record>
 
-    <template id="list">
+    <template id="list" name="Muskathlon events page">
         <t t-call="website.layout">
             <t t-set="title">Muskathlons</t>
             <div class="oe_structure"/>

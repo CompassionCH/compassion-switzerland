@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="details" page="True">
+    <template id="details" page="True" name="Muskathlon page">
         <t t-call="website.publish_management">
             <t t-set="object" t-value="event"/>
             <t t-set="publish_edit" t-value="True"/>
