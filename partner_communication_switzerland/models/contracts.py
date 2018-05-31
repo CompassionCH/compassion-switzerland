@@ -215,11 +215,13 @@ class RecurringContract(models.Model):
         # Birthday Reminder
         logger.info("....Creating Birthday Reminder Communications")
         today = datetime.now()
-        in_two_month = (today + relativedelta(months=2)).replace(
-            day=today.day)
+        in_two_month = today + relativedelta(months=2)
         birthday = self.search([
-            ('child_id.birthdate', '=like', in_two_month.strftime("%%-%m-%d")),
-            ('correspondent_id.birthday_reminder', '=', True),
+            ('child_id.birthdate', 'like', in_two_month.strftime("%%-%m-%d")),
+            '|', ('correspondent_id.birthday_reminder', '=', True),
+            ('partner_id.birthday_reminder', '=', True),
+            '|', ('correspondent_id.email', '!=', False),
+            ('partner_id.email', '!=', False),
             ('state', '=', 'active'),
             ('type', 'like', 'S')
         ]).filtered(lambda c: not (
@@ -237,10 +239,12 @@ class RecurringContract(models.Model):
             # if the partner is the one who paid the gift.
             send_to_both = sponsorship.send_gifts_to == 'partner_id'
 
-            comms += sponsorship.send_communication(config, correspondent,
-                                                    send_to_both)
-        # Remove communication for those who have no e-mail address
-        comms.filtered(lambda c: not c.send_mode).unlink()
+            try:
+                comms += sponsorship.send_communication(config, correspondent,
+                                                        send_to_both)
+            except:
+                # In any case, we don't want to stop other email generation!
+                continue
 
         logger.info("Sponsorship Planned Communications finished!")
 
