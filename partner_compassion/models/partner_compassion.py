@@ -51,9 +51,8 @@ class ResPartner(models.Model):
         help="Use this field if the church of the partner"
              " can not correctly be determined and linked.")
     deathdate = fields.Date('Death date')
-    opt_out = fields.Boolean(default=True)
     nbmag = fields.Integer('Number of Magazines', size=2,
-                           required=True, default=0)
+                           required=True, default=1)
     tax_certificate = fields.Selection(
         _get_receipt_types, required=True, default='default')
     thankyou_letter = fields.Selection(
@@ -125,6 +124,9 @@ class ResPartner(models.Model):
     ##########################################################################
     @api.model
     def create(self, vals):
+        """
+        Lookup for duplicate partners and notify.
+        """
         duplicate = self.search(
             ['|',
              '&',
@@ -202,7 +204,6 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             ONCHANGE METHODS                           #
     ##########################################################################
-
     @api.onchange('lastname', 'firstname', 'zip', 'email')
     def _onchange_partner(self):
         if (self.lastname and self.firstname and self.zip) or self.email:
