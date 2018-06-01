@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import fields, _
+from odoo import _
 from odoo.http import request, route
 from odoo.addons.website_portal.controllers.main import website_account
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
@@ -131,9 +131,6 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
 
         :param int transaction_id: id of a payment.transaction record.
         """
-        # uid = request.env.ref('muskathlon.user_muskathlon_portal').id
-        # env = request.env(user=uid)
-        # partner = request.website.find_partner(kwargs)
         transaction = request.env['payment.transaction'].sudo().browse(
             transaction_id)
         values = {

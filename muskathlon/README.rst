@@ -3,14 +3,22 @@
 
 Muskathlon Switzerland
 ======================
-Reports for muskathlons events:
+
+Adds a website portal for Muskathlon Events :
+ - list of events
+ - event page with participants
+ - donation
+ - registration
+ - runner portal
+
+Reports for sending information to 4M:
 - list with useful data about the muskathlon event
 - bar graph amount by ambassador
 - fields format for a specific csv export
 
 Installation
 ============
-Nothing.
+The module depends on OCA/website-cms repository.
 
 Configuration
 =============
@@ -18,13 +26,9 @@ Specify who will be notified for new muskathlon registrations in Staff Notificat
 
 Todo / Improvements
 ===================
-- When defined, display a background image in muskathlon detail page header
-- Better validate input fields in payment modal (no submit if validation fail)
-- Remove muskathlon list page (only admin access for now) ?
-- Improve design for amount stats in participants detail page
-- Clean code (remove some HTML tags and class copied from compassion website)
-- Standardize ogone payment like it should be used (see website_sale module)
-- Standardize website forms using OCA module
+- Better validate input fields in forms (add validation methods)
+- See if Postfinance payment can be done inside the modal
+- Make Muskathlon website page translatable again
 
 Credits
 =======

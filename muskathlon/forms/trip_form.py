@@ -24,7 +24,7 @@ if not testing:
         form_id = 'modal_tripinfo'
         _form_model = 'ambassador.details'
         _form_required_fields = [
-            'tshirt_size', 'emergency_relation_type', 'emergency_name',
+            't_shirt_size', 'emergency_relation_type', 'emergency_name',
             'emergency_phone', 'birth_name', 'passport_number',
             'passport_expiration_date'
         ]
@@ -34,7 +34,7 @@ if not testing:
             return [
                 {
                     'id': 'tshirt',
-                    'fields': ['tshirt_size']
+                    'fields': ['t_shirt_size']
                 },
                 {
                     'id': 'emergency',

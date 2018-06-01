@@ -13,7 +13,7 @@
                     <field name="emergency_name"/>
                     <field name="emergency_phone"/>
                     <field name="emergency_relation_type"/>
-                    <field name="tshirt_size"/>
+                    <field name="t_shirt_size"/>
                 </group>
             </xpath>
         </field>

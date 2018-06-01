@@ -42,7 +42,7 @@ if not testing:
 
         def _form_load_partner_country_id(
                 self, fname, field, value, **req_values):
-            # Default value for muskathlon.registration field
+            # Default value loaded in website form
             return req_values.get('partner_country_id',
                                   self.partner_country_id.id)
 

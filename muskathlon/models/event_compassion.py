@@ -31,12 +31,9 @@ class EventCompassion(models.Model):
     video_url = fields.Char("Video URL")
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000, required=True)
-    amount_objective = fields.Integer(readonly=True,
-                                      compute='_compute_amount_raised')
-    amount_raised = fields.Integer(readonly=True,
-                                   compute='_compute_amount_raised')
-    amount_raised_percents = fields.Integer(readonly=True,
-                                            compute='_compute_amount_raised')
+    amount_objective = fields.Integer(compute='_compute_amount_raised')
+    amount_raised = fields.Integer(compute='_compute_amount_raised')
+    amount_raised_percents = fields.Integer(compute='_compute_amount_raised')
     sport_discipline_ids = fields.Many2many('sport.discipline')
 
     @api.multi

@@ -100,9 +100,9 @@
                 </t>
             </t>
         </h3>
-        <t t-if="partner.ambassador_details_id.has_all_trip_infos()">
+        <t t-if="partner.ambassador_details_id.trip_information_complete">
             <p>
-                <h4>T-shirt Size : <t t-esc="partner.ambassador_details_id.tshirt_size"/></h4>
+                <h4>T-shirt Size : <t t-esc="partner.ambassador_details_id.t_shirt_size"/></h4>
 
                 <h4>Emergency person</h4>
                 <span class="custom_icon fa fa-user"/>
