@@ -23,6 +23,8 @@ class Muskathlon(models.Model):
     # WARNING: do not change fields name (used in csv export file)
     date_display = fields.Date(readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
+    partner_name = fields.Char(related="partner_id.display_name",
+                               readonly=True)
     user_id = fields.Many2one('res.partner', "Ambassador", readonly=True)
     amount = fields.Float("Amount", readonly=True)
     amount_cent = fields.Integer("Amount in currency (cents)", readonly=True)
@@ -37,7 +39,8 @@ class Muskathlon(models.Model):
     # WARNING: do not change fields name (used in csv export file)
     status = fields.Char(string="Status", readonly=True)
     type = fields.Char(string="Type", readonly=True)
-    payment_methode = fields.Char("Paymentmethod", readonly=True)
+    payment_method = fields.Char("Paymentmethod", readonly=True,
+                                 oldname="payment_methode")
     project_id = fields.Char("ProjectID", readonly=True)
     date = fields.Datetime("Date/time", readonly=True)
     currency = fields.Char("Currency", readonly=True)
@@ -50,6 +53,15 @@ class Muskathlon(models.Model):
                                   readonly=True)
     invoice_line_id = fields.Many2one('account.invoice.line', 'Invoice line',
                                       readonly=True)
+    donation_type = fields.Selection(
+        [('sponsorship', 'Sponsorship'),
+         ('donation', 'Donation')], compute='_compute_donation_type')
+
+    @api.multi
+    def _compute_donation_type(self):
+        for line in self:
+            line.donation_type = 'donation' if line.invoice_line_id else \
+                'sponsorship'
 
     @api.model_cr
     def init(self):
@@ -79,7 +91,7 @@ class Muskathlon(models.Model):
                 rc.start_date AS date_display,
                 'success' AS status,
                 'sponsor' AS type,
-                'transfer' AS payment_methode,
+                'transfer' AS payment_method,
                 cec.muskathlon_event_id AS project_id,
                 mr.reg_id AS muskathlon_registration_id
               FROM recurring_contract AS rc
@@ -112,7 +124,7 @@ class Muskathlon(models.Model):
                 ai.date_invoice AS date_display,
                 'success' AS status,
                 'sponsor' AS type,
-                'transfer' AS payment_methode,
+                'transfer' AS payment_method,
                 cec.muskathlon_event_id AS project_id,
                 mr.reg_id AS muskathlon_registration_id
               FROM account_invoice_line AS ail

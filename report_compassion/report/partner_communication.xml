@@ -164,11 +164,11 @@
                 padding-right: 8px;
             }
 
-            #ambassador_quote tr td:first-child {
+            #thank_you_quote tr td:first-child {
                 padding-right: 2mm;
                 vertical-align: top;
             }
-            #ambassador_quote tr td {
+            #thank_you_quote tr td {
                 vertical-align: middle;
             }
         </t>
