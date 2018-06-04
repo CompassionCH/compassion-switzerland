@@ -69,7 +69,7 @@ class PartnerCommunication(models.Model):
         background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects().filtered(
             lambda s: not s.birthday_paid)
-        gifts_to = sponsorships[0].gift_partner_id
+        gifts_to = sponsorships[:1].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             birthday_gift = self.env['product.product'].with_context(
                 lang='en_US').search([('name', '=', GIFT_NAMES[0])])
