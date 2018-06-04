@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_ambassador_details_default" model="ir.ui.view">
+        <field name="name">view.ambassador.details.default</field>
+        <field name="model">ambassador.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="Profile page">
+                            <field name="description"/>
+                            <field name="quote"/>
+                            <field name="picture_filename" invisible="1"/>
+                            <field name="picture_large" widget="image" options="{'size': [100,100]}"/>
+                        </group>
+                        <group string="Settings">
+                            <field name="mail_copy_when_donation"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

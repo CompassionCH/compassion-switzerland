@@ -1,0 +1,104 @@
+@media(min-width: 768px) {
+    .thank_you_container {
+        position: relative; color: white;
+    }
+    .thank_you_image_container  {
+        max-height: 90vh; overflow: hidden; margin-bottom: -20px !important;
+    }
+    .thank_you_text_container {
+        position: absolute; top: 10vh; left: 10%; margin-right: 45% !important;
+    }
+    .image-and-buttons {
+        text-align: right !important;
+    }
+    .image-and-buttons .image {
+        display: inline-block !important;
+        max-height: 310px !important;
+    }
+    .pictures-container {
+        max-width: 600px !important;
+    }
+}
+@media(max-width: 1050px) {
+    .thank_you_text_container {
+        margin-right: 10% !important;
+        left: 5%;
+    }
+}
+@media(max-width: 767px) {
+    .thank_you_image_container {
+        max-height: 60vh;
+        overflow: hidden;
+    }
+    .thank_you_text_container {
+        margin: 10px 20px 20px 20px !important;
+    }
+    .thank_you_text_container h1 {
+        font-size: 50px !important;
+        line-height: 50px !important;
+    }
+    .image-and-buttons {
+        text-align: center !important;
+        position: relative !important;
+        bottom: 25px !important;
+    }
+    .image-and-buttons .image {
+        display: block !important;
+        max-height: 310px !important;
+    }
+    .pictures-container {
+        max-width: 300px !important;
+    }
+    .pictures-container img:first-child {
+        margin-bottom: 20px;
+    }
+    .form-group label:nth-of-type(2) {
+        margin-top: 15px;
+    }
+}
+.quote {
+    font-size: 20px !important;
+}
+.custom_icon, .fa-map-marker {
+    margin-right: 4px;
+}
+.fa-user {
+    margin-right: 5px;
+}
+#text_tripinfos h4 {
+    margin-top: 18px;
+}
+.mb64 {
+    margin-top: -20px;
+}
+.container {
+    margin-bottom: 25px;
+}
+#wrapwrap .navbar .container {
+    margin-bottom: 0px;
+}
+
+/* add user icon to address */
+span[itemprop="name"]:before {
+    font-family: FontAwesome;
+    content: "\f007";
+    margin-right: 5px;
+}
+
+/* styling in surveys */
+.js_question-wrapper h2 {
+    font-size: 15px;
+    margin-bottom: -10px;
+    font-weight: bold;
+}
+.js_question-wrapper input[disabled] {
+    margin-top: 16px;
+}
+.mt16 > button {
+    float: right;
+}
+
+/* hides "manage your payment methods" button */
+.o_my_details .manage_payment_method {
+    display: none;
+}

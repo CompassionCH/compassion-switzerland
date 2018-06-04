@@ -40,7 +40,8 @@
         'data/hr_config.xml'
     ],
     'depends': [
-        'hr_expense', 'hr_attendance_extra_hours'],
+        'hr_expense', 'hr_attendance_extra_hours', 'asterisk_click2dial',
+        'web_notify'],
     'demo': [],
     'installable': True,
     'auto_install': False,

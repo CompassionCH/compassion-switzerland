@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="participant_details" name="Muskathlon participant page">
+            <t t-call="website.layout">
+                <!-- Include donation form -->
+                <t t-call="muskathlon.modal_form"/>
+                <!-- States and country for donation form -->
+                <t t-call="muskathlon.states"/>
+                <t t-set="title">Participant details</t>
+                <div class="compassion-wp">
+                    <div class="wrap o_participant_details">
+                        <div class="child-template-default single single-child">
+                            <article
+                                    class="child type-child status-publish has-post-thumbnail hentry">
+                                <div class="section background-blue section_abgerissen_unten has_breadcrumb"
+                                     style="padding-top: 30px;">
+                                    <div class="row section_">
+                                        <div class="col-lg-10">
+                                            <h2>Support
+                                                <t t-esc="registration.partner_preferred_name"/>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="oe_structure"/>
+
+                                <div class="section background-beige section_gradient_unten"
+                                     style="margin-top: 50px; margin-bottom: 50px;">
+                                    <div class="row profile"
+                                         style="margin-left: 20px; margin-right: 20px; max-width: 100%">
+                                        <div class="col-lg-1"/>
+                                        <div class="col-lg-8 col-sm-11">
+                                            <div class="row-fluid">
+                                                <div class="col-sm-6" style="min-width: 330px;">
+                                                    <div class="image-and-buttons" style="padding-right: 30px;">
+                                                        <t t-if="not registration.ambassador_picture_2">
+                                                            <div class="image"
+                                                                 style="display: inline-block; max-height: 310px;"
+                                                                 t-field="registration.ambassador_picture_1"
+                                                                 t-field-options='{"widget": "image"}'/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <div class="image"
+                                                                 style="display: inline-block; max-height: 310px;"
+                                                                 t-field="registration.ambassador_picture_2"
+                                                                 t-field-options='{"widget": "image"}'/>
+                                                        </t>
+                                                        <div>
+                                                            <a class="button button-large"
+                                                               data-toggle="modal"
+                                                               data-target="#modal_muskathlon_donation">
+                                                               Donate
+                                                            </a>
+                                                        </div>
+                                                        <div style="margin-top: 10px;">
+                                                            <a t-attf-href="https://{{registration.host}}/parrainer-un-enfant/?eventId={{event.id}}&amp;eventName={{event.name}}&amp;registrationId={{registration.id}}&amp;participantId={{registration.partner_id_id}}&amp;participantName={{registration.partner_name}}"
+                                                               target="_blank"
+                                                               class="button button-large">
+                                                               Sponsor a child
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="meta">
+                                                        <span class="child-number">
+                                                            <span style="color: gray;">
+                                                                Event :
+                                                            </span>
+                                                            <a t-attf-href="/event/{{ event.id }}">
+                                                                <t t-esc="event.name"/>
+                                                            </a>
+                                                        </span>
+                                                        <span class="waiting">
+                                                            <p style="vertical-align: top;">
+                                                                <t t-esc="registration.get_sport_discipline_name()"/>
+                                                            </p>
+                                                            <t t-call="muskathlon.sport_icon"/>
+                                                        </span>
+                                                    </div>
+                                                    <h4 class="svg-divider">
+                                                        <t t-esc="registration.partner_name"/>
+                                                    </h4>
+                                                    <p class="subtitle"
+                                                       t-field="registration.ambassador_description"/>
+                                                    <blockquote
+                                                            t-field="registration.ambassador_quote"/>
+                                                    <table style="border: 0px">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>Raised:
+                                                                </th>
+                                                                <td>
+                                                                    <t t-esc="'{:n}'.format(registration.amount_raised)"/>
+                                                                    /
+                                                                    <t t-esc="'{:n}'.format(registration.amount_objective)"/>
+                                                                    CHF
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Goal:</th>
+                                                                <td>
+                                                                    <div class="progress"
+                                                                         style="border-radius: 5px; height: 20px;">
+                                                                        <t t-set="to_hide"
+                                                                           t-value="''"/>
+                                                                        <t t-call="muskathlon.progress_bar"/>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_structure"/>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

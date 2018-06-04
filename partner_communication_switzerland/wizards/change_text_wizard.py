@@ -36,10 +36,11 @@ class ChangeTextWizard(models.TransientModel):
 
     @api.multi
     def _inverse_ambassador(self):
-        ambassador = self.ambassador_id
-        if ambassador:
-            if not ambassador.ambassador_quote:
-                ambassador.ambassador_quote = self.ambassador_text
+        partner = self.ambassador_id
+        if partner:
+            if not partner.ambassador_details_id.thank_you_quote:
+                partner.ambassador_details_id.thank_you_quote = \
+                    self.ambassador_text
             communications = self._get_communications()
             inv_lines = communications.get_objects()
             inv_lines.write({'user_id': self.ambassador_id.id})
@@ -75,10 +76,11 @@ class ChangeTextWizard(models.TransientModel):
 
     @api.onchange('ambassador_id')
     def onchange_ambassador(self):
-        ambassador = self.ambassador_id
-        if ambassador:
-            self.ambassador_name = ambassador.full_name
-            self.ambassador_text = ambassador.ambassador_quote
+        partner = self.ambassador_id
+        if partner:
+            self.ambassador_name = partner.full_name
+            self.ambassador_text = \
+                partner.ambassador_details_id.thank_you_quote
 
     @api.multi
     def update(self):
@@ -94,19 +96,20 @@ class ChangeTextWizard(models.TransientModel):
                       "time."))
             if self.event_text != event.thank_you_text:
                 event.thank_you_text = self.event_text
-            ambassador = self.ambassador_id
-            if ambassador and self.ambassador_text != \
-                    ambassador.ambassador_quote:
-                ambassador.ambassador_quote = self.ambassador_text
+            partner = self.ambassador_id
+            if partner and self.ambassador_text != \
+                    partner.ambassador_details_id.thank_you_quote:
+                partner.ambassador_details_id.thank_you_quote = \
+                    self.ambassador_text
             template = config.email_template_id
             new_texts = template.render_template(
                 template.body_html, template.model, communications.ids)
             for comm in communications:
                 comm.body_html = new_texts[comm.id].replace(
                     event.name, self.event_name)
-                if ambassador:
+                if partner:
                     comm.body_html = comm.body_html.replace(
-                        ambassador.full_name, self.ambassador_name or '')
+                        partner.full_name, self.ambassador_name or '')
             return True
         else:
             return super(ChangeTextWizard, self).update()
@@ -116,7 +119,7 @@ class ChangeTextWizard(models.TransientModel):
         if self.state == 'event':
             communication = self._get_communications()[0]
             event = communication.mapped('event_id')
-            ambassador = self.ambassador_id
+            partner = self.ambassador_id
             template = communication.email_template_id
             if self.event_text != event.thank_you_text:
                 event.thank_you_text = self.event_text
@@ -124,10 +127,11 @@ class ChangeTextWizard(models.TransientModel):
                 self.template_text, template.model, communication.ids)[
                 communication.id].replace(
                 event.name, self.event_name or '')
-            if ambassador:
+            if partner:
                 preview = preview.replace(
-                    ambassador.full_name, self.ambassador_name or '').replace(
-                    ambassador.ambassador_quote, self.ambassador_text or '')
+                    partner.full_name, self.ambassador_name or '').replace(
+                    partner.ambassador_details_id.thank_you_quote,
+                    self.ambassador_text or '')
             self.write({
                 'state': 'preview',
                 'preview': preview
