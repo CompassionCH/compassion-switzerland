@@ -50,6 +50,12 @@ class MuskathlonRegistration(models.Model):
         related='ambassador_details_id.description', readonly=True)
     ambassador_quote = fields.Text(
         related='ambassador_details_id.quote', readonly=True)
+    partner_firstname = fields.Char(
+        related='partner_id.firstname', readonly=True
+    )
+    partner_lastname = fields.Char(
+        related='partner_id.lastname', readonly=True
+    )
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                       readonly=True)
 
