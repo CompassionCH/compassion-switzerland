@@ -27,7 +27,7 @@
                         <div class="row event_details">
                             <t t-set="new_registration_url" t-value="'/muskathlon_registration/?event_id='+str(event.id)"/>
                             <div class="col-xs-12">
-                                <div t-attf-style="background-image: url('/web/image/crm.event.compassion/{{event.id}}/picture_1'); position: relative; left: -15px; background-size: cover; background-repeat: no-repeat; background-position: center center; height: 50vh; width: 100vw;">
+                                <div t-attf-style="background-image: url('/web/image/crm.event.compassion/{{ event.id }}/picture_1'); position: relative; left: -15px; background-size: cover; background-repeat: no-repeat; background-position: center center; height: 50vh; width: 100vw;">
                                     <div class="row" style="position: absolute; bottom: 0; left: 0; right: 0; background-color: #CD171E;">
                                         <center><h2 style="color: white; margin-top: 10px; margin-bottom: 10px;"><span class="text-uppercase" t-field="event.name"/></h2></center>
                                     </div>
@@ -126,7 +126,7 @@
                                     <t t-foreach="event.muskathlon_registration_ids.filtered('website_published')" t-as="registration">
                                         <div class="participant_card">
                                             <a t-att-href="registration.website_url">
-                                                <div style="background-image: url('/web/image/muskathlon.registration/{{ registration.id }}/ambassador_picture_1'); width: 100%; height: 175px; position: relative; background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                                                <div t-attf-style="background-image: url('/web/image/muskathlon.registration/{{ registration.id }}/ambassador_picture_1'); width: 100%; height: 175px; position: relative; background-size: cover; background-repeat: no-repeat; background-position: center center;">
                                                     <t t-call="muskathlon.sport_icon"/>
                                                 </div>
                                             </a>
