@@ -19,9 +19,7 @@
                     <group>
                         <field name="public_description"/>
                         <field name="filename_1" invisible="1"/>
-                        <field name="filename_1" invisible="1"/>
                         <field name="picture_1" filename="filename_1"/>
-                        <field name="picture_2" filename="filename_2"/>
                         <field name="video_url"/>
                         <field name="sport_discipline_ids"/>
                     </group>
