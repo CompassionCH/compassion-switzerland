@@ -15,12 +15,10 @@
                 <page string="Donation Receipts">
                     <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>
                 </page>
-                <page string="Public informations">
+                <page string="Website">
                     <group>
-                        <field name="public_description"/>
                         <field name="filename_1" invisible="1"/>
                         <field name="picture_1" filename="filename_1"/>
-                        <field name="video_url"/>
                         <field name="sport_discipline_ids"/>
                     </group>
                 </page>

@@ -23,10 +23,10 @@ class EventCompassion(models.Model):
     muskathlon_registration_ids = fields.One2many(
         'muskathlon.registration', 'event_id', 'Muskathlon registrations')
 
-    public_description = fields.Text(translate=True)
-    picture_1 = fields.Binary(attachment=True)
+    website_description = fields.Html(translate=True,
+                                      oldname='public_description')
+    picture_1 = fields.Binary('Banner image', attachment=True)
     filename_1 = fields.Char(compute='_compute_filenames')
-    video_url = fields.Char("Video URL")
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000, required=True)
     amount_objective = fields.Integer(compute='_compute_amount_raised')
