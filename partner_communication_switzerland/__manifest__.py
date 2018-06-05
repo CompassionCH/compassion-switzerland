@@ -37,8 +37,7 @@
     'website': 'http://www.compassion.ch',
     'depends': [
         'report_compassion',
-        'child_switzerland',
-        'partner_compassion'
+        'child_switzerland'
     ],
     'external_dependencies': {
         'python': ['wand', 'detectlanguage', 'sendgrid']
@@ -70,6 +69,8 @@
         'views/change_text_wizard_view.xml',
         'views/correspondence_view.xml',
         'views/generate_communication_wizard_view.xml',
+        'views/recurring_contracts_view.xml',
+        'views/staff_notifications_settings_view.xml'
     ],
     'demo': [],
     'installable': True,
