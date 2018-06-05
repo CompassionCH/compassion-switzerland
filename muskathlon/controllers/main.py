@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+
 from odoo import _
 from odoo.http import request, route
 from odoo.addons.website_portal.controllers.main import website_account
@@ -28,13 +29,16 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
     @route('/event/<model("crm.event.compassion"):event>/',
            auth='public', website=True)
     def musk_infos(self, event, **kwargs):
-        kwargs.update({
+        values = kwargs.copy()
+        # This allows the translation to still work on the page
+        values.pop('edit_translations', False)
+        values.update({
             'event': event,
             'states': request.env['res.country.state'].sudo().search([]),
             'disciplines': event.sport_discipline_ids.ids
         })
         return self.make_response(
-            'muskathlon.registration', **kwargs
+            'muskathlon.registration', **values
         )
 
     @route('/my/muskathlons/<int:muskathlon_id>',
@@ -56,13 +60,15 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         :param registration: a partner record
         :return:the rendered page
         """
-        kwargs.update({
+        values = kwargs.copy()
+        values.pop('edit_translations', False)
+        values.update({
             'event': event,
             'registration': registration,
             'states': request.env['res.country.state'].sudo().search([]),
             'form_model_key': 'cms.form.muskathlon.donation'
         })
-        return self.make_response(False, **kwargs)
+        return self.make_response(False, **values)
 
     @route(['/my', '/my/home'], type='http', auth="user", website=True)
     def account(self, form_id=None, **kw):
@@ -157,6 +163,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         """
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
         env = request.env(user=uid)
+        tx = None
         if transaction_id is None:
             transaction_id = request.session.get('sale_transaction_id')
         if transaction_id:
