@@ -225,3 +225,9 @@ span[itemprop="name"]:before {
     border-top: solid 3px #CD171E;
     padding: 12px;
 }
+
+.muskathlon_participant_image {
+    width: 450px;
+    height: auto;
+    max-width: 100%;
+}
