@@ -61,10 +61,23 @@ class MailTrackingEvent(models.Model):
         if metadata.get('error_type') == 'Invalid' and 'RBL' not in \
                 metadata.get('error_description', '') and not partner.user_ids:
             self._invalid_email(tracking_email)
-            partner.write({
+            to_write = {
                 'invalid_mail': partner.email,
                 'email': False
-            })
+            }
+            staff_ids = self.env['staff.notification.settings'].get_param(
+                'invalid_mail_notify_ids')
+            if partner.email_only:
+                del to_write['email']
+                partner.message_post(body='Warning : Email invalid but sponsor'
+                                     ' configured to receive communications '
+                                     'by email',
+                                     subject='Email invalid',
+                                     partner_ids=staff_ids,
+                                     type='comment', subtype='mail.mt_comment',
+                                     content_subtype='plaintext')
+
+            partner.write(to_write)
         return super(MailTrackingEvent, self).process_reject(
             tracking_email, metadata)
 
