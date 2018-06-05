@@ -73,7 +73,7 @@
                                          aria-valuemax="100"
                                          t-attf-style="width: {{ registration.amount_raised_percents }}%; background-color: #e6b414;">
                                     </div>
-                                    <div style="text-align: right;">
+                                    <div style="position: absolute; right: 16px;">
                                         <t t-esc="'{:n}'.format(registration.amount_raised)"/> / <t t-esc="'{:n}'.format(registration.amount_objective)"/> CHF
                                     </div>
                                 </div>
