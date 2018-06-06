@@ -37,11 +37,8 @@
                                     <div class="col-sm-10 col-md-8">
                                         <div class="about_event_container">
                                             <div class="row">
-                                                <div class="col-xs-12">
-                                                    <h1>About this event</h1>
-                                                </div>
                                                 <div class="col-sm-8">
-                                                    <p class="event_public_description" t-field="event.public_description"/>
+                                                    <p class="event_public_description" t-field="event.website_description"/>
                                                 </div>
                                                 <div class="col-sm-4 dates_container">
                                                     <span class="text-uppercase dates_text">Dates</span>
@@ -91,7 +88,7 @@
                                                         </a>
                                                     </p>
                                                     <div>
-                                                        <p class="text-uppercase project_donations_total">Total des donations :</p>
+                                                        <p class="text-uppercase project_donations_total">Funds raised:</p>
                                                         <div class="progress">
                                                             <div class="progress-bar" role="progressbar"
                                                                  t-attf-aria-valuenow="{{ event.amount_raised_percents }}"
@@ -106,6 +103,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row hidden-xs">
+                                                <div class="col-sm-12">
+                                                    <div class="oe_structure" style="margin-top: 20px"/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-1 col-md-2"/>
@@ -116,7 +118,7 @@
                             <div class="col-md-1"/>
                             <div class="col-md-10">
                                 <t t-if="event.muskathlon_registration_ids.filtered('website_published')">
-                                    <h1 class="partitipants_title">Participants</h1>
+                                    <h1 class="participants_title">Participants</h1>
                                 </t>
                                 <t t-else="">
                                     <h3 class="muskathlon_no_participant">This muskathlon has no participant yet.</h3>
@@ -163,6 +165,7 @@
                             });
                         </script>
                     </div>
+                    <div class="oe_structure"/>
                     <div>
                         <t t-call="muskathlon.footer_muskathlon"/>
                     </div>

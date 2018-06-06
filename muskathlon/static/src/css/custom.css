@@ -255,7 +255,8 @@
 #muskathlon_details .dates_container {
     font-size: 16px;
     font-weight: bold;
-    martin-bottom: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 #muskathlon_details .dates_text {
