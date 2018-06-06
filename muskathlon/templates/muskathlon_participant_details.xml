@@ -3,13 +3,13 @@
     <data>
         <template id="participant_details" name="Muskathlon participant page">
             <t t-call="website.layout">
-                <div style="margin-left: 15px; margin-right: 15px;">
-                    <div style="position: relative; margin-bottom: 50px;">
-                         <div style="background-color: #CD171E; min-height: 150px; display: flex; justify-content: center; align-items: center; margin-left: -15px; margin-right: -15px; padding-left: 15px; padding-right: 15px;">
-                             <h2 style="color: white; margin-top: 10px; margin-bottom: 10px; font-size: 35px;" class="text-uppercase">Support <t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></h2>
+                <div class="main_container">
+                    <div class="participant_image_container">
+                         <div class="participant_image">
+                             <h2 class="participant_image_text text-uppercase">Support <t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></h2>
                          </div>
                     </div>
-                    <div style="max-width: 1200px; margin-left: auto; margin-right: auto; margin-bottom: 60px;" class="participant_details_container">
+                    <div class="participant_details_container">
                         <!-- Include donation form -->
                         <t t-call="muskathlon.modal_form"/>
                         <!-- States and country for donation form -->
@@ -17,63 +17,61 @@
                         <t t-set="title">Participant details</t>
                         <div class="row">
                             <div class="col-sm-5">
-                                <div style="display: flex; justify-content: center">
+                                <div class="card_container">
                                     <t t-if="not registration.ambassador_picture_2">
-                                        <div style="position: relative;">
+                                        <div class="position-relative">
                                             <img class="muskathlon_participant_image" t-attf-src="/web/image/muskathlon.registration/{{registration.id}}/ambassador_picture_1">
                                                 <t t-call="muskathlon.sport_icon"/>
                                             </img>
                                         </div>
                                     </t>
                                     <t t-else="">
-                                        <div style="position: relative;">
+                                        <div class="position-relative">
                                             <img class="muskathlon_participant_image" t-attf-src="/web/image/muskathlon.registration/{{registration.id}}/ambassador_picture_2">
                                                 <t t-call="muskathlon.sport_icon"/>
                                             </img>
                                         </div>
                                     </t>
                                 </div>
-                                <div style="margin-top: 20px;">
-                                    <p style="text-align: center;">
+                                <div class="participant_details_buttons_container">
+                                    <p class="center-text">
                                         <a href="#"
-                                           class="btn btn-danger"
-                                           style="background-color: #CD171E;"
+                                           class="btn btn-danger btn-muskathlon"
                                            data-toggle="modal"
                                            data-target="#modal_muskathlon_donation">
                                            Donate
                                         </a>
                                     </p>
-                                    <p style="text-align: center;">
+                                    <p class="center-text">
                                         <a t-attf-href="https://{{ registration.host }}/parrainer-un-enfant/?eventId={{ event.id }}&amp;eventName={{ event.name }}&amp;registrationId={{ registration.id }}&amp;participantId={{ registration.partner_id_id }}&amp;participantName={{ registration.partner_name }}"
-                                           class="btn btn-danger"
-                                           style="background-color: #CD171E;">
+                                           class="btn btn-danger btn-muskathlon">
                                            Sponsor a child
                                         </a>
                                     </p>
                                 </div>
                             </div>
                             <div class="col-sm-7">
-                                <h2 style="margin-top: 0px; margin-bottom: 8px; font-size: 34px;"><t t-esc="registration.ambassador_quote"/></h2>
+                                <h2 class="side_title"><t t-esc="registration.ambassador_quote"/></h2>
                                 Muskathlon :
-                                <a t-attf-href="/event/{{ event.id }}" style="color: #CD171E; text-decoration: underline;">
+                                <a t-attf-href="/event/{{ event.id }}" class="href_muskathlon">
                                     <t t-esc="event.name.replace('Muskathlon ', '')"/>
                                 </a>
-                                <p style="margin-top: 30px; margin-bottom: 8px;">
-                                    <span style="font-weight: bold; font-size: 18px;" class="text-uppercase"><t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></span>
+                                <p class="complete_name_container">
+                                    <span class="text-uppercase complete_name"><t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></span>
                                     <t t-esc="registration.get_sport_discipline_name()"/>
                                 </p>
                                 <p t-field="registration.ambassador_description"/>
-                                <div style="margin-top: 30px;">
+                                <div class="space_top">
                                     Raised amount:
                                 </div>
-                                <div class="progress" style="height: 20px;">
+                                <div class="progress">
                                     <div class="progress-bar" role="progressbar"
                                          t-attf-aria-valuenow="{{ registration.amount_raised_percents }}"
                                          aria-valuemin="0"
                                          aria-valuemax="100"
-                                         t-attf-style="width: {{ registration.amount_raised_percents }}%; background-color: #e6b414;">
+                                         t-attf-style="width: {{ registration.amount_raised_percents }}%;">
                                     </div>
-                                    <div style="position: absolute; right: 16px;">
+                                    <div class="progress-amount">
                                         <t t-esc="'{:n}'.format(registration.amount_raised)"/> / <t t-esc="'{:n}'.format(registration.amount_objective)"/> CHF
                                     </div>
                                 </div>
