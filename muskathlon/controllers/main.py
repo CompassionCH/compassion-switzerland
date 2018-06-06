@@ -7,9 +7,10 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import json
 
 from odoo import _
-from odoo.http import request, route
+from odoo.http import request, route, Response
 from odoo.addons.website_portal.controllers.main import website_account
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 from base64 import b64encode
@@ -37,9 +38,10 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'states': request.env['res.country.state'].sudo().search([]),
             'disciplines': event.sport_discipline_ids.ids
         })
-        return self.make_response(
+        result = self.make_response(
             'muskathlon.registration', **values
         )
+        return self._form_redirect(result)
 
     @route('/my/muskathlons/<int:muskathlon_id>',
            auth='user', website=True)
@@ -68,7 +70,8 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'states': request.env['res.country.state'].sudo().search([]),
             'form_model_key': 'cms.form.muskathlon.donation'
         })
-        return self.make_response(False, **values)
+        result = self.make_response(False, **values)
+        return self._form_redirect(result)
 
     @route(['/my', '/my/home'], type='http', auth="user", website=True)
     def account(self, form_id=None, **kw):
@@ -100,7 +103,8 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'coordinates_form': coordinates_form,
             'about_me_form': about_me_form
         })
-        return request.render("website_portal.portal_my_home", values)
+        result = request.render("website_portal.portal_my_home", values)
+        return self._form_redirect(result)
 
     @route(['/my/api'], type='http', auth='user', website=True)
     def save_ambassador_picture(self, **post):
@@ -269,3 +273,23 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'states': request.env['res.country.state'].sudo().search([])
         })
         return values
+
+    def _form_redirect(self, response):
+        """
+        Utility for payment form that are called by AJAX and can send back
+        a redirection. Instead of pushing back the redirection which will
+        fail over HTTPS, we wrap it inside JSON respsonse and let the client
+        perform the redirection.
+        :return: Response
+        """
+        if response.status_code == 303:
+            # Prepend with external url and lang to avoid 301/302 redirection
+            location = request.env['ir.config_parameter'] \
+                .sudo().get_param('web.external.url') + '/' + \
+                request.env.lang + response.location
+            return Response(
+                json.dumps({'redirect': location}),
+                status=200,
+                mimetype='application/json'
+            )
+        return response

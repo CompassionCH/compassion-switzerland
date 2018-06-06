@@ -77,7 +77,7 @@ if not testing:
                 transaction = transaction_obj.create(tx_values)
             request.session['sale_transaction_id'] = transaction.id
             return '/muskathlon/payment/' + str(transaction.id) +\
-                '/?redirect_url=' + self._payment_accept_redirect
+                '?redirect_url=' + self._payment_accept_redirect
 
         def form_before_create_or_update(self, values, extra_values):
             super(PaymentForm, self).form_before_create_or_update(
