@@ -70,10 +70,10 @@ class AccountInvoiceLine(models.Model):
             self.env.ref('partner_communication_switzerland.'
                          'config_event_large')
 
-        partner = self.mapped('partner_id')
+        partner = invoice_lines.mapped('partner_id')
         partner.ensure_one()
-        event = self.mapped('event_id')
-        ambassador = self.mapped('user_id')
+        event = invoice_lines.mapped('event_id')
+        ambassadors = invoice_lines.mapped('user_id')
 
         existing_comm = self.env['partner.communication.job'].search([
             ('partner_id', '=', partner.id),
@@ -91,7 +91,7 @@ class AccountInvoiceLine(models.Model):
             'object_ids': invoice_lines.ids,
             'need_call': config.need_call,
             'event_id': event.id,
-            'ambassador_id': len(ambassador) == 1 and ambassador.id,
+            'ambassador_id': len(ambassadors) == 1 and ambassadors.id,
             'print_subject': False,
         }
         send_mode = config.get_inform_mode(partner)

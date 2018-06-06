@@ -16,3 +16,4 @@ from . import change_text_wizard
 from . import generate_communication_wizard
 from . import sub_sponsorship_wizard
 from . import child_hold_wizard
+from . import portal_wizard

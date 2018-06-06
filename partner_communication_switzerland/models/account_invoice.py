@@ -78,6 +78,22 @@ class AccountInvoice(models.Model):
             if other_thank:
                 other_thank.generate_thank_you()
 
+        # Send confirmation to ambassadors
+        ambassador_config = self.env.ref(
+            'partner_communication_switzerland.'
+            'ambassador_donation_confirmation_config'
+        )
+        ambassadors = self.mapped('invoice_line_ids.user_id').filtered(
+            'ambassador_details_id.mail_copy_when_donation')
+        for ambassador in ambassadors:
+            ambassador_lines = self.mapped('invoice_line_ids').filtered(
+                lambda l: l.user_id == ambassador)
+            self.env['partner.communication.job'].create({
+                'partner_id': ambassador.id,
+                'object_ids': ambassador_lines.ids,
+                'config_id': ambassador_config.id
+            })
+
     @api.multi
     def _filter_invoice_to_thank(self):
         """

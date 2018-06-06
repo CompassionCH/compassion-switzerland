@@ -83,6 +83,9 @@ class MuskathlonRegistration(models.Model):
 
     website_published = fields.Boolean(
         compute='_compute_website_published', store=True)
+    website_url = fields.Char(
+        compute='_compute_website_url'
+    )
 
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)
     host = fields.Char(compute='_compute_host', readonly=True)

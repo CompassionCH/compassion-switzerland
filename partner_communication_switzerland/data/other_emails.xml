@@ -5,7 +5,7 @@
             <field name="name">Beneficiary Hold Removal</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
-            <field name="reply_to">info@compassion.ch</field>
+            <field name="reply_to">reply@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Child ${object.get_objects().child_id.local_id} removal notification</field>
             <field name="body_html" type="html">
@@ -36,7 +36,7 @@
             <field name="name">New Biennial</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
-            <field name="reply_to">info@compassion.ch</field>
+            <field name="reply_to">reply@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">New photo for ${object.get_objects().get_list('firstname', 3, 'your children')}</field>
             <field name="body_html" type="html">
@@ -75,7 +75,7 @@
             <field name="name">New Child Notes</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
-            <field name="reply_to">info@compassion.ch</field>
+            <field name="reply_to">reply@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">New notes for ${object.get_objects().get_list('firstname', 3, 'your children')}</field>
             <field name="body_html" type="html">
@@ -104,7 +104,7 @@
             <field name="name">Disaster Alert</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
-            <field name="reply_to">info@compassion.ch</field>
+            <field name="reply_to">reply@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Disaster alert in ${object.get_objects()[0].child_id.project_id.country_id.name}</field>
             <field name="body_html" type="html">
@@ -195,7 +195,7 @@
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
             <field name="use_default_to" eval="True"/>
-            <field name="reply_to">info@compassion.ch</field>
+            <field name="reply_to">reply@compassion.ch</field>
             <field name="subject">Your payment slips for 2018</field>
             <field name="body_html" type="html">
                 <div>
@@ -247,7 +247,7 @@
             <field name="name">CSP Engagement</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
-            <field name="reply_to">info@compassion.ch</field>
+            <field name="reply_to">reply@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Thank you for your engagement</field>
             <field name="body_html" type="html">
@@ -286,6 +286,47 @@
                     <br/>
                     <br/>
                     Sincerely
+                </p>
+            </field>
+        </record>
+
+        <record id="portal_user_welcome_email" model="mail.template">
+            <field name="name">Portal User - Welcome</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">reply@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Welcome to the Compassion portal</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set user = object.get_objects()
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    You have been given access to the Compassion portal.
+                    <br/>
+                    <br/>
+                    Your login account data is:
+                    <ul>
+                        <li>Username: ${user.login or ''}</li>
+                        <li>Access link: <a href="https://my.compassion.ch/my/home" style="color: skyblue; text-decoration: underline;">https://my.compassion.ch/my/home</a></li>
+                    </ul>
+                    Please activate your account and setup your password by clicking on this button:
+                    <br/>
+                    <br/>
+                    <div style="margin:0 auto; text-align: center;"><a href="${user.signup_url + '&amp;redirect=/my/home'}"
+                       style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6;
+                       border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none;
+                       background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px">Activate my account</a></div>
+                    <br/>
+                    <br/>
+                        Best regards,
+                    <br/>
+                    <br/>
+                        Compassion Switzerland
                 </p>
             </field>
         </record>
