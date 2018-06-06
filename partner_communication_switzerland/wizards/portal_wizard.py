@@ -10,7 +10,6 @@
 ##############################################################################
 
 from odoo import api, models
-from odoo.tools import email_split
 
 
 class PortalWizard(models.TransientModel):

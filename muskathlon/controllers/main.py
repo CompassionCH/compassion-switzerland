@@ -177,6 +177,23 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             return request.render('muskathlon.registration_failure')
 
         event = tx.registration_id.event_id
+        # Create the lead
+        staff_id = env['staff.notification.settings'].get_param(
+            'muskathlon_lead_notify_id')
+        partner = tx.partner_id
+        tx.registration_id.lead_id = env['crm.lead'].create({
+            'name': u'Muskathlon Registration - ' + partner.name,
+            'partner_id': partner.id,
+            'email_from': partner.email,
+            'phone': partner.phone,
+            'partner_name': partner.name,
+            'street': partner.street,
+            'zip': partner.zip,
+            'city': partner.city,
+            'user_id': staff_id,
+            'description': tx.registration_id.sport_level_description,
+            'event_id': event.id
+        })
         post.update({'event': event})
         return self.muskathlon_payment_validate(
             tx, 'muskathlon.new_registration_successful',
