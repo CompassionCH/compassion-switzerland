@@ -116,7 +116,9 @@ if not testing:
             return req_values.get('event_id', self.event_id.id)
 
         def form_before_create_or_update(self, values, extra_values):
-            """ Create invoice for the registration. """
+            """ Create invoice for the registration.
+            Create ambassador details.
+            """
             super(MuskathlonRegistrationForm,
                   self).form_before_create_or_update(values, extra_values)
             uid = self.env.ref('muskathlon.user_muskathlon_portal').id
@@ -134,6 +136,11 @@ if not testing:
                     'product_id': product.id
                 })]
             })
+            if not self.partner_id.ambassador_details_id:
+                self.partner_id.sudo(uid).ambassador_details_id =\
+                    self.env['ambassador.details'].sudo(uid).create({
+                        'partner_id': self.partner_id.id
+                    })
             # This field is not needed in muskathlon registration.
             values.pop('partner_name')
             # Force default value instead of setting 0.
