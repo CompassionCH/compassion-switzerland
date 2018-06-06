@@ -40,7 +40,7 @@
         'views/import_letter_view.xml',
     ],
     'depends': ['mass_mailing_switzerland', 'child_sync_wp',
-                'sbc_switzerland'],
+                'sbc_switzerland', 'crm_compassion'],
     'external_dependencies': {
         'python': ['pysftp']
     },

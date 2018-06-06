@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="participant_details" name="Muskathlon participant page">
+            <t t-call="website.layout">
+                <div class="main_container">
+                    <div class="participant_image_container">
+                         <div class="participant_image">
+                             <h2 class="participant_image_text text-uppercase">Support <t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></h2>
+                         </div>
+                    </div>
+                    <div class="participant_details_container">
+                        <!-- Include donation form -->
+                        <t t-call="muskathlon.modal_form"/>
+                        <!-- States and country for donation form -->
+                        <t t-call="muskathlon.states"/>
+                        <t t-set="title">Participant details</t>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="card_container">
+                                    <t t-if="not registration.ambassador_picture_2">
+                                        <div class="position-relative">
+                                            <img class="muskathlon_participant_image" t-attf-src="/web/image/muskathlon.registration/{{registration.id}}/ambassador_picture_1">
+                                                <t t-call="muskathlon.sport_icon"/>
+                                            </img>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="position-relative">
+                                            <img class="muskathlon_participant_image" t-attf-src="/web/image/muskathlon.registration/{{registration.id}}/ambassador_picture_2">
+                                                <t t-call="muskathlon.sport_icon"/>
+                                            </img>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="participant_details_buttons_container">
+                                    <p class="center-text">
+                                        <a href="#"
+                                           class="btn btn-danger btn-muskathlon"
+                                           data-toggle="modal"
+                                           data-target="#modal_muskathlon_donation">
+                                           Donate
+                                        </a>
+                                    </p>
+                                    <p class="center-text">
+                                        <a t-attf-href="https://{{ registration.host }}/parrainer-un-enfant/?eventId={{ event.id }}&amp;eventName={{ event.name }}&amp;registrationId={{ registration.id }}&amp;participantId={{ registration.partner_id_id }}&amp;participantName={{ registration.partner_name }}"
+                                           class="btn btn-danger btn-muskathlon">
+                                           Sponsor a child
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <h2 class="side_title"><t t-esc="registration.ambassador_quote"/></h2>
+                                Muskathlon :
+                                <a t-attf-href="/event/{{ event.id }}" class="href_muskathlon">
+                                    <t t-esc="event.name.replace('Muskathlon ', '')"/>
+                                </a>
+                                <p class="complete_name_container">
+                                    <span class="text-uppercase complete_name"><t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></span>
+                                    <t t-esc="registration.get_sport_discipline_name()"/>
+                                </p>
+                                <p t-field="registration.ambassador_description"/>
+                                <div class="space_top">
+                                    Raised amount:
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar"
+                                         t-attf-aria-valuenow="{{ registration.amount_raised_percents }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                         t-attf-style="width: {{ registration.amount_raised_percents }}%;">
+                                    </div>
+                                    <div class="progress-amount">
+                                        <t t-esc="'{:n}'.format(registration.amount_raised)"/> / <t t-esc="'{:n}'.format(registration.amount_objective)"/> CHF
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <t t-call="muskathlon.footer_muskathlon"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

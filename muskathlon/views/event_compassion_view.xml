@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Add text for donation receipts -->
     <record id="view_muskathlon_events_thank_donation" model="ir.ui.view">
@@ -5,13 +6,26 @@
         <field name="model">crm.event.compassion</field>
         <field name="inherit_id" ref="crm_compassion.view_events_form"/>
         <field name="arch" type="xml">
+            <div name="buttons" position="inside">
+                <button class="oe_stat_button" name="website_publish_button" type="object" icon="fa-globe">
+                    <field name="website_published" widget="website_button"/>
+                </button>
+            </div>
             <notebook>
                 <page string="Donation Receipts">
                     <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>
                 </page>
+                <page string="Website">
+                    <group>
+                        <field name="filename_1" invisible="1"/>
+                        <field name="picture_1" filename="filename_1"/>
+                        <field name="sport_discipline_ids"/>
+                    </group>
+                </page>
                 <page string="4M registrations">
                     <group col="6">
                         <field name="muskathlon_event_id" colspan="4"/><label string="" nolabel="1" colspan="2"/>
+                        <field name="participants_amount_objective" colspan="4"/><label string="" nolabel="1" colspan="2"/>
                     </group>
                     <group>
                         <field name="muskathlon_registration_ids" context="{'default_event_id': id}">

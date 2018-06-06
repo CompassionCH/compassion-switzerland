@@ -14,6 +14,8 @@ B. E-mail tracking :
     - Track the reception of message inside the thread
     - Restrict e-mail followers
 
+C. Add ambassador details information
+
 Known issues / Roadmap
 ======================
 

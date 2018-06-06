@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Customize footer  -->
+        <template id="custom_footer" inherit_id="website.layout" name="Custom Footer" priority="1000">
+            <xpath expr="//div[@id='wrapwrap']/footer" position="replace">
+                <div id="main_footer">
+                    <span class="compassion-wp">
+                        <div class="child-template-default single single-child postid-86451 scrolled" style="margin-top: 25px;">
+                            <footer class="section background-blue section_abgerissen_oben section_full_width">
+                                <div class="row" style="margin-left: auto; margin-right: auto; max-width: 1200px;">
+                                    <div class="large-3 medium-3 column" data-equalizer-watch="" style="height: 360px;">
+                                        <div class="menu-footer-spalte-1-container">
+                                            <ul id="menu-footer-spalte-1" class="menu">
+                                                <li id="menu-item-15251" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-15251">
+                                                    <a href="#">Parrainer</a>
+                                                    <ul class="sub-menu">
+                                                        <li id="menu-item-103" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-103"><a href="https://compassion.ch/parrainer-un-enfant/">Parrainer un enfant</a></li>
+                                                        <li id="menu-item-102" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-102"><a href="https://compassion.ch/combattre-la-pauvrete/">Combattre la pauvreté</a></li>
+                                                        <li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-100"><a href="https://compassion.ch/que-change-votre-parrainage/">Que change votre parrainage ?</a></li>
+                                                        <li id="menu-item-1988" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1988"><a href="https://compassion.ch/offrir/">Offrir</a></li>
+                                                        <li id="menu-item-2200" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2200"><a href="https://compassion.ch/ecrire/">Ecrire</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li id="menu-item-13566" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-13566"><a href="#">s’engager</a>
+                                                    <ul class="sub-menu">
+                                                        <li id="menu-item-13568" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13568"><a href="https://compassion.ch/donations/">Donner</a></li>
+                                                        <li id="menu-item-34449" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34449"><a href="https://compassion.ch/participer/">S’engager bénévolement</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="large-3 medium-3 column" data-equalizer-watch="" style="height: 360px;">
+                                        <div class="menu-footer-spalte-2-container">
+                                            <ul id="menu-footer-spalte-2" class="menu">
+                                                <li id="menu-item-155" class="no-click menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-155">
+                                                    <a href="https://compassion.ch/a-propos-de-compassion/">A propos de Compassion</a>
+                                                    <ul class="sub-menu">
+                                                        <li id="menu-item-162" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-162"><a href="https://compassion.ch/qui-sommes-nous/">Qui sommes-nous ?</a></li>
+                                                        <li id="menu-item-160" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-160"><a href="https://compassion.ch/historique/">L’histoire de Compassion</a></li>
+                                                        <li id="menu-item-157" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-157"><a href="https://compassion.ch/compassion-dans-le-monde/">Compassion dans le monde</a></li>
+                                                        <li id="menu-item-159" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-159"><a href="https://compassion.ch/finances/">Finances</a></li>
+                                                        <li id="menu-item-158" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-158"><a href="https://compassion.ch/telechargements/">Téléchargements</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li id="menu-item-13569" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13569"><a href="https://compassion.ch/nosprincipes/">Nos Principes</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="large-3 medium-3 column" data-equalizer-watch="" style="height: 360px;">
+                                        <div class="menu-footer-spalte-3-container">
+                                            <ul id="menu-footer-spalte-3" class="menu">
+                                                <li id="menu-item-169" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-169"><a href="https://compassion.ch/news/">Blog</a></li>
+                                                <li id="menu-item-80452" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-80452"><a href="https://compassion.ch/newsletter/">Newsletter</a></li>
+                                                <li id="menu-item-13564" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13564"><a href="https://compassion.ch/agenda/">Agenda</a></li>
+                                            </ul>
+                                        </div>
+                                        <h6 class="text-uppercase">Retrouvez-nous sur</h6>
+                                        <ul class="social-links">
+                                            <li><a target="_blank" href="https://www.facebook.com/compassionsuisse/" class="facebook"></a></li>
+                                            <li><a target="_blank" href="https://www.youtube.com/user/CompassionSuisse" class="youtube"></a></li>
+                                            <li><a target="_blank" href="https://vimeo.com/compassionswitzerland" class="vimeo"></a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="large-3 medium-3 column footer-column-4" data-equalizer-watch="" style="height: 360px;">
+                                        <div class="footer-contact">
+                                            <h5 class="text-uppercase">Contact</h5>
+                                            <p>
+                                                <b>Compassion Suisse</b><br />
+                                                Galilée 3<br />
+                                                1400 Yverdon-les-Bains<br />
+                                                Tel.: 0800 784 773<br />
+                                                Email: <a href="mailto:info@compassion.ch">info@compassion.ch</a>
+                                            </p>
+                                        </div>
+                                        <div class="footer-bank">
+                                            <h5 class="text-uppercase">coordonnées bancaires</h5>
+                                            <p>
+                                                CCP: 17-312562-0
+                                                <br />
+                                                IBAN: CH07 0900 0000 1731 2562 0
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="sub-footer row">
+                                    <div class="medium-12 column border">
+                                        <div class="medium-4 column">© 2018 Compassion Suisse</div>
+                                        <div class="medium-8 column">
+                                            <div class="menu-sub-footer-menu-container">
+                                                <ul id="menu-sub-footer-menu" class="menu">
+                                                    <li id="menu-item-182" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-182"><a href="https://compassion.ch/contact/">Contact</a></li>
+                                                    <li id="menu-item-179" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-179"><a href="https://compassion.ch/protection-enfance/">Notre engagement pour la protection de l’enfance</a></li>
+                                                    <li id="menu-item-181" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-181"><a href="https://compassion.ch/protection-des-donnees/">Protection des données</a></li>
+                                                    <li id="menu-item-9408" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9408"><a href="https://compassion.ch/questions-frequentes/">FAQ</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </span>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>
