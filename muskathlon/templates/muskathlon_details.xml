@@ -9,7 +9,7 @@
             <div id="muskathlon_details">
                 <!-- Include modal for registration -->
                 <t t-call="muskathlon.modal_form"/>
-                <t t-set="title">Muskathlon detail</t>
+                <t t-set="title" t-value="event.name"/>
                 <div id="wrap">
                     <!-- Just hold available disciplines for registration form -->
                     <div>
@@ -19,8 +19,6 @@
                             </t>
                         </ul>
                     </div>
-                    <!-- States and country for registration form -->
-                    <t t-call="muskathlon.states"/>
 
                     <!-- Event description -->
                     <div class="main_container">

@@ -12,7 +12,7 @@
                     <div class="participant_details_container">
                         <!-- Include donation form -->
                         <t t-call="muskathlon.modal_form"/>
-                        <t t-set="title">Participant details</t>
+                        <t t-set="title" t-value="event.name"/>
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="card_container">
