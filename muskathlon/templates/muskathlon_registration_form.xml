@@ -2,7 +2,7 @@
 <odoo>
     <template id="new_registration_successful" name="Muskathlon registration success">
         <t t-call="website.layout">
-            <t t-set="title">Muskathlon Registration</t>
+            <t t-set="title" t-value="event.name"/>
             <div class="oe_structure compassion-wp">
                 <div class="thank_you_container">
                     <div class="thank_you_image_container">

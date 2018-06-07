@@ -9,7 +9,7 @@
 
     <template id="list" name="Muskathlon events page">
         <t t-call="website.layout">
-            <t t-set="title">Muskathlons</t>
+            <t t-set="title">Muskathlon</t>
             <div class="oe_structure"/>
             <div class="oe_structure">
                 <div class="container" style="margin-top: 40px;">
