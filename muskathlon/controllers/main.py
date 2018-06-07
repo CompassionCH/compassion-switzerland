@@ -35,7 +35,6 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         values.pop('edit_translations', False)
         values.update({
             'event': event,
-            'states': request.env['res.country.state'].sudo().search([]),
             'disciplines': event.sport_discipline_ids.ids
         })
         result = self.make_response(
@@ -67,7 +66,6 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         values.update({
             'event': event,
             'registration': registration,
-            'states': request.env['res.country.state'].sudo().search([]),
             'form_model_key': 'cms.form.muskathlon.donation'
         })
         result = self.make_response(False, **values)
@@ -287,8 +285,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'survey_url': request.env.ref(
                 'muskathlon.muskathlon_form').public_url,
             'survey_not_started': survey_not_started,
-            'survey_already_filled': survey_already_filled,
-            'states': request.env['res.country.state'].sudo().search([])
+            'survey_already_filled': survey_already_filled
         })
         return values
 

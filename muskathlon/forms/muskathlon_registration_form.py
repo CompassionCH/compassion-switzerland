@@ -53,7 +53,7 @@ if not testing:
                         'partner_title',
                         'partner_name', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
-                        'partner_country_id', 'partner_state_id']
+                        'partner_country_id']
                 },
                 {
                     'id': 'payment',
