@@ -180,6 +180,8 @@ class Contracts(models.Model):
             # Convert to No Money Hold
             sponsorship.with_delay().update_child_hold()
 
+        partner.set_privacy_statement(origin='new_sponsorship')
+
         return True
 
     ##########################################################################

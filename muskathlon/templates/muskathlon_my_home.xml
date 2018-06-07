@@ -7,8 +7,6 @@
 
             <!-- Page content -->
             <div id="my_home" class="container mb64">
-                <!-- States and country for coordinates form -->
-                <t t-call="muskathlon.states"/>
                 <!-- Load modals for forms -->
                 <t t-call="muskathlon.modal_form">
                     <t t-set="form" t-value="coordinates_form"/>

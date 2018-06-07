@@ -25,7 +25,7 @@ if not testing:
         _form_model = 'res.partner'
         _form_model_fields = [
             'name', 'email', 'phone', 'street', 'zip',
-            'city', 'country_id', 'state_id',
+            'city', 'country_id'
         ]
         _form_required_fields = [
             'name', 'email', 'phone', 'street', 'zip',
@@ -33,7 +33,7 @@ if not testing:
         ]
         _form_fields_order = [
             'name', 'email', 'phone', 'street', 'zip',
-            'city', 'country_id', 'state_id'
+            'city', 'country_id'
         ]
 
         @property

@@ -138,15 +138,7 @@
             </div>
         </template>
 
-        <template id="states" name="States">
-            <ul id="state_filter" style="display: none;">
-                <t t-foreach="states" t-as="state">
-                    <li t-att-value="state.country_id.id" t-esc="state.id"/>
-                </t>
-            </ul>
-        </template>
-
-        <template id="footer_muskathlon">
+        <template id="footer_muskathlon" name="Footer Muskathlon">
             <div style="display: none;">
                 <div id="footer_muskathlon">
                     <div style="text-align: center;">
