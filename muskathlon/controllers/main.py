@@ -298,10 +298,8 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         :return: Response
         """
         if response.status_code == 303:
-            # Prepend with external url and lang to avoid 301/302 redirection
-            location = request.env['ir.config_parameter'] \
-                .sudo().get_param('web.external.url') + '/' + \
-                request.env.lang + response.location
+            # Prepend with lang, to avoid 302 redirection
+            location = '/' + request.env.lang + response.location
             return Response(
                 json.dumps({'redirect': location}),
                 status=200,
