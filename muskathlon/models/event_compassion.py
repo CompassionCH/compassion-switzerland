@@ -17,6 +17,7 @@ class EventCompassion(models.Model):
     _name = 'crm.event.compassion'
     _inherit = ['crm.event.compassion', 'website.published.mixin']
 
+    name = fields.Char(translate=True)
     thank_you_text = fields.Html(translate=True)
     muskathlon_event_id = fields.Char(
         string="Muskathlon event ID", size=128)
