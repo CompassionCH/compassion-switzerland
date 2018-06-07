@@ -3,7 +3,7 @@
     <data>
         <template id="participant_details" name="Muskathlon participant page">
             <t t-call="website.layout">
-                <div class="main_container">
+                <div class="main_container" id="participants_details">
                     <div class="participant_image_container">
                          <div class="participant_image">
                              <h2 class="participant_image_text text-uppercase">Support <t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></h2>
