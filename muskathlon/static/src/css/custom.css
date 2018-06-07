@@ -93,7 +93,7 @@
     color: white;
 }
 
-.participant_details_container .sport_icon {
+.participants_details_container .sport_icon {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -127,17 +127,17 @@
     max-width: 100%;
 }
 
-#participant_details .main_container, #muskathlon_details .main_container {
+#participants_details .main_container, #muskathlon_details.main_container {
     margin-left: 15px;
     margin-right: 15px;
 }
 
-#participant_details .participant_image_container {
+#participants_details .participant_image_container {
     position: relative;
     margin-bottom: 50px;
 }
 
-#participant_details .participant_image {
+#participants_details .participant_image {
     background-color: #CD171E;
     min-height: 150px;
     display: flex;
@@ -149,14 +149,14 @@
     padding-right: 15px;
 }
 
-#participant_details .participant_image_text {
+#participants_details .participant_image_text {
     color: white;
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 35px;
 }
 
-#participant_details .card_container {
+#participants_details .card_container {
     display: flex;
     justify-content: center
 }
@@ -173,18 +173,18 @@
     background-color: #CD171E;
 }
 
-#participant_details .site_title {
+#participants_details .site_title {
     margin-top: 0px;
     margin-bottom: 8px;
     font-size: 34px;
 }
 
-#participant_details .complete_name_container {
+#participants_details .complete_name_container {
     margin-top: 30px;
     margin-bottom: 8px;
 }
 
-#participant_details .complete_name {
+#participants_details .complete_name {
     font-weight: bold;
     font-size: 18px;
 }
@@ -204,7 +204,7 @@
     right: 16px;
 }
 
-.participant_details_buttons_container {
+.participants_details_buttons_container {
     margin-top: 20px;
 }
 
@@ -222,7 +222,7 @@
     left: -15px;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center top;
     height: 50vh;
     width: 100vw;
 }
@@ -301,7 +301,7 @@
     background-position: center top;
 }
 
-#muskathlon_details .participant_details_link {
+#muskathlon_details .participants_details_link {
     position: relative;
     padding: 10px;
 }
@@ -321,7 +321,7 @@
 }
 
 #muskathlon_details .sport_icon {
-    height: 34px;
+    height: 40px;
 }
 
 #muskathlon_details .sport_icon.walk {
