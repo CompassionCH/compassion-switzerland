@@ -47,4 +47,3 @@ class ResUser(models.Model):
                 message = "Impossible to connect your Xivo agent\n"
                 message += unicode(e)
                 ast_user.notify_info(message)
-                ast_manager.Logoff()
