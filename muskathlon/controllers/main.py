@@ -175,7 +175,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             return request.render('muskathlon.registration_failure')
 
         event = tx.registration_id.event_id
-        if not tx.registration_id.lead_id:
+        if tx.state == 'done' and not tx.registration_id.lead_id:
             # Create the lead
             staff_id = env['staff.notification.settings'].get_param(
                 'muskathlon_lead_notify_id')
