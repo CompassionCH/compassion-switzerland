@@ -19,8 +19,6 @@
                             </t>
                         </ul>
                     </div>
-                    <!-- States and country for registration form -->
-                    <t t-call="muskathlon.states"/>
 
                     <!-- Event description -->
                     <div class="main_container">
