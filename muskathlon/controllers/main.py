@@ -8,6 +8,8 @@
 #
 ##############################################################################
 import json
+import locale
+import time
 
 from odoo import _
 from odoo.http import request, route, Response
@@ -33,9 +35,18 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         values = kwargs.copy()
         # This allows the translation to still work on the page
         values.pop('edit_translations', False)
+
+        # get current lang to format dates
+        lang = request._context['lang']
+        locale.setlocale(locale.LC_TIME, lang)
+
         values.update({
             'event': event,
-            'disciplines': event.sport_discipline_ids.ids
+            'disciplines': event.sport_discipline_ids.ids,
+            'start_date': time.strftime('%d %B %Y',time.strptime(
+                event.start_date,'%Y-%m-%d %H:%M:%S')),
+            'end_date': time.strftime('%d %B %Y',time.strptime(
+                event.end_date,'%Y-%m-%d %H:%M:%S'))
         })
         result = self.make_response(
             'muskathlon.registration', **values

@@ -41,7 +41,7 @@
                                                 <div class="col-sm-4 dates_container">
                                                     <span class="text-uppercase dates_text">Dates</span>
                                                     <span class="same-line">
-                                                        <t t-esc="time.strftime('%d %B %Y',time.strptime(event.start_date,'%Y-%m-%d %H:%M:%S'))"/> - <t t-esc="time.strftime('%d %B %Y',time.strptime(event.end_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                        <t t-esc="start_date"/> - <t t-esc="end_date"/>
                                                     </span>
                                                     <p class="text-uppercase sports_title">Sports</p>
                                                     <table class="sports_icons">
