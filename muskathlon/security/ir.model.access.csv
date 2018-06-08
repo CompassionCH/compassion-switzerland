@@ -5,8 +5,7 @@ access_crm_event_website,Muskathlons events for website,model_crm_event_compassi
 access_muskathlon_registration_website,Muskathlons registrations for website,model_muskathlon_registration,,1,0,1,0
 access_muskathlon_report_website,Muskathlons report for website,model_muskathlon_report,,1,0,0,0
 access_sports,Read access on sport discipline,model_sport_discipline,,1,0,0,0
-write_access_sports,Write access on sport discipline,model_sport_discipline,child_compassion.group_sponsorship,1,1,0,0
-full_access_sports,Full access on sport discipline,model_sport_discipline,base.group_system,1,1,1,1
+full_access_sports,Full access on sport discipline,model_sport_discipline,child_compassion.group_sponsorship,1,1,1,1
 read_printer,Read access on printer for users,base_report_to_printer.model_printing_printer,base.group_user,1,0,0,0
 read_printer_action,Read access on printer action for users,base_report_to_printer.model_printing_action,base.group_user,1,0,0,0
 read_printer_report,Read access on printer report action for users,base_report_to_printer.model_printing_report_xml_action,base.group_user,1,0,0,0
