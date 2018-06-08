@@ -33,7 +33,8 @@ class EventCompassion(models.Model):
     amount_objective = fields.Integer(compute='_compute_amount_raised')
     amount_raised = fields.Integer(compute='_compute_amount_raised')
     amount_raised_percents = fields.Integer(compute='_compute_amount_raised')
-    sport_discipline_ids = fields.Many2many('sport.discipline')
+    sport_discipline_ids = fields.Many2many(
+        'sport.discipline', 'Sport disciplines')
 
     @api.multi
     def _compute_website_url(self):
