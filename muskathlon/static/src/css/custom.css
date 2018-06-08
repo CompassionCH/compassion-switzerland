@@ -342,3 +342,12 @@
 #muskathlon_details .sports_title {
    margin-top: 20px;
 }
+
+#participants_details .ambassador_description {
+    font-size: 15px;
+    padding: 10px;
+}
+
+#participants_details .progress {
+    margin-bottom: 30px;
+}

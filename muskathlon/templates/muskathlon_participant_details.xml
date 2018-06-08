@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-7">
-                                <h2 class="side_title"><t t-esc="registration.ambassador_quote"/></h2>
+                                <h2 class="side_title"><t t-esc="registration.sport_discipline_id.participant_title"/></h2>
                                 Muskathlon :
                                 <a t-attf-href="/event/{{ event.id }}" class="href_muskathlon">
                                     <t t-esc="event.name.replace('Muskathlon ', '')"/>
@@ -58,7 +58,10 @@
                                     <span class="text-uppercase complete_name"><t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></span>
                                     <t t-esc="registration.get_sport_discipline_name()"/>
                                 </p>
-                                <p t-field="registration.ambassador_description"/>
+                                <blockquote>
+                                    <p t-field="registration.ambassador_quote"/>
+                                </blockquote>
+                                <p t-field="registration.ambassador_description" class="ambassador_description"/>
                                 <div class="space_top">
                                     Raised amount:
                                 </div>

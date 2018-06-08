@@ -19,6 +19,7 @@ class SportDiscipline(models.Model):
     sport = fields.Char(required=True)
     distance = fields.Integer(string='Distance (m)', required=True)
     distance_km = fields.Integer(compute='_compute_distance_km')
+    participant_title = fields.Char(required=True)
 
     @api.multi
     @api.depends('distance')
