@@ -12,6 +12,7 @@ from odoo import models, fields, api, _
 from odoo.tools import config
 from odoo.exceptions import MissingError
 from odoo.addons.website.models.website import slug
+from odoo.addons.queue_job.job import job, related_action
 
 
 class MuskathlonRegistration(models.Model):
@@ -161,3 +162,32 @@ class MuskathlonRegistration(models.Model):
                     'message': _('This sport is not in muskathlon')
                 }
             }
+
+    @job(default_channel='root.muskathlon')
+    @related_action('related_action_registration')
+    def create_muskathlon_lead(self):
+        """Create Muskathlon lead for registration"""
+        self.ensure_one()
+        partner = self.partner_id
+        staff_id = self.env['staff.notification.settings'].get_param(
+            'muskathlon_lead_notify_id')
+        self.lead_id = self.env['crm.lead'].create({
+            'name': u'Muskathlon Registration - ' + partner.name,
+            'partner_id': partner.id,
+            'email_from': partner.email,
+            'phone': partner.phone,
+            'partner_name': partner.name,
+            'street': partner.street,
+            'zip': partner.zip,
+            'city': partner.city,
+            'user_id': staff_id,
+            'description': self.sport_level_description,
+            'event_id': self.event_id.id,
+            'sales_team_id': self.env.ref(
+                'sales_team.salesteam_website_sales').id
+        })
+
+    @job(default_channel='root.muskathlon')
+    def delete_muskathlon_registration(self):
+        """Cancel Muskathlon registration"""
+        return self.unlink()

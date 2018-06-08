@@ -20,3 +20,4 @@ from . import website
 from . import payment_transaction
 from . import widgets
 from . import account_invoice
+from . import queue_job
