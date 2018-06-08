@@ -8,7 +8,6 @@
 #
 ##############################################################################
 import re
-from datetime import date
 
 from odoo import models, fields, tools, _
 

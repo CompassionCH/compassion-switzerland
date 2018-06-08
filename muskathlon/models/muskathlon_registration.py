@@ -141,9 +141,6 @@ class MuskathlonRegistration(models.Model):
                     break
             registration.website_published = published
 
-    def get_sport_discipline_name(self):
-        return self.sport_discipline_id.get_label()
-
     @api.onchange('event_id')
     def onchange_event_id(self):
         return {

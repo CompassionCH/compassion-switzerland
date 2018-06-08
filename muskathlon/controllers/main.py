@@ -8,8 +8,6 @@
 #
 ##############################################################################
 import json
-import locale
-import time
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
@@ -39,17 +37,11 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         # This allows the translation to still work on the page
         values.pop('edit_translations', False)
 
-        # get current lang to format dates
-        lang = request._context['lang']
-        locale.setlocale(locale.LC_TIME, lang)
-
         values.update({
             'event': event,
             'disciplines': event.sport_discipline_ids.ids,
-            'start_date': time.strftime('%d %B %Y',time.strptime(
-                event.start_date,'%Y-%m-%d %H:%M:%S')),
-            'end_date': time.strftime('%d %B %Y',time.strptime(
-                event.end_date,'%Y-%m-%d %H:%M:%S'))
+            'start_date': event.get_date('start_date', 'date_full'),
+            'end_date': event.get_date('end_date', 'date_full')
         })
         result = self.make_response(
             'muskathlon.registration', **values
