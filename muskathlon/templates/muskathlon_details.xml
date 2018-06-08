@@ -43,7 +43,7 @@
                                                     <span class="same-line">
                                                         <t t-esc="time.strftime('%d %B %Y',time.strptime(event.start_date,'%Y-%m-%d %H:%M:%S'))"/> - <t t-esc="time.strftime('%d %B %Y',time.strptime(event.end_date,'%Y-%m-%d %H:%M:%S'))"/>
                                                     </span>
-                                                    <p class="text-uppercase">Sports</p>
+                                                    <p class="text-uppercase sports_title">Sports</p>
                                                     <table class="sports_icons">
                                                         <tr>
                                                             <t t-foreach="event.sport_discipline_ids" t-as="discipline">
@@ -114,7 +114,7 @@
                         </div>
                         <div class="row participants_container">
                             <div class="col-md-1"/>
-                            <div class="col-md-10">
+                            <div class="col-md-10 col-xs-12">
                                 <t t-if="event.muskathlon_registration_ids.filtered('website_published')">
                                     <h1 class="participants_title">Participants</h1>
                                 </t>
