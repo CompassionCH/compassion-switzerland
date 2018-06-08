@@ -177,7 +177,7 @@ class ImportLettersHistory(models.Model):
             sftp.close()
 
             # Accept privacy statement
-            model_sponsor[:1].id.set_privacy_statement(
+            model_sponsor[:1].set_privacy_statement(
                 origin='new_letter')
 
             return True
