@@ -8,10 +8,10 @@
     font-size: 14px;
 }
 .participants_container {
-    margin-top: 50px;
+    margin-top: 10px;
     background-color: #CD171E;
     overflow: hidden;
-    border-bottom: solid 50px #CD171E;
+    padding-bottom: 50px;
 }
 .participants {
     display: flex;
@@ -36,6 +36,11 @@
     width: 40px;
     border-radius: 25px;
 }
+
+.dates_container .sport_icon {
+    border-radius: 1px;
+}
+
 .sport_icon img {
     height: 30px;
     width: 30px;
@@ -66,12 +71,12 @@
 }
 
 @keyframes show_details_button {
-    from {bottom: 0px;}
-    to {top: -10px;}
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
 @keyframes hide_details_button {
-    from {top: -10px;}
-    to {bottom: 0px;}
+    from {opacity: 1;}
+    to {opacity: 0;}
 }
 
 .participant_card .details {
@@ -81,11 +86,12 @@
     flex-direction:column;
     position: absolute;
     width: 100%;
-    top: 115px;
+    top: -10px;
     left: 0px;
+    opacity: 0;
     background-color: rgba(205,23,30,0.9);
     height: 125px;
-    animation-duration: 0.45s;
+    animation-duration: 0.5s;
 }
 
 .participant_card .details_text {
@@ -224,13 +230,14 @@
     background-repeat: no-repeat;
     background-position: center top;
     height: 50vh;
+    max-height: 280px;
     width: 100vw;
 }
 
 #muskathlon_details .event_name {
     color: white;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px auto;
+    max-width: 90%;
 }
 
 #muskathlon_details .banner_text_container {
@@ -321,7 +328,7 @@
 }
 
 #muskathlon_details .sport_icon {
-    height: 34px;
+    height: 40px;
 }
 
 #muskathlon_details .sport_icon.walk {
@@ -330,4 +337,17 @@
 
 #muskathlon_details .muskathlon_register_button {
     margin-top: 16px;
+}
+
+#muskathlon_details .sports_title {
+   margin-top: 20px;
+}
+
+#participants_details .ambassador_description {
+    font-size: 15px;
+    padding: 10px;
+}
+
+#participants_details .progress {
+    margin-bottom: 30px;
 }

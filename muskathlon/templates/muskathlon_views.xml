@@ -142,8 +142,12 @@
             <div style="display: none;">
                 <div id="footer_muskathlon">
                     <div style="text-align: center;">
-                        <img src="/muskathlon/static/src/img/4mch.png" style="margin-right: 20px;"/>
-                        <img src="/muskathlon/static/src/img/compassion.png"/>
+                        <a href="http://muskathlon.ch" target="_blank">
+                            <img src="/muskathlon/static/src/img/4mch.png" style="margin-right: 20px;"/>
+                        </a>
+                        <a href="https://compassion.ch" target="_blank">
+                            <img src="/muskathlon/static/src/img/compassion.png"/>
+                        </a>
                     </div>
                 </div>
             </div>
