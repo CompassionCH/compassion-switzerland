@@ -10,17 +10,17 @@
 ##############################################################################
 
 from odoo import models, api, fields
+from odoo.addons.queue_job.job import job, related_action
 
 
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
     @api.multi
+    @job(default_channel='root.muskathlon')
+    @related_action('related_action_invoice')
     def pay_muskathlon_invoice(self):
-        """
-        Make a payment to reconcile Muskathlon invoice.
-        :return: True
-        """
+        """Make a payment to reconcile Muskathlon invoice."""
         if self.state == 'paid':
             return True
         muskathlon_user = self.env.ref('muskathlon.user_muskathlon_portal')
@@ -47,3 +47,9 @@ class AccountInvoice(models.Model):
                 self.action_invoice_open()
             account_payment.post()
         return True
+
+    @api.multi
+    @job(default_channel='root.muskathlon')
+    def delete_muskathlon_invoice(self):
+        """Cancel Muskathlon invoice"""
+        return self.unlink()

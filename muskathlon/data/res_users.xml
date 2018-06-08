@@ -10,6 +10,7 @@
                                            (4, ref('child_compassion.group_sponsorship')),
                                            (4, ref('account.group_account_invoice')),
                                            ]"/>
+            <field name="sale_team_id" ref="sales_team.salesteam_website_sales"/>
         </record>
     </data>
 </odoo>

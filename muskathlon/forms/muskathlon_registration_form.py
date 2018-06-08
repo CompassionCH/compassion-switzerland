@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import re
 
 from odoo import models, fields, tools, _
 
@@ -113,7 +114,14 @@ if not testing:
         def _form_load_event_id(
                 self, fname, field, value, **req_values):
             # Default value for muskathlon.registration field
-            return req_values.get('event_id', self.event_id.id)
+            return int(req_values.get('event_id', self.event_id.id))
+
+        def _form_validate_sport_level_description(self, value, **req_values):
+            if not re.match(r'^[\w\s-]+$', value, re.UNICODE):
+                return 'sport_level_description', _(
+                    'Please avoid any special characters')
+            # No error
+            return 0, 0
 
         def form_before_create_or_update(self, values, extra_values):
             """ Create invoice for the registration.

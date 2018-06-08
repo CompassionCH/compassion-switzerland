@@ -8,6 +8,9 @@
 #
 ##############################################################################
 import json
+from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
 
 from odoo import _
 from odoo.http import request, route, Response
@@ -33,9 +36,12 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         values = kwargs.copy()
         # This allows the translation to still work on the page
         values.pop('edit_translations', False)
+
         values.update({
             'event': event,
-            'disciplines': event.sport_discipline_ids.ids
+            'disciplines': event.sport_discipline_ids.ids,
+            'start_date': event.get_date('start_date', 'date_full'),
+            'end_date': event.get_date('end_date', 'date_full')
         })
         result = self.make_response(
             'muskathlon.registration', **values
@@ -169,7 +175,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         if transaction_id is None:
             transaction_id = request.session.get('sale_transaction_id')
         if transaction_id:
-            tx = env['payment.transaction'].browse(transaction_id)
+            tx = env['payment.transaction'].browse(transaction_id).sudo(uid)
 
         if not tx or not tx.registration_id:
             return request.render('muskathlon.registration_failure')
@@ -177,22 +183,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         event = tx.registration_id.event_id
         if tx.state == 'done' and not tx.registration_id.lead_id:
             # Create the lead
-            staff_id = env['staff.notification.settings'].get_param(
-                'muskathlon_lead_notify_id')
-            partner = tx.partner_id
-            tx.registration_id.lead_id = env['crm.lead'].create({
-                'name': u'Muskathlon Registration - ' + partner.name,
-                'partner_id': partner.id,
-                'email_from': partner.email,
-                'phone': partner.phone,
-                'partner_name': partner.name,
-                'street': partner.street,
-                'zip': partner.zip,
-                'city': partner.city,
-                'user_id': staff_id,
-                'description': tx.registration_id.sport_level_description,
-                'event_id': event.id
-            })
+            tx.registration_id.with_delay().create_muskathlon_lead()
         post.update({'event': event})
         return self.muskathlon_payment_validate(
             tx, 'muskathlon.new_registration_successful',
@@ -245,11 +236,14 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         if transaction.state == 'done':
             # Create payment
             success = True
-            invoice.pay_muskathlon_invoice()
+            invoice.with_delay().pay_muskathlon_invoice()
         elif transaction.state in ('cancel', 'error'):
-            # Cancel the invoice and potential registration
-            transaction.invoice_id.unlink()
-            transaction.registration_id.unlink()
+            # Cancel the invoice and potential registration (avoid launching
+            # jobs at the same time, can cause rollbacks)
+            delay = datetime.today() + relativedelta(seconds=10)
+            transaction.invoice_id.with_delay().delete_muskathlon_invoice()
+            transaction.registration_id.with_delay(eta=delay).\
+                delete_muskathlon_registration()
 
         # clean context and session, then redirect to the confirmation page
         request.session['sale_transaction_id'] = False

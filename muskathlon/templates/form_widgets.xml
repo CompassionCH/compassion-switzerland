@@ -56,6 +56,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
                         <span t-field="acquirer.name" />
                         <span t-if="acquirer.fees_active">(processing fees apply)</span>
                     </label>
+                    <span t-field="acquirer.pre_msg"/>
                 </li>
             </t>
         </ul>

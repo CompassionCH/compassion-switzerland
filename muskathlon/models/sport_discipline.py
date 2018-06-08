@@ -16,7 +16,7 @@ class SportDiscipline(models.Model):
     _description = "Sport Discipline"
 
     name = fields.Char(required=True)
-    sport = fields.Char(required=True)
+    sport = fields.Char(required=True, translate=True)
     distance = fields.Integer(string='Distance (m)', required=True)
     distance_km = fields.Integer(compute='_compute_distance_km')
 
@@ -25,6 +25,3 @@ class SportDiscipline(models.Model):
     def _compute_distance_km(self):
         for sport in self:
             sport.distance_km = sport.distance/1000
-
-    def get_label(self):
-        return self.sport.capitalize()+" for "+str(self.distance/1000)+"km"
