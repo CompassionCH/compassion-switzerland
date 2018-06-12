@@ -85,13 +85,11 @@ if not testing:
             uid = self.env.ref('muskathlon.user_muskathlon_portal').id
             super(OrderMaterialForm, self.sudo(uid))._form_create(values)
 
-
     class OrderMaterialFormFlyer(models.AbstractModel):
         _name = 'cms.form.order.material'
         _inherit = 'cms.form.order.material.mixin'
 
         form_id = fields.Char(default='order_material')
-
 
     class OrderMaterialFormChildpack(models.AbstractModel):
         _name = 'cms.form.order.muskathlon.childpack'
