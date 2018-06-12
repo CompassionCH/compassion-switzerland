@@ -117,7 +117,7 @@ if not testing:
             return int(req_values.get('event_id', self.event_id.id))
 
         def _form_validate_sport_level_description(self, value, **req_values):
-            if not re.match(r'^[\w\s-]+$', value, re.UNICODE):
+            if not re.match(r"^[\w\s-']+$", value, re.UNICODE):
                 return 'sport_level_description', _(
                     'Please avoid any special characters')
             # No error
