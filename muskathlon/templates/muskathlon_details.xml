@@ -96,7 +96,7 @@
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <t t-esc="'{:n}'.format(event.amount_raised)"/> / <t t-esc="'{:n}'.format(event.amount_objective)"/> CHF
+                                                            <t t-esc="'{:n}'.format(event.amount_raised).replace(',', '\'')"/> / <t t-esc="'{:n}'.format(event.amount_objective).replace(',', '\'')"/> CHF
                                                         </div>
                                                     </div>
                                                 </div>
@@ -141,7 +141,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="amount_raised">
-                                                        <t t-esc="'{:n}'.format(registration.amount_raised)"/> / <t t-esc="'{:n}'.format(registration.amount_objective)"/> CHF
+                                                        <t t-esc="'{:n}'.format(registration.amount_raised).replace(',', '\'')"/> / <t t-esc="'{:n}'.format(registration.amount_objective).replace(',', '\'')"/> CHF
                                                     </div>
                                                     <h5 class="text-uppercase name details"><span class="details_text">Participant<br/>details</span></h5>
                                                 </div>
