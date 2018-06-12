@@ -48,12 +48,13 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         )
         return self._form_redirect(result)
 
-    @route('/my/muskathlons/<int:muskathlon_id>',
+    @route('/my/muskathlon/<model("muskathlon.registration"):registration>/'
+           'donations',
            auth='user', website=True)
-    def muskathlon_details(self, muskathlon_id, **kwargs):
+    def muskathlon_details(self, registration, **kwargs):
         reports = request.env['muskathlon.report'].search(
             [('user_id', '=', request.env.user.partner_id.id),
-             ('event_id', '=', muskathlon_id)])
+             ('event_id', '=', registration.event_id.id)])
         return request.render('muskathlon.my_details', {
             'reports': reports
         })
@@ -219,6 +220,33 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             tx, 'muskathlon.donation_successful',
             'muskathlon.donation_failure', **post
         )
+
+    @route('/my/muskathlon/<model("muskathlon.registration"):registration>',
+           auth="user", website=True)
+    def muskathlon_order_material(self, registration, form_id=None, **kw):
+        # Load forms
+        kw['form_model_key'] = 'cms.form.order.material'
+        kw['registration'] = registration
+        material_form = self.get_form('crm.lead', **kw)
+        if form_id is None or form_id == 'order_material':
+            material_form.form_process()
+
+        kw['form_model_key'] = 'cms.form.order.muskathlon.childpack'
+        childpack_form = self.get_form('crm.lead', **kw)
+        if form_id is None or form_id == 'muskathlon_childpack':
+            childpack_form.form_process()
+
+        flyer = '/muskathlon/static/src/img/muskathlon_parrain_example_'
+        flyer += request.env.lang[:2] + '.jpg'
+
+        values = {
+            'registration': registration,
+            'material_form': material_form,
+            'childpack_form': childpack_form,
+            'flyer_image': flyer
+        }
+        return request.render(
+            "muskathlon.my_muskathlon_order_material", values)
 
     def muskathlon_payment_validate(
             self, transaction, success_template, fail_template, **kwargs):

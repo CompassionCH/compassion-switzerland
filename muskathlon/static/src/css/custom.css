@@ -136,6 +136,7 @@
 .main_container {
     margin-left: 15px;
     margin-right: 15px;
+    margin-bottom: 20px;
 }
 
 #participants_details .participant_image_container {
@@ -223,7 +224,7 @@
     text-decoration: underline;
 }
 
-#muskathlon_details .banner_container {
+#muskathlon_details .banner_container, #my_muskathlon .banner_container {
     position: relative;
     left: -15px;
     background-size: cover;
@@ -234,7 +235,7 @@
     width: 100vw;
 }
 
-#muskathlon_details .event_name {
+#muskathlon_details .event_name, #my_muskathlon .event_name {
     color: white;
     margin: 10px auto;
     max-width: 90%;
@@ -248,7 +249,16 @@
     background-color: #CD171E;
 }
 
-#muskathlon_details .about_event_container, .participant_details_container {
+#my_muskathlon .banner_text_container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #004897;
+}
+
+#muskathlon_details .about_event_container, .participant_details_container,
+#my_muskathlon .about_event_container, .participant_details_container {
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px;
@@ -350,4 +360,27 @@
 
 #participants_details .progress {
     margin-bottom: 30px;
+}
+.blue-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    background-color: #004897;
+    color: white;
+}
+#material_form {
+    margin-top: 20px;
+}
+
+#my_muskathlon .flyer_preview {
+    width:100%;
+    text-align: center;
+}
+
+/* Modal flyer in fullscreen */
+@media only screen and (min-width: 1200px) {
+    #modal_flyer .modal-dialog {
+      width: 80%;
+      margin: auto;
+    }
 }

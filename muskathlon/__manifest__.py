@@ -59,6 +59,7 @@
         'templates/muskathlon_registration_form.xml',
         'templates/muskathlon_snippet.xml',
         'templates/muskathlon_views.xml',
+        'templates/muskathlon_order_material.xml',
         'templates/form_widgets.xml',
         'templates/assets.xml'
     ],
