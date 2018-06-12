@@ -16,3 +16,4 @@ from . import muskathlon_donation_form
 from . import trip_form
 from . import partner_coordinates_form
 from . import ambassador_details_form
+from . import order_material_form

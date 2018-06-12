@@ -105,7 +105,7 @@ if not testing:
             return 0, 0
 
         def _form_validate_alpha_field(self, field, value):
-            if not re.match(r'^[\w\s-]+$', value, re.UNICODE):
+            if not re.match(r"^[\w\s-']+$", value, re.UNICODE):
                 return field, _('Please avoid any special characters')
             # No error
             return 0, 0
