@@ -109,7 +109,9 @@ class MuskathlonRegistration(models.Model):
         for registration in self:
             amount_raised = int(sum(
                 item.amount for item in muskathlon_report.search([
-                    ('user_id', '=', registration.partner_id.id)
+                    ('user_id', '=', registration.partner_id.id),
+                    ('event_id', '=', registration.event_id.id),
+                    ('muskathlon_registration_id', '=', registration.reg_id),
                 ])
             ))
 
