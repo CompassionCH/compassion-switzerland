@@ -230,8 +230,8 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center top;
-    height: 50vh;
-    max-height: 280px;
+    height: calc(30vw + 120px);
+    max-height: 400px;
     width: 100vw;
 }
 
