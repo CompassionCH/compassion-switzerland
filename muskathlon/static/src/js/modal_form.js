@@ -15,6 +15,10 @@ odoo.define('muskathlon.modal_form', function (require) {
             modal_form.submit(function (event) {
                 // Prevent direct submission
                 event.preventDefault();
+                // Show spinner
+                var btn = $(event.target).find('button[type="submit"]').first();
+                btn.attr('data-loading-text', '<i class="fa fa-circle-o-notch fa-spin" style="margin-right: 5px;"></i>'+btn.text());
+                btn.button('loading');
                 // Send form in ajax (remove translation url)
                 var post_url = window.location.pathname;
                 var form_data = self.$("form").serialize();
@@ -42,6 +46,7 @@ odoo.define('muskathlon.modal_form', function (require) {
                         } else {
                             self.on_receive_back_html_result(data);
                         }
+                        btn.button('reset');
                     },
                     error: function (data) {
                         // HTML page is sent back as error (because it's not JSON)
@@ -57,6 +62,7 @@ odoo.define('muskathlon.modal_form', function (require) {
                                 self.$el.find('.above-controls').before(formatted_mess);
                             }
                         }
+                        btn.button('reset');
                     }
                 });
             });
