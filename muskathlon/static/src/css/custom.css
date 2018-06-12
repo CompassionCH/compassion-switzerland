@@ -207,7 +207,8 @@
 
 .progress-amount {
     position: absolute;
-    right: 16px;
+    right: 22px;
+    font-weight: bold;
 }
 
 .participant_details_buttons_container {
