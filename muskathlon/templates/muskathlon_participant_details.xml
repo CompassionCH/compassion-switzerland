@@ -50,7 +50,7 @@
                             </div>
                             <div class="col-sm-7">
                                 <t t-set="sport" t-value="registration.sport_discipline_id"/>
-                                <h2 class="side_title">I will go <span t-field="sport.sport"/> for Compassion</h2>
+                                <h2 class="side_title" t-field="sport.page_title"/>
                                 Muskathlon :
                                 <a t-attf-href="/event/{{ event.id }}" class="href_muskathlon">
                                     <t t-esc="event.name.replace('Muskathlon ', '')"/>

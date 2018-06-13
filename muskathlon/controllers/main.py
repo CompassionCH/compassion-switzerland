@@ -248,6 +248,19 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         return request.render(
             "muskathlon.my_muskathlon_order_material", values)
 
+    @route('/muskathlon_registration/'
+           '<model("muskathlon.registration"):registration>/success',
+           type='http', auth="public", website=True)
+    def muskathlon_registration_successful(self, registration, **kwargs):
+        # Create lead
+        registration.with_delay().create_muskathlon_lead()
+        values = {
+            'registration': registration,
+            'event': registration.event_id
+        }
+        return request.render(
+            'muskathlon.new_registration_successful_modal', values)
+
     def muskathlon_payment_validate(
             self, transaction, success_template, fail_template, **kwargs):
         """
