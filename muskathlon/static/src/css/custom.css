@@ -414,3 +414,9 @@ header .navbar-brand img {
         margin-top: 20px;
     }
 }
+
+.field-boolean input[type="checkbox"] {
+    margin-top: 20px;
+    width: initial;
+    height: initial;
+}
