@@ -37,7 +37,7 @@ if not testing:
 
         @property
         def _form_fieldsets(self):
-            return [
+            fieldset = [
                 {
                     'id': 'sport',
                     'title': _('Your sport profile'),
@@ -55,18 +55,20 @@ if not testing:
                         'partner_name', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
                         'partner_country_id']
-                },
-                {
+                }
+            ]
+            if self.event_id.registration_fee:
+                fieldset.append({
                     'id': 'payment',
                     'title': _('Registration payment'),
                     'description': _(
                         'For validating registrations, we ask a fee of '
-                        'CHF 100.- that you can directly pay with your '
+                        'CHF %s that you can directly pay with your '
                         'Postfinance or Credit Card'
-                    ),
+                    ) % str(self.event_id.registration_fee),
                     'fields': ['amount', 'currency_id', 'acquirer_ids']
-                },
-            ]
+                })
+            return fieldset
 
         @property
         def form_widgets(self):
@@ -86,7 +88,7 @@ if not testing:
 
         @property
         def _default_amount(self):
-            return 100.0
+            return self.event_id.registration_fee
 
         @property
         def form_title(self):
@@ -97,7 +99,10 @@ if not testing:
 
         @property
         def submit_text(self):
-            return _("Proceed with payment")
+            if self.event_id.registration_fee:
+                return _("Proceed with payment")
+            else:
+                return _("Register now")
 
         def form_init(self, request, main_object=None, **kw):
             form = super(MuskathlonRegistrationForm, self).form_init(
@@ -130,20 +135,22 @@ if not testing:
             super(MuskathlonRegistrationForm,
                   self).form_before_create_or_update(values, extra_values)
             uid = self.env.ref('muskathlon.user_muskathlon_portal').id
-            fee_template = self.env.ref('muskathlon.product_registration')
-            product = fee_template.sudo(uid).product_variant_ids[:1]
-            self.invoice_id = self.env['account.invoice'].sudo(uid).create({
-                'partner_id': self.partner_id.id,
-                'currency_id': self.currency_id.id,
-                'invoice_line_ids': [(0, 0, {
-                    'quantity': 1.0,
-                    'price_unit': 100,
-                    'account_analytic_id': self.event_id.analytic_id.id,
-                    'account_id': product.property_account_income_id.id,
-                    'name': 'Muskathlon registration fees',
-                    'product_id': product.id
-                })]
-            })
+            if self.event_id.registration_fee:
+                fee_template = self.env.ref('muskathlon.product_registration')
+                product = fee_template.sudo(uid).product_variant_ids[:1]
+                invoice_obj = self.env['account.invoice'].sudo(uid)
+                self.invoice_id = invoice_obj.create({
+                    'partner_id': self.partner_id.id,
+                    'currency_id': self.currency_id.id,
+                    'invoice_line_ids': [(0, 0, {
+                        'quantity': 1.0,
+                        'price_unit': self.event_id.registration_fee,
+                        'account_analytic_id': self.event_id.analytic_id.id,
+                        'account_id': product.property_account_income_id.id,
+                        'name': 'Muskathlon registration fees',
+                        'product_id': product.id
+                    })]
+                })
             if not self.partner_id.ambassador_details_id:
                 self.partner_id.sudo(uid).ambassador_details_id =\
                     self.env['ambassador.details'].sudo(uid).create({
@@ -159,6 +166,14 @@ if not testing:
         def _form_create(self, values):
             uid = self.env.ref('muskathlon.user_muskathlon_portal').id
             self.main_object = self.form_model.sudo(uid).create(values.copy())
+
+        def form_next_url(self, main_object=None):
+            if self.event_id.registration_fee:
+                return super(MuskathlonRegistrationForm, self).form_next_url(
+                    main_object)
+            else:
+                return '/muskathlon_registration/{}/success'.format(
+                    self.main_object.id)
 
         def _edit_transaction_values(self, tx_values):
             """ Add registration link and change reference. """

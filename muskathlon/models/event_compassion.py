@@ -31,6 +31,7 @@ class EventCompassion(models.Model):
     filename_1 = fields.Char(compute='_compute_filenames')
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000, required=True)
+    registration_fee = fields.Float()
     amount_objective = fields.Integer(compute='_compute_amount_raised')
     amount_raised = fields.Integer(compute='_compute_amount_raised')
     amount_raised_percents = fields.Integer(compute='_compute_amount_raised')

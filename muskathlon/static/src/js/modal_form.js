@@ -81,7 +81,17 @@ odoo.define('muskathlon.modal_form', function (require) {
                 }
             } else {
                 // This is another page. we load it inside the modal.
-                this.$el.find(".modal-body").html(render_result);
+                // Try to find if it's an Odoo page an extract the content
+                var content = $(render_result).find("#wrap .container");
+                if (content.length === 0) {
+                    content = $(render_result).find(".main_container");
+                }
+                if (content.length === 0) {
+                    // Render the full page
+                    this.$el.find(".modal-body").html(render_result);
+                } else {
+                    this.$el.find(".modal-body form").replaceWith(content.html());
+                }
             }
         }
     });

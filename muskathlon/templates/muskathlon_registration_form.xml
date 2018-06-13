@@ -22,6 +22,17 @@
             </div>
         </t>
     </template>
+    <template id="new_registration_successful_modal" name="Muskathlon registration success modal">
+        <div>
+            <h3>Registration Successful!</h3>
+            <p>Thank you for your submission.</p>
+            <br/>
+            <p>You will receive a confirmation by e-mail very soon with instructions to complete your profile.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </template>
     <template id="registration_failure" name="Muskathlon registration failure">
         <t t-call="website.layout">
             <t t-set="title">Muskathlon Registration</t>

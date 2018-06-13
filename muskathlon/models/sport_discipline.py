@@ -19,6 +19,8 @@ class SportDiscipline(models.Model):
     sport = fields.Char(required=True, translate=True)
     distance = fields.Integer(string='Distance (m)', required=True)
     distance_km = fields.Integer(compute='_compute_distance_km')
+    page_title = fields.Char(
+        translate=True, default='I will go ... for Compassion')
 
     @api.multi
     @api.depends('distance')
