@@ -247,6 +247,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    padding: 3px;
     background-color: #CD171E;
 }
 
@@ -255,6 +256,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    padding: 3px;
     background-color: #004897;
 }
 
@@ -363,19 +365,31 @@
     margin-bottom: 30px;
 }
 .blue-section {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    /*margin-top: 20px;*/
+    /*margin-bottom: 20px;*/
+    /*padding-bottom: 20px;*/
     background-color: #004897;
     color: white;
 }
-#material_form {
-    margin-top: 20px;
-}
+/*#material_form {*/
+    /*margin-top: 20px;*/
+/*}*/
 
 #my_muskathlon .flyer_preview {
     width:100%;
     text-align: center;
+}
+
+#my_muskathlon .row {
+    padding: 20px 0;
+}
+
+#my_muskathlon .my_donations {
+    margin: 40px 0;
+}
+
+#my_muskathlon .cms_form_wrapper {
+    margin-bottom: 40px;
 }
 
 /* Modal flyer in fullscreen */
@@ -383,5 +397,15 @@
     #modal_flyer .modal-dialog {
       width: 80%;
       margin: auto;
+    }
+
+    #my_muskathlon .row {
+        padding: 60px 0;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    #my_muskathlon .resources {
+        margin-top: 20px;
     }
 }
