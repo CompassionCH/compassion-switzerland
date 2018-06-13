@@ -23,9 +23,10 @@
                     </group>
                 </page>
                 <page string="4M registrations">
-                    <group col="6">
-                        <field name="muskathlon_event_id" colspan="4"/><label string="" nolabel="1" colspan="2"/>
-                        <field name="participants_amount_objective" colspan="4"/><label string="" nolabel="1" colspan="2"/>
+                    <group>
+                        <field name="muskathlon_event_id"/>
+                        <field name="registration_fee"/>
+                        <field name="participants_amount_objective"/>
                     </group>
                     <group>
                         <field name="muskathlon_registration_ids" context="{'default_event_id': id}">
