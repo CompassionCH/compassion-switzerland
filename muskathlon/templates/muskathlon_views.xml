@@ -153,6 +153,9 @@
             </div>
             <script>
                 $(function() {
+                    // change image in navbar
+                    $('header .navbar-brand img').first().attr('src', '/muskathlon/static/src/img/muskathlon.png');
+                    // replace original footer
                     $('#main_footer').before($('#footer_muskathlon')[0].outerHTML);
                 });
             </script>
