@@ -122,6 +122,7 @@
 }
 
 #footer_muskathlon {
+    margin-bottom: -20px;
     display: block;
     border-top: solid 3px #CD171E;
     padding: 12px;
@@ -214,6 +215,7 @@
 
 .participant_details_buttons_container {
     margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 .space_top {
