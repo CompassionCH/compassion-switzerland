@@ -37,6 +37,13 @@ class EventCompassion(models.Model):
     sport_discipline_ids = fields.Many2many(
         'sport.discipline', string='Sport disciplines')
 
+    # HTML fields for material order page
+    website_my_introduction = fields.Html()
+    website_my_fundraising = fields.Html()
+    website_my_information = fields.Html()
+    website_my_press_material = fields.Html()
+    website_my_sport_material = fields.Html()
+
     @api.multi
     def _compute_website_url(self):
         for event in self:

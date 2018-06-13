@@ -79,13 +79,15 @@
                         <div class="col-xs-12">
                             <h3 class="section-header"
                                 style="margin-top: 25px; margin-bottom: 10px;">
-                                My donations
+                                My events
                             </h3>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Event</th>
                                         <th>Date</th>
+                                        <th/>
+                                        <th/>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -93,12 +95,16 @@
                                        t-as="registration">
                                         <tr>
                                             <td>
-                                                <a t-attf-href="/my/muskathlons/{{ registration.event_id.id }}">
-                                                    <t t-esc="registration.event_id.name"/>
-                                                </a>
+                                                <t t-esc="registration.event_id.name"/>
                                             </td>
                                             <td>
                                                 <t t-esc="time.strftime('%d.%m.%Y',time.strptime(registration.event_id.start_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                            </td>
+                                            <td>
+                                                <a t-attf-href="/my/muskathlon/{{ registration.id }}">Fundraising / Order material</a>
+                                            </td>
+                                            <td>
+                                                <a t-attf-href="/my/muskathlon/{{ registration.id }}/donations">My donations</a>
                                             </td>
                                         </tr>
                                     </t>
