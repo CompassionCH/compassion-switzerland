@@ -7,7 +7,7 @@
     margin-top: 5px;
     font-size: 14px;
 }
-.participants_container {
+#muskathlon_participants {
     margin-top: 10px;
     background-color: #CD171E;
     overflow: hidden;
@@ -48,7 +48,7 @@
     top: 5px;
     left: 5px;
 }
-.participants_container .sport_icon_container {
+#muskathlon_participants .sport_icon_container {
     height: 40px;
     width: 40px;
     margin-left: auto;
