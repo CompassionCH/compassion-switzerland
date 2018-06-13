@@ -16,10 +16,17 @@
                     <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>
                 </page>
                 <page string="Website">
-                    <group>
+                    <group string="Public page">
                         <field name="filename_1" invisible="1"/>
                         <field name="picture_1" filename="filename_1"/>
                         <field name="sport_discipline_ids"/>
+                    </group>
+                    <group string="Order material page">
+                        <field name="website_my_introduction"/>
+                        <field name="website_my_fundraising"/>
+                        <field name="website_my_information"/>
+                        <field name="website_my_press_material"/>
+                        <field name="website_my_sport_material"/>
                     </group>
                 </page>
                 <page string="4M registrations">

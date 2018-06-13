@@ -101,3 +101,8 @@ span[itemprop="name"]:before {
 .o_my_details .manage_payment_method {
     display: none;
 }
+
+/* Increase base font-size */
+body {
+    font-size: 16px;
+}

@@ -39,11 +39,16 @@ class EventCompassion(models.Model):
         'sport.discipline', string='Sport disciplines')
 
     # HTML fields for material order page
-    website_my_introduction = fields.Html()
-    website_my_fundraising = fields.Html()
-    website_my_information = fields.Html()
-    website_my_press_material = fields.Html()
-    website_my_sport_material = fields.Html()
+    website_my_introduction = fields.Html(
+        'Video introduction', translate=True, sanitize=False)
+    website_my_fundraising = fields.Html(
+        'Fundraising', translate=True, sanitize=False)
+    website_my_information = fields.Html(
+        'Event information', translate=True, sanitize=False)
+    website_my_press_material = fields.Html(
+        'Press material', translate=True, sanitize=False)
+    website_my_sport_material = fields.Html(
+        'Sport material', translate=True, sanitize=False)
 
     @api.multi
     def _compute_website_url(self):
