@@ -104,6 +104,13 @@
                             </footer>
                         </div>
                     </span>
+                    <script>
+                        // show navbar image and footer
+                        $(function() {
+                            $('header .navbar-brand img').first().show();
+                            $('#main_footer').show();
+                        });
+                    </script>
                 </div>
             </xpath>
         </template>
