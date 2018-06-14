@@ -42,11 +42,12 @@ odoo.define('muskathlon.modal_form', function (require) {
                                } else {
                                    self.on_receive_back_html_result(result_html.html());
                                }
+                               btn.button('reset');
                             });
                         } else {
                             self.on_receive_back_html_result(data);
+                            btn.button('reset');
                         }
-                        btn.button('reset');
                     },
                     error: function (data) {
                         // HTML page is sent back as error (because it's not JSON)
