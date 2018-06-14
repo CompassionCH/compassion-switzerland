@@ -136,6 +136,9 @@ class ResPartner(models.Model):
         """
         Lookup for duplicate partners and notify.
         """
+        email = vals.get('email')
+        if email:
+            vals['email'] = email.strip()
         duplicate = self.search(
             ['|',
              '&',
@@ -153,6 +156,13 @@ class ResPartner(models.Model):
         partner.compute_geopoint()
 
         return partner
+
+    @api.multi
+    def write(self, vals):
+        email = vals.get('email')
+        if email:
+            vals['email'] = email.strip()
+        return super(ResPartner, self).write(vals)
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=80):
