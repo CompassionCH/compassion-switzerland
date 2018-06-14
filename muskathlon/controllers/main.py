@@ -335,7 +335,10 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         """
         if response.status_code == 303:
             # Prepend with lang, to avoid 302 redirection
-            location = '/' + request.env.lang + response.location
+            location = ''
+            if request.env.lang != request.website.default_lang_code:
+                location += '/' + request.env.lang
+            location += response.location
             return Response(
                 json.dumps({'redirect': location}),
                 status=200,
