@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, tools
+from odoo import models, fields, tools, _
 from odoo.http import request
 
 testing = tools.config.get('test_enable')
@@ -28,7 +28,7 @@ if not testing:
         _payment_accept_redirect = '/website_payment/confirm'
 
         partner_id = fields.Many2one('res.partner')
-        amount = fields.Float()
+        amount = fields.Float(required=True)
         currency_id = fields.Many2one('res.currency', 'Currency')
         acquirer_ids = fields.Many2many(
             'payment.acquirer', string='Payment Method')
@@ -56,6 +56,17 @@ if not testing:
         def _form_load_amount(
                 self, fname, field, value, **req_values):
             return req_values.get('amount', self._default_amount)
+
+        def _form_validate_amount(self, value, **req_values):
+            try:
+                amount = float(value)
+                if amount <= 0:
+                    raise ValueError
+            except ValueError:
+                return 'amount', _(
+                    'Please control the amount')
+            # No error
+            return 0, 0
 
         def form_next_url(self, main_object=None):
             # Redirect to payment controller, creating a transaction
