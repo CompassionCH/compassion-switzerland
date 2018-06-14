@@ -24,7 +24,6 @@ if not testing:
         _inherit = 'cms.form'
 
         _default_amount = None
-        _default_currency_id = None
 
         _payment_accept_redirect = '/website_payment/confirm'
 
@@ -36,10 +35,16 @@ if not testing:
         acquirer_id = fields.Many2one('payment.acquirer', 'Selected acquirer')
 
         @property
+        def _default_currency_id(self):
+            # Muskathlon payments are in CHF
+            return self.env.ref('base.CHF').id
+
+        @property
         def form_widgets(self):
             # Hide fields
             res = super(PaymentForm, self).form_widgets
             res.update({
+                'currency_id': 'muskathlon.form.widget.hidden',
                 'acquirer_ids': 'muskathlon.form.widget.payment',
             })
             return res
