@@ -87,7 +87,8 @@ class AccountInvoice(models.Model):
             'ambassador_details_id.mail_copy_when_donation')
         for ambassador in ambassadors:
             ambassador_lines = self.mapped('invoice_line_ids').filtered(
-                lambda l: l.user_id == ambassador)
+                lambda l: l.user_id == ambassador and
+                l.partner_id != ambassador)
             self.env['partner.communication.job'].create({
                 'partner_id': ambassador.id,
                 'object_ids': ambassador_lines.ids,

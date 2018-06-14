@@ -42,11 +42,12 @@ odoo.define('muskathlon.modal_form', function (require) {
                                } else {
                                    self.on_receive_back_html_result(result_html.html());
                                }
+                               btn.button('reset');
                             });
                         } else {
                             self.on_receive_back_html_result(data);
+                            btn.button('reset');
                         }
-                        btn.button('reset');
                     },
                     error: function (data) {
                         // HTML page is sent back as error (because it's not JSON)
@@ -57,7 +58,7 @@ odoo.define('muskathlon.modal_form', function (require) {
                             var formatted_mess = '<div id="server_error" class="alert alert-danger error-msg">' + message + '</div>';
                             var error_div = self.$el.find('#server_error');
                             if (error_div.length) {
-                                error_div.replace(formatted_mess);
+                                error_div[0].outerHTML = formatted_mess;
                             } else {
                                 self.$el.find('.above-controls').before(formatted_mess);
                             }

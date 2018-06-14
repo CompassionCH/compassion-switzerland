@@ -84,6 +84,9 @@
                                                         <a href="#" data-toggle="modal" data-target="#modal_muskathlon_registration" class="btn btn-danger btn-muskathlon">
                                                             <span class="center-text">Register</span>
                                                         </a>
+                                                        <a href="#muskathlon_participants" class="btn btn-danger btn-muskathlon">
+                                                            <span class="center-text">See participants</span>
+                                                        </a>
                                                     </p>
                                                     <div>
                                                         <p class="text-uppercase project_donations_total">Funds raised:</p>
@@ -112,7 +115,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row participants_container">
+                        <div class="row" id="muskathlon_participants">
                             <div class="col-md-1"/>
                             <div class="col-md-10 col-xs-12">
                                 <t t-if="event.muskathlon_registration_ids.filtered('website_published')">

@@ -253,7 +253,8 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
            type='http', auth="public", website=True)
     def muskathlon_registration_successful(self, registration, **kwargs):
         # Create lead
-        registration.with_delay().create_muskathlon_lead()
+        uid = request.env.ref('muskathlon.user_muskathlon_portal').id
+        registration.sudo(uid).with_delay().create_muskathlon_lead()
         values = {
             'registration': registration,
             'event': registration.event_id
