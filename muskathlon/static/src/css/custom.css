@@ -420,3 +420,20 @@ header .navbar-brand img {
     width: initial;
     height: initial;
 }
+
+.donation_success h1 {
+    font-size: 50px;
+    line-height: 50px;
+}
+
+.donation_success .thank_you_container {
+    margin-bottom: 20px;
+    color: black;
+}
+
+@media(min-width: 1050px) {
+    .donation_success h1 {
+        font-size: 70px;
+        line-height: 70px;
+    }
+}

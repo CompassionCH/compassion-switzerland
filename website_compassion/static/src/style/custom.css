@@ -19,12 +19,6 @@
         max-width: 600px !important;
     }
 }
-@media(max-width: 1050px) {
-    .thank_you_text_container {
-        margin-right: 10% !important;
-        left: 5%;
-    }
-}
 @media(max-width: 767px) {
     .thank_you_image_container {
         max-height: 60vh;

@@ -3,7 +3,7 @@
     <template id="donation_successful" page="True" name="Muskathlon donation success">
         <t t-call="website.layout">
             <t t-set="title" t-value="event.name"/>
-            <div class="oe_structure compassion-wp">
+            <div class="oe_structure donation_success">
                 <div class="thank_you_container">
                     <div class="thank_you_image_container">
                         <img class="img-responsive" style="width: 100%" src="/muskathlon/static/src/img/compassion_thankyou_donation.jpg"/>
@@ -12,8 +12,7 @@
                         <h1>Thank you! Your gift helps release children from poverty!</h1>
                         <p class="quote">
                             It also brings
-                            <a style="color: #0054a6;" t-att-href="registration.website_url"> <t t-esc="registration.partner_preferred_name"/> </a>
-                            closer to complete
+                            <a style="color: #0054a6;" t-att-href="registration.website_url"> <t t-esc="registration.partner_preferred_name"/></a> closer to complete
                             <t t-if="registration.partner_gender == 'F'">
                                 her
                             </t>
@@ -26,6 +25,7 @@
                     </div>
                 </div>
             </div>
+            <t t-call="muskathlon.footer_muskathlon"/>
         </t>
     </template>
     <template id="donation_failure" name="Muskathlon donation failure">
