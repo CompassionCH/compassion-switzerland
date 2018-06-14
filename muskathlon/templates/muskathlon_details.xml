@@ -46,7 +46,7 @@
                                                     <p class="text-uppercase sports_title">Sports</p>
                                                     <table class="sports_icons">
                                                         <tr>
-                                                            <t t-foreach="event.sport_discipline_ids" t-as="discipline">
+                                                            <t t-foreach="event.sport_discipline_ids.with_context(lang='en_US')" t-as="discipline">
                                                                 <span class="muskathlon_sport_icon">
                                                                     <t t-if="'Biking' == discipline.sport">
                                                                         <td align="center">

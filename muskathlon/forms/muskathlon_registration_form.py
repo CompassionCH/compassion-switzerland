@@ -77,14 +77,8 @@ if not testing:
             res.update({
                 'event_id': 'muskathlon.form.widget.hidden',
                 'amount': 'muskathlon.form.widget.hidden',
-                'currency_id': 'muskathlon.form.widget.hidden',
             })
             return res
-
-        @property
-        def _default_currency_id(self):
-            # Muskathlon registration payments are in CHF
-            return self.env.ref('base.CHF').id
 
         @property
         def _default_amount(self):
