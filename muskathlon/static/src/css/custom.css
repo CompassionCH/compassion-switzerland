@@ -367,15 +367,7 @@
     margin-bottom: 30px;
 }
 
-header .navbar-brand img {
-    /* displayed in JS */
-    display: none;
-}
-
-#main_footer {
-    /* displayed in JS */
-    display: none;
-}.blue-section {
+.blue-section {
     background-color: #004897;
     color: white;
 }

@@ -100,3 +100,13 @@ span[itemprop="name"]:before {
 body {
     font-size: 16px;
 }
+
+#main_footer {
+    /* displayed in JS */
+    display: none;
+}
+
+header .navbar-brand img {
+    /* displayed in JS */
+    display: none;
+}
