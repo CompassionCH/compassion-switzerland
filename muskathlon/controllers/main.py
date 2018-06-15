@@ -16,6 +16,7 @@ from odoo import _
 from odoo.http import request, route, Response
 from odoo.addons.website_portal.controllers.main import website_account
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
+from odoo.addons.payment.models.payment_acquirer import ValidationError
 from base64 import b64encode
 
 
@@ -175,10 +176,15 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
         env = request.env(user=uid)
         tx = None
-        if transaction_id is None:
+        try:
+            tx = request.env['payment.transaction'].sudo(uid).\
+                _ogone_form_get_tx_from_data(post)
+        except ValidationError:
+            # Try to use the session to find the transaction
             transaction_id = request.session.get('sale_transaction_id')
-        if transaction_id:
-            tx = env['payment.transaction'].browse(transaction_id).sudo(uid)
+            if transaction_id:
+                tx = env['payment.transaction'].browse(
+                    transaction_id).sudo(uid)
 
         if not tx or not tx.registration_id:
             return request.render('muskathlon.registration_failure')
