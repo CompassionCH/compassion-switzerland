@@ -218,7 +218,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
                 tx = env['payment.transaction'].browse(
                     transaction_id).sudo(uid)
 
-        if not transaction_id or not tx.invoice_id:
+        if not tx or not tx.invoice_id:
             return request.render('muskathlon.donation_failure')
 
         invoice_lines = tx.invoice_id.invoice_line_ids
