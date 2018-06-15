@@ -23,12 +23,12 @@ if not testing:
         form_id = 'modal_ambassador_details'
         _form_model = 'ambassador.details'
         _form_model_fields = [
-            'description', 'quote', 'mail_copy_when_donation'
+            'quote', 'mail_copy_when_donation'
         ]
         _form_fields_order = [
-            'description', 'quote', 'mail_copy_when_donation',
+            'quote', 'mail_copy_when_donation',
         ]
-        _form_required_fields = ['description', 'quote']
+        _form_required_fields = ['quote']
 
         description = fields.Text(
             string='About me', default="",
