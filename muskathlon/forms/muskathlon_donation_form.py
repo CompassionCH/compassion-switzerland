@@ -35,7 +35,6 @@ if not testing:
             return [
                 {
                     'id': 'payment',
-                    'title': _('Donation'),
                     'fields': ['amount', 'currency_id', 'acquirer_ids']
                 },
                 {

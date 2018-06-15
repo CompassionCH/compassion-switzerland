@@ -62,7 +62,7 @@
                                 <blockquote>
                                     <p t-field="registration.ambassador_quote"/>
                                 </blockquote>
-                                <p t-field="registration.ambassador_description" class="ambassador_description"/>
+                                <!--<p t-field="registration.ambassador_description" class="ambassador_description"/>-->
                                 <div class="space_top">
                                     Raised amount:
                                 </div>

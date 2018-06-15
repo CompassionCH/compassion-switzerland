@@ -129,11 +129,11 @@ class MuskathlonRegistration(models.Model):
     @api.multi
     @api.depends(
         'partner_id', 'partner_id.image', 'ambassador_details_id',
-        'ambassador_details_id.quote', 'ambassador_details_id.description')
+        'ambassador_details_id.quote')
     def _compute_website_published(self):
         required_fields = [
             'partner_preferred_name', 'ambassador_quote',
-            'ambassador_description', 'ambassador_picture_1',
+            'ambassador_picture_1',
         ]
         for registration in self:
             published = True
