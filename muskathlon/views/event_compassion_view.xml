@@ -20,6 +20,7 @@
                         <field name="filename_1" invisible="1"/>
                         <field name="picture_1" filename="filename_1"/>
                         <field name="sport_discipline_ids"/>
+                        <field name="website_description"/>
                     </group>
                     <group string="Order material page">
                         <field name="website_my_introduction"/>

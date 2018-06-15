@@ -52,11 +52,6 @@ if not testing:
             ]
 
         @property
-        def _default_currency_id(self):
-            # Muskathlon registration payments are in CHF
-            return self.env.ref('base.CHF').id
-
-        @property
         def form_title(self):
             if self.ambassador_id:
                 return _("Donation for ") +\

@@ -1,0 +1,38 @@
+<odoo>
+    <record id="cancel_transaction" model="ir.actions.server">
+        <field name="name">Cancel Postfinance Transaction</field>
+        <field name="model_id" ref="model_payment_transaction"/>
+        <field name="state">code</field>
+        <field name="sequence">10</field>
+        <field name="code">records.cancel_transaction()</field>
+    </record>
+    <record id="confirm_transaction" model="ir.actions.server">
+        <field name="name">Confirm Postfinance Transaction</field>
+        <field name="model_id" ref="model_payment_transaction"/>
+        <field name="state">code</field>
+        <field name="sequence">10</field>
+        <field name="code">records.confirm_transaction()</field>
+    </record>
+
+    <record id="cancel_transaction_rule" model="base.action.rule">
+        <field name="name">Payment Transaction: Cancel</field>
+        <field name="model_id" ref="model_payment_transaction"/>
+        <field name="kind">on_time</field>
+        <field name="trg_date_id" ref="payment.field_payment_transaction_create_date"/>
+        <field name="filter_domain">[('state', 'in', ['draft', 'pending', 'authorized'])]</field>
+        <field name="trg_date_range">10</field>
+        <field name="trg_date_range_type">minutes</field>
+        <field name="server_action_ids" eval="[(6, 0, [ref('cancel_transaction')])]"/>
+    </record>
+
+    <record id="confirm_transaction_rule" model="base.action.rule">
+        <field name="name">Payment Transaction: Confirm</field>
+        <field name="model_id" ref="model_payment_transaction"/>
+        <field name="kind">on_time</field>
+        <field name="trg_date_id" ref="payment.field_payment_transaction_create_date"/>
+        <field name="filter_domain">[('state', '=', 'done')]</field>
+        <field name="trg_date_range">10</field>
+        <field name="trg_date_range_type">minutes</field>
+        <field name="server_action_ids" eval="[(6, 0, [ref('confirm_transaction')])]"/>
+    </record>
+</odoo>

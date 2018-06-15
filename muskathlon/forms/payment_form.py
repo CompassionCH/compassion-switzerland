@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, tools
+from odoo import models, fields, tools, _
 from odoo.http import request
 
 testing = tools.config.get('test_enable')
@@ -24,22 +24,27 @@ if not testing:
         _inherit = 'cms.form'
 
         _default_amount = None
-        _default_currency_id = None
 
         _payment_accept_redirect = '/website_payment/confirm'
 
         partner_id = fields.Many2one('res.partner')
-        amount = fields.Float()
+        amount = fields.Float(required=True)
         currency_id = fields.Many2one('res.currency', 'Currency')
         acquirer_ids = fields.Many2many(
             'payment.acquirer', string='Payment Method')
         acquirer_id = fields.Many2one('payment.acquirer', 'Selected acquirer')
 
         @property
+        def _default_currency_id(self):
+            # Muskathlon payments are in CHF
+            return self.env.ref('base.CHF').id
+
+        @property
         def form_widgets(self):
             # Hide fields
             res = super(PaymentForm, self).form_widgets
             res.update({
+                'currency_id': 'muskathlon.form.widget.hidden',
                 'acquirer_ids': 'muskathlon.form.widget.payment',
             })
             return res
@@ -51,6 +56,17 @@ if not testing:
         def _form_load_amount(
                 self, fname, field, value, **req_values):
             return req_values.get('amount', self._default_amount)
+
+        def _form_validate_amount(self, value, **req_values):
+            try:
+                amount = float(value)
+                if amount <= 0:
+                    raise ValueError
+            except ValueError:
+                return 'amount', _(
+                    'Please control the amount')
+            # No error
+            return 0, 0
 
         def form_next_url(self, main_object=None):
             # Redirect to payment controller, creating a transaction
