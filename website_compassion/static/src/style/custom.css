@@ -110,3 +110,104 @@ header .navbar-brand img {
     /* displayed in JS */
     display: none;
 }
+
+#main_footer footer {
+    background-color: inherit;
+    color: white;
+    font-family: "Tetria Light";
+    line-height: 25.6px;
+}
+
+#main_footer footer a {
+    color: white;
+}
+
+#main_footer .footer_section_title {
+    text-transform: uppercase;
+    display: block;
+    font-family: "Tetria Black";
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#main_footer .footer_section_big_title {
+    display: block;
+    font-family: "Tetria Black";
+    font-size: 20px;
+    line-height: 25px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+#main_footer ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#main_footer .end_footer_link {
+    display: block;
+    font-family: "Tetria Regular";
+    font-size: 15px;
+    line-height: 15px;
+    text-align: right;
+    text-decoration-line: underline;
+}
+
+#main_footer .main_footer_container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+}
+
+#main_footer .footer_with_margin {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#main_footer .social-links li {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+#main_footer .end_footer {
+    border-top: solid 1px;
+    margin-top: 20px;
+    padding-top: 12px;
+    padding-bottom: 8px;
+}
+
+#main_footer .end_footer li {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+#main_footer .footer_section_big_title:first-of-type + p {
+    margin-bottom: 22px;
+}
+
+#main_footer .social-links {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+@media(min-width: 768px) {
+    #main_footer .end_footer_links {
+        text-align: right;
+    }
+
+    #main_footer .end_footer li {
+        margin-left: 15px;
+        margin-right: 0;
+    }
+    #main_footer a.footer_section_title[href="#"] + ul > li {
+        display: list-item !important;
+    }
+}
+
+@media(max-width: 767px) {
+    #main_footer a.footer_section_title[href="#"] + ul > li {
+        display: none;
+    }
+}
