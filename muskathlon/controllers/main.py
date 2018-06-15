@@ -169,7 +169,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
 
     @route('/muskathlon_registration/payment/validate',
            type='http', auth="public", website=True)
-    def registration_payment_validate(self, transaction_id=None, **post):
+    def registration_payment_validate(self, **post):
         """ Method that should be called by the server when receiving an update
         for a transaction.
         """
@@ -201,16 +201,22 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
 
     @route('/muskathlon_donation/payment/validate',
            type='http', auth="public", website=True)
-    def donation_payment_validate(self, transaction_id=None, **post):
+    def donation_payment_validate(self, **post):
         """ Method that should be called by the server when receiving an update
         for a transaction.
         """
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
         env = request.env(user=uid)
-        if transaction_id is None:
+        tx = None
+        try:
+            tx = request.env['payment.transaction'].sudo(uid).\
+                _ogone_form_get_tx_from_data(post)
+        except ValidationError:
+            # Try to use the session to find the transaction
             transaction_id = request.session.get('sale_transaction_id')
-        if transaction_id:
-            tx = env['payment.transaction'].browse(transaction_id)
+            if transaction_id:
+                tx = env['payment.transaction'].browse(
+                    transaction_id).sudo(uid)
 
         if not transaction_id or not tx.invoice_id:
             return request.render('muskathlon.donation_failure')
