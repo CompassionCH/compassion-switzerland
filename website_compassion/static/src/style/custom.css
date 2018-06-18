@@ -96,6 +96,50 @@ span[itemprop="name"]:before {
     display: none;
 }
 
+#main_footer {
+	z-index: 20;
+	background: url(https://www.compassion.ch/wp-content/themes/compassion/assets/img/background-noise.png) left top;
+	position: relative;
+}
+
+#main_footer:before {
+	content: '';
+    display: block;
+    width: 100%;
+    position: relative;
+    top: -23px;
+    height: 23px;
+    background: url(https://www.compassion.ch/wp-content/themes/compassion/assets/img/abgerissen-blau.png) left top;
+}
+
+
+/* footer styling */
+footer .social-links a {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    background-size: 30px;
+    background-color: rgb(255, 255, 255);
+    background-origin: content-box !important;
+    border-radius: 50%;
+}
+
+.social-links .facebook {
+    background: #fff url(//compassion.ch/wp-content/themes/compassion/assets/css/img/facebook-logo.svg) center center no-repeat;
+    background-image: url(//compassion.ch/wp-content/themes/compassion/assets/css/../img/facebook-logo.svg);
+}
+
+.social-links .youtube {
+    background: #fff url(//compassion.ch/wp-content/themes/compassion/assets/css/img/youtube.svg) center center no-repeat;
+    background-image: url(//compassion.ch/wp-content/themes/compassion/assets/css/../img/youtube.svg);
+}
+
+.social-links .vimeo {
+    background: #fff url(//compassion.ch/wp-content/themes/compassion/assets/css/img/vimeo.svg) center center no-repeat;
+    background-image: url(//compassion.ch/wp-content/themes/compassion/assets/css/../img/vimeo.svg);
+}
+
 /* Increase base font-size */
 body {
     font-size: 16px;
