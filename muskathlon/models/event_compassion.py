@@ -25,8 +25,8 @@ class EventCompassion(models.Model):
     muskathlon_registration_ids = fields.One2many(
         'muskathlon.registration', 'event_id', 'Muskathlon registrations')
 
-    website_description = fields.Html(translate=True,
-                                      oldname='public_description')
+    website_description = fields.Html(
+        translate=True, sanitize=False)
     picture_1 = fields.Binary('Banner image', attachment=True)
     filename_1 = fields.Char(compute='_compute_filenames')
     participants_amount_objective = fields.Integer(

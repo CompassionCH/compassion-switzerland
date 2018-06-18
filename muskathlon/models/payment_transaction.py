@@ -38,6 +38,16 @@ class PaymentTransaction(models.Model):
         })
 
     @api.multi
+    def cancel_transaction_on_update(self):
+        """
+        Called by ir_action_rule in when transaction was cancelled by user.
+        :return: True
+        """
+        self.invoice_id.unlink()
+        self.registration_id.unlink()
+        return True
+
+    @api.multi
     def confirm_transaction(self):
         """
         Called by ir_action_rule in order to confirm the transaction that
