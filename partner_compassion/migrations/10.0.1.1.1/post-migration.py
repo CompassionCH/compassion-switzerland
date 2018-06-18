@@ -2,11 +2,19 @@
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
-#    @author: Nicolas Badoux <n.badoux@hotmail.com>
+#    Releasing children from poverty in Jesus' name
+#    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
 
-from . import models
-from . import controllers
+
+def migrate(cr, version):
+    if not version:
+        return
+
+    # Strip e-mail addresses
+    cr.execute("""
+        UPDATE res_partner SET email = btrim(email)
+    """)

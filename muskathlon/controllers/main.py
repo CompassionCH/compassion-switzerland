@@ -16,6 +16,7 @@ from odoo import _
 from odoo.http import request, route, Response
 from odoo.addons.website_portal.controllers.main import website_account
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
+from odoo.addons.payment.models.payment_acquirer import ValidationError
 from base64 import b64encode
 
 
@@ -26,6 +27,8 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             ('website_published', '=', True),
             ('muskathlon_event_id', '!=', False)
         ])
+        if len(events) == 1:
+            return request.redirect('/event/' + str(events.id))
         return request.render('muskathlon.list', {
             'events': events
         })
@@ -166,17 +169,22 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
 
     @route('/muskathlon_registration/payment/validate',
            type='http', auth="public", website=True)
-    def registration_payment_validate(self, transaction_id=None, **post):
+    def registration_payment_validate(self, **post):
         """ Method that should be called by the server when receiving an update
         for a transaction.
         """
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
         env = request.env(user=uid)
         tx = None
-        if transaction_id is None:
+        try:
+            tx = request.env['payment.transaction'].sudo(uid).\
+                _ogone_form_get_tx_from_data(post)
+        except ValidationError:
+            # Try to use the session to find the transaction
             transaction_id = request.session.get('sale_transaction_id')
-        if transaction_id:
-            tx = env['payment.transaction'].browse(transaction_id).sudo(uid)
+            if transaction_id:
+                tx = env['payment.transaction'].browse(
+                    transaction_id).sudo(uid)
 
         if not tx or not tx.registration_id:
             return request.render('muskathlon.registration_failure')
@@ -193,18 +201,24 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
 
     @route('/muskathlon_donation/payment/validate',
            type='http', auth="public", website=True)
-    def donation_payment_validate(self, transaction_id=None, **post):
+    def donation_payment_validate(self, **post):
         """ Method that should be called by the server when receiving an update
         for a transaction.
         """
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
         env = request.env(user=uid)
-        if transaction_id is None:
+        tx = None
+        try:
+            tx = request.env['payment.transaction'].sudo(uid).\
+                _ogone_form_get_tx_from_data(post)
+        except ValidationError:
+            # Try to use the session to find the transaction
             transaction_id = request.session.get('sale_transaction_id')
-        if transaction_id:
-            tx = env['payment.transaction'].browse(transaction_id)
+            if transaction_id:
+                tx = env['payment.transaction'].browse(
+                    transaction_id).sudo(uid)
 
-        if not transaction_id or not tx.invoice_id:
+        if not tx or not tx.invoice_id:
             return request.render('muskathlon.donation_failure')
 
         invoice_lines = tx.invoice_id.invoice_line_ids
@@ -253,7 +267,8 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
            type='http', auth="public", website=True)
     def muskathlon_registration_successful(self, registration, **kwargs):
         # Create lead
-        registration.with_delay().create_muskathlon_lead()
+        uid = request.env.ref('muskathlon.user_muskathlon_portal').id
+        registration.sudo(uid).with_delay().create_muskathlon_lead()
         values = {
             'registration': registration,
             'event': registration.event_id
@@ -334,7 +349,10 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         """
         if response.status_code == 303:
             # Prepend with lang, to avoid 302 redirection
-            location = '/' + request.env.lang + response.location
+            location = ''
+            if request.env.lang != request.website.default_lang_code:
+                location += '/' + request.env.lang
+            location += response.location
             return Response(
                 json.dumps({'redirect': location}),
                 status=200,

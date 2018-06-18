@@ -24,6 +24,12 @@ class AccountInvoice(models.Model):
         if self.state == 'paid':
             return True
         muskathlon_user = self.env.ref('muskathlon.user_muskathlon_portal')
+        # Look for existing payment
+        payment = self.env['account.payment'].search([
+            ('invoice_ids', '=', self.id)
+        ])
+        if payment:
+            return True
         payment_vals = {
             'journal_id': self.env['account.journal'].search(
                 [('name', '=', 'Web')]).id,

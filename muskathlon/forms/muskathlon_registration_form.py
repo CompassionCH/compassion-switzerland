@@ -77,14 +77,8 @@ if not testing:
             res.update({
                 'event_id': 'muskathlon.form.widget.hidden',
                 'amount': 'muskathlon.form.widget.hidden',
-                'currency_id': 'muskathlon.form.widget.hidden',
             })
             return res
-
-        @property
-        def _default_currency_id(self):
-            # Muskathlon registration payments are in CHF
-            return self.env.ref('base.CHF').id
 
         @property
         def _default_amount(self):
@@ -135,12 +129,13 @@ if not testing:
             super(MuskathlonRegistrationForm,
                   self).form_before_create_or_update(values, extra_values)
             uid = self.env.ref('muskathlon.user_muskathlon_portal').id
+            partner = self.partner_id.sudo(uid)
             if self.event_id.registration_fee:
                 fee_template = self.env.ref('muskathlon.product_registration')
                 product = fee_template.sudo(uid).product_variant_ids[:1]
                 invoice_obj = self.env['account.invoice'].sudo(uid)
                 self.invoice_id = invoice_obj.create({
-                    'partner_id': self.partner_id.id,
+                    'partner_id': partner.id,
                     'currency_id': self.currency_id.id,
                     'invoice_line_ids': [(0, 0, {
                         'quantity': 1.0,
@@ -151,10 +146,10 @@ if not testing:
                         'product_id': product.id
                     })]
                 })
-            if not self.partner_id.ambassador_details_id:
-                self.partner_id.sudo(uid).ambassador_details_id =\
+            if not partner.ambassador_details_id:
+                partner.ambassador_details_id =\
                     self.env['ambassador.details'].sudo(uid).create({
-                        'partner_id': self.partner_id.id
+                        'partner_id': partner.id
                     })
             # This field is not needed in muskathlon registration.
             values.pop('partner_name')

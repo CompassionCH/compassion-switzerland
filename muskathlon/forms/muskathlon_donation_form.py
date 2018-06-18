@@ -35,7 +35,6 @@ if not testing:
             return [
                 {
                     'id': 'payment',
-                    'title': _('Donation'),
                     'fields': ['amount', 'currency_id', 'acquirer_ids']
                 },
                 {
@@ -50,11 +49,6 @@ if not testing:
                 },
 
             ]
-
-        @property
-        def _default_currency_id(self):
-            # Muskathlon registration payments are in CHF
-            return self.env.ref('base.CHF').id
 
         @property
         def form_title(self):
