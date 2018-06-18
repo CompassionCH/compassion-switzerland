@@ -85,30 +85,20 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="sub-footer row">
-                                    <div class="medium-12 column border">
-                                        <div class="medium-4 column">© 2018 Compassion Suisse</div>
-                                        <div class="medium-8 column">
-                                            <div class="menu-sub-footer-menu-container">
-                                                <ul id="menu-sub-footer-menu" class="menu">
-                                                    <li id="menu-item-182" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-182"><a href="https://compassion.ch/contact/">Contact</a></li>
-                                                    <li id="menu-item-179" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-179"><a href="https://compassion.ch/protection-enfance/">Notre engagement pour la protection de l’enfance</a></li>
-                                                    <li id="menu-item-181" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-181"><a href="https://compassion.ch/protection-des-donnees/">Protection des données</a></li>
-                                                    <li id="menu-item-9408" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9408"><a href="https://compassion.ch/questions-frequentes/">FAQ</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </footer>
+                            </div>
                         </div>
-                    </span>
+                    </footer>
                     <script>
-                        // show navbar image and footer
                         $(function() {
+                            // show navbar image and footer
                             $('header .navbar-brand img').first().show();
                             $('#main_footer').show();
+
+                            // show main footer menus when click on mobiles
+                            $('#main_footer a.footer_section_title[href="#"]').click(function() {
+                                $(this).next().find('li').toggle();
+                                return false;
+                            });
                         });
                     </script>
                 </div>
