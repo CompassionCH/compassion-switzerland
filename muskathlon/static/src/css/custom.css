@@ -12,6 +12,7 @@
     background-color: #CD171E;
     overflow: hidden;
     padding-bottom: 50px;
+    margin-bottom: -20px;
 }
 .participants {
     display: flex;
