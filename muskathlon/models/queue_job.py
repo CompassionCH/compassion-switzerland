@@ -17,7 +17,7 @@ class QueueJob(models.Model):
 
     @api.multi
     def related_action_invoice(self):
-        invoice_id = self.record_ids
+        invoice_id = self.record_ids[0]
         action = {
             'name': _("Muskathlon invoice"),
             'type': 'ir.actions.act_window',
@@ -31,7 +31,7 @@ class QueueJob(models.Model):
 
     @api.multi
     def related_action_registration(self):
-        registration_id = self.record_ids
+        registration_id = self.record_ids[0]
         action = {
             'name': _("Muskathlon registration"),
             'type': 'ir.actions.act_window',

@@ -8,6 +8,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from datetime import date
+
+from dateutil.relativedelta import relativedelta
 
 from odoo import models, api, fields
 from odoo.addons.queue_job.job import job, related_action
@@ -19,17 +22,20 @@ class AccountInvoice(models.Model):
     @api.multi
     @job(default_channel='root.muskathlon')
     @related_action('related_action_invoice')
-    def pay_muskathlon_invoice(self):
+    def pay_muskathlon_invoice(self, invoice_vals):
         """Make a payment to reconcile Muskathlon invoice."""
         if self.state == 'paid':
             return True
-        muskathlon_user = self.env.ref('muskathlon.user_muskathlon_portal')
+
+        # Write values about payment
+        self.write(invoice_vals)
         # Look for existing payment
         payment = self.env['account.payment'].search([
             ('invoice_ids', '=', self.id)
         ])
         if payment:
             return True
+
         payment_vals = {
             'journal_id': self.env['account.journal'].search(
                 [('name', '=', 'Web')]).id,
@@ -47,7 +53,11 @@ class AccountInvoice(models.Model):
             'payment_difference': self.amount_total,
         }
         account_payment = self.env['account.payment'].create(payment_vals)
-        if self.partner_id.write_uid != muskathlon_user:
+        limit_date = date.today() - relativedelta(days=3)
+        create_date = fields.Date.from_string(self.partner_id.create_date)
+        muskathlon_user = self.env.ref('muskathlon.user_muskathlon_portal')
+        if self.partner_id.create_uid != muskathlon_user and \
+                create_date < limit_date:
             # Validate self and post the payment.
             if self.state == 'draft':
                 self.action_invoice_open()

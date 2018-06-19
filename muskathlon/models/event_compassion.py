@@ -49,6 +49,9 @@ class EventCompassion(models.Model):
         string='Press material', translate=True, sanitize=False)
     website_my_sport_material = fields.Html(
         string='Sport material', translate=True, sanitize=False)
+    website_side_info = fields.Html(
+        string='Side info', translate=True, sanitize=False
+    )
 
     @api.multi
     def _compute_website_url(self):
