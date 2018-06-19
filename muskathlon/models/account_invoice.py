@@ -8,6 +8,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from datetime import date
+
+from dateutil.relativedelta import relativedelta
 
 from odoo import models, api, fields
 from odoo.addons.queue_job.job import job, related_action
@@ -47,7 +50,10 @@ class AccountInvoice(models.Model):
             'payment_difference': self.amount_total,
         }
         account_payment = self.env['account.payment'].create(payment_vals)
-        if self.partner_id.write_uid != muskathlon_user:
+        limit_date = date.today() - relativedelta(days=3)
+        create_date = fields.Date.from_string(self.partner_id.create_date)
+        if self.partner_id.create_uid != muskathlon_user and \
+                create_date < limit_date:
             # Validate self and post the payment.
             if self.state == 'draft':
                 self.action_invoice_open()
