@@ -50,8 +50,20 @@ class PaymentTransaction(models.Model):
     @api.multi
     def confirm_transaction(self):
         """
-        Called by ir_action_rule in order to confirm the transaction that
-        was not updated after a while.
+        Called by ir_action_rule when transaction is done.
         :return: True
         """
-        self.invoice_id.pay_muskathlon_invoice()
+        # Avoids launching several times the same job. Since there are 3
+        # calls to the write method of payment.transaction during a transaction
+        # feedback, this action_rule is triggered 3 times. We want to avoid it.
+        queue_job = self.env['queue.job'].search([
+            ('channel', '=', 'root.muskathlon'),
+            ('state', '!=', 'done'),
+            ('func_string', 'like', str(self.ids)),
+            ('name', 'ilike', 'reconcile Muskathlon invoice')
+        ])
+        if not queue_job:
+            self.invoice_id.with_delay().pay_muskathlon_invoice({
+                'transaction_id': self.postfinance_payid,
+                'payment_mode_id': self.payment_mode_id.id
+            })

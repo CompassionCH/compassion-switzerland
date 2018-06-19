@@ -21,8 +21,14 @@ class OgoneCompassion(OgoneController):
     ], type='http', auth='none')
     def ogone_form_feedback(self, **post):
         """ Override to pass params to redirect url """
+        transaction_obj = request.env['payment.transaction'].sudo()
         _logger.info('Ogone: entering form_feedback with post data %s',
                      pprint.pformat(post))  # debug
-        request.env['payment.transaction'].sudo().form_feedback(post, 'ogone')
+        transaction_obj.form_feedback(post, 'ogone')
+        tx = transaction_obj._ogone_form_get_tx_from_data(post)
+        tx.write({
+            'postfinance_payid': post.get('PAYID'),
+            'postfinance_brand': post.get('BRAND')
+        })
         redirect = post.pop('return_url', '/') + '?' + urllib.urlencode(post)
         return werkzeug.utils.redirect(redirect)

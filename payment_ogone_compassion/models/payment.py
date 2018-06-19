@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models
+from odoo import api, models, fields
 
 
 class PaymentAcquirerOgone(models.Model):
@@ -30,3 +30,21 @@ class PaymentAcquirerOgone(models.Model):
                 'https://e-payment.postfinance.ch/ncol/%s''/AFU_agree.asp' % (
                     environment,),
         }
+
+
+class PaymentTransaction(models.Model):
+    _inherit = 'payment.transaction'
+
+    postfinance_payid = fields.Char()
+    postfinance_brand = fields.Char()
+    payment_mode_id = fields.Many2one(
+        'account.payment.mode', 'Payment mode',
+        compute='_compute_payment_mode', store=True)
+
+    @api.multi
+    @api.depends('postfinance_brand')
+    def _compute_payment_mode(self):
+        for tx in self.filtered('postfinance_brand'):
+            tx.payment_mode_id = tx.payment_mode_id.search([
+                ('name', 'ilike', tx.postfinance_brand)
+            ], limit=1)

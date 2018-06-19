@@ -137,6 +137,7 @@ if not testing:
                 self.invoice_id = invoice_obj.create({
                     'partner_id': partner.id,
                     'currency_id': self.currency_id.id,
+                    'origin': 'Muskathlon registration',
                     'invoice_line_ids': [(0, 0, {
                         'quantity': 1.0,
                         'price_unit': self.event_id.registration_fee,

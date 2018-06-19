@@ -82,15 +82,16 @@ if not testing:
             product = muskathlon.sudo(uid).product_variant_ids[:1]
             event = self.event_id.sudo(uid)
             ambassador = self.ambassador_id.sudo(uid)
+            name = u'[{}] Donation for {}'.format(event.name, ambassador.name)
             self.invoice_id = self.env['account.invoice'].sudo(uid).create({
                 'partner_id': self.partner_id.id,
                 'currency_id': values['currency_id'],
+                'origin': name,
                 'invoice_line_ids': [(0, 0, {
                     'quantity': 1.0,
                     'price_unit': values['amount'],
                     'account_id': product.property_account_income_id.id,
-                    'name': 'Gift for ' + event.name + ' for ' +
-                            ambassador.name,
+                    'name': name,
                     'product_id': product.id,
                     'account_analytic_id': event.analytic_id.id,
                     'user_id': ambassador.id
