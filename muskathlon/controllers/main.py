@@ -287,13 +287,8 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         :param kwargs: post data
         :return: web page
         """
-        invoice = transaction.invoice_id
-        success = False
-        if transaction.state == 'done':
-            # Create payment
-            success = True
-            invoice.with_delay().pay_muskathlon_invoice()
-        elif transaction.state in ('cancel', 'error'):
+        success = transaction.state == 'done'
+        if transaction.state in ('cancel', 'error'):
             # Cancel the invoice and potential registration (avoid launching
             # jobs at the same time, can cause rollbacks)
             delay = datetime.today() + relativedelta(seconds=10)

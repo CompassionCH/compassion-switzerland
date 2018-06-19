@@ -21,6 +21,7 @@
                         <field name="picture_1" filename="filename_1"/>
                         <field name="sport_discipline_ids"/>
                         <field name="website_description"/>
+                        <field name="website_side_info"/>
                     </group>
                     <group string="Order material page">
                         <field name="website_my_introduction"/>

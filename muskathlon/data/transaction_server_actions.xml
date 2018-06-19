@@ -36,6 +36,7 @@
         <field name="name">Payment Transaction: Cancel upon error</field>
         <field name="model_id" ref="model_payment_transaction"/>
         <field name="kind">on_write</field>
+        <field name="filter_pre_domain">[('state', 'not in', ['error', 'cancel'])]</field>
         <field name="filter_domain">[('state', 'in', ['error', 'cancel'])]</field>
         <field name="server_action_ids" eval="[(6, 0, [ref('cancel_transaction_on_update')])]"/>
     </record>
@@ -44,6 +45,7 @@
         <field name="name">Payment Transaction: Confirm</field>
         <field name="model_id" ref="model_payment_transaction"/>
         <field name="kind">on_write</field>
+        <field name="filter_pre_domain">[('invoice_id.state', '!=', 'paid'), ('postfinance_payid', '!=', False)]</field>
         <field name="filter_domain">[('state', '=', 'done')]</field>
         <field name="server_action_ids" eval="[(6, 0, [ref('confirm_transaction')])]"/>
     </record>

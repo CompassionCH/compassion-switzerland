@@ -229,14 +229,13 @@
 }
 
 #muskathlon_details .banner_container, #my_muskathlon .banner_container {
-    position: relative;
-    left: -15px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center top;
     height: calc(30vw + 120px);
+    width: 100%;
     max-height: 400px;
-    width: 100vw;
+    position: relative;
 }
 
 #muskathlon_details .event_name, #my_muskathlon .event_name {
@@ -261,14 +260,6 @@
     right: 0;
     padding: 3px;
     background-color: #004897;
-}
-
-#muskathlon_details .about_event_container, .participant_details_container,
-#my_muskathlon .about_event_container, .participant_details_container {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px;
-    float: none;
 }
 
 #muskathlon_details .event_public_description {
