@@ -26,10 +26,20 @@ if not testing:
         form_buttons_template = 'muskathlon.modal_form_buttons'
         form_id = 'modal_muskathlon_registration'
         _form_model = 'muskathlon.registration'
-        _form_required_fields = ('sport_level', 'sport_level_description')
+        _form_required_fields = [
+            'ambassador_picture_1', 'ambassador_quote', 'sport_level',
+            'sport_level_description'
+        ]
         _payment_accept_redirect = '/muskathlon_registration/payment/validate'
 
         invoice_id = fields.Many2one('account.invoice')
+        ambassador_picture_1 = fields.Binary('Profile picture')
+        ambassador_quote = fields.Text(
+            'My motto', default="",
+            help="Write a small quote that will appear on your profile page "
+                 "and will be used in thank you letters your donors will "
+                 "receive."
+        )
 
         @property
         def discipline_ids(self):
@@ -42,9 +52,11 @@ if not testing:
                     'id': 'sport',
                     'title': _('Your sport profile'),
                     'description': '',
-                    'fields': ['sport_discipline_id', 'sport_level',
-                               'sport_level_description',
-                               'event_id']
+                    'fields': [
+                        'ambassador_picture_1', 'sport_discipline_id',
+                        'sport_level', 'sport_level_description',
+                        'ambassador_quote', 'event_id'
+                    ]
                 },
                 {
                     'id': 'partner',
@@ -77,6 +89,7 @@ if not testing:
             res.update({
                 'event_id': 'muskathlon.form.widget.hidden',
                 'amount': 'muskathlon.form.widget.hidden',
+                'ambassador_picture_1': 'cms.form.widget.image',
             })
             return res
 
