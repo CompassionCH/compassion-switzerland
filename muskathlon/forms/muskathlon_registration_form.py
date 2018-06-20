@@ -10,6 +10,7 @@
 import re
 
 from odoo import models, fields, tools, _
+from odoo.tools import file_open
 
 testing = tools.config.get('test_enable')
 
@@ -28,7 +29,7 @@ if not testing:
         _form_model = 'muskathlon.registration'
         _form_required_fields = [
             'ambassador_picture_1', 'ambassador_quote', 'sport_level',
-            'sport_level_description'
+            'sport_level_description', 'gtc_accept'
         ]
         _payment_accept_redirect = '/muskathlon_registration/payment/validate'
 
@@ -39,6 +40,9 @@ if not testing:
             help="Write a small quote that will appear on your profile page "
                  "and will be used in thank you letters your donors will "
                  "receive."
+        )
+        gtc_accept = fields.Boolean(
+            "Terms and conditions", required=True
         )
 
         @property
@@ -78,7 +82,15 @@ if not testing:
                         'CHF %s that you can directly pay with your '
                         'Postfinance or Credit Card'
                     ) % str(self.event_id.registration_fee),
-                    'fields': ['amount', 'currency_id', 'acquirer_ids']
+                    'fields': [
+                        'amount', 'currency_id', 'acquirer_ids',
+                        'gtc_accept'
+                    ]
+                })
+            else:
+                fieldset.append({
+                    'id': 'gtc',
+                    'fields': ['gtc_accept']
                 })
             return fieldset
 
@@ -90,6 +102,7 @@ if not testing:
                 'event_id': 'muskathlon.form.widget.hidden',
                 'amount': 'muskathlon.form.widget.hidden',
                 'ambassador_picture_1': 'cms.form.widget.image',
+                'gtc_accept': 'muskathlon.form.widget.terms',
             })
             return res
 
@@ -110,6 +123,16 @@ if not testing:
                 return _("Proceed with payment")
             else:
                 return _("Register now")
+
+        @property
+        def gtc(self):
+            html_file = file_open(
+                'muskathlon/static/src/html/muskathlon_gtc_{}.html'
+                .format(self.env.lang)
+            )
+            text = html_file.read()
+            html_file.close()
+            return text
 
         def form_init(self, request, main_object=None, **kw):
             form = super(MuskathlonRegistrationForm, self).form_init(
