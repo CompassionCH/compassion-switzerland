@@ -103,7 +103,6 @@
                             </div>
                             <div class="col-sm-7 col-md-6 col-sm-pull-3 col-md-pull-2">
                                 <div class="event_public_description" t-field="event.website_description"/>
-                                <div class="oe_structure" style="margin-top: 20px"/>
                             </div>
                             <div class="col-sm-1 col-md-2"/>
                         </div>
@@ -148,7 +147,6 @@
                             <div class="col-md-1"/>
                             <div class="muskathlon_space_bottom"/>
                         </div>
-                        <div class="oe_structure"/>
                         <!-- animation for participants details button -->
                         <script>
                             $('.participant_card a').hover(function() {

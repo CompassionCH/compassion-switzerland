@@ -71,7 +71,7 @@ class PaymentAcquirerOgone(models.Model):
         if self.save_token in ['ask', 'always']:
             temp_ogone_tx_values.update({
                 'ALIAS': 'ODOO-NEW-ALIAS-%s' % time.time(),
-            # something unique,
+                # something unique,
                 'ALIASUSAGE': values.get(
                     'alias_usage') or self.ogone_alias_usage,
             })
@@ -97,5 +97,3 @@ class PaymentTransaction(models.Model):
             tx.payment_mode_id = tx.payment_mode_id.search([
                 ('name', 'ilike', tx.postfinance_brand)
             ], limit=1)
-
-
