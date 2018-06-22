@@ -17,7 +17,7 @@ from odoo.addons.queue_job.job import job, related_action
 
 class MuskathlonRegistration(models.Model):
     _name = 'muskathlon.registration'
-    _inherit = ['website.published.mixin']
+    _inherit = ['website.published.mixin', 'website.seo.metadata']
     _description = 'Muskathlon registration'
     _rec_name = 'partner_preferred_name'
     _order = 'id desc'
