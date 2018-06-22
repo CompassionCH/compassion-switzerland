@@ -8,16 +8,17 @@
 #
 ##############################################################################
 import json
-from datetime import datetime
+import werkzeug
 
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from base64 import b64encode
 
 from odoo import _
 from odoo.http import request, route, Response
 from odoo.addons.website_portal.controllers.main import website_account
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 from odoo.addons.payment.models.payment_acquirer import ValidationError
-from base64 import b64encode
 
 
 class MuskathlonWebsite(website_account, FormControllerMixin):
@@ -44,11 +45,22 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'event': event,
             'disciplines': event.sport_discipline_ids.ids,
             'start_date': event.get_date('start_date', 'date_full'),
-            'end_date': event.get_date('end_date', 'date_full')
+            'end_date': event.get_date('end_date', 'date_full'),
         })
-        result = self.make_response(
-            'muskathlon.registration', **values
-        )
+        registration_form = self.get_form('muskathlon.registration', **values)
+        registration_form.form_process()
+        if registration_form.form_success:
+            # The user submitted a registration, redirect to confirmation
+            result = werkzeug.utils.redirect(
+                registration_form.form_next_url(), code=303)
+        else:
+            # Display Muskathlon Details page
+            values.update({
+                'form': registration_form,
+                'main_object': event
+            })
+            result = request.render('muskathlon.details', values)
+
         return self._form_redirect(result)
 
     @route('/my/muskathlon/<model("muskathlon.registration"):registration>/'
@@ -78,7 +90,18 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'registration': registration,
             'form_model_key': 'cms.form.muskathlon.donation'
         })
-        result = self.make_response(False, **values)
+        donation_form = self.get_form(False, **values)
+        donation_form.form_process()
+        if donation_form.form_success:
+            # The user submitted a donation, redirect to confirmation
+            result = werkzeug.utils.redirect(
+                donation_form.form_next_url(), code=303)
+        else:
+            values.update({
+                'form': donation_form,
+                'main_object': registration
+            })
+            result = request.render('muskathlon.participant_details', values)
         return self._form_redirect(result)
 
     @route(['/my', '/my/home'], type='http', auth="user", website=True)

@@ -21,7 +21,6 @@ if not testing:
         _inherit = ['cms.form.payment', 'cms.form.match.partner']
 
         # The form is inside a Muskathlon participant details page
-        form_wrapper_template = 'muskathlon.participant_details'
         form_buttons_template = 'muskathlon.modal_form_buttons'
         form_id = 'modal_muskathlon_donation'
         _payment_accept_redirect = '/muskathlon_donation/payment/validate'
