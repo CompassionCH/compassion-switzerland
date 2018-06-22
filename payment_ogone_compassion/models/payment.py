@@ -7,7 +7,14 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import time
+import urlparse
+
+from ..controllers.main import OgoneCompassion
 from odoo import api, models, fields
+from odoo.http import request
+from odoo.tools import float_round
+from odoo.tools.float_utils import float_repr
 
 
 class PaymentAcquirerOgone(models.Model):
@@ -31,6 +38,48 @@ class PaymentAcquirerOgone(models.Model):
                     environment,),
         }
 
+    def ogone_form_generate_values(self, values):
+        """ Replace return urls with current domain to avoid changing domain
+        for the website visitor. Code copied from ogone module. """
+        base_url = request.httprequest.host_url
+        ogone_tx_values = dict(values)
+        temp_ogone_tx_values = {
+            'PSPID': self.ogone_pspid,
+            'ORDERID': values['reference'],
+            'AMOUNT': float_repr(float_round(values['amount'], 2) * 100, 0),
+            'CURRENCY': values['currency'] and values['currency'].name or '',
+            'LANGUAGE': values.get('partner_lang'),
+            'CN': values.get('partner_name'),
+            'EMAIL': values.get('partner_email'),
+            'OWNERZIP': values.get('partner_zip'),
+            'OWNERADDRESS': values.get('partner_address'),
+            'OWNERTOWN': values.get('partner_city'),
+            'OWNERCTY': values.get('partner_country') and values.get(
+                'partner_country').code or '',
+            'OWNERTELNO': values.get('partner_phone'),
+            'ACCEPTURL': '%s' % urlparse.urljoin(
+                base_url, OgoneCompassion._accept_url),
+            'DECLINEURL': '%s' % urlparse.urljoin(
+                base_url, OgoneCompassion._decline_url),
+            'EXCEPTIONURL': '%s' % urlparse.urljoin(
+                base_url, OgoneCompassion._exception_url),
+            'CANCELURL': '%s' % urlparse.urljoin(
+                base_url, OgoneCompassion._cancel_url),
+            'PARAMPLUS': 'return_url=%s' % ogone_tx_values.pop(
+                'return_url') if ogone_tx_values.get('return_url') else False,
+        }
+        if self.save_token in ['ask', 'always']:
+            temp_ogone_tx_values.update({
+                'ALIAS': 'ODOO-NEW-ALIAS-%s' % time.time(),
+            # something unique,
+                'ALIASUSAGE': values.get(
+                    'alias_usage') or self.ogone_alias_usage,
+            })
+        shasign = self._ogone_generate_shasign('in', temp_ogone_tx_values)
+        temp_ogone_tx_values['SHASIGN'] = shasign
+        ogone_tx_values.update(temp_ogone_tx_values)
+        return ogone_tx_values
+
 
 class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
@@ -48,3 +97,5 @@ class PaymentTransaction(models.Model):
             tx.payment_mode_id = tx.payment_mode_id.search([
                 ('name', 'ilike', tx.postfinance_brand)
             ], limit=1)
+
+
