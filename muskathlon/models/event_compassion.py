@@ -16,7 +16,7 @@ from odoo.addons.website.models.website import slug
 class EventCompassion(models.Model):
     _name = 'crm.event.compassion'
     _inherit = ['crm.event.compassion', 'website.published.mixin',
-                'translatable.model']
+                'translatable.model', 'website.seo.metadata']
 
     name = fields.Char(translate=True)
     thank_you_text = fields.Html(translate=True)
