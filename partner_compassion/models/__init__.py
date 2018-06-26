@@ -16,3 +16,4 @@ from . import email
 from . import mail_message
 from . import product
 from . import mail_thread
+from . import ambassador_engagement
