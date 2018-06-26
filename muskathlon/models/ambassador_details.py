@@ -31,9 +31,6 @@ class MuskathlonDetails(models.Model):
     birth_name = fields.Char()
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
-    t_shirt_size = fields.Selection([
-        ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL')
-    ], oldname='tshirt_size')
     trip_information_complete = fields.Boolean(
         compute='_compute_trip_information_complete'
     )
