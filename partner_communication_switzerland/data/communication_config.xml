@@ -205,7 +205,7 @@
             <field name="name">Sponsorship - Welcome Email</field>
             <field name="email_template_id" ref="email_sponsorship_welcome"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
