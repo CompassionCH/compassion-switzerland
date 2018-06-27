@@ -353,6 +353,34 @@ class ResPartner(models.Model):
         else:
             return super(ResPartner, self).open_contracts()
 
+    @api.multi
+    def forget_me(self):
+        super(ResPartner, self).forget_me()
+        # Delete other objects and custom CH fields
+        self.write({
+            'church_id': False,
+            'church_unlinked': False,
+            'street3': False,
+            'firstname': False,
+            'deathdate': False,
+            'geo_point': False,
+            'partner_latitude': False,
+            'partner_longitude': False
+        })
+        self.ambassador_details_id.unlink()
+        self.survey_inputs.unlink()
+        self.env['mail.tracking.email'].search([
+            ('partner_id', '=', self.id)]).unlink()
+        self.env['auditlog.log'].search([
+            ('model_id.model', '=', 'res.partner'),
+            ('res_id', '=', self.id)
+        ]).unlink()
+        self.env['partner.communication.job'].search([
+            ('partner_id', '=', self.id)
+        ]).unlink()
+        self.message_ids.unlink()
+        return True
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
