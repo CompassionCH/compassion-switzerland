@@ -16,3 +16,4 @@ geojson
 Shapely
 simplejson
 pandas
+pyminizip
