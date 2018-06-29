@@ -8,15 +8,27 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo.tools import mod10r
+import logging
+import tempfile
 
 from odoo import api, registry, fields, models, _
-
+from odoo.tools import mod10r
+from odoo.tools.config import config
 from odoo.addons.base_geoengine.fields import GeoPoint
 
 # fields that are synced if 'use_parent_address' is checked
 ADDRESS_FIELDS = [
     'street', 'street2', 'street3', 'zip', 'city', 'state_id', 'country_id']
+
+logger = logging.getLogger(__name__)
+
+try:
+    import pyminizip
+    import csv
+    from smb.SMBConnection import SMBConnection
+    from smb.smb_structs import OperationFailure
+except ImportError:
+    logger.warning("Please install python dependencies.", exc_info=True)
 
 
 class ResPartner(models.Model):
@@ -293,6 +305,32 @@ class ResPartner(models.Model):
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
+    def update_church_sponsorships_number(self):
+        """
+        Update the count of sponsorships for the church of the partner
+        :return: True
+        """
+        return self.mapped('church_id').update_number_sponsorships()
+
+    def update_number_sponsorships(self):
+        """
+        Includes church members sponsorships in the count
+        :return: True
+        """
+        for partner in self:
+            partner.number_sponsorships = self.env[
+                'recurring.contract'].search_count([
+                    '|', '|',
+                    ('correspondent_id', 'in', partner.member_ids.ids),
+                    ('correspondent_id', '=', partner.id), '|',
+                    ('partner_id', '=', partner.id),
+                    ('partner_id', 'in', partner.member_ids.ids),
+                    ('state', 'not in', ['cancelled', 'terminated']),
+                    ('child_id', '!=', False),
+                    ('activation_date', '!=', False),
+                ])
+        return True
+
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
@@ -353,14 +391,36 @@ class ResPartner(models.Model):
         else:
             return super(ResPartner, self).open_contracts()
 
-    ##########################################################################
-    #                             PRIVATE METHODS                            #
-    ##########################################################################
-    @api.model
-    def _address_fields(self):
-        """ Returns the list of address fields that are synced from the parent
-        when the `use_parent_address` flag is set. """
-        return list(ADDRESS_FIELDS)
+    @api.multi
+    def forget_me(self):
+        # Store information in CSV, inside encrypted zip file.
+        self._secure_save_data()
+
+        super(ResPartner, self).forget_me()
+        # Delete other objects and custom CH fields
+        self.write({
+            'church_id': False,
+            'church_unlinked': False,
+            'street3': False,
+            'firstname': False,
+            'deathdate': False,
+            'geo_point': False,
+            'partner_latitude': False,
+            'partner_longitude': False
+        })
+        self.ambassador_details_id.unlink()
+        self.survey_inputs.unlink()
+        self.env['mail.tracking.email'].search([
+            ('partner_id', '=', self.id)]).unlink()
+        self.env['auditlog.log'].search([
+            ('model_id.model', '=', 'res.partner'),
+            ('res_id', '=', self.id)
+        ]).unlink()
+        self.env['partner.communication.job'].search([
+            ('partner_id', '=', self.id)
+        ]).unlink()
+        self.message_ids.unlink()
+        return True
 
     @api.multi
     def open_duplicates(self):
@@ -376,28 +436,66 @@ class ResPartner(models.Model):
             "target": "new",
         }
 
-    def update_church_sponsorships_number(self):
-        """
-        Update the count of sponsorships for the church of the partner
-        :return: True
-        """
-        return self.mapped('church_id').update_number_sponsorships()
+    ##########################################################################
+    #                             PRIVATE METHODS                            #
+    ##########################################################################
+    @api.model
+    def _address_fields(self):
+        """ Returns the list of address fields that are synced from the parent
+        when the `use_parent_address` flag is set. """
+        return list(ADDRESS_FIELDS)
 
-    def update_number_sponsorships(self):
+    def _secure_save_data(self):
         """
-        Includes church members sponsorships in the count
-        :return: True
+        Stores partner name and address in a CSV file on NAS,
+        inside a password-protected ZIP file.
+        :return: None
         """
-        for partner in self:
-            partner.number_sponsorships = self.env[
-                'recurring.contract'].search_count([
-                    '|', '|',
-                    ('correspondent_id', 'in', partner.member_ids.ids),
-                    ('correspondent_id', '=', partner.id), '|',
-                    ('partner_id', '=', partner.id),
-                    ('partner_id', 'in', partner.member_ids.ids),
-                    ('state', 'not in', ['cancelled', 'terminated']),
-                    ('child_id', '!=', False),
-                    ('activation_date', '!=', False),
-                ])
-        return True
+        smb_conn = self._get_smb_connection()
+        if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
+            config_obj = self.env['ir.config_parameter']
+            share_nas = config_obj.get_param('partner_compassion.share_on_nas')
+            store_path = config_obj.get_param('partner_compassion.store_path')
+            src_zip_file = tempfile.NamedTemporaryFile()
+            attrs = smb_conn.retrieveFile(share_nas, store_path, src_zip_file)
+            file_size = attrs[1]
+            if file_size:
+                src_zip_file.flush()
+                zip_dir = tempfile.mkdtemp()
+                pyminizip.uncompress(
+                    src_zip_file.name, SmbConfig.file_pw, zip_dir, 0)
+                csv_path = zip_dir + '/partner_data.csv'
+                with open(csv_path, 'ab') as csv_file:
+                    csv_writer = csv.writer(csv_file)
+                    csv_writer.writerow([
+                        str(self.id), self.ref, self.contact_address,
+                        fields.Date.today()
+                    ])
+                dst_zip_file = tempfile.NamedTemporaryFile()
+                pyminizip.compress(
+                    csv_path, '', dst_zip_file.name, SmbConfig.file_pw, 5)
+                try:
+                    smb_conn.storeFile(share_nas, store_path, dst_zip_file)
+                except OperationFailure:
+                    logger.error(
+                        "Couldn't store secure partner data on NAS. "
+                        "Please do it manually by replicating the following "
+                        "file: " + dst_zip_file.name)
+
+    def _get_smb_connection(self):
+        """" Retrieve configuration SMB """
+        if not (SmbConfig.smb_user and SmbConfig.smb_pass and
+                SmbConfig.smb_ip and SmbConfig.smb_port):
+            return False
+        else:
+            return SMBConnection(
+                SmbConfig.smb_user, SmbConfig.smb_pass, 'odoo', 'nas')
+
+
+class SmbConfig():
+    """" Little class who contains SMB configuration """
+    smb_user = config.get('smb_user')
+    smb_pass = config.get('smb_pwd')
+    smb_ip = config.get('smb_ip')
+    smb_port = int(config.get('smb_port', 0))
+    file_pw = config.get('partner_data_password')

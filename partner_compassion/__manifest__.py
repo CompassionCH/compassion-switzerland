@@ -46,7 +46,7 @@
         'web_notify',
     ],
     'external_dependencies': {
-        'python': ['pandas']
+        'python': ['pandas', 'pyminizip']
     },
     'data': [
         'security/ir.model.access.csv',
