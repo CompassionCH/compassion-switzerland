@@ -103,12 +103,13 @@ if not testing:
             acquirer_id = source_vals.get('acquirer_id')
             if acquirer_id and not self.acquirer_id:
                 self.acquirer_id = acquirer_id
-            currency_id = source_vals.get('currency_id')
+            currency_id = source_vals.get('currency_id',
+                                          self.env.ref('base.CHF').id)
             if currency_id and not self.currency_id:
-                self.currency_id = currency_id
+                self.currency_id = int(currency_id)
             amount = source_vals.get('amount')
             if amount and not self.amount:
-                self.amount = amount
+                self.amount = float(amount)
 
         def form_after_create_or_update(self, values, extra_values):
             """ Dismiss status message, as the client will be redirected

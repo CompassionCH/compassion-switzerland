@@ -183,11 +183,12 @@ if not testing:
                     })]
                 })
             if not partner.ambassador_details_id:
-                partner.ambassador_details_id =\
-                    self.env['ambassador.details'].sudo(uid).create({
-                        'partner_id': partner.id,
-                        'advocacy_source': 'Online Muskathlon registration'
-                    })
+                # Creation of ambassador details reloads cache and remove
+                # all field values. We therefore run it in a job.
+                partner.with_delay().create_ambassador_details({
+                    'partner_id': partner.id,
+                    'advocacy_source': 'Online Muskathlon registration'
+                })
             # This field is not needed in muskathlon registration.
             values.pop('partner_name')
             # Force default value instead of setting 0.
