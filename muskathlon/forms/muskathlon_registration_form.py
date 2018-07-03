@@ -100,7 +100,7 @@ if not testing:
             res.update({
                 'event_id': 'muskathlon.form.widget.hidden',
                 'amount': 'muskathlon.form.widget.hidden',
-                'ambassador_picture_1': 'cms.form.widget.image',
+                'ambassador_picture_1': 'muskathlon.form.widget.simple.image',
                 'gtc_accept': 'muskathlon.form.widget.terms',
             })
             return res
@@ -139,6 +139,28 @@ if not testing:
             # Set default values
             form.event_id = kw.get('event')
             return form
+
+        def form_get_request_values(self):
+            """ Save uploaded picture in storage to reload it in case of
+            validation error (to avoid the user to have to re-upload it). """
+            values = super(MuskathlonRegistrationForm,
+                           self).form_get_request_values()
+            fname = 'ambassador_picture_1'
+            image = values.get(fname)
+            form_fields = self.form_fields()
+            image_widget = form_fields[fname]['widget']
+            if image:
+                image_data = image_widget.form_to_binary(image)
+                # Reset buffer image
+                if hasattr(image, 'seek'):
+                    image.seek(0)
+                if image_data:
+                    self.request.session[fname] = image_data
+            else:
+                image = self.request.session.get(fname)
+                if image:
+                    values[fname] = image
+            return values
 
         def _form_load_sport_level_description(
                 self, fname, field, value, **req_values):
@@ -201,6 +223,8 @@ if not testing:
             self.main_object = self.form_model.sudo(uid).create(values.copy())
 
         def form_next_url(self, main_object=None):
+            # Clean storage of picture
+            self.request.session.pop('ambassador_picture_1', False)
             if self.event_id.registration_fee:
                 return super(MuskathlonRegistrationForm, self).form_next_url(
                     main_object)

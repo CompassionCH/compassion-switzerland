@@ -65,6 +65,13 @@ odoo.define('muskathlon.modal_form', function (require) {
                             } else {
                                 self.$el.find('.above-controls').before(formatted_mess);
                             }
+                            // Update csrf_token
+                            var token_regex = /csrf_token: "(.*)"/;
+                            var match = token_regex.exec(data.responseText);
+                            if (match !== null) {
+                                token = match[1];
+                                $("input[name='csrf_token']").val(token);
+                            }
                         }
                         btn.button('reset');
                     }
