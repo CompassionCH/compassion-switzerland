@@ -41,3 +41,16 @@ class QueueJob(models.Model):
             'view_mode': 'form',
         }
         return action
+
+    @api.multi
+    def related_action_partner(self):
+        partner_id = self.record_ids[0]
+        action = {
+            'name': _("Partner"),
+            'type': 'ir.actions.act_window',
+            'res_model': 'res.partner',
+            'res_id': partner_id,
+            'view_type': 'form',
+            'view_mode': 'form',
+        }
+        return action

@@ -9,7 +9,6 @@
 ##############################################################################
 
 from odoo import models, fields, tools, _
-from odoo.http import request
 
 testing = tools.config.get('test_enable')
 
@@ -83,15 +82,7 @@ if not testing:
             transaction_obj = self.env['payment.transaction'].sudo()
             tx_values['reference'] = transaction_obj.get_next_reference(
                 tx_values['reference'])
-            transaction_id = request.session.get('sale_transaction_id')
-            transaction = transaction_obj
-            if transaction_id:
-                transaction = transaction_obj.browse(transaction_id)
-                if transaction.partner_id == self.partner_id:
-                    transaction.write(tx_values)
-            if not transaction:
-                transaction = transaction_obj.create(tx_values)
-            request.session['sale_transaction_id'] = transaction.id
+            transaction = transaction_obj.create(tx_values)
             return '/muskathlon/payment/' + str(transaction.id) +\
                 '?redirect_url=' + self._payment_accept_redirect
 
@@ -103,12 +94,13 @@ if not testing:
             acquirer_id = source_vals.get('acquirer_id')
             if acquirer_id and not self.acquirer_id:
                 self.acquirer_id = acquirer_id
-            currency_id = source_vals.get('currency_id')
+            currency_id = source_vals.get('currency_id',
+                                          self.env.ref('base.CHF').id)
             if currency_id and not self.currency_id:
-                self.currency_id = currency_id
+                self.currency_id = int(currency_id)
             amount = source_vals.get('amount')
             if amount and not self.amount:
-                self.amount = amount
+                self.amount = float(amount)
 
         def form_after_create_or_update(self, values, extra_values):
             """ Dismiss status message, as the client will be redirected

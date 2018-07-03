@@ -22,9 +22,10 @@ pip install detectlanguage
 Add the following parameters to your Odoo configuration file:
 
 * ``detect_language_api_key`` : api key for use detectlanguage library
-* ``wp_sftp_host`` : the server url of your wordpress sftp (ex: wp.localhost.com)
-* ``wp_sftp_user`` : a sftp user of your wordpress server
-* ``wp_sftp_pwd`` : the sftp password
+* ``smb_user`` : user for connecting on the NAS of Compassion with Samba
+* ``smb_pwd`` : password for Samba
+* ``smb_ip`` : IP address of the NAS of Compassion
+* ``smb_port`` : Samba port of the NAS
 
 Usage
 =====
