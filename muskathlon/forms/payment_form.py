@@ -9,7 +9,6 @@
 ##############################################################################
 
 from odoo import models, fields, tools, _
-from odoo.http import request
 
 testing = tools.config.get('test_enable')
 
