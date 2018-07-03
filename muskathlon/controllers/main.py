@@ -197,17 +197,11 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         for a transaction.
         """
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
-        env = request.env(user=uid)
-        tx = None
         try:
             tx = request.env['payment.transaction'].sudo(uid).\
                 _ogone_form_get_tx_from_data(post)
         except ValidationError:
-            # Try to use the session to find the transaction
-            transaction_id = request.session.get('sale_transaction_id')
-            if transaction_id:
-                tx = env['payment.transaction'].browse(
-                    transaction_id).sudo(uid)
+            tx = None
 
         if not tx or not tx.registration_id:
             return request.render('muskathlon.registration_failure')
@@ -229,17 +223,11 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         for a transaction.
         """
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
-        env = request.env(user=uid)
-        tx = None
         try:
             tx = request.env['payment.transaction'].sudo(uid).\
                 _ogone_form_get_tx_from_data(post)
         except ValidationError:
-            # Try to use the session to find the transaction
-            transaction_id = request.session.get('sale_transaction_id')
-            if transaction_id:
-                tx = env['payment.transaction'].browse(
-                    transaction_id).sudo(uid)
+            tx = None
 
         if not tx or not tx.invoice_id:
             return request.render('muskathlon.donation_failure')
@@ -319,9 +307,6 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             transaction.invoice_id.with_delay().delete_muskathlon_invoice()
             transaction.registration_id.with_delay(eta=delay).\
                 delete_muskathlon_registration()
-
-        # clean context and session, then redirect to the confirmation page
-        request.session['sale_transaction_id'] = False
 
         if success:
             return request.render(success_template, kwargs)
