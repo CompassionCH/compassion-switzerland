@@ -11,10 +11,10 @@
 from odoo.tests.common import TransactionCase
 
 
-class TestSponsorshipSwitzerland(TransactionCase):
+class TestCompletionRulesSwitzerland(TransactionCase):
 
     def setUp(self):
-        super(TestSponsorshipSwitzerland, self).setUp()
+        super(TestCompletionRulesSwitzerland, self).setUp()
 
     def test_matching_using_partner_reference__when_no_client_is_matched(self):
         st_line = {'ref': 'xxxxxxxxx1111111'}
