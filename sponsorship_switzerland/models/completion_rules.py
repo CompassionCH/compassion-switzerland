@@ -137,38 +137,41 @@ class StatementCompletionRule(models.Model):
 
     def get_from_lsv_dd(self, stmts_vals, st_line):
         """ If line is a LSV or DD credit, change the account to 1098. """
+        def get_postfinance_id():
+            return self.env['res.partner'].search([
+                ('name', '=', 'Postfinance SA')
+            ], limit=1).commercial_partner_id.id
+
+        def fetch_account_id_by_code(code):
+            return self.env['account.account'].search([('code', '=', code)], limit=1).id
+
         label = st_line['name'].replace('\n', ' ') if st_line[
             'name'] != '/' else st_line['ref'].replace('\n', ' ')
         lsv_dd_strings = [u'BULLETIN DE VERSEMENT ORANGE',
                           u'ORDRE DEBIT DIRECT',
                           u'CRÉDIT GROUPÉ BVR',
                           u'Crèdit LSV']
-        is_lsv_dd = False
-        res = {}
-        account_id = False
+
         if st_line['amount'] >= 0:
             if u'KREDITKARTEN' in label:
-                account_id = self.env['account.account'].search(
-                    [('code', '=', '2000')], limit=1).id
-                res['partner_id'] = self.env['res.partner'].search([
-                    ('name', '=', 'Postfinance SA')
-                ], limit=1).commercial_partner_id.id
+                return {
+                    'account_id': fetch_account_id_by_code('2000'),
+                    'partner_id': get_postfinance_id()
+                }
             elif u'CRÉDIT TRANSACTIONS E-PAYMENT POSTFINANCE CARD' in label:
-                account_id = self.env['account.account'].search(
-                    [('code', '=', '1015')], limit=1).id
-                res['partner_id'] = self.env['res.partner'].search([
-                    ('name', '=', 'Postfinance SA')
-                ], limit=1).commercial_partner_id.id
+                return {
+                    'account_id': fetch_account_id_by_code('1015'),
+                    'partner_id': get_postfinance_id()
+                }
             else:
-                for credit_string in lsv_dd_strings:
-                    is_lsv_dd = is_lsv_dd or credit_string in label
-            if is_lsv_dd:
-                account_id = self.env['account.account'].search(
-                    [('code', '=', '1098')], limit=1).id
-            if account_id:
-                res['account_id'] = account_id
-
-        return res
+                is_lsv_dd = any(s in label for s in lsv_dd_strings)
+                if is_lsv_dd:
+                    account_id = fetch_account_id_by_code('1098')
+                    if account_id:
+                        return {
+                            'account_id': fetch_account_id_by_code('1098')
+                        }
+        return {}
 
     def get_sponsor_name(self, st_vals, st_line):
         res = {}

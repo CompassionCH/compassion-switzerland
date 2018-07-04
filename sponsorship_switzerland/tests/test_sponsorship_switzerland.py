@@ -31,7 +31,7 @@ class TestSponsorshipSwitzerland(TransactionCase):
         st_line = {
             'ref': 'xxxxxxxxx' + partner_ref + contract_not_in_db + gift_type
         }
-        self._insert_partner_with_ref(partner_ref)
+        self._insert_partner(ref=partner_ref)
 
         rule = self._fetch_rule_by_function_name('get_from_partner_ref')
         completion_result = rule.auto_complete([], st_line)
@@ -99,13 +99,45 @@ class TestSponsorshipSwitzerland(TransactionCase):
         self.assertTrue('partner_id' in completion_result)
         self.assertEqual(completion_result['partner_id'], 8)
 
+    def test_lsv_dd__for_postfinance(self):
+        statement_line = {
+            'name': u'anything\nKREDITKARTEN\nanything',
+            'amount': 200
+        }
+
+        rule = self._fetch_rule_by_function_name('get_from_lsv_dd')
+        completion_result = rule.auto_complete([], statement_line)
+
+        self.assertTrue('account_id' in completion_result)
+        self.assertEqual(completion_result['account_id'], 69)
+        self.assertTrue('partner_id' in completion_result)
+
+    def test_lsv_dd(self):
+        statement_line = {
+            'name': u'anything\n CRÉDIT GROUPÉ BVR\nanything',
+            'amount': 200
+        }
+
+        rule = self._fetch_rule_by_function_name('get_from_lsv_dd')
+        completion_result = rule.auto_complete([], statement_line)
+
+        self.assertFalse('partner_id' in completion_result)
+        self.assertTrue('account_id' in completion_result)
+        self.assertEqual(completion_result['account_id'], 981)
+
+    def test_lsv_dd__with_zero_amount(self):
+        rule = self._fetch_rule_by_function_name('get_from_lsv_dd')
+        completion_result = rule.auto_complete([], {'amount': 0, 'name': ''})
+
+        self.assertEqual(completion_result, {})
+
     def _fetch_rule_by_function_name(self, rule_function_name):
         completion_rule_obj = self.env['account.statement.completion.rule']
         return completion_rule_obj.search(
             [('function_to_call', '=', rule_function_name)]
         )
 
-    def _insert_partner_with_ref(self, ref):
+    def _insert_partner(self, ref):
         partner_obj = self.env['res.partner']
         partner_obj.create({
             'name': 'Partner',
