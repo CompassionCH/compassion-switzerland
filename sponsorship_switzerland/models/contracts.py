@@ -21,16 +21,6 @@ from odoo import api, models, fields, _
 logger = logging.getLogger(__name__)
 
 
-class CurrentTime:
-
-    def __init__(self):
-        pass
-
-    @classmethod
-    def now(cls):
-        return datetime.today()
-
-
 class RecurringContracts(models.Model):
     _inherit = 'recurring.contract'
 
@@ -181,7 +171,7 @@ class RecurringContracts(models.Model):
     @api.onchange('group_id')
     def on_change_group_id(self):
         """ Compute next invoice_date """
-        current_date = CurrentTime.now()
+        current_date = datetime.today()
         is_active = False
 
         if self.state not in ('draft',

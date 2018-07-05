@@ -14,7 +14,7 @@ import mock
 import datetime
 
 time_path = ('odoo.addons.sponsorship_switzerland.models.contracts'
-             '.CurrentTime')
+             '.datetime')
 
 
 class TestContractsSwitzerland(BaseSponsorshipTest):
@@ -25,7 +25,7 @@ class TestContractsSwitzerland(BaseSponsorshipTest):
     @mock.patch(time_path)
     def test_on_change_group_id__recomputes_next_invoice_date(self, time_mock):
         sponsorship = self._create_sponsorship()
-        time_mock.now.return_value = datetime.date(2015, 2, 5)
+        time_mock.today.return_value = datetime.date(2015, 2, 5)
 
         sponsorship.on_change_group_id()
 
@@ -33,8 +33,9 @@ class TestContractsSwitzerland(BaseSponsorshipTest):
 
     def test_sponsorship_termination(self):
         sponsorship = self._create_sponsorship(contract_type='S')
+        self.michel.update_number_sponsorships()
 
-        self.assertEqual(self.michel.number_sponsorships, 0)
+        self.assertEqual(self.michel.number_sponsorships, 2)
         sponsorship.contract_terminated()
         self.assertEqual(self.michel.number_sponsorships, 1)
 
@@ -48,6 +49,7 @@ class TestContractsSwitzerland(BaseSponsorshipTest):
                 'child_id': child.id,
                 'group_id': group.id,
                 'partner_id': partner_id,
+                'activation_date': datetime.datetime.today()
             },
             [{'amount': 50.0}]
         )
