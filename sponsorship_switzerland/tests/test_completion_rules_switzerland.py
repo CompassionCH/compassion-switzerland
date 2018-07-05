@@ -40,18 +40,6 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         self.assertTrue('name' in completion_result)
         self.assertRegexpMatches(completion_result['name'], 'Project Gift.*')
 
-    def test_matching_by_bvr_reference__with_an_invoice_found(self):
-        brv_ref = '1234'
-        invoice104 = self.env['account.invoice'].browse([104])
-        invoice104.write({'reference': brv_ref})
-
-        rule = self._fetch_rule_by_function_name('get_from_bvr_ref')
-        completion_result = rule.auto_complete([], {'ref': brv_ref})
-
-        self.assertTrue('partner_id' in completion_result)
-        self.assertEqual(completion_result['partner_id'], 8)
-        self.assertEqual(invoice104.partner_id.commercial_partner_id.id, 8)
-
     def test_lookup_by_sponsor_name(self):
         statement_line = {'name': u' EXPÉDITEUR: fost edward'}
 
