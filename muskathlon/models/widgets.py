@@ -32,3 +32,9 @@ class GeneralTerms(models.AbstractModel):
     _inherit = 'cms.form.widget.boolean'
     _w_template = 'muskathlon.field_widget_gtc'
     _w_css_klass = 'field-boolean field-gtc'
+
+
+class SimpleImage(models.AbstractModel):
+    _name = 'muskathlon.form.widget.simple.image'
+    _inherit = 'cms.form.widget.image'
+    _w_template = 'muskathlon.field_widget_image_simple'
