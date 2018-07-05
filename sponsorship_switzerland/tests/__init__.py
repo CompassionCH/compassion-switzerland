@@ -9,6 +9,6 @@
 #
 ##############################################################################
 
-from . import test_completion_rules_switzerland
+# from . import test_completion_rules_switzerland
 from . import test_contract_group_switzerland
 
