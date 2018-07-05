@@ -49,7 +49,7 @@ class Correspondence(models.Model):
         related='communication_id.email_id.opened', store=True
     )
     letter_delivered = fields.Boolean(oldname='letter_read')
-    zip_id = fields.Many2one('ir.attachment')
+    zip_file = fields.Binary(oldname='zip_id', attachment=True)
     has_valid_language = fields.Boolean(
         compute='_compute_valid_language', store=True)
 
@@ -59,7 +59,7 @@ class Correspondence(models.Model):
     def _compute_letter_format(self):
         """ Letter is zip if it contains a zip attachment"""
         for letter in self:
-            if letter.zip_id:
+            if letter.zip_file:
                 letter.letter_format = 'zip'
             else:
                 super(Correspondence, letter)._compute_letter_format()
@@ -113,8 +113,8 @@ class Correspondence(models.Model):
     def get_image(self):
         """ Method for retrieving the image """
         self.ensure_one()
-        if self.zip_id:
-            data = base64.b64decode(self.zip_id.datas)
+        if self.zip_file:
+            data = base64.b64decode(self.zip_file)
         else:
             data = super(Correspondence, self).get_image()
         return data
@@ -128,24 +128,18 @@ class Correspondence(models.Model):
         """
         _zip = self.env['correspondence.download.wizard'].with_context(
             active_model=self._name, active_ids=self.ids).create({})
-        self.mapped('zip_id').unlink()
+        self.write({'zip_file': False})
         letter_zip = self[0]
         other_letters = self - letter_zip
         base_url = self.env['ir.config_parameter'].get_param(
             'web.external.url')
         letter_zip.write({
-            'zip_id': self.env['ir.attachment'].create({
-                'datas': _zip.download_data,
-                'name': _zip.fname,
-                'res_id': letter_zip.id,
-                'res_model': self._name,
-                'datas_fname': _zip.fname,
-            }).id,
+            'zip_file': _zip.download_data,
             'read_url': "{}/b2s_image?id={}".format(base_url,
                                                     letter_zip.uuid),
             'letter_format': 'zip'
         })
-        other_letters.write({'read_url': False, 'zip_id': False})
+        other_letters.write({'read_url': False, 'zip_file': False})
         return True
 
     @api.multi

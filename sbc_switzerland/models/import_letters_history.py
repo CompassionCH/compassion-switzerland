@@ -53,7 +53,7 @@ class ImportLettersHistory(models.Model):
     #                             FIELDS METHODS                             #
     ##########################################################################
     @api.onchange("data", "import_folder_path")
-    def _count_nber_letters(self):
+    def _compute_nber_letters(self):
         """
         Counts the number of scans. If a zip file is given, the number of
         scans inside is counted.
@@ -61,7 +61,7 @@ class ImportLettersHistory(models.Model):
         for letter in self:
             if letter.manual_import or (
                     letter.state and letter.state != 'draft'):
-                super(ImportLettersHistory, letter)._count_nber_letters()
+                super(ImportLettersHistory, letter)._compute_nber_letters()
             else:
                 # files are not selected by user so we find them on NAS
                 # folder 'Imports' counter
@@ -90,7 +90,7 @@ class ImportLettersHistory(models.Model):
                     for sharedFile in listPaths:
                         if func.check_file(sharedFile.filename) == 1:
                             tmp += 1
-                        elif func.isZIP(sharedFile.filename):
+                        elif func.is_zip(sharedFile.filename):
                             logger.info(
                                 'File to retrieve: {}'.format(
                                     imported_letter_path +
@@ -168,12 +168,9 @@ class ImportLettersHistory(models.Model):
                         # import
                         # letters remove part after '-' caracter (including)
                         # corresponding to the page number
-                        part_filename = (line.letter_image.name[:-4]).split(
-                            '-')[0]
-
+                        part_filename = (line.file_name[:-4]).split('-')[0]
                         share_nas = self.env.ref(
                             'sbc_switzerland.share_on_nas').value
-
                         smb_conn = self._get_smb_connection()
                         if smb_conn and smb_conn.connect(
                                 SmbConfig.smb_ip, SmbConfig.smb_port):
@@ -235,7 +232,7 @@ class ImportLettersHistory(models.Model):
             super(ImportLettersHistory, self).button_save()
 
         except Exception as e:
-            logger.info("Exception during letter import: {}", e)
+            logger.info("Exception during letter import: {}", exc_info=True)
             # bug during import, so we remove letter sent on translation
             # platform
             for letters in self:
@@ -291,7 +288,7 @@ class ImportLettersHistory(models.Model):
                                 sharedFile.filename)
 
                             progress += 1
-                    elif func.isZIP(sharedFile.filename):
+                    elif func.is_zip(sharedFile.filename):
 
                         zip_file = BytesIO()
                         # retrieve zip file from imports letters stored on
@@ -394,7 +391,7 @@ class ImportLettersHistory(models.Model):
                         file_obj.seek(0)
                         self._copy_imported_to_done_letter(
                             sharedFile.filename, file_obj, True)
-                elif func.isZIP(sharedFile.filename):
+                elif func.is_zip(sharedFile.filename):
                     zip_file = BytesIO()
 
                     smb_conn.retrieveFile(
@@ -435,7 +432,7 @@ class ImportLettersHistory(models.Model):
         Check if given filename is in import letter list
         """
         for line in self.import_line_ids:
-            if filename[:-4] in line.letter_image.name:
+            if filename[:-4] in line.file_name:
                 return True
         return False
 
