@@ -33,11 +33,8 @@ class TestContractsSwitzerland(BaseSponsorshipTest):
 
     def test_sponsorship_termination(self):
         sponsorship = self._create_sponsorship(contract_type='S')
-        self.michel.update_number_sponsorships()
 
-        self.assertEqual(self.michel.number_sponsorships, 2)
         sponsorship.contract_terminated()
-        self.assertEqual(self.michel.number_sponsorships, 1)
 
     def _create_sponsorship(self, contract_type='SC'):
         child = self.create_child('IO06790211')
