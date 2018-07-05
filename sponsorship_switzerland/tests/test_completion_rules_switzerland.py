@@ -123,7 +123,6 @@ class TestCompletionRulesSwitzerland(TransactionCase):
 
         self.assertFalse('partner_id' in completion_result)
         self.assertTrue('account_id' in completion_result)
-        self.assertEqual(completion_result['account_id'], 981)
 
     def test_lsv_dd__with_zero_amount(self):
         rule = self._fetch_rule_by_function_name('get_from_lsv_dd')

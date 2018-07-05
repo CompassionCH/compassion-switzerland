@@ -19,14 +19,15 @@ class TestContractGroupSwitzerland(BaseSponsorshipTest):
     def setUp(self):
         super(TestContractGroupSwitzerland, self).setUp()
         self.michel.ref = 'reference'
+        self.david.ref = 'refdavid'
 
     def test_compute_partner_bvr_ref(self):
-        group = self.create_group({'partner_id': self.michel.id})
+        group = self.create_group({'partner_id': self.david.id})
 
         bvr_ref = group.compute_partner_bvr_ref()
 
         self.assertTrue(len(bvr_ref), 26)
-        self.assertEqual(bvr_ref, u'0000000reference00055000002')
+        self.assertEqual(bvr_ref, u'00000000refdavid00001000007')
 
     def test_raise_error_if_the_bvr_becomes_invalid(self):
         group = self.create_group({'partner_id': self.michel.id})

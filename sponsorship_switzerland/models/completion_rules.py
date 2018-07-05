@@ -143,7 +143,8 @@ class StatementCompletionRule(models.Model):
             ], limit=1).commercial_partner_id.id
 
         def fetch_account_id_by_code(code):
-            return self.env['account.account'].search([('code', '=', code)], limit=1).id
+            return self.env['account.account'] \
+                .search([('code', '=', code)], limit=1).id
 
         label = st_line['name'].replace('\n', ' ') if st_line[
             'name'] != '/' else st_line['ref'].replace('\n', ' ')
