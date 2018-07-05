@@ -87,7 +87,7 @@ class Correspondence(models.Model):
         if correspondence.template_id.layout == 'CH-A-3S01-1' and \
                 correspondence.source != 'compassion':
             input_pdf = PdfFileReader(BytesIO(base64.b64decode(
-                correspondence.letter_image.datas)))
+                correspondence.letter_image)))
             output_pdf = PdfFileWriter()
             nb_pages = input_pdf.numPages
             if nb_pages >= 2:
@@ -297,7 +297,6 @@ class Correspondence(models.Model):
             self.create_commkit()
         else:
             # Recompose the letter image and process letter
-            self.letter_image.unlink()
             if super(Correspondence, self).process_letter():
                 self.send_communication()
 
@@ -369,9 +368,7 @@ class Correspondence(models.Model):
         # Copy file in the imported letter folder
         smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
         if smb_conn.connect(smb_ip, smb_port):
-            file_ = BytesIO(base64.b64decode(
-                self.letter_image.with_context(
-                    bin_size=False).datas))
+            file_ = BytesIO(base64.b64decode(self.letter_image))
             nas_share_name = self.env.ref(
                 'sbc_switzerland.nas_share_name').value
 
@@ -381,7 +378,7 @@ class Correspondence(models.Model):
                                nas_letters_store_path, file_)
 
             logger.info('File {} store on NAS with success'
-                        .format(self.letter_image.name))
+                        .format(self.file_name))
         else:
             raise UserError(_('Connection to NAS failed'))
 
