@@ -45,7 +45,8 @@
         'donation_report_compassion'
     ],
     'demo': [
-        'data/demo_journal.xml'
+        'data/demo_journal.xml',
+        'data/demo_account.xml'
     ],
     'data': [
         'data/product.xml',

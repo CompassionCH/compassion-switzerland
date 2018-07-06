@@ -112,7 +112,7 @@ class ImportLettersHistory(models.Model):
             pdf_letter = self.analyze_webletter(pdf_data)
 
             # analyze attachment to check template and create image preview
-            line_vals, document_vals = func.analyze_attachment(
+            line_vals = func.analyze_attachment(
                 self.env, pdf_letter, filename, template)
 
             # Check UTM
@@ -134,17 +134,9 @@ class ImportLettersHistory(models.Model):
                     'email': email,
                     'partner_name': name
                 })
-                letters_line = self.env[
-                    'import.letter.line'].create(line_vals[i])
-                document_vals[i].update({
-                    'res_id': letters_line.id,
-                    'res_model': 'import.letter.line'
-                })
-                letters_line.letter_image = self.env[
-                    'ir.attachment'].create(document_vals[i])
+                self.env['import.letter.line'].create(line_vals[i])
 
             import_config.import_completed = True
-
             logger.info("Try to copy file {} !".format(filename))
             # Copy file in attachment in the done letter folder
             share_nas = self.env.ref('sbc_switzerland.share_on_nas').value

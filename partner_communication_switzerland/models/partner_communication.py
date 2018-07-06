@@ -46,8 +46,8 @@ class PartnerCommunication(models.Model):
         if not letters.get_multi_mode() or self.send_mode == 'physical':
             for letter in self.get_objects():
                 try:
-                    attachments[letter.letter_image.name] = [
-                        report, self._convert_pdf(letter.letter_image.datas)]
+                    attachments[letter.file_name] = [
+                        report, self._convert_pdf(letter.letter_image)]
                 except MissingError:
                     self.send_mode = False
                     self.auto_send = False
