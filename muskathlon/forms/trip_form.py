@@ -7,8 +7,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import re
 
-from odoo import models, tools, _
+from odoo import models, fields, tools, _
 
 testing = tools.config.get('test_enable')
 
@@ -67,6 +68,47 @@ if not testing:
         @property
         def form_msg_success_updated(self):
             return _('Trip information updated.')
+
+        def _form_validate_emergency_phone(self, value, **req_values):
+            if not re.match(r'^[+\d][\d\s]{7,}$', value, re.UNICODE):
+                return 'emergency_phone', _(
+                    'Please enter a valid phone number')
+            # No error
+            return 0, 0
+
+        def _form_validate_passport_number(self, value, **req_values):
+            return self._form_validate_alpha_field('passport_number', value)
+
+        def _form_validate_emergency_name(self, value, **req_values):
+            return self._form_validate_alpha_field('emergency_name', value)
+
+        def _form_validate_birth_name(self, value, **req_values):
+            return self._form_validate_alpha_field('birth_name', value)
+
+        def _form_validate_passport_expiration_date(self, value, **req_values):
+            valid = True
+            old = False
+            try:
+                date = fields.Date.from_string(value)
+                today = date.today()
+                old = date < today
+                valid = not old
+            except ValueError:
+                valid = False
+            finally:
+                if not valid:
+                    message = _("Please enter a valid date")
+                    if old:
+                        message = _("Your passport must be renewed!")
+                    return 'passport_expiration_date', message
+            # No error
+            return 0, 0
+
+        def _form_validate_alpha_field(self, field, value):
+            if not re.match(r"^[\w\s'-]+$", value, re.UNICODE):
+                return field, _('Please avoid any special characters')
+            # No error
+            return 0, 0
 
         def form_before_create_or_update(self, values, extra_values):
             """ Dismiss any pending status message, to avoid multiple

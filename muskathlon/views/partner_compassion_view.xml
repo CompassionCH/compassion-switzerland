@@ -5,9 +5,6 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='ambassador_details']" position="attributes">
-                <attribute name="string">Muskathlon</attribute>
-            </xpath>
             <xpath expr="//group[@name='ambassador_details_group']" position="after">
                 <group>
                     <field name="muskathlon_participant_id"/>

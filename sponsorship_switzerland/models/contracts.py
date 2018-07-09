@@ -421,5 +421,6 @@ class RecurringContracts(models.Model):
             invoices = self.invoice_line_ids.mapped('invoice_id')
             number = min(len(invoices), number_to_reconcile)
             invoices = invoices[:number]
+            delay = datetime.now() + relativedelta(seconds=15)
             if invoices:
-                invoices.with_delay().group_or_split_reconcile()
+                invoices.with_delay(eta=delay).group_or_split_reconcile()

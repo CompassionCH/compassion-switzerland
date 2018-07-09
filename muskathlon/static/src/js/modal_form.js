@@ -15,16 +15,23 @@ odoo.define('muskathlon.modal_form', function (require) {
             modal_form.submit(function (event) {
                 // Prevent direct submission
                 event.preventDefault();
+                // Show spinner
+                var btn = $(event.target).find('button[type="submit"]').first();
+                btn.attr('data-loading-text', '<i class="fa fa-circle-o-notch fa-spin" style="margin-right: 5px;"></i>'+btn.text());
+                btn.button('loading');
                 // Send form in ajax (remove translation url)
                 var post_url = window.location.pathname;
-                var form_data = self.$("form").serialize();
+                var form_data = new FormData(this);
                 // Inject form name in data to help the controller know which form is submitted,
                 // in case several modals are present.
-                form_data += "&form_id=" + self.form_id;
+                post_url += "?form_id=" + self.form_id;
                 $.ajax({
                     type: "POST",
                     url: post_url,
                     data: form_data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     success: function (data) {
                         if (data.redirect) {
                             var result_html = $('<div></div>');
@@ -38,9 +45,11 @@ odoo.define('muskathlon.modal_form', function (require) {
                                } else {
                                    self.on_receive_back_html_result(result_html.html());
                                }
+                               btn.button('reset');
                             });
                         } else {
                             self.on_receive_back_html_result(data);
+                            btn.button('reset');
                         }
                     },
                     error: function (data) {
@@ -52,11 +61,19 @@ odoo.define('muskathlon.modal_form', function (require) {
                             var formatted_mess = '<div id="server_error" class="alert alert-danger error-msg">' + message + '</div>';
                             var error_div = self.$el.find('#server_error');
                             if (error_div.length) {
-                                error_div.replace(formatted_mess);
+                                error_div[0].outerHTML = formatted_mess;
                             } else {
                                 self.$el.find('.above-controls').before(formatted_mess);
                             }
+                            // Update csrf_token
+                            var token_regex = /csrf_token: "(.*)"/;
+                            var match = token_regex.exec(data.responseText);
+                            if (match !== null) {
+                                token = match[1];
+                                $("input[name='csrf_token']").val(token);
+                            }
                         }
+                        btn.button('reset');
                     }
                 });
             });
@@ -75,7 +92,17 @@ odoo.define('muskathlon.modal_form', function (require) {
                 }
             } else {
                 // This is another page. we load it inside the modal.
-                this.$el.find(".modal-body").html(render_result);
+                // Try to find if it's an Odoo page an extract the content
+                var content = $(render_result).find("#wrap .container");
+                if (content.length === 0) {
+                    content = $(render_result).find(".main_container");
+                }
+                if (content.length === 0) {
+                    // Render the full page
+                    this.$el.find(".modal-body").html(render_result);
+                } else {
+                    this.$el.find(".modal-body form").replaceWith(content.html());
+                }
             }
         }
     });

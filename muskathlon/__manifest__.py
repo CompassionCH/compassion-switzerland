@@ -42,6 +42,7 @@
         'data/res_users.xml',
         'data/survey_muskathlon_medical_infos.xml',
         'data/product.xml',
+        'data/transaction_server_actions.xml',
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
@@ -59,6 +60,7 @@
         'templates/muskathlon_registration_form.xml',
         'templates/muskathlon_snippet.xml',
         'templates/muskathlon_views.xml',
+        'templates/muskathlon_order_material.xml',
         'templates/form_widgets.xml',
         'templates/assets.xml'
     ],

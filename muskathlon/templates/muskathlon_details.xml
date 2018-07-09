@@ -7,6 +7,14 @@
         </t>
         <t t-call="website.layout">
             <div id="muskathlon_details">
+                <!-- Banner -->
+                <t t-set="new_registration_url" t-value="'/muskathlon_registration/?event_id='+str(event.id)"/>
+                <div class="banner_container" t-attf-style="background-image: url('/web/image/crm.event.compassion/{{ event.id }}/picture_1');">
+                    <div class="banner_text_container">
+                        <h2 class="center-text event_name"><span class="text-uppercase" t-field="event.name"/></h2>
+                    </div>
+                </div>
+
                 <!-- Include modal for registration -->
                 <t t-call="muskathlon.modal_form"/>
                 <t t-set="title" t-value="event.name"/>
@@ -21,98 +29,84 @@
                     </div>
 
                     <!-- Event description -->
-                    <div class="main_container">
-                        <div class="row event_details">
-                            <t t-set="new_registration_url" t-value="'/muskathlon_registration/?event_id='+str(event.id)"/>
-                            <div class="col-xs-12">
-                                <div class="banner_container" t-attf-style="background-image: url('/web/image/crm.event.compassion/{{ event.id }}/picture_1');">
-                                    <div class="row banner_text_container">
-                                        <h2 class="center-text event_name"><span class="text-uppercase" t-field="event.name"/></h2>
-                                    </div>
+                    <div class="main_container event_details">
+                        <div class="row">
+                            <div class="col-sm-1 col-md-2"/>
+                            <div class="col-sm-3 col-md-2 col-sm-push-7 col-md-push-6">
+                                <div class="dates_container">
+                                    <span class="text-uppercase dates_text">Dates</span>
+                                    <span class="same-line">
+                                        <t t-esc="start_date"/> - <t t-esc="end_date"/>
+                                    </span>
+                                    <p class="text-uppercase sports_title">Sports</p>
+                                    <table class="sports_icons">
+                                        <tr>
+                                            <t t-foreach="event.sport_discipline_ids.with_context(lang='en_US')" t-as="discipline">
+                                                <span class="muskathlon_sport_icon">
+                                                    <t t-if="'Biking' == discipline.sport">
+                                                        <td align="center">
+                                                            <img class="sport_icon"
+                                                                 src="/muskathlon/static/src/data/biking.png"/>
+                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="'Climbing' == discipline.sport">
+                                                        <td align="center">
+                                                            <img class="sport_icon"
+                                                                 src="/muskathlon/static/src/data/climbing.png"/>
+                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="'Running' == discipline.sport">
+                                                        <td align="center">
+                                                            <img class="sport_icon"
+                                                                 src="/muskathlon/static/src/data/running.png"/>
+                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="'Walking' == discipline.sport">
+                                                        <td align="center">
+                                                            <img class="sport_icon walk"
+                                                                 src="/muskathlon/static/src/data/walking.png"/>
+                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
+                                                        </td>
+                                                    </t>
+                                                </span>
+                                            </t>
+                                        </tr>
+                                    </table>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-1 col-md-2"/>
-                                    <div class="col-sm-10 col-md-8">
-                                        <div class="about_event_container">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <p class="event_public_description" t-field="event.website_description"/>
-                                                </div>
-                                                <div class="col-sm-4 dates_container">
-                                                    <span class="text-uppercase dates_text">Dates</span>
-                                                    <span class="same-line">
-                                                        <t t-esc="start_date"/> - <t t-esc="end_date"/>
-                                                    </span>
-                                                    <p class="text-uppercase sports_title">Sports</p>
-                                                    <table class="sports_icons">
-                                                        <tr>
-                                                            <t t-foreach="event.sport_discipline_ids" t-as="discipline">
-                                                                <span class="muskathlon_sport_icon">
-                                                                    <t t-if="'Biking' == discipline.sport">
-                                                                        <td align="center">
-                                                                            <img class="sport_icon"
-                                                                                 src="/muskathlon/static/src/data/biking.png"/>
-                                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
-                                                                        </td>
-                                                                    </t>
-                                                                    <t t-if="'Climbing' == discipline.sport">
-                                                                        <td align="center">
-                                                                            <img class="sport_icon"
-                                                                                 src="/muskathlon/static/src/data/climbing.png"/>
-                                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
-                                                                        </td>
-                                                                    </t>
-                                                                    <t t-if="'Running' == discipline.sport">
-                                                                        <td align="center">
-                                                                            <img class="sport_icon"
-                                                                                 src="/muskathlon/static/src/data/running.png"/>
-                                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
-                                                                        </td>
-                                                                    </t>
-                                                                    <t t-if="'Walking' == discipline.sport">
-                                                                        <td align="center">
-                                                                            <img class="sport_icon walk"
-                                                                                 src="/muskathlon/static/src/data/walking.png"/>
-                                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
-                                                                        </td>
-                                                                    </t>
-                                                                </span>
-                                                            </t>
-                                                        </tr>
-                                                    </table>
-                                                    <p class="muskathlon_register_button">
-                                                        <a href="#" data-toggle="modal" data-target="#modal_muskathlon_registration" class="btn btn-danger btn-muskathlon">
-                                                            <span class="center-text">Register</span>
-                                                        </a>
-                                                    </p>
-                                                    <div>
-                                                        <p class="text-uppercase project_donations_total">Funds raised:</p>
-                                                        <div class="progress">
-                                                            <div class="progress-bar" role="progressbar"
-                                                                 t-attf-aria-valuenow="{{ event.amount_raised_percents }}"
-                                                                 aria-valuemin="0"
-                                                                 aria-valuemax="100"
-                                                                 t-attf-style="width: {{ event.amount_raised_percents }}%;">
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <t t-esc="'{:n}'.format(event.amount_raised)"/> / <t t-esc="'{:n}'.format(event.amount_objective)"/> CHF
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row hidden-xs">
-                                                <div class="col-sm-12">
-                                                    <div class="oe_structure" style="margin-top: 20px"/>
-                                                </div>
-                                            </div>
+                                <p class="muskathlon_register_button">
+                                    <a href="#" data-toggle="modal" data-target="#modal_muskathlon_registration" class="btn btn-danger btn-muskathlon">
+                                        <span class="center-text">Register</span>
+                                    </a>
+                                    <a href="#muskathlon_participants" class="btn btn-danger btn-muskathlon">
+                                        <span class="center-text">See participants</span>
+                                    </a>
+                                </p>
+                                <div>
+                                    <p class="text-uppercase project_donations_total">Funds raised:</p>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar"
+                                             t-attf-aria-valuenow="{{ event.amount_raised_percents }}"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100"
+                                             t-attf-style="width: {{ event.amount_raised_percents }}%;">
                                         </div>
                                     </div>
-                                    <div class="col-sm-1 col-md-2"/>
+                                    <div>
+                                        <t t-esc="'{:n}'.format(event.amount_raised).replace(',', '\'')"/> / <t t-esc="'{:n}'.format(event.amount_objective).replace(',', '\'')"/> CHF
+                                    </div>
                                 </div>
+                                <div t-field="event.website_side_info" style="margin-top: 20px"/>
+                                <div class="oe_structure hidden-xs" style="margin-top: 20px"/>
                             </div>
+                            <div class="col-sm-7 col-md-6 col-sm-pull-3 col-md-pull-2">
+                                <div class="event_public_description" t-field="event.website_description"/>
+                            </div>
+                            <div class="col-sm-1 col-md-2"/>
                         </div>
-                        <div class="row participants_container">
+                        <div class="row" id="muskathlon_participants">
                             <div class="col-md-1"/>
                             <div class="col-md-10 col-xs-12">
                                 <t t-if="event.muskathlon_registration_ids.filtered('website_published')">
@@ -141,7 +135,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="amount_raised">
-                                                        <t t-esc="'{:n}'.format(registration.amount_raised)"/> / <t t-esc="'{:n}'.format(registration.amount_objective)"/> CHF
+                                                        <t t-esc="'{:n}'.format(registration.amount_raised).replace(',', '\'')"/> / <t t-esc="'{:n}'.format(registration.amount_objective).replace(',', '\'')"/> CHF
                                                     </div>
                                                     <h5 class="text-uppercase name details"><span class="details_text">Participant<br/>details</span></h5>
                                                 </div>
@@ -153,7 +147,6 @@
                             <div class="col-md-1"/>
                             <div class="muskathlon_space_bottom"/>
                         </div>
-                        <div class="oe_structure"/>
                         <!-- animation for participants details button -->
                         <script>
                             $('.participant_card a').hover(function() {

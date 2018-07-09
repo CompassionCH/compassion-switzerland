@@ -18,6 +18,7 @@ addons:
       - python-yaml
       - python-cups
       - python-mysqldb
+      - python-tk
     # OpenCV requirements packages
       - zbar-tools
       - python-zbar

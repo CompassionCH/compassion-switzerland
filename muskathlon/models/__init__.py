@@ -16,7 +16,7 @@ from . import muskathlon_registration
 from . import res_partner
 from . import sport_discipline
 from . import staff_notification_settings
-from . import website
 from . import payment_transaction
 from . import widgets
 from . import account_invoice
+from . import queue_job

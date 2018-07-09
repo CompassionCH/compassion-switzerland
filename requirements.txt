@@ -1,7 +1,7 @@
 pyjwt
 pyquery
 phonenumbers
-sendgrid
+sendgrid==5.0.0
 detectlanguage
 pysmb
 pysftp
@@ -15,3 +15,5 @@ bs4
 geojson
 Shapely
 simplejson
+pandas
+pyminizip

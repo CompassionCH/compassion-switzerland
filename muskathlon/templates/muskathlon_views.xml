@@ -49,8 +49,8 @@
             <!-- Ambassador details -->
             <div class="row">
                 <div t-att-class="'col-md-6' if details_obj.picture_large else 'col-md-12'">
-                    <t t-if="details_obj.description and details_obj.quote">
-                        <h4>About me: <span t-esc="details_obj.description" style="font-size: smaller;"/></h4>
+                    <t t-if="details_obj.quote">
+                        <!--<h4>About me: <span t-esc="details_obj.description" style="font-size: smaller;"/></h4>-->
                         <h4>My motto: <span t-esc="details_obj.quote" style="font-style: italic; font-size: smaller;"/></h4>
                     </t>
                     <t t-else="">
@@ -142,7 +142,7 @@
             <div style="display: none;">
                 <div id="footer_muskathlon">
                     <div style="text-align: center;">
-                        <a href="http://muskathlon.ch" target="_blank">
+                        <a href="https://4m-switzerland.ch/4m/home/" target="_blank">
                             <img src="/muskathlon/static/src/img/4mch.png" style="margin-right: 20px;"/>
                         </a>
                         <a href="https://compassion.ch" target="_blank">
@@ -153,6 +153,9 @@
             </div>
             <script>
                 $(function() {
+                    // change image in navbar
+                    $('header .navbar-brand img').first().attr('src', '/muskathlon/static/src/img/muskathlon.png');
+                    // replace original footer
                     $('#main_footer').before($('#footer_muskathlon')[0].outerHTML);
                 });
             </script>

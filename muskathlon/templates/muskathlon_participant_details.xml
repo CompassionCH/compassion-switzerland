@@ -49,19 +49,20 @@
                                 </div>
                             </div>
                             <div class="col-sm-7">
-                                <h2 class="side_title"><t t-esc="registration.sport_discipline_id.participant_title"/></h2>
+                                <t t-set="sport" t-value="registration.sport_discipline_id"/>
+                                <h2 class="side_title" t-field="sport.page_title"/>
                                 Muskathlon :
                                 <a t-attf-href="/event/{{ event.id }}" class="href_muskathlon">
                                     <t t-esc="event.name.replace('Muskathlon ', '')"/>
                                 </a>
                                 <p class="complete_name_container">
                                     <span class="text-uppercase complete_name"><t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></span>
-                                    <t t-esc="registration.get_sport_discipline_name()"/>
+                                    <t t-esc="sport.sport.title()"/> for <t t-esc="sport.distance_km"/> km
                                 </p>
                                 <blockquote>
                                     <p t-field="registration.ambassador_quote"/>
                                 </blockquote>
-                                <p t-field="registration.ambassador_description" class="ambassador_description"/>
+                                <!--<p t-field="registration.ambassador_description" class="ambassador_description"/>-->
                                 <div class="space_top">
                                     Raised amount:
                                 </div>
@@ -73,7 +74,7 @@
                                          t-attf-style="width: {{ registration.amount_raised_percents }}%;">
                                     </div>
                                     <div class="progress-amount">
-                                        <t t-esc="'{:n}'.format(registration.amount_raised)"/> / <t t-esc="'{:n}'.format(registration.amount_objective)"/> CHF
+                                        <t t-esc="'{:n}'.format(registration.amount_raised).replace(',', '\'')"/> / <t t-esc="'{:n}'.format(registration.amount_objective).replace(',', '\'')"/> CHF
                                     </div>
                                 </div>
                             </div>

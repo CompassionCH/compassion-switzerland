@@ -8,14 +8,17 @@
 #
 ##############################################################################
 import json
-import locale
-import time
+import werkzeug
+
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from base64 import b64encode
 
 from odoo import _
 from odoo.http import request, route, Response
 from odoo.addons.website_portal.controllers.main import website_account
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
-from base64 import b64encode
+from odoo.addons.payment.models.payment_acquirer import ValidationError
 
 
 class MuskathlonWebsite(website_account, FormControllerMixin):
@@ -25,6 +28,8 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             ('website_published', '=', True),
             ('muskathlon_event_id', '!=', False)
         ])
+        if len(events) == 1:
+            return request.redirect('/event/' + str(events.id))
         return request.render('muskathlon.list', {
             'events': events
         })
@@ -36,29 +41,35 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         # This allows the translation to still work on the page
         values.pop('edit_translations', False)
 
-        # get current lang to format dates
-        lang = request._context['lang']
-        locale.setlocale(locale.LC_TIME, lang)
-
         values.update({
             'event': event,
             'disciplines': event.sport_discipline_ids.ids,
-            'start_date': time.strftime('%d %B %Y',time.strptime(
-                event.start_date,'%Y-%m-%d %H:%M:%S')),
-            'end_date': time.strftime('%d %B %Y',time.strptime(
-                event.end_date,'%Y-%m-%d %H:%M:%S'))
+            'start_date': event.get_date('start_date', 'date_full'),
+            'end_date': event.get_date('end_date', 'date_full'),
         })
-        result = self.make_response(
-            'muskathlon.registration', **values
-        )
+        registration_form = self.get_form('muskathlon.registration', **values)
+        registration_form.form_process()
+        if registration_form.form_success:
+            # The user submitted a registration, redirect to confirmation
+            result = werkzeug.utils.redirect(
+                registration_form.form_next_url(), code=303)
+        else:
+            # Display Muskathlon Details page
+            values.update({
+                'form': registration_form,
+                'main_object': event
+            })
+            result = request.render('muskathlon.details', values)
+
         return self._form_redirect(result)
 
-    @route('/my/muskathlons/<int:muskathlon_id>',
+    @route('/my/muskathlon/<model("muskathlon.registration"):registration>/'
+           'donations',
            auth='user', website=True)
-    def muskathlon_details(self, muskathlon_id, **kwargs):
+    def muskathlon_details(self, registration, **kwargs):
         reports = request.env['muskathlon.report'].search(
             [('user_id', '=', request.env.user.partner_id.id),
-             ('event_id', '=', muskathlon_id)])
+             ('event_id', '=', registration.event_id.id)])
         return request.render('muskathlon.my_details', {
             'reports': reports
         })
@@ -79,7 +90,18 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'registration': registration,
             'form_model_key': 'cms.form.muskathlon.donation'
         })
-        result = self.make_response(False, **values)
+        donation_form = self.get_form(False, **values)
+        donation_form.form_process()
+        if donation_form.form_success:
+            # The user submitted a donation, redirect to confirmation
+            result = werkzeug.utils.redirect(
+                donation_form.form_next_url(), code=303)
+        else:
+            values.update({
+                'form': donation_form,
+                'main_object': registration
+            })
+            result = request.render('muskathlon.participant_details', values)
         return self._form_redirect(result)
 
     @route(['/my', '/my/home'], type='http', auth="user", website=True)
@@ -170,17 +192,16 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
 
     @route('/muskathlon_registration/payment/validate',
            type='http', auth="public", website=True)
-    def registration_payment_validate(self, transaction_id=None, **post):
+    def registration_payment_validate(self, **post):
         """ Method that should be called by the server when receiving an update
         for a transaction.
         """
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
-        env = request.env(user=uid)
-        tx = None
-        if transaction_id is None:
-            transaction_id = request.session.get('sale_transaction_id')
-        if transaction_id:
-            tx = env['payment.transaction'].browse(transaction_id)
+        try:
+            tx = request.env['payment.transaction'].sudo(uid).\
+                _ogone_form_get_tx_from_data(post)
+        except ValidationError:
+            tx = None
 
         if not tx or not tx.registration_id:
             return request.render('muskathlon.registration_failure')
@@ -188,22 +209,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         event = tx.registration_id.event_id
         if tx.state == 'done' and not tx.registration_id.lead_id:
             # Create the lead
-            staff_id = env['staff.notification.settings'].get_param(
-                'muskathlon_lead_notify_id')
-            partner = tx.partner_id
-            tx.registration_id.lead_id = env['crm.lead'].create({
-                'name': u'Muskathlon Registration - ' + partner.name,
-                'partner_id': partner.id,
-                'email_from': partner.email,
-                'phone': partner.phone,
-                'partner_name': partner.name,
-                'street': partner.street,
-                'zip': partner.zip,
-                'city': partner.city,
-                'user_id': staff_id,
-                'description': tx.registration_id.sport_level_description,
-                'event_id': event.id
-            })
+            tx.registration_id.with_delay().create_muskathlon_lead()
         post.update({'event': event})
         return self.muskathlon_payment_validate(
             tx, 'muskathlon.new_registration_successful',
@@ -212,18 +218,18 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
 
     @route('/muskathlon_donation/payment/validate',
            type='http', auth="public", website=True)
-    def donation_payment_validate(self, transaction_id=None, **post):
+    def donation_payment_validate(self, **post):
         """ Method that should be called by the server when receiving an update
         for a transaction.
         """
         uid = request.env.ref('muskathlon.user_muskathlon_portal').id
-        env = request.env(user=uid)
-        if transaction_id is None:
-            transaction_id = request.session.get('sale_transaction_id')
-        if transaction_id:
-            tx = env['payment.transaction'].browse(transaction_id)
+        try:
+            tx = request.env['payment.transaction'].sudo(uid).\
+                _ogone_form_get_tx_from_data(post)
+        except ValidationError:
+            tx = None
 
-        if not transaction_id or not tx.invoice_id:
+        if not tx or not tx.invoice_id:
             return request.render('muskathlon.donation_failure')
 
         invoice_lines = tx.invoice_id.invoice_line_ids
@@ -240,6 +246,48 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'muskathlon.donation_failure', **post
         )
 
+    @route('/my/muskathlon/<model("muskathlon.registration"):registration>',
+           auth="user", website=True)
+    def muskathlon_order_material(self, registration, form_id=None, **kw):
+        # Load forms
+        kw['form_model_key'] = 'cms.form.order.material'
+        kw['registration'] = registration
+        material_form = self.get_form('crm.lead', **kw)
+        if form_id is None or form_id == 'order_material':
+            material_form.form_process()
+
+        kw['form_model_key'] = 'cms.form.order.muskathlon.childpack'
+        childpack_form = self.get_form('crm.lead', **kw)
+        if form_id is None or form_id == 'muskathlon_childpack':
+            childpack_form.form_process()
+
+        flyer = '/muskathlon/static/src/img/muskathlon_parrain_example_'
+        flyer += request.env.lang[:2] + '.jpg'
+
+        values = {
+            'registration': registration,
+            'material_form': material_form,
+            'childpack_form': childpack_form,
+            'flyer_image': flyer
+        }
+        return request.render(
+            "muskathlon.my_muskathlon_order_material", values)
+
+    @route('/muskathlon_registration/'
+           '<model("muskathlon.registration"):registration>/success',
+           type='http', auth="public", website=True)
+    def muskathlon_registration_successful(self, registration, **kwargs):
+        # Create lead
+        uid = request.env.ref('muskathlon.user_muskathlon_portal').id
+        if not registration.sudo(uid).lead_id:
+            registration.sudo(uid).with_delay().create_muskathlon_lead()
+        values = {
+            'registration': registration,
+            'event': registration.event_id
+        }
+        return request.render(
+            'muskathlon.new_registration_successful_modal', values)
+
     def muskathlon_payment_validate(
             self, transaction, success_template, fail_template, **kwargs):
         """
@@ -251,19 +299,14 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         :param kwargs: post data
         :return: web page
         """
-        invoice = transaction.invoice_id
-        success = False
-        if transaction.state == 'done':
-            # Create payment
-            success = True
-            invoice.pay_muskathlon_invoice()
-        elif transaction.state in ('cancel', 'error'):
-            # Cancel the invoice and potential registration
-            transaction.invoice_id.unlink()
-            transaction.registration_id.unlink()
-
-        # clean context and session, then redirect to the confirmation page
-        request.session['sale_transaction_id'] = False
+        success = transaction.state == 'done'
+        if transaction.state in ('cancel', 'error'):
+            # Cancel the invoice and potential registration (avoid launching
+            # jobs at the same time, can cause rollbacks)
+            delay = datetime.today() + relativedelta(seconds=10)
+            transaction.invoice_id.with_delay().delete_muskathlon_invoice()
+            transaction.registration_id.with_delay(eta=delay).\
+                delete_muskathlon_registration()
 
         if success:
             return request.render(success_template, kwargs)
@@ -310,7 +353,10 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         """
         if response.status_code == 303:
             # Prepend with lang, to avoid 302 redirection
-            location = '/' + request.env.lang + response.location
+            location = ''
+            if request.env.lang != request.website.default_lang_code:
+                location += '/' + request.env.lang
+            location += response.location
             return Response(
                 json.dumps({'redirect': location}),
                 status=200,

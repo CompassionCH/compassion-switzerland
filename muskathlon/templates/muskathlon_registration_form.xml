@@ -3,16 +3,15 @@
     <template id="new_registration_successful" name="Muskathlon registration success">
         <t t-call="website.layout">
             <t t-set="title" t-value="event.name"/>
-            <div class="oe_structure compassion-wp">
+            <div class="oe_structure donation_success">
                 <div class="thank_you_container">
                     <div class="thank_you_image_container">
                         <img class="img-responsive" style="width: 100%" src="/muskathlon/static/src/img/compassion_thankyou_donation.jpg"/>
                     </div>
                     <div class="thank_you_text_container">
-                        <h1>Registration Successful!</h1>
+                        <h1>Registration successful !</h1>
                         <p class="quote">
                             Thank you for your interest for the <a t-att-href="event.website_url"><t t-esc="event.name"/></a>.
-                            <br/>
                             <br/>
                             You will receive a confirmation by e-mail very soon with instructions to complete your
                             profile.
@@ -20,7 +19,19 @@
                     </div>
                 </div>
             </div>
+            <t t-call="muskathlon.footer_muskathlon"/>
         </t>
+    </template>
+    <template id="new_registration_successful_modal" name="Muskathlon registration success modal">
+        <div>
+            <h3>Registration Successful!</h3>
+            <p>Thank you for your submission.</p>
+            <br/>
+            <p>You will receive a confirmation by e-mail very soon with instructions to complete your profile.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
     </template>
     <template id="registration_failure" name="Muskathlon registration failure">
         <t t-call="website.layout">

@@ -11,7 +11,7 @@
 import base64
 import calendar
 import logging
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 from dateutil.relativedelta import relativedelta
 
@@ -246,6 +246,17 @@ class RecurringContract(models.Model):
                 # In any case, we don't want to stop other email generation!
                 continue
 
+        # send welcome activations letters
+        welcome = self.env.ref(
+            'partner_communication_switzerland.welcome_activation')
+        to_send = self.env['recurring.contract'].search([
+            ('activation_date', '>=', (datetime.today() - timedelta(days=1))),
+            ('child_id', '!=', False)
+        ])
+        if to_send:
+            to_send.send_communication(welcome, both=True).send()
+            to_send.write({'sds_state': 'active'})
+
         logger.info("Sponsorship Planned Communications finished!")
 
     @api.model
@@ -400,11 +411,6 @@ class RecurringContract(models.Model):
             ('state', '!=', 'done'),
             ('partner_id', 'in', self.mapped('partner_id').ids)
         ]).unlink()
-        welcome = self.env.ref(
-            'partner_communication_switzerland.welcome_activation')
-        to_send = self.filtered('child_id')
-        to_send.send_communication(welcome, both=True)
-        to_send.write({'sds_state': 'active'})
         return super(RecurringContract, self).contract_active()
 
     @api.multi
@@ -412,9 +418,8 @@ class RecurringContract(models.Model):
         logger.info("Creating Welcome Letters Communications")
         config = self.env.ref(
             'partner_communication_switzerland.planned_welcome')
-        self.send_communication(config, both=True)
+        self.send_communication(config, both=True).send()
         self.write({'sds_state': 'active'})
-        logger.info("Welcome Letters Sent !")
         return True
 
     @api.multi

@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import re
 
 from odoo import models, tools, _
 
@@ -47,6 +48,39 @@ if not testing:
         @property
         def form_msg_success_updated(self):
             return _('Coordinates updated.')
+
+        def _form_validate_phone(self, value, **req_values):
+            if not re.match(r'^[+\d][\d\s]{7,}$', value, re.UNICODE):
+                return 'phone', _('Please enter a valid phone number')
+            # No error
+            return 0, 0
+
+        def _form_validate_zip(self, value, **req_values):
+            if not re.match(r'^\d{3,6}$', value):
+                return 'zip', _('Please enter a valid zip code')
+            # No error
+            return 0, 0
+
+        def _form_validate_email(self, value, **req_values):
+            if not re.match(r'[^@]+@[^@]+\.[^@]+', value):
+                return 'email', _('Verify your e-mail address')
+            # No error
+            return 0, 0
+
+        def _form_validate_name(self, value, **req_values):
+            return self._form_validate_alpha_field('name', value)
+
+        def _form_validate_street(self, value, **req_values):
+            return self._form_validate_alpha_field('street', value)
+
+        def _form_validate_city(self, value, **req_values):
+            return self._form_validate_alpha_field('city', value)
+
+        def _form_validate_alpha_field(self, field, value):
+            if not re.match(r"^[\w\s'-]+$", value, re.UNICODE):
+                return field, _('Please avoid any special characters')
+            # No error
+            return 0, 0
 
         def form_before_create_or_update(self, values, extra_values):
             """ Dismiss any pending status message, to avoid multiple

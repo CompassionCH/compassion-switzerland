@@ -21,7 +21,6 @@ if not testing:
         _inherit = ['cms.form.payment', 'cms.form.match.partner']
 
         # The form is inside a Muskathlon participant details page
-        form_wrapper_template = 'muskathlon.participant_details'
         form_buttons_template = 'muskathlon.modal_form_buttons'
         form_id = 'modal_muskathlon_donation'
         _payment_accept_redirect = '/muskathlon_donation/payment/validate'
@@ -35,7 +34,6 @@ if not testing:
             return [
                 {
                     'id': 'payment',
-                    'title': _('Donation'),
                     'fields': ['amount', 'currency_id', 'acquirer_ids']
                 },
                 {
@@ -50,11 +48,6 @@ if not testing:
                 },
 
             ]
-
-        @property
-        def _default_currency_id(self):
-            # Muskathlon registration payments are in CHF
-            return self.env.ref('base.CHF').id
 
         @property
         def form_title(self):
@@ -88,15 +81,16 @@ if not testing:
             product = muskathlon.sudo(uid).product_variant_ids[:1]
             event = self.event_id.sudo(uid)
             ambassador = self.ambassador_id.sudo(uid)
+            name = u'[{}] Donation for {}'.format(event.name, ambassador.name)
             self.invoice_id = self.env['account.invoice'].sudo(uid).create({
                 'partner_id': self.partner_id.id,
                 'currency_id': values['currency_id'],
+                'origin': name,
                 'invoice_line_ids': [(0, 0, {
                     'quantity': 1.0,
                     'price_unit': values['amount'],
                     'account_id': product.property_account_income_id.id,
-                    'name': 'Gift for ' + event.name + ' for ' +
-                            ambassador.name,
+                    'name': name,
                     'product_id': product.id,
                     'account_analytic_id': event.analytic_id.id,
                     'user_id': ambassador.id

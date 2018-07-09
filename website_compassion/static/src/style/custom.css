@@ -19,12 +19,6 @@
         max-width: 600px !important;
     }
 }
-@media(max-width: 1050px) {
-    .thank_you_text_container {
-        margin-right: 10% !important;
-        left: 5%;
-    }
-}
 @media(max-width: 767px) {
     .thank_you_image_container {
         max-height: 60vh;
@@ -100,4 +94,164 @@ span[itemprop="name"]:before {
 /* hides "manage your payment methods" button */
 .o_my_details .manage_payment_method {
     display: none;
+}
+
+#main_footer {
+	z-index: 20;
+	background: url(https://www.compassion.ch/wp-content/themes/compassion/assets/img/background-noise.png) left top;
+	position: relative;
+}
+
+#main_footer:before {
+	content: '';
+    display: block;
+    width: 100%;
+    position: relative;
+    top: -23px;
+    height: 23px;
+    background: url(https://www.compassion.ch/wp-content/themes/compassion/assets/img/abgerissen-blau.png) left top;
+}
+
+
+/* footer styling */
+footer .social-links a {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    background-size: 30px;
+    background-color: rgb(255, 255, 255);
+    background-origin: content-box !important;
+    border-radius: 50%;
+}
+
+.social-links .facebook {
+    background: #fff url(//compassion.ch/wp-content/themes/compassion/assets/css/img/facebook-logo.svg) center center no-repeat;
+    background-image: url(//compassion.ch/wp-content/themes/compassion/assets/css/../img/facebook-logo.svg);
+}
+
+.social-links .youtube {
+    background: #fff url(//compassion.ch/wp-content/themes/compassion/assets/css/img/youtube.svg) center center no-repeat;
+    background-image: url(//compassion.ch/wp-content/themes/compassion/assets/css/../img/youtube.svg);
+}
+
+.social-links .vimeo {
+    background: #fff url(//compassion.ch/wp-content/themes/compassion/assets/css/img/vimeo.svg) center center no-repeat;
+    background-image: url(//compassion.ch/wp-content/themes/compassion/assets/css/../img/vimeo.svg);
+}
+
+/* Increase base font-size */
+body {
+    font-size: 16px;
+}
+
+#main_footer {
+    /* displayed in JS */
+    display: none;
+}
+
+header .navbar-brand img {
+    /* displayed in JS */
+    display: none;
+}
+
+#main_footer footer {
+    background-color: inherit;
+    color: white;
+    font-family: "Tetria Light";
+    line-height: 25.6px;
+}
+
+#main_footer footer a {
+    color: white;
+}
+
+#main_footer .footer_section_title {
+    text-transform: uppercase;
+    display: block;
+    font-family: "Tetria Black";
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#main_footer .footer_section_big_title {
+    display: block;
+    font-family: "Tetria Black";
+    font-size: 20px;
+    line-height: 25px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+#main_footer ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#main_footer .end_footer_link {
+    display: block;
+    font-family: "Tetria Regular";
+    font-size: 15px;
+    line-height: 15px;
+    text-align: right;
+    text-decoration-line: underline;
+}
+
+#main_footer .main_footer_container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+}
+
+#main_footer .footer_with_margin {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#main_footer .social-links li {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+#main_footer .end_footer {
+    border-top: solid 1px;
+    margin-top: 20px;
+    padding-top: 12px;
+    padding-bottom: 8px;
+}
+
+#main_footer .end_footer li {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+#main_footer .footer_section_big_title:first-of-type + p {
+    margin-bottom: 22px;
+}
+
+#main_footer .social-links {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+@media(min-width: 768px) {
+    #main_footer .end_footer_links {
+        text-align: right;
+    }
+
+    #main_footer .end_footer li {
+        margin-left: 15px;
+        margin-right: 0;
+    }
+    #main_footer a.footer_section_title[href="#"] + ul > li {
+        display: list-item !important;
+    }
+}
+
+@media(max-width: 767px) {
+    #main_footer a.footer_section_title[href="#"] + ul > li {
+        display: none;
+    }
 }
