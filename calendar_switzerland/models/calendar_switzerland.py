@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, api
+from odoo import models, api, fields
 
 
 class Attendee(models.Model):
@@ -28,3 +28,9 @@ class Attendee(models.Model):
     def send_invitation_to_partner(self):
         return super(Attendee, self)._send_mail_to_attendees(
             'calendar.calendar_template_meeting_invitation', True)
+
+
+class CalendarEvent(models.Model):
+    _inherit = "calendar.event"
+
+    campaign_event = fields.Many2one('utm.campaign', 'Campaign')

@@ -40,6 +40,7 @@
     ],
     'depends': [
         'calendar',
+        'web_timeline'
     ],
     'demo': [],
     'installable': True,
