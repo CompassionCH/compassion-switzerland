@@ -34,3 +34,22 @@ class CalendarEvent(models.Model):
     _inherit = "calendar.event"
 
     campaign_event = fields.Many2one('utm.campaign', 'Campaign')
+
+    start_timeline = fields.Date(compute='_compute_timeline_start')
+    stop_timeline = fields.Date(compute='_compute_timeline_stop')
+
+    @api.multi
+    def _compute_timeline_start(self):
+        for event in self:
+            if event.start_date is False:
+                event.start_timeline = event.start_datetime
+            else:
+                event.start_timeline = event.start_date
+
+    @api.multi
+    def _compute_timeline_stop(self):
+        for event in self:
+            if event.stop_date is False:
+                event.stop_timeline = event.stop_datetime
+            else:
+                event.stop_timeline = event.stop_date

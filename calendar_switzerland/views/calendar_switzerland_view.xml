@@ -25,11 +25,12 @@
 
     <!-- Adding the timeline view -->
     <record id="view_calendar_timeline" model="ir.ui.view">
+        <field name="name">Timeline</field>
         <field name="model">calendar.event</field>
         <field name="type">timeline</field>
         <field name="arch" type="xml">
-            <timeline date_start="start_date"
-                      date_stop="stop_date"
+            <timeline date_start="start_timeline"
+                      date_stop="stop_timeline"
                       string="Name"
                       default_group_by="campaign_event"
                       event_open_popup="true"
@@ -51,6 +52,7 @@
     </record>
 
     <record id="calendar.action_timeline_event" model="ir.actions.act_window">
+        <field name="name">Timeline_Action</field>
         <field name="res_model">calendar.event</field>
         <field name="view_mode">timeline</field>
         <field name="context">{"search_default_Tags": 1}</field>
