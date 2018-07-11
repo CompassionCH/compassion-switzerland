@@ -9,7 +9,7 @@ Add custom functionality for Switzerland:
 - Add A timeline view to The calendar
 
 OCA modules used
-=============
+================
 These are the model from OCA we use
 - web/web-timeline
 

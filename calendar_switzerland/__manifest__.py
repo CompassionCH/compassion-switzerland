@@ -40,7 +40,8 @@
     ],
     'depends': [
         'calendar',
-        'web_timeline'
+        'web_timeline',
+        'crm_compassion'
     ],
     'demo': [],
     'installable': True,
