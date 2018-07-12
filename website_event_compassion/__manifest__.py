@@ -10,7 +10,7 @@
 #                            in Jesus' name
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
-#    @author: Sebastien Toth <popod@me.com>
+#    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -23,47 +23,29 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
 # pylint: disable=C8101
 {
-    'name': 'Muskathlon',
-    'version': '10.0.2.0.3',
-    'category': 'Reports',
-    'author': 'Sebastien Toth',
+    'name': 'Compassion Events Website',
+    'version': '10.0.1.0.0',
+    'category': 'Other',
+    'author': 'Compassion CH',
     'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'data': [
-        'security/ir.model.access.csv',
-        'security/access_rules.xml',
-        'data/default_sports.xml',
-        'data/res_users.xml',
-        'data/survey_muskathlon_medical_infos.xml',
-        'data/product.xml',
-        'reports/muskathlon_view.xml',
-        'views/event_compassion_view.xml',
-        'views/partner_compassion_view.xml',
-        'views/recurring_contracts_view.xml',
-        'views/muskathlon_registrations.xml',
-        'views/advocate_details_view.xml',
-        'views/notification_settings_view.xml',
-        'views/payment_transaction_view.xml',
-        'templates/muskathlon_details.xml',
-        'templates/muskathlon_list.xml',
-        'templates/muskathlon_donation.xml',
-        'templates/muskathlon_my_details.xml',
-        'templates/muskathlon_my_home.xml',
-        'templates/muskathlon_participant_details.xml',
-        'templates/muskathlon_registration_form.xml',
-        'templates/muskathlon_snippet.xml',
-        'templates/muskathlon_views.xml',
-        'templates/muskathlon_order_material.xml',
-        'templates/assets.xml'
+    'website': 'https://github.com/CompassionCH/compassion-modules/tree/10.0',
+    'depends': [
+        'website_compassion', 'crm_compassion', 'event', 'partner_compassion',
+        'website_payment', 'payment_ogone_compassion'
     ],
-    'depends': ['website_event_compassion', 'survey'],
-    'demo': [],
+    'data': [
+        'data/event_type.xml',
+        'views/event_compassion_open_wizard.xml',
+        'views/event_compassion_view.xml',
+        # 'templates/website_event_templates.xml'
+    ],
+    'development_status': 'Beta',
     'installable': True,
     'auto_install': False,
 }
