@@ -29,15 +29,13 @@ class TestAccountReconcile(BaseSponsorshipTest):
         },
             [{'amount': 50.0}])
 
+        self.journal = self.env['account.journal'].search([
+            ('code', '=', 'CCP')
+        ])
+
     def test_account_reconcile(self):
 
-        journal = self.env['account.journal'].create({
-            'name': 'test_journal',
-            'code': '1050',
-            'type': 'sale'
-        })
-        self.assertTrue(journal)
-        print(self.env.context.get('default_journal_id'))
+        self.assertTrue(self.journal)
 
         account = self.env['account.account'].create({
             'name': 'TestAccount',
@@ -48,32 +46,52 @@ class TestAccountReconcile(BaseSponsorshipTest):
         })
         self.assertTrue(account)
 
+        company = self.env['res.company'].create({
+            'name': 'Test Company',
+            'partner_id': self.t_partner.id,
+            'currency_id': self.env.ref('base.CHF').id
+        })
+        self.assertTrue(company)
+
         bank_statement = self.env['account.bank.statement'].create({
             'date': fields.Date.today(),
             'state': 'open',
-            'journal_id': journal.id,
+            'journal_id': self.journal.id,
         })
         self.assertTrue(bank_statement)
-
-        #self.assertEquals(bank_statement._default_name(), 'test_journal')
 
         bank_statement_line = self.env['account.bank.statement.line'].create({
             'name': 'TestBankLine',
             'date': fields.Date.today(),
             'amount': 50,
-            'journal_id': journal.id,
+            'journal_id': self.journal.id,
             'account_id': account.id,
             'statement_id': bank_statement.id
         })
         self.assertTrue(bank_statement_line)
-        self.env['account.bank.statement.line'].write
+
+        # test linking partner to bank when writing to
+        # account.bank.statement.line
+        self.env['account.bank.statement.line'].write({
+            'partner_id': self.t_partner.id
+        })
+        partner_bank = self.env['res.partner.bank'].search([
+            '|',
+            ('acc_number', 'like', self.journal.bank_account_id.acc_number),
+            ('sanitized_acc_number', 'like', self.journal.bank_account_id.acc_number)
+        ])
+        self.assertEquals(partner_bank.company_id, self.journal.company_id)
+
+        # test get_move_lines_for_reconciliation method
+        self.assertEquals(
+            len(bank_statement_line.get_move_lines_for_reconciliation(
+                limit=12)), 12)
 
         move = self.env['account.move'].create({
             'name': 'test_acc_move',
             'date': fields.Date.today(),
-            'journal_id': journal.id,
-            'state': 'draft',
-
+            'journal_id': self.journal.id,
+            'state': 'draft'
         })
         self.assertTrue(move)
 
@@ -91,4 +109,3 @@ class TestAccountReconcile(BaseSponsorshipTest):
             'credit_move_id': account_move_line.id
         })
         self.assertTrue(acc_partial_rec)
-
