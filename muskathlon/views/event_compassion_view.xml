@@ -6,27 +6,24 @@
         <field name="model">crm.event.compassion</field>
         <field name="inherit_id" ref="website_event_compassion.view_muskathlon_event_website"/>
         <field name="arch" type="xml">
-            <field name="picture_1" position="after">
-                <field name="sport_discipline_ids"/>
-            </field>
-            <xpath expr="//page[@name='website']">
-                <group string="Order material page">
-                    <field name="website_my_introduction"/>
-                    <field name="website_my_fundraising"/>
-                    <field name="website_my_information"/>
-                    <field name="website_my_press_material"/>
-                    <field name="website_my_sport_material"/>
-                </group>
-            </xpath>
             <notebook>
                 <page string="Donation Receipts">
                     <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>
                 </page>
-                <page string="4M registrations">
+                <page string="Muskathlon website/portal">
                     <group>
-                        <field name="muskathlon_event_id"/>
-                        <field name="registration_fee"/>
-                        <field name="participants_amount_objective"/>
+                        <group string="Registration" attrs="{'invisible': [('type', '!=', 'sport')]}">
+                            <field name="sport_discipline_ids"/>
+                            <field name="muskathlon_event_id"/>
+                            <field name="participants_amount_objective"/>
+                        </group>
+                        <group string="Order material page">
+                            <field name="website_my_introduction"/>
+                            <field name="website_my_fundraising"/>
+                            <field name="website_my_information"/>
+                            <field name="website_my_press_material"/>
+                            <field name="website_my_sport_material"/>
+                        </group>
                     </group>
                     <group>
                         <field name="muskathlon_registration_ids" context="{'default_event_id': id}">

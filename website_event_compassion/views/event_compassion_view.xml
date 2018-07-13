@@ -19,10 +19,10 @@
             <notebook>
                 <page name="website" string="Website">
                     <group string="Public page">
-                        <field name="registration_fee"/>
                         <field name="filename_1" invisible="1"/>
                         <field name="picture_1" filename="filename_1"/>
                         <field name="website_description"/>
+                        <field name="registration_fee"/>
                         <field name="website_side_info"/>
                     </group>
                 </page>

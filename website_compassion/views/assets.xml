@@ -5,8 +5,6 @@
             <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"/>
             <link href="/website_compassion/static/src/style/main.css" rel="stylesheet" type="text/css"/>
             <link href="/website_compassion/static/src/style/custom.css" rel="stylesheet" type="text/css"/>
-            <link href="/website_compassion/static/src/style/widgets.css" rel="stylesheet" type="text/css"/>
-            <script src="/website_compassion/static/src/js/modal_form.js" type="text/javascript"/>
         </xpath>
     </template>
 </odoo>

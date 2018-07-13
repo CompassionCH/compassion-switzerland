@@ -9,5 +9,4 @@
 #
 ##############################################################################
 
-from . import event_event
-from . import event_compassion
+from . import events_controller

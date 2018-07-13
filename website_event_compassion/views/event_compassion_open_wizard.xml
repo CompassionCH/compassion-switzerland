@@ -10,6 +10,7 @@
                     <field name="registration_fee"/>
                     <field name="seats_min"/>
                     <field name="seats_max"/>
+                    <field name="wordpress_url"/>
                     <field name="reply_to"/>
                 </group>
                 <footer>

@@ -2,12 +2,17 @@
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
-#    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import models, fields
 
-from . import event_event
-from . import event_compassion
+
+class Event(models.Model):
+    _inherit = 'event.event'
+
+    compassion_event_id = fields.Many2one(
+        'crm.event.compassion', 'Event')
+    wordpress_url = fields.Char(translate=True)

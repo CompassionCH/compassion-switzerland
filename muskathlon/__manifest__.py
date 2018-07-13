@@ -51,7 +51,6 @@
         'views/notification_settings_view.xml',
         'views/payment_transaction_view.xml',
         'templates/muskathlon_details.xml',
-        'templates/muskathlon_list.xml',
         'templates/muskathlon_donation.xml',
         'templates/muskathlon_my_details.xml',
         'templates/muskathlon_my_home.xml',
@@ -63,6 +62,9 @@
         'templates/assets.xml'
     ],
     'depends': ['website_event_compassion', 'survey'],
+    'external_dependencies': {
+        'python': ['magic'],
+    },
     'demo': [],
     'installable': True,
     'auto_install': False,

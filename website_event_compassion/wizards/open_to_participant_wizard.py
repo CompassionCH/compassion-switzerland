@@ -22,6 +22,7 @@ class OpenEventToParticipant(models.TransientModel):
     seats_max = fields.Integer('Maximum participants allowed')
     reply_to = fields.Char('E-mail replies to',
                            default=lambda s: s._default_reply())
+    wordpress_url = fields.Char(translate=True)
 
     def _default_reply(self):
         event = self.env['crm.event.compassion'].browse(
@@ -51,7 +52,12 @@ class OpenEventToParticipant(models.TransientModel):
             'seats_min': self.seats_min,
             'seats_max': self.seats_max,
             'seats_availability': self.seats_max and 'limited' or 'unlimited',
-            'reply_to': self.reply_to
+            'reply_to': self.reply_to,
+            'compassion_event_id': event.id,
+            'wordpress_url': self.wordpress_url
+        })
+        odoo_event.event_ticket_ids.write({
+            'price': self.registration_fee
         })
         event.write({
             'registration_fee': self.registration_fee,

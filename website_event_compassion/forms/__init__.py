@@ -2,10 +2,10 @@
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
-#    @author: Sebastien Toth <popod@me.com>
+#    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
 
-from . import widgets
+from . import event_registration_step1
