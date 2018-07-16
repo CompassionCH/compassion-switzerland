@@ -52,18 +52,19 @@
     </record>
 
     <record id="calendar.action_timeline_event" model="ir.actions.act_window">
-        <field name="name">Timeline_Action</field>
+        <field name="name">Compassion Timeline</field>
         <field name="res_model">calendar.event</field>
         <field name="view_mode">timeline</field>
         <field name="context">{"search_default_Tags": 1}</field>
+        <field name="search_view_id" ref="view_calendar_filter"/>
     </record>
 
     <!-- Action Menu Item Related To Above Action Window -->
     <menuitem
     action="calendar.action_timeline_event"
     id="menu_timeline"
-    parent=""
-    name="Event Timeline"
+    parent="calendar.mail_menu_calendar"
+    name="Compassion Timeline"
     web_icon="calendar,static/description/icon.png"
     sequence="3"/>
 
