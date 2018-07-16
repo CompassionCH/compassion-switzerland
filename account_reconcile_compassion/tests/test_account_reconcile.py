@@ -19,7 +19,9 @@ class TestAccountReconcile(BaseSponsorshipTest):
         super(TestAccountReconcile, self).setUp()
 
         self.t_child = self.create_child('TT123456789')
-        self.t_partner = self.env.ref('base.res_partner_address_31')
+        self.t_partner = self.env['res.users'].search([
+            ('company_id', '=', 1)
+        ], limit=1)
         t_group = self.create_group({'partner_id': self.t_partner.id})
         self.t_sponsorship = self.create_contract({
             'partner_id': self.t_partner.id,
@@ -28,11 +30,9 @@ class TestAccountReconcile(BaseSponsorshipTest):
         },
             [{'amount': 50.0}])
 
-        self.company = self.env['res.company'].create({
-            'name': 'Test Company',
-            'partner_id': self.t_partner.id,
-            'currency_id': self.env.ref('base.USD').id
-        })
+        self.company = self.env['res.company'].search([
+            ('id', '=', 1)
+        ], limit=1)
 
         self.journal = self.env['account.journal'].search([
             ('code', '=', 'CCP')
@@ -106,6 +106,11 @@ class TestAccountReconcile(BaseSponsorshipTest):
         self.assertEquals(bank_statement_line._sort_move_line(
             account_move_line_today), 1)
 
+        # test get_move_lines_for_reconciliation method
+        self.assertEquals(
+            len(bank_statement_line.get_move_lines_for_reconciliation(
+                limit=12)), 12)
+
         # test linking partner to bank when writing to
         # account.bank.statement.line
         self.env['account.bank.statement.line'].write({
@@ -119,10 +124,7 @@ class TestAccountReconcile(BaseSponsorshipTest):
         ])
         self.assertEquals(partner_bank.company_id, self.journal.company_id)
 
-        # test get_move_lines_for_reconciliation method
-        self.assertEquals(
-            len(bank_statement_line.get_move_lines_for_reconciliation(
-                limit=12)), 12)
+
 
         acc_partial_rec = self.env['account.partial.reconcile'].create({
             'debit_move_id': account_move_line.id,
