@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Update the Form view -->
     <record id="view_calendar_switzerland_event_form" model="ir.ui.view">
         <field name="name">calendar.switzerland.event.form</field>
         <field name="model">calendar.event</field>
@@ -13,5 +14,57 @@
                 <button name="send_invitation_to_partner" string="Send invitation to partner" type="object" icon="fa-envelope"/>
             </xpath>
         </field>
+
+    <!-- Adding the Campaign field to the calendar.event form view -->
+        <field name="arch" type="xml">
+            <field name="categ_ids" position="before">
+                <field name="campaign_event_id" type="Many2one"/>
+            </field>
+        </field>
     </record>
+
+    <!-- Adding the timeline view -->
+    <record id="view_calendar_timeline" model="ir.ui.view">
+        <field name="name">Timeline</field>
+        <field name="model">calendar.event</field>
+        <field name="type">timeline</field>
+        <field name="arch" type="xml">
+            <timeline date_start="start_timeline"
+                      date_stop="stop_timeline"
+                      string="Name"
+                      default_group_by="campaign_event_id"
+                      event_open_popup="true"
+                      zoomKey="ctrlKey"
+                      colors="#ec7063:user_id == false;">
+            </timeline>
+        </field>
+    </record>
+
+     <record id="view_calendar_filter" model="ir.ui.view">
+        <field name="name">calendar.event.search</field>
+        <field name="model">calendar.event</field>
+     <!--    <field name="inherit_id" ref="calendar.view_calendar_event_search"/> -->
+        <field name="arch" type="xml">
+            <search>
+                <filter name ="Tags" string="Event"  domain="[('categ_ids','ilike','event')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="calendar.action_timeline_event" model="ir.actions.act_window">
+        <field name="name">Timeline_Action</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">timeline</field>
+        <field name="context">{"search_default_Tags": 1}</field>
+    </record>
+
+    <!-- Action Menu Item Related To Above Action Window -->
+    <menuitem
+    action="calendar.action_timeline_event"
+    id="menu_timeline"
+    parent=""
+    name="Event Timeline"
+    web_icon="calendar,static/description/icon.png"
+    sequence="3"/>
+
 </odoo>

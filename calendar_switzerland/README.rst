@@ -6,6 +6,12 @@ Calendar Switzerland
 Add custom functionality for Switzerland:
 - Only send calendar invitation to Compassion staff
 - Allow to send individual invitation to calendar event members
+- Add A timeline view to The calendar
+
+OCA modules used
+================
+These are the model from OCA we use
+- web/web-timeline
 
 Installation
 ============
@@ -22,6 +28,7 @@ Contributors
 ------------
 
 * Sebastien Toth <popod@me.com>
+* Nathan Fluckiger <nathan.fluckiger@hotmail.ch>
 
 Maintainer
 ----------
