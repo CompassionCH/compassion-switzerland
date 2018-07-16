@@ -11,7 +11,6 @@
 from odoo import fields
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion \
     import BaseSponsorshipTest
-from datetime import date
 
 
 class TestAccountReconcile(BaseSponsorshipTest):
@@ -115,7 +114,8 @@ class TestAccountReconcile(BaseSponsorshipTest):
         partner_bank = self.env['res.partner.bank'].search([
             '|',
             ('acc_number', 'like', self.journal.bank_account_id.acc_number),
-            ('sanitized_acc_number', 'like', self.journal.bank_account_id.acc_number)
+            ('sanitized_acc_number', 'like',
+             self.journal.bank_account_id.acc_number)
         ])
         self.assertEquals(partner_bank.company_id, self.journal.company_id)
 
