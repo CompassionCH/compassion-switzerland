@@ -14,6 +14,7 @@
         <field name="arch" type="xml">
             <field name="disaster_notify_ids" position="after">
                 <field name="muskathlon_lead_notify_id"/>
+                <field name="muskathlon_order_notify_id"/>
             </field>
         </field>
     </record>
