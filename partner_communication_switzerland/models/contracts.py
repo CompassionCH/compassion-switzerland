@@ -223,7 +223,8 @@ class RecurringContract(models.Model):
             '|', ('correspondent_id.email', '!=', False),
             ('partner_id.email', '!=', False),
             ('state', '=', 'active'),
-            ('type', 'like', 'S')
+            ('type', 'like', 'S'),
+            ('partner_id.ref', '!=', '1502623')  # if partner is not Demaurex
         ]).filtered(lambda c: not (
             c.child_id.project_id.lifecycle_ids and
             c.child_id.project_id.hold_s2b_letters)
@@ -235,15 +236,16 @@ class RecurringContract(models.Model):
             # Send the communication to the correspondent in any case.
             correspondent = True
 
-            # Send the communication to both the partner and the correspondent
+            # Send the communication to both the partner and correspondent
             # if the partner is the one who paid the gift.
             send_to_both = sponsorship.send_gifts_to == 'partner_id'
 
             try:
-                comms += sponsorship.send_communication(config, correspondent,
+                comms += sponsorship.send_communication(config,
+                                                        correspondent,
                                                         send_to_both)
             except:
-                # In any case, we don't want to stop other email generation!
+                # In any case, we don't want to stop email generation!
                 continue
 
         # send welcome activations letters
