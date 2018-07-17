@@ -224,7 +224,7 @@ class RecurringContract(models.Model):
             ('partner_id.email', '!=', False),
             ('state', '=', 'active'),
             ('type', 'like', 'S'),
-            ('partner_id', '!=0', 1502623) # if partner is not Demaurex
+            ('partner_id.ref', '!=', '1502623')  # if partner is not Demaurex
         ]).filtered(lambda c: not (
             c.child_id.project_id.lifecycle_ids and
             c.child_id.project_id.hold_s2b_letters)
