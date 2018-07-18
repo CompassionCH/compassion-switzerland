@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, api
+from odoo import models, api, fields
 
 
 class Attendee(models.Model):
@@ -28,3 +28,31 @@ class Attendee(models.Model):
     def send_invitation_to_partner(self):
         return super(Attendee, self)._send_mail_to_attendees(
             'calendar.calendar_template_meeting_invitation', True)
+
+
+class CalendarEvent(models.Model):
+    _inherit = "calendar.event"
+
+    campaign_event_id = fields.Many2one('utm.campaign', 'Campaign')
+
+    start_timeline = fields.Date(compute='_compute_timeline_start')
+    stop_timeline = fields.Date(compute='_compute_timeline_stop')
+
+    @api.multi
+    def _compute_timeline_start(self):
+        for event in self:
+            event.start_timeline = event.start_datetime or event.start_date
+
+    @api.multi
+    def _compute_timeline_stop(self):
+        for event in self:
+            event.stop_timeline = event.stop_datetime or event.stop_date
+
+
+class EventCompassion(models.Model):
+    _inherit = 'crm.event.compassion'
+
+    def _get_calendar_vals(self):
+        dico = super(EventCompassion, self)._get_calendar_vals()
+        dico['campaign_event_id'] = self.campaign_id.id
+        return dico
