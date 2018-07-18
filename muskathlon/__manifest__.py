@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Muskathlon',
-    'version': '10.0.2.0.0',
+    'version': '10.0.2.0.1',
     'category': 'Reports',
     'author': 'Sebastien Toth',
     'license': 'AGPL-3',
@@ -67,6 +67,9 @@
     'depends': ['partner_compassion', 'crm_compassion', 'website_payment',
                 'payment_ogone_compassion', 'survey', 'website_compassion',
                 'cms_form'],
+    'external_dependencies': {
+        'python': ['magic'],
+    },
     'demo': [],
     'installable': True,
     'auto_install': False,
