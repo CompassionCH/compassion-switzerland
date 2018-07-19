@@ -38,7 +38,8 @@
     'depends': [
         'report_compassion',
         'child_switzerland',
-        'partner_compassion'
+        'partner_compassion',
+        'sms_sponsorship'
     ],
     'external_dependencies': {
         'python': ['wand', 'detectlanguage', 'sendgrid']

@@ -720,5 +720,31 @@
                 </p>
             </field>
         </record>
+
+        <record id="sms_confirmation_email" model="mail.template">
+            <field name="name">SMS Sponsorship step2 confirmation</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Confirm your new sponsorship (sms)</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorships = object.get_objects()
+                    % set child = sponsorships.mapped('child_id')
+                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    % set his = child.get('his')
+                    % set he = child.get('he')
+                    % set him = child.get('him')
+                    % set parent_lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
+                    % set planned_sub = parent_lifecycle and parent_lifecycle[0].type == 'Planned Exit'
+                </div>
+                <p>
+                    Thank you for your sponsorship, we hope that this new method of registration (SMS) was well received !
+                </p>
+            </field>
+            <!-- This field could be used to attach the labels sheet. -->
+            <field name="report_remplate"/>
+        </record>
     </data>
 </odoo>

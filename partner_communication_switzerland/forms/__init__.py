@@ -9,6 +9,4 @@
 #
 ##############################################################################
 
-from . import models
-from . import wizards
-from . import forms
+from . import sms_sponsorship_registration_form
