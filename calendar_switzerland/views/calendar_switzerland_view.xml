@@ -46,7 +46,7 @@
      <!--    <field name="inherit_id" ref="calendar.view_calendar_event_search"/> -->
         <field name="arch" type="xml">
             <search>
-                <filter name ="Tags" string="Event"  domain="[('categ_ids','ilike','event')]"/>
+                <filter name ="Tags" string="Event or Campaign"  domain="['|',('categ_ids','ilike','event'),('campaign_event_id','!=', False)]"/>
             </search>
         </field>
     </record>
