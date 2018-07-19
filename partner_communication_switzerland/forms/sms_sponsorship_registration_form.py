@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, tools, api, _
+from odoo import models, fields, tools
 
 testing = tools.config.get('test_enable')
 
@@ -24,5 +24,6 @@ if not testing:
         def _send_confirmation_mail(self):
             # send confirmation mail TODO
             config = self.env.ref(
-                'partner_communication_switzerland.ma_config_id').id
+                'partner_communication_switzerland.'
+                'sms_registration_confirmation')
             self.main_object.send_communication(config)
