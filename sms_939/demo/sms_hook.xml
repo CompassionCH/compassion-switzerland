@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="test_service" model="sms.hook">
+        <field name="name">TEST</field>
+        <field name="func_name">test_service</field>
+    </record>
+</odoo>
