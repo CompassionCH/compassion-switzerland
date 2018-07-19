@@ -22,7 +22,7 @@ if not testing:
                                     'Permanent Order'])])
 
         def _send_confirmation_mail(self):
-            # send confirmation mail TODO
+            # send confirmation mail
             config = self.env.ref(
                 'partner_communication_switzerland.'
                 'sms_registration_confirmation')

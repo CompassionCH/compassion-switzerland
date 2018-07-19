@@ -722,7 +722,7 @@
         </record>
 
         <record id="sms_confirmation_email" model="mail.template">
-            <field name="name">Sponsorship - New Dossier</field>
+            <field name="name">SMS Sponsorship step2 confirmation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
