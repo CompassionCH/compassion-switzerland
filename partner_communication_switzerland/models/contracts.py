@@ -206,18 +206,61 @@ class RecurringContract(models.Model):
     def send_daily_communication(self):
         """
         Prepare daily communications to send.
-        - Welcome letters for started sponsorships since 10 days (only e-mail)
+        - Welcome letters for started sponsorships since 1 day (only e-mail)
         - Birthday reminders
         """
-        module = 'partner_communication_switzerland.'
         logger.info("Sponsorship Planned Communications started!")
 
-        # Birthday Reminder
+        logger.info("....Creating Birthday Reminder Communications")
+        self._send_reminders_for_birthday_in_1day_or_2months()
+
+        logger.info("....Send Welcome Activations Letters")
+        self._send_welcome_letters_for_sponsorships_created_in_last_24h()
+
+        logger.info("Sponsorship Planned Communications finished!")
+
+    @api.model
+    def _send_reminders_for_birthday_in_1day_or_2months(self):
+        module = 'partner_communication_switzerland.'
         logger.info("....Creating Birthday Reminder Communications")
         today = datetime.now()
+
         in_two_month = today + relativedelta(months=2)
-        birthday = self.search([
-            ('child_id.birthdate', 'like', in_two_month.strftime("%%-%m-%d")),
+        sponsorships_with_birthday_in_two_months = \
+            self._get_sponsorships_with_child_birthday_on(in_two_month)
+        self._send_birthday_reminders(
+            sponsorships_with_birthday_in_two_months,
+            self.env.ref(module + 'planned_birthday_reminder')
+        )
+
+        tomorrow = today + relativedelta(days=1)
+        sponsorships_with_birthday_tomorrow = \
+            self._get_sponsorships_with_child_birthday_on(tomorrow)
+        self._send_birthday_reminders(
+            sponsorships_with_birthday_tomorrow,
+            self.env.ref(module + 'birthday_remainder_1day_before')
+        )
+
+    @api.model
+    def _send_birthday_reminders(self, sponsorships, communication):
+        communication_jobs = self.env['partner.communication.job']
+        for sponsorship in sponsorships:
+            send_to_partner_as_he_paid_the_gift = \
+                sponsorship.send_gifts_to == 'partner_id'
+            try:
+                communication_jobs += sponsorship.send_communication(
+                    communication,
+                    correspondent=True,
+                    both=send_to_partner_as_he_paid_the_gift
+                )
+            except Exception as e:
+                # In any case, we don't want to stop email generation!
+                logger.error("Error during birthday reminder: ", e)
+
+    @api.model
+    def _get_sponsorships_with_child_birthday_on(self, birth_day):
+        return self.search([
+            ('child_id.birthdate', 'like', birth_day.strftime("%%-%m-%d")),
             '|', ('correspondent_id.birthday_reminder', '=', True),
             ('partner_id.birthday_reminder', '=', True),
             '|', ('correspondent_id.email', '!=', False),
@@ -229,26 +272,9 @@ class RecurringContract(models.Model):
             c.child_id.project_id.lifecycle_ids and
             c.child_id.project_id.hold_s2b_letters)
         )
-        config = self.env.ref(module + 'planned_birthday_reminder')
-        comms = self.env['partner.communication.job']
-        for sponsorship in birthday:
 
-            # Send the communication to the correspondent in any case.
-            correspondent = True
-
-            # Send the communication to both the partner and correspondent
-            # if the partner is the one who paid the gift.
-            send_to_both = sponsorship.send_gifts_to == 'partner_id'
-
-            try:
-                comms += sponsorship.send_communication(config,
-                                                        correspondent,
-                                                        send_to_both)
-            except:
-                # In any case, we don't want to stop email generation!
-                continue
-
-        # send welcome activations letters
+    @api.model
+    def _send_welcome_letters_for_sponsorships_created_in_last_24h(self):
         welcome = self.env.ref(
             'partner_communication_switzerland.welcome_activation')
         to_send = self.env['recurring.contract'].search([
@@ -259,7 +285,6 @@ class RecurringContract(models.Model):
             to_send.send_communication(welcome, both=True).send()
             to_send.write({'sds_state': 'active'})
 
-        logger.info("Sponsorship Planned Communications finished!")
 
     @api.model
     def send_sponsorship_reminders(self):
