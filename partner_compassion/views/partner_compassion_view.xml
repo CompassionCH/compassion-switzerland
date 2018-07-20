@@ -57,11 +57,11 @@
         <field name="arch" type="xml">
             <!-- Add a Check double button on the top of the view-->
             <field name="preferred_name" position="after">
-                <field name="partner_duplicate_ids" widget="many2many_tags" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}"/>
+                <field name="partner_duplicate_ids" widget="many2many_tags" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
             </field>
             <xpath expr="//form/*[1]" position="before">
                 <header>
-                    <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}"/>
+                    <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
                 </header>
             </xpath>
             <!-- Move some fields -->
@@ -107,7 +107,7 @@
 
             <!-- Add correspondance tab -->
             <xpath expr="//page[1]" position="after">
-                <page string="Correspondence">
+                <page string="Correspondence" groups="child_compassion.group_sponsorship">
                     <button name="open_letters" type="object" string="Letters"/>
                     <group>
                         <group>
@@ -156,12 +156,25 @@
             <!-- Put lang fields at top -->
             <label for="street" position="before">
                 <field name="lang"/>
-                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}"/>
+                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}" groups="child_compassion.group_sponsorship"/>
             </label>
 
             <!-- Remove fax -->
             <field name="fax" position="replace"/>
 
+            <!-- Hide elements for non-users -->
+            <field name="message_follower_ids" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </field>
+            <field name="message_ids" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </field>
+            <button name="toggle_active" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </button>
         </field>
     </record>
 
@@ -281,6 +294,38 @@
                     }
         </field>
         <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+    </record>
+
+    <!-- Add security on tracking e-mail fields -->
+    <record model="ir.ui.view" id="tracking_email_security">
+        <field name="name">res.partner.tracking.email.security</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="mail_tracking.view_partner_form"/>
+        <field name="arch" type="xml">
+            <button name="%(mail_tracking.action_view_mail_tracking_email)d" position="attributes">
+                <attribute name="groups">child_compassion.group_sponsorship</attribute>
+            </button>
+            <field name="email_score" position="attributes">
+                <attribute name="groups">child_compassion.group_sponsorship</attribute>
+            </field>
+            <field name="email_bounced" position="attributes">
+                <attribute name="groups">child_compassion.group_sponsorship</attribute>
+            </field>
+        </field>
+    </record>
+    <!-- Add security on website button -->
+    <record model="ir.ui.view" id="partner_website_security">
+        <field name="name">res.partner.website.security</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="website_partner.view_partners_form_website"/>
+        <field name="arch" type="xml">
+            <button name="website_publish_button" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </button>
+            <field name="website_published" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </field>
+        </field>
     </record>
 
     <record id="view_partner_form_invoice_button_ch" model="ir.ui.view">
