@@ -374,6 +374,20 @@
             </field>
         </record>
 
+        <!--
+        Birthday Remainder 1 day before
+        -->
+        <record id="email_sponsorship_birthday_1day_reminder" model="mail.template">
+            <field name="name">Sponsorship - 1 Day Birthday Reminder</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Wish ${object.get_objects().get('your sponsored child')} a Happy Birthday !</field>
+            <field name="body_html" type="html">
+                <p style="margin:0px 0px 9px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;">à définir</p>
+            </field>
+        </record>
 
         <!--
         Completion in 4 months
