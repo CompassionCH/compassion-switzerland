@@ -36,6 +36,10 @@
         <field name="inherit_id" ref="sponsorship_compassion.view_res_partner_invoice_line_button_form"/>
         <field name="arch" type="xml">
             <field name="send_original" position="replace"/>
+
+            <field name="church_id" position="after">
+                <field name="church_unlinked" attrs="{'invisible': ['|',('is_company','=',True),'|',('is_church','=',True),('church_id','>',0)]}"/>
+            </field>
         </field>
     </record>
 
@@ -79,30 +83,15 @@
                 <field name="street3"/>
             </field>
 
-            <!-- Add the church and invalid email fields -->
+            <!-- Add invalid email fields -->
             <field name="email" position="after">
                 <field name="invalid_mail" attrs="{'invisible': [('invalid_mail', '=', False)]}"/>
-                <field name="is_church" invisible="1"/>
-                <field name="church_id" attrs="{'invisible': ['|',('is_company','=',True),('is_church','=',True)]}"
-                       context="{'tree_view_ref' : 'partner_compassion.view_partner_tree_compassion',
-                                 'default_is_company': True, 'default_category_id': [(4, 20)]}"/>
-                <field name="church_unlinked" attrs="{'invisible': ['|',('is_company','=',True),'|',('is_church','=',True),('church_id','>',0)]}"/>
             </field>
 
             <!-- Add birthdate and deathdate -->
             <xpath expr="//field[@name='website'][1]" position="after">
                 <field name="birthdate_date" attrs="{'invisible': [('is_company','=',True)]}"/>
                 <field name="deathdate" attrs="{'invisible': [('is_company','=',True)]}"/>
-            </xpath>
-
-            <!-- Add the church members list in a church partner -->
-            <xpath expr="//page[2]" position="after">
-                <page string="Members" attrs="{'invisible': ['|',('is_church','=',False), ('member_ids', '=', [])]}" autofocus="autofocus">
-                    <group>
-                        <field name="church_member_count"/>
-                    </group>
-                    <field name="member_ids" mode="kanban" context="{'default_church_id': active_id, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id}"/>
-                </page>
             </xpath>
 
             <!-- Add correspondance tab -->

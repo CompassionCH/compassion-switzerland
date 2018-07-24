@@ -14,34 +14,13 @@ from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.addons.queue_job.job import job, related_action
 from odoo.addons.sponsorship_compassion.models.product import \
-    GIFT_CATEGORY, SPONSORSHIP_CATEGORY, FUND_CATEGORY
+    GIFT_CATEGORY, SPONSORSHIP_CATEGORY
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    invoice_type = fields.Selection([
-        ('sponsorship', 'Sponsorship'),
-        ('gift', 'Gift'),
-        ('fund', 'Fund donation'),
-        ('other', 'Other'),
-    ], compute='_compute_invoice_type', store=True)
     unrec_items = fields.Integer(compute='_compute_unrec_items')
-
-    @api.depends('invoice_line_ids', 'state')
-    @api.multi
-    def _compute_invoice_type(self):
-        for invoice in self.filtered(lambda i: i.state in ('open', 'paid')):
-            categories = invoice.with_context(lang='en_US').mapped(
-                'invoice_line_ids.product_id.categ_name')
-            if SPONSORSHIP_CATEGORY in categories:
-                invoice.invoice_type = 'sponsorship'
-            elif GIFT_CATEGORY in categories:
-                invoice.invoice_type = 'gift'
-            elif FUND_CATEGORY in categories:
-                invoice.invoice_type = 'fund'
-            else:
-                invoice.invoice_type = 'other'
 
     @api.multi
     def _compute_unrec_items(self):

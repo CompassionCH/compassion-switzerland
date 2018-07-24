@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Monthly Cron for Accounting Entries -->
-    <record id="cleanup_cron" model="ir.cron">
-        <field name="name">CH Database Cleanup</field>
-        <field name="interval_number">1</field>
-        <field name="interval_type">months</field>
-        <field name="numbercall">-1</field>
-        <field name="active" eval="True"/>
-        <field name="function">cleanup</field>
-        <field name="model">database.cleanup.switzerland</field>
-    </record>
+    <data noupdate="1">
+        <record id="cleanup_cron" model="ir.cron">
+            <field name="name">CH Database Cleanup</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="function">cleanup</field>
+            <field name="model">database.cleanup.switzerland</field>
+        </record>
+    </data>
 </odoo>
