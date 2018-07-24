@@ -119,6 +119,15 @@ class SmsNotification(models.Model):
                 })
         return sms_answer.get_answer()
 
+    def sponsor_service_fr(self):
+        return self.with_context(lang='fr_CH').sponsor_service()
+
+    def sponsor_service_de(self):
+        return self.with_context(lang='de_DE').sponsor_service()
+
+    def sponsor_service_it(self):
+        return self.with_context(lang='it_IT').sponsor_service()
+
     def sponsor_service(self):
         self.ensure_one()
         # Create a sms child request
