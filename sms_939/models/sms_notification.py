@@ -142,4 +142,4 @@ class SmsNotification(models.Model):
 
     def test_service(self):
         self.ensure_one()
-        return SmsNotificationAnswer(_("Thanks!"))
+        return SmsNotificationAnswer("Thanks!")

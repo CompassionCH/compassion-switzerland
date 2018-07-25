@@ -34,7 +34,7 @@ class TestMobileAppConnector(HttpCase):
                 'requestUid': uuid,
             })
             url_params = urllib.urlencode(params)
-            response = self.url_open('/sms/939/?' + url_params)
+            response = self.url_open('/sms/mnc/?' + url_params)
             response_str = response.read()
             return response_str
 
@@ -51,7 +51,7 @@ class TestMobileAppConnector(HttpCase):
             'language': 'fr',
             'text': 'This is a test'
         }, send_mode='request')
-        self.assertTrue('Thanks!' in response)
+        self.assertIn('Thanks!', response)
 
     def test_basic_service(self):
         notification = self._send_sms_notification({
