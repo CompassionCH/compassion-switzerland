@@ -252,7 +252,7 @@ class Contracts(models.Model):
     ##########################################################################
     @api.multi
     @job(default_channel='root.child_sync_wp')
-    @related_action(action='related_action_sponsorship')
+    @related_action(action='related_action_contract')
     def update_partner_from_web_data(self):
         # Get spoken languages
         self.ensure_one()
