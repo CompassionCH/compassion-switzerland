@@ -226,6 +226,15 @@
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
             <field name="attachments_function">get_birthday_bvr</field>
         </record>
+        <record id="birthday_remainder_1day_before" model="partner.communication.config">
+            <field name="name">Sponsorship - 1 Day Birthday Reminder</field>
+            <field name="email_template_id" ref="email_sponsorship_birthday_1day_reminder"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="send_mode">auto_digital</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function">get_birthday_bvr</field>
+        </record>
         <record id="planned_anniversary_1" model="partner.communication.config">
             <field name="name">Sponsorship - Anniversary 1 year</field>
             <field name="email_template_id" ref="email_sponsorship_anniversary_1"/>
@@ -502,6 +511,14 @@
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="model_id" ref="model_account_invoice_line"/>
             <field name="user_id" search="[('name', 'like', 'Maglo Rachel')]"/>
+        </record>
+
+        <record id="sms_registration_confirmation" model="partner.communication.config">
+            <field name="name">SMS sponsorship confirmation step 2</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="email_template_id" ref="sms_confirmation_email"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="model_id" ref="model_recurring_contract"/>
         </record>
 
         <record id="thankyou_letters.config_thankyou_summary" model="partner.communication.config">

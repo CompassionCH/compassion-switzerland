@@ -57,7 +57,7 @@ class UtmObjects(models.AbstractModel):
         'correspondence', 'source_id', 'Sponsor letters',
         readonly=True
     )
-    invoice_ids = fields.One2many(
+    invoice_line_ids = fields.One2many(
         'account.invoice.line', 'source_id', 'Donations', readonly=True
     )
 
@@ -70,22 +70,19 @@ class UtmObjects(models.AbstractModel):
     total_donation = fields.Char(
         compute='_compute_total_donation', readonly=True)
 
-    @api.depends('contract_ids')
     def _compute_sponsorship_count(self):
         for utm in self:
             utm.sponsorship_count = len(utm.contract_ids)
 
-    @api.depends('correspondence_ids')
     def _compute_letters_count(self):
         for utm in self:
             utm.letters_count = len(utm.correspondence_ids)
 
-    @api.depends('invoice_ids')
     def _compute_total_donation(self):
         # Put a nice formatting
         for utm in self:
             total_donation = 0
-            for invoice in utm.invoice_ids:
+            for invoice in utm.invoice_line_ids:
                 total_donation += invoice.price_subtotal
             utm.donation_amount = total_donation
             utm.total_donation = 'CHF {:,.2f}'.format(total_donation).replace(
@@ -123,7 +120,7 @@ class UtmObjects(models.AbstractModel):
             'view_mode': 'tree,form',
             'res_model': 'account.invoice.line',
             'context': self.env.context,
-            'domain': [('id', 'in', self.invoice_ids.ids)],
+            'domain': [('id', 'in', self.invoice_line_ids.ids)],
             'target': 'current',
         }
 
@@ -177,9 +174,9 @@ class UtmCampaign(models.Model):
     correspondence_ids = fields.One2many('correspondence',
                                          compute='_compute_correspondence',
                                          inverse_name='campaign_id')
-    invoice_ids = fields.One2many('account.invoice.line',
-                                  compute='_compute_invoice',
-                                  inverse_name='campaign_id')
+    invoice_line_ids = fields.One2many('account.invoice.line',
+                                       compute='_compute_invoice',
+                                       inverse_name='campaign_id')
     # contract_ids = fields.One2many(inverse_name='campaign_id')
     # correspondence_ids = fields.One2many(inverse_name='campaign_id')
     # invoice_ids = fields.One2many(inverse_name='campaign_id')
@@ -210,22 +207,23 @@ class UtmCampaign(models.Model):
     def _compute_contracts(self):
         for campaign in self:
             campaign.contract_ids = self.env['recurring.contract'].\
-                search(['|', ('campaign_id.id', '=', campaign.id),
-                        ('origin_id.event_id.campaign_id.id', '=', campaign.id)
+                search(['|', ('campaign_id', '=', campaign.id),
+                        ('origin_id.event_id.campaign_id', '=', campaign.id)
                         ])
 
     def _compute_correspondence(self):
         for campaign in self:
             campaign.correspondence_ids = self.env['correspondence'].search([
-                '|', ('sponsorship_id.campaign_id.id', '=', campaign.id),
-                ('sponsorship_id.origin_id.event_id.campaign_id.id', '=',
+                '|', ('sponsorship_id.campaign_id', '=', campaign.id),
+                ('sponsorship_id.origin_id.event_id.campaign_id', '=',
                  campaign.id)])
 
     def _compute_invoice(self):
         for campaign in self:
-            campaign.invoice_ids = self.env['account.invoice.line'].search([
-                '|', ('invoice_id.campaign_id', '=', campaign.id),
-                ('event_id.campaign_id', '=', campaign.id)])
+            campaign.invoice_line_ids = self.env['account.invoice.line']. \
+                search(['|', ('invoice_id.campaign_id', '=', campaign.id), '|',
+                       ('event_id.campaign_id', '=', campaign.id),
+                       ('account_analytic_id.campaign_id', '=', campaign.id)])
 
 
 class UtmMedium(models.Model):
@@ -234,7 +232,7 @@ class UtmMedium(models.Model):
 
     contract_ids = fields.One2many(inverse_name='medium_id')
     correspondence_ids = fields.One2many(inverse_name='medium_id')
-    invoice_ids = fields.One2many(inverse_name='medium_id')
+    invoice_line_ids = fields.One2many(inverse_name='medium_id')
 
     link_ids = fields.One2many(
         'link.tracker', 'medium_id', 'Clicks', readonly=True

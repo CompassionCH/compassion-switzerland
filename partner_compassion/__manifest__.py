@@ -44,6 +44,8 @@
         'geoengine_partner',
         'base_geolocalize',
         'web_notify',
+        'partner_survey',
+        'website_partner',
     ],
     'external_dependencies': {
         'python': ['pandas', 'pyminizip']

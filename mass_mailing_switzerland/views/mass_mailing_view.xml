@@ -100,7 +100,7 @@
             <xpath expr="//notebook/page[1]">
                 <group>
                     <field name="contract_ids"/>
-                    <field name="invoice_ids"/>
+                    <field name="invoice_line_ids"/>
                     <field name="correspondence_ids"/>
                 </group>
             </xpath>

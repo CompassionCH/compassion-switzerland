@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="contract_compassion.view_contract_origin_form"/>
         <field name="arch" type="xml">
             <field name="analytic_id" position="after">
-                <field name="campaign_id" string="Campaign"  attrs="{'invisible': [('type', 'not in', ('marketing','partner', 'event'))],
+                <field name="campaign_id" attrs="{'invisible': [('type', 'not in', ('marketing','partner', 'event'))],
                                                           'required': [('type', 'in', ('marketing', 'event'))]}"/>
             </field>
         </field>
@@ -15,7 +15,7 @@
     <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
     <field name="arch" type="xml">
         <field name="partner_id" position="after">
-            <field name="campaign_id" string="Campaign"/>
+            <field name="campaign_id"/>
         </field>
     </field>
   </record>

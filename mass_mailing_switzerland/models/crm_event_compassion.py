@@ -18,15 +18,14 @@ class EventCompassion(models.Model):
     @api.model
     def create(self, vals):
         event = super(EventCompassion, self).create(vals)
-        for NewEvent in self:
-            if NewEvent.campaign_id is not None:
-                NewEvent.analytic_id.campaign_id = NewEvent.campaign_id
+        if event.campaign_id:
+            event.analytic_id.campaign_id = event.campaign_id
         return event
 
     @api.multi
     def write(self, vals):
-        event = super(EventCompassion, self).write(vals)
-        for NewEvent in self:
-            if NewEvent.campaign_id is not None:
-                NewEvent.analytic_id.campaign_id = NewEvent.campaign_id
-        return event
+        res = super(EventCompassion, self).write(vals)
+        for new_event in self:
+            if new_event.campaign_id:
+                new_event.analytic_id.campaign_id = new_event.campaign_id
+        return res

@@ -1,0 +1,93 @@
+<odoo>
+    <record id="sms_hook_tree" model="ir.ui.view">
+        <field name="name">sms.hook.tree</field>
+        <field name="model">sms.hook</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="func_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sms_notification_tree" model="ir.ui.view">
+        <field name="name">sms.notification.tree</field>
+        <field name="model">sms.notification</field>
+        <field name="arch" type="xml">
+            <tree colors="blue: state == 'new'; red: state == 'failed'; grey: state == 'success'">
+                <field name="date"/>
+                <field name="sender"/>
+                <field name="partner_id"/>
+                <field name="service"/>
+                <field name="language"/>
+                <field name="text"/>
+                <field name="hook_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sms_notification_form" model="ir.ui.view">
+        <field name="name">sms.notification.form</field>
+        <field name="model">sms.notification</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="date"/>
+                        <field name="partner_id"/>
+                        <field name="sender"/>
+                        <field name="service"/>
+                        <field name="language"/>
+                    </group>
+                    <group>
+                        <field name="instance"/>
+                        <field name="operator"/>
+                        <field name="uuid"/>
+                        <field name="hook_id"/>
+                    </group>
+                    <group>
+                        <field name="text"/>
+                        <field name="answer"/>
+                        <field name="failure_details" states="failed"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="sms_notification_search" model="ir.ui.view">
+        <field name="name">sms.notification.search</field>
+        <field name="model">sms.notification</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="service"/>
+                <field name="hook_id"/>
+                <field name="partner_id"/>
+                <field name="language"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_sms_notification" model="ir.actions.act_window">
+        <field name="name">SMS Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sms.notification</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_sms_hook" model="ir.actions.act_window">
+        <field name="name">SMS Hooks</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sms.hook</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_technical_sms" name="SMS" parent="base.menu_custom" sequence="2"/>
+    <menuitem id="menu_sms_notification" name="SMS Notifications" parent="menu_technical_sms" sequence="1" action="action_sms_notification"/>
+    <menuitem id="menu_sms_hook" name="SMS Hooks" parent="menu_technical_sms" sequence="2" action="action_sms_hook"/>
+</odoo>

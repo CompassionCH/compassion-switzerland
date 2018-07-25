@@ -8,11 +8,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields
+from odoo import models
 
 
 class AccountInvoiceLine(models.Model):
-    _inherit = 'account.invoice.line'
-    campaign_id = fields.Many2one('umt.campaign')
-    source_id = fields.Many2one('utm.object')
-    medium_id = fields.Many2one('utm.medium')
+    _inherit = ['account.invoice.line', 'utm.mixin']
+    _name = 'account.invoice.line'

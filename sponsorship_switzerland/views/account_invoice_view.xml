@@ -3,7 +3,7 @@
     <record model="ir.ui.view" id="invoice_tree_compassion_ch">
         <field name="name">account.invoice.tree.compassion.ch</field>
         <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="base_transaction_id.invoice_tree_custom"/>
+        <field name="inherit_id" ref="sponsorship_compassion.invoice_tree_compassion"/>
         <field name="arch" type="xml">
             <!-- Order invoices by date -->
             <xpath expr="//tree" position="attributes">
@@ -15,26 +15,6 @@
             <field name="date_due" position="after">
                 <field name="last_payment"/>
             </field>
-            <field name="transaction_id" position="replace"/>
-            <field name="state" position="before">
-                <field name="invoice_type"/>
-            </field>
-        </field>
-    </record>
-
-    <record id="view_account_invoice_sponsorship_filter" model="ir.ui.view">
-        <field name="name">account.invoice.sponsorship.filter</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
-        <field name="arch" type="xml">
-            <field name="journal_id" position="after">
-                <field name="payment_mode_id"/>
-                <field name="invoice_type"/>
-            </field>
-            <xpath expr="//group">
-                <separator/>
-                <filter string="Invoice type" context="{'group_by':'invoice_type'}"/>
-            </xpath>
         </field>
     </record>
 

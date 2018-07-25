@@ -44,10 +44,7 @@
     ],
     'depends': [
         'mail_sendgrid_mass_mailing',
-        'partner_communication_switzerland',
-        'sponsorship_compassion',
-        'sbc_compassion',
-        'contract_compassion'
+        'partner_communication_switzerland'
     ],
     'external_dependencies': {
         'python': ['pysftp']

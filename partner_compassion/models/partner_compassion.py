@@ -51,13 +51,6 @@ class ResPartner(models.Model):
     total_invoiced = fields.Monetary(groups=False)
     street3 = fields.Char("Street3", size=128)
     invalid_mail = fields.Char("Invalid mail")
-    member_ids = fields.One2many(
-        'res.partner', 'church_id', 'Members',
-        domain=[('active', '=', True)])
-    is_church = fields.Boolean(
-        string="Is a Church", compute='_compute_is_church', store=True)
-    church_id = fields.Many2one(
-        'res.partner', 'Church', domain=[('is_church', '=', True)])
     church_unlinked = fields.Char(
         "Church (N/A)",
         help="Use this field if the church of the partner"
@@ -93,8 +86,6 @@ class ResPartner(models.Model):
     partner_duplicate_ids = fields.Many2many(
         'res.partner', 'res_partner_duplicates', 'partner_id',
         'duplicate_id', readonly=True)
-    church_member_count = fields.Integer(compute='_compute_is_church',
-                                         store=True)
 
     ambassador_details_id = fields.Many2one('ambassador.details',
                                             'Details of ambassador')
@@ -108,23 +99,6 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    @api.multi
-    @api.depends('category_id', 'member_ids')
-    def _compute_is_church(self):
-        """ Tell if the given Partners are Church Partners
-            (by looking at their categories). """
-
-        # Retrieve all the categories and check if one is Church
-        church_category = self.env['res.partner.category'].with_context(
-            lang='en_US').search([('name', '=', 'Church')], limit=1)
-        for record in self:
-            is_church = False
-            if church_category in record.category_id:
-                is_church = True
-
-            record.church_member_count = len(record.member_ids)
-            record.is_church = is_church
-
     @api.multi
     def get_unreconciled_amount(self):
         """Returns the amount of unreconciled credits in Account 1050"""
