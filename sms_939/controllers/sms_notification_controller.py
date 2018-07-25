@@ -15,7 +15,7 @@ from odoo.http import request
 
 class RestController(http.Controller):
 
-    @http.route('/sms/939/', type='http', auth='public', methods=['GET'],
+    @http.route('/sms/mnc/', type='http', auth='public', methods=['GET'],
                 csrf=False)
     def sms_notification(self, **parameters):
         sms = request.env['sms.notification'].sudo().create({
