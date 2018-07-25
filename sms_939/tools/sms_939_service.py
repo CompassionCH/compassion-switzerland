@@ -56,10 +56,11 @@ class SmsNotificationAnswer(object):
             etree.SubElement(mess_node, 'text').text = _sanitize_message(
                 message)
             if self.costs:
-                etree.SubElement(mess_node, 'cost').text = self.costs[index]
+                etree.SubElement(mess_node, 'cost').text = str(
+                    self.costs[index])
             if self.maxSMSsize:
-                etree.SubElement(mess_node, 'maximumSMSAmount').text = \
-                    self.maxSMSsize
+                etree.SubElement(mess_node, 'maximumSMSAmount').text = str(
+                    self.maxSMSsize)
 
         xml_buffer = BytesIO()
         et = etree.ElementTree(document)
