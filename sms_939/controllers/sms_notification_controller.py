@@ -19,7 +19,7 @@ _logger = logging.getLogger(__name__)
 
 class RestController(http.Controller):
 
-    @http.route('/sms/mnc/', type='http', auth='public', methods=['POST'],
+    @http.route('/sms/mnc/', type='http', auth='public', methods=['GET'],
                 csrf=False)
     def sms_notification(self, **parameters):
         _logger.info("SMS Request received : {}".format(

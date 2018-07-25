@@ -11,7 +11,6 @@
 import simplejson
 import re
 
-from odoo.addons.child_compassion.models.compassion_hold import HoldType
 from odoo.addons.queue_job.job import job, related_action
 
 from odoo import api, models, fields, _
