@@ -154,6 +154,22 @@ class ResPartner(models.Model):
             count += 1
         return True
 
+    @api.multi
+    def sms_send_step1_confirmation(self, child_request):
+        # Override to use a communication instead of message_post
+        config = self.env.ref('partner_communication_switzerland.'
+                              'sms_registration_confirmation_1')
+        child_request.sponsorship_id.send_communication(config)
+        return True
+
+    @api.multi
+    def sms_send_step2_confirmation(self, child_request):
+        # Override to use a communication instead of message_post
+        config = self.env.ref('partner_communication_switzerland.'
+                              'sms_registration_confirmation_2')
+        child_request.sponsorship_id.send_communication(config)
+        return True
+
 
 class ResUsers(models.Model):
     _inherit = 'res.users'
