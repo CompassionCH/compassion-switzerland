@@ -57,34 +57,33 @@ class UtmObjects(models.AbstractModel):
         'correspondence', 'source_id', 'Sponsor letters',
         readonly=True
     )
-    invoice_ids = fields.One2many(
-        'account.invoice', 'source_id', 'Donations', readonly=True
+    invoice_line_ids = fields.One2many(
+        'account.invoice.line', 'source_id', 'Donations', readonly=True
     )
 
     sponsorship_count = fields.Integer(
-        compute='_compute_sponsorship_count', store=True, readonly=True)
+        compute='_compute_sponsorship_count', readonly=True)
     letters_count = fields.Integer(
-        compute='_compute_letters_count', store=True, readonly=True)
+        compute='_compute_letters_count', readonly=True)
     donation_amount = fields.Float(
-        compute='_compute_total_donation', store=True, readonly=True)
+        compute='_compute_total_donation', readonly=True)
     total_donation = fields.Char(
-        compute='_compute_total_donation', store=True, readonly=True)
+        compute='_compute_total_donation', readonly=True)
 
-    @api.depends('contract_ids')
     def _compute_sponsorship_count(self):
         for utm in self:
             utm.sponsorship_count = len(utm.contract_ids)
 
-    @api.depends('correspondence_ids')
     def _compute_letters_count(self):
         for utm in self:
             utm.letters_count = len(utm.correspondence_ids)
 
-    @api.depends('invoice_ids', 'invoice_ids.amount_total')
     def _compute_total_donation(self):
         # Put a nice formatting
         for utm in self:
-            total_donation = sum(utm.invoice_ids.mapped('amount_total'))
+            total_donation = 0
+            for invoice in utm.invoice_line_ids:
+                total_donation += invoice.price_subtotal
             utm.donation_amount = total_donation
             utm.total_donation = 'CHF {:,.2f}'.format(total_donation).replace(
                 '.00', '.-').replace(',', "'")
@@ -119,9 +118,9 @@ class UtmObjects(models.AbstractModel):
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'tree,form',
-            'res_model': 'account.invoice',
+            'res_model': 'account.invoice.line',
             'context': self.env.context,
-            'domain': [('id', 'in', self.invoice_ids.ids)],
+            'domain': [('id', 'in', self.invoice_line_ids.ids)],
             'target': 'current',
         }
 
@@ -169,9 +168,18 @@ class UtmCampaign(models.Model):
     _inherit = ['utm.campaign', 'utm.object']
     _name = 'utm.campaign'
 
-    contract_ids = fields.One2many(inverse_name='campaign_id')
-    correspondence_ids = fields.One2many(inverse_name='campaign_id')
-    invoice_ids = fields.One2many(inverse_name='campaign_id')
+    contract_ids = fields.One2many('recurring.contract',
+                                   compute='_compute_contracts',
+                                   inverse_name='campaign_id')
+    correspondence_ids = fields.One2many('correspondence',
+                                         compute='_compute_correspondence',
+                                         inverse_name='campaign_id')
+    invoice_line_ids = fields.One2many('account.invoice.line',
+                                       compute='_compute_invoice',
+                                       inverse_name='campaign_id')
+    # contract_ids = fields.One2many(inverse_name='campaign_id')
+    # correspondence_ids = fields.One2many(inverse_name='campaign_id')
+    # invoice_ids = fields.One2many(inverse_name='campaign_id')
 
     mailing_campaign_id = fields.Many2one(
         'mail.mass_mailing.campaign', compute='_compute_mass_mailing_id'
@@ -196,6 +204,27 @@ class UtmCampaign(models.Model):
             campaign.click_count = sum(self.env['link.tracker'].search([
                 ('campaign_id', '=', campaign.id)]).mapped('count'))
 
+    def _compute_contracts(self):
+        for campaign in self:
+            campaign.contract_ids = self.env['recurring.contract'].\
+                search(['|', ('campaign_id', '=', campaign.id),
+                        ('origin_id.event_id.campaign_id', '=', campaign.id)
+                        ])
+
+    def _compute_correspondence(self):
+        for campaign in self:
+            campaign.correspondence_ids = self.env['correspondence'].search([
+                '|', ('sponsorship_id.campaign_id', '=', campaign.id),
+                ('sponsorship_id.origin_id.event_id.campaign_id', '=',
+                 campaign.id)])
+
+    def _compute_invoice(self):
+        for campaign in self:
+            campaign.invoice_line_ids = self.env['account.invoice.line']. \
+                search(['|', ('invoice_id.campaign_id', '=', campaign.id), '|',
+                       ('event_id.campaign_id', '=', campaign.id),
+                       ('account_analytic_id.campaign_id', '=', campaign.id)])
+
 
 class UtmMedium(models.Model):
     _inherit = ['utm.medium', 'utm.object']
@@ -203,7 +232,7 @@ class UtmMedium(models.Model):
 
     contract_ids = fields.One2many(inverse_name='medium_id')
     correspondence_ids = fields.One2many(inverse_name='medium_id')
-    invoice_ids = fields.One2many(inverse_name='medium_id')
+    invoice_line_ids = fields.One2many(inverse_name='medium_id')
 
     link_ids = fields.One2many(
         'link.tracker', 'medium_id', 'Clicks', readonly=True

@@ -18,3 +18,8 @@ from . import mail_template
 from . import utm
 from . import sendgrid_substitution
 from . import link_tracker
+from . import recurring_contract
+from . import correspondence
+from . import account_invoice_line
+from . import analytic_account
+from . import crm_event_compassion
