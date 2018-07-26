@@ -745,12 +745,13 @@
             <field name="body_html" type="html">
                 <div>
                     % set sponsorship = object.get_objects()
+                    % set request = sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])
                     % set child = sponsorship.child_id
                 </div>
                 <p>
-                    You chose to invest in the life of ${child.preferred_name}. There are two more steps before %s will be informed that you sponsor ${child.get('him')}, but you don't have to hurry.
+                    You chose to invest in the life of ${child.preferred_name}. There are two more steps before ${child.get('he')} will be informed that you sponsor ${child.get('him')}, but you don't have to hurry. We have reserved the child so that you can take your time to complete the registration.
                     <br/><br/>
-                    1. You can complete your information and your payment option in the coming days.
+                    1. You can <a href="${request.full_url}">click here</a> to complete your information and your payment option in the coming days.
                     <br/>
                     2. Your sponsorship will be activated when we receive your first payment.
                     <br/><br/>
@@ -764,14 +765,14 @@
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">Confirm your new sponsorship (sms)</field>
+            <field name="subject">Your sponsorship is confirmed!</field>
             <field name="body_html" type="html">
                 <div>
                     % set sponsorship = object.get_objects()
                     % set child = sponsorship.child_id
                 </div>
                 <p>
-                    Thank you for your commitment towards ${child.preferred_name}. Now that all information, we will activate your sponsorship as soon as we receive your first payment.
+                    Thank you for your commitment towards ${child.preferred_name}. Now that all information is completed, we will activate your sponsorship as soon as we receive your first payment.
                     <br/><br/>
                     You will receive more documentation by post in the coming days. In the mean time, feel free to reach us if you have any question.
                     <br/><br/>
