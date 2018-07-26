@@ -52,15 +52,15 @@
                 font-family: "tetriaLight";
                 font-size: 10pt;
                 <t t-if="success_story">
-                    margin-left: 6mm;
-                    margin-right: 6mm;
+                    margin-left: 8mm;
+                    margin-right: 4mm;
                     <t t-if="not bvr">
                         margin-bottom: 6mm;
                     </t>
                 </t>
                 <t t-if="not success_story">
-                    margin-left: 20mm;
-                    margin-right: 20mm;
+                    margin-left: 22mm;
+                    margin-right: 18mm;
                     <t t-if="not bvr">
                         margin-bottom: 20mm;
                     </t>
