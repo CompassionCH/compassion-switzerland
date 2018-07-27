@@ -33,6 +33,12 @@ class TestSponsorship(BaseSponsorshipTest):
         self.mandates = self.env['account.banking.mandate'].search([
             ('partner_id', '=', self.michel.parent_id.id)])
         self.mandates.write({'state': 'draft'})
+        payment_mode_lsv = self.env.ref(
+            'sponsorship_switzerland.payment_mode_lsv')
+        self.sp_group = self.create_group({
+            'partner_id': self.michel.id,
+            'payment_mode_id': payment_mode_lsv.id,
+        })
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
@@ -48,16 +54,10 @@ class TestSponsorship(BaseSponsorshipTest):
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))
-        payment_mode_lsv = self.env.ref(
-            'sponsorship_switzerland.payment_mode_lsv')
-        sp_group = self.create_group({
-            'partner_id': self.michel.id,
-            'payment_mode_id': payment_mode_lsv.id,
-        })
         sponsorship = self.create_contract(
             {
                 'partner_id': self.michel.id,
-                'group_id': sp_group.id,
+                'group_id': self.sp_group.id,
                 'child_id': child.id,
             },
             [{'amount': 50.0}]
@@ -90,3 +90,29 @@ class TestSponsorship(BaseSponsorshipTest):
             ('config_id', '=', new_dossier.id)
         ])
         self.assertFalse(partner_communications)
+
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_pdf)
+    def test_no_welcome_letter_for_transfers(self, get_pdf, update_hold):
+        child = self.create_child(self.ref(11))
+        transfer_origin = self.env['recurring.contract.origin'].create({
+            'type': 'transfer'
+        })
+        sponsorship = self.create_contract(
+            {
+                'partner_id': self.michel.id,
+                'child_id': child.id,
+                'group_id': self.sp_group.id,
+                'origin_id': transfer_origin.id
+
+            },
+            [{'amount': 50.0}]
+        )
+        partner_communications = self.env['partner.communication.job']
+        count_before = partner_communications.search_count([])
+
+        sponsorship.send_welcome_letter()
+
+        self.assertEqual(sponsorship.sds_state, 'active')
+        # No new communication is generated
+        self.assertEqual(count_before, partner_communications.search_count([]))

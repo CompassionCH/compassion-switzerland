@@ -282,7 +282,8 @@ class RecurringContract(models.Model):
             datetime.today() - timedelta(days=1))
         to_send = self.env['recurring.contract'].search([
             ('activation_date', '>=', activated_since),
-            ('child_id', '!=', False)
+            ('child_id', '!=', False),
+            ('origin_id.type', '!=', 'transfer')
         ])
         if to_send:
             to_send.send_communication(welcome, both=True).send()
@@ -448,7 +449,8 @@ class RecurringContract(models.Model):
         logger.info("Creating Welcome Letters Communications")
         config = self.env.ref(
             'partner_communication_switzerland.planned_welcome')
-        self.send_communication(config, both=True).send()
+        if not self.origin_id or self.origin_id.type != 'transfer':
+            self.send_communication(config, both=True).send()
         self.write({'sds_state': 'active'})
         return True
 
