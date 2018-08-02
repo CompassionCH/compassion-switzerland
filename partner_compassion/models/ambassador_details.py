@@ -10,7 +10,7 @@
 ##############################################################################
 import logging
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from odoo import api, models, fields, _
 from odoo.tools import file_open
