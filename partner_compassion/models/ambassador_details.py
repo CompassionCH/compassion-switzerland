@@ -10,7 +10,7 @@
 ##############################################################################
 import logging
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from odoo import api, models, fields, _
 from odoo.tools import file_open
@@ -201,8 +201,8 @@ class AmbassadorDetails(models.Model):
             advocate.message_post(
                 body=_(u"This is a reminder that {} will have birthday on {}.")
                 .format(advocate.partner_id.preferred_name,
-                        advocate.partner_id.get_date('birthdate', 'date_month')
-                        ),
+                        advocate.partner_id.get_date(
+                            'birthdate_date', 'date_month')),
                 subject=_(u"[{}] Advocate birthday reminder").format(
                     advocate.display_name),
                 partner_ids=[notify_partner_id],
