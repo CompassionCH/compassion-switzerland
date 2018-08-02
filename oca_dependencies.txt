@@ -15,7 +15,7 @@
 # sale-workflow https://github.com/OCA/sale-workflow branchname
 queue
 partner-contact
-report-print-send
+report-print-send https://github.com/CompassionCH/report-print-send 10.0
 server-tools
 connector-telephony
 hr

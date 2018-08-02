@@ -69,6 +69,11 @@ class PaymentOrder(models.Model):
         res = super(PaymentOrder, self)._prepare_bank_payment_line(paylines)
         partner = paylines.mapped('partner_id')
 
+        return self.with_context(lang=partner.lang) \
+            ._prepare_bank_payment_line_with_lang(paylines, partner, res)
+
+    @api.model
+    def _prepare_bank_payment_line_with_lang(self, paylines, partner, res):
         with setlocale(partner.lang):
             invoices = paylines.mapped('move_line_id.invoice_id').with_context(
                 lang=partner.lang)
