@@ -93,6 +93,37 @@ class TestSponsorship(BaseSponsorshipTest):
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
+    def test_get_birthday_bvr(self, get_pdf, update_hold):
+        update_hold.return_value = True
+        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
+        with file_open(f_path) as pdf_file:
+            get_pdf.return_value = pdf_file.read()
+
+        child = self.create_child(self.ref(11))
+        sponsorship = self.create_contract(
+            {
+                'partner_id': self.michel.id,
+                'group_id': self.sp_group.id,
+                'child_id': child.id,
+            },
+            [{'amount': 50.0}]
+        )
+        self.validate_sponsorship(sponsorship)
+
+        new_dossier = self.env.ref(
+            'partner_communication_switzerland.planned_dossier')
+        partner_communications = self.env['partner.communication.job'].search([
+            ('partner_id', '=', self.michel.id),
+            ('state', '=', 'pending'),
+            ('config_id', '=', new_dossier.id)
+        ])
+        bvr = partner_communications.get_birthday_bvr()
+        self.assertTrue(u'Birthday Gift.pdf', bvr)
+        self.assertEqual(bvr[u'Birthday Gift.pdf'][0],
+                         'report_compassion.bvr_gift_sponsorship')
+
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_pdf)
     def test_no_welcome_letter_for_transfers(self, get_pdf, update_hold):
         child = self.create_child(self.ref(11))
         transfer_origin = self.env['recurring.contract.origin'].create({
