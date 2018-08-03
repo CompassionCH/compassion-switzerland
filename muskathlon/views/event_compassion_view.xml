@@ -20,15 +20,15 @@
                         <field name="filename_1" invisible="1"/>
                         <field name="picture_1" filename="filename_1"/>
                         <field name="sport_discipline_ids"/>
-                        <field name="website_description"/>
-                        <field name="website_side_info"/>
+                        <field name="website_description" widget="html_frame" options="{'editor_url': '/mass_mailing/field/email_template'}"/>
+                        <field name="website_side_info" widget="html_frame" options="{'editor_url': '/mass_mailing/field/email_template'}"/>
                     </group>
                     <group string="Order material page">
-                        <field name="website_my_introduction"/>
-                        <field name="website_my_fundraising"/>
-                        <field name="website_my_information"/>
-                        <field name="website_my_press_material"/>
-                        <field name="website_my_sport_material"/>
+                        <field name="website_my_introduction" widget="html_frame" options="{'editor_url': '/mass_mailing/field/email_template'}"/>
+                        <field name="website_my_fundraising" widget="html_frame" options="{'editor_url': '/mass_mailing/field/email_template'}"/>
+                        <field name="website_my_information" widget="html_frame" options="{'editor_url': '/mass_mailing/field/email_template'}"/>
+                        <field name="website_my_press_material" widget="html_frame" options="{'editor_url': '/mass_mailing/field/email_template'}"/>
+                        <field name="website_my_sport_material" widget="html_frame" options="{'editor_url': '/mass_mailing/field/email_template'}"/>
                     </group>
                 </page>
                 <page string="4M registrations">
