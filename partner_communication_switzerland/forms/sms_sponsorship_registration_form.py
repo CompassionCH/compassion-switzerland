@@ -19,5 +19,6 @@ if not testing:
         # Only propose Direct Debit and Permanent Order
         payment_mode_id = fields.Many2one(
             'account.payment.mode',
+            string='Payment mode',
             domain=[('name', 'in', ['LSV', 'Postfinance Direct Debit',
                                     'Permanent Order'])])
