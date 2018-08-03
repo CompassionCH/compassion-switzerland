@@ -11,3 +11,4 @@
 
 from . import sms_hook
 from . import sms_notification
+from . import compassion_child
