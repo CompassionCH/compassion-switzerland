@@ -14,6 +14,7 @@ from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion \
     import BaseSponsorshipTest
 
 from odoo.tools import file_open
+from odoo import fields
 
 
 logger = logging.getLogger(__name__)
@@ -93,7 +94,24 @@ class TestSponsorship(BaseSponsorshipTest):
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
-    def test_get_birthday_bvr(self, get_pdf, update_hold):
+    def test_bvr_generation(self, get_pdf, update_hold):
+        communications = self._create_communication(get_pdf, update_hold)
+
+        bvr = communications.get_birthday_bvr()
+        self.assertTrue(u'Birthday Gift.pdf' in bvr)
+        values = bvr[u'Birthday Gift.pdf']
+        self.assertEqual(values[0], 'report_compassion.bvr_gift_sponsorship')
+        self.assertRegexpMatches(values[1], r'^JVBERi0xLjIN.{5200}$')
+
+        graduation_bvr = communications.get_graduation_bvr()
+        self.assertTrue(u'Graduation Gift.pdf' in graduation_bvr)
+        values = graduation_bvr[u'Graduation Gift.pdf']
+        self.assertEqual(values[0], 'report_compassion.bvr_gift_sponsorship')
+
+        reminder_bvr = communications.get_reminder_bvr()
+        self.assertEqual(reminder_bvr, dict())
+
+    def _create_communication(self, get_pdf, update_hold):
         update_hold.return_value = True
         f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
         with file_open(f_path) as pdf_file:
@@ -112,15 +130,26 @@ class TestSponsorship(BaseSponsorshipTest):
 
         new_dossier = self.env.ref(
             'partner_communication_switzerland.planned_dossier')
-        partner_communications = self.env['partner.communication.job'].search([
+        return self.env['partner.communication.job'].search([
             ('partner_id', '=', self.michel.id),
             ('state', '=', 'pending'),
             ('config_id', '=', new_dossier.id)
         ])
-        bvr = partner_communications.get_birthday_bvr()
-        self.assertTrue(u'Birthday Gift.pdf', bvr)
-        self.assertEqual(bvr[u'Birthday Gift.pdf'][0],
-                         'report_compassion.bvr_gift_sponsorship')
+
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_pdf)
+    def test_send(self, get_pdf, update_hold):
+        self.env.user.firstname = 'jason'
+        communications = self._create_communication(get_pdf, update_hold)
+
+        before = fields.Datetime.now()
+        self.assertTrue(communications.send())
+
+        job_created = self.env['partner.communication.job'].search([
+            ('sent_date', '>=', before)
+        ], limit=1)
+        self.assertTrue(job_created)
+        self.assertEqual(job_created.state, 'done')
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
