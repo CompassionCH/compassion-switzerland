@@ -20,6 +20,7 @@ class EventCompassion(models.Model):
         event = super(EventCompassion, self).create(vals)
         if event.campaign_id:
             event.analytic_id.campaign_id = event.campaign_id
+            event.origin_id.campaign_id = event.campaign_id
         return event
 
     @api.multi
@@ -28,4 +29,5 @@ class EventCompassion(models.Model):
         for new_event in self:
             if new_event.campaign_id:
                 new_event.analytic_id.campaign_id = new_event.campaign_id
+                new_event.origin_id.campaign_id = new_event.campaign_id
         return res
