@@ -153,6 +153,44 @@ class TestSponsorship(BaseSponsorshipTest):
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
+    def test_private_convert_pdf(self, get_pdf, update_hold):
+        update_hold.return_value = True
+        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
+        with file_open(f_path) as pdf_file:
+            get_pdf.return_value = pdf_file.read()
+
+        child = self.create_child(self.ref(11))
+        sponsorship = self.create_contract(
+            {
+                'partner_id': self.michel.id,
+                'group_id': self.sp_group.id,
+                'child_id': child.id,
+            },
+            [{'amount': 50.0}]
+        )
+        self.validate_sponsorship(sponsorship)
+        default_template = self.env.ref('sbc_compassion.default_template')
+        correspondence_data = {
+            'template_id': default_template.id,
+            'original_text': 'my text',
+            'sponsorship_id': sponsorship.id,
+            'base64string': 'base64data'
+        }
+        letter = self.env['correspondence'].create(correspondence_data)
+
+        config = self.env.ref(
+            'partner_communication_switzerland.child_letter_config')
+        job = self.env['partner.communication.job'].create({
+            'partner_id': self.michel.id,
+            'object_ids': letter.ids,
+            'config_id': config.id
+        })
+        self.assertEqual(len(job.attachment_ids), 1)
+        self.assertRegexpMatches(job.attachment_ids[0].name,
+                                 r'^Supporter Letter')
+
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_pdf)
     def test_no_welcome_letter_for_transfers(self, get_pdf, update_hold):
         child = self.create_child(self.ref(11))
         transfer_origin = self.env['recurring.contract.origin'].create({
