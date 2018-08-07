@@ -14,6 +14,7 @@ from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion \
     import BaseSponsorshipTest
 
 from odoo.tools import file_open
+from odoo import fields
 
 
 logger = logging.getLogger(__name__)
@@ -90,6 +91,103 @@ class TestSponsorship(BaseSponsorshipTest):
             ('config_id', '=', new_dossier.id)
         ])
         self.assertFalse(partner_communications)
+
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_pdf)
+    def test_bvr_generation(self, get_pdf, update_hold):
+        communications = self._create_communication(get_pdf, update_hold)
+
+        bvr = communications.get_birthday_bvr()
+        self.assertTrue(u'Birthday Gift.pdf' in bvr)
+        values = bvr[u'Birthday Gift.pdf']
+        self.assertEqual(values[0], 'report_compassion.bvr_gift_sponsorship')
+        self.assertRegexpMatches(values[1], r'^JVBERi0xLjIN.{5200}$')
+
+        graduation_bvr = communications.get_graduation_bvr()
+        self.assertTrue(u'Graduation Gift.pdf' in graduation_bvr)
+        values = graduation_bvr[u'Graduation Gift.pdf']
+        self.assertEqual(values[0], 'report_compassion.bvr_gift_sponsorship')
+
+        reminder_bvr = communications.get_reminder_bvr()
+        self.assertEqual(reminder_bvr, dict())
+
+    def _create_communication(self, get_pdf, update_hold):
+        update_hold.return_value = True
+        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
+        with file_open(f_path) as pdf_file:
+            get_pdf.return_value = pdf_file.read()
+
+        child = self.create_child(self.ref(11))
+        sponsorship = self.create_contract(
+            {
+                'partner_id': self.michel.id,
+                'group_id': self.sp_group.id,
+                'child_id': child.id,
+            },
+            [{'amount': 50.0}]
+        )
+        self.validate_sponsorship(sponsorship)
+
+        new_dossier = self.env.ref(
+            'partner_communication_switzerland.planned_dossier')
+        return self.env['partner.communication.job'].search([
+            ('partner_id', '=', self.michel.id),
+            ('state', '=', 'pending'),
+            ('config_id', '=', new_dossier.id)
+        ])
+
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_pdf)
+    def test_send(self, get_pdf, update_hold):
+        self.env.user.firstname = 'jason'
+        communications = self._create_communication(get_pdf, update_hold)
+
+        before = fields.Datetime.now()
+        self.assertTrue(communications.send())
+
+        job_created = self.env['partner.communication.job'].search([
+            ('sent_date', '>=', before)
+        ], limit=1)
+        self.assertTrue(job_created)
+        self.assertEqual(job_created.state, 'done')
+
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_pdf)
+    def test_private_convert_pdf(self, get_pdf, update_hold):
+        update_hold.return_value = True
+        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
+        with file_open(f_path) as pdf_file:
+            get_pdf.return_value = pdf_file.read()
+
+        child = self.create_child(self.ref(11))
+        sponsorship = self.create_contract(
+            {
+                'partner_id': self.michel.id,
+                'group_id': self.sp_group.id,
+                'child_id': child.id,
+            },
+            [{'amount': 50.0}]
+        )
+        self.validate_sponsorship(sponsorship)
+        default_template = self.env.ref('sbc_compassion.default_template')
+        correspondence_data = {
+            'template_id': default_template.id,
+            'original_text': 'my text',
+            'sponsorship_id': sponsorship.id,
+            'base64string': 'base64data'
+        }
+        letter = self.env['correspondence'].create(correspondence_data)
+
+        config = self.env.ref(
+            'partner_communication_switzerland.child_letter_config')
+        job = self.env['partner.communication.job'].create({
+            'partner_id': self.michel.id,
+            'object_ids': letter.ids,
+            'config_id': config.id
+        })
+        self.assertEqual(len(job.attachment_ids), 1)
+        self.assertRegexpMatches(job.attachment_ids[0].name,
+                                 r'^Supporter Letter')
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
