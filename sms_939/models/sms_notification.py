@@ -87,7 +87,7 @@ class SmsNotification(models.Model):
             sms_answer = SmsNotificationAnswer(_(
                 "Sorry, we could not understand your request. "
                 "Supported services are :\n - %s "
-            ) % "\n- ".join(hooks.mapped('name')))
+            ) % "\n- ".join(hooks.mapped('name')), costs=0)
             self.write({
                 'state': 'failed',
                 'failure_details': 'Service is not implemented. '
@@ -110,7 +110,7 @@ class SmsNotification(models.Model):
             sms_answer = SmsNotificationAnswer(_(
                 "Sorry, the service is not available at this time. "
                 "Our team is informed and is currently working on it."
-            ))
+            ), costs=0)
             if not testing:
                 self.write({
                     'state': 'failed',
@@ -118,6 +118,15 @@ class SmsNotification(models.Model):
                     'answer': sms_answer.xml_message
                 })
         return sms_answer.get_answer()
+
+    def sponsor_service_fr(self):
+        return self.with_context(lang='fr_CH').sponsor_service()
+
+    def sponsor_service_de(self):
+        return self.with_context(lang='de_DE').sponsor_service()
+
+    def sponsor_service_it(self):
+        return self.with_context(lang='it_IT').sponsor_service()
 
     def sponsor_service(self):
         self.ensure_one()
@@ -128,9 +137,10 @@ class SmsNotification(models.Model):
         return SmsNotificationAnswer(
             _("Thank you for your will to help a child ! \n"
               "You can release a child from poverty today by clicking on this "
-              "link: %s") % child_request.full_url
+              "link: %s") % child_request.full_url,
+            costs=0
         )
 
     def test_service(self):
         self.ensure_one()
-        return SmsNotificationAnswer(_("Thanks!"))
+        return SmsNotificationAnswer("Thanks!", costs=0)

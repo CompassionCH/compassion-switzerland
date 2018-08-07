@@ -11,7 +11,6 @@
 import simplejson
 import re
 
-from odoo.addons.child_compassion.models.compassion_hold import HoldType
 from odoo.addons.queue_job.job import job, related_action
 
 from odoo import api, models, fields, _
@@ -178,7 +177,7 @@ class Contracts(models.Model):
             # Mark child as sponsored even if not yet linked to sponsor
             child.state = 'P'
             # Convert to No Money Hold
-            sponsorship.with_delay().update_child_hold()
+            sponsorship.with_delay().put_child_on_no_money_hold()
 
         partner.set_privacy_statement(origin='new_sponsorship')
 
@@ -252,7 +251,7 @@ class Contracts(models.Model):
     ##########################################################################
     @api.multi
     @job(default_channel='root.child_sync_wp')
-    @related_action(action='related_action_sponsorship')
+    @related_action(action='related_action_contract')
     def update_partner_from_web_data(self):
         # Get spoken languages
         self.ensure_one()
@@ -278,19 +277,6 @@ class Contracts(models.Model):
         church_name = form_data.get('kirchgemeinde')
         self._write_church(church_name, partner)
         return True
-
-    @api.multi
-    @job(default_channel='root.child_sync_wp')
-    @related_action(action='related_action_sponsorship')
-    def update_child_hold(self):
-        # Convert to No Money Hold
-        self.ensure_one()
-        return self.child_id.hold_id.write({
-            'expiration_date': self.env[
-                'compassion.hold'].get_default_hold_expiration(
-                HoldType.NO_MONEY_HOLD),
-            'type': HoldType.NO_MONEY_HOLD.value,
-        })
 
     @api.model
     def _write_sponsor_lang(self, lang_string, sponsor_lang, partner=None):

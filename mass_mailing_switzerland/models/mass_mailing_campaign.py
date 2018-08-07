@@ -26,8 +26,8 @@ class MassMailingCampaign(models.Model):
     correspondence_ids = fields.One2many(
         'correspondence', related='campaign_id.correspondence_ids'
     )
-    invoice_ids = fields.One2many(
-        'account.invoice', related='campaign_id.invoice_ids'
+    invoice_line_ids = fields.One2many(
+        'account.invoice.line', related='campaign_id.invoice_line_ids'
     )
 
     @api.depends('mass_mailing_ids.clicks_ratio',

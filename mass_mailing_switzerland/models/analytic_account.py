@@ -3,12 +3,16 @@
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Emanuel Cino <ecino@compassion.ch>
+#    @author: Nathan Fluckiger <nathan.fluckiger@hotmail.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import models, fields
 
-from . import sms_hook
-from . import sms_notification
-from . import compassion_child
+
+class AnalyticAccount(models.Model):
+
+    _inherit = 'account.analytic.account'
+
+    campaign_id = fields.Many2one('utm.campaign')

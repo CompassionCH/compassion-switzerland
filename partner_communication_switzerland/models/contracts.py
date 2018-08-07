@@ -92,9 +92,9 @@ class RecurringContract(models.Model):
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang='en_US').filtered(
                     lambda i: i.state == 'open' and
-                              fields.Date.from_string(
-                                  i.due_date) < this_month and
-                              i.invoice_id.invoice_type == 'sponsorship'
+                    fields.Date.from_string(
+                        i.due_date) < this_month and
+                    i.invoice_id.invoice_type == 'sponsorship'
                 )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
@@ -154,12 +154,12 @@ class RecurringContract(models.Model):
                 if contract.correspondent_id != contract.partner_id:
                     communications += self.env[
                         'partner.communication.job'].create({
-                        'config_id': communication.id,
-                        'partner_id': contract.correspondent_id.id,
-                        'object_ids': self.env.context.get(
-                            'default_object_ids', contract.id),
-                        'user_id': communication.user_id.id,
-                    })
+                            'config_id': communication.id,
+                            'partner_id': contract.correspondent_id.id,
+                            'object_ids': self.env.context.get(
+                                'default_object_ids', contract.id),
+                            'user_id': communication.user_id.id,
+                        })
         else:
             for partner in partners:
                 objects = self.filtered(
@@ -272,7 +272,7 @@ class RecurringContract(models.Model):
         ]).filtered(lambda c: not (
             c.child_id.project_id.lifecycle_ids and
             c.child_id.project_id.hold_s2b_letters)
-                    )
+        )
 
     @api.model
     def _send_welcome_letters_for_sponsorships_activated_in_last_24h(self):
@@ -282,7 +282,8 @@ class RecurringContract(models.Model):
             datetime.today() - timedelta(days=1))
         to_send = self.env['recurring.contract'].search([
             ('activation_date', '>=', activated_since),
-            ('child_id', '!=', False)
+            ('child_id', '!=', False),
+            ('origin_id.type', '!=', 'transfer')
         ])
         if to_send:
             to_send.send_communication(welcome, both=True).send()
@@ -318,7 +319,7 @@ class RecurringContract(models.Model):
             due = sponsorship.due_invoice_ids
             advance_billing = sponsorship.group_id.advance_billing_months
             if due and len(due) > 1 and not (advance_billing > 1 and len(
-                due) < 3):
+                    due) < 3):
                 has_first_reminder = comm_obj.search_count([
                     ('config_id', 'in', [first_reminder_config.id,
                                          second_reminder_config.id]),
@@ -397,10 +398,10 @@ class RecurringContract(models.Model):
         new_spons._new_dossier()
         new_spons.filtered(
             lambda s: s.correspondent_id.email and s.sds_state == 'draft' and
-                      s.partner_id.ref != '1502623').write({
-            'sds_state': 'waiting_welcome',
-            'sds_state_date': fields.Date.today()
-        })
+            s.partner_id.ref != '1502623').write({
+                'sds_state': 'waiting_welcome',
+                'sds_state_date': fields.Date.today()
+            })
         if 'CSP' in self.name:
             module = 'partner_communication_switzerland.'
             selected_config = self.env.ref(module + 'csp_mail')
@@ -448,7 +449,8 @@ class RecurringContract(models.Model):
         logger.info("Creating Welcome Letters Communications")
         config = self.env.ref(
             'partner_communication_switzerland.planned_welcome')
-        self.send_communication(config, both=True).send()
+        if not self.origin_id or self.origin_id.type != 'transfer':
+            self.send_communication(config, both=True).send()
         self.write({'sds_state': 'active'})
         return True
 
