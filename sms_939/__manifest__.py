@@ -40,7 +40,8 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sms_hook.xml',
-        'views/sms_views.xml'
+        'views/sms_views.xml',
+        'views/sms_sender_wizard.xml'
     ],
     'demo': [
         'demo/sms_hook.xml'
