@@ -6,4 +6,12 @@
         <field name="sequence">10</field>
         <field name="code">records.send_welcome_letter()</field>
     </record>
+
+    <record id="send_sms_sponsorship_reminder" model="ir.actions.server">
+        <field name="name">Send SMS sponsorship reminder</field>
+        <field name="model_id" ref="model_sms_child_request"/>
+        <field name="state">code</field>
+        <field name="sequence">10</field>
+        <field name="code">records.send_reminder()</field>
+    </record>
 </odoo>
