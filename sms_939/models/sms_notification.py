@@ -144,3 +144,6 @@ class SmsNotification(models.Model):
     def test_service(self):
         self.ensure_one()
         return SmsNotificationAnswer("Thanks!", costs=0)
+
+    def test_service_error(self):
+        raise Exception
