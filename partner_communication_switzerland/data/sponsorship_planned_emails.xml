@@ -780,5 +780,37 @@
                 </p>
             </field>
         </record>
+        <record id="sms_reminder_email" model="mail.template">
+            <field name="name">SMS sponsorship reminder</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Your sponsored child awaits!</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorship = object.get_objects()
+                    % set partner = sponsorship.partner_id
+                    % set child = sponsorship.child_id
+                    % set request = sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/><br/>
+                    3 days ago, you chose to invest in the life of ${child.preferred_name}.
+                    <br/><br/>
+                    There are two more steps before ${child.get('he')} will be informed that you sponsor ${child.get('him')}.
+                    Please consider finishing your request, to avoid making ${child.preferred_name} waiting too much for a sponsor.
+                    <br/><br/>
+                    1. <a href="${request.full_url}">Click here</a> to complete your information and your payment option.
+                    <br/>
+                    2. Your sponsorship will be activated when we receive your first payment.
+                    <br/><br/>
+                    In case you don't want to sponsor this child anymore, please contact us by e-mail or by phone at 024 434 21 24. In that case we will cancel your sponsorship and try to find another sponsor for ${child.preferred_name}.
+                    <br/><br/>
+                    Best regards
+                </p>
+            </field>
+        </record>
     </data>
 </odoo>

@@ -50,9 +50,8 @@ class SmsNotification(models.Model):
         # Try to find a matching partner given phone number
         phone = vals.get('sender')
         partner_obj = self.env['res.partner']
-        partner = partner_obj.search([
-            ('mobile', 'like', phone)
-        ])
+        partner = partner_obj.search([('mobile', 'like', phone)]) or \
+            partner_obj.search([('phone', 'like', phone)])
         if not partner:
             partner = partner_obj.search([
                 ('phone', 'like', phone)
