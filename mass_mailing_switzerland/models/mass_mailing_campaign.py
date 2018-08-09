@@ -12,6 +12,8 @@ from odoo import api, models, fields
 
 from odoo.addons.queue_job.job import job, related_action
 
+from lxml import etree
+
 
 class MassMailingCampaign(models.Model):
     _inherit = 'mail.mass_mailing.campaign'
@@ -55,6 +57,16 @@ class MassMailingCampaign(models.Model):
     def open_clicks(self):
         return self.mass_mailing_ids.open_clicks()
 
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+                        submenu=False):
+        res = super(MassMailingCampaign, self).fields_view_get(view_id=view_id,
+                        view_type=view_type, toolbar=toolbar, submenu=submenu)
+        doc = etree.XML(res['arch'])
+        if view_type == 'tree':
+            for node in doc.xpath("//field[@name='invoice_ids']"):
+                node.set('invisible', '1')
+        return res
 
 class Mail(models.Model):
     _inherit = 'mail.mail'

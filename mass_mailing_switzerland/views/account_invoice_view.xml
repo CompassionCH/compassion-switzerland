@@ -1,0 +1,25 @@
+<odoo>
+    <record id="invoice_supplier_tree" model="ir.ui.view">
+        <field name="name">mail.mass_mailing.campaign.invoice_supplier_tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" groups="base.group_user" string="Sponsor"/>
+            <field name="date_invoice" string="Bill Date" invisible="1"/>
+            <field name="number" invisible="1"/>
+            <field name="reference" invisible="1"/>
+            <field name="commercial_partner_id" invisible="1"/>
+            <field name="name" invisible="1"/>
+            <field name="journal_id" invisible="1"/>
+            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" invisible="1"/>
+            <field name="date_due" invisible="1"/>
+            <field name="origin" invisible="1"/>
+            <field name="amount_total_signed" string="Total" sum="Total"/>
+            <field name="residual_signed" string="To Pay" sum="To pay" invisible="1"/>
+            <field name="currency_id" invisible="1"/>
+            <field name="company_currency_id" invisible="1"/>
+            <field name="state"/>
+            <field name="type" invisible="1"/>
+        </field>
+    </record>
+</odoo>
