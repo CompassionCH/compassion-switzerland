@@ -35,8 +35,14 @@ class CalendarEvent(models.Model):
 
     campaign_event_id = fields.Many2one('utm.campaign', 'Campaign')
 
-    start_timeline = fields.Date(compute='_compute_timeline_start')
-    stop_timeline = fields.Date(compute='_compute_timeline_stop')
+    start_timeline = fields.Date(
+        compute='_compute_timeline_start',
+        inverse='_inverse_timeline_start'
+    )
+    stop_timeline = fields.Date(
+        compute='_compute_timeline_stop',
+        inverse='_inverse_timeline_stop'
+    )
 
     @api.multi
     def _compute_timeline_start(self):
@@ -47,6 +53,19 @@ class CalendarEvent(models.Model):
     def _compute_timeline_stop(self):
         for event in self:
             event.stop_timeline = event.stop_datetime or event.stop_date
+
+    def _inverse_timeline_start(self):
+        self.start = self.start_timeline
+
+    def _inverse_timeline_stop(self):
+        self.stop = self.stop_timeline
+
+    @api.model
+    def create(self, vals):
+        if 'start_timeline' in vals:
+            vals['start'] = vals['start_timeline']
+            vals['stop'] = vals['stop_timeline']
+        return super(CalendarEvent, self).create(vals)
 
 
 class EventCompassion(models.Model):
