@@ -7,21 +7,19 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import json
 import werkzeug
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from base64 import b64encode
 
-from odoo import _
-from odoo.http import request, route, Response
-from odoo.addons.website_portal.controllers.main import website_account
-from odoo.addons.cms_form.controllers.main import FormControllerMixin
+from odoo.http import request, route
+from odoo.addons.cms_form_compassion.controllers.payment_controller import \
+    PaymentFormController
 from odoo.addons.payment.models.payment_acquirer import ValidationError
 
 
-class MuskathlonWebsite(website_account, FormControllerMixin):
+class MuskathlonWebsite(PaymentFormController):
     @route('/events/', auth='public', website=True)
     def list(self, **kwargs):
         events = request.env['crm.event.compassion'].search([
@@ -164,32 +162,6 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         return request.render(return_view,
                               self._prepare_portal_layout_values())
 
-    @route(['/muskathlon/payment/<int:transaction_id>'],
-           auth="public", website=True)
-    def payment(self, transaction_id, **kwargs):
-        """ Controller for redirecting to the payment submission, using
-        an existing transaction.
-
-        :param int transaction_id: id of a payment.transaction record.
-        """
-        transaction = request.env['payment.transaction'].sudo().browse(
-            transaction_id)
-        values = {
-            'payment_form': transaction.acquirer_id.with_context(
-                submit_class='btn btn-primary',
-                submit_txt=_('Next')).sudo().render(
-                transaction.reference,
-                transaction.amount,
-                transaction.currency_id.id,
-                values={
-                    'return_url': kwargs['redirect_url'],
-                    'partner_id': transaction.partner_id.id,
-                    'billing_partner_id': transaction.partner_id.id,
-                }
-            )
-        }
-        return request.render('muskathlon.payment_submit', values)
-
     @route('/muskathlon_registration/payment/validate',
            type='http', auth="public", website=True)
     def registration_payment_validate(self, **post):
@@ -211,7 +183,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             # Create the lead
             tx.registration_id.with_delay().create_muskathlon_lead()
         post.update({'event': event})
-        return self.muskathlon_payment_validate(
+        return self.compassion_payment_validate(
             tx, 'muskathlon.new_registration_successful',
             'muskathlon.registration_failure', **post
         )
@@ -241,7 +213,7 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
             'registration': registration,
             'event': event
         })
-        return self.muskathlon_payment_validate(
+        return self.compassion_payment_validate(
             tx, 'muskathlon.donation_successful',
             'muskathlon.donation_failure', **post
         )
@@ -288,31 +260,6 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         return request.render(
             'muskathlon.new_registration_successful_modal', values)
 
-    def muskathlon_payment_validate(
-            self, transaction, success_template, fail_template, **kwargs):
-        """
-        Common payment validate method: checks state of transaction and
-        pay related invoice if everything is fine. Redirects to given urls.
-        :param transaction: payment.transaction record
-        :param success_template: payment success redirect url
-        :param fail_template: payment failure redirect url
-        :param kwargs: post data
-        :return: web page
-        """
-        success = transaction.state == 'done'
-        if transaction.state in ('cancel', 'error'):
-            # Cancel the invoice and potential registration (avoid launching
-            # jobs at the same time, can cause rollbacks)
-            delay = datetime.today() + relativedelta(seconds=10)
-            transaction.invoice_id.with_delay().delete_muskathlon_invoice()
-            transaction.registration_id.with_delay(eta=delay).\
-                delete_muskathlon_registration()
-
-        if success:
-            return request.render(success_template, kwargs)
-        else:
-            return request.render(fail_template, kwargs)
-
     def _prepare_portal_layout_values(self):
         values = super(MuskathlonWebsite, self)._prepare_portal_layout_values()
         registrations = request.env['muskathlon.registration']\
@@ -343,23 +290,13 @@ class MuskathlonWebsite(website_account, FormControllerMixin):
         })
         return values
 
-    def _form_redirect(self, response):
-        """
-        Utility for payment form that are called by AJAX and can send back
-        a redirection. Instead of pushing back the redirection which will
-        fail over HTTPS, we wrap it inside JSON respsonse and let the client
-        perform the redirection.
-        :return: Response
-        """
-        if response.status_code == 303:
-            # Prepend with lang, to avoid 302 redirection
-            location = ''
-            if request.env.lang != request.website.default_lang_code:
-                location += '/' + request.env.lang
-            location += response.location
-            return Response(
-                json.dumps({'redirect': location}),
-                status=200,
-                mimetype='application/json'
-            )
-        return response
+    def compassion_payment_validate(
+            self, transaction, success_template, fail_template, **kwargs):
+        if transaction.state in ('cancel', 'error'):
+            # Cancel potential registration(avoid launching jobs at the same
+            # time, can cause rollbacks)
+            delay = datetime.today() + relativedelta(seconds=10)
+            transaction.registration_id.with_delay(eta=delay). \
+                delete_muskathlon_registration()
+        return super(MuskathlonWebsite, self).compassion_payment_validate(
+            transaction, success_template, fail_template, **kwargs)
