@@ -92,6 +92,9 @@ class ResPartner(models.Model):
     engagement_ids = fields.Many2many(
         'advocate.engagement', related='advocate_details_id.engagement_ids'
     )
+    other_contact_ids = fields.One2many(string='Linked Partners',
+                                        domain=['|', ('active', '=', False),
+                                                ('active', '=', True)])
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -137,6 +140,9 @@ class ResPartner(models.Model):
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
         partner = super(ResPartner, self).create(vals)
         partner.compute_geopoint()
+        if partner.contact_type == 'attached':
+            partner.active = False
+
         return partner
 
     @api.multi
@@ -211,7 +217,8 @@ class ResPartner(models.Model):
     ##########################################################################
     @api.onchange('lastname', 'firstname', 'zip', 'email')
     def _onchange_partner(self):
-        if (self.lastname and self.firstname and self.zip) or self.email:
+        if ((self.lastname and self.firstname and self.zip) or self.email)\
+                and self.contact_type != 'attached':
             partner_duplicates = self.search([
                 ('id', '!=', self._origin.id),
                 '|',
