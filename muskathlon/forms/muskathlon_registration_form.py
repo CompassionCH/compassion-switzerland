@@ -207,9 +207,11 @@ if not testing:
             if not partner.ambassador_details_id:
                 # Creation of ambassador details reloads cache and remove
                 # all field values. We therefore run it in a job.
+                sporty = self.env.ref('partner_compassion.engagement_sport')
                 partner.with_delay().create_ambassador_details({
                     'partner_id': partner.id,
-                    'advocacy_source': 'Online Muskathlon registration'
+                    'advocacy_source': 'Online Muskathlon registration',
+                    'engagement_ids': [(4, sporty.id)]
                 })
             # This field is not needed in muskathlon registration.
             values.pop('partner_name')
