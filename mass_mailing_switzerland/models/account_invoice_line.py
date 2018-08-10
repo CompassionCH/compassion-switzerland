@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Emanuel Cino <ecino@compassion.ch>
+#    @author: Nathan Fluckiger <nathan.fluckiger@hotmail.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import models
 
-from . import test_bug_fixes
+
+class AccountInvoiceLine(models.Model):
+    _inherit = ['account.invoice.line', 'utm.mixin']
+    _name = 'account.invoice.line'

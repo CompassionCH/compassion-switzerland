@@ -16,14 +16,9 @@ if not testing:
     class PartnerSmsRegistrationForm(models.AbstractModel):
         _inherit = 'cms.form.recurring.contract'
 
+        # Only propose Direct Debit and Permanent Order
         payment_mode_id = fields.Many2one(
             'account.payment.mode',
+            string='Payment mode',
             domain=[('name', 'in', ['LSV', 'Postfinance Direct Debit',
                                     'Permanent Order'])])
-
-        def _send_confirmation_mail(self):
-            # send confirmation mail
-            config = self.env.ref(
-                'partner_communication_switzerland.'
-                'sms_registration_confirmation')
-            self.main_object.send_communication(config)

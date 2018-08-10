@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="sponsor_hook_fr" model="sms.hook">
-        <field name="name">PARRAINER</field>
-        <field name="func_name">sponsor_service</field>
-    </record>
-    <record id="sponsor_hook_de" model="sms.hook">
-        <field name="name">PATEN</field>
-        <field name="func_name">sponsor_service</field>
-    </record>
-    <record id="sponsor_hook_it" model="sms.hook">
-        <field name="name">SOSTEGNO</field>
-        <field name="func_name">sponsor_service</field>
-    </record>
-    <record id="sponsor_hook_en" model="sms.hook">
-        <field name="name">SPONSOR</field>
-        <field name="func_name">sponsor_service</field>
-    </record>
+    <data noupdate="1">
+        <record id="sponsor_hook_fr" model="sms.hook">
+            <field name="name">COMPASSION</field>
+            <field name="func_name">sponsor_service_fr</field>
+        </record>
+        <record id="sponsor_hook_de" model="sms.hook">
+            <field name="name">COMPASSIONDE</field>
+            <field name="func_name">sponsor_service_de</field>
+        </record>
+        <record id="sponsor_hook_it" model="sms.hook">
+            <field name="name">COMPASSIONIT</field>
+            <field name="func_name">sponsor_service_it</field>
+        </record>
+        <record id="sponsor_hook_en" model="sms.hook">
+            <field name="name">COMPASSIONEN</field>
+            <field name="func_name">sponsor_service</field>
+        </record>
+    </data>
 </odoo>

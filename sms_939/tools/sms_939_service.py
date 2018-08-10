@@ -34,12 +34,14 @@ class SmsNotificationAnswer(object):
         :param costs: optional list of costs of the text messages
         :param maxSMSsize: optional maximal amount of split messages
         """
-        if costs and len(costs) != len(messages):
-            raise ValueError("Costs must be defined for each message sent.")
         if messages is None or not isinstance(messages, (list, basestring)):
             raise ValueError("You must give at least one message")
         if isinstance(messages, basestring):
             messages = [messages]
+        if costs is not None and not isinstance(costs, list):
+            costs = [costs]
+        if costs is not None and len(costs) != len(messages):
+            raise ValueError("Costs must be defined for each message sent.")
         self.messages = messages
         self.costs = costs
         self.maxSMSsize = maxSMSsize
@@ -56,10 +58,11 @@ class SmsNotificationAnswer(object):
             etree.SubElement(mess_node, 'text').text = _sanitize_message(
                 message)
             if self.costs:
-                etree.SubElement(mess_node, 'cost').text = self.costs[index]
+                etree.SubElement(mess_node, 'cost').text = str(
+                    self.costs[index])
             if self.maxSMSsize:
-                etree.SubElement(mess_node, 'maximumSMSAmount').text = \
-                    self.maxSMSsize
+                etree.SubElement(mess_node, 'maximumSMSAmount').text = str(
+                    self.maxSMSsize)
 
         xml_buffer = BytesIO()
         et = etree.ElementTree(document)

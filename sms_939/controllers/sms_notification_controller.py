@@ -8,16 +8,22 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
+import json
 
 from odoo import http
 from odoo.http import request
 
+_logger = logging.getLogger(__name__)
+
 
 class RestController(http.Controller):
 
-    @http.route('/sms/939/', type='http', auth='public', methods=['GET'],
+    @http.route('/sms/mnc/', type='http', auth='public', methods=['GET'],
                 csrf=False)
     def sms_notification(self, **parameters):
+        _logger.info("SMS Request received : {}".format(
+            json.dumps(parameters)))
         sms = request.env['sms.notification'].sudo().create({
             'instance': parameters.get('instance'),
             'sender': parameters.get('sender'),

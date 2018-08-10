@@ -15,7 +15,7 @@
             </xpath>
         </field>
 
-    <!-- Adding the Campaign field to the calendar.event form view -->
+        <!-- Adding the Campaign field to the calendar.event form view -->
         <field name="arch" type="xml">
             <field name="categ_ids" position="before">
                 <field name="campaign_event_id" type="Many2one"/>
@@ -31,32 +31,68 @@
         <field name="arch" type="xml">
             <timeline date_start="start_timeline"
                       date_stop="stop_timeline"
-                      string="Name"
-                      default_group_by="campaign_event_id"
+                      date_delay="duration"
+                      string="Event"
                       event_open_popup="true"
+                      default_group_by="campaign_event_id"
                       zoomKey="ctrlKey"
-                      colors="#ec7063:user_id == false;">
-            </timeline>
+                      colors="#ec7063:user_id == false, #385fff: compassion_event_id != false;"
+                      mode="month"
+                      readonly="1"
+                      create="false"
+            />
         </field>
     </record>
 
      <record id="view_calendar_filter" model="ir.ui.view">
         <field name="name">calendar.event.search</field>
         <field name="model">calendar.event</field>
-     <!--    <field name="inherit_id" ref="calendar.view_calendar_event_search"/> -->
         <field name="arch" type="xml">
             <search>
-                <filter name ="Tags" string="Event or Campaign"  domain="['|',('categ_ids','ilike','event'),('campaign_event_id','!=', False)]"/>
+                <filter name ="campaign" string="Event or Campaign" domain="['|',('categ_ids','ilike','event'),('campaign_event_id','!=', False)]"/>
+                <separator/>
+                <filter name ="current_year" string="This year" domain="[('start_datetime', '>=', (context_today() + relativedelta(years=-1)).strftime('%Y-07-01'))]"/>
             </search>
+        </field>
+    </record>
+
+    <record id="view_calendar_event_timeline_popup" model="ir.ui.view">
+        <field name="name">calendar.event.timeline.popup.form</field>
+        <field name="model">calendar.event</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="Meetings">
+                <field name="state" invisible="1"/>
+                <field name="is_attendee" invisible="1"/>
+                <field name="attendee_status" invisible="1"/>
+                <field name="allday" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group/>
+                    <group>
+                        <field name="start_timeline" string="Starting at" required="1"/>
+                        <field name="stop_timeline" string="Ending at" required="1"/>
+                    </group>
+                    <group>
+                        <field name="location"/>
+                        <field name="campaign_event_id"/>
+                        <field name="categ_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+            </form>
         </field>
     </record>
 
     <record id="calendar.action_timeline_event" model="ir.actions.act_window">
         <field name="name">Compassion Timeline</field>
         <field name="res_model">calendar.event</field>
-        <field name="view_mode">timeline</field>
-        <field name="context">{"search_default_Tags": 1}</field>
+        <field name="view_mode">timeline,calendar,tree,form</field>
+        <field name="context">{"search_default_campaign": 1, "default_allday": 1, "search_default_current_year": 1,
+            "form_view_ref": "calendar_switzerland.view_calendar_event_timeline_popup"}</field>
         <field name="search_view_id" ref="view_calendar_filter"/>
+        <field name="form_view_id" ref="calendar.view_calendar_event_form_popup"/>
     </record>
 
     <!-- Action Menu Item Related To Above Action Window -->
@@ -65,7 +101,6 @@
     id="menu_timeline"
     parent="calendar.mail_menu_calendar"
     name="Compassion Timeline"
-    web_icon="calendar,static/description/icon.png"
     sequence="3"/>
 
 </odoo>

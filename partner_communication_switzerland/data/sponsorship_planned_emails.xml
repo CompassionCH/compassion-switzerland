@@ -385,7 +385,7 @@
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Wish ${object.get_objects().get('your sponsored child')} a Happy Birthday !</field>
             <field name="body_html" type="html">
-                <p style="margin:0px 0px 9px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;">à définir</p>
+                <p>To define</p>
             </field>
         </record>
 
@@ -735,30 +735,82 @@
             </field>
         </record>
 
-        <record id="sms_confirmation_email" model="mail.template">
+        <record id="sms_confirmation_email_1" model="mail.template">
+            <field name="name">SMS Sponsorship step1 confirmation</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Thank you for your sponsorship!</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorship = object.get_objects()
+                    % set request = sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])
+                    % set child = sponsorship.child_id
+                </div>
+                <p>
+                    You chose to invest in the life of ${child.preferred_name}. There are two more steps before ${child.get('he')} will be informed that you sponsor ${child.get('him')}, but you don't have to hurry. We have reserved the child so that you can take your time to complete the registration.
+                    <br/><br/>
+                    1. You can <a href="${request.full_url}">click here</a> to complete your information and your payment option in the coming days.
+                    <br/>
+                    2. Your sponsorship will be activated when we receive your first payment.
+                    <br/><br/>
+                    Best regards
+                </p>
+            </field>
+        </record>
+        <record id="sms_confirmation_email_2" model="mail.template">
             <field name="name">SMS Sponsorship step2 confirmation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">compassion@compassion.ch</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">Confirm your new sponsorship (sms)</field>
+            <field name="subject">Your sponsorship is confirmed!</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorships = object.get_objects()
-                    % set child = sponsorships.mapped('child_id')
-                    % set firstname = child.get_list('firstname', 3, child.get_number())
-                    % set his = child.get('his')
-                    % set he = child.get('he')
-                    % set him = child.get('him')
-                    % set parent_lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
-                    % set planned_sub = parent_lifecycle and parent_lifecycle[0].type == 'Planned Exit'
+                    % set sponsorship = object.get_objects()
+                    % set child = sponsorship.child_id
                 </div>
                 <p>
-                    Thank you for your sponsorship, we hope that this new method of registration (SMS) was well received !
+                    Thank you for your commitment towards ${child.preferred_name}. Now that all information is completed, we will activate your sponsorship as soon as we receive your first payment.
+                    <br/><br/>
+                    You will receive more documentation by post in the coming days. In the mean time, feel free to reach us if you have any question.
+                    <br/><br/>
+                    Best regards
                 </p>
             </field>
-            <!-- This field could be used to attach the labels sheet. -->
-            <field name="report_remplate"/>
+        </record>
+        <record id="sms_reminder_email" model="mail.template">
+            <field name="name">SMS sponsorship reminder</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">compassion@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">Your sponsored child awaits!</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set sponsorship = object.get_objects()
+                    % set partner = sponsorship.partner_id
+                    % set child = sponsorship.child_id
+                    % set request = sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/><br/>
+                    3 days ago, you chose to invest in the life of ${child.preferred_name}.
+                    <br/><br/>
+                    There are two more steps before ${child.get('he')} will be informed that you sponsor ${child.get('him')}.
+                    Please consider finishing your request, to avoid making ${child.preferred_name} waiting too much for a sponsor.
+                    <br/><br/>
+                    1. <a href="${request.full_url}">Click here</a> to complete your information and your payment option.
+                    <br/>
+                    2. Your sponsorship will be activated when we receive your first payment.
+                    <br/><br/>
+                    In case you don't want to sponsor this child anymore, please contact us by e-mail or by phone at 024 434 21 24. In that case we will cancel your sponsorship and try to find another sponsor for ${child.preferred_name}.
+                    <br/><br/>
+                    Best regards
+                </p>
+            </field>
         </record>
     </data>
 </odoo>

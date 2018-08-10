@@ -15,7 +15,7 @@
 # sale-workflow https://github.com/OCA/sale-workflow branchname
 queue
 partner-contact
-report-print-send
+report-print-send https://github.com/CompassionCH/report-print-send 10.0
 server-tools
 connector-telephony
 hr
@@ -26,5 +26,5 @@ survey
 bank-payment
 web https://github.com/daramousk/web 10.0-MIG-CKEditor
 l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 10.0-pain-sepa
-compassion-accounting https://github.com/CompassionCH/compassion-accounting 10.0
+compassion-accounting https://github.com/CompassionCH/compassion-accounting devel
 compassion-modules https://github.com/CompassionCH/compassion-modules devel
