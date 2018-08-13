@@ -60,13 +60,15 @@ class MassMailingCampaign(models.Model):
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
                         submenu=False):
-        res = super(MassMailingCampaign, self).fields_view_get(view_id=view_id,
-                        view_type=view_type, toolbar=toolbar, submenu=submenu)
+        res = super(MassMailingCampaign, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
         doc = etree.XML(res['arch'])
         if view_type == 'tree':
             for node in doc.xpath("//field[@name='invoice_ids']"):
                 node.set('invisible', '1')
         return res
+
 
 class Mail(models.Model):
     _inherit = 'mail.mail'
