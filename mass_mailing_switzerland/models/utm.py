@@ -47,6 +47,7 @@ class UtmMixin(models.AbstractModel):
 class UtmObjects(models.AbstractModel):
     """ Used to add fields in all utm objects. """
     _name = 'utm.object'
+    _order = "create_date desc"
 
     # These three fields will be redefined (source_id)
     contract_ids = fields.One2many(
