@@ -23,7 +23,7 @@ def _sanitize_message(message):
         .replace('&', '&amp;')\
         .replace('<', '&lt;')\
         .replace('>', '&gt;')\
-        .replace('\'', '&#39;')\
+        .replace('\'', '&apos;')\
         .replace('"', '&quot;')
 
 
