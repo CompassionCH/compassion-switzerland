@@ -8,28 +8,31 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, api
-from odoo.tools.config import config
-import httplib
 import base64
+import httplib
 import urllib
+
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
+from odoo.tools.config import config
 
 
 class SmsSender(models.TransientModel):
 
     _name = 'sms.sender.wizard'
+    _description = 'SMS sender wizard'
 
     subject = fields.Char()
     text = fields.Text()
-    partner_id = fields.Many2one(comodel_name='res.partner',
-                                 compute='_compute_partner')
+    partner_id = fields.Many2one(
+        'res.partner', 'Partner', compute='_compute_partner')
 
-    @api.model
-    @api.depends('text')
+    @api.multi
     def _compute_partner(self):
-        self.partner_id = self.env.context.get('partner_id', False)
-        if not self.partner_id:
-            print("Une erreur est survenue ")
+        for wizard in self:
+            wizard.partner_id = self.env.context.get('partner_id')
+            if not wizard.partner_id:
+                raise UserError(_("No valid partner"))
 
     @api.multi
     def send_sms(self):
