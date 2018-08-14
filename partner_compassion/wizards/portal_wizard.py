@@ -21,13 +21,13 @@ class PortalWizard(models.TransientModel):
         """
         Add ambassador category to portal users
         """
-        res = super(PortalWizard, self).action_apply()
-        ambassador_id = self.env.ref(
-            'partner_compassion.res_partner_category_ambassador').id
-        self.mapped('user_ids.partner_id').write({
-            'category_id': [(4, ambassador_id)]
-        })
-        return res
+        # res = super(PortalWizard, self).action_apply()
+        # ambassador_id = self.env.ref(
+        #     'partner_compassion.res_partner_category_ambassador').id
+        # self.mapped('user_ids.partner_id').write({
+        #     'category_id': [(4, ambassador_id)]
+        # })
+        return super(PortalWizard, self).action_apply()
 
 
 class PortalUser(models.TransientModel):
