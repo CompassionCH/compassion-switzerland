@@ -21,7 +21,7 @@ if not testing:
         _name = 'cms.form.partner.coordinates'
         _inherit = 'cms.form'
 
-        form_buttons_template = 'muskathlon.modal_form_buttons'
+        form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_coordinates'
         _form_model = 'res.partner'
         _form_model_fields = [

@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Muskathlon',
-    'version': '10.0.2.0.1',
+    'version': '10.0.2.0.2',
     'category': 'Reports',
     'author': 'Sebastien Toth',
     'license': 'AGPL-3',
@@ -42,7 +42,6 @@
         'data/res_users.xml',
         'data/survey_muskathlon_medical_infos.xml',
         'data/product.xml',
-        'data/transaction_server_actions.xml',
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
@@ -61,12 +60,11 @@
         'templates/muskathlon_snippet.xml',
         'templates/muskathlon_views.xml',
         'templates/muskathlon_order_material.xml',
-        'templates/form_widgets.xml',
         'templates/assets.xml'
     ],
-    'depends': ['partner_compassion', 'crm_compassion', 'website_payment',
+    'depends': ['partner_compassion', 'crm_compassion',
                 'payment_ogone_compassion', 'survey', 'website_compassion',
-                'cms_form'],
+                'cms_form_compassion'],
     'external_dependencies': {
         'python': ['magic'],
     },

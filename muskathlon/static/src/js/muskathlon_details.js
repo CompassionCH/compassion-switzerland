@@ -7,7 +7,6 @@ odoo.define('muskathlon.muskathlon_details', function (require) {
         selector: "#muskathlon_details",
         start: function () {
             this.filter_sport_discipline();
-            this.gtc_click();
         },
         filter_sport_discipline: function () {
             // Only allow selection of available disciplines for the Muskathlon registration form
@@ -20,10 +19,5 @@ odoo.define('muskathlon.muskathlon_details', function (require) {
                 }
             });
         },
-        gtc_click: function() {
-            $("a.gtc-link").click(function () {
-                $(".gtc").toggle();
-            });
-        }
     });
 });
