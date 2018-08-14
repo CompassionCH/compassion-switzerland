@@ -37,7 +37,7 @@
                     <br/>
                     <br/>
                     Thanks to the collaboration between the sponsors and Compassion, we are grateful to be able to give hope to the children in need.
-                    We are at your service for any questions or comments, by calling 0800 784 773 or by email at <a href="mailto:info@compassion.ch">info@compassion.ch</a>
+                    We are at your service for any questions or comments, by calling 031 552 21 25 or by email at <a href="mailto:info@compassion.ch">info@compassion.ch</a>
                     <br/>
                     <br/>
                     % if object.partner_id.send_original:
