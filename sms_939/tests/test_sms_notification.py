@@ -19,6 +19,12 @@ _logger = logging.getLogger(__name__)
 
 class TestMobileAppConnector(HttpCase):
 
+    def setUp(self):
+        super(TestMobileAppConnector, self).setUp()
+        self.env['ir.config_parameter'] \
+            .set_param('web.external.url', 'base')
+        self.env.cr.commit()
+
     def _send_sms_notification(self, params, send_mode='direct'):
         uuid = 'uid-1232389'
         params.update({
