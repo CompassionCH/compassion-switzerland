@@ -12,11 +12,20 @@ import logging
 import urllib
 from odoo.fields import Datetime
 from odoo.tests import HttpCase
+from xml.etree import ElementTree
 
 _logger = logging.getLogger(__name__)
 
 
 class TestMobileAppConnector(HttpCase):
+
+    def setUp(self):
+        super(TestMobileAppConnector, self).setUp()
+        self.env['ir.config_parameter'] \
+            .set_param('web.external.url', 'base')
+        external_url = self.env['ir.config_parameter'] \
+            .get_param('web.external.url')
+        self.assertEqual(external_url, 'base')
 
     def _send_sms_notification(self, params, send_mode='direct'):
         uuid = 'uid-1232389'
@@ -61,3 +70,30 @@ class TestMobileAppConnector(HttpCase):
         })
         self.assertEqual(notification.state, 'success')
         self.assertTrue('Thanks!' in notification.answer)
+
+    def test_sms_notification__with_unknown_hook(self):
+        response = self._send_sms_notification({
+            'service': 'wrong_service',
+            'language': 'fr',
+            'text': 'This is a test'
+        }, send_mode='request')
+        self.assertIn('Sorry, we could not understand your request. '
+                      'Supported services are', response)
+
+    def test_sms_notification__raising_exception(self):
+        response = self._send_sms_notification({
+            'service': 'testerror',
+            'language': 'fr'
+        }, send_mode='request')
+        self.assertIn('Sorry, the service is not available', response)
+
+    def test_sponsor_service(self):
+        response = self._send_sms_notification({
+            'service': 'compassion'
+        }, send_mode='request')
+
+        message = ElementTree.fromstring(response) \
+            .find('./message/text') \
+            .text.replace('\n', '')
+        self.assertRegexpMatches(message, r'^Thank you for .*? link: '
+                                          r'http://localhost:8069/r/\w+$')
