@@ -12,8 +12,6 @@ from odoo import api, models, fields
 
 from odoo.addons.queue_job.job import job, related_action
 
-from lxml import etree
-
 
 class MassMailingCampaign(models.Model):
     _inherit = 'mail.mass_mailing.campaign'
@@ -56,7 +54,7 @@ class MassMailingCampaign(models.Model):
     @api.multi
     def open_clicks(self):
         return self.mass_mailing_ids.open_clicks()
-    
+
 
 class Mail(models.Model):
     _inherit = 'mail.mail'
