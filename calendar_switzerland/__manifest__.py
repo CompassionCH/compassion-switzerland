@@ -43,6 +43,10 @@
         'web_timeline',
         'crm_compassion'
     ],
+    'data': [
+        'views/calendar_switzerland_view.xml',
+        'data/calendar_data.xml'
+    ],
     'demo': [],
     'installable': True,
     'auto_install': False,
