@@ -213,7 +213,10 @@ class RecurringContracts(models.Model):
 
     @api.multi
     def contract_waiting_mandate(self):
-        self.write({'state': 'mandate'})
+        self.write({
+            'state': 'mandate',
+            'start_date': datetime.today()
+        })
         for contract in self.filtered(lambda s: 'S' in s.type and
                                       s.child_id.hold_id):
             # Update the hold of the child to No Money Hold
