@@ -23,7 +23,9 @@ class TestMobileAppConnector(HttpCase):
         super(TestMobileAppConnector, self).setUp()
         self.env['ir.config_parameter'] \
             .set_param('web.external.url', 'base')
-        self.env.cr.commit()
+        external_url = self.env['ir.config_parameter'] \
+            .get_param('web.external.url')
+        self.assertEqual(external_url, 'base')
 
     def _send_sms_notification(self, params, send_mode='direct'):
         uuid = 'uid-1232389'
