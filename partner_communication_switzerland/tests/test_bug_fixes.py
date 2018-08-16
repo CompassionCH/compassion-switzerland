@@ -214,3 +214,12 @@ class TestSponsorship(BaseSponsorshipTest):
         self.assertEqual(sponsorship.sds_state, 'active')
         # No new communication is generated
         self.assertEqual(count_before, partner_communications.search_count([]))
+
+    def test_resetting_password(self):
+        partner_communications = self.env['partner.communication.job']
+        demo_user = self.env.ref('base.user_demo')
+        expected = partner_communications.search_count([]) + 1
+
+        demo_user.action_reset_password()
+
+        self.assertEqual(expected, partner_communications.search_count([]))
