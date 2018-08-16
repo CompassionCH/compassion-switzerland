@@ -5,7 +5,7 @@
         <record id="email_child_planned_exit" model="mail.template">
             <field name="name">Child Lifecycle - Planned Exit</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Sponsorship completion</field>
@@ -51,9 +51,9 @@
                         <br/>
                     % if sub:
                         % if one:
-                            As you already know, the plight of children living in poverty is enormous.  For instance, ${sub.preferred_name} in ${sub.project_id.country_id.name} is one of them.  Would you consider and be ready to sponsor ${sub.get('him')}?  We would like to send you information about ${sub.preferred_name} within 15 days to begin a new sponsorship. However, if you would like to support a child from another country, have questions, concerns, or would no longer like to be a sponsor, please do not hesitate to contact us. We can be reached by phone at 0800 784 773 or by e-mail at: info@compassion.ch
+                            As you already know, the plight of children living in poverty is enormous.  For instance, ${sub.preferred_name} in ${sub.project_id.country_id.name} is one of them.  Would you consider and be ready to sponsor ${sub.get('him')}?  We would like to send you information about ${sub.preferred_name} within 15 days to begin a new sponsorship. However, if you would like to support a child from another country, have questions, concerns, or would no longer like to be a sponsor, please do not hesitate to contact us. We can be reached by phone at 031 552 21 25 or by e-mail at: info@compassion.ch
                         % else:
-                            As you already know, the plight of children living in poverty is enormous.  For instance, ${sub[0].preferred_name} in ${sub[0].project_id.country_id.name} is one of them.  Would you consider and be ready to sponsor ${sub.get('him')}?  We would like to send you information about ${sub[0].preferred_name} and other children in need within 15 days to begin new sponsorships. However, if you have questions, concerns, or would no longer like to be a sponsor, please do not hesitate to contact us. We can be reached by phone at 0800 784 773 or by e-mail at: info@compassion.ch
+                            As you already know, the plight of children living in poverty is enormous.  For instance, ${sub[0].preferred_name} in ${sub[0].project_id.country_id.name} is one of them.  Would you consider and be ready to sponsor ${sub.get('him')}?  We would like to send you information about ${sub[0].preferred_name} and other children in need within 15 days to begin new sponsorships. However, if you have questions, concerns, or would no longer like to be a sponsor, please do not hesitate to contact us. We can be reached by phone at 031 552 21 25 or by e-mail at: info@compassion.ch
                         % endif
                     % else:
                         We acknowledge that you don't want to take another sponsorship. If you established a permanent order for the sponsorship payment, don't forget to cancel it.
@@ -72,7 +72,7 @@
         <record id="email_child_unplanned_exit" model="mail.template">
             <field name="name">Child Lifecycle - Unplanned Exit</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Sponsorship cancellation</field>
@@ -123,9 +123,9 @@
                     <br/>
                     % if sub:
                         % if one:
-                            As you already know, the plight of children living in poverty is enormous.  For instance, ${sub.preferred_name} in ${sub.project_id.country_id.name} is one of them.  Would you consider and be ready to sponsor ${sub.get('him')}?  We would like to send you information about ${sub.preferred_name} within 15 days to begin a new sponsorship. However, if you would like to support a child from another country, have questions, concerns, or would no longer like to be a sponsor, please do not hesitate to contact us. We can be reached by phone at 0800 784 773 or by e-mail at: info@compassion.ch
+                            As you already know, the plight of children living in poverty is enormous.  For instance, ${sub.preferred_name} in ${sub.project_id.country_id.name} is one of them.  Would you consider and be ready to sponsor ${sub.get('him')}?  We would like to send you information about ${sub.preferred_name} within 15 days to begin a new sponsorship. However, if you would like to support a child from another country, have questions, concerns, or would no longer like to be a sponsor, please do not hesitate to contact us. We can be reached by phone at 031 552 21 25 or by e-mail at: info@compassion.ch
                         % else:
-                            As you already know, the plight of children living in poverty is enormous.  For instance, ${sub[0].preferred_name} in ${sub[0].project_id.country_id.name} is one of them.  Would you consider and be ready to sponsor ${sub.get('him')}?  We would like to send you information about ${sub[0].preferred_name} and other children in need within 15 days to begin new sponsorships. However, if you have questions, concerns, or would no longer like to be a sponsor, please do not hesitate to contact us. We can be reached by phone at 0800 784 773 or by e-mail at: info@compassion.ch
+                            As you already know, the plight of children living in poverty is enormous.  For instance, ${sub[0].preferred_name} in ${sub[0].project_id.country_id.name} is one of them.  Would you consider and be ready to sponsor ${sub.get('him')}?  We would like to send you information about ${sub[0].preferred_name} and other children in need within 15 days to begin new sponsorships. However, if you have questions, concerns, or would no longer like to be a sponsor, please do not hesitate to contact us. We can be reached by phone at 031 552 21 25 or by e-mail at: info@compassion.ch
                         % endif
                     % else:
                         We acknowledge that you don't want to take another sponsorship. If you established a permanent order for the sponsorship payment, don't forget to cancel it.

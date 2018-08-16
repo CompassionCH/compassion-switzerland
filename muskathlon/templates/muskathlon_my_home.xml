@@ -8,16 +8,16 @@
             <!-- Page content -->
             <div id="my_home" class="container mb64">
                 <!-- Load modals for forms -->
-                <t t-call="muskathlon.modal_form">
+                <t t-call="cms_form_compassion.modal_form">
                     <t t-set="form" t-value="coordinates_form"/>
                 </t>
                 <t t-if="partner.ambassador_details_id">
-                    <t t-call="muskathlon.modal_form">
+                    <t t-call="cms_form_compassion.modal_form">
                         <t t-set="form" t-value="about_me_form"/>
                     </t>
                 </t>
                 <t t-if="registrations">
-                    <t t-call="muskathlon.modal_form">
+                    <t t-call="cms_form_compassion.modal_form">
                         <t t-set="form" t-value="trip_info_form"/>
                     </t>
                 </t>

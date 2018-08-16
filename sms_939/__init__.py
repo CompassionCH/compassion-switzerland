@@ -12,3 +12,5 @@
 from . import models
 from . import tools
 from . import controllers
+from . import wizards
+from . import forms

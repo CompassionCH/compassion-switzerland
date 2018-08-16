@@ -3,7 +3,7 @@
         <record id="event_letter_template" model="mail.template">
             <field name="name">Event Donation - Thank You Letter</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True"/>
             <field name="subject">Donation Receipt</field>
@@ -50,7 +50,7 @@
                         % endif
                             Do you have a heart for children in need? Compassion offers you various ways to contribute.
                             One is through the sponsorship. You can find information in French, German and Italian on our website www.compassion.ch
-                            or call us at 0800 874 773.
+                            or call us at 031 552 21 25.
                     % endif
                     <br/>
                     <br/>
@@ -65,7 +65,7 @@
         <record id="ambassador_donation_confirmation_template" model="mail.template">
             <field name="name">Ambassador Donation Confirmation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True"/>
             <field name="subject">You received a donation!</field>
@@ -114,7 +114,7 @@
         <record id="tax_receipt_letter_template" model="mail.template">
             <field name="name">Tax Receipt cover letter</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True"/>
             <field name="subject">Donation Receipt ${ctx.get('year', datetime.date.today().year-1)}</field>

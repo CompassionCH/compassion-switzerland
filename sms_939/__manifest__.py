@@ -36,11 +36,12 @@
     'license': 'AGPL-3',
     'website': 'https://github.com/CompassionCH/compassion-switzerland/'
                'tree/10.0',
-    'depends': ['sms_sponsorship'],
+    'depends': ['sms_sponsorship', 'sponsorship_switzerland'],
     'data': [
         'security/ir.model.access.csv',
         'data/sms_hook.xml',
-        'views/sms_views.xml'
+        'views/sms_views.xml',
+        'views/sms_sender_wizard.xml'
     ],
     'demo': [
         'demo/sms_hook.xml'

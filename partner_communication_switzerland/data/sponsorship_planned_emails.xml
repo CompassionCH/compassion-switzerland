@@ -6,7 +6,7 @@
         <record id="email_sponsorship_dossier" model="mail.template">
             <field name="name">Sponsorship - New Dossier</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Your new sponsorship</field>
@@ -72,7 +72,7 @@
         <record id="email_sponsorship_welcome" model="mail.template">
             <field name="name">Sponsorship - Welcome Email</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Let your new sponsorship with Compassion begin!</field>
@@ -119,7 +119,7 @@
         <record id="email_sponsorship_welcome_activation" model="mail.template">
             <field name="name">Sponsorship - Welcome Active</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Let your new sponsorship with Compassion begin!</field>
@@ -170,7 +170,7 @@
         <record id="email_sponsorship_anniversary_1" model="mail.template">
             <field name="name">Sponsorship - Anniversary 1 year</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">One year sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
@@ -204,7 +204,7 @@
         <record id="email_sponsorship_anniversary_3" model="mail.template">
             <field name="name">Sponsorship - Anniversary 3 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Three years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
@@ -238,7 +238,7 @@
         <record id="email_sponsorship_anniversary_5" model="mail.template">
             <field name="name">Sponsorship - Anniversary 5 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Five years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
@@ -271,7 +271,7 @@
         <record id="email_sponsorship_anniversary_10" model="mail.template">
             <field name="name">Sponsorship - Anniversary 10 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">10 years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}!</field>
@@ -301,7 +301,7 @@
         <record id="email_sponsorship_anniversary_15" model="mail.template">
             <field name="name">Sponsorship - Anniversary 15 years</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">15 years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
@@ -338,7 +338,7 @@
         <record id="email_sponsorship_birthday_reminder" model="mail.template">
             <field name="name">Sponsorship - Birthday Reminder</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Wish ${object.get_objects().get('your sponsored child')} a Happy Birthday !</field>
@@ -380,7 +380,7 @@
         <record id="email_sponsorship_birthday_1day_reminder" model="mail.template">
             <field name="name">Sponsorship - 1 Day Birthday Reminder</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Wish ${object.get_objects().get('your sponsored child')} a Happy Birthday !</field>
@@ -395,7 +395,7 @@
         <record id="email_sponsorship_completion" model="mail.template">
             <field name="name">Sponsorship - Completion</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Sponsorship Completion</field>
@@ -439,7 +439,7 @@
         <record id="email_sponsorship_sub_dossier_new" model="mail.template">
             <field name="name">Sponsorship - SUB Dossier</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Your new sponsorship</field>
@@ -461,7 +461,7 @@
                     For ${name}, sponsorship is a great opportunity and we would like to thank you wholeheartedly for investing in ${child.get('his')} life.  You will soon receive an introductory letter from ${name}.
                     <br/>
                     <br/>
-                    Thank you again for your previous commitment to ${previous_name} and your new sponsorship for ${name}.  If you have any questions about your sponsorship, please do not hesitate to contact us.  You can reach us by phone at 0800 784 773 or by e-mail at info@compassion.ch
+                    Thank you again for your previous commitment to ${previous_name} and your new sponsorship for ${name}.  If you have any questions about your sponsorship, please do not hesitate to contact us.  You can reach us by phone at 031 552 21 25 or by e-mail at info@compassion.ch
                     <br/>
                     <br/>
                     Yours sincerely
@@ -471,7 +471,7 @@
         <record id="email_sponsorship_no_sub" model="mail.template">
             <field name="name">Sponsorship - No SUB</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Your request to end the sponsorship program</field>
@@ -494,7 +494,7 @@
         <record id="email_sponsorship_reminder_1" model="mail.template">
             <field name="name">Sponsorship Reminder 1</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Payment reminder</field>
@@ -548,7 +548,7 @@
         <record id="email_sponsorship_reminder_2" model="mail.template">
             <field name="name">Sponsorship Reminder 2</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Payment reminder</field>
@@ -590,7 +590,7 @@
         <record id="email_sponsorship_waiting_reminder_1" model="mail.template">
             <field name="name">Sponsorship Waiting Reminder 1</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Payment reminder</field>
@@ -638,7 +638,7 @@
         <record id="email_sponsorship_waiting_reminder_2" model="mail.template">
             <field name="name">Sponsorship Waiting Reminder 2</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Payment reminder</field>
@@ -674,7 +674,7 @@
         <record id="email_sponsorship_waiting_reminder_3" model="mail.template">
             <field name="name">Sponsorship Waiting Reminder 3</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Sponsorship Cancellation</field>
@@ -704,7 +704,7 @@
         <record id="email_sponsorship_cancellation" model="mail.template">
             <field name="name">Sponsorship Cancellation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Sponsorship Cancellation</field>
@@ -738,7 +738,7 @@
         <record id="sms_confirmation_email_1" model="mail.template">
             <field name="name">SMS Sponsorship step1 confirmation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Thank you for your sponsorship!</field>
@@ -762,7 +762,7 @@
         <record id="sms_confirmation_email_2" model="mail.template">
             <field name="name">SMS Sponsorship step2 confirmation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Your sponsorship is confirmed!</field>
@@ -783,7 +783,7 @@
         <record id="sms_reminder_email" model="mail.template">
             <field name="name">SMS sponsorship reminder</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Your sponsored child awaits!</field>

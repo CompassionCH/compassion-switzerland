@@ -55,10 +55,10 @@ if not testing:
             # Hide fields
             res = super(OrderMaterialForm, self).form_widgets
             res.update({
-                'form_id': 'muskathlon.form.widget.hidden',
-                'partner_id': 'muskathlon.form.widget.hidden',
-                'event_id': 'muskathlon.form.widget.hidden',
-                'description': 'muskathlon.form.widget.hidden',
+                'form_id': 'cms_form_compassion.form.widget.hidden',
+                'partner_id': 'cms_form_compassion.form.widget.hidden',
+                'event_id': 'cms_form_compassion.form.widget.hidden',
+                'description': 'cms_form_compassion.form.widget.hidden',
             })
             return res
 

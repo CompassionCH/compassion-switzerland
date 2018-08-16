@@ -4,4 +4,8 @@
         <field name="name">TEST</field>
         <field name="func_name">test_service</field>
     </record>
+    <record id="test_service_error" model="sms.hook">
+        <field name="name">TESTERROR</field>
+        <field name="func_name">test_service_error</field>
+    </record>
 </odoo>

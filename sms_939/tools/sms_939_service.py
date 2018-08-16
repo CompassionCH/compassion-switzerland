@@ -18,15 +18,6 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def _sanitize_message(message):
-    return message.replace('&amp;', '&')\
-        .replace('&', '&amp;')\
-        .replace('<', '&lt;')\
-        .replace('>', '&gt;')\
-        .replace('\'', '&#39;')\
-        .replace('"', '&quot;')
-
-
 class SmsNotificationAnswer(object):
     def __init__(self, messages, costs=None, maxSMSsize=0):
         """
@@ -55,8 +46,7 @@ class SmsNotificationAnswer(object):
         document = etree.Element('NotificationReply')
         for index, message in enumerate(self.messages):
             mess_node = etree.SubElement(document, 'message')
-            etree.SubElement(mess_node, 'text').text = _sanitize_message(
-                message)
+            etree.SubElement(mess_node, 'text').text = message
             if self.costs:
                 etree.SubElement(mess_node, 'cost').text = str(
                     self.costs[index])

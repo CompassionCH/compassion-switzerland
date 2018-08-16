@@ -105,7 +105,7 @@ class SmsNotification(models.Model):
             # Abort pending operations
             self.env.cr.rollback()
             self.env.invalidate_all()
-            logger.error("Error processing SMS service", exc_info=True)
+            logger.warning("Error processing SMS service", exc_info=True)
             sms_answer = SmsNotificationAnswer(_(
                 "Sorry, the service is not available at this time. "
                 "Our team is informed and is currently working on it."
@@ -143,3 +143,6 @@ class SmsNotification(models.Model):
     def test_service(self):
         self.ensure_one()
         return SmsNotificationAnswer("Thanks!", costs=0)
+
+    def test_service_error(self):
+        raise Exception
