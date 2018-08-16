@@ -218,8 +218,12 @@ class TestSponsorship(BaseSponsorshipTest):
     def test_resetting_password(self):
         partner_communications = self.env['partner.communication.job']
         demo_user = self.env.ref('base.user_demo')
-        expected = partner_communications.search_count([]) + 1
+        jobs_before = partner_communications.search([])
 
         demo_user.action_reset_password()
 
-        self.assertEqual(expected, partner_communications.search_count([]))
+        new_job = partner_communications.search([]) - jobs_before
+        self.assertEqual(len(new_job), 1)
+        self.assertTrue(new_job.send())
+        self.assertIn('Dear Demo User', new_job.body_html)
+        self.assertIn('Sent by YourCompany using', new_job.body_html)
