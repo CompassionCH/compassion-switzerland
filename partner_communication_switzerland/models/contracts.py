@@ -214,8 +214,8 @@ class RecurringContract(models.Model):
         """
         logger.info("Sponsorship Planned Communications started!")
 
-        # logger.info("....Creating Birthday Reminder Communications")
-        # self._send_reminders_for_birthday_in_1day_or_2months()
+        logger.info("....Creating Birthday Reminder Communications")
+        self._send_reminders_for_birthday_in_1day_or_2months()
 
         logger.info("....Send Welcome Activations Letters")
         self._send_welcome_active_letters_for_activated_sponsorships()
