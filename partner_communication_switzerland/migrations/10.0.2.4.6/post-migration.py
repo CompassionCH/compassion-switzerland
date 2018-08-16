@@ -9,19 +9,14 @@
 ##############################################################################
 from odoo import fields
 from datetime import datetime, timedelta
-from openupgradelib import openupgrade
 
 
-@openupgrade.migrate(use_env=True)
-def migrate(env, version):
+def migrate(cr, version):
     if not version:
         return
 
-    sponsorships = env['recurring.contract'].search([
-        ('activation_date', '!=', None)
-    ])
-    for sponsorship in sponsorships:
-        # if activation date is more than 24h old
-        if sponsorship.activation_date <= fields.Datetime.to_string(
-                datetime.today() - timedelta(days=1)):
-            sponsorship.write({'welcome_active_letter_sent': True})
+    cr.execute("""
+    update recurring_contract
+    set welcome_active_letter_sent=true
+    where activation_date <= %s
+    """, fields.Datetime.to_string(datetime.today() - timedelta(days=1)))

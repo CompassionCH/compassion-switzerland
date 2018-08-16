@@ -427,8 +427,7 @@ class RecurringContract(models.Model):
                       s.correspondent_id.email and s.partner_id.ref !=
                       '1502623')
         welcome.write({
-            'sds_state': 'waiting_welcome',
-            'start_date': datetime.today()
+            'sds_state': 'waiting_welcome'
         })
 
         mandates_valid = self.filtered(lambda c: c.state == 'mandate')
