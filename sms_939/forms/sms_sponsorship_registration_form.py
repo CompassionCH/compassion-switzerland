@@ -24,8 +24,10 @@ if not testing:
         payment_mode_id = fields.Many2one(
             'account.payment.mode',
             string='Payment mode',
-            domain=[('name', 'in', ['LSV', 'Postfinance Direct Debit',
-                                    'Permanent Order'])])
+            domain=[('id', 'in', ['sponsorship_switzerland.payment_mode_lsv',
+                    'sponsorship_switzerland.payment_mode_postfinance_dd',
+                        'sponsorship_switzerland.payment_mode_permanent_order']
+                     )])
 
         def form_after_create_or_update(self, values, extra_values):
             """
