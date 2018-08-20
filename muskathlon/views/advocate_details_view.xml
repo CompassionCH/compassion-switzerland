@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_ambassador_details_muskathlon" model="ir.ui.view">
-        <field name="name">view.ambassador.details.muskathlon</field>
-        <field name="model">ambassador.details</field>
-        <field name="inherit_id" ref="partner_compassion.view_ambassador_details_default"/>
+    <record id="view_advocate_details_muskathlon" model="ir.ui.view">
+        <field name="name">view.advocate.details.muskathlon</field>
+        <field name="model">advocate.details</field>
+        <field name="inherit_id" ref="partner_compassion.view_advocate_details_default"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet/group">
                 <group string="Trip information">

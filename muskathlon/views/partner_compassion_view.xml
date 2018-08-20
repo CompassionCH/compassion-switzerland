@@ -5,7 +5,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='ambassador_details_group']" position="after">
+            <xpath expr="//group[@name='advocate_details_group']" position="after">
                 <group>
                     <field name="muskathlon_participant_id"/>
                 </group>

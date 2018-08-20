@@ -31,9 +31,9 @@
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
-        <record id="ambassador_details_personal" model="ir.rule">
-            <field name="name">Ambassador Details: My Details</field>
-            <field name="model_id" ref="model_ambassador_details"/>
+        <record id="advocate_details_personal" model="ir.rule">
+            <field name="name">Advocate Details: My Details</field>
+            <field name="model_id" ref="model_advocate_details"/>
             <field name="domain_force">[('partner_id.user_ids', 'in', user.id)]</field>
             <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
             <field name="perm_read" eval="True"/>

@@ -84,7 +84,7 @@ class AccountInvoice(models.Model):
             'ambassador_donation_confirmation_config'
         )
         ambassadors = self.mapped('invoice_line_ids.user_id').filtered(
-            'ambassador_details_id.mail_copy_when_donation')
+            'advocate_details_id.mail_copy_when_donation')
         for ambassador in ambassadors:
             ambassador_lines = self.mapped('invoice_line_ids').filtered(
                 lambda l: l.user_id == ambassador and

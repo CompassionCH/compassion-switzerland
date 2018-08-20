@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_ambassador_details_default" model="ir.ui.view">
-        <field name="name">view.ambassador.details.default</field>
-        <field name="model">ambassador.details</field>
+    <record id="view_advocate_details_default" model="ir.ui.view">
+        <field name="name">view.advocate.details.default</field>
+        <field name="model">advocate.details</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -64,9 +64,9 @@
         </field>
     </record>
 
-    <record id="ambassador_details_tree" model="ir.ui.view">
-        <field name="name">ambassador.details.tree</field>
-        <field name="model">ambassador.details</field>
+    <record id="advocate_details_tree" model="ir.ui.view">
+        <field name="name">advocate.details.tree</field>
+        <field name="model">advocate.details</field>
         <field name="arch" type="xml">
             <tree colors="blue: state=='new';gray: state in ('inactive','on_break')">
                 <field name="partner_id"/>
@@ -80,9 +80,9 @@
         </field>
     </record>
 
-    <record id="ambassador_details_search" model="ir.ui.view">
-        <field name="name">ambassador.details.search</field>
-        <field name="model">ambassador.details</field>
+    <record id="advocate_details_search" model="ir.ui.view">
+        <field name="name">advocate.details.search</field>
+        <field name="model">advocate.details</field>
         <field name="arch" type="xml">
             <search>
                 <field name="partner_id"/>
@@ -108,7 +108,7 @@
 
     <record id="action_advocates" model="ir.actions.act_window">
         <field name="name">Advocates</field>
-        <field name="res_model">ambassador.details</field>
+        <field name="res_model">advocate.details</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{'search_default_advocate':1}</field>
@@ -116,7 +116,7 @@
 
     <record id="action_engagement_type" model="ir.actions.act_window">
         <field name="name">Engagement types</field>
-        <field name="res_model">ambassador.engagement</field>
+        <field name="res_model">advocate.engagement</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
