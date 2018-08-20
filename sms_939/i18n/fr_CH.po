@@ -1,0 +1,7 @@
+#. module: sms_939
+#: code:addons/sms_939/models/sms_notification.py:87
+#, python-format
+msgid "Sorry, we could not understand your request. Supported services are :\n"
+" - %s "
+msgstr "Les services supportés sont :\n"
+" - %s "
