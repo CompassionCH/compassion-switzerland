@@ -74,16 +74,24 @@ class TestMobileAppConnector(HttpCase):
     def test_sms_notification__with_unknown_hook(self):
         response = self._send_sms_notification({
             'service': 'wrong_service',
-            'language': 'fr',
+            'language': 'en',
             'text': 'This is a test'
         }, send_mode='request')
         self.assertIn('Sorry, we could not understand your request. '
                       'Supported services are', response)
 
+    def test_sms_notification__test_translation(self):
+        response = self._send_sms_notification({
+            'service': 'wrong_service',
+            'language': 'fr',
+            'text': 'This is a test'
+        }, send_mode='request')
+        self.assertIn('Les services', response)
+
     def test_sms_notification__raising_exception(self):
         response = self._send_sms_notification({
             'service': 'testerror',
-            'language': 'fr'
+            'language': 'en'
         }, send_mode='request')
         self.assertIn('Sorry, the service is not available', response)
 

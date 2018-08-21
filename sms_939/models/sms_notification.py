@@ -67,9 +67,11 @@ class SmsNotification(models.Model):
             # Directly commit as we don't want to lose SMS in case of failure
             self.env.cr.commit()    # pylint: disable=invalid-commit
         # Return record with language context
-        lang = self.env['res.lang'].search([('code', '=', sms.language)],
-                                           limit=1)
-        sms = sms.with_context(lang=lang and lang.code or 'en_US')
+        langs = self.env['res.lang'] \
+            .search([('code', '=ilike', sms.language + '%')], limit=1) \
+            if sms.language else ()
+        lang_or_en = next((lang.code for lang in langs), 'en_US')
+        sms = sms.with_context(lang=lang_or_en)
         return sms
 
     def run_service(self):
