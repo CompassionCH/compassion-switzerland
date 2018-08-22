@@ -72,7 +72,7 @@ class TestMobileAppConnector(HttpCase):
         self.assertEqual(notification.language, 'fr_CH')
         self.assertTrue('Thanks!' in notification.answer)
 
-    def _test_sms_notification__with_unknown_hook(self):
+    def test_sms_notification__with_unknown_hook(self):
         response = self._send_sms_notification({
             'service': 'wrong_service',
             'language': 'en',
@@ -98,6 +98,7 @@ class TestMobileAppConnector(HttpCase):
 
     def test_sponsor_service(self):
         response = self._send_sms_notification({
+            'language': 'fr',
             'service': 'compassion'
         }, send_mode='request')
 

@@ -136,6 +136,7 @@ class SmsNotification(models.Model):
         # Create a sms child request
         child_request = self.env['sms.child.request'].create({
             'sender': self.sender,
+            'lang_code': self.language
         })
         return SmsNotificationAnswer(
             _("Thank you for your will to help a child ! \n"
