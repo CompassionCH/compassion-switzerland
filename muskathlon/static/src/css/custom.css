@@ -421,8 +421,3 @@
         line-height: 70px;
     }
 }
-
-/* Problems displaying image fields in forms */
-.form-field input[type=file].form-control {
-    height: initial !important;
-}

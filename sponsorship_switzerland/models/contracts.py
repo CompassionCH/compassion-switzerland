@@ -251,6 +251,19 @@ class RecurringContracts(models.Model):
         super(RecurringContracts, self-sponsorships).contract_waiting()
         return True
 
+    @api.multi
+    def invoice_paid(self, invoice):
+        """ In case the first invoice is paid but contract is waiting mandate
+        the sponsorship should still be activated.
+        """
+        contracts = self.filtered(
+            lambda c: c.child_id and c.state == 'mandate' and not
+            c.global_id)
+        contracts.contract_active()
+        # Put contracts back in waiting mandate after they have been activated
+        contracts.write({'state': 'mandate'})
+        return super(RecurringContracts, self).invoice_paid(invoice)
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################

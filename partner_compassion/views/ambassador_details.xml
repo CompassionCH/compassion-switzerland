@@ -85,16 +85,21 @@
         <field name="arch" type="xml">
             <search>
                 <field name="partner_id"/>
-                <field name="state"/>
                 <field name="engagement_ids"/>
+                <field name="state"/>
                 <field name="birthdate"/>
                 <field name="lang"/>
                 <separator/>
-                <filter name="advocate" string="Advocate" domain="[('partner_id.category_id','ilike', 'advocate'), ('state', 'in', ['new','active'])]"/>
+                <filter name="advocate" string="Active or New" domain="[('state', 'in', ['new','active'])]"/>
+                <separator/>
                 <filter name="muskathlon" string="Muskathlon" domain="[('partner_id.muskathlon_registration_ids','!=', False)]"/>
+                <filter name="sport" string="Sport person" domain="[('engagement_ids','like', 'Sport')]"/>
+                <filter name="event" string="Event" domain="[('engagement_ids','like', 'Events')]"/>
+                <filter name="church" string="Church" domain="[('engagement_ids','like', 'Church')]"/>
+                <filter name="translator" string="Translator" domain="[('engagement_ids','like', 'Translation')]"/>
                 <group expand="0" string="Group By...">
                     <filter string="State" domain="[]" context="{'group_by':'state'}"/>
-                    <filter string="Lang" domain="[]" context="{'group_by':'lang'}"/>
+                    <filter string="Language" domain="[]" context="{'group_by':'lang'}"/>
                 </group>
             </search>
         </field>

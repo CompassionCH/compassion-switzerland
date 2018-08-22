@@ -21,7 +21,7 @@ if not testing:
         _name = 'cms.form.muskathlon.trip.information'
         _inherit = 'cms.form'
 
-        form_buttons_template = 'muskathlon.modal_form_buttons'
+        form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_tripinfo'
         _form_model = 'ambassador.details'
         _form_required_fields = [

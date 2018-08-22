@@ -67,9 +67,11 @@ class SmsNotification(models.Model):
             # Directly commit as we don't want to lose SMS in case of failure
             self.env.cr.commit()    # pylint: disable=invalid-commit
         # Return record with language context
-        lang = self.env['res.lang'].search([('code', '=', sms.language)],
-                                           limit=1)
-        sms = sms.with_context(lang=lang and lang.code or 'en_US')
+        langs = self.env['res.lang'] \
+            .search([('code', '=ilike', sms.language + '%')], limit=1) \
+            if sms.language else ()
+        lang_or_en = next((lang.code for lang in langs), 'en_US')
+        sms = sms.with_context(lang=lang_or_en)
         return sms
 
     def run_service(self):
@@ -105,7 +107,7 @@ class SmsNotification(models.Model):
             # Abort pending operations
             self.env.cr.rollback()
             self.env.invalidate_all()
-            logger.error("Error processing SMS service", exc_info=True)
+            logger.warning("Error processing SMS service", exc_info=True)
             sms_answer = SmsNotificationAnswer(_(
                 "Sorry, the service is not available at this time. "
                 "Our team is informed and is currently working on it."
@@ -143,3 +145,6 @@ class SmsNotification(models.Model):
     def test_service(self):
         self.ensure_one()
         return SmsNotificationAnswer("Thanks!", costs=0)
+
+    def test_service_error(self):
+        raise Exception

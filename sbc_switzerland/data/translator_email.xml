@@ -4,7 +4,7 @@
         <record id="email_new_translator" model="mail.template">
             <field name="name">New Translator</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">New translator</field>

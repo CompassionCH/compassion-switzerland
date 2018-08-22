@@ -11,7 +11,7 @@
 from odoo import api, models
 
 
-class CompassionHold(models.Model):
+class CompassionChild(models.Model):
     _inherit = 'compassion.child'
 
     @api.multi
@@ -20,7 +20,7 @@ class CompassionHold(models.Model):
         Returns JSON data of the child for the mobile sponsor page
         :return: JSON data
         """
-        result = super(CompassionHold, self).get_sms_sponsor_child_data()
+        result = super(CompassionChild, self).get_sms_sponsor_child_data()
         if self.env.lang == 'fr_CH':
             result['description'] = self.desc_fr
         elif self.env.lang == 'de_DE':

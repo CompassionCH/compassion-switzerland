@@ -442,6 +442,8 @@ class RecurringContract(models.Model):
             ('state', '!=', 'done'),
             ('partner_id', 'in', self.mapped('partner_id').ids)
         ]).unlink()
+        # This prevents sending welcome e-mail if it's already active
+        self.write({'sds_state': 'active'})
         return super(RecurringContract, self).contract_active()
 
     @api.multi

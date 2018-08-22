@@ -100,7 +100,14 @@
             <xpath expr="//notebook/page[1]">
                 <group>
                     <field name="contract_ids"/>
-                    <field name="invoice_line_ids"/>
+                    <field name="invoice_line_ids">
+                        <tree>
+                            <field name="partner_id" groups="base.group_user" string="Sponsor"/>
+                            <field name="price_subtotal" string="Total" sum="Total"/>
+                            <field name="state"/>
+                            <field name="name"/>
+                        </tree>
+                    </field>
                     <field name="correspondence_ids"/>
                 </group>
             </xpath>

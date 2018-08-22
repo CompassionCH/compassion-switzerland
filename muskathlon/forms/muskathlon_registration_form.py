@@ -23,7 +23,7 @@ if not testing:
         _inherit = ['cms.form.payment', 'cms.form.match.partner']
 
         # The form is inside a Muskathlon details page
-        form_buttons_template = 'muskathlon.modal_form_buttons'
+        form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_muskathlon_registration'
         _form_model = 'muskathlon.registration'
         _form_required_fields = [
@@ -98,10 +98,11 @@ if not testing:
             # Hide fields
             res = super(MuskathlonRegistrationForm, self).form_widgets
             res.update({
-                'event_id': 'muskathlon.form.widget.hidden',
-                'amount': 'muskathlon.form.widget.hidden',
-                'ambassador_picture_1': 'muskathlon.form.widget.simple.image',
-                'gtc_accept': 'muskathlon.form.widget.terms',
+                'event_id': 'cms_form_compassion.form.widget.hidden',
+                'amount': 'cms_form_compassion.form.widget.hidden',
+                'ambassador_picture_1':
+                'cms_form_compassion.form.widget.simple.image',
+                'gtc_accept': 'cms_form_compassion.form.widget.terms',
             })
             return res
 
@@ -176,6 +177,19 @@ if not testing:
             if not re.match(r"^[\w\s'-]+$", value, re.UNICODE):
                 return 'sport_level_description', _(
                     'Please avoid any special characters')
+            # No error
+            return 0, 0
+
+        def _form_validate_amount(self, value, **req_values):
+            try:
+                amount = float(value)
+                if amount <= 0:
+                    raise ValueError
+            except ValueError:
+                return 'amount', _('Please control the amount')
+            except TypeError:
+                # If amount is not defined, the event has no fee.
+                return 0, 0
             # No error
             return 0, 0
 

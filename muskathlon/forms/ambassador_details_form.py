@@ -19,7 +19,7 @@ if not testing:
         _name = 'cms.form.ambassador.details'
         _inherit = 'cms.form'
 
-        form_buttons_template = 'muskathlon.modal_form_buttons'
+        form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_ambassador_details'
         _form_model = 'ambassador.details'
         _form_model_fields = [

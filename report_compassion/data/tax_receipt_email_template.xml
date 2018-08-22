@@ -3,7 +3,7 @@
         <record id="tax_receipt_template" model="mail.template">
             <field name="name">Tax Receipt</field>
             <field name="model_id" ref="model_res_partner"/>
-            <field name="email_from">compassion@compassion.ch</field>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True"/>
             <field name="subject">Donation receipt</field>
