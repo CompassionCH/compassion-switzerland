@@ -32,7 +32,7 @@ class SmsNotification(models.Model):
     operator = fields.Char()
     service = fields.Char(required=True)
     hook_id = fields.Many2one('sms.hook', 'Hook')
-    language = fields.Char()
+    language = fields.Char(required=True)
     date = fields.Datetime()
     uuid = fields.Char()
     text = fields.Char()
@@ -62,15 +62,17 @@ class SmsNotification(models.Model):
         hook = self.env['sms.hook'].search([
             ('name', '=ilike', vals['service'])])
         vals['hook_id'] = hook.id
-        sms = super(SmsNotification, self).create(vals)
         if not testing:
             # Directly commit as we don't want to lose SMS in case of failure
             self.env.cr.commit()    # pylint: disable=invalid-commit
         # Return record with language context
         langs = self.env['res.lang'] \
-            .search([('code', '=ilike', sms.language + '%')], limit=1) \
-            if sms.language else ()
+            .search([('code', '=ilike', vals['language'] + '%')], limit=1) \
+            if 'language' in vals and vals['language'] else ()
         lang_or_en = next((lang.code for lang in langs), 'en_US')
+        vals['language'] = lang_or_en
+
+        sms = super(SmsNotification, self).create(vals)
         sms = sms.with_context(lang=lang_or_en)
         return sms
 
@@ -134,6 +136,7 @@ class SmsNotification(models.Model):
         # Create a sms child request
         child_request = self.env['sms.child.request'].create({
             'sender': self.sender,
+            'lang_code': self.language
         })
         return SmsNotificationAnswer(
             _("Thank you for your will to help a child ! \n"
