@@ -17,6 +17,16 @@ from odoo.exceptions import UserError
 from odoo.tools.config import config
 
 
+def smsbox_send(request, headers):
+    request_server = httplib.HTTPConnection(
+        'blue.smsbox.ch', 10020, timeout=10)
+    request_server.request(
+        'GET',
+        '/Blue/sms/rest/user/websend?' + urllib.urlencode(request),
+        headers=headers
+    )
+
+
 class SmsSender(models.TransientModel):
 
     _name = 'sms.sender.wizard'
@@ -44,24 +54,16 @@ class SmsSender(models.TransientModel):
         headers = {}
         username = config.get('939_username')
         password = config.get('939_password')
-
-        request_server = httplib.HTTPConnection(
-            'blue.smsbox.ch', 10020, timeout=10)
-
         auth = base64.encodestring('%s:%s' % (username,
                                               password)).replace('\n', '')
-
         headers['Authorization'] = 'Basic ' + auth
-
         request = [
             ('receiver', mobile),
             ('service', 'compassion'),
             ('cost', 0),
             ('text', self.text.encode('utf8'))
         ]
-        request_server.request('GET', '/Blue/sms/rest/user/websend?'
-                               + urllib.urlencode(request), headers=headers)
-
+        smsbox_send(request, headers)
         return True
 
     def send_sms_partner(self):

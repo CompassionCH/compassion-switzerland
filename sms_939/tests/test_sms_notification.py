@@ -9,7 +9,9 @@
 #
 ##############################################################################
 import logging
+import time
 import urllib
+import mock
 from odoo.fields import Datetime
 from odoo.tests import HttpCase
 from xml.etree import ElementTree
@@ -31,7 +33,7 @@ class TestMobileAppConnector(HttpCase):
         uuid = 'uid-1232389'
         params.update({
             'instance': 'test',
-            'sender': '+41414104141',
+            'sender': '+41789364595',
             'operator': 'orange',
             'command': 'FORWARD',
             'date': Datetime.now(),
@@ -54,7 +56,9 @@ class TestMobileAppConnector(HttpCase):
         self.assertEqual(notification.answer, response_str)
         return notification
 
-    def test_controller(self):
+    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    def test_controller(self, smsbox_send):
+        smsbox_send.side_effect = _logger.info("sms sent")
         response = self._send_sms_notification({
             'service': 'test',
             'language': 'en',
@@ -62,7 +66,9 @@ class TestMobileAppConnector(HttpCase):
         }, send_mode='request')
         self.assertIn('Thanks!', response)
 
-    def test_basic_service(self):
+    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    def test_basic_service(self, smsbox_send):
+        smsbox_send.side_effect = _logger.info("sms sent")
         notification = self._send_sms_notification({
             'service': 'test',
             'language': 'fr',
@@ -72,16 +78,23 @@ class TestMobileAppConnector(HttpCase):
         self.assertEqual(notification.language, 'fr_CH')
         self.assertTrue('Thanks!' in notification.answer)
 
-    def test_sms_notification__with_unknown_hook(self):
+    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    def test_sms_notification__with_unknown_hook(self, smsbox_send):
+        # smsbox_send.side_effect = _logger.info("sms sent")
         response = self._send_sms_notification({
             'service': 'wrong_service',
             'language': 'en',
             'text': 'This is a test'
         }, send_mode='request')
+        while not smsbox_send.called:
+            print self.env['queue.job'].search([])
+            time.sleep(1)
         self.assertIn('Sorry, we could not understand your request. '
                       'Supported services are', response)
 
-    def test_sms_notification__test_translation(self):
+    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    def test_sms_notification__test_translation(self, smsbox_send):
+        smsbox_send.side_effect = _logger.info("sms sent")
         response = self._send_sms_notification({
             'service': 'wrong_service',
             'language': 'fr',
@@ -89,14 +102,18 @@ class TestMobileAppConnector(HttpCase):
         }, send_mode='request')
         self.assertIn('Les services', response)
 
-    def test_sms_notification__raising_exception(self):
+    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    def test_sms_notification__raising_exception(self, smsbox_send):
+        smsbox_send.side_effect = _logger.info("sms sent")
         response = self._send_sms_notification({
             'service': 'testerror',
             'language': 'en'
         }, send_mode='request')
         self.assertIn('Sorry, the service is not available', response)
 
-    def test_sponsor_service(self):
+    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    def test_sponsor_service(self, smsbox_send):
+        smsbox_send.side_effect = _logger.info("sms sent")
         response = self._send_sms_notification({
             'language': 'fr',
             'service': 'compassion'
