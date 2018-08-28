@@ -13,3 +13,4 @@ from . import sms_hook
 from . import sms_notification
 from . import compassion_child
 from . import recurring_contract
+from . import sms_child_request
