@@ -19,4 +19,4 @@ def migrate(cr, version):
     update recurring_contract
     set welcome_active_letter_sent=true
     where activation_date <= %s
-    """, fields.Datetime.to_string(datetime.today() - timedelta(days=1)))
+    """, [fields.Datetime.to_string(datetime.today() - timedelta(days=1))])

@@ -47,7 +47,7 @@ class RecurringContract(models.Model):
     amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
     welcome_active_letter_sent = fields.Boolean(
-        "Welcome letter sent",
+        "Welcome letters sent",
         default=False, help="Tells if welcome active letter has been sent")
 
     def _compute_payment_type_attachment(self):
