@@ -57,7 +57,7 @@ class TestMobileAppConnector(HttpCase):
     def test_controller(self):
         response = self._send_sms_notification({
             'service': 'test',
-            'language': 'fr',
+            'language': 'en',
             'text': 'This is a test'
         }, send_mode='request')
         self.assertIn('Thanks!', response)
@@ -105,5 +105,7 @@ class TestMobileAppConnector(HttpCase):
         message = ElementTree.fromstring(response) \
             .find('./message/text') \
             .text.replace('\n', '')
-        self.assertRegexpMatches(message, r'^Thank you for .*? link: '
-                                          r'http://localhost:8069/r/\w+$')
+        self.assertRegexpMatches(
+            message,
+            r'^Merci pour votre .*? en cliquant sur ce lien : '
+            r'http://localhost:8069/r/\w+$')

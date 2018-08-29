@@ -57,7 +57,7 @@ class SmsSender(models.TransientModel):
             ('receiver', mobile),
             ('service', 'compassion'),
             ('cost', 0),
-            ('text', self.text)
+            ('text', self.text.encode('utf8'))
         ]
         request_server.request('GET', '/Blue/sms/rest/user/websend?'
                                + urllib.urlencode(request), headers=headers)
@@ -86,4 +86,3 @@ class SmsSender(models.TransientModel):
                                              type='comment')
             return True
         return False
-
