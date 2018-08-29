@@ -10,8 +10,6 @@
 ##############################################################################
 from odoo import api, models, fields, _
 
-from odoo.addons.queue_job.job import job, related_action
-
 
 class MassMailing(models.Model):
     """ Add the mailing domain to be viewed in a text field
@@ -29,10 +27,8 @@ class MassMailing(models.Model):
     _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
                          'You have to choose a new slug for each mailing !')]
 
-    @job(default_channel='root.mass_mailing_switzerland')
-    @related_action('related_action_mass_mailing')
     def compute_clicks_ratio(self):
-        for mass_mail in self:
+        for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):
             clicks = self.env['mail.mail.statistics'].search_count([
                 ('tracking_event_ids.event_type', '=', 'click'),
                 ('mass_mailing_id', '=', mass_mail.id)
@@ -40,10 +36,8 @@ class MassMailing(models.Model):
             mass_mail.clicks_ratio = 100 * (
                 float(clicks) / len(mass_mail.statistics_ids))
 
-    @job(default_channel='root.mass_mailing_switzerland')
-    @related_action('related_action_mass_mailing')
     def compute_unsub_ratio(self):
-        for mass_mail in self:
+        for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):
             unsub = self.env['mail.mail.statistics'].search_count([
                 ('tracking_event_ids.event_type', '=', 'unsub'),
                 ('mass_mailing_id', '=', mass_mail.id)
@@ -52,7 +46,7 @@ class MassMailing(models.Model):
                 float(unsub) / len(mass_mail.statistics_ids))
 
     def _compute_events(self):
-        for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):
+        for mass_mail in self:
             unsub = self.env['mail.tracking.event'].search([
                 ('event_type', '=', 'unsub'),
                 ('mass_mailing_id', '=', mass_mail.id)
@@ -66,8 +60,8 @@ class MassMailing(models.Model):
 
     @api.multi
     def recompute_events(self):
-        self.with_delay().compute_unsub_ratio()
-        self.with_delay().compute_clicks_ratio()
+        self.compute_unsub_ratio()
+        self.compute_clicks_ratio()
         return True
 
     @api.multi
