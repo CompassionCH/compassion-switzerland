@@ -17,9 +17,8 @@ class MassMailingCampaign(models.Model):
     _inherit = 'mail.mass_mailing.campaign'
     _order = 'id desc'
 
-    clicks_ratio = fields.Integer(compute='_compute_ratios', store=True,
-                                  oldname='click_ratio')
-    unsub_ratio = fields.Integer(compute='_compute_ratios', store=True)
+    clicks_ratio = fields.Integer(compute='_compute_click_ratios', store=True)
+    unsub_ratio = fields.Integer(compute='_compute_unsub_ratio', store=True)
     contract_ids = fields.One2many(
         'recurring.contract', related='campaign_id.contract_ids'
     )
@@ -30,21 +29,28 @@ class MassMailingCampaign(models.Model):
         'account.invoice.line', related='campaign_id.invoice_line_ids'
     )
 
-    @api.depends('mass_mailing_ids.clicks_ratio',
-                 'mass_mailing_ids.unsub_ratio')
-    def _compute_ratios(self):
+    @api.depends('mass_mailing_ids.clicks_ratio')
+    def _compute_click_ratios(self):
         for campaign in self:
             total_clicks = 0
-            total_unsub = 0
             total_sent = len(campaign.mapped(
                 'mass_mailing_ids.statistics_ids'))
             for mailing in campaign.mass_mailing_ids:
                 total_clicks += (mailing.clicks_ratio / 100.0) * len(
                     mailing.statistics_ids)
+            if total_sent:
+                campaign.clicks_ratio = (total_clicks / total_sent) * 100
+
+    @api.depends('mass_mailing_ids.unsub_ratio')
+    def _compute_unsub_ratio(self):
+        for campaign in self:
+            total_unsub = 0
+            total_sent = len(campaign.mapped(
+                'mass_mailing_ids.statistics_ids'))
+            for mailing in campaign.mass_mailing_ids:
                 total_unsub += (mailing.unsub_ratio / 100.0) * len(
                     mailing.statistics_ids)
             if total_sent:
-                campaign.clicks_ratio = (total_clicks / total_sent) * 100
                 campaign.unsub_ratio = (total_unsub / total_sent) * 100
 
     @api.multi
