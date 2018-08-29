@@ -92,10 +92,20 @@ class ResPartner(models.Model):
     engagement_ids = fields.Many2many(
         'advocate.engagement', related='advocate_details_id.engagement_ids'
     )
+    state = fields.Selection([
+        ('pending', 'Waiting for validation'),
+        ('active', 'Active')
+    ], default='active', track_visibility='onchange')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+    @api.multi
+    def validate_partner(self):
+        return self.write({
+            'state': 'active'
+        })
+
     @api.multi
     def get_unreconciled_amount(self):
         """Returns the amount of unreconciled credits in Account 1050"""
