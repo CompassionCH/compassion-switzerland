@@ -83,6 +83,7 @@ class SmsNotification(models.Model):
         :return: werkzeug.Response object
         """
         self.ensure_one()
+        sms_receipient = self.sender
         if not self.hook_id:
             hooks = self.env['sms.hook'].search([])
             sms_answer = _(
@@ -120,7 +121,7 @@ class SmsNotification(models.Model):
                     })
         self.env['sms.sender.wizard'].create({
             'text': sms_answer
-        }).send_sms(mobile=self.sender)
+        }).send_sms(mobile=sms_receipient)
 
     def sponsor_service_fr(self):
         return self.with_context(lang='fr_CH').sponsor_service()
@@ -150,7 +151,7 @@ class SmsNotification(models.Model):
     def test_service_error(self):
         raise Exception
 
-    @job(default_channel='root.sms_939')
+    @job(default_channel='root')
     def send_sms_answer(self, parameters):
         """Job for sending the SMS reply to a SMS child request.
         :param parameters: SMS parameters received from 939 API.

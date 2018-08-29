@@ -11,9 +11,11 @@
 import logging
 import json
 
-from odoo import http
+from odoo import http, tools
 from odoo.http import request
 from ..tools import SmsNotificationAnswer
+
+async = not tools.config.get('test_enable')
 
 _logger = logging.getLogger(__name__)
 
@@ -26,6 +28,7 @@ class RestController(http.Controller):
         _logger.info("SMS Request received : {}".format(
             json.dumps(parameters)))
 
-        request.env['sms.notification'].sudo().with_delay().send_sms_answer(
-            parameters)
+        notification_env = request.env['sms.notification'].sudo()
+        (notification_env.with_delay() if async else notification_env) \
+            .send_sms_answer(parameters)
         return SmsNotificationAnswer([], costs=[]).get_answer()
