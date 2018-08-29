@@ -47,6 +47,7 @@ class RecurringContract(models.Model):
     amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
     welcome_active_letter_sent = fields.Boolean(
+        "Welcome letter sent",
         default=False, help="Tells if welcome active letter has been sent")
 
     def _compute_payment_type_attachment(self):
@@ -408,10 +409,12 @@ class RecurringContract(models.Model):
         new_spons._new_dossier()
         new_spons.filtered(
             lambda s: s.correspondent_id.email and s.sds_state == 'draft' and
-            s.partner_id.ref != '1502623').write({
-                'sds_state': 'waiting_welcome',
-                'sds_state_date': fields.Date.today()
-            })
+            s.partner_id.ref != '1502623' and not
+            s.welcome_active_letter_sent
+        ).write({
+            'sds_state': 'waiting_welcome',
+            'sds_state_date': fields.Date.today()
+        })
         if 'CSP' in self.name:
             module = 'partner_communication_switzerland.'
             selected_config = self.env.ref(module + 'csp_mail')
@@ -424,8 +427,9 @@ class RecurringContract(models.Model):
         # Waiting welcome for partners with e-mail (except Demaurex)
         welcome = self.filtered(
             lambda s: 'S' in s.type and s.sds_state == 'draft' and
-                      s.correspondent_id.email and s.partner_id.ref !=
-                      '1502623')
+            s.correspondent_id.email and s.partner_id.ref != '1502623'
+            and not s.welcome_active_letter_sent
+        )
         welcome.write({
             'sds_state': 'waiting_welcome'
         })
