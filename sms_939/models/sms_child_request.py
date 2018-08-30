@@ -21,9 +21,9 @@ class SmsRequest(models.Model):
         sms_sender = self.env['sms.sender.wizard'].create({
             'sms_request_id': self.id,
             'text': _(
-                u"Thank you for your wish to sponsor a child through "
-                u"Compassion. Take a moment today to change the life of "
-                u"%s: %s"
+                u"Thank you for your interest to sponsor a child with "
+                u"Compassion. Why don't you take a moment today to change the "
+                u"life of %s? %s"
             ) % (self.child_id.preferred_name or _("this child"),
                  self.full_url),
             'subject': _("SMS sponsorship reminder")

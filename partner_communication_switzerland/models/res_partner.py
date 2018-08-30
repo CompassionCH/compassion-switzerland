@@ -172,6 +172,8 @@ class ResPartner(models.Model):
 
 
 class ResUsers(models.Model):
+    _name = 'res.partner'
+
     _inherit = 'res.users'
 
     @api.multi
