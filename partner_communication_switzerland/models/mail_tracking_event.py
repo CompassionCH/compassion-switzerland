@@ -69,10 +69,10 @@ class MailTrackingEvent(models.Model):
                 'invalid_mail_notify_ids')
             if partner.email_only:
                 del to_write['email']
-                partner.message_post(body='Warning : Email invalid but sponsor'
-                                     ' configured to receive communications '
-                                     'by email',
-                                     subject='Email invalid',
+                partner.message_post(body=_('Warning : Email invalid but sponsor'
+                                            ' configured to receive communications '
+                                            'by email'),
+                                     subject=_('Email invalid'),
                                      partner_ids=staff_ids,
                                      type='comment', subtype='mail.mt_comment',
                                      content_subtype='plaintext')

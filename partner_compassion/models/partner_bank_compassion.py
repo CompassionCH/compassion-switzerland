@@ -26,7 +26,7 @@ class ResPartnerBank(models.Model):
 
         part = result.partner_id
         part.message_post(_("<b>Account number: </b>" + result.acc_number),
-                          _("New account created"), 'comment')
+                          _("New account created"), _('comment'))
 
         return result
 
@@ -38,7 +38,7 @@ class ResPartnerBank(models.Model):
             part = account.partner_id
             part.message_post(_("<b>Account number: </b>" +
                                 account.acc_number),
-                              _("Account deleted"), 'comment')
+                              _("Account deleted"), _('comment'))
 
         result = super(ResPartnerBank, self).unlink()
         return result
