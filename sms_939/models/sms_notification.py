@@ -84,6 +84,7 @@ class SmsNotification(models.Model):
         """
         self.ensure_one()
         sms_receipient = self.sender
+        sms_text = self.text or ''
         if not self.hook_id:
             hooks = self.env['sms.hook'].search([])
             sms_answer = _(
@@ -119,9 +120,16 @@ class SmsNotification(models.Model):
                         'failure_details': traceback.format_exc(),
                         'answer': sms_answer
                     })
-        self.env['sms.sender.wizard'].create({
-            'text': sms_answer
-        }).send_sms(mobile=sms_receipient)
+        if 'test' not in sms_text:
+            self.env['sms.sender.wizard'].create({
+                'text': sms_answer
+            }).send_sms(mobile=sms_receipient)
+        else:
+            # Test mode will only print url in job return value
+            logger.info(
+                "Test service - answer to %s: %s" % (sms_receipient,
+                                                     sms_answer))
+            return True
 
     def sponsor_service_fr(self):
         return self.with_context(lang='fr_CH').sponsor_service()

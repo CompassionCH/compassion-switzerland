@@ -57,7 +57,7 @@ class TestMobileAppConnector(HttpCase):
         self._send_sms_notification({
             'service': 'test',
             'language': 'en',
-            'text': 'This is a test'
+            'text': 'This is a fake message'
         })
         self.assertIn('Thanks!', self._get_sms_message(smsbox_send))
 
@@ -66,7 +66,7 @@ class TestMobileAppConnector(HttpCase):
         notification = self._send_sms_notification({
             'service': 'test',
             'language': 'fr',
-            'text': 'This is a test'
+            'text': 'This is a fake message'
         }, send_mode='direct')
 
         self.assertEqual(notification.state, 'success')
@@ -78,7 +78,7 @@ class TestMobileAppConnector(HttpCase):
         self._send_sms_notification({
             'service': 'wrong_service',
             'language': 'en',
-            'text': 'This is a test'
+            'text': 'This is a fake message'
         })
 
         self.assertIn('Sorry, we could not understand your request. '
@@ -90,10 +90,20 @@ class TestMobileAppConnector(HttpCase):
         self._send_sms_notification({
             'service': 'wrong_service',
             'language': 'fr',
-            'text': 'This is a test'
+            'text': 'This is a fake message'
         })
 
         self.assertIn('Les services', self._get_sms_message(smsbox_send))
+
+    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    def test_sms_notification__test_mode(self, smsbox_send):
+        self._send_sms_notification({
+            'service': 'wrong_service',
+            'language': 'fr',
+            'text': 'This is a test'
+        })
+
+        self.assertFalse(smsbox_send.called)
 
     @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
     def test_sms_notification__raising_exception(self, smsbox_send):

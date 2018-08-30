@@ -34,7 +34,6 @@ class TestSponsorship(BaseSponsorshipTest):
         # Deactivate mandates of Michel Fletcher to avoid directly validate
         # sponsorship to waiting state.
         self.thomas.ref = self.ref(7)
-        self.thomas
         self.michel.ref = self.ref(7)
         self.mandates = self.env['account.banking.mandate'].search([
             ('partner_id', '=', self.michel.parent_id.id)])

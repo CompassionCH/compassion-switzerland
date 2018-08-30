@@ -292,7 +292,7 @@ msgid ""
 msgstr ""
 "Merci pour votre élan de compassion!\n"
 "Commencez à libérer un enfant de la pauvreté aujourd'hui en cliquant sur ce "
-"lien:%s"
+"lien : %s"
 
 #. module: sms_939
 #: code:addons/sms_939/models/sms_hook.py:45
