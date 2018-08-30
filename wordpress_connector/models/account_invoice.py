@@ -111,6 +111,7 @@ class AccountInvoice(models.Model):
         requires_sponsorship = GIFT_CATEGORY in invoice.mapped(
             'invoice_line_ids.product_id.categ_name')
         partner = self.env['res.partner'].browse(partner_id)
+        partner.set_privacy_statement(origin='new_gift')
         new_partner = partner.write_uid == self.env.user
         if analytic_id and (not requires_sponsorship or
                             sponsorship) and not new_partner:

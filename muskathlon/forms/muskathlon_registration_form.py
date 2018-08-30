@@ -180,6 +180,19 @@ if not testing:
             # No error
             return 0, 0
 
+        def _form_validate_amount(self, value, **req_values):
+            try:
+                amount = float(value)
+                if amount <= 0:
+                    raise ValueError
+            except ValueError:
+                return 'amount', _('Please control the amount')
+            except TypeError:
+                # If amount is not defined, the event has no fee.
+                return 0, 0
+            # No error
+            return 0, 0
+
         def form_before_create_or_update(self, values, extra_values):
             """ Create invoice for the registration.
             Create ambassador details.

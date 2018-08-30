@@ -32,6 +32,10 @@
                     <field name="unsub_ratio" string="Unsubscribe" widget="percentpie"/>
                 </button>
             </xpath>
+            <!-- Add button to recompute stats -->
+            <xpath expr="//div[@name='button_box']">
+                <button name="recompute_events" type="object" icon="fa-refresh" string="Compute ratios" class="oe_stat_button"/>
+            </xpath>
 
             <!-- Replace actions of buttons to open tracking email view instead -->
             <xpath expr="//div[@name='button_box']/button[2]" position="attributes">
@@ -100,7 +104,14 @@
             <xpath expr="//notebook/page[1]">
                 <group>
                     <field name="contract_ids"/>
-                    <field name="invoice_line_ids"/>
+                    <field name="invoice_line_ids">
+                        <tree>
+                            <field name="partner_id" groups="base.group_user" string="Sponsor"/>
+                            <field name="price_subtotal" string="Total" sum="Total"/>
+                            <field name="state"/>
+                            <field name="name"/>
+                        </tree>
+                    </field>
                     <field name="correspondence_ids"/>
                 </group>
             </xpath>

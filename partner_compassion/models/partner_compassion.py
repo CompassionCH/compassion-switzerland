@@ -88,7 +88,7 @@ class ResPartner(models.Model):
         'duplicate_id', readonly=True)
 
     ambassador_details_id = fields.Many2one('ambassador.details',
-                                            'Details of ambassador')
+                                            'Details of advocate')
     # TODO Delete these fields after production migration
     ambassador_quote = fields.Text(
         readonly=True,

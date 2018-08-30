@@ -46,6 +46,9 @@ class RecurringContract(models.Model):
     )
     amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
+    welcome_active_letter_sent = fields.Boolean(
+        "Welcome letters sent",
+        default=False, help="Tells if welcome active letter has been sent")
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -216,7 +219,7 @@ class RecurringContract(models.Model):
         self._send_reminders_for_birthday_in_1day_or_2months()
 
         logger.info("....Send Welcome Activations Letters")
-        self._send_welcome_letters_for_sponsorships_activated_in_last_24h()
+        self._send_welcome_active_letters_for_activated_sponsorships()
 
         logger.info("Sponsorship Planned Communications finished!")
 
@@ -275,19 +278,27 @@ class RecurringContract(models.Model):
         )
 
     @api.model
-    def _send_welcome_letters_for_sponsorships_activated_in_last_24h(self):
+    def _send_welcome_active_letters_for_activated_sponsorships(self):
         welcome = self.env.ref(
             'partner_communication_switzerland.welcome_activation')
-        activated_since = fields.Datetime.to_string(
+        yesterday = fields.Datetime.to_string(
             datetime.today() - timedelta(days=1))
+        five_days_diff = fields.Datetime.to_string(
+            datetime.today() - timedelta(days=5))
+        # problem -> all records don't have field welcome_active_letter_sent
         to_send = self.env['recurring.contract'].search([
-            ('activation_date', '>=', activated_since),
+            ('activation_date', '<=', yesterday),
+            ('start_date', '<=', five_days_diff),
             ('child_id', '!=', False),
-            ('origin_id.type', '!=', 'transfer')
+            ('origin_id.type', '!=', 'transfer'),
+            ('welcome_active_letter_sent', '=', False)
         ])
         if to_send:
             to_send.send_communication(welcome, both=True).send()
-            to_send.write({'sds_state': 'active'})
+            to_send.write({
+                'sds_state': 'active',
+                'welcome_active_letter_sent': True
+            })
 
     @api.model
     def send_sponsorship_reminders(self):
@@ -398,10 +409,12 @@ class RecurringContract(models.Model):
         new_spons._new_dossier()
         new_spons.filtered(
             lambda s: s.correspondent_id.email and s.sds_state == 'draft' and
-            s.partner_id.ref != '1502623').write({
-                'sds_state': 'waiting_welcome',
-                'sds_state_date': fields.Date.today()
-            })
+            s.partner_id.ref != '1502623' and not
+            s.welcome_active_letter_sent
+        ).write({
+            'sds_state': 'waiting_welcome',
+            'sds_state_date': fields.Date.today()
+        })
         if 'CSP' in self.name:
             module = 'partner_communication_switzerland.'
             selected_config = self.env.ref(module + 'csp_mail')
@@ -414,8 +427,9 @@ class RecurringContract(models.Model):
         # Waiting welcome for partners with e-mail (except Demaurex)
         welcome = self.filtered(
             lambda s: 'S' in s.type and s.sds_state == 'draft' and
-                      s.correspondent_id.email and s.partner_id.ref !=
-                      '1502623')
+            s.correspondent_id.email and s.partner_id.ref != '1502623'
+            and not s.welcome_active_letter_sent
+        )
         welcome.write({
             'sds_state': 'waiting_welcome'
         })
@@ -442,6 +456,8 @@ class RecurringContract(models.Model):
             ('state', '!=', 'done'),
             ('partner_id', 'in', self.mapped('partner_id').ids)
         ]).unlink()
+        # This prevents sending welcome e-mail if it's already active
+        self.write({'sds_state': 'active'})
         return super(RecurringContract, self).contract_active()
 
     @api.multi

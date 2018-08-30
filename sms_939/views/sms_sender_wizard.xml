@@ -12,7 +12,7 @@
                     <field name="partner_id"/>
                 </group>
                 <footer>
-                    <button string="Send SMS" type="object" name="send_sms"/>
+                    <button string="Send SMS" type="object" name="send_sms_partner"/>
                 </footer>
             </form>
         </field>

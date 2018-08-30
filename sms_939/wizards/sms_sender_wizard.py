@@ -26,6 +26,7 @@ class SmsSender(models.TransientModel):
     text = fields.Text()
     partner_id = fields.Many2one(
         'res.partner', 'Partner', compute='_compute_partner')
+    sms_request_id = fields.Many2one(comodel_name='sms.child.request')
 
     @api.multi
     def _compute_partner(self):
@@ -35,9 +36,9 @@ class SmsSender(models.TransientModel):
                 raise UserError(_("No valid partner"))
 
     @api.multi
-    def send_sms(self):
+    def send_sms(self, mobile):
         self.ensure_one()
-        if not self.partner_id.mobile:
+        if not mobile:
             return False
 
         headers = {}
@@ -53,15 +54,35 @@ class SmsSender(models.TransientModel):
         headers['Authorization'] = 'Basic ' + auth
 
         request = [
-            ('receiver', self.partner_id.mobile.replace(u'\xa0', u'')),
+            ('receiver', mobile),
             ('service', 'compassion'),
             ('cost', 0),
-            ('text', self.text)
+            ('text', self.text.encode('utf8'))
         ]
         request_server.request('GET', '/Blue/sms/rest/user/websend?'
                                + urllib.urlencode(request), headers=headers)
-        self.partner_id.message_post(body=self.text,
-                                     subject=self.subject,
-                                     partner_ids=self.partner_id,
-                                     type='comment')
+
         return True
+
+    def send_sms_partner(self):
+
+        if not self.partner_id or not self.partner_id.mobile:
+            return False
+        if self.send_sms(self.partner_id.mobile.replace(u'\xa0', u'')):
+            self.partner_id.message_post(body=self.text,
+                                         subject=self.subject,
+                                         partner_ids=self.partner_id,
+                                         type='comment')
+            return True
+        return False
+
+    def send_sms_request(self):
+
+        if not self.sms_request_id or not self.sms_request_id.sender:
+            return False
+        if self.send_sms(self.sms_request_id.sender.replace(u'\xa0', u'')):
+            self.sms_request_id.message_post(body=self.text,
+                                             subject=self.subject,
+                                             type='comment')
+            return True
+        return False

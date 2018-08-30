@@ -3,14 +3,22 @@
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Emanuel Cino <ecino@compassion.ch>
+#    @author: Nicolas Bornand
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from openupgradelib import openupgrade
 
-from . import sms_hook
-from . import sms_notification
-from . import compassion_child
-from . import recurring_contract
-from . import sms_child_request
+
+@openupgrade.migrate(use_env=True)
+def migrate(env, version):
+    if not version:
+        return
+
+    env.cr.execute("""
+UPDATE ambassador_details
+SET state = 'active'
+FROM correspondence
+WHERE ambassador_details.partner_id = correspondence.translator_id;
+    """)
