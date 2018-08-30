@@ -29,6 +29,6 @@ class RestController(http.Controller):
             json.dumps(parameters)))
 
         notification_env = request.env['sms.notification'].sudo()
-        (notification_env.with_delay() if async else notification_env) \
-            .send_sms_answer(parameters)
+        (notification_env.with_delay(priority=1) if async else
+         notification_env).send_sms_answer(parameters)
         return SmsNotificationAnswer([], costs=[]).get_answer()
