@@ -24,3 +24,17 @@ class ResUsers(models.Model):
                     'partner_id': user.partner_id.id,
                     'config_id': config.id
                 })
+
+    @api.multi
+    def _compute_signature_letter(self):
+        """ Translate country in Signature (for Compassion Switzerland) """
+        for user in self:
+            employee = user.employee_ids
+            signature = ''
+            if len(employee) == 1:
+                signature += employee.name + '<br/>'
+                if employee.department_id:
+                    signature += employee.department_id.name + '<br/>'
+            signature += user.company_id.name.split(' ')[0] + ' '
+            signature += user.company_id.country_id.name
+            user.signature_letter = signature

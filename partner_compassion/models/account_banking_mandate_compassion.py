@@ -19,6 +19,7 @@ MANDATE_STATE = {'create': 'created',
                  'delete': 'deleted'}
 
 
+# pylint: disable=C8107
 class AccountBankingMandate(models.Model):
     """ This class upgrade the partners.bank to match Compassion needs.
     """
