@@ -198,6 +198,9 @@
             <xpath expr="//group">
                 <filter string="Language" context="{'group_by': 'lang'}"/>
             </xpath>
+            <field name="name" position="after">
+                 <field name="ambassador_details_id" filter_domain="[('ambassador_details_id.engagement_ids', 'ilike', self)]"/>
+            </field>
             <!-- Remove filtering of contact people on the customer filter -->
             <filter name="customer" position="attributes">
                 <attribute name="domain">[('customer','=',1)]</attribute>
