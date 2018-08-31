@@ -39,7 +39,8 @@
         'report_compassion',
         'child_switzerland',
         'partner_compassion',
-        'sms_sponsorship'
+        'sms_sponsorship',
+        'auth_signup'
     ],
     'external_dependencies': {
         'python': ['wand', 'detectlanguage', 'sendgrid']

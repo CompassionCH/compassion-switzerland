@@ -188,3 +188,16 @@ class TestSponsorship(BaseSponsorshipTest):
         self.assertEqual(len(job.attachment_ids), 1)
         self.assertRegexpMatches(job.attachment_ids[0].name,
                                  r'^Supporter Letter')
+
+    def test_resetting_password(self):
+        partner_communications = self.env['partner.communication.job']
+        demo_user = self.env.ref('base.user_demo')
+        jobs_before = partner_communications.search([])
+
+        demo_user.action_reset_password()
+
+        new_job = partner_communications.search([]) - jobs_before
+        self.assertEqual(len(new_job), 1)
+        self.assertTrue(new_job.send())
+        self.assertIn('Dear Demo User', new_job.body_html)
+        self.assertIn('Sent by YourCompany using', new_job.body_html)
