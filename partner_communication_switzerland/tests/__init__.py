@@ -10,3 +10,4 @@
 ##############################################################################
 
 from . import test_bug_fixes
+from . import test_welcome_letters

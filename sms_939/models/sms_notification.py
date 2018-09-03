@@ -14,9 +14,7 @@ import traceback
 
 
 from odoo import models, api, fields, tools, _
-
-from ..tools import SmsNotificationAnswer
-
+from odoo.addons.queue_job.job import job
 
 logger = logging.getLogger(__name__)
 testing = tools.config.get('test_enable')
@@ -32,7 +30,7 @@ class SmsNotification(models.Model):
     operator = fields.Char()
     service = fields.Char(required=True)
     hook_id = fields.Many2one('sms.hook', 'Hook')
-    language = fields.Char()
+    language = fields.Char(required=True)
     date = fields.Datetime()
     uuid = fields.Char()
     text = fields.Char()
@@ -62,14 +60,18 @@ class SmsNotification(models.Model):
         hook = self.env['sms.hook'].search([
             ('name', '=ilike', vals['service'])])
         vals['hook_id'] = hook.id
-        sms = super(SmsNotification, self).create(vals)
         if not testing:
             # Directly commit as we don't want to lose SMS in case of failure
             self.env.cr.commit()    # pylint: disable=invalid-commit
         # Return record with language context
-        lang = self.env['res.lang'].search([('code', '=', sms.language)],
-                                           limit=1)
-        sms = sms.with_context(lang=lang and lang.code or 'en_US')
+        langs = self.env['res.lang'] \
+            .search([('code', '=ilike', vals['language'] + '%')], limit=1) \
+            if 'language' in vals and vals['language'] else ()
+        lang_or_en = next((lang.code for lang in langs), 'en_US')
+        vals['language'] = lang_or_en
+
+        sms = super(SmsNotification, self).create(vals)
+        sms = sms.with_context(lang=lang_or_en)
         return sms
 
     def run_service(self):
@@ -81,42 +83,53 @@ class SmsNotification(models.Model):
         :return: werkzeug.Response object
         """
         self.ensure_one()
+        sms_receipient = self.sender
+        sms_text = self.text or ''
         if not self.hook_id:
             hooks = self.env['sms.hook'].search([])
-            sms_answer = SmsNotificationAnswer(_(
+            sms_answer = _(
                 "Sorry, we could not understand your request. "
                 "Supported services are :\n - %s "
-            ) % "\n- ".join(hooks.mapped('name')), costs=0)
+            ) % "\n- ".join(hooks.mapped('name'))
             self.write({
                 'state': 'failed',
                 'failure_details': 'Service is not implemented. '
                 'Please configure a hook for this service.',
-                'answer': sms_answer.xml_message
+                'answer': sms_answer
             })
-            return sms_answer.get_answer()
-        service = getattr(self, self.hook_id.func_name)
-        try:
-            sms_answer = service()
-            self.write({
-                'state': 'success',
-                'answer': sms_answer.xml_message
-            })
-        except Exception:
-            # Abort pending operations
-            self.env.cr.rollback()
-            self.env.invalidate_all()
-            logger.warning("Error processing SMS service", exc_info=True)
-            sms_answer = SmsNotificationAnswer(_(
-                "Sorry, the service is not available at this time. "
-                "Our team is informed and is currently working on it."
-            ), costs=0)
-            if not testing:
+        else:
+            service = getattr(self, self.hook_id.func_name)
+            try:
+                sms_answer = service()
                 self.write({
-                    'state': 'failed',
-                    'failure_details': traceback.format_exc(),
-                    'answer': sms_answer.xml_message
+                    'state': 'success',
+                    'answer': sms_answer
                 })
-        return sms_answer.get_answer()
+            except Exception:
+                # Abort pending operations
+                self.env.cr.rollback()
+                self.env.invalidate_all()
+                logger.warning("Error processing SMS service", exc_info=True)
+                sms_answer = _(
+                    "Sorry, the service is not available at this time. "
+                    "Our team is informed and is currently working on it."
+                )
+                if not testing:
+                    self.write({
+                        'state': 'failed',
+                        'failure_details': traceback.format_exc(),
+                        'answer': sms_answer
+                    })
+        if 'test' not in sms_text:
+            self.env['sms.sender.wizard'].create({
+                'text': sms_answer
+            }).send_sms(mobile=sms_receipient)
+        else:
+            # Test mode will only print url in job return value
+            logger.info(
+                "Test service - answer to %s: %s" % (sms_receipient,
+                                                     sms_answer))
+            return True
 
     def sponsor_service_fr(self):
         return self.with_context(lang='fr_CH').sponsor_service()
@@ -132,17 +145,34 @@ class SmsNotification(models.Model):
         # Create a sms child request
         child_request = self.env['sms.child.request'].create({
             'sender': self.sender,
+            'lang_code': self.language
         })
-        return SmsNotificationAnswer(
-            _("Thank you for your will to help a child ! \n"
-              "You can release a child from poverty today by clicking on this "
-              "link: %s") % child_request.full_url,
-            costs=0
-        )
+        return _(
+            "Thank you for your will to help a child ! \n"
+            "You can release a child from poverty today by clicking on "
+            "this link: %s") % child_request.full_url
 
     def test_service(self):
         self.ensure_one()
-        return SmsNotificationAnswer("Thanks!", costs=0)
+        return "Thanks!"
 
     def test_service_error(self):
         raise Exception
+
+    @job(default_channel='root')
+    def send_sms_answer(self, parameters):
+        """Job for sending the SMS reply to a SMS child request.
+        :param parameters: SMS parameters received from 939 API.
+        :return: True
+        """
+        sms = self.create({
+            'instance': parameters.get('instance'),
+            'sender': parameters.get('sender'),
+            'operator': parameters.get('operator'),
+            'service': parameters.get('service'),
+            'language': parameters.get('language'),
+            'date': parameters.get('receptionDate'),
+            'uuid': parameters.get('requestUid'),
+            'text': parameters.get('text'),
+        })
+        sms.run_service()

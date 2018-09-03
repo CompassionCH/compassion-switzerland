@@ -12,6 +12,7 @@
 from odoo import api, models, _
 
 
+# pylint: disable=C8107
 class ResPartnerBank(models.Model):
     """ This class upgrade the partners.bank to match Compassion needs.
     """

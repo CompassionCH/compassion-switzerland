@@ -169,21 +169,3 @@ class ResPartner(models.Model):
                               'sms_registration_confirmation_2')
         child_request.sponsorship_id.send_communication(config)
         return True
-
-
-class ResUsers(models.Model):
-    _inherit = 'res.users'
-
-    @api.multi
-    def _compute_signature_letter(self):
-        """ Translate country in Signature (for Compassion Switzerland) """
-        for user in self:
-            employee = user.employee_ids
-            signature = ''
-            if len(employee) == 1:
-                signature += employee.name + '<br/>'
-                if employee.department_id:
-                    signature += employee.department_id.name + '<br/>'
-            signature += user.company_id.name.split(' ')[0] + ' '
-            signature += user.company_id.country_id.name
-            user.signature_letter = signature

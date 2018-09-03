@@ -23,3 +23,4 @@ from . import account_invoice_line
 from . import payment_order
 from . import staff_notifications_settings
 from . import sms_child_request
+from . import res_users

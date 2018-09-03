@@ -18,9 +18,9 @@ class SmsChildRequest(models.Model):
     _inherit = 'sms.child.request'
 
     @api.multi
-    def send_reminder(self):
+    def send_step2_reminder(self):
         """
-        Sends a reminder to people that didn't complete step 1
+        Sends a reminder to people that didn't complete step 2
         :return: True
         """
         communication_config = self.env.ref(

@@ -189,28 +189,15 @@ class TestSponsorship(BaseSponsorshipTest):
         self.assertRegexpMatches(job.attachment_ids[0].name,
                                  r'^Supporter Letter')
 
-    @mock.patch(mock_update_hold)
-    @mock.patch(mock_get_pdf)
-    def test_no_welcome_letter_for_transfers(self, get_pdf, update_hold):
-        child = self.create_child(self.ref(11))
-        transfer_origin = self.env['recurring.contract.origin'].create({
-            'type': 'transfer'
-        })
-        sponsorship = self.create_contract(
-            {
-                'partner_id': self.michel.id,
-                'child_id': child.id,
-                'group_id': self.sp_group.id,
-                'origin_id': transfer_origin.id
-
-            },
-            [{'amount': 50.0}]
-        )
+    def test_resetting_password(self):
         partner_communications = self.env['partner.communication.job']
-        count_before = partner_communications.search_count([])
+        demo_user = self.env.ref('base.user_demo')
+        jobs_before = partner_communications.search([])
 
-        sponsorship.send_welcome_letter()
+        demo_user.action_reset_password()
 
-        self.assertEqual(sponsorship.sds_state, 'active')
-        # No new communication is generated
-        self.assertEqual(count_before, partner_communications.search_count([]))
+        new_job = partner_communications.search([]) - jobs_before
+        self.assertEqual(len(new_job), 1)
+        self.assertTrue(new_job.send())
+        self.assertIn('Dear Demo User', new_job.body_html)
+        self.assertIn('Sent by YourCompany using', new_job.body_html)
