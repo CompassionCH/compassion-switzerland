@@ -36,7 +36,8 @@
     'category': 'Finance',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'sponsorship_switzerland', 'account_reconcile_create_invoice'
+        'sponsorship_switzerland', 'account_reconcile_create_invoice',
+        'account_bank_statement_import_camt_details'
     ],
     'data': [
         'data/statement_operation.xml',
