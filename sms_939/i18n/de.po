@@ -280,7 +280,7 @@ msgid ""
 "Thank you for your interest to sponsor a child with Compassion. Why don't "
 "you take a moment today to change the life of %s? %s"
 msgstr ""
-"Danke, dass du eine Kinderpatenschaft mit Compassion übernehmen möchtest. "
+"Danke, dass du ein Kind unterstützen möchtest. "
 "Nimm dir doch heute einen Moment Zeit, um das Leben von %s zu verändern. %s"
 
 #. module: sms_939
