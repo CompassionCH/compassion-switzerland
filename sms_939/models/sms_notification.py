@@ -31,7 +31,7 @@ class SmsNotification(models.Model):
     service = fields.Char(required=True)
     hook_id = fields.Many2one('sms.hook', 'Hook')
     language = fields.Char(required=True)
-    date = fields.Datetime()
+    date = fields.Datetime(default=fields.Datetime.now)
     uuid = fields.Char()
     text = fields.Char()
     state = fields.Selection([
@@ -133,13 +133,13 @@ class SmsNotification(models.Model):
             return True
 
     def sponsor_service_fr(self):
-        return self.with_context(lang='fr_CH').sponsor_service()
+        return self.with_context(lang=self.language).sponsor_service()
 
     def sponsor_service_de(self):
-        return self.with_context(lang='de_DE').sponsor_service()
+        return self.with_context(lang=self.language).sponsor_service()
 
     def sponsor_service_it(self):
-        return self.with_context(lang='it_IT').sponsor_service()
+        return self.with_context(lang=self.language).sponsor_service()
 
     def sponsor_service(self):
         self.ensure_one()
