@@ -91,6 +91,18 @@ class AmbassadorDetails(models.Model):
          'Only one details per ambassador is allowed!')
     ]
 
+    ##########################################################################
+    #                              ORM METHODS                               #
+    ##########################################################################
+    @api.model
+    def create(self, vals):
+        res = super(AmbassadorDetails, self).create(vals)
+        partner = res.partner_id
+        partner.write({
+            'ambassador_details_id': res.id
+        })
+        return res
+
     @api.model
     def _yes_no_selection(self):
         return [
