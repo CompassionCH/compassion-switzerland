@@ -56,6 +56,7 @@ class SmsNotification(models.Model):
             ])
         if partner and len(partner) == 1:
             vals['partner_id'] = partner.id
+            vals['language'] = partner.lang
         # Attach the hook configuration
         hook = self.env['sms.hook'].search([
             ('name', '=ilike', vals['service'])])
