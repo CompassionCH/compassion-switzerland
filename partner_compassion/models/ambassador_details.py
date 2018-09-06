@@ -144,6 +144,13 @@ class AmbassadorDetails(models.Model):
         # Allows to create formation event from ambassador details
         return True
 
+    @api.model
+    def create(self, vals):
+        # Link partner to the advocate details
+        advocate = super(AmbassadorDetails, self).create(vals)
+        advocate.partner_id.ambassador_details_id = advocate
+        return advocate
+
     @api.multi
     def open_events(self):
         return {
