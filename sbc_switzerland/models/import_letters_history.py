@@ -532,7 +532,7 @@ class ImportLettersHistory(models.Model):
         temp_pdf_file.seek(0)
         gs = find_in_path('gs')
         args = ['-sDEVICE=pdfwrite', '-dCompatibilityLevel=1.4',
-                '-dPDFSETTINGS=/screen', '-dNOPAUSE', '-dQUIET', '-dBATCH']
+                '-dPDFSETTINGS=/ebook', '-dNOPAUSE', '-dQUIET', '-dBATCH']
         with NamedTemporaryFile() as output:
             command = [gs] + args + [
                 '-sOutputFile=' + output.name,
