@@ -27,8 +27,7 @@ class SmsRequest(models.Model):
             ('date', '<', fields.Date.today()),
             ('date', '>=', fields.Date.to_string(one_day_ago)),
             ('state', 'in', ['step1', 'step2']),
-            ('sender', '=', self.sender)
-        ])
+        ]).filtered(lambda r: r.sender == self.sender)
         if not completed_requests:
             sms_sender = self.env['sms.sender.wizard'].create({
                 'sms_request_id': self.id,
