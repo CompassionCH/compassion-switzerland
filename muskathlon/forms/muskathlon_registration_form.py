@@ -218,15 +218,22 @@ if not testing:
                         'product_id': product.id
                     })]
                 })
-            if not partner.advocate_details_id:
+            sporty = self.env.ref('partner_compassion.engagement_sport')
+            if partner.advocate_details_id:
+                partner.advocate_details_id.write({
+                    'engagement_ids': [(4, sporty.id)]
+                })
+            else:
                 # Creation of ambassador details reloads cache and remove
-                # all field values. We therefore run it in a job.
-                sporty = self.env.ref('partner_compassion.engagement_sport')
-                partner.with_delay().create_advocate_details({
+                # all field values in the form.
+                # This hacks restores the form state after the creation.
+                backup = self._backup_fields()
+                self.env['advocate.details'].sudo(uid).create({
                     'partner_id': partner.id,
                     'advocacy_source': 'Online Muskathlon registration',
                     'engagement_ids': [(4, sporty.id)]
                 })
+                self._restore_fields(backup)
             # This field is not needed in muskathlon registration.
             values.pop('partner_name')
             # Force default value instead of setting 0.
@@ -255,3 +262,25 @@ if not testing:
                 'reference': 'MUSK-REG-' + str(self.main_object.id),
                 'invoice_id': self.invoice_id.id
             })
+
+        def _backup_fields(self):
+            """ Hack method to save data the can be lost when environment
+            is refreshed.
+            :return: dict of values
+            """
+            return {
+                'amount': self.amount,
+                'currency_id': self.currency_id.id,
+                'acquirer_id': self.acquirer_id.id,
+                'partner_id': self.partner_id.id
+            }
+
+        def _restore_fields(self, backup):
+            """Hack method to restore lost field values after environment
+            refresh.
+            :return: None
+            """
+            self.amount = backup['amount']
+            self.currency_id = backup['currency_id']
+            self.acquirer_id = backup['acquirer_id']
+            self.partner_id = backup['partner_id']

@@ -8,8 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models, fields
-from odoo.addons.queue_job.job import job, related_action
+from odoo import models, fields
 
 
 class ResPartner(models.Model):
@@ -18,12 +17,3 @@ class ResPartner(models.Model):
     muskathlon_participant_id = fields.Char('Muskathlon participant ID')
     muskathlon_registration_ids = fields.One2many(
         'muskathlon.registration', 'partner_id', 'Muskathlon registrations')
-
-    @api.multi
-    @job(default_channel='root.muskathlon')
-    @related_action('related_action_partner')
-    def create_advocate_details(self, details_vals):
-        """ Create ambassador details. """
-        self.advocate_details_id = self.advocate_details_id.create(
-            details_vals)
-        return True
