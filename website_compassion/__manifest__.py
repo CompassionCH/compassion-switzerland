@@ -38,6 +38,9 @@
     'data': [
         'views/header.xml',
         'views/footer.xml',
+        'views/footer_fr.xml',
+        'views/footer_de.xml',
+        'views/footer_it.xml',
         'views/assets.xml',
         'views/homepage.xml'
     ],
