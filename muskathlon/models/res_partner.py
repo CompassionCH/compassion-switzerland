@@ -22,8 +22,8 @@ class ResPartner(models.Model):
     @api.multi
     @job(default_channel='root.muskathlon')
     @related_action('related_action_partner')
-    def create_ambassador_details(self, details_vals):
+    def create_advocate_details(self, details_vals):
         """ Create ambassador details. """
-        self.ambassador_details_id = self.ambassador_details_id.create(
+        self.advocate_details_id = self.advocate_details_id.create(
             details_vals)
         return True

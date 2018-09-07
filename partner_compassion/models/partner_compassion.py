@@ -87,14 +87,11 @@ class ResPartner(models.Model):
         'res.partner', 'res_partner_duplicates', 'partner_id',
         'duplicate_id', readonly=True)
 
-    ambassador_details_id = fields.Many2one('ambassador.details',
-                                            'Details of advocate')
-    # TODO Delete these fields after production migration
-    ambassador_quote = fields.Text(
-        readonly=True,
-        help='Old ambassador quote field kept for migration purpose.'
-             'Not used anymore')
-    quote_migrated = fields.Boolean()
+    advocate_details_id = fields.Many2one(
+        'advocate.details', 'Advocate details')
+    engagement_ids = fields.Many2many(
+        'advocate.engagement', related='advocate_details_id.engagement_ids'
+    )
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -382,7 +379,7 @@ class ResPartner(models.Model):
             'partner_latitude': False,
             'partner_longitude': False
         })
-        self.ambassador_details_id.unlink()
+        self.advocate_details_id.unlink()
         self.survey_inputs.unlink()
         self.env['mail.tracking.email'].search([
             ('partner_id', '=', self.id)]).unlink()

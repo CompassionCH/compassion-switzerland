@@ -23,9 +23,9 @@ except ImportError:
     _logger.warning("Please install pandas for the Advocate CRON to work")
 
 
-class AmbassadorDetails(models.Model):
-    _name = "ambassador.details"
-    _description = "Ambassador Details"
+class AdvocateDetails(models.Model):
+    _name = "advocate.details"
+    _description = "Advocate Details"
     _rec_name = "partner_id"
     _inherit = "mail.thread"
 
@@ -72,8 +72,8 @@ class AmbassadorDetails(models.Model):
         groups="base.group_user"
     )
     engagement_ids = fields.Many2many(
-        'ambassador.engagement', 'ambassador_engagement_rel',
-        'ambassador_details_id', 'engagement_id', 'Engagement type',
+        'advocate.engagement', 'advocate_engagement_rel',
+        'advocate_details_id', 'engagement_id', 'Engagement type',
         groups="base.group_user"
     )
     t_shirt_size = fields.Selection([
@@ -143,6 +143,13 @@ class AmbassadorDetails(models.Model):
     def _inverse_formation(self):
         # Allows to create formation event from ambassador details
         return True
+
+    @api.model
+    def create(self, vals):
+        # Link partner to the advocate details
+        advocate = super(AdvocateDetails, self).create(vals)
+        advocate.partner_id.advocate_details_id = advocate
+        return advocate
 
     @api.multi
     def open_events(self):

@@ -121,9 +121,10 @@
                         </group>
                     </group>
                 </page>
-                <page string="Advocacy" name="ambassador_details">
-                    <group name="ambassador_details_group">
-                        <field name="ambassador_details_id" context="{'default_partner_id': active_id}" domain="[('partner_id','=',active_id)]"/>
+                <page string="Advocacy" name="advocate_details">
+                    <group name="advocate_details_group">
+                        <field name="advocate_details_id" context="{'default_partner_id': active_id}" domain="[('partner_id','=',active_id)]"/>
+                        <field name="engagement_ids" widget="many2many_tags"/>
                     </group>
                 </page>
             </xpath>
@@ -199,15 +200,17 @@
                 <filter string="Language" context="{'group_by': 'lang'}"/>
             </xpath>
             <field name="name" position="after">
-                 <field name="ambassador_details_id" filter_domain="[('ambassador_details_id.engagement_ids', 'ilike', self)]"/>
+                 <field name="advocate_details_id" filter_domain="[('advocate_details_id.engagement_ids', 'ilike', self)]"/>
             </field>
             <!-- Remove filtering of contact people on the customer filter -->
             <filter name="customer" position="attributes">
                 <attribute name="domain">[('customer','=',1)]</attribute>
             </filter>
             <filter name="supplier" position="after">
-                    <separator />
-                    <filter string="Sponsor" name="sponsor" domain="['|', ('category_id.name', '=', 'Sponsor'), ('category_id.name', '=', 'Parrain')]"/>
+                <separator />
+                <filter string="Sponsor" name="sponsor" domain="['|', ('category_id.name', '=', 'Sponsor'), ('category_id.name', '=', 'Parrain')]"/>
+                <separator />
+                <filter string="Advocate" name="advocate" domain="[('advocate_details_id.state', 'in', ['new', 'active'])]"/>
             </filter>
         </field>
     </record>

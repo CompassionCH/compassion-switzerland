@@ -12,7 +12,7 @@ from odoo import models, fields
 
 
 class AmbassadorEngagement(models.Model):
-    _name = "ambassador.engagement"
-    _description = "Ambassador Engagement"
+    _name = "advocate.engagement"
+    _description = "Advocate Engagement"
 
     name = fields.Char(required=True, translate=True)
