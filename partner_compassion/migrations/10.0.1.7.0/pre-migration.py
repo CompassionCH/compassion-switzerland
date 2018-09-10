@@ -62,9 +62,3 @@ def migrate(env, version):
                           'advocate_details_id')
         WHERE value LIKE '%ambassador_details_id%'
     """)
-    # Update missing links of partner to advocate
-    env.cr.execute("""
-        UPDATE res_partner p
-        SET advocate_details_id = (SELECT a.id from advocate_details a
-                                   WHERE a.partner_id = p.id)
-    """)
