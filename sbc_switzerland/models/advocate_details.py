@@ -34,8 +34,8 @@ class AdvocateDetails(models.Model):
             if not was_translator and is_translator:
                 tc = translate_connector.TranslateConnect()
                 _logger.info("translator tag added, we insert partner in "
-                            "translation platform and prepare a welcome "
-                            "communication")
+                             "translation platform and prepare a welcome "
+                             "communication")
                 try:
                     tc.upsert_user(advocate.partner_id, create=True)
                 except:
@@ -61,7 +61,7 @@ class AdvocateDetails(models.Model):
                 if tc_change:
                     tc = translate_connector.TranslateConnect()
                     _logger.info("translator tag still present, we update "
-                                "partner in translation platform")
+                                 "partner in translation platform")
                     tc.upsert_user(advocate.partner_id, create=False)
             if was_translator and not is_translator:
                 tc = translate_connector.TranslateConnect()

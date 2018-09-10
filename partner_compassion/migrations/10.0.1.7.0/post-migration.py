@@ -36,10 +36,10 @@ def migrate(env, version):
                 partner_id,
                 state
             )
-            select 
+            select
                 id,
                 'new'
-            from 
+            from
                 ambassadors_to_create atc
             returning id
         )
@@ -48,10 +48,10 @@ def migrate(env, version):
             ambassador_details_id,
             engagement_id
         )
-        select 
+        select
             id,
             (select id from ambassador_engagement where name = 'Translation')
-        from 
+        from
             inserted_ambassadors
     """)
 
@@ -71,23 +71,23 @@ def migrate(env, version):
         ),
         ambassador_engagement_rel_already_inserted as
         (
-            select 
-            ambassador_details_id 
+            select
+            ambassador_details_id
             from ambassador_engagement_rel
-            where ambassador_details_id in (select 
-                            id 
+            where ambassador_details_id in (select
+                            id
                             from ambassadors_to_check)
-            and engagement_id = (select 
-                        id 
-                      from ambassador_engagement 
+            and engagement_id = (select
+                        id
+                      from ambassador_engagement
                       where name = 'Translation')
         ),
         ambassador_engagement_rel_to_insert as
         (
-            select 
-            id 
+            select
+            id
             from ambassadors_to_check
-            where id not in (select 
+            where id not in (select
                     ambassador_details_id
                      from ambassador_engagement_rel_already_inserted)
         )
@@ -96,10 +96,10 @@ def migrate(env, version):
             ambassador_details_id,
             engagement_id
         )
-        select 
+        select
             id,
             (select id from ambassador_engagement where name = 'Translation')
-        from 
+        from
             ambassador_engagement_rel_to_insert
     """)
 
@@ -107,8 +107,8 @@ def migrate(env, version):
     env.cr.execute("""
         with rows_to_delete as
         (
-            select 
-                   category_id, 
+            select
+                   category_id,
                    partner_id
             from res_partner_res_partner_category_rel rp_cat_rel
                 inner join res_partner_category rp_cat
