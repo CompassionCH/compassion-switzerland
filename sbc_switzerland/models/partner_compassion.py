@@ -30,57 +30,6 @@ class ResPartner(models.Model):
             force_create=True)).create(values)
         return partner
 
-    @api.multi
-    def write(self, values):
-        translator_id = self.env.ref(
-            'partner_compassion.res_partner_category_translator').id
-        for partner in self:
-            was_translator = translator_id in partner.category_id.ids
-            if self._context.get('force_create'):
-                was_translator = False
-            super(ResPartner, partner).write(values)
-            is_translator = translator_id in partner.category_id.ids
-            if not was_translator and is_translator:
-                tc = translate_connector.TranslateConnect()
-                logger.info("translator tag added, we insert partner in "
-                            "translation platform and prepare a welcome "
-                            "communication")
-                try:
-                    tc.upsert_user(partner, create=True)
-                except:
-                    tc.upsert_user(partner, create=False)
-
-                # prepare welcome communication
-                config = self.env.ref('sbc_switzerland.new_translator_config')
-                self.env['partner.communication.job'].create({
-                    'config_id': config.id,
-                    'partner_id': partner.id,
-                    'object_ids': partner.id,
-                    'user_id': config.user_id.id,
-                    'show_signature': True,
-                    'print_subject': True
-                })
-
-            if was_translator and is_translator:
-                tc_values = ['name', 'email', 'ref', 'lang', 'firstname',
-                             'lastname']
-                tc_change = reduce(
-                    lambda x, y: x or y, [v in values for v in tc_values])
-                if tc_change:
-                    tc = translate_connector.TranslateConnect()
-                    logger.info("translator tag still present, we update "
-                                "partner in translation platform")
-                    tc.upsert_user(partner, create=False)
-            if was_translator and not is_translator:
-                tc = translate_connector.TranslateConnect()
-                logger.info("translator tag removed, we delete any user in "
-                            "translation platform with that ref as number")
-                try:
-                    tc.remove_user(partner)
-                except:
-                    tc.disable_user(partner)
-        return True
-
     @api.model
     def find_missing_translator(self):
         translator_id = self.env.ref(
