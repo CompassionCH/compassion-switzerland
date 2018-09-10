@@ -8,30 +8,28 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from openupgradelib import openupgrade
 
 
-@openupgrade.migrate(use_env=True)
-def migrate(env, version):
+def migrate(cr, version):
     if not version:
         return
 
-    # Insert new ambassador_details with tag "Translation" for all res_partners
-    # with tag "Translator" that don't have an ambassador_detail assigned
-    env.cr.execute("""
-        with ambassadors_to_create as
+    # Insert new advocate_details with tag "Translation" for all res_partners
+    # with tag "Translator" that don't have an advocate_detail assigned
+    cr.execute("""
+        with advocates_to_create as
         (
             select rp.id from res_partner rp
                 inner join res_partner_res_partner_category_rel rp_cat_rel
                 on rp.id = rp_cat_rel.partner_id
                 inner join res_partner_category rp_cat
                 on rp_cat.id = rp_cat_rel.category_id
-            where rp.id not in (select partner_id from ambassador_details)
+            where rp.id not in (select partner_id from advocate_details)
             and rp_cat.name = 'Translator'
         ),
-        inserted_ambassadors as
+        inserted_advocates as
         (
-            insert into ambassador_details
+            insert into advocate_details
             (
                 partner_id,
                 state
@@ -40,27 +38,27 @@ def migrate(env, version):
                 id,
                 'new'
             from
-                ambassadors_to_create atc
+                advocates_to_create atc
             returning id
         )
-        insert into ambassador_engagement_rel
+        insert into advocate_engagement_rel
         (
-            ambassador_details_id,
+            advocate_details_id,
             engagement_id
         )
         select
             id,
-            (select id from ambassador_engagement where name = 'Translation')
+            (select id from advocate_engagement where name = 'Translation')
         from
-            inserted_ambassadors
+            inserted_advocates
     """)
 
-    # Add tag "Translation" to ambassador_details assigned to res_partners
+    # Add tag "Translation" to advocate_details assigned to res_partners
     # with tag "Translator"
-    env.cr.execute("""
-        with ambassadors_to_check as
+    cr.execute("""
+        with advocates_to_check as
         (
-            select ad.id from ambassador_details ad
+            select ad.id from advocate_details ad
             inner join res_partner rp
             on rp.id = ad.partner_id
             inner join res_partner_res_partner_category_rel rp_cat_rel
@@ -69,42 +67,42 @@ def migrate(env, version):
             on rp_cat.id = rp_cat_rel.category_id
             where rp_cat.name = 'Translator'
         ),
-        ambassador_engagement_rel_already_inserted as
+        advocate_engagement_rel_already_inserted as
         (
             select
-            ambassador_details_id
-            from ambassador_engagement_rel
-            where ambassador_details_id in (select
+            advocate_details_id
+            from advocate_engagement_rel
+            where advocate_details_id in (select
                             id
-                            from ambassadors_to_check)
+                            from advocates_to_check)
             and engagement_id = (select
                         id
-                      from ambassador_engagement
+                      from advocate_engagement
                       where name = 'Translation')
         ),
-        ambassador_engagement_rel_to_insert as
+        advocate_engagement_rel_to_insert as
         (
             select
             id
-            from ambassadors_to_check
+            from advocates_to_check
             where id not in (select
-                    ambassador_details_id
-                     from ambassador_engagement_rel_already_inserted)
+                    advocate_details_id
+                     from advocate_engagement_rel_already_inserted)
         )
-        insert into ambassador_engagement_rel
+        insert into advocate_engagement_rel
         (
-            ambassador_details_id,
+            advocate_details_id,
             engagement_id
         )
         select
             id,
-            (select id from ambassador_engagement where name = 'Translation')
+            (select id from advocate_engagement where name = 'Translation')
         from
-            ambassador_engagement_rel_to_insert
+            advocate_engagement_rel_to_insert
     """)
 
     # Delete all tags "Translator" on res_partners
-    env.cr.execute("""
+    cr.execute("""
         with rows_to_delete as
         (
             select
@@ -118,4 +116,19 @@ def migrate(env, version):
         delete from res_partner_res_partner_category_rel
         where category_id in (select category_id from rows_to_delete)
         and partner_id in (select partner_id from rows_to_delete)
+    """)
+
+    # Update missing links of partner to advocate
+    cr.execute("""
+        UPDATE res_partner p
+        SET advocate_details_id = (SELECT a.id from advocate_details a
+                                   WHERE a.partner_id = p.id)
+    """)
+
+    # Set new translators active if they already translated
+    cr.execute("""
+        UPDATE advocate_details
+        SET state = 'active'
+        FROM correspondence
+        WHERE advocate_details.partner_id = correspondence.translator_id;
     """)
