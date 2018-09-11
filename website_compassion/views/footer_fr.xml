@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Customize footer  -->
+        <template id="custom_footer_fr" inherit_id="website.layout"
+                  name="Custom Footer FR" priority="1000">
+            <xpath expr="//div[@id='french']" position="replace">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="#" class="footer_section_title">
+                                    Parrainer
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="https://compassion.ch/parrainer-un-enfant/">
+                                            Parrainer un enfant
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/combattre-la-pauvrete/">
+                                            Combattre la pauvreté
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/que-change-votre-parrainage/">
+                                            Que change votre parrainage ?
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/offrir/">
+                                            Offrir
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/ecrire/">
+                                            Ecrire
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" class="footer_section_title">
+                                    S’engager
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="https://compassion.ch/donations/">
+                                            Donner
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/participer/">
+                                            S’engager bénévolement
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="#" class="footer_section_title">A
+                                    propos de Compassion
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="https://compassion.ch/qui-sommes-nous/">
+                                            Qui sommes-nous ?
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/historique/">
+                                            L’histoire de Compassion
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/compassion-dans-le-monde/">
+                                            Compassion dans le monde
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/finances/">
+                                            Finances
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/telechargements/">
+                                            Téléchargements
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="https://compassion.ch/nosprincipes/"
+                                   class="footer_section_title">Nos Principes
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-3">
+                        <ul>
+                            <li>
+                                <a href="https://compassion.ch/news/"
+                                   class="footer_section_title">Blog
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://compassion.ch/newsletter/"
+                                   class="footer_section_title">Newsletter
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://compassion.ch/agenda/"
+                                   class="footer_section_title">Agenda
+                                </a>
+                            </li>
+                        </ul>
+                        <h6 class="footer_section_title">Retrouvez-nous sur
+                        </h6>
+                        <div>
+                            <ul class="social-links">
+                                <li>
+                                    <a target="_blank"
+                                       href="https://www.facebook.com/compassionsuisse/"
+                                       class="facebook"/>
+                                </li>
+                                <li>
+                                    <a target="_blank"
+                                       href="https://www.youtube.com/user/CompassionSuisse"
+                                       class="youtube"/>
+                                </li>
+                                <li>
+                                    <a target="_blank"
+                                       href="https://vimeo.com/compassionswitzerland"
+                                       class="vimeo"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <h5 class="footer_section_big_title">Contact</h5>
+                        <p>
+                            <b>Compassion Suisse</b>
+                            <br/>
+                            Galilée 3
+                            <br/>
+                            1400 Yverdon-les-Bains
+                            <br/>
+                            Tel.: 031 552 21 25
+                            <br/>
+                            Email:
+                            <a href="mailto:info@compassion.ch">
+                                info@compassion.ch
+                            </a>
+                        </p>
+
+                        <h5 class="footer_section_big_title">Coordonnées
+                            bancaires
+                        </h5>
+                        <p>
+                            CCP: 17-312562-0
+                            <br/>
+                            IBAN: CH07 0900 0000 1731 2562 0
+                        </p>
+                    </div>
+                </div>
+                <div class="end_footer">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            © 2018 Compassion Suisse
+                        </div>
+                        <div class="col-sm-8 end_footer_links">
+                            <ul>
+                                <li>
+                                    <a href="https://compassion.ch/contact/"
+                                       class="end_footer_link">Contact
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://compassion.ch/protection-enfance/"
+                                       class="end_footer_link">Notre engagement
+                                        pour la protection de l’enfance
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://compassion.ch/protection-des-donnees/"
+                                       class="end_footer_link">Protection des
+                                        données
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://compassion.ch/questions-frequentes/"
+                                       class="end_footer_link">FAQ
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>
