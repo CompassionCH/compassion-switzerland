@@ -8,10 +8,11 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api
+from odoo import fields, api
+from odoo.addons.base_geoengine import geo_model
 
 
-class MuskathlonDetails(models.Model):
+class MuskathlonDetails(geo_model.GeoModel):
     _inherit = "advocate.details"
 
     emergency_name = fields.Char('Emergency contact name')
@@ -34,10 +35,6 @@ class MuskathlonDetails(models.Model):
     trip_information_complete = fields.Boolean(
         compute='_compute_trip_information_complete'
     )
-
-    sql_constraints = [
-        ('partner_unique', 'UNIQUE (partner_id)', 'Partner must be unique.')
-    ]
 
     @api.multi
     def _compute_trip_information_complete(self):
