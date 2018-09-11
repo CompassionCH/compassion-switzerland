@@ -44,6 +44,17 @@
         </field>
     </record>
 
+    <record id="view_calendar_event_search" model="ir.ui.view">
+        <field name="name">calendar.event.search</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+        <field name="arch" type="xml">
+            <filter name="message_needaction" position="after">
+                <filter name="maketing_campaigns_tag" string="Marketing Campaigns" domain="[('categ_ids','ilike','Campagne Marketing')]"/>
+            </filter>
+        </field>
+    </record>
+
      <record id="view_calendar_filter" model="ir.ui.view">
         <field name="name">calendar.event.search</field>
         <field name="model">calendar.event</field>
