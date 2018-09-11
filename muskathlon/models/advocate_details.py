@@ -12,7 +12,7 @@ from odoo import models, fields, api
 
 
 class MuskathlonDetails(models.Model):
-    _inherit = "ambassador.details"
+    _inherit = "advocate.details"
 
     emergency_name = fields.Char('Emergency contact name')
     emergency_phone = fields.Char('Emergency contact phone number')

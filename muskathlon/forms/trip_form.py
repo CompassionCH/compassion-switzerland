@@ -23,7 +23,7 @@ if not testing:
 
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_tripinfo'
-        _form_model = 'ambassador.details'
+        _form_model = 'advocate.details'
         _form_required_fields = [
             't_shirt_size', 'emergency_relation_type', 'emergency_name',
             'emergency_phone', 'birth_name', 'passport_number',

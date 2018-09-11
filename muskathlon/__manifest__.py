@@ -47,7 +47,7 @@
         'views/partner_compassion_view.xml',
         'views/recurring_contracts_view.xml',
         'views/muskathlon_registrations.xml',
-        'views/ambassador_details_view.xml',
+        'views/advocate_details_view.xml',
         'views/notification_settings_view.xml',
         'views/payment_transaction_view.xml',
         'templates/muskathlon_details.xml',

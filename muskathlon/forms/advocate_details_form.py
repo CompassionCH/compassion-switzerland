@@ -15,13 +15,13 @@ testing = tools.config.get('test_enable')
 if not testing:
     # prevent these forms to be registered when running tests
 
-    class AmbassadorDetailsForm(models.AbstractModel):
-        _name = 'cms.form.ambassador.details'
+    class AdvocateDetailsForm(models.AbstractModel):
+        _name = 'cms.form.advocate.details'
         _inherit = 'cms.form'
 
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
-        form_id = 'modal_ambassador_details'
-        _form_model = 'ambassador.details'
+        form_id = 'modal_advocate_details'
+        _form_model = 'advocate.details'
         _form_model_fields = [
             'quote', 'mail_copy_when_donation'
         ]

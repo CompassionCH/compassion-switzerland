@@ -32,8 +32,8 @@ class MuskathlonRegistration(models.Model):
     lead_id = fields.Many2one(
         'crm.lead', 'Lead'
     )
-    ambassador_details_id = fields.Many2one(
-        'ambassador.details', related='partner_id.ambassador_details_id')
+    advocate_details_id = fields.Many2one(
+        'advocate.details', related='partner_id.advocate_details_id')
 
     # The 4 following fields avoid giving read access to the public on the
     # res.partner participating in the muskathlon.
@@ -45,11 +45,11 @@ class MuskathlonRegistration(models.Model):
     partner_name = fields.Char(related="partner_id.name", readonly=True)
     ambassador_picture_1 = fields.Binary(related='partner_id.image')
     ambassador_picture_2 = fields.Binary(
-        related='partner_id.ambassador_details_id.picture_large')
+        related='partner_id.advocate_details_id.picture_large')
     ambassador_description = fields.Text(
-        related='partner_id.ambassador_details_id.description')
+        related='partner_id.advocate_details_id.description')
     ambassador_quote = fields.Text(
-        related='partner_id.ambassador_details_id.quote')
+        related='partner_id.advocate_details_id.quote')
     partner_firstname = fields.Char(
         related='partner_id.firstname', readonly=True
     )
@@ -127,8 +127,8 @@ class MuskathlonRegistration(models.Model):
 
     @api.multi
     @api.depends(
-        'partner_id', 'partner_id.image', 'ambassador_details_id',
-        'ambassador_details_id.quote')
+        'partner_id', 'partner_id.image', 'advocate_details_id',
+        'advocate_details_id.quote')
     def _compute_website_published(self):
         required_fields = [
             'partner_preferred_name', 'ambassador_quote',

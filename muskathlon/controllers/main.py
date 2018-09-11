@@ -107,12 +107,12 @@ class MuskathlonWebsite(PaymentFormController):
         """ Inject data for forms. """
         values = self._prepare_portal_layout_values()
         partner = values['partner']
-        ambassador_details_id = partner.ambassador_details_id.id
+        advocate_details_id = partner.advocate_details_id.id
 
         # Load forms
         kw['form_model_key'] = 'cms.form.muskathlon.trip.information'
         trip_info_form = self.get_form(
-            'ambassador.details', ambassador_details_id, **kw)
+            'advocate.details', advocate_details_id, **kw)
         if form_id is None or form_id == trip_info_form.form_id:
             trip_info_form.form_process()
 
@@ -121,9 +121,9 @@ class MuskathlonWebsite(PaymentFormController):
         if form_id is None or form_id == coordinates_form.form_id:
             coordinates_form.form_process()
 
-        kw['form_model_key'] = 'cms.form.ambassador.details'
+        kw['form_model_key'] = 'cms.form.advocate.details'
         about_me_form = self.get_form(
-            'ambassador.details', ambassador_details_id, **kw)
+            'advocate.details', advocate_details_id, **kw)
         if form_id is None or form_id == about_me_form.form_id:
             about_me_form.form_process()
 
@@ -155,7 +155,7 @@ class MuskathlonWebsite(PaymentFormController):
             if picture == 'picture_1':
                 partner.write({'image': image_value})
             else:
-                partner.ambassador_details_id.write({
+                partner.advocate_details_id.write({
                     'picture_large': image_value
                 })
 
@@ -276,10 +276,10 @@ class MuskathlonWebsite(PaymentFormController):
         survey_already_filled = surveys_done[0] \
             if surveys_done else False
 
-        if registrations and partner.ambassador_details_id:
+        if registrations and partner.advocate_details_id:
             values['registrations'] = registrations
         elif registrations:
-            values['muskathlete_without_ambassador_details'] = True
+            values['muskathlete_without_advocate_details'] = True
 
         values.update({
             'partner': partner,
