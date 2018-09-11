@@ -12,8 +12,11 @@ import logging
 
 from datetime import datetime
 
-from odoo import api, models, fields, _
+from odoo import api, fields, _
 from odoo.tools import file_open
+
+from odoo.addons.base_geoengine import geo_model
+from odoo.addons.base_geoengine import fields as geo_fields
 
 _logger = logging.getLogger(__name__)
 
@@ -23,7 +26,7 @@ except ImportError:
     _logger.warning("Please install pandas for the Advocate CRON to work")
 
 
-class AdvocateDetails(models.Model):
+class AdvocateDetails(geo_model.GeoModel):
     _name = "advocate.details"
     _description = "Advocate Details"
     _rec_name = "partner_id"
@@ -44,10 +47,6 @@ class AdvocateDetails(models.Model):
              'and to this partner.',
     )
     mail_copy_when_donation = fields.Boolean()
-    birthdate = fields.Date(
-        related='partner_id.birthdate_date', store=True, readonly=True)
-    lang = fields.Selection(
-        related='partner_id.lang', store=True, readonly=True)
     number_surveys = fields.Integer(related='partner_id.survey_input_count')
 
     # Advocacy fields
@@ -85,6 +84,21 @@ class AdvocateDetails(models.Model):
     )
     event_type_formation = fields.Integer(compute='_compute_formation')
     number_events = fields.Integer(compute='_compute_events')
+
+    # Partner related fields
+    ########################
+    birthdate = fields.Date(
+        related='partner_id.birthdate_date', store=True, readonly=True)
+    lang = fields.Selection(
+        related='partner_id.lang', store=True, readonly=True)
+    zip = fields.Char(
+        related='partner_id.zip', store=True, readonly=True)
+    city = fields.Char(
+        related='partner_id.city', store=True, readonly=True)
+    email = fields.Char(
+        related='partner_id.email', store=True, readonly=True)
+    geo_point = geo_fields.GeoPoint(
+        compute='_compute_geo_point', store=True, readonly=True)
 
     _sql_constraints = [
         ('details_unique', 'unique(partner_id)',
@@ -143,6 +157,15 @@ class AdvocateDetails(models.Model):
     def _inverse_formation(self):
         # Allows to create formation event from ambassador details
         return True
+
+    def set_geo_point(self):
+        self._compute_geo_point()
+
+    @api.multi
+    @api.depends('partner_id.geo_point')
+    def _compute_geo_point(self):
+        for advocate in self:
+            advocate.geo_point = advocate.partner_id.geo_point
 
     @api.model
     def create(self, vals):
