@@ -9,14 +9,13 @@
 #
 ##############################################################################
 import logging
-from odoo import api
-from odoo.addons.base_geoengine import geo_model
+from odoo import models, api
 from . import translate_connector
 
 _logger = logging.getLogger(__name__)
 
 
-class AdvocateDetails(geo_model.GeoModel):
+class AdvocateDetails(models.Model):
     _inherit = 'advocate.details'
 
     ##########################################################################

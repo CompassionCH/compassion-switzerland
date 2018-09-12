@@ -12,7 +12,7 @@ import logging
 
 from datetime import datetime
 
-from odoo import api, fields, _
+from odoo import api, models, fields, _
 from odoo.tools import file_open
 
 from odoo.addons.base_geoengine import geo_model
@@ -26,7 +26,7 @@ except ImportError:
     _logger.warning("Please install pandas for the Advocate CRON to work")
 
 
-class AdvocateDetails(geo_model.GeoModel):
+class AdvocateDetails(models.Model, geo_model.GeoModel):
     _name = "advocate.details"
     _description = "Advocate Details"
     _rec_name = "partner_id"
@@ -97,8 +97,7 @@ class AdvocateDetails(geo_model.GeoModel):
         related='partner_id.city', store=True, readonly=True)
     email = fields.Char(
         related='partner_id.email', store=True, readonly=True)
-    geo_point = geo_fields.GeoPoint(
-        compute='_compute_geo_point', store=True, readonly=True)
+    geo_point = geo_fields.GeoPoint(readonly=True)
 
     _sql_constraints = [
         ('details_unique', 'unique(partner_id)',
@@ -158,12 +157,8 @@ class AdvocateDetails(geo_model.GeoModel):
         # Allows to create formation event from ambassador details
         return True
 
-    def set_geo_point(self):
-        self._compute_geo_point()
-
     @api.multi
-    @api.depends('partner_id.geo_point')
-    def _compute_geo_point(self):
+    def set_geo_point(self):
         for advocate in self:
             advocate.geo_point = advocate.partner_id.geo_point
 
@@ -172,6 +167,7 @@ class AdvocateDetails(geo_model.GeoModel):
         # Link partner to the advocate details
         advocate = super(AdvocateDetails, self).create(vals)
         advocate.partner_id.advocate_details_id = advocate
+        advocate.set_geo_point()
         return advocate
 
     @api.multi
