@@ -116,12 +116,11 @@
         <field name="name">Advocates map</field>
         <field name="arch" type="xml">
             <geoengine>
-                <field name="partner_id" select="1"/>
+                <field name="partner_id" select="1" string="Name"/>
                 <field name="state"/>
                 <field name="email"/>
                 <field name="zip"/>
                 <field name="city"/>
-                <field name="engagement_ids"/>
             </geoengine>
         </field>
         <field eval="16" name="priority"/>

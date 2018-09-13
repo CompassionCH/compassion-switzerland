@@ -137,7 +137,6 @@ class ResPartner(models.Model):
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
         partner = super(ResPartner, self).create(vals)
         partner.compute_geopoint()
-
         return partner
 
     @api.multi
@@ -145,7 +144,11 @@ class ResPartner(models.Model):
         email = vals.get('email')
         if email:
             vals['email'] = email.strip()
-        return super(ResPartner, self).write(vals)
+        res = super(ResPartner, self).write(vals)
+        if set(('country_id', 'city', 'zip')).intersection(vals):
+            self.geo_localize()
+            self.compute_geopoint()
+        return res
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=80):
@@ -254,6 +257,7 @@ class ResPartner(models.Model):
                 partner.partner_latitude,
                 partner.partner_longitude)
             partner.write({'geo_point': geo_point.wkt})
+            partner.advocate_details_id.set_geo_point()
         return True
 
     @api.multi

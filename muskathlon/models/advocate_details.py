@@ -8,11 +8,10 @@
 #
 ##############################################################################
 
-from odoo import fields, api
-from odoo.addons.base_geoengine import geo_model
+from odoo import models, fields, api
 
 
-class MuskathlonDetails(geo_model.GeoModel):
+class MuskathlonDetails(models.Model):
     _inherit = "advocate.details"
 
     emergency_name = fields.Char('Emergency contact name')
