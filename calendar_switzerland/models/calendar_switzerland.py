@@ -43,6 +43,7 @@ class CalendarEvent(models.Model):
         compute='_compute_timeline_stop',
         inverse='_inverse_timeline_stop'
     )
+    is_flyer = fields.Boolean(compute='_compute_is_flyer', store=True)
 
     @api.multi
     def _compute_timeline_start(self):
@@ -59,6 +60,17 @@ class CalendarEvent(models.Model):
 
     def _inverse_timeline_stop(self):
         self.stop = self.stop_timeline
+
+    def set_is_fyler(self):
+        self._compute_is_flyer()
+
+    @api.multi
+    @api.depends('categ_ids')
+    def _compute_is_flyer(self):
+        flyer_tag = self.env.ref(
+            'calendar_switzerland.calendar_event_flyer', False)
+        for event in self:
+            event.is_flyer = flyer_tag and flyer_tag in event.categ_ids
 
     @api.model
     def create(self, vals):

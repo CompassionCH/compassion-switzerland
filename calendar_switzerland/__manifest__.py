@@ -30,14 +30,11 @@
 # pylint: disable=C8101
 {
     'name': 'Calendar Switzerland',
-    'version': '10.0.1.0.0',
+    'version': '10.0.1.1.0',
     'category': 'Calendar',
     'author': 'Sebastien Toth',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
-    'data': [
-        'views/calendar_switzerland_view.xml'
-    ],
     'depends': [
         'calendar',
         'web_timeline',
