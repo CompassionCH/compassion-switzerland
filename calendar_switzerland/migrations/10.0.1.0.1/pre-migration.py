@@ -42,7 +42,7 @@ def migrate(cr, version):
                 WHERE NOT EXISTS
                 (
                     select 1
-                    from test_query
+                    from meeting_categories_to_insert
                     where event_id = @mcti.event_id
                     and type_id = @mcti.type_id
                 )
