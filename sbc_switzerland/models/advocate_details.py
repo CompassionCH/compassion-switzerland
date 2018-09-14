@@ -9,7 +9,7 @@
 #
 ##############################################################################
 import logging
-from odoo import api, models
+from odoo import models, api
 from . import translate_connector
 
 _logger = logging.getLogger(__name__)

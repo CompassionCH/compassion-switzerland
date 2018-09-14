@@ -74,8 +74,11 @@
                 <field name="end_date"/>
                 <field name="birthdate"/>
                 <field name="lang"/>
-                <field name="state"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="email"/>
                 <field name="engagement_ids" widget="many2many_tags" options="{'not_delete': True}"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -90,6 +93,9 @@
                 <field name="state"/>
                 <field name="birthdate"/>
                 <field name="lang"/>
+                <field name="city"/>
+                <field name="zip"/>
+                <field name="email"/>
                 <separator/>
                 <filter name="advocate" string="Active or New" domain="[('state', 'in', ['new','active'])]"/>
                 <separator/>
@@ -106,11 +112,60 @@
         </field>
     </record>
 
+    <record id="view_advocate_geo" model="ir.ui.view">
+        <field name="name">Advocates map</field>
+        <field name="arch" type="xml">
+            <geoengine>
+                <field name="partner_id" select="1" string="Name"/>
+                <field name="state"/>
+                <field name="email"/>
+                <field name="zip"/>
+                <field name="city"/>
+            </geoengine>
+        </field>
+        <field eval="16" name="priority"/>
+        <field name="model">advocate.details</field>
+    </record>
+    <record id="geoengine_vector_layer_advocate" model="geoengine.vector.layer">
+        <field name="geo_field_id" ref="partner_compassion.field_advocate_details_geo_point"/>
+        <field name="name">Advocate location</field>
+        <field eval="6" name="sequence"/>
+        <field name="view_id" ref="view_advocate_geo"/>
+        <field name="geo_repr">basic</field>
+        <field eval="1" name="nb_class"/>
+        <field name="begin_color">#FF680A</field>
+        <field name="symbol_binary">iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAYAAACGVs+MAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+            bWFnZVJlYWR5ccllPAAAA3VJREFUeNq8V89rE0EUfjOz6aZNpFZpqyCEIooHoVaoQkGoB3vyJB49
+            iYieFERBEMRbxYP/gFcv3ntQLHqwqNR6LNUqIq0/m8S2u0l3NzszfpNsqN0e3MiuA4/Jmx3e++Z7
+            3/wI01pTkvZicF+zzwvR1c35efRX0B/K7SgScUHScVZ8KR96St31pPyuEHfk6+e/xrUoYWMwQM3D
+            7gvOL9lIYA8MkD1+gli+hxozM/3qw8erHtEYpp7D/MUkcXlSAFiZUEQXEfgSiwCJvp0kDh8mcWSY
+            2J49xBkzAY8B5KSvdTFVAKHWJan1dVMwQy/AkCyXKZydo8bLVySXl0kqZVgizDvT0Ho0SdzEJUDA
+            CaH1XgQ3YCjgnESlSmp6uqmBsFajoDWPmnOUOgX3WXoAlBoFxSLAKgWoZjDDhLXuNMsRwg/gQ4Bm
+            rvldSpUBrPoXR3CvLUgka4AFi7eqqExijPlmjmFISi9VDaA9xqoCiJHqSGKsBnPDkGowNxrbiL77
+            Sr1JlQG017DnCDzR1oFol6MlvKYZFlCCCsT4JG0A67CbsGEkHzSK520KAcIkp2h3oN2CfUy7BKa9
+            hZ2FzWnPo7BepwB9gF7ClKYKvl2GPUgaMDEDGtusfSrr0J+g42PXVLF4Uy8vM76rj6hQmKKn0zeY
+            EPOdrCgxAOvk+KazsVGlC+cf2fv3X+sOQ9uT5gDSU9q25ynh3dIxgO47t/+4GBhpxwn3Fgu6NFSi
+            paUv5Ky7gXVvcvPWSBsAd92tJdF6FQeRr0KZ1+YI1mpNrq5Rpy2xCBnjcYPgWOWP6/wH/UNLzEBX
+            Vy7OQIBKrEbpfVglUwCFnp44AI0jyI3KXYfb0B0KsLNtGBNW02fUFsaGuS4yZcDUPQZJY+xnpHgH
+            FmQKgHMWS48xRu1H3zdThmwBxBgwJcBYNXLL5tWWMQM8LkJinDuR62ZeAhYrQVODnK1H0jQXhcwU
+            gBBia35cfWClbJDgeeaADcPIfwTA8SARAKCb5Slb+M6zBLBNA62dYYSn8UdlNWdZ2QLo6+vdNibx
+            LAIQF+z4tp3ftlVTBVBZqcZPJurv3x16nv+jt7fXd/FgaYQNar0QMwDw6dPSFt+svVqt+iMjw3Jh
+            4X24Ui2Tldt6YR06eCDFF5Flxc+B00g8/G5xYVYF6ui+odIOzHmI8Y62428BBgDwu9RGZbaLEwAA
+            AABJRU5ErkJggg==
+        </field>
+    </record>
+    <record id="geoengine_raster_layer_advocate_osm" model="geoengine.raster.layer">
+        <field name="raster_type">osm</field>
+        <field name="name">Advocate background</field>
+        <field name="view_id" ref="view_advocate_geo"/>
+        <field eval="0" name="overlay"/>
+    </record>
+
     <record id="action_advocates" model="ir.actions.act_window">
         <field name="name">Advocates</field>
         <field name="res_model">advocate.details</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,geoengine</field>
         <field name="context">{'search_default_advocate':1}</field>
     </record>
 

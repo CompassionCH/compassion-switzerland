@@ -76,7 +76,7 @@ class MassMailing(models.Model):
         emails = self.env['mail.mail']
         mass_mailing_medium_id = self.env.ref(
             'contract_compassion.utm_medium_mass_mailing').id
-        for mailing in self:
+        for mailing in self.with_context(must_skip_send_to_printer=True):
             substitutions = mailing.mapped(
                 'email_template_id.substitution_ids')
             substitutions.replace_tracking_link(

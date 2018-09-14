@@ -35,10 +35,6 @@ class MuskathlonDetails(models.Model):
         compute='_compute_trip_information_complete'
     )
 
-    sql_constraints = [
-        ('partner_unique', 'UNIQUE (partner_id)', 'Partner must be unique.')
-    ]
-
     @api.multi
     def _compute_trip_information_complete(self):
         for record in self:

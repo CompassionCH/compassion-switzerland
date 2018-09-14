@@ -36,11 +36,22 @@
                       event_open_popup="true"
                       default_group_by="campaign_event_id"
                       zoomKey="ctrlKey"
-                      colors="#ec7063:user_id == false, #385fff: compassion_event_id != false;"
+                      colors="#339933:compassion_event_id!=false;#ff8533:is_flyer==true"
                       mode="month"
                       readonly="1"
                       create="false"
             />
+        </field>
+    </record>
+
+    <record id="view_calendar_event_search" model="ir.ui.view">
+        <field name="name">calendar.event.search</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+        <field name="arch" type="xml">
+            <filter name="message_needaction" position="after">
+                <filter name="maketing_campaigns_tag" string="Marketing Campaigns" domain="[('categ_ids','ilike','Campagne Marketing')]"/>
+            </filter>
         </field>
     </record>
 
@@ -49,9 +60,10 @@
         <field name="model">calendar.event</field>
         <field name="arch" type="xml">
             <search>
-                <filter name ="campaign" string="Event or Campaign" domain="['|',('categ_ids','ilike','event'),('campaign_event_id','!=', False)]"/>
+                <filter name ="campaign" string="Campaign" domain="[('campaign_event_id','!=', False)]"/>
+                <filter name ="event" string="Event" domain="[('categ_ids','ilike','event')]"/>
                 <separator/>
-                <filter name ="current_year" string="This year" domain="[('start_datetime', '>=', (context_today() + relativedelta(years=-1)).strftime('%Y-07-01'))]"/>
+                <filter name ="current_year" string="This year" domain="['|', ('start_datetime', '>=', (context_today() + relativedelta(years=-1)).strftime('%Y-07-01')), ('start_date', '>=', (context_today() + relativedelta(years=-1)).strftime('%Y-07-01'))]"/>
             </search>
         </field>
     </record>
@@ -77,6 +89,7 @@
                     </group>
                     <group>
                         <field name="location"/>
+                        <field name="compassion_event_id"/>
                         <field name="campaign_event_id"/>
                         <field name="categ_ids" widget="many2many_tags"/>
                     </group>
@@ -89,7 +102,7 @@
         <field name="name">Compassion Timeline</field>
         <field name="res_model">calendar.event</field>
         <field name="view_mode">timeline,calendar,tree,form</field>
-        <field name="context">{"search_default_campaign": 1, "default_allday": 1, "search_default_current_year": 1,
+        <field name="context">{"search_default_campaign": 1, "search_default_event": 1, "default_allday": 1, "search_default_current_year": 1,
             "form_view_ref": "calendar_switzerland.view_calendar_event_timeline_popup"}</field>
         <field name="search_view_id" ref="view_calendar_filter"/>
         <field name="form_view_id" ref="calendar.view_calendar_event_form_popup"/>
