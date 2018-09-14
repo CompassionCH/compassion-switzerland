@@ -76,7 +76,7 @@ class EventCompassion(models.Model):
             event.amount_raised = amount_raised
             event.amount_objective = amount_objective
             event.amount_raised_percents = int(
-                amount_raised * 100 / amount_objective)
+                amount_raised * 100 / (amount_objective or 1))
 
     @api.model
     def get_event_participants(self, event_id):
