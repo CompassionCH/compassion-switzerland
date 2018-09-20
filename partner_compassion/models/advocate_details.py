@@ -72,8 +72,7 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
     )
     engagement_ids = fields.Many2many(
         'advocate.engagement', 'advocate_engagement_rel',
-        'advocate_details_id', 'engagement_id', 'Engagement type',
-        groups="base.group_user"
+        'advocate_details_id', 'engagement_id', 'Engagement type'
     )
     t_shirt_size = fields.Selection([
         ('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'),
