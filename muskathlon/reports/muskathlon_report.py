@@ -72,7 +72,7 @@ class Muskathlon(models.Model):
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW %s AS (
               SELECT
-                (2 * ROW_NUMBER() OVER (ORDER BY (SELECT 100))) AS id,
+                (2 * ROW_NUMBER() OVER (ORDER BY (SELECT rc.id))) AS id,
                 rc.id AS contract_id,
                 NULL AS invoice_line_id,
                 rc.partner_id,
@@ -105,7 +105,7 @@ class Muskathlon(models.Model):
             )
             UNION ALL (
               SELECT
-                (2 * ROW_NUMBER() OVER (ORDER BY (SELECT 100)) - 1) AS id,
+                (2 * ROW_NUMBER() OVER (ORDER BY (SELECT ail.id)) - 1) AS id,
                 NULL AS contract_line_id,
                 ail.id AS invoice_line_id,
                 ail.partner_id,
