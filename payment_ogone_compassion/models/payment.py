@@ -15,6 +15,10 @@ from odoo import api, models, fields
 from odoo.http import request
 from odoo.tools import float_round
 from odoo.tools.float_utils import float_repr
+from odoo.addons.payment_ogone.models.payment import PaymentTxOgone
+
+# Add 91 as a valid status, because Postfinance Card is only sending this
+PaymentTxOgone._ogone_valid_tx_status = [5, 9, 91, 95, 99, 50, 51, 52, 56]
 
 
 class PaymentAcquirerOgone(models.Model):
