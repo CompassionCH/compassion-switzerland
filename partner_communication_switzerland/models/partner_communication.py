@@ -11,7 +11,10 @@
 import base64
 import time
 import logging
+import re
 
+from ..wizards.generate_communication_wizard import SMS_CHAR_LIMIT, SMS_COST
+from math import ceil
 from collections import OrderedDict
 from datetime import date, datetime
 from io import BytesIO
@@ -19,6 +22,7 @@ from io import BytesIO
 from dateutil.relativedelta import relativedelta
 from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
 from pyPdf import PdfFileWriter, PdfFileReader
+from bs4 import BeautifulSoup
 
 from odoo import api, models, _, fields
 from odoo.exceptions import MissingError, UserError
@@ -31,6 +35,21 @@ class PartnerCommunication(models.Model):
 
     event_id = fields.Many2one('crm.event.compassion', 'Event')
     ambassador_id = fields.Many2one('res.partner', 'Ambassador')
+    currency_id = fields.Many2one('res.currency', compute='_compute_currency')
+    utm_campaign_id = fields.Many2one('utm.campaign')
+    sms_cost = fields.Float()
+
+    @api.model
+    def send_mode_select(self):
+        modes = super(PartnerCommunication, self).send_mode_select()
+        modes.append(('sms', _('SMS')))
+        return modes
+
+    @api.multi
+    def _compute_currency(self):
+        chf = self.env.ref('base.CHF')
+        for wizard in self:
+            wizard.currency_id = chf.id
 
     def get_correspondence_attachments(self):
         """
@@ -318,10 +337,14 @@ class PartnerCommunication(models.Model):
         - Mark B2S correspondence as read when printed.
         - Postpone no money holds when reminders sent.
         - Update donor tag
+        - Sends SMS for sms send_mode
         :return: True
         """
-        for job in self.filtered(lambda j: j.model in ('recurring.contract',
-                                                       'account.invoice')):
+        sms_jobs = self.filtered(lambda j: j.send_mode == 'sms')
+        sms_jobs.send_by_sms()
+        other_jobs = self - sms_jobs
+        for job in other_jobs.filtered(lambda j: j.model in (
+                'recurring.contract', 'account.invoice')):
             queue_job = self.env['queue.job'].search([
                 ('channel', '=', 'root.group_reconcile'),
                 ('state', '!=', 'done'),
@@ -349,8 +372,8 @@ class PartnerCommunication(models.Model):
                             "reconciled now. Please wait the process to finish"
                             " before printing the communication."
                         ))
-        super(PartnerCommunication, self).send()
-        b2s_printed = self.filtered(
+        super(PartnerCommunication, other_jobs).send()
+        b2s_printed = other_jobs.filtered(
             lambda c: c.config_id.model == 'correspondence' and
             c.send_mode == 'physical' and c.state == 'done')
         if b2s_printed:
@@ -368,7 +391,7 @@ class PartnerCommunication(models.Model):
         settings = self.env['availability.management.settings']
         first_extension = settings.get_param('no_money_hold_duration')
         second_extension = settings.get_param('no_money_hold_extension')
-        for communication in self:
+        for communication in other_jobs:
             extension = False
             if communication.config_id == no_money_1:
                 extension = first_extension + 7
@@ -384,12 +407,66 @@ class PartnerCommunication(models.Model):
                         expiration)
 
         donor = self.env.ref('partner_compassion.res_partner_category_donor')
-        partners = self.filtered(
+        partners = other_jobs.filtered(
             lambda j: j.config_id.model == 'account.invoice.line' and
             donor not in j.partner_id.category_id).mapped('partner_id')
         partners.write({'category_id': [(4, donor.id)]})
 
         return True
+
+    @api.multi
+    def send_by_sms(self):
+        """
+        Sends communication jobs with SMS 939 service.
+        :return: list of sms_texts
+        """
+        link_pattern = re.compile(r'<a href="(.*)">(.*)</a>', re.DOTALL)
+        sms_medium_id = self.env.ref('sms_sponsorship.utm_medium_sms').id
+        sms_texts = []
+        for job in self.filtered('partner_mobile'):
+            sms_text = job.convert_html_for_sms(link_pattern, sms_medium_id)
+            sms_texts.append(sms_text)
+            sms_wizard = self.env['sms.sender.wizard'].with_context(
+                partner_id=job.partner_id.id).create({
+                    'subject': job.subject,
+                    'text': sms_text
+                })
+            sms_wizard.send_sms_partner()
+            job.write({
+                'state': 'done',
+                'sent_date': fields.Datetime.now(),
+                'sms_cost': ceil(
+                    float(len(sms_text)) / SMS_CHAR_LIMIT) * SMS_COST
+            })
+        return sms_texts
+
+    def convert_html_for_sms(self, link_pattern, sms_medium_id):
+        """
+        Converts HTML into simple text for SMS.
+        First replace links with short links using Link Tracker.
+        Then clean HTML using BeautifulSoup library.
+        :param link_pattern: the regex pattern for replacing links
+        :param sms_medium_id: the associated utm.medium id for generated links
+        :return: Clean text with short links for SMS use.
+        """
+        self.ensure_one()
+        source_id = self.config_id.source_id.id
+
+        def _replace_link(match):
+            full_link = match.group(1)
+            short_link = self.env['link.tracker'].create({
+                'url': full_link,
+                'campaign_id': self.utm_campaign_id.id or self.env.ref(
+                    'partner_communication_switzerland.'
+                    'utm_campaign_communication').id,
+                'medium_id': sms_medium_id,
+                'source_id': source_id
+            })
+            return short_link.short_url
+
+        links_converted_text = link_pattern.sub(_replace_link, self.body_html)
+        soup = BeautifulSoup(links_converted_text, "lxml")
+        return soup.get_text().strip()
 
     @api.multi
     def open_related(self):
