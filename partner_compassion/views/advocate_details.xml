@@ -77,7 +77,7 @@
                 <field name="zip"/>
                 <field name="city"/>
                 <field name="email"/>
-                <field name="engagement_ids" widget="many2many_tags" options="{'not_delete': True}"/>
+                <field name="engagement_ids" widget="many2many_tags" options="{'not_delete': True}" groups="base.group_user"/>
                 <field name="state"/>
             </tree>
         </field>

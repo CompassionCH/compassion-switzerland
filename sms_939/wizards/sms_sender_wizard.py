@@ -60,6 +60,7 @@ class SmsSender(models.TransientModel):
         request = [
             ('receiver', mobile),
             ('service', 'compassion'),
+            ('maximumSMSAmount', 3),
             ('cost', 0),
             ('text', self.text.encode('utf8'))
         ]

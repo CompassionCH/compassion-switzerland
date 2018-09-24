@@ -19,6 +19,15 @@
                 <attribute name="attrs">{'required': [('res_model', '=', 'recurring.contract')]}</attribute>
                 <attribute name="domain">[('model', '=', res_model)]</attribute>
             </field>
+            <field name="force_language" position="after">
+                <field name="sms_length_estimation" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
+                <field name="sms_number_estimation" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="sms_cost_estimation" attrs="{'invisible': [('send_mode', '!=', 'sms')]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+            </field>
+            <field name="report_id" position="after">
+                <field name="campaign_id" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
+            </field>
         </field>
     </record>
 
