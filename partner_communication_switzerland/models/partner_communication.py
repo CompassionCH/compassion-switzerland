@@ -21,13 +21,17 @@ from io import BytesIO
 
 from dateutil.relativedelta import relativedelta
 from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
-from pyPdf import PdfFileWriter, PdfFileReader
-from bs4 import BeautifulSoup
 
 from odoo import api, models, _, fields
 from odoo.exceptions import MissingError, UserError
 
 _logger = logging.getLogger(__name__)
+
+try:
+    from pyPdf import PdfFileWriter, PdfFileReader
+    from bs4 import BeautifulSoup
+except ImportError:
+    _logger.warning("Please install pypdf and bs4 for using the module")
 
 
 class PartnerCommunication(models.Model):

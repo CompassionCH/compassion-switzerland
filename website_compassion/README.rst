@@ -3,7 +3,7 @@
 
 Website Compassion
 ==================
-Layout for odoo public website. Adds custom styling and cms_form widgets.
+Layout for odoo public website.
 
 Installation
 ============

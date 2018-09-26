@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, tools, _
+from odoo import models, fields, tools
 
 testing = tools.config.get('test_enable')
 
@@ -23,9 +23,6 @@ if not testing:
         _form_model_fields = [
             'name', 'phone', 'email', 'event_id', 'event_ticket_id',
         ]
-        # _form_fields_order = [
-        #     'quote', 'mail_copy_when_donation',
-        # ]
         _form_required_fields = ['partner_name', 'partner_email']
         _display_type = 'full'
 

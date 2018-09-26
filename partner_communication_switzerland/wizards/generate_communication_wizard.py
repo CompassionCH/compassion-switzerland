@@ -8,9 +8,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from math import ceil
+import logging
 
-from bs4 import BeautifulSoup
+from math import ceil
 
 from odoo import models, api, fields
 from odoo.tools import safe_eval
@@ -18,6 +18,13 @@ from odoo.addons.queue_job.job import job
 
 SMS_CHAR_LIMIT = 160
 SMS_COST = 0.07
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    _logger.warning("Please install bs4 for using the module")
 
 
 class GenerateCommunicationWizard(models.TransientModel):
