@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="event_type_sport" model="event.type">
+            <field name="name">Sport</field>
+        </record>
+        <record id="event_type_tour" model="event.type">
+            <field name="name">Sponsor tour</field>
+            <field name="default_registration_min">10</field>
+            <field name="default_registration_max">30</field>
+        </record>
+        <record id="event_type_meeting" model="event.type">
+            <field name="name">Compassion Meeting</field>
+            <field name="default_registration_min">20</field>
+            <field name="default_registration_max">200</field>
+        </record>
+    </data>
+</odoo>

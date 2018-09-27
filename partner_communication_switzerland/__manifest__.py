@@ -43,7 +43,7 @@
         'auth_signup'
     ],
     'external_dependencies': {
-        'python': ['wand', 'detectlanguage', 'sendgrid']
+        'python': ['wand', 'detectlanguage', 'sendgrid', 'bs4']
     },
     'data': [
         'data/major_revision_emails.xml',
