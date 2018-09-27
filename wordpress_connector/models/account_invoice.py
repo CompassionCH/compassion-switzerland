@@ -112,7 +112,7 @@ class AccountInvoice(models.Model):
             'invoice_line_ids.product_id.categ_name')
         partner = self.env['res.partner'].browse(partner_id)
         partner.set_privacy_statement(origin='new_gift')
-        new_partner = partner.write_uid == self.env.user
+        new_partner = partner.state != 'active'
         if analytic_id and (not requires_sponsorship or
                             sponsorship) and not new_partner:
             invoice.action_invoice_open()

@@ -297,7 +297,7 @@ class TestWordpressConnector(BaseSponsorshipTest):
         self.assertTrue(sponsorship_res)
 
         s = self.env['recurring.contract'].search([
-            ('web_data', '=', simplejson.dumps(michel_form_data))], limit=1)
+            ('partner_id', '=', self.michel.id)], limit=1)
         self.check_sponsorship(s, child, user_id=self.thomas.id,
                                origin_id=event.origin_id.id,
                                partner_id=self.michel.id)

@@ -8,17 +8,21 @@
 #
 ##############################################################################
 
-from odoo import models
+from odoo import models, tools
 
+testing = tools.config.get('test_enable')
 
-class MuskathlonPartnerMatchform(models.AbstractModel):
+if not testing:
+    # prevent these forms to be registered when running tests
 
-    _name = 'cms.form.muskathlon.match.partner'
-    _inherit = 'cms.form.match.partner'
+    class MuskathlonPartnerMatchform(models.AbstractModel):
 
-    def _get_partner_vals(self, values, extra_values):
-        keys = super(MuskathlonPartnerMatchform, self)._get_partner_vals(
-            values, extra_values
-        )
-        keys.update({'state': 'pending'})
-        return keys
+        _name = 'cms.form.muskathlon.match.partner'
+        _inherit = 'cms.form.match.partner'
+
+        def _get_partner_vals(self, values, extra_values):
+            keys = super(MuskathlonPartnerMatchform, self)._get_partner_vals(
+                values, extra_values
+            )
+            keys.update({'state': 'pending'})
+            return keys
