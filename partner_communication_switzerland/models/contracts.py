@@ -15,7 +15,7 @@ from datetime import datetime, date, timedelta
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, models, fields, _
+from odoo import api, models, fields, exceptions, _
 
 logger = logging.getLogger(__name__)
 
@@ -404,6 +404,11 @@ class RecurringContract(models.Model):
     ##########################################################################
     @api.multi
     def contract_waiting_mandate(self):
+        # Check if partner is active
+        if self.partner_id.state != 'active':
+            raise exceptions.UserError(_(
+                'Partner must be active before validating the partnership !'))
+
         res = super(RecurringContract, self).contract_waiting_mandate()
         new_spons = self.filtered(lambda c: 'S' in c.type and not c.is_active)
         new_spons._new_dossier()

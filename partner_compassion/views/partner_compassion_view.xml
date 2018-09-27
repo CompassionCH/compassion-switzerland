@@ -66,6 +66,8 @@
             <xpath expr="//form/*[1]" position="before">
                 <header>
                     <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
+                    <button name="validate_partner" type="object" string="Validate" states="pending"/>
+                    <field name="state" widget="statusbar"/>
                 </header>
             </xpath>
             <!-- Move some fields -->
