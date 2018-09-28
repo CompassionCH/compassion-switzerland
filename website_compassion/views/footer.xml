@@ -16,6 +16,9 @@
                             <t t-if="env.lang == 'it_IT'">
                                 <div id="italian"></div>
                             </t>
+                            <t t-if="env.lang == 'en_US'">
+                                <div id="french"></div>
+                            </t>
                         </div>
                     </footer>
                     <script>

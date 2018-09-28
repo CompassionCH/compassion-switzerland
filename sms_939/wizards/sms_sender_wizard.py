@@ -18,12 +18,12 @@ from odoo.tools.config import config
 
 
 def smsbox_send(request, headers):
-    request_server = httplib.HTTPConnection(
-        'blue.smsbox.ch', 10020, timeout=10)
+    server = config.get('939_server')
+    port = config.get('939_port')
+    endpoint = config.get('939_endpoint')
+    request_server = httplib.HTTPConnection(server, port, timeout=10)
     request_server.request(
-        'GET',
-        '/Blue/sms/rest/user/websend?' + urllib.urlencode(request),
-        headers=headers
+        'GET', endpoint + urllib.urlencode(request), headers=headers
     )
 
 

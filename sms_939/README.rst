@@ -14,12 +14,13 @@
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-CompassionCH%2Fcompassion--switzerland-lightgray.png?logo=github
-    :target: https://github.com/CompassionCH/compassion-switzerland/tree/devel/sms_939
+    :target: https://github.com/CompassionCH/compassion-switzerland/tree/10.0/sms_939
     :alt: CompassionCH/compassion-switzerland
 
 |badge1| |badge2| |badge3| 
 
 This module integrates the services of 939_ into Odoo. It can send SMS messages and receive SMS notifications.
+It implements as well al SMS services needed for Compassion CH.
 
 .. _939: http://www.939.ch/
 
@@ -33,6 +34,9 @@ Configuration
 
 Make sure you have setup your 939 account in your odoo.conf file
 
+#. 939_server = YYY
+#. 939_port = YYY
+#. 939_endpoint = YYY
 #. 939_username = XXX
 #. 939_password = YYY
 
@@ -62,7 +66,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/CompassionCH/compassion-switzerland/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20sms_939%0Aversion:%20devel%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20sms_939%0Aversion:%2010.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -91,4 +95,4 @@ This module is maintained by Compassion Switzerland.
 Compassion Switzerland is a nonprofit organization whose
 mission is to release children from extreme poverty in Jesus name.
 
-This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/devel/sms_939>`_ project on GitHub.
+This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/10.0/sms_939>`_ project on GitHub.
