@@ -17,7 +17,7 @@ from odoo.tools import safe_eval
 from odoo.addons.queue_job.job import job
 
 SMS_CHAR_LIMIT = 160
-SMS_COST = 0.07
+SMS_COST = 0.08
 
 _logger = logging.getLogger(__name__)
 

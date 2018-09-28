@@ -273,8 +273,9 @@ class ResPartner(models.Model):
                 self.env.cr,
                 partner.partner_latitude,
                 partner.partner_longitude)
-            partner.write({'geo_point': geo_point.wkt})
-            partner.advocate_details_id.set_geo_point()
+            vals = {'geo_point': geo_point.wkt}
+            partner.write(vals)
+            partner.advocate_details_id.write(vals)
         return True
 
     @api.multi
