@@ -86,6 +86,9 @@ class Contracts(models.Model):
         :param utm_campaign: identifier from the url tracking
         :return: True if process is good.
         """
+        # Add language in data
+        form_data['lang'] = LANG_MAPPING[sponsor_lang]
+
         # Format birthday
         birthday = form_data.get('birthday', '')
         if ('/' in birthday) or (' ' in birthday) or ('.' in birthday) and \
@@ -119,7 +122,6 @@ class Contracts(models.Model):
         lines = self._get_sponsorship_standard_lines()
         if not form_data.get('patenschaftplus'):
             lines = lines[:-1]
-        form_data['lang'] = LANG_MAPPING[sponsor_lang]
         sponsorship = self.create({
             'partner_id': partner.id,
             'correspondent_id': partner.id,
