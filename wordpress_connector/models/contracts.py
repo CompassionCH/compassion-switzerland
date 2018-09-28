@@ -8,12 +8,12 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import simplejson
 import re
 
 from odoo.addons.queue_job.job import job, related_action
 
 from odoo import api, models, fields, _
+from odoo.tools import config
 
 # Mapping from Website form fields to res.partner fields in Odoo
 SPONSOR_MAPPING = {
@@ -34,6 +34,8 @@ LANG_MAPPING = {
     'de': 'de_DE',
     'it': 'it_IT'
 }
+
+test_mode = config.get('test_enable')
 
 
 class Contracts(models.Model):
@@ -122,7 +124,7 @@ class Contracts(models.Model):
         lines = self._get_sponsorship_standard_lines()
         if not form_data.get('patenschaftplus'):
             lines = lines[:-1]
-        sponsorship = self.create({
+        sponsorship_vals = {
             'partner_id': partner.id,
             'correspondent_id': partner.id,
             'child_id': child.id,
@@ -132,61 +134,12 @@ class Contracts(models.Model):
             'source_id': utms['source'],
             'medium_id': utms.get('medium', internet_id),
             'campaign_id': utms['campaign'],
-        })
-
-        ambassador_match = re.match(r'^msk_(\d{1,8})', form_data[
-            'consumer_source_text'])
-        event_match = re.match(r'^msk_(\d{1,8})', form_data[
-            'consumer_source'])
-        # The sponsoships consumer_source fields were set automatically due
-        # to a redirect from the sponsorship button on the muskathlon page.
-        if ambassador_match and event_match:
-            ambassador_id = int(ambassador_match.group(1))
-            event_id = int(event_match.group(1))
-            sponsorship.update({
-                'user_id': ambassador_id,
-                'origin_id': self.env['recurring.contract.origin'].search([
-                    ('event_id', '=', event_id)], limit=1).id
-            })
-
-        # Notify staff
-        staff_param = 'sponsorship_' + sponsor_lang + '_id'
-        staff = self.env['staff.notification.settings'].get_param(staff_param)
-        notify_text = "A new sponsorship was made on the website. Please " \
-                      "verify all information and validate the sponsorship " \
-                      "on Odoo: <br/><br/><ul>"
-
-        list_keys = ['salutation', 'first_name', 'last_name', 'birthday',
-                     'street', 'zipcode', 'city', 'land', 'email', 'phone',
-                     'lang', 'language',
-                     'kirchgemeinde', 'Beruf', 'zahlungsweise',
-                     'consumer_source', 'consumer_source_text',
-                     'patenschaftplus', 'mithelfen', 'childID']
-
-        for key in list_keys:
-            notify_text += "<li>" + key + ": " + \
-                           unicode(form_data.get(key, '')) + '</li>'
-
-        sponsorship.message_post(
-            body=notify_text,
-            subject=_('New sponsorship from the website'),
-            partner_ids=[staff],
-            type='comment',
-            subtype='mail.mt_comment',
-            content_subtype='html'
-        )
-
-        if partner_ok:
-            # Update sponsor info
-            sponsorship.with_delay().update_partner_from_web_data()
+        }
+        if not test_mode:
+            return self.with_delay().create_sponsorship_job(
+                sponsorship_vals, form_data)
         else:
-            # Mark child as sponsored even if not yet linked to sponsor
-            child.state = 'P'
-            # Convert to No Money Hold
-            sponsorship.with_delay().put_child_on_no_money_hold()
-
-        partner.set_privacy_statement(origin='new_sponsorship')
-        return sponsorship
+            return self.create_sponsorship_job(sponsorship_vals, form_data)
 
     @api.model
     def create_sponsor_from_web(self, web_data):
@@ -231,13 +184,71 @@ class Contracts(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    @api.multi
+    @api.model
     @job(default_channel='root.child_sync_wp')
     @related_action(action='related_action_contract')
-    def update_partner_from_web_data(self):
+    def create_sponsorship_job(self, values, form_data):
+        """
+        Creates the wordpress sponsorship.
+        :param values: dict for contract creation
+        :param form_data: wordpress form data
+        :return: <recurring.contract> record
+        """
+        sponsorship = self.env['recurring.contract'].create(values)
+        ambassador_match = re.match(r'^msk_(\d{1,8})', form_data[
+            'consumer_source_text'])
+        event_match = re.match(r'^msk_(\d{1,8})', form_data[
+            'consumer_source'])
+        # The sponsorships consumer_source fields were set automatically due
+        # to a redirect from the sponsorship button on the muskathlon page.
+        if ambassador_match and event_match:
+            ambassador_id = int(ambassador_match.group(1))
+            event_id = int(event_match.group(1))
+            sponsorship.update({
+                'user_id': ambassador_id,
+                'origin_id': self.env['recurring.contract.origin'].search([
+                    ('event_id', '=', event_id)], limit=1).id
+            })
+
+        # Notify staff
+        sponsor_lang = form_data['lang'][:2]
+        staff_param = 'sponsorship_' + sponsor_lang + '_id'
+        staff = self.env['staff.notification.settings'].get_param(staff_param)
+        notify_text = "A new sponsorship was made on the website. Please " \
+                      "verify all information and validate the sponsorship " \
+                      "on Odoo: <br/><br/><ul>"
+
+        list_keys = ['salutation', 'first_name', 'last_name', 'birthday',
+                     'street', 'zipcode', 'city', 'land', 'email', 'phone',
+                     'lang', 'language',
+                     'kirchgemeinde', 'Beruf', 'zahlungsweise',
+                     'consumer_source', 'consumer_source_text',
+                     'patenschaftplus', 'mithelfen', 'childID']
+
+        for key in list_keys:
+            notify_text += "<li>" + key + ": " + \
+                           unicode(form_data.get(key, '')) + '</li>'
+
+        sponsorship.message_post(
+            body=notify_text,
+            subject=_('New sponsorship from the website'),
+            partner_ids=[staff],
+            type='comment',
+            subtype='mail.mt_comment',
+            content_subtype='html'
+        )
+
+        if sponsorship.partner_id.state == 'active':
+            # Update sponsor info
+            sponsorship.update_partner_from_web_data(form_data)
+
+        sponsorship.partner_id.set_privacy_statement(origin='new_sponsorship')
+        return sponsorship
+
+    @api.multi
+    def update_partner_from_web_data(self, form_data):
         # Get spoken languages
         self.ensure_one()
-        form_data = simplejson.loads(self.web_data)
         partner = self.partner_id
         sponsor_lang = form_data['lang'][:2]
         langs = ','.join(form_data.get('language', ['']))
