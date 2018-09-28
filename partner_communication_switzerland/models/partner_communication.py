@@ -453,7 +453,8 @@ class PartnerCommunication(models.Model):
         source_id = self.config_id.source_id.id
 
         def _replace_link(match):
-            full_link = match.group(1)
+
+            full_link = match.group(1).replace('&amp;', '&')
             short_link = self.env['link.tracker'].create({
                 'url': full_link,
                 'campaign_id': self.utm_campaign_id.id or self.env.ref(
