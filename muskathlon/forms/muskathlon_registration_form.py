@@ -20,7 +20,7 @@ if not testing:
 
     class MuskathlonRegistrationForm(models.AbstractModel):
         _name = 'cms.form.muskathlon.registration'
-        _inherit = ['cms.form.payment', 'cms.form.match.partner']
+        _inherit = ['cms.form.payment', 'cms.form.muskathlon.match.partner']
 
         # The form is inside a Muskathlon details page
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'

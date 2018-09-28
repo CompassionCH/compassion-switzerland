@@ -42,7 +42,6 @@ class Contracts(models.Model):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
-    web_data = fields.Text(help='Form data filled from website')
     group_id = fields.Many2one(required=False)
     partner_id = fields.Many2one(required=False)
 
@@ -102,7 +101,12 @@ class Contracts(models.Model):
         ])
         if partner and len(partner) > 1:
             partner = partner.filtered('has_sponsorships')
+            if len(partner) > 1:
+                partner = partner.filtered(
+                    lambda p: p.email == form_data['email'])
         partner_ok = partner and len(partner) == 1
+        if not partner_ok:
+            partner = self.create_sponsor_from_web(form_data)
 
         # Check origin
         internet_id = self.env.ref('utm.utm_medium_website').id
@@ -117,10 +121,9 @@ class Contracts(models.Model):
             lines = lines[:-1]
         form_data['lang'] = LANG_MAPPING[sponsor_lang]
         sponsorship = self.create({
-            'partner_id': partner_ok and partner.id,
-            'correspondent_id': partner_ok and partner.id,
+            'partner_id': partner.id,
+            'correspondent_id': partner.id,
             'child_id': child.id,
-            'web_data': simplejson.dumps(form_data),
             'type': 'S',
             'contract_line_ids': lines,
             'next_invoice_date': fields.Date.today(),
@@ -153,7 +156,8 @@ class Contracts(models.Model):
 
         list_keys = ['salutation', 'first_name', 'last_name', 'birthday',
                      'street', 'zipcode', 'city', 'land', 'email', 'phone',
-                     'language', 'kirchgemeinde', 'Beruf', 'zahlungsweise',
+                     'lang', 'language',
+                     'kirchgemeinde', 'Beruf', 'zahlungsweise',
                      'consumer_source', 'consumer_source_text',
                      'patenschaftplus', 'mithelfen', 'childID']
 
@@ -180,45 +184,39 @@ class Contracts(models.Model):
             sponsorship.with_delay().put_child_on_no_money_hold()
 
         partner.set_privacy_statement(origin='new_sponsorship')
+        return sponsorship
 
-        return True
-
-    ##########################################################################
-    #                             VIEW CALLBACKS                             #
-    ##########################################################################
-    @api.multi
-    def create_sponsor_from_web(self):
+    @api.model
+    def create_sponsor_from_web(self, web_data):
         """
         Use the form filled in website to create a new partner.
         :return: view of the partner
         """
-        self.ensure_one()
-        form_data = simplejson.loads(self.web_data)
-        vals = dict()
+        vals = {'state': 'pending'}
         for web_field, odoo_field in SPONSOR_MAPPING.iteritems():
-            vals[odoo_field] = form_data.get(web_field)
+            vals[odoo_field] = web_data.get(web_field)
 
         # Find the title
-        if form_data['salutation'] == 'Herr':
+        if web_data['salutation'] == 'Herr':
             title = self.env.ref('base.res_partner_title_mister')
-        elif form_data['salutation'] == 'Frau':
+        elif web_data['salutation'] == 'Frau':
             title = self.env.ref('base.res_partner_title_madam')
-        elif form_data['salutation'] == 'Familie':
+        elif web_data['salutation'] == 'Familie':
             title = self.env.ref(
                 'partner_compassion.res_partner_title_family')
         vals['title'] = title.id
 
         # Find the country
         country = self.env['res.country'].with_context(
-            lang=form_data['lang']).search([
-                ('name', 'like', form_data['land'])
+            lang=web_data['lang']).search([
+                ('name', 'like', web_data['land'])
             ])
         vals['country_id'] = len(country) == 1 and country.id
 
         # Find language and church
-        langs = ','.join(form_data.get('language', ['']))
-        sponsor_lang = form_data['lang'][:2]
-        church_name = form_data.get('kirchgemeinde')
+        langs = ','.join(web_data.get('language', ['']))
+        sponsor_lang = web_data['lang'][:2]
+        church_name = web_data.get('kirchgemeinde')
         vals['spoken_lang_ids'] = self._write_sponsor_lang(
             langs, sponsor_lang)
         church_dict = self._write_church(church_name)
@@ -226,25 +224,7 @@ class Contracts(models.Model):
             church_field, church_value = church_dict.items()[0]
             vals[church_field] = church_value
 
-        partner = self.env['res.partner'].with_context(
-            default_type=None).create(vals)
-        self.write({
-            'partner_id': partner.id,
-            'correspondent_id': partner.id,
-            'web_data': False,
-        })
-        self.child_id.sponsor_id = partner
-
-        return {
-            'name': partner.name,
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'res_model': 'res.partner',
-            'res_id': partner.id,
-            'context': self.env.context,
-            'target': 'current',
-        }
+        return self.env['res.partner'].create(vals)
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
