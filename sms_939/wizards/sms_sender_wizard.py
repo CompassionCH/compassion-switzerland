@@ -11,10 +11,13 @@
 import base64
 import httplib
 import urllib
+import logging
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.tools.config import config
+
+_logger = logging.getLogger(__name__)
 
 
 def smsbox_send(request, headers):
@@ -22,9 +25,12 @@ def smsbox_send(request, headers):
     port = config.get('939_port')
     endpoint = config.get('939_endpoint')
     request_server = httplib.HTTPConnection(server, port, timeout=10)
-    request_server.request(
-        'GET', endpoint + urllib.urlencode(request), headers=headers
-    )
+    url = endpoint + '?' + urllib.urlencode(request)
+    _logger.info("Sending SMS message: %s", url)
+    request_server.request('GET', url, headers=headers)
+    response = request_server.getresponse()
+    _logger.info("SMS response status: %s", response.status)
+    _logger.debug(response.read())
 
 
 class SmsSender(models.TransientModel):
