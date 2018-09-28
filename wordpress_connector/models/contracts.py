@@ -124,7 +124,6 @@ class Contracts(models.Model):
             'partner_id': partner.id,
             'correspondent_id': partner.id,
             'child_id': child.id,
-            'web_data': simplejson.dumps(form_data),
             'type': 'S',
             'contract_line_ids': lines,
             'next_invoice_date': fields.Date.today(),
@@ -157,7 +156,8 @@ class Contracts(models.Model):
 
         list_keys = ['salutation', 'first_name', 'last_name', 'birthday',
                      'street', 'zipcode', 'city', 'land', 'email', 'phone',
-                     'language', 'kirchgemeinde', 'Beruf', 'zahlungsweise',
+                     'lang', 'language',
+                     'kirchgemeinde', 'Beruf', 'zahlungsweise',
                      'consumer_source', 'consumer_source_text',
                      'patenschaftplus', 'mithelfen', 'childID']
 
@@ -184,8 +184,7 @@ class Contracts(models.Model):
             sponsorship.with_delay().put_child_on_no_money_hold()
 
         partner.set_privacy_statement(origin='new_sponsorship')
-
-        return True
+        return sponsorship
 
     @api.model
     def create_sponsor_from_web(self, web_data):
