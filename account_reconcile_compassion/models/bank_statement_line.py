@@ -66,7 +66,7 @@ class BankStatementLine(models.Model):
             ('amount_residual', '=', self.amount)
         ]
         if self.ref:
-            domain.append(('ref', '=', self.ref))
+            domain.append(('ref', 'ilike', self.ref))
         if self.partner_id:
             domain.append(('partner_id', '=', self.partner_id.id))
         if excluded_ids:

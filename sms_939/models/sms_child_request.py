@@ -18,17 +18,6 @@ from odoo import api, models, fields, _
 class SmsRequest(models.Model):
     _inherit = 'sms.child.request'
 
-    def complete_step1(self, sponsorship_id):
-        """
-        Mark partner to validate if it was newly created.
-        :param sponsorship_id: new sponsorship
-        :return: True
-        """
-        self.ensure_one()
-        if self.new_partner:
-            self.partner_id.state = 'pending'
-        return super(SmsRequest, self).complete_step1(sponsorship_id)
-
     @api.multi
     def send_step1_reminder(self):
         """ Sends SMS reminder using 939 API """
