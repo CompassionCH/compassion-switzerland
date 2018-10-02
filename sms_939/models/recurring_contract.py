@@ -8,7 +8,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models
+from odoo import api, models, _
+from odoo.exceptions import UserError
 
 
 class Contract(models.Model):
