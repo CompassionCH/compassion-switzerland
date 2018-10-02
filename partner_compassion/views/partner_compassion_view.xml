@@ -65,7 +65,9 @@
             </field>
             <xpath expr="//form/*[1]" position="before">
                 <header>
+                    <button name="validate_partner" type="object" class="oe_highlight" string="Validate" states="pending"/>
                     <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
+                    <field name="state" widget="statusbar" states="pending"/>
                 </header>
             </xpath>
             <!-- Move some fields -->
@@ -184,6 +186,24 @@
                 <field name="number_sponsorships" type="char"/>
             </field>
         </field>
+    </record>
+
+    <record id="view_partner_tree_compassion_contact" model="ir.ui.view">
+    <field name="name">res.partner.tree.compassion</field>
+    <field name="model">res.partner</field>
+    <field name="type">tree</field>
+    <field name="inherit_id" ref="partner_contact_in_several_companies.view_partner_form_inherit"/>
+    <field name="arch" type="xml">
+        <field name="other_contact_ids" position="before">
+            <field name="contact_id"/>
+        </field>
+        <xpath expr="//field[@name='other_contact_ids']/form//field[@name='email']" position="after">
+            <field name="birthdate_date"/>
+        </xpath>
+        <xpath expr="//field[@name='other_contact_ids']/.." position="attributes">
+            <attribute name="string">Linked Partners</attribute>
+        </xpath>
+    </field>
     </record>
 
     <!-- Extends the search on partners -->

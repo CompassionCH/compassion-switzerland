@@ -8,6 +8,7 @@
 #
 ##############################################################################
 
+from . import match_partner_form
 from . import muskathlon_registration_form
 from . import muskathlon_donation_form
 from . import trip_form

@@ -92,10 +92,23 @@ class ResPartner(models.Model):
     engagement_ids = fields.Many2many(
         'advocate.engagement', related='advocate_details_id.engagement_ids'
     )
+    other_contact_ids = fields.One2many(string='Linked Partners',
+                                        domain=['|', ('active', '=', False),
+                                                ('active', '=', True)])
+    state = fields.Selection([
+        ('pending', 'Waiting for validation'),
+        ('active', 'Active')
+    ], default='active', track_visibility='onchange')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+    @api.multi
+    def validate_partner(self):
+        return self.write({
+            'state': 'active'
+        })
+
     @api.multi
     def get_unreconciled_amount(self):
         """Returns the amount of unreconciled credits in Account 1050"""
@@ -137,6 +150,9 @@ class ResPartner(models.Model):
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
         partner = super(ResPartner, self).create(vals)
         partner.compute_geopoint()
+        if partner.contact_type == 'attached':
+            partner.active = False
+
         return partner
 
     @api.multi
@@ -211,7 +227,8 @@ class ResPartner(models.Model):
     ##########################################################################
     @api.onchange('lastname', 'firstname', 'zip', 'email')
     def _onchange_partner(self):
-        if (self.lastname and self.firstname and self.zip) or self.email:
+        if ((self.lastname and self.firstname and self.zip) or self.email)\
+                and self.contact_type != 'attached':
             partner_duplicates = self.search([
                 ('id', '!=', self._origin.id),
                 '|',
@@ -256,8 +273,9 @@ class ResPartner(models.Model):
                 self.env.cr,
                 partner.partner_latitude,
                 partner.partner_longitude)
-            partner.write({'geo_point': geo_point.wkt})
-            partner.advocate_details_id.set_geo_point()
+            vals = {'geo_point': geo_point.wkt}
+            partner.write(vals)
+            partner.advocate_details_id.write(vals)
         return True
 
     @api.multi

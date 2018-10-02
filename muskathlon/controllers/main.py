@@ -20,18 +20,6 @@ from odoo.addons.payment.models.payment_acquirer import ValidationError
 
 
 class MuskathlonWebsite(PaymentFormController):
-    @route('/events/', auth='public', website=True)
-    def list(self, **kwargs):
-        events = request.env['crm.event.compassion'].search([
-            ('website_published', '=', True),
-            ('muskathlon_event_id', '!=', False)
-        ])
-        if len(events) == 1:
-            return request.redirect('/event/' + str(events.id))
-        return request.render('muskathlon.list', {
-            'events': events
-        })
-
     @route('/event/<model("crm.event.compassion"):event>/',
            auth='public', website=True)
     def musk_infos(self, event, **kwargs):

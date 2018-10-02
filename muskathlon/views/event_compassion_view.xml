@@ -4,38 +4,26 @@
     <record id="view_muskathlon_events_thank_donation" model="ir.ui.view">
         <field name="name">crm.event.compassion.thankyou.form</field>
         <field name="model">crm.event.compassion</field>
-        <field name="inherit_id" ref="crm_compassion.view_events_form"/>
+        <field name="inherit_id" ref="website_event_compassion.view_muskathlon_event_website"/>
         <field name="arch" type="xml">
-            <div name="buttons" position="inside">
-                <button class="oe_stat_button" name="website_publish_button" type="object" icon="fa-globe">
-                    <field name="website_published" widget="website_button"/>
-                </button>
-            </div>
             <notebook>
                 <page string="Donation Receipts">
                     <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>
                 </page>
-                <page string="Website">
-                    <group string="Public page">
-                        <field name="filename_1" invisible="1"/>
-                        <field name="picture_1" filename="filename_1"/>
-                        <field name="sport_discipline_ids"/>
-                        <field name="website_description"/>
-                        <field name="website_side_info"/>
-                    </group>
-                    <group string="Order material page">
-                        <field name="website_my_introduction"/>
-                        <field name="website_my_fundraising"/>
-                        <field name="website_my_information"/>
-                        <field name="website_my_press_material"/>
-                        <field name="website_my_sport_material"/>
-                    </group>
-                </page>
-                <page string="4M registrations">
+                <page string="Muskathlon website/portal">
                     <group>
-                        <field name="muskathlon_event_id"/>
-                        <field name="registration_fee"/>
-                        <field name="participants_amount_objective"/>
+                        <group string="Registration" attrs="{'invisible': [('type', '!=', 'sport')]}">
+                            <field name="sport_discipline_ids"/>
+                            <field name="muskathlon_event_id"/>
+                            <field name="participants_amount_objective"/>
+                        </group>
+                        <group string="Order material page">
+                            <field name="website_my_introduction"/>
+                            <field name="website_my_fundraising"/>
+                            <field name="website_my_information"/>
+                            <field name="website_my_press_material"/>
+                            <field name="website_my_sport_material"/>
+                        </group>
                     </group>
                     <group>
                         <field name="muskathlon_registration_ids" context="{'default_event_id': id}">

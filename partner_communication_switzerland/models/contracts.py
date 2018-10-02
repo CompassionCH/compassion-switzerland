@@ -415,10 +415,11 @@ class RecurringContract(models.Model):
             'sds_state': 'waiting_welcome',
             'sds_state_date': fields.Date.today()
         })
-        if 'CSP' in self.name:
+        csp = self.filtered(lambda s: 'CSP' in s.name)
+        if csp:
             module = 'partner_communication_switzerland.'
             selected_config = self.env.ref(module + 'csp_mail')
-            self.send_communication(selected_config, correspondent=False)
+            csp.send_communication(selected_config, correspondent=False)
 
         return res
 
@@ -441,10 +442,11 @@ class RecurringContract(models.Model):
                       mandates_valid
         )._new_dossier()
 
-        if 'CSP' in self.name:
+        csp = self.filtered(lambda s: 'CSP' in s.name)
+        if csp:
             module = 'partner_communication_switzerland.'
             selected_config = self.env.ref(module + 'csp_mail')
-            self.send_communication(selected_config, correspondent=False)
+            csp.send_communication(selected_config, correspondent=False)
 
         return res
 

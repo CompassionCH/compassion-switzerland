@@ -3,7 +3,7 @@
 
 Website Compassion
 ==================
-Layout for odoo public website
+Layout for odoo public website.
 
 Installation
 ============

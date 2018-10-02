@@ -11,3 +11,4 @@
 
 from . import test_bug_fixes
 from . import test_welcome_letters
+from . import test_sms_communication

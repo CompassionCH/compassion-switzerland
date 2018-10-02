@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Add text for donation receipts -->
+    <record id="view_event_event_wordpress" model="ir.ui.view">
+        <field name="name">event.event.wordpress.form</field>
+        <field name="model">event.event</field>
+        <field name="inherit_id" ref="event.view_event_form"/>
+        <field name="arch" type="xml">
+            <field name="organizer_id" position="after">
+                <field name="compassion_event_id"/>
+                <field name="wordpress_url"/>
+            </field>
+        </field>
+    </record>
+</odoo>
