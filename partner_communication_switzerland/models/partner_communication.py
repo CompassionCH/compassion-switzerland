@@ -491,6 +491,7 @@ class PartnerCommunication(models.Model):
         - Sponsorship payment slips (if payment is True)
         - Small Childpack
         - Sponsorship labels (if correspondence is True)
+        - Child picture
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
@@ -562,6 +563,19 @@ class PartnerCommunication(models.Model):
         # Labels
         if correspondence:
             attachments.update(self.get_label_attachment(sponsorships))
+
+        # Child picture
+        report_name = 'partner_communication_switzerland.child_picture'
+        child_ids = sponsorships.mapped('child_id').ids
+        attachments.update({
+            _('child picture.pdf'): [
+                report_name,
+                base64.b64encode(report_obj.get_pdf(
+                    child_ids, report_name,
+                    data={'doc_ids': child_ids}
+                ))
+            ]
+        })
 
         return attachments
 
