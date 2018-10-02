@@ -20,7 +20,7 @@ if not testing:
 
     class MuskathlonRegistrationForm(models.AbstractModel):
         _name = 'cms.form.muskathlon.registration'
-        _inherit = ['cms.form.payment', 'cms.form.match.partner']
+        _inherit = ['cms.form.payment', 'cms.form.muskathlon.match.partner']
 
         # The form is inside a Muskathlon details page
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
@@ -66,8 +66,8 @@ if not testing:
                     'title': _('Your coordinates'),
                     'description': '',
                     'fields': [
-                        'partner_title',
-                        'partner_name', 'partner_email', 'partner_phone',
+                        'partner_title', 'partner_firstname',
+                        'partner_lastname', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
                         'partner_country_id']
                 }
@@ -235,7 +235,8 @@ if not testing:
                 })
                 self._restore_fields(backup)
             # This field is not needed in muskathlon registration.
-            values.pop('partner_name')
+            values.pop('partner_lastname')
+            values.pop('partner_firstname')
             # Force default value instead of setting 0.
             values.pop('amount_objective')
             # Parse integer

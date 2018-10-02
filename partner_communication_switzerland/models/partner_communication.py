@@ -21,13 +21,17 @@ from io import BytesIO
 
 from dateutil.relativedelta import relativedelta
 from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
-from pyPdf import PdfFileWriter, PdfFileReader
-from bs4 import BeautifulSoup
 
 from odoo import api, models, _, fields
 from odoo.exceptions import MissingError, UserError
 
 _logger = logging.getLogger(__name__)
+
+try:
+    from pyPdf import PdfFileWriter, PdfFileReader
+    from bs4 import BeautifulSoup
+except ImportError:
+    _logger.warning("Please install pypdf and bs4 for using the module")
 
 
 class PartnerCommunication(models.Model):
@@ -487,6 +491,7 @@ class PartnerCommunication(models.Model):
         - Sponsorship payment slips (if payment is True)
         - Small Childpack
         - Sponsorship labels (if correspondence is True)
+        - Child picture
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
@@ -558,6 +563,19 @@ class PartnerCommunication(models.Model):
         # Labels
         if correspondence:
             attachments.update(self.get_label_attachment(sponsorships))
+
+        # Child picture
+        report_name = 'partner_communication_switzerland.child_picture'
+        child_ids = sponsorships.mapped('child_id').ids
+        attachments.update({
+            _('child picture.pdf'): [
+                report_name,
+                base64.b64encode(report_obj.get_pdf(
+                    child_ids, report_name,
+                    data={'doc_ids': child_ids}
+                ))
+            ]
+        })
 
         return attachments
 

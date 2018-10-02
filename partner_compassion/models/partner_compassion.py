@@ -95,10 +95,20 @@ class ResPartner(models.Model):
     other_contact_ids = fields.One2many(string='Linked Partners',
                                         domain=['|', ('active', '=', False),
                                                 ('active', '=', True)])
+    state = fields.Selection([
+        ('pending', 'Waiting for validation'),
+        ('active', 'Active')
+    ], default='active', track_visibility='onchange')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+    @api.multi
+    def validate_partner(self):
+        return self.write({
+            'state': 'active'
+        })
+
     @api.multi
     def get_unreconciled_amount(self):
         """Returns the amount of unreconciled credits in Account 1050"""

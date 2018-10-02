@@ -13,6 +13,8 @@ import logging
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
+
+from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
@@ -213,6 +215,12 @@ class RecurringContracts(models.Model):
 
     @api.multi
     def contract_waiting_mandate(self):
+        # Check if partner is active
+        need_validation = self.filtered(
+            lambda s: s.partner_id.state != 'active')
+        if need_validation:
+            raise UserError(_(
+                'Please verify the partner before validating the sponsorship'))
         self.write({
             'state': 'mandate'
         })
@@ -230,6 +238,12 @@ class RecurringContracts(models.Model):
     @api.multi
     def contract_waiting(self):
         """ If sponsor has open payments, generate invoices and reconcile. """
+        # Check if partner is active
+        need_validation = self.filtered(
+            lambda s: s.partner_id.state != 'active')
+        if need_validation:
+            raise UserError(_(
+                'Please verify the partner before validating the sponsorship'))
         sponsorships = self.filtered(lambda s: 'S' in s.type)
         for contract in sponsorships:
             payment_mode = contract.payment_mode_id.name

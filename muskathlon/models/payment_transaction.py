@@ -9,10 +9,6 @@
 ##############################################################################
 
 import logging
-from datetime import date
-
-from dateutil.relativedelta import relativedelta
-
 from odoo import models, fields
 
 _logger = logging.getLogger(__name__)
@@ -32,9 +28,5 @@ class PaymentTransaction(models.Model):
     def _get_auto_post_invoice(self):
         if 'MUSK' in self.reference:
             # Only post when partner was not created
-            limit_date = date.today() - relativedelta(days=3)
-            create_date = fields.Date.from_string(self.partner_id.create_date)
-            muskathlon_user = self.env.ref('muskathlon.user_muskathlon_portal')
-            return self.partner_id.create_uid != muskathlon_user and \
-                create_date < limit_date
+            return self.partner_id.state == 'active'
         return super(PaymentTransaction, self)._get_auto_post_invoice()

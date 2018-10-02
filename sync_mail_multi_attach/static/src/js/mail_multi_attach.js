@@ -1,34 +1,44 @@
 // openerp.sync_mail_multi_attach = function (session){
 odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
-    "use strict";
+    'use strict';
 
     var core = require('web.core');
     var _t = core._t;
     var composer = require('mail.composer');
     // var qweb = core.qweb;
-    var FieldMany2ManyBinaryMultiFiles = core.form_widget_registry.get('many2many_binary');
+    var FieldMany2ManyBinaryMultiFiles = core.form_widget_registry.get(
+        'many2many_binary');
 
     composer.BasicComposer.include({
         // TODO: migrate download all attachments
         // render_attachments: function () {
         //     this._super.apply(this, arguments);
-        //     this.$(".download-all-attachment").html(qweb.render('download.all.attachment', {'widget': this}));
+        //     this.$(".download-all-attachment").html(qweb.render(
+        //          'download.all.attachment', {'widget': this}));
         // },
 
+        /**
+         * When attachment is changed
+         * @param event
+         * @returns {boolean}
+         */
         on_attachment_change: function (event) {
             event.stopPropagation();
             var self = this;
             var $target = $(event.target);
             if ($target.val() !== '') {
                 var filename = $target.val().replace(/.*[\\/]/, '');
-                // if the files exits for this answer, delete the file before upload
+                // if the files exits for this answer, delete the file before
+                // upload
                 var attachments = [];
                 for (var i in this.get('attachment_ids')) {
-                    if ((this.get('attachment_ids')[i].filename || this.get('attachment_ids')[i].name) === filename) {
+                    if ((this.get('attachment_ids')[i].filename ||
+                        this.get('attachment_ids')[i].name) === filename) {
                         if (this.get('attachment_ids')[i].upload) {
                             return false;
                         }
-                        this.AttachmentDataSet.unlink([this.get('attachment_ids')[i].id]);
+                        this.AttachmentDataSet.unlink([this.get(
+                            'attachment_ids')[i].id]);
                     } else {
                         attachments.push(this.get('attachment_ids')[i]);
                     }
@@ -75,6 +85,12 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
     });
 
     FieldMany2ManyBinaryMultiFiles.extend({
+
+        /**
+         * When file is changed
+         * @param event
+         * @returns {boolean}
+         */
         on_file_change: function (event) {
             event.stopPropagation();
             var self = this;
@@ -86,8 +102,11 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
                     return false;
                 }
                 for (var id in this.get('value')) {
-                    // if the files exits, delete the file before upload (if it's a new file)
-                    if (self.data[id] && (self.data[id].filename || self.data[id].name) === filename && !self.data[id].no_unlink) {
+                    // if the files exits, delete the file before upload
+                    // (if it's a new file)
+                    if (self.data[id] && (self.data[id].filename ||
+                        self.data[id].name) === filename &&
+                        !self.data[id].no_unlink) {
                         self.ds_file.unlink([id]);
                     }
                 }
@@ -131,6 +150,12 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
                 this.$('form.o_form_binary_form').submit();
             }
         },
+
+        /**
+         * When file is uploaded
+         * @param event
+         * @param result
+         */
         on_file_loaded: function (event, result) {
             if (this.node.attrs.blockui > 0) {
                 $.unblockUI();

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Add text for donation receipts -->
+    <record id="view_muskathlon_event_website" model="ir.ui.view">
+        <field name="name">crm.event.compassion.website.config.form</field>
+        <field name="model">crm.event.compassion</field>
+        <field name="inherit_id" ref="crm_compassion.view_events_form"/>
+        <field name="arch" type="xml">
+            <header>
+                <field name="odoo_event_id" invisible="1"/>
+                <button name="open_registrations" string="Open registrations" class="oe_highlight" type="object" attrs="{'invisible': [('odoo_event_id', '!=', False)]}"/>
+                <button name="open_participants" string="Manage participants" type="object" attrs="{'invisible': [('odoo_event_id', '=', False)]}"/>
+            </header>
+            <div name="buttons" position="inside">
+                <button class="oe_stat_button" name="website_publish_button" type="object" icon="fa-globe">
+                    <field name="website_published" widget="website_button"/>
+                </button>
+            </div>
+            <notebook>
+                <page name="website" string="Website">
+                    <group string="Public page">
+                        <field name="filename_1" invisible="1"/>
+                        <field name="picture_1" filename="filename_1"/>
+                        <field name="website_description"/>
+                        <field name="registration_fee"/>
+                        <field name="website_side_info"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Move events into the Events App and rename the menu for better clarity between Compassion Events and Odoo Events -->
+    <menuitem id="crm_compassion.menu_events_compassion" parent="event.event_main_menu" sequence="0" action="crm_compassion.action_events_compassion"/>
+    <menuitem id="event.menu_event_event" name="Registrations" action="event.action_event_view" parent="event.event_main_menu"/>
+    <record model="ir.actions.act_window" id="event.action_event_view">
+        <field name="name">Registrations</field>
+    </record>
+</odoo>
