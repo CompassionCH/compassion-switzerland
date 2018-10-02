@@ -41,8 +41,8 @@ if not testing:
                     'title': _('Your coordinates'),
                     'description': '',
                     'fields': [
-                        'partner_title',
-                        'partner_name', 'partner_email', 'partner_phone',
+                        'partner_title', 'partner_firstname',
+                        'partner_lastname', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
                         'partner_country_id']
                 },
