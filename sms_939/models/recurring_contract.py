@@ -33,6 +33,11 @@ class Contract(models.Model):
                 contract.contract_active()
         return super(Contract, self).contract_waiting_mandate()
 
+    def associate_group(self, payment_mode_id):
+        res = super(Contract, self).associate_group(payment_mode_id)
+        self.group_id.on_change_payment_mode()
+        return res
+
     @api.model
     @job
     def create_sms_sponsorship(self, vals, partner, sms_child_request):
