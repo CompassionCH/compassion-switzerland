@@ -26,7 +26,7 @@ class AdvocateDetails(models.Model):
         translation = self.env.ref('partner_compassion.engagement_translation')
         advocate = super(AdvocateDetails, self).create(vals)
         if translation in advocate.engagement_ids:
-            advocate._insert_translator()
+            advocate._insert_new_translator()
         return advocate
 
     @api.multi
@@ -37,7 +37,7 @@ class AdvocateDetails(models.Model):
             super(AdvocateDetails, advocate).write(vals)
             is_translator = translation in advocate.engagement_ids
             if not was_translator and is_translator:
-                advocate._insert_translator()
+                advocate._insert_new_translator()
 
             if was_translator and is_translator:
                 tc_values = ['name', 'email', 'ref', 'lang', 'firstname',
@@ -60,7 +60,40 @@ class AdvocateDetails(models.Model):
                     tc.disable_user(advocate.partner_id)
         return True
 
-    def _insert_translator(self):
+    def set_inactive(self):
+        # Inactivate translator from platform
+        tc = translate_connector.TranslateConnect()
+        _logger.info(
+            "translator put inactive, we inactivate in "
+            "translation platform.")
+        try:
+            tc.disable_user(self.partner_id)
+        except:
+            _logger.error("couldn't disable translator", exc_info=True)
+        return super(AdvocateDetails, self).set_inactive()
+
+    def set_active(self):
+        if not self.env.context.get('skip_translation_platform_update'):
+            tc = translate_connector.TranslateConnect()
+            _logger.info("translator activated, put it again "
+                         "in translation platform")
+            tc.upsert_user(self.partner_id, create=False)
+        return super(AdvocateDetails, self).set_active()
+
+    def unlink(self):
+        # Remove from translation platform
+        tc = translate_connector.TranslateConnect()
+        _logger.info(
+            "translator deleted, we delete any user in "
+            "translation platform with that ref as number")
+        for advocate in self:
+            try:
+                tc.remove_user(advocate.partner_id)
+            except:
+                tc.disable_user(advocate.partner_id)
+        return super(AdvocateDetails, self).unlink()
+
+    def _insert_new_translator(self):
         tc = translate_connector.TranslateConnect()
         _logger.info("Insert translator on platform.")
         try:
