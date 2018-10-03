@@ -169,18 +169,9 @@ class UtmCampaign(models.Model):
     _inherit = ['utm.campaign', 'utm.object']
     _name = 'utm.campaign'
 
-    contract_ids = fields.One2many('recurring.contract',
-                                   compute='_compute_contracts',
-                                   inverse_name='campaign_id')
-    correspondence_ids = fields.One2many('correspondence',
-                                         compute='_compute_correspondence',
-                                         inverse_name='campaign_id')
-    invoice_line_ids = fields.One2many('account.invoice.line',
-                                       compute='_compute_invoice',
-                                       inverse_name='campaign_id')
-    # contract_ids = fields.One2many(inverse_name='campaign_id')
-    # correspondence_ids = fields.One2many(inverse_name='campaign_id')
-    # invoice_ids = fields.One2many(inverse_name='campaign_id')
+    contract_ids = fields.One2many(inverse_name='campaign_id')
+    correspondence_ids = fields.One2many(inverse_name='campaign_id')
+    invoice_line_ids = fields.One2many(inverse_name='campaign_id')
 
     mailing_campaign_id = fields.Many2one(
         'mail.mass_mailing.campaign', compute='_compute_mass_mailing_id'
@@ -204,27 +195,6 @@ class UtmCampaign(models.Model):
         for campaign in self:
             campaign.click_count = sum(self.env['link.tracker'].search([
                 ('campaign_id', '=', campaign.id)]).mapped('count'))
-
-    def _compute_contracts(self):
-        for campaign in self:
-            campaign.contract_ids = self.env['recurring.contract'].\
-                search(['|', ('campaign_id', '=', campaign.id),
-                        ('origin_id.event_id.campaign_id', '=', campaign.id)
-                        ])
-
-    def _compute_correspondence(self):
-        for campaign in self:
-            campaign.correspondence_ids = self.env['correspondence'].search([
-                '|', ('sponsorship_id.campaign_id', '=', campaign.id),
-                ('sponsorship_id.origin_id.event_id.campaign_id', '=',
-                 campaign.id)])
-
-    def _compute_invoice(self):
-        for campaign in self:
-            campaign.invoice_line_ids = self.env['account.invoice.line']. \
-                search(['|', ('invoice_id.campaign_id', '=', campaign.id), '|',
-                       ('event_id.campaign_id', '=', campaign.id),
-                       ('account_analytic_id.campaign_id', '=', campaign.id)])
 
 
 class UtmMedium(models.Model):
