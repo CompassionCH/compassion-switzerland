@@ -8,11 +8,10 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models, _
-from odoo.exceptions import UserError
+from odoo import api, models
 
 
-class Contract(models.Model):
+class RecurringContract(models.Model):
     _inherit = 'recurring.contract'
 
     @api.multi
@@ -31,4 +30,20 @@ class Contract(models.Model):
                 # Activate contract
                 contract._post_payment_first_month()
                 contract.contract_active()
-        return super(Contract, self).contract_waiting_mandate()
+        return super(RecurringContract, self).contract_waiting_mandate()
+
+    def associate_group(self, payment_mode_id):
+        res = super(RecurringContract, self).associate_group(payment_mode_id)
+        self.group_id.on_change_payment_mode()
+        return res
+
+    # if self.payment_mode_id.name == "Permanent Order":
+    #     computed_ref = self.compute_partner_bvr_ref(
+    #         self.partner_id)
+    #     if computed_ref:
+    #         self.bvr_reference = computed_ref
+    #     else:
+    #         raise UserError(
+    #             _('The reference of the partner has not been set, '
+    #               'or is in wrong format. Please make sure to enter a '
+    #               'valid BVR reference for the contract.'))
