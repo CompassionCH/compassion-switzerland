@@ -40,6 +40,7 @@
         'views/mail_template_view.xml',
         'views/utm_view.xml',
         'views/contract_origin_view.xml',
+        'views/mail_tracking_event_view.xml',
         'data/refresh_sendgrid_tracking_cron.xml',
     ],
     'depends': [
