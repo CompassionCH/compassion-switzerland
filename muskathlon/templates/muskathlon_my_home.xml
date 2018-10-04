@@ -95,10 +95,10 @@
                                        t-as="registration">
                                         <tr>
                                             <td>
-                                                <t t-esc="registration.event_id.name"/>
+                                                <t t-esc="registration.compassion_event_id.name"/>
                                             </td>
                                             <td>
-                                                <t t-esc="time.strftime('%d.%m.%Y',time.strptime(registration.event_id.start_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                                <t t-esc="time.strftime('%d.%m.%Y',time.strptime(registration.compassion_event_id.start_date,'%Y-%m-%d %H:%M:%S'))"/>
                                             </td>
                                             <td>
                                                 <a t-attf-href="/my/muskathlon/{{ registration.id }}">Fundraising / Order material</a>

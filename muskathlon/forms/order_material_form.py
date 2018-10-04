@@ -68,7 +68,7 @@ if not testing:
             # Set default values
             registration = kw.get('registration')
             form.partner_id = registration and registration.partner_id
-            form.event_id = registration and registration.event_id
+            form.event_id = registration and registration.compassion_event_id
             return form
 
         def form_before_create_or_update(self, values, extra_values):

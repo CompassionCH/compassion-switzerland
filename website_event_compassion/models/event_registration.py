@@ -3,7 +3,6 @@
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
-#    @author: Sebastien Toth <popod@me.com>
 #
 #    The licence is in the file __manifest__.py
 #
@@ -11,9 +10,8 @@
 from odoo import models, fields
 
 
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
+class Event(models.Model):
+    _inherit = 'event.registration'
 
-    muskathlon_participant_id = fields.Char('Muskathlon participant ID')
-    registration_ids = fields.One2many(
-        'event.registration', 'partner_id', 'Event registrations')
+    compassion_event_id = fields.Many2one(
+        'crm.event.compassion', related='event_id.compassion_event_id')
