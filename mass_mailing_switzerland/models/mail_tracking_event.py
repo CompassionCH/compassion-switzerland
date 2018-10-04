@@ -9,13 +9,18 @@
 #
 ##############################################################################
 
-from odoo import models, api
+from odoo import models, api, fields
 
 import re
 
 
 class MailTrackingEvent(models.Model):
     _inherit = "mail.tracking.event"
+
+    partner_category_ids = fields.Many2many(
+        'res.partner.category',
+        related='tracking_email_id.partner_id.category_id'
+    )
 
     @api.model
     def create(self, data):

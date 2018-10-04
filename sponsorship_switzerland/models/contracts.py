@@ -42,6 +42,7 @@ class RecurringContracts(models.Model):
     partner_lang = fields.Selection(
         'res.partner', 'Partner language', related='partner_id.lang',
         store=True)
+    hillsong_ref = fields.Char(related='origin_id.hillsong_ref', store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
