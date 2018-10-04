@@ -43,6 +43,17 @@
         </field>
     </record>
 
+    <record id="view_contract_origin_hillsong" model="ir.ui.view">
+        <field name="name">contract.origin.hillsong.form</field>
+        <field name="model">recurring.contract.origin</field>
+        <field name="inherit_id" ref="crm_compassion.view_contract_origin_form_event"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="hillsong_ref"/>
+            </field>
+        </field>
+    </record>
+
     <!-- Add church in SDS view -->
     <record id="view_sds_contract_form_church_compassion" model="ir.ui.view">
         <field name="name">recurring.contract.sds.church.form</field>

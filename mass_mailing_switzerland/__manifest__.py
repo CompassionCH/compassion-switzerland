@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Mass Mailing Switzerland',
-    'version': '10.0.2.0.2',
+    'version': '10.0.2.1.1',
     'category': 'Mailing',
     'author': 'Emanuel Cino',
     'license': 'AGPL-3',
@@ -40,6 +40,8 @@
         'views/mail_template_view.xml',
         'views/utm_view.xml',
         'views/contract_origin_view.xml',
+        'views/mail_tracking_event_view.xml',
+        'views/partner_view.xml',
         'data/refresh_sendgrid_tracking_cron.xml',
     ],
     'depends': [

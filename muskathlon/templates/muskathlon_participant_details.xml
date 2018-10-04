@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
+        <!-- customize_show allow to disable or enable the customization in the website.
+            TODO We should have a way to enable the customization only on wanted pages!
+        -->
+        <template id="participant_social_share" name="Remove default FB title" inherit_id="website.layout" active="True" customize_show="True" >
+            <!-- This will remove the og:title feature that will be set manually in the header -->
+            <xpath expr="//meta[contains(@property, 'og:')]" position="replace"/>
+        </template>
+
         <template id="participant_details" name="Muskathlon participant page">
+            <!-- Add social share information for Facebook and Twitter -->
+            <t t-set="sport" t-value="registration.sport_discipline_id"/>
+            <t t-set="share_url">https://muskathlon-kenya.ch/en_US<t t-esc="registration.website_url"/></t>
+            <t t-set="share_content">Support me! I will be <t t-esc="sport.sport.lower()"/><t t-if="registration.event_id.country_id"> in <t t-esc="registration.event_id.country_id.name"/></t> - <t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></t>
+            <t t-set="image_url">https://muskathlon-kenya.ch/en_US/web/image/muskathlon.registration/<t t-esc="registration.id"/>/ambassador_picture_1</t>
+            <t t-set="head">
+                <meta property="og:title"  t-att-content="share_content" />
+                <meta property="og:url"    t-att-content="share_url" />
+                <meta property="og:description" t-att-content="registration.ambassador_quote"/>
+                <meta property="og:image" t-att-content="image_url"/>
+                <meta property="og:type" content="fitness.course"/>
+            </t>
             <t t-call="website.layout">
+                <!-- Facebook social share feature -->
+                <div id="fb-root"></div>
+                <script>(function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v3.0";
+                    fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                </script>
+
                 <div class="main_container" id="participants_details">
                     <div class="participant_image_container">
-                         <div class="participant_image">
-                             <h2 class="participant_image_text text-uppercase">Support <t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></h2>
-                         </div>
+                        <div class="participant_image">
+                            <h2 class="participant_image_text text-uppercase">Support <t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></h2>
+                        </div>
                     </div>
                     <div class="participant_details_container">
                         <!-- Include donation form -->
@@ -18,7 +49,7 @@
                                 <div class="card_container">
                                     <t t-if="not registration.ambassador_picture_2">
                                         <div class="position-relative">
-                                            <img class="muskathlon_participant_image" t-attf-src="/web/image/muskathlon.registration/{{registration.id}}/ambassador_picture_1">
+                                            <img class="muskathlon_participant_image" t-att-src="image_url">
                                                 <t t-call="muskathlon.sport_icon"/>
                                             </img>
                                         </div>
@@ -37,19 +68,18 @@
                                            class="btn btn-danger btn-muskathlon"
                                            data-toggle="modal"
                                            data-target="#modal_muskathlon_donation">
-                                           Donate
+                                            Donate
                                         </a>
                                     </p>
                                     <p class="center-text">
                                         <a t-attf-href="https://{{ registration.host }}/parrainer-un-enfant/?eventId={{ event.id }}&amp;eventName={{ event.name }}&amp;registrationId={{ registration.id }}&amp;participantId={{ registration.partner_id_id }}&amp;participantName={{ registration.partner_name }}"
                                            class="btn btn-danger btn-muskathlon">
-                                           Sponsor a child
+                                            Sponsor a child
                                         </a>
                                     </p>
                                 </div>
                             </div>
                             <div class="col-sm-7">
-                                <t t-set="sport" t-value="registration.sport_discipline_id"/>
                                 <h2 class="side_title" t-field="sport.page_title"/>
                                 Muskathlon :
                                 <a t-attf-href="/event/{{ event.id }}" class="href_muskathlon">
@@ -76,6 +106,11 @@
                                     <div class="progress-amount">
                                         <t t-esc="'{:n}'.format(registration.amount_raised).replace(',', '\'')"/> / <t t-esc="'{:n}'.format(registration.amount_objective).replace(',', '\'')"/> CHF
                                     </div>
+                                </div>
+                                <div class="social_share">
+                                    <p>Share my project</p>
+                                    <div class="fb-share-button" t-attf-data-href="{{share_url}}" data-layout="button_count"></div>
+                                    <a class="twitter-share-button" t-attf-href="https://twitter.com/intent/tweet?text={{share_content}}&amp;url={{share_url}}&amp;hashtags=Muskathlon" target="new"><i class="fa fa-twitter"/></a>
                                 </div>
                             </div>
                         </div>

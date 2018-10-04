@@ -292,6 +292,10 @@ class Correspondence(models.Model):
             language_field: translate_lang_id,
             'translator_id': translator_partner.id})
 
+        # Activate advocate translator
+        translator_partner.advocate_details_id.with_context(
+            skip_translation_platform_update=True).set_active()
+
         # Send to GMC
         if self.direction == 'Supporter To Beneficiary':
             self.create_commkit()
@@ -409,9 +413,9 @@ class Correspondence(models.Model):
                             letter["target_lang"], letter["text"],
                             letter["translator"])
                         tc.update_translation_to_treated(letter["id"])
-            except Exception as e:
+            except:
                 logger.error(
-                    "Error fetching a translation on translation platform: {}"
-                    .format(e.message)
+                    "Error fetching a translation on translation platform",
+                    exc_info=True
                 )
         return True

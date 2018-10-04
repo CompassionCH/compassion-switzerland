@@ -35,4 +35,9 @@
         <field name="sport">Biking</field>
         <field name="distance">400000</field>
     </record>
+    <record id="bike_500" model="sport.discipline">
+        <field name="name">Bike 500km</field>
+        <field name="sport">Biking</field>
+        <field name="distance">500000</field>
+    </record>
 </odoo>

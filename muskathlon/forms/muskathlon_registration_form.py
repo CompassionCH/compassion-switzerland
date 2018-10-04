@@ -28,7 +28,7 @@ if not testing:
         _form_model = 'muskathlon.registration'
         _form_required_fields = [
             'ambassador_picture_1', 'ambassador_quote', 'sport_level',
-            'sport_level_description', 'gtc_accept'
+            'sport_level_description', 'gtc_accept', 't_shirt_size'
         ]
         _payment_accept_redirect = '/muskathlon_registration/payment/validate'
 
@@ -40,6 +40,10 @@ if not testing:
                  "and will be used in thank you letters your donors will "
                  "receive."
         )
+        t_shirt_size = fields.Selection([
+            ('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'),
+            ('XXL', 'XXL')
+        ])
         gtc_accept = fields.Boolean(
             "Terms and conditions", required=True
         )
@@ -58,7 +62,7 @@ if not testing:
                     'fields': [
                         'ambassador_picture_1', 'sport_discipline_id',
                         'sport_level', 'sport_level_description',
-                        'ambassador_quote', 'event_id'
+                        'ambassador_quote', 't_shirt_size', 'event_id'
                     ]
                 },
                 {
@@ -221,7 +225,8 @@ if not testing:
             sporty = self.env.ref('partner_compassion.engagement_sport')
             if partner.advocate_details_id:
                 partner.advocate_details_id.write({
-                    'engagement_ids': [(4, sporty.id)]
+                    'engagement_ids': [(4, sporty.id)],
+                    't_shirt_size': extra_values.get('t_shirt_size')
                 })
             else:
                 # Creation of ambassador details reloads cache and remove
@@ -231,7 +236,8 @@ if not testing:
                 self.env['advocate.details'].sudo(uid).create({
                     'partner_id': partner.id,
                     'advocacy_source': 'Online Muskathlon registration',
-                    'engagement_ids': [(4, sporty.id)]
+                    'engagement_ids': [(4, sporty.id)],
+                    't_shirt_size': extra_values.get('t_shirt_size')
                 })
                 self._restore_fields(backup)
             # This field is not needed in muskathlon registration.

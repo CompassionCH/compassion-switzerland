@@ -134,4 +134,8 @@
         <field name="groups_id" eval="[(4, ref('mass_mailing.group_mass_mailing_user'))]"/>
     </record>
 
+    <!-- Put campaign menu at first-->
+    <record id="mass_mailing.menu_email_campaigns" model="ir.ui.menu">
+        <field name="sequence">0</field>
+    </record>
 </odoo>
