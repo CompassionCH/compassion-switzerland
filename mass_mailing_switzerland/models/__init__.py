@@ -13,7 +13,6 @@ from . import mail_tracking_event
 from . import queue_job
 from . import correspondence_metadata
 from . import mass_mailing_campaign
-from . import account_invoice
 from . import mail_template
 from . import utm
 from . import sendgrid_substitution

@@ -89,9 +89,6 @@ class AccountInvoice(models.Model):
                 'account_id': account.id,
                 'name': 'Postfinance payment ' + str(pf_payid) + ' for ' +
                 wp_origin,
-                'source_id': utms['source'],
-                'medium_id': utms.get('medium', internet_id),
-                'campaign_id': utms['campaign'],
             })
         analytic_id = self.env['account.analytic.default'].account_get(
             product.id).analytic_id.id
@@ -106,7 +103,10 @@ class AccountInvoice(models.Model):
             'name': product.name or 'Online donation for ' + wp_origin,
             'quantity': 1,
             'price_unit': amount,
-            'account_analytic_id': analytic_id
+            'account_analytic_id': analytic_id,
+            'source_id': utms['source'],
+            'medium_id': utms.get('medium', internet_id),
+            'campaign_id': utms['campaign'],
         })
         requires_sponsorship = GIFT_CATEGORY in invoice.mapped(
             'invoice_line_ids.product_id.categ_name')
