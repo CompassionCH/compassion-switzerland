@@ -194,9 +194,6 @@
     <field name="type">tree</field>
     <field name="inherit_id" ref="partner_contact_in_several_companies.view_partner_form_inherit"/>
     <field name="arch" type="xml">
-        <field name="other_contact_ids" position="before">
-            <field name="contact_id"/>
-        </field>
         <xpath expr="//field[@name='other_contact_ids']/form//field[@name='email']" position="after">
             <field name="birthdate_date"/>
         </xpath>
