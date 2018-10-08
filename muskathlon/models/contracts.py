@@ -17,16 +17,16 @@ class RecurringContract(models.Model):
 
     sent_to_4m = fields.Date('Sent to 4M')
 
-    muskathlon_registration_id = fields.Many2one(
-        'muskathlon.registration', compute='_compute_muskathlon_registration',
+    registration_id = fields.Many2one(
+        'event.registration', compute='_compute_muskathlon_registration',
         store=True
     )
 
     @api.multi
-    @api.depends('user_id.muskathlon_registration_ids', 'origin_id.event_id')
+    @api.depends('user_id.registration_ids', 'origin_id.event_id')
     def _compute_muskathlon_registration(self):
         for contract in self:
-            contract.muskathlon_registration_id = \
-                contract.user_id.muskathlon_registration_ids.filtered(
+            contract.registration_id = \
+                contract.user_id.registration_ids.filtered(
                     lambda r: r.event_id == contract.origin_id.event_id
                 )

@@ -67,7 +67,7 @@ if not testing:
             # Set default values
             registration = kw.get('registration')
             if registration:
-                form.event_id = registration.event_id
+                form.event_id = registration.compassion_event_id
                 form.ambassador_id = registration.partner_id
             form.partner_country_id = kw.get(
                 'partner_country_id', self.env.ref('base.ch'))

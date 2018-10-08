@@ -33,7 +33,7 @@ class MuskathlonWebsite(PaymentFormController):
             'start_date': event.get_date('start_date', 'date_full'),
             'end_date': event.get_date('end_date', 'date_full'),
         })
-        registration_form = self.get_form('muskathlon.registration', **values)
+        registration_form = self.get_form('event.registration', **values)
         registration_form.form_process()
         if registration_form.form_success:
             # The user submitted a registration, redirect to confirmation
@@ -49,19 +49,19 @@ class MuskathlonWebsite(PaymentFormController):
 
         return self._form_redirect(result)
 
-    @route('/my/muskathlon/<model("muskathlon.registration"):registration>/'
+    @route('/my/muskathlon/<model("event.registration"):registration>/'
            'donations',
            auth='user', website=True)
     def muskathlon_details(self, registration, **kwargs):
         reports = request.env['muskathlon.report'].search(
             [('user_id', '=', request.env.user.partner_id.id),
-             ('event_id', '=', registration.event_id.id)])
+             ('event_id', '=', registration.compassion_event_id.id)])
         return request.render('muskathlon.my_details', {
             'reports': reports
         })
 
     @route('/event/<model("crm.event.compassion"):event>'
-           '/<model("muskathlon.registration"):registration>/',
+           '/<model("event.registration"):registration>/',
            auth='public', website=True)
     def participant_details(self, event, registration, **kwargs):
         """
@@ -166,7 +166,7 @@ class MuskathlonWebsite(PaymentFormController):
         if not tx or not tx.registration_id:
             return request.render('muskathlon.registration_failure')
 
-        event = tx.registration_id.event_id
+        event = tx.registration_id.compassion_event_id
         if tx.state == 'done' and not tx.registration_id.lead_id:
             # Create the lead
             tx.registration_id.with_delay().create_muskathlon_lead()
@@ -195,7 +195,7 @@ class MuskathlonWebsite(PaymentFormController):
         invoice_lines = tx.invoice_id.invoice_line_ids
         event = invoice_lines.mapped('event_id')
         ambassador = invoice_lines.mapped('user_id')
-        registration = event.muskathlon_registration_ids.filtered(
+        registration = event.registration_ids.filtered(
             lambda r: r.partner_id == ambassador)
         post.update({
             'registration': registration,
@@ -206,7 +206,7 @@ class MuskathlonWebsite(PaymentFormController):
             'muskathlon.donation_failure', **post
         )
 
-    @route('/my/muskathlon/<model("muskathlon.registration"):registration>',
+    @route('/my/muskathlon/<model("event.registration"):registration>',
            auth="user", website=True)
     def muskathlon_order_material(self, registration, form_id=None, **kw):
         # Load forms
@@ -234,7 +234,7 @@ class MuskathlonWebsite(PaymentFormController):
             "muskathlon.my_muskathlon_order_material", values)
 
     @route('/muskathlon_registration/'
-           '<model("muskathlon.registration"):registration>/success',
+           '<model("event.registration"):registration>/success',
            type='http', auth="public", website=True)
     def muskathlon_registration_successful(self, registration, **kwargs):
         # Create lead
@@ -243,14 +243,14 @@ class MuskathlonWebsite(PaymentFormController):
             registration.sudo(uid).with_delay().create_muskathlon_lead()
         values = {
             'registration': registration,
-            'event': registration.event_id
+            'event': registration.compassion_event_id
         }
         return request.render(
             'muskathlon.new_registration_successful_modal', values)
 
     def _prepare_portal_layout_values(self):
         values = super(MuskathlonWebsite, self)._prepare_portal_layout_values()
-        registrations = request.env['muskathlon.registration']\
+        registrations = request.env['event.registration']\
             .search([('partner_id', '=', values['user'].partner_id.id)])
         partner = values['user'].partner_id
         surveys = request.env['survey.user_input']\

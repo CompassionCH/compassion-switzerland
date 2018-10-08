@@ -75,7 +75,7 @@
                     % set donations = invoice_lines.get_donations()
                     % set partner = object.partner_id
                     % set donors = invoice_lines.mapped('partner_id')
-                    % set muskathlon = partner.muskathlon_registration_ids[:1]
+                    % set muskathlon = partner.registration_ids[:1]
                 </div>
                 <div>
                     ${partner.salutation},

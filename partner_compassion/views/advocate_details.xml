@@ -99,7 +99,7 @@
                 <separator/>
                 <filter name="advocate" string="Active or New" domain="[('state', 'in', ['new','active'])]"/>
                 <separator/>
-                <filter name="muskathlon" string="Muskathlon" domain="[('partner_id.muskathlon_registration_ids','!=', False)]"/>
+                <filter name="muskathlon" string="Muskathlon" domain="[('partner_id.registration_ids','!=', False)]"/>
                 <filter name="sport" string="Sport person" domain="[('engagement_ids','like', 'Sport')]"/>
                 <filter name="event" string="Event" domain="[('engagement_ids','like', 'Events')]"/>
                 <filter name="church" string="Church" domain="[('engagement_ids','like', 'Church')]"/>
