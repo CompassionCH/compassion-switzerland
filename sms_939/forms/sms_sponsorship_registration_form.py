@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, tools, api
+from odoo import models, fields, tools, api, _
 
 testing = tools.config.get('test_enable')
 
@@ -22,6 +22,15 @@ if not testing:
             string='Payment mode',
             domain=lambda self: self._get_domain())
 
+        spoken_lang_en = fields.Boolean('English')
+        spoken_lang_fr = fields.Boolean('French')
+        spoken_lang_es = fields.Boolean('Spanish')
+        spoken_lang_po = fields.Boolean('Portuguese')
+        partner_church_unlinked = fields.Char('Church')
+        partner_function = fields.Char('Job')
+        volunteering = fields.Boolean(
+            'Send me information about volunteering with Compassion')
+
         @api.model
         def _get_domain(self):
 
@@ -32,3 +41,113 @@ if not testing:
                 'sponsorship_switzerland.payment_mode_permanent_order').ids
 
             return [('id', 'in', lsv + dd + po)]
+
+        @property
+        def _form_fieldsets(self):
+            fieldset = super(PartnerSmsRegistrationForm, self)._form_fieldsets
+            fieldset[0]['fields'].extend([
+                'partner_function', 'partner_church_unlinked'])
+            fieldset.insert(2, {
+                'id': 'volunteering',
+                'title': _('Volunteering'),
+                'fields': ['volunteering'],
+            })
+            sponsor_langs = self.partner_id.sudo().spoken_lang_ids
+            child_langs = self.main_object.sudo().child_id. \
+                field_office_id.spoken_language_ids.filtered('translatable')
+            lang_en = self.env.ref('child_compassion.lang_compassion_english')
+            if lang_en not in sponsor_langs or not (child_langs &
+                                                    sponsor_langs):
+                lang_po = self.env.ref(
+                    'child_compassion.lang_compassion_portuguese')
+                lang_fr = self.env.ref(
+                    'child_compassion.lang_compassion_french')
+                lang_es = self.env.ref(
+                    'child_compassion.lang_compassion_spanish')
+                _fields = []
+                if lang_en not in sponsor_langs:
+                    _fields.append('spoken_lang_en')
+                if lang_fr in child_langs and lang_fr not in sponsor_langs:
+                    _fields.append('spoken_lang_fr')
+                if lang_es in child_langs and lang_es not in sponsor_langs:
+                    _fields.append('spoken_lang_es')
+                if lang_po in child_langs and lang_po not in sponsor_langs:
+                    _fields.append('spoken_lang_po')
+                fieldset.insert(1, {
+                    'id': 'correspondence',
+                    'title': _('Letters exchange'),
+                    'description': _(
+                        'We are happy to translate letters for you and your '
+                        'sponsored child. In case you know his language or '
+                        'English, please indicate it below; this will save '
+                        'time on sending the letters.'),
+                    'fields': _fields,
+                })
+            return fieldset
+
+        def form_init(self, request, main_object=None, **kw):
+            form = super(PartnerSmsRegistrationForm, self).form_init(
+                request, main_object, **kw)
+
+            # Set default values in the model
+            partner = main_object.sudo().partner_id
+            form.partner_church_unlinked =\
+                partner.church_id.name or partner.church_unlinked
+            form.partner_function = partner.function
+            form.volunteering = kw.get('volunteering')
+            return form
+
+        def _form_load_partner_function(self, fname, field, value,
+                                        **req_values):
+            return req_values.get('partner_function',
+                                  self.partner_function or '')
+
+        def _form_load_partner_church_unlinked(self, fname, field, value,
+                                               **req_values):
+            return req_values.get('partner_church_unlinked',
+                                  self.partner_church_unlinked or '')
+
+        def _form_load_volunteering(self, fname, field, value, **req_values):
+            return req_values.get('volunteering', self.volunteering or '')
+
+        def _get_partner_vals(self, values, extra_values):
+            # Add spoken languages
+            result = super(PartnerSmsRegistrationForm,
+                           self)._get_partner_vals(values, extra_values)
+            spoken_langs = []
+            if extra_values.get('spoken_lang_en'):
+                spoken_langs.append(
+                    self.env.ref(
+                        'child_compassion.lang_compassion_english').id
+                )
+            if extra_values.get('spoken_lang_fr'):
+                spoken_langs.append(
+                    self.env.ref(
+                        'child_compassion.lang_compassion_french').id
+                )
+            if extra_values.get('spoken_lang_es'):
+                spoken_langs.append(
+                    self.env.ref(
+                        'child_compassion.lang_compassion_spanish').id
+                )
+            if extra_values.get('spoken_lang_po'):
+                spoken_langs.append(
+                    self.env.ref(
+                        'child_compassion.lang_compassion_portuguese').id
+                )
+            if spoken_langs:
+                result['spoken_lang_ids'] = [(4, sid) for sid in spoken_langs]
+            return result
+
+        def _get_post_message_values(self):
+            vals = super(PartnerSmsRegistrationForm,
+                         self)._get_post_message_values()
+            if self.partner_church_unlinked:
+                vals['Church'] = self.partner_church_unlinked
+            vals['Volunteering'] = self.volunteering and 'Yes' or 'No'
+            return vals
+
+        def _get_partner_keys(self):
+            res = super(PartnerSmsRegistrationForm, self)._get_partner_keys()
+            res.extend(['church_unlinked', 'function'])
+            return res
