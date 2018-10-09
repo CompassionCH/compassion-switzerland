@@ -55,14 +55,14 @@ class SmsSender(models.TransientModel):
                 raise UserError(_("No valid partner"))
 
     @api.multi
-    def send_sms(self, mobile, use_small_account=False):
+    def send_sms(self, mobile, provider_account_id=None):
         self.ensure_one()
         if not mobile:
             return False
 
-        if use_small_account:
+        if provider_account_id:
             self.sms_provider = self.env['sms.provider'].search([
-                ('id', '=', 2)
+                ('id', '=', provider_account_id)
             ])
 
         headers = {}
