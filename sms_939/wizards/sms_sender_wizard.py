@@ -44,7 +44,7 @@ class SmsSender(models.TransientModel):
     sms_request_id = fields.Many2one(comodel_name='sms.child.request')
     sms_provider = fields.Many2one('sms.provider', "SMS Provider",
                                    default=lambda self: self.env
-                                   ['sms.provider'].search([('id', '=', 1)]),
+                                   ['sms.provider'].search([], limit=1),
                                    readonly=False)
 
     @api.multi
@@ -55,15 +55,10 @@ class SmsSender(models.TransientModel):
                 raise UserError(_("No valid partner"))
 
     @api.multi
-    def send_sms(self, mobile, provider_account_id=None):
+    def send_sms(self, mobile):
         self.ensure_one()
         if not mobile:
             return False
-
-        if provider_account_id:
-            self.sms_provider = self.env['sms.provider'].search([
-                ('id', '=', provider_account_id)
-            ])
 
         headers = {}
         username = self.sms_provider.username_939

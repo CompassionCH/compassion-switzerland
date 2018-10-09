@@ -123,9 +123,11 @@ class SmsNotification(models.Model):
                     })
         if 'test' not in sms_text:
             self.env['sms.sender.wizard'].create({
-                'text': sms_answer
-                # large account id is 1, small account id is 2
-            }).send_sms(mobile=sms_receipient, provider_account_id=2)
+                'text': sms_answer,
+                'sms_provider': self.env['sms.provider'].search([
+                    ('name', 'ilike', 'small account')
+                ], limit=1)
+            }).send_sms(mobile=sms_receipient)
         else:
             # Test mode will only print url in job return value
             logger.info(
