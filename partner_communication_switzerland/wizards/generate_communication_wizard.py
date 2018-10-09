@@ -53,6 +53,9 @@ class GenerateCommunicationWizard(models.TransientModel):
     sms_cost_estimation = fields.Float(compute='_compute_sms_cost_estimation')
     currency_id = fields.Many2one('res.currency', compute='_compute_currency')
     campaign_id = fields.Many2one('utm.campaign', 'Campaign')
+    sms_provider = fields.Many2one('sms.provider', 'SMS Provider',
+                                   compute='_compute_sms_provider',
+                                   readonly=False)
 
     @api.model
     def _default_domain(self):
@@ -62,6 +65,12 @@ class GenerateCommunicationWizard(models.TransientModel):
             return "[('id', 'in', {})]".format(str(sponsorship_ids[0][2]))
         else:
             return "[('id', 'in', {})]".format(self._default_partners())
+
+    @api.multi
+    def _compute_sms_provider(self):
+        self.sms_provider = self.env['sms.provider'].search([
+            ('id', '=', 1)
+        ])
 
     @api.multi
     def _compute_progress(self):
