@@ -37,10 +37,11 @@
     'website': 'http://www.compassion.ch',
     'data': [
         'views/hr_expense_custom.xml',
+        'views/res_users_view.xml',
         'data/hr_config.xml'
     ],
     'depends': [
-        'hr_expense', 'hr_attendance_extra_hours', 'asterisk_click2dial',
+        'hr_expense', 'hr_attendance_management', 'asterisk_click2dial',
         'web_notify'],
     'demo': [],
     'installable': True,
