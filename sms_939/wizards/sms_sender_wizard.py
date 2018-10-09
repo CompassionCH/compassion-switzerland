@@ -15,15 +15,14 @@ import logging
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from odoo.tools.config import config
 
 _logger = logging.getLogger(__name__)
 
 
-def smsbox_send(request, headers):
-    server = config.get('939_server')
-    port = config.get('939_port')
-    endpoint = config.get('939_endpoint')
+def smsbox_send(request, headers, config):
+    server = config['server']
+    port = config['port']
+    endpoint = config['endpoint']
     request_server = httplib.HTTPConnection(server, port, timeout=10)
     url = endpoint + '?' + urllib.urlencode(request)
     _logger.info("Sending SMS message: %s", url)
@@ -43,6 +42,14 @@ class SmsSender(models.TransientModel):
     partner_id = fields.Many2one(
         'res.partner', 'Partner', compute='_compute_partner')
     sms_request_id = fields.Many2one(comodel_name='sms.child.request')
+    sms_provider = fields.Many2one('sms.provider', "SMS Provider",
+                                   compute='_compute_provider', readonly=False)
+
+    @api.multi
+    def _compute_provider(self):
+        self.sms_provider = self.env['sms.provider'].search([
+            ('id', '=', 1)
+        ])
 
     @api.multi
     def _compute_partner(self):
@@ -58,8 +65,8 @@ class SmsSender(models.TransientModel):
             return False
 
         headers = {}
-        username = config.get('939_username')
-        password = config.get('939_password')
+        username = self.sms_provider.username_939
+        password = self.sms_provider.password_939
         auth = base64.encodestring('%s:%s' % (username,
                                               password)).replace('\n', '')
         headers['Authorization'] = 'Basic ' + auth
@@ -70,7 +77,10 @@ class SmsSender(models.TransientModel):
             ('cost', 0),
             ('text', self.text.encode('utf8'))
         ]
-        smsbox_send(request, headers)
+        server_config = {'server': self.sms_provider.server_939,
+                         'port': self.sms_provider.port_939,
+                         'endpoint': self.sms_provider.endpoint_939}
+        smsbox_send(request, headers, server_config)
         return True
 
     def send_sms_partner(self):
