@@ -77,7 +77,7 @@
         <field name="model">sms.provider</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="config_name"/>
+                <field name="name"/>
                 <field name="server_939"/>
                 <field name="port_939"/>
                 <field name="username_939"/>

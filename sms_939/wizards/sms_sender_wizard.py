@@ -43,13 +43,9 @@ class SmsSender(models.TransientModel):
         'res.partner', 'Partner', compute='_compute_partner')
     sms_request_id = fields.Many2one(comodel_name='sms.child.request')
     sms_provider = fields.Many2one('sms.provider', "SMS Provider",
-                                   compute='_compute_provider', readonly=False)
-
-    @api.multi
-    def _compute_provider(self):
-        self.sms_provider = self.env['sms.provider'].search([
-            ('id', '=', 1)
-        ])
+                                   default=lambda self: self.env
+                                   ['sms.provider'].search([('id', '=', 1)]),
+                                   readonly=False)
 
     @api.multi
     def _compute_partner(self):

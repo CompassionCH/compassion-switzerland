@@ -15,7 +15,7 @@ class SmsProvider(models.Model):
     _name = "sms.provider"
     _description = "SMS Provider"
 
-    config_name = fields.Char("Configuration name", required=True)
+    name = fields.Char("Configuration name", required=True)
     server_939 = fields.Char("Provider server", required=True)
     port_939 = fields.Char("Server port", required=True)
     endpoint_939 = fields.Char("Endpoint", required=True)

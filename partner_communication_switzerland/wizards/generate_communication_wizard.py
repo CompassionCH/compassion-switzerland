@@ -54,7 +54,8 @@ class GenerateCommunicationWizard(models.TransientModel):
     currency_id = fields.Many2one('res.currency', compute='_compute_currency')
     campaign_id = fields.Many2one('utm.campaign', 'Campaign')
     sms_provider = fields.Many2one('sms.provider', 'SMS Provider',
-                                   compute='_compute_sms_provider',
+                                   default=lambda self: self.env
+                                   ['sms.provider'].search([('id', '=', 1)]),
                                    readonly=False)
 
     @api.model
@@ -65,12 +66,6 @@ class GenerateCommunicationWizard(models.TransientModel):
             return "[('id', 'in', {})]".format(str(sponsorship_ids[0][2]))
         else:
             return "[('id', 'in', {})]".format(self._default_partners())
-
-    @api.multi
-    def _compute_sms_provider(self):
-        self.sms_provider = self.env['sms.provider'].search([
-            ('id', '=', 1)
-        ])
 
     @api.multi
     def _compute_progress(self):
