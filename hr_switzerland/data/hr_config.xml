@@ -28,13 +28,13 @@
         </record>
 
         <!-- Free break-->
-        <record id="free_break" model="ir.config_parameter">
+        <record id="hr_attendance_management.free_break" model="ir.config_parameter">
             <field name="key">hr_attendance_management.free_break</field>
             <field name="value">0.25</field>
         </record>
 
         <!-- Max extra hours-->
-        <record id="max_extra_hours" model="ir.config_parameter">
+        <record id="hr_attendance_management.max_extra_hours" model="ir.config_parameter">
             <field name="key">hr_attendance_management.max_extra_hours</field>
             <field name="value">40</field>
         </record>
