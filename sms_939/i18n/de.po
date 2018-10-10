@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-30 07:09+0000\n"
-"PO-Revision-Date: 2018-08-30 09:11+0200\n"
+"POT-Creation-Date: 2018-10-10 12:54+0000\n"
+"PO-Revision-Date: 2018-10-10 14:56+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -20,7 +20,12 @@ msgstr ""
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_answer
 msgid "Answer"
-msgstr "Answer"
+msgstr "Antwort"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_partner_church_unlinked
+msgid "Church"
+msgstr "Kirchgemeinde"
 
 #. module: sms_939
 #: model:ir.model,name:sms_939.model_recurring_contract
@@ -32,7 +37,7 @@ msgstr "Contract for recurring invoicing"
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_create_uid
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_create_uid
 msgid "Created by"
-msgstr "Angelegt von"
+msgstr "Erstellt von"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_create_date
@@ -54,14 +59,24 @@ msgid "Display Name"
 msgstr "Anzeigename"
 
 #. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_spoken_lang_en
+msgid "English"
+msgstr "Englisch"
+
+#. module: sms_939
 #: selection:sms.notification,state:0
 msgid "Failed"
-msgstr "Failed"
+msgstr "Fehlgeschlagen"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_failure_details
 msgid "Failure details"
-msgstr "Failure details"
+msgstr "Fehlerdetails"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_spoken_lang_fr
+msgid "French"
+msgstr "Französisch"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_func_name
@@ -84,6 +99,11 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_instance
 msgid "Instance"
 msgstr "Instanzen"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_partner_function
+msgid "Job"
+msgstr "Beruf"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_name
@@ -117,6 +137,12 @@ msgid "Last Updated on"
 msgstr "Zuletzt aktualisiert am"
 
 #. module: sms_939
+#: code:addons/sms_939/forms/sms_sponsorship_registration_form.py:78
+#, python-format
+msgid "Letters exchange"
+msgstr "Briefwechsel mit deinem Patenkind"
+
+#. module: sms_939
 #: model:ir.model.fields,help:sms_939.field_sms_hook_func_name
 msgid ""
 "Method name that will be executed at reception. The method must exist in sms."
@@ -126,7 +152,7 @@ msgstr ""
 "notification object and returns a SmsNotificationAnswer object"
 
 #. module: sms_939
-#: code:addons/sms_939/wizards/sms_sender_wizard.py:36
+#: code:addons/sms_939/wizards/sms_sender_wizard.py:52
 #, python-format
 msgid "No valid partner"
 msgstr "No valid partner"
@@ -147,9 +173,14 @@ msgid "Partner id"
 msgstr "Partner id"
 
 #. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_spoken_lang_po
+msgid "Portuguese"
+msgstr "Portugiesisch"
+
+#. module: sms_939
 #: selection:sms.notification,state:0
 msgid "Received"
-msgstr "Received"
+msgstr "Erhalten"
 
 #. module: sms_939
 #: model:ir.ui.menu,name:sms_939.menu_technical_sms
@@ -158,10 +189,8 @@ msgstr "SMS"
 
 #. module: sms_939
 #: model:ir.model,name:sms_939.model_sms_child_request
-#, fuzzy
-#| msgid "SMS Requests"
 msgid "SMS Child request"
-msgstr "SMS Requests"
+msgstr "SMS Child request"
 
 #. module: sms_939
 #: model:ir.actions.act_window,name:sms_939.action_sms_hook
@@ -195,20 +224,27 @@ msgid "SMS sender wizard"
 msgstr "SMS sender wizard"
 
 #. module: sms_939
-#: code:addons/sms_939/models/sms_child_request.py:29
+#: code:addons/sms_939/models/sms_child_request.py:40
 #, python-format
 msgid "SMS sponsorship reminder"
-msgstr ""
+msgstr "SMS sponsorship reminder"
 
 #. module: sms_939
 #: model:ir.ui.view,arch_db:sms_939.sms_sender_wizard_form
 msgid "Send SMS"
-msgstr "Send SMS"
+msgstr "SMS schicken"
 
 #. module: sms_939
 #: model:ir.ui.view,arch_db:sms_939.res_partner_sms_update
 msgid "Send an SMS"
-msgstr "Send an SMS"
+msgstr "SMS schicken"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_volunteering
+msgid "Send me information about volunteering with Compassion"
+msgstr ""
+"Senden Sie mir mehr Informationen, wie ich mich für Kinder in Not einsetzen "
+"kann"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_sender
@@ -222,13 +258,11 @@ msgstr "Service"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_sms_request_id
-#, fuzzy
-#| msgid "SMS Requests"
 msgid "Sms request id"
-msgstr "SMS Requests"
+msgstr "Sms request id"
 
 #. module: sms_939
-#: code:addons/sms_939/models/sms_notification.py:113
+#: code:addons/sms_939/models/sms_notification.py:114
 #, python-format
 msgid ""
 "Sorry, the service is not available at this time. Our team is informed and "
@@ -238,24 +272,30 @@ msgstr ""
 "informiert und kümmert sich um das Problem."
 
 #. module: sms_939
-#: code:addons/sms_939/models/sms_notification.py:90
+#: code:addons/sms_939/models/sms_notification.py:91
 #, python-format
 msgid ""
 "Sorry, we could not understand your request. Supported services are :\n"
 " - %s "
 msgstr ""
-"Sorry, we could not understand your request. Supported services are :\n"
+"Es tut uns leid, wir konnten Ihre Anfrage nicht verstehen. Folgende Dienste "
+"sind verfügbar:\n"
 " - %s "
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_spoken_lang_es
+msgid "Spanish"
+msgstr "Spanisch"
 
 #. module: sms_939
 #: model:ir.model,name:sms_939.model_compassion_child
 msgid "Sponsored Child"
-msgstr "Sponsored Child"
+msgstr "Patenkind"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_state
 msgid "State"
-msgstr "Bundesland"
+msgstr "Zustand"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_subject
@@ -265,7 +305,7 @@ msgstr "Betreff"
 #. module: sms_939
 #: selection:sms.notification,state:0
 msgid "Success"
-msgstr "Success"
+msgstr "Erfolgreich"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_text
@@ -274,17 +314,17 @@ msgid "Text"
 msgstr "Text"
 
 #. module: sms_939
-#: code:addons/sms_939/models/sms_child_request.py:23
+#: code:addons/sms_939/models/sms_child_request.py:34
 #, python-format
 msgid ""
 "Thank you for your interest to sponsor a child with Compassion. Why don't "
 "you take a moment today to change the life of %s? %s"
 msgstr ""
-"Danke, dass du ein Kind unterstützen möchtest. "
-"Nimm dir doch heute einen Moment Zeit, um das Leben von %s zu verändern. %s"
+"Danke, dass du ein Kind unterstützen möchtest. Nimm dir doch heute einen "
+"Moment Zeit, um das Leben von %s zu verändern. %s"
 
 #. module: sms_939
-#: code:addons/sms_939/models/sms_notification.py:142
+#: code:addons/sms_939/models/sms_notification.py:151
 #, python-format
 msgid ""
 "Thank you for your will to help a child ! \n"
@@ -312,6 +352,25 @@ msgid "Uuid"
 msgstr "Uuid"
 
 #. module: sms_939
+#: code:addons/sms_939/forms/sms_sponsorship_registration_form.py:52
+#, python-format
+msgid "Volunteering"
+msgstr "Mithelfen"
+
+#. module: sms_939
+#: code:addons/sms_939/forms/sms_sponsorship_registration_form.py:79
+#, python-format
+msgid ""
+"We are happy to translate letters for you and your sponsored child. In case "
+"you know his language or English, please indicate it below; this will save "
+"time on sending the letters."
+msgstr ""
+"Selbstverständlich übersetzen wir deine Briefe gerne. Du kannst deine Briefe "
+"aber auch direkt in der Sprache des Kindes oder auf Englisch schreiben. Dies "
+"spart Zeit und nimmt unseren freiwilligen Übersetzern Arbeit ab. Welche der "
+"folgenden Sprachen verstehst du?"
+
+#. module: sms_939
 #: model:ir.model,name:sms_939.model_cms_form_recurring_contract
 msgid "cms.form.recurring.contract"
 msgstr "cms.form.recurring.contract"
@@ -322,7 +381,7 @@ msgid "sms.sender.wizard.action"
 msgstr "sms.sender.wizard.action"
 
 #. module: sms_939
-#: code:addons/sms_939/models/sms_child_request.py:27
+#: code:addons/sms_939/models/sms_child_request.py:38
 #, python-format
 msgid "this child"
 msgstr "dieses Kind"
