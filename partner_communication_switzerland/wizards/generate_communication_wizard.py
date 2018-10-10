@@ -54,9 +54,9 @@ class GenerateCommunicationWizard(models.TransientModel):
     currency_id = fields.Many2one('res.currency', compute='_compute_currency')
     campaign_id = fields.Many2one('utm.campaign', 'Campaign')
     sms_provider_id = fields.Many2one('sms.provider', 'SMS Provider',
-                                   default=lambda self: self.env
-                                   ['sms.provider'].search([], limit=1),
-                                   readonly=False)
+                                      default=lambda self: self.
+                                      env['sms.provider'].search([], limit=1),
+                                      readonly=False)
 
     @api.model
     def _default_domain(self):
