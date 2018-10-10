@@ -55,7 +55,7 @@ class GenerateCommunicationWizard(models.TransientModel):
     campaign_id = fields.Many2one('utm.campaign', 'Campaign')
     sms_provider = fields.Many2one('sms.provider', 'SMS Provider',
                                    default=lambda self: self.env
-                                   ['sms.provider'].search([('id', '=', 1)]),
+                                   ['sms.provider'].search([], limit=1),
                                    readonly=False)
 
     @api.model
@@ -135,6 +135,7 @@ class GenerateCommunicationWizard(models.TransientModel):
         return super(GenerateCommunicationWizard,
                      self.with_context(object_ids=object_ids)).get_preview()
 
+    # TODO pass sms_provider to sms wizard
     @job
     def generate_communications(self, async_mode=True):
         """ Create the communication records """
@@ -150,6 +151,7 @@ class GenerateCommunicationWizard(models.TransientModel):
                     'send_mode': self.send_mode,
                     'report_id': self.report_id.id or
                     self.model_id.report_id.id,
+                    'sms_provider': self.sms_provider
                 }
                 if async_mode:
                     wizard.with_delay().create_communication(vals)
