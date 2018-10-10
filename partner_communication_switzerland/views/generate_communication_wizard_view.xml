@@ -20,7 +20,7 @@
                 <attribute name="domain">[('model', '=', res_model)]</attribute>
             </field>
             <field name="force_language" position="after">
-                <field name="sms_provider" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
+                <field name="sms_provider_id" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
                 <field name="sms_length_estimation" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
                 <field name="sms_number_estimation" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
                 <field name="currency_id" invisible="1"/>

@@ -42,7 +42,7 @@ class SmsSender(models.TransientModel):
     partner_id = fields.Many2one(
         'res.partner', 'Partner', compute='_compute_partner')
     sms_request_id = fields.Many2one(comodel_name='sms.child.request')
-    sms_provider = fields.Many2one('sms.provider', "SMS Provider",
+    sms_provider_id = fields.Many2one('sms.provider', "SMS Provider",
                                    default=lambda self: self.env
                                    ['sms.provider'].search([], limit=1),
                                    readonly=False)
@@ -61,8 +61,8 @@ class SmsSender(models.TransientModel):
             return False
 
         headers = {}
-        username = self.sms_provider.username_939
-        password = self.sms_provider.password_939
+        username = self.sms_provider_id.username_939
+        password = self.sms_provider_id.password_939
         auth = base64.encodestring('%s:%s' % (username,
                                               password)).replace('\n', '')
         headers['Authorization'] = 'Basic ' + auth
@@ -73,9 +73,9 @@ class SmsSender(models.TransientModel):
             ('cost', 0),
             ('text', self.text.encode('utf8'))
         ]
-        server_config = {'server': self.sms_provider.server_939,
-                         'port': self.sms_provider.port_939,
-                         'endpoint': self.sms_provider.endpoint_939}
+        server_config = {'server': self.sms_provider_id.server_939,
+                         'port': self.sms_provider_id.port_939,
+                         'endpoint': self.sms_provider_id.endpoint_939}
         smsbox_send(request, headers, server_config)
         return True
 
