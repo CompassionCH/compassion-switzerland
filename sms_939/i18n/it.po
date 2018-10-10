@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-10 12:54+0000\n"
-"PO-Revision-Date: 2018-10-10 15:01+0200\n"
+"PO-Revision-Date: 2018-10-10 15:05+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
-"Language: fr_CH\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,68 +20,68 @@ msgstr ""
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_answer
 msgid "Answer"
-msgstr "Réponse"
+msgstr "Risposta"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_partner_church_unlinked
 msgid "Church"
-msgstr "Église"
+msgstr "Chiesa"
 
 #. module: sms_939
 #: model:ir.model,name:sms_939.model_recurring_contract
 msgid "Contract for recurring invoicing"
-msgstr "Contrat à facturation récurrente"
+msgstr "Contract for recurring invoicing"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_create_uid
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_create_uid
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_create_uid
 msgid "Created by"
-msgstr "Créé par"
+msgstr "Creato da"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_create_date
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_create_date
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_create_date
 msgid "Created on"
-msgstr "Créé le"
+msgstr "Creato il"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_date
 msgid "Date"
-msgstr "Date"
+msgstr "Data"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_display_name
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_display_name
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_display_name
 msgid "Display Name"
-msgstr "Nom affiché"
+msgstr "Nome Visualizzato"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_spoken_lang_en
 msgid "English"
-msgstr "Anglais"
+msgstr "Inglese"
 
 #. module: sms_939
 #: selection:sms.notification,state:0
 msgid "Failed"
-msgstr "Échoué"
+msgstr "Fallito"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_failure_details
 msgid "Failure details"
-msgstr "Message d'erreur"
+msgstr "Dettagli del guasto"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_spoken_lang_fr
 msgid "French"
-msgstr "Français"
+msgstr "Francese"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_func_name
 msgid "Function"
-msgstr "Fonction"
+msgstr "Funzione"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_hook_id
@@ -98,49 +98,49 @@ msgstr "ID"
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_instance
 msgid "Instance"
-msgstr "Instance"
+msgstr "Istanza"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_partner_function
 msgid "Job"
-msgstr "Profession"
+msgstr "Professione"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_name
 msgid "Keyword service"
-msgstr "Mot-clé"
+msgstr "Keyword service"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_language
 msgid "Language"
-msgstr "Langue"
+msgstr "Lingua"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook___last_update
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification___last_update
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard___last_update
 msgid "Last Modified on"
-msgstr "Dernière Modification le"
+msgstr "Ultima modifica il"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_write_uid
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_write_uid
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_write_uid
 msgid "Last Updated by"
-msgstr "Dernière mise à jour par"
+msgstr "Ultima modifica di"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_hook_write_date
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_write_date
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_write_date
 msgid "Last Updated on"
-msgstr "Dernière mise à jour le"
+msgstr "Ultima modifica il"
 
 #. module: sms_939
 #: code:addons/sms_939/forms/sms_sponsorship_registration_form.py:78
 #, python-format
 msgid "Letters exchange"
-msgstr "Échange de lettres"
+msgstr "Scambio di lettere"
 
 #. module: sms_939
 #: model:ir.model.fields,help:sms_939.field_sms_hook_func_name
@@ -165,22 +165,22 @@ msgstr "Operator"
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_partner_id
 msgid "Partner"
-msgstr "Partenaire"
+msgstr "Partner"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_partner_id
 msgid "Partner id"
-msgstr "Partenaire"
+msgstr "Partner id"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_spoken_lang_po
 msgid "Portuguese"
-msgstr "Portugais"
+msgstr "Portoghese"
 
 #. module: sms_939
 #: selection:sms.notification,state:0
 msgid "Received"
-msgstr "Reçu"
+msgstr "Ricevuto"
 
 #. module: sms_939
 #: model:ir.ui.menu,name:sms_939.menu_technical_sms
@@ -190,7 +190,7 @@ msgstr "SMS"
 #. module: sms_939
 #: model:ir.model,name:sms_939.model_sms_child_request
 msgid "SMS Child request"
-msgstr "Parrainage SMS"
+msgstr "SMS Sostegno"
 
 #. module: sms_939
 #: model:ir.actions.act_window,name:sms_939.action_sms_hook
@@ -216,7 +216,7 @@ msgstr "SMS Notifications"
 #. module: sms_939
 #: model:ir.actions.act_window,name:sms_939.action_sms_notification
 msgid "SMS Requests"
-msgstr "Parrainages SMS"
+msgstr "SMS Sostegni"
 
 #. module: sms_939
 #: model:ir.model,name:sms_939.model_sms_sender_wizard
@@ -227,29 +227,28 @@ msgstr "SMS sender wizard"
 #: code:addons/sms_939/models/sms_child_request.py:40
 #, python-format
 msgid "SMS sponsorship reminder"
-msgstr "Rappel SMS"
+msgstr "SMS sponsorship reminder"
 
 #. module: sms_939
 #: model:ir.ui.view,arch_db:sms_939.sms_sender_wizard_form
 msgid "Send SMS"
-msgstr "Envoyer un SMS"
+msgstr "Inviare SMS"
 
 #. module: sms_939
 #: model:ir.ui.view,arch_db:sms_939.res_partner_sms_update
 msgid "Send an SMS"
-msgstr "Envoyer un SMS"
+msgstr "Inviare SMS"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_volunteering
 msgid "Send me information about volunteering with Compassion"
 msgstr ""
-"Envoyez-moi des informations sur le bénévolat avec Compassion au profit des "
-"enfants démunis."
+"Inviatemi maggiori informazioni su come posso aiutare i bambini nel bisogno"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_sender
 msgid "Sender"
-msgstr "Expéditeur"
+msgstr "Sender"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_service
@@ -259,7 +258,7 @@ msgstr "Service"
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_sms_request_id
 msgid "Sms request id"
-msgstr "Requête SMS"
+msgstr "Sms request id"
 
 #. module: sms_939
 #: code:addons/sms_939/models/sms_notification.py:114
@@ -268,8 +267,8 @@ msgid ""
 "Sorry, the service is not available at this time. Our team is informed and "
 "is currently working on it."
 msgstr ""
-"Désolé, le service n’est pas disponible en ce moment. Notre équipe est "
-"informée et règle le problème."
+"Siamo spiacenti, il servizio non è disponibile in questo momento. Il nostro "
+"team è al corrente del problema e sta lavorando per risolverlo."
 
 #. module: sms_939
 #: code:addons/sms_939/models/sms_notification.py:91
@@ -278,40 +277,40 @@ msgid ""
 "Sorry, we could not understand your request. Supported services are :\n"
 " - %s "
 msgstr ""
-"Désolé, ce service n'est pas disponible. Les services suivants sont "
-"possibles :\n"
+"Siamo spiacenti, non siamo riusciti a capire la vostra richiesta. I servizi "
+"supportati sono:\n"
 " - %s "
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_cms_form_recurring_contract_spoken_lang_es
 msgid "Spanish"
-msgstr "Espagnol"
+msgstr "Spagnola"
 
 #. module: sms_939
 #: model:ir.model,name:sms_939.model_compassion_child
 msgid "Sponsored Child"
-msgstr "Enfant parrainé"
+msgstr "Bambino"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_state
 msgid "State"
-msgstr "État"
+msgstr "Stato"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_subject
 msgid "Subject"
-msgstr "Objet"
+msgstr "Oggetto"
 
 #. module: sms_939
 #: selection:sms.notification,state:0
 msgid "Success"
-msgstr "Réussite"
+msgstr "Successo"
 
 #. module: sms_939
 #: model:ir.model.fields,field_description:sms_939.field_sms_notification_text
 #: model:ir.model.fields,field_description:sms_939.field_sms_sender_wizard_text
 msgid "Text"
-msgstr "Texte"
+msgstr "Testo"
 
 #. module: sms_939
 #: code:addons/sms_939/models/sms_child_request.py:34
@@ -320,8 +319,8 @@ msgid ""
 "Thank you for your interest to sponsor a child with Compassion. Why don't "
 "you take a moment today to change the life of %s? %s"
 msgstr ""
-"Merci d'avoir souhaité parrainer un enfant démuni. Prenez donc un moment "
-"aujourd'hui pour transformer la vie de %s : %s"
+"Grazie per sostenere un bambino. Prendi ancora un momento per cambiare la "
+"vita di %s? %s"
 
 #. module: sms_939
 #: code:addons/sms_939/models/sms_notification.py:151
@@ -330,9 +329,8 @@ msgid ""
 "Thank you for your will to help a child ! \n"
 "You can release a child from poverty today by clicking on this link: %s"
 msgstr ""
-"Merci pour votre élan de compassion!\n"
-"Commencez à libérer un enfant de la pauvreté aujourd'hui en cliquant sur ce "
-"lien:%s"
+"Grazie per la tua volontà di aiutare un bambino!\n"
+"Oggi puoi liberare un bambino dalla povertà facendo clic su questo link: %s"
 
 #. module: sms_939
 #: code:addons/sms_939/models/sms_hook.py:45
@@ -356,7 +354,7 @@ msgstr "Uuid"
 #: code:addons/sms_939/forms/sms_sponsorship_registration_form.py:52
 #, python-format
 msgid "Volunteering"
-msgstr "Bénévolat"
+msgstr "Contribuire"
 
 #. module: sms_939
 #: code:addons/sms_939/forms/sms_sponsorship_registration_form.py:79
@@ -366,10 +364,10 @@ msgid ""
 "you know his language or English, please indicate it below; this will save "
 "time on sending the letters."
 msgstr ""
-"Nous traduisons volontiers les lettres pour votre filleul(e). Dans le cas où "
-"vous connaissez sa langue ou l'anglais, merci de l'indiquer ci-dessous; cela "
-"permettra de gagner du temps sur l'envoi de votre courrier afin qu'il puisse "
-"lui être transmis rapidement."
+"Traduciamo volentieri le lettere che scrivete al vostro bambino. Potete "
+"anche scrivere nella lingua del bambino (o in inglese), questo permetterà ai "
+"nostri traduttori volontari di guadagnare tempo. Selezionate gentilmente le "
+"lingue che capite."
 
 #. module: sms_939
 #: model:ir.model,name:sms_939.model_cms_form_recurring_contract
@@ -385,4 +383,4 @@ msgstr "sms.sender.wizard.action"
 #: code:addons/sms_939/models/sms_child_request.py:38
 #, python-format
 msgid "this child"
-msgstr "cet enfant démuni"
+msgstr "questo bambino"
