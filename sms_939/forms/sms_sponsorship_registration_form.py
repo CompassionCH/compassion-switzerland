@@ -91,8 +91,9 @@ if not testing:
 
             # Set default values in the model
             partner = main_object.sudo().partner_id
-            form.partner_church_unlinked =\
-                partner.church_id.name or partner.church_unlinked
+            form.partner_church_unlinked = kw.get(
+                'partner_church_unlinked',
+                partner.church_id.name or partner.church_unlinked)
             form.partner_function = partner.function
             form.volunteering = kw.get('volunteering')
             return form
