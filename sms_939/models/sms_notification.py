@@ -126,7 +126,7 @@ class SmsNotification(models.Model):
                 'text': sms_answer,
                 'sms_provider': self.env['sms.provider'].search([
                     ('name', 'ilike', 'small account')
-                ], limit=1)
+                ], limit=1).id
             }).send_sms(mobile=sms_receipient)
         else:
             # Test mode will only print url in job return value
