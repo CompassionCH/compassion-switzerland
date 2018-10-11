@@ -25,6 +25,9 @@
             <xpath expr="//filter[1]" position="attributes">
                 <attribute name="name">myevents</attribute>
             </xpath>
+            <group position="before">
+                <filter string="Upcoming meetings" name="next_meetings" domain="[('start_date', '>=', datetime.date.today().strftime('%Y-%m-%d'))]"/>
+            </group>
         </field>
     </record>
 
@@ -44,8 +47,24 @@
             opportunities.
           </p>
         </field>
-        <field name="domain">[('start_date', '>=', datetime.date.today().strftime('%Y-%m-%d'))]</field>
-        <field name="context">{'search_default_mymeetings': 1, 'search_default_myevents': 1}</field>
+        <field name="context">{'search_default_mymeetings': 1, 'search_default_myevents': 1, 'search_default_next_meetings': 1}</field>
+    </record>
+    <record id="action_calendar_event_partner" model="ir.actions.act_window">
+        <field name="name">Meetings</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">tree,calendar,form</field>
+        <field name="view_id" ref="view_calendar_event_tree_order_date"/>
+        <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to schedule a new meeting.
+          </p><p>
+            The calendar is shared between employees and fully integrated with
+            other applications such as the employee holidays or the business
+            opportunities.
+          </p>
+        </field>
+        <field name="context">{}</field>
     </record>
 
     <menuitem
