@@ -40,7 +40,8 @@
         'crm_phone'
     ],
     'data': [
-        'view/crm_phonecall.xml'
+        'views/crm_phonecall.xml',
+        'views/calendar_event.xml',
     ],
     'demo': [],
     'installable': True,
