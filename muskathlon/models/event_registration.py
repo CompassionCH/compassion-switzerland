@@ -16,18 +16,12 @@ from odoo.addons.queue_job.job import job, related_action
 
 
 class MuskathlonRegistration(models.Model):
-    _name = 'muskathlon.registration'
-    _inherit = ['website.published.mixin', 'website.seo.metadata']
-    _description = 'Muskathlon registration'
-    _rec_name = 'partner_preferred_name'
-    _order = 'id desc'
+    _name = 'event.registration'
+    _inherit = ['website.published.mixin', 'website.seo.metadata',
+                'event.registration']
 
-    event_id = fields.Many2one(
-        'crm.event.compassion', 'Muskathlon event', required=True,
-        domain="[('type', '=', 'sport')]"
-    )
-    partner_id = fields.Many2one(
-        'res.partner', 'Muskathlon participant'
+    compassion_event_id = fields.Many2one(
+        related='event_id.compassion_event_id'
     )
     lead_id = fields.Many2one(
         'crm.lead', 'Lead'
@@ -79,7 +73,7 @@ class MuskathlonRegistration(models.Model):
         related='partner_id.muskathlon_participant_id')
 
     muskathlon_event_id = fields.Char(
-        related='event_id.muskathlon_event_id')
+        related='compassion_event_id.muskathlon_event_id')
 
     website_published = fields.Boolean(
         compute='_compute_website_published', store=True)
@@ -99,7 +93,7 @@ class MuskathlonRegistration(models.Model):
     def _compute_website_url(self):
         for registration in self:
             registration.website_url = "/event/{}/{}".format(
-                slug(registration.event_id), slug(registration)
+                slug(registration.compassion_event_id), slug(registration)
             )
 
     def _compute_amount_raised(self):
@@ -109,8 +103,8 @@ class MuskathlonRegistration(models.Model):
             amount_raised = int(sum(
                 item.amount for item in muskathlon_report.search([
                     ('user_id', '=', registration.partner_id.id),
-                    ('event_id', '=', registration.event_id.id),
-                    ('muskathlon_registration_id', '=', registration.reg_id),
+                    ('event_id', '=', registration.compassion_event_id.id),
+                    ('registration_id', '=', registration.reg_id),
                 ])
             ))
 
@@ -146,13 +140,14 @@ class MuskathlonRegistration(models.Model):
     def onchange_event_id(self):
         return {
             'domain': {'sport_discipline_id': [
-                ('id', 'in', self.event_id.sport_discipline_ids.ids)]}
+                ('id', 'in',
+                 self.compassion_event_id.sport_discipline_ids.ids)]}
         }
 
     @api.onchange('sport_discipline_id')
     def onchange_sport_discipline(self):
         if self.sport_discipline_id and self.sport_discipline_id not in \
-                self.event_id.sport_discipline_ids:
+                self.compassion_event_id.sport_discipline_ids:
             self.sport_discipline_id = False
             return {
                 'warning': {
@@ -180,7 +175,7 @@ class MuskathlonRegistration(models.Model):
             'city': partner.city,
             'user_id': staff_id,
             'description': self.sport_level_description,
-            'event_id': self.event_id.id,
+            'event_id': self.compassion_event_id.id,
             'sales_team_id': self.env.ref(
                 'sales_team.salesteam_website_sales').id
         })

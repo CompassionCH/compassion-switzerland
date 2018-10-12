@@ -18,7 +18,7 @@ class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
 
     registration_id = fields.Many2one(
-        'muskathlon.registration', 'Registration')
+        'event.registration', 'Registration')
 
     def _get_payment_invoice_vals(self):
         vals = super(PaymentTransaction, self)._get_payment_invoice_vals()

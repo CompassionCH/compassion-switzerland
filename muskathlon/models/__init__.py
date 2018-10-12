@@ -12,7 +12,7 @@ from . import advocate_details
 from . import account_invoice_line
 from . import contracts
 from . import event_compassion
-from . import muskathlon_registration
+from . import event_registration
 from . import res_partner
 from . import sport_discipline
 from . import staff_notification_settings

@@ -26,8 +26,10 @@
                         </group>
                     </group>
                     <group>
-                        <field name="muskathlon_registration_ids" context="{'default_event_id': id}">
+                        <field name="registration_ids" context="{'default_compassion_event_id': id}">
                             <tree>
+                                <field name="compassion_event_id" invisible="1"/>
+                                <field name="state" invisible="1"/>
                                 <field name="partner_id"/>
                                 <field name="muskathlon_participant_id"/>
                                 <field name="reg_id"/>

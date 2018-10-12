@@ -9,10 +9,10 @@
                 <group>
                     <field name="muskathlon_participant_id"/>
                 </group>
-                <group attrs="{'invisible': [('muskathlon_registration_ids', '=', False)]}">
-                        <field name="muskathlon_registration_ids" context="{'default_partner_id': id}">
+                <group attrs="{'invisible': [('registration_ids', '=', False)]}">
+                        <field name="registration_ids" context="{'default_partner_id': id}">
                             <tree>
-                                <field name="event_id"/>
+                                <field name="compassion_event_id"/>
                                 <field name="muskathlon_event_id"/>
                                 <field name="reg_id"/>
                             </tree>

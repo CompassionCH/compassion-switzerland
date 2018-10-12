@@ -21,7 +21,7 @@ class QueueJob(models.Model):
         action = {
             'name': _("Muskathlon registration"),
             'type': 'ir.actions.act_window',
-            'res_model': 'muskathlon.registration',
+            'res_model': 'event.registration',
             'res_id': registration_id,
             'view_type': 'form',
             'view_mode': 'form',

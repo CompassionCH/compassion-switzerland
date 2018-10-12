@@ -20,8 +20,8 @@ class EventCompassion(models.Model):
     thank_you_text = fields.Html(translate=True)
     muskathlon_event_id = fields.Char(
         string="Muskathlon event ID", size=128)
-    muskathlon_registration_ids = fields.One2many(
-        'muskathlon.registration', 'event_id', 'Muskathlon registrations')
+    registration_ids = fields.One2many(
+        'event.registration', 'compassion_event_id', 'Event registrations')
 
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000, required=True)
@@ -49,7 +49,7 @@ class EventCompassion(models.Model):
             amount_raised = 0
             amount_objective = 0
 
-            for registration in event.muskathlon_registration_ids:
+            for registration in event.registration_ids:
                 amount_raised += registration.amount_raised
                 amount_objective += registration.amount_objective
 
@@ -60,7 +60,7 @@ class EventCompassion(models.Model):
 
     @api.model
     def get_muskathlon_participants(self, event_id):
-        participants = self.env['muskathlon.registration'].search(
+        participants = self.env['event.registration'].search(
             [('event_id', '=', event_id)]
         )
 

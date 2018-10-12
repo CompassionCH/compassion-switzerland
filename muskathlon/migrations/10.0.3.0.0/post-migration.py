@@ -2,18 +2,19 @@
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
-#    @author: Sebastien Toth <popod@me.com>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields
+from openupgradelib import openupgrade
 
 
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
+@openupgrade.migrate(use_env=True)
+def migrate(env, version):
+    if not version:
+        return
 
-    muskathlon_participant_id = fields.Char('Muskathlon participant ID')
-    registration_ids = fields.One2many(
-        'event.registration', 'partner_id', 'Event registrations')
+    # Update state of registrations
+    env['event.registration'].search([]).write({'state': 'done'})

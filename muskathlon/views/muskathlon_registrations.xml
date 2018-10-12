@@ -1,41 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="view_muskathlon_registration_form" model="ir.ui.view">
-        <field name="name">muskathlon.registration.form</field>
-        <field name="model">muskathlon.registration</field>
+        <field name="name">event.registration.form</field>
+        <field name="model">event.registration</field>
+        <field name="inherit_id" ref="event.view_event_registration_form"/>
         <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <group>
-                            <field name="event_id"/>
-                            <field name="partner_id" required="1"/>
-                            <field name="muskathlon_participant_id"/>
-                        </group>
-                        <group>
-                            <field name="muskathlon_event_id"/>
-                            <field name="sport_discipline_id"/>
-                            <field name="sport_level_description"/>
-                            <field name="reg_id"/>
-                        </group>
-                    </group>
-                    <group>
-                        <field name="ambassador_description"/>
-                        <field name="ambassador_quote"/>
-                    </group>
-                    <group>
-                        <group>
-                            <field name="ambassador_picture_1"/>
-                            <field name="amount_objective"/>
-                            <field name="amount_raised_percents"/>
-                        </group>
-                        <group>
-                            <field name="ambassador_picture_2"/>
-                            <field name="amount_raised"/>
-                        </group>
-                    </group>
-                </sheet>
-            </form>
+            <field name="event_id" position="attributes">
+                <attribute name="string">Registrations</attribute>
+            </field>
+            <field name="event_id" position="after">
+                <field name="compassion_event_id"/>
+            </field>
+            <xpath expr="//sheet/group">
+                <group string="Muskathlon">
+                    <field name="muskathlon_participant_id"/>
+                    <field name="muskathlon_event_id"/>
+                    <field name="sport_discipline_id"/>
+                    <field name="sport_level_description"/>
+                    <field name="reg_id"/>
+                    <separator colspan="2"/>
+                    <field name="amount_objective"/>
+                    <field name="amount_raised"/>
+                    <field name="amount_raised_percents"/>
+                </group>
+                <group string="Advocate information">
+                    <field name="ambassador_description"/>
+                    <field name="ambassador_quote"/>
+                    <field name="ambassador_picture_1"/>
+                    <field name="ambassador_picture_2"/>
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>

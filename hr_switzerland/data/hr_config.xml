@@ -27,6 +27,18 @@
             <field name="due_break">0.5</field>
         </record>
 
+        <!-- Free break-->
+        <record id="hr_attendance_management.free_break" model="ir.config_parameter">
+            <field name="key">hr_attendance_management.free_break</field>
+            <field name="value">0.25</field>
+        </record>
+
+        <!-- Max extra hours-->
+        <record id="hr_attendance_management.max_extra_hours" model="ir.config_parameter">
+            <field name="key">hr_attendance_management.max_extra_hours</field>
+            <field name="value">40</field>
+        </record>
+
         <!-- Employee tags -->
         <record id="employee_tag_office" model="hr.employee.category">
             <field name="name">Y-Office</field>

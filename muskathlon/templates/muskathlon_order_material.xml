@@ -2,7 +2,7 @@
 <odoo>
     <template id="my_muskathlon_order_material" name="Muskathlon order material">
         <t t-call="website.layout">
-            <t t-set="event" t-value="registration.event_id"/>
+            <t t-set="event" t-value="registration.compassion_event_id"/>
 
             <!-- Modal for image of flyer in fullscreen -->
             <div id="modal_flyer" class="modal fade" role="dialog">
