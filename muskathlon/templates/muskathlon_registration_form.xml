@@ -2,6 +2,9 @@
 <odoo>
     <template id="new_registration_successful" name="Muskathlon registration success">
         <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex" />
+            </t>
             <t t-set="title" t-value="event.name"/>
             <div class="oe_structure donation_success">
                 <div class="thank_you_container">

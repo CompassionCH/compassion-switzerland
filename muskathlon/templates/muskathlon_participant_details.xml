@@ -43,7 +43,7 @@
                     <div class="participant_details_container">
                         <!-- Include donation form -->
                         <t t-call="cms_form_compassion.modal_form"/>
-                        <t t-set="title" t-value="event.name"/>
+                        <t t-set="title" t-value="registration.partner_firstname + ' ' + registration.partner_lastname + ' | ' + event.name"/>
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="card_container">
