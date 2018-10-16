@@ -13,7 +13,7 @@
             <!-- Add social share information for Facebook and Twitter -->
             <t t-set="sport" t-value="registration.sport_discipline_id"/>
             <t t-set="share_url">https://muskathlon-kenya.ch/en_US<t t-esc="registration.website_url"/></t>
-            <t t-set="share_content">Support me! <t t-esc="sport.page_title"/><t t-if="registration.compassion_event_id.country_id"> in <t t-esc="registration.compassion_event_id.country_id.name"/></t> - <t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></t>
+            <t t-set="share_content">Support me! <t t-esc="sport.page_title"/><t t-if="registration.compassion_event_id.country_id"> in <t t-esc="registration.compassion_event_id.country_id.name"/></t> - <t t-esc="registration.partner_display_name"/></t>
             <t t-set="image_url">https://muskathlon-kenya.ch/en_US/web/image/event.registration/<t t-esc="registration.id"/>/ambassador_picture_1</t>
             <t t-set="head">
                 <meta property="og:title"  t-att-content="share_content" />
@@ -37,13 +37,13 @@
                 <div class="main_container" id="participants_details">
                     <div class="participant_image_container">
                         <div class="participant_image">
-                            <h2 class="participant_image_text text-uppercase">Support <t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></h2>
+                            <h2 class="participant_image_text text-uppercase">Support <t t-esc="registration.partner_display_name"/></h2>
                         </div>
                     </div>
                     <div class="participant_details_container">
                         <!-- Include donation form -->
                         <t t-call="cms_form_compassion.modal_form"/>
-                        <t t-set="title" t-value="registration.partner_firstname + ' ' + registration.partner_lastname + ' | ' + event.name"/>
+                        <t t-set="title" t-value="registration.partner_display_name + ' | ' + event.name"/>
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="card_container">
@@ -86,7 +86,7 @@
                                     <t t-esc="event.name.replace('Muskathlon ', '')"/>
                                 </a>
                                 <p class="complete_name_container">
-                                    <span class="text-uppercase complete_name"><t t-esc="registration.partner_firstname"/> <t t-esc="registration.partner_lastname"/></span>
+                                    <span class="text-uppercase complete_name" t-esc="registration.partner_display_name"/>
                                     <t t-esc="sport.sport.title()"/> for <t t-esc="sport.distance_km"/> km
                                 </p>
                                 <blockquote>
