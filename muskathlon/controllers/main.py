@@ -60,15 +60,24 @@ class MuskathlonWebsite(PaymentFormController):
             'reports': reports
         })
 
-    @route('/event/<model("crm.event.compassion"):event>'
-           '/<model("event.registration"):registration>/',
+    @route(['/event/<model("crm.event.compassion"):event>'
+            '/<reg_string>-<int:reg_id>',
+            '/event/<model("crm.event.compassion"):event>/<int:reg_id>',
+            ],
            auth='public', website=True)
-    def participant_details(self, event, registration, **kwargs):
+    def participant_details(self, event, reg_id, **kwargs):
         """
         :param event: the event record
-        :param registration: a partner record
+        :param reg_id: the registration record
         :return:the rendered page
         """
+        reg_obj = request.env['event.registration'].sudo()
+        registration = reg_obj.browse(reg_id).exists()
+        if not registration:
+            # This may be an old link. We can fetch the registration
+            registration = reg_obj.search([('backup_id', '=', reg_id)])
+            if not registration:
+                return werkzeug.utils.redirect('/event/' + str(event.id), 301)
         values = kwargs.copy()
         values.pop('edit_translations', False)
         values.update({
