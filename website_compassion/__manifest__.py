@@ -43,6 +43,7 @@
         'views/footer_it.xml',
         'views/assets.xml',
         'views/homepage.xml',
+        'views/robots.xml',
     ],
     'depends': ['website', 'cms_form'],
     'demo': [],
