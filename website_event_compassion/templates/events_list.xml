@@ -41,7 +41,6 @@
                 </div>
             </div>
             <div class="oe_structure"/>
-            <t t-call="website_compassion.custom_footer"/>
         </t>
     </template>
 </odoo>

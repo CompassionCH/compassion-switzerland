@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import json
 import werkzeug
 
 from datetime import datetime
@@ -14,45 +15,29 @@ from dateutil.relativedelta import relativedelta
 from base64 import b64encode
 
 from odoo.http import request, route
-from odoo.addons.cms_form_compassion.controllers.payment_controller import \
-    PaymentFormController
+from odoo.addons.website_event_compassion.controllers.events_controller \
+    import EventsController
 from odoo.addons.payment.models.payment_acquirer import ValidationError
 
 
-class MuskathlonWebsite(PaymentFormController):
+class MuskathlonWebsite(EventsController):
+
     @route('/event/<model("crm.event.compassion"):event>/',
            auth='public', website=True)
-    def musk_infos(self, event, **kwargs):
-        values = kwargs.copy()
-        # This allows the translation to still work on the page
-        values.pop('edit_translations', False)
-
-        values.update({
-            'event': event,
-            'disciplines': event.sport_discipline_ids.ids,
-            'start_date': event.get_date('start_date', 'date_full'),
-            'end_date': event.get_date('end_date', 'date_full'),
-        })
-        registration_form = self.get_form('event.registration', **values)
-        registration_form.form_process()
-        if registration_form.form_success:
-            # The user submitted a registration, redirect to confirmation
-            result = werkzeug.utils.redirect(
-                registration_form.form_next_url(), code=303)
-        else:
-            # Display Muskathlon Details page
-            values.update({
-                'form': registration_form,
-                'main_object': event
-            })
-            result = request.render('muskathlon.details', values)
-
-        return self._form_redirect(result)
+    def event_page(self, event, **kwargs):
+        result = super(MuskathlonWebsite, self).event_page(event, **kwargs)
+        if event.website_muskathlon and result.mimetype == 'application/json':
+            # The form is in a modal popup and should be returned in JSON
+            # and render in the modal (remove full_page option).
+            values = json.loads(result.data)
+            values['full_page'] = False
+            result.data = json.dumps(values)
+        return result
 
     @route('/my/muskathlon/<model("event.registration"):registration>/'
            'donations',
            auth='user', website=True)
-    def muskathlon_details(self, registration, **kwargs):
+    def my_muskathlon_details(self, registration, **kwargs):
         reports = request.env['muskathlon.report'].search(
             [('user_id', '=', request.env.user.partner_id.id),
              ('event_id', '=', registration.compassion_event_id.id)])
@@ -256,6 +241,26 @@ class MuskathlonWebsite(PaymentFormController):
         }
         return request.render(
             'muskathlon.new_registration_successful_modal', values)
+
+    def get_event_page_values(self, event, **kwargs):
+        """
+        Gets the values used by the website to render the event page.
+        :param event: crm.event.compassion record to render
+        :param kwargs: request arguments
+        :return: dict: values for the event website template
+                       (must contain event, start_date, end_date, form,
+                        main_object and website_template values)
+        """
+        if event.website_muskathlon:
+            kwargs['form_model_key'] = 'cms.form.event.registration.muskathlon'
+        values = super(MuskathlonWebsite, self).get_event_page_values(
+            event, **kwargs)
+        if event.website_muskathlon:
+            values.update({
+                'disciplines': event.sport_discipline_ids.ids,
+                'website_template': 'muskathlon.details',
+            })
+        return values
 
     def _prepare_portal_layout_values(self):
         values = super(MuskathlonWebsite, self)._prepare_portal_layout_values()

@@ -8,9 +8,19 @@
             <form>
                 <group>
                     <field name="registration_fee"/>
+                    <field name="product_id" attrs="{'invisible': [('registration_fee', '=', 0)]}"/>
+                </group>
+                <group>
+                    <field name="fundraising"/>
+                    <field name="participants_amount_objective" attrs="{'invisible': [('fundraising', '=', False)]}"/>
+                    <field name="custom_amount_objective" attrs="{'invisible': [('fundraising', '=', False)]}"/>
+                    <field name="sponsorship_donation_value" attrs="{'invisible': [('fundraising', '=', False)]}"/>
+                </group>
+                <group>
                     <field name="seats_min"/>
                     <field name="seats_max"/>
-                    <field name="wordpress_url"/>
+                </group>
+                <group>
                     <field name="reply_to"/>
                 </group>
                 <footer>
