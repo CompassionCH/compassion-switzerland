@@ -75,11 +75,16 @@ class AccountInvoiceLine(models.Model):
         event = invoice_lines.mapped('event_id')
         ambassadors = invoice_lines.mapped('user_id')
 
+        event_id = event.id
+
+        if invoice_lines.mapped('contract_id'):
+            event_id = False
+
         existing_comm = self.env['partner.communication.job'].search([
             ('partner_id', '=', partner.id),
             ('state', 'in', ('call', 'pending')),
             ('config_id', 'in', (small + standard + large).ids),
-            ('event_id', '=', event.id)
+            ('event_id', '=', event_id)
         ])
         if existing_comm:
             invoice_lines = existing_comm.get_objects() | invoice_lines
@@ -90,7 +95,7 @@ class AccountInvoiceLine(models.Model):
             'config_id': config.id,
             'object_ids': invoice_lines.ids,
             'need_call': config.need_call,
-            'event_id': event.id,
+            'event_id': event_id,
             'ambassador_id': len(ambassadors) == 1 and ambassadors.id,
             'print_subject': False,
         }
@@ -111,7 +116,7 @@ class AccountInvoiceLine(models.Model):
         else:
             # Do not group communications which have not same event linked.
             existing_comm = existing_comm.with_context(
-                same_job_search=[('event_id', '=', event.id)]
+                same_job_search=[('event_id', '=', event_id)]
             ).create(comm_vals)
         self.mapped('invoice_id').write({
             'communication_id': existing_comm.id
