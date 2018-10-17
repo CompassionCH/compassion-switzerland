@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="event_header" name="Compassion event header">
+        <div id="event_header">
+            <!-- Full width banner -->
+            <div class="banner_container"
+                 t-attf-style="background-image: url('/web/image/crm.event.compassion/{{ event.id }}/picture_1');">
+                <div t-attf-class="banner_text_container {{background_color_class}}">
+                    <h2 class="center-text event_name">
+                        <span class="text-uppercase" t-field="event.name"/>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="event_page" name="Event page">
+        <t t-call="website.publish_management">
+            <t t-set="object" t-value="event"/>
+            <t t-set="publish_edit" t-value="True"/>
+        </t>
+        <t t-call="website.layout">
+            <t t-set="title" t-value="event.name"/>
+
+            <!-- Include modal for registration -->
+            <t t-call="cms_form_compassion.modal_form"/>
+            <div id="wrap">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-call="website_event_compassion.event_header"/>
+
+                <!-- Event description -->
+                <div class="main_container event_compassion">
+                    <div class="row">
+                        <div class="col-sm-1 col-md-2"/>
+                        <div class="col-sm-3 col-md-2 col-sm-push-7 col-md-push-6">
+                            <div class="dates_container">
+                                <span class="text-uppercase dates_text">Date</span>
+                                <span class="same-line">
+                                    <t t-esc="start_date"/>
+                                    <t t-if="end_date != start_date">
+                                        -
+                                        <t t-esc="end_date"/>
+                                    </t>
+                                </span>
+                            </div>
+                            <p class="mt16">
+                                <t t-if="event.odoo_event_id.registration_open">
+                                    <a href="#" data-toggle="modal" data-target="#modal_compassion_event_registration" class="btn btn-primary">Register</a>
+                                </t>
+                                <t t-else="">
+                                    <t t-if="event.odoo_event_id.registration_not_started">
+                                        Registrations will open soon.
+                                    </t>
+                                    <t t-else="">
+                                        Registrations are closed.
+                                    </t>
+                                </t>
+                                <a href="#compassion_event_participants" class="btn btn-primary" t-if="event.odoo_event_id.fundraising">See participants</a>
+                            </p>
+                            <div class="fundraising-progress" t-if="event.odoo_event_id.fundraising">
+                                <p class="text-uppercase project_donations_total">Funds raised:</p>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar"
+                                         t-attf-aria-valuenow="{{ event.amount_raised_percents }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                         t-attf-style="width: {{ event.amount_raised_percents }}%;">
+                                    </div>
+                                </div>
+                                <div>
+                                    <t t-esc="'{:n}'.format(event.amount_raised).replace(',', '\'')"/>
+                                    /
+                                    <t t-esc="'{:n}'.format(event.amount_objective).replace(',', '\'')"/>
+                                    CHF
+                                </div>
+                            </div>
+                            <div t-field="event.website_side_info" style="margin-top: 20px"/>
+                            <div class="oe_structure hidden-xs" style="margin-top: 20px"/>
+                        </div>
+                        <div class="col-sm-7 col-md-6 col-sm-pull-3 col-md-pull-2">
+                            <div class="mb16" t-field="event.website_description"/>
+                        </div>
+                        <div class="col-sm-1 col-md-2"/>
+                    </div>
+
+                    <!-- Participants list -->
+                    <t t-call="website_event_compassion.event_participants_list" t-if="event.odoo_event_id.fundraising"/>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+
+        </t>
+    </template>
+</odoo>

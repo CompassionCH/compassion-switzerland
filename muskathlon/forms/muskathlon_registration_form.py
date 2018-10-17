@@ -19,7 +19,7 @@ if not testing:
     # prevent these forms to be registered when running tests
 
     class MuskathlonRegistrationForm(models.AbstractModel):
-        _name = 'cms.form.event.registration'
+        _name = 'cms.form.event.registration.muskathlon'
         _inherit = ['cms.form.payment', 'cms.form.muskathlon.match.partner']
 
         # The form is inside a Muskathlon details page
@@ -242,9 +242,9 @@ if not testing:
                     't_shirt_size': extra_values.get('t_shirt_size')
                 })
                 self._restore_fields(backup)
-            # This field is not needed in muskathlon registration.
-            values.pop('partner_lastname')
-            values.pop('partner_firstname')
+            # Convert the name for event registration
+            values['name'] = values.pop('partner_lastname', '')
+            values['name'] += ' ' + values.pop('partner_firstname')
             # Force default value instead of setting 0.
             values.pop('amount_objective')
             # Parse integer

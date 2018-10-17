@@ -6,10 +6,24 @@
         <field name="model">event.event</field>
         <field name="inherit_id" ref="event.view_event_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']/button[2]" position="attributes">
+                <attribute name="context">{'default_amount_objective': participants_amount_objective}</attribute>
+            </xpath>
             <field name="organizer_id" position="after">
                 <field name="compassion_event_id"/>
-                <field name="wordpress_url"/>
             </field>
+            <xpath expr="//notebook">
+                <page name="fundraising" string="Fundraising">
+                    <group>
+                        <field name="fundraising"/>
+                    </group>
+                    <group attrs="{'invisible': [('fundraising', '=', False)]}">
+                        <field name="participants_amount_objective"/>
+                        <field name="custom_amount_objective"/>
+                        <field name="sponsorship_donation_value"/>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 </odoo>

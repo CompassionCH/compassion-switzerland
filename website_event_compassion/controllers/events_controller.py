@@ -17,7 +17,7 @@ from odoo.addons.cms_form_compassion.controllers.payment_controller import \
     PaymentFormController
 
 
-class RestController(PaymentFormController):
+class EventsController(PaymentFormController):
 
     @http.route('/events/', auth='public', website=True)
     def list(self, **kwargs):
@@ -30,55 +30,19 @@ class RestController(PaymentFormController):
             'events': events
         })
 
-    @http.route('/event/<model("crm.event.compassion"):event>/registration',
+    @http.route('/event/<model("crm.event.compassion"):event>/',
                 auth='public', website=True)
-    def event_registration(self, event, **kwargs):
-        """
-        Displays the registration form of the event
-        :return: Rendered template
-        """
-        values = kwargs.copy()
-        # This allows the translation to still work on the page
-        values.pop('edit_translations', False)
-
-        ticket = event.odoo_event_id.event_ticket_ids[:1]
-        values.update({
-            'event': event,
-            'start_date': event.get_date('start_date', 'date_full'),
-            'end_date': event.get_date('end_date', 'date_full'),
-            'ticket': ticket,
-            'registration_open': False,
-            'registration_not_started': False,
-            'registration_closed': False,
-            'registration_full': False
-        })
-        registration_form = self.get_form('event.registration', **values)
-        registration_form.form_process()
+    def event_page(self, event, **kwargs):
+        values = self.get_event_page_values(event, **kwargs)
+        registration_form = values['form']
         if registration_form.form_success:
             # The user submitted a registration, redirect to confirmation
             result = werkzeug.utils.redirect(
                 registration_form.form_next_url(), code=303)
         else:
-            # Display event registration page
-            if ticket:
-                available = \
-                    ticket.seats_availability == 'unlimited' or \
-                    ticket.seats_available > 0
-                values.update({
-                    'registration_closed': ticket.is_expired,
-                    'registration_full': not available,
-                    'registration_open': not ticket.is_expired and available
-
-                })
-            else:
-                values['registration_not_started'] = True
-            values.update({
-                'form': registration_form,
-                'main_object': event,
-            })
-            result = request.render(
-                'website_event_compassion.registration', values)
-        return result
+            # Display the Event page
+            result = request.render(values.pop('website_template'), values)
+        return self._form_redirect(result, full_page=True)
 
     @http.route('/event/<model("event.event"):event>/registration/'
                 '<model("event.registration"):registration>/success',
@@ -92,3 +56,29 @@ class RestController(PaymentFormController):
             'website_event_compassion.event_registration_successful',
             values
         )
+
+    def get_event_page_values(self, event, **kwargs):
+        """
+        Gets the values used by the website to render the event page.
+        :param event: crm.event.compassion record to render
+        :param kwargs: request arguments
+        :return: dict: values for the event website template
+                       (must contain event, start_date, end_date, form,
+                        main_object and website_template values)
+        """
+        values = kwargs.copy()
+        # This allows the translation to still work on the page
+        values.pop('edit_translations', False)
+        values.update({
+            'event': event,
+            'start_date': event.get_date('start_date', 'date_full'),
+            'end_date': event.get_date('end_date', 'date_full'),
+        })
+        registration_form = self.get_form('event.registration', **values)
+        registration_form.form_process()
+        values.update({
+            'form': registration_form,
+            'main_object': event,
+            'website_template': 'website_event_compassion.event_page',
+        })
+        return values

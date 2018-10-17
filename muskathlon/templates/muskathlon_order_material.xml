@@ -22,13 +22,8 @@
             </div>
 
             <div id="my_muskathlon">
-                <!-- Custom header -->
-                <div class="banner_container" t-attf-style="background-image: url('/web/image/crm.event.compassion/{{ event.id }}/picture_1');">
-                    <div class="banner_text_container">
-                        <h2 class="center-text event_name"><span class="text-uppercase" t-field="event.name"/></h2>
-                    </div>
-                </div>
-
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-call="website_event_compassion.event_header"/>
                 <div class="main_container">
                     <div class="row">
                         <div class="col-md-2"/>
