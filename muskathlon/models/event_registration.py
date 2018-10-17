@@ -28,12 +28,12 @@ class MuskathlonRegistration(models.Model):
     )
     advocate_details_id = fields.Many2one(
         'advocate.details', related='partner_id.advocate_details_id')
+    backup_id = fields.Integer(help='Old muskathlon registration id')
 
     # The 4 following fields avoid giving read access to the public on the
     # res.partner participating in the muskathlon.
     partner_id_id = fields.Integer(related="partner_id.id", readonly=True)
-    partner_display_name = fields.Char(related="partner_id.display_name",
-                                       readonly=True)
+    partner_display_name = fields.Char(compute="_compute_partner_display_name")
     partner_preferred_name = fields.Char(related="partner_id.preferred_name",
                                          readonly=True)
     partner_name = fields.Char(related="partner_id.name", readonly=True)
@@ -135,6 +135,13 @@ class MuskathlonRegistration(models.Model):
                     published = False
                     break
             registration.website_published = published
+
+    @api.multi
+    def _compute_partner_display_name(self):
+        for registration in self:
+            registration.partner_display_name =\
+                registration.partner_firstname + ' ' +\
+                registration.partner_lastname
 
     @api.onchange('event_id')
     def onchange_event_id(self):
