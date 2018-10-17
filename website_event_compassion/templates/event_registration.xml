@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="registration" page="True" name="Event registration page">
+    <template id="registration" name="Event registration page">
         <t t-call="website.publish_management">
             <t t-set="object" t-value="event"/>
             <t t-set="publish_edit" t-value="True"/>
@@ -28,6 +28,9 @@
 
     <template id="event_registration_successful" name="Event registration success">
         <t t-call="website.layout">
+        <t t-set="head">
+            <meta name="robots" content="noindex" />
+        </t>
         <div class="container">
             <h3>We are glad to confirm your registration to <t t-esc="event.name"/></h3>
             <div class="row">
@@ -70,5 +73,14 @@
             </div>
         </div>
     </t>
+    </template>
+
+     <!--Disallow confirmation page to be indexed.-->
+    <template id="robots_disallow" inherit_id="website_compassion.robots_disallow">
+        <xpath expr="." position="inside">
+            <t>
+Disallow: /event/*/registration/*
+            </t>
+        </xpath>
     </template>
 </odoo>

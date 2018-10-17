@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,20 +29,20 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Compassion CH - HR Management',
-    'version': '10.0.1.1.0',
+    'name': 'CRM additions for Compassion CH',
+    'version': '10.0.1.0.1',
+    'category': 'CRM',
+    'sequence': 150,
+    'author': 'Compassion CH',
     'license': 'AGPL-3',
-    'category': 'HR',
-    'author': 'Emanuel Cino',
     'website': 'http://www.compassion.ch',
-    'data': [
-        'views/hr_expense_custom.xml',
-        'views/res_users_view.xml',
-        'data/hr_config.xml'
-    ],
     'depends': [
-        'hr_expense', 'hr_attendance_management', 'asterisk_click2dial',
-        'web_notify'],
+        'crm_phone'
+    ],
+    'data': [
+        'views/crm_phonecall.xml',
+        'views/calendar_event.xml',
+    ],
     'demo': [],
     'installable': True,
     'auto_install': False,

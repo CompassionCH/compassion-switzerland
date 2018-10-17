@@ -9,7 +9,7 @@
 ##############################################################################
 import logging
 
-from odoo import models, api
+from odoo import models, api, fields
 
 _logger = logging.getLogger(__name__)
 
@@ -17,9 +17,13 @@ _logger = logging.getLogger(__name__)
 class ResUser(models.Model):
     _inherit = 'res.users'
 
+    connect_agent = fields.Boolean(
+        string='Connect the Xivo agent after check_in ',
+        default=True)
+
     @api.multi
     def asterisk_connect(self, log=True):
-        for ast_user in self:
+        for ast_user in self.filtered('connect_agent'):
             try:
                 user, ast_server, ast_manager = \
                     self.env['asterisk.server'].sudo(
