@@ -9,7 +9,6 @@
 ##############################################################################
 import mock
 
-from odoo import models, fields, api
 from odoo.tests import HttpCase
 
 
