@@ -203,6 +203,26 @@
         <xpath expr="//field[@name='other_contact_ids']/.." position="attributes">
             <attribute name="string">Linked Partners</attribute>
         </xpath>
+        <xpath expr="//field[@name='other_contact_ids']" position="attributes">
+            <attribute name="context">{'default_contact_id': active_id, 'default_name': name, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_lang':lang, 'default_spoken_lang_ids':spoken_lang_ids, 'default_opt_out':False, 'default_birthday_reminder':False, 'default_global_communication_delivery_preference':'none', 'default_photo_delivery_preference':'none', 'default_letter_delivery_preference':'none', 'default_tax_certificate':'no', 'default_thankyou_letter':'no', 'default_nbmag':0, 'default_calendar':0}}</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='other_contact_ids']//field[@name='comment']/.." position="after">
+            <group>
+                <field name="lang"/>
+                <field name="spoken_lang_ids" widget="many2many_tags"/>
+                <field name="opt_out"/>
+                <field name="global_communication_delivery_preference"/>
+                <field name="photo_delivery_preference"/>
+                <field name="tax_certificate"/>
+                <field name="thankyou_letter"/>
+            </group>
+        </xpath>
+        <xpath expr="//field[@name='other_contact_ids']//field[@name='comment']/../..//field[@name='country_id']/../.." position="after">
+            <field name="nbmag"/>
+            <field name="calendar"/>
+            <field name="christmas_card"/>
+        </xpath>
     </field>
     </record>
 
@@ -366,7 +386,6 @@
             </field>
         </field>
     </record>
-
     <!-- Delete Contacts Top Menu -->
     <delete model="ir.ui.menu" id="mail.menu_contacts"/>
 
