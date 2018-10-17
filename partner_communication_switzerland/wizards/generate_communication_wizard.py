@@ -139,7 +139,9 @@ class GenerateCommunicationWizard(models.TransientModel):
     def generate_communications(self, async_mode=True):
         """ Create the communication records """
         wizard = self.with_context(
-            default_utm_campaign_id=self.campaign_id.id)
+            default_utm_campaign_id=self.campaign_id.id,
+            default_sms_provider_id=self.sms_provider_id.id
+        )
         if self.res_model == 'recurring.contract':
             for sponsorship in self.sponsorship_ids:
                 vals = {
@@ -150,7 +152,6 @@ class GenerateCommunicationWizard(models.TransientModel):
                     'send_mode': self.send_mode,
                     'report_id': self.report_id.id or
                     self.model_id.report_id.id,
-                    'sms_provider_id': self.sms_provider.id
                 }
                 if async_mode:
                     wizard.with_delay().create_communication(vals)
