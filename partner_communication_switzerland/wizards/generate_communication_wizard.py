@@ -55,7 +55,7 @@ class GenerateCommunicationWizard(models.TransientModel):
     campaign_id = fields.Many2one('utm.campaign', 'Campaign')
     sms_provider_id = fields.Many2one('sms.provider', 'SMS Provider',
                                       default=lambda self: self.
-                                      env['sms.provider'].search([], limit=1),
+                                      env.ref('sms_939.large_account_id').id,
                                       readonly=False)
 
     @api.model
