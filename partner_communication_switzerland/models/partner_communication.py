@@ -45,7 +45,6 @@ class PartnerCommunication(models.Model):
     sms_provider_id = fields.Many2one('sms.provider', 'SMS Provider',
                                       default=lambda self: self.
                                       env.ref('sms_939.large_account_id').id,
-                                      env['sms.provider'].search([], limit=1),
                                       readonly=False)
 
     @api.model
