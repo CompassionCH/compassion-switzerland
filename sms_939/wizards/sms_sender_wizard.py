@@ -44,7 +44,7 @@ class SmsSender(models.TransientModel):
     sms_request_id = fields.Many2one(comodel_name='sms.child.request')
     sms_provider_id = fields.Many2one('sms.provider', "SMS Provider",
                                       default=lambda self: self.
-                                      env['sms.provider'].search([], limit=1),
+                                      env.ref('sms_939.large_account_id').id,
                                       readonly=False)
 
     @api.multi
