@@ -42,6 +42,10 @@ class PartnerCommunication(models.Model):
     currency_id = fields.Many2one('res.currency', compute='_compute_currency')
     utm_campaign_id = fields.Many2one('utm.campaign')
     sms_cost = fields.Float()
+    sms_provider_id = fields.Many2one('sms.provider', 'SMS Provider',
+                                      default=lambda self: self.
+                                      env.ref('sms_939.large_account_id').id,
+                                      readonly=False)
 
     @api.model
     def send_mode_select(self):
@@ -433,7 +437,8 @@ class PartnerCommunication(models.Model):
             sms_wizard = self.env['sms.sender.wizard'].with_context(
                 partner_id=job.partner_id.id).create({
                     'subject': job.subject,
-                    'text': sms_text
+                    'text': sms_text,
+                    'sms_provider_id': job.sms_provider_id.id
                 })
             sms_wizard.send_sms_partner()
             job.write({

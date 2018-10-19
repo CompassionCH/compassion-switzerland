@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <form>
                 <group>
+                    <field name="sms_provider_id"/>
                     <field name="subject"/>
                     <field name="text"/>
                     <field name="partner_id"/>

@@ -188,10 +188,10 @@
         </field>
     </record>
 
-    <record id="view_partner_tree_compassion_contact" model="ir.ui.view">
-    <field name="name">res.partner.tree.compassion</field>
+    <record id="view_partner_form_compassion_contact" model="ir.ui.view">
+    <field name="name">res.partner.compassion.linked.contact.form</field>
     <field name="model">res.partner</field>
-    <field name="type">tree</field>
+    <field name="type">form</field>
     <field name="inherit_id" ref="partner_contact_in_several_companies.view_partner_form_inherit"/>
     <field name="arch" type="xml">
         <field name="other_contact_ids" position="before">

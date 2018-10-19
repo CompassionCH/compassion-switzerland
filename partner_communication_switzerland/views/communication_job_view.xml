@@ -12,6 +12,7 @@
             <field name="send_mode" position="after">
                 <field name="currency_id" invisible="1"/>
                 <field name="sms_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('sms_cost', '=', False)]}"/>
+                <field name="sms_provider_id" attrs="{'invisible': [('sms_cost', '=', False)]}"/>
             </field>
         </field>
     </record>

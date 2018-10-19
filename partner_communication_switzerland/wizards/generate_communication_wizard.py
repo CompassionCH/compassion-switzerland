@@ -53,6 +53,10 @@ class GenerateCommunicationWizard(models.TransientModel):
     sms_cost_estimation = fields.Float(compute='_compute_sms_cost_estimation')
     currency_id = fields.Many2one('res.currency', compute='_compute_currency')
     campaign_id = fields.Many2one('utm.campaign', 'Campaign')
+    sms_provider_id = fields.Many2one('sms.provider', 'SMS Provider',
+                                      default=lambda self: self.
+                                      env.ref('sms_939.large_account_id').id,
+                                      readonly=False)
 
     @api.model
     def _default_domain(self):
@@ -135,7 +139,9 @@ class GenerateCommunicationWizard(models.TransientModel):
     def generate_communications(self, async_mode=True):
         """ Create the communication records """
         wizard = self.with_context(
-            default_utm_campaign_id=self.campaign_id.id)
+            default_utm_campaign_id=self.campaign_id.id,
+            default_sms_provider_id=self.sms_provider_id.id
+        )
         if self.res_model == 'recurring.contract':
             for sponsorship in self.sponsorship_ids:
                 vals = {
