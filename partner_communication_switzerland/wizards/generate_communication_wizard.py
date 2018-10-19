@@ -53,10 +53,10 @@ class GenerateCommunicationWizard(models.TransientModel):
     sms_cost_estimation = fields.Float(compute='_compute_sms_cost_estimation')
     currency_id = fields.Many2one('res.currency', compute='_compute_currency')
     campaign_id = fields.Many2one('utm.campaign', 'Campaign')
-    sms_provider_id = fields.Many2one('sms.provider', 'SMS Provider',
-                                      default=lambda self: self.
-                                      env.ref('sms_939.large_account_id').id,
-                                      readonly=False)
+    sms_provider_id = fields.Many2one(
+        'sms.provider', 'SMS Provider',
+        default=lambda self: self.env.ref('sms_939.large_account_id', False),
+        readonly=False)
 
     @api.model
     def _default_domain(self):
