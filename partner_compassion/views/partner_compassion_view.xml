@@ -24,7 +24,7 @@
                 <field name="preferred_name"/>
             </field>
             <xpath expr="//field[@name='child_ids']/form//field[@name='lastname']" position="before">
-                <field name="title" />
+                <field name="title"/>
             </xpath>
         </field>
     </record>
@@ -38,7 +38,8 @@
             <field name="send_original" position="replace"/>
 
             <field name="church_id" position="after">
-                <field name="church_unlinked" attrs="{'invisible': ['|',('is_company','=',True),'|',('is_church','=',True),('church_id','>',0)]}"/>
+                <field name="church_unlinked"
+                       attrs="{'invisible': ['|',('is_company','=',True),'|',('is_church','=',True),('church_id','>',0)]}"/>
             </field>
         </field>
     </record>
@@ -61,12 +62,17 @@
         <field name="arch" type="xml">
             <!-- Add a Check double button on the top of the view-->
             <field name="preferred_name" position="after">
-                <field name="partner_duplicate_ids" widget="many2many_tags" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
+                <field name="partner_duplicate_ids" widget="many2many_tags"
+                       attrs="{'invisible': [('partner_duplicate_ids','=', [])]}"
+                       groups="child_compassion.group_sponsorship"/>
             </field>
             <xpath expr="//form/*[1]" position="before">
                 <header>
-                    <button name="validate_partner" type="object" class="oe_highlight" string="Validate" states="pending"/>
-                    <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
+                    <button name="validate_partner" type="object" class="oe_highlight" string="Validate"
+                            states="pending"/>
+                    <button type='object' name='open_duplicates' string="Check duplicates"
+                            attrs="{'invisible': [('partner_duplicate_ids','=', [])]}"
+                            groups="child_compassion.group_sponsorship"/>
                     <field name="state" widget="statusbar" states="pending"/>
                 </header>
             </xpath>
@@ -125,7 +131,8 @@
                 </page>
                 <page string="Advocacy" name="advocate_details">
                     <group name="advocate_details_group">
-                        <field name="advocate_details_id" context="{'default_partner_id': active_id}" domain="[('partner_id','=',active_id)]"/>
+                        <field name="advocate_details_id" context="{'default_partner_id': active_id}"
+                               domain="[('partner_id','=',active_id)]"/>
                         <field name="engagement_ids" widget="many2many_tags"/>
                     </group>
                 </page>
@@ -148,7 +155,9 @@
             <!-- Put lang fields at top -->
             <label for="street" position="before">
                 <field name="lang"/>
-                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}" groups="child_compassion.group_sponsorship"/>
+                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}"
+                       attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}"
+                       groups="child_compassion.group_sponsorship"/>
             </label>
 
             <!-- Remove fax -->
@@ -204,26 +213,27 @@
             <attribute name="string">Linked Partners</attribute>
         </xpath>
         <xpath expr="//field[@name='other_contact_ids']" position="attributes">
-            <attribute name="context">{'default_contact_id': active_id, 'default_name': name, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_lang':lang, 'default_spoken_lang_ids':spoken_lang_ids, 'default_opt_out':False, 'default_birthday_reminder':False, 'default_global_communication_delivery_preference':'none', 'default_photo_delivery_preference':'none', 'default_letter_delivery_preference':'none', 'default_tax_certificate':'no', 'default_thankyou_letter':'no', 'default_nbmag':0, 'default_calendar':0}}</attribute>
+            <attribute name="context">{'default_contact_id': active_id, 'default_name': name, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_lang':lang, 'default_spoken_lang_ids':spoken_lang_ids, 'default_opt_out':False, 'default_birthday_reminder':False, 'default_global_communication_delivery_preference':'none', 'default_photo_delivery_preference':'none', 'default_letter_delivery_preference':'none', 'default_tax_certificate':'no', 'default_thankyou_letter':'no', 'default_nbmag':0, 'default_calendar':0, 'default_christmas_card':0}}</attribute>
         </xpath>
         <xpath expr="//field[@name='other_contact_ids']/form//field[@name='lang']" position="replace"/>
         <xpath expr="//field[@name='other_contact_ids']//field[@name='comment']/.." position="after">
             <group>
                 <field name="lang" attrs="{'required':True}"/>
-                <field name="spoken_lang_ids" widget="many2many_tags"/>
-                <field name="opt_out"/>
-                <field name="global_communication_delivery_preference"/>
-                <field name="photo_delivery_preference"/>
-                <field name="tax_certificate"/>
-                <field name="thankyou_letter"/>
-            </group>
-        </xpath>
-        <xpath expr="//field[@name='other_contact_ids']//field[@name='comment']/../..//field[@name='country_id']/../.." position="after">
-            <field name="nbmag"/>
-            <field name="calendar"/>
-            <field name="christmas_card"/>
-        </xpath>
-    </field>
+                    <field name="spoken_lang_ids" widget="many2many_tags"/>
+                    <field name="opt_out"/>
+                    <field name="global_communication_delivery_preference"/>
+                    <field name="photo_delivery_preference"/>
+                    <field name="tax_certificate"/>
+                    <field name="thankyou_letter"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='other_contact_ids']//field[@name='comment']/../..//field[@name='country_id']/../.."
+                   position="after">
+                <field name="nbmag"/>
+                <field name="calendar"/>
+                <field name="christmas_card"/>
+            </xpath>
+        </field>
     </record>
 
     <!-- Extends the search on partners -->
@@ -233,24 +243,27 @@
         <field name="inherit_id" ref="base.view_res_partner_filter"/>
         <field name="arch" type="xml">
             <field name="category_id" position="after">
-                <field name="lang" />
-                <field name="city" filter_domain="['|',('city','ilike', self),('zip','ilike',self)]" />
+                <field name="lang"/>
+                <field name="city" filter_domain="['|',('city','ilike', self),('zip','ilike',self)]"/>
             </field>
             <xpath expr="//group">
                 <filter string="Language" context="{'group_by': 'lang'}"/>
             </xpath>
             <field name="name" position="after">
-                 <field name="advocate_details_id" filter_domain="[('advocate_details_id.engagement_ids', 'ilike', self)]"/>
+                <field name="advocate_details_id"
+                       filter_domain="[('advocate_details_id.engagement_ids', 'ilike', self)]"/>
             </field>
             <!-- Remove filtering of contact people on the customer filter -->
             <filter name="customer" position="attributes">
                 <attribute name="domain">[('customer','=',1)]</attribute>
             </filter>
             <filter name="supplier" position="after">
-                <separator />
-                <filter string="Sponsor" name="sponsor" domain="['|', ('category_id.name', '=', 'Sponsor'), ('category_id.name', '=', 'Parrain')]"/>
-                <separator />
-                <filter string="Advocate" name="advocate" domain="[('advocate_details_id.state', 'in', ['new', 'active'])]"/>
+                <separator/>
+                <filter string="Sponsor" name="sponsor"
+                        domain="['|', ('category_id.name', '=', 'Sponsor'), ('category_id.name', '=', 'Parrain')]"/>
+                <separator/>
+                <filter string="Advocate" name="advocate"
+                        domain="[('advocate_details_id.state', 'in', ['new', 'active'])]"/>
             </filter>
         </field>
     </record>
@@ -261,9 +274,9 @@
         <field name="inherit_id" ref="mail.res_partner_opt_out_search"/>
         <field name="arch" type="xml">
             <filter name="not_opt_out" position="after">
-                <separator />
+                <separator/>
                 <filter string="Has e-mail" name="has_email" domain="[('email', '!=', False)]"/>
-                <separator />
+                <separator/>
                 <filter string="BVR"
                         name='bvr'
                         domain="[('customer', '=', True),
@@ -294,18 +307,21 @@
         <field name="context">{'default_customer':1, 'search_default_customer':1, 'search_default_sponsor': 1}</field>
         <field name="filter" eval="True"/>
         <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            Click to add a contact in your address book.
-          </p><p>
-            Odoo helps you easily track all activities related to
-            a customer: discussions, history of business opportunities,
-            documents, etc.
-          </p>
+            <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+            </p>
+            <p>
+                Odoo helps you easily track all activities related to
+                a customer: discussions, history of business opportunities,
+                documents, etc.
+            </p>
         </field>
     </record>
     <!-- Redefine action of partners for Vendors section -->
     <record id="base.action_partner_supplier_form" model="ir.actions.act_window">
-        <field name="context">{'search_default_supplier': 1,'default_customer': 0,'default_supplier': 1, 'default_opt_out': 1, 'default_nbmag': 0}</field>
+        <field name="context">{'search_default_supplier': 1,'default_customer': 0,'default_supplier': 1,
+            'default_opt_out': 1, 'default_nbmag': 0}
+        </field>
     </record>
 
     <!-- Redefine buttons -->
@@ -324,9 +340,9 @@
         <field name="view_id" ref="account.invoice_tree"/>
         <field name="domain">[('type','in', ['out_invoice', 'out_refund'])]</field>
         <field name="context">{
-                    'search_default_partner_id': active_id,
-                    'default_partner_id': active_id
-                    }
+            'search_default_partner_id': active_id,
+            'default_partner_id': active_id
+            }
         </field>
         <field name="search_view_id" ref="account.view_account_invoice_filter"/>
     </record>
@@ -389,5 +405,6 @@
     <!-- Delete Contacts Top Menu -->
     <delete model="ir.ui.menu" id="mail.menu_contacts"/>
 
-    <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form" parent="child_compassion.menu_sponsorship_section" sequence="0"/>
+    <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form"
+              parent="child_compassion.menu_sponsorship_section" sequence="0"/>
 </odoo>
