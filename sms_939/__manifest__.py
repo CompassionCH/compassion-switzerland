@@ -41,6 +41,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sms_hook.xml',
+        'data/sms_provider.xml',
         'views/sms_views.xml',
         'views/sms_sender_wizard.xml'
     ],

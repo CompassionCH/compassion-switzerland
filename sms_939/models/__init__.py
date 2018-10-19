@@ -14,3 +14,4 @@ from . import sms_notification
 from . import compassion_child
 from . import recurring_contract
 from . import sms_child_request
+from . import sms_provider

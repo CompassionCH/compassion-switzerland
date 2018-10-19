@@ -10,4 +10,4 @@
 ##############################################################################
 
 from . import test_sms_notification
-from . import  test_compassion_child
+from . import test_compassion_child
