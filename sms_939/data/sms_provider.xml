@@ -13,7 +13,7 @@
             <field name="name">Small Account</field>
             <field name="server_939">blue.smsbox.ch</field>
             <field name="port_939">10020</field>
-            <field name="endpoint_939">/Blue/sms/xml</field>
+            <field name="endpoint_939">/Blue/sms/reset/user/websend</field>
             <field name="username_939">changeme</field>
             <field name="password_939">changeme</field>
         </record>

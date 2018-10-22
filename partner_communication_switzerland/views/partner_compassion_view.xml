@@ -32,11 +32,11 @@
         </field>
     </record>
 
-    <record id="view_partner_tree_compassion_contact_com_inherit" model="ir.ui.view">
-        <field name="name">res.partner.tree.compassion.com.inherit</field>
+    <record id="view_partner_form_compassion_contact_com_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.compassion.com.inherit</field>
         <field name="model">res.partner</field>
-        <field name="type">tree</field>
-        <field name="inherit_id" ref="partner_compassion.view_partner_tree_compassion_contact"/>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_contact"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='other_contact_ids']//field[@name='photo_delivery_preference']" position="after">
                 <field name="letter_delivery_preference"/>
