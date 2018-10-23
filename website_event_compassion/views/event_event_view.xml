@@ -18,6 +18,7 @@
                         <field name="fundraising"/>
                     </group>
                     <group attrs="{'invisible': [('fundraising', '=', False)]}">
+                        <field name="donation_product_id"/>
                         <field name="participants_amount_objective"/>
                         <field name="custom_amount_objective"/>
                         <field name="sponsorship_donation_value"/>

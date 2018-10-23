@@ -26,7 +26,7 @@ class PaymentTransaction(models.Model):
         return vals
 
     def _get_auto_post_invoice(self):
-        if 'MUSK' in self.reference:
+        if 'EVENT-DON' in self.reference:
             # Only post when partner was not created
             return self.partner_id.state == 'active'
         return super(PaymentTransaction, self)._get_auto_post_invoice()

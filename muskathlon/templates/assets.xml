@@ -5,7 +5,6 @@
             <script src="/muskathlon/static/src/js/my_home.js" type="text/javascript"/>
             <script src="/muskathlon/static/src/js/muskathlon_details.js" type="text/javascript"/>
             <link href="/muskathlon/static/src/css/custom.css" rel="stylesheet" type="text/css"/>
-            <link href="/muskathlon/static/src/css/participant_details.css" rel="stylesheet" type="text/css"/>
         </xpath>
     </template>
 </odoo>

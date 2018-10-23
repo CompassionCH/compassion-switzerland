@@ -16,33 +16,30 @@
                 <div class="participants">
                     <t t-foreach="event.registration_ids.filtered('website_published')" t-as="registration">
                         <div class="participant_card">
+                            <t t-set="ambassador_picture" t-value="'/website_event_compassion/static/src/img/default-user-image.png'"/>
+                            <t t-if="registration.ambassador_picture_1">
+                                <t t-set="ambassador_picture" t-value="'/web/image/event.registration/' + str(registration.id) + '/ambassador_picture_1'"/>
+                            </t>
                             <a t-att-href="registration.website_url">
                                 <div t-attf-class="participant_image {{background_color_class}}"
-                                     t-attf-style="background-image: url('/web/image/event.registration/{{ registration.id }}/ambassador_picture_1');">
+                                     t-attf-style="background-image: url({{ ambassador_picture }});">
                                     <t t-call="website_event_compassion.participant_card"/>
                                 </div>
                             </a>
-                            <t t-log="participant"/>
                             <a t-att-href="registration.website_url">
                                 <div class="participant_details_link">
                                     <h4 class="name">
                                         <t t-esc="registration.partner_display_name"/>
                                     </h4>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar"
-                                             t-attf-aria-valuenow="{{ registration.amount_raised_percents }}"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"
-                                             t-attf-style="width: {{ registration.amount_raised_percents }}%;">
-                                        </div>
+                                    <div class="mb4">
+                                        <t t-call="website_event_compassion.event_barometer">
+                                            <t t-set="barometer" t-value="registration"/>
+                                            <t t-set="amount_inside" t-value="False"/>
+                                            <t t-set="barometer_title_class" t-value="False"/>
+                                            <t t-set="barometer_amount_class">amount_raised</t>
+                                        </t>
                                     </div>
-                                    <div class="amount_raised">
-                                        <t t-esc="'{:n}'.format(registration.amount_raised).replace(',', '\'')"/>
-                                        /
-                                        <t t-esc="'{:n}'.format(registration.amount_objective).replace(',', '\'')"/>
-                                        CHF
-                                    </div>
-                                    <h5 class="text-uppercase name details">
+                                    <h5 t-attf-class="text-uppercase name details {{ background_color_class }}">
                                         <span class="details_text">Participant<br/>details
                                         </span>
                                     </h5>

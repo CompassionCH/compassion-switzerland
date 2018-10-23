@@ -43,21 +43,10 @@
     padding: 12px;
 }
 
-.muskathlon_participant_image {
-    width: 450px;
-    height: auto;
-    max-width: 100%;
-}
-
 .main_container {
     margin-left: 15px;
     margin-right: 15px;
     margin-bottom: 20px;
-}
-
-
-.position-relative {
-    position: relative;
 }
 
 .center-text {
@@ -90,6 +79,9 @@
 
 .muskathlon_background_red {
     background-color: #CD171E;
+}
+.muskathlon_background_transparent_90 {
+    background-color: rgba(205,23,30,0.9);
 }
 
 #muskathlon_details .muskathlon_sport_icon {
@@ -166,21 +158,4 @@
     margin-top: 20px;
     width: initial;
     height: initial;
-}
-
-.donation_success h1 {
-    font-size: 50px;
-    line-height: 50px;
-}
-
-.donation_success .thank_you_container {
-    margin-bottom: 20px;
-    color: black;
-}
-
-@media(min-width: 1050px) {
-    .donation_success h1 {
-        font-size: 70px;
-        line-height: 70px;
-    }
 }

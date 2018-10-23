@@ -23,6 +23,9 @@
                 </button>
             </div>
             <notebook>
+                <page string="Donation Receipts">
+                    <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>
+                </page>
                 <page name="website" string="Website">
                     <group name="public_page" string="Public page">
                         <field name="filename_1" invisible="1"/>

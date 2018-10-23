@@ -17,8 +17,8 @@ class EventCompassion(models.Model):
                 'translatable.model', 'website.seo.metadata']
 
     name = fields.Char(translate=True)
-    website_description = fields.Html(
-        translate=True, sanitize=False)
+    website_description = fields.Html(translate=True, sanitize=False)
+    thank_you_text = fields.Html(translate=True)
     picture_1 = fields.Binary('Banner image', attachment=True)
     filename_1 = fields.Char(compute='_compute_filenames')
     website_side_info = fields.Html(
@@ -62,6 +62,7 @@ class EventCompassion(models.Model):
             'view_mode': 'tree,form',
             'res_model': 'event.registration',
             'domain': [('event_id', '=', self.odoo_event_id.id)],
-            'context': self.env.context,
+            'context': self.with_context(
+                default_compassion_event_id=self.id).env.context,
             'target': 'current',
         }

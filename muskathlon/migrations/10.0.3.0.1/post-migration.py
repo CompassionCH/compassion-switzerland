@@ -20,4 +20,8 @@ def migrate(env, version):
     events = env['crm.event.compassion'].search([
         ('odoo_event_id', '!=', False)])
     events.write({'website_muskathlon': True})
-    events.mapped('odoo_event_id').write({'fundraising': True})
+    events.mapped('odoo_event_id').write({
+        'fundraising': True,
+        'donation_product_id': env.ref('sponsorship_switzerland.'
+                                       'product_template_fund_4mu').id
+    })

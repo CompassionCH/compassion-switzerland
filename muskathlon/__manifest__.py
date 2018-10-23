@@ -51,7 +51,6 @@
         'views/notification_settings_view.xml',
         'views/payment_transaction_view.xml',
         'templates/muskathlon_details.xml',
-        'templates/muskathlon_donation.xml',
         'templates/muskathlon_my_details.xml',
         'templates/muskathlon_my_home.xml',
         'templates/muskathlon_participant_details.xml',

@@ -15,13 +15,13 @@ testing = tools.config.get('test_enable')
 if not testing:
     # prevent these forms to be registered when running tests
 
-    class MuskathlonPartnerMatchform(models.AbstractModel):
+    class EventPartnerMatchform(models.AbstractModel):
 
-        _name = 'cms.form.muskathlon.match.partner'
+        _name = 'cms.form.event.match.partner'
         _inherit = 'cms.form.match.partner'
 
         def _get_partner_vals(self, values, extra_values):
-            keys = super(MuskathlonPartnerMatchform, self)._get_partner_vals(
+            keys = super(EventPartnerMatchform, self)._get_partner_vals(
                 values, extra_values
             )
             keys.update({'state': 'pending'})

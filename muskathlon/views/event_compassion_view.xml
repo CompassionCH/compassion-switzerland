@@ -12,9 +12,6 @@
             </xpath>
 
             <notebook>
-                <page string="Donation Receipts">
-                    <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>
-                </page>
                 <page string="Muskathlon website/portal">
                     <group>
                         <group string="Registration" attrs="{'invisible': [('type', '!=', 'sport')]}">
