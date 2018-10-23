@@ -79,19 +79,13 @@
                                         <span class="center-text">See participants</span>
                                     </a>
                                 </p>
-                                <div>
-                                    <p class="text-uppercase event_compassion project_donations_total">Funds raised:</p>
-                                    <div class="event_compassion progress">
-                                        <div class="event_compassion progress-bar" role="progressbar"
-                                             t-attf-aria-valuenow="{{ event.amount_raised_percents }}"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"
-                                             t-attf-style="width: {{ event.amount_raised_percents }}%;">
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <t t-esc="'{:n}'.format(event.amount_raised).replace(',', '\'')"/> / <t t-esc="'{:n}'.format(event.amount_objective).replace(',', '\'')"/> CHF
-                                    </div>
+                                <div class="mb4">
+                                    <t t-call="website_event_compassion.event_barometer">
+                                        <t t-set="barometer" t-value="event"/>
+                                        <t t-set="amount_inside" t-value="False"/>
+                                        <t t-set="barometer_title_class">project_donations_total</t>
+                                        <t t-set="barometer_amount_class"/>
+                                    </t>
                                 </div>
                                 <div t-field="event.website_side_info" style="margin-top: 20px"/>
                                 <div class="oe_structure hidden-xs" style="margin-top: 20px"/>
@@ -103,7 +97,9 @@
                         </div>
 
                         <!-- Participants list -->
-                        <t t-call="website_event_compassion.event_participants_list"/>
+                        <t t-call="website_event_compassion.event_participants_list">
+                            <t t-set="background_color_class">muskathlon_background_transparent_90</t>
+                        </t>
                     </div>
                     <div class="oe_structure"/>
                     <div>

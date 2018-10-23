@@ -29,6 +29,9 @@ class Event(models.Model):
              'they can keep track of their donations. They will have a '
              'profile page on the website where people can donate.'
     )
+    donation_product_id = fields.Many2one(
+        'product.product', 'Donation product'
+    )
     sponsorship_donation_value = fields.Float(
         'Sponsorship to CHF donation conversion',
         default=1000,

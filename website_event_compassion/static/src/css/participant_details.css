@@ -5,16 +5,7 @@
     padding: 10px;
 }
 
-#participants_details .progress {
-    margin-bottom: 30px;
-}
-
-#participants_details .participant_image_container {
-    position: relative;
-    margin-bottom: 50px;
-}
-
-#participants_details .participant_image {
+#participants_details .participant_header {
     min-height: 150px;
     display: flex;
     justify-content: center;
@@ -25,11 +16,17 @@
     padding-right: 15px;
 }
 
-#participants_details .participant_image_text {
+#participants_details .participant_header_text {
     color: white;
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 35px;
+}
+
+#participants_details .participant_image {
+    width: 450px;
+    height: auto;
+    max-width: 100%;
 }
 
 #participants_details .card_container {
@@ -43,12 +40,18 @@
     font-size: 34px;
 }
 
-#participants_details .complete_name_container {
-    margin-top: 30px;
-    margin-bottom: 8px;
-}
-
 #participants_details .complete_name {
     font-weight: bold;
     font-size: 18px;
+}
+
+/* Participant page custom barometer classes */
+.participant-progress-amount {
+    position: absolute;
+    right: 22px;
+    font-weight: bold;
+}
+
+.position-relative {
+    position: relative;
 }

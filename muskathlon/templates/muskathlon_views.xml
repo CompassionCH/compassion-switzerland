@@ -169,5 +169,11 @@
                 });
             </script>
         </template>
+
+        <template id="donation_successful" name="Muskathlon donation success">
+            <t t-call="website_event_compassion.donation_successful">
+                <t t-call="muskathlon.footer_muskathlon"/>
+            </t>
+        </template>
     </data>
 </odoo>

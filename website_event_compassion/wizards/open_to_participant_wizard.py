@@ -25,6 +25,10 @@ class OpenEventToParticipant(models.TransientModel):
     reply_to = fields.Char('E-mail replies to',
                            default=lambda s: s._default_reply())
     fundraising = fields.Boolean()
+    donation_product_id = fields.Many2one(
+        'product.product', 'Donation product',
+        domain=[('categ_id.name', '=', 'Fund')]
+    )
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000)
     sponsorship_donation_value = fields.Float(
@@ -71,6 +75,7 @@ class OpenEventToParticipant(models.TransientModel):
             self.participants_amount_objective,
             'custom_amount_objective': self.custom_amount_objective,
             'fundraising': self.fundraising,
+            'donation_product_id': self.donation_product_id.id,
             'sponsorship_donation_value': self.sponsorship_donation_value,
         })
         odoo_event.event_ticket_ids.write({

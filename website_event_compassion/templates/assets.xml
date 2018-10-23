@@ -5,6 +5,7 @@
             <link href="/website_event_compassion/static/src/css/event_compassion_website.css" rel="stylesheet" type="text/css"/>
             <link href="/website_event_compassion/static/src/css/event_header.css" rel="stylesheet" type="text/css"/>
             <link href="/website_event_compassion/static/src/css/participants_list.css" rel="stylesheet" type="text/css"/>
+            <link href="/website_event_compassion/static/src/css/participant_details.css" rel="stylesheet" type="text/css"/>
         </xpath>
     </template>
 </odoo>

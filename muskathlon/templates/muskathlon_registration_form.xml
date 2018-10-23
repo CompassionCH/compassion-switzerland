@@ -9,7 +9,7 @@
             <div class="oe_structure donation_success">
                 <div class="thank_you_container">
                     <div class="thank_you_image_container">
-                        <img class="img-responsive" style="width: 100%" src="/muskathlon/static/src/img/compassion_thankyou_donation.jpg"/>
+                        <img class="img-responsive" style="width: 100%" src="/website_event_compassion/src/img/compassion_thankyou_donation.jpg"/>
                     </div>
                     <div class="thank_you_text_container">
                         <h1>Registration successful !</h1>

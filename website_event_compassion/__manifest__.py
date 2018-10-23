@@ -52,6 +52,8 @@
         'templates/events_list.xml',
         'templates/event_registration.xml',
         'templates/participants_list.xml',
+        'templates/participant_page.xml',
+        'templates/donation_result.xml',
     ],
     'development_status': 'Beta',
     'installable': True,

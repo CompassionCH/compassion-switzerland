@@ -12,6 +12,8 @@ from odoo.addons.website.models.website import slug
 from odoo.exceptions import MissingError
 from odoo.tools import config
 
+from odoo.addons.queue_job.job import job
+
 
 class Event(models.Model):
     _inherit = ['website.published.mixin', 'website.seo.metadata',
@@ -38,7 +40,8 @@ class Event(models.Model):
     website_url = fields.Char(
         compute='_compute_website_url'
     )
-    host = fields.Char(compute='_compute_host', readonly=True)
+    host_url = fields.Char(compute='_compute_host_url')
+    wordpress_host = fields.Char(compute='_compute_wordpress_host')
 
     # The following fields avoid giving read access to the public on the
     # res.partner participating in the event
@@ -82,7 +85,7 @@ class Event(models.Model):
         for registration in self:
             partner = registration.partner_id
             compassion_event = registration.compassion_event_id
-            invoice_lines = self.env['account.invoice.line'].search([
+            invoice_lines = self.env['account.invoice.line'].sudo().search([
                 ('user_id', '=', partner.id),
                 ('state', 'in', ('draft', 'open', 'paid')),
                 ('event_id', '=', compassion_event.id)
@@ -90,36 +93,32 @@ class Event(models.Model):
             amount_raised = sum(invoice_lines.mapped('price_subtotal'))
             s_value = registration.event_id.sponsorship_donation_value
             if s_value:
-                nb_sponsorships = self.env['recurring.contract'].search_count([
-                    ('user_id', '=', partner.id),
-                    ('origin_id.event_id', '=', compassion_event.id)
-                ])
+                nb_sponsorships = self.env['recurring.contract'].sudo()\
+                    .search_count([
+                        ('user_id', '=', partner.id),
+                        ('origin_id.event_id', '=', compassion_event.id)
+                    ])
                 amount_raised += nb_sponsorships * s_value
             registration.amount_raised = amount_raised
 
-    def _compute_host(self):
+    def _compute_host_url(self):
+        params_obj = self.env['ir.config_parameter']
+        host = params_obj.get_param('web.external.url') or \
+            params_obj.get_param('web.base.url')
+        for registration in self:
+            registration.host_url = host
+
+    def _compute_wordpress_host(self):
         host = config.get('wordpress_host')
         if not host:
             raise MissingError(_('Missing wordpress_host in odoo config file'))
-        for registration in self:
-            registration.host = host
 
     @api.multi
-    @api.depends(
-        'partner_id', 'partner_id.image', 'advocate_details_id',
-        'advocate_details_id.quote')
+    @api.depends('state')
     def _compute_website_published(self):
-        required_fields = [
-            'partner_preferred_name', 'ambassador_quote',
-            'ambassador_picture_1',
-        ]
         for registration in self:
-            published = True
-            for field in required_fields:
-                if not getattr(registration, field):
-                    published = False
-                    break
-            registration.website_published = published
+            registration.website_published = registration.state in (
+                'open', 'done')
 
     @api.multi
     def _compute_partner_display_name(self):
@@ -127,3 +126,8 @@ class Event(models.Model):
             registration.partner_display_name = \
                 registration.partner_firstname + ' ' + \
                 registration.partner_lastname
+
+    @job
+    def cancel_registration(self):
+        """Cancel registration"""
+        return self.button_reg_cancel()

@@ -21,12 +21,24 @@ def migrate(env, version):
         env.cr, 'crm.event.compassion', [
             'participants_amount_objective',
         ],
-        'muskathlon', 'website_event_compassion'
+        'muskathlon', 'website_event_compassion', 'thank_you_text'
     )
     openupgrade.update_module_moved_fields(
         env.cr, 'event.registration', [
             'amount_objective',
             'website_published',
+        ],
+        'muskathlon', 'website_event_compassion'
+    )
+    openupgrade.update_module_moved_fields(
+        env.cr, 'account.invoice.line', [
+            'registration_id',
+        ],
+        'muskathlon', 'website_event_compassion'
+    )
+    openupgrade.update_module_moved_fields(
+        env.cr, 'res.partner', [
+            'registration_ids',
         ],
         'muskathlon', 'website_event_compassion'
     )

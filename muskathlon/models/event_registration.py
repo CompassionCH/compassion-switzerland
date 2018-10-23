@@ -43,7 +43,8 @@ class MuskathlonRegistration(models.Model):
     def _compute_amount_raised(self):
         # Use Muskathlon report to compute Muskathlon event donation
         muskathlon_report = self.env['muskathlon.report']
-        for registration in self:
+        m_reg = self.filtered('compassion_event_id.website_muskathlon')
+        for registration in m_reg:
             amount_raised = int(sum(
                 item.amount for item in muskathlon_report.search([
                     ('user_id', '=', registration.partner_id.id),
@@ -52,6 +53,7 @@ class MuskathlonRegistration(models.Model):
                 ])
             ))
             registration.amount_raised = amount_raised
+        super(MuskathlonRegistration, (self - m_reg))._compute_amount_raised()
 
     @api.onchange('event_id')
     def onchange_event_id(self):
@@ -96,8 +98,3 @@ class MuskathlonRegistration(models.Model):
             'sales_team_id': self.env.ref(
                 'sales_team.salesteam_website_sales').id
         })
-
-    @job(default_channel='root.muskathlon')
-    def delete_muskathlon_registration(self):
-        """Cancel Muskathlon registration"""
-        return self.unlink()
