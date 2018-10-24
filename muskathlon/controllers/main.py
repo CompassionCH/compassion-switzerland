@@ -118,9 +118,9 @@ class MuskathlonWebsite(EventsController):
             return request.render('muskathlon.registration_failure')
 
         event = tx.registration_id.compassion_event_id
-        if tx.state == 'done' and not tx.registration_id.lead_id:
-            # Create the lead
-            tx.registration_id.with_delay().create_muskathlon_lead()
+        if tx.state == 'done' and tx.registration_id:
+            # Confirm the registration
+            tx.registration_id.confirm_registration()
         post.update({'event': event})
         return self.compassion_payment_validate(
             tx, 'muskathlon.new_registration_successful',
@@ -158,10 +158,6 @@ class MuskathlonWebsite(EventsController):
            '<model("event.registration"):registration>/success',
            type='http', auth="public", website=True)
     def muskathlon_registration_successful(self, registration, **kwargs):
-        # Create lead
-        uid = request.env.ref('muskathlon.user_muskathlon_portal').id
-        if not registration.sudo(uid).lead_id:
-            registration.sudo(uid).with_delay().create_muskathlon_lead()
         values = {
             'registration': registration,
             'event': registration.compassion_event_id

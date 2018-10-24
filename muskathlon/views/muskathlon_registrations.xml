@@ -9,11 +9,17 @@
                 <field name="is_muskathlon" invisible="1"/>
                 <field name="muskathlon_participant_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
                 <field name="muskathlon_event_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
-                <field name="sport_discipline_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
-                <field name="sport_level_description" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
                 <field name="reg_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
                 <separator colspan="2"/>
             </field>
+            <group name="fundraising" position="after">
+                <group name="sport" string="Sport profile" attrs="{'invisible': [('is_muskathlon', '=', False)]}">
+                    <field name="t_shirt_size"/>
+                    <field name="sport_discipline_id"/>
+                    <field name="sport_level"/>
+                    <field name="sport_level_description"/>
+                </group>
+            </group>
         </field>
     </record>
 </odoo>

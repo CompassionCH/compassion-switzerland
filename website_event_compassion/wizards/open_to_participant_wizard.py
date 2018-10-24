@@ -63,7 +63,7 @@ class OpenEventToParticipant(models.TransientModel):
         odoo_event = self.env['event.event'].create({
             'name': event.name,
             'event_type_id': event_type_id,
-            'user_id': event.user_id.id,
+            'user_id': self.env.uid,
             'date_begin': event.start_date,
             'date_end': event.end_date,
             'seats_min': self.seats_min,

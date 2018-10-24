@@ -75,6 +75,7 @@ if not testing:
                 'email': extra_values.get('partner_email'),
                 'event_id': self.event_id.id,
                 'event_ticket_id': self.event_id.valid_ticket_ids[:1].id,
+                'user_id': self.event_id.user_id.id,
             })
 
         def _form_create(self, values):

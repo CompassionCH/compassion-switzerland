@@ -12,6 +12,21 @@
 from odoo import models, api, fields
 
 
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+
+    def _after_transaction_invoice_paid(self, transaction):
+        """
+        Confirm registration when it's paid.
+        :param transaction: payment.transaction record
+        :return: None
+        """
+        super(AccountInvoice, self)._after_transaction_invoice_paid(
+            transaction)
+        if transaction.registration_id:
+            transaction.registration_id.confirm_registration()
+
+
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 

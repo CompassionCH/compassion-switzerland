@@ -19,7 +19,13 @@ class Event(models.Model):
     _inherit = ['website.published.mixin', 'website.seo.metadata',
                 'event.registration']
     _name = 'event.registration'
+    _description = 'Event registration'
+    _order = 'create_date desc'
 
+    user_id = fields.Many2one(
+        'res.users', 'Responsible', domain=[('share', '=', False)],
+        track_visibility='onchange'
+    )
     compassion_event_id = fields.Many2one(
         'crm.event.compassion', related='event_id.compassion_event_id',
         readonly=True

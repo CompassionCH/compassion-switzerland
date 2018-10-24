@@ -249,12 +249,16 @@ if not testing:
             values.pop('amount_objective')
             # Parse integer
             values['event_id'] = int(values['event_id'])
+            values['user_id'] = self.event_id.user_id.id
 
         def _form_create(self, values):
             uid = self.env.ref('muskathlon.user_muskathlon_portal').id
+            # If notification is sent in same job, the form is reloaded
+            # and all values are lost.
             main_object = self.form_model.sudo(uid).with_context(
                 tracking_disable=True,
                 registration_force_draft=True).create(values.copy())
+            main_object.with_delay().notify_new_registration()
             self.main_object = main_object
 
         def form_next_url(self, main_object=None):

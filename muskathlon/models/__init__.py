@@ -9,7 +9,7 @@
 ##############################################################################
 
 from . import advocate_details
-from . import account_invoice_line
+from . import account_invoice
 from . import contracts
 from . import event_compassion
 from . import event_registration
@@ -17,3 +17,4 @@ from . import res_partner
 from . import sport_discipline
 from . import staff_notification_settings
 from . import queue_job
+from . import payment_transaction
