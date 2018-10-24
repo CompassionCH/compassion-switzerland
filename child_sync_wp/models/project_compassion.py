@@ -17,7 +17,7 @@ class CompassionProject(models.Model):
     _inherit = 'compassion.project'
 
     def suspend_funds(self):
-        """ Remove children from the website when ICP Suspension occurs. """
+        """ Remove children from the website when FCP Suspension occurs. """
         children = self.env['compassion.child'].search([
             ('project_id', 'in', self.ids),
             ('state', '=', 'I')

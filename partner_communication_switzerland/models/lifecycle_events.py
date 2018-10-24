@@ -37,7 +37,7 @@ class ChildLifecycle(models.Model):
 
 
 class ProjectLifecycle(models.Model):
-    """ Send Communication when icp lifecycle is received. """
+    """ Send Communication when fcp lifecycle is received. """
     _inherit = 'compassion.project.ile'
 
     @api.model
