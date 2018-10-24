@@ -127,14 +127,14 @@
                         <li>Disaster type: ${disaster.disaster_type}</li>
                         <li>(internal only: <a href="${disaster.access_link}" target="blank">details</a>)</li>
                     </ul>
-                    % if disaster.icp_disaster_impact_ids:
+                    % if disaster.fcp_disaster_impact_ids:
                         <b>Project impacts:</b>
-                        % for icp_impact in disaster.icp_disaster_impact_ids:
+                        % for fcp_impact in disaster.fcp_disaster_impact_ids:
                             <ul>
-                                <li>Impact description: ${icp_impact.disaster_impact_description}</li>
-                                <li>Impact on ICP program: ${icp_impact.impact_on_icp_program}</li>
-                                <li>Infrastructure: ${icp_impact.infrastructure}</li>
-                                <li>Impact description: ${icp_impact.disaster_impact_description}</li>
+                                <li>Impact description: ${fcp_impact.disaster_impact_description}</li>
+                                <li>Impact on FCP program: ${fcp_impact.impact_on_fcp_program}</li>
+                                <li>Infrastructure: ${fcp_impact.infrastructure}</li>
+                                <li>Impact description: ${fcp_impact.disaster_impact_description}</li>
                             </ul>
                         % endfor
                     % endif
