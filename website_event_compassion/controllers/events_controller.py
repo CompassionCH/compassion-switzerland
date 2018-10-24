@@ -96,7 +96,7 @@ class EventsController(PaymentFormController):
     @http.route(['/event/<model("crm.event.compassion"):event>'
                  '/<reg_string>-<int:reg_id>',
                  '/event/<model("crm.event.compassion"):event>/<int:reg_id>',
-                ], auth='public', website=True)
+                 ], auth='public', website=True)
     def participant_details(self, event, reg_id, **kwargs):
         """
         :param event: the event record

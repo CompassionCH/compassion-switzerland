@@ -29,6 +29,8 @@ class MuskathlonRegistration(models.Model):
         ('advanced', 'Advanced')
     ])
     sport_level_description = fields.Text('Describe your sport experience')
+    t_shirt_size = fields.Selection(
+        related='partner_id.advocate_details_id.t_shirt_size')
     muskathlon_participant_id = fields.Char(
         related='partner_id.muskathlon_participant_id')
     muskathlon_event_id = fields.Char(
@@ -77,24 +79,8 @@ class MuskathlonRegistration(models.Model):
 
     @job(default_channel='root.muskathlon')
     @related_action('related_action_registration')
-    def create_muskathlon_lead(self):
-        """Create Muskathlon lead for registration"""
-        self.ensure_one()
-        partner = self.partner_id
-        staff_id = self.env['staff.notification.settings'].get_param(
-            'muskathlon_lead_notify_id')
-        self.lead_id = self.env['crm.lead'].create({
-            'name': u'Muskathlon Registration - ' + partner.name,
-            'partner_id': partner.id,
-            'email_from': partner.email,
-            'phone': partner.phone,
-            'partner_name': partner.name,
-            'street': partner.street,
-            'zip': partner.zip,
-            'city': partner.city,
-            'user_id': staff_id,
-            'description': self.sport_level_description,
-            'event_id': self.compassion_event_id.id,
-            'sales_team_id': self.env.ref(
-                'sales_team.salesteam_website_sales').id
-        })
+    def notify_new_registration(self):
+        """Notify user for registration"""
+        self._message_auto_subscribe_notify(
+            self.mapped('user_id.partner_id').ids)
+        return True
