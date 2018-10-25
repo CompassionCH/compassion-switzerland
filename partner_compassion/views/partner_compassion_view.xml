@@ -264,6 +264,14 @@
                 <separator/>
                 <filter string="Advocate" name="advocate"
                         domain="[('advocate_details_id.state', 'in', ['new', 'active'])]"/>
+                <separator/>
+                <filter string="EN living in DE" name="en_DE"
+                        domain="[('lang', '=', 'en_US'), ('zip_id.lang', '=', '1')]"/>
+                <filter string="EN living in FR" name="en_FR"
+                        domain="[('lang', '=', 'en_US'), ('zip_id.lang', '=', '2')]"/>
+                <filter string="EN living in IT" name="en_IT"
+                        domain="[('lang', '=', 'en_US'), ('zip_id.lang', '=', '3')]"/>
+                <separator/>
             </filter>
         </field>
     </record>
