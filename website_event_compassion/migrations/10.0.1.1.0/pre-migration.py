@@ -19,9 +19,9 @@ def migrate(env, version):
     # Move fields from muskathlon module
     openupgrade.update_module_moved_fields(
         env.cr, 'crm.event.compassion', [
-            'participants_amount_objective',
+            'participants_amount_objective', 'thank_you_text',
         ],
-        'muskathlon', 'website_event_compassion', 'thank_you_text'
+        'muskathlon', 'website_event_compassion',
     )
     openupgrade.update_module_moved_fields(
         env.cr, 'event.registration', [
