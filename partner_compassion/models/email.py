@@ -10,6 +10,7 @@
 ##############################################################################
 
 from odoo import models, api
+from sendgrid.helpers.mail import Email as SendgridEmail
 
 
 class Email(models.Model):
@@ -39,6 +40,19 @@ class Email(models.Model):
                         'parent_id': message.id,
                         'author_id': message.author_id.id
                     })
+
+    @api.multi
+    def _prepare_sendgrid_data(self):
+        s_mail = super(Email, self)._prepare_sendgrid_data()
+        for recipient in self.recipient_ids.filtered(
+                'other_contact_ids.email_copy'):
+            for personalization in s_mail._personalizations:
+                for to in personalization._tos:
+                    if recipient.email == to['email']:
+                        for cc in recipient.other_contact_ids.filtered(
+                                'email_copy'):
+                            personalization.add_cc(SendgridEmail(cc.email))
+        return s_mail
 
 
 class EmailTemplate(models.Model):

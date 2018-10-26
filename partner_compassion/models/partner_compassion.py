@@ -100,6 +100,8 @@ class ResPartner(models.Model):
         ('active', 'Active')
     ], default='active', track_visibility='onchange')
 
+    email_copy = fields.Boolean(string='CC e-mails sent to main partner')
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################

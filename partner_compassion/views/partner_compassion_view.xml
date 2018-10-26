@@ -62,17 +62,12 @@
         <field name="arch" type="xml">
             <!-- Add a Check double button on the top of the view-->
             <field name="preferred_name" position="after">
-                <field name="partner_duplicate_ids" widget="many2many_tags"
-                       attrs="{'invisible': [('partner_duplicate_ids','=', [])]}"
-                       groups="child_compassion.group_sponsorship"/>
+                <field name="partner_duplicate_ids" widget="many2many_tags" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
             </field>
             <xpath expr="//form/*[1]" position="before">
                 <header>
-                    <button name="validate_partner" type="object" class="oe_highlight" string="Validate"
-                            states="pending"/>
-                    <button type='object' name='open_duplicates' string="Check duplicates"
-                            attrs="{'invisible': [('partner_duplicate_ids','=', [])]}"
-                            groups="child_compassion.group_sponsorship"/>
+                    <button name="validate_partner" type="object" class="oe_highlight" string="Validate" states="pending"/>
+                    <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
                     <field name="state" widget="statusbar" states="pending"/>
                 </header>
             </xpath>
@@ -131,8 +126,7 @@
                 </page>
                 <page string="Advocacy" name="advocate_details">
                     <group name="advocate_details_group">
-                        <field name="advocate_details_id" context="{'default_partner_id': active_id}"
-                               domain="[('partner_id','=',active_id)]"/>
+                        <field name="advocate_details_id" context="{'default_partner_id': active_id}" domain="[('partner_id','=',active_id)]"/>
                         <field name="engagement_ids" widget="many2many_tags"/>
                     </group>
                 </page>
@@ -155,9 +149,7 @@
             <!-- Put lang fields at top -->
             <label for="street" position="before">
                 <field name="lang"/>
-                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}"
-                       attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}"
-                       groups="child_compassion.group_sponsorship"/>
+                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}" groups="child_compassion.group_sponsorship"/>
             </label>
 
             <!-- Remove fax -->
@@ -219,12 +211,13 @@
         <xpath expr="//field[@name='other_contact_ids']//field[@name='comment']/.." position="after">
             <group>
                 <field name="lang" attrs="{'required':True}"/>
-                    <field name="spoken_lang_ids" widget="many2many_tags"/>
+                <field name="spoken_lang_ids" widget="many2many_tags"/>
                     <field name="opt_out"/>
                     <field name="global_communication_delivery_preference"/>
                     <field name="photo_delivery_preference"/>
                     <field name="tax_certificate"/>
                     <field name="thankyou_letter"/>
+                    <field name="email_copy"/>
                 </group>
             </xpath>
             <xpath expr="//field[@name='other_contact_ids']//field[@name='comment']/../..//field[@name='country_id']/../.."
@@ -250,7 +243,7 @@
                 <filter string="Language" context="{'group_by': 'lang'}"/>
             </xpath>
             <field name="name" position="after">
-                <field name="advocate_details_id"
+                 <field name="advocate_details_id"
                        filter_domain="[('advocate_details_id.engagement_ids', 'ilike', self)]"/>
             </field>
             <!-- Remove filtering of contact people on the customer filter -->
@@ -327,9 +320,7 @@
     </record>
     <!-- Redefine action of partners for Vendors section -->
     <record id="base.action_partner_supplier_form" model="ir.actions.act_window">
-        <field name="context">{'search_default_supplier': 1,'default_customer': 0,'default_supplier': 1,
-            'default_opt_out': 1, 'default_nbmag': 0}
-        </field>
+        <field name="context">{'search_default_supplier': 1,'default_customer': 0,'default_supplier': 1, 'default_opt_out': 1, 'default_nbmag': 0}</field>
     </record>
 
     <!-- Redefine buttons -->
