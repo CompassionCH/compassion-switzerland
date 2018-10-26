@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Add text for donation receipts -->
     <record id="view_muskathlon_events_thank_donation" model="ir.ui.view">
-        <field name="name">crm.event.compassion.thankyou.form</field>
+        <field name="name">crm.event.compassion.muskathlon.form</field>
         <field name="model">crm.event.compassion</field>
         <field name="inherit_id" ref="website_event_compassion.view_muskathlon_event_website"/>
         <field name="arch" type="xml">
+            <xpath expr="//group[@name='public_page']" position="before">
+                <group name="settings" string="Settings">
+                    <field name="website_muskathlon"/>
+                </group>
+            </xpath>
+
             <notebook>
-                <page string="Donation Receipts">
-                    <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>
-                </page>
                 <page string="Muskathlon website/portal">
                     <group>
                         <group string="Registration" attrs="{'invisible': [('type', '!=', 'sport')]}">
                             <field name="sport_discipline_ids"/>
                             <field name="muskathlon_event_id"/>
-                            <field name="participants_amount_objective"/>
                         </group>
                         <group string="Order material page">
                             <field name="website_my_introduction"/>
@@ -24,17 +25,6 @@
                             <field name="website_my_press_material"/>
                             <field name="website_my_sport_material"/>
                         </group>
-                    </group>
-                    <group>
-                        <field name="registration_ids" context="{'default_compassion_event_id': id}">
-                            <tree>
-                                <field name="compassion_event_id" invisible="1"/>
-                                <field name="state" invisible="1"/>
-                                <field name="partner_id"/>
-                                <field name="muskathlon_participant_id"/>
-                                <field name="reg_id"/>
-                            </tree>
-                        </field>
                     </group>
                 </page>
             </notebook>

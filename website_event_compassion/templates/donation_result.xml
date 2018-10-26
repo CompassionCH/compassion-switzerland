@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="donation_successful" name="Muskathlon donation success">
+    <template id="donation_successful" name="Event donation success">
         <t t-call="website.layout">
             <t t-set="title" t-value="event.name"/>
             <div class="oe_structure donation_success">
                 <div class="thank_you_container">
                     <div class="thank_you_image_container">
-                        <img class="img-responsive" style="width: 100%" src="/muskathlon/static/src/img/compassion_thankyou_donation.jpg"/>
+                        <img class="img-responsive" style="width: 100%" src="/website_event_compassion/static/src/img/compassion_thankyou_donation.jpg"/>
                     </div>
                     <div class="thank_you_text_container">
                         <h1>Thank you! Your gift helps release children from poverty!</h1>
@@ -20,17 +20,18 @@
                                 his
                             </t>
                             goal for the
-                            <a style="color: #0054a6;" t-att-href="event.website_url"><t t-esc="event.name"/></a>!
+                            <a t-att-href="event.website_url"><t t-esc="event.name"/></a>!
                         </p>
                     </div>
                 </div>
             </div>
-            <t t-call="muskathlon.footer_muskathlon"/>
+            <!-- Allow custom html going here in inherited templates -->
+            <t t-raw="0"/>
         </t>
     </template>
-    <template id="donation_failure" name="Muskathlon donation failure">
+
+    <template id="donation_failure" name="Event donation failure">
         <t t-call="website.layout">
-            <t t-set="title">Muskathlon</t>
             <div id="wrap">
                 <div class="container text-center">
                     <h1>Donation Aborted</h1>

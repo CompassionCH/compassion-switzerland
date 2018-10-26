@@ -17,20 +17,22 @@ class EventCompassion(models.Model):
     _inherit = ['crm.event.compassion', 'website.published.mixin',
                 'translatable.model', 'website.seo.metadata']
 
-    thank_you_text = fields.Html(translate=True)
     muskathlon_event_id = fields.Char(
         string="Muskathlon event ID", size=128)
     registration_ids = fields.One2many(
         'event.registration', 'compassion_event_id', 'Event registrations')
 
-    participants_amount_objective = fields.Integer(
-        'Default raise objective by participant', default=10000, required=True)
     amount_objective = fields.Integer(compute='_compute_amount_raised')
     amount_raised = fields.Integer(compute='_compute_amount_raised')
     amount_raised_percents = fields.Integer(compute='_compute_amount_raised')
     sport_discipline_ids = fields.Many2many(
         'sport.discipline', string='Sport disciplines')
 
+    website_muskathlon = fields.Boolean(
+        'Activate Muskathlon template',
+        help='This will activate the 4M red template for the event on the'
+             'website and will also use the Muskathlon processes for the'
+             'registrations.')
     # HTML fields for material order page
     website_my_introduction = fields.Html(
         string='Video introduction', translate=True, sanitize=False)

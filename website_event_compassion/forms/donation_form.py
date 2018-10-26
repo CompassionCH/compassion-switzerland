@@ -16,14 +16,14 @@ testing = tools.config.get('test_enable')
 if not testing:
     # prevent these forms to be registered when running tests
 
-    class MuskathlonDonationForm(models.AbstractModel):
-        _name = 'cms.form.muskathlon.donation'
-        _inherit = ['cms.form.payment', 'cms.form.muskathlon.match.partner']
+    class EventDonationForm(models.AbstractModel):
+        _name = 'cms.form.event.donation'
+        _inherit = ['cms.form.payment', 'cms.form.event.match.partner']
 
         # The form is inside a Muskathlon participant details page
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
-        form_id = 'modal_muskathlon_donation'
-        _payment_accept_redirect = '/muskathlon_donation/payment/validate'
+        form_id = 'modal_donation'
+        _payment_accept_redirect = '/event/payment/validate'
 
         ambassador_id = fields.Many2one('res.partner')
         event_id = fields.Many2one('crm.event.compassion')
@@ -62,7 +62,7 @@ if not testing:
             return _("Proceed with payment")
 
         def form_init(self, request, main_object=None, **kw):
-            form = super(MuskathlonDonationForm, self).form_init(
+            form = super(EventDonationForm, self).form_init(
                 request, main_object, **kw)
             # Set default values
             registration = kw.get('registration')
@@ -75,14 +75,11 @@ if not testing:
 
         def _form_create(self, values):
             """ Manually create account.invoice object """
-            uid = self.env.ref('muskathlon.user_muskathlon_portal').id
-            muskathlon = self.env.ref(
-                'sponsorship_switzerland.product_template_fund_4mu')
-            product = muskathlon.sudo(uid).product_variant_ids[:1]
-            event = self.event_id.sudo(uid)
-            ambassador = self.ambassador_id.sudo(uid)
+            product = self.event_id.sudo().odoo_event_id.donation_product_id
+            event = self.event_id.sudo()
+            ambassador = self.ambassador_id.sudo()
             name = u'[{}] Donation for {}'.format(event.name, ambassador.name)
-            self.invoice_id = self.env['account.invoice'].sudo(uid).create({
+            self.invoice_id = self.env['account.invoice'].sudo().create({
                 'partner_id': self.partner_id.id,
                 'currency_id': values['currency_id'],
                 'origin': name,
@@ -101,5 +98,5 @@ if not testing:
             """ Add registration link and change reference. """
             tx_values.update({
                 'invoice_id': self.invoice_id.id,
-                'reference': 'MUSK-DON-' + str(self.invoice_id.id),
+                'reference': 'EVENT-DON-' + str(self.invoice_id.id),
             })

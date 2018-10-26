@@ -19,8 +19,8 @@ if not testing:
     # prevent these forms to be registered when running tests
 
     class MuskathlonRegistrationForm(models.AbstractModel):
-        _name = 'cms.form.event.registration'
-        _inherit = ['cms.form.payment', 'cms.form.muskathlon.match.partner']
+        _name = 'cms.form.event.registration.muskathlon'
+        _inherit = ['cms.form.payment', 'cms.form.event.match.partner']
 
         # The form is inside a Muskathlon details page
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
@@ -242,19 +242,23 @@ if not testing:
                     't_shirt_size': extra_values.get('t_shirt_size')
                 })
                 self._restore_fields(backup)
-            # This field is not needed in muskathlon registration.
-            values.pop('partner_lastname')
-            values.pop('partner_firstname')
+            # Convert the name for event registration
+            values['name'] = values.pop('partner_lastname', '')
+            values['name'] += ' ' + values.pop('partner_firstname')
             # Force default value instead of setting 0.
             values.pop('amount_objective')
             # Parse integer
             values['event_id'] = int(values['event_id'])
+            values['user_id'] = self.event_id.user_id.id
 
         def _form_create(self, values):
             uid = self.env.ref('muskathlon.user_muskathlon_portal').id
+            # If notification is sent in same job, the form is reloaded
+            # and all values are lost.
             main_object = self.form_model.sudo(uid).with_context(
                 tracking_disable=True,
                 registration_force_draft=True).create(values.copy())
+            main_object.with_delay().notify_new_registration()
             self.main_object = main_object
 
         def form_next_url(self, main_object=None):

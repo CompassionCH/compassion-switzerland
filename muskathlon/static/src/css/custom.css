@@ -7,30 +7,6 @@
     margin-top: 5px;
     font-size: 14px;
 }
-#muskathlon_participants {
-    margin-top: 10px;
-    background-color: #CD171E;
-    overflow: hidden;
-    padding-bottom: 50px;
-    margin-bottom: -20px;
-}
-.participants {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.participant_card {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    width: 275px;
-    height: 300px;
-    margin: 8px;
-}
 .sport_icon {
     background-color: rgba(255,255,255,0.7);
     height: 40px;
@@ -48,68 +24,6 @@
     position: relative;
     top: 5px;
     left: 5px;
-}
-#muskathlon_participants .sport_icon_container {
-    height: 40px;
-    width: 40px;
-    margin-left: auto;
-    margin-right: 5px;
-    position: relative;
-    top: 5px;
-}
-.participant_card .name {
-    text-transform: uppercase;
-    text-align: center;
-    color: #555555;
-    font-weight: bold;
-}
-.participant_card .amount_raised {
-    color: #555555;
-    text-align: center;
-}
-.participant_card a {
-    text-decoration: none;
-}
-
-@keyframes show_details_button {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-@keyframes hide_details_button {
-    from {opacity: 1;}
-    to {opacity: 0;}
-}
-
-.participant_card .details {
-    display: flex;
-    justify-content:center;
-    align-content:center;
-    flex-direction:column;
-    position: absolute;
-    width: 100%;
-    top: -10px;
-    left: 0px;
-    opacity: 0;
-    background-color: rgba(205,23,30,0.9);
-    height: 125px;
-    animation-duration: 0.5s;
-}
-
-.participant_card .details_text {
-    font-size: 16px;
-    color: white;
-}
-
-.participant_details_container .sport_icon {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    height: 40px;
-    width: 40px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 60px;
 }
 
 #footer_muskathlon ~ #main_footer {
@@ -129,49 +43,10 @@
     padding: 12px;
 }
 
-.muskathlon_participant_image {
-    width: 450px;
-    height: auto;
-    max-width: 100%;
-}
-
 .main_container {
     margin-left: 15px;
     margin-right: 15px;
     margin-bottom: 20px;
-}
-
-#participants_details .participant_image_container {
-    position: relative;
-    margin-bottom: 50px;
-}
-
-#participants_details .participant_image {
-    background-color: #CD171E;
-    min-height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: -15px;
-    margin-right: -15px;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-#participants_details .participant_image_text {
-    color: white;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 35px;
-}
-
-#participants_details .card_container {
-    display: flex;
-    justify-content: center
-}
-
-.position-relative {
-    position: relative;
 }
 
 .center-text {
@@ -180,32 +55,6 @@
 
 .btn-muskathlon {
     background-color: #CD171E;
-}
-
-#participants_details .site_title {
-    margin-top: 0px;
-    margin-bottom: 8px;
-    font-size: 34px;
-}
-
-#participants_details .complete_name_container {
-    margin-top: 30px;
-    margin-bottom: 8px;
-}
-
-#participants_details .complete_name {
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.progress {
-    margin-bottom: 5px;
-    border-radius: 0px;
-    height: 20px;
-}
-
-.progress-bar {
-    background-color: #e6b414;
 }
 
 .progress-amount {
@@ -228,54 +77,11 @@
     text-decoration: underline;
 }
 
-#muskathlon_details .banner_container, #my_muskathlon .banner_container {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center top;
-    height: calc(30vw + 120px);
-    width: 100%;
-    max-height: 400px;
-    position: relative;
-}
-
-#muskathlon_details .event_name, #my_muskathlon .event_name {
-    color: white;
-    margin: 10px auto;
-    max-width: 90%;
-}
-
-#muskathlon_details .banner_text_container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 3px;
+.muskathlon_background_red {
     background-color: #CD171E;
 }
-
-#my_muskathlon .banner_text_container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 3px;
-    background-color: #004897;
-}
-
-#muskathlon_details .event_public_description {
-    margin-bottom: 20px;
-}
-
-#muskathlon_details .dates_container {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
-
-#muskathlon_details .dates_text {
-    display: inline-block;
-    width: 95px;
+.muskathlon_background_transparent_90 {
+    background-color: rgba(205,23,30,0.9);
 }
 
 #muskathlon_details .muskathlon_sport_icon {
@@ -284,40 +90,6 @@
     width: 40px;
     margin-top: -8px;
     padding-top: 3px;
-}
-
-#muskathlon_details .project_donations_total {
-    font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 2px;
-}
-
-#muskathlon_details .participants_title {
-    text-align: center;
-    color: white;
-    margin-top: 30px;
-    margin-bottom: 20px;
-}
-
-#muskathlon_details .muskathlon_no_participant {
-    text-align: center;
-    color: white;
-    margin-top: 30px;
-    margin-bottom: 20px;
-}
-
-#muskathlon_details .participant_image {
-    width: 100%;
-    height: 175px;
-    position: relative;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center top;
-}
-
-#muskathlon_details .participant_details_link {
-    position: relative;
-    padding: 10px;
 }
 
 #muskathlon_details .muskathlon_space_bottom {
@@ -330,10 +102,6 @@
     display: none;
 }
 
-.same-line {
-    white-space: nowrap;
-}
-
 #muskathlon_details .sport_icon {
     height: 40px;
 }
@@ -342,21 +110,8 @@
     height: 38px;
 }
 
-#muskathlon_details .muskathlon_register_button {
-    margin-top: 16px;
-}
-
 #muskathlon_details .sports_title {
    margin-top: 20px;
-}
-
-#participants_details .ambassador_description {
-    font-size: 15px;
-    padding: 10px;
-}
-
-#participants_details .progress {
-    margin-bottom: 30px;
 }
 
 .blue-section {
@@ -403,21 +158,4 @@
     margin-top: 20px;
     width: initial;
     height: initial;
-}
-
-.donation_success h1 {
-    font-size: 50px;
-    line-height: 50px;
-}
-
-.donation_success .thank_you_container {
-    margin-bottom: 20px;
-    color: black;
-}
-
-@media(min-width: 1050px) {
-    .donation_success h1 {
-        font-size: 70px;
-        line-height: 70px;
-    }
 }

@@ -3,33 +3,23 @@
     <record id="view_muskathlon_registration_form" model="ir.ui.view">
         <field name="name">event.registration.form</field>
         <field name="model">event.registration</field>
-        <field name="inherit_id" ref="event.view_event_registration_form"/>
+        <field name="inherit_id" ref="website_event_compassion.view_event_registration_form"/>
         <field name="arch" type="xml">
-            <field name="event_id" position="attributes">
-                <attribute name="string">Registrations</attribute>
+            <field name="amount_objective" position="before">
+                <field name="is_muskathlon" invisible="1"/>
+                <field name="muskathlon_participant_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
+                <field name="muskathlon_event_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
+                <field name="reg_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
+                <separator colspan="2"/>
             </field>
-            <field name="event_id" position="after">
-                <field name="compassion_event_id"/>
-            </field>
-            <xpath expr="//sheet/group">
-                <group string="Muskathlon">
-                    <field name="muskathlon_participant_id"/>
-                    <field name="muskathlon_event_id"/>
+            <group name="fundraising" position="after">
+                <group name="sport" string="Sport profile" attrs="{'invisible': [('is_muskathlon', '=', False)]}">
+                    <field name="t_shirt_size"/>
                     <field name="sport_discipline_id"/>
+                    <field name="sport_level"/>
                     <field name="sport_level_description"/>
-                    <field name="reg_id"/>
-                    <separator colspan="2"/>
-                    <field name="amount_objective"/>
-                    <field name="amount_raised"/>
-                    <field name="amount_raised_percents"/>
                 </group>
-                <group string="Advocate information">
-                    <field name="ambassador_description"/>
-                    <field name="ambassador_quote"/>
-                    <field name="ambassador_picture_1"/>
-                    <field name="ambassador_picture_2"/>
-                </group>
-            </xpath>
+            </group>
         </field>
     </record>
 </odoo>

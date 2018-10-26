@@ -17,15 +17,15 @@ class EventCompassion(models.Model):
                 'translatable.model', 'website.seo.metadata']
 
     name = fields.Char(translate=True)
-    website_description = fields.Html(
-        translate=True, sanitize=False)
+    website_description = fields.Html(translate=True, sanitize=False)
+    thank_you_text = fields.Html(translate=True)
     picture_1 = fields.Binary('Banner image', attachment=True)
     filename_1 = fields.Char(compute='_compute_filenames')
-    registration_fee = fields.Float()
     website_side_info = fields.Html(
         string='Side info', translate=True, sanitize=False
     )
     odoo_event_id = fields.Many2one('event.event')
+    seats_expected = fields.Integer(related='odoo_event_id.seats_expected')
 
     @api.multi
     def _compute_website_url(self):
@@ -36,14 +36,6 @@ class EventCompassion(models.Model):
     def _compute_filenames(self):
         for event in self:
             event.filename_1 = event.name + '-1.jpg'
-
-    def get_registration_form(self):
-        """
-        Different event types may need a different registration form.
-        This enables to return a specific registration form for the website.
-        :return: cms.form object
-        """
-        pass
 
     def open_registrations(self):
         """
@@ -67,9 +59,10 @@ class EventCompassion(models.Model):
             'name': 'Manage participants',
             'type': 'ir.actions.act_window',
             'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'event.event',
-            'res_id': self.odoo_event_id.id,
-            'context': self.env.context,
+            'view_mode': 'tree,form',
+            'res_model': 'event.registration',
+            'domain': [('event_id', '=', self.odoo_event_id.id)],
+            'context': self.with_context(
+                default_compassion_event_id=self.id).env.context,
             'target': 'current',
         }
