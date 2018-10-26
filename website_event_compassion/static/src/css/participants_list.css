@@ -59,6 +59,17 @@
     position: relative;
     top: 5px;
 }
+#participants_details .sport_icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 40px;
+    width: 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+}
 #compassion_event_participants .participant_card .name {
     text-transform: uppercase;
     text-align: center;
