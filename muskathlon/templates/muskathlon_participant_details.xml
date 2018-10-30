@@ -42,14 +42,14 @@
                                 <div class="card_container">
                                     <t t-if="not registration.ambassador_picture_2">
                                         <div class="position-relative">
-                                            <img class="muskathlon_participant_image" t-attf-src="/web/image/event.registration/{{ registration.id }}/ambassador_picture_1">
+                                            <img class="participant_image" t-attf-src="/web/image/event.registration/{{ registration.id }}/ambassador_picture_1">
                                                 <t t-call="muskathlon.sport_icon"/>
                                             </img>
                                         </div>
                                     </t>
                                     <t t-else="">
                                         <div class="position-relative">
-                                            <img class="muskathlon_participant_image" t-attf-src="/web/image/event.registration/{{registration.id}}/ambassador_picture_2">
+                                            <img class="participant_image" t-attf-src="/web/image/event.registration/{{registration.id}}/ambassador_picture_2">
                                                 <t t-call="muskathlon.sport_icon"/>
                                             </img>
                                         </div>

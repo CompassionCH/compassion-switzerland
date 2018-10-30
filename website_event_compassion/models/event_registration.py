@@ -118,6 +118,8 @@ class Event(models.Model):
         host = config.get('wordpress_host')
         if not host:
             raise MissingError(_('Missing wordpress_host in odoo config file'))
+        for registration in self:
+            registration.wordpress_host = host
 
     @api.multi
     @api.depends('state')
