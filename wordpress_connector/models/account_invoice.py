@@ -70,12 +70,12 @@ class AccountInvoice(models.Model):
             ('partner_id', '=', partner_id),
             ('state', '=', 'draft')
         ])
+        utms = self.env['utm.mixin'].get_utms(
+            utm_source, utm_medium, utm_campaign)
         if not invoice:
             account = self.env['account.account'].search([
                 ('code', '=', '1050')])
             internet_id = self.env.ref('utm.utm_medium_website').id
-            utms = self.env['utm.mixin'].get_utms(
-                utm_source, utm_medium, utm_campaign)
             # Compute invoice date for birthday gifts
             invoice_date = fields.Date.today()
             invoice = self.create({
