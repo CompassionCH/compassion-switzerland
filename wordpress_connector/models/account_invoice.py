@@ -135,5 +135,6 @@ class AccountInvoice(models.Model):
 
             account_payment = self.env['account.payment'].create(payment_vals)
             account_payment.post()
+        partner.active = True
 
         return invoice.id
