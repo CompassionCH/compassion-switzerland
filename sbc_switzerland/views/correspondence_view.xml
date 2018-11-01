@@ -11,6 +11,9 @@
                 <button name="send_local_translate" type="object" string="To Translate" class="oe_highlight"
                         states="Published to Global Partner,Received in the system"/>
             </button>
+            <field name="translate_date" position="after">
+                <field name="src_translation_lang_id" attrs="{'invisible': [('translator_id', '=', False)]}"/>
+            </field>
         </field>
     </record>
 </odoo>
