@@ -48,6 +48,9 @@ class Correspondence(models.Model):
 
     _inherit = 'correspondence'
 
+    src_translation_lang_id = fields.Many2one(
+        'res.lang.compassion', 'Source of translation')
+
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
@@ -138,25 +141,27 @@ class Correspondence(models.Model):
         child = self.sponsorship_id.child_id
 
         # Specify the src and dst language
-        src_lang_id, dst_lang_id = self._get_translation_langs()
+        src_lang, dst_lang = self._get_translation_langs()
 
         # File name
         sponsor = self.sponsorship_id.partner_id
-        # TODO : replace by global_id once all ids are fetched
         file_name = "_".join(
             (child.local_id, sponsor.ref, str(self.id))) + '.pdf'
 
         # Send letter to local translate platform
         tc = translate_connector.TranslateConnect()
         text_id = tc.upsert_text(
-            self, file_name, tc.get_lang_id(src_lang_id),
-            tc.get_lang_id(dst_lang_id))
+            self, file_name, tc.get_lang_id(src_lang),
+            tc.get_lang_id(dst_lang))
         translation_id = tc.upsert_translation(text_id, self)
         tc.upsert_translation_status(translation_id)
 
         # Transfer file on the NAS
         self._transfer_file_on_nas(file_name)
-        self.state = 'Global Partner translation queue'
+        self.write({
+            'state': 'Global Partner translation queue',
+            'src_translation_lang_id': src_lang.id,
+        })
 
     @api.model
     def fix_priority(self):
@@ -242,55 +247,47 @@ class Correspondence(models.Model):
             self.state = 'Published to Global Partner'
 
     @api.multi
-    def update_translation(self, translate_lang, translate_text, translator):
+    def update_translation(self, translate_lang, translate_text, translator,
+                           src_lang):
         """
         Puts the translated text into the correspondence.
         :param translate_lang: code_iso of the language of the translation
         :param translate_text: text of the translation
         :param translator: reference of the translator
+        :param src_lang: code_iso of the source language of translation
         :return: None
         """
         self.ensure_one()
         translate_lang_id = self.env['res.lang.compassion'].search(
             [('code_iso', '=', translate_lang)]).id
+        src_lang_id = self.env['res.lang.compassion'].search(
+            [('code_iso', '=', src_lang)]).id
         translator_partner = self.env['res.partner'].search([
             ('ref', '=', translator)])
-        local_id = self.child_id.local_id
 
+        letter_vals = {
+            'translation_language_id': translate_lang_id,
+            'translator_id': translator_partner.id,
+            'src_translation_lang_id': src_lang_id,
+        }
         if self.direction == 'Supporter To Beneficiary':
             state = 'Received in the system'
             target_text = 'original_text'
-            language_field = 'original_language_id'
             # Remove #BOX# in the text, as supporter letters don't have boxes
             translate_text = translate_text.replace(BOX_SEPARATOR, '\n')
-            # TODO Remove this fix when HAITI case is resolved
-            # For now we switch French to Creole
-            if 'HA' in local_id:
-                french = self.env.ref(
-                    'child_compassion.lang_compassion_french')
-                creole = self.env.ref(
-                    'child_compassion.lang_compassion_haitien_creole')
-                if translate_lang_id == french.id:
-                    translate_lang_id = creole.id
         else:
             state = 'Published to Global Partner'
             target_text = 'translated_text'
-            language_field = 'translation_language_id'
-            # TODO Remove this when new translation tool is working
-            # Workaround to avoid overlapping translation : everything goes
-            # in L6 template
-            if 'HO' not in local_id and 'RW' not in local_id:
-                self.b2s_layout_id = self.env.ref('sbc_compassion.b2s_l6')
 
         # Check that layout L4 translation gets on second page
         if self.b2s_layout_id == self.env.ref('sbc_compassion.b2s_l4') and \
                 not translate_text.startswith('#PAGE#'):
             translate_text = '#PAGE#' + translate_text
-        self.write({
+        letter_vals.update({
             target_text: translate_text.replace('\r', ''),
             'state': state,
-            language_field: translate_lang_id,
-            'translator_id': translator_partner.id})
+        })
+        self.write(letter_vals)
 
         # Activate advocate translator
         translator_partner.advocate_details_id.with_context(
@@ -325,35 +322,35 @@ class Correspondence(models.Model):
         :rtype: res.lang.compassion, res.lang.compassion
         """
         self.ensure_one()
-        src_lang_id = False
-        dst_lang_id = False
+        src_lang = False
+        dst_lang = False
         if self.direction == 'Supporter To Beneficiary':
             # Check that the letter is not yet sent to GMC
             if self.kit_identifier:
                 raise UserError(_("Letter already sent to GMC cannot be "
                                   "translated! [%s]") % self.kit_identifier)
 
-            src_lang_id = self.original_language_id
+            src_lang = self.original_language_id
             child_langs = self.beneficiary_language_ids.filtered(
                 'translatable')
             if child_langs:
-                dst_lang_id = child_langs[-1]
+                dst_lang = child_langs[-1]
             else:
-                dst_lang_id = self.env.ref(
+                dst_lang = self.env.ref(
                     'child_compassion.lang_compassion_english')
 
         elif self.direction == 'Beneficiary To Supporter':
             if self.original_language_id and \
                     self.original_language_id.translatable:
-                src_lang_id = self.original_language_id
+                src_lang = self.original_language_id
             else:
-                src_lang_id = self.env.ref(
+                src_lang = self.env.ref(
                     'child_compassion.lang_compassion_english')
-            dst_lang_id = self.supporter_languages_ids.filtered(
+            dst_lang = self.supporter_languages_ids.filtered(
                 lambda lang: lang.lang_id and lang.lang_id.code ==
                 self.partner_id.lang)
 
-        return src_lang_id, dst_lang_id
+        return src_lang, dst_lang
 
     def _transfer_file_on_nas(self, file_name):
         """
@@ -411,7 +408,9 @@ class Correspondence(models.Model):
                         )
                         correspondence.update_translation(
                             letter["target_lang"], letter["text"],
-                            letter["translator"])
+                            letter["translator"],
+                            letter["src_lang"]
+                        )
                         tc.update_translation_to_treated(letter["id"])
             except:
                 logger.error(

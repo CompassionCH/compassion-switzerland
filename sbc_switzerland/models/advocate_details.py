@@ -19,6 +19,17 @@ class AdvocateDetails(models.Model):
     _inherit = 'advocate.details'
 
     translator_since = fields.Datetime()
+    translated_letter_ids = fields.One2many(
+        'correspondence', related='partner_id.translated_letter_ids')
+    nb_translated_letters = fields.Integer(
+        compute='_compute_nb_translated_letters', store=True)
+
+    @api.multi
+    @api.depends('partner_id.translated_letter_ids')
+    def _compute_nb_translated_letters(self):
+        for advocate in self:
+            advocate.nb_translated_letters = len(
+                advocate.translated_letter_ids)
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -116,6 +127,26 @@ class AdvocateDetails(models.Model):
                 })
         return super(AdvocateDetails, self).unlink()
 
+    ##########################################################################
+    #                             VIEW CALLBACKS                             #
+    ##########################################################################
+    @api.multi
+    def translated_letters(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Letters',
+            'res_model': 'correspondence',
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'context': self.with_context(
+                group_by=False,
+                search_default_translator_id=self.partner_id.id
+            ).env.context,
+        }
+
+    ##########################################################################
+    #                             PRIVATE METHODS                            #
+    ##########################################################################
     def _insert_new_translator(self):
         tc = translate_connector.TranslateConnect()
         _logger.info("Insert translator on platform.")
