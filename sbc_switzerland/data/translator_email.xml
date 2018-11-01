@@ -47,5 +47,45 @@
                 </p>
             </field>
         </record>
+
+        <!-- Translator welcome e-mail -->
+        <record id="email_welcome_translator" model="mail.template">
+            <field name="name">New Translator</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">Welcome to the translators of Compassion</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set nb_translated = object.env['correspondence'].search_count([('translator_id', '=', partner.id)])
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    Not long ago, you joined our team of translators.
+                    <br/>
+                    <br/>
+                    % if nb_translated:
+                        You already translated ${nb_translated} letters. Thank you so much.
+                    % else:
+                        You didn't translate any letters yet. Maybe you didn't see our last e-mail for your registration on our platform or you just had no time yet. If you face technical challenges or would like to ask us some questions regarding the translation process, don't hesitate to contact us. We thank you for your help.
+                    % endif
+                    <br/>
+                    <br/>
+                    Thanks to your help, we can reduce the time of letters delivery. Receiving a letter from the sponsor is always an encouragement for the sponsored child. ${object.success_sentence or ''}
+                    <br/>
+                    <br/>
+                    % if nb_translated:
+                        If you have questions about the translation process, don't hesitate to contact us.
+                        <br/>
+                        <br/>
+                    % endif
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
     </data>
 </odoo>

@@ -9,7 +9,7 @@
 #
 ##############################################################################
 import logging
-from odoo import models, api
+from odoo import models, api, fields
 from . import translate_connector
 
 _logger = logging.getLogger(__name__)
@@ -17,6 +17,8 @@ _logger = logging.getLogger(__name__)
 
 class AdvocateDetails(models.Model):
     _inherit = 'advocate.details'
+
+    translator_since = fields.Datetime()
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -110,3 +112,18 @@ class AdvocateDetails(models.Model):
             'show_signature': True,
             'print_subject': True
         })
+        self.translator_since = fields.Datetime.now()
+
+    ##########################################################################
+    #                              ACTION RULES                              #
+    ##########################################################################
+    @api.multi
+    def send_welcome_translator(self):
+        communication_config = self.env.ref(
+            'sbc_switzerland.new_translator_welcome')
+        for advocate in self:
+            self.env['partner.communication.job'].create({
+                'config_id': communication_config.id,
+                'partner_id': advocate.partner_id.id,
+                'object_ids': advocate.partner_id.id,
+            })
