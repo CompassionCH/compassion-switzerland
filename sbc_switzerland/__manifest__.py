@@ -38,9 +38,10 @@
     'depends': ['mysql_connector', 'partner_communication_switzerland',
                 'child_switzerland'],
     'external_dependencies': {
-        'python': ['smb', 'pyPdf', 'pysftp']
+        'python': ['smb', 'pyPdf', 'pysftp', 'wand']
     },
     'data': [
+        'security/ir.model.access.csv',
         'data/import_config_templates.xml',
         'data/scan_letter_params.xml',
         'data/nas_parameters.xml',
@@ -55,6 +56,7 @@
         'views/correspondence_view.xml',
         'views/s2b_generator_view.xml',
         'views/advocate_view.xml',
+        'reports/translation_reports_view.xml',
     ],
     'demo': [],
     'installable': True,
