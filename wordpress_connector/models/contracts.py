@@ -102,7 +102,8 @@ class Contracts(models.Model):
         partner = self.env['res.partner'].search([
             ('lastname', 'ilike', form_data['last_name']),
             ('firstname', 'ilike', form_data['first_name']),
-            ('zip', '=', form_data['zipcode'])
+            ('zip', '=', form_data['zipcode']),
+            ('active', 'in', [True, False]),
         ])
         if partner and len(partner) > 1:
             partner = partner.filtered('has_sponsorships')
@@ -140,6 +141,7 @@ class Contracts(models.Model):
                 sponsorship_vals, form_data)
         else:
             return self.create_sponsorship_job(sponsorship_vals, form_data)
+        partner.active = True
 
     @api.model
     def create_sponsor_from_web(self, web_data):

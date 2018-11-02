@@ -118,16 +118,15 @@ class TranslateConnect(MysqlConnector):
         (returns -1 if not found). """
         res = self.selectAll("""
             SELECT tr.id, tr.letter_odoo_id, tr.text, txt.id AS text_id,
-            l.GP_libel AS target_lang, usr.number AS translator
+            ld.GP_libel AS target_lang, usr.number AS translator,
+            ls.GP_libel AS src_lang
+
             FROM translation_status trs
-            INNER JOIN translation tr
-            ON trs.translation_id = tr.id
-            INNER JOIN user usr
-            ON tr.user_id = usr.id
-            INNER JOIN text txt
-            ON tr.text_id = txt.id
-            INNER JOIN language l
-            ON txt.aim_lang_id = l.id
+            INNER JOIN translation tr ON trs.translation_id = tr.id
+            INNER JOIN user usr ON tr.user_id = usr.id
+            INNER JOIN text txt ON tr.text_id = txt.id
+            INNER JOIN language ld ON txt.aim_lang_id = ld.id
+            INNER JOIN language ls ON txt.src_lang_id = ls.id
             WHERE tr.letter_odoo_id IS NOT NULL
             AND trs.status_id = 3
             AND tr.toDo_id = 3

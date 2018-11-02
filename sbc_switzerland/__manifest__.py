@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Sponsor to beneficiary email communication',
-    'version': '10.0.1.0.0',
+    'version': '10.0.1.2.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
@@ -38,19 +38,25 @@
     'depends': ['mysql_connector', 'partner_communication_switzerland',
                 'child_switzerland'],
     'external_dependencies': {
-        'python': ['smb', 'pyPdf', 'pysftp']
+        'python': ['smb', 'pyPdf', 'pysftp', 'wand']
     },
     'data': [
+        'security/ir.model.access.csv',
         'data/import_config_templates.xml',
         'data/scan_letter_params.xml',
         'data/nas_parameters.xml',
         'data/local_letters_cron.xml',
         'data/translator_email.xml',
         'data/communication_config.xml',
+        'data/translator_server_actions.xml',
+        'data/translator_action_rules.xml',
+        'data/communication_config.xml',
         'views/import_config_view.xml',
         'views/import_letters_history_view.xml',
         'views/correspondence_view.xml',
         'views/s2b_generator_view.xml',
+        'views/advocate_view.xml',
+        'reports/translation_reports_view.xml',
     ],
     'demo': [],
     'installable': True,
