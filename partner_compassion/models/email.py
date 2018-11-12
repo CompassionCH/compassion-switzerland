@@ -43,7 +43,11 @@ class Email(models.Model):
 
     @api.multi
     def _prepare_sendgrid_data(self):
+        """
+        Sends a CC to all linked contacts that have option activated.
+        """
         s_mail = super(Email, self)._prepare_sendgrid_data()
+        email_cc = self.email_cc or ''
         for recipient in self.recipient_ids.filtered(
                 'other_contact_ids.email_copy'):
             for personalization in s_mail._personalizations:
@@ -52,6 +56,8 @@ class Email(models.Model):
                         for cc in recipient.other_contact_ids.filtered(
                                 'email_copy'):
                             personalization.add_cc(SendgridEmail(cc.email))
+                            email_cc += ';' + cc.email
+        self.email_cc = email_cc.strip(';')
         return s_mail
 
 
