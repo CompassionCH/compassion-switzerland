@@ -20,7 +20,7 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
         /**
          * When attachment is changed
          * @param event
-         * @returns {boolean}
+         * @returns {Boolean}
          */
         on_attachment_change: function (event) {
             event.stopPropagation();
@@ -28,7 +28,7 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
             var $target = $(event.target);
             if ($target.val() !== '') {
                 var filename = $target.val().replace(/.*[\\/]/, '');
-                // if the files exits for this answer, delete the file before
+                // If the files exits for this answer, delete the file before
                 // upload
                 var attachments = [];
                 for (var i in this.get('attachment_ids')) {
@@ -43,12 +43,12 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
                         attachments.push(this.get('attachment_ids')[i]);
                     }
                 }
-                // submit filename
+                // Submit filename
                 this.$('form.o_form_binary_form').submit();
                 this.$attachment_button.prop('disabled', true);
                 this.set('attachment_ids', attachments);
 
-                // submit other files
+                // Submit other files
                 _.each($target[0].files, function (file) {
                     var querydata = new FormData();
                     querydata.append('callback', 'o_fileupload_temp2');
@@ -73,15 +73,15 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
                                 'filename': data.filename,
                                 'url': '',
                                 'upload': false,
-                                'mimetype': data.mimetype
+                                'mimetype': data.mimetype,
                             });
                             self.set('attachment_ids', attachments);
-                        }
+                        },
                     });
 
                 });
             }
-        }
+        },
     });
 
     FieldMany2ManyBinaryMultiFiles.extend({
@@ -89,7 +89,7 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
         /**
          * When file is changed
          * @param event
-         * @returns {boolean}
+         * @returns {Boolean}
          */
         on_file_change: function (event) {
             event.stopPropagation();
@@ -97,12 +97,12 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
             var $target = $(event.target);
             if ($target.val() !== '') {
                 var filename = $target.val().replace(/.*[\\/]/, '');
-                // don't uplode more of one file in same time
+                // Don't uplode more of one file in same time
                 if (self.data[0] && self.data[0].upload) {
                     return false;
                 }
                 for (var id in this.get('value')) {
-                    // if the files exits, delete the file before upload
+                    // If the files exits, delete the file before upload
                     // (if it's a new file)
                     if (self.data[id] && (self.data[id].filename ||
                         self.data[id].name) === filename &&
@@ -111,7 +111,7 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
                     }
                 }
 
-                // block UI or not
+                // Block UI or not
                 if (this.node.attrs.blockui > 0) {
                     $.blockUI();
                 }
@@ -140,13 +140,13 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
                                 'filename': data.filename,
                                 'url': '',
                                 'upload': false,
-                                'mimetype': data.mimetype
+                                'mimetype': data.mimetype,
                             };
-                        }
+                        },
                     });
 
                 });
-                // submit file
+                // Submit file
                 this.$('form.o_form_binary_form').submit();
             }
         },
@@ -172,7 +172,7 @@ odoo.define('sync_mail_multi_attach.multi_attachments', function (require) {
                 this.set({'value': values});
             }
             this.render_value();
-        }
+        },
     });
 
 });
