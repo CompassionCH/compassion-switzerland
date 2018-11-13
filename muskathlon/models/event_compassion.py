@@ -54,9 +54,9 @@ class EventCompassion(models.Model):
                 amount_objective += registration.amount_objective
 
             event.amount_raised = amount_raised
-            event.amount_objective = amount_objective
+            event.amount_objective = amount_objective or 10000
             event.amount_raised_percents = int(
-                amount_raised * 100 / (amount_objective or 1))
+                amount_raised * 100 / (amount_objective or 10000))
 
     @api.model
     def get_muskathlon_participants(self, event_id):
