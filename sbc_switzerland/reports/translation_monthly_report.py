@@ -12,7 +12,7 @@ from odoo import models
 
 
 class TranslationMonthlyReport(models.Model):
-    _inherit = "translation.daily.report"
+    _inherit = "translation.daily.report"  # pylint: disable=R7980
     _name = "translation.monthly.report"
     _table = "translation_monthly_report"
     _description = "Monthly translations report"
