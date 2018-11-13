@@ -50,7 +50,7 @@ if not testing:
 
         @property
         def form_title(self):
-            return _("Registration for ") + self.event_id.name
+            return _("Registration for ") + self.event_id.sudo().name
 
         @property
         def submit_text(self):
@@ -59,8 +59,8 @@ if not testing:
         def form_init(self, request, main_object=None, **kw):
             form = super(EventRegistrationForm, self).form_init(
                 request, main_object, **kw)
-            # Set default values
-            form.event_id = kw.get('event').odoo_event_id
+            # Store event in form to get its values
+            form.event_id = kw.get('event').sudo().odoo_event_id
             return form
 
         def form_before_create_or_update(self, values, extra_values):
@@ -69,13 +69,14 @@ if not testing:
             )
             name = extra_values.get('partner_lastname', '') + ' ' + \
                 extra_values.get('partner_firstname', '')
+            event = self.event_id.sudo()
             values.update({
                 'name': name,
                 'phone': extra_values.get('partner_phone'),
                 'email': extra_values.get('partner_email'),
-                'event_id': self.event_id.id,
-                'event_ticket_id': self.event_id.valid_ticket_ids[:1].id,
-                'user_id': self.event_id.user_id.id,
+                'event_id': event.id,
+                'event_ticket_id': event.valid_ticket_ids[:1].id,
+                'user_id': event.user_id.id,
             })
 
         def _form_create(self, values):
