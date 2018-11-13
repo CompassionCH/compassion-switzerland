@@ -8,9 +8,15 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-
+import logging
 from odoo import models, api
-from sendgrid.helpers.mail import Email as SendgridEmail
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from sendgrid.helpers.mail import Email as SendgridEmail
+except ImportError:
+    _logger.warning("Please install Sendgrid for partner_compassion")
 
 
 class Email(models.Model):

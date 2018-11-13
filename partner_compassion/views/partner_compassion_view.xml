@@ -206,7 +206,7 @@
                 <attribute name="context">{'default_contact_id': active_id, 'default_name': name, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_lang':lang, 'default_spoken_lang_ids':spoken_lang_ids, 'default_opt_out':False, 'default_birthday_reminder':False, 'default_global_communication_delivery_preference':'none', 'default_photo_delivery_preference':'none', 'default_letter_delivery_preference':'none', 'default_tax_certificate':'no', 'default_thankyou_letter':'no', 'default_nbmag':0, 'default_calendar':0, 'default_christmas_card':0, 'default_email': email}}</attribute>
             </xpath>
 
-            <xpath expr="//field[@name='other_contact_ids']/form/sheet" position="replace">
+            <xpath expr="//field[@name='other_contact_ids']/form/sheet" position="replace">  <!-- pylint: disable=W7940 -->
                 <sheet>
                     <field name="type" required="1" widget="radio" options="{'horizontal': true}"/>
                     <hr/>

@@ -49,7 +49,7 @@
         'partner_contact_in_several_companies'
     ],
     'external_dependencies': {
-        'python': ['pandas', 'pyminizip']
+        'python': ['pandas', 'pyminizip', 'sendgrid']
     },
     'data': [
         'security/ir.model.access.csv',
