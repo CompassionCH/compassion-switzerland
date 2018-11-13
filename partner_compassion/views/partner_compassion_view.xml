@@ -189,42 +189,70 @@
         </field>
     </record>
 
+    <!-- Redefine linked partner form popup -->
     <record id="view_partner_form_compassion_contact" model="ir.ui.view">
-    <field name="name">res.partner.compassion.linked.contact.form</field>
-    <field name="model">res.partner</field>
-    <field name="type">form</field>
-    <field name="inherit_id" ref="partner_contact_in_several_companies.view_partner_form_inherit"/>
-    <field name="arch" type="xml">
-        <field name="other_contact_ids" position="before">
-            <field name="contact_id" invisible="1"/>
-        </field>
-        <xpath expr="//field[@name='other_contact_ids']/form//field[@name='email']" position="after">
-            <field name="birthdate_date"/>
-        </xpath>
-        <xpath expr="//field[@name='other_contact_ids']/.." position="attributes">
-            <attribute name="string">Linked Partners</attribute>
-        </xpath>
-        <xpath expr="//field[@name='other_contact_ids']" position="attributes">
-            <attribute name="context">{'default_contact_id': active_id, 'default_name': name, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_lang':lang, 'default_spoken_lang_ids':spoken_lang_ids, 'default_opt_out':False, 'default_birthday_reminder':False, 'default_global_communication_delivery_preference':'none', 'default_photo_delivery_preference':'none', 'default_letter_delivery_preference':'none', 'default_tax_certificate':'no', 'default_thankyou_letter':'no', 'default_nbmag':0, 'default_calendar':0, 'default_christmas_card':0}}</attribute>
-        </xpath>
-        <xpath expr="//field[@name='other_contact_ids']/form//field[@name='lang']" position="replace"/>
-        <xpath expr="//field[@name='other_contact_ids']//field[@name='comment']/.." position="after">
-            <group>
-                <field name="lang" attrs="{'required':True}"/>
-                <field name="spoken_lang_ids" widget="many2many_tags"/>
-                    <field name="opt_out"/>
-                    <field name="global_communication_delivery_preference"/>
-                    <field name="photo_delivery_preference"/>
-                    <field name="tax_certificate"/>
-                    <field name="thankyou_letter"/>
-                    <field name="email_copy"/>
-                </group>
+        <field name="name">res.partner.compassion.linked.contact.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="partner_contact_in_several_companies.view_partner_form_inherit"/>
+        <field name="arch" type="xml">
+            <field name="other_contact_ids" position="before">
+                <field name="contact_id" invisible="1"/>
+            </field>
+            <xpath expr="//field[@name='other_contact_ids']/.." position="attributes">
+                <attribute name="string">Linked Partners</attribute>
             </xpath>
-            <xpath expr="//field[@name='other_contact_ids']//field[@name='comment']/../..//field[@name='country_id']/../.."
-                   position="after">
-                <field name="nbmag"/>
-                <field name="calendar"/>
-                <field name="christmas_card"/>
+            <xpath expr="//field[@name='other_contact_ids']" position="attributes">
+                <attribute name="context">{'default_contact_id': active_id, 'default_name': name, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_lang':lang, 'default_spoken_lang_ids':spoken_lang_ids, 'default_opt_out':False, 'default_birthday_reminder':False, 'default_global_communication_delivery_preference':'none', 'default_photo_delivery_preference':'none', 'default_letter_delivery_preference':'none', 'default_tax_certificate':'no', 'default_thankyou_letter':'no', 'default_nbmag':0, 'default_calendar':0, 'default_christmas_card':0, 'default_email': email}}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='other_contact_ids']/form/sheet" position="replace">
+                <sheet>
+                    <field name="type" required="1" widget="radio" options="{'horizontal': true}"/>
+                    <hr/>
+                    <group string="Alternate address" attrs="{'invisible': [('type', 'in', ['contact','email_alias'])]}">
+                        <label for="street" string="Address"/>
+                        <div>
+                            <div class="o_address_format" name="div_address">
+                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}' context="{'country_id': country_id, 'zip': zip}"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                            </div>
+                        </div>
+                        <field name="nbmag"/>
+                        <field name="calendar"/>
+                        <field name="christmas_card"/>
+                    </group>
+                    <group>
+                        <group string="Contact information">
+                            <field name="name" string="Contact Name" attrs="{'required' : [('type', '=', 'contact')], 'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="title" placeholder="e.g. Mr."
+                                   attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                            <field name="function" placeholder="e.g. Sales Director"
+                                   attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                            <field name="email"/>
+                            <field name="birthdate_date" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="phone" widget="phone" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="mobile" widget="phone" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="comment" placeholder="internal note..."/>
+                        </group>
+                        <group string="Contact correspondence">
+                            <field name="lang" attrs="{'required':[('type','!=', 'email_alias')], 'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="spoken_lang_ids" widget="many2many_tags" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="opt_out"/>
+                            <field name="global_communication_delivery_preference" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="photo_delivery_preference" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="tax_certificate" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="thankyou_letter" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="email_copy"/>
+                        </group>
+                    </group>
+                    <field name="supplier" invisible="True"/>
+                    <field name="customer" invisible="True"/>
+                </sheet>
             </xpath>
         </field>
     </record>

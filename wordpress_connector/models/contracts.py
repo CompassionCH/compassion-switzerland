@@ -103,7 +103,7 @@ class Contracts(models.Model):
             ('lastname', 'ilike', form_data['last_name']),
             ('firstname', 'ilike', form_data['first_name']),
             ('zip', '=', form_data['zipcode']),
-            ('active', 'in', [True, False]),
+            '|', ('active', '=', True), ('active', '=', False),
         ])
         if partner and len(partner) > 1:
             partner = partner.filtered('has_sponsorships')
@@ -113,6 +113,13 @@ class Contracts(models.Model):
         partner_ok = partner and len(partner) == 1
         if not partner_ok:
             partner = self.create_sponsor_from_web(form_data)
+        elif partner.contact_type == 'attached':
+            if partner.type == 'email_alias':
+                # In this case we want to link to the main partner
+                partner = partner.contact_id
+            else:
+                # We unarchive the partner to make it visible
+                partner.active = True
 
         # Check origin
         internet_id = self.env.ref('utm.utm_medium_website').id
@@ -141,7 +148,6 @@ class Contracts(models.Model):
                 sponsorship_vals, form_data)
         else:
             return self.create_sponsorship_job(sponsorship_vals, form_data)
-        partner.active = True
 
     @api.model
     def create_sponsor_from_web(self, web_data):
