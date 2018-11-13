@@ -26,3 +26,12 @@ if not testing:
             )
             keys.update({'state': 'pending'})
             return keys
+
+        def form_before_create_or_update(self, values, extra_values):
+            """
+            Avoid updating partner at GMC, use context to prevent this.
+            """
+            super(
+                EventPartnerMatchform,
+                self.with_context(no_upsert=True)
+            ).form_before_create_or_update(values, extra_values)

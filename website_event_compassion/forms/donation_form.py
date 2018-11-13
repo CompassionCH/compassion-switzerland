@@ -23,6 +23,7 @@ if not testing:
         # The form is inside a Muskathlon participant details page
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_donation'
+        _form_model = 'account.invoice'
         _payment_accept_redirect = '/event/payment/validate'
 
         ambassador_id = fields.Many2one('res.partner')
@@ -64,28 +65,26 @@ if not testing:
         def form_init(self, request, main_object=None, **kw):
             form = super(EventDonationForm, self).form_init(
                 request, main_object, **kw)
-            # Set default values
+            # Store ambassador and event in model to use it in properties
             registration = kw.get('registration')
             if registration:
                 form.event_id = registration.compassion_event_id
                 form.ambassador_id = registration.partner_id
-            form.partner_country_id = kw.get(
-                'partner_country_id', self.env.ref('base.ch'))
             return form
 
-        def _form_create(self, values):
-            """ Manually create account.invoice object """
-            product = self.event_id.sudo().odoo_event_id.donation_product_id
+        def form_before_create_or_update(self, values, extra_values):
+            """ Inject invoice values """
+            super(EventDonationForm, self).form_before_create_or_update(
+                values, extra_values)
             event = self.event_id.sudo()
+            product = event.odoo_event_id.donation_product_id
             ambassador = self.ambassador_id.sudo()
             name = u'[{}] Donation for {}'.format(event.name, ambassador.name)
-            self.invoice_id = self.env['account.invoice'].sudo().create({
-                'partner_id': self.partner_id.id,
-                'currency_id': values['currency_id'],
+            values.update({
                 'origin': name,
                 'invoice_line_ids': [(0, 0, {
                     'quantity': 1.0,
-                    'price_unit': values['amount'],
+                    'price_unit': extra_values.get('amount'),
                     'account_id': product.property_account_income_id.id,
                     'name': name,
                     'product_id': product.id,
@@ -94,9 +93,13 @@ if not testing:
                 })]
             })
 
-        def _edit_transaction_values(self, tx_values):
+        def _form_create(self, values):
+            # Create as superuser
+            self.main_object = self.form_model.sudo().create(values.copy())
+
+        def _edit_transaction_values(self, tx_values, form_vals):
             """ Add registration link and change reference. """
             tx_values.update({
-                'invoice_id': self.invoice_id.id,
-                'reference': 'EVENT-DON-' + str(self.invoice_id.id),
+                'invoice_id': self.main_object.id,
+                'reference': 'EVENT-DON-' + str(self.main_object.id),
             })
