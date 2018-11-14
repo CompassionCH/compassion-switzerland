@@ -62,8 +62,7 @@ class MuskathlonRegistration(models.Model):
         ('advanced', 'Advanced')
     ])
     sport_level_description = fields.Text('Describe your sport experience')
-    amount_objective = fields.Integer('Raise objective', default=10000,
-                                      required=True)
+    amount_objective = fields.Integer('Raise objective')
     amount_raised = fields.Integer(readonly=True,
                                    compute='_compute_amount_raised')
     amount_raised_percents = fields.Integer(readonly=True,
@@ -142,6 +141,19 @@ class MuskathlonRegistration(models.Model):
             registration.partner_display_name =\
                 registration.partner_firstname + ' ' +\
                 registration.partner_lastname
+
+    @api.model
+    def create(self, values):
+        record = super(MuskathlonRegistration, self).create(values)
+
+        event = self.env['crm.event.compassion'].search([
+            ('odoo_event_id', '=', values['event_id'])
+        ])
+
+        record['amount_objective'] = event.participants_amount_objective
+
+        return record
+
 
     @api.onchange('event_id')
     def onchange_event_id(self):
