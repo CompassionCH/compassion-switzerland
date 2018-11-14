@@ -5,11 +5,24 @@
         <field name="model">event.registration</field>
         <field name="inherit_id" ref="event.view_event_registration_form"/>
         <field name="arch" type="xml">
+            <!-- Replace state widget by registration stage -->
+            <field name="state" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="state" position="after">
+                <field name="stage_id" widget="statusbar" clickable="True"
+                       domain="['|', ('event_type_id', '=', context.get('default_event_type_id')), ('event_type_id', '=', False)]"/>
+            </field>
             <field name="event_id" position="attributes">
                 <attribute name="string">Registrations</attribute>
             </field>
             <field name="event_id" position="after">
                 <field name="compassion_event_id"/>
+            </field>
+            <field name="name" position="after">
+                <field name="stage_date"/>
+                <field name="incomplete_task_ids" widget="many2many_tags"/>
+                <field name="completed_task_ids" widget="many2many_tags" domain="[('stage_id', '=', stage_id)]"/>
             </field>
             <xpath expr="//sheet/group">
                 <field name="fundraising" invisible="1"/>
@@ -26,6 +39,54 @@
                     <field name="ambassador_picture_2" class="oe_avatar" options="{'size': [90, 90]}"/>
                 </group>
             </xpath>
+        </field>
+    </record>
+
+    <!-- Add kanban view for registrations -->
+    <record id="event.act_event_registration_from_event" model="ir.actions.act_window">
+        <field name="view_mode">kanban,tree,form,calendar,graph</field>
+    </record>
+
+    <record model="ir.ui.view" id="view_event_registration_kanban">
+        <field name="name">event.registration.kanban</field>
+        <field name="model">event.registration</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_small_column o_opportunity_kanban">
+                <field name="stage_id" options='{"group_by_tooltip": {"requirements": "Description"}}'/>
+                <field name="partner_id"/>
+                <field name="color"/>
+                <field name="complete_stage_task_ids"/>
+                <field name="stage_task_ids"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                    <span class="fa fa-bars fa-lg"/>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <t t-if="widget.deletable">
+                                        <li><a type="delete">Delete</a></li>
+                                    </t>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div><strong><field name="partner_id"/></strong></div>
+                                <div><field name="event_name"/></div>
+                                <div>
+                                    <t t-esc="record.complete_stage_task_ids.raw_value.length"/> / <t t-esc="record.stage_task_ids.raw_value.length"/> completed tasks
+                                </div>
+                                <div class="o_kanban_footer">
+                                    <field name="stage_date"/>
+                                    <img t-att-src="kanban_image('res.partner', 'image', record.partner_id.raw_value)" t-att-title="record.partner_id.value" height="40" class="oe_kanban_avatar" t-if="record.partner_id.value"/>
+                                </div>
+                            </div>
+                            <div class="oe_clear"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 </odoo>
