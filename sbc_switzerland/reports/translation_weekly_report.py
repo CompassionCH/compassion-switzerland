@@ -12,7 +12,7 @@ from odoo import models
 
 
 class TranslationWeeklyReport(models.Model):
-    _inherit = "translation.daily.report"
+    _inherit = "translation.daily.report"  # pylint: disable=R7980
     _name = "translation.weekly.report"
     _table = "translation_weekly_report"
     _description = "Weekly translations report"

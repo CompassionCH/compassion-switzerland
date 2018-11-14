@@ -36,6 +36,15 @@ class AccountInvoice(models.Model):
         :param utm_campaign: the utm identifier in wordpress
         :return: invoice_id
         """
+        partner = self.env['res.partner'].browse(partner_id)
+        if partner.contact_type == 'attached':
+            if partner.type == 'email_alias':
+                # In this case we want to link to the main partner
+                partner = partner.contact_id
+                partner_id = partner.id
+            else:
+                # We unarchive the partner to make it visible
+                partner.active = True
         product = self.env['product.product']
         if fund:
             product = product.search([
@@ -110,7 +119,6 @@ class AccountInvoice(models.Model):
         })
         requires_sponsorship = GIFT_CATEGORY in invoice.mapped(
             'invoice_line_ids.product_id.categ_name')
-        partner = self.env['res.partner'].browse(partner_id)
         partner.set_privacy_statement(origin='new_gift')
         new_partner = partner.state != 'active'
         if analytic_id and (not requires_sponsorship or
@@ -132,9 +140,6 @@ class AccountInvoice(models.Model):
                 'payment_difference_handling': 'reconcile',
                 'payment_difference': invoice.amount_total,
             }
-
             account_payment = self.env['account.payment'].create(payment_vals)
             account_payment.post()
-        partner.active = True
-
         return invoice.id

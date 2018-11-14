@@ -39,7 +39,7 @@
         <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_contact"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='other_contact_ids']//field[@name='photo_delivery_preference']" position="after">
-                <field name="letter_delivery_preference"/>
+                <field name="letter_delivery_preference" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
             </xpath>
         </field>
     </record>

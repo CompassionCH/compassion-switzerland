@@ -85,31 +85,21 @@ if not testing:
                 })
             return fieldset
 
-        def form_init(self, request, main_object=None, **kw):
-            form = super(PartnerSmsRegistrationForm, self).form_init(
-                request, main_object, **kw)
-
-            # Set default values in the model
-            partner = main_object.sudo().partner_id
-            form.partner_church_unlinked = kw.get(
-                'partner_church_unlinked',
-                partner.church_id.name or partner.church_unlinked)
-            form.partner_function = partner.function
-            form.volunteering = kw.get('volunteering')
-            return form
-
         def _form_load_partner_function(self, fname, field, value,
                                         **req_values):
-            return req_values.get('partner_function',
-                                  self.partner_function or '')
+            return value or self._load_partner_field(fname, **req_values)
 
         def _form_load_partner_church_unlinked(self, fname, field, value,
                                                **req_values):
-            return req_values.get('partner_church_unlinked',
-                                  self.partner_church_unlinked or '')
-
-        def _form_load_volunteering(self, fname, field, value, **req_values):
-            return req_values.get('volunteering', self.volunteering or '')
+            res = value
+            if not res:
+                res = self._load_partner_field(
+                    'partner_church_id', **req_values)
+                if res and isinstance(res, models.Model):
+                    res = res.name
+                else:
+                    res = self._load_partner_field(fname, **req_values)
+            return res
 
         def _get_partner_vals(self, values, extra_values):
             # Add spoken languages
@@ -140,12 +130,14 @@ if not testing:
                 result['spoken_lang_ids'] = [(4, sid) for sid in spoken_langs]
             return result
 
-        def _get_post_message_values(self):
+        def _get_post_message_values(self, form_vals):
             vals = super(PartnerSmsRegistrationForm,
-                         self)._get_post_message_values()
-            if self.partner_church_unlinked:
-                vals['Church'] = self.partner_church_unlinked
-            vals['Volunteering'] = self.volunteering and 'Yes' or 'No'
+                         self)._get_post_message_values(form_vals)
+            church = form_vals.get('partner_church_unlinked')
+            if church:
+                vals['Church'] = church
+            vals['Volunteering'] = form_vals.get('volunteering') and \
+                'Yes' or 'No'
             return vals
 
         def _get_partner_keys(self):
