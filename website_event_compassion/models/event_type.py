@@ -2,17 +2,15 @@
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
-#    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import models, fields
 
-from . import event_event
-from . import event_type
-from . import event_compassion
-from . import event_registration
-from . import account_invoice_line
-from . import payment_transaction
-from . import res_partner
+
+class EventType(models.Model):
+    _inherit = 'event.type'
+
+    accepts_registrations = fields.Boolean(default=True)

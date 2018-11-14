@@ -50,19 +50,9 @@ class OpenEventToParticipant(models.TransientModel):
     def open_event(self):
         event = self.env['crm.event.compassion'].browse(
             self.env.context.get('active_id'))
-        event_type_id = False
-        if event.type == 'sport':
-            event_type_id = self.env.ref(
-                'website_event_compassion.event_type_sport').id
-        elif event.type == 'tour':
-            event_type_id = self.env.ref(
-                'website_event_compassion.event_type_tour').id
-        elif event.type == 'meeting':
-            event_type_id = self.env.ref(
-                'website_event_compassion.event_type_meeting').id
         odoo_event = self.env['event.event'].create({
             'name': event.name,
-            'event_type_id': event_type_id,
+            'event_type_id': event.event_type_id.id,
             'user_id': self.env.uid,
             'date_begin': event.start_date,
             'date_end': event.end_date,

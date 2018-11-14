@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="event_type_muskathlon" model="event.type">
+            <field name="name">Muskathlon</field>
+            <field name="accepts_registrations" eval="True"/>
+            <field name="default_registration_min">10</field>
+            <field name="default_registration_max">30</field>
+        </record>
+    </data>
+</odoo>
