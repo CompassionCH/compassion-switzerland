@@ -44,7 +44,7 @@ class CompassionChild(models.Model):
             firstname = child.firstname or ''
             lang_map = {
                 'fr_CH': u"À propos du centre d'accueil",
-                'de_DE': u"Über %s's Projekt" % firstname,
+                'de_DE': u"Über %s's Kinderzentrum" % firstname,
                 'en_US': firstname + u"'s Project",
                 'it_IT': u'Project',
             }

@@ -2,28 +2,37 @@
 <odoo>
     <data>
         <template id="sport_icon" name="Muskathlon Sport Icon">
+            <t t-set="registration_en" t-value="registration.with_context(lang='en_US')"/>
             <div class="sport_icon_container">
-                <t t-if="'Biking' == registration.sport_discipline_id.sport">
+                <t t-if="'Biking' == registration_en.sport_discipline_id.sport">
                     <div class="sport_icon">
                         <img src="/muskathlon/static/src/data/biking.png"/>
                     </div>
                 </t>
-                <t t-if="'Climbing' == registration.sport_discipline_id.sport">
+                <t t-if="'Climbing' == registration_en.sport_discipline_id.sport">
                     <div class="sport_icon">
                         <img src="/muskathlon/static/src/data/climbing.png"/>
                     </div>
                 </t>
-                <t t-if="'Running' == registration.sport_discipline_id.sport">
+                <t t-if="'Running' == registration_en.sport_discipline_id.sport">
                     <div class="sport_icon">
                         <img src="/muskathlon/static/src/data/running.png"/>
                     </div>
                 </t>
-                <t t-if="'Walking' == registration.sport_discipline_id.sport">
+                <t t-if="'Walking' == registration_en.sport_discipline_id.sport">
                     <div class="sport_icon">
                         <img src="/muskathlon/static/src/data/walking.png"/>
                     </div>
                 </t>
             </div>
+        </template>
+
+        <template id="muskathlon_participant_card"
+                  inherit_id="website_event_compassion.participant_card"
+                  name="Add sport picture to participants cards">
+            <xpath expr="." position="inside">
+                <t t-call="muskathlon.sport_icon"/>
+            </xpath>
         </template>
 
         <template id="aboutme_formatted" name="Ambassador Details">
@@ -159,6 +168,12 @@
                     $('#main_footer').before($('#footer_muskathlon')[0].outerHTML);
                 });
             </script>
+        </template>
+
+        <template id="donation_successful" name="Muskathlon donation success">
+            <t t-call="website_event_compassion.donation_successful">
+                <t t-call="muskathlon.footer_muskathlon"/>
+            </t>
         </template>
     </data>
 </odoo>

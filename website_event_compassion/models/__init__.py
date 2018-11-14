@@ -12,3 +12,6 @@
 from . import event_event
 from . import event_compassion
 from . import event_registration
+from . import account_invoice_line
+from . import payment_transaction
+from . import res_partner

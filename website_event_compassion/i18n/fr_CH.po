@@ -1,0 +1,608 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_event_compassion
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-24 14:20+0000\n"
+"PO-Revision-Date: 2018-10-25 09:17+0200\n"
+"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fr_CH\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid ".- and will raise the barometer of"
+msgstr ".- et augmente le baromètre de"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+msgid "<i>to</i>"
+msgstr "<i>à</i>"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_participants_list
+msgid ""
+"<span class=\"details_text\">Participant<br/>details\n"
+"                                        </span>"
+msgstr "<span class=\"details_text\">Voir le participant</span>"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_page
+msgid "<span class=\"text-uppercase dates_text\">Date</span>"
+msgstr "<span class=\"text-uppercase dates_text\">Date</span>"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_fundraising
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_fundraising
+msgid "Activate fundraising for participants"
+msgstr "Activer le fundraising"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
+msgid "Advocate information"
+msgstr "Advocate information"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_ambassador_id
+msgid "Ambassador id"
+msgstr "Ambassadeur"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_picture_1
+msgid "Banner image"
+msgstr "Banner image"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_barometer
+msgid "CHF"
+msgstr "CHF"
+
+#. module: website_event_compassion
+#: model:event.type,name:website_event_compassion.event_type_meeting
+msgid "Compassion Meeting"
+msgstr "Compassion Meeting"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_crm_event_compassion
+msgid "Compassion event"
+msgstr "Evénement Compassion"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.list
+msgid "Date"
+msgstr "Date"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_participants_amount_objective
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_participants_amount_objective
+msgid "Default raise objective by participant"
+msgstr "Objectif par défaut d'un participant"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+msgid "Details"
+msgstr "Détails"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.robots_disallow
+msgid "Disallow: /event/*/registration/*"
+msgstr "Disallow: /event/*/registration/*"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_match_partner_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid "Donate"
+msgstr "Faire un don"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/donation_form.py:58
+#, python-format
+msgid "Donation"
+msgstr "Donation"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.donation_failure
+msgid "Donation Aborted"
+msgstr "Transaction interrompue"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.view_muskathlon_event_website
+msgid "Donation Receipts"
+msgstr "Remerciements"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/donation_form.py:55
+#, python-format
+msgid "Donation for "
+msgstr "Don à"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_donation_product_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_donation_product_id
+msgid "Donation product"
+msgstr "Produit pour les dons"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+msgid "E-mail"
+msgstr "Courriel"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_reply_to
+msgid "E-mail replies to"
+msgstr "Réponse e-mail à"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_event_event
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_compassion_event_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_compassion_event_id
+msgid "Event"
+msgstr "Évènement"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid "Event :"
+msgstr "Évènement :"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_event_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration_event_id
+msgid "Event id"
+msgstr "Event id"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_event_registration
+msgid "Event registration"
+msgstr "Inscription à l'événement"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.list
+#: model:website.menu,name:website_event_compassion.menu_events
+msgid "Events"
+msgstr "Évènements"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_filename_1
+msgid "Filename 1"
+msgstr "Filename 1"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_fundraising
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_event_wordpress
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
+msgid "Fundraising"
+msgstr "Fundraising"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_barometer
+msgid "Funds raised:"
+msgstr "Dons récoltés :"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_host_url
+msgid "Host url"
+msgstr "Host url"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_match_partner_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_id
+msgid "ID"
+msgstr "ID"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,help:website_event_compassion.field_event_event_fundraising
+#: model:ir.model.fields,help:website_event_compassion.field_event_registration_fundraising
+msgid "If activated, the participants will have a user account where they can keep track of their donations. They will have a profile page on the website where people can donate."
+msgstr "If activated, the participants will have a user account where they can keep track of their donations. They will have a profile page on the website where people can donate."
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Ligne de facture"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_invoice_id
+msgid "Invoice id"
+msgstr "Identifiant de la facture"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.donation_successful
+msgid "It also brings"
+msgstr "Cela rapproche également"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_match_partner___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard___last_update
+msgid "Last Modified on"
+msgstr "Dernière Modification le"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_seats_max
+msgid "Maximum participants allowed"
+msgstr "Maximum autorisé de participants"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_seats_min
+msgid "Minimum participants required"
+msgstr "Minimum de participants requis"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/models/event_registration.py:120
+#, python-format
+msgid "Missing wordpress_host in odoo config file"
+msgstr "Missing wordpress_host in odoo config file"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+msgid "N/A"
+msgstr "N/A"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+#: model:ir.ui.view,arch_db:website_event_compassion.list
+msgid "Name"
+msgstr "Nom"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_seats_expected
+msgid "Number of Expected Attendees"
+msgstr "Nombre de participants attendus"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_odoo_event_id
+msgid "Odoo event id"
+msgstr "Odoo event id"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_crm_event_compassion_open_wizard
+msgid "Open event to participants wizard"
+msgstr "Open event to participants wizard"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.view_muskathlon_event_website
+#: model:ir.ui.view,arch_db:website_event_compassion.view_open_event_wizard
+msgid "Open registrations"
+msgstr "Ouvrir les inscriptions"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_custom_amount_objective
+msgid "Participant can set his fundraising objective"
+msgstr "Le participant peut définir son objectif"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_custom_amount_objective
+msgid "Participant can set his raising objective"
+msgstr "Le participant peut définir son objectif"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_participants_list
+#: model:ir.ui.view,arch_db:website_event_compassion.view_muskathlon_event_website
+msgid "Participants"
+msgstr "Participants"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_res_partner
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_payment_transaction
+msgid "Payment Transaction"
+msgstr "Transaction"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+msgid "Phone"
+msgstr "Téléphone"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/donation_form.py:62
+#, python-format
+msgid "Proceed with payment"
+msgstr "Procéder au paiement"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.view_muskathlon_event_website
+msgid "Public page"
+msgstr "Page publique"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_amount_objective
+msgid "Raise objective"
+msgstr "Objectif"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+msgid "Reference"
+msgstr "Référence"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_page
+msgid "Register"
+msgstr "S'inscrire"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/event_registration_step1.py:57
+#, python-format
+msgid "Register now"
+msgstr "S'inscrire"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_registration_closed
+msgid "Registration closed"
+msgstr "Inscriptions closes"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_registration_fee
+msgid "Registration fee"
+msgstr "Frais d'inscription"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/event_registration_step1.py:53
+#, python-format
+msgid "Registration for "
+msgstr "Inscription au nom de"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_registration_full
+msgid "Registration full"
+msgstr "Inscriptions complètes"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_registration_not_started
+msgid "Registration not started"
+msgstr "En attente d'ouverture des inscriptions"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_registration_open
+msgid "Registration open"
+msgstr "Inscriptions ouvertes"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_product_id
+msgid "Registration product"
+msgstr "Frais d'inscription"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
+msgid "Registrations"
+msgstr "Inscriptions"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_page
+msgid "Registrations are closed."
+msgstr "Les inscriptions sont terminées."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_page
+msgid "Registrations will open soon."
+msgstr "Les inscriptions débuteront prochainement."
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_user_id
+msgid "Responsible"
+msgstr "Responsable"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_page
+msgid "See participants"
+msgstr "Voir les participants"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid "Share my project"
+msgstr "Partage mon projet"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_website_side_info
+msgid "Side info"
+msgstr "Infos résumé"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.donation_failure
+msgid ""
+"Something went wrong during the donation process. Please try again.\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        If the payment process was successful, please call us."
+msgstr ""
+"Il y a eu une erreur durant la validation de votre don. Merci d'essayer à nouveau. <br/>\n"
+"                        <br/>\n"
+"                        Si par contre votre paiement a été accepté, merci de nous contacter."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid "Sponsor a child"
+msgstr "Parrainer un enfant"
+
+#. module: website_event_compassion
+#: model:event.type,name:website_event_compassion.event_type_tour
+msgid "Sponsor tour"
+msgstr "Voyage de parrains"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid "Sponsoring a child converts to an equivalent donation of CHF"
+msgstr "Le parrainage d'un enfant équivaut à un don de CHF"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_sponsorship_donation_value
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_sponsorship_donation_value
+msgid "Sponsorship to CHF donation conversion"
+msgstr "Conversion en CHF d'un parrainage"
+
+#. module: website_event_compassion
+#: model:event.type,name:website_event_compassion.event_type_sport
+msgid "Sport"
+msgstr "Sport"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid "Support"
+msgstr "Soutenir"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid "Support me during the"
+msgstr "Soutiens-moi !"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.donation_successful
+msgid "Thank you! Your gift helps release children from poverty!"
+msgstr "Merci ! Votre don nous aide à libérer des enfants de l'extrême pauvreté !"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_participants_list
+msgid "This event has no participant yet."
+msgstr "Il n'y a encore aucun participants inscrits. Serez-vous le premier ?"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,help:website_event_compassion.field_crm_event_compassion_open_wizard_sponsorship_donation_value
+#: model:ir.model.fields,help:website_event_compassion.field_event_event_sponsorship_donation_value
+msgid "This sets how much the barometer of the participant will be raised when a sponsorship is made for him."
+msgstr "This sets how much the barometer of the participant will be raised when a sponsorship is made for him."
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_total_price
+msgid "Total price"
+msgstr "Total price"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_valid_ticket_ids
+msgid "Valid ticket ids"
+msgstr "Valid ticket ids"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_website_published
+msgid "Visible in Website"
+msgstr "Visible sur le site web"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+msgid "We are glad to confirm your registration to"
+msgstr "Nous sommes heureux de confirmer votre inscription -"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.view_muskathlon_event_website
+msgid "Website"
+msgstr "Site Web"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_website_description
+msgid "Website description"
+msgstr "Website description"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_wordpress_host
+msgid "Wordpress host"
+msgstr "Wordpress host"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/donation_form.py:41
+#, python-format
+msgid "Your coordinates"
+msgstr "Vos coordonnées"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+msgid "Your registration"
+msgstr "Votre inscription"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid "accordingly."
+msgstr "en conséquence."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_participants_list
+msgid "amount_raised"
+msgstr "amount_raised"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.donation_successful
+msgid "closer to complete"
+msgstr "de"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_event_donation
+msgid "cms.form.event.donation"
+msgstr "cms.form.event.donation"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_event_match_partner
+msgid "cms.form.event.match.partner"
+msgstr "cms.form.event.match.partner"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_event_registration
+msgid "cms.form.event.registration"
+msgstr "cms.form.event.registration"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_page
+msgid "compassion_background_blue_transparent_90"
+msgstr "compassion_background_blue_transparent_90"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.donation_successful
+msgid "goal for the"
+msgstr "objectif pour le"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.donation_successful
+msgid "her"
+msgstr "son"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.donation_successful
+msgid "his"
+msgstr "son"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.participant_page
+msgid "participant-progress-amount"
+msgstr "participant-progress-amount"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_page
+msgid "project_donations_total"
+msgstr "project_donations_total"

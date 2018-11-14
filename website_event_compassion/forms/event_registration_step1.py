@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, tools
+from odoo import models, fields, tools, _
 
 testing = tools.config.get('test_enable')
 
@@ -21,12 +21,13 @@ if not testing:
 
         _form_model = 'event.registration'
         _form_model_fields = [
-            'name', 'phone', 'email', 'event_id', 'event_ticket_id',
+            'name', 'phone', 'email', 'event_id',
         ]
-        _form_required_fields = ['partner_name', 'partner_email']
-        _display_type = 'full'
+        _form_required_fields = ['partner_lastname', 'partner_firstname',
+                                 'partner_email']
 
-        event_ticket_id = fields.Many2one('event.event.ticket')
+        form_buttons_template = 'cms_form_compassion.modal_form_buttons'
+        form_id = 'modal_compassion_event_registration'
         event_id = fields.Many2one('event.event')
 
         @property
@@ -40,31 +41,48 @@ if not testing:
                 {
                     'id': 'coordinates',
                     'fields': [
-                        'partner_name', 'partner_email', 'partner_phone',
-                        'partner_zip', 'partner_city'
+                        'partner_lastname', 'partner_firstname',
+                        'partner_email', 'partner_phone',
+                        'partner_zip', 'partner_city', 'partner_country_id'
                     ]
                 }
             ]
 
+        @property
+        def form_title(self):
+            return _("Registration for ") + self.event_id.sudo().name
+
+        @property
+        def submit_text(self):
+            return _("Register now")
+
         def form_init(self, request, main_object=None, **kw):
             form = super(EventRegistrationForm, self).form_init(
                 request, main_object, **kw)
-            # Set default values
-            form.event_id = kw.get('event').odoo_event_id
-            form.event_ticket_id = kw.get('ticket')
+            # Store event in form to get its values
+            form.event_id = kw.get('event').sudo().odoo_event_id
             return form
 
         def form_before_create_or_update(self, values, extra_values):
             super(EventRegistrationForm, self).form_before_create_or_update(
                 values, extra_values
             )
+            name = extra_values.get('partner_lastname', '') + ' ' + \
+                extra_values.get('partner_firstname', '')
+            event = self.event_id.sudo()
             values.update({
-                'name': extra_values.get('partner_name'),
+                'name': name,
                 'phone': extra_values.get('partner_phone'),
                 'email': extra_values.get('partner_email'),
-                'event_id': self.event_id.id,
-                'event_ticket_id': self.event_ticket_id.id,
+                'event_id': event.id,
+                'event_ticket_id': event.valid_ticket_ids[:1].id,
+                'user_id': event.user_id.id,
             })
+
+        def _form_create(self, values):
+            """Just create the main object (as superuser)."""
+            # pass a copy to avoid pollution of initial values by odoo
+            self.main_object = self.form_model.sudo().create(values.copy())
 
         def form_next_url(self, main_object=None):
             return '/event/{}/registration/{}/success'.format(

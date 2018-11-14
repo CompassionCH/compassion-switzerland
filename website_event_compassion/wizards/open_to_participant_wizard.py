@@ -18,11 +18,28 @@ class OpenEventToParticipant(models.TransientModel):
     _description = 'Open event to participants wizard'
 
     registration_fee = fields.Float()
+    product_id = fields.Many2one('product.product', 'Registration product',
+                                 domain=[('event_ok', '=', True)])
     seats_min = fields.Integer('Minimum participants required')
     seats_max = fields.Integer('Maximum participants allowed')
     reply_to = fields.Char('E-mail replies to',
                            default=lambda s: s._default_reply())
-    wordpress_url = fields.Char(translate=True)
+    fundraising = fields.Boolean()
+    donation_product_id = fields.Many2one(
+        'product.product', 'Donation product',
+        domain=[('categ_id.name', '=', 'Fund')]
+    )
+    participants_amount_objective = fields.Integer(
+        'Default raise objective by participant', default=10000)
+    sponsorship_donation_value = fields.Float(
+        'Sponsorship to CHF donation conversion',
+        default=1000,
+        help='This sets how much the barometer of the participant will be '
+             'raised when a sponsorship is made for him.'
+    )
+    custom_amount_objective = fields.Boolean(
+        'Participant can set his fundraising objective'
+    )
 
     def _default_reply(self):
         event = self.env['crm.event.compassion'].browse(
@@ -46,7 +63,7 @@ class OpenEventToParticipant(models.TransientModel):
         odoo_event = self.env['event.event'].create({
             'name': event.name,
             'event_type_id': event_type_id,
-            'user_id': event.user_id.id,
+            'user_id': self.env.uid,
             'date_begin': event.start_date,
             'date_end': event.end_date,
             'seats_min': self.seats_min,
@@ -54,15 +71,18 @@ class OpenEventToParticipant(models.TransientModel):
             'seats_availability': self.seats_max and 'limited' or 'unlimited',
             'reply_to': self.reply_to,
             'compassion_event_id': event.id,
-            'wordpress_url': self.wordpress_url
+            'participants_amount_objective':
+            self.participants_amount_objective,
+            'custom_amount_objective': self.custom_amount_objective,
+            'fundraising': self.fundraising,
+            'donation_product_id': self.donation_product_id.id,
+            'sponsorship_donation_value': self.sponsorship_donation_value,
         })
         odoo_event.event_ticket_ids.write({
-            'price': self.registration_fee
+            'price': self.registration_fee,
+            'product_id': self.product_id.id,
         })
-        event.write({
-            'registration_fee': self.registration_fee,
-            'odoo_event_id': odoo_event.id
-        })
+        event.odoo_event_id = odoo_event
         return {
             'name': 'Event',
             'type': 'ir.actions.act_window',

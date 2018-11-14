@@ -26,16 +26,14 @@ class TestWebsiteEvent(HttpCase):
         })
 
         # Test registration is correctly set
-        wp_url = 'http://www.test.ch'
         price = 200
         registration_wizard = self.env['crm.event.compassion.open.wizard']\
             .with_context(active_id=event.id).create({
                 'registration_fee': price,
+                'product_id': 1,
                 'seats_min': 10,
                 'seats_max': 30,
-                'wordpress_url': wp_url,
             })
         registration_wizard.open_event()
         odoo_event = event.odoo_event_id
-        self.assertEqual(odoo_event.wordpress_url, wp_url)
         self.assertEqual(odoo_event.event_ticket_ids[:1].price, price)

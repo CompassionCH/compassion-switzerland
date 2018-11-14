@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <!-- customize_show allow to disable or enable the customization in the website.
-            TODO We should have a way to enable the customization only on wanted pages!
-        -->
-        <template id="participant_social_share" name="Remove default FB title" inherit_id="website.layout" active="True" customize_show="True" >
-            <!-- This will remove the og:title feature that will be set manually in the header -->
-            <xpath expr="//meta[contains(@property, 'og:')]" position="replace"/>
-        </template>
-
+        <!-- TODO This could be better refactored with the regular participant page -->
         <template id="participant_details" name="Muskathlon participant page">
             <!-- Add social share information for Facebook and Twitter -->
             <t t-set="sport" t-value="registration.sport_discipline_id"/>
@@ -35,9 +28,9 @@
                 </script>
 
                 <div class="main_container" id="participants_details">
-                    <div class="participant_image_container">
-                        <div class="participant_image">
-                            <h2 class="participant_image_text text-uppercase">Support <t t-esc="registration.partner_display_name"/></h2>
+                    <div class="position-relative mb64">
+                        <div class="participant_header muskathlon_background_red">
+                            <h2 class="participant_header_text text-uppercase">Support <t t-esc="registration.partner_display_name"/></h2>
                         </div>
                     </div>
                     <div class="participant_details_container">
@@ -49,14 +42,14 @@
                                 <div class="card_container">
                                     <t t-if="not registration.ambassador_picture_2">
                                         <div class="position-relative">
-                                            <img class="muskathlon_participant_image" t-attf-src="/web/image/event.registration/{{ registration.id }}/ambassador_picture_1">
+                                            <img class="participant_image" t-attf-src="/web/image/event.registration/{{ registration.id }}/ambassador_picture_1">
                                                 <t t-call="muskathlon.sport_icon"/>
                                             </img>
                                         </div>
                                     </t>
                                     <t t-else="">
                                         <div class="position-relative">
-                                            <img class="muskathlon_participant_image" t-attf-src="/web/image/event.registration/{{registration.id}}/ambassador_picture_2">
+                                            <img class="participant_image" t-attf-src="/web/image/event.registration/{{registration.id}}/ambassador_picture_2">
                                                 <t t-call="muskathlon.sport_icon"/>
                                             </img>
                                         </div>
@@ -67,12 +60,12 @@
                                         <a href="#"
                                            class="btn btn-danger btn-muskathlon"
                                            data-toggle="modal"
-                                           data-target="#modal_muskathlon_donation">
+                                           data-target="#modal_donation">
                                             Donate
                                         </a>
                                     </p>
                                     <p class="center-text">
-                                        <a t-attf-href="https://{{ registration.host }}/parrainer-un-enfant/?eventId={{ event.id }}&amp;eventName={{ event.name }}&amp;registrationId={{ registration.id }}&amp;participantId={{ registration.partner_id_id }}&amp;participantName={{ registration.partner_name }}"
+                                        <a t-attf-href="https://{{ registration.wordpress_host }}/parrainer-un-enfant/?eventId={{ event.id }}&amp;eventName={{ event.name }}&amp;registrationId={{ registration.id }}&amp;participantId={{ registration.partner_id_id }}&amp;participantName={{ registration.partner_name }}"
                                            class="btn btn-danger btn-muskathlon">
                                             Sponsor a child
                                         </a>
@@ -85,27 +78,22 @@
                                 <a t-attf-href="/event/{{ event.id }}" class="href_muskathlon">
                                     <t t-esc="event.name.replace('Muskathlon ', '')"/>
                                 </a>
-                                <p class="complete_name_container">
+                                <p class="mt16">
                                     <span class="text-uppercase complete_name" t-esc="registration.partner_display_name"/>
                                     <t t-esc="sport.sport.title()"/> for <t t-esc="sport.distance_km"/> km
                                 </p>
                                 <blockquote>
                                     <p t-field="registration.ambassador_quote"/>
                                 </blockquote>
-                                <!--<p t-field="registration.ambassador_description" class="ambassador_description"/>-->
-                                <div class="space_top">
-                                    Raised amount:
-                                </div>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar"
-                                         t-attf-aria-valuenow="{{ registration.amount_raised_percents }}"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"
-                                         t-attf-style="width: {{ registration.amount_raised_percents }}%;">
-                                    </div>
-                                    <div class="progress-amount">
-                                        <t t-esc="'{:n}'.format(registration.amount_raised).replace(',', '\'')"/> / <t t-esc="'{:n}'.format(registration.amount_objective).replace(',', '\'')"/> CHF
-                                    </div>
+                                <p t-field="registration.ambassador_description" class="ambassador_description"/>
+                                <!-- Barometer -->
+                                <div class="mt32 mb32">
+                                    <t t-call="website_event_compassion.event_barometer">
+                                        <t t-set="barometer" t-value="registration"/>
+                                        <t t-set="barometer_title_class" t-value="True"/>
+                                        <t t-set="amount_inside" t-value="True"/>
+                                        <t t-set="barometer_amount_class">participant-progress-amount</t>
+                                    </t>
                                 </div>
                                 <div class="social_share">
                                     <p>Share my project</p>

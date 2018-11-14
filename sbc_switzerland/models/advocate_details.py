@@ -9,7 +9,7 @@
 #
 ##############################################################################
 import logging
-from odoo import models, api
+from odoo import models, api, fields
 from . import translate_connector
 
 _logger = logging.getLogger(__name__)
@@ -17,6 +17,19 @@ _logger = logging.getLogger(__name__)
 
 class AdvocateDetails(models.Model):
     _inherit = 'advocate.details'
+
+    translator_since = fields.Datetime()
+    translated_letter_ids = fields.One2many(
+        'correspondence', related='partner_id.translated_letter_ids')
+    nb_translated_letters = fields.Integer(
+        compute='_compute_nb_translated_letters', store=True)
+
+    @api.multi
+    @api.depends('partner_id.translated_letter_ids')
+    def _compute_nb_translated_letters(self):
+        for advocate in self:
+            advocate.nb_translated_letters = len(
+                advocate.translated_letter_ids)
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -32,6 +45,7 @@ class AdvocateDetails(models.Model):
     @api.multi
     def write(self, vals):
         translation = self.env.ref('partner_compassion.engagement_translation')
+        goodbye_config = self.env.ref('sbc_switzerland.translator_goodbye')
         for advocate in self:
             was_translator = translation in advocate.engagement_ids
             super(AdvocateDetails, advocate).write(vals)
@@ -58,11 +72,18 @@ class AdvocateDetails(models.Model):
                     tc.remove_user(advocate.partner_id)
                 except:
                     tc.disable_user(advocate.partner_id)
+                finally:
+                    self.env['partner.communication.job'].create({
+                        'config_id': goodbye_config.id,
+                        'partner_id': advocate.partner_id.id,
+                        'object_ids': advocate.partner_id.id,
+                    })
         return True
 
     def set_inactive(self):
         # Inactivate translator from platform
         tc = translate_connector.TranslateConnect()
+        goodbye_config = self.env.ref('sbc_switzerland.translator_goodbye')
         _logger.info(
             "translator put inactive, we inactivate in "
             "translation platform.")
@@ -70,6 +91,12 @@ class AdvocateDetails(models.Model):
             tc.disable_user(self.partner_id)
         except:
             _logger.error("couldn't disable translator", exc_info=True)
+        finally:
+            self.env['partner.communication.job'].create({
+                'config_id': goodbye_config.id,
+                'partner_id': self.partner_id.id,
+                'object_ids': self.partner_id.id,
+            })
         return super(AdvocateDetails, self).set_inactive()
 
     def set_active(self):
@@ -83,6 +110,7 @@ class AdvocateDetails(models.Model):
     def unlink(self):
         # Remove from translation platform
         tc = translate_connector.TranslateConnect()
+        goodbye_config = self.env.ref('sbc_switzerland.translator_goodbye')
         _logger.info(
             "translator deleted, we delete any user in "
             "translation platform with that ref as number")
@@ -91,8 +119,34 @@ class AdvocateDetails(models.Model):
                 tc.remove_user(advocate.partner_id)
             except:
                 tc.disable_user(advocate.partner_id)
+            finally:
+                self.env['partner.communication.job'].create({
+                    'config_id': goodbye_config.id,
+                    'partner_id': advocate.partner_id.id,
+                    'object_ids': advocate.partner_id.id,
+                })
         return super(AdvocateDetails, self).unlink()
 
+    ##########################################################################
+    #                             VIEW CALLBACKS                             #
+    ##########################################################################
+    @api.multi
+    def translated_letters(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Letters',
+            'res_model': 'correspondence',
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'context': self.with_context(
+                group_by=False,
+                search_default_translator_id=self.partner_id.id
+            ).env.context,
+        }
+
+    ##########################################################################
+    #                             PRIVATE METHODS                            #
+    ##########################################################################
     def _insert_new_translator(self):
         tc = translate_connector.TranslateConnect()
         _logger.info("Insert translator on platform.")
@@ -110,3 +164,18 @@ class AdvocateDetails(models.Model):
             'show_signature': True,
             'print_subject': True
         })
+        self.translator_since = fields.Datetime.now()
+
+    ##########################################################################
+    #                              ACTION RULES                              #
+    ##########################################################################
+    @api.multi
+    def send_welcome_translator(self):
+        communication_config = self.env.ref(
+            'sbc_switzerland.new_translator_welcome')
+        for advocate in self:
+            self.env['partner.communication.job'].create({
+                'config_id': communication_config.id,
+                'partner_id': advocate.partner_id.id,
+                'object_ids': advocate.partner_id.id,
+            })

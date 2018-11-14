@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_event_registration_form" model="ir.ui.view">
+        <field name="name">event.registration.form.compassion</field>
+        <field name="model">event.registration</field>
+        <field name="inherit_id" ref="event.view_event_registration_form"/>
+        <field name="arch" type="xml">
+            <field name="event_id" position="attributes">
+                <attribute name="string">Registrations</attribute>
+            </field>
+            <field name="event_id" position="after">
+                <field name="compassion_event_id"/>
+            </field>
+            <xpath expr="//sheet/group">
+                <field name="fundraising" invisible="1"/>
+                <group name="fundraising" string="Fundraising" attrs="{'invisible': [('fundraising', '=', False)]}">
+                    <field name="amount_objective"/>
+                    <field name="amount_raised"/>
+                    <field name="amount_raised_percents"/>
+                </group>
+                <field name="advocate_details_id" invisible="1"/>
+                <group name="advocacy" string="Advocate information" attrs="{'invisible': [('advocate_details_id', '=', False)]}">
+                    <field name="ambassador_description"/>
+                    <field name="ambassador_quote"/>
+                    <field name="ambassador_picture_1" widget="image" class="oe_avatar" options="{'size': [90, 90]}"/>
+                    <field name="ambassador_picture_2" class="oe_avatar" options="{'size': [90, 90]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -15,5 +15,3 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     muskathlon_participant_id = fields.Char('Muskathlon participant ID')
-    registration_ids = fields.One2many(
-        'event.registration', 'partner_id', 'Event registrations')
