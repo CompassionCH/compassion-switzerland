@@ -8,7 +8,8 @@
         <field name="arch" type="xml">
             <header>
                 <field name="odoo_event_id" invisible="1"/>
-                <button name="open_registrations" string="Open registrations" class="oe_highlight" type="object" attrs="{'invisible': [('odoo_event_id', '!=', False)]}"/>
+                <field name="accepts_registrations" invisible="1"/>
+                <button name="open_registrations" string="Open registrations" class="oe_highlight" type="object" attrs="{'invisible': ['|', ('accepts_registrations', '!=', True), ('odoo_event_id', '!=', False)]}"/>
             </header>
             <div name="buttons" position="inside">
                 <button name="open_participants"
@@ -22,6 +23,9 @@
                     <field name="website_published" widget="website_button"/>
                 </button>
             </div>
+            <field name="type" position="replace">
+                <field name="event_type_id" options="{'limit': 12}"/>
+            </field>
             <notebook>
                 <page string="Donation Receipts">
                     <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>

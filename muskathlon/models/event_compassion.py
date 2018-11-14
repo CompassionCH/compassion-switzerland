@@ -60,6 +60,15 @@ class EventCompassion(models.Model):
             event.amount_raised_percents = int(
                 amount_raised * 100 / (amount_objective or 1))
 
+    @api.multi
+    @api.depends('event_type_id')
+    def _compute_event_type(self):
+        # Map Muskathlon event type
+        super(EventCompassion, self)._compute_event_type()
+        muskathlon = self.env.ref('muskathlon.event_type_muskathlon')
+        for event in self.filtered(lambda e: e.event_type_id == muskathlon):
+            event.type = 'sport'
+
     @api.model
     def get_muskathlon_participants(self, event_id):
         participants = self.env['event.registration'].search(

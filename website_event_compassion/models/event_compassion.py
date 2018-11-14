@@ -24,7 +24,15 @@ class EventCompassion(models.Model):
     website_side_info = fields.Html(
         string='Side info', translate=True, sanitize=False
     )
+    event_type_id = fields.Many2one(
+        'event.type', 'Type', required=True,
+        # Avoids selecting generic events
+        domain=[('id', '>', 1)]
+    )
+    type = fields.Selection(compute='_compute_event_type', store=True)
     odoo_event_id = fields.Many2one('event.event')
+    accepts_registrations = fields.Boolean(
+        related='event_type_id.accepts_registrations')
     seats_expected = fields.Integer(related='odoo_event_id.seats_expected')
 
     @api.multi
@@ -36,6 +44,32 @@ class EventCompassion(models.Model):
     def _compute_filenames(self):
         for event in self:
             event.filename_1 = event.name + '-1.jpg'
+
+    @api.multi
+    @api.depends('event_type_id')
+    def _compute_event_type(self):
+        sport = self.env.ref('website_event_compassion.event_type_sport')
+        stand = self.env.ref('website_event_compassion.event_type_stand')
+        concert = self.env.ref('website_event_compassion.event_type_concert')
+        pres = self.env.ref('website_event_compassion.event_type_presentation')
+        meeting = self.env.ref('website_event_compassion.event_type_meeting')
+        group = self.env.ref('website_event_compassion.event_type_group_visit')
+        youth = self.env.ref('website_event_compassion.event_type_youth_trip')
+        indiv = self.env.ref(
+            'website_event_compassion.event_type_individual_visit')
+        for event in self:
+            if event.event_type_id == sport:
+                event.type = 'sport'
+            elif event.event_type_id == stand:
+                event.type = 'stand'
+            elif event.event_type_id == concert:
+                event.type = 'concert'
+            elif event.event_type_id == pres:
+                event.type = 'presentation'
+            elif event.event_type_id == meeting:
+                event.type = 'meeting'
+            elif event.event_type_id in group | youth | indiv:
+                event.type = 'tour'
 
     def open_registrations(self):
         """

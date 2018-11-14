@@ -9,10 +9,16 @@
 #
 ##############################################################################
 
-from . import event_event
-from . import event_type
-from . import event_compassion
-from . import event_registration
-from . import account_invoice_line
-from . import payment_transaction
-from . import res_partner
+
+def migrate(cr, version):
+    if not version:
+        return
+
+    # Prepares column event_type_id to be required by setting default value
+    cr.execute("""
+ALTER TABLE crm_event_compassion
+ADD COLUMN event_type_id INTEGER;
+
+UPDATE crm_event_compassion
+SET event_type_id = 1;
+    """)
