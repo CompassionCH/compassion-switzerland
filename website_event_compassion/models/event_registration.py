@@ -7,7 +7,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import date, datetime
+import uuid
+
+from datetime import date
 
 from odoo import api, models, fields, _, SUPERUSER_ID
 from odoo.addons.website.models.website import slug
@@ -28,6 +30,9 @@ class Event(models.Model):
     _description = 'Event registration'
     _order = 'create_date desc'
 
+    ##########################################################################
+    #                                 FIELDS                                 #
+    ##########################################################################
     user_id = fields.Many2one(
         'res.users', 'Responsible', domain=[('share', '=', False)],
         track_visibility='onchange'
@@ -83,6 +88,7 @@ class Event(models.Model):
     host_url = fields.Char(compute='_compute_host_url')
     wordpress_host = fields.Char(compute='_compute_wordpress_host')
     event_name = fields.Char(related='event_id.name')
+    uuid = fields.Char(default=lambda self: self._get_uuid())
 
     # The following fields avoid giving read access to the public on the
     # res.partner participating in the event
@@ -106,6 +112,12 @@ class Event(models.Model):
     )
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                       readonly=True)
+
+    ##########################################################################
+    #                             FIELDS METHODS                             #
+    ##########################################################################
+    def _get_uuid(self):
+        return str(uuid.uuid4())
 
     @api.multi
     def _compute_website_url(self):
@@ -225,6 +237,9 @@ class Event(models.Model):
                 registration.completed_task_ids.filtered(
                     lambda t: t.stage_id == registration.stage_id)
 
+    ##########################################################################
+    #                              ORM METHODS                               #
+    ##########################################################################
     @api.multi
     def write(self, vals):
         if 'stage_id' in vals:
@@ -246,6 +261,9 @@ class Event(models.Model):
             record.amount_objective = event.participants_amount_objective
         return record
 
+    ##########################################################################
+    #                             PUBLIC METHODS                             #
+    ##########################################################################
     @api.multi
     def next_stage(self):
         """ Transition to next registration stage """
@@ -255,7 +273,10 @@ class Event(models.Model):
                 ('event_type_id', '=', registration.stage_id.event_type_id.id)
             ], limit=1)
             if next_stage:
-                registration.stage_id = next_stage
+                registration.write({
+                    'stage_id': next_stage,
+                    'uuid': self._get_uuid()
+                })
         return True
 
     @job

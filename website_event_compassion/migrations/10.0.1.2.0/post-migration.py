@@ -45,3 +45,7 @@ def migrate(env, version):
             SET event_type_id = %s
             WHERE id = %s
         """, [type_id, event_id])
+
+    # Put random uuid on registrations
+    for registration in env['event.registration'].search([]):
+        registration.uuid = registration._get_uuid()
