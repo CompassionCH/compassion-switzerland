@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <!-- Group visit tasks -->
         <record id="task_sign_child_protection" model="event.registration.task">
             <field name="name">Sign child protection agreement</field>

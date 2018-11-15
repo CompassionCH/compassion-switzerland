@@ -27,7 +27,7 @@ class EventCompassion(models.Model):
     event_type_id = fields.Many2one(
         'event.type', 'Type', required=True,
         # Avoids selecting generic events
-        domain=[('id', '>', 1)]
+        domain=[('id', '>', 1)],
     )
     type = fields.Selection(compute='_compute_event_type', store=True)
     odoo_event_id = fields.Many2one('event.event')

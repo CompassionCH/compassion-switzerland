@@ -27,4 +27,15 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_event_type_compassion" model="ir.ui.view">
+        <field name="name">event.event.website.compassion.form</field>
+        <field name="model">event.type</field>
+        <field name="inherit_id" ref="event.view_event_type_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="accepts_registrations"/>
+            </field>
+        </field>
+    </record>
 </odoo>

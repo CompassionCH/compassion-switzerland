@@ -5,6 +5,7 @@
     margin-bottom: 20px;
     margin-top: 20px;
 }
+.event_compassion h2 {text-transform: uppercase}
 .event_compassion .dates_text {
     display: inline-block;
     width: 95px;

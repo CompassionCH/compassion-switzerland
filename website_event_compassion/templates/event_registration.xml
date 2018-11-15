@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Page for the full screen registration form (in case it is not displayed in modal popup -->
+    <template id="event_registration_full_page" name="Event registration full page form">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
+            <t t-set="title" t-value="form.form_title" />
+            <div id="wrap" t-att-class="form.form_wrapper_css_klass">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-call="website_event_compassion.event_header"/>
+                <div class="container">
+                    <t t-if="form.form_title">
+                        <h2><span class="form_title" t-esc="form.form_title" /></h2>
+                    </t>
+                    <t t-if="form.form_description">
+                        <p class="form_description" t-esc="form.form_description" />
+                    </t>
+                    <t t-raw="form.form_render()" />
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Success page -->
     <template id="event_registration_successful" name="Event registration success">
         <t t-call="website.layout">
             <t t-set="head">
@@ -80,7 +105,7 @@
         </t>
     </template>
 
-    <!--Disallow confirmation page to be indexed.-->
+    <!--Disallow registration pages to be indexed.-->
     <template id="robots_disallow" inherit_id="website_compassion.robots_disallow">
         <xpath expr="." position="inside">
             <t>

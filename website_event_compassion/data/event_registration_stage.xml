@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <!-- Common stages -->
         <record id="stage_all_unconfirmed" model="event.registration.stage">
             <field name="name">Unconfirmed</field>
