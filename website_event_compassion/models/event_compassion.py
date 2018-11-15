@@ -93,10 +93,15 @@ class EventCompassion(models.Model):
             'name': 'Manage participants',
             'type': 'ir.actions.act_window',
             'view_type': 'form',
-            'view_mode': 'tree,form',
+            'view_mode': 'kanban,tree,form,calendar,graph',
             'res_model': 'event.registration',
             'domain': [('event_id', '=', self.odoo_event_id.id)],
             'context': self.with_context(
-                default_compassion_event_id=self.id).env.context,
+                default_compassion_event_id=self.id,
+                default_event_type_id=self.event_type_id.id,
+                default_event_id=self.odoo_event_id.id,
+                default_amount_objective=self.odoo_event_id.
+                    participants_amount_objective
+            ).env.context,
             'target': 'current',
         }
