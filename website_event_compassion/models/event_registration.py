@@ -237,6 +237,15 @@ class Event(models.Model):
                     registration.next_stage()
         return res
 
+    @api.model
+    def create(self, values):
+        record = super(Event, self).create(values)
+        # Set default fundraising objective if none was set
+        event = record.event_id
+        if not record.amount_objective and event.participants_amount_objective:
+            record.amount_objective = event.participants_amount_objective
+        return record
+
     @api.multi
     def next_stage(self):
         """ Transition to next registration stage """
