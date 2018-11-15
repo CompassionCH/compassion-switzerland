@@ -45,6 +45,7 @@
         'data/event_type.xml',
         'data/event_registration_stage.xml',
         'data/event_registration_task.xml',
+        'data/product.xml',
         'views/event_compassion_open_wizard.xml',
         'views/event_compassion_view.xml',
         'views/event_event_view.xml',

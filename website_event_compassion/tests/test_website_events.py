@@ -17,6 +17,8 @@ class TestWebsiteEvent(HttpCase):
     def test_website_event_registration(self):
         event = self.env['crm.event.compassion'].create({
             'name': 'Test website event',
+            'event_type_id': self.env.ref(
+                'website_event_compassion.event_type_group_visit').id,
             'type': 'tour',
             'start_date': fields.Datetime.now(),
             'end_date': fields.Datetime.now(),

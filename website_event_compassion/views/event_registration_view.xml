@@ -24,6 +24,10 @@
                 <field name="incomplete_task_ids" widget="many2many_tags"/>
                 <field name="completed_task_ids" widget="many2many_tags" domain="[('stage_id', '=', stage_id)]"/>
             </field>
+            <field name="date_closed" position="after">
+                <field name="double_room_person"/>
+                <field name="include_flight"/>
+            </field>
             <xpath expr="//sheet/group">
                 <field name="fundraising" invisible="1"/>
                 <group name="fundraising" string="Fundraising" attrs="{'invisible': [('fundraising', '=', False)]}">

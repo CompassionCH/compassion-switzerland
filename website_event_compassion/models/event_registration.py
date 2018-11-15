@@ -89,6 +89,8 @@ class Event(models.Model):
     wordpress_host = fields.Char(compute='_compute_wordpress_host')
     event_name = fields.Char(related='event_id.name')
     uuid = fields.Char(default=lambda self: self._get_uuid())
+    include_flight = fields.Boolean()
+    double_room_person = fields.Char('Double room with')
 
     # The following fields avoid giving read access to the public on the
     # res.partner participating in the event

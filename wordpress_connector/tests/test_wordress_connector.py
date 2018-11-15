@@ -216,6 +216,8 @@ class TestWordpressConnector(BaseSponsorshipTest):
         event = self.env['crm.event.compassion'].create({
             'name': "Muskathlon Test",
             'type': 'sport',
+            'event_type_id': self.env.ref(
+                'website_event_compassion.event_type_group_visit').id,
             'number_allocate_children': 2,
             'planned_sponsorships': 12,
             'start_date': fields.Date.today(),

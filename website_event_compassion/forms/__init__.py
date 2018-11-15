@@ -9,5 +9,6 @@
 ##############################################################################
 
 from . import event_registration_step1
+from . import group_visit_registration_step1
 from . import match_partner_form
 from . import donation_form

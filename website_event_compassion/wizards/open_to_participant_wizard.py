@@ -26,9 +26,7 @@ class OpenEventToParticipant(models.TransientModel):
                            default=lambda s: s._default_reply())
     fundraising = fields.Boolean()
     donation_product_id = fields.Many2one(
-        'product.product', 'Donation product',
-        domain=[('categ_id.name', '=', 'Fund')]
-    )
+        'product.product', 'Donation product')
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000)
     sponsorship_donation_value = fields.Float(

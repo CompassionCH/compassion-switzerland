@@ -17,6 +17,7 @@ class Event(models.Model):
 
     compassion_event_id = fields.Many2one(
         'crm.event.compassion', 'Event')
+    flight_price = fields.Float(compute='_compute_total_price')
     total_price = fields.Float(compute='_compute_total_price')
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000)
@@ -53,9 +54,19 @@ class Event(models.Model):
                                         compute='_compute_valid_tickets')
 
     def _compute_total_price(self):
+        flight = self.env.ref(
+            'website_event_compassion.product_template_flight')
+        flight_product = self.env['product.product'].search([
+            ('product_tmpl_id', '=', flight.id)
+        ])
         for event in self:
-            event.total_price = sum(
-                event.mapped('event_ticket_ids.price') or [0])
+            tickets = event.mapped('event_ticket_ids')
+            event.total_price = sum(tickets.mapped('price') or [0])
+            event.flight_price = sum(
+                tickets.filtered(
+                    lambda t: t.product_id == flight_product)
+                .mapped('price') or [0]
+            )
 
     def _compute_valid_tickets(self):
         for event in self:
@@ -86,3 +97,21 @@ class Event(models.Model):
             start_date = fields.Datetime.from_string(event.date_begin)
             event.registration_full = event.state == 'confirm' and \
                 datetime.now() < start_date and not event.valid_ticket_ids
+
+    def _default_tickets(self):
+        """ Add flight and single room supplement by default. """
+        res = super(Event, self)._default_tickets()
+        room = self.env.ref(
+            'website_event_compassion.product_template_single_room')
+        flight = self.env.ref(
+            'website_event_compassion.product_template_flight')
+        trip = self.env.ref(
+            'website_event_compassion.product_template_trip_price')
+        products = self.env['product.product'].search([
+            ('product_tmpl_id', 'in', (room + flight + trip).ids)])
+        res.extend([{
+            'name': product.name,
+            'product_id': product.id,
+            'price': 0,
+        } for product in products])
+        return res
