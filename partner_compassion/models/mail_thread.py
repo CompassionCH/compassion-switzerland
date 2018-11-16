@@ -10,7 +10,7 @@
 ##############################################################################
 
 
-from odoo import models, api
+from odoo import models, api, tools
 
 
 class MailThread(models.AbstractModel):
@@ -50,3 +50,29 @@ class MailThread(models.AbstractModel):
         for message_id in to_remove:
             del result[message_id]
         return result
+
+    @api.multi
+    def _find_partner_from_emails(self, emails, res_model=None, res_id=None,
+                                  check_followers=True, force_create=False,
+                                  exclude_aliases=True):
+
+        partner_ids = super(MailThread, self)._find_partner_from_emails(
+            emails, res_model, res_id, check_followers,
+            force_create, exclude_aliases)
+
+        respartner = self.env['res.partner'].sudo()
+        count = 0
+        for contact in emails:
+            if not partner_ids[count]:
+                partner_id = False
+                email_address = tools.email_split(contact)
+                if not email_address:
+                    partner_ids.append(partner_id)
+                    continue
+                partner_id = respartner.search(
+                    ['&', ('active', '=', False),
+                          ('email', '=ilike', email_address[0])], limit=1)
+                partner_ids[count] = partner_id.id
+            count += 1
+
+        return partner_ids
