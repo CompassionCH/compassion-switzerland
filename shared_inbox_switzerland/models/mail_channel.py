@@ -38,6 +38,8 @@ class MailChannel(models.Model):
             }
             author = message.author_id
             if author:
+                if not author.active and author.contact_id:
+                    author = author.contact_id
                 # Post message on partner.
                 vals.update({
                     'model': 'res.partner',

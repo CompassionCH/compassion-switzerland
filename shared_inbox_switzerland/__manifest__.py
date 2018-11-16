@@ -36,7 +36,7 @@
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'mail',
+        'mail', 'partner_compassion'
     ],
     'demo': [
         'demo/res_partner.xml'
