@@ -8,6 +8,9 @@
 #
 ##############################################################################
 import logging
+
+from werkzeug.datastructures import FileStorage
+
 from odoo import models, fields, tools, _
 
 testing = tools.config.get('test_enable')
@@ -42,6 +45,24 @@ if not testing:
             ('20', '20'),
             ('30', '30'),
         ], 'Number of flyers')
+        large_picture = fields.Binary()
+
+        @property
+        def _form_fieldsets(self):
+            return [
+                {
+                    'id': 'flyers',
+                    'fields': ['flyer_number']
+                },
+                {
+                    'id': 'picture',
+                    'description': _(
+                        "Please upload a large image of good quality which "
+                        "will be used to be printed on your material.")
+                    if self.large_picture else '',
+                    'fields': ['large_picture']
+                }
+            ]
 
         @property
         def form_msg_success_created(self):
@@ -54,11 +75,16 @@ if not testing:
         def form_widgets(self):
             # Hide fields
             res = super(OrderMaterialForm, self).form_widgets
+            if self.large_picture:
+                pic_widget = 'cms_form_compassion.form.widget.hidden'
+            else:
+                pic_widget = 'cms_form_compassion.form.widget.simple.image'
             res.update({
                 'form_id': 'cms_form_compassion.form.widget.hidden',
                 'partner_id': 'cms_form_compassion.form.widget.hidden',
                 'event_id': 'cms_form_compassion.form.widget.hidden',
                 'description': 'cms_form_compassion.form.widget.hidden',
+                'large_picture': pic_widget
             })
             return res
 
@@ -69,6 +95,8 @@ if not testing:
             registration = kw.get('registration')
             form.partner_id = registration and registration.partner_id
             form.event_id = registration and registration.compassion_event_id
+            form.large_picture = form.partner_id.advocate_details_id\
+                .picture_large
             return form
 
         def form_before_create_or_update(self, values, extra_values):
@@ -78,6 +106,18 @@ if not testing:
             super(OrderMaterialForm, self).form_before_create_or_update(
                 values, extra_values)
             self.o_request.website.get_status_message()
+            large_picture = extra_values.get('large_picture')
+            if large_picture:
+                if isinstance(large_picture, FileStorage):
+                    large_picture.stream.seek(0)
+                    large_picture = large_picture.stream.read().encode(
+                        'base64')
+                partner = self.partner_id.sudo()
+                partner.advocate_details_id.picture_large = large_picture
+                partner.registration_ids[:1].write({
+                    'completed_task_ids': [
+                        (4, partner.env.ref('muskathlon.task_picture').id)]
+                })
             staff_id = self.env['staff.notification.settings']\
                 .sudo().get_param('muskathlon_order_notify_id')
             values.update({

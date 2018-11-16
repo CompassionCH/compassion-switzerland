@@ -78,7 +78,7 @@ if not testing:
                         'to extend your trip beyond the dates. '
                         'You can specify someone if you want to share a room '
                         'or leave the field empty to have a single room.'
-                    ) % str(int(self.event_id.flight_price)),
+                    ) % str(int(self.event_id.sudo().flight_price)),
                     'fields': ['include_flight', 'double_room_person']
                 },
             ]

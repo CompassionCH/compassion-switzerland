@@ -220,7 +220,8 @@ class Event(models.Model):
     def _compute_kanban_color(self):
         today = date.today()
         for registration in self:
-            stage_date = fields.Date.from_string(registration.stage_date)
+            stage_date = fields.Date.from_string(
+                registration.stage_date) or today
             stage_duration = (today - stage_date).days
             max_duration = registration.stage_id.duration
             if max_duration and stage_duration > max_duration:
@@ -276,7 +277,7 @@ class Event(models.Model):
             ], limit=1)
             if next_stage:
                 registration.write({
-                    'stage_id': next_stage,
+                    'stage_id': next_stage.id,
                     'uuid': self._get_uuid()
                 })
         return True
