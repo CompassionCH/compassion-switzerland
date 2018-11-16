@@ -91,7 +91,8 @@ class RecurringContract(models.Model):
         """
         this_month = date.today().replace(day=1)
         for contract in self:
-            if contract.child_id.project_id.suspension != 'fund-suspended':
+            if contract.child_id.project_id.suspension != 'fund-suspended' and\
+                    contract.type != 'SC':
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang='en_US').filtered(
                     lambda i: i.state == 'open' and
@@ -107,6 +108,8 @@ class RecurringContract(models.Model):
                     idate = fields.Date.from_string(invoice.date)
                     months.add((idate.month, idate.year))
                 contract.months_due = len(months)
+            else:
+                contract.months_due = 0
 
     @api.multi
     def _compute_period_paid(self):
@@ -327,10 +330,7 @@ class RecurringContract(models.Model):
             ('child_id.project_id.suspension', '!=', 'fund-suspended'),
             ('child_id.project_id.suspension', '=', False),
         ]):
-            due = sponsorship.due_invoice_ids
-            advance_billing = sponsorship.group_id.advance_billing_months
-            if due and len(due) > 1 and not (advance_billing > 1 and len(
-                    due) < 3):
+            if len(sponsorship.due_invoice_ids) > 1:
                 has_first_reminder = comm_obj.search_count([
                     ('config_id', 'in', [first_reminder_config.id,
                                          second_reminder_config.id]),
