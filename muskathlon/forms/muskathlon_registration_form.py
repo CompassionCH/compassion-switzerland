@@ -253,6 +253,8 @@ if not testing:
             # Parse integer
             values['event_id'] = int(values['event_id'])
             values['user_id'] = event.user_id.id
+            values['stage_id'] = self.env.ref(
+                'muskathlon.stage_down_payment').id
             # Store invoice and event for after form creation
             extra_values['invoice_id'] = invoice.id
             self.event_id = event

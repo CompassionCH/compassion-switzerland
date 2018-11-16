@@ -118,3 +118,15 @@ if not testing:
             if not values.get('passport_expiration_date', True):
                 del values['passport_expiration_date']
             self.o_request.website.get_status_message()
+
+        def form_after_create_or_update(self, values, extra_values):
+            """ Mark registration tasks as done
+            """
+            reg = self.main_object.partner_id.registration_ids[:1].sudo()
+            if reg:
+                reg.write({
+                    'completed_task_ids': [
+                        (4, reg.env.ref('muskathlon.task_emergency').id),
+                        (4, reg.env.ref('muskathlon.task_passport').id),
+                    ]
+                })
