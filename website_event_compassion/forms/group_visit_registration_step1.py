@@ -22,7 +22,7 @@ if not testing:
         _form_model = 'event.registration'
         _form_model_fields = [
             'name', 'phone', 'email', 'event_id', 'double_room_person',
-            'include_flight'
+            'include_flight', 'comments'
         ]
         _form_required_fields = [
             'partner_lastname', 'partner_firstname', 'partner_email',
@@ -40,6 +40,7 @@ if not testing:
         spoken_lang_po = fields.Boolean('Portuguese')
         include_flight = fields.Boolean(default=True)
         double_room_person = fields.Char('I want to share a double room with:')
+        comments = fields.Text(default='')
 
         @property
         def _form_fieldsets(self):
@@ -79,7 +80,8 @@ if not testing:
                         'You can specify someone if you want to share a room '
                         'or leave the field empty to have a single room.'
                     ) % str(int(self.event_id.sudo().flight_price)),
-                    'fields': ['include_flight', 'double_room_person']
+                    'fields': [
+                        'include_flight', 'double_room_person', 'comments']
                 },
             ]
 
