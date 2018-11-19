@@ -114,6 +114,7 @@ class Event(models.Model):
     )
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                       readonly=True)
+    comments = fields.Text()
 
     ##########################################################################
     #                             FIELDS METHODS                             #

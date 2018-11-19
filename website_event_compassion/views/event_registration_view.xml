@@ -28,6 +28,9 @@
                 <field name="double_room_person"/>
                 <field name="include_flight"/>
             </field>
+            <field name="partner_id" position="after">
+                <field name="comments"/>
+            </field>
             <xpath expr="//sheet/group">
                 <field name="fundraising" invisible="1"/>
                 <group name="fundraising" string="Fundraising" attrs="{'invisible': [('fundraising', '=', False)]}">
