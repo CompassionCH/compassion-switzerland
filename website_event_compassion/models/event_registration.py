@@ -268,6 +268,14 @@ class Event(models.Model):
     #                             PUBLIC METHODS                             #
     ##########################################################################
     @api.multi
+    def button_reg_cancel(self):
+        super(Event, self).button_reg_cancel()
+        return self.write({
+            'stage_id': self.env.ref(
+                'website_event_compassion.stage_all_cancelled').id
+        })
+
+    @api.multi
     def next_stage(self):
         """ Transition to next registration stage """
         for registration in self:
