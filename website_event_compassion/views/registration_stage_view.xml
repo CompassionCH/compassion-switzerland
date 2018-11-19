@@ -10,6 +10,8 @@
                         <field name="name"/>
                         <field name="sequence"/>
                         <field name="event_type_id"/>
+                        <field name="duration"/>
+                        <field name="fold"/>
                         <field name="requirements"/>
                     </group>
                 </sheet>
