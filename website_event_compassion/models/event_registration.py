@@ -269,6 +269,22 @@ class Event(models.Model):
     #                             PUBLIC METHODS                             #
     ##########################################################################
     @api.multi
+    def do_draft(self):
+        super(Event, self).do_draft()
+        return self.write({
+            'stage_id': self.env.ref(
+                'website_event_compassion.stage_all_unconfirmed').id
+        })
+
+    @api.multi
+    def button_reg_close(self):
+        super(Event, self).button_reg_close()
+        return self.write({
+            'stage_id': self.env.ref(
+                'website_event_compassion.stage_all_attended').id
+        })
+
+    @api.multi
     def button_reg_cancel(self):
         super(Event, self).button_reg_cancel()
         return self.write({

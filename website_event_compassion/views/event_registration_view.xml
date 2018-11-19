@@ -11,7 +11,9 @@
             </field>
             <field name="state" position="after">
                 <field name="stage_id" widget="statusbar" clickable="True"
-                       domain="['|', ('event_type_id', '=', context.get('default_event_type_id')), ('event_type_id', '=', False)]"/>
+                       domain="['|', ('event_type_id', '=', context.get('default_event_type_id')), ('event_type_id', '=', False)]"
+                       options="{'fold_field': 'fold'}"
+                />
             </field>
             <field name="event_id" position="attributes">
                 <attribute name="string">Registrations</attribute>
