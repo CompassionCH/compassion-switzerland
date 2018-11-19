@@ -66,7 +66,7 @@ class OpenEventToParticipant(models.TransientModel):
             'donation_product_id': self.donation_product_id.id,
             'sponsorship_donation_value': self.sponsorship_donation_value,
         })
-        odoo_event.event_ticket_ids.write({
+        odoo_event.event_ticket_ids[:1].write({
             'price': self.registration_fee,
             'product_id': self.product_id.id,
         })
