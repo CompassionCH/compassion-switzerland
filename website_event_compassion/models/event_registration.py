@@ -281,7 +281,9 @@ class Event(models.Model):
         for registration in self:
             next_stage = self.env['event.registration.stage'].search([
                 ('sequence', '>', registration.stage_id.sequence),
-                ('event_type_id', '=', registration.stage_id.event_type_id.id)
+                '|',
+                ('event_type_id', '=', registration.stage_id.event_type_id.id),
+                ('event_type_id', '=', False)
             ], limit=1)
             if next_stage:
                 registration.write({
