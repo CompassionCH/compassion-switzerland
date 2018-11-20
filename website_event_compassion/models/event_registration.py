@@ -7,12 +7,20 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models, fields, _
+import uuid
+
+from datetime import date
+
+from odoo import api, models, fields, _, SUPERUSER_ID
 from odoo.addons.website.models.website import slug
 from odoo.exceptions import MissingError
 from odoo.tools import config
 
 from odoo.addons.queue_job.job import job
+
+# kanban colors
+RED = 2
+GREEN = 5
 
 
 class Event(models.Model):
@@ -22,10 +30,41 @@ class Event(models.Model):
     _description = 'Event registration'
     _order = 'create_date desc'
 
+    ##########################################################################
+    #                                 FIELDS                                 #
+    ##########################################################################
     user_id = fields.Many2one(
         'res.users', 'Responsible', domain=[('share', '=', False)],
         track_visibility='onchange'
     )
+    stage_id = fields.Many2one(
+        'event.registration.stage', 'Stage', track_visibility='onchange',
+        index=True,
+        domain="['|', ('event_type_id', '=', False),"
+               "      ('event_type_id', '=', event_type_id)]",
+        group_expand='_read_group_stage_ids',
+        default=lambda r: r._default_stage()
+    )
+    stage_date = fields.Date(default=fields.Date.today)
+    stage_task_ids = fields.Many2many(
+        'event.registration.task', 'event_registration_stage_tasks',
+        compute='_compute_stage_tasks'
+    )
+    incomplete_task_ids = fields.Many2many(
+        'event.registration.task', 'event_registration_incomplete_tasks',
+        string='Incomplete tasks', compute='_compute_stage_tasks'
+    )
+    complete_stage_task_ids = fields.Many2many(
+        'event.registration.task', 'event_registration_stage_complete_tasks',
+        string='Completed tasks', compute='_compute_stage_tasks',
+        help='This shows all tasks that the participant completed for the '
+             'current stage of his registration.')
+    completed_task_ids = fields.Many2many(
+        'event.registration.task', 'event_registration_completed_tasks',
+        string='Completed tasks',
+        help='This shows all tasks that the participant completed for his '
+             'registration.')
+    color = fields.Integer(compute='_compute_kanban_color')
     compassion_event_id = fields.Many2one(
         'crm.event.compassion', related='event_id.compassion_event_id',
         readonly=True
@@ -48,6 +87,10 @@ class Event(models.Model):
     )
     host_url = fields.Char(compute='_compute_host_url')
     wordpress_host = fields.Char(compute='_compute_wordpress_host')
+    event_name = fields.Char(related='event_id.name')
+    uuid = fields.Char(default=lambda self: self._get_uuid())
+    include_flight = fields.Boolean()
+    double_room_person = fields.Char('Double room with')
 
     # The following fields avoid giving read access to the public on the
     # res.partner participating in the event
@@ -71,6 +114,13 @@ class Event(models.Model):
     )
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                       readonly=True)
+    comments = fields.Text()
+
+    ##########################################################################
+    #                             FIELDS METHODS                             #
+    ##########################################################################
+    def _get_uuid(self):
+        return str(uuid.uuid4())
 
     @api.multi
     def _compute_website_url(self):
@@ -134,6 +184,130 @@ class Event(models.Model):
             registration.partner_display_name = \
                 registration.partner_firstname + ' ' + \
                 registration.partner_lastname
+
+    @api.model
+    def _read_group_stage_ids(self, stages, domain, order):
+        # retrieve event type from the context and write the domain
+        # - ('id', 'in', stages.ids): add columns that should be present
+        type_id = self._context.get('default_event_type_id')
+        if type_id:
+            search_domain = ['|', ('id', 'in', stages.ids), '|',
+                             ('event_type_id', '=', False),
+                             ('event_type_id', '=', type_id)]
+        else:
+            search_domain = ['|', ('id', 'in', stages.ids),
+                             ('event_type_id', '=', False)]
+
+        # perform search
+        stage_ids = stages._search(search_domain, order=order,
+                                   access_rights_uid=SUPERUSER_ID)
+        return stages.browse(stage_ids)
+
+    @api.model
+    def _default_stage(self):
+        type_id = self._context.get('default_event_type_id')
+        if type_id:
+            stage = self.env['event.registration.stage'].search([
+                '|', ('event_type_id', '=', type_id),
+                ('event_type_id', '=', False)
+            ], limit=1)
+        else:
+            stage = self.env['event.registration.stage'].search([
+                ('event_type_id', '=', False)
+            ], limit=1)
+        return stage.id
+
+    @api.multi
+    def _compute_kanban_color(self):
+        today = date.today()
+        for registration in self:
+            stage_date = fields.Date.from_string(
+                registration.stage_date) or today
+            stage_duration = (today - stage_date).days
+            max_duration = registration.stage_id.duration
+            if max_duration and stage_duration > max_duration:
+                registration.color = RED
+            else:
+                registration.color = GREEN
+
+    @api.multi
+    def _compute_stage_tasks(self):
+        for registration in self:
+            registration.stage_task_ids = self.env['event.registration.task']\
+                .search([('stage_id', '=', registration.stage_id.id)])
+            registration.incomplete_task_ids = \
+                registration.stage_task_ids - registration.completed_task_ids
+            registration.complete_stage_task_ids = \
+                registration.completed_task_ids.filtered(
+                    lambda t: t.stage_id == registration.stage_id)
+
+    ##########################################################################
+    #                              ORM METHODS                               #
+    ##########################################################################
+    @api.multi
+    def write(self, vals):
+        if 'stage_id' in vals:
+            vals['stage_date'] = fields.Date.today()
+        res = super(Event, self).write(vals)
+        # Push registration to next stage if all tasks are complete
+        if 'completed_task_ids' in vals:
+            for registration in self:
+                if not registration.incomplete_task_ids:
+                    registration.next_stage()
+        return res
+
+    @api.model
+    def create(self, values):
+        record = super(Event, self).create(values)
+        # Set default fundraising objective if none was set
+        event = record.event_id
+        if not record.amount_objective and event.participants_amount_objective:
+            record.amount_objective = event.participants_amount_objective
+        return record
+
+    ##########################################################################
+    #                             PUBLIC METHODS                             #
+    ##########################################################################
+    @api.multi
+    def do_draft(self):
+        super(Event, self).do_draft()
+        return self.write({
+            'stage_id': self.env.ref(
+                'website_event_compassion.stage_all_unconfirmed').id
+        })
+
+    @api.multi
+    def button_reg_close(self):
+        super(Event, self).button_reg_close()
+        return self.write({
+            'stage_id': self.env.ref(
+                'website_event_compassion.stage_all_attended').id
+        })
+
+    @api.multi
+    def button_reg_cancel(self):
+        super(Event, self).button_reg_cancel()
+        return self.write({
+            'stage_id': self.env.ref(
+                'website_event_compassion.stage_all_cancelled').id
+        })
+
+    @api.multi
+    def next_stage(self):
+        """ Transition to next registration stage """
+        for registration in self:
+            next_stage = self.env['event.registration.stage'].search([
+                ('sequence', '>', registration.stage_id.sequence),
+                '|',
+                ('event_type_id', '=', registration.stage_id.event_type_id.id),
+                ('event_type_id', '=', False)
+            ], limit=1)
+            if next_stage:
+                registration.write({
+                    'stage_id': next_stage.id,
+                    'uuid': self._get_uuid()
+                })
+        return True
 
     @job
     def cancel_registration(self):

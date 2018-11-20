@@ -26,9 +26,7 @@ class OpenEventToParticipant(models.TransientModel):
                            default=lambda s: s._default_reply())
     fundraising = fields.Boolean()
     donation_product_id = fields.Many2one(
-        'product.product', 'Donation product',
-        domain=[('categ_id.name', '=', 'Fund')]
-    )
+        'product.product', 'Donation product')
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000)
     sponsorship_donation_value = fields.Float(
@@ -50,19 +48,9 @@ class OpenEventToParticipant(models.TransientModel):
     def open_event(self):
         event = self.env['crm.event.compassion'].browse(
             self.env.context.get('active_id'))
-        event_type_id = False
-        if event.type == 'sport':
-            event_type_id = self.env.ref(
-                'website_event_compassion.event_type_sport').id
-        elif event.type == 'tour':
-            event_type_id = self.env.ref(
-                'website_event_compassion.event_type_tour').id
-        elif event.type == 'meeting':
-            event_type_id = self.env.ref(
-                'website_event_compassion.event_type_meeting').id
         odoo_event = self.env['event.event'].create({
             'name': event.name,
-            'event_type_id': event_type_id,
+            'event_type_id': event.event_type_id.id,
             'user_id': self.env.uid,
             'date_begin': event.start_date,
             'date_end': event.end_date,
@@ -78,7 +66,7 @@ class OpenEventToParticipant(models.TransientModel):
             'donation_product_id': self.donation_product_id.id,
             'sponsorship_donation_value': self.sponsorship_donation_value,
         })
-        odoo_event.event_ticket_ids.write({
+        odoo_event.event_ticket_ids[:1].write({
             'price': self.registration_fee,
             'product_id': self.product_id.id,
         })

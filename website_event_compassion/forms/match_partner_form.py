@@ -45,7 +45,10 @@ if not testing:
                     del vals['email']
                 else:
                     # We unarchive the partner to make it visible
-                    vals['active'] = True
+                    vals.update({
+                        'active': True,
+                        'contact_id': False
+                    })
             if new_partner:
                 # Mark the partner to be validated
                 vals['state'] = 'pending'

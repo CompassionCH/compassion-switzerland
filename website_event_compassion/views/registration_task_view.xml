@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_event_registration_task_form" model="ir.ui.view">
+        <field name="name">event.registration.task.form</field>
+        <field name="model">event.registration.task</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="stage_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_event_registration_task_tree" model="ir.ui.view">
+        <field name="name">event.registration.task.tree</field>
+        <field name="model">event.registration.task</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="stage_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_event_registration_task_search" model="ir.ui.view">
+        <field name="name">event.registration.task.search</field>
+        <field name="model">event.registration.task</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="stage_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Registration stage" name="stage_id" domain="[]" context="{'group_by':'stage_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_registration_task" model="ir.actions.act_window">
+        <field name="name">Registration tasks</field>
+        <field name="res_model">event.registration.task</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_registration_task" name="Registration tasks" sequence="3" action="action_registration_task" parent="event.menu_event_configuration"/>
+</odoo>

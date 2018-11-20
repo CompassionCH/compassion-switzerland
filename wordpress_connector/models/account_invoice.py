@@ -44,7 +44,10 @@ class AccountInvoice(models.Model):
                 partner_id = partner.id
             else:
                 # We unarchive the partner to make it visible
-                partner.active = True
+                partner.write({
+                    'active': True,
+                    'contact_id': False
+                })
         product = self.env['product.product']
         if fund:
             product = product.search([

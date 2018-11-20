@@ -2,12 +2,12 @@
 <odoo>
     <!-- Add text for donation receipts -->
     <record id="view_event_event_wordpress" model="ir.ui.view">
-        <field name="name">event.event.wordpress.form</field>
+        <field name="name">event.event.website.compassion.form</field>
         <field name="model">event.event</field>
         <field name="inherit_id" ref="event.view_event_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']/button[2]" position="attributes">
-                <attribute name="context">{'default_amount_objective': participants_amount_objective}</attribute>
+                <attribute name="context">{'default_amount_objective': participants_amount_objective, 'default_event_type_id': event_type_id}</attribute>
             </xpath>
             <field name="organizer_id" position="after">
                 <field name="compassion_event_id"/>
@@ -25,6 +25,17 @@
                     </group>
                 </page>
             </xpath>
+        </field>
+    </record>
+
+    <record id="view_event_type_compassion" model="ir.ui.view">
+        <field name="name">event.event.website.compassion.form</field>
+        <field name="model">event.type</field>
+        <field name="inherit_id" ref="event.view_event_type_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="accepts_registrations"/>
+            </field>
         </field>
     </record>
 </odoo>
