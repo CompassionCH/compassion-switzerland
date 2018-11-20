@@ -138,8 +138,10 @@ class CompassionHold(models.Model):
                 default_print_header=True):
             sponsorship = hold.child_id.sponsorship_ids[0]
             sponsor = hold.child_id.sponsor_id
-            # Filter sponsorships where we wait for the bank authorization
-            if sponsorship.state == 'mandate' and sponsor.bank_ids:
+            # Filter draft sponsorships and where we wait for
+            # the bank authorization
+            if sponsorship.state == 'draft' or \
+                    (sponsorship.state == 'mandate' and sponsor.bank_ids):
                 try:
                     super(CompassionHold, hold).postpone_no_money_hold()
                     hold.no_money_extension -= 1
