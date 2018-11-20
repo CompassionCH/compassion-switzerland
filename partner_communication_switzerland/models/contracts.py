@@ -76,10 +76,11 @@ class RecurringContract(models.Model):
     def _compute_birthday_paid(self):
         today = datetime.today()
         in_three_months = today + relativedelta(months=3)
+        since_six_months = today - relativedelta(months=6)
         for sponsorship in self:
             sponsorship.birthday_paid = self.env['sponsorship.gift'].search([
                 ('sponsorship_id', '=', sponsorship.id),
-                ('gift_date', '>=', fields.Date.to_string(today)),
+                ('gift_date', '>=', fields.Date.to_string(since_six_months)),
                 ('gift_date', '<', fields.Date.to_string(in_three_months)),
                 ('sponsorship_gift_type', '=', 'Birthday'),
             ])
