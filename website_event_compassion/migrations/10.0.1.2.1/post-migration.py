@@ -8,14 +8,17 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from openupgradelib import openupgrade
 
-from . import event_event
-from . import event_type
-from . import event_compassion
-from . import event_registration_stage
-from . import event_registration_task
-from . import event_registration
-from . import account_invoice_line
-from . import payment_transaction
-from . import res_partner
-from . import partner_communication_job
+
+def migrate(cr, version):
+    if not version:
+        return
+
+    # Force upgrade of communication data
+    openupgrade.load_data(
+        cr, 'website_event_compassion', 'data/group_visit_emails.xml',
+    )
+    openupgrade.load_data(
+        cr, 'website_event_compassion', 'data/communication_config.xml',
+    )
