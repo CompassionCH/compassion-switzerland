@@ -119,7 +119,10 @@ class Contracts(models.Model):
                 partner = partner.contact_id
             else:
                 # We unarchive the partner to make it visible
-                partner.active = True
+                partner.write({
+                    'active': True,
+                    'contact_id': False
+                })
 
         # Check origin
         internet_id = self.env.ref('utm.utm_medium_website').id
