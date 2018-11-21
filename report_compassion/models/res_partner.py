@@ -8,8 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from locale import setlocale
-
+from odoo.addons.thankyou_letters.models.res_partner import setlocale
 from datetime import date, datetime
 
 from odoo import api, models, fields, _
