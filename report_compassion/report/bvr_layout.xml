@@ -13,13 +13,13 @@
         <t t-set="margin" t-value="position * 0.2"/>
         <t t-set="height" t-value="106 - margin"/>
         <t t-set="company_address">
-            <span t-raw="partner.company_id.address_name"/>
+            Compassion Switzerland
             <br/>
-            <span t-raw="partner.company_id.street"/>
+            Rue Galilée 3
             <br/>
-            <span t-raw="(partner.company_id.zip or '') + ' ' + (partner.company_id.city or '')"/>
+            1400 Yverdon-les-Bains
             <br/>
-            <span t-raw="partner.company_id.country_id.name"/>
+            Switzerland
         </t>
         <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm; height: {{ height }}mm;">
             <t t-if="background">
