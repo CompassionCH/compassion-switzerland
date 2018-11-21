@@ -8,9 +8,10 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import date
+from odoo.addons.thankyou_letters.models.res_partner import setlocale
+from datetime import date, datetime
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 
 class ResPartner(models.Model):
@@ -43,3 +44,23 @@ class ResPartner(models.Model):
             ('partner_id.parent_id', '=', self.id),
         ])
         return sum(invoice_lines.mapped('price_subtotal'))
+
+    @api.multi
+    def _compute_date_communication(self):
+        lang_map = {
+            'fr_CH': u'le %d %B %Y',
+            'fr': u'le %d %B %Y',
+            'de_DE': u'%d. %B %Y',
+            'de_CH': u'%d. %B %Y',
+            'en_US': u'%d %B %Y',
+            'it_IT': u'%d %B %Y',
+            'es_ES': u'%d de %B de %Y'
+        }
+        today = datetime.today()
+        city = _("Yverdon-les-Bains")
+        for partner in self:
+            lang = partner.lang
+            with setlocale(lang):
+                date = today.strftime(
+                    lang_map.get(lang, lang_map['en_US'])).decode('utf-8')
+                partner.date_communication = city + u", " + date
