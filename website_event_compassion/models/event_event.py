@@ -52,6 +52,8 @@ class Event(models.Model):
     )
     valid_ticket_ids = fields.Many2many('event.event.ticket',
                                         compute='_compute_valid_tickets')
+    # Don't configure any e-mail by default
+    event_mail_ids = fields.One2many('event.mail', default=False)
 
     def _compute_total_price(self):
         flight = self.env.ref(
@@ -115,3 +117,10 @@ class Event(models.Model):
             'price': 0,
         } for product in products])
         return res
+
+    def mail_attendees(self, template_id, force_send=False, filter_func=None):
+        """
+        Never use this function (replaced by execute method in event_email.py
+        :return: True
+        """
+        return True

@@ -21,9 +21,6 @@
                     <field name="seats_min"/>
                     <field name="seats_max"/>
                 </group>
-                <group>
-                    <field name="reply_to"/>
-                </group>
                 <footer>
                     <button name="open_event" string="Open registrations" class="oe_highlight" type="object"/>
                 </footer>

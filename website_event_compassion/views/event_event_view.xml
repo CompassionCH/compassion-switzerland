@@ -25,6 +25,18 @@
                     </group>
                 </page>
             </xpath>
+            <field name="reply_to" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//field[@name='event_mail_ids']//field[@name='template_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='event_mail_ids']//field[@name='template_id']" position="before">
+                <field name="communication_id"/>
+            </xpath>
+            <xpath expr="//field[@name='event_mail_ids']//field[@name='interval_type']" position="after">
+                <field name="stage_id" domain="['|', ('event_type_id', '=', parent.event_type_id), ('event_type_id', '=', False)]" attrs="{'required': [('interval_type', '=', 'after_stage')]}"/>
+            </xpath>
         </field>
     </record>
 
