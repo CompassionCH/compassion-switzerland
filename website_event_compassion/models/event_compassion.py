@@ -29,7 +29,8 @@ class EventCompassion(models.Model):
         # Avoids selecting generic events
         domain=[('id', '>', 1)],
     )
-    type = fields.Selection(compute='_compute_event_type', store=True)
+    type = fields.Selection(
+        compute='_compute_event_type', default='meeting', store=True)
     odoo_event_id = fields.Many2one('event.event')
     accepts_registrations = fields.Boolean(
         related='event_type_id.accepts_registrations')
