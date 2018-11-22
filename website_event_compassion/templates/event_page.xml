@@ -8,6 +8,7 @@
                 <div t-attf-class="banner_text_container {{background_color_class}}">
                     <h2 class="center-text event_name">
                         <span class="text-uppercase" t-field="event.name"/>
+                        <span class="text-uppercase" t-esc="additional_title" t-if="additional_title"/>
                     </h2>
                 </div>
             </div>

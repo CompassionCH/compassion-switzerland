@@ -20,3 +20,4 @@ from . import account_invoice_line
 from . import payment_transaction
 from . import res_partner
 from . import partner_communication_job
+from . import event_faq

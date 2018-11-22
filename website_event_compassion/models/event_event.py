@@ -54,6 +54,8 @@ class Event(models.Model):
                                         compute='_compute_valid_tickets')
     # Don't configure any e-mail by default
     event_mail_ids = fields.One2many('event.mail', default=False)
+    faq_category_ids = fields.Many2many(
+        'event.faq.category', compute='_compute_faq_category_ids')
 
     def _compute_total_price(self):
         flight = self.env.ref(
@@ -99,6 +101,13 @@ class Event(models.Model):
             start_date = fields.Datetime.from_string(event.date_begin)
             event.registration_full = event.state == 'confirm' and \
                 datetime.now() < start_date and not event.valid_ticket_ids
+
+    def _compute_faq_category_ids(self):
+        for event in self:
+            event.faq_category_ids = self.env['event.faq.category'].search([
+                '|', ('event_type_ids', '=', event.event_type_id.id),
+                ('event_type_ids', '=', False)
+            ])
 
     def _default_tickets(self):
         """ Add flight and single room supplement by default. """

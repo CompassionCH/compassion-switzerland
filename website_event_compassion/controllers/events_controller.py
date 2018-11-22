@@ -55,6 +55,14 @@ class EventsController(PaymentFormController):
             return result
         return self._form_redirect(result, full_page=True)
 
+    @http.route('/event/<model("crm.event.compassion"):event>/faq',
+                auth='public', website=True)
+    def event_faq(self, event, **kwargs):
+        return request.render(
+            'website_event_compassion.event_faq',
+            {'event': event}
+        )
+
     @http.route('/event/<model("event.event"):event>/registration/'
                 '<model("event.registration"):registration>/success',
                 auth='public', website=True)

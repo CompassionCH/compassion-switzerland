@@ -25,6 +25,9 @@
                     </group>
                 </page>
             </xpath>
+            <field name="event_type_id" position="attributes">
+                <attribute name="options">{'limit': 12}</attribute>
+            </field>
             <field name="reply_to" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
