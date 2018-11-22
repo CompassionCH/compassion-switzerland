@@ -4,3 +4,7 @@ access_crm_event_stage,Read access registration stages,model_event_registration_
 access_admin_crm_event_stage,Full access registration stages,model_event_registration_stage,event.group_event_manager,1,1,1,1
 access_crm_event_task,Read access registration tasks,model_event_registration_task,event.group_event_user,1,0,0,0
 access_admin_crm_event_task,Full access registration tasks,model_event_registration_task,event.group_event_manager,1,1,1,1
+access_event_faq,Read access event faq,model_event_faq,,1,0,0,0
+access_admin_event_faq,Full access event faq,model_event_faq,event.group_event_manager,1,1,1,1
+access_event_faq_category,Read access event faq category,model_event_faq_category,,1,0,0,0
+access_admin_event_faq_category,Full access event faq category,model_event_faq_category,event.group_event_manager,1,1,1,1
