@@ -116,6 +116,12 @@ class Event(models.Model):
                                       readonly=True)
     comments = fields.Text()
 
+    medical_check = fields.Boolean()
+    medical_validation = fields.Boolean()
+
+    visa_needed = fields.Boolean()
+    day_for_a_visa = fields.Integer()
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
