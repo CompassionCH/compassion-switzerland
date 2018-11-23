@@ -57,6 +57,9 @@ class Event(models.Model):
     faq_category_ids = fields.Many2many(
         'event.faq.category', compute='_compute_faq_category_ids')
 
+    visa_needed = fields.Boolean()
+    months_needed_for_a_visa = fields.Integer()
+
     def _compute_total_price(self):
         flight = self.env.ref(
             'website_event_compassion.product_template_flight')
