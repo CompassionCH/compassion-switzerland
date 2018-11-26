@@ -65,6 +65,9 @@
         'templates/donation_result.xml',
         'templates/event_faq.xml',
     ],
+    'demo': [
+        'demo/crm_event_demo.xml'
+    ],
     'development_status': 'Beta',
     'installable': True,
     'auto_install': False,
