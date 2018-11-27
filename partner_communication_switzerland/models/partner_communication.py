@@ -280,17 +280,19 @@ class PartnerCommunication(models.Model):
                 ]
             })
         # Attach gifts for correspondents
-        corresponding = sponsorships.filtered(
-            lambda s: s.correspondent_id == self.partner_id
-        )
-        if corresponding:
+        pays_gift = self.env['recurring.contract']
+        for sponsorship in sponsorships:
+            if sponsorship.mapped(sponsorship.send_gifts_to) == \
+                    self.partner_id:
+                pays_gift += sponsorship
+        if pays_gift:
             report_name = 'report_compassion.3bvr_gift_sponsorship'
             attachments.update({
                 _('sponsorship gifts.pdf'): [
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
-                        corresponding.ids, report_name,
-                        data={'doc_ids': corresponding.ids}
+                        pays_gift.ids, report_name,
+                        data={'doc_ids': pays_gift.ids}
                     ))
                 ]
             })
