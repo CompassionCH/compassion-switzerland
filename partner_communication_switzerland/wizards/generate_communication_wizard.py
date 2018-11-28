@@ -40,6 +40,7 @@ class GenerateCommunicationWizard(models.TransientModel):
     )
     partner_source = fields.Selection(
         [('partner_id', 'Payer'),
+         ('send_gifts_to', 'Gift payer'),
          ('correspondent_id', 'Correspondent')],
         'Send to', default='correspondent_id', required=True
     )
@@ -72,8 +73,15 @@ class GenerateCommunicationWizard(models.TransientModel):
         s_wizards = self.filtered(
             lambda w: w.res_model == 'recurring.contract')
         for wizard in s_wizards:
+            if wizard.partner_source == 'send_gifts_to':
+                partners = self.env['res.partner']
+                for sponsorship in wizard.sponsorship_ids:
+                    partners += sponsorship.mapped(sponsorship.send_gifts_to)
+            else:
+                partners = wizard.sponsorship_ids.mapped(wizard.partner_source)
+
             wizard.progress = float(len(wizard.communication_ids) * 100) / (
-                len(wizard.sponsorship_ids.mapped(wizard.partner_source)) or 1)
+                len(partners) or 1)
         super(GenerateCommunicationWizard,
               self - s_wizards)._compute_progress()
 
@@ -96,26 +104,43 @@ class GenerateCommunicationWizard(models.TransientModel):
     @api.onchange('selection_domain', 'force_language')
     def onchange_domain(self):
         if self.res_model == 'recurring.contract':
+            if self.partner_source == 'send_gifts_to':
+                # We assume the payer and the correspondent speak same lang
+                partner_source = 'correspondent_id'
+            else:
+                partner_source = self.partner_source
             if self.force_language and not self.language_added_in_domain:
                 domain = self.selection_domain or '[]'
                 domain = domain[:-1] + ", ('{}.lang', '=', '{}')]".format(
-                    self.partner_source, self.force_language)
+                    partner_source, self.force_language)
                 self.selection_domain = domain.replace('[, ', '[')
                 self.language_added_in_domain = True
             if self.selection_domain:
                 self.sponsorship_ids = self.env['recurring.contract'].search(
                     safe_eval(self.selection_domain))
-                self.partner_ids = self.sponsorship_ids.mapped(
-                    self.partner_source)
+                if self.partner_source == 'send_gifts_to':
+                    partners = self.env['res.partner']
+                    for sponsorship in self.sponsorship_ids:
+                        partners += sponsorship.mapped(
+                            sponsorship.send_gifts_to)
+                else:
+                    partners = self.sponsorship_ids.mapped(partner_source)
+                self.partner_ids = partners
             if not self.force_language:
                 self.language_added_in_domain = False
         else:
             super(GenerateCommunicationWizard, self).onchange_domain()
 
-    @api.onchange('sponsorship_ids')
+    @api.onchange('sponsorship_ids', 'partner_source')
     def onchange_sponsorships(self):
         # Set partners for generation to work
-        self.partner_ids = self.sponsorship_ids.mapped(self.partner_source)
+        if self.partner_source == 'send_gifts_to':
+            partners = self.env['res.partner']
+            for sponsorship in self.sponsorship_ids:
+                partners += sponsorship.mapped(sponsorship.send_gifts_to)
+        else:
+            partners = self.sponsorship_ids.mapped(self.partner_source)
+        self.partner_ids = partners
 
     @api.onchange('partner_ids', 'body_html')
     def onchange_recipients(self):
@@ -144,8 +169,12 @@ class GenerateCommunicationWizard(models.TransientModel):
         )
         if self.res_model == 'recurring.contract':
             for sponsorship in self.sponsorship_ids:
+                if self.partner_source == 'send_gifts_to':
+                    partner = sponsorship.mapped(sponsorship.send_gifts_to)
+                else:
+                    partner = sponsorship.mapped(self.partner_source)
                 vals = {
-                    'partner_id': getattr(sponsorship, self.partner_source).id,
+                    'partner_id': partner.id,
                     'object_ids': sponsorship.id,
                     'config_id': self.model_id.id,
                     'auto_send': False,
