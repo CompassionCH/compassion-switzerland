@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="event_contract_step2" name="Event Contracts Agreements">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="event.name"/>
+            <div id="wrap">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-call="website_event_compassion.event_header"/>
+
+                <div class="container event_compassion" id="group_visit_step2">
+                    <div class="row mb32">
+                        <div class="col-md-9">
+                            <h3>Travel agreements</h3>
+                            <p>
+                                Thank you very much for your interest in Compassion's work to free more children from poverty every day, for a dignified and meaningful life.
+                            </p>
+                            <p>
+                                Protecting the children we serve is one of our priorities. Compassion regulations guarantee that all measures are taken to ensure the safety of Compassion's sponsored children.
+                            </p>
+                            <p>
+                                <b>In this perspective, we thank you for:</b>
+                            </p>
+                            <ul>
+                                <li t-if="not registration.has_signed_travel_contract or not registration.has_signed_child_protection">reading carefully and signing the two contracts below</li>
+                                <li t-if="not registration.passport_uploaded">giving us an emergency contact and your passport details for the trip organization</li>
+                                <li t-if="not registration.criminal_record_uploaded">uploading a criminal record extract (photo or scans are accepted)*.</li>
+                            </ul>
+                            <div class="alert alert-warning" role="alert">
+                                *<i>In case you are not equipped with a smartphone or a scanner, you can send us the documents at Compassion Switzerland, Rue Galilée 3, 1400 Yverdon-les-Bains.</i>
+                            </div>
+                            <div class="alert alert-info" role="alert">
+                                Don't you have all the documents at hand? You can proceed step by step and save the items already collected. Once everything is ready, you will receive an e-mail confirmation.
+                            </div>
+                            <!-- Travel Contract Accordion -->
+                            <div class="panel-group" id="accordion-contract" role="tablist" aria-multiselectable="true" t-if="not registration.has_signed_travel_contract">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="heading-contract">
+                                        <h4 class="panel-title">
+                                            <b>
+                                                <a role="button" data-toggle="collapse" data-parent="accordion-contract" href="#collapse-contract" aria-expanded="true" aria-controls="collapse-contract">Contract visit</a>
+                                            </b>
+                                        </h4>
+                                    </div>
+                                    <div t-attf-id="collapse-contract" t-attf-class="panel-collapse collapse {{'in' if select == 'contract' else ''}}" role="tabpanel" aria-labelledby="heading-contract">
+                                        <div class="panel-body cms_form_wrapper">
+                                            <p>To make your trip enriching and an unforgettable experience, please read and validate this visit contract. It has been established to protect your interests, those of children, their families, and partner churches of Compassion.</p>
+                                            <ul>
+                                                <li>The photos I will take of my sponsored child, his or her family and community, are for my personal and private use only. I undertake not to distribute them on the Internet, social networks or other documents (except as part of Compassion or with its consent).</li>
+                                                <li>The costs of my trip (round trip, plus accommodation on site during my stay) are at my expense.</li>
+                                                <li>If I visit my sponsored child, I agree to reimburse the COMPASSION National Office for the costs of this visit.</li>
+                                                <li>All gifts I give to my sponsored child or his or her family will be in accordance with Compassion's policy on this subject.</li>
+                                                <li>I am aware that it is important to show respect for the staff members, children, families and communities or churches I will meet. I undertake to take into consideration the cultural sensitivities of the country I am visiting.</li>
+                                                <li>I am aware that the child I am sponsoring has legitimate parents, family or guardians. I undertake to respect and remain within the limits of the sponsor/sponsee relationship with this child.</li>
+                                            </ul>
+                                            <!-- Contract form -->
+                                            <t t-raw="contract_form.form_render()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Child Protection Accordion -->
+                            <div class="panel-group" id="accordion-child-protection" role="tablist" aria-multiselectable="true" t-if="not registration.has_signed_child_protection">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="heading-child-protection">
+                                        <h4 class="panel-title">
+                                            <b>
+                                                <a role="button" data-toggle="collapse" data-parent="accordion-child-protection" href="#collapse-child-protection" aria-expanded="true" aria-controls="collapse-contract">Statement of Commitment to Child Protection</a>
+                                            </b>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse-child-protection" t-attf-class="panel-collapse collapse {{'in' if select == 'child_protection' else ''}}" role="tabpanel" aria-labelledby="heading-child-protection">
+                                        <div class="panel-body cms_form_wrapper">
+                                            <p><b>Scope: </b>The Statement of Commitment to Child Protection and Code of Conduct contains expectations that apply to all Compassion affiliates, partners, and representatives, namely all board and staff members, volunteers, contractors, and sub-contractors of Compassion International, Inc., the Global Partner Alliance, and all Implementing Church Partners as well as visitors with direct contact with beneficiaries.</p>
+                                            <p>This information outlines the minimum content of the approved Statement of Commitment to Child Protection within Compassion International globally. The code of conduct details the behavior expectations for interactions with beneficiaries.  Field Offices and Global Partners may translate, clarify language, contextualize or add to this document as long as these minimum standards are maintained. The Statement of Commitment and Code of Conduct should be in all cases be a stand-alone document that should not be integrated into other releases or signatory document.</p>
+                                            <p><b>Authority: </b>The authority for the establishment of a code of conduct and statement of commitment to child protection can be found in Board Policy 5.2.1 and Management Policy 102, “Global Child Protection.” These policies set the expectation for the development and maintenance of a statement of commitment to child protection and a code of conduct that is applicable for anyone interacting with beneficiaries. Everyone signing the statement of commitment to child protection and code of conduct is expected to have a thorough knowledge of these and to follow the standards and guidelines stipulated in the code of conduct and statement of commitment.  The Management Policy also dictates that the consequences for violating the code of conduct and other policies related to child protection include “grounds for disciplinary action and/or termination of employment or relationship.”</p>
+                                            <h3>Code of Conduct</h3>
+                                            <h4>Expected/Acceptable Behaviors</h4>
+                                            <ul>
+                                                <li>I will demonstrate the proper respect and dignity of all children and will demonstrate Jesus’s love and care for them, regardless of their gender, age, race, religion, social background, culture, special need or disability.</li>
+                                                <li>I will maintain appropriate and reasonable expectations for children based on their age and ability level. (For example, it is developmentally normal for a three-year-old to become upset easily when they are tired but we could expect a teenager to manage their emotions even when they are very tired.)</li>
+                                                <li>I will engage in age-appropriate communication with beneficiaries.</li>
+                                                <li>I will submit to the appropriate background or police checks as permissible by law prior to face-to-face contact with beneficiaries (at minimum – an employee may be requested to comply with background/police checks at hire).</li>
+                                                <li>I will engage in activities with beneficiaries only in open or visible places, and in the event that an activity needs to take place in an enclosed space, I will ensure that at least one other approved adult is present.</li>
+                                                <li>If I witness child abuse, know a child is in danger, observe any concerning behaviors from colleagues, partners or other representatives, or a child comes to me with a report of abuse, I will take it seriously and report it to the proper staff or relevant authorities. I will seek to do everything within my power to ensure the child is out of danger.</li>
+                                                <li>I will keep all information about child protection investigations confidential, keeping in mind privacy and dignity concerns of all involved.</li>
+                                                <li>If requested, I will comply with child protection related investigations and make available any documentation or other information necessary for the completion of the investigation.</li>
+                                                <li>I will contribute to building an environment where children are respected and encouraged to discuss their concerns and rights.</li>
+                                                <li>I will contribute to building an environment where children are respected and encouraged to discuss their concerns and rights.</li>
+                                                <li>I will follow dignity standards (for example, only recording children who are dressed appropriately, understand they are being recorded, etc.) regarding child photography and videography.</li>
+                                                <li>I will be careful about my appearance, language, action, to ensure that my behavior demonstrates a respect for beneficiaries and their families, their culture and their rights and follow recommendations provided.</li>
+                                            </ul>
+                                            <h4>Unacceptable Behaviors</h4>
+                                            <ul>
+                                                <li>I will not solicit a romantic/dating relationship and will never engage in sexual/sexually suggestive behavior with any beneficiary, regardless of age.</li>
+                                                <li>I will never engage in sexual/sexually suggestive behavior with any child under age 18, regardless of the legal age of consent in-country.</li>
+                                                <li>I will never use language that is verbally/emotionally abusive, sexually suggestive, degrading, humiliating, shaming or is otherwise culturally inappropriate with a beneficiary.</li>
+                                                <li>I will never use language that is verbally/emotionally abusive, sexually suggestive, degrading, humiliating, shaming or is otherwise culturally inappropriate with a beneficiary.</li>
+                                                <li>I will never use any kind of physical discipline or physical punishment (some examples include whipping, caning, slapping, forcing punitive exercise, and other types of corporal punishment) as a method of correction for beneficiaries.</li>
+                                                <li>I will never travel alone with a beneficiary, without an approved representative or prior approval, except in a life-threatening emergency where circumstances require immediate movement.</li>
+                                                <li>I will not hire any child in any harmful form of child labor and follow local laws regarding child employment.</li>
+                                                <li>I will never visit a beneficiary, their caregiver(s)and/or church outside the bounds of acceptable program or tours and visits standards.</li>
+                                                <li>I will not gather, disclose or support the disclosure of information about beneficiaries or their families without prior, express permission that contains private or privileged content such as physical, mental or emotional health status, financial data, history of abuse or exploitation, or any portrayal that does not meet Compassion’s identified dignity standards. Additionally, I will not disclose information that might allow a beneficiary or their family to be physically located (such as a map to their home, home address, or geo-tag to their location in a photograph.) I understand that disclosure includes content published in any print or digital form on any public or private platform.</li>
+                                                <li>I will not condone or participate in illegal, unsafe or abusive behavior of any child, including exploitation, trafficking, harmful traditional practices, and spiritual or ritualistic abuse.</li>
+                                            </ul>
+
+                                            <!-- Child protection form -->
+                                            <t t-raw="child_protection_form.form_render()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Trip Form -->
+                            <div class="panel-group" id="accordion-trip" role="tablist" aria-multiselectable="true" t-if="not registration.passport_uploaded">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="heading-trip">
+                                        <h4 class="panel-title">
+                                            <b>
+                                                <a role="button" data-toggle="collapse" data-parent="accordion-trip" href="#collapse-trip" aria-expanded="true" aria-controls="collapse-trip">Trip information</a>
+                                            </b>
+                                        </h4>
+                                    </div>
+                                    <div t-attf-id="collapse-trip" t-attf-class="panel-collapse collapse {{'in' if select == 'travel' else ''}}" role="tabpanel" aria-labelledby="heading-trip">
+                                        <div class="panel-body cms_form_wrapper">
+                                            <t t-raw="trip_form.form_render()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Upload Criminal Extract Form -->
+                            <div class="panel-group" id="accordion-criminal" role="tablist" aria-multiselectable="true" t-if="not registration.criminal_record_uploaded">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="heading-criminal">
+                                        <h4 class="panel-title">
+                                            <b>
+                                                <a role="button" data-toggle="collapse" data-parent="accordion-criminal" href="#collapse-criminal" aria-expanded="true" aria-controls="collapse-criminal">Criminal record</a>
+                                            </b>
+                                        </h4>
+                                    </div>
+                                    <div t-attf-id="collapse-criminal" t-attf-class="panel-collapse collapse {{'in' if select == 'criminal' else ''}}" role="tabpanel" aria-labelledby="heading-criminal">
+                                        <div class="panel-body cms_form_wrapper">
+                                            <t t-raw="criminal_form.form_render()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <t t-call="website_event_compassion.event_basic_side_info"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+
+        </t>
+    </template>
+
+    <!-- Page when step2 is completed -->
+    <template id="event_contract_step2_complete" name="Event Contracts Agreements Completed">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="event.name"/>
+            <div id="wrap">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-call="website_event_compassion.event_header"/>
+
+                <div class="container">
+                    <div class="row mb32">
+                        <div class="col-md-9">
+                            <h2>Thank you!</h2>
+                            <div class="jumbotron">
+                                <p>We successfully received all the documents needed for the trip. If you have any questions regarding the organization, please <a t-attf-href="{{event.website_url}}/faq">read our FAQ</a> or <a href="mailto:info@compassion.ch">contact us</a>.</p>
+                                <p>We look forward to sharing with you the work of Compassion among poor children in the South.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <t t-call="website_event_compassion.event_basic_side_info"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+</odoo>

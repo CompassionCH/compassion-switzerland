@@ -6,6 +6,7 @@
             <link href="/website_event_compassion/static/src/css/event_header.css" rel="stylesheet" type="text/css"/>
             <link href="/website_event_compassion/static/src/css/participants_list.css" rel="stylesheet" type="text/css"/>
             <link href="/website_event_compassion/static/src/css/participant_details.css" rel="stylesheet" type="text/css"/>
+            <script src="/website_event_compassion/static/src/js/group_visit_step2.js" type="text/javascript"/>
         </xpath>
     </template>
 </odoo>

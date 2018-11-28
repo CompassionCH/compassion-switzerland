@@ -30,7 +30,7 @@ class MuskathlonRegistration(models.Model):
     ])
     sport_level_description = fields.Text('Describe your sport experience')
     t_shirt_size = fields.Selection(
-        related='partner_id.advocate_details_id.t_shirt_size')
+        related='partner_id.advocate_details_id.t_shirt_size', store=True)
     muskathlon_participant_id = fields.Char(
         related='partner_id.muskathlon_participant_id')
     muskathlon_event_id = fields.Char(
