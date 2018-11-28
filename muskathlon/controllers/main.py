@@ -47,11 +47,12 @@ class MuskathlonWebsite(EventsController):
         values = self._prepare_portal_layout_values()
         partner = values['partner']
         advocate_details_id = partner.advocate_details_id.id
+        registration = partner.registration_ids[0]
 
         # Load forms
         kw['form_model_key'] = 'cms.form.muskathlon.trip.information'
         trip_info_form = self.get_form(
-            'advocate.details', advocate_details_id, **kw)
+            'event.registration', registration.id, **kw)
         if form_id is None or form_id == trip_info_form.form_id:
             trip_info_form.form_process()
 

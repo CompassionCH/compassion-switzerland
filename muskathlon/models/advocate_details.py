@@ -14,23 +14,6 @@ from odoo import models, fields, api
 class MuskathlonDetails(models.Model):
     _inherit = "advocate.details"
 
-    emergency_name = fields.Char('Emergency contact name')
-    emergency_phone = fields.Char('Emergency contact phone number')
-    emergency_relation_type = fields.Selection([
-        ('husband', 'Husband'),
-        ('wife', 'Wife'),
-        ('father', 'Father'),
-        ('mother', 'Mother'),
-        ('brother', 'Brother'),
-        ('sister', 'Sister'),
-        ('son', 'Son'),
-        ('daughter', 'Daughter'),
-        ('friend', 'Friend'),
-        ('other', 'Other')
-    ], string='Emergency contact relation type')
-    birth_name = fields.Char()
-    passport_number = fields.Char()
-    passport_expiration_date = fields.Date()
     trip_information_complete = fields.Boolean(
         compute='_compute_trip_information_complete'
     )
@@ -38,11 +21,12 @@ class MuskathlonDetails(models.Model):
     @api.multi
     def _compute_trip_information_complete(self):
         for record in self:
+            registration = record.partner_id.registration_ids[:1]
             trip_info = [
-                record.emergency_name, record.emergency_phone,
-                record.emergency_relation_type, record.t_shirt_size,
-                record.passport_number, record.passport_expiration_date,
-                record.birth_name
+                registration.emergency_name, registration.emergency_phone,
+                registration.emergency_relation_type,
+                registration.t_shirt_size, registration.passport_number,
+                registration.passport_expiration_date, registration.birth_name
             ]
             for info in trip_info:
                 if not info:

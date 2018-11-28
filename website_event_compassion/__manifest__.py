@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion Events Website',
-    'version': '10.0.1.4.0',
+    'version': '10.0.1.4.1',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
@@ -64,6 +64,7 @@
         'templates/participant_page.xml',
         'templates/donation_result.xml',
         'templates/event_faq.xml',
+        'templates/event_contracts_step2.xml',
     ],
     'demo': [
         'demo/crm_event_demo.xml'

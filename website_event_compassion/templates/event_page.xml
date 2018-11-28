@@ -37,6 +37,18 @@
         </t>
     </template>
 
+    <template id="event_basic_side_info" name="Event travel side info">
+        <h2 t-esc="event.name"/>
+        <span>
+            <t t-esc="event.get_date('start_date', 'date_full')"/>
+            <t t-if="event.end_date != event.start_date">
+                -
+                <t t-esc="event.get_date('end_date', 'date_full')"/>
+            </t>
+        </span>
+        <h4><a t-attf-href="{{event.website_url}}/faq">Event FAQ</a></h4>
+    </template>
+
     <template id="event_page" name="Event page">
         <t t-call="website.publish_management">
             <t t-set="object" t-value="event"/>

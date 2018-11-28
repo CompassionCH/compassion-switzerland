@@ -22,6 +22,11 @@
             <field name="sequence">3</field>
             <field name="stage_id" ref="stage_group_unconfirmed"/>
         </record>
+        <record id="task_urgency_contact" model="event.registration.task">
+            <field name="name">Fill urgency contact information</field>
+            <field name="sequence">1</field>
+            <field name="stage_id" ref="stage_group_unconfirmed"/>
+        </record>
         <record id="task_down_payment" model="event.registration.task">
             <field name="name">Pay fees</field>
             <field name="sequence">0</field>
@@ -36,11 +41,6 @@
             <field name="name">Sign medical discharge</field>
             <field name="sequence">1</field>
             <field name="stage_id" ref="stage_group_medical"/>
-        </record>
-        <record id="task_urgency_contact" model="event.registration.task">
-            <field name="name">Fill urgency contact information</field>
-            <field name="sequence">1</field>
-            <field name="stage_id" ref="stage_group_documents"/>
         </record>
         <record id="task_full_payment" model="event.registration.task">
             <field name="name">Pay the trip</field>

@@ -10,7 +10,9 @@
             <field name="body_html" type="html">
                 <div>
                     % set partner = object.partner_id
-                    % set event = object.get_objects().compassion_event_id
+                    % set registration = object.get_objects()
+                    % set event = registration.compassion_event_id
+                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -29,13 +31,13 @@
                     <br/>
                     <br/>
                     <div style="margin:0 auto; text-align: center;">
-                        <a href="" style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px">
+                        <a href="${base_url}/event/agreements/${registration.uuid}" style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px">
                             Read the guidelines
                         </a>
                     </div>
                     <br/>
                     <br/>
-                    <a href="" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Once again, thank you for your commitment to children in need.
@@ -65,6 +67,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
+                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -95,7 +98,7 @@
                     The next step will be to prepare for the trip. Here again, you will receive the information you need to know in time to make this trip an enriching and unforgettable experience for you.
                     <br/>
                     <br/>
-                    <a href="" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Once again, thank you for your commitment to children in need.
@@ -125,6 +128,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
+                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -143,7 +147,7 @@
                     <li>Information about Compassion's work and meeting your sponsored child</li>
                 </ol>
                 <p>
-                    <a href="" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Once again, thank you for your commitment to children in need.
@@ -173,6 +177,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
+                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -197,7 +202,7 @@
                     </div>
                     <br/>
                     <br/>
-                    <a href="" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Thank you for your commitment to children in need.
@@ -227,6 +232,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
+                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -266,17 +272,16 @@
                     <br/>
                     <br/>
                     <h3>2.4. Emergency contact</h3>
-                    Please indicate an emergency contact in case of problems during the trip:
+                    Please make sure you informed your emergency contact about the trip. Here is the the emergency person you chose:
                     <br/>
                     <br/>
-                    <div style="margin:0 auto; text-align: center;">
-                        <a href="" style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px">
-                            Fill emergency contact
-                        </a>
-                    </div>
+                    <ul>
+                        <li>Name: ${registration.emergency_name}</li>
+                        <li>Phone: ${registration.emergency_phone}</li>
+                    </ul>
                     <br/>
                     <br/>
-                    <a href="" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Once again, thank you for your commitment to children in need.
@@ -357,6 +362,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
+                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -381,7 +387,7 @@
                     </div>
                     <br/>
                     <br/>
-                    If you still have questions, <a href="" style="color: skyblue; text-decoration: underline">you will find here</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    If you still have questions, <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">you will find here</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Thank you for your commitment to children in need.
