@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="event_contract_step2" name="Event Contracts Agreements">
+    <template id="group_visit_step2" name="Group Visit Contracts Agreements">
         <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
             <t t-set="title" t-value="event.name"/>
             <div id="wrap">
                 <!-- Full width banner -->
@@ -161,8 +164,11 @@
     </template>
 
     <!-- Page when step2 is completed -->
-    <template id="event_contract_step2_complete" name="Event Contracts Agreements Completed">
+    <template id="group_visit_step2_complete" name="Event Contracts Agreements Completed">
         <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
             <t t-set="title" t-value="event.name"/>
             <div id="wrap">
                 <!-- Full width banner -->
