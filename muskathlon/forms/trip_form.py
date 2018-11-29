@@ -24,6 +24,11 @@ if not testing:
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_tripinfo'
         _form_model = 'event.registration'
+        _form_model_fields = [
+            't_shirt_size', 'emergency_relation_type', 'emergency_name',
+            'emergency_phone', 'birth_name', 'passport_number',
+            'passport_expiration_date'
+        ]
         _form_required_fields = [
             't_shirt_size', 'emergency_relation_type', 'emergency_name',
             'emergency_phone', 'birth_name', 'passport_number',
@@ -126,6 +131,7 @@ if not testing:
             if values.get('emergency_name'):
                 completed_tasks.append((
                     4, self.env.ref('muskathlon.task_emergency').id))
+            values['completed_task_ids'] = completed_tasks
             self.o_request.website.get_status_message()
 
         def _form_write(self, values):

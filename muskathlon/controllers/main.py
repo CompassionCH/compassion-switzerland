@@ -98,6 +98,8 @@ class MuskathlonWebsite(EventsController):
                 partner.advocate_details_id.write({
                     'picture_large': image_value
                 })
+                partner.registration_ids[:1].sudo().completed_task_ids += \
+                    request.env.ref('muskathlon.task_picture')
 
         return request.render(return_view,
                               self._prepare_portal_layout_values())
