@@ -116,6 +116,35 @@ class Event(models.Model):
                                       readonly=True)
     comments = fields.Text()
 
+    has_signed_travel_contract = fields.Boolean(compute='_compute_step2_tasks')
+    has_signed_child_protection = fields.Boolean(
+        compute='_compute_step2_tasks')
+    passport_uploaded = fields.Boolean(compute='_compute_step2_tasks')
+    emergency_ok = fields.Boolean(compute='_compute_step2_tasks')
+    criminal_record_uploaded = fields.Boolean(
+        compute='_compute_step2_tasks')
+    criminal_record = fields.Binary(attachment=True)
+
+    # Travel info
+    #############
+    emergency_name = fields.Char('Emergency contact name')
+    emergency_phone = fields.Char('Emergency contact phone number')
+    emergency_relation_type = fields.Selection([
+        ('husband', 'Husband'),
+        ('wife', 'Wife'),
+        ('father', 'Father'),
+        ('mother', 'Mother'),
+        ('brother', 'Brother'),
+        ('sister', 'Sister'),
+        ('son', 'Son'),
+        ('daughter', 'Daughter'),
+        ('friend', 'Friend'),
+        ('other', 'Other')
+    ], string='Emergency contact relation type')
+    birth_name = fields.Char()
+    passport_number = fields.Char()
+    passport_expiration_date = fields.Date()
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
@@ -184,6 +213,30 @@ class Event(models.Model):
             registration.partner_display_name = \
                 registration.partner_firstname + ' ' + \
                 registration.partner_lastname
+
+    @api.multi
+    def _compute_step2_tasks(self):
+        contract_task = self.env.ref(
+            'website_event_compassion.task_sign_travel')
+        protection_task = self.env.ref(
+            'website_event_compassion.task_sign_child_protection')
+        passport_task = self.env.ref(
+            'website_event_compassion.task_passport')
+        criminal_task = self.env.ref(
+            'website_event_compassion.task_criminal')
+        emergency_task = self.env.ref(
+            'website_event_compassion.task_urgency_contact')
+        for registration in self:
+            registration.has_signed_travel_contract = contract_task in \
+                registration.completed_task_ids
+            registration.has_signed_child_protection = protection_task in \
+                registration.completed_task_ids
+            registration.passport_uploaded = passport_task in \
+                registration.completed_task_ids
+            registration.criminal_record_uploaded = criminal_task in \
+                registration.completed_task_ids
+            registration.emergency_ok = emergency_task in \
+                registration.completed_task_ids
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):

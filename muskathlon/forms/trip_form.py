@@ -17,13 +17,18 @@ testing = tools.config.get('test_enable')
 if not testing:
     # prevent these forms to be registered when running tests
 
-    class MuskathlonDonationForm(models.AbstractModel):
+    class MuskathlonTripForm(models.AbstractModel):
         _name = 'cms.form.muskathlon.trip.information'
         _inherit = 'cms.form'
 
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_tripinfo'
-        _form_model = 'advocate.details'
+        _form_model = 'event.registration'
+        _form_model_fields = [
+            't_shirt_size', 'emergency_relation_type', 'emergency_name',
+            'emergency_phone', 'birth_name', 'passport_number',
+            'passport_expiration_date'
+        ]
         _form_required_fields = [
             't_shirt_size', 'emergency_relation_type', 'emergency_name',
             'emergency_phone', 'birth_name', 'passport_number',
@@ -117,16 +122,20 @@ if not testing:
             # Don't remove passport expiration date
             if not values.get('passport_expiration_date', True):
                 del values['passport_expiration_date']
+            # Mark tasks as done
+            completed_tasks = []
+            if values.get('passport_number') and values.get(
+                    'passport_expiration_date'):
+                completed_tasks.append((
+                    4, self.env.ref('muskathlon.task_passport').id))
+            if values.get('emergency_name'):
+                completed_tasks.append((
+                    4, self.env.ref('muskathlon.task_emergency').id))
+            values['completed_task_ids'] = completed_tasks
             self.o_request.website.get_status_message()
 
-        def form_after_create_or_update(self, values, extra_values):
-            """ Mark registration tasks as done
-            """
-            reg = self.main_object.partner_id.registration_ids[:1].sudo()
-            if reg:
-                reg.write({
-                    'completed_task_ids': [
-                        (4, reg.env.ref('muskathlon.task_emergency').id),
-                        (4, reg.env.ref('muskathlon.task_passport').id),
-                    ]
-                })
+        def _form_write(self, values):
+            """Write as Muskathlon to avoid any security restrictions."""
+            uid = self.env.ref('muskathlon.user_muskathlon_portal').id
+            # pass a copy to avoid pollution of initial values by odoo
+            self.main_object.sudo(uid).write(values.copy())

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Event FAQ Category  -->
+    <record id="view_event_faq_category_form" model="ir.ui.view">
+        <field name="name">event.faq.category.form</field>
+        <field name="model">event.faq.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="event_type_ids" widget="many2many_tags" options="{'limit': 12}"/>
+                        <field name="sequence"/>
+                    </group>
+                    <group string="Questions">
+                        <field name="question_ids">
+                            <tree>
+                                <field name="sequence" widget="handle"/>
+                                <field name="question_title"/>
+                                <field name="event_type_ids"/>
+                            </tree>
+                            <form>
+                            <sheet>
+                                <group>
+                                    <field name="question_title"/>
+                                    <field name="question_answer"/>
+                                    <field name="event_type_ids" widget="many2many_tags" options="{'limit': 12}"/>
+                                </group>
+                            </sheet>
+                        </form>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_event_faq_category_tree" model="ir.ui.view">
+        <field name="name">event.faq.category.tree</field>
+        <field name="model">event.faq.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="event_type_ids"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_event_faq_category_search" model="ir.ui.view">
+        <field name="name">event.faq.category.search</field>
+        <field name="model">event.faq.category</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="event_type_ids"/>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_event_faq_category" model="ir.actions.act_window">
+        <field name="name">Event FAQ</field>
+        <field name="res_model">event.faq.category</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_event_faq_category" name="Event FAQ" sequence="3" action="action_event_faq_category" parent="event.menu_event_configuration"/>
+</odoo>

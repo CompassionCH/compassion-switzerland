@@ -23,7 +23,10 @@
                     <field name="website_published" widget="website_button"/>
                 </button>
             </div>
-            <field name="type" position="replace">
+            <field name="type" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="type" position="before">
                 <field name="event_type_id" options="{'limit': 12}"/>
             </field>
             <notebook>

@@ -22,8 +22,6 @@ class OpenEventToParticipant(models.TransientModel):
                                  domain=[('event_ok', '=', True)])
     seats_min = fields.Integer('Minimum participants required')
     seats_max = fields.Integer('Maximum participants allowed')
-    reply_to = fields.Char('E-mail replies to',
-                           default=lambda s: s._default_reply())
     fundraising = fields.Boolean()
     donation_product_id = fields.Many2one(
         'product.product', 'Donation product')
@@ -39,11 +37,6 @@ class OpenEventToParticipant(models.TransientModel):
         'Participant can set his fundraising objective'
     )
 
-    def _default_reply(self):
-        event = self.env['crm.event.compassion'].browse(
-            self.env.context.get('active_id'))
-        return event.user_id.email or self.env.user.email
-
     @api.multi
     def open_event(self):
         event = self.env['crm.event.compassion'].browse(
@@ -57,7 +50,6 @@ class OpenEventToParticipant(models.TransientModel):
             'seats_min': self.seats_min,
             'seats_max': self.seats_max,
             'seats_availability': self.seats_max and 'limited' or 'unlimited',
-            'reply_to': self.reply_to,
             'compassion_event_id': event.id,
             'participants_amount_objective':
             self.participants_amount_objective,

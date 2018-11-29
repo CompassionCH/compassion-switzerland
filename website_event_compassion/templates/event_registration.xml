@@ -2,6 +2,10 @@
 <odoo>
     <!-- Page for the full screen registration form (in case it is not displayed in modal popup -->
     <template id="event_registration_full_page" name="Event registration full page form">
+        <t t-call="website.publish_management">
+            <t t-set="object" t-value="event"/>
+            <t t-set="publish_edit" t-value="True"/>
+        </t>
         <t t-call="website.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex"/>

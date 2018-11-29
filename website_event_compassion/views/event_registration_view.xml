@@ -47,6 +47,14 @@
                     <field name="ambassador_picture_1" widget="image" class="oe_avatar" options="{'size': [90, 90]}"/>
                     <field name="ambassador_picture_2" class="oe_avatar" options="{'size': [90, 90]}"/>
                 </group>
+                <group name="trip" string="Trip information">
+                    <field name="birth_name"/>
+                    <field name="passport_number"/>
+                    <field name="passport_expiration_date"/>
+                    <field name="emergency_name"/>
+                    <field name="emergency_phone"/>
+                    <field name="emergency_relation_type"/>
+                </group>
             </xpath>
         </field>
     </record>

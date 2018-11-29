@@ -8,24 +8,13 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import fields
 from odoo.tests.common import HttpCase
 
 
 class TestWebsiteEvent(HttpCase):
 
     def test_website_event_registration(self):
-        event = self.env['crm.event.compassion'].create({
-            'name': 'Test website event',
-            'event_type_id': self.env.ref(
-                'website_event_compassion.event_type_group_visit').id,
-            'type': 'tour',
-            'start_date': fields.Datetime.now(),
-            'end_date': fields.Datetime.now(),
-            'hold_start_date': fields.Datetime.now(),
-            'number_allocate_children': 0,
-            'planned_sponsorships': 0,
-        })
+        event = self.env.ref('website_event_compassion.group_visit_demo')
 
         # Test registration is correctly set
         price = 200

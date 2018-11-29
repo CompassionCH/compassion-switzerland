@@ -4,7 +4,7 @@
     <record id="view_event_event_wordpress" model="ir.ui.view">
         <field name="name">event.event.website.compassion.form</field>
         <field name="model">event.event</field>
-        <field name="inherit_id" ref="event.view_event_form"/>
+        <field name="inherit_id" ref="event_sale.view_event_form_inherit_ticket"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']/button[2]" position="attributes">
                 <attribute name="context">{'default_amount_objective': participants_amount_objective, 'default_event_type_id': event_type_id}</attribute>
@@ -24,6 +24,27 @@
                         <field name="sponsorship_donation_value"/>
                     </group>
                 </page>
+            </xpath>
+            <xpath expr="//notebook/page[1]/group[1]" position="inside">
+                <group>
+                    <field name="visa_needed"/>
+                    <field name="months_needed_for_a_visa" attrs="{'invisible': [('visa_needed', '=', False)]}"/>
+                </group>
+            </xpath>
+            <field name="event_type_id" position="attributes">
+                <attribute name="options">{'limit': 12}</attribute>
+            </field>
+            <field name="reply_to" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//field[@name='event_mail_ids']//field[@name='template_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='event_mail_ids']//field[@name='template_id']" position="before">
+                <field name="communication_id"/>
+            </xpath>
+            <xpath expr="//field[@name='event_mail_ids']//field[@name='interval_type']" position="after">
+                <field name="stage_id" domain="['|', ('event_type_id', '=', parent.event_type_id), ('event_type_id', '=', False)]" attrs="{'required': [('interval_type', '=', 'after_stage')]}"/>
             </xpath>
         </field>
     </record>

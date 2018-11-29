@@ -52,6 +52,13 @@ class Event(models.Model):
     )
     valid_ticket_ids = fields.Many2many('event.event.ticket',
                                         compute='_compute_valid_tickets')
+    # Don't configure any e-mail by default
+    event_mail_ids = fields.One2many('event.mail', default=False)
+    faq_category_ids = fields.Many2many(
+        'event.faq.category', compute='_compute_faq_category_ids')
+
+    visa_needed = fields.Boolean()
+    months_needed_for_a_visa = fields.Integer()
 
     def _compute_total_price(self):
         flight = self.env.ref(
@@ -98,6 +105,13 @@ class Event(models.Model):
             event.registration_full = event.state == 'confirm' and \
                 datetime.now() < start_date and not event.valid_ticket_ids
 
+    def _compute_faq_category_ids(self):
+        for event in self:
+            event.faq_category_ids = self.env['event.faq.category'].search([
+                '|', ('event_type_ids', '=', event.event_type_id.id),
+                ('event_type_ids', '=', False)
+            ])
+
     def _default_tickets(self):
         """ Add flight and single room supplement by default. """
         res = super(Event, self)._default_tickets()
@@ -115,3 +129,10 @@ class Event(models.Model):
             'price': 0,
         } for product in products])
         return res
+
+    def mail_attendees(self, template_id, force_send=False, filter_func=None):
+        """
+        Never use this function (replaced by execute method in event_email.py
+        :return: True
+        """
+        return True

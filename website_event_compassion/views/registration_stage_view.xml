@@ -9,7 +9,7 @@
                     <group>
                         <field name="name"/>
                         <field name="sequence"/>
-                        <field name="event_type_id"/>
+                        <field name="event_type_id" options="{'limit': 12}"/>
                         <field name="duration"/>
                         <field name="fold"/>
                         <field name="requirements"/>
