@@ -24,9 +24,9 @@ class AccountInvoice(models.Model):
         super(AccountInvoice, self)._after_transaction_invoice_paid(
             transaction)
         if transaction.registration_id:
-            transaction.registration_id.confirm_registration()
             if transaction.registration_id.event_id.event_type_id == \
                     self.env.ref('muskathlon.event_type_muskathlon'):
+                transaction.registration_id.confirm_registration()
                 # Check all tasks already done
                 tasks = self.env.ref('muskathlon.task_down_payment')
                 partner = transaction.registration_id.partner_id

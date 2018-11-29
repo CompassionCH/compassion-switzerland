@@ -16,6 +16,7 @@ from . import event_registration_stage
 from . import event_registration_task
 from . import event_registration
 from . import event_email
+from . import account_invoice
 from . import account_invoice_line
 from . import payment_transaction
 from . import res_partner
