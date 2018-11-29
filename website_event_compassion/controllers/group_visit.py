@@ -8,6 +8,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import werkzeug
+
 from odoo import http
 from odoo.http import request
 
@@ -77,3 +79,27 @@ class GroupVisitController(EventsController):
             return request.render(
                 'website_event_compassion.group_visit_step2_complete',
                 values)
+
+    @http.route('/event/<string:reg_uid>/down_payment',
+                auth='public', website=True)
+    def group_visit_down_payment(self, reg_uid, **kwargs):
+        registration = request.env['event.registration'].search([
+            ('uuid', '=', reg_uid)])
+        if not registration:
+            return request.redirect('/events')
+        values = kwargs.copy()
+        values.pop('edit_translations', False)
+        values.update({
+            'form_model_key': 'cms.form.event.down.payment',
+            'registration': registration,
+            'event': registration.compassion_event_id
+        })
+        payment_form = self.get_form('account.invoice', **values)
+        payment_form.form_process()
+        if payment_form.form_success:
+            # The user submitted a donation, redirect to confirmation
+            return werkzeug.utils.redirect(
+                payment_form.form_next_url(), code=303)
+        values['form'] = payment_form
+        return request.render(
+            'website_event_compassion.event_full_page_form', values)

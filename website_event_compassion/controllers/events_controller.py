@@ -202,6 +202,34 @@ class EventsController(PaymentFormController):
             tx, success_template, failure_template, **post
         )
 
+    @http.route('/event/payment/down_payment_validate',
+                type='http', auth="public", website=True)
+    def down_payment_validate(self, **post):
+        """ Method that should be called by the server when receiving an update
+        for a transaction.
+        """
+        failure_template = 'website_event_compassion.donation_failure'
+        try:
+            tx = request.env['payment.transaction'].sudo(). \
+                _ogone_form_get_tx_from_data(post)
+        except ValidationError:
+            tx = None
+
+        if not tx or not tx.invoice_id:
+            return request.render(failure_template)
+
+        invoice_lines = tx.invoice_id.invoice_line_ids
+        event = invoice_lines.mapped('event_id')
+        registration = tx.registration_id
+        post.update({
+            'attendees': registration,
+            'event': event.odoo_event_id
+        })
+        return super(EventsController, self).compassion_payment_validate(
+            tx, 'website_event_compassion.event_down_payment_successful',
+            failure_template, **post
+        )
+
     def get_donation_success_template(self, event):
         """
         Gets the website templates for donation confirmation
