@@ -64,7 +64,8 @@
         'templates/participant_page.xml',
         'templates/donation_result.xml',
         'templates/event_faq.xml',
-        'templates/event_contracts_step2.xml',
+        'templates/group_visit_step2.xml',
+        'templates/robots.xml',
     ],
     'demo': [
         'demo/crm_event_demo.xml'
