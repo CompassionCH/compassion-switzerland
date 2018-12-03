@@ -82,25 +82,30 @@ class AdvocateDetails(models.Model):
 
     def set_inactive(self):
         # Inactivate translator from platform
-        tc = translate_connector.TranslateConnect()
-        goodbye_config = self.env.ref('sbc_switzerland.translator_goodbye')
-        _logger.info(
-            "translator put inactive, we inactivate in "
-            "translation platform.")
-        try:
-            tc.disable_user(self.partner_id)
-        except:
-            _logger.error("couldn't disable translator", exc_info=True)
-        finally:
-            self.env['partner.communication.job'].create({
-                'config_id': goodbye_config.id,
-                'partner_id': self.partner_id.id,
-                'object_ids': self.partner_id.id,
-            })
+        translation = self.env.ref('partner_compassion.engagement_translation')
+        if translation in self.engagement_ids and not self.env.context.get(
+                'skip_translation_platform_update'):
+            tc = translate_connector.TranslateConnect()
+            goodbye_config = self.env.ref('sbc_switzerland.translator_goodbye')
+            _logger.info(
+                "translator put inactive, we inactivate in "
+                "translation platform.")
+            try:
+                tc.disable_user(self.partner_id)
+            except:
+                _logger.error("couldn't disable translator", exc_info=True)
+            finally:
+                self.env['partner.communication.job'].create({
+                    'config_id': goodbye_config.id,
+                    'partner_id': self.partner_id.id,
+                    'object_ids': self.partner_id.id,
+                })
         return super(AdvocateDetails, self).set_inactive()
 
     def set_active(self):
-        if not self.env.context.get('skip_translation_platform_update'):
+        translation = self.env.ref('partner_compassion.engagement_translation')
+        if translation in self.engagement_ids and not self.env.context.get(
+                'skip_translation_platform_update'):
             tc = translate_connector.TranslateConnect()
             _logger.info("translator activated, put it again "
                          "in translation platform")
@@ -109,22 +114,25 @@ class AdvocateDetails(models.Model):
 
     def unlink(self):
         # Remove from translation platform
+        translation = self.env.ref('partner_compassion.engagement_translation')
         tc = translate_connector.TranslateConnect()
         goodbye_config = self.env.ref('sbc_switzerland.translator_goodbye')
         _logger.info(
             "translator deleted, we delete any user in "
             "translation platform with that ref as number")
         for advocate in self:
-            try:
-                tc.remove_user(advocate.partner_id)
-            except:
-                tc.disable_user(advocate.partner_id)
-            finally:
-                self.env['partner.communication.job'].create({
-                    'config_id': goodbye_config.id,
-                    'partner_id': advocate.partner_id.id,
-                    'object_ids': advocate.partner_id.id,
-                })
+            if translation in advocate.engagement_ids and not \
+                    self.env.context.get('skip_translation_platform_update'):
+                try:
+                    tc.remove_user(advocate.partner_id)
+                except:
+                    tc.disable_user(advocate.partner_id)
+                finally:
+                    self.env['partner.communication.job'].create({
+                        'config_id': goodbye_config.id,
+                        'partner_id': advocate.partner_id.id,
+                        'object_ids': advocate.partner_id.id,
+                    })
         return super(AdvocateDetails, self).unlink()
 
     ##########################################################################
