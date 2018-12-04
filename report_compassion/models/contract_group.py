@@ -11,12 +11,14 @@
 import logging
 import threading
 import locale
+import math
 
 from dateutil.relativedelta import relativedelta
 from contextlib import contextmanager
 
 from odoo import api, models, fields, _
 from odoo.exceptions import Warning
+from odoo.tools import mod10r
 
 logger = logging.getLogger(__name__)
 
@@ -176,9 +178,19 @@ class ContractGroup(models.Model):
             **vals)
 
     @api.model
-    def get_scan_line(self, account, reference):
+    def get_scan_line(self, account, reference, amount=False):
         """ Generate a scan line given the reference """
-        line = "042>"
+        if amount:
+            line = "01"
+            decimal_amount, int_amount = math.modf(amount)
+            str_amount = (str(int(int_amount)) +
+                          str(int(decimal_amount*100)).rjust(2, '0')
+                          ).rjust(10, '0')
+            line += str_amount
+            line = mod10r(line)
+        else:
+            line = "042"
+        line += ">"
         line += reference.replace(" ", "").rjust(27, '0')
         line += '+ '
         account_components = account.split('-')
