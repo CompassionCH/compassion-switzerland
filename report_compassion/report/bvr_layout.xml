@@ -31,6 +31,10 @@
                 <span t-raw="company_address" class="pay_for" t-if="not preprinted"/>
                 <span t-raw="communication" class="communication"/>
                 <b><span t-esc="company_account" class="account" t-if="not preprinted"/></b>
+                <div t-if="amount" class="amount">
+                    <span t-esc="int(amount)"/>
+                    <span t-esc="str(int(amount*100))[-2:]"/>
+                </div>
                 <span t-esc="reference" class="reference"/>
                 <span t-raw="partner_address" class="pay_from"/>
             </div>
@@ -38,6 +42,10 @@
                 <span t-raw="company_address" class="pay_for" t-if="not preprinted"/>
                 <span t-esc="reference" class="reference"/>
                 <b><span t-esc="company_account" class="account" t-if="not preprinted"/></b>
+                <div t-if="amount" class="amount">
+                    <span t-esc="int(amount)"/>
+                    <span t-esc="str(int(amount*100))[-2:]"/>
+                </div>
                 <span t-raw="partner_address" class="pay_from"/>
                 <span t-raw="scan_line" class="scan_line"/>
             </div>
@@ -87,6 +95,24 @@
                 margin-top: 33mm;
                 margin-left: 30.5mm;
             }
+            .amount {
+                position: absolute;
+                width: 55mm;
+                font-size: 12pt;
+                letter-spacing: 1.5mm;
+                text-align: right;
+                top: 50.5mm;
+            }
+            .receipt .amount span:first-child {
+                position: absolute;
+                width: 40mm;
+                right: 20mm;
+            }
+            .receipt .amount span:last-child {
+                width: 10mm;
+                float: right;
+                margin-right: 3mm;
+            }
             .receipt .reference {
                 position: absolute;
                 margin-top: 51mm;
@@ -119,6 +145,16 @@
                 font-size: 10pt;
                 text-align: center;
             }
+            .transfer .amount span:first-child {
+                position: absolute;
+                width: 40mm;
+                right: 19mm;
+            }
+            .transfer .amount span:last-child {
+                width: 10mm;
+                float: right;
+                margin-right: 2mm;
+            }
             .transfer .account {
                 position: absolute;
                 margin-left: 28mm;
@@ -135,9 +171,9 @@
             }
             .transfer .scan_line {
                 position: absolute;
-                margin-left: 5.7mm;
-                margin-top: 84.5mm;
-                width: 134mm;
+                right: 7.62mm;
+                top: 84.5mm;
+                width: 140mm;
                 font-family: "ocr";
                 font-size: 12pt;
                 text-align: right;

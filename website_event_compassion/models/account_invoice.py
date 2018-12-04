@@ -14,20 +14,19 @@ from odoo import models
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    def _after_transaction_invoice_paid(self, transaction):
+    def action_invoice_paid(self):
         """
-        Confirm registration when it's paid.
-        :param transaction: payment.transaction record
-        :return: None
+        Mark down payment done if invoice is related to event registration
         """
-        super(AccountInvoice, self)._after_transaction_invoice_paid(
-            transaction)
-        registration = transaction.registration_id
-        if registration:
-            if registration.event_id.event_type_id == self.env.ref(
-                    'website_event_compassion.event_type_group_visit'):
-                registration.confirm_registration()
-                # Mark down payment task as done
-                task = self.env.ref(
-                    'website_event_compassion.task_down_payment')
-                transaction.registration_id.completed_task_ids += task
+        res = super(AccountInvoice, self).action_invoice_paid()
+        registrations = self.env['event.registration'].sudo().search([
+            ('down_payment_id', 'in', self.ids)
+        ])
+        registrations.confirm_registration()
+        # Mark down payment task as done
+        task = self.env.ref(
+            'website_event_compassion.task_down_payment')
+        registrations.write({
+            'completed_task_ids': [(4, task.id)]
+        })
+        return res

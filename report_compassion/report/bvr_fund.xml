@@ -28,8 +28,8 @@
             <t t-set="company_account" t-value="o.env['recurring.contract.group'].get_company_bvr_account()"/>
             <t t-set="position" t-value="0"/>
             <t t-set="reference" t-value="product.generate_bvr_reference(o)"/>
-            <t t-set="communication" t-value="product.with_context(lang=o.lang).name"/>
-            <t t-set="scan_line" t-value="o.env['recurring.contract.group'].get_scan_line(company_account, reference)"/>
+            <t t-set="communication" t-value="communication or product.with_context(lang=o.lang).name"/>
+            <t t-set="scan_line" t-value="o.env['recurring.contract.group'].get_scan_line(company_account, reference, amount)"/>
             <t t-call="report_compassion.report_sponsorship_single_slip"/>
         </div>
     </template>

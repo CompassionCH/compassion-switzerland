@@ -145,6 +145,9 @@ class Event(models.Model):
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
 
+    down_payment_id = fields.Many2one('account.invoice', 'Down payment')
+    group_visit_invoice_id = fields.Many2one('account.invoice', 'Trip invoice')
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
@@ -360,7 +363,87 @@ class Event(models.Model):
                     'stage_id': next_stage.id,
                     'uuid': self._get_uuid()
                 })
+            if next_stage == self.env.ref(
+                    'website_event_compassion.stage_group_pay'):
+                registration.prepare_down_payment()
+            elif next_stage == self.env.ref(
+                    'website_event_compassion.stage_group_documents'):
+                registration.prepare_group_visit_payment()
         return True
+
+    def prepare_down_payment(self):
+        # Prepare invoice for down payment
+        self.ensure_one()
+        event = self.compassion_event_id
+        product = self.event_ticket_id.product_id
+        name = u'[{}] Down payment'.format(event.name)
+        invoice = self.env['account.invoice'].create({
+            'origin': name,
+            'partner_id': self.partner_id.id,
+            'invoice_line_ids': [(0, 0, {
+                'quantity': 1.0,
+                'price_unit': self.event_ticket_id.price,
+                'account_id': product.property_account_income_id.id,
+                'name': name,
+                'product_id': product.id,
+                'account_analytic_id': event.analytic_id.id,
+            })]
+        })
+        invoice.action_invoice_open()
+        self.down_payment_id = invoice
+
+    def prepare_group_visit_payment(self):
+        # Prepare invoice for group visit payment
+        self.ensure_one()
+        event = self.compassion_event_id
+        invl_vals = []
+        tickets = self.event_id.event_ticket_ids
+        if self.include_flight:
+            flight_ticket = tickets.filtered(
+                lambda t: t.product_id.product_tmpl_id == self.env.ref(
+                    'website_event_compassion.product_template_flight'))
+            product = flight_ticket.product_id
+            invl_vals.append({
+                'quantity': 1.0,
+                'price_unit': flight_ticket.price,
+                'account_id': product.property_account_income_id.id,
+                'name': product.name,
+                'product_id': product.id,
+                'account_analytic_id': event.analytic_id.id,
+            })
+        if not self.double_room_person:
+            single_room_ticket = tickets.filtered(
+                lambda t: t.product_id.product_tmpl_id == self.env.ref(
+                    'website_event_compassion.product_template_single_room'))
+            product = single_room_ticket.product_id
+            invl_vals.append({
+                'quantity': 1.0,
+                'price_unit': single_room_ticket.price,
+                'account_id': product.property_account_income_id.id,
+                'name': product.name,
+                'product_id': product.id,
+                'account_analytic_id': event.analytic_id.id,
+            })
+        standard_price = tickets.filtered(
+            lambda t: t.product_id.product_tmpl_id == self.env.ref(
+                'website_event_compassion.product_template_trip_price'))
+        product = standard_price.product_id
+        invl_vals.append({
+            'quantity': 1.0,
+            'price_unit': standard_price.price,
+            'account_id': product.property_account_income_id.id,
+            'name': product.name,
+            'product_id': product.id,
+            'account_analytic_id': event.analytic_id.id,
+        })
+        name = u'[{}] Trip payment'.format(event.name)
+        invoice = self.env['account.invoice'].create({
+            'origin': name,
+            'partner_id': self.partner_id.id,
+            'invoice_line_ids': [(0, 0, invl) for invl in invl_vals]
+        })
+        invoice.action_invoice_open()
+        self.group_visit_invoice_id = invoice
 
     @job
     def cancel_registration(self):

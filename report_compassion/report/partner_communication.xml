@@ -278,6 +278,7 @@
                     <t t-set="reference" t-value="product.generate_bvr_reference(partner)"/>
                     <t t-set="communication" t-value="product.name"/>
                     <t t-set="scan_line" t-value="product.env['recurring.contract.group'].get_scan_line(company_account, reference)"/>
+                    <t t-set="amount" t-value="False"/>
                     <t t-call="report_compassion.report_sponsorship_single_slip"/>
                 </t>
                 <!-- Print BVR Sponsorship Due : if product is sponsorship, use sponsorship due template -->
