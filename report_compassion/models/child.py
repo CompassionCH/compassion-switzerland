@@ -41,10 +41,11 @@ class CompassionChild(models.Model):
 
     def _compute_project_title(self):
         for child in self:
-            firstname = child.firstname or ''
+            firstname = child.preferred_name
+            suffix_s = 's' if not firstname.endswith('s') else ''
             lang_map = {
                 'fr_CH': u"À propos du centre d'accueil",
-                'de_DE': u"Über %s's Kinderzentrum" % firstname,
+                'de_DE': u"Über %s Kinderzentrum" % (firstname + suffix_s),
                 'en_US': firstname + u"'s Project",
                 'it_IT': u'Project',
             }
