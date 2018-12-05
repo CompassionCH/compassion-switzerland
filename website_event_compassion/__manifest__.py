@@ -30,15 +30,14 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion Events Website',
-    'version': '10.0.1.4.1',
+    'version': '10.0.1.2.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'https://github.com/CompassionCH/compassion-modules/tree/10.0',
     'depends': [
-        'website_compassion', 'crm_compassion', 'event',
-        'partner_communication_switzerland', 'cms_form_compassion',
-        'payment_ogone_compassion'
+        'website_compassion', 'crm_compassion', 'event', 'partner_compassion',
+        'cms_form_compassion', 'payment_ogone_compassion', 'partner_survey'
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -47,15 +46,12 @@
         'data/event_registration_stage.xml',
         'data/event_registration_task.xml',
         'data/product.xml',
-        'data/group_visit_emails.xml',
-        'data/communication_config.xml',
         'views/event_compassion_open_wizard.xml',
         'views/event_compassion_view.xml',
         'views/event_event_view.xml',
         'views/event_registration_view.xml',
         'views/registration_stage_view.xml',
         'views/registration_task_view.xml',
-        'views/event_faq_view.xml',
         'templates/assets.xml',
         'templates/event_page.xml',
         'templates/events_list.xml',
@@ -63,12 +59,6 @@
         'templates/participants_list.xml',
         'templates/participant_page.xml',
         'templates/donation_result.xml',
-        'templates/event_faq.xml',
-        'templates/group_visit_step2.xml',
-        'templates/robots.xml',
-    ],
-    'demo': [
-        'demo/crm_event_demo.xml'
     ],
     'development_status': 'Beta',
     'installable': True,

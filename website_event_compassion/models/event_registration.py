@@ -449,3 +449,15 @@ class Event(models.Model):
     def cancel_registration(self):
         """Cancel registration"""
         return self.button_reg_cancel()
+
+    @api.multi
+    def get_event_registration_survey(self):
+        event = self.env['event.event'].search([('compassion_event_id', '=', self.compassion_event_id)])
+        surveys = [event.medical_survey_id, event.feedback_survey_id]
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'survey.user_input',
+            'view_type': 'list',
+            'view_mode': 'list',
+            'domain': ['&', ('survey_id', 'in', surveys), ('partner_id', '=', self.partner_id_id)]
+        }
