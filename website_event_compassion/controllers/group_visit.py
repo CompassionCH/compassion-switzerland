@@ -103,3 +103,39 @@ class GroupVisitController(EventsController):
         values['form'] = payment_form
         return request.render(
             'website_event_compassion.event_full_page_form', values)
+
+    @http.route('/event/<string:reg_uid>/medical_checklist',
+                auth='public', website=True)
+    def medical_checklist(self, reg_uid, **kwargs):
+        registration = request.env['event.registration'].search([
+            ('uuid', '=', reg_uid)])
+        if not registration:
+            return request.redirect('/events')
+        values = kwargs.copy()
+        values.pop('edit_translations', False)
+        values.update({
+            'registration': registration,
+            'event': registration.compassion_event_id,
+        })
+        return request.render(
+            'website_event_compassion.group_visit_medical_info', values)
+
+    @http.route('/event/<string:reg_uid>/medical_discharge',
+                auth='public', website=True)
+    def medical_discharge(self, reg_uid, **kwargs):
+        registration = request.env['event.registration'].search([
+            ('uuid', '=', reg_uid)])
+        if not registration:
+            return request.redirect('/events')
+        values = kwargs.copy()
+        values.pop('edit_translations', False)
+        values.update({
+            'form_model_key': 'cms.form.group.visit.medical.discharge',
+            'registration': registration,
+            'event': registration.compassion_event_id
+        })
+        form = self.get_form('event.registration', registration.id,  **values)
+        form.form_process()
+        values['form'] = form
+        return request.render(
+            'website_event_compassion.event_full_page_form', values)
