@@ -22,3 +22,4 @@ from . import payment_transaction
 from . import res_partner
 from . import partner_communication_job
 from . import event_faq
+from . import res_country_vaccine

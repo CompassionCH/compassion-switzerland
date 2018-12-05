@@ -8,3 +8,7 @@ access_event_faq,Read access event faq,model_event_faq,,1,0,0,0
 access_admin_event_faq,Full access event faq,model_event_faq,event.group_event_manager,1,1,1,1
 access_event_faq_category,Read access event faq category,model_event_faq_category,,1,0,0,0
 access_admin_event_faq_category,Full access event faq category,model_event_faq_category,event.group_event_manager,1,1,1,1
+access_vaccine,Read access on vaccines,model_res_vaccine,,1,0,0,0
+access_vaccine_country,Read access country vaccines,model_res_country_vaccine,,1,0,0,0
+access_vaccine_admin,Full access on vaccines,model_res_vaccine,event.group_event_manager,1,1,1,1
+access_vaccine_country_admin,Full access country vaccines,model_res_country_vaccine,event.group_event_manager,1,1,1,1
