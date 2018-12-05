@@ -24,6 +24,12 @@
                         <field name="sponsorship_donation_value"/>
                     </group>
                 </page>
+                <page name="surveys" string="Surveys">
+                    <group>
+                        <field name="medical_survey_id"/>
+                        <field name="feedback_survey_id"/>
+                    </group>
+                </page>
             </xpath>
             <xpath expr="//notebook/page[1]/group[1]" position="inside">
                 <group>

@@ -148,6 +148,8 @@ class Event(models.Model):
     down_payment_id = fields.Many2one('account.invoice', 'Down payment')
     group_visit_invoice_id = fields.Many2one('account.invoice', 'Trip invoice')
 
+    survey_count = fields.Integer(compute='_compute_survey_count')
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
@@ -296,6 +298,16 @@ class Event(models.Model):
             registration.complete_stage_task_ids = \
                 registration.completed_task_ids.filtered(
                     lambda t: t.stage_id == registration.stage_id)
+
+    def _compute_survey_count(self):
+        for registration in self:
+            event = registration.event_id
+            surveys = event.medical_survey_id + event.feedback_survey_id
+            registration.survey_count = self.env['survey.user_input']\
+                .search_count([
+                    ('partner_id', '=', registration.partner_id.id),
+                    ('survey_id', 'in', surveys.ids)
+                ])
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -449,3 +461,20 @@ class Event(models.Model):
     def cancel_registration(self):
         """Cancel registration"""
         return self.button_reg_cancel()
+
+    @api.multi
+    def get_event_registration_survey(self):
+        event = self.event_id
+        surveys = event.medical_survey_id + event.feedback_survey_id
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'survey.user_input',
+            'name': _('Surveys'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'domain': [
+                ('survey_id', 'in', surveys.ids),
+                ('partner_id', '=', self.partner_id_id)
+            ],
+            'context': self.env.context,
+        }

@@ -59,6 +59,8 @@ class Event(models.Model):
 
     visa_needed = fields.Boolean()
     months_needed_for_a_visa = fields.Integer()
+    medical_survey_id = fields.Many2one('survey.survey', 'Medical Survey')
+    feedback_survey_id = fields.Many2one('survey.survey', 'Feedback Survey')
 
     def _compute_total_price(self):
         flight = self.env.ref(
