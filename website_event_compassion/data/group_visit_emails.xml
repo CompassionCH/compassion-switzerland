@@ -37,7 +37,7 @@
                     </div>
                     <br/>
                     <br/>
-                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}/${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Once again, thank you for your commitment to children in need.
@@ -98,7 +98,7 @@
                     The next step will be to prepare for the trip. Here again, you will receive the information you need to know in time to make this trip an enriching and unforgettable experience for you.
                     <br/>
                     <br/>
-                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}/${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Once again, thank you for your commitment to children in need.
@@ -147,7 +147,7 @@
                     <li>Information about Compassion's work and meeting your sponsored child</li>
                 </ol>
                 <p>
-                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}/${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Once again, thank you for your commitment to children in need.
@@ -202,10 +202,49 @@
                     </div>
                     <br/>
                     <br/>
-                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}/${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Thank you for your commitment to children in need.
+                    <br/>
+                    <br/>
+                    Receive our warmest greetings.
+                    <br/>
+                    <br/>
+                    Rose-Marie Reber
+                    <br/>
+                    Sponsor and donor service
+                    <br/>
+                    Compassion Switzerland
+                </p>
+            </field>
+        </record>
+
+        <record id="group_visit_medical_discharge_email" model="mail.template">
+            <field name="name">Group visit: medical discharge request</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">Your trip with Compassion - Medical information</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set registration = object.get_objects()
+                    % set event = registration.compassion_event_id
+                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
+                </div>
+                <p>
+                    ${partner.salutation}
+                    <br/>
+                    <br/>
+                    We received your answers to the medical survey and we thank you for taking the time to complete it.
+                    <br/>
+                    <br/>
+                    Based on your answers, it seems you are undergoing on a medical treatment. For that purpose we need a medical discharge from your doctor, confirming us that your medical status still allows you to travel to ${event.country_id.name}.
+                    <br/>
+                    <br/>
+                    Please find attached a template letter that you can fill with your information, print and give it to your doctor to sign. You can then send us back the signed letter at our postal addres or <a href="${base_url}/event/${registration.uuid}/medical_discharge">directly online by clicking here</a>.
                     <br/>
                     <br/>
                     Receive our warmest greetings.
@@ -281,7 +320,7 @@
                     </ul>
                     <br/>
                     <br/>
-                    <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    <a href="${base_url}/${event.website_url}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Once again, thank you for your commitment to children in need.
@@ -387,7 +426,7 @@
                     </div>
                     <br/>
                     <br/>
-                    If you still have questions, <a href="${base_url}${event.website_url}/faq" style="color: skyblue; text-decoration: underline">you will find here</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                    If you still have questions, <a href="${base_url}/${event.website_url}/faq" style="color: skyblue; text-decoration: underline">you will find here</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                     <br/>
                     <br/>
                     Thank you for your commitment to children in need.

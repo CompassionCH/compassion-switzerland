@@ -8,6 +8,8 @@ Disallow: /event/*/registration/*
 Disallow: /event/agreements/*
 Disallow: /event/payment/*
 Disallow: /event/*/down_payment
+Disallow: /event/*/medical_discharge
+Disallow: /event/*/medical_checklist
             </t>
         </xpath>
     </template>

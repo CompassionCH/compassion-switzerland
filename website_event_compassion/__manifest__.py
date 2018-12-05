@@ -38,7 +38,7 @@
     'depends': [
         'website_compassion', 'crm_compassion', 'event',
         'partner_communication_switzerland', 'cms_form_compassion',
-        'payment_ogone_compassion'
+        'payment_ogone_compassion', 'survey_phone'
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -49,6 +49,7 @@
         'data/product.xml',
         'data/group_visit_emails.xml',
         'data/communication_config.xml',
+        'data/survey.xml',
         'views/event_compassion_open_wizard.xml',
         'views/event_compassion_view.xml',
         'views/event_event_view.xml',
@@ -66,6 +67,7 @@
         'templates/donation_result.xml',
         'templates/event_faq.xml',
         'templates/group_visit_step2.xml',
+        'templates/group_visit_medical_info.xml',
         'templates/robots.xml',
     ],
     'demo': [
