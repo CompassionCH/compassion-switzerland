@@ -270,7 +270,7 @@
                 <div>
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
-                    % set event = registration.compassion_event_id
+                    % set event = registration.event_id
                     % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
                 </div>
                 <p>
@@ -306,10 +306,12 @@
                     Compassion does not have comprehensive insurance for participants on sponsor trips. We recommend that you check your health and accident insurance coverage. Trip cancellation insurance is strongly recommended. Indeed, once the flight ticket has been purchased and in the event of cancellation, you will be responsible for the costs. Do you have the <a href="https://www.tcs.ch/fr/produits/depannage-protection-voyage/assistance-voyage/livret-eti.php" style="color: skyblue; text-decoration: underline">ETI World TCS booklet (click here)</a>? This is a good insurance that covers international travel and cancellations.
                     <br/>
                     <br/>
-                    <h3>2.3. Visa</h3>
-                    This trip will require a visa. To apply for a visa, go to the website of the "visa application" country or to https://www.dfae.admin.ch to find the necessary information. For ${event.country_id.name}, it is best to make the request [x time] before your departure.
-                    <br/>
-                    <br/>
+                    % if event.visa_needed:
+                        <h3>2.3. Visa</h3>
+                        This trip will require a visa. To apply for a visa, go to the website of the "visa application" country or to https://www.dfae.admin.ch to find the necessary information. For ${event.country_id.name}, it is best to make the request ${event.months_needed_for_a_visa} months before your departure.
+                        <br/>
+                        <br/>
+                    % endif
                     <h3>2.4. Emergency contact</h3>
                     Please make sure you informed your emergency contact about the trip. Here is the the emergency person you chose:
                     <br/>

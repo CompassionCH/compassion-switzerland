@@ -202,7 +202,7 @@ class EventsController(PaymentFormController):
             tx, success_template, failure_template, **post
         )
 
-    @http.route('/event/payment/down_payment_validate',
+    @http.route('/event/payment/gpv_payment_validate',
                 type='http', auth="public", website=True)
     def down_payment_validate(self, **post):
         """ Method that should be called by the server when receiving an update
@@ -218,6 +218,7 @@ class EventsController(PaymentFormController):
         if not tx or not tx.invoice_id:
             return request.render(failure_template)
 
+        invoice = tx.invoice_id
         invoice_lines = tx.invoice_id.invoice_line_ids
         event = invoice_lines.mapped('event_id')
         registration = tx.registration_id
@@ -225,9 +226,13 @@ class EventsController(PaymentFormController):
             'attendees': registration,
             'event': event.odoo_event_id
         })
+        template = 'website_event_compassion.'
+        if invoice == registration.down_payment_id:
+            template += 'event_down_payment_successful'
+        elif invoice == registration.group_visit_invoice_id:
+            template += 'event_group_visit_trip_payment_successful'
         return super(EventsController, self).compassion_payment_validate(
-            tx, 'website_event_compassion.event_down_payment_successful',
-            failure_template, **post
+            tx, template, failure_template, **post
         )
 
     def get_donation_success_template(self, event):

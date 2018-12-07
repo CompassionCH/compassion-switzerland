@@ -16,8 +16,8 @@ testing = tools.config.get('test_enable')
 if not testing:
     # prevent these forms to be registered when running tests
 
-    class DownpaymentForm(models.AbstractModel):
-        _name = 'cms.form.event.down.payment'
+    class GroupVisitPaymentForm(models.AbstractModel):
+        _name = 'cms.form.event.group.visit.payment'
         _inherit = 'cms.form.payment'
 
         _payment_accept_redirect = '/event/payment/gpv_payment_validate'
@@ -43,9 +43,9 @@ if not testing:
         @property
         def form_title(self):
             if self.event_id:
-                return self.event_id.name + ' ' + _("Down payment")
+                return self.event_id.name + ' ' + _("payment")
             else:
-                return _("Down payment")
+                return _("Travel payment")
 
         @property
         def submit_text(self):
@@ -54,13 +54,13 @@ if not testing:
         @property
         def form_widgets(self):
             # Hide fields
-            res = super(DownpaymentForm, self).form_widgets
+            res = super(GroupVisitPaymentForm, self).form_widgets
             res['partner_name'] = 'cms_form_compassion.form.widget.readonly'
             res['amount'] = 'cms_form_compassion.form.widget.readonly'
             return res
 
         def form_init(self, request, main_object=None, **kw):
-            form = super(DownpaymentForm, self).form_init(
+            form = super(GroupVisitPaymentForm, self).form_init(
                 request, main_object, **kw)
             # Store ambassador and event in model to use it in properties
             registration = kw.get('registration')
@@ -74,11 +74,12 @@ if not testing:
             return self.partner_id.sudo().name
 
         def _form_load_amount(self, fname, field, value, **req_values):
-            return self.registration_id.sudo().down_payment_id.amount_total
+            return self.registration_id.sudo()\
+                .group_visit_invoice_id.amount_total
 
         def form_before_create_or_update(self, values, extra_values):
             """ Inject invoice values """
-            super(DownpaymentForm, self).form_before_create_or_update(
+            super(GroupVisitPaymentForm, self).form_before_create_or_update(
                 values, extra_values)
             values['partner_id'] = self.partner_id.id
 
@@ -89,7 +90,8 @@ if not testing:
         def _edit_transaction_values(self, tx_values, form_vals):
             """ Add registration link and change reference. """
             tx_values.update({
-                'invoice_id': self.registration_id.down_payment_id.id,
+                'invoice_id': self.registration_id.group_visit_invoice_id.id,
                 'registration_id': self.registration_id.id,
-                'reference': 'EVENT-REG-' + str(self.registration_id.id),
+                'reference': 'GROUP-VISIT-PAYMENT-' + str(
+                    self.registration_id.id),
             })
