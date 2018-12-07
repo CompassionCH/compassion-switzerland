@@ -63,6 +63,24 @@
         </t>
     </template>
 
+    <!-- Group visit trip payment success page -->
+    <template id="event_group_visit_trip_payment_successful" name="Group visit trip payment success">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
+            <div id="wrap">
+                <div class="container">
+                    <h3>We are glad to confirm your payment for
+                        <t t-esc="event.name"/>
+                    </h3>
+                    <p>Congratulations! Everything is ready for this beautiful trip to happen. You will receive all the practical information about the trip preparation a few weeks before the departure. Until then, don't hesitate to contact us if you have any question.</p>
+                    <t t-call="website_event_compassion.event_registration_summary"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
     <template id="event_registration_summary" name="Event registration summary">
         <div class="row">
             <div class="col-md-3 mt16">

@@ -16,7 +16,7 @@ class AccountInvoice(models.Model):
 
     def action_invoice_paid(self):
         """
-        Mark down payment done if invoice is related to event registration
+        Mark payment done if invoice is related to event registration
         """
         res = super(AccountInvoice, self).action_invoice_paid()
         registrations = self.env['event.registration'].sudo().search([
@@ -26,6 +26,15 @@ class AccountInvoice(models.Model):
         # Mark down payment task as done
         task = self.env.ref(
             'website_event_compassion.task_down_payment')
+        registrations.write({
+            'completed_task_ids': [(4, task.id)]
+        })
+        # Mark group visit trip payment done
+        registrations = self.env['event.registration'].sudo().search([
+            ('group_visit_invoice_id', 'in', self.ids)
+        ])
+        task = self.env.ref(
+            'website_event_compassion.task_full_payment')
         registrations.write({
             'completed_task_ids': [(4, task.id)]
         })

@@ -151,6 +151,8 @@ class Event(models.Model):
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
 
+    # Payment fields
+    ################
     down_payment_id = fields.Many2one('account.invoice', 'Down payment')
     group_visit_invoice_id = fields.Many2one('account.invoice', 'Trip invoice')
 
