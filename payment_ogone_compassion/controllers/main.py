@@ -36,12 +36,12 @@ class OgoneCompassion(OgoneController):
         transaction_obj = request.env['payment.transaction'].sudo()
         _logger.info('Ogone: entering form_feedback with post data %s',
                      pprint.pformat(post))  # debug
-        transaction_obj.form_feedback(post, 'ogone')
         tx = transaction_obj._ogone_form_get_tx_from_data(post)
         tx.write({
             'postfinance_payid': post.get('PAYID'),
             'postfinance_brand': post.get('BRAND')
         })
+        transaction_obj.form_feedback(post, 'ogone')
         redirect = post.pop('return_url', '/') + '?' + urllib.urlencode(
             encoded_dict(post))
         return werkzeug.utils.redirect(redirect)
