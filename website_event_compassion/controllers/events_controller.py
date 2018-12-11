@@ -76,65 +76,6 @@ class EventsController(PaymentFormController):
             values
         )
 
-    @http.route('/event/agreements/<string:reg_uid>',
-                auth='public', website=True)
-    def event_travel_step2(self, reg_uid, form_id=None, **kwargs):
-        registration = request.env['event.registration'].search([
-            ('uuid', '=', reg_uid)])
-        if not registration:
-            return request.redirect('/events')
-        event = registration.compassion_event_id
-        values = kwargs.copy()
-        values.pop('edit_translations', False)
-
-        values['form_model_key'] = 'cms.form.group.visit.travel.contract'
-        contract_form = self.get_form(
-            'event.registration', registration.id, **values)
-        if form_id is None or 'contract_agreement' in values:
-            select_form = 'contract'
-            contract_form.form_process()
-
-        values['form_model_key'] = 'cms.form.group.visit.child.protection'
-        child_protection_form = self.get_form(
-            'event.registration', registration.id, **values)
-        if form_id is None or 'final_question' in values:
-            select_form = 'child_protection'
-            child_protection_form.form_process()
-
-        values['form_model_key'] = 'cms.form.group.visit.trip.form'
-        trip_form = self.get_form(
-            'event.registration', registration.id, **values)
-        if form_id is None or 'emergency_name' in values:
-            select_form = 'travel'
-            trip_form.form_process()
-
-        values['form_model_key'] = 'cms.form.group.visit.criminal.record'
-        criminal_form = self.get_form(
-            'event.registration', registration.id, **values)
-        if form_id is None or 'criminal_record' in values:
-            select_form = 'criminal'
-            criminal_form.form_process()
-
-        # Reload registration after form process
-        registration.env.invalidate_all()
-        values.update({
-            'event': event,
-            'registration': registration,
-            'contract_form': contract_form,
-            'child_protection_form': child_protection_form,
-            'trip_form': trip_form,
-            'criminal_form': criminal_form,
-            'select': select_form if form_id is not None else form_id,
-        })
-        if registration.stage_id == request.env.ref(
-                'website_event_compassion.stage_group_unconfirmed'):
-            return request.render(
-                'website_event_compassion.event_contract_step2', values)
-        else:
-            return request.render(
-                'website_event_compassion.event_contract_step2_complete',
-                values)
-
     def get_event_page_values(self, event, **kwargs):
         """
         Gets the values used by the website to render the event page.
@@ -158,7 +99,7 @@ class EventsController(PaymentFormController):
         template = 'website_event_compassion.'
         if event.event_type_id == group_visit:
             values['form_model_key'] = 'cms.form.group.visit.registration'
-            template += 'event_registration_full_page'
+            template += 'event_full_page_form'
         else:
             template += 'event_page'
         registration_form = self.get_form('event.registration', **values)
@@ -259,6 +200,39 @@ class EventsController(PaymentFormController):
         success_template = self.get_donation_success_template(event)
         return self.compassion_payment_validate(
             tx, success_template, failure_template, **post
+        )
+
+    @http.route('/event/payment/gpv_payment_validate',
+                type='http', auth="public", website=True)
+    def down_payment_validate(self, **post):
+        """ Method that should be called by the server when receiving an update
+        for a transaction.
+        """
+        failure_template = 'website_event_compassion.donation_failure'
+        try:
+            tx = request.env['payment.transaction'].sudo(). \
+                _ogone_form_get_tx_from_data(post)
+        except ValidationError:
+            tx = None
+
+        if not tx or not tx.invoice_id:
+            return request.render(failure_template)
+
+        invoice = tx.invoice_id
+        invoice_lines = tx.invoice_id.invoice_line_ids
+        event = invoice_lines.mapped('event_id')
+        registration = tx.registration_id
+        post.update({
+            'attendees': registration,
+            'event': event.odoo_event_id
+        })
+        template = 'website_event_compassion.'
+        if invoice == registration.down_payment_id:
+            template += 'event_down_payment_successful'
+        elif invoice == registration.group_visit_invoice_id:
+            template += 'event_group_visit_trip_payment_successful'
+        return super(EventsController, self).compassion_payment_validate(
+            tx, template, failure_template, **post
         )
 
     def get_donation_success_template(self, event):

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Page for the full screen registration form (in case it is not displayed in modal popup -->
-    <template id="event_registration_full_page" name="Event registration full page form">
+    <template id="event_full_page_form" name="Event full page form">
         <t t-call="website.publish_management">
             <t t-set="object" t-value="event"/>
             <t t-set="publish_edit" t-value="True"/>
@@ -28,7 +28,7 @@
         </t>
     </template>
 
-    <!-- Success page -->
+    <!-- Registration success page -->
     <template id="event_registration_successful" name="Event registration success">
         <t t-call="website.layout">
             <t t-set="head">
@@ -39,82 +39,113 @@
                     <h3>We are glad to confirm your registration to
                         <t t-esc="event.name"/>
                     </h3>
-                    <div class="row">
-                        <div class="col-md-3 mt16">
-                            <h4>Details</h4>
-                        </div>
-                        <div class="col-md-9 mt16">
-                            <h4>
-                                <a t-attf-href="{{'/event/' + slug(event.compassion_event_id)}}">
-                                    <t t-esc="event.name"/>
-                                </a>
-                            </h4>
-                            <i class="fa fa-clock-o"/>
-                            <span itemprop="startDate" t-esc="event.date_begin_located[:-3]"></span>
-                            <i>to</i>
-                            <span itemprop="endDate" t-esc="event.date_end_located[:-3]"></span>
-                            <div itemprop="location" class="mt16 mb8" t-field="event.address_id" t-options='{
-                            "widget": "contact",
-                            "fields": ["name", "address", "phone", "mobile", "fax", "email"]
-                            }'/>
-                        </div>
-                        <div class="col-md-3 mt16">
-                            <h4>Your registration</h4>
-                        </div>
-                        <div class="col-md-9 mt16">
-                            <table class='table table-bordered table-striped'>
-                                <thead>
-                                    <tr>
-                                        <th>Reference</th>
-                                        <th>Name</th>
-                                        <th>E-mail</th>
-                                        <th>Phone</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <t t-foreach="attendees" t-as="attendee">
-                                        <tr>
-                                            <td>
-                                                <t t-esc="attendee.id"/>
-                                            </td>
-                                            <td>
-                                                <i class="fa fa-user"></i>
-                                                <t t-if='attendee.name'>
-                                                    <t t-esc="attendee.name"/>
-                                                </t>
-                                                <t t-if='not attendee.name'>N/A</t>
-                                            </td>
-                                            <td>
-                                                <i class="fa fa-envelope"></i>
-                                                <t t-if='attendee.email'>
-                                                    <t t-esc="attendee.email"/>
-                                                </t>
-                                                <t t-if='not attendee.email'>N/A</t>
-                                            </td>
-                                            <td>
-                                                <i class="fa fa-phone"></i>
-                                                <t t-if='attendee.phone'>
-                                                    <t t-esc="attendee.phone"/>
-                                                </t>
-                                                <t t-if='not attendee.phone'>N/A</t>
-                                            </td>
-                                        </tr>
-                                    </t>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <t t-call="website_event_compassion.event_registration_summary"/>
                 </div>
             </div>
         </t>
     </template>
 
-    <!--Disallow registration pages to be indexed.-->
-    <template id="robots_disallow" inherit_id="website_compassion.robots_disallow">
-        <xpath expr="." position="inside">
-            <t>
-Disallow: /event/*/registration/*
+    <!-- Down payment success page -->
+    <template id="event_down_payment_successful" name="Event down payment success">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
             </t>
-        </xpath>
+            <div id="wrap">
+                <div class="container">
+                    <h3>We are glad to confirm your registration to
+                        <t t-esc="event.name"/>
+                    </h3>
+                    <p>Your payment was successful and your are now a confirmed participant of the trip. You will receive all the documentation for the preparation of your trip by e-mail in the coming weeks. Here is again the summary of your registration:</p>
+                    <t t-call="website_event_compassion.event_registration_summary"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Group visit trip payment success page -->
+    <template id="event_group_visit_trip_payment_successful" name="Group visit trip payment success">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
+            <div id="wrap">
+                <div class="container">
+                    <h3>We are glad to confirm your payment for
+                        <t t-esc="event.name"/>
+                    </h3>
+                    <p>Congratulations! Everything is ready for this beautiful trip to happen. You will receive all the practical information about the trip preparation a few weeks before the departure. Until then, don't hesitate to contact us if you have any question.</p>
+                    <t t-call="website_event_compassion.event_registration_summary"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="event_registration_summary" name="Event registration summary">
+        <div class="row">
+            <div class="col-md-3 mt16">
+                <h4>Details</h4>
+            </div>
+            <div class="col-md-9 mt16">
+                <h4>
+                    <a t-attf-href="{{'/event/' + slug(event.compassion_event_id)}}">
+                        <t t-esc="event.name"/>
+                    </a>
+                </h4>
+                <i class="fa fa-clock-o"/>
+                <span itemprop="startDate" t-esc="event.date_begin_located[:-3]"></span>
+                <i>to</i>
+                <span itemprop="endDate" t-esc="event.date_end_located[:-3]"></span>
+                <div itemprop="location" class="mt16 mb8" t-field="event.address_id" t-options='{
+                "widget": "contact",
+                "fields": ["name", "address", "phone", "mobile", "fax", "email"]
+                }'/>
+            </div>
+            <div class="col-md-3 mt16">
+                <h4>Your registration</h4>
+            </div>
+            <div class="col-md-9 mt16">
+                <table class='table table-bordered table-striped'>
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Name</th>
+                            <th>E-mail</th>
+                            <th>Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="attendees" t-as="attendee">
+                            <tr>
+                                <td>
+                                    <t t-esc="attendee.id"/>
+                                </td>
+                                <td>
+                                    <i class="fa fa-user"></i>
+                                    <t t-if='attendee.name'>
+                                        <t t-esc="attendee.name"/>
+                                    </t>
+                                    <t t-if='not attendee.name'>N/A</t>
+                                </td>
+                                <td>
+                                    <i class="fa fa-envelope"></i>
+                                    <t t-if='attendee.email'>
+                                        <t t-esc="attendee.email"/>
+                                    </t>
+                                    <t t-if='not attendee.email'>N/A</t>
+                                </td>
+                                <td>
+                                    <i class="fa fa-phone"></i>
+                                    <t t-if='attendee.phone'>
+                                        <t t-esc="attendee.phone"/>
+                                    </t>
+                                    <t t-if='not attendee.phone'>N/A</t>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </template>
 </odoo>

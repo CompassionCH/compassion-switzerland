@@ -64,6 +64,7 @@
                     <t t-call="report_compassion.report_sponsorship_single_slip">
                         <t t-set="reference" t-value="o.format_ref"/>
                         <t t-set="communication" t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
+                        <t t-set="amount" t-value="False"/>
                         <t t-set="scan_line" t-value="o.scan_line"/>
                     </t>
 
@@ -87,6 +88,7 @@
                     <t t-call="report_compassion.report_sponsorship_single_slip">
                         <t t-set="reference" t-value="sponsorship.generate_bvr_reference(gift)"/>
                         <t t-set="communication" t-value="sponsorship.get_gift_communication(gift)"/>
+                        <t t-set="amount" t-value="False"/>
                         <t t-set="scan_line" t-value="o.get_scan_line(company_account, reference)"/>
                     </t>
                 </t>
@@ -124,6 +126,7 @@
                 CHF <t t-raw="due"/>.-
             </t>
         </t>
+        <t t-set="amount" t-value="False"/>
         <t t-set="scan_line" t-value="o.get_scan_line(company_account, reference)"/>
         <t t-call="report_compassion.report_sponsorship_single_slip"/>
     </template>

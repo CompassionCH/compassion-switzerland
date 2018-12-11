@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion Events Website',
-    'version': '10.0.1.4.1',
+    'version': '10.0.1.4.2',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
@@ -38,7 +38,7 @@
     'depends': [
         'website_compassion', 'crm_compassion', 'event',
         'partner_communication_switzerland', 'cms_form_compassion',
-        'payment_ogone_compassion'
+        'payment_ogone_compassion', 'survey_phone'
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -49,6 +49,7 @@
         'data/product.xml',
         'data/group_visit_emails.xml',
         'data/communication_config.xml',
+        'data/survey.xml',
         'views/event_compassion_open_wizard.xml',
         'views/event_compassion_view.xml',
         'views/event_event_view.xml',
@@ -56,6 +57,7 @@
         'views/registration_stage_view.xml',
         'views/registration_task_view.xml',
         'views/event_faq_view.xml',
+        'views/res_vaccine_view.xml',
         'templates/assets.xml',
         'templates/event_page.xml',
         'templates/events_list.xml',
@@ -64,7 +66,9 @@
         'templates/participant_page.xml',
         'templates/donation_result.xml',
         'templates/event_faq.xml',
-        'templates/event_contracts_step2.xml',
+        'templates/group_visit_step2.xml',
+        'templates/group_visit_medical_info.xml',
+        'templates/robots.xml',
     ],
     'demo': [
         'demo/crm_event_demo.xml'

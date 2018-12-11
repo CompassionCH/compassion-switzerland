@@ -44,7 +44,9 @@ class BvrFundReport(models.AbstractModel):
             data = {
                 'background': True,
                 'product_id': product_id,
-                'preprinted': False
+                'preprinted': False,
+                'amount': False,
+                'communication': False
             }
 
         data.update({

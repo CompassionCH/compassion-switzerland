@@ -13,3 +13,6 @@ from . import group_visit_registration_step1
 from . import match_partner_form
 from . import donation_form
 from . import agreement_step2_forms
+from . import down_payment_step3
+from . import medical_discharge_form
+from . import group_visit_payment

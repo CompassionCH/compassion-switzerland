@@ -14,7 +14,7 @@ from datetime import date
 from odoo import api, models, fields, _, SUPERUSER_ID
 from odoo.addons.website.models.website import slug
 from odoo.exceptions import MissingError
-from odoo.tools import config
+from odoo.tools import config, file_open
 
 from odoo.addons.queue_job.job import job
 
@@ -124,6 +124,12 @@ class Event(models.Model):
     criminal_record_uploaded = fields.Boolean(
         compute='_compute_step2_tasks')
     criminal_record = fields.Binary(attachment=True)
+    medical_discharge = fields.Binary(attachment=True)
+    medical_survey_id = fields.Many2one(
+        'survey.user_input', 'Medical survey')
+    requires_medical_discharge = fields.Boolean(
+        compute='_compute_requires_medical_discharge', store=True
+    )
 
     # Travel info
     #############
@@ -144,6 +150,13 @@ class Event(models.Model):
     birth_name = fields.Char()
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
+
+    # Payment fields
+    ################
+    down_payment_id = fields.Many2one('account.invoice', 'Down payment')
+    group_visit_invoice_id = fields.Many2one('account.invoice', 'Trip invoice')
+
+    survey_count = fields.Integer(compute='_compute_survey_count')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -294,6 +307,30 @@ class Event(models.Model):
                 registration.completed_task_ids.filtered(
                     lambda t: t.stage_id == registration.stage_id)
 
+    def _compute_survey_count(self):
+        for registration in self:
+            event = registration.event_id
+            surveys = event.medical_survey_id + event.feedback_survey_id
+            registration.survey_count = self.env['survey.user_input']\
+                .search_count([
+                    ('partner_id', '=', registration.partner_id.id),
+                    ('survey_id', 'in', surveys.ids)
+                ])
+
+    @api.depends('medical_survey_id', 'medical_survey_id.state')
+    def _compute_requires_medical_discharge(self):
+        for registration in self:
+            if registration.medical_survey_id.state == 'done':
+                treatment = registration.medical_survey_id.user_input_line_ids\
+                    .filtered(
+                        lambda l: l.question_id == self.env.ref(
+                            'website_event_compassion.gpms_question_treatment')
+                    )
+                registration.requires_medical_discharge =\
+                    treatment.value_free_text and not treatment.skipped
+            else:
+                registration.requires_medical_discharge = False
+
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
@@ -345,6 +382,31 @@ class Event(models.Model):
                 'website_event_compassion.stage_all_cancelled').id
         })
 
+    @job
+    def cancel_registration(self):
+        """Cancel registration"""
+        return self.button_reg_cancel()
+
+    @api.multi
+    def get_event_registration_survey(self):
+        event = self.event_id
+        surveys = event.medical_survey_id + event.feedback_survey_id
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'survey.user_input',
+            'name': _('Surveys'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'domain': [
+                ('survey_id', 'in', surveys.ids),
+                ('partner_id', '=', self.partner_id_id)
+            ],
+            'context': self.env.context,
+        }
+
+    ##########################################################################
+    #                       STAGE TRANSITION METHODS                         #
+    ##########################################################################
     @api.multi
     def next_stage(self):
         """ Transition to next registration stage """
@@ -360,9 +422,141 @@ class Event(models.Model):
                     'stage_id': next_stage.id,
                     'uuid': self._get_uuid()
                 })
+            if next_stage == self.env.ref(
+                    'website_event_compassion.stage_group_pay'):
+                registration.prepare_down_payment()
+            elif next_stage == self.env.ref(
+                    'website_event_compassion.stage_group_documents'):
+                registration.prepare_group_visit_payment()
+            elif next_stage == self.env.ref(
+                    'website_event_compassion.stage_group_medical'):
+                registration.prepare_medical_survey()
         return True
 
-    @job
-    def cancel_registration(self):
-        """Cancel registration"""
-        return self.button_reg_cancel()
+    def prepare_down_payment(self):
+        # Prepare invoice for down payment
+        self.ensure_one()
+        event = self.compassion_event_id
+        product = self.event_ticket_id.product_id
+        name = u'[{}] Down payment'.format(event.name)
+        invoice = self.env['account.invoice'].create({
+            'origin': name,
+            'partner_id': self.partner_id.id,
+            'invoice_line_ids': [(0, 0, {
+                'quantity': 1.0,
+                'price_unit': self.event_ticket_id.price,
+                'account_id': product.property_account_income_id.id,
+                'name': name,
+                'product_id': product.id,
+                'account_analytic_id': event.analytic_id.id,
+            })]
+        })
+        invoice.action_invoice_open()
+        self.down_payment_id = invoice
+
+    def prepare_group_visit_payment(self):
+        # Prepare invoice for group visit payment
+        self.ensure_one()
+        event = self.compassion_event_id
+        invl_vals = []
+        tickets = self.event_id.event_ticket_ids
+        if self.include_flight:
+            flight_ticket = tickets.filtered(
+                lambda t: t.product_id.product_tmpl_id == self.env.ref(
+                    'website_event_compassion.product_template_flight'))
+            product = flight_ticket.product_id
+            invl_vals.append({
+                'quantity': 1.0,
+                'price_unit': flight_ticket.price,
+                'account_id': product.property_account_income_id.id,
+                'name': product.name,
+                'product_id': product.id,
+                'account_analytic_id': event.analytic_id.id,
+            })
+        if not self.double_room_person:
+            single_room_ticket = tickets.filtered(
+                lambda t: t.product_id.product_tmpl_id == self.env.ref(
+                    'website_event_compassion.product_template_single_room'))
+            product = single_room_ticket.product_id
+            invl_vals.append({
+                'quantity': 1.0,
+                'price_unit': single_room_ticket.price,
+                'account_id': product.property_account_income_id.id,
+                'name': product.name,
+                'product_id': product.id,
+                'account_analytic_id': event.analytic_id.id,
+            })
+        standard_price = tickets.filtered(
+            lambda t: t.product_id.product_tmpl_id == self.env.ref(
+                'website_event_compassion.product_template_trip_price'))
+        product = standard_price.product_id
+        invl_vals.append({
+            'quantity': 1.0,
+            'price_unit': standard_price.price,
+            'account_id': product.property_account_income_id.id,
+            'name': product.name,
+            'product_id': product.id,
+            'account_analytic_id': event.analytic_id.id,
+        })
+        name = u'[{}] Trip payment'.format(event.name)
+        invoice = self.env['account.invoice'].create({
+            'origin': name,
+            'partner_id': self.partner_id.id,
+            'invoice_line_ids': [(0, 0, invl) for invl in invl_vals]
+        })
+        invoice.action_invoice_open()
+        self.group_visit_invoice_id = invoice
+
+    def prepare_medical_survey(self):
+        # Attach medical survey for user
+        survey = self.event_id.medical_survey_id
+        local_context = survey.action_send_survey().get('context')
+        wizard = self.env['survey.mail.compose.message']\
+            .with_context(local_context).create({
+                'public': 'no_email',
+                'phone_partner_ids': [(6, 0, self.partner_id.ids)],
+            })
+        wizard.onchange_template_id_wrapper()
+        wizard.add_new_answer()
+        self.medical_survey_id = self.env['survey.user_input'].search([
+            ('partner_id', '=', self.partner_id_id),
+            ('survey_id', '=', survey.id)
+        ])
+
+    def send_medical_discharge(self):
+        discharge_config = self.env.ref(
+            'website_event_compassion.group_visit_medical_discharge_config')
+        for registration in self:
+            partner = registration.partner_id
+            communication = self.env['partner.communication.job']\
+                .with_context(no_print=True, lang=partner.lang).create({
+                    'partner_id': partner.id,
+                    'object_ids': registration.ids,
+                    'config_id': discharge_config.id,
+                })
+            communication.attachment_ids.create({
+                'name': _('medical discharge.docx'),
+                'report_name': 'report_compassion.a4_bvr',
+                'data': file_open(
+                    'website_event_compassion/static/src/'
+                    'medical_discharge_' + partner.lang + '.docx'
+                ).read().encode('base64'),
+                'communication_id': communication.id
+            })
+            communication.send()
+        return self.write({
+            'completed_task_ids': [
+                (4, self.env.ref(
+                    'website_event_compassion.task_medical_survey').id),
+            ]
+        })
+
+    def skip_medical_discharge(self):
+        return self.write({
+            'completed_task_ids': [
+                (4, self.env.ref(
+                    'website_event_compassion.task_medical_survey').id),
+                (4, self.env.ref(
+                    'website_event_compassion.task_medical_discharge').id),
+            ]
+        })

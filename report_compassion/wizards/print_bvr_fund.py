@@ -54,6 +54,8 @@ class PrintBvrFund(models.TransientModel):
             'product_id': self.product_id.id,
             'background': self.draw_background,
             'preprinted': self.preprinted,
+            'amount': False,
+            'communication': False
         }
         report = 'report_compassion.bvr_fund'
         if self.pdf:
