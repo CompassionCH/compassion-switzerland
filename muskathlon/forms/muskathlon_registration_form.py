@@ -28,7 +28,9 @@ if not testing:
         _form_model = 'event.registration'
         _form_required_fields = [
             'ambassador_picture_1', 'ambassador_quote', 'sport_level',
-            'sport_level_description', 'gtc_accept', 't_shirt_size'
+            'sport_level_description', 'gtc_accept', 't_shirt_size',
+            't_shirt_type', 'passport_number', 'passport_expire_date',
+            'emergency_contact_name', 'emergency_contact_phone'
         ]
         _payment_accept_redirect = '/muskathlon_registration/payment/validate'
 
@@ -40,9 +42,15 @@ if not testing:
                  "and will be used in thank you letters your donors will "
                  "receive."
         )
+
         t_shirt_size = fields.Selection([
             ('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'),
             ('XXL', 'XXL')
+        ])
+        t_shirt_type = fields.Selection([
+            ('singlet', 'Singlet'),
+            ('shirt', 'Shirt'),
+            ('bikeshirt', 'Bikeshirt'),
         ])
         gtc_accept = fields.Boolean(
             "Terms and conditions", required=True
@@ -62,7 +70,8 @@ if not testing:
                     'fields': [
                         'ambassador_picture_1', 'sport_discipline_id',
                         'sport_level', 'sport_level_description',
-                        'ambassador_quote', 't_shirt_size', 'event_id'
+                        'ambassador_quote', 't_shirt_size', 't_shirt_type',
+                        'event_id'
                     ]
                 },
                 {
@@ -73,7 +82,10 @@ if not testing:
                         'partner_title', 'partner_firstname',
                         'partner_lastname', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
-                        'partner_country_id']
+                        'partner_country_id', 'passport_number',
+                        'passport_expire_date', 'emergency_contact_name',
+                        'emergency_contact_phone'
+                    ]
                 }
             ]
             if self.event_id.total_price:

@@ -31,11 +31,27 @@ class MuskathlonRegistration(models.Model):
     sport_level_description = fields.Text('Describe your sport experience')
     t_shirt_size = fields.Selection(
         related='partner_id.advocate_details_id.t_shirt_size', store=True)
+    t_shirt_type = fields.Selection(
+        related='partner_id.advocate_details_id.t_shirt_type', store=True)
     muskathlon_participant_id = fields.Char(
         related='partner_id.muskathlon_participant_id')
     muskathlon_event_id = fields.Char(
         related='compassion_event_id.muskathlon_event_id')
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)
+
+    passport_number = fields.Float(
+        related='partner_id.advocate_details_id.passport_number', store=True)
+    passport_expire_date = fields.Date(
+        related='partner_id.advocate_details_id.passport_expire_date',
+        store=True)
+
+    emergency_contact_name = fields.Char(
+        related='partner_id.advocate_details_id.emergency_contact_name',
+        store=True)
+
+    emergency_contact_phone = fields.Char(
+        related='partner_id.advocate_details_id.emergency_contact_phone',
+        store=True)
 
     _sql_constraints = [
         ('reg_unique', 'unique(event_id,partner_id)',
