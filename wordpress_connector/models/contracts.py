@@ -135,11 +135,19 @@ class Contracts(models.Model):
         lines = self._get_sponsorship_standard_lines()
         if not form_data.get('patenschaftplus'):
             lines = lines[:-1]
+        sponsorship_type = 'S'
+        partner_id = partner.id
+        if utm_source == 'wrpr':
+            # Special case Write&Pray sponsorship
+            sponsorship_type = 'SC'
+            partner_id = partner.search([
+                ('name', '=', 'Donors of Compassion')
+            ], limit=1).id or partner.id
         sponsorship_vals = {
-            'partner_id': partner.id,
+            'partner_id': partner_id,
             'correspondent_id': partner.id,
             'child_id': child.id,
-            'type': 'S',
+            'type': sponsorship_type,
             'contract_line_ids': lines,
             'next_invoice_date': fields.Date.today(),
             'source_id': utms['source'],
