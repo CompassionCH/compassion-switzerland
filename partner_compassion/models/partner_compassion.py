@@ -318,9 +318,9 @@ class ResPartner(models.Model):
         for partner in self:
             partner.number_sponsorships = self.env[
                 'recurring.contract'].search_count([
-                    '|', '|',
+                    '|', '|', '|',
                     ('correspondent_id', 'in', partner.member_ids.ids),
-                    ('correspondent_id', '=', partner.id), '|',
+                    ('correspondent_id', '=', partner.id),
                     ('partner_id', '=', partner.id),
                     ('partner_id', 'in', partner.member_ids.ids),
                     ('state', 'not in', ['cancelled', 'terminated']),
