@@ -248,9 +248,12 @@ class Contracts(models.Model):
             notify_text += "<li>" + key + ": " + \
                            unicode(form_data.get(key, '')) + '</li>'
 
+        title = _('New sponsorship from the website')
+        if 'writepray' in form_data:
+            title = _('New Write&Pray sponsorship from the website')
         sponsorship.message_post(
             body=notify_text,
-            subject=_('New sponsorship from the website'),
+            subject=title,
             partner_ids=[staff],
             type='comment',
             subtype='mail.mt_comment',
