@@ -294,6 +294,7 @@ class RecurringContract(models.Model):
             ('activation_date', '<=', yesterday),
             ('start_date', '<=', five_days_diff),
             ('child_id', '!=', False),
+            ('type', '=', 'S'),
             ('origin_id.type', '!=', 'transfer'),
             ('welcome_active_letter_sent', '=', False)
         ])
