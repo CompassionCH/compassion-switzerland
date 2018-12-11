@@ -462,6 +462,11 @@ class RecurringContract(models.Model):
         ]).unlink()
         # This prevents sending welcome e-mail if it's already active
         self.write({'sds_state': 'active'})
+        # Send new dossier for write&pray sponsorships
+        self.filtered(lambda s: s.type == 'SC').send_communication(
+            self.env.ref('partner_communication_switzerland'
+                         '.sponsorship_dossier_wrpr')
+        )
         return super(RecurringContract, self).contract_active()
 
     @api.multi
