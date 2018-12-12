@@ -25,9 +25,8 @@ if not testing:
             'include_flight', 'comments'
         ]
         _form_required_fields = [
-            'partner_lastname', 'partner_firstname', 'partner_email',
-            'email_copy',
-            'partner_birthdate'
+            'partner_title', 'partner_lastname', 'partner_firstname',
+            'partner_email', 'email_copy', 'partner_birthdate'
         ]
         _display_type = 'full'
 
@@ -59,8 +58,8 @@ if not testing:
                 {
                     'id': 'coordinates',
                     'fields': [
-                        'partner_lastname', 'partner_firstname',
-                        'partner_email', 'email_copy',
+                        'partner_title', 'partner_lastname',
+                        'partner_firstname', 'partner_email', 'email_copy',
                         'partner_birthdate', 'partner_phone',
                         'partner_zip', 'partner_city', 'partner_country_id'
                     ]
