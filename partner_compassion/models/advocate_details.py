@@ -89,7 +89,7 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
     event_type_formation = fields.Integer(compute='_compute_formation')
     number_events = fields.Integer(compute='_compute_events')
 
-    passport_number = fields.Float('Passport number')
+    passport_number = fields.Char('Passport number')
     passport_expire_date = fields.Date('passport expire date')
 
     emergency_contact_name = fields.Char('Name of person to contact in case '
