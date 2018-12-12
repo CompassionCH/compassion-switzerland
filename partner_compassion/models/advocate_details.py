@@ -79,23 +79,15 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
         ('XXL', 'XXL')
     ])
     t_shirt_type = fields.Selection([
-            ('singlet', 'Singlet'),
-            ('shirt', 'Shirt'),
-            ('bikeshirt', 'Bikeshirt'),
-        ])
+        ('singlet', 'Singlet'),
+        ('shirt', 'Shirt'),
+        ('bikeshirt', 'Bikeshirt'),
+    ])
     event_ids = fields.Many2many(
         'crm.event.compassion', string='Events', compute='_compute_events'
     )
     event_type_formation = fields.Integer(compute='_compute_formation')
     number_events = fields.Integer(compute='_compute_events')
-
-    passport_number = fields.Char('Passport number')
-    passport_expire_date = fields.Date('passport expire date')
-
-    emergency_contact_name = fields.Char('Name of person to contact in case '
-                                         'of emergency')
-    emergency_contact_phone = fields.Char('Phone number of person to contact '
-                                          'in case of emergency')
 
     # Partner related fields
     ########################
