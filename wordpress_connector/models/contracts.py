@@ -260,18 +260,19 @@ class Contracts(models.Model):
             content_subtype='html'
         )
 
-        if sponsorship.partner_id.state == 'active':
+        if sponsorship.correspondent_id.state == 'active':
             # Update sponsor info
             sponsorship.update_partner_from_web_data(form_data)
 
-        sponsorship.partner_id.set_privacy_statement(origin='new_sponsorship')
+        sponsorship.correspondent_id.set_privacy_statement(
+            origin='new_sponsorship')
         return sponsorship
 
     @api.multi
     def update_partner_from_web_data(self, form_data):
         # Get spoken languages
         self.ensure_one()
-        partner = self.partner_id
+        partner = self.correspondent_id
         sponsor_lang = form_data['lang'][:2]
         langs = ','.join(form_data.get('language', ['']))
         self._write_sponsor_lang(langs, sponsor_lang, partner)

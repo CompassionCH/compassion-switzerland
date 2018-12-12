@@ -431,6 +431,8 @@ class Event(models.Model):
             elif next_stage == self.env.ref(
                     'website_event_compassion.stage_group_medical'):
                 registration.prepare_medical_survey()
+        # Send potential communications after stage transition
+        self.env['event.mail'].with_delay().run_job()
         return True
 
     def prepare_down_payment(self):
