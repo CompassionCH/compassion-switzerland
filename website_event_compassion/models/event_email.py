@@ -9,6 +9,7 @@
 ##############################################################################
 from odoo import api, models, fields
 from odoo.addons.event.models.event_mail import _INTERVALS
+from odoo.addons.queue_job.job import job
 
 
 class EventMail(models.Model):
@@ -75,6 +76,12 @@ class EventMail(models.Model):
                         })
                     scheduler.write({'mail_sent': True})
         return True
+
+    @job
+    @api.model
+    def run_job(self):
+        # Run the event mail scheduler cron in asynchronous job
+        return self.run()
 
 
 class EventMailRegistration(models.Model):
