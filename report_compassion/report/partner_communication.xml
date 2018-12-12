@@ -44,6 +44,11 @@
                 max-height: 100%;
                 margin: auto;
             }
+            #date {
+                float: left;
+                margin-top: 15mm;
+                width: 50%;
+            }
             #compassion_address {
                 float: left;
                 margin-bottom: 5mm;
@@ -211,7 +216,7 @@
                 </t>
             </div>
             <div id="letter">
-                <div id="date" t-if="not print_header" style="float: left; margin-top: 15mm;">
+                <div id="date" t-if="not print_header">
                     <span t-raw="partner.date_communication"/>
                 </div>
                 <t t-if="print_header">
