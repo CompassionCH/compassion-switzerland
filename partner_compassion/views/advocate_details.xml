@@ -32,6 +32,7 @@
                             <field name="advocacy_source" groups="base.group_user"/>
                             <field name="engagement_ids" widget="many2many_tags" groups="base.group_user"/>
                             <field name="t_shirt_size"/>
+                            <field name="t_shirt_type"/>
                             <field name="has_car"/>
                             <field name="formation_ids" groups="base.group_user"
                                    domain="[('categ_ids', '=', event_type_formation)]"
