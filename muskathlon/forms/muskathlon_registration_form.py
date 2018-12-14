@@ -28,7 +28,9 @@ if not testing:
         _form_model = 'event.registration'
         _form_required_fields = [
             'ambassador_picture_1', 'ambassador_quote', 'sport_level',
-            'sport_level_description', 'gtc_accept', 't_shirt_size'
+            'sport_level_description', 'gtc_accept', 't_shirt_size',
+            't_shirt_type', 'passport_number', 'passport_expiration_date',
+            'emergency_name', 'emergency_phone', 'birth_name'
         ]
         _payment_accept_redirect = '/muskathlon_registration/payment/validate'
 
@@ -40,13 +42,25 @@ if not testing:
                  "and will be used in thank you letters your donors will "
                  "receive."
         )
+
         t_shirt_size = fields.Selection([
             ('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'),
             ('XXL', 'XXL')
         ])
+        t_shirt_type = fields.Selection([
+            ('singlet', 'Singlet'),
+            ('shirt', 'Shirt'),
+            ('bikeshirt', 'Bikeshirt'),
+        ])
         gtc_accept = fields.Boolean(
             "Terms and conditions", required=True
         )
+        birth_name = fields.Char(
+            'Passport name',
+            help='Your name as printed on your passport')
+        emergency_name = fields.Char(
+            help='Please indicate a contact in case of emergency '
+                 'during the trip.')
 
         @property
         def discipline_ids(self):
@@ -62,7 +76,8 @@ if not testing:
                     'fields': [
                         'ambassador_picture_1', 'sport_discipline_id',
                         'sport_level', 'sport_level_description',
-                        'ambassador_quote', 't_shirt_size', 'event_id'
+                        'ambassador_quote', 't_shirt_size', 't_shirt_type',
+                        'event_id'
                     ]
                 },
                 {
@@ -73,7 +88,17 @@ if not testing:
                         'partner_title', 'partner_firstname',
                         'partner_lastname', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
-                        'partner_country_id']
+                        'partner_country_id'
+                    ]
+                },
+                {
+                    'id': 'trip',
+                    'title': _('Information for the trip'),
+                    'fields': [
+                        'birth_name', 'passport_number',
+                        'passport_expiration_date',
+                        'emergency_name', 'emergency_phone'
+                    ]
                 }
             ]
             if self.event_id.total_price:
@@ -231,7 +256,7 @@ if not testing:
             if partner.advocate_details_id:
                 partner.advocate_details_id.write({
                     'engagement_ids': [(4, sporty.id)],
-                    't_shirt_size': extra_values.get('t_shirt_size')
+                    't_shirt_size': values.get('t_shirt_size')
                 })
             else:
                 # Creation of ambassador details reloads cache and remove
@@ -242,7 +267,7 @@ if not testing:
                     'partner_id': partner.id,
                     'advocacy_source': 'Online Muskathlon registration',
                     'engagement_ids': [(4, sporty.id)],
-                    't_shirt_size': extra_values.get('t_shirt_size')
+                    't_shirt_size': values.get('t_shirt_size')
                 })
                 # self._restore_fields(backup)
             # Convert the name for event registration

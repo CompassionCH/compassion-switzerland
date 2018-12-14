@@ -23,23 +23,24 @@ class AccountInvoice(models.Model):
         """
         super(AccountInvoice, self)._after_transaction_invoice_paid(
             transaction)
-        if transaction.registration_id:
-            if transaction.registration_id.event_id.event_type_id == \
+        registration = transaction.registration_id
+        if registration:
+            if registration.event_id.event_type_id == \
                     self.env.ref('muskathlon.event_type_muskathlon'):
-                transaction.registration_id.confirm_registration()
+                registration.confirm_registration()
                 # Check all tasks already done
                 tasks = self.env.ref('muskathlon.task_down_payment')
-                partner = transaction.registration_id.partner_id
+                partner = registration.partner_id
                 advocate = partner.advocate_details_id
                 if partner.user_ids.state == 'active':
                     tasks += self.env.ref('muskathlon.task_activate_account')
-                if advocate.passport_number:
+                if registration.passport_number:
                     tasks += self.env.ref('muskathlon.task_passport')
                 if advocate.picture_large:
                     tasks += self.env.ref('muskathlon.task_picture')
-                if advocate.emergency_name:
+                if registration.emergency_name:
                     tasks += self.env.ref('muskathlon.task_emergency')
-                transaction.registration_id.completed_task_ids += tasks
+                registration.completed_task_ids += tasks
 
 
 class AccountInvoiceLine(models.Model):

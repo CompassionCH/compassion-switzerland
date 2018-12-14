@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="advocate_details_search" model="ir.ui.view">
+        <field name="name">advocate.details.website_event_compassion.search</field>
+        <field name="model">advocate.details</field>
+        <field name="inherit_id" ref="partner_compassion.advocate_details_search"/>
+        <field name="arch" type="xml">
+            <filter name="translator" position="after">
+                <separator/>
+                <filter name="group_visit" string="Group Visit" domain="[('partner_id.registration_ids.event_id.event_type_id','=', %(website_event_compassion.event_type_group_visit)d)]"/>
+                <filter name="youth_trip" string="Youth Trip" domain="[('partner_id.registration_ids.event_id.event_type_id','=', %(website_event_compassion.event_type_youth_trip)d)]"/>
+            </filter>
+        </field>
+    </record>
+</odoo>
