@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="advocate_details_search" model="ir.ui.view">
+        <field name="name">advocate.details.muskathlon.search</field>
+        <field name="model">advocate.details</field>
+        <field name="inherit_id" ref="website_event_compassion.advocate_details_search"/>
+        <field name="arch" type="xml">
+            <filter name="group_visit" position="before">
+                <filter name="muskathlon" string="Muskathlon" domain="[('partner_id.registration_ids.event_id.event_type_id','=', %(muskathlon.event_type_muskathlon)d)]"/>
+            </filter>
+        </field>
+    </record>
+</odoo>

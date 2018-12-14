@@ -58,6 +58,7 @@
         'views/registration_task_view.xml',
         'views/event_faq_view.xml',
         'views/res_vaccine_view.xml',
+        'views/advocate_details.xml',
         'templates/assets.xml',
         'templates/event_page.xml',
         'templates/events_list.xml',
