@@ -30,7 +30,7 @@ if not testing:
             'ambassador_picture_1', 'ambassador_quote', 'sport_level',
             'sport_level_description', 'gtc_accept', 't_shirt_size',
             't_shirt_type', 'passport_number', 'passport_expiration_date',
-            'emergency_name', 'emergency_phone'
+            'emergency_name', 'emergency_phone', 'birth_name'
         ]
         _payment_accept_redirect = '/muskathlon_registration/payment/validate'
 
@@ -55,6 +55,12 @@ if not testing:
         gtc_accept = fields.Boolean(
             "Terms and conditions", required=True
         )
+        birth_name = fields.Char(
+            'Passport name',
+            help='Your name as printed on your passport')
+        emergency_name = fields.Char(
+            help='Please indicate a contact in case of emergency '
+                 'during the trip.')
 
         @property
         def discipline_ids(self):
@@ -82,9 +88,16 @@ if not testing:
                         'partner_title', 'partner_firstname',
                         'partner_lastname', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
-                        'partner_country_id', 'passport_number',
-                        'passport_expiration_date', 'emergency_name',
-                        'emergency_phone'
+                        'partner_country_id'
+                    ]
+                },
+                {
+                    'id': 'trip',
+                    'title': _('Information for the trip'),
+                    'fields': [
+                        'birth_name', 'passport_number',
+                        'passport_expiration_date',
+                        'emergency_name', 'emergency_phone'
                     ]
                 }
             ]
