@@ -34,8 +34,8 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
 
     partner_id = fields.Many2one(
         'res.partner', 'Partner', required=True, ondelete='cascade')
-    description = fields.Text(translate=True)
-    quote = fields.Text(translate=True)
+    description = fields.Text(translate=False)
+    quote = fields.Text(translate=False)
     picture_large = fields.Binary(
         string='Large picture', attachment=True,
         help='Optional large picture for your profile page'
