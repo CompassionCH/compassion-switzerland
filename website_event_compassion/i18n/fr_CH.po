@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-15 15:06+0000\n"
-"PO-Revision-Date: 2018-11-15 16:44+0100\n"
+"POT-Creation-Date: 2018-12-19 07:53+0000\n"
+"PO-Revision-Date: 2018-12-19 08:53+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -18,14 +18,1417 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"*<i>We accept photos or scanned documents. In case you are not equipped with "
+"a camera, a smartphone or a scanner, you can send us the documents at "
+"Compassion Switzerland, Rue Galilée 3, 1400 Yverdon-les-Bains.</i>"
+msgstr ""
+"*<i>Nous acceptons photo ou document scanné. Si vous n'êtes pas équipés d'un "
+"scanner, d'un appareil photo ou d'un smartphone pour effectuer la photo, "
+"vous pouvez nous envoyer ce document par poste à Compassion Suisse, rue "
+"Galilée 3, 1400 Yverdon-les-Bains.</i>"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_faq
+msgid "- Frequently Asked Questions"
+msgstr "- Foire aux questions"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/controllers/events_controller.py:108
+#, python-format
+msgid "- Registration"
+msgstr "- Inscription"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.participant_page
 msgid ".- and will raise the barometer of"
 msgstr ".- et augmente le baromètre de"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_event_stepper
+msgid "1. Registration"
+msgstr "1. Inscription"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_event_stepper
+msgid "2. Agreements"
+msgstr "2. Signer les contrats"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_event_stepper
+msgid "3. Down payment"
+msgstr "3. Paiement acompte"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:46
+#, python-format
+msgid "4 steps to register"
+msgstr "4 étapes pour vous inscrire"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_event_stepper
+msgid "4. Trip preparation"
+msgstr "4. Préparation au voyage"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"<b>Authority: </b>The authority for the establishment of a code of conduct "
+"and statement of commitment to child protection can be found in Board Policy "
+"5.2.1 and Management Policy 102, “Global Child Protection.” These policies "
+"set the expectation for the development and maintenance of a statement of "
+"commitment to child protection and a code of conduct that is applicable for "
+"anyone interacting with beneficiaries. Everyone signing the statement of "
+"commitment to child protection and code of conduct is expected to have a "
+"thorough knowledge of these and to follow the standards and guidelines "
+"stipulated in the code of conduct and statement of commitment.  The "
+"Management Policy also dictates that the consequences for violating the code "
+"of conduct and other policies related to child protection include “grounds "
+"for disciplinary action and/or termination of employment or relationship.”"
+msgstr ""
+"<b>Autorité : </b>L’autorité pour l’établissement d’un code de conduite et "
+"d’une déclaration d’engagement à la protection de l’enfance se trouve dans "
+"la Politique du Comité directeur 5.2.1 et la Politique de gestion 102, « "
+"Protection de l’enfance au niveau international ». Ces politiques "
+"définissent l’attente en matière de développement et du respect d’une "
+"déclaration d’engagement à la protection de l’enfance et un code de conduite "
+"applicable à quiconque interagit avec des bénéficiaires. Quiconque signe la "
+"déclaration d’engagement à la protection de l’enfance et le code de conduite "
+"est tenu de posséder une connaissance approfondie de ces documents et de "
+"suivre les normes et directives stipulées dans ce code de conduite et cette "
+"déclaration d’engagement. La Politique de gestion stipule également que les "
+"conséquences d’une violation du code de conduite et d’autres politiques en "
+"rapport avec la protection de l’enfance incluent « des motifs qui justifient "
+"des sanctions disciplinaires et/ou une résiliation de l’emploi ou de la "
+"relation. »"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "<b>In this perspective, we thank you for:</b>"
+msgstr "<b>Dans cette perspective, merci de :</b>"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"<b>Scope: </b>The Statement of Commitment to Child Protection and Code of "
+"Conduct contains expectations that apply to all Compassion affiliates, "
+"partners, and representatives, namely all board and staff members, "
+"volunteers, contractors, and sub-contractors of Compassion International, "
+"Inc., the Global Partner Alliance, and all Implementing Church Partners as "
+"well as visitors with direct contact with beneficiaries."
+msgstr ""
+"<b>Champ d’application : </b>La Déclaration d’engagement à la protection de "
+"l’enfance et le Code de Conduite contiennent les attentes qui s’appliquent à "
+"tous les affiliés, partenaires et représentants de Compassion, c’est-à-dire "
+"tous les membres du personnel, bénévoles, prestataires et sous-traitants de "
+"Compassion International Inc., des Pays partenaires et de toutes les églises "
+"partenaires ainsi qu’aux visiteurs en contact direct avec les bénéficiaires."
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_step1_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set event = object.get_objects().compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you very much for your interest in Compassion's "
+"work to free more children from poverty every day, for a dignified and "
+"meaningful life.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We look forward to showing you the conditions of extreme "
+"poverty in which 385 million children still live today. We are convinced you "
+"will be able to witness the transformation that a sponsorship brings to the "
+"life of a child and his or her family.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>We hereby confirm your registration for the ${event."
+"name}</b>. There are only two steps left for your registration to be "
+"validated and a place reserved for you on this trip.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>Next step</b>: when you have about ten minutes to "
+"spare, please read Compassion's child protection guidelines.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Read the guidelines\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your commitment to children in "
+"need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set event = object.get_objects().compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you very much for your interest in Compassion's "
+"work to free more children from poverty every day, for a dignified and "
+"meaningful life.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We look forward to showing you the conditions of extreme "
+"poverty in which 385 million children still live today. We are convinced you "
+"will be able to witness the transformation that a sponsorship brings to the "
+"life of a child and his or her family.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>We hereby confirm your registration for the ${event."
+"name}</b>. There are only two steps left for your registration to be "
+"validated and a place reserved for you on this trip.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>Next step</b>: when you have about ten minutes to "
+"spare, please read Compassion's child protection guidelines.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Read the guidelines\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your commitment to children in "
+"need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_medical_discharge_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                    % set base_url = object.env['ir.config_parameter']."
+"get_param('web.external.url')\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We received your answers to the medical survey and we "
+"thank you for taking the time to complete it.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Based on your answers, it seems you are undergoing on a "
+"medical treatment. For that purpose we need a medical discharge from your "
+"doctor, confirming us that your medical status still allows you to travel to "
+"${event.country_id.name}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Please find attached a template letter that you can fill "
+"with your information, print and give it to your doctor to sign. You can "
+"then send us back the signed letter at our postal addres or <a href="
+"\"${base_url}/event/${registration.uuid}/medical_discharge\">directly online "
+"by clicking here</a>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                    % set base_url = object.env['ir.config_parameter']."
+"get_param('web.external.url')\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We received your answers to the medical survey and we "
+"thank you for taking the time to complete it.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Based on your answers, it seems you are undergoing on a "
+"medical treatment. For that purpose we need a medical discharge from your "
+"doctor, confirming us that your medical status still allows you to travel to "
+"${event.country_id.name}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Please find attached a template letter that you can fill "
+"with your information, print and give it to your doctor to sign. You can "
+"then send us back the signed letter at our postal addres or <a href="
+"\"${base_url}/event/${registration.uuid}/medical_discharge\">directly online "
+"by clicking here</a>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_medical_survey_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your interest in Compassionate "
+"work for the benefit of children living in extreme poverty. We look forward "
+"to your journey ${event.country_id.preposition} ${event.country_id.name}. "
+"Thank you very much!\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    It is time to prepare the trip in terms of health. The "
+"stay that awaits you will be interesting. It can also be challenging: long "
+"international flights, jet lag, altitude changes, travel on rough roads, "
+"hiking on rough terrain and long days will be possible.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Because we know that every individual is different, we "
+"collect health information from each registrant to be aware of their "
+"limitations and specific needs.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Click here to review the checklist and make sure you are "
+"well prepared for this trip in terms of health:\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            To the medical checklist\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you for your commitment to children in need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your interest in Compassionate "
+"work for the benefit of children living in extreme poverty. We look forward "
+"to your journey ${event.country_id.preposition} ${event.country_id.name}. "
+"Thank you very much!\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    It is time to prepare the trip in terms of health. The "
+"stay that awaits you will be interesting. It can also be challenging: long "
+"international flights, jet lag, altitude changes, travel on rough roads, "
+"hiking on rough terrain and long days will be possible.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Because we know that every individual is different, we "
+"collect health information from each registrant to be aware of their "
+"limitations and specific needs.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Click here to review the checklist and make sure you are "
+"well prepared for this trip in terms of health:\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            To the medical checklist\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you for your commitment to children in need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_before_sharing_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you for investing time for the ${event.name}. You "
+"will help to change the lives of children living in extreme poverty.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Did you know that? Your trip can have an even greater "
+"impact. To do this, simply tell your friends and share your sponsorship "
+"experience.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    For example, some of your loved ones may imitate you and "
+"in turn transform a child's life by committing to sponsor a child.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Encourage them to sponsor a child by sending the message "
+"\"1 child\" by SMS to 959 (free) or directly on www.compassion.ch.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Feel free to contact us if you would like to be advised "
+"on how to organize a small meeting with your friends at home and/or to "
+"receive material for this purpose. We are available by phone on 031 552 21 "
+"25 or by email at events@compassion.ch.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    At Compassion, we believe that it is possible to change "
+"the world, one child at a time. Even if extreme poverty declines - and this "
+"is good news - there are still 385 million children living in extreme "
+"poverty.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you very much for your commitment to working with "
+"us to transform the lives of as many of these children as possible.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you for investing time for the ${event.name}. You "
+"will help to change the lives of children living in extreme poverty.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Did you know that? Your trip can have an even greater "
+"impact. To do this, simply tell your friends and share your sponsorship "
+"experience.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    For example, some of your loved ones may imitate you and "
+"in turn transform a child's life by committing to sponsor a child.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Encourage them to sponsor a child by sending the message "
+"\"1 child\" by SMS to 959 (free) or directly on www.compassion.ch.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Feel free to contact us if you would like to be advised "
+"on how to organize a small meeting with your friends at home and/or to "
+"receive material for this purpose. We are available by phone on 031 552 21 "
+"25 or by email at events@compassion.ch.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    At Compassion, we believe that it is possible to change "
+"the world, one child at a time. Even if extreme poverty declines - and this "
+"is good news - there are still 385 million children living in extreme "
+"poverty.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you very much for your commitment to working with "
+"us to transform the lives of as many of these children as possible.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_travel_documents_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you for your commitment to Compassion for the "
+"benefit of children living in extreme poverty. We look forward to your "
+"journey  ${event.country_id.preposition} ${event.country_id.name}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    It is time to prepare the trip administratively. This "
+"step should take you 10 to 30 minutes. Would you be able to do it within the "
+"next 15 days?\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h2>1. Payment of the trip</h2>\n"
+"                    <br/>\n"
+"                    Attached, you will find the invoice for this trip. "
+"Please pay it within 30 days. You can pay directly by credit card or "
+"Postfinance card or using the attached payment slip. If you do not have the "
+"possibility to pay for this trip in one go, please contact me in advance to "
+"find a solution together (rreber@compassion.ch).\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Online payment\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h2>2. Travel documents</h2>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h3>2.1. Passport</h3>\n"
+"                    Please check that your passport will be valid six months "
+"after the date of your planned return to Switzerland. If this is not the "
+"case, we ask you to renew your passport in order to guarantee you a worry-"
+"free trip.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h3>2.2. Insurance</h3>\n"
+"                    Compassion does not have comprehensive insurance for "
+"participants on sponsor trips. We recommend that you check your health and "
+"accident insurance coverage. Trip cancellation insurance is strongly "
+"recommended. Indeed, once the flight ticket has been purchased and in the "
+"event of cancellation, you will be responsible for the costs. Do you have "
+"the <a href=\"https://www.tcs.ch/fr/produits/depannage-protection-voyage/"
+"assistance-voyage/livret-eti.php\" style=\"color: skyblue; text-decoration: "
+"underline\">ETI World TCS booklet (click here)</a>? This is a good insurance "
+"that covers international travel and cancellations.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h3>2.3. Visa</h3>\n"
+"                    This trip will require a visa. To apply for a visa, go "
+"to the website of the \"visa application\" country or to https://www.dfae."
+"admin.ch to find the necessary information. For ${event.country_id.name}, it "
+"is best to make the request [x time] before your departure.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h3>2.4. Emergency contact</h3>\n"
+"                    Please indicate an emergency contact in case of problems "
+"during the trip:\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Fill emergency contact\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your commitment to children in "
+"need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you for your commitment to Compassion for the "
+"benefit of children living in extreme poverty. We look forward to your "
+"journey  ${event.country_id.preposition} ${event.country_id.name}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    It is time to prepare the trip administratively. This "
+"step should take you 10 to 30 minutes. Would you be able to do it within the "
+"next 15 days?\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h2>1. Payment of the trip</h2>\n"
+"                    <br/>\n"
+"                    Attached, you will find the invoice for this trip. "
+"Please pay it within 30 days. You can pay directly by credit card or "
+"Postfinance card or using the attached payment slip. If you do not have the "
+"possibility to pay for this trip in one go, please contact me in advance to "
+"find a solution together (rreber@compassion.ch).\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Online payment\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h2>2. Travel documents</h2>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h3>2.1. Passport</h3>\n"
+"                    Please check that your passport will be valid six months "
+"after the date of your planned return to Switzerland. If this is not the "
+"case, we ask you to renew your passport in order to guarantee you a worry-"
+"free trip.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h3>2.2. Insurance</h3>\n"
+"                    Compassion does not have comprehensive insurance for "
+"participants on sponsor trips. We recommend that you check your health and "
+"accident insurance coverage. Trip cancellation insurance is strongly "
+"recommended. Indeed, once the flight ticket has been purchased and in the "
+"event of cancellation, you will be responsible for the costs. Do you have "
+"the <a href=\"https://www.tcs.ch/fr/produits/depannage-protection-voyage/"
+"assistance-voyage/livret-eti.php\" style=\"color: skyblue; text-decoration: "
+"underline\">ETI World TCS booklet (click here)</a>? This is a good insurance "
+"that covers international travel and cancellations.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h3>2.3. Visa</h3>\n"
+"                    This trip will require a visa. To apply for a visa, go "
+"to the website of the \"visa application\" country or to https://www.dfae."
+"admin.ch to find the necessary information. For ${event.country_id.name}, it "
+"is best to make the request [x time] before your departure.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h3>2.4. Emergency contact</h3>\n"
+"                    Please indicate an emergency contact in case of problems "
+"during the trip:\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Fill emergency contact\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your commitment to children in "
+"need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_detailed_info
+#: model:mail.template,body_html:website_event_compassion.group_visit_detailed_info_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    This is the final stretch: it's time to prepare your "
+"luggage for Compassion's trip. To make it easier for you, we have provided a "
+"small folder to read as soon as you have a moment. It contains information "
+"about:\n"
+"                </p>\n"
+"                <ul>\n"
+"                    <li>the meeting with your sponsored child</li>\n"
+"                    <li>Compassion Programs</li>\n"
+"                    <li>the country, the climate, the customs</li>\n"
+"                    <li>your luggage and the little gifts you could take "
+"with you</li>\n"
+"                </ul>\n"
+"                <p>\n"
+"                    Keep this email carefully to access the information. "
+"<b>To find out more, simply click here:</b>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Practical information\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    If you still have questions, <a href=\"\" style=\"color: "
+"skyblue; text-decoration: underline\">you will find here</a> the main "
+"questions asked by people interested in travelling with Compassion. You can "
+"also send us an email at rreber@compassion.ch if you can't find an answer to "
+"your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you for your commitment to children in need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    This is the final stretch: it's time to prepare your "
+"luggage for Compassion's trip. To make it easier for you, we have provided a "
+"small folder to read as soon as you have a moment. It contains information "
+"about:\n"
+"                </p>\n"
+"                <ul>\n"
+"                    <li>the meeting with your sponsored child</li>\n"
+"                    <li>Compassion Programs</li>\n"
+"                    <li>the country, the climate, the customs</li>\n"
+"                    <li>your luggage and the little gifts you could take "
+"with you</li>\n"
+"                </ul>\n"
+"                <p>\n"
+"                    Keep this email carefully to access the information. "
+"<b>To find out more, simply click here:</b>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Practical information\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    If you still have questions, <a href=\"\" style=\"color: "
+"skyblue; text-decoration: underline\">you will find here</a> the main "
+"questions asked by people interested in travelling with Compassion. You can "
+"also send us an email at rreber@compassion.ch if you can't find an answer to "
+"your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you for your commitment to children in need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_step3_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We have received the documents and the payment of the "
+"deposit required for the registration for the ${event.name}. Thank you very "
+"much!\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    In the coming weeks, you will be guided through the "
+"preparations for your trip. What can you expect in concrete terms?\n"
+"                </p>\n"
+"                <ol>\n"
+"                    <li>Health information</li>\n"
+"                    <li>Information on travel and insurance documents</li>\n"
+"                    <li>Information on the information and preparation "
+"meeting</li>\n"
+"                    <li>Information on the country and climate</li>\n"
+"                    <li>Information about Compassion's work and meeting your "
+"sponsored child</li>\n"
+"                </ol>\n"
+"                <p>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your commitment to children in "
+"need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We have received the documents and the payment of the "
+"deposit required for the registration for the ${event.name}. Thank you very "
+"much!\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    In the coming weeks, you will be guided through the "
+"preparations for your trip. What can you expect in concrete terms?\n"
+"                </p>\n"
+"                <ol>\n"
+"                    <li>Health information</li>\n"
+"                    <li>Information on travel and insurance documents</li>\n"
+"                    <li>Information on the information and preparation "
+"meeting</li>\n"
+"                    <li>Information on the country and climate</li>\n"
+"                    <li>Information about Compassion's work and meeting your "
+"sponsored child</li>\n"
+"                </ol>\n"
+"                <p>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your commitment to children in "
+"need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_after_trip_feedback_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We hope that you have returned from your journey with "
+"Compassion and that this experience has enriched you in every way.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Would you be able to take 3 minutes to share your "
+"thoughts on this trip with us?\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Share us your feedback\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Did you know that? Your trip can have an even greater "
+"impact. To do this, simply tell your friends and share your sponsorship "
+"experience.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    In this way, some of your loved ones could imitate you "
+"and in turn transform a child's life, by committing to sponsor a child.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Encourage them to sponsor a child by sending the message "
+"\"1 child\" by SMS to 959 (free) or directly on www.compassion.ch.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Feel free to contact us if you would like to be advised "
+"on how to organize a small meeting with your friends at home and/or to "
+"receive material for this purpose. We are available by phone on 031 552 21 "
+"25 or by email at events@compassion.ch.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    At Compassion, we believe that it is possible to change "
+"the world, one child at a time. Even if extreme poverty declines - and this "
+"is good news - there are still 385 million children living in extreme "
+"poverty.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you very much for your commitment to working with "
+"us to transform the lives of as many of these children as possible.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We hope that you have returned from your journey with "
+"Compassion and that this experience has enriched you in every way.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Would you be able to take 3 minutes to share your "
+"thoughts on this trip with us?\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Share us your feedback\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Did you know that? Your trip can have an even greater "
+"impact. To do this, simply tell your friends and share your sponsorship "
+"experience.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    In this way, some of your loved ones could imitate you "
+"and in turn transform a child's life, by committing to sponsor a child.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Encourage them to sponsor a child by sending the message "
+"\"1 child\" by SMS to 959 (free) or directly on www.compassion.ch.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Feel free to contact us if you would like to be advised "
+"on how to organize a small meeting with your friends at home and/or to "
+"receive material for this purpose. We are available by phone on 031 552 21 "
+"25 or by email at events@compassion.ch.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    At Compassion, we believe that it is possible to change "
+"the world, one child at a time. Even if extreme poverty declines - and this "
+"is good news - there are still 385 million children living in extreme "
+"poverty.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you very much for your commitment to working with "
+"us to transform the lives of as many of these children as possible.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_information_day_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Your journey ${event.country_id.preposition} ${event."
+"country_id.name} is fast approaching.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    An unforgettable experience is being prepared. In this "
+"perspective, Compassion invites you to a meeting of the participants [place "
+"and time of the meeting].\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    On this occasion, we will present you the work of "
+"Compassion ${event.country_id.preposition} ${event.country_id.name} as well "
+"as the detailed program of the trip. There will also be a time for Questions "
+"&amp; Answers and an aperitif to get to know each other.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>Please confirm your participation by clicking here:</"
+"b>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Accept/Decline invitation\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We look forward to meeting you (or seeing you again) on "
+"this occasion.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Your journey ${event.country_id.preposition} ${event."
+"country_id.name} is fast approaching.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    An unforgettable experience is being prepared. In this "
+"perspective, Compassion invites you to a meeting of the participants [place "
+"and time of the meeting].\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    On this occasion, we will present you the work of "
+"Compassion ${event.country_id.preposition} ${event.country_id.name} as well "
+"as the detailed program of the trip. There will also be a time for Questions "
+"&amp; Answers and an aperitif to get to know each other.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>Please confirm your participation by clicking here:</"
+"b>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Accept/Decline invitation\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We look forward to meeting you (or seeing you again) on "
+"this occasion.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_step2_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Your registration for the ${event.name} is progressing "
+"well. Thank you very much for your interest in Compassion's work to free "
+"more children from poverty every day, for a dignified and meaningful life.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    To confirm your registration, you only need to pay a "
+"deposit of CHF ${'%d' |format(registration.event_ticket_id.price)}.- You "
+"have the choice to make this payment:\n"
+"                </p>\n"
+"                <ul>\n"
+"                    <li>\n"
+"                        Online by Credit card or Postfinance card\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        <div style=\"margin:0 auto; text-align: center;\">\n"
+"                            <a href=\"\" style=\"padding: 12px 18px; font-"
+"size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                                Online payment\n"
+"                            </a>\n"
+"                        </div>\n"
+"                    </li>\n"
+"                    <li>By paying using the payment slip attached to this "
+"email</li>\n"
+"                </ul>\n"
+"                <p>\n"
+"                    We thank you in advance for making this payment today or "
+"in the coming days.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    The next step will be to prepare for the trip. Here "
+"again, you will receive the information you need to know in time to make "
+"this trip an enriching and unforgettable experience for you.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your commitment to children in "
+"need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Your registration for the ${event.name} is progressing "
+"well. Thank you very much for your interest in Compassion's work to free "
+"more children from poverty every day, for a dignified and meaningful life.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    To confirm your registration, you only need to pay a "
+"deposit of CHF ${'%d' |format(registration.event_ticket_id.price)}.- You "
+"have the choice to make this payment:\n"
+"                </p>\n"
+"                <ul>\n"
+"                    <li>\n"
+"                        Online by Credit card or Postfinance card\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        <div style=\"margin:0 auto; text-align: center;\">\n"
+"                            <a href=\"\" style=\"padding: 12px 18px; font-"
+"size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                                Online payment\n"
+"                            </a>\n"
+"                        </div>\n"
+"                    </li>\n"
+"                    <li>By paying using the payment slip attached to this "
+"email</li>\n"
+"                </ul>\n"
+"                <p>\n"
+"                    We thank you in advance for making this payment today or "
+"in the coming days.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    The next step will be to prepare for the trip. Here "
+"again, you will receive the information you need to know in time to make "
+"this trip an enriching and unforgettable experience for you.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <a href=\"\" style=\"color: skyblue; text-decoration: "
+"underline\">Here you will find (click here)</a> the main questions asked by "
+"people interested in travelling with Compassion. You can also send us an "
+"email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your commitment to children in "
+"need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            "
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "<i>to</i>"
 msgstr "<i>à</i>"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:50
+#, python-format
+msgid ""
+"<p>To live this unique experience of discovery, you just have to complete "
+"the following 4 steps:</p><ol><li>Register with your coordinates</"
+"li><li>Accept the travel agreements</li><li>Pay a down payment, then the "
+"invoice</li><li>Prepare the trip</li></ol><p>Your registration will be "
+"validated and a place will be reserved for you on this trip as soon as you "
+"have completed the first three steps above. <br/><br/>I will inform you at "
+"each important moment of the preparation of the trip of the steps to be "
+"taken.<br/><br/>Thank you for your interest in the work of Compassion, to "
+"free more children from extreme poverty every day.<br/><br/>Rose-Marie "
+"Reber</br>Head of Tours and Visits at Compassion Suisse</p>"
+msgstr ""
+"<p>Pour vivre cette expérience unique de découverte, de rencontre, il vous "
+"suffit de compléter les 4 étapes suivantes :</p><ol><li>Vous inscrire en "
+"remplissant vos coordonnées</li><li>Accepter les contrats de voyage</"
+"li><li>Payer un acompte, puis la facture</li><li>Préparer votre voyage</li></"
+"ol><p>Votre inscription sera validée et une place vous sera réservée sur ce "
+"voyage dès que vous aurez complété les trois premières étapes ci-dessus.<br/"
+"><br/>Je vous informerai à chaque moment important de préparation du voyage "
+"des démarches à effectuer.<br/><br/>Merci de votre intérêt pour le travail "
+"de Compassion, pour libérer chaque jour plus d'enfants de l'extrême pauvreté."
+"<br/><br/>Rose-Marie Reber</br>Responsable des visites et voyages de "
+"Compassion Suisse</p>"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_participants_list
@@ -57,9 +1460,39 @@ msgid "Advocate information"
 msgstr "Advocate information"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"All gifts I give to my sponsored child or his or her family will be in "
+"accordance with Compassion's policy on this subject."
+msgstr ""
+"Tous les cadeaux que j’offrirai à mon (ma) filleul(e) ou sa famille seront "
+"en accord avec la politique de Compassion à ce sujet."
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:132
+#, python-format
+msgid ""
+"Am I allowed to chat alone with a child during a visit to Compassion "
+"activities (please select the appropriate answer)?"
+msgstr ""
+"Suis-je autorisé à discuter seul avec un enfant lors d'une visite des "
+"activités de Compassion (merci de sélectionner la réponse appropriée) ?"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_ambassador_id
 msgid "Ambassador id"
 msgstr "Ambassadeur"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_amount
+msgid "Amount"
+msgstr "Montant"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_event_type_ids
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_event_type_ids
+msgid "Applies to"
+msgstr "S'applique à"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_registration_task_stage_id
@@ -77,14 +1510,76 @@ msgid "Banner image"
 msgstr "Banner image"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid ""
+"Because we know that every individual is different, we collect health "
+"information from each registrant to be aware of your limitations and your "
+"specific needs. We ask you to complete this survey."
+msgstr ""
+"Parce que nous savons que chaque individu est différent, nous recueillons "
+"des renseignements sur la santé de chaque personne inscrite afin d'être au "
+"courant des limites et de vos besoins spécifiques."
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_birth_name
+msgid "Birth name"
+msgstr "Nom (tel que sur le passeport)"
+
+#. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Brother"
+msgstr "Frère"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_barometer
 msgid "CHF"
 msgstr "CHF"
 
 #. module: website_event_compassion
+#: model:event.registration.stage,name:website_event_compassion.stage_all_cancelled
+msgid "Cancelled"
+msgstr "Annulé"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_id_21036
+msgid "Category"
+msgstr "Catégorie"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_name
+msgid "Category name"
+msgstr "Category name"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_travel_contract_contract_agreement
+msgid "Check to sign the agreements"
+msgstr "Cochez pour accepter le contrat"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "Code of Conduct"
+msgstr "Code de Conduite"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_color
 msgid "Color"
 msgstr "Couleur"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_comments
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_comments
+msgid "Comments"
+msgstr "Comments"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_mail_communication_id
+msgid "Communication"
+msgstr "Communication"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_partner_communication_job
+msgid "Communication Job"
+msgstr "Communication Job"
 
 #. module: website_event_compassion
 #: model:event.type,name:website_event_compassion.event_type_meeting
@@ -118,18 +1613,79 @@ msgid "Confirmed"
 msgstr "Confirmé"
 
 #. module: website_event_compassion
+#: code:addons/website_event_compassion/controllers/events_controller.py:254
+#, python-format
+msgid ""
+"Congratulations! Everything is ready for this beautiful trip to happen. You "
+"will receive all the practical information about the trip preparation a few "
+"weeks before the departure. Until then, don't hesitate to contact us if you "
+"have any question."
+msgstr ""
+"Félicitations ! Tout est prêt pour que ce voyage puisse avoir lieu. Vous "
+"allez recevoir toutes les informations pratiques pour bien vous préparer à "
+"cette expérience quelques semaines avant le départ. D'ici là, n'hésitez pas "
+"à nous contacter au cas où vous aviez des questions spécifiques."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "Contract visit"
+msgstr "Contrat de visite"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_passport
+msgid "Copy of the passport"
+msgstr "Copie de votre passeport"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_res_country
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_country_id
+msgid "Country"
+msgstr "Pays"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_res_country_vaccine
+msgid "Country Vaccines"
+msgstr "Country Vaccines"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_create_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_create_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_create_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_create_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_create_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_create_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_create_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_create_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_create_date
 msgid "Created on"
 msgstr "Créé le"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_criminal_record_criminal_record
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_criminal_record
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "Criminal record"
+msgstr "Extrait de casier judiciaire"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:291
+#, python-format
+msgid "Criminal record successfully uploaded."
+msgstr "Votre extrait de casier judiciaire a été correctement transmis."
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_criminal_record_uploaded
+msgid "Criminal record uploaded"
+msgstr "Casier judiciaire transmis"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.list
@@ -137,10 +1693,15 @@ msgid "Date"
 msgstr "Date"
 
 #. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Daughter"
+msgstr "Fille"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_participants_amount_objective
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_participants_amount_objective
 msgid "Default raise objective by participant"
-msgstr "Objectif par défaut d'un participant"
+msgstr "Objectif du participant par défaut"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_kanban
@@ -148,7 +1709,7 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "Details"
 msgstr "Détails"
 
@@ -158,20 +1719,62 @@ msgid "Deutsch"
 msgstr "Deutsch"
 
 #. module: website_event_compassion
+#: model:mail.template,subject:website_event_compassion.group_visit_before_sharing_email
+msgid "Did you speak about your trip with Compassion?"
+msgstr "Did you speak about your trip with Compassion?"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.robots_disallow
-msgid "Disallow: /event/*/registration/*"
-msgstr "Disallow: /event/*/registration/*"
+msgid ""
+"Disallow: /event/*/registration/*\n"
+"Disallow: /event/agreements/*\n"
+"Disallow: /event/payment/*\n"
+"Disallow: /event/*/down_payment\n"
+"Disallow: /event/*/medical_discharge\n"
+"Disallow: /event/*/medical_checklist\n"
+"Disallow: /event/*/confirmation"
+msgstr ""
+"Disallow: /event/*/registration/*\n"
+"Disallow: /event/agreements/*\n"
+"Disallow: /event/payment/*\n"
+"Disallow: /event/*/down_payment\n"
+"Disallow: /event/*/medical_discharge\n"
+"Disallow: /event/*/medical_checklist\n"
+"Disallow: /event/*/confirmation"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_match_partner_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_criminal_record_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_medical_discharge_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_step2_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_travel_contract_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_trip_form_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_display_name
 msgid "Display Name"
 msgstr "Nom affiché"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"Don't you have all the documents at hand? You can proceed step by step and "
+"save the items already collected. Once everything is ready, you will receive "
+"an e-mail confirmation."
+msgstr ""
+"Vous n'avez pas tous les documents à portée de main? Vous pouvez procéder "
+"par étape et sauvegarder les éléments déjà rassemblés. Une fois que tout est "
+"prêt, vous recevrez une confirmation par e-mail."
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.participant_page
@@ -212,7 +1815,11 @@ msgid "Double room with"
 msgstr "Chambre double avec"
 
 #. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/down_payment_step3.py:46
+#: code:addons/website_event_compassion/forms/down_payment_step3.py:48
 #: model:event.registration.stage,name:website_event_compassion.stage_group_pay
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_down_payment_id
+#, python-format
 msgid "Down payment"
 msgstr "Paiement Inscription"
 
@@ -222,19 +1829,34 @@ msgid "Duration"
 msgstr "Durée"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "E-mail"
 msgstr "Courriel"
 
 #. module: website_event_compassion
-#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_reply_to
-msgid "E-mail replies to"
-msgstr "E-mail replies to"
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_emergency_name
+msgid "Emergency contact name"
+msgstr "Personne de contact en cas d'urgence"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_emergency_phone
+msgid "Emergency contact phone number"
+msgstr "N° de téléphone"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_emergency_relation_type
+msgid "Emergency contact relation type"
+msgstr "Relation avec la personne de contact"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_emergency_ok
+msgid "Emergency ok"
+msgstr "Emergency ok"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_spoken_lang_en
 msgid "English"
-msgstr "English"
+msgstr "Anglais"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_registration_stage_requirements
@@ -258,9 +1880,22 @@ msgid "Event :"
 msgstr "Évènement :"
 
 #. module: website_event_compassion
+#: model:ir.actions.act_window,name:website_event_compassion.action_event_faq_category
+#: model:ir.model,name:website_event_compassion.model_event_faq
+#: model:ir.ui.menu,name:website_event_compassion.menu_event_faq_category
+#: model:ir.ui.view,arch_db:website_event_compassion.event_basic_side_info
+msgid "Event FAQ"
+msgstr "Foire aux Questions"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_event_faq_category
+msgid "Event FAQ Category"
+msgstr "Event FAQ Category"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_event_name
 msgid "Event Name"
-msgstr "Évènement"
+msgstr "Nom de l'événement"
 
 #. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_event_type
@@ -269,6 +1904,8 @@ msgstr "Type d'évènement"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_event_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_event_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_event_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration_event_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_event_id
 msgid "Event id"
@@ -277,7 +1914,7 @@ msgstr "Event id"
 #. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_event_registration
 msgid "Event registration"
-msgstr "Event registration"
+msgstr "Inscription"
 
 #. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_event_registration_stage
@@ -300,6 +1937,26 @@ msgstr "Type d'évènement"
 #: model:website.menu,name:website_event_compassion.menu_events
 msgid "Events"
 msgstr "Évènements"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "Expected/Acceptable Behaviors"
+msgstr "Comportements attendus/acceptables"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_faq_category_ids
+msgid "Faq category ids"
+msgstr "Catégories de question"
+
+#. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Father"
+msgstr "Père"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_feedback_survey_id
+msgid "Feedback Survey"
+msgstr "S"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_filename_1
@@ -332,9 +1989,24 @@ msgid "Folded in Pipeline"
 msgstr "Folded in Pipeline"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection_form_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_criminal_record_form_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_medical_discharge_form_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_step2_form_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_travel_contract_form_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_trip_form_form_id
+msgid "Form id"
+msgstr "Form id"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_spoken_lang_fr
 msgid "French"
-msgstr "French"
+msgstr "Français"
+
+#. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Friend"
+msgstr "Ami"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_fundraising
@@ -346,13 +2018,18 @@ msgstr "Fundraising"
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_barometer
 msgid "Funds raised:"
-msgstr "Dons récoltés :"
+msgstr "total des DONS reçus&amp;nbsp;"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_stage_search
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_task_search
 msgid "Group By"
-msgstr "Grouper"
+msgstr "Grouper par"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.advocate_details_search
+msgid "Group Visit"
+msgstr "Visite de groupe"
 
 #. module: website_event_compassion
 #: model:event.type,name:website_event_compassion.event_type_group_visit
@@ -360,9 +2037,159 @@ msgid "Group visit"
 msgstr "Visite de groupe"
 
 #. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_after_trip_feedback_config
+msgid "Group visit: after trip feedback"
+msgstr "Group visit: after trip feedback"
+
+#. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_before_sharing_config
+msgid "Group visit: before trip sharing information"
+msgstr "Group visit: before trip sharing information"
+
+#. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_detailed_config
+msgid "Group visit: detailed information"
+msgstr "Group visit: detailed information"
+
+#. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_information_day_config
+msgid "Group visit: info day invitation"
+msgstr "Group visit: info day invitation"
+
+#. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_medical_discharge_config
+#: model:utm.source,name:website_event_compassion.group_visit_medical_discharge_config_utm_source
+msgid "Group visit: medical discharge request"
+msgstr "Group visit: medical discharge request"
+
+#. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_medical_survey_config
+msgid "Group visit: medical survey invitation"
+msgstr "Group visit: medical survey invitation"
+
+#. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_step1_config
+msgid "Group visit: step1 registration confirmation"
+msgstr "Group visit: step1 registration confirmation"
+
+#. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_step2_config
+msgid "Group visit: step2 confirmation"
+msgstr "Group visit: step2 confirmation"
+
+#. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_step3_config
+msgid "Group visit: step3 confirmation"
+msgstr "Group visit: step3 confirmation"
+
+#. module: website_event_compassion
+#: model:partner.communication.config,name:website_event_compassion.group_visit_travel_documents_config
+msgid "Group visit: travel documents request"
+msgstr "Group visit: travel documents request"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_has_signed_child_protection
+msgid "Has signed child protection"
+msgstr "Has signed child protection"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_has_signed_travel_contract
+msgid "Has signed travel contract"
+msgstr "Has signed travel contract"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid "Here is the health checklist of your trip:"
+msgstr "Voici la checklist santé de votre voyage :"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_host_url
 msgid "Host url"
 msgstr "Host url"
+
+#. module: website_event_compassion
+#: model:mail.template,subject:website_event_compassion.group_visit_after_trip_feedback_email
+msgid "How did your trip with Compassion go?"
+msgstr "How did your trip with Compassion go?"
+
+#. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Husband"
+msgstr "Epoux"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:75
+#, python-format
+msgid ""
+"I acknowledge that I have read and accepted the conditions mentioned above "
+"concerning my meeting with the child I am sponsoring. If I do not comply "
+"with these conditions, Compassion reserves the right to cancel my "
+"sponsorship."
+msgstr ""
+"Je reconnais avoir lu et accepté les conditions mentionnées ci-dessus "
+"concernant ma rencontre avec l’enfant que je parraine. Si je ne respecte pas "
+"ces conditions, Compassion se réserve le droit d’annuler mon parrainage."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I am aware that it is important to show respect for the staff members, "
+"children, families and communities or churches I will meet. I undertake to "
+"take into consideration the cultural sensitivities of the country I am "
+"visiting."
+msgstr ""
+"Je suis conscient(e) qu’il est important de faire preuve de respect vis à "
+"vis des membres du personnel, des enfants, des familles et des communautés "
+"ou Eglises que je rencontrerai. Je m’engage à prendre en considération les "
+"sensibilités culturelles du pays que je vais visiter."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I am aware that the child I am sponsoring has legitimate parents, family or "
+"guardians. I undertake to respect and remain within the limits of the "
+"sponsor/sponsee relationship with this child."
+msgstr ""
+"Je suis conscient(e) que l’enfant que je parraine a des parents, une famille "
+"ou des gardiens légitimes. Je m’engage à respecter et à rester dans les "
+"limites de la relation parrain (marraine) / filleul(e) avec cet enfant."
+
+#. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpms_question_diet
+msgid "I am on a special diet"
+msgstr "Je suis un régime alimentaire particulier"
+
+#. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpms_question_treatment
+msgid "I am under treatment (indicate what is your treatment)"
+msgstr ""
+"Je suis en cours de suivi médical (merci d'indiquer le traitement en "
+"question)"
+
+#. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpms_question_allergies
+msgid "I have allergies"
+msgstr "Je souffre d'allergies"
+
+#. module: website_event_compassion
+#: model:survey.label,value:website_event_compassion.gpms_back
+msgid "I have back problems"
+msgstr "J'ai des problèmes de dos"
+
+#. module: website_event_compassion
+#: model:survey.label,value:website_event_compassion.gpms_heart
+msgid "I have heare problems"
+msgstr "J'ai des problèmes cardiaques"
+
+#. module: website_event_compassion
+#: model:survey.label,value:website_event_compassion.gpms_respiratory
+msgid "I have respiratory problems"
+msgstr "J'ai des problèmes respiratoires"
+
+#. module: website_event_compassion
+#: model:survey.label,value:website_event_compassion.gpms_sleep
+msgid "I have sleep problems"
+msgstr "J'ai des problèmes de sommeil"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_double_room_person
@@ -370,15 +2197,284 @@ msgid "I want to share a double room with:"
 msgstr "J'aimerais partager une chambre double avec :"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will be careful about my appearance, language, action, to ensure that my "
+"behavior demonstrates a respect for beneficiaries and their families, their "
+"culture and their rights and follow recommendations provided."
+msgstr ""
+"Je soignerai mon apparence, mon langage et mes actions afin de garantir que "
+"mon comportement témoigne de mon respect pour les bénéficiaires et leurs "
+"familles, leur culture et leurs droits, et se conforme aux recommandations "
+"fournies."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will contribute to building an environment where children are respected "
+"and encouraged to discuss their concerns and rights."
+msgstr ""
+"Je contribuerai à créer un environnement où les enfants sont respectés et "
+"encouragés à parler de leurs préoccupations et de leurs droits."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will demonstrate the proper respect and dignity of all children and will "
+"demonstrate Jesus’s love and care for them, regardless of their gender, age, "
+"race, religion, social background, culture, special need or disability."
+msgstr ""
+"Je ferai preuve du respect et de la dignité appropriés avec tous les enfants "
+"et je témoignerai l’amour et la sollicitude de Jésus à leur égard, "
+"indépendamment de leur sexe, âge, race, religion, origine sociale, culture, "
+"besoins sociaux ou handicaps."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will engage in activities with beneficiaries only in open or visible "
+"places, and in the event that an activity needs to take place in an enclosed "
+"space, I will ensure that at least one other approved adult is present."
+msgstr ""
+"Je ne participerai à des activités avec les bénéficiaires que dans des lieux "
+"ouverts et visibles, et au cas où une activité doive être pratiquée dans un "
+"espace clos, je veillerai à ce qu’au moins un autre adulte approuvé soit "
+"présent."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "I will engage in age-appropriate communication with beneficiaries."
+msgstr ""
+"Je communiquerai avec les bénéficiaires d’une manière adaptée à leur âge."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will follow Compassion’s rules about communication with beneficiaries, "
+"including social media interaction."
+msgstr ""
+"Je respecterai les règles de Compassion en matière de communication avec les "
+"bénéficiaires, y compris en ce qui concerne les interactions via les médias "
+"sociaux."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will follow dignity standards (for example, only recording children who "
+"are dressed appropriately, understand they are being recorded, etc.) "
+"regarding child photography and videography."
+msgstr ""
+"Je respecterai les normes en matière de respect de la dignité (par exemple, "
+"je ne photographierai ou ne filmerai que des enfants qui sont vêtus de "
+"manière adéquate, qui comprennent qu’ils sont filmés, etc.) en matière de "
+"photographie et de vidéographie."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will keep all information about child protection investigations "
+"confidential, keeping in mind privacy and dignity concerns of all involved."
+msgstr ""
+"Je préserverai la confidentialité de toutes les informations relatives aux "
+"enquêtes sur la protection de l’enfance, en gardant en tête les "
+"préoccupations de chacun en termes de vie privée et de dignité."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will maintain appropriate and reasonable expectations for children based "
+"on their age and ability level. (For example, it is developmentally normal "
+"for a three-year-old to become upset easily when they are tired but we could "
+"expect a teenager to manage their emotions even when they are very tired.)"
+msgstr ""
+"Je répondrai à des attentes appropriées et raisonnables pour les enfants en "
+"fonction de leur âge et de leur niveau de maturité. (Par exemple, il est "
+"normal, en termes de développement, qu’un enfant de trois ans se sente "
+"contrarié facilement lorsqu’il est fatigué, mais l’on peut attendre d’un "
+"adolescent qu’il maîtrise ses émotions, même lorsqu’il est très fatigué.)"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will never engage in sexual/sexually suggestive behavior with any child "
+"under age 18, regardless of the legal age of consent in-country."
+msgstr ""
+"Je ne me livrerai jamais à un comportement sexuel/sexuellement suggestif "
+"avec un enfant âgé de moins de 18 ans, quelle que soit la majorité sexuelle "
+"dans ce pays."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will never travel alone with a beneficiary, without an approved "
+"representative or prior approval, except in a life-threatening emergency "
+"where circumstances require immediate movement."
+msgstr ""
+"Je ne voyagerai jamais seul avec un bénéficiaire sans représentant approuvé "
+"ou sans approbation préalable, sauf dans les cas d’urgence vitale où les "
+"circonstances exigent un déplacement immédiat."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will never use any kind of physical discipline or physical punishment "
+"(some examples include whipping, caning, slapping, forcing punitive "
+"exercise, and other types of corporal punishment) as a method of correction "
+"for beneficiaries."
+msgstr ""
+"Je n’aurai jamais recours à aucun type de sanction physique ou de châtiment "
+"corporel (par exemple coups de fouet, coups de canne, claques, exercices "
+"physiques punitifs et autres types de châtiments corporels) en guise de "
+"méthode disciplinaire pour les bénéficiaires."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will never use language that is verbally/emotionally abusive, sexually "
+"suggestive, degrading, humiliating, shaming or is otherwise culturally "
+"inappropriate with a beneficiary."
+msgstr ""
+"Je ne m’exprimerai jamais d’une manière qui soit verbalement/"
+"émotionnellement abusive, sexuellement suggestive, dégradante, humiliante, "
+"stigmatisante ou culturellement inappropriée avec un bénéficiaire."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will never visit a beneficiary, their caregiver(s)and/or church outside "
+"the bounds of acceptable program or tours and visits standards."
+msgstr ""
+"Je ne rendrai jamais visite à un bénéficiaire, à son parent/tuteur et/ou à "
+"son église en dehors des normes acceptables du programme ou en matière de "
+"visites ou de tournées."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will not condone or participate in illegal, unsafe or abusive behavior of "
+"any child, including exploitation, trafficking, harmful traditional "
+"practices, and spiritual or ritualistic abuse."
+msgstr ""
+"Je n’autoriserai ni ne participerai à aucun comportement illégal, dangereux "
+"ou abusif sur aucun enfant, qu’il relève de faits d’exploitations, de "
+"trafic, de pratiques traditionnelles nocives et d’abus spirituels ou rituels."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will not gather, disclose or support the disclosure of information about "
+"beneficiaries or their families without prior, express permission that "
+"contains private or privileged content such as physical, mental or emotional "
+"health status, financial data, history of abuse or exploitation, or any "
+"portrayal that does not meet Compassion’s identified dignity standards. "
+"Additionally, I will not disclose information that might allow a beneficiary "
+"or their family to be physically located (such as a map to their home, home "
+"address, or geo-tag to their location in a photograph.) I understand that "
+"disclosure includes content published in any print or digital form on any "
+"public or private platform."
+msgstr ""
+"Je ne collecterai pas, ne divulguerai pas ou n’aiderai pas à la divulgation, "
+"sans permission expresse préalable, d’informations sur les bénéficiaires ou "
+"leurs familles contenant des informations privées ou confidentielles comme "
+"l’état de santé physique, mental ou émotionnel, des données financières, les "
+"antécédents d’abus ou d’exploitation, ou toute représentation non conforme "
+"aux normes identifiées par Compassion en matière de dignité. En outre, je ne "
+"divulguerai pas d’informations susceptibles de permettre de localiser "
+"géographiquement un bénéficiaire ou sa famille (comme une carte indiquant "
+"l’emplacement de leur domicile, l’adresse du domicile, ou une balise de "
+"géolocalisation de leur domicile contenue dans une photo.) Je comprends que "
+"la divulgation concerne également les contenus publiés sous forme papier ou "
+"numérique, sur toute plateforme publique ou privée."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will not hire any child in any harmful form of child labor and follow "
+"local laws regarding child employment."
+msgstr ""
+"Je n’emploierai aucun enfant dans aucune forme de travail infantile et je "
+"respecterai les lois locales concernant l’emploi d’enfants."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will not solicit a romantic/dating relationship and will never engage in "
+"sexual/sexually suggestive behavior with any beneficiary, regardless of age."
+msgstr ""
+"Je ne solliciterai aucune relation romantique/intime et ne me livrerai "
+"jamais à un comportement sexuel/sexuellement suggestif avec un(e) "
+"bénéficiaire, quel que soit son âge."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will not touch (some examples include kissing, cuddling, picking up, "
+"holding, etc.) beneficiaries in an inappropriate or culturally insensitive "
+"way."
+msgstr ""
+"Je ne toucherai pas (par exemple en embrassant, en étreignant, ou soulevant, "
+"en tenant, etc.) les bénéficiaires d’une manière inappropriée ou indélicate "
+"sur le plan culturel."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"I will submit to the appropriate background or police checks as permissible "
+"by law prior to face-to-face contact with beneficiaries (at minimum – an "
+"employee may be requested to comply with background/police checks at hire)."
+msgstr ""
+"Je me soumettrai aux vérifications des antécédents ou contrôles de police "
+"autorisés par la loi avant un contact direct avec les bénéficiaires (au "
+"minimum - il peut être demandé à un employé de se conformer à des "
+"vérifications des antécédents ou contrôles de police lors de son embauche)."
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_match_partner_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_criminal_record_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_medical_discharge_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_step2_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_travel_contract_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_trip_form_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_id
-#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_id_19912
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_id
 msgid "ID"
 msgstr "ID"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"If I visit my sponsored child, I agree to reimburse the COMPASSION National "
+"Office for the costs of this visit."
+msgstr ""
+"Si j'effectue une visite de mon/ma filleu, je m’engage à rembourser au "
+"bureau national de COMPASSION les frais occasionnés par cette visite."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"If I witness child abuse, know a child is in danger, observe any concerning "
+"behaviors from colleagues, partners or other representatives, or a child "
+"comes to me with a report of abuse, I will take it seriously and report it "
+"to the proper staff or relevant authorities. I will seek to do everything "
+"within my power to ensure the child is out of danger."
+msgstr ""
+"Si je suis témoin d’abus sur un enfant, si je sais qu’un enfant est en "
+"danger, si je remarque un comportement préoccupant de la part de collègues, "
+"de partenaires ou d’autres représentants, ou si un enfant vient me voir pour "
+"signaler des abus, je le prendrai au sérieux et je le signalerai au "
+"personnel ou aux autorités concernés. Je chercherai à faire tout ce qui est "
+"en mon pouvoir pour m’assurer que l’enfant est hors de danger."
 
 #. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_event_fundraising
@@ -391,6 +2487,25 @@ msgstr ""
 "If activated, the participants will have a user account where they can keep "
 "track of their donations. They will have a profile page on the website where "
 "people can donate."
+
+#. module: website_event_compassion
+#: model:survey.question,comments_message:website_event_compassion.gpms_question_allergies
+#: model:survey.question,comments_message:website_event_compassion.gpms_question_diet
+#: model:survey.question,comments_message:website_event_compassion.gpms_question_problems
+#: model:survey.question,comments_message:website_event_compassion.gpms_question_treatment
+msgid "If other, please specify:"
+msgstr "Si autre, merci de préciser :"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"If requested, I will comply with child protection related investigations and "
+"make available any documentation or other information necessary for the "
+"completion of the investigation."
+msgstr ""
+"Si nécessaire, je me soumettrai aux enquêtes en matière de protection de "
+"l’enfance et je fournirai tous les documents ou informations nécessaires au "
+"bon déroulement de l’enquête."
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_include_flight
@@ -409,12 +2524,28 @@ msgid "Individual visit"
 msgstr "Visite individuelle"
 
 #. module: website_event_compassion
+#: model:mail.template,subject:website_event_compassion.group_visit_information_day_email
+msgid ""
+"Invitation to the ${object.get_objects().compassion_event_id.name} "
+"preparation meeting"
+msgstr ""
+"Invitation to the ${object.get_objects().compassion_event_id.name} "
+"preparation meeting"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_account_invoice
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_account_invoice_line
 msgid "Invoice Line"
 msgstr "Ligne de facture"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_invoice_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_invoice_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_invoice_id
 msgid "Invoice id"
 msgstr "Identifiant de la facture"
 
@@ -424,34 +2555,83 @@ msgid "It also brings"
 msgstr "Cela rapproche également"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid ""
+"It is time to prepare the trip in terms of health. The stay that awaits you "
+"will be interesting. It can also be challenging: long international flights, "
+"jet lag, altitude changes, travel on rough roads, hiking on rough terrain, "
+"and long days will be possible."
+msgstr ""
+"Il est temps de préparer le voyage sur le plan de la santé. Le séjour qui "
+"vous attend sera intéressant. Il peut être éprouvant aussi: longs vols "
+"internationaux, décalage horaire, changements d'altitude, déplacements sur "
+"des routes sommaires, randonnées sur des terrains accidentés, et longues "
+"journées seront possibles."
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_spoken_lang_it
 msgid "Italian"
 msgstr "Italian"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_match_partner___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_criminal_record___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_medical_discharge___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_step2___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_travel_contract___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_trip_form___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine___last_update
 msgid "Last Modified on"
 msgstr "Dernière Modification le"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_write_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_write_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_write_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_write_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_write_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_write_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_write_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_write_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,help:website_event_compassion.field_event_faq_category_event_type_ids
+msgid "Leave empty to make the category appear on all events"
+msgstr "Leave empty to make the category appear on all events"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,help:website_event_compassion.field_event_faq_event_type_ids
+msgid "Leave empty to make the question appear on all events"
+msgstr "Leave empty to make the question appear on all events"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_mandatory
+msgid "Mandatory"
+msgstr "Mandatory"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_seats_max
@@ -459,7 +2639,31 @@ msgid "Maximum participants allowed"
 msgstr "Maximum participants allowed"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_medical_survey_id
+msgid "Medical Survey"
+msgstr "Questionnaire médical"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_medical_discharge_medical_discharge
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_medical_discharge
+msgid "Medical discharge"
+msgstr "Décharge médicale"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/medical_discharge_form.py:41
+#, python-format
+msgid "Medical discharge successfully uploaded."
+msgstr "Décharge médicale envoyée avec succès."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid "Medical information"
+msgstr "Infos santé"
+
+#. module: website_event_compassion
 #: model:event.registration.stage,name:website_event_compassion.stage_group_medical
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_medical_survey_id
+#: model:survey.survey,title:website_event_compassion.group_visit_medical_survey
 msgid "Medical survey"
 msgstr "Questionnaire médical"
 
@@ -469,21 +2673,50 @@ msgid "Minimum participants required"
 msgstr "Minimum participants required"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:169
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:220
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:302
+#: code:addons/website_event_compassion/forms/medical_discharge_form.py:52
+#, python-format
+msgid "Missing"
+msgstr "Incomplet"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/models/event_registration.py:213
 #, python-format
 msgid "Missing wordpress_host in odoo config file"
 msgstr "Missing wordpress_host in odoo config file"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_months_needed_for_a_visa
+msgid "Months needed for a visa"
+msgstr "Months needed for a visa"
+
+#. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Mother"
+msgstr "Mère"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "N/A"
 msgstr "N/A"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_name
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 #: model:ir.ui.view,arch_db:website_event_compassion.list
 msgid "Name"
 msgstr "Nom"
+
+#. module: website_event_compassion
+#: selection:cms.form.group.visit.child.protection,final_question:0
+msgid ""
+"No, the Compassion Charter does not allow me to be alone with a child in any "
+"situation. I must always be accompanied by someone."
+msgstr ""
+"Non, la charte de Compassion ne me permet pas de me retrouver seul avec un "
+"enfant, quelle que soit la situation. Je dois toujours être accompagné."
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_seats_expected
@@ -496,6 +2729,13 @@ msgid "Odoo event id"
 msgstr "Odoo event id"
 
 #. module: website_event_compassion
+#: model:mail.template,subject:website_event_compassion.group_visit_step2_email
+msgid ""
+"Only one step left to validate your registration to your trip with Compassion"
+msgstr ""
+"Only one step left to validate your registration to your trip with Compassion"
+
+#. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_crm_event_compassion_open_wizard
 msgid "Open event to participants wizard"
 msgstr "Open event to participants wizard"
@@ -505,6 +2745,17 @@ msgstr "Open event to participants wizard"
 #: model:ir.ui.view,arch_db:website_event_compassion.view_open_event_wizard
 msgid "Open registrations"
 msgstr "Ouvrir les inscriptions"
+
+#. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Other"
+msgstr "Autre"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_partner_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_partner_name
+msgid "Participant"
+msgstr "Participant"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_custom_amount_objective
@@ -528,6 +2779,32 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_partner_id
+msgid "Partner id"
+msgstr "Partenaire"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_passport_expiration_date
+msgid "Passport expiration date"
+msgstr "Date d'expiration du passeport"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:192
+#, python-format
+msgid "Passport information"
+msgstr "Données du passeport"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_passport_number
+msgid "Passport number"
+msgstr "Numéro du passeport"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_passport_uploaded
+msgid "Passport uploaded"
+msgstr "Passport uploaded"
+
+#. module: website_event_compassion
 #: model:event.registration.task,name:website_event_compassion.task_down_payment
 msgid "Pay fees"
 msgstr "Payer les frais"
@@ -548,14 +2825,79 @@ msgid "Payment Transaction"
 msgstr "Transaction"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:201
+#, python-format
+msgid "Person of contact"
+msgstr "Personne de contact en cas d'urgence"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "Phone"
 msgstr "Téléphone"
 
 #. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:128
+#, python-format
+msgid ""
+"Please answer the following question before confirming acceptance of the "
+"charter:"
+msgstr ""
+"Merci de répondre à la question suivante, ce qui confirme votre acceptation "
+"de la charte."
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:52
+#, python-format
+msgid "Please avoid any special characters"
+msgstr "Merci d'éviter les caractères spéciaux"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:247
+#, python-format
+msgid "Please enter a valid date"
+msgstr "Merci d'entrer une date valide"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:213
+#, python-format
+msgid "Please enter a valid phone number"
+msgstr "Merci d'indiquer un numéro de téléphone valide"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:202
+#, python-format
+msgid "Please indicate a contact in case of emergency during the trip."
+msgstr ""
+"Merci d'indiquer une personne de contact en cas d'urgence durant le voyage."
+
+#. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpms_question_problems
+msgid "Please indicate any known health issue you have"
+msgstr "Merci d'indiquer vos problèmes de santé connus"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:112
+#, python-format
+msgid ""
+"Please review carefully the Compassion Child Protection Charter and answer "
+"this question again."
+msgstr ""
+"Nous vous prions de relire attentivement la charte de protection de l'enfant "
+"de Compassion et de répondre une nouvelle fois à cette question."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid ""
+"Please review the list of the required and recommended vaccines, and verify "
+"that yours are still valid."
+msgstr ""
+"Merci de contrôler la liste des vaccins requis et recommandés, et de "
+"vérifier que vos vaccins sont encore valables. "
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_spoken_lang_po
 msgid "Portuguese"
-msgstr "Portuguese"
+msgstr "Portugais"
 
 #. module: website_event_compassion
 #: model:event.type,name:website_event_compassion.event_type_presentation
@@ -564,9 +2906,22 @@ msgstr "Présentation"
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/donation_form.py:63
+#: code:addons/website_event_compassion/forms/down_payment_step3.py:52
+#: code:addons/website_event_compassion/forms/group_visit_payment.py:52
 #, python-format
 msgid "Proceed with payment"
 msgstr "Procéder au paiement"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"Protecting the children we serve is one of our priorities. Compassion "
+"regulations guarantee that all measures are taken to ensure the safety of "
+"Compassion's sponsored children."
+msgstr ""
+"La protection des enfants que nous servons est une de nos priorités. Les "
+"réglementations de Compassion vous garantissent que toutes les mesures sont "
+"prises pour garantir la sécurité des filleuls de Compassion.&amp;nbsp;"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.view_muskathlon_event_website
@@ -574,12 +2929,33 @@ msgid "Public page"
 msgstr "Page publique"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_question_answer
+msgid "Question answer"
+msgstr "Réponse à la question"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_question_title
+msgid "Question title"
+msgstr "Titre de la question"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_question_ids
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_faq_category_form
+msgid "Questions"
+msgstr "Questions"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_amount_objective
 msgid "Raise objective"
 msgstr "Objectif"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid "Recommended vaccines"
+msgstr "Vaccins recommandés"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "Reference"
 msgstr "Référence"
 
@@ -589,10 +2965,15 @@ msgid "Register"
 msgstr "S'inscrire"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/event_registration_step1.py:57
+#: code:addons/website_event_compassion/forms/event_registration_step1.py:59
 #, python-format
 msgid "Register now"
 msgstr "S'inscrire"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_event_mail_registration
+msgid "Registration Mail Scheduler"
+msgstr "Planificateur d'email d'inscription"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_registration_closed
@@ -602,10 +2983,10 @@ msgstr "Inscriptions closes"
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_registration_fee
 msgid "Registration fee"
-msgstr "Registration fee"
+msgstr "Frais d'inscription"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/event_registration_step1.py:53
+#: code:addons/website_event_compassion/forms/event_registration_step1.py:55
 #, python-format
 msgid "Registration for "
 msgstr "Inscription - "
@@ -614,6 +2995,12 @@ msgstr "Inscription - "
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_registration_full
 msgid "Registration full"
 msgstr "Inscriptions complètes"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_registration_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_registration_id
+msgid "Registration id"
+msgstr "Registration id"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_registration_not_started
@@ -660,12 +3047,22 @@ msgstr "Les inscriptions sont terminées."
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_page
 msgid "Registrations will open soon."
-msgstr "Les inscriptions débuteront prochainement."
+msgstr "Registrations will open soon."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid "Required vaccines"
+msgstr "Vaccins obligatoires"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_requirements
 msgid "Requirements"
-msgstr "Requirements"
+msgstr "Exigences"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_requires_medical_discharge
+msgid "Requires medical discharge"
+msgstr "Besoin de décharge médicale"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_user_id
@@ -688,10 +3085,12 @@ msgid "Send certificate of criminal record"
 msgstr "Extrait judiciaire"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_sequence
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_sequence
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_sequence
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_sequence
 msgid "Sequence"
-msgstr "Sequence"
+msgstr "Séquence"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_registration_stage_duration
@@ -738,6 +3137,11 @@ msgid "Single room extra fee"
 msgstr "Frais pour chambre simple"
 
 #. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Sister"
+msgstr "Soeur"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.donation_failure
 msgid ""
 "Something went wrong during the donation process. Please try again.\n"
@@ -753,9 +3157,14 @@ msgstr ""
 "nous contacter."
 
 #. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Son"
+msgstr "Fils"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_spoken_lang_es
 msgid "Spanish"
-msgstr "Spanish"
+msgstr "Espagnol"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_registration_stage_event_type_id
@@ -793,10 +3202,11 @@ msgid "Sport"
 msgstr "Sport"
 
 #. module: website_event_compassion
-#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_mail_stage_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_id_20591
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_stage_id
 msgid "Stage"
-msgstr "Etape"
+msgstr "Étape"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_date
@@ -824,9 +3234,14 @@ msgid "Standard trip price"
 msgstr "Prix de base du voyage"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "Statement of Commitment to Child Protection"
+msgstr "Charte de la protection de l'enfance"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.participant_page
 msgid "Support"
-msgstr "Soutenir"
+msgstr "Assistance"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.participant_page
@@ -834,9 +3249,56 @@ msgid "Support me during the"
 msgstr "Soutiens-moi !"
 
 #. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_survey_user_input
+msgid "Survey User Input"
+msgstr "Saisie utilisateur du sondage"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_survey_count
+msgid "Survey count"
+msgstr "Survey count"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/models/event_registration.py:398
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_event_wordpress
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
+#, python-format
+msgid "Surveys"
+msgstr "Questionnaires"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_name
 msgid "Task"
-msgstr "Action"
+msgstr "Tâche"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:67
+#, python-format
+msgid "Thank you for having read and signed the travel agreements."
+msgstr "Merci d'avoir lu et signé le contrat de voyage."
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:120
+#, python-format
+msgid "Thank you for reading the child protection charter carefully."
+msgstr "Merci d'avoir lu et signé la charte de protection de l'enfant."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"Thank you very much for your interest in Compassion's work to free more "
+"children from poverty every day, for a dignified and meaningful life."
+msgstr ""
+"Merci de tout cœur de votre intérêt pour le travail de Compassion pour "
+"libérer chaque jour plus d'enfants de la pauvreté, pour une vie digne et qui "
+"aie du sens."
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/controllers/group_visit.py:80
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:137
+#, python-format
+msgid "Thank you!"
+msgstr "Merci !"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.donation_successful
@@ -845,9 +3307,70 @@ msgstr ""
 "Merci ! Votre don nous aide à libérer des enfants de l'extrême pauvreté !"
 
 #. module: website_event_compassion
+#: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_allergies
+#: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_diet
+#: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_problems
+#: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_treatment
+msgid "The answer you entered has an invalid format."
+msgstr "La réponse n'est pas valide."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"The costs of my trip (round trip, plus accommodation on site during my stay) "
+"are at my expense."
+msgstr ""
+"Les frais de mon voyage (aller et retour, plus logement sur place pendant "
+"mon séjour) sont à ma charge."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"The photos I will take of my sponsored child, his or her family and "
+"community, are for my personal and private use only. I undertake not to "
+"distribute them on the Internet, social networks or other documents (except "
+"as part of Compassion or with its consent)."
+msgstr ""
+"Les photos que je prendrai de mon (ma) filleul(e), sa famille et sa "
+"communauté, sont réservées à mon usage personnel et privé. Je m’engage à ne "
+"pas les diffuser sur Internet, les réseaux sociaux ou sur d'autres documents "
+"(sauf dans le cadre de Compassion ou avec son accord)."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_participants_list
 msgid "This event has no participant yet."
 msgstr "Il n'y a encore aucun participants inscrits. Serez-vous le premier ?"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"This information outlines the minimum content of the approved Statement of "
+"Commitment to Child Protection within Compassion International globally. The "
+"code of conduct details the behavior expectations for interactions with "
+"beneficiaries.  Field Offices and Global Partners may translate, clarify "
+"language, contextualize or add to this document as long as these minimum "
+"standards are maintained. The Statement of Commitment and Code of Conduct "
+"should be in all cases be a stand-alone document that should not be "
+"integrated into other releases or signatory document."
+msgstr ""
+"Ces informations détaillent le contenu minimum de la Déclaration approuvé "
+"d’engagement à la protection de l’enfance au sein de Compassion "
+"International, au niveau mondial. Le Code de Conduite détaille les attentes "
+"en termes de comportement dans le cadre des interactions avec les "
+"bénéficiaires. Les Bureaux Nationaux et les Pays Partenaires peuvent "
+"traduire, clarifier le contenu, contextualiser ou enrichir ce document, dans "
+"la mesure où ces normes minimales sont respectées. La Déclaration "
+"d’engagement et le Code de conduite doivent être, dans tous les cas, un "
+"document indépendant qui ne doit pas être intégré à d’autres publications ou "
+"document à signer."
+
+#. module: website_event_compassion
+#: model:survey.question,constr_error_msg:website_event_compassion.gpms_question_allergies
+#: model:survey.question,constr_error_msg:website_event_compassion.gpms_question_diet
+#: model:survey.question,constr_error_msg:website_event_compassion.gpms_question_problems
+#: model:survey.question,constr_error_msg:website_event_compassion.gpms_question_treatment
+msgid "This question requires an answer."
+msgstr "Cette question requiert une réponse."
 
 #. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_crm_event_compassion_open_wizard_sponsorship_donation_value
@@ -881,19 +3404,84 @@ msgid ""
 "This stage is folded in the kanban view when there are no records in that "
 "stage to display."
 msgstr ""
-"This stage is folded in the kanban view when there are no records in that "
-"stage to display."
+"Cette étape est pliée dans la vue Kanban quand il n'y a pas de dossier à "
+"afficher dans cette étape."
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/models/res_country_vaccine.py:42
+#: sql_constraint:res.vaccine:0
+#, python-format
+msgid "This vaccine already exists"
+msgstr "This vaccine already exists"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/models/res_country_vaccine.py:30
+#: sql_constraint:res.country.vaccine:0
+#, python-format
+msgid "This vaccine is already set"
+msgstr "This vaccine is already set"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"To make your trip enriching and an unforgettable experience, please read and "
+"validate this visit contract. It has been established to protect your "
+"interests, those of children, their families, and partner churches of "
+"Compassion."
+msgstr ""
+"Pour que votre voyage soit enrichissant et qu'il constitue une expérience "
+"inoubliable, merci de prendre connaissance et valider ce contrat de visite. "
+"Celui-ci a été établi afin de préserver votre intérêt, celui des enfants, de "
+"leurs familles, et des Eglises partenaires de Compassion."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid "To the medical survey"
+msgstr "Vers le questionnaire médical"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_total_price
 msgid "Total price"
-msgstr "Total price"
+msgstr "Prix total"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:74
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "Travel agreements"
+msgstr "Contrats de voyage"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_payment.py:48
+#, python-format
+msgid "Travel payment"
+msgstr "Paiement du voyage"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
+msgid "Trip information"
+msgstr "Informations pour le voyage"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:185
+#, python-format
+msgid "Trip information updated."
+msgstr "Informations de voyage mises à jour."
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_group_visit_invoice_id
+msgid "Trip invoice"
+msgstr "Facture du voyage"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:105
 #, python-format
 msgid "Trip options"
 msgstr "Options pour le voyage"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,help:website_event_compassion.field_res_country_vaccine_mandatory
+msgid "True if the vaccine is mandatory when travelling to the country"
+msgstr "True if the vaccine is mandatory when travelling to the country"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_event_type_id
@@ -901,9 +3489,20 @@ msgid "Type"
 msgstr "Type"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "Unacceptable Behaviors"
+msgstr "Comportements inacceptables"
+
+#. module: website_event_compassion
 #: model:event.registration.stage,name:website_event_compassion.stage_all_unconfirmed
 msgid "Unconfirmed"
 msgstr "Non confirmé"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/medical_discharge_form.py:37
+#, python-format
+msgid "Upload your medical discharge"
+msgstr "Envoyer votre décharge médicale"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_registration_stage_sequence
@@ -921,15 +3520,40 @@ msgid "Uuid"
 msgstr "Uuid"
 
 #. module: website_event_compassion
-#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_valid_ticket_ids
-msgid "Valid ticket ids"
-msgstr "Valid ticket ids"
+#: model:ir.model,name:website_event_compassion.model_res_vaccine
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_vaccine_id
+msgid "Vaccine"
+msgstr "Vaccin"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:88
+#: model:ir.actions.act_window,name:website_event_compassion.action_res_country_vaccine
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_vaccine_ids
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_ids
+#: model:ir.ui.menu,name:website_event_compassion.menu_res_country_vaccine
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_event_wordpress
+msgid "Vaccines"
+msgstr "Vaccins"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid "Vaccines for"
+msgstr "Vaccins pour le"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_valid_ticket_ids
+msgid "Valid ticket ids"
+msgstr "Tiquets valides"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:120
 #, python-format
 msgid "Verify your e-mail address"
 msgstr "Vérifiez votre adresse e-mail"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_event_visa_needed
+msgid "Visa needed"
+msgstr "Besoin de visa"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_website_published
@@ -942,6 +3566,34 @@ msgid "We are glad to confirm your registration to"
 msgstr "Nous sommes heureux de confirmer votre inscription -"
 
 #. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:138
+#, python-format
+msgid ""
+"We are glad to confirm your registration to %s. You will receive all "
+"information for the next steps by e-mail."
+msgstr ""
+"Nous sommes ravis de confirmer votre inscription au %s. Vous recevrez toutes "
+"les informations concernant les prochaines étapes dans votre boîte mail."
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/controllers/events_controller.py:243
+#, python-format
+msgid "We are glad to confirm your registration!"
+msgstr "Nous sommes ravis de confirmer votre inscription !"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/controllers/group_visit.py:81
+#, python-format
+msgid ""
+"We successfully received all the documents needed for the trip. We look "
+"forward to sharing with you the work of Compassion among poor children in "
+"the South."
+msgstr ""
+"Nous avons bien reçu les documents pour le voyage.  Nous nous réjouissons de "
+"vous faire découvrir le travail de Compassion parmi les enfants démunis des "
+"pays du Sud."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.view_muskathlon_event_website
 msgid "Website"
 msgstr "Site Web"
@@ -952,12 +3604,47 @@ msgid "Website description"
 msgstr "Website description"
 
 #. module: website_event_compassion
+#: selection:event.registration,emergency_relation_type:0
+msgid "Wife"
+msgstr "Épouse"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:141
+#, python-format
+msgid ""
+"With my answer, I acknowledge that I have read and fully understand the "
+"content of the Child Protection Charter. I agree with all the conditions "
+"mentioned above. If I do not comply with these conditions,Compassion "
+"reserves the right to cancel my sponsorship."
+msgstr ""
+"Par ma réponse, je confirme avoir lu et compris le contenu de la charte de "
+"protection de l'enfance. J'accepte toutes les conditions mentionnées dans ce "
+"document. Si je ne respecte pas ces conditions, Compassion se réserve le "
+"droit d'annuler mon parrainage. "
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_wordpress_host
 msgid "Wordpress host"
 msgstr "Wordpress host"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:75
+#: selection:cms.form.group.visit.child.protection,final_question:0
+msgid ""
+"Yes, if he or she is my sponsored child, I can speak with him or her alone, "
+"regardless of the context."
+msgstr ""
+"Oui, si c'est mon ou ma filleul(e), je peux m'entretenir avec lui/elle "
+"seule, quelle que soit le contexte"
+
+#. module: website_event_compassion
+#: selection:cms.form.group.visit.child.protection,final_question:0
+msgid ""
+"Yes, in an open place and taking into account the indications of Compassion."
+msgstr ""
+"Oui, dans un lieu ouvert et en tenant compte des indications de Compassion."
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:106
 #, python-format
 msgid ""
 "You can have the flight included (CHF %s) or decide to book the flight by "
@@ -973,21 +3660,94 @@ msgstr ""
 "vous désirez une chambre individuelle."
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection_final_question
+msgid "Your answer"
+msgstr "Votre réponse"
+
+#. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/donation_form.py:42
 #, python-format
 msgid "Your coordinates"
 msgstr "Vos coordonnées"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
+#: model:survey.page,title:website_event_compassion.gpms_page1
+msgid "Your health"
+msgstr "Votre santé"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
+msgid "Your medical status"
+msgstr "Votre santé"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:249
+#, python-format
+msgid ""
+"Your passport must be renewed! It should be valid at least six months after "
+"your return."
+msgstr ""
+"Votre passeport doit être renouvelé ! Il doit être valable au moins 6 mois "
+"après votre retour en Suisse."
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/controllers/events_controller.py:245
+#, python-format
+msgid ""
+"Your payment was successful and your are now a confirmed participant of the "
+"trip. You will receive all the documentation for the preparation of your "
+"trip by e-mail in the coming weeks."
+msgstr ""
+"Votre paiement a bien été reçu et votre inscription est désormais "
+"confirmée.  Dans les semaines à venir, vous serez guidés dans les "
+"préparatifs de votre voyage."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "Your registration"
 msgstr "Votre inscription"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:69
+#: model:mail.template,subject:website_event_compassion.group_visit_step3_email
+msgid "Your registration to the trip with Compassion is confirmed"
+msgstr "Votre inscription au voyage de Compassion est confirmée"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:100
 #, python-format
 msgid "Your spoken languages"
 msgstr "Vos langues parlées"
+
+#. module: website_event_compassion
+#: model:mail.template,subject:website_event_compassion.group_visit_step1_email
+msgid ""
+"Your trip to ${object.get_objects().compassion_event_id.country_id.name} "
+"with Compassion"
+msgstr ""
+"Your trip to ${object.get_objects().compassion_event_id.country_id.name} "
+"with Compassion"
+
+#. module: website_event_compassion
+#: model:mail.template,subject:website_event_compassion.group_visit_medical_discharge_email
+#: model:mail.template,subject:website_event_compassion.group_visit_medical_survey_email
+msgid "Your trip with Compassion - Medical information"
+msgstr "Your trip with Compassion - Medical information"
+
+#. module: website_event_compassion
+#: model:mail.template,subject:website_event_compassion.group_visit_detailed_info
+#: model:mail.template,subject:website_event_compassion.group_visit_detailed_info_email
+msgid "Your trip with Compassion - practical information"
+msgstr "Your trip with Compassion - practical information"
+
+#. module: website_event_compassion
+#: model:mail.template,subject:website_event_compassion.group_visit_travel_documents_email
+msgid "Your trip with Compassion - travel documents and payment"
+msgstr "Your trip with Compassion - travel documents and payment"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.advocate_details_search
+msgid "Youth Trip"
+msgstr "Voyage de jeunes"
 
 #. module: website_event_compassion
 #: model:event.type,name:website_event_compassion.event_type_youth_trip
@@ -1015,6 +3775,16 @@ msgid "cms.form.event.donation"
 msgstr "cms.form.event.donation"
 
 #. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_event_down_payment
+msgid "cms.form.event.down.payment"
+msgstr "cms.form.event.down.payment"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_event_group_visit_payment
+msgid "cms.form.event.group.visit.payment"
+msgstr "cms.form.event.group.visit.payment"
+
+#. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_cms_form_event_match_partner
 msgid "cms.form.event.match.partner"
 msgstr "cms.form.event.match.partner"
@@ -1025,10 +3795,39 @@ msgid "cms.form.event.registration"
 msgstr "cms.form.event.registration"
 
 #. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_group_visit_child_protection
+msgid "cms.form.group.visit.child.protection"
+msgstr "cms.form.group.visit.child.protection"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_group_visit_criminal_record
+msgid "cms.form.group.visit.criminal.record"
+msgstr "cms.form.group.visit.criminal.record"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_group_visit_medical_discharge
+msgid "cms.form.group.visit.medical.discharge"
+msgstr "cms.form.group.visit.medical.discharge"
+
+#. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_cms_form_group_visit_registration
-#| msgid "cms.form.event.registration"
 msgid "cms.form.group.visit.registration"
 msgstr "cms.form.group.visit.registration"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_group_visit_step2
+msgid "cms.form.group.visit.step2"
+msgstr "cms.form.group.visit.step2"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_group_visit_travel_contract
+msgid "cms.form.group.visit.travel.contract"
+msgstr "cms.form.group.visit.travel.contract"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_cms_form_group_visit_trip_form
+msgid "cms.form.group.visit.trip.form"
+msgstr "cms.form.group.visit.trip.form"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_page
@@ -1039,6 +3838,22 @@ msgstr "compassion_background_blue_transparent_90"
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_kanban
 msgid "completed tasks"
 msgstr "Actions terminées"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/models/partner_communication_job.py:38
+#, python-format
+msgid "down_payment.pdf"
+msgstr "acompte_voyage.pdf"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_event_mail
+msgid "event.mail"
+msgstr "event.mail"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "giving us an emergency contact"
+msgstr "nous indiquer une personne de contact en cas d'urgence"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.donation_successful
@@ -1056,11 +3871,59 @@ msgid "his"
 msgstr "son"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid ""
+"https://www.e-service.admin.ch/crex/cms/content/strafregister/uebersicht_en"
+msgstr ""
+"https://www.e-service.admin.ch/crex/cms/content/strafregister/uebersicht_fr"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/models/event_registration.py:541
+#, python-format
+msgid "medical discharge.docx"
+msgstr "décharge médicale.docx"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "order one from here"
+msgstr "commander un depuis cette page"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.participant_page
 msgid "participant-progress-amount"
 msgstr "participant-progress-amount"
 
 #. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_payment.py:46
+#, python-format
+msgid "payment"
+msgstr "paiement"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_page
 msgid "project_donations_total"
 msgstr "project_donations_total"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "reading carefully and signing the two contracts below"
+msgstr ""
+"lire attentivement le contrat de visite et la charte de protection de "
+"l'enfance, et de confirmer que vous pouvez y souscrire"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "uploading a copy of your passport*"
+msgstr "nous transmettre une copie de votre passeport*"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
+msgid "uploading a criminal record extract*. You can"
+msgstr ""
+"télécharger une copie de l'extrait de votre casier judiciaire*. Vous pouvez "
+"en"
+
+#~ msgid ""
+#~ "giving us an emergency contact and your passport details for the trip "
+#~ "organization"
+#~ msgstr "Comportements inacceptables"

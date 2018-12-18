@@ -8,6 +8,9 @@
 #
 ##############################################################################
 import re
+
+from dateutil.relativedelta import relativedelta
+
 from odoo import models, fields, tools, _
 
 testing = tools.config.get('test_enable')
@@ -161,14 +164,21 @@ if not testing:
         _form_model_fields = [
             'birth_name', 'passport_number', 'passport_expiration_date',
             'emergency_name', 'emergency_phone', 'emergency_relation_type',
-            'completed_task_ids'
+            'completed_task_ids', 'passport'
         ]
         _form_required_fields = [
             'birth_name', 'passport_number', 'passport_expiration_date',
-            'emergency_name', 'emergency_phone', 'emergency_relation_type'
+            'emergency_name', 'emergency_phone', 'emergency_relation_type',
+            'passport'
         ]
 
         form_id = fields.Char(default='travel')
+
+        @property
+        def form_widgets(self):
+            res = super(TripForm, self).form_widgets
+            res['passport'] = 'cms_form_compassion.form.widget.document'
+            return res
 
         @property
         def form_msg_success_updated(self):
@@ -177,6 +187,15 @@ if not testing:
         @property
         def _form_fieldsets(self):
             return [
+                {
+                    'id': 'passport',
+                    'title': _('Passport information'),
+                    'fields': [
+                        'passport', 'birth_name',
+                        'passport_number', 'passport_expiration_date',
+                        'form_id'
+                    ]
+                },
                 {
                     'id': 'emergency',
                     'title': _('Person of contact'),
@@ -187,15 +206,6 @@ if not testing:
                         'emergency_name', 'emergency_phone'
                     ]
                 },
-                {
-                    'id': 'passport',
-                    'title': _('Passport information'),
-                    'fields': [
-                        'birth_name',
-                        'passport_number', 'passport_expiration_date',
-                        'form_id'
-                    ]
-                },
             ]
 
         def _form_validate_emergency_phone(self, value, **req_values):
@@ -203,6 +213,11 @@ if not testing:
                 return 'emergency_phone', _(
                     'Please enter a valid phone number')
             # No error
+            return 0, 0
+
+        def _form_validate_passport(self, value, **req_values):
+            if value == '':
+                return 'passport', _('Missing')
             return 0, 0
 
         def _form_validate_passport_number(self, value, **req_values):
@@ -220,8 +235,10 @@ if not testing:
                 old = False
                 try:
                     date = fields.Date.from_string(value)
-                    today = date.today()
-                    old = date < today
+                    limit_date = fields.Date.from_string(
+                        self.main_object.compassion_event_id.end_date
+                    ) + relativedelta(months=6)
+                    old = date < limit_date
                     valid = not old
                 except ValueError:
                     valid = False
@@ -229,7 +246,9 @@ if not testing:
                     if not valid:
                         message = _("Please enter a valid date")
                         if old:
-                            message = _("Your passport must be renewed!")
+                            message = _(
+                                "Your passport must be renewed! It should be "
+                                "valid at least six months after your return.")
                         return 'passport_expiration_date', message
             # No error
             return 0, 0
@@ -275,8 +294,7 @@ if not testing:
         def form_widgets(self):
             # Hide fields
             res = super(CriminalForm, self).form_widgets
-            res['criminal_record'] = 'cms_form_compassion' \
-                '.form.widget.simple.image'
+            res['criminal_record'] = 'cms_form_compassion.form.widget.document'
             return res
 
         def _form_validate_criminal_record(self, value, **req_values):

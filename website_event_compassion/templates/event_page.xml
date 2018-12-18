@@ -15,6 +15,17 @@
         </div>
     </template>
 
+    <template id="group_visit_event_stepper" name="Group visit stepper">
+        <div id="stepper">
+            <ol class="breadcrumb">
+                <li t-att-class="'active' if event_step == 1 else ('done' if event_step > 1 else '')">1. Registration</li>
+                <li t-att-class="'active' if event_step == 2 else ('done' if event_step > 2 else '')">2. Agreements</li>
+                <li t-att-class="'active' if event_step == 3 else ('done' if event_step > 3 else '')">3. Down payment</li>
+                <li t-att-class="'active' if event_step == 4 else ('done' if event_step > 4 else '')">4. Trip preparation</li>
+            </ol>
+        </div>
+    </template>
+
     <template id="event_barometer" name="Event barometer">
         <p t-att-class="barometer_title_class" t-if="barometer_title_class">Funds raised:</p>
         <div class="progress">
@@ -47,6 +58,36 @@
             </t>
         </span>
         <h4><a t-attf-href="{{event.website_url}}/faq">Event FAQ</a></h4>
+    </template>
+
+    <!-- Confirmation page -->
+    <template id="event_confirmation_page" name="Event Confirmation Page">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
+            <t t-set="title" t-value="event.name"/>
+            <div id="wrap">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-call="website_event_compassion.event_header"/>
+
+                <div class="container">
+                    <div class="row mb32">
+                        <div class="col-md-9">
+                            <h2 t-esc="confirmation_title"/>
+                            <div class="jumbotron">
+                                <p t-esc="confirmation_message"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <t t-call="website_event_compassion.event_basic_side_info"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+        </t>
     </template>
 
     <template id="event_page" name="Event page">
