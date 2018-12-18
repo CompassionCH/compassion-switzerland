@@ -13,7 +13,7 @@ from datetime import datetime
 import werkzeug
 from dateutil.relativedelta import relativedelta
 
-from odoo import http
+from odoo import http, _
 from odoo.http import request
 
 from odoo.addons.payment.models.payment_acquirer import ValidationError
@@ -76,6 +76,19 @@ class EventsController(PaymentFormController):
             values
         )
 
+    @http.route('/event/<model("crm.event.compassion"):event>/confirmation/',
+                auth='public', website=True)
+    def confirmation_page(self, event, **kwargs):
+        values = {
+            'confirmation_title': kwargs.get('title'),
+            'confirmation_message': kwargs.get('message'),
+            'event': event
+        }
+        return request.render(
+            'website_event_compassion.event_confirmation_page',
+            values
+        )
+
     def get_event_page_values(self, event, **kwargs):
         """
         Gets the values used by the website to render the event page.
@@ -92,6 +105,7 @@ class EventsController(PaymentFormController):
             'event': event,
             'start_date': event.get_date('start_date', 'date_full'),
             'end_date': event.get_date('end_date', 'date_full'),
+            'additional_title': _('- Registration')
         })
         group_visit = request.env.ref(
             'website_event_compassion.event_type_group_visit')
@@ -108,6 +122,7 @@ class EventsController(PaymentFormController):
             'form': registration_form,
             'main_object': event,
             'website_template': template,
+            'event_step': 1
         })
         return values
 
@@ -224,13 +239,25 @@ class EventsController(PaymentFormController):
         registration = tx.registration_id
         post.update({
             'attendees': registration,
-            'event': event.odoo_event_id
+            'event': event,
+            'confirmation_title': _(
+                'We are glad to confirm your registration!'),
+            'confirmation_message': _(
+                "Your payment was successful and your are now a confirmed "
+                "participant of the trip. You will receive all the "
+                "documentation for the preparation of your trip by e-mail in "
+                "the coming weeks."
+            ),
         })
-        template = 'website_event_compassion.'
-        if invoice == registration.down_payment_id:
-            template += 'event_down_payment_successful'
-        elif invoice == registration.group_visit_invoice_id:
-            template += 'event_group_visit_trip_payment_successful'
+        template = 'website_event_compassion.event_confirmation_page'
+        if invoice == registration.group_visit_invoice_id:
+            post['confirmation_message'] = _(
+                "Congratulations! Everything is ready for this beautiful "
+                "trip to happen. You will receive all the practical "
+                "information about the trip preparation a few weeks before "
+                "the departure. Until then, don't hesitate to contact us if "
+                "you have any question."
+            )
         return super(EventsController, self).compassion_payment_validate(
             tx, template, failure_template, **post
         )

@@ -43,8 +43,8 @@ if not testing:
         @property
         def form_widgets(self):
             res = super(MedicalDischargeForm, self).form_widgets
-            res['medical_discharge'] = 'cms_form_compassion' \
-                '.form.widget.simple.image'
+            res['medical_discharge'] = 'cms_form_compassion.form.widget' \
+                '.document'
             return res
 
         def _form_validate_medical_discharge(self, value, **req_values):

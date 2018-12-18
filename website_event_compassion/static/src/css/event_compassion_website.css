@@ -51,3 +51,11 @@
         line-height: 70px;
     }
 }
+
+/* Make current step in breadcrumb blue */
+.breadcrumb > .active {
+    color: #004897;
+}
+.breadcrumb > .done {
+    color: #aaaaaa;
+}

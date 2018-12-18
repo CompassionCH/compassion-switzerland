@@ -14,6 +14,8 @@
                 <div class="container event_compassion" id="group_visit_step2">
                     <div class="row mb32">
                         <div class="col-md-9">
+                            <t t-set="event_step" t-value="2"/>
+                            <t t-call="website_event_compassion.group_visit_event_stepper"/>
                             <h3>Travel agreements</h3>
                             <p>
                                 Thank you very much for your interest in Compassion's work to free more children from poverty every day, for a dignified and meaningful life.
@@ -24,13 +26,15 @@
                             <p>
                                 <b>In this perspective, we thank you for:</b>
                             </p>
+                            <t t-set="criminal_url">https://www.e-service.admin.ch/crex/cms/content/strafregister/uebersicht_en</t>
                             <ul>
                                 <li t-if="not registration.has_signed_travel_contract or not registration.has_signed_child_protection">reading carefully and signing the two contracts below</li>
-                                <li t-if="not registration.passport_uploaded">giving us an emergency contact and your passport details for the trip organization</li>
-                                <li t-if="not registration.criminal_record_uploaded">uploading a criminal record extract (photo or scans are accepted)*.</li>
+                                <li t-if="not registration.passport_uploaded">uploading a copy of your passport*</li>
+                                <li t-if="not registration.passport_uploaded">giving us an emergency contact</li>
+                                <li t-if="not registration.criminal_record_uploaded">uploading a criminal record extract*. You can <a t-att-href="criminal_url" target="blank">order one from here</a>.</li>
                             </ul>
                             <div class="alert alert-warning" role="alert">
-                                *<i>In case you are not equipped with a smartphone or a scanner, you can send us the documents at Compassion Switzerland, Rue Galilée 3, 1400 Yverdon-les-Bains.</i>
+                                *<i>We accept photos or scanned documents. In case you are not equipped with a camera, a smartphone or a scanner, you can send us the documents at Compassion Switzerland, Rue Galilée 3, 1400 Yverdon-les-Bains.</i>
                             </div>
                             <div class="alert alert-info" role="alert">
                                 Don't you have all the documents at hand? You can proceed step by step and save the items already collected. Once everything is ready, you will receive an e-mail confirmation.
@@ -90,7 +94,7 @@
                                                 <li>I will keep all information about child protection investigations confidential, keeping in mind privacy and dignity concerns of all involved.</li>
                                                 <li>If requested, I will comply with child protection related investigations and make available any documentation or other information necessary for the completion of the investigation.</li>
                                                 <li>I will contribute to building an environment where children are respected and encouraged to discuss their concerns and rights.</li>
-                                                <li>I will contribute to building an environment where children are respected and encouraged to discuss their concerns and rights.</li>
+                                                <li>I will follow Compassion’s rules about communication with beneficiaries, including social media interaction.</li>
                                                 <li>I will follow dignity standards (for example, only recording children who are dressed appropriately, understand they are being recorded, etc.) regarding child photography and videography.</li>
                                                 <li>I will be careful about my appearance, language, action, to ensure that my behavior demonstrates a respect for beneficiaries and their families, their culture and their rights and follow recommendations provided.</li>
                                             </ul>
@@ -99,7 +103,7 @@
                                                 <li>I will not solicit a romantic/dating relationship and will never engage in sexual/sexually suggestive behavior with any beneficiary, regardless of age.</li>
                                                 <li>I will never engage in sexual/sexually suggestive behavior with any child under age 18, regardless of the legal age of consent in-country.</li>
                                                 <li>I will never use language that is verbally/emotionally abusive, sexually suggestive, degrading, humiliating, shaming or is otherwise culturally inappropriate with a beneficiary.</li>
-                                                <li>I will never use language that is verbally/emotionally abusive, sexually suggestive, degrading, humiliating, shaming or is otherwise culturally inappropriate with a beneficiary.</li>
+                                                <li>I will not touch (some examples include kissing, cuddling, picking up, holding, etc.) beneficiaries in an inappropriate or culturally insensitive way.</li>
                                                 <li>I will never use any kind of physical discipline or physical punishment (some examples include whipping, caning, slapping, forcing punitive exercise, and other types of corporal punishment) as a method of correction for beneficiaries.</li>
                                                 <li>I will never travel alone with a beneficiary, without an approved representative or prior approval, except in a life-threatening emergency where circumstances require immediate movement.</li>
                                                 <li>I will not hire any child in any harmful form of child labor and follow local laws regarding child employment.</li>
@@ -162,36 +166,4 @@
 
         </t>
     </template>
-
-    <!-- Page when step2 is completed -->
-    <template id="group_visit_step2_complete" name="Event Contracts Agreements Completed">
-        <t t-call="website.layout">
-            <t t-set="head">
-                <meta name="robots" content="noindex"/>
-            </t>
-            <t t-set="title" t-value="event.name"/>
-            <div id="wrap">
-                <!-- Full width banner -->
-                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
-                <t t-call="website_event_compassion.event_header"/>
-
-                <div class="container">
-                    <div class="row mb32">
-                        <div class="col-md-9">
-                            <h2>Thank you!</h2>
-                            <div class="jumbotron">
-                                <p>We successfully received all the documents needed for the trip. If you have any questions regarding the organization, please <a t-attf-href="{{event.website_url}}/faq">read our FAQ</a> or <a href="mailto:info@compassion.ch">contact us</a>.</p>
-                                <p>We look forward to sharing with you the work of Compassion among poor children in the South.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <t t-call="website_event_compassion.event_basic_side_info"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="oe_structure"/>
-            </div>
-        </t>
-    </template>
-
 </odoo>

@@ -10,7 +10,7 @@
 ##############################################################################
 import werkzeug
 
-from odoo import http
+from odoo import http, _
 from odoo.http import request
 
 from .events_controller import EventsController
@@ -21,7 +21,7 @@ class GroupVisitController(EventsController):
     All the route controllers for group visit registration pages.
     """
 
-    @http.route('/event/agreements/<string:reg_uid>',
+    @http.route('/event/<string:reg_uid>/agreements',
                 auth='public', website=True)
     def group_visit_step2(self, reg_uid, form_id=None, **kwargs):
         registration = request.env['event.registration'].search([
@@ -76,13 +76,22 @@ class GroupVisitController(EventsController):
             return request.render(
                 'website_event_compassion.group_visit_step2', values)
         else:
+            values = {
+                'confirmation_title': _("Thank you!"),
+                'confirmation_message': _(
+                    "We successfully received all the documents needed for "
+                    "the trip. We look forward to sharing with you the work "
+                    "of Compassion among poor children in the South."),
+                'event': event,
+            }
             return request.render(
-                'website_event_compassion.group_visit_step2_complete',
+                'website_event_compassion.event_confirmation_page',
                 values)
 
     @http.route('/event/<string:reg_uid>/down_payment',
                 auth='public', website=True)
     def group_visit_down_payment(self, reg_uid, **kwargs):
+        kwargs['event_step'] = 3
         return self.get_payment_form(
             reg_uid, 'cms.form.event.down.payment', **kwargs)
 
@@ -121,6 +130,7 @@ class GroupVisitController(EventsController):
                 auth='public', website=True)
     def medical_discharge(self, reg_uid, **kwargs):
         kwargs['form_model_key'] = 'cms.form.group.visit.medical.discharge'
+        kwargs['event_step'] = 4
         values = self._get_group_visit_page_values(
             reg_uid, 'event.registration', **kwargs)
         if not isinstance(values, dict):
