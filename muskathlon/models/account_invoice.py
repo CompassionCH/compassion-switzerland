@@ -31,13 +31,16 @@ class AccountInvoice(models.Model):
                 tasks = self.env.ref('muskathlon.task_down_payment')
                 partner = transaction.registration_id.partner_id
                 advocate = partner.advocate_details_id
+                event_registration = self.env['event.registration'].search([
+                    ('advocate_details_id', '=', advocate.id)
+                ])
                 if partner.user_ids.state == 'active':
                     tasks += self.env.ref('muskathlon.task_activate_account')
-                if advocate.passport_number:
+                if event_registration.passport_number:
                     tasks += self.env.ref('muskathlon.task_passport')
                 if advocate.picture_large:
                     tasks += self.env.ref('muskathlon.task_picture')
-                if advocate.emergency_name:
+                if event_registration.emergency_name:
                     tasks += self.env.ref('muskathlon.task_emergency')
                 transaction.registration_id.completed_task_ids += tasks
 
