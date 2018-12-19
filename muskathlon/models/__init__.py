@@ -18,3 +18,4 @@ from . import sport_discipline
 from . import staff_notification_settings
 from . import queue_job
 from . import payment_transaction
+from . import survey_user_input
