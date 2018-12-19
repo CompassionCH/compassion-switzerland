@@ -26,7 +26,7 @@ class SurveyUserInput(models.Model):
             registrations = self.env['event.registration'].search([
                 ('medical_survey_id', 'in', self.ids),
                 ('event_id.event_type_id', '=', self.env.ref(
-                    'muskathlon.event_type_muskathlon'))
+                    'muskathlon.event_type_muskathlon').id)
             ])
             # if conditions to check that the task is the correct one,
             # same as survey in event definition
