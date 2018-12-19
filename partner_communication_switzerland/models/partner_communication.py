@@ -548,7 +548,9 @@ class PartnerCommunication(models.Model):
         # Gifts
         sponsorships = self.get_objects()
         gifts_sponsorship = sponsorships.filtered(
-            lambda s: s.gift_partner_id == self.partner_id)
+            lambda s: s.gift_partner_id == self.partner_id
+            and s.type == 'S'
+        )
         report_name = 'report_compassion.3bvr_gift_sponsorship'
         if gifts_sponsorship:
             attachments.update({

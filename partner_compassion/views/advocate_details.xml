@@ -32,6 +32,7 @@
                             <field name="advocacy_source" groups="base.group_user"/>
                             <field name="engagement_ids" widget="many2many_tags" groups="base.group_user"/>
                             <field name="t_shirt_size"/>
+                            <field name="t_shirt_type"/>
                             <field name="has_car"/>
                             <field name="formation_ids" groups="base.group_user"
                                    domain="[('categ_ids', '=', event_type_formation)]"
@@ -99,7 +100,6 @@
                 <separator/>
                 <filter name="advocate" string="Active or New" domain="[('state', 'in', ['new','active'])]"/>
                 <separator/>
-                <filter name="muskathlon" string="Muskathlon" domain="[('partner_id.registration_ids','!=', False)]"/>
                 <filter name="sport" string="Sport person" domain="[('engagement_ids','like', 'Sport')]"/>
                 <filter name="event" string="Event" domain="[('engagement_ids','like', 'Events')]"/>
                 <filter name="church" string="Church" domain="[('engagement_ids','like', 'Church')]"/>

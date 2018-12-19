@@ -135,11 +135,19 @@ class Contracts(models.Model):
         lines = self._get_sponsorship_standard_lines()
         if not form_data.get('patenschaftplus'):
             lines = lines[:-1]
+        sponsorship_type = 'S'
+        partner_id = partner.id
+        if utm_source == 'wrpr':
+            # Special case Write&Pray sponsorship
+            sponsorship_type = 'SC'
+            partner_id = partner.search([
+                ('name', '=', 'Donors of Compassion')
+            ], limit=1).id or partner.id
         sponsorship_vals = {
-            'partner_id': partner.id,
+            'partner_id': partner_id,
             'correspondent_id': partner.id,
             'child_id': child.id,
-            'type': 'S',
+            'type': sponsorship_type,
             'contract_line_ids': lines,
             'next_invoice_date': fields.Date.today(),
             'source_id': utms['source'],
@@ -240,27 +248,31 @@ class Contracts(models.Model):
             notify_text += "<li>" + key + ": " + \
                            unicode(form_data.get(key, '')) + '</li>'
 
+        title = _('New sponsorship from the website')
+        if 'writepray' in form_data:
+            title = _('New Write&Pray sponsorship from the website')
         sponsorship.message_post(
             body=notify_text,
-            subject=_('New sponsorship from the website'),
+            subject=title,
             partner_ids=[staff],
             type='comment',
             subtype='mail.mt_comment',
             content_subtype='html'
         )
 
-        if sponsorship.partner_id.state == 'active':
+        if sponsorship.correspondent_id.state == 'active':
             # Update sponsor info
             sponsorship.update_partner_from_web_data(form_data)
 
-        sponsorship.partner_id.set_privacy_statement(origin='new_sponsorship')
+        sponsorship.correspondent_id.set_privacy_statement(
+            origin='new_sponsorship')
         return sponsorship
 
     @api.multi
     def update_partner_from_web_data(self, form_data):
         # Get spoken languages
         self.ensure_one()
-        partner = self.partner_id
+        partner = self.correspondent_id
         sponsor_lang = form_data['lang'][:2]
         langs = ','.join(form_data.get('language', ['']))
         self._write_sponsor_lang(langs, sponsor_lang, partner)

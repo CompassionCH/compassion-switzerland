@@ -34,8 +34,8 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
 
     partner_id = fields.Many2one(
         'res.partner', 'Partner', required=True, ondelete='cascade')
-    description = fields.Text(translate=True)
-    quote = fields.Text(translate=True)
+    description = fields.Text(translate=False)
+    quote = fields.Text(translate=False)
     picture_large = fields.Binary(
         string='Large picture', attachment=True,
         help='Optional large picture for your profile page'
@@ -77,6 +77,11 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
     t_shirt_size = fields.Selection([
         ('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'),
         ('XXL', 'XXL')
+    ])
+    t_shirt_type = fields.Selection([
+        ('singlet', 'Singlet'),
+        ('shirt', 'Shirt'),
+        ('bikeshirt', 'Bikeshirt'),
     ])
     event_ids = fields.Many2many(
         'crm.event.compassion', string='Events', compute='_compute_events'

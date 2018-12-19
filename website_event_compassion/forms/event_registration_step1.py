@@ -23,8 +23,10 @@ if not testing:
         _form_model_fields = [
             'name', 'phone', 'email', 'event_id',
         ]
-        _form_required_fields = ['partner_lastname', 'partner_firstname',
-                                 'partner_email']
+        _form_required_fields = [
+            'partner_title', 'partner_lastname', 'partner_firstname',
+            'partner_email'
+        ]
 
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_compassion_event_registration'
@@ -41,8 +43,8 @@ if not testing:
                 {
                     'id': 'coordinates',
                     'fields': [
-                        'partner_lastname', 'partner_firstname',
-                        'partner_email', 'partner_phone',
+                        'partner_title', 'partner_lastname',
+                        'partner_firstname', 'partner_email', 'partner_phone',
                         'partner_zip', 'partner_city', 'partner_country_id'
                     ]
                 }
