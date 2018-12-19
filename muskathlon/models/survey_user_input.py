@@ -23,17 +23,18 @@ class SurveyUserInput(models.Model):
         if vals.get('state') == 'done':
 
             # Search for medical surveys
-            for registration in self.env['event.registration'].search([
+            registrations = self.env['event.registration'].search([
                 ('medical_survey_id', 'in', self.ids),
-                ('partner_id_id', '=', self.partner_id.id)
-            ]):
-                # if conditions to check that the task is the correct one,
-                # same as survey in event definition
-                registration.write({
-                    'completed_task_ids': [
-                        (4, self.env.ref(
-                            'website_event_compassion.task_medical_survey').id)
-                    ]
-                })
+                ('event_id.event_type_id', '=', self.env.ref(
+                    'muskathlon.event_type_muskathlon'))
+            ])
+            # if conditions to check that the task is the correct one,
+            # same as survey in event definition
+            registrations.write({
+                'completed_task_ids': [
+                    (4, self.env.ref(
+                        'muskathlon.task_medical').id)
+                ]
+            })
 
         return res
