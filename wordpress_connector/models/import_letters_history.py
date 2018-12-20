@@ -64,6 +64,8 @@ class ImportLettersHistory(models.Model):
             - add web letter to an import set with import letter config
               'Web letter'
         """
+        logger.info("New webletter from Wordpress : %s - %s",
+                    [sponsor_ref, child_code])
         try:
             # Find existing config or create a new one
             web_letter_id = self.env.ref('sbc_switzerland.web_letter').id
