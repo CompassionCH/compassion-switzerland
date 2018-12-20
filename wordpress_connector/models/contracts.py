@@ -8,12 +8,15 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
 import re
 
 from odoo.addons.queue_job.job import job, related_action
 
 from odoo import api, models, fields, _
 from odoo.tools import config
+
+_logger = logging.getLogger(__name__)
 
 # Mapping from Website form fields to res.partner fields in Odoo
 SPONSOR_MAPPING = {
@@ -88,6 +91,8 @@ class Contracts(models.Model):
         :param utm_campaign: identifier from the url tracking
         :return: True if process is good.
         """
+        _logger.info("New sponsorship for child %s from Wordpress: %s",
+                     [child_local_id, str(form_data)])
         # Add language in data
         form_data['lang'] = LANG_MAPPING[sponsor_lang]
 

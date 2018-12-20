@@ -8,9 +8,12 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
 from odoo import api, models, fields
 from odoo.addons.sponsorship_compassion.models.product import \
     GIFT_CATEGORY
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
@@ -36,6 +39,9 @@ class AccountInvoice(models.Model):
         :param utm_campaign: the utm identifier in wordpress
         :return: invoice_id
         """
+        _logger.info(
+            "New donation of CHF %s from Wordpress for partner %s and "
+            "child %s", [amount, partner_id, child_code])
         partner = self.env['res.partner'].browse(partner_id)
         if partner.contact_type == 'attached':
             if partner.type == 'email_alias':
