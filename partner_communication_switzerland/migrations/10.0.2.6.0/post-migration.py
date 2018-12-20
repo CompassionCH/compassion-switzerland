@@ -22,6 +22,7 @@ def migrate(env, version):
 select partner_id, commitment_number, count(*)
 from recurring_contract
 where state not in ('terminated','cancelled')
+and partner_id is not null
 and child_id is not null
 group by partner_id, commitment_number
 having count(*) > 1
@@ -31,6 +32,7 @@ having count(*) > 1
 select correspondent_id, commitment_number, count(*)
 from recurring_contract
 where state not in ('terminated','cancelled')
+and partner_id is not null
 and child_id is not null
 group by correspondent_id, commitment_number
 having count(*) > 1
