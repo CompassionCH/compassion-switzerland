@@ -139,7 +139,7 @@ class RecurringContract(models.Model):
         """
         Sends a communication to selected sponsorships.
         :param communication: the communication config to use
-        :param correspondant: put to false for sending to payer instead of
+        :param correspondent: put to false for sending to payer instead of
                               correspondent.
         :param both:          send to both correspondent and payer
                               (overrides the previous parameter)
@@ -209,6 +209,21 @@ class RecurringContract(models.Model):
             ])
             config = self.env.ref(module + 'planned_anniversary_' + str(year))
             anniversary.send_communication(config)
+
+        # Write & Pray reminders after 3 months of activation
+        logger.info("....Creating Write&Pray Reminders")
+        three_month_ago = today - relativedelta(months=3)
+        four_month_ago = today - relativedelta(months=4)
+        wrpr_sponsorships = self.search([
+            ('state', '=', 'active'),
+            ('type', '=', 'SC'),
+            ('activation_date', '<', fields.Date.to_string(three_month_ago)),
+            ('activation_date', '>=', fields.Date.to_string(four_month_ago)),
+        ])
+        config = self.env.ref(module + 'sponsorship_wrpr_reminder')
+        for sponsorship in wrpr_sponsorships:
+            if not sponsorship.sponsor_letter_ids:
+                sponsorship.send_communication(config)
 
     @api.model
     def send_daily_communication(self):

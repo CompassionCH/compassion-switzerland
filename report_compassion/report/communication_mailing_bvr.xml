@@ -1,0 +1,222 @@
+<odoo>
+    <!-- Report for printing a letter on Compassion Paper -->
+    <report id="report_partner_communication_mailing_bvr"
+            model="partner.communication.job"
+            string="Mailing BVR"
+            report_type="qweb-pdf"
+            name="report_compassion.partner_communication_mailing_bvr"
+    />
+    <record id="report_partner_communication_mailing_bvr" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="paperformat_a4_letter"/>
+    </record>
+
+    <template id="communication_style_mailing_bvr">
+        <t t-name="report_compassion.communication_style">
+            <t t-set="custom_css">
+                #header {
+                    margin-left: 15mm;
+                    <t t-if="not bvr and not print_header">
+                        margin-top: -20mm;
+                    </t>
+                    height: 45mm;
+                    font-size: 8pt;
+                }
+                #date {
+                    float: left;
+                    margin-top: 15mm;
+                }
+                #logo {
+                    display: inline-block;
+                    margin-top: 6mm;
+                    width: 100mm;
+                    height: 40mm;
+                }
+                #logo img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    margin: auto;
+                }
+                #square {
+                    display: inline-block;
+                    float: right;
+                    margin-top: 6mm;
+                    margin-right: 6mm;
+                    width: 19mm;
+                    height: 19mm;
+                }
+                #square img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    margin: auto;
+                }
+                #compassion_address {
+                    float: left;
+                    margin-bottom: 5mm;
+                }
+                #letter {
+                    font-family: "tetriaLight";
+                    font-size: 10pt;
+                    <t t-if="success_story">
+                        margin-left: 11mm;
+                        margin-right: 1mm;
+                        <t t-if="not bvr">
+                            margin-bottom: 6mm;
+                        </t>
+                    </t>
+                    <t t-if="not success_story">
+                        margin-left: 25mm;
+                        margin-right: 15mm;
+                        <t t-if="not bvr">
+                            margin-bottom: 20mm;
+                        </t>
+                    </t>
+                    <t t-if="bvr">
+                        height: 145mm;
+                        overflow: hidden;
+                    </t>
+                }
+                .right {
+                    width: 44%;
+                    margin-left: auto;
+                }
+                .blue {
+                    color: #0054A6;
+                    font-weight: bold;
+                }
+                #pp {
+                    font-family: verdana;
+                    margin-top: 10mm;
+                }
+                #pp-box {
+                    display: inline-block;
+                    padding: 1mm;
+                    width: 50mm;
+                    line-height: initial;
+                    border-style: solid;
+                    border-width: 1pt;
+                }
+                #pp-box div:first-child{
+                    font-size: 12pt;
+                    font-weight: bold;
+                    float: left;
+                    width: 20%;
+                }
+                #pp-box div:last-child{
+                    font-size: 8pt;
+                    margin-left: 20%;
+                    margin-top: 1mm;
+                }
+                #pp-post {
+                    display: inline-block;
+                    font-size: 6pt;
+                }
+                #pp hr {
+                    margin-top: 0.5mm;
+                    margin-bottom: 3mm;
+                }
+                /*.partner_address {
+                    line-height: 1.2;
+                    font-size: 9pt;
+                }*/
+                #content {
+                    width: 100%;
+                    margin-top: 3mm;
+                }
+                #success-story {
+                    display: inline-block;
+                    margin-right: 5mm;
+                    vertical-align: top;
+                    padding: 3mm;
+                    width: 28%;
+                    min-height: 170mm;
+                    max-height: 170mm;
+                    background-color: #2B2B5D;
+                    color: white;
+                    font-size: 12pt;
+                }
+                #body {
+                    display: inline-block;
+                    <t t-if="success_story">
+                        width: 62%;
+                    </t>
+                    <t t-if="not display_pp and not print_header and not print_subject">
+                        /* Put the text down to avoid showing in the address window */
+                        margin-top: 9mm;
+                    </t>
+                }
+                .body_text {
+                    display: inline-block;
+                    margin-right: 2mm; /* omr code need nothing 5mm all over it */
+                    <t t-if="show_signature">
+                        min-height: 120mm;
+                    </t>
+                    <t t-if="not show_signature">
+                        min-height: 140mm;
+                    </t>
+                }
+                hr {
+                    margin-top: 0px;
+                    padding: 0mm;
+                    border: none;
+                    height: 1pt;
+                    background-color: black;
+                    <t t-if="success_story">
+                        width: 90%;
+                    </t>
+                }
+                #success-story hr {
+                    background-color: white;
+                }
+                /* Format lists for PDF */
+                ul {
+                    list-style: none;
+                }
+                li {
+                    padding-left: 16px;
+                }
+                li:before {
+                    content: "-";
+                    padding-right: 8px;
+                }
+
+                #thank_you_quote tr td:first-child {
+                    padding-right: 2mm;
+                    vertical-align: top;
+                }
+                #thank_you_quote tr td {
+                    vertical-align: middle;
+                }
+            </t>
+            <t t-call="report_compassion.bvr_style"/>
+        </t>
+    </template>
+
+    <template id="partner_communication_mailing_bvr">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="success_story" t-value="docs.mapped('success_story_id')"/>
+                <t t-set="bvr" t-value="docs.mapped('product_id')"/>
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                <t t-set="print_header" t-value="o.print_header"/>
+                <t t-set="display_pp" t-value="o.display_pp"/>
+                <t t-set="partner" t-value="o.partner_id"/>
+                <t t-set="print_subject" t-value="o.print_subject"/>
+                <t t-set="subject" t-value="o.subject"/>
+                <t t-set="success_story" t-value="o.success_story_id"/>
+                <t t-set="body_html" t-value="o.body_html"/>
+                <t t-set="user" t-value="o.user_id"/>
+                <t t-set="show_signature" t-value="o.show_signature and user.signature_image"/>
+                <t t-set="product" t-value="o.product_id.with_context(lang=partner.lang)"/>
+                <t t-set="preprinted" t-value="o.preprinted"/>
+                <t t-call="report_compassion.partner_communication_document_mailing_bvr" t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="partner_communication_document_mailing_bvr">
+        <div class="page">
+            <t t-call="report_compassion.communication_style_mailing_bvr"/>
+            <t t-call="report_compassion.partner_communication_document_page"/>
+        </div>
+    </template>
+</odoo>
