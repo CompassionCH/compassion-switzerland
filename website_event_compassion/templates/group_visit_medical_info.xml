@@ -14,10 +14,12 @@
                 <div class="container event_compassion" id="group_visit_medical_info">
                     <div class="row mb32">
                         <div class="col-md-9">
+                            <t t-set="event_step" t-value="4"/>
+                            <t t-call="website_event_compassion.group_visit_event_stepper"/>
                             <h2>Medical information</h2>
                             <p>It is time to prepare the trip in terms of health. The stay that awaits you will be interesting. It can also be challenging: long international flights, jet lag, altitude changes, travel on rough roads, hiking on rough terrain, and long days will be possible.</p>
-                            <p>Here is the health checklist of your trip:</p>
                             <div id="vaccines" t-if="registration.event_id.vaccine_ids">
+                                <p>Here is the health checklist of your trip:</p>
                                 <h3>Vaccines for <t t-esc="registration.event_id.country_id.name"/></h3>
                                 <p>Please review the list of the required and recommended vaccines, and verify that yours are still valid.</p>
                                 <t t-set="required_vaccines" t-value="registration.event_id.vaccine_ids.filtered('mandatory')"/>

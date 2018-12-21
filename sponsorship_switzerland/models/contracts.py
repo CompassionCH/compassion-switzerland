@@ -199,6 +199,13 @@ class RecurringContracts(models.Model):
         Update partner to add the 'Sponsor' category
         """
         super(RecurringContracts, self).contract_active()
+        # Check if partner is active
+        need_validation = self.filtered(
+            lambda s: s.partner_id.state != 'active')
+        if need_validation:
+            raise UserError(_(
+                'Please verify the partner before validating the sponsorship'))
+
         sponsor_cat_id = self.env.ref(
             'partner_compassion.res_partner_category_sponsor').id
         old_sponsor_cat_id = self.env.ref(

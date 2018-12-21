@@ -10,7 +10,7 @@ Customize LSV-DD to fit Compassion needs.
 
 Installation
 ============
-This modules requires en_US, fr_CH, de_DE, it_IT and es_ES to be installed
+This modules requires en_US, fr_CH, de_DE, and it_IT to be installed
 on the server.
 
 To check installed locales:

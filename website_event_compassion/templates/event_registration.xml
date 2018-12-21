@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Page for the full screen registration form (in case it is not displayed in modal popup -->
+    <!-- Page for the full screen registration form (in case it is not displayed in modal popup) -->
     <template id="event_full_page_form" name="Event full page form">
         <t t-call="website.publish_management">
             <t t-set="object" t-value="event"/>
@@ -20,8 +20,9 @@
                         <h2><span class="form_title" t-esc="form.form_title" /></h2>
                     </t>
                     <t t-if="form.form_description">
-                        <p class="form_description" t-esc="form.form_description" />
+                        <p class="form_description" t-raw="form.form_description" />
                     </t>
+                    <t t-call="website_event_compassion.group_visit_event_stepper" t-if="event_step"/>
                     <t t-raw="form.form_render()" />
                 </div>
             </div>
@@ -39,42 +40,6 @@
                     <h3>We are glad to confirm your registration to
                         <t t-esc="event.name"/>
                     </h3>
-                    <t t-call="website_event_compassion.event_registration_summary"/>
-                </div>
-            </div>
-        </t>
-    </template>
-
-    <!-- Down payment success page -->
-    <template id="event_down_payment_successful" name="Event down payment success">
-        <t t-call="website.layout">
-            <t t-set="head">
-                <meta name="robots" content="noindex"/>
-            </t>
-            <div id="wrap">
-                <div class="container">
-                    <h3>We are glad to confirm your registration to
-                        <t t-esc="event.name"/>
-                    </h3>
-                    <p>Your payment was successful and your are now a confirmed participant of the trip. You will receive all the documentation for the preparation of your trip by e-mail in the coming weeks. Here is again the summary of your registration:</p>
-                    <t t-call="website_event_compassion.event_registration_summary"/>
-                </div>
-            </div>
-        </t>
-    </template>
-
-    <!-- Group visit trip payment success page -->
-    <template id="event_group_visit_trip_payment_successful" name="Group visit trip payment success">
-        <t t-call="website.layout">
-            <t t-set="head">
-                <meta name="robots" content="noindex"/>
-            </t>
-            <div id="wrap">
-                <div class="container">
-                    <h3>We are glad to confirm your payment for
-                        <t t-esc="event.name"/>
-                    </h3>
-                    <p>Congratulations! Everything is ready for this beautiful trip to happen. You will receive all the practical information about the trip preparation a few weeks before the departure. Until then, don't hesitate to contact us if you have any question.</p>
                     <t t-call="website_event_compassion.event_registration_summary"/>
                 </div>
             </div>

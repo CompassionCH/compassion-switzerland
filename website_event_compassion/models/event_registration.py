@@ -148,6 +148,7 @@ class Event(models.Model):
         ('other', 'Other')
     ], string='Emergency contact relation type')
     birth_name = fields.Char()
+    passport = fields.Binary('Copy of the passport', attachment=True)
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
 
