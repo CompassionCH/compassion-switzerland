@@ -92,7 +92,7 @@ class Contracts(models.Model):
         :return: True if process is good.
         """
         _logger.info("New sponsorship for child %s from Wordpress: %s",
-                     [child_local_id, str(form_data)])
+                     child_local_id, str(form_data))
         # Add language in data
         form_data['lang'] = LANG_MAPPING[sponsor_lang]
 

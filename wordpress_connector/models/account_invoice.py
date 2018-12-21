@@ -41,7 +41,7 @@ class AccountInvoice(models.Model):
         """
         _logger.info(
             "New donation of CHF %s from Wordpress for partner %s and "
-            "child %s", [amount, partner_id, child_code])
+            "child %s", amount, partner_id, child_code)
         partner = self.env['res.partner'].browse(partner_id)
         if partner.contact_type == 'attached':
             if partner.type == 'email_alias':
