@@ -89,11 +89,12 @@ class AccountInvoice(models.Model):
             ambassador_lines = self.mapped('invoice_line_ids').filtered(
                 lambda l: l.user_id == ambassador and
                 l.partner_id != ambassador)
-            self.env['partner.communication.job'].create({
-                'partner_id': ambassador.id,
-                'object_ids': ambassador_lines.ids,
-                'config_id': ambassador_config.id
-            })
+            if ambassador_lines:
+                self.env['partner.communication.job'].create({
+                    'partner_id': ambassador.id,
+                    'object_ids': ambassador_lines.ids,
+                    'config_id': ambassador_config.id
+                })
 
     @api.multi
     def _filter_invoice_to_thank(self):
