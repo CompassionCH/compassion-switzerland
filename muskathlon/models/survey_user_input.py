@@ -24,7 +24,7 @@ class SurveyUserInput(models.Model):
 
             # Search for medical surveys
             registrations = self.env['event.registration'].search([
-                ('partner_id_id', 'in', self.mapped('partner_id_id')),
+                ('partner_id', 'in', self.mapped('partner_id').ids),
                 ('event_id.event_type_id', '=', self.env.ref(
                     'muskathlon.event_type_muskathlon').id),
                 ('stage_id', '=', self.env.ref(
