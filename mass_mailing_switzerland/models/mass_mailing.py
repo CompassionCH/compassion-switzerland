@@ -86,7 +86,7 @@ class MassMailing(models.Model):
             )
             emails += super(MassMailing, mailing).send_mail()
 
-        emails_set = {}
+        emails_set = set()
 
         for email in emails:
             # Only update mass mailing state when last e-mail is sent
@@ -95,7 +95,7 @@ class MassMailing(models.Model):
                 mass_mailing_ids = self.ids
 
             # average complexity is O(1), so it is efficient
-            if not emails_set.__contains__(email.email_to):
+            if email.email_to not in emails_set:
                 emails_set.add(email.email_to)
                 # Used for Sendgrid -> Send e-mails in a job
                 email.with_delay().send_sendgrid_job(mass_mailing_ids)
