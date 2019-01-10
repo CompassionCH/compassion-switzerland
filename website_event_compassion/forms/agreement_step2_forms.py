@@ -39,7 +39,7 @@ if not testing:
             """URL to redirect to after click on "cancel" button."""
             main_object = main_object or self.main_object
             if main_object:
-                return "/event/agreements/{}".format(main_object.uuid)
+                return "/event/{}/agreements".format(main_object.uuid)
             return "/events"
 
         def _form_write(self, values):
