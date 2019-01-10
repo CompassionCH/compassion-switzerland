@@ -6,10 +6,7 @@
         <field name="inherit_id" ref="event.view_event_registration_form"/>
         <field name="arch" type="xml">
             <!-- Replace state widget by registration stage -->
-            <field name="state" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="state" position="after">
+            <field name="state" position="replace">
                 <field name="stage_id" widget="statusbar" clickable="True"
                        domain="['|', ('event_type_id', '=', context.get('default_event_type_id')), ('event_type_id', '=', False)]"
                        options="{'fold_field': 'fold'}"
@@ -22,6 +19,7 @@
                 <field name="compassion_event_id"/>
             </field>
             <field name="name" position="after">
+                <field name="state" readonly="0"/>
                 <field name="stage_date"/>
                 <field name="incomplete_task_ids" widget="many2many_tags"/>
                 <field name="completed_task_ids" widget="many2many_tags" domain="[('stage_id', '=', stage_id)]"/>
