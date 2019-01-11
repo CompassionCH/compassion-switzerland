@@ -26,6 +26,7 @@ class MassMailing(models.Model):
 
     _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
                          'You have to choose a new slug for each mailing !')]
+    name = fields.Char(required=True, translate=False)
 
     def compute_clicks_ratio(self):
         for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):
@@ -197,3 +198,12 @@ class MassMailing(models.Model):
                 mass_mailing.send_mail()
             else:
                 mass_mailing.state = 'done'
+
+    @api.onchange('email_template_id')
+    def onchange_email_template_id(self):
+        if self.email_template_id:
+            template = self.email_template_id.with_context(
+                lang=self.lang.code or self.env.context['lang'])
+            if template.email_from:
+                self.email_from = template.email_from
+            self.body_html = template.body_html
