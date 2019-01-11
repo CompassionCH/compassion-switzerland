@@ -26,7 +26,6 @@ class MassMailing(models.Model):
 
     _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
                          'You have to choose a new slug for each mailing !')]
-    name = fields.Char(required=True, translate=False)
 
     def compute_clicks_ratio(self):
         for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018-2019 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
@@ -142,6 +142,7 @@ class UtmSource(models.Model):
     _inherit = ['utm.source', 'utm.object']
     _name = 'utm.source'
 
+    name = fields.Char(translate=False)
     mailing_id = fields.Many2one(
         'mail.mass_mailing', compute='_compute_mailing_id'
     )
@@ -169,6 +170,7 @@ class UtmCampaign(models.Model):
     _inherit = ['utm.campaign', 'utm.object']
     _name = 'utm.campaign'
 
+    name = fields.Char(translate=False)
     contract_ids = fields.One2many(inverse_name='campaign_id')
     correspondence_ids = fields.One2many(inverse_name='campaign_id')
     invoice_line_ids = fields.One2many(inverse_name='campaign_id')
@@ -201,6 +203,7 @@ class UtmMedium(models.Model):
     _inherit = ['utm.medium', 'utm.object']
     _name = 'utm.medium'
 
+    name = fields.Char(translate=False)
     contract_ids = fields.One2many(inverse_name='medium_id')
     correspondence_ids = fields.One2many(inverse_name='medium_id')
     invoice_line_ids = fields.One2many(inverse_name='medium_id')
