@@ -215,11 +215,11 @@ class Event(models.Model):
             registration.wordpress_host = host
 
     @api.multi
-    @api.depends('state')
+    @api.depends('state', 'event_id.state')
     def _compute_website_published(self):
         for registration in self:
             registration.website_published = registration.state in (
-                'open', 'done')
+                'open', 'done') and registration.event_id.state == 'confirm'
 
     @api.multi
     def _compute_partner_display_name(self):
