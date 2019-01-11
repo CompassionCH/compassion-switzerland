@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-11 10:43+0000\n"
-"PO-Revision-Date: 2019-01-11 11:47+0100\n"
+"PO-Revision-Date: 2019-01-11 15:08+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -2210,7 +2210,7 @@ msgstr "J'ai des problèmes de sommeil"
 #. module: website_event_compassion
 #: model:survey.question,question:website_event_compassion.gpms_question_allergies
 msgid "I suffer from the following allergies:"
-msgstr "Je souffres des allergies suivantes :"
+msgstr "Je souffre des allergies suivantes :"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_double_room_person
