@@ -86,17 +86,35 @@ class MassMailing(models.Model):
             )
             emails += super(MassMailing, mailing).send_mail()
 
+        emails_set = set()
+        final_state = 'sending'
+        duplicate_emails = self.env['mail.mail']
+
         for email in emails:
             # Only update mass mailing state when last e-mail is sent
             mass_mailing_ids = False
             if email == emails[-1]:
                 mass_mailing_ids = self.ids
 
-            # Used for Sendgrid -> Send e-mails in a job
-            email.with_delay().send_sendgrid_job(mass_mailing_ids)
+            if email.email_to not in emails_set:
+                emails_set.add(email.email_to)
+                # Used for Sendgrid -> Send e-mails in a job
+                email.with_delay().send_sendgrid_job(mass_mailing_ids)
+            else:
+                # Remove the e-mail, as the recipient already received it.
+                statistics = self.env['mail.mail.statistics'].search([(
+                    'mail_mail_id', '=', email.id
+                )])
+                statistics.unlink()
+                duplicate_emails += email
+                if email == emails[-1]:
+                    # Force the final state to done as it won't be updated by
+                    # sending jobs
+                    final_state = 'done'
 
-        emails.mapped('mailing_id').write({'state': 'sending'})
-        return emails
+        duplicate_emails.unlink()
+        self.write({'state': final_state})
+        return emails - duplicate_emails
 
     @api.multi
     def send_pending(self):
@@ -179,3 +197,12 @@ class MassMailing(models.Model):
                 mass_mailing.send_mail()
             else:
                 mass_mailing.state = 'done'
+
+    @api.onchange('email_template_id')
+    def onchange_email_template_id(self):
+        if self.email_template_id:
+            template = self.email_template_id.with_context(
+                lang=self.lang.code or self.env.context['lang'])
+            if template.email_from:
+                self.email_from = template.email_from
+            self.body_html = template.body_html
