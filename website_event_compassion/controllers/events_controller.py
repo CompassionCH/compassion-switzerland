@@ -205,7 +205,7 @@ class EventsController(PaymentFormController):
             tx = None
 
         if not tx or not tx.invoice_id:
-            return request.render(failure_template)
+            return request.render(failure_template, {'error_intro': ''})
 
         invoice_lines = tx.invoice_id.invoice_line_ids
         event = invoice_lines.mapped('event_id')
@@ -214,7 +214,8 @@ class EventsController(PaymentFormController):
             lambda r: r.partner_id == ambassador)
         post.update({
             'registration': registration,
-            'event': event
+            'event': event,
+            'error_intro': '',
         })
         success_template = self.get_donation_success_template(event)
         return self.compassion_payment_validate(
@@ -228,6 +229,9 @@ class EventsController(PaymentFormController):
         for a transaction.
         """
         failure_template = 'website_event_compassion.donation_failure'
+        error_intro = _(
+            "Thank you for your efforts in the Compassion trip registration "
+            "process.")
         try:
             tx = request.env['payment.transaction'].sudo(). \
                 _ogone_form_get_tx_from_data(post)
@@ -235,7 +239,8 @@ class EventsController(PaymentFormController):
             tx = None
 
         if not tx or not tx.invoice_id:
-            return request.render(failure_template)
+            return request.render(
+                failure_template, {'error_intro': error_intro})
 
         invoice = tx.invoice_id
         invoice_lines = tx.invoice_id.invoice_line_ids
@@ -247,11 +252,14 @@ class EventsController(PaymentFormController):
             'confirmation_title': _(
                 'We are glad to confirm your registration!'),
             'confirmation_message': _(
+                "Thank you for your efforts in the Compassion trip "
+                "registration process.") + "<br/><br/>" + _(
                 "Your payment was successful and your are now a confirmed "
                 "participant of the trip. You will receive all the "
                 "documentation for the preparation of your trip by e-mail in "
                 "the coming weeks."
             ),
+            'error_intro': error_intro
         })
         template = 'website_event_compassion.event_confirmation_page'
         if invoice == registration.group_visit_invoice_id:

@@ -34,12 +34,15 @@
         <t t-call="website.layout">
             <div id="wrap">
                 <div class="container text-center">
-                    <h1>Donation Aborted</h1>
-                    <p class="quote">
-                        Something went wrong during the donation process. Please try again.
+                    <h1>Payment Aborted</h1>
+                    <p class="quote mt32">
+                        <t t-raw="(error_intro and error_intro + '&lt;br/&gt;&lt;br/&gt;') or ''"/>
+                        Something went wrong during the payment process. Please try again.
                         <br/>
                         <br/>
-                        If the payment process was successful, please call us.
+                        <div class="alert alert-info" role="alert">
+                            In case your payment was successful and you are seeing this message, you may experience some delay in the process of the transaction. Don't hesitate to <a href="mailto:info@compassion.ch">contact us</a> if you need any further assistance.
+                        </div>
                     </p>
                 </div>
             </div>

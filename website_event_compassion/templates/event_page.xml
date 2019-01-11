@@ -77,7 +77,7 @@
                         <div class="col-md-9">
                             <h2 t-esc="confirmation_title"/>
                             <div class="jumbotron">
-                                <p t-esc="confirmation_message"/>
+                                <p t-raw="confirmation_message"/>
                             </div>
                         </div>
                         <div class="col-md-3">
