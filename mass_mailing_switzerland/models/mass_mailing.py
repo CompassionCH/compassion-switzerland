@@ -86,7 +86,7 @@ class MassMailing(models.Model):
             )
             emails += super(MassMailing, mailing).send_mail()
 
-        emails_set = set()
+        emails_list = []
         final_state = 'sending'
         duplicate_emails = self.env['mail.mail']
 
@@ -96,12 +96,14 @@ class MassMailing(models.Model):
             if email == emails[-1]:
                 mass_mailing_ids = self.ids
 
-            if email.email_to not in emails_set:
-                emails_set.add(email.email_to)
+            recipients = [email.email_to] if email.email_to else []
+            recipients.extend(email.recipient_ids.mapped('email'))
+            if not all(recipient in emails_list for recipient in recipients):
+                emails_list.extend(recipients)
                 # Used for Sendgrid -> Send e-mails in a job
                 email.with_delay().send_sendgrid_job(mass_mailing_ids)
             else:
-                # Remove the e-mail, as the recipient already received it.
+                # Remove the e-mail, as the recipients already received it.
                 statistics = self.env['mail.mail.statistics'].search([(
                     'mail_mail_id', '=', email.id
                 )])
