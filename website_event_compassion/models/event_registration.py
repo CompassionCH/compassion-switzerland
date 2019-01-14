@@ -345,6 +345,11 @@ class Event(models.Model):
             for registration in self:
                 if not registration.incomplete_task_ids:
                     registration.next_stage()
+                if 'stage_id' in vals and vals['stage_id'] == self.env.ref(
+                        'website_event_compassion.stage_all_attended').id:
+                    if registration.event_id.event_type_id.name == \
+                            u'Group visit':
+                        registration.prepare_feedback_survey()
         return res
 
     @api.model
@@ -522,6 +527,22 @@ class Event(models.Model):
         wizard.onchange_template_id_wrapper()
         wizard.add_new_answer()
         self.medical_survey_id = self.env['survey.user_input'].search([
+            ('partner_id', '=', self.partner_id_id),
+            ('survey_id', '=', survey.id)
+        ])
+
+    def prepare_feedback_survey(self):
+        # Attach medical survey for user
+        survey = self.event_id.feedback_survey_id
+        local_context = survey.action_send_survey().get('context')
+        wizard = self.env['survey.mail.compose.message']\
+            .with_context(local_context).create({
+                'public': 'no_email',
+                'phone_partner_ids': [(6, 0, self.partner_id.ids)],
+            })
+        wizard.onchange_template_id_wrapper()
+        wizard.add_new_answer()
+        self.feedback_survey_id = self.env['survey.user_input'].search([
             ('partner_id', '=', self.partner_id_id),
             ('survey_id', '=', survey.id)
         ])
