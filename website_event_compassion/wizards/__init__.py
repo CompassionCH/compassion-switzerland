@@ -10,3 +10,4 @@
 ##############################################################################
 
 from . import open_to_participant_wizard
+from . import invite_participant_party_wizard
