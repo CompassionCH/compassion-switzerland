@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion Events Website',
-    'version': '10.0.1.4.4',
+    'version': '10.0.1.5.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
@@ -69,6 +69,7 @@
         'templates/event_faq.xml',
         'templates/group_visit_step2.xml',
         'templates/group_visit_medical_info.xml',
+        'templates/group_visit_practical_information.xml',
         'templates/robots.xml',
     ],
     'demo': [

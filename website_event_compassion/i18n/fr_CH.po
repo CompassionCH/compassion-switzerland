@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-11 10:43+0000\n"
-"PO-Revision-Date: 2019-01-11 15:08+0100\n"
+"POT-Creation-Date: 2019-01-16 08:03+0000\n"
+"PO-Revision-Date: 2019-01-16 09:25+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -33,6 +33,11 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_event_compassion.event_faq
 msgid "- Frequently Asked Questions"
 msgstr "- Foire aux questions"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "- Practical information"
+msgstr "- Infos pratiques"
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/controllers/events_controller.py:108
@@ -1468,6 +1473,40 @@ msgid "<span class=\"text-uppercase dates_text\">Date</span>"
 msgstr "<span class=\"text-uppercase dates_text\">Date</span>"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "A book, your bible"
+msgstr "Un livre, votre Bible"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "A doll"
+msgstr "Une poupée"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "A football"
+msgstr "Un ballon de foot"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "A gift for your sponsored child"
+msgstr "Cadeau pour votre filleul(e)"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"A recent photo of your family or a folder with photos of you, your family, "
+"your region..."
+msgstr ""
+"Une photo récente de votre famille ou un dossier avec des photos de vous, "
+"votre famille, votre région…"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "A sweater or jacket for cool evenings"
+msgstr "Un pull ou une veste pour les soirées fraîches."
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_accepts_registrations
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_type_accepts_registrations
 msgid "Accepts registrations"
@@ -1478,6 +1517,11 @@ msgstr "Ouvert aux participants"
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_fundraising
 msgid "Activate fundraising for participants"
 msgstr "Activer le fundraising"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Adapter for electrical outlets"
+msgstr "Ouvert aux participants"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
@@ -1492,6 +1536,11 @@ msgid ""
 msgstr ""
 "Tous les cadeaux que j’offrirai à mon (ma) filleul(e) ou sa famille seront "
 "en accord avec la politique de Compassion à ce sujet."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Alternatives to drinking water:"
+msgstr "Alternatives à l’eau potable :"
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/agreement_step2_forms.py:132
@@ -1515,6 +1564,21 @@ msgid "Amount"
 msgstr "Montant"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "An alarm clock"
+msgstr "Un réveil"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "And if you want to bring gifts, it's also possible!"
+msgstr "Et si vous souhaitez apporter des cadeaux, c'est aussi possible !"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Anti-mosquito"
+msgstr "De l'anti-moustique"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_event_type_ids
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_event_type_ids
 msgid "Applies to"
@@ -1531,9 +1595,23 @@ msgid "Attended"
 msgstr "Présent"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Avoid eating dairy products in areas where hygiene conditions are poor "
+"(cream ice cream, fresh cheese or butter)."
+msgstr ""
+"Evitez de manger des produits laitiers dans les régions où les conditions "
+"d’hygiène sont mauvaises (glaces à la crème, fromage frais ou beurre)."
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_picture_1
 msgid "Banner image"
 msgstr "Banner image"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Bars, ribbons or hair elastics"
+msgstr "Des barrettes, rubans ou élastiques à cheveux"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
@@ -1547,14 +1625,87 @@ msgstr ""
 "courant des limites et de vos besoins spécifiques."
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Beverages"
+msgstr "Boissons"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Beyond the sponsorship that supports a child's development, Compassion also "
+"invests in the child's living environment. In particular, by building "
+"infrastructures for access to drinking water, toilets and water filters. By "
+"covering major medical expenses during major health problems. By "
+"participating in reconstruction assistance or support during natural "
+"disasters."
+msgstr ""
+"Au-delà du parrainage qui soutient un enfant dans son développement, "
+"Compassion investit aussi dans le cadre de vie de l'enfant. Notamment en "
+"construisant des infrastructures d'accès à l'eau potable, des toilettes, en "
+"distribuant des filtres à eau. En prenant en charge des frais médicaux "
+"importants lors de problèmes de santé majeurs. En participant à l'aide à la "
+"reconstruction ou au soutien lors de catastrophes naturelles."
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_birth_name
 msgid "Birth name"
 msgstr "Nom (tel que sur le passeport)"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Books, a Bible, a dictionary"
+msgstr "Des livres, une Bible, un dictionnaire"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Bring copies of photos of your sponsored child or copies of letters you "
+"received from him or her."
+msgstr ""
+"Apportez des copies des photos de votre enfant parrainé ou des copies des "
+"lettres que vous avez reçues de lui."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Bring nail polish - most little girls will love having their nails painted!"
+msgstr ""
+"Apportez du vernis à ongles - la plupart des petites filles adoreront se "
+"faire peindre les ongles !"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Bring pictures of your family, friends and pets, and share them with your "
+"sponsored child."
+msgstr ""
+"Apportez des photos de votre famille, de vos amis et de vos animaux "
+"domestiques, et partagez-les avec votre filleul."
+
+#. module: website_event_compassion
 #: selection:event.registration,emergency_relation_type:0
 msgid "Brother"
 msgstr "Frère"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"But be careful, don't give too many gifts. Unintentionally, you may "
+"embarrass the child and his or her family. When giving, the recipient likes "
+"to be able to give something in return, whether it is a smile, a song, a "
+"hug, a cup of coffee or an egg laid this morning by the family hen. In "
+"addition, too many gifts can lead to jealousy between the sponsored "
+"children. Two to five well-chosen gifts will be a real joy for your "
+"sponsored child and a wonderful memory of your visit to him/her."
+msgstr ""
+"Mais attention, ne faites pas trop de cadeaux. Sans le vouloir, vous risquez "
+"d’embarrasser l’enfant et sa famille. Lorsque l’on donne, la personne qui "
+"reçoit aime pouvoir donner quelque chose en retour, que ce soit un sourire, "
+"une chanson, un câlin, une tasse de café ou un œuf pondu ce matin par la "
+"poule de la famille. De plus, trop de cadeaux peuvent engendrer une certaine "
+"jalousie entre les enfants parrainés. Ainsi, deux à cinq cadeaux bien "
+"choisis seront une véritable joie pour votre filleul(e) et un merveilleux "
+"souvenir de votre visite chez lui (elle)."
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_barometer
@@ -1580,6 +1731,16 @@ msgstr "Category name"
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_travel_contract_contract_agreement
 msgid "Check to sign the agreements"
 msgstr "Cochez pour accepter le contrat"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Clothes"
+msgstr "Des vêtements"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Clothing"
+msgstr "Vêtements"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
@@ -1653,6 +1814,11 @@ msgstr ""
 "à nous contacter au cas où vous aviez des questions spécifiques."
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Consider taking a mosquito spray."
+msgstr "Pensez à prendre un spray contre les moustiques."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
 msgid "Contract visit"
 msgstr "Contrat de visite"
@@ -1672,6 +1838,15 @@ msgstr "Pays"
 #: model:ir.model,name:website_event_compassion.model_res_country_vaccine
 msgid "Country Vaccines"
 msgstr "Country Vaccines"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Cover up any tattoos. Indeed, in some countries, the latter are associated "
+"with gangs."
+msgstr ""
+"Couvrez vos éventuels tatouages. En effet, dans certains pays, ces derniers "
+"sont associés aux gangs."
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_create_uid
@@ -1735,6 +1910,16 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Demonstration of affection"
+msgstr "Démonstration d'affection"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_country_description_url
+msgid "Description url"
+msgstr "URL description"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "Details"
 msgstr "Détails"
@@ -1792,6 +1977,73 @@ msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Do not eat food sold on the streets."
+msgstr "Ne consommez pas d’aliments vendus dans les rues."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Do not eat raw meat or fish. Avoid seafood too."
+msgstr ""
+"Ne mangez pas de viande ou de poisson cru. Evitez aussi les fruits de mer."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Do not eat raw vegetables or fruit unless you can peel them yourself. Avoid "
+"salads especially."
+msgstr ""
+"Ne pas manger de légumes ou fruits crus, sauf si vous pouvez les peler vous-"
+"même. Eviter surtout des salades."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Do not expose yourself to the sun for too long. With the sun, heat and "
+"climate change, the risk of dehydration increases. Protect your head from "
+"the sun. Think about sunscreen."
+msgstr ""
+"Ne vous exposez pas trop longtemps au soleil. Avec le soleil, la chaleur et "
+"le changement climatique le risque de déshydratation augmente. Protégez "
+"votre tête du soleil. Pensez à la crème solaire."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Do not kiss in public, especially if you are visiting a Muslim country"
+msgstr ""
+"Ne vous embrassez pas en public, en particulier si vous visitez un pays "
+"musulman."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Do not wear t-shirts with overly conspicuous and blatant patterns."
+msgstr "Ne pas porter des t-shirts avec des motifs trop voyants et criards."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Do you have a favorite Bible verse? Tell him what's yours"
+msgstr "As-tu un verset biblique préféré ? Dites-lui quel est le vôtre."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Do you like school?"
+msgstr "Tu aimes l'école ?"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Don't be surprised if your sponsored child has a gift for you too! You are a "
+"special person to him."
+msgstr ""
+"Ne soyez pas surpris si votre filleul a un cadeau pour vous aussi ! Vous "
+"êtes une personne spéciale à ses yeux."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Don't forget to bring with you:"
+msgstr "N'oubliez pas d'emporter avec vous :"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
 msgid ""
 "Don't you have all the documents at hand? You can proceed step by step and "
@@ -1845,14 +2097,64 @@ msgid "Down payment"
 msgstr "Paiement Inscription"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Draw drawings or do crafts together."
+msgstr "Dessinez des dessins ou faites un bricolage ensemble."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Drink only clean water from sealed bottles. When buying a bottle, check that "
+"it is sealed. Gently refuse open bottles."
+msgstr ""
+"Ne buvez que de l’eau propre provenant de bouteilles scellées. A l’achat de "
+"bouteille vérifiez qu’elle soit scellée. Refusez gentiment des bouteilles "
+"ouvertes."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Drink plenty of water."
+msgstr "Buvez beaucoup d’eau."
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_duration
 msgid "Duration"
 msgstr "Durée"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"During an organized trip you will discover the Compassion program. You will "
+"have the opportunity to meet the people working in the projects. You will be "
+"able to ask your questions and participate in activities typical of the "
+"projects.\n"
+"Compassion has three distinct programs:"
+msgstr ""
+"Durant un voyage organisé vous découvrirez le programme de Compassion. Vous "
+"aurez l’occasion de rencontrer les personnes travaillant dans les centres "
+"d’accueil. Vous pourrez poser vos questions et participer à des activités "
+"typiques des centres d’accueil. Compassion a trois programmes bien "
+"distincts :"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"During this group trip, you will meet your sponsored child on a common day "
+"where all the sponsored children meet with the sponsors."
+msgstr ""
+"Lors de ce voyage de groupe, vous allez rencontrer votre filleul lors d'une "
+"journée commune où tous les enfants parrainés se retrouvent avec les "
+"parrains."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "E-mail"
 msgstr "Courriel"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Eat only well-cooked and hot foods."
+msgstr "Mangez seulement des aliments bien cuits et chauds."
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_emergency_name
@@ -1995,6 +2297,15 @@ msgid "Fill urgency contact information"
 msgstr "Renseigner contact d'urgence"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Finally, please be aware that it is not permitted to make cash donations to "
+"the child and his or her family, or to Compassion staff members on site."
+msgstr ""
+"Enfin, sachez qu'il n’est pas autorisé, sur place, de faire des dons en "
+"argent à l’enfant et à sa famille, ni aux membres du personnel de Compassion."
+
+#. module: website_event_compassion
 #: model:product.template,name:website_event_compassion.product_template_flight
 msgid "Flight"
 msgstr "Vol"
@@ -2008,6 +2319,31 @@ msgstr "Prix du vol"
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_fold
 msgid "Folded in Pipeline"
 msgstr "Folded in Pipeline"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Food"
+msgstr "Alimentation"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"For clothing, please take into consideration the cultural gap that may exist "
+"with Switzerland."
+msgstr ""
+"Pour les vêtements, merci de prendre en considération le décalage culturel "
+"qu'il peut y avoir avec la Suisse. Voici quelques règles usuelles à "
+"respecter :"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "For men:"
+msgstr "Pour les hommes :"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "For women:"
+msgstr "Pour les femmes :"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection_form_id
@@ -2028,6 +2364,44 @@ msgstr "Français"
 #: selection:event.registration,emergency_relation_type:0
 msgid "Friend"
 msgstr "Ami"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"From the age of 2 years, children enter the individual sponsorship program.\n"
+"                                            <br/>\n"
+"The staff of the Compassion projects on site pay particular attention to "
+"each child so that they can develop in all the different aspects of their "
+"lives - cognitively, physically and socially - while discovering God's love "
+"for through the Gospel.\n"
+"                                            <br/>\n"
+"Children regularly visit Compassion's project to follow activities. The "
+"programs are adapted to the ages of the children.\n"
+"                                            <br/>\n"
+"From the age of 12, training and personalised academic support are provided "
+"according to the child's potential and talents.\n"
+"                                            <br/>\n"
+"Our goal and prayer is that each youth completes the Compassion program with "
+"knowledge, skills, abilities, aptitudes and behaviours that enable them to "
+"succeed professionally and have a sustainable way of supporting themselves. "
+"Sponsorship ends in principle when the child has completed vocational "
+"training, but at the latest when he or she reaches the age of 22."
+msgstr ""
+"Dès l’âge de 2 ans les enfants entrent dans le programme de parrainage "
+"individuel. Le personnel des centres d’accueil de Compassion sur place prête "
+"une attention particulière à chaque enfant pour qu’il puisse se développer "
+"dans tous les différents aspects de sa vie - son esprit, son corps et ses "
+"relations - tout en découvrant l'amour de Dieu pour à travers l’Evangile.<br/"
+"> Les enfants se rendent régulièrement dans les centres d’accueil de "
+"Compassion pour y suivre des activités. Les programmes sont adaptés aux âges "
+"des enfants. <br/>Dès l’âge de 12 ans, une formation et un accompagnement "
+"scolaire personnalisé sont mis en place en fonction du potentiel, des "
+"talents de l'enfant. <br/>Notre objectif et notre prière, c'est que chaque "
+"jeune termine le programme de Compassion, avec des connaissances, des "
+"compétences, des aptitudes et un comportements qui lui permettent de réussir "
+"sur le plan professionnel et d'avoir un moyen durable de subvenir à ses "
+"besoins. Le parrainage se termine en principe lorsque l’enfant a terminé une "
+"formation professionnelle, mais au plus tard lorsqu'il a atteint 22 ans."
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_fundraising
@@ -2058,57 +2432,6 @@ msgid "Group visit"
 msgstr "Visite de groupe"
 
 #. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_after_trip_feedback_config
-msgid "Group visit: after trip feedback"
-msgstr "Group visit: after trip feedback"
-
-#. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_before_sharing_config
-msgid "Group visit: before trip sharing information"
-msgstr "Group visit: before trip sharing information"
-
-#. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_detailed_config
-msgid "Group visit: detailed information"
-msgstr "Group visit: detailed information"
-
-#. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_information_day_config
-msgid "Group visit: info day invitation"
-msgstr "Group visit: info day invitation"
-
-#. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_medical_discharge_config
-#: model:utm.source,name:website_event_compassion.group_visit_medical_discharge_config_utm_source
-msgid "Group visit: medical discharge request"
-msgstr "Group visit: medical discharge request"
-
-#. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_medical_survey_config
-msgid "Group visit: medical survey invitation"
-msgstr "Group visit: medical survey invitation"
-
-#. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_step1_config
-msgid "Group visit: step1 registration confirmation"
-msgstr "Group visit: step1 registration confirmation"
-
-#. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_step2_config
-msgid "Group visit: step2 confirmation"
-msgstr "Group visit: step2 confirmation"
-
-#. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_step3_config
-msgid "Group visit: step3 confirmation"
-msgstr "Group visit: step3 confirmation"
-
-#. module: website_event_compassion
-#: model:partner.communication.config,name:website_event_compassion.group_visit_travel_documents_config
-msgid "Group visit: travel documents request"
-msgstr "Group visit: travel documents request"
-
-#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_has_signed_child_protection
 msgid "Has signed child protection"
 msgstr "Has signed child protection"
@@ -2117,6 +2440,21 @@ msgstr "Has signed child protection"
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_has_signed_travel_contract
 msgid "Has signed travel contract"
 msgstr "Has signed travel contract"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Health"
+msgstr "Santé"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Health and nutrition tips"
+msgstr "Santé / Alimentation"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Here are some questions to ask him or ideas to get started:"
+msgstr "Voici quelques questions à lui poser ou idées d'entrée en matière :"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
@@ -2529,6 +2867,39 @@ msgstr ""
 "bon déroulement de l’enquête."
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"If you travel to rural areas, take bottled water with you. It is often "
+"difficult to find stores that sell water."
+msgstr ""
+"Si vous vous rendez dans des régions campagnardes, emportez des bouteilles "
+"d’eau avec vous. Il est souvent difficile de trouver des magasins qui "
+"vendent de l’eau."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"If you want to bring a gift to your sponsored child, think about practical "
+"things, not just toys. These children live in countries where the needs are "
+"immense. As a result, \"luxury\" toys do not really find their place there. "
+"Here are some gift suggestions:"
+msgstr ""
+"Si vous souhaitez amener un cadeau à votre filleul(e), pensez à des choses "
+"pratiques, et pas uniquement à des jouets. Ces enfants vivent dans des pays "
+"où les besoins sont immenses. Du coup, les jouets « de luxe » n’y trouvent "
+"pas vraiment leur place. Voici quelques suggestions de cadeaux :"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"If you want to photograph a person, it is advisable to obtain their prior "
+"consent. Ask if you dare to photograph military or state buildings."
+msgstr ""
+"Si vous voulez photographier une personne, il est souhaitable d'obtenir son "
+"accord préalable. Renseignez-vous si vous osez photographier des bâtiments "
+"militaires ou étatiques."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.donation_failure
 msgid ""
 "In case your payment was successful and you are seeing this message, you may "
@@ -2550,9 +2921,23 @@ msgid "Incomplete tasks"
 msgstr "Actions incomplètes"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Individual sponsorship"
+msgstr "Le parrainage individuel"
+
+#. module: website_event_compassion
 #: model:event.type,name:website_event_compassion.event_type_individual_visit
 msgid "Individual visit"
 msgstr "Visite individuelle"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Introduce yourself and your family and ask questions about your sponsored "
+"child's family."
+msgstr ""
+"Présentez-vous et présentez-vous, ainsi que votre famille, et posez des "
+"questions sur la famille de votre enfant."
 
 #. module: website_event_compassion
 #: model:mail.template,subject:website_event_compassion.group_visit_information_day_email
@@ -2586,6 +2971,18 @@ msgid "It also brings"
 msgstr "Cela rapproche également"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"It is likely that you will be invited to share a meal at the Compassion "
+"project. The general rule is to accept and taste some of the food offered. "
+"Compassion Caregivers can help you choose the safest food from a health "
+"perspective. But for health reasons, be careful to respect the following "
+"rules:"
+msgstr ""
+"Présentez-vous et présentez-vous, ainsi que votre famille, et posez des "
+"questions sur la famille de votre enfant."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
 msgid ""
 "It is time to prepare the trip in terms of health. The stay that awaits you "
@@ -2603,6 +3000,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_spoken_lang_it
 msgid "Italian"
 msgstr "Italian"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Keep your money in safe place. Do not take too much money with you when "
+"visiting. Ask the hotel if there is a safe where you can leave your money."
+msgstr ""
+"Gardez votre argent en lieu sur. N'emportez pas de trop grosse sommes "
+"d’argent lors des visites. Demandez à l’hôtel s’il y a un coffre-fort où "
+"vous pourriez laisser votre argent."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Knowing the country you are travelling to is essential for a truly enjoyable "
+"experience. Here is some practical and useful information."
+msgstr ""
+"Bien connaître le pays dans lequel on voyage est essentiel pour que "
+"l'expérience soit vraiment agréable. Voici quelques informations aussi "
+"pratiques qu'utiles."
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation___last_update
@@ -2699,6 +3116,26 @@ msgid "Medical survey"
 msgstr "Questionnaire médical"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Meeting your sponsored child"
+msgstr "Rencontrer votre filleul(e)"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Millions of children die every year in their first year of life. The "
+"majority of these deaths could be prevented. Compassion works with pregnant "
+"women or women who have just given birth by offering them medical follow-up, "
+"maternity, nutrition and hygiene training until the baby reaches the age of "
+"one year."
+msgstr ""
+"Des millions d'enfants meurent chaque année au cours de leur première année "
+"de vie. La majorité de ces décès pourraient être évités. Compassion "
+"intervient auprès des femmes enceintes ou qui viennent d’accoucher en leur "
+"offre un suivi médical, des formations à la maternité, de nutrition et "
+"d’hygiène jusqu'à ce que le bébé atteint l'âge d'un an."
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_seats_min
 msgid "Minimum participants required"
 msgstr "Minimum participants required"
@@ -2718,14 +3155,29 @@ msgid "Missing wordpress_host in odoo config file"
 msgstr "Missing wordpress_host in odoo config file"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Money"
+msgstr "Argent"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_months_needed_for_a_visa
 msgid "Months needed for a visa"
 msgstr "Months needed for a visa"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "More about"
+msgstr "Plus d'info -"
+
+#. module: website_event_compassion
 #: selection:event.registration,emergency_relation_type:0
 msgid "Mother"
 msgstr "Mère"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Mothers and child survival centre"
+msgstr "Centre de survie mamans et tout-petits"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
@@ -2750,6 +3202,12 @@ msgstr ""
 "enfant, quelle que soit la situation. Je dois toujours être accompagné."
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Non-alcoholic drinks in bottles or cans (Coke, Sprite, Fanta...)"
+msgstr ""
+"Boissons non alcoolisées en bouteille ou cannette (Coca, Sprite, Fanta..)"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_seats_expected
 msgid "Number of Expected Attendees"
 msgstr "Nombre de participants attendus"
@@ -2758,6 +3216,42 @@ msgstr "Nombre de participants attendus"
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_odoo_event_id
 msgid "Odoo event id"
 msgstr "Odoo event id"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"On site, do not hesitate to take pictures. This way, you will return with "
+"unforgettable memories. And you can send him 1-2 photos in your next letter. "
+"If you are visiting his or her home or if he or she is accompanied by a "
+"relative, please ask permission to take pictures of them."
+msgstr ""
+"Sur place, n'hésitez pas de prendre des photos. Ainsi, vous rentrerez avec "
+"des souvenirs inoubliables. Et vous pourrez lui envoyer 1-2 photos lors de "
+"votre prochaine lettre. Si vous effectuez une visite de son habitation ou "
+"s'il (elle) est accompagné(e) d'un proche, merci de demander l'autorisation "
+"de les prendre en photos."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"One more thing, don't promise new gifts. It is better to identify the "
+"child's needs and make a gift with a donation to the child once you are back "
+"in Switzerland. But don't tell the child about it on the spot. Too many "
+"children are still waiting for a broken promise."
+msgstr ""
+"Encore une chose, ne promettez pas de nouveaux cadeaux. Mieux vaut "
+"identifier les besoins de l'enfant et concrétiser un cadeau avec un don à "
+"l'enfant une fois que vous êtes de retour en Suisse. Mais n'en parlez pas à "
+"l’enfant sur place. Trop d'enfants sont encore en attente d’une promesse non "
+"tenue."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Only accept drinks served in a bottle. Refuse any drink containing ice cubes."
+msgstr ""
+"N’acceptez que les boissons servies dans une bouteille. Refusez toute "
+"boisson contenant des glaçons."
 
 #. module: website_event_compassion
 #: model:mail.template,subject:website_event_compassion.group_visit_step2_email
@@ -2781,6 +3275,20 @@ msgstr "Ouvrir les inscriptions"
 #: selection:event.registration,emergency_relation_type:0
 msgid "Other"
 msgstr "Autre"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Outside the Compassion projects, you can wear tourist clothes (basket t-"
+"shirts, shorts...)"
+msgstr ""
+"N’acceptez que les boissons servies dans une bouteille. Refusez toute "
+"boisson contenant des glaçons."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Pack your luggage"
+msgstr "Préparez vos bagages"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_partner_name
@@ -2856,15 +3364,36 @@ msgid "Payment Transaction"
 msgstr "Transaction"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Pens, coloured pencils, notebooks"
+msgstr "Des stylos, crayons de couleur, cahiers"
+
+#. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/agreement_step2_forms.py:201
 #, python-format
 msgid "Person of contact"
 msgstr "Personne de contact en cas d'urgence"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Personal medication"
+msgstr "Médicament personnels"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
 msgid "Phone"
 msgstr "Téléphone"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Photos"
+msgstr "Photos"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Play together - soccer ball, frisbee and ropes are fun!"
+msgstr ""
+"Jouez ensemble - ballon de foot, frisbee et cordes à sauter sont amusants !"
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/agreement_step2_forms.py:128
@@ -2929,6 +3458,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_spoken_lang_po
 msgid "Portuguese"
 msgstr "Portugais"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Practical ideas to promote contact with your sponsored child"
+msgstr "Idées pratiques pour favoriser le contact avec votre filleul(e)"
 
 #. module: website_event_compassion
 #: model:event.type,name:website_event_compassion.event_type_presentation
@@ -3083,6 +3617,16 @@ msgid "Registrations will open soon."
 msgstr "Registrations will open soon."
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Religion"
+msgstr "Religions"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Remove piercings that are not covered by clothing"
+msgstr "Retirer les piercing qui ne sont pas couverts par les vêtements"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
 msgid "Required vaccines"
 msgstr "Vaccins obligatoires"
@@ -3140,6 +3684,11 @@ msgid "Share my project"
 msgstr "Partage mon projet"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Shoes"
+msgstr "Des chaussures"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_website_side_info
 msgid "Side info"
 msgstr "Side info"
@@ -3175,6 +3724,16 @@ msgid "Sister"
 msgstr "Soeur"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Some activities to share:"
+msgstr "Quelques activités à partager :"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Some cash"
+msgstr "Quelques activités à partager :"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.donation_failure
 msgid ""
 "Something went wrong during the payment process. Please try again.\n"
@@ -3204,6 +3763,11 @@ msgid ""
 msgstr ""
 "Specific event type that uses this stage. Other event types will not be able "
 "to see or use this stage."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Specific projects"
+msgstr "Des projets spécifiques"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.participant_page
@@ -3264,6 +3828,16 @@ msgid "Statement of Commitment to Child Protection"
 msgstr "Charte de la protection de l'enfance"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Suitable shoes for walking on damaged roads"
+msgstr "Chaussures adaptées à la marche sur des chemins abîmés"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Sunglasses, sunscreen, cap or hat"
+msgstr "Des lunettes de soleil, crème solaire, casquette ou chapeau"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.participant_page
 msgid "Support"
 msgstr "Assistance"
@@ -3292,9 +3866,31 @@ msgid "Surveys"
 msgstr "Questionnaires"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "T-shirts"
+msgstr "Des T-shirts"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Talk about the letters you received and the drawings"
+msgstr "Parlez des lettres que vous avez reçues et des dessins"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_name
 msgid "Task"
 msgstr "Tâche"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Teach him a song or ask him to teach you one in his language"
+msgstr ""
+"Apprenez-lui une chanson ou demandez-lui de vous en apprendre une dans sa "
+"langue"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Teach your sponsored child a Bible story."
+msgstr "Enseignez à votre enfant une histoire biblique."
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/agreement_step2_forms.py:67
@@ -3341,6 +3937,11 @@ msgstr ""
 "Merci ! Votre don nous aide à libérer des enfants de l'extrême pauvreté !"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "The Compassion programs"
+msgstr "Les programmes de Compassion"
+
+#. module: website_event_compassion
 #: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_allergies
 #: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_diet
 #: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_problems
@@ -3369,6 +3970,29 @@ msgstr ""
 "communauté, sont réservées à mon usage personnel et privé. Je m’engage à ne "
 "pas les diffuser sur Internet, les réseaux sociaux ou sur d'autres documents "
 "(sauf dans le cadre de Compassion ou avec son accord)."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Thermal drinks prepared with boiling water (tea, coffee, soup)"
+msgstr ""
+"Boissons en thermos préparées avec de l’eau portée à ébullition (thé, café, "
+"soupe)"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Think about the other children in the family. Because families live together "
+"and share everything, the gifts you offer will be a surprise for the whole "
+"family. You can bring chewing gum, peanuts or candy to hand out. Or you can "
+"choose to offer a gift for everyone, a sheet, towel or even a pig or goat. "
+"Ask the Compassionate Caregivers, they will help you."
+msgstr ""
+"Pensez aux autres enfants de la famille. Parce que les familles vivent "
+"ensemble et partagent tout, les cadeaux que vous offrez seront une surprise "
+"pour toute la famille. Vous pouvez amener du chewing-gum, des cacahouètes ou "
+"des bonbons à distribuer. Ou bien vous pouvez choisir d’offrir un cadeau "
+"pour tous, un drap, une serviette de toilette ou même un cochon ou une "
+"chèvre. Demandez aux accompagnants de Compassion, ils vous aideront."
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_participants_list
@@ -3456,6 +4080,15 @@ msgid "This vaccine is already set"
 msgstr "This vaccine is already set"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"To brush your teeth, also use bottled drinking water. Tap water could be "
+"unsafe."
+msgstr ""
+"Pour vous brosser les dents, employer aussi de l’eau potable en bouteille. "
+"L’eau du robinet pourrait&amp;nbsp; être insalubre."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
 msgid ""
 "To make your trip enriching and an unforgettable experience, please read and "
@@ -3531,6 +4164,15 @@ msgstr "Comportements inacceptables"
 #: model:event.registration.stage,name:website_event_compassion.stage_all_unconfirmed
 msgid "Unconfirmed"
 msgstr "Non confirmé"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Under no circumstances should you criticize the Muslim religion if you are "
+"in Muslim territory."
+msgstr ""
+"Ne critiquez sous aucun prétexte la religion musulmane si vous êtes en terre "
+"musulmane."
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/medical_discharge_form.py:37
@@ -3638,6 +4280,37 @@ msgid "Website description"
 msgstr "Website description"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "What classes do you like in school?"
+msgstr "Quels cours aimes-tu à l'école ?"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "What do you like to eat? Tell him what you like to eat."
+msgstr ""
+"Qu'est-ce que tu aimes manger ? Dites-lui qu'est-ce que vous aimez manger."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "What is your favorite song?"
+msgstr "Quelle est ta chanson préférée ?"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "What sports do you practice and what sport do you practice?"
+msgstr "Quels sports pratiquez-vous et quel sport pratiques-tu ?"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "What you can bring to your sponsored child"
+msgstr "Ce que vous pouvez apporter à votre filleul"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Who are your best friends?"
+msgstr "Qui sont tes meilleurs amis ?"
+
+#. module: website_event_compassion
 #: selection:event.registration,emergency_relation_type:0
 msgid "Wife"
 msgstr "Épouse"
@@ -3694,6 +4367,15 @@ msgstr ""
 "vide si vous désirez une chambre individuelle."
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"You will have a translator who will really allow you to know more about your "
+"sponsored child and to communicate with him/her."
+msgstr ""
+"Vous aurez un traducteur qui vous permettra vraiment d'en savoir plus sur "
+"votre enfant parrainé et de communiquer avec lui."
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection_final_question
 msgid "Your answer"
 msgstr "Votre réponse"
@@ -3705,6 +4387,11 @@ msgid "Your coordinates"
 msgstr "Vos coordonnées"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Your flight tickets"
+msgstr "Vos billets d'avion"
+
+#. module: website_event_compassion
 #: model:survey.page,title:website_event_compassion.gpms_page1
 msgid "Your health"
 msgstr "Votre santé"
@@ -3713,6 +4400,11 @@ msgstr "Votre santé"
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_medical_info
 msgid "Your medical status"
 msgstr "Votre santé"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Your passport"
+msgstr "Passeport"
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/agreement_step2_forms.py:249
@@ -3753,6 +4445,22 @@ msgid "Your spoken languages"
 msgstr "Vos langues parlées"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Your sponsored child may feel overwhelmed or intimidated at the beginning of "
+"your visit. But a few conversation starts and one or two fun activities can "
+"help you break the ice!"
+msgstr ""
+"Votre filleul(e) peut se sentir dépassé ou intimidé au début de votre "
+"visite. Mais quelques amorces de conversation et une ou deux activités "
+"ludiques peuvent vous aider à briser la glace !"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Your toiletries"
+msgstr "Vos affaires de toilette"
+
+#. module: website_event_compassion
 #: model:mail.template,subject:website_event_compassion.group_visit_step1_email
 msgid ""
 "Your trip to ${object.get_objects().compassion_event_id.country_id.name} "
@@ -3778,6 +4486,29 @@ msgid "Your trip with Compassion - travel documents and payment"
 msgstr "Your trip with Compassion - travel documents and payment"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "Your vaccination booklet"
+msgstr "Votre carnet de vaccination"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid ""
+"Your visit in itself is the most beautiful gift you can offer to these "
+"children and to the staff of the projects you will visit. Take time with "
+"your sponsored child, get to know his or her family, greet his or her "
+"parents, teachers and school officials. You will learn a lot about your "
+"sponsored child, and this will help you to pray more effectively. Prayer is "
+"an important gift not to be forgotten!"
+msgstr ""
+"Votre visite en elle-même est le plus beau des cadeaux que vous puissiez "
+"offrir à ces enfants et aux collaborateurs des centres d'accueil que vous "
+"visiterez. Prenez du temps avec votre filleul(e), faites connaissance avec "
+"sa famille, saluez ses parents, ses professeurs et les responsables de "
+"l’école. Vous apprendrez beaucoup de choses concernant votre filleul(e), et "
+"cela vous aidera à prier de façon plus efficace. La prière est un cadeau "
+"trop important pour qu’on l’oublie !"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.advocate_details_search
 msgid "Youth Trip"
 msgstr "Voyage de jeunes"
@@ -3796,6 +4527,11 @@ msgstr "en conséquence."
 #: model:ir.ui.view,arch_db:website_event_compassion.event_participants_list
 msgid "amount_raised"
 msgstr "amount_raised"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "bring a dress for Sunday worship participation"
+msgstr "Emportez une robe pour la participation au culte dominical"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.donation_successful
@@ -3878,6 +4614,11 @@ msgid "contact us"
 msgstr "prendre contact avec nous"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "don't wear too much jewelry"
+msgstr "Ne pas porter trop de bijoux"
+
+#. module: website_event_compassion
 #: code:addons/website_event_compassion/models/partner_communication_job.py:38
 #, python-format
 msgid "down_payment.pdf"
@@ -3943,6 +4684,11 @@ msgid "payment"
 msgstr "paiement"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
+msgid "prefer clothes that cover the knees, stomach and shoulders"
+msgstr "Privilégier des habits couvrant les genoux, le ventre et les épaules"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_page
 msgid "project_donations_total"
 msgstr "project_donations_total"
@@ -3965,6 +4711,36 @@ msgid "uploading a criminal record extract*. You can"
 msgstr ""
 "télécharger une copie de l'extrait de votre casier judiciaire*. Vous pouvez "
 "en"
+
+#~ msgid "Group visit: after trip feedback"
+#~ msgstr "Group visit: after trip feedback"
+
+#~ msgid "Group visit: before trip sharing information"
+#~ msgstr "Group visit: before trip sharing information"
+
+#~ msgid "Group visit: detailed information"
+#~ msgstr "Group visit: detailed information"
+
+#~ msgid "Group visit: info day invitation"
+#~ msgstr "Group visit: info day invitation"
+
+#~ msgid "Group visit: medical discharge request"
+#~ msgstr "Group visit: medical discharge request"
+
+#~ msgid "Group visit: medical survey invitation"
+#~ msgstr "Group visit: medical survey invitation"
+
+#~ msgid "Group visit: step1 registration confirmation"
+#~ msgstr "Group visit: step1 registration confirmation"
+
+#~ msgid "Group visit: step2 confirmation"
+#~ msgstr "Group visit: step2 confirmation"
+
+#~ msgid "Group visit: step3 confirmation"
+#~ msgstr "Group visit: step3 confirmation"
+
+#~ msgid "Group visit: travel documents request"
+#~ msgstr "Group visit: travel documents request"
 
 #~ msgid "I have allergies"
 #~ msgstr "Je souffre d'allergies"
