@@ -6,6 +6,9 @@
         <field name="model">event.event</field>
         <field name="inherit_id" ref="event_sale.view_event_form_inherit_ticket"/>
         <field name="arch" type="xml">
+            <button name="button_confirm" position="before">
+                <button string="Create Information Party" name="button_info_party" type="object" class="oe_highlight" groups="base.group_user" attrs="{'invisible': ['|', ('event_type_id', '!=', %(website_event_compassion.event_type_group_visit)d), ('state', '!=', 'confirm')]}"/>
+            </button>
             <xpath expr="//div[@name='button_box']/button[2]" position="attributes">
                 <attribute name="context">{'default_amount_objective': participants_amount_objective, 'default_event_type_id': event_type_id}</attribute>
             </xpath>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-16 08:03+0000\n"
-"PO-Revision-Date: 2019-01-16 09:25+0100\n"
+"POT-Creation-Date: 2019-01-16 13:59+0000\n"
+"PO-Revision-Date: 2019-01-16 15:06+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -1733,6 +1733,11 @@ msgid "Check to sign the agreements"
 msgstr "Cochez pour accepter le contrat"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_registration_ids
+msgid "Choose participants"
+msgstr "Inviter les participants"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid "Clothes"
 msgstr "Des vêtements"
@@ -1777,6 +1782,11 @@ msgstr "Compassion Meeting"
 #: model:ir.model,name:website_event_compassion.model_crm_event_compassion
 msgid "Compassion event"
 msgstr "Evénement Compassion"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "Compassion invites you to a meeting of the participants on"
+msgstr "Compassion vous invite à une rencontre des participants le"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_complete_stage_task_ids
@@ -1849,7 +1859,18 @@ msgstr ""
 "sont associés aux gangs."
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.view_invite_party_wizard
+msgid "Create Event"
+msgstr "Créer la rencontre"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_event_wordpress
+msgid "Create Information Party"
+msgstr "Inviter à une rencontre"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_create_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_create_uid
@@ -1861,6 +1882,7 @@ msgstr "Créé par"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_create_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_create_date
@@ -1892,6 +1914,21 @@ msgstr "Casier judiciaire transmis"
 #: model:ir.ui.view,arch_db:website_event_compassion.list
 msgid "Date"
 msgstr "Date"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_date_end
+msgid "Date end"
+msgstr "Date de fin"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_date_start
+msgid "Date start"
+msgstr "Date début"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "Date:"
+msgstr "Date :"
 
 #. module: website_event_compassion
 #: selection:event.registration,emergency_relation_type:0
@@ -1936,6 +1973,14 @@ msgstr "Did you speak about your trip with Compassion?"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.robots_disallow
+#| msgid ""
+#| "Disallow: /event/*/registration/*\n"
+#| "Disallow: /event/agreements/*\n"
+#| "Disallow: /event/payment/*\n"
+#| "Disallow: /event/*/down_payment\n"
+#| "Disallow: /event/*/medical_discharge\n"
+#| "Disallow: /event/*/medical_checklist\n"
+#| "Disallow: /event/*/confirmation"
 msgid ""
 "Disallow: /event/*/registration/*\n"
 "Disallow: /event/agreements/*\n"
@@ -1943,7 +1988,8 @@ msgid ""
 "Disallow: /event/*/down_payment\n"
 "Disallow: /event/*/medical_discharge\n"
 "Disallow: /event/*/medical_checklist\n"
-"Disallow: /event/*/confirmation"
+"Disallow: /event/*/confirmation\n"
+"Disallow: /event/*/meeting_*"
 msgstr ""
 "Disallow: /event/*/registration/*\n"
 "Disallow: /event/agreements/*\n"
@@ -1951,7 +1997,8 @@ msgstr ""
 "Disallow: /event/*/down_payment\n"
 "Disallow: /event/*/medical_discharge\n"
 "Disallow: /event/*/medical_checklist\n"
-"Disallow: /event/*/confirmation"
+"Disallow: /event/*/confirmation\n"
+"Disallow: /event/*/meeting_*"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_display_name
@@ -1967,6 +2014,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_travel_contract_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_trip_form_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_display_name
@@ -2231,6 +2279,7 @@ msgstr "Type d'évènement"
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_event_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration_event_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_event_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_event_id
 msgid "Event id"
 msgstr "Event id"
 
@@ -2556,6 +2605,11 @@ msgid "I want to share a double room with:"
 msgstr "J'aimerais partager une chambre double avec :"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "I will attend the meeting"
+msgstr "Je serai présent"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
 msgid ""
 "I will be careful about my appearance, language, action, to ensure that my "
@@ -2788,6 +2842,11 @@ msgstr ""
 "vérifications des antécédents ou contrôles de police lors de son embauche)."
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "I won't attend the meeting"
+msgstr "Je ne serai pas présent"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_id
@@ -2801,6 +2860,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_travel_contract_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_trip_form_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_id
@@ -2931,6 +2991,13 @@ msgid "Individual visit"
 msgstr "Visite individuelle"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_confirm
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_decline
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "Information meeting invitation"
+msgstr "Rencontre de préparation à votre voyage"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid ""
 "Introduce yourself and your family and ask questions about your sponsored "
@@ -2947,6 +3014,12 @@ msgid ""
 msgstr ""
 "Invitation to the ${object.get_objects().compassion_event_id.name} "
 "preparation meeting"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_crm_event_invite_participant_party_wizard
+#| msgid "Open event to participants wizard"
+msgid "Invite event participants to party wizard"
+msgstr "Invite event participants to party wizard"
 
 #. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_account_invoice
@@ -3035,6 +3108,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_travel_contract___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_trip_form___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage___last_update
@@ -3046,6 +3120,7 @@ msgstr "Dernière Modification le"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_write_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_write_uid
@@ -3057,6 +3132,7 @@ msgstr "Dernière mise à jour par"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_write_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_write_date
@@ -3075,6 +3151,16 @@ msgstr "Leave empty to make the category appear on all events"
 #: model:ir.model.fields,help:website_event_compassion.field_event_faq_event_type_ids
 msgid "Leave empty to make the question appear on all events"
 msgstr "Leave empty to make the question appear on all events"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_address_id
+msgid "Location"
+msgstr "Lieu"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "Location:"
+msgstr "Lieu :"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_mandatory
@@ -3149,7 +3235,7 @@ msgid "Missing"
 msgstr "Incomplet"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:213
+#: code:addons/website_event_compassion/models/event_registration.py:215
 #, python-format
 msgid "Missing wordpress_host in odoo config file"
 msgstr "Missing wordpress_host in odoo config file"
@@ -3230,6 +3316,11 @@ msgstr ""
 "votre prochaine lettre. Si vous effectuez une visite de son habitation ou "
 "s'il (elle) est accompagné(e) d'un proche, merci de demander l'autorisation "
 "de les prendre en photos."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "On this occasion, we will present you the work of Compassion"
+msgstr "A cette occasion, nous vous présenterons le travail de Compassion"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
@@ -3434,6 +3525,13 @@ msgstr ""
 #: model:survey.question,question:website_event_compassion.gpms_question_problems
 msgid "Please indicate any known health issue you have:"
 msgstr "Merci d'indiquer vos problèmes de santé connus :"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid ""
+"Please indicate whether or not your are attending this meeting. Thanks in "
+"advance!"
+msgstr "Merci d'indiquer si vous serez présent ou non à cette rencontre."
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/agreement_step2_forms.py:112
@@ -3858,7 +3956,7 @@ msgid "Survey count"
 msgstr "Survey count"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:398
+#: code:addons/website_event_compassion/models/event_registration.py:400
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_event_wordpress
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
 #, python-format
@@ -3903,6 +4001,17 @@ msgstr "Merci d'avoir lu et signé le contrat de voyage."
 #, python-format
 msgid "Thank you for reading the child protection charter carefully."
 msgstr "Merci d'avoir lu et signé la charte de protection de l'enfant."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_decline
+msgid ""
+"Thank you for taking time to respond to our invitation. You won't "
+"participate to our information meeting. If you have any questions regarding "
+"the trip, don't hesitate to"
+msgstr ""
+"Merci d'avoir pris le temps de répondre à notre invitation. Vous ne serez "
+"pas présent à notre rencontre. Si vous avez des questions particulières "
+"concernant votre voyage, n'hésitez pas à"
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/controllers/events_controller.py:232
@@ -4237,6 +4346,16 @@ msgid "Visible in Website"
 msgstr "Visible sur le site web"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_confirm
+msgid ""
+"We are glad to confirm your participation to our information meeting. We are "
+"looking forward to seeing you in"
+msgstr ""
+"Nous sommes ravis de confirmer votre inscription à la rencontre de "
+"préparation au voyage. Nous nous réjouissons de vous rencontrer à cette "
+"occasion à"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
 msgid "We are glad to confirm your registration to"
 msgstr "Nous sommes heureux de confirmer votre inscription -"
@@ -4529,6 +4648,15 @@ msgid "amount_raised"
 msgstr "amount_raised"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid ""
+"as well as the detailed program of the trip. There will also be a time for "
+"Questions &amp; Answers and an aperitif to get to know each other."
+msgstr ""
+"ainsi que le programme détaillé du voyage. Un temps de Questions & Réponses "
+"et un apéritif pour faire connaissance sont également prévus."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid "bring a dress for Sunday worship participation"
 msgstr "Emportez une robe pour la participation au culte dominical"
@@ -4610,6 +4738,7 @@ msgstr "Actions terminées"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.donation_failure
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_decline
 msgid "contact us"
 msgstr "prendre contact avec nous"
 
@@ -4662,7 +4791,7 @@ msgid "if you need any further assistance."
 msgstr "si vous avez des questions ou besoin d'assistance."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:541
+#: code:addons/website_event_compassion/models/event_registration.py:543
 #, python-format
 msgid "medical discharge.docx"
 msgstr "décharge médicale.docx"

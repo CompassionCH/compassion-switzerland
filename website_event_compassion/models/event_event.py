@@ -9,7 +9,7 @@
 ##############################################################################
 from datetime import datetime
 
-from odoo import models, fields
+from odoo import api, models, fields
 
 
 class Event(models.Model):
@@ -144,3 +144,15 @@ class Event(models.Model):
         :return: True
         """
         return True
+
+    @api.multi
+    def button_info_party(self):
+        return {
+            'name': 'Open event registrations',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'crm.event.invite.participant.party.wizard',
+            'context': self.env.context,
+            'target': 'new',
+        }

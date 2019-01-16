@@ -39,13 +39,13 @@ class Event(models.Model):
     )
     stage_id = fields.Many2one(
         'event.registration.stage', 'Stage', track_visibility='onchange',
-        index=True,
+        index=True, copy=False,
         domain="['|', ('event_type_id', '=', False),"
                "      ('event_type_id', '=', event_type_id)]",
         group_expand='_read_group_stage_ids',
         default=lambda r: r._default_stage()
     )
-    stage_date = fields.Date(default=fields.Date.today)
+    stage_date = fields.Date(default=fields.Date.today, copy=False)
     stage_task_ids = fields.Many2many(
         'event.registration.task', 'event_registration_stage_tasks',
         compute='_compute_stage_tasks'
@@ -61,7 +61,7 @@ class Event(models.Model):
              'current stage of his registration.')
     completed_task_ids = fields.Many2many(
         'event.registration.task', 'event_registration_completed_tasks',
-        string='Completed tasks',
+        string='Completed tasks', copy=False,
         help='This shows all tasks that the participant completed for his '
              'registration.')
     color = fields.Integer(compute='_compute_kanban_color')
@@ -88,7 +88,7 @@ class Event(models.Model):
     host_url = fields.Char(compute='_compute_host_url')
     wordpress_host = fields.Char(compute='_compute_wordpress_host')
     event_name = fields.Char(related='event_id.name')
-    uuid = fields.Char(default=lambda self: self._get_uuid())
+    uuid = fields.Char(default=lambda self: self._get_uuid(), copy=False)
     include_flight = fields.Boolean()
     double_room_person = fields.Char('Double room with')
 
@@ -123,12 +123,12 @@ class Event(models.Model):
     emergency_ok = fields.Boolean(compute='_compute_step2_tasks')
     criminal_record_uploaded = fields.Boolean(
         compute='_compute_step2_tasks')
-    criminal_record = fields.Binary(attachment=True)
-    medical_discharge = fields.Binary(attachment=True)
+    criminal_record = fields.Binary(attachment=True, copy=False)
+    medical_discharge = fields.Binary(attachment=True, copy=False)
     medical_survey_id = fields.Many2one(
-        'survey.user_input', 'Medical survey')
+        'survey.user_input', 'Medical survey', copy=False)
     requires_medical_discharge = fields.Boolean(
-        compute='_compute_requires_medical_discharge', store=True
+        compute='_compute_requires_medical_discharge', store=True, copy=False
     )
 
     # Travel info
@@ -154,8 +154,10 @@ class Event(models.Model):
 
     # Payment fields
     ################
-    down_payment_id = fields.Many2one('account.invoice', 'Down payment')
-    group_visit_invoice_id = fields.Many2one('account.invoice', 'Trip invoice')
+    down_payment_id = fields.Many2one(
+        'account.invoice', 'Down payment', copy=False)
+    group_visit_invoice_id = fields.Many2one(
+        'account.invoice', 'Trip invoice', copy=False)
 
     survey_count = fields.Integer(compute='_compute_survey_count')
 
