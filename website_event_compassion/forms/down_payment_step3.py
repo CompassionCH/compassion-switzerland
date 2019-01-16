@@ -74,9 +74,17 @@ if not testing:
             return self.partner_id.sudo().name
 
         def _form_load_amount(self, fname, field, value, **req_values):
-            payement = self.registration_id.sudo().down_payment_id.\
-                amount_total
-            return payement * 1.019
+            down_payment = self.registration_id.sudo().down_payment_id
+            total_price = down_payment.amount_total
+            tax = 1.0
+            account = self.env['account.account'].sudo().search([
+                ('code', '=', '4200')
+            ])
+            existing_tax = down_payment.invoice_line_ids.filtered(
+                lambda l: l.account_id == account)
+            if not existing_tax:
+                tax = 1.019     # This is the tax for online payment
+            return total_price * tax
 
         def form_before_create_or_update(self, values, extra_values):
             """ Inject invoice values """
@@ -88,19 +96,31 @@ if not testing:
             # modifiy and add line
             down_payment = self.registration_id.sudo().\
                 down_payment_id
-            down_payment.action_invoice_cancel()
-            down_payment.action_invoice_draft()
+            # Admin
+            analytic_account = self.env['account.analytic.account']\
+                .sudo().search([
+                    ('code', '=', 'ATT_ADM')
+                ])
+            # Financial Expenses
+            account = self.env['account.account'].sudo().search([
+                ('code', '=', '4200')
+            ])
+            existing_tax = down_payment.invoice_line_ids.filtered(
+                lambda l: l.account_id == account)
+            if not existing_tax:
+                down_payment.action_invoice_cancel()
+                down_payment.action_invoice_draft()
 
-            down_payment.write({
-                'invoice_line_ids': [(0, 0, {
-                    'quantity': 1.0,
-                    'price_unit': down_payment.amount_total * 0.019,
-                    'account_id': 2851,  # Financial Expenses
-                    'name': 'Taxe',
-                    'account_analytic_id': 465,  # Admin
-                })]
-            })
-            down_payment.action_invoice_open()
+                down_payment.write({
+                    'invoice_line_ids': [(0, 0, {
+                        'quantity': 1.0,
+                        'price_unit': down_payment.amount_total * 0.019,
+                        'account_id': account.id,
+                        'name': 'Credit card tax',
+                        'account_analytic_id': analytic_account.id,
+                    })]
+                })
+                down_payment.action_invoice_open()
 
         def _edit_transaction_values(self, tx_values, form_vals):
             """ Add registration link and change reference. """
