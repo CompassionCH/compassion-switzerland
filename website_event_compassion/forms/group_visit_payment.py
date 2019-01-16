@@ -74,8 +74,8 @@ if not testing:
             return self.partner_id.sudo().name
 
         def _form_load_amount(self, fname, field, value, **req_values):
-            return self.registration_id.sudo()\
-                .group_visit_invoice_id.amount_total
+            down_payment = self.registration_id.sudo().group_visit_invoice_id.amount_total
+            return down_payment * 1.019
 
         def form_before_create_or_update(self, values, extra_values):
             """ Inject invoice values """
@@ -84,8 +84,21 @@ if not testing:
             values['partner_id'] = self.partner_id.id
 
         def _form_create(self, values):
-            # Nothing to create
-            pass
+            # modifiy and add line
+            group_visit_invoice = self.registration_id.sudo().group_visit_invoice_id
+            group_visit_invoice.action_invoice_cancel()
+            group_visit_invoice.action_invoice_draft()
+
+            self.registration_id.sudo().group_visit_invoice_id.write({
+                'invoice_line_ids': [(0, 0, {
+                    'quantity': 1.0,
+                    'price_unit': group_visit_invoice.aumout_total * 0.019,
+                    'account_id': 2851,  # Financial Expenses
+                    'name': 'Taxe',
+                    'account_analytic_id': 465,  # Admin
+                })]
+            })
+            group_visit_invoice.action_invoice_open()
 
         def _edit_transaction_values(self, tx_values, form_vals):
             """ Add registration link and change reference. """
