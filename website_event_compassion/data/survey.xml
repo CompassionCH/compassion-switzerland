@@ -48,5 +48,19 @@
             <field name="type">free_text</field>
             <field name="page_id" ref="gpms_page1"/>
         </record>
+
+         <!-- Group visit feedback -->
+        <record id="group_visit_feedback_survey" model="survey.survey">
+            <field name="title">Feedback survey</field>
+        </record>
+        <record id="gpfs_page1" model="survey.page">
+            <field name="title">Trip Feedback</field>
+            <field name="survey_id" ref="group_visit_feedback_survey"/>
+        </record>
+        <!-- Questions -->
+        <record id="gpfs_first_question" model="survey.question">
+            <field name="question">How was your trip:</field>
+            <field name="page_id" ref="gpfs_page1"/>
+        </record>
     </data>
 </odoo>
