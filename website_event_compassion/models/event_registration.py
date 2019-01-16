@@ -127,6 +127,8 @@ class Event(models.Model):
     medical_discharge = fields.Binary(attachment=True, copy=False)
     medical_survey_id = fields.Many2one(
         'survey.user_input', 'Medical survey', copy=False)
+    feedback_survey_id = fields.Many2one(
+        'survey.user_input', 'Feedback survey', copy=False)
     requires_medical_discharge = fields.Boolean(
         compute='_compute_requires_medical_discharge', store=True, copy=False
     )
@@ -342,16 +344,17 @@ class Event(models.Model):
         if 'stage_id' in vals:
             vals['stage_date'] = fields.Date.today()
         res = super(Event, self).write(vals)
+        module = 'website_event_compassion.'
         # Push registration to next stage if all tasks are complete
         if 'completed_task_ids' in vals:
             for registration in self:
                 if not registration.incomplete_task_ids:
                     registration.next_stage()
-                if 'stage_id' in vals and vals['stage_id'] == self.env.ref(
-                        'website_event_compassion.stage_all_attended').id:
-                    if registration.event_id.event_type_id.name == \
-                            u'Group visit':
-                        registration.prepare_feedback_survey()
+                if vals.get('stage_id') == self.env.ref(
+                        module + 'stage_all_attended'
+                ).id and registration.event_type_id == self.env.ref(
+                        module + 'event_type_group_visit'):
+                    registration.prepare_feedback_survey()
         return res
 
     @api.model
@@ -519,7 +522,10 @@ class Event(models.Model):
 
     def prepare_medical_survey(self):
         # Attach medical survey for user
+        self.ensure_one()
         survey = self.event_id.medical_survey_id
+        if not survey:
+            return
         local_context = survey.action_send_survey().get('context')
         wizard = self.env['survey.mail.compose.message']\
             .with_context(local_context).create({
@@ -534,8 +540,11 @@ class Event(models.Model):
         ])
 
     def prepare_feedback_survey(self):
-        # Attach medical survey for user
+        # Attach feedback survey for user
+        self.ensure_one()
         survey = self.event_id.feedback_survey_id
+        if not survey:
+            return
         local_context = survey.action_send_survey().get('context')
         wizard = self.env['survey.mail.compose.message']\
             .with_context(local_context).create({
