@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="group_visit_practical_info" name="Group Visit Practical info">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
+            <t t-set="title" t-value="event.name"/>
+            <div id="wrap">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-set="additional_title">- Practical information</t>
+                <t t-call="website_event_compassion.event_header"/>
+
+                <div class="container event_compassion" id="group_visit_practical_info">
+                    <div class="row mt32 mb32">
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-sm-4 mb24">
+                                    <div id="vertical-menu" class="btn-group-vertical btn-block mb16" role="group" aria-label="menu">
+                                        <button id="meet-button" type="button" class="btn btn-default btn-primary">Meeting your sponsored child</button>
+                                        <button id="program-button" type="button" class="btn btn-default">The Compassion programs</button>
+                                        <button id="health-button" type="button" class="btn btn-default">Health and nutrition tips</button>
+                                        <button id="luggage-button" type="button" class="btn btn-default">Pack your luggage</button>
+                                    </div>
+                                    <a t-att-href="event.country_id.description_url" class="btn btn-default btn-block">More about <t t-esc="event.country_id.name"/></a>
+                                </div>
+                                <div class="col-sm-8" id="practical_content">
+                                    <div id="meeting">
+                                        <p>During this group trip, you will meet your sponsored child on a common day where all the sponsored children meet with the sponsors.</p>
+                                        <p>Your sponsored child may feel overwhelmed or intimidated at the beginning of your visit. But a few conversation starts and one or two fun activities can help you break the ice!</p>
+                                        <p>You will have a translator who will really allow you to know more about your sponsored child and to communicate with him/her.</p>
+                                        <p>Don't be surprised if your sponsored child has a gift for you too! You are a special person to him. </p>
+                                        <p>On site, do not hesitate to take pictures. This way, you will return with unforgettable memories. And you can send him 1-2 photos in your next letter. If you are visiting his or her home or if he or she is accompanied by a relative, please ask permission to take pictures of them.</p>
+                                        <h3>Practical ideas to promote contact with your sponsored child</h3>
+                                        <p>Here are some questions to ask him or ideas to get started:</p>
+                                        <ul>
+                                            <li>Introduce yourself and your family and ask questions about your sponsored child's family.</li>
+                                            <li>Do you like school?</li>
+                                            <li>What classes do you like in school?</li>
+                                            <li>Who are your best friends?</li>
+                                            <li>What sports do you practice and what sport do you practice?</li>
+                                            <li>What is your favorite song?</li>
+                                            <li>Do you have a favorite Bible verse? Tell him what's yours</li>
+                                            <li>What do you like to eat? Tell him what you like to eat.</li>
+                                            <li>Talk about the letters you received and the drawings</li>
+                                        </ul>
+                                        <p>Some activities to share:</p>
+                                        <ul>
+                                            <li>Bring pictures of your family, friends and pets, and share them with your sponsored child.</li>
+                                            <li> Bring copies of photos of your sponsored child or copies of letters you received from him or her.</li>
+                                            <li>Play together - soccer ball, frisbee and ropes are fun!</li>
+                                            <li>Teach him a song or ask him to teach you one in his language</li>
+                                            <li>Draw drawings or do crafts together.</li>
+                                            <li>Teach your sponsored child a Bible story.</li>
+                                            <li>Bring nail polish - most little girls will love having their nails painted!</li>
+                                        </ul>
+                                        <h3>What you can bring to your sponsored child</h3>
+                                        <p>Your visit in itself is the most beautiful gift you can offer to these children and to the staff of the projects you will visit. Take time with your sponsored child, get to know his or her family, greet his or her parents, teachers and school officials. You will learn a lot about your sponsored child, and this will help you to pray more effectively. Prayer is an important gift not to be forgotten!</p>
+                                        <p>And if you want to bring gifts, it's also possible!</p>
+                                        <p>If you want to bring a gift to your sponsored child, think about practical things, not just toys. These children live in countries where the needs are immense. As a result, "luxury" toys do not really find their place there. Here are some gift suggestions:</p>
+                                        <ul>
+                                            <li>A football</li>
+                                            <li>T-shirts</li>
+                                            <li>Clothes</li>
+                                            <li>Bars, ribbons or hair elastics</li>
+                                            <li>Pens, coloured pencils, notebooks</li>
+                                            <li>Shoes</li>
+                                            <li>Books, a Bible, a dictionary</li>
+                                            <li>A doll</li>
+                                            <li>A recent photo of your family or a folder with photos of you, your family, your region...</li>
+                                        </ul>
+                                        <p>But be careful, don't give too many gifts. Unintentionally, you may embarrass the child and his or her family. When giving, the recipient likes to be able to give something in return, whether it is a smile, a song, a hug, a cup of coffee or an egg laid this morning by the family hen. In addition, too many gifts can lead to jealousy between the sponsored children. Two to five well-chosen gifts will be a real joy for your sponsored child and a wonderful memory of your visit to him/her.</p>
+                                        <p>Think about the other children in the family. Because families live together and share everything, the gifts you offer will be a surprise for the whole family. You can bring chewing gum, peanuts or candy to hand out. Or you can choose to offer a gift for everyone, a sheet, towel or even a pig or goat. Ask the Compassionate Caregivers, they will help you.</p>
+                                        <p>One more thing, don't promise new gifts. It is better to identify the child's needs and make a gift with a donation to the child once you are back in Switzerland. But don't tell the child about it on the spot. Too many children are still waiting for a broken promise.</p>
+                                        <p>Finally, please be aware that it is not permitted to make cash donations to the child and his or her family, or to Compassion staff members on site.</p>
+                                    </div>
+                                    <div id="programs" style="display: none">
+                                        <p>During an organized trip you will discover the Compassion program. You will have the opportunity to meet the people working in the projects. You will be able to ask your questions and participate in activities typical of the projects.
+Compassion has three distinct programs:</p>
+                                        <h3>Mothers and child survival centre</h3>
+                                        <p>Millions of children die every year in their first year of life. The majority of these deaths could be prevented. Compassion works with pregnant women or women who have just given birth by offering them medical follow-up, maternity, nutrition and hygiene training until the baby reaches the age of one year.</p>
+                                        <h3>Individual sponsorship</h3>
+                                        <p>From the age of 2 years, children enter the individual sponsorship program.
+                                            <br/>
+The staff of the Compassion projects on site pay particular attention to each child so that they can develop in all the different aspects of their lives - cognitively, physically and socially - while discovering God's love for through the Gospel.
+                                            <br/>
+Children regularly visit Compassion's project to follow activities. The programs are adapted to the ages of the children.
+                                            <br/>
+From the age of 12, training and personalised academic support are provided according to the child's potential and talents.
+                                            <br/>
+Our goal and prayer is that each youth completes the Compassion program with knowledge, skills, abilities, aptitudes and behaviours that enable them to succeed professionally and have a sustainable way of supporting themselves. Sponsorship ends in principle when the child has completed vocational training, but at the latest when he or she reaches the age of 22.</p>
+                                        <h3>Specific projects</h3>
+                                        <p>Beyond the sponsorship that supports a child's development, Compassion also invests in the child's living environment. In particular, by building infrastructures for access to drinking water, toilets and water filters. By covering major medical expenses during major health problems. By participating in reconstruction assistance or support during natural disasters.</p>
+                                    </div>
+                                    <div id="health" style="display: none">
+                                        <p>Knowing the country you are travelling to is essential for a truly enjoyable experience. Here is some practical and useful information.</p>
+                                        <h3>Food</h3>
+                                        <p>It is likely that you will be invited to share a meal at the Compassion project. The general rule is to accept and taste some of the food offered. Compassion Caregivers can help you choose the safest food from a health perspective. But for health reasons, be careful to respect the following rules:</p>
+                                        <ul>
+                                            <li>Do not eat raw vegetables or fruit unless you can peel them yourself. Avoid salads especially.</li>
+                                            <li>Do not eat raw meat or fish. Avoid seafood too.</li>
+                                            <li>Avoid eating dairy products in areas where hygiene conditions are poor (cream ice cream, fresh cheese or butter).</li>
+                                            <li>Do not eat food sold on the streets. </li>
+                                            <li>Eat only well-cooked and hot foods. </li>
+                                        </ul>
+                                        <h3>Beverages</h3>
+                                        <p>Drink only clean water from sealed bottles. When buying a bottle, check that it is sealed. Gently refuse open bottles.</p>
+                                        <p>If you travel to rural areas, take bottled water with you. It is often difficult to find stores that sell water.</p>
+                                        <p>Alternatives to drinking water:</p>
+                                        <ul>
+                                            <li>Non-alcoholic drinks in bottles or cans (Coke, Sprite, Fanta...)</li>
+                                            <li>Thermal drinks prepared with boiling water (tea, coffee, soup)</li>
+                                        </ul>
+                                        <p>Only accept drinks served in a bottle. Refuse any drink containing ice cubes.</p>
+                                        <p>To brush your teeth, also use bottled drinking water. Tap water could be unsafe.</p>
+                                        <h3>Health</h3>
+                                        <ul>
+                                            <li>Consider taking a mosquito spray.</li>
+                                            <li>Drink plenty of water.</li>
+                                            <li>Do not expose yourself to the sun for too long. With the sun, heat and climate change, the risk of dehydration increases. Protect your head from the sun. Think about sunscreen.</li>
+                                        </ul>
+                                        <h3>Money</h3>
+                                        <p>Keep your money in safe place. Do not take too much money with you when visiting. Ask the hotel if there is a safe where you can leave your money.</p>
+                                        <h3>Photos</h3>
+                                        <p>If you want to photograph a person, it is advisable to obtain their prior consent. Ask if you dare to photograph military or state buildings.</p>
+                                        <h3>Demonstration of affection</h3>
+                                        <p>Do not kiss in public, especially if you are visiting a Muslim country</p>
+                                        <h3>Religion</h3>
+                                        <p>Under no circumstances should you criticize the Muslim religion if you are in Muslim territory.</p>
+                                    </div>
+                                    <div id="luggage" style="display: none">
+                                        <p>Don't forget to bring with you:</p>
+                                        <ul>
+                                            <li>Your passport</li>
+                                            <li>Your toiletries</li>
+                                            <li>Your vaccination booklet</li>
+                                            <li>Anti-mosquito</li>
+                                            <li>Your flight tickets</li>
+                                            <li>Suitable shoes for walking on damaged roads</li>
+                                            <li>Personal medication</li>
+                                            <li>A sweater or jacket for cool evenings</li>
+                                            <li>An alarm clock</li>
+                                            <li>Sunglasses, sunscreen, cap or hat</li>
+                                            <li>Adapter for electrical outlets</li>
+                                            <li>Some cash</li>
+                                            <li>A book, your bible</li>
+                                            <li>A gift for your sponsored child</li>
+                                        </ul>
+                                        <h3>Clothing</h3>
+                                        <p>For clothing, please take into consideration the cultural gap that may exist with Switzerland.</p>
+                                        <ul>
+                                            <li>Do not wear t-shirts with overly conspicuous and blatant patterns.</li>
+                                            <li>Cover up any tattoos. Indeed, in some countries, the latter are associated with gangs.</li>
+                                            <li>Remove piercings that are not covered by clothing</li>
+                                        </ul>
+                                        <p>For women:</p>
+                                        <ul>
+                                            <li>prefer clothes that cover the knees, stomach and shoulders</li>
+                                            <li>bring a dress for Sunday worship participation</li>
+                                            <li>don't wear too much jewelry</li>
+                                        </ul>
+                                        <p>For men:</p>
+                                        <ul>
+                                            <li>Outside the Compassion projects, you can wear tourist clothes (basket t-shirts, shorts...) </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <t t-call="website_event_compassion.event_basic_side_info"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+
+        </t>
+    </template>
+
+</odoo>

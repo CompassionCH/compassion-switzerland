@@ -139,6 +139,17 @@ class GroupVisitController(EventsController):
         return request.render(
             'website_event_compassion.event_full_page_form', values)
 
+    @http.route('/event/<model("crm.event.compassion"):event>/'
+                'practical_information',
+                auth='public', website=True)
+    def group_visit_practical_info(self, event, **kwargs):
+        values = kwargs.copy()
+        values.pop('edit_translations', False)
+        values['event'] = event
+        return request.render(
+            'website_event_compassion.group_visit_practical_info', values
+        )
+
     def _get_group_visit_page_values(self, reg_uid, form_model=None, **kwargs):
         """
         Get the default values for rendering a web page of group visit.
