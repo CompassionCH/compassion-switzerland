@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="group_visit_party_invitation" name="Group Visit Info Party invitation">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
+            <t t-set="title" t-value="event.name"/>
+            <div id="wrap">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-call="website_event_compassion.event_header"/>
+
+                <div class="container event_compassion" id="group_visit_medical_info">
+                    <div class="row mb32">
+                        <div class="col-md-9">
+                            <h2>Information meeting invitation</h2>
+                            <p>Compassion invites you to a meeting of the participants on <t t-esc="event.get_date('start_date', 'date_full')"/>.</p>
+                            <p>On this occasion, we will present you the work of Compassion <t t-esc="event.country_id.preposition"/> <t t-esc="event.country_id.name"/> as well as the detailed program of the trip. There will also be a time for Questions &amp; Answers and an aperitif to get to know each other.</p>
+                            <div class="jumbotron mt24">
+                                <table style="border: 0px;">
+                                    <tr>
+                                        <td style="width: 50%">Date:</td>
+                                        <td style="width: 50%" t-esc="event.get_date('start_date', 'date_full')"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 50%">Location:</td>
+                                        <t t-set="location" t-value="registration.event_id.address_id.sudo()"/>
+                                        <td style="width: 50%"><t t-esc="location.street"/>, <t t-esc="location.zip"/> <t t-esc="location.city"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p class="mt24">Please indicate whether or not your are attending this meeting. Thanks in advance!</p>
+                            <div class="row mt24">
+                                <div class="col-sm-2"/>
+                                <div class="col-sm-4">
+                                    <a t-attf-href="/event/{{registration.uuid}}/meeting_confirm" class="btn btn-primary btn-block mb24" role="button">I will attend the meeting</a>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a t-attf-href="/event/{{registration.uuid}}/meeting_decline" class="btn btn-danger btn-block" role="button">I won't attend the meeting</a>
+                                </div>
+                                <div class="col-sm-2"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <t t-call="website_event_compassion.event_basic_side_info"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+
+        </t>
+    </template>
+
+    <template id="group_visit_party_confirm" name="Group Visit Info Party confirmed">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
+            <t t-set="title" t-value="event.name"/>
+            <div id="wrap">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-call="website_event_compassion.event_header"/>
+
+                <div class="container event_compassion" id="group_visit_medical_info">
+                    <div class="row mb32">
+                        <div class="col-md-9">
+                            <h2>Information meeting invitation</h2>
+                            <p class="mt32">
+                                We are glad to confirm your participation to our information meeting. We are looking forward to seeing you in <t t-esc="registration.event_id.address_id.sudo().city"/>!
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <t t-call="website_event_compassion.event_basic_side_info"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+
+        </t>
+    </template>
+
+    <template id="group_visit_party_decline" name="Group Visit Info Party declined">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
+            <t t-set="title" t-value="event.name"/>
+            <div id="wrap">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+                <t t-call="website_event_compassion.event_header"/>
+
+                <div class="container event_compassion" id="group_visit_medical_info">
+                    <div class="row mb32">
+                        <div class="col-md-9">
+                            <h2>Information meeting invitation</h2>
+                            <p class="mt32">
+                                Thank you for taking time to respond to our invitation. You won't participate to our information meeting. If you have any questions regarding the trip, don't hesitate to <a href="mailto:info@compassion.ch">contact us</a>.
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <t t-call="website_event_compassion.event_basic_side_info"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+
+        </t>
+    </template>
+
+</odoo>

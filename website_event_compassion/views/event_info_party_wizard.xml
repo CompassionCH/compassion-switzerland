@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Add text for donation receipts -->
+    <record id="view_invite_party_wizard" model="ir.ui.view">
+        <field name="name">crm.event.invite.participant.party.wizard.form</field>
+        <field name="model">crm.event.invite.participant.party.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="date_start"/>
+                    </group>
+                    <group>
+                        <field name="date_end"/>
+                    </group>
+                    <group>
+                        <field name="address_id" context="{'show_address': 1}" options='{"always_reload": True}'/>
+                    </group>
+                </group>
+                <group>
+                    <field name="event_id" invisible="1"/>
+                    <field name="registration_ids" domain="[('event_id', '=', event_id)]">
+                        <tree>
+                            <field name="partner_id"/>
+                            <field name="email"/>
+                            <field name="stage_id"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button name="open_event" string="Create Event" class="oe_highlight" type="object"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

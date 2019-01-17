@@ -48,3 +48,4 @@ class ResCountry(models.Model):
 
     vaccine_ids = fields.One2many(
         'res.country.vaccine', 'country_id', 'Vaccines')
+    description_url = fields.Char(translate=True)

@@ -44,5 +44,17 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <record id="res_country_view" model="ir.ui.view">
+        <field name="name">res.country.event.view</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_form"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="description_url"/>
+            </field>
+        </field>
+    </record>
+
     <menuitem id="menu_res_country_vaccine" name="Vaccines" sequence="4" action="action_res_country_vaccine" parent="event.menu_event_configuration"/>
 </odoo>

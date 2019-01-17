@@ -139,6 +139,56 @@ class GroupVisitController(EventsController):
         return request.render(
             'website_event_compassion.event_full_page_form', values)
 
+    @http.route('/event/<model("crm.event.compassion"):event>/'
+                'practical_information',
+                auth='public', website=True)
+    def group_visit_practical_info(self, event, **kwargs):
+        values = kwargs.copy()
+        values.pop('edit_translations', False)
+        values['event'] = event
+        return request.render(
+            'website_event_compassion.group_visit_practical_info', values
+        )
+
+    @http.route('/event/<string:reg_uid>/meeting_invitation',
+                auth='public', website=True)
+    def party_invitation(self, reg_uid, **kwargs):
+        values = self._get_group_visit_page_values(
+            reg_uid, 'event.registration', **kwargs)
+        if not isinstance(values, dict):
+            # values can be a redirect in case of error
+            return values
+        return request.render(
+            'website_event_compassion.group_visit_party_invitation', values)
+
+    @http.route('/event/<string:reg_uid>/meeting_confirm',
+                auth='public', website=True)
+    def meeting_confirm(self, reg_uid, **kwargs):
+        values = self._get_group_visit_page_values(
+            reg_uid, 'event.registration', **kwargs)
+        if not isinstance(values, dict):
+            # values can be a redirect in case of error
+            return values
+        registration = values.get('registration').sudo()
+        registration.confirm_registration()
+        registration.stage_id = request.env.ref(
+            'website_event_compassion.stage_all_confirmed')
+        return request.render(
+            'website_event_compassion.group_visit_party_confirm', values)
+
+    @http.route('/event/<string:reg_uid>/meeting_decline',
+                auth='public', website=True)
+    def meeting_decline(self, reg_uid, **kwargs):
+        values = self._get_group_visit_page_values(
+            reg_uid, 'event.registration', **kwargs)
+        if not isinstance(values, dict):
+            # values can be a redirect in case of error
+            return values
+        registration = values.get('registration').sudo()
+        registration.button_reg_cancel()
+        return request.render(
+            'website_event_compassion.group_visit_party_decline', values)
+
     def _get_group_visit_page_values(self, reg_uid, form_model=None, **kwargs):
         """
         Get the default values for rendering a web page of group visit.
