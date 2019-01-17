@@ -4,6 +4,8 @@
 import logging
 from odoo import api, models
 
+from odoo.addons.auth_signup.models.res_partner import now
+
 _logger = logging.getLogger(__name__)
 
 
@@ -17,6 +19,9 @@ class ResUsers(models.Model):
         if create_mode:
             super(ResUsers, self).action_reset_password()
         else:
+            expiration = now(days=+1)
+            self.mapped('partner_id').signup_prepare(
+                signup_type="reset", expiration=expiration)
             config = self.env.ref(
                 'partner_communication_switzerland.reset_password_email')
             for user in self:
