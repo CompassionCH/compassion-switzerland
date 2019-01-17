@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-16 13:59+0000\n"
-"PO-Revision-Date: 2019-01-16 15:06+0100\n"
+"POT-Creation-Date: 2019-01-16 15:19+0000\n"
+"PO-Revision-Date: 2019-01-17 08:23+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -1502,6 +1502,12 @@ msgstr ""
 "votre famille, votre région…"
 
 #. module: website_event_compassion
+#: model:survey.survey,thank_you_message:website_event_compassion.group_visit_feedback_survey
+msgid "A small explanation of this great<br>feature, in clear words."
+msgstr ""
+"Une petite explication de cette super<br/>fonctionnalité, en quelques mots."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid "A sweater or jacket for cool evenings"
 msgstr "Un pull ou une veste pour les soirées fraîches."
@@ -1511,6 +1517,11 @@ msgstr "Un pull ou une veste pour les soirées fraîches."
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_type_accepts_registrations
 msgid "Accepts registrations"
 msgstr "Ouvert aux participants"
+
+#. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpfs_question_accommodations
+msgid "Accommodations:"
+msgstr "Hébergements :"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_fundraising
@@ -1585,6 +1596,11 @@ msgid "Applies to"
 msgstr "S'applique à"
 
 #. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpfs_question_preparation
+msgid "Assistance in preparing the trip:"
+msgstr "Accompagnement de la préparation du voyage :"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_registration_task_stage_id
 msgid "Associate this task to this registration stage."
 msgstr "Associate this task to this registration stage."
@@ -1595,6 +1611,17 @@ msgid "Attended"
 msgstr "Présent"
 
 #. module: website_event_compassion
+#: model:survey.label,value:website_event_compassion.gpfs_accommodations_3
+#: model:survey.label,value:website_event_compassion.gpfs_contact_3
+#: model:survey.label,value:website_event_compassion.gpfs_food_3
+#: model:survey.label,value:website_event_compassion.gpfs_meeting_child_3
+#: model:survey.label,value:website_event_compassion.gpfs_ministry_3
+#: model:survey.label,value:website_event_compassion.gpfs_preparation_3
+#: model:survey.label,value:website_event_compassion.gpfs_transport_3
+msgid "Average"
+msgstr "Moyen"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid ""
 "Avoid eating dairy products in areas where hygiene conditions are poor "
@@ -1602,6 +1629,17 @@ msgid ""
 msgstr ""
 "Evitez de manger des produits laitiers dans les régions où les conditions "
 "d’hygiène sont mauvaises (glaces à la crème, fromage frais ou beurre)."
+
+#. module: website_event_compassion
+#: model:survey.label,value:website_event_compassion.gpfs_accommodations_1
+#: model:survey.label,value:website_event_compassion.gpfs_contact_1
+#: model:survey.label,value:website_event_compassion.gpfs_food_1
+#: model:survey.label,value:website_event_compassion.gpfs_meeting_child_1
+#: model:survey.label,value:website_event_compassion.gpfs_ministry_1
+#: model:survey.label,value:website_event_compassion.gpfs_preparation_1
+#: model:survey.label,value:website_event_compassion.gpfs_transport_1
+msgid "Bad"
+msgstr "Mauvais"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_picture_1
@@ -1764,6 +1802,17 @@ msgid "Comments"
 msgstr "Comments"
 
 #. module: website_event_compassion
+#: model:survey.question,comments_message:website_event_compassion.gpfs_question_accommodations
+#: model:survey.question,comments_message:website_event_compassion.gpfs_question_contact
+#: model:survey.question,comments_message:website_event_compassion.gpfs_question_food
+#: model:survey.question,comments_message:website_event_compassion.gpfs_question_meeting_child
+#: model:survey.question,comments_message:website_event_compassion.gpfs_question_ministry
+#: model:survey.question,comments_message:website_event_compassion.gpfs_question_preparation
+#: model:survey.question,comments_message:website_event_compassion.gpfs_question_transport
+msgid "Comments:"
+msgstr "Commentaires :"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_mail_communication_id
 msgid "Communication"
 msgstr "Communication"
@@ -1827,6 +1876,11 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid "Consider taking a mosquito spray."
 msgstr "Pensez à prendre un spray contre les moustiques."
+
+#. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpfs_question_contact
+msgid "Contacts with Compassion employees in the country:"
+msgstr "Contacts avec les collaborateurs de Compassion dans le pays :"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
@@ -1973,14 +2027,6 @@ msgstr "Did you speak about your trip with Compassion?"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.robots_disallow
-#| msgid ""
-#| "Disallow: /event/*/registration/*\n"
-#| "Disallow: /event/agreements/*\n"
-#| "Disallow: /event/payment/*\n"
-#| "Disallow: /event/*/down_payment\n"
-#| "Disallow: /event/*/medical_discharge\n"
-#| "Disallow: /event/*/medical_checklist\n"
-#| "Disallow: /event/*/confirmation"
 msgid ""
 "Disallow: /event/*/registration/*\n"
 "Disallow: /event/agreements/*\n"
@@ -2311,9 +2357,31 @@ msgid "Events"
 msgstr "Évènements"
 
 #. module: website_event_compassion
+#: model:survey.label,value:website_event_compassion.gpfs_accommodations_5
+#: model:survey.label,value:website_event_compassion.gpfs_contact_5
+#: model:survey.label,value:website_event_compassion.gpfs_food_5
+#: model:survey.label,value:website_event_compassion.gpfs_meeting_child_5
+#: model:survey.label,value:website_event_compassion.gpfs_ministry_5
+#: model:survey.label,value:website_event_compassion.gpfs_preparation_5
+#: model:survey.label,value:website_event_compassion.gpfs_transport_5
+msgid "Excellent"
+msgstr "Très bien"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
 msgid "Expected/Acceptable Behaviors"
 msgstr "Comportements attendus/acceptables"
+
+#. module: website_event_compassion
+#: model:survey.label,value:website_event_compassion.gpfs_accommodations_4
+#: model:survey.label,value:website_event_compassion.gpfs_contact_4
+#: model:survey.label,value:website_event_compassion.gpfs_food_4
+#: model:survey.label,value:website_event_compassion.gpfs_meeting_child_4
+#: model:survey.label,value:website_event_compassion.gpfs_ministry_4
+#: model:survey.label,value:website_event_compassion.gpfs_preparation_4
+#: model:survey.label,value:website_event_compassion.gpfs_transport_4
+msgid "Fairly good"
+msgstr "Assez bon"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_faq_category_ids
@@ -2329,6 +2397,11 @@ msgstr "Père"
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_feedback_survey_id
 msgid "Feedback Survey"
 msgstr "S"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_feedback_survey_id
+msgid "Feedback survey"
+msgstr "Feedback"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_filename_1
@@ -2355,6 +2428,11 @@ msgstr ""
 "argent à l’enfant et à sa famille, ni aux membres du personnel de Compassion."
 
 #. module: website_event_compassion
+#: model:survey.survey,thank_you_message:website_event_compassion.group_visit_feedback_survey
+msgid "First Feature"
+msgstr "Première fonctionnalité"
+
+#. module: website_event_compassion
 #: model:product.template,name:website_event_compassion.product_template_flight
 msgid "Flight"
 msgstr "Vol"
@@ -2373,6 +2451,11 @@ msgstr "Folded in Pipeline"
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid "Food"
 msgstr "Alimentation"
+
+#. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpfs_question_food
+msgid "Food:"
+msgstr "Alimentation :"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
@@ -2479,6 +2562,11 @@ msgstr "Visite de groupe"
 #: model:event.type,name:website_event_compassion.event_type_group_visit
 msgid "Group visit"
 msgstr "Visite de groupe"
+
+#. module: website_event_compassion
+#: model:survey.survey,title:website_event_compassion.group_visit_feedback_survey
+msgid "Group visit feedback survey"
+msgstr "Feedback voyage de groupe"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_has_signed_child_protection
@@ -2908,6 +2996,7 @@ msgstr ""
 "people can donate."
 
 #. module: website_event_compassion
+#: model:survey.question,comments_message:website_event_compassion.gpfs_question_proposition
 #: model:survey.question,comments_message:website_event_compassion.gpms_question_allergies
 #: model:survey.question,comments_message:website_event_compassion.gpms_question_diet
 #: model:survey.question,comments_message:website_event_compassion.gpms_question_problems
@@ -3017,7 +3106,6 @@ msgstr ""
 
 #. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_crm_event_invite_participant_party_wizard
-#| msgid "Open event to participants wizard"
 msgid "Invite event participants to party wizard"
 msgstr "Invite event participants to party wizard"
 
@@ -3202,6 +3290,11 @@ msgid "Medical survey"
 msgstr "Questionnaire médical"
 
 #. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpfs_question_meeting_child
+msgid "Meeting with your sponsored child:"
+msgstr "Rencontre avec votre filleul(e) :"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid "Meeting your sponsored child"
 msgstr "Rencontrer votre filleul(e)"
@@ -3235,7 +3328,7 @@ msgid "Missing"
 msgstr "Incomplet"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:215
+#: code:addons/website_event_compassion/models/event_registration.py:217
 #, python-format
 msgid "Missing wordpress_host in odoo config file"
 msgstr "Missing wordpress_host in odoo config file"
@@ -3375,6 +3468,11 @@ msgid ""
 msgstr ""
 "N’acceptez que les boissons servies dans une bouteille. Refusez toute "
 "boisson contenant des glaçons."
+
+#. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpfs_question_ministry
+msgid "Overview of the Ministry of Compassion in the country:"
+msgstr "Aperçu du ministère de Compassion dans le pays :"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
@@ -3745,6 +3843,16 @@ msgid "Responsible"
 msgstr "Responsable"
 
 #. module: website_event_compassion
+#: model:survey.page,title:website_event_compassion.gpfs_page1
+msgid "Return from travel"
+msgstr "Retour de voyage"
+
+#. module: website_event_compassion
+#: model:survey.survey,thank_you_message:website_event_compassion.group_visit_feedback_survey
+msgid "Second Feature"
+msgstr "Deuxième fonctionnalité"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_page
 msgid "See participants"
 msgstr "Voir les participants"
@@ -3926,6 +4034,11 @@ msgid "Statement of Commitment to Child Protection"
 msgstr "Charte de la protection de l'enfance"
 
 #. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpfs_question_proposition
+msgid "Suggestions for improvement:"
+msgstr "Propositions d'amélioration :"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid "Suitable shoes for walking on damaged roads"
 msgstr "Chaussures adaptées à la marche sur des chemins abîmés"
@@ -3956,7 +4069,7 @@ msgid "Survey count"
 msgstr "Survey count"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:400
+#: code:addons/website_event_compassion/models/event_registration.py:408
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_event_wordpress
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
 #, python-format
@@ -3989,6 +4102,11 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid "Teach your sponsored child a Bible story."
 msgstr "Enseignez à votre enfant une histoire biblique."
+
+#. module: website_event_compassion
+#: model:survey.survey,thank_you_message:website_event_compassion.group_visit_feedback_survey
+msgid "Tell what's the value for the<br>customer for this feature."
+msgstr "Tell what's the value for the<br>customer for this feature."
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/agreement_step2_forms.py:67
@@ -4051,6 +4169,14 @@ msgid "The Compassion programs"
 msgstr "Les programmes de Compassion"
 
 #. module: website_event_compassion
+#: model:survey.question,validation_error_msg:website_event_compassion.gpfs_question_accommodations
+#: model:survey.question,validation_error_msg:website_event_compassion.gpfs_question_contact
+#: model:survey.question,validation_error_msg:website_event_compassion.gpfs_question_food
+#: model:survey.question,validation_error_msg:website_event_compassion.gpfs_question_meeting_child
+#: model:survey.question,validation_error_msg:website_event_compassion.gpfs_question_ministry
+#: model:survey.question,validation_error_msg:website_event_compassion.gpfs_question_preparation
+#: model:survey.question,validation_error_msg:website_event_compassion.gpfs_question_proposition
+#: model:survey.question,validation_error_msg:website_event_compassion.gpfs_question_transport
 #: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_allergies
 #: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_diet
 #: model:survey.question,validation_error_msg:website_event_compassion.gpms_question_problems
@@ -4104,6 +4230,11 @@ msgstr ""
 "chèvre. Demandez aux accompagnants de Compassion, ils vous aideront."
 
 #. module: website_event_compassion
+#: model:survey.survey,thank_you_message:website_event_compassion.group_visit_feedback_survey
+msgid "Third Feature"
+msgstr "Third Feature"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_participants_list
 msgid "This event has no participant yet."
 msgstr "Il n'y a encore aucun participants inscrits. Serez-vous le premier ?"
@@ -4132,6 +4263,14 @@ msgstr ""
 "document à signer."
 
 #. module: website_event_compassion
+#: model:survey.question,constr_error_msg:website_event_compassion.gpfs_question_accommodations
+#: model:survey.question,constr_error_msg:website_event_compassion.gpfs_question_contact
+#: model:survey.question,constr_error_msg:website_event_compassion.gpfs_question_food
+#: model:survey.question,constr_error_msg:website_event_compassion.gpfs_question_meeting_child
+#: model:survey.question,constr_error_msg:website_event_compassion.gpfs_question_ministry
+#: model:survey.question,constr_error_msg:website_event_compassion.gpfs_question_preparation
+#: model:survey.question,constr_error_msg:website_event_compassion.gpfs_question_proposition
+#: model:survey.question,constr_error_msg:website_event_compassion.gpfs_question_transport
 #: model:survey.question,constr_error_msg:website_event_compassion.gpms_question_allergies
 #: model:survey.question,constr_error_msg:website_event_compassion.gpms_question_diet
 #: model:survey.question,constr_error_msg:website_event_compassion.gpms_question_problems
@@ -4221,6 +4360,11 @@ msgid "Total price"
 msgstr "Prix total"
 
 #. module: website_event_compassion
+#: model:survey.question,question:website_event_compassion.gpfs_question_transport
+msgid "Transport:"
+msgstr "Transports :"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
 msgid "Travel agreements"
 msgstr "Contrats de voyage"
@@ -4273,6 +4417,17 @@ msgstr "Comportements inacceptables"
 #: model:event.registration.stage,name:website_event_compassion.stage_all_unconfirmed
 msgid "Unconfirmed"
 msgstr "Non confirmé"
+
+#. module: website_event_compassion
+#: model:survey.label,value:website_event_compassion.gpfs_accommodations_2
+#: model:survey.label,value:website_event_compassion.gpfs_contact_2
+#: model:survey.label,value:website_event_compassion.gpfs_food_2
+#: model:survey.label,value:website_event_compassion.gpfs_meeting_child_2
+#: model:survey.label,value:website_event_compassion.gpfs_ministry_2
+#: model:survey.label,value:website_event_compassion.gpfs_preparation_2
+#: model:survey.label,value:website_event_compassion.gpfs_transport_2
+msgid "Unconvincing"
+msgstr "Pas convaincant"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
@@ -4452,6 +4607,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_wordpress_host
 msgid "Wordpress host"
 msgstr "Wordpress host"
+
+#. module: website_event_compassion
+#: model:survey.survey,thank_you_message:website_event_compassion.group_visit_feedback_survey
+msgid ""
+"Write what the customer would like to know,<br>not what you want to show."
+msgstr ""
+"Write what the customer would like to know,<br>not what you want to show."
 
 #. module: website_event_compassion
 #: selection:cms.form.group.visit.child.protection,final_question:0
@@ -4791,7 +4953,7 @@ msgid "if you need any further assistance."
 msgstr "si vous avez des questions ou besoin d'assistance."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:543
+#: code:addons/website_event_compassion/models/event_registration.py:573
 #, python-format
 msgid "medical discharge.docx"
 msgstr "décharge médicale.docx"
@@ -4840,9 +5002,6 @@ msgid "uploading a criminal record extract*. You can"
 msgstr ""
 "télécharger une copie de l'extrait de votre casier judiciaire*. Vous pouvez "
 "en"
-
-#~ msgid "Group visit: after trip feedback"
-#~ msgstr "Group visit: after trip feedback"
 
 #~ msgid "Group visit: before trip sharing information"
 #~ msgstr "Group visit: before trip sharing information"
