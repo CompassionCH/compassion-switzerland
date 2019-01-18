@@ -378,6 +378,26 @@ class Event(models.Model):
         })
 
     @api.multi
+    def button_send_manual_reminder(self):
+        """ Create a communication job with a chosen communication config"""
+
+        ctx = {
+            'partner_id': self.partner_id_id,
+            'object_ids': self.ids
+        }
+
+        return {
+            'name': _('choose a template'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'event.registration.config.wizard',
+            'view_id': self.env.ref('website_event_compassion.event_registration_config_wizard_form').id,
+            'view_mode': 'form',
+            'target': 'new',
+            'context': ctx
+        }
+
+
+    @api.multi
     def button_reg_close(self):
         super(Event, self).button_reg_close()
         return self.write({
