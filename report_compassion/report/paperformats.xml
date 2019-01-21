@@ -13,7 +13,7 @@
         <field name="margin_right">0</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">3</field>
-        <field name="dpi">150</field>
+        <field name="dpi">96</field>
     </record>
 
     <record id="paperformat_mini_childpack" model="report.paperformat">
@@ -29,7 +29,7 @@
         <field name="margin_right">0</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">3</field>
-        <field name="dpi">150</field>
+        <field name="dpi">96</field>
     </record>
 
     <!-- 3BVR -->
@@ -46,7 +46,7 @@
         <field name="margin_right">0</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">3</field>
-        <field name="dpi">150</field>
+        <field name="dpi">96</field>
     </record>
 
     <!-- Single BVR -->
@@ -63,7 +63,7 @@
         <field name="margin_right">0</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">3</field>
-        <field name="dpi">150</field>
+        <field name="dpi">96</field>
     </record>
 
     <!-- Compassion A4 Letter -->
@@ -78,7 +78,7 @@
         <field name="margin_right">0</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">3</field>
-        <field name="dpi">150</field>
+        <field name="dpi">96</field>
     </record>
 
     <!-- Compassion A4 No margin -->
@@ -93,7 +93,7 @@
         <field name="margin_right">0</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">3</field>
-        <field name="dpi">150</field>
+        <field name="dpi">96</field>
     </record>
 
     <!-- Compassion Anniversary Card -->
@@ -110,7 +110,7 @@
         <field name="margin_right">0</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">3</field>
-        <field name="dpi">150</field>
+        <field name="dpi">96</field>
     </record>
 
     <!-- Create empty report for child letters printing -->
