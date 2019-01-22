@@ -462,7 +462,8 @@ class Event(models.Model):
                 'name': name,
                 'product_id': product.id,
                 'account_analytic_id': event.analytic_id.id,
-            })]
+            })],
+            'type': 'out_invoice',
         })
         invoice.action_invoice_open()
         self.down_payment_id = invoice
@@ -515,7 +516,8 @@ class Event(models.Model):
         invoice = self.env['account.invoice'].create({
             'origin': name,
             'partner_id': self.partner_id.id,
-            'invoice_line_ids': [(0, 0, invl) for invl in invl_vals]
+            'invoice_line_ids': [(0, 0, invl) for invl in invl_vals],
+            'type': 'out_invoice',
         })
         invoice.action_invoice_open()
         self.group_visit_invoice_id = invoice
