@@ -539,7 +539,7 @@ class Event(models.Model):
         self.medical_survey_id = self.env['survey.user_input'].search([
             ('partner_id', '=', self.partner_id_id),
             ('survey_id', '=', survey.id)
-        ])
+        ], limit=1)
 
     def prepare_feedback_survey(self):
         # Attach feedback survey for user
@@ -558,7 +558,7 @@ class Event(models.Model):
         self.feedback_survey_id = self.env['survey.user_input'].search([
             ('partner_id', '=', self.partner_id_id),
             ('survey_id', '=', survey.id)
-        ])
+        ], limit=1)
 
     def send_medical_discharge(self):
         discharge_config = self.env.ref(

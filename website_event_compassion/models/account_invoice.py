@@ -8,11 +8,27 @@
 #
 ##############################################################################
 
-from odoo import models
+from odoo import api, models
+from odoo.addons.queue_job.job import job
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
+
+    @api.multi
+    @job
+    def modify_open_invoice(self, vals):
+        """
+        Job for changing an open invoice with new values. It will put it back
+        in draft, modifiy the invoice, and validate again the invoice.
+        :param vals: dictionary with values to write
+        :return: True
+        """
+        self.action_invoice_cancel()
+        self.action_invoice_draft()
+        self.write(vals)
+        self.action_invoice_open()
+        return True
 
     def action_invoice_paid(self):
         """
