@@ -57,9 +57,9 @@ class MassMailing(models.Model):
         self.env.cr.execute("""
             SELECT
                 m.id as mailing_id,
-                COUNT(CASE WHEN s.state != 'outgoing' 
+                COUNT(CASE WHEN s.state != 'outgoing'
                     THEN 1 ELSE null END) AS sent,
-                COUNT(CASE WHEN s.state = 'outgoing' 
+                COUNT(CASE WHEN s.state = 'outgoing'
                     THEN 1 ELSE null END) AS scheduled,
                 COUNT(CASE WHEN t.state = 'rejected'
                     THEN 1 ELSE null END) AS failed,
