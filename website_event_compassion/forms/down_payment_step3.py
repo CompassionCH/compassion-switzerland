@@ -108,10 +108,7 @@ if not testing:
             existing_tax = down_payment.invoice_line_ids.filtered(
                 lambda l: l.account_id == account)
             if not existing_tax:
-                down_payment.action_invoice_cancel()
-                down_payment.action_invoice_draft()
-
-                down_payment.write({
+                down_payment.with_delay().modify_open_invoice({
                     'invoice_line_ids': [(0, 0, {
                         'quantity': 1.0,
                         'price_unit': down_payment.amount_total * 0.019,
@@ -120,7 +117,6 @@ if not testing:
                         'account_analytic_id': analytic_account.id,
                     })]
                 })
-                down_payment.action_invoice_open()
 
         def _edit_transaction_values(self, tx_values, form_vals):
             """ Add registration link and change reference. """

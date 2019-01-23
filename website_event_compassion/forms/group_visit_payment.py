@@ -109,9 +109,7 @@ if not testing:
                 lambda l: l.account_id == account)
 
             if not existing_tax:
-                group_visit_invoice.action_invoice_cancel()
-                group_visit_invoice.action_invoice_draft()
-                group_visit_invoice.write({
+                group_visit_invoice.with_delay().modify_open_invoice({
                     'invoice_line_ids': [(0, 0, {
                         'quantity': 1.0,
                         'price_unit': group_visit_invoice.amount_total * 0.019,
@@ -120,7 +118,6 @@ if not testing:
                         'account_analytic_id': analytic_account.id,
                     })]
                 })
-                group_visit_invoice.action_invoice_open()
 
         def _edit_transaction_values(self, tx_values, form_vals):
             """ Add registration link and change reference. """
