@@ -50,6 +50,7 @@
         'data/group_visit_emails.xml',
         'data/communication_config.xml',
         'data/survey.xml',
+        'data/event_message_subtype.xml',
         'views/event_compassion_open_wizard.xml',
         'views/event_compassion_view.xml',
         'views/event_event_view.xml',
