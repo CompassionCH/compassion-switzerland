@@ -85,6 +85,32 @@ if not testing:
                 lang_fields.append('spoken_lang_it')
             lang_fields.extend([
                 'spoken_lang_es', 'spoken_lang_po'])
+            event = self.event_id.sudo()
+            trip_options = {
+                'id': 'trip',
+                'title': _('Trip options'),
+            }
+            if event.flight_price:
+                trip_options.update({
+                    'description': _(
+                        'You can have the flight included (CHF %s) or '
+                        'decide to book the flight by yourself if you want '
+                        'to extend your trip beyond the dates. '
+                        'You can specify someone if you want to share a room '
+                        'or leave the field empty to have a single room.'
+                    ) % str(int(event.flight_price)),
+                    'fields': [
+                        'include_flight', 'double_room_person', 'comments']
+                })
+            else:
+                trip_options.update({
+                    'description': _(
+                        'You can specify someone if you want to share a room '
+                        'or leave the field empty to have a single room.'
+                    ),
+                    'fields': [
+                        'double_room_person', 'comments']
+                })
             return [
                 {
                     'id': 'coordinates',
@@ -100,19 +126,7 @@ if not testing:
                     'title': _('Your spoken languages'),
                     'fields': lang_fields
                 },
-                {
-                    'id': 'trip',
-                    'title': _('Trip options'),
-                    'description': _(
-                        'You can have the flight included (CHF %s) or '
-                        'decide to book the flight by yourself if you want '
-                        'to extend your trip beyond the dates. '
-                        'You can specify someone if you want to share a room '
-                        'or leave the field empty to have a single room.'
-                    ) % str(int(self.event_id.sudo().flight_price)),
-                    'fields': [
-                        'include_flight', 'double_room_person', 'comments']
-                },
+                trip_options
             ]
 
         def _form_validate_email_copy(self, value, **req_values):

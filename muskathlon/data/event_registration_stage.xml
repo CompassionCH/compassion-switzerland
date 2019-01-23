@@ -9,7 +9,7 @@
             <field name="requirements">
                 * Pay the registration fees
             </field>
-            <field name="event_type_id" ref="event_type_muskathlon"/>
+            <field name="event_type_ids" eval="[(6, 0, [ref('event_type_muskathlon')])]"/>
         </record>
         <record id="stage_fill_profile" model="event.registration.stage">
             <field name="name">Fill profile</field>
@@ -21,7 +21,7 @@
                 * Upload large picture
                 * Complete medical survey
             </field>
-            <field name="event_type_id" ref="event_type_muskathlon"/>
+            <field name="event_type_ids" eval="[(6, 0, [ref('event_type_muskathlon')])]"/>
         </record>
     </data>
 </odoo>
