@@ -28,12 +28,14 @@
         <record id="event_type_group_visit" model="event.type">
             <field name="name">Group visit</field>
             <field name="accepts_registrations" eval="True"/>
+            <field name="travel_features" eval="True"/>
             <field name="default_registration_min">10</field>
             <field name="default_registration_max">30</field>
         </record>
         <record id="event_type_youth_trip" model="event.type">
             <field name="name">Youth trip</field>
             <field name="accepts_registrations" eval="True"/>
+            <field name="travel_features" eval="True"/>
             <field name="default_registration_min">10</field>
             <field name="default_registration_max">30</field>
         </record>

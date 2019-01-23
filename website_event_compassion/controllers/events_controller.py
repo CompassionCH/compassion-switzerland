@@ -49,9 +49,8 @@ class EventsController(PaymentFormController):
         else:
             # Display the Event page
             result = request.render(values.pop('website_template'), values)
-        if event.event_type_id == request.env.ref('website_event_compassion.'
-                                                  'event_type_group_visit'):
-            # Group visits are full not called by AJAX popup form
+        if event.event_type_id.sudo().travel_features:
+            # Travel events are full not called by AJAX popup form
             return result
         return self._form_redirect(result, full_page=True)
 
@@ -107,11 +106,9 @@ class EventsController(PaymentFormController):
             'end_date': event.get_date('end_date', 'date_full'),
             'additional_title': _('- Registration')
         })
-        group_visit = request.env.ref(
-            'website_event_compassion.event_type_group_visit')
-        # Group visits display only registration form, others do have a page.
+        # Travel display only registration form, others do have a page.
         template = 'website_event_compassion.'
-        if event.event_type_id == group_visit:
+        if event.event_type_id.sudo().travel_features:
             values['form_model_key'] = 'cms.form.group.visit.registration'
             template += 'event_full_page_form'
         else:

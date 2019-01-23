@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Add text for donation receipts -->
     <record id="view_event_event_wordpress" model="ir.ui.view">
         <field name="name">event.event.website.compassion.form</field>
         <field name="model">event.event</field>
@@ -77,6 +76,7 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="accepts_registrations"/>
+                <field name="travel_features"/>
             </field>
         </field>
     </record>

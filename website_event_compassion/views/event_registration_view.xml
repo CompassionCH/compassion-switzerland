@@ -8,7 +8,7 @@
             <!-- Replace state widget by registration stage -->
             <field name="state" position="replace">
                 <field name="stage_id" widget="statusbar" clickable="True"
-                       domain="['|', ('event_type_id', '=', context.get('default_event_type_id')), ('event_type_id', '=', False)]"
+                       domain="['|', ('event_type_ids', '=', context.get('default_event_type_id', False)), ('event_type_ids', '=', False)]"
                        options="{'fold_field': 'fold'}"
                 />
             </field>
@@ -61,6 +61,17 @@
                     </button>
                 </div>
             </xpath>
+        </field>
+    </record>
+
+    <record id="view_event_registration_tree_compassion" model="ir.ui.view">
+        <field name="name">event.registration.website.compassion.tree</field>
+        <field name="model">event.registration</field>
+        <field name="inherit_id" ref="event.view_event_registration_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="stage_id"/>
+            </field>
         </field>
     </record>
 

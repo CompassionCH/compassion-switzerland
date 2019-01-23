@@ -9,7 +9,7 @@
                     <group>
                         <field name="name"/>
                         <field name="sequence"/>
-                        <field name="event_type_id" options="{'limit': 12}"/>
+                        <field name="event_type_ids" options="{'limit': 12}" widget="many2many_tags"/>
                         <field name="duration"/>
                         <field name="fold"/>
                         <field name="requirements"/>
@@ -25,7 +25,7 @@
             <tree>
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
-                <field name="event_type_id"/>
+                <field name="event_type_ids"/>
             </tree>
         </field>
     </record>
@@ -35,9 +35,9 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
-                <field name="event_type_id"/>
+                <field name="event_type_ids"/>
                 <group expand="0" string="Group By">
-                    <filter string="Event type" name="event_type" domain="[]" context="{'group_by':'event_type_id'}"/>
+                    <filter string="Event type" name="event_type" domain="[]" context="{'group_by':'event_type_ids'}"/>
                 </group>
             </search>
         </field>
