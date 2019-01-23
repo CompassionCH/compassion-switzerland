@@ -9,7 +9,6 @@
                 <field name="partner_id"/>
                 <field name="user_id"/>
                 <field name="amount"/>
-                <field name="currency"/>
                 <field name="payment_mode_id"/>
                 <field name="event_id"/>
                 <field name="journal_id"/>
@@ -57,7 +56,6 @@
                 <field name="user_id"/>
                 <field name="partner_id"/>
                 <field name="amount"/>
-                <field name="currency"/>
                 <field name="sent_to_4m"/>
                 <field name="payment_mode_id"/>
                 <field name="journal_id"/>
