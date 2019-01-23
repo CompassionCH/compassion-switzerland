@@ -39,6 +39,3 @@ class EventRegistrationConfigWizard(models.TransientModel):
             'view_mode': 'form',
             'target': 'new'
         }
-
-
-

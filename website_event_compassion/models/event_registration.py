@@ -390,12 +390,13 @@ class Event(models.Model):
             'name': _('choose a template'),
             'type': 'ir.actions.act_window',
             'res_model': 'event.registration.config.wizard',
-            'view_id': self.env.ref('website_event_compassion.event_registration_config_wizard_form').id,
+            'view_id': self.env.ref(
+                'website_event_compassion.'
+                'event_registration_config_wizard_form').id,
             'view_mode': 'form',
             'target': 'new',
             'context': ctx
         }
-
 
     @api.multi
     def button_reg_close(self):

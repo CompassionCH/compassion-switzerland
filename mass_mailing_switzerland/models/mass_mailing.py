@@ -10,6 +10,7 @@
 ##############################################################################
 from odoo import api, models, fields, _
 
+
 class MassMailing(models.Model):
     """ Add the mailing domain to be viewed in a text field
     """
@@ -47,7 +48,8 @@ class MassMailing(models.Model):
                 float(unsub) / len(mass_mail.statistics_ids))
 
     def recompute_states(self):
-        self.env['mail.mail.statistics'].search([('mass_mailing_id', 'in', self.ids)])._compute_state()
+        self.env['mail.mail.statistics'].search([
+            ('mass_mailing_id', 'in', self.ids)])._compute_state()
 
         self._compute_statistics()
 
@@ -55,13 +57,22 @@ class MassMailing(models.Model):
         self.env.cr.execute("""
             SELECT
                 m.id as mailing_id,
-                COUNT(CASE WHEN s.state != 'outgoing' THEN 1 ELSE null END) AS sent,
-                COUNT(CASE WHEN s.state = 'outgoing' THEN 1 ELSE null END) AS scheduled,
-                COUNT(CASE WHEN t.state = 'rejected' THEN 1 ELSE null END) AS failed,
-                COUNT(CASE WHEN t.state = 'delivered' OR t.state = 'opened' THEN 1 ELSE null END) AS delivered,
-                COUNT(CASE WHEN t.state = 'opened' THEN 1 ELSE null END) AS opened,
-                COUNT(CASE WHEN s.replied is not null THEN 1 ELSE null END) AS replied,
-                COUNT(CASE WHEN t.state = 'bounced' OR t.state = 'spam' THEN 1 ELSE null END) AS bounced
+                COUNT(CASE WHEN s.state != 'outgoing' 
+                    THEN 1 ELSE null END) AS sent,
+                COUNT(CASE WHEN s.state = 'outgoing' 
+                    THEN 1 ELSE null END) AS scheduled,
+                COUNT(CASE WHEN t.state = 'rejected'
+                    THEN 1 ELSE null END) AS failed,
+                COUNT(CASE WHEN t.state = 'delivered' OR
+                    t.state = 'opened'
+                    THEN 1 ELSE null END) AS delivered,
+                COUNT(CASE WHEN t.state = 'opened'
+                    THEN 1 ELSE null END) AS opened,
+                COUNT(CASE WHEN s.replied is not null
+                    THEN 1 ELSE null END) AS replied,
+                COUNT(CASE WHEN t.state = 'bounced' OR
+                    t.state = 'spam'
+                    THEN 1 ELSE null END) AS bounced
             FROM
                 mail_tracking_email t
             RIGHT JOIN
@@ -215,7 +226,8 @@ class MassMailing(models.Model):
             'name': _('Tracking Emails'),
             'view_type': 'form',
             'res_model': 'mail.tracking.email',
-            'domain': [('mass_mailing_id', 'in', self.ids), ('mail_stats_id', '!=', None)] + domain,
+            'domain': [('mass_mailing_id', 'in', self.ids),
+                       ('mail_stats_id', '!=', None)] + domain,
             'view_mode': 'tree,form',
             'target': 'current',
             'context': self.env.context
