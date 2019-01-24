@@ -11,7 +11,8 @@ from odoo import models, fields
 
 
 class EventType(models.Model):
-    # Inherit from 'mail.thread' so that the followers can be notified when events of the type have changed.
+    # Inherit from 'mail.thread' so that the followers can be notified when
+    # events of the type have changed.
     _inherit = ['event.type', 'mail.thread']
     _name = 'event.type'
 
