@@ -9,7 +9,7 @@
                 <attribute name="invisible">1</attribute>
             </button>
             <button name="action_send_badge_email" position="after">
-                <button name="button_send_manual_reminder" string="Send a reminder manually" type="object" states="open,done" class="oe_highlight"/>
+                <button name="button_send_reminder" string="Send a reminder" type="object" states="open,done" class="oe_highlight"/>
             </button>
             <!-- Replace state widget by registration stage -->
             <field name="state" position="replace">

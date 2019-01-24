@@ -378,7 +378,7 @@ class Event(models.Model):
         })
 
     @api.multi
-    def button_send_manual_reminder(self):
+    def button_send_reminder(self):
         """ Create a communication job with a chosen communication config"""
 
         ctx = {
@@ -387,12 +387,12 @@ class Event(models.Model):
         }
 
         return {
-            'name': _('choose a template'),
+            'name': _('Choose a communication'),
             'type': 'ir.actions.act_window',
-            'res_model': 'event.registration.config.wizard',
+            'res_model': 'event.registration.communication.wizard',
             'view_id': self.env.ref(
                 'website_event_compassion.'
-                'event_registration_config_wizard_form').id,
+                'event_registration_communication_wizard_form').id,
             'view_mode': 'form',
             'target': 'new',
             'context': ctx

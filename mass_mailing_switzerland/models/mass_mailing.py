@@ -92,7 +92,7 @@ class MassMailing(models.Model):
             row['opened_ratio'] = 100.0 * row['opened'] / row['total']
             row['replied_ratio'] = 100.0 * row['replied'] / row['total']
             row['bounced_ratio'] = 100.0 * row['bounced'] / row['total']
-            self.browse(row.pop('mailing_id')).update(row)
+            self.browse(row.pop('mailing_id')).write(row)
 
     def _compute_events(self):
         for mass_mail in self:
@@ -109,9 +109,9 @@ class MassMailing(models.Model):
 
     @api.multi
     def recompute_events(self):
+        self.recompute_states()
         self.compute_unsub_ratio()
         self.compute_clicks_ratio()
-        self.recompute_states()
         return True
 
     @api.multi
