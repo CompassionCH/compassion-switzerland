@@ -9,7 +9,7 @@
         </record>
 
         <record id="mt_event_s_registration" model="mail.message.subtype">
-            <field name="name">All new registration</field>
+            <field name="name">All new registrations</field>
             <field name="res_model">event.event</field>
             <field name="default" eval="True"/>
             <field name="description">New registration</field>
@@ -19,7 +19,7 @@
         </record>
 
         <record id="mt_type_s_event_s_registration" model="mail.message.subtype">
-            <field name="name">Type's event's new registrations</field>
+            <field name="name">New registrations of event type</field>
             <field name="res_model">event.type</field>
             <field name="default" eval="True"/>
             <field name="description">New registrations to event of this type</field>
