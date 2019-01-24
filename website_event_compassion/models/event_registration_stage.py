@@ -26,9 +26,10 @@ class EventStage(models.Model):
         help="Enter here the internal requirements for this stage"
              "(ex: Sign contract). It will appear as a tooltip over "
              "the stage's name.")
-    event_type_id = fields.Many2one(
-        'event.type', string='Event type', ondelete='set null',
-        help='Specific event type that uses this stage. '
+    event_type_ids = fields.Many2many(
+        'event.type', 'event_registration_stage_to_type_rel',
+        string='Event types', ondelete='set null',
+        help='Specific event types that use this stage. '
              'Other event types will not be able to see or use this stage.')
     fold = fields.Boolean(
         'Folded in Pipeline',

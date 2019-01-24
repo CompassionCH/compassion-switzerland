@@ -40,8 +40,8 @@ class Event(models.Model):
     stage_id = fields.Many2one(
         'event.registration.stage', 'Stage', track_visibility='onchange',
         index=True, copy=False,
-        domain="['|', ('event_type_id', '=', False),"
-               "      ('event_type_id', '=', event_type_id)]",
+        domain="['|', ('event_type_ids', '=', False),"
+               "      ('event_type_ids', '=', event_type_id)]",
         group_expand='_read_group_stage_ids',
         default=lambda r: r._default_stage()
     )
@@ -263,11 +263,11 @@ class Event(models.Model):
         type_id = self._context.get('default_event_type_id')
         if type_id:
             search_domain = ['|', ('id', 'in', stages.ids), '|',
-                             ('event_type_id', '=', False),
-                             ('event_type_id', '=', type_id)]
+                             ('event_type_ids', '=', False),
+                             ('event_type_ids', '=', type_id)]
         else:
             search_domain = ['|', ('id', 'in', stages.ids),
-                             ('event_type_id', '=', False)]
+                             ('event_type_ids', '=', False)]
 
         # perform search
         stage_ids = stages._search(search_domain, order=order,
@@ -279,12 +279,12 @@ class Event(models.Model):
         type_id = self._context.get('default_event_type_id')
         if type_id:
             stage = self.env['event.registration.stage'].search([
-                '|', ('event_type_id', '=', type_id),
-                ('event_type_id', '=', False)
+                '|', ('event_type_ids', '=', type_id),
+                ('event_type_ids', '=', False)
             ], limit=1)
         else:
             stage = self.env['event.registration.stage'].search([
-                ('event_type_id', '=', False)
+                ('event_type_ids', '=', False)
             ], limit=1)
         return stage.id
 
@@ -352,8 +352,7 @@ class Event(models.Model):
                     registration.next_stage()
                 if vals.get('stage_id') == self.env.ref(
                         module + 'stage_all_attended'
-                ).id and registration.event_type_id == self.env.ref(
-                        module + 'event_type_group_visit'):
+                ).id and registration.event_type_id.travel_features:
                     registration.prepare_feedback_survey()
         return res
 
@@ -425,8 +424,9 @@ class Event(models.Model):
             next_stage = self.env['event.registration.stage'].search([
                 ('sequence', '>', registration.stage_id.sequence),
                 '|',
-                ('event_type_id', '=', registration.stage_id.event_type_id.id),
-                ('event_type_id', '=', False)
+                ('event_type_ids', 'in',
+                 registration.stage_id.event_type_ids.ids),
+                ('event_type_ids', '=', False)
             ], limit=1)
             if next_stage:
                 registration.write({
@@ -462,7 +462,8 @@ class Event(models.Model):
                 'name': name,
                 'product_id': product.id,
                 'account_analytic_id': event.analytic_id.id,
-            })]
+            })],
+            'type': 'out_invoice',
         })
         invoice.action_invoice_open()
         self.down_payment_id = invoice
@@ -515,7 +516,8 @@ class Event(models.Model):
         invoice = self.env['account.invoice'].create({
             'origin': name,
             'partner_id': self.partner_id.id,
-            'invoice_line_ids': [(0, 0, invl) for invl in invl_vals]
+            'invoice_line_ids': [(0, 0, invl) for invl in invl_vals],
+            'type': 'out_invoice',
         })
         invoice.action_invoice_open()
         self.group_visit_invoice_id = invoice
@@ -537,7 +539,7 @@ class Event(models.Model):
         self.medical_survey_id = self.env['survey.user_input'].search([
             ('partner_id', '=', self.partner_id_id),
             ('survey_id', '=', survey.id)
-        ])
+        ], limit=1)
 
     def prepare_feedback_survey(self):
         # Attach feedback survey for user
@@ -556,7 +558,7 @@ class Event(models.Model):
         self.feedback_survey_id = self.env['survey.user_input'].search([
             ('partner_id', '=', self.partner_id_id),
             ('survey_id', '=', survey.id)
-        ])
+        ], limit=1)
 
     def send_medical_discharge(self):
         discharge_config = self.env.ref(

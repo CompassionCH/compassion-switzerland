@@ -43,7 +43,6 @@ class Muskathlon(models.Model):
                                  oldname="payment_methode")
     project_id = fields.Char("ProjectID", readonly=True)
     date = fields.Datetime("Date/time", readonly=True)
-    currency = fields.Char("Currency", readonly=True)
     muskathlon_participant_id = fields.Char("ParticipantID", readonly=True)
     registration_id = fields.Char('RegistrationID', readonly=True)
     sponsorship_name = fields.Char("Sponsorship name", readonly=True)
@@ -83,8 +82,6 @@ class Muskathlon(models.Model):
                 rc.payment_mode_id,
                 rco.event_id,
                 NULL AS journal_id,
-                'CHF' AS currency,
-                -- rc.registration_id,
                 rp.muskathlon_participant_id,
                 rp2.name AS sponsorship_name,
                 rc.start_date AS date,
@@ -110,14 +107,12 @@ class Muskathlon(models.Model):
                 ail.id AS invoice_line_id,
                 ail.partner_id,
                 ail.user_id,
-                ail.price_subtotal,
-                ail.price_subtotal * 100,
+                aml.credit AS amount,
+                aml.credit * 100 AS amount_cent,
                 ail.sent_to_4m,
                 ai.payment_mode_id,
                 ail.event_id,
                 aml.journal_id AS journal_id,
-                rcu.name as currency,
-                -- ail.registration_id,
                 rp.muskathlon_participant_id,
                 rp2.name AS sponsorship_name,
                 ai.date_invoice AS date,
@@ -129,15 +124,20 @@ class Muskathlon(models.Model):
                 mr.reg_id AS registration_id
               FROM account_invoice_line AS ail
               LEFT JOIN account_invoice AS ai ON ail.invoice_id = ai.id
+              LEFT JOIN account_move AS am ON ai.move_id = am.id
+                AND ai.partner_id = am.partner_id
+              INNER JOIN LATERAL
+                (SELECT *
+                FROM account_move_line
+                WHERE move_id = am.id
+                AND credit > 0
+                FETCH FIRST 1 ROW ONLY
+                ) aml ON TRUE
               LEFT JOIN res_partner AS rp ON rp.id = ail.user_id
               LEFT JOIN res_partner AS rp2 ON ail.partner_id = rp2.id
-              LEFT JOIN res_currency AS rcu ON rcu.id = ai.currency_id
               LEFT JOIN crm_event_compassion AS cec ON ail.event_id = cec.id
-              LEFT JOIN event_registration AS mr ON mr.partner_id = rp.id
-              LEFT JOIN account_invoice_account_move_line_rel AS aiamlr
-                ON ai.id = aiamlr.account_invoice_id
-              LEFT JOIN account_move_line AS aml
-                ON aml.id = aiamlr.account_move_line_id
+              LEFT JOIN event_registration AS mr
+                ON mr.partner_id = rp.id AND mr.event_id = cec.odoo_event_id
               WHERE ail.state IN ('draft', 'open', 'paid')
                 AND ail.account_id = 2775
                 AND cec.muskathlon_event_id IS NOT NULL

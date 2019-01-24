@@ -33,7 +33,8 @@
                 * Send a passport copy
                 * Send certificate of criminal record
             </field>
-            <field name="event_type_id" ref="website_event_compassion.event_type_group_visit"/>
+            <field name="event_type_ids" eval="[(6, 0, [ref('event_type_group_visit'),
+                                                        ref('event_type_youth_trip')])]"/>
         </record>
         <record id="stage_group_pay" model="event.registration.stage">
             <field name="name">Down payment</field>
@@ -42,7 +43,8 @@
             <field name="requirements">
                 * Pay registration down payment fee
             </field>
-            <field name="event_type_id" ref="website_event_compassion.event_type_group_visit"/>
+            <field name="event_type_ids" eval="[(6, 0, [ref('event_type_group_visit'),
+                                                        ref('event_type_youth_trip')])]"/>
         </record>
         <record id="stage_group_medical" model="event.registration.stage">
             <field name="name">Medical survey</field>
@@ -52,7 +54,8 @@
                 * Fill medical survey
                 * Sign medical discharge if needed
             </field>
-            <field name="event_type_id" ref="website_event_compassion.event_type_group_visit"/>
+            <field name="event_type_ids" eval="[(6, 0, [ref('event_type_group_visit'),
+                                                        ref('event_type_youth_trip')])]"/>
         </record>
         <record id="stage_group_documents" model="event.registration.stage">
             <field name="name">Payment</field>
@@ -62,7 +65,8 @@
                 * Fill urgency contact information
                 * Pay the whole trip fees
             </field>
-            <field name="event_type_id" ref="website_event_compassion.event_type_group_visit"/>
+            <field name="event_type_ids" eval="[(6, 0, [ref('event_type_group_visit'),
+                                                        ref('event_type_youth_trip')])]"/>
         </record>
     </data>
 </odoo>

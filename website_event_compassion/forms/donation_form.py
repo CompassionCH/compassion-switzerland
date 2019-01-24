@@ -90,7 +90,8 @@ if not testing:
                     'product_id': product.id,
                     'account_analytic_id': event.analytic_id.id,
                     'user_id': ambassador.id
-                })]
+                })],
+                'type': 'out_invoice',
             })
 
         def _form_create(self, values):

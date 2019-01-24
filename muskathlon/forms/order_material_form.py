@@ -153,7 +153,8 @@ if not testing:
             # Attach ambassador picture for flyer creation
             ftype = 'jpg'
             partner = self.main_object.partner_id
-            mimetype = magic.from_buffer(partner.image.decode('base64'), True)
+            image = partner.advocate_details_id.picture_large or partner.image
+            mimetype = magic.from_buffer(image.decode('base64'), True)
             if mimetype and '/' in mimetype:
                 ftype = mimetype.split('/')[-1]
             filename = '{}.{}'.format(partner.name, ftype)
@@ -161,7 +162,7 @@ if not testing:
             self.env['ir.attachment'].sudo(uid).create({
                 'res_model': 'crm.lead',
                 'res_id': self.main_object.id,
-                'datas': partner.image,
+                'datas': image,
                 'datas_fname': filename,
                 'name': filename
             })
