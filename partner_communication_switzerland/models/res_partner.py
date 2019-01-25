@@ -123,7 +123,7 @@ class ResPartner(models.Model):
                               'tax_receipt_config')
         existing_comm = self.env['partner.communication.job'].search([
             ('config_id', '=', config.id),
-            ('state', 'in', ['pending', 'sent']),
+            ('state', 'in', ['pending', 'done', 'call']),
             ('date', '>', fields.Date.to_string(end_date))
         ])
         partners = invoice_lines.mapped('partner_id') - existing_comm.mapped(
