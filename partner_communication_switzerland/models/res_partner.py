@@ -124,7 +124,7 @@ class ResPartner(models.Model):
         existing_comm = self.env['partner.communication.job'].search([
             ('config_id', '=', config.id),
             ('state', 'in', ['pending', 'sent']),
-            ('date', '>', end_date)
+            ('date', '>', fields.Date.to_string(end_date))
         ])
         partners = invoice_lines.mapped('partner_id') - existing_comm.mapped(
             'partner_id')
