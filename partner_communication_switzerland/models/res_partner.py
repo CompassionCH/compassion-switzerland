@@ -119,11 +119,17 @@ class ResPartner(models.Model):
             ('product_id.requires_thankyou', '=', True),
             ('partner_id.tax_certificate', '!=', 'no'),
         ])
-        partners = invoice_lines.mapped('partner_id')
-        total = len(partners)
-        count = 1
         config = self.env.ref('partner_communication_switzerland.'
                               'tax_receipt_config')
+        existing_comm = self.env['partner.communication.job'].search([
+            ('config_id', '=', config.id),
+            ('state', 'in', ['pending', 'sent']),
+            ('date', '>', end_date)
+        ])
+        partners = invoice_lines.mapped('partner_id') - existing_comm.mapped(
+            'partner_id')
+        total = len(partners)
+        count = 1
         for partner in partners:
             _logger.info("Generating tax receipts: {}/{}".format(
                 count, total))
