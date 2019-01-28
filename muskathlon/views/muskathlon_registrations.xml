@@ -22,4 +22,46 @@
             </group>
         </field>
     </record>
+
+    <record id="view_muskathlon_registration_tree" model="ir.ui.view">
+        <field name="name">muskathlon.registration.tree</field>
+        <field name="model">event.registration</field>
+        <field name="inherit_id" ref="website_event_compassion.view_event_registration_tree_compassion"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="passport_number" groups="base.group_user"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_muskathlon_registration_ticket_tree" model="ir.ui.view">
+        <field name="name">muskathlon.registration.ticket.tree</field>
+        <field name="model">event.registration</field>
+        <field name="inherit_id" ref="event_sale.view_event_registration_ticket_tree"/>
+        <field name="arch" type="xml">
+            <field name="event_ticket_id" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </field>
+            <field name="origin" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_muskathlon_registration_ticket_form" model="ir.ui.view">
+        <field name="name">muskathlon.registration.ticket.form</field>
+        <field name="model">event.registration</field>
+        <field name="inherit_id" ref="event_sale.view_event_registration_ticket_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='event']/following-sibling::group[1]" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </xpath>
+            <group name="event" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </group>
+            <button name="action_send_badge_email" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </button>
+        </field>
+    </record>
 </odoo>
