@@ -23,17 +23,6 @@
         </field>
     </record>
 
-    <record id="view_muskathlon_registration_tree" model="ir.ui.view">
-        <field name="name">muskathlon.registration.tree</field>
-        <field name="model">event.registration</field>
-        <field name="inherit_id" ref="website_event_compassion.view_event_registration_tree_compassion"/>
-        <field name="arch" type="xml">
-            <field name="email" position="after">
-                <field name="passport_number" groups="base.group_user"/>
-            </field>
-        </field>
-    </record>
-
     <record id="view_muskathlon_registration_ticket_tree" model="ir.ui.view">
         <field name="name">muskathlon.registration.ticket.tree</field>
         <field name="model">event.registration</field>
