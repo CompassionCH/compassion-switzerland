@@ -108,42 +108,35 @@ class ResPartner(models.Model):
         Called once a year to prepare all communications
         :return: recordset of partner.communication.job
         """
-        # Select partners that made donations last year (query is faster)
-        account_id = self.env['account.account'].search([
-            ('code', '=', '1050')]).id
-        journal_id = self.env['account.journal'].search([
-            ('code', '=', 'SAJ')]).id
+        # Select partners that made donations last year
         today = date.today()
         start_date = today.replace(today.year - 1, 1, 1)
         end_date = today.replace(today.year - 1, 12, 31)
+        invoice_lines = self.env['account.invoice.line'].search([
+            ('last_payment', '>=', fields.Date.to_string(start_date)),
+            ('last_payment', '<=', fields.Date.to_string(end_date)),
+            ('state', '=', 'paid'),
+            ('product_id.requires_thankyou', '=', True),
+            ('partner_id.tax_certificate', '!=', 'no'),
+        ])
         config = self.env.ref('partner_communication_switzerland.'
                               'tax_receipt_config')
-        self.env.cr.execute("""
-            SELECT DISTINCT m.partner_id
-            FROM account_move_line m JOIN res_partner p ON m.partner_id = p.id
-            WHERE m.account_id = %s
-            AND m.journal_id != %s
-            AND m.credit > 0
-            AND p.tax_certificate != 'no'
-            AND m.date BETWEEN %s AND %s
-            AND NOT EXISTS (
-              SELECT id FROM partner_communication_job
-              WHERE partner_id = p.id
-              AND config_id = %s AND state IN ('sent','pending') AND date > %s
-            )
-        """, [account_id, journal_id, fields.Date.to_string(start_date),
-              fields.Date.to_string(end_date), config.id, end_date])
-
-        partner_ids = [r[0] for r in self.env.cr.fetchall()]
-        total = len(partner_ids)
+        existing_comm = self.env['partner.communication.job'].search([
+            ('config_id', '=', config.id),
+            ('state', 'in', ['pending', 'done', 'call']),
+            ('date', '>', fields.Date.to_string(end_date))
+        ])
+        partners = invoice_lines.mapped('partner_id') - existing_comm.mapped(
+            'partner_id')
+        total = len(partners)
         count = 1
-        for partner_id in partner_ids:
+        for partner in partners:
             _logger.info("Generating tax receipts: {}/{}".format(
                 count, total))
             self.env['partner.communication.job'].create({
                 'config_id': config.id,
-                'partner_id': partner_id,
-                'object_ids': partner_id,
+                'partner_id': partner.id,
+                'object_ids': partner.id,
                 'user_id': config.user_id.id,
                 'show_signature': True,
                 'print_subject': False

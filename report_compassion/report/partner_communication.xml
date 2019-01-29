@@ -48,6 +48,10 @@
                 float: left;
                 margin-bottom: 5mm;
             }
+            # title {
+                text-decoration: underline;
+                margin-bottom: 2mm;
+            }
             #letter {
                 font-family: "tetriaLight";
                 font-size: 10pt;
@@ -210,7 +214,7 @@
         </div>
         <div id="letter">
             <div id="date" t-if="not print_header">
-                <span t-raw="partner.date_communication" style="float: left; margin-top: 15mm;"/>
+                <span t-raw="partner.date_communication" style="float: left; margin-top: 15mm; min-width: 70mm;"/>
             </div>
             <t t-if="print_header">
                 <div id="compassion_address">
@@ -249,7 +253,6 @@
 
             <div id="title" t-if="print_subject" style="max-width: 80mm;">
                 <b><span t-raw="subject"/></b>
-                <hr/>
             </div>
 
             <div id="content">
