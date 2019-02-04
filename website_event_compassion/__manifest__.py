@@ -73,6 +73,7 @@
         'templates/group_visit_practical_information.xml',
         'templates/group_visit_party_invitation.xml',
         'templates/robots.xml',
+        'wizards/event_registration_communication_wizard.xml',
     ],
     'demo': [
         'demo/crm_event_demo.xml'

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="event_registration_communication_wizard_form">
+            <field name="name">event.registration.communication.wizard.form</field>
+            <field name="model">event.registration.communication.wizard</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="config_id"/>
+                    </group>
+                    <footer>
+                        <button name="button_open_mail_sender" string="Confirm" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

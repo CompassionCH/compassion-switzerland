@@ -5,6 +5,12 @@
         <field name="model">event.registration</field>
         <field name="inherit_id" ref="event.view_event_registration_form"/>
         <field name="arch" type="xml">
+            <button name="action_send_badge_email" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+            <button name="action_send_badge_email" position="after">
+                <button name="button_send_reminder" string="Send a reminder" type="object" states="open,done" class="oe_highlight"/>
+            </button>
             <!-- Replace state widget by registration stage -->
             <field name="state" position="replace">
                 <field name="stage_id" widget="statusbar" clickable="True"
