@@ -78,6 +78,12 @@
                 <field name="accepts_registrations"/>
                 <field name="travel_features"/>
             </field>
+            <xpath expr="/form/sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </xpath>
         </field>
     </record>
 </odoo>

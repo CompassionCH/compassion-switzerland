@@ -618,3 +618,10 @@ class Event(models.Model):
                     'website_event_compassion.task_medical_discharge').id),
             ]
         })
+
+    def _track_subtype(self, init_values):
+        self.ensure_one()
+        if 'user_id' in init_values and init_values['user_id'] is False:
+            # When the registration is created.
+            return 'website_event_compassion.mt_registration_create'
+        return super(Event, self)._track_subtype(init_values)
