@@ -194,7 +194,6 @@ class TranslateConnect(MysqlConnector):
         }
         if create:
             vals['code'] = None
-            vals['updatedat'] = '0000-00-00 00:00:00'
             vals['createdat'] = fields.Datetime.context_timestamp(
                 partner, self.current_time).replace(tzinfo=None)
             vals['isadmin'] = '0'

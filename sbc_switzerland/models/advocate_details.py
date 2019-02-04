@@ -53,16 +53,6 @@ class AdvocateDetails(models.Model):
             if not was_translator and is_translator:
                 advocate._insert_new_translator()
 
-            if was_translator and is_translator:
-                tc_values = ['name', 'email', 'ref', 'lang', 'firstname',
-                             'lastname']
-                tc_change = reduce(
-                    lambda x, y: x or y, [v in vals for v in tc_values])
-                if tc_change:
-                    tc = translate_connector.TranslateConnect()
-                    _logger.info("translator tag still present, we update "
-                                 "partner in translation platform")
-                    tc.upsert_user(advocate.partner_id, create=False)
             if was_translator and not is_translator:
                 tc = translate_connector.TranslateConnect()
                 _logger.info(
