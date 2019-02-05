@@ -9,8 +9,9 @@
 #
 ##############################################################################
 
-from odoo import api, registry, fields, models
+from odoo import api, models
 from . import translate_connector
+
 
 class ResPartner(models.Model):
     """
@@ -18,7 +19,6 @@ class ResPartner(models.Model):
     the partner is also a translator.
     """
     _inherit = 'res.partner'
-
 
     @api.multi
     def write(self, vals):
