@@ -62,6 +62,7 @@
         'views/product_view.xml',
         'views/partner_check_double.xml',
         'views/notification_settings_view.xml',
+        'templates/child_protection_charter.xml'
     ],
     'installable': True,
     'auto_install': False,
