@@ -15,6 +15,7 @@
             <group name="fundraising" position="after">
                 <group name="sport" string="Sport profile" attrs="{'invisible': [('is_muskathlon', '=', False)]}">
                     <field name="t_shirt_size"/>
+                    <field name="t_shirt_type"/>
                     <field name="sport_discipline_id"/>
                     <field name="sport_level"/>
                     <field name="sport_level_description"/>
