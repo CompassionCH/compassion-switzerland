@@ -32,18 +32,53 @@
     </template>
 
 
-    <template id="child_protection_charter_page" name="Group Visit Contracts Agreements">
+    <template id="child_protection_charter_page" name="Child Protection Charter Agreement">
         <t t-call="website.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex"/>
             </t>
-            <t t-set="title" t-value="event.name"/>
             <div id="wrap">
                 <!-- Full width banner -->
                 <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
-                <div class="panel-body cms_form_wrapper">
-                    <t t-call="partner_compassion.child_protection_charter_text" />
+
+                <div class="container" id="partner_child_protection_charter">
+                    <div class="row mb32">
+                        <div class="col-md-9">
+                            <div class="panel-body cms_form_wrapper">
+                                <t t-call="partner_compassion.child_protection_charter_text" />
+
+                                <!-- Child protection form -->
+                                <t t-raw="child_protection_form.form_render()"/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- Confirmation page -->
+    <template id="child_protection_charter_confirmation_page" name="Child Protection Charter Agreement Confirmation Page">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <meta name="robots" content="noindex"/>
+            </t>
+            <div id="wrap">
+                <!-- Full width banner -->
+                <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
+
+                <div class="container">
+                    <div class="row mb32">
+                        <div class="col-md-9">
+                            <h2 t-esc="confirmation_title"/>
+                            <div class="jumbotron">
+                                <p t-raw="confirmation_message"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
             </div>
         </t>
     </template>

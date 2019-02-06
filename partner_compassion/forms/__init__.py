@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
-#    Releasing children from poverty in Jesus' name
+#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import controllers
-from . import models
-from . import wizards
-from . import forms
+
+from . import agreement_child_protection_charter_form

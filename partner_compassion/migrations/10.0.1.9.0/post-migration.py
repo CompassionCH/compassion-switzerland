@@ -1,14 +1,21 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import controllers
-from . import models
-from . import wizards
-from . import forms
+from openupgradelib import openupgrade
+
+
+@openupgrade.migrate(use_env=True)
+def migrate(env, version):
+    if not version:
+        return
+
+    # Put random uuid on partner
+    for partner in env['res.partner'].search([]):
+        partner.uuid = partner._get_uuid()
