@@ -391,20 +391,6 @@
             </field>
         </field>
     </record>
-    <!-- Add security on website button -->
-    <record model="ir.ui.view" id="partner_website_security">
-        <field name="name">res.partner.website.security</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="website_partner.view_partners_form_website"/>
-        <field name="arch" type="xml">
-            <button name="website_publish_button" position="attributes">
-                <attribute name="groups">base.group_user</attribute>
-            </button>
-            <field name="website_published" position="attributes">
-                <attribute name="groups">base.group_user</attribute>
-            </field>
-        </field>
-    </record>
 
     <record id="view_partner_form_invoice_button_ch" model="ir.ui.view">
         <field name="name">res.partner.form.invoice.switzerland</field>
