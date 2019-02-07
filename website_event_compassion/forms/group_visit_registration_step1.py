@@ -48,8 +48,11 @@ if not testing:
 
         @property
         def form_description(self):
+            user = self.event_id.sudo().user_id
             return _(
-                "<p>To live this unique experience of discovery, you just have"
+                "<p>Thank you for your interest in the work of Compassion, "
+                "to free more children from extreme poverty every day. "
+                "To live this unique experience of discovery, you just have"
                 " to complete the following 4 steps:</p>"
                 "<ol>"
                 "<li>Register with your coordinates</li>"
@@ -59,19 +62,23 @@ if not testing:
                 "</ol>"
                 "<p>Your registration will be validated and a place will be "
                 "reserved for you on this trip as soon as you have completed "
-                "the first three steps above. "
+                "the first three steps above."
                 "<br/><br/>"
                 "I will inform you at each important moment of the preparation"
-                " of the trip of the steps to be taken."
+                " of the trip of the steps to be taken. If you have any "
+                "question, don't hesitate to contact me: "
                 "<br/><br/>"
-                "Thank you for your interest in the work of Compassion, "
-                "to free more children from extreme poverty every day."
-                "<br/><br/>"
-                "Rose-Marie Reber"
+                "%s"
                 "</br>"
-                "Head of Tours and Visits at Compassion Suisse"
+                "%s"
+                "</br>"
+                "%s"
+                "</br>"
+                "Compassion Switzerland"
                 "</p>"
-            ) + "<br/><br/>"
+            ) % (user.preferred_name + " " + user.lastname,
+                 user.employee_ids.department_id.name,
+                 user.email.replace('@', '(at)')) + "<br/><br/>"
 
         @property
         def _form_fieldsets(self):
