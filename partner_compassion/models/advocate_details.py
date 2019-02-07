@@ -220,7 +220,7 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
     def advocate_cron(self):
         three_open_days = datetime.today() + BDay(3)
         birthday_advocates = self.search([
-            ('partner_id.category_id', 'ilike', 'advocate'),
+            ('state', 'in', ['active', 'on_break']),
             ('birthdate', 'like', three_open_days.strftime('%m-%d'))
         ])
         for advocate in birthday_advocates:
