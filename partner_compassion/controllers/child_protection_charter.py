@@ -37,7 +37,7 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
         # Do not use self.get_form() because it does not have sufficient rights
         # to search for the partner object (by the id).
         child_protection_form = request.env[form_model_key].form_init(
-                request, main_object=partner, **values)
+            request, main_object=partner, **values)
         child_protection_form.form_process()
 
         partner.env.invalidate_all()
