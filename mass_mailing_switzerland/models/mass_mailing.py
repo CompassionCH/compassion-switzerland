@@ -16,6 +16,8 @@ class MassMailing(models.Model):
     """
     _inherit = 'mail.mass_mailing'
 
+    total = fields.Integer(compute="_compute_statistics")
+
     mailing_domain_copy = fields.Char(related='mailing_domain')
     clicks_ratio = fields.Integer(compute=False)
     click_event_ids = fields.Many2many(
@@ -45,6 +47,53 @@ class MassMailing(models.Model):
             mass_mail.unsub_ratio = 100 * (
                 float(unsub) / len(mass_mail.statistics_ids))
 
+    def recompute_states(self):
+        self.env['mail.mail.statistics'].search([
+            ('mass_mailing_id', 'in', self.ids)])._compute_state()
+
+        self._compute_statistics()
+
+    def _compute_statistics(self):
+        self.env.cr.execute("""
+            SELECT
+                m.id as mailing_id,
+                COUNT(CASE WHEN s.state != 'outgoing'
+                    THEN 1 ELSE null END) AS sent,
+                COUNT(CASE WHEN s.state = 'outgoing'
+                    THEN 1 ELSE null END) AS scheduled,
+                COUNT(CASE WHEN t.state = 'rejected'
+                    THEN 1 ELSE null END) AS failed,
+                COUNT(CASE WHEN t.state = 'delivered' OR
+                    t.state = 'opened'
+                    THEN 1 ELSE null END) AS delivered,
+                COUNT(CASE WHEN t.state = 'opened'
+                    THEN 1 ELSE null END) AS opened,
+                COUNT(CASE WHEN s.replied is not null
+                    THEN 1 ELSE null END) AS replied,
+                COUNT(CASE WHEN t.state = 'bounced' OR
+                    t.state = 'spam'
+                    THEN 1 ELSE null END) AS bounced
+            FROM
+                mail_tracking_email t
+            RIGHT JOIN
+                mail_mass_mailing m
+                ON (m.id = t.mass_mailing_id)
+            RIGHT JOIN
+                mail_mail_statistics s
+                ON (m.id = s.mass_mailing_id AND t.mail_stats_id = s.id)
+            WHERE
+                m.id IN %s
+            GROUP BY m.id
+        """, (tuple(self.ids), ))
+
+        for row in self.env.cr.dictfetchall():
+            row['total'] = row['sent']
+            row['received_ratio'] = 100.0 * row['delivered'] / row['total']
+            row['opened_ratio'] = 100.0 * row['opened'] / row['total']
+            row['replied_ratio'] = 100.0 * row['replied'] / row['total']
+            row['bounced_ratio'] = 100.0 * row['bounced'] / row['total']
+            self.browse(row.pop('mailing_id')).update(row)
+
     def _compute_events(self):
         for mass_mail in self:
             unsub = self.env['mail.tracking.event'].search([
@@ -60,6 +109,7 @@ class MassMailing(models.Model):
 
     @api.multi
     def recompute_events(self):
+        self.recompute_states()
         self.compute_unsub_ratio()
         self.compute_clicks_ratio()
         return True
@@ -176,7 +226,8 @@ class MassMailing(models.Model):
             'name': _('Tracking Emails'),
             'view_type': 'form',
             'res_model': 'mail.tracking.email',
-            'domain': [('mass_mailing_id', 'in', self.ids)] + domain,
+            'domain': [('mass_mailing_id', 'in', self.ids),
+                       ('mail_stats_id', '!=', None)] + domain,
             'view_mode': 'tree,form',
             'target': 'current',
             'context': self.env.context

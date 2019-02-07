@@ -50,6 +50,7 @@
         'data/group_visit_emails.xml',
         'data/communication_config.xml',
         'data/survey.xml',
+        'data/event_message_subtype.xml',
         'views/event_compassion_open_wizard.xml',
         'views/event_compassion_view.xml',
         'views/event_event_view.xml',
@@ -73,6 +74,7 @@
         'templates/group_visit_practical_information.xml',
         'templates/group_visit_party_invitation.xml',
         'templates/robots.xml',
+        'wizards/event_registration_communication_wizard.xml',
     ],
     'demo': [
         'demo/crm_event_demo.xml'

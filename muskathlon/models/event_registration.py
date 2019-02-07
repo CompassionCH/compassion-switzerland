@@ -83,6 +83,14 @@ class MuskathlonRegistration(models.Model):
     @related_action('related_action_registration')
     def notify_new_registration(self):
         """Notify user for registration"""
-        self._message_auto_subscribe_notify(
-            self.mapped('user_id.partner_id').ids)
+        partners = self.mapped('user_id.partner_id') | self.event_id.mapped(
+            'message_partner_ids')
+        self.message_subscribe(partners.ids)
+        self.message_post(
+            body=_(
+                "The participant registered through the Muskathlon website."),
+            subject=_("%s - New Muskathlon registration") % self.name,
+            message_type='email',
+            subtype="website_event_compassion.mt_registration_create"
+        )
         return True

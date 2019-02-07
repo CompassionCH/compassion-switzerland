@@ -377,6 +377,27 @@ class Event(models.Model):
         })
 
     @api.multi
+    def button_send_reminder(self):
+        """ Create a communication job with a chosen communication config"""
+
+        ctx = {
+            'partner_id': self.partner_id_id,
+            'object_ids': self.ids
+        }
+
+        return {
+            'name': _('Choose a communication'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'event.registration.communication.wizard',
+            'view_id': self.env.ref(
+                'website_event_compassion.'
+                'event_registration_communication_wizard_form').id,
+            'view_mode': 'form',
+            'target': 'new',
+            'context': ctx
+        }
+
+    @api.multi
     def button_reg_close(self):
         super(Event, self).button_reg_close()
         return self.write({
@@ -597,3 +618,10 @@ class Event(models.Model):
                     'website_event_compassion.task_medical_discharge').id),
             ]
         })
+
+    def _track_subtype(self, init_values):
+        self.ensure_one()
+        if 'user_id' in init_values and init_values['user_id'] is False:
+            # When the registration is created.
+            return 'website_event_compassion.mt_registration_create'
+        return super(Event, self)._track_subtype(init_values)

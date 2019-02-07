@@ -14,3 +14,4 @@ from . import import_letters_history
 from . import translate_connector
 from . import correspondence_template
 from . import advocate_details
+from . import partner

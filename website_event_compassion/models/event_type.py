@@ -11,7 +11,10 @@ from odoo import models, fields
 
 
 class EventType(models.Model):
-    _inherit = 'event.type'
+    # Inherit from 'mail.thread' so that the followers can be notified when
+    # events of the type have changed.
+    _inherit = ['event.type', 'mail.thread']
+    _name = 'event.type'
 
     accepts_registrations = fields.Boolean(default=True)
     travel_features = fields.Boolean(

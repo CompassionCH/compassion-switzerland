@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mt_registration_create" model="mail.message.subtype">
+            <field name="name">Registration created</field>
+            <field name="res_model">event.registration</field>
+            <field name="default" eval="True"/>
+            <field name="description">A registration has been created</field>
+        </record>
+
+        <record id="mt_event_s_registration" model="mail.message.subtype">
+            <field name="name">All new registrations</field>
+            <field name="res_model">event.event</field>
+            <field name="default" eval="True"/>
+            <field name="description">New registration</field>
+            <field name="sequence">10</field>
+            <field name="parent_id" eval="ref('mt_registration_create')"/>
+            <field name="relation_field">event_id</field>
+        </record>
+
+        <record id="mt_type_s_event_s_registration" model="mail.message.subtype">
+            <field name="name">New registrations of event type</field>
+            <field name="res_model">event.type</field>
+            <field name="default" eval="True"/>
+            <field name="description">New registrations to event of this type</field>
+            <field name="sequence">10</field>
+            <field name="parent_id" eval="ref('mt_event_s_registration')"/>
+            <field name="relation_field">event_type_id</field>
+        </record>
+    </data>
+</odoo>
