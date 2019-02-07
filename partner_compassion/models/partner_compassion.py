@@ -151,6 +151,15 @@ class ResPartner(models.Model):
             res += move_line.credit
         return res
 
+    @api.multi
+    def update_number_sponsorships(self):
+        """
+        Update the sponsorship number for the related church as well.
+        """
+        return super(
+            ResPartner,
+            self + self.mapped('church_id')).update_number_sponsorships()
+
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
@@ -325,32 +334,6 @@ class ResPartner(models.Model):
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
-    def update_church_sponsorships_number(self):
-        """
-        Update the count of sponsorships for the church of the partner
-        :return: True
-        """
-        return self.mapped('church_id').update_number_sponsorships()
-
-    def update_number_sponsorships(self):
-        """
-        Includes church members sponsorships in the count
-        :return: True
-        """
-        for partner in self:
-            partner.number_sponsorships = self.env[
-                'recurring.contract'].search_count([
-                    '|', '|', '|',
-                    ('correspondent_id', 'in', partner.member_ids.ids),
-                    ('correspondent_id', '=', partner.id),
-                    ('partner_id', '=', partner.id),
-                    ('partner_id', 'in', partner.member_ids.ids),
-                    ('state', 'not in', ['cancelled', 'terminated']),
-                    ('child_id', '!=', False),
-                    ('activation_date', '!=', False),
-                ])
-        return True
-
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
@@ -369,47 +352,6 @@ class ResPartner(models.Model):
         if record:
             partner = self.browse(record[1])
         return record and partner.lang
-
-    @api.multi
-    def open_sponsored_children(self):
-        self.ensure_one()
-        if self.is_church:
-            return {
-                'type': 'ir.actions.act_window',
-                'name': 'Children',
-                'res_model': 'compassion.child',
-                'view_type': 'form',
-                'view_mode': 'tree,form',
-                'domain': ['|', ('sponsor_id', '=', self.id),
-                           ('sponsor_id', 'in', self.member_ids.ids)],
-                'context': self.env.context,
-            }
-        else:
-            return super(ResPartner, self).open_sponsored_children()
-
-    @api.multi
-    def open_contracts(self):
-        """ Used to bypass opening a contract in popup mode from
-        res_partner view. """
-        self.ensure_one()
-        if self.is_church:
-            return {
-                'type': 'ir.actions.act_window',
-                'name': 'Contracts',
-                'res_model': 'recurring.contract',
-                'views': [[False, "tree"], [False, "form"]],
-                'domain': ['|', '|',
-                           ('correspondent_id', 'in', self.member_ids.ids),
-                           ('correspondent_id', '=', self.id), '|',
-                           ('partner_id', '=', self.id),
-                           ('partner_id', 'in', self.member_ids.ids)],
-                'context': self.with_context({
-                    'default_type': 'S',
-                    'search_default_active': True
-                }).env.context,
-            }
-        else:
-            return super(ResPartner, self).open_contracts()
 
     @api.multi
     def forget_me(self):
@@ -510,6 +452,19 @@ class ResPartner(models.Model):
         else:
             return SMBConnection(
                 SmbConfig.smb_user, SmbConfig.smb_pass, 'odoo', 'nas')
+
+    def _get_active_sponsorships_domain(self):
+        """
+        Include sponsorships of church members
+        :return: search domain for recurring.contract
+        """
+        domain = super(ResPartner, self)._get_active_sponsorships_domain()
+        domain.insert(0, '|')
+        domain.insert(3, ('partner_id', 'in', self.mapped('member_ids').ids))
+        domain.insert(4, '|')
+        domain.insert(6, ('correspondent_id', 'in', self.mapped(
+            'member_ids').ids))
+        return domain
 
 
 class SmbConfig():
