@@ -152,6 +152,17 @@ class AdvocateDetails(models.Model):
             tc.upsert_user(self.partner_id, create=True)
         except:
             tc.upsert_user(self.partner_id, create=False)
+
+        # The translation platform sends an activation email to all the users
+        # that match every one of the following conditions:
+        #   - alertTranslator = 1
+        #   - code is NULL
+        #   - password is NULL
+        #   - last_login is NULL
+
+        if not self.partner_id.has_agreed_child_protection_charter:
+            tc.disable_user(self.partner_id)
+
         # prepare welcome communication
         config = self.env.ref('sbc_switzerland.new_translator_config')
         self.env['partner.communication.job'].create({

@@ -17,6 +17,8 @@ class ResPartner(models.Model):
     """
     This class augment the write method to update the translation platform. If
     the partner is also a translator.
+    It also override the agree_to_child_protection_charter method to activate
+    the associated translator advocate.
     """
     _inherit = 'res.partner'
 
@@ -38,4 +40,14 @@ class ResPartner(models.Model):
                     #              "partner in translation platform")
                     tc.upsert_user(partner, create=False)
 
+        return res
+
+    @api.multi
+    def agree_to_child_protection_charter(self):
+        res = super(ResPartner, self).agree_to_child_protection_charter()
+        translation = self.env.ref('partner_compassion.engagement_translation')
+        for partner in self:
+            advocate = partner.advocate_details_id
+            if translation in advocate.engagement_ids:
+                advocate.set_active()
         return res
