@@ -8,7 +8,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import base64
 import logging
 
 from odoo import api, models, fields, _
@@ -16,13 +15,6 @@ from odoo import api, models, fields, _
 from odoo.addons.report_compassion.models.contract_group import setlocale
 
 _logger = logging.getLogger(__name__)
-
-try:
-    from wand.color import Color
-    from wand.drawing import Drawing
-    from wand.image import Image
-except ImportError:
-    _logger.warning("Please install wand.")
 
 # Ratio of white frame around the child picture
 FRAME_RATIO = 0.08
@@ -57,7 +49,6 @@ class CompassionChild(models.Model):
     old_firstname = fields.Char(compute='_compute_revised_values')
     current_values = fields.Char(compute='_compute_revised_values')
     completion_month = fields.Char(compute='_compute_completion_month')
-    picture_frame = fields.Binary(compute='_compute_picture_frame')
 
     def _compute_revised_values(self):
         for child in self:
@@ -81,27 +72,6 @@ class CompassionChild(models.Model):
             completion = fields.Date.from_string(child.completion_date)
             with setlocale(lang):
                 child.completion_month = completion.strftime("%B")
-
-    def _compute_picture_frame(self):
-        for child in self.filtered('fullshot'):
-            try:
-                with Image(blob=base64.b64decode(child.fullshot)) as picture:
-                    frame_width = int(picture.width * FRAME_RATIO)
-                    frame_height = int(picture.height * FRAME_RATIO)
-                    picture.frame(Color("#fff"), frame_width, frame_height)
-                    with Drawing() as draw:
-                        draw.fill_color = Color('#000')
-                        draw.text_alignment = 'left'
-                        draw.font_size = 20
-                        draw.text(
-                            frame_width + 50,
-                            picture.height - int(frame_height / 1.5),
-                            child.local_id + ' ' + child.name)
-                        draw(picture)
-                        child.picture_frame = base64.b64encode(
-                            picture.make_blob())
-            except:
-                child.picture_frame = False
 
     @api.multi
     def depart(self):
