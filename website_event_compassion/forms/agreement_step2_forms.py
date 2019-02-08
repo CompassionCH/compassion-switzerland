@@ -157,6 +157,11 @@ if not testing:
                     'website_event_compassion.task_sign_child_protection')
                 values['completed_task_ids'] = [(4, sign_task.id)]
 
+        def form_after_create_or_update(self, values, extra_values):
+            # Mark the charter as accepted in the partner
+            self.main_object.sudo().partner_id\
+                .agree_to_child_protection_charter()
+
     class TripForm(models.AbstractModel):
         _name = 'cms.form.group.visit.trip.form'
         _inherit = 'cms.form.group.visit.step2'
