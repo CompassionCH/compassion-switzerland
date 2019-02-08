@@ -84,7 +84,7 @@ class CompassionHold(models.TransientModel):
         with ZipFile(zip_buffer, 'w') as zip_data:
             for child in self.mapped('sponsorship_ids.child_id'):
                 fname = child.sponsor_ref + '_' + child.local_id + '.jpg'
-                zip_data.writestr(fname, base64.b64decode(child.picture_frame))
+                zip_data.writestr(fname, base64.b64decode(child.fullshot))
 
         zip_buffer.seek(0)
         return base64.b64encode(zip_buffer.read())
