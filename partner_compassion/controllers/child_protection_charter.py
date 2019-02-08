@@ -51,7 +51,9 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
                 'confirmation_title': _("Thank you!"),
                 'confirmation_message': _(
                     "We successfully received your agreement to the Child "
-                    "Protection Charter.")
+                    "Protection Charter. You will receive an invitation to "
+                    "connect to the translation platform in the coming day."
+                )
             }
             return request.render(
                 'partner_compassion.'
