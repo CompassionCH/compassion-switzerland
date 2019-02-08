@@ -10,6 +10,7 @@
 ##############################################################################
 import logging
 import tempfile
+import uuid
 
 from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
@@ -105,9 +106,30 @@ class ResPartner(models.Model):
         ('email_alias', 'Email alias')
     ])
 
+    uuid = fields.Char(default=lambda self: self._get_uuid(), copy=False,
+                       index=True)
+
+    has_agreed_child_protection_charter = fields.Boolean(
+        help="Indicates if the partner has agreed to the child protection"
+             "charter.", default=False)
+    date_agreed_child_protection_charter = fields.Datetime(
+        help="The date and time when the partner has agreed to the child"
+             "protection charter."
+    )
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+    def _get_uuid(self):
+        return str(uuid.uuid4())
+
+    @api.multi
+    def agree_to_child_protection_charter(self):
+        return self.write({
+            'has_agreed_child_protection_charter': True,
+            'date_agreed_child_protection_charter': fields.Datetime.now()
+        })
+
     @api.multi
     def validate_partner(self):
         return self.write({

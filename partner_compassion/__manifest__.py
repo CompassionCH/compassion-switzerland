@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Upgrade Partners for Compassion Suisse',
-    'version': '10.0.1.8.0',
+    'version': '10.0.1.9.0',
     'category': 'Partner',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
@@ -62,6 +62,7 @@
         'views/product_view.xml',
         'views/partner_check_double.xml',
         'views/notification_settings_view.xml',
+        'templates/child_protection_charter.xml'
     ],
     'installable': True,
     'auto_install': False,

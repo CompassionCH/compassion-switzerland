@@ -1,0 +1,482 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* partner_compassion
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-25 12:24+0000\n"
+"PO-Revision-Date: 2014-04-25 14:38+0100\n"
+"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
+"Language-Team: \n"
+"Language: de_CH\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.4\n"
+
+#. module: partner_compassion
+#: field:res.partner,abroad:0
+msgid "Abroad/Only e-mail"
+msgstr ""
+
+#. module: partner_compassion
+#: field:res.partner,street3:0
+msgid "Street3"
+msgstr ""
+
+#. module: partner_compassion
+#: field:res.partner,thankyou_letter:0
+msgid "Thank you letter"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.title,name:partner_compassion.res_partner_title_pastor
+msgid "Pastor"
+msgstr "Herr Pfarrer"
+
+#. module: partner_compassion
+#: model:res.partner.title,name:partner_compassion.res_partner_title_misses
+#: model:res.partner.title,shortcut:partner_compassion.res_partner_title_misses
+msgid "Misses"
+msgstr "Fräuleins"
+
+#. module: partner_compassion
+#: field:res.partner,nbmag:0
+msgid "Number of Magazines"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.category,name:partner_compassion.res_partner_category_donor
+msgid "Donor"
+msgstr ""
+
+#. module: partner_compassion
+#: field:res.partner,birthday_reminder:0
+msgid "Birthday Reminder"
+msgstr ""
+
+#. module: partner_compassion
+#: field:res.partner,deathdate:0
+msgid "Death date"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.title,name:partner_compassion.res_partner_title_men
+msgid "Misters"
+msgstr "Herrn"
+
+#. module: partner_compassion
+#: field:res.partner,church_unlinked:0
+msgid "Church (N/A)"
+msgstr "Kirche (N/A)"
+
+#. module: partner_compassion
+#: model:res.partner.title,name:partner_compassion.res_partner_title_friends
+msgid "Friends of Compassion"
+msgstr "Freunde von Compassion"
+
+#. module: partner_compassion
+#: model:res.partner.category,name:partner_compassion.res_partner_category_prog_corresp
+msgid "Correspondance Program"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.category,name:partner_compassion.res_partner_category_corresp_compass
+msgid "Correspondance by Compassion"
+msgstr ""
+
+#. module: partner_compassion
+#: help:res.partner,abroad:0
+msgid "Indicates if the partner is abroad and should only be updated by e-mail"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.title,shortcut:partner_compassion.res_partner_title_pastor
+msgid "Pr."
+msgstr "Herr Pf."
+
+#. module: partner_compassion
+#: model:res.partner.title,name:partner_compassion.res_partner_title_mister_miss
+#, fuzzy
+msgid "Mister and Madam"
+msgstr "Herr und Frau"
+
+#. module: partner_compassion
+#: model:res.partner.category,name:partner_compassion.res_partner_category_translator
+msgid "Translator"
+msgstr ""
+
+#. module: partner_compassion
+#: field:res.partner,tax_certificate:0
+msgid "Tax certificate"
+msgstr ""
+
+#. module: partner_compassion
+#: help:res.partner,calendar:0
+msgid "Indicates if the partner wants to receive the Compassion calendar."
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.title,shortcut:partner_compassion.res_partner_title_family
+msgid "Fam."
+msgstr "Fam"
+
+#. module: partner_compassion
+#: field:res.partner,is_church:0
+msgid "Is a Church"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.title,shortcut:partner_compassion.res_partner_title_friends
+msgid "Friends"
+msgstr "Freunde"
+
+#. module: partner_compassion
+#: view:res.partner:0 field:res.partner,member_ids:0
+msgid "Members"
+msgstr ""
+
+#. module: partner_compassion
+#: help:res.partner,birthday_reminder:0
+msgid ""
+"Indicates if the partner wants to receive a birthday reminder of his child."
+msgstr ""
+
+#. module: partner_compassion
+#: help:res.partner,christmas_card:0
+msgid "Indicates if the partner wants to receive the christmas card."
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.title,shortcut:partner_compassion.res_partner_title_men
+msgid "Messrs."
+msgstr "Hrn."
+
+#. module: partner_compassion
+#: model:res.partner.title,shortcut:partner_compassion.res_partner_title_mister_miss
+msgid "Mr. and Mrs."
+msgstr "Hr. und Fr."
+
+#. module: partner_compassion
+#: model:res.partner.category,name:partner_compassion.res_partner_category_ambassador
+msgid "Ambassador"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.title,name:partner_compassion.res_partner_title_ladies
+#: model:res.partner.title,shortcut:partner_compassion.res_partner_title_ladies
+msgid "Ladies"
+msgstr "Frauen"
+
+#. module: partner_compassion
+#: model:res.partner.title,name:partner_compassion.res_partner_title_family
+msgid "Family"
+msgstr "Familie"
+
+#. module: partner_compassion
+#: field:res.partner,christmas_card:0
+msgid "Christmas Card"
+msgstr ""
+
+#. module: partner_compassion
+#: view:res.partner:0
+msgid "Correspondance"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.category,name:partner_compassion.res_partner_category_sponsor
+msgid "Sponsor"
+msgstr ""
+
+#. module: partner_compassion
+#: field:res.partner,church_id:0
+#: model:res.partner.category,name:partner_compassion.res_partner_category_church
+msgid "Church"
+msgstr "Kirche"
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: partner_compassion
+#: field:res.partner,calendar:0
+msgid "Calendar"
+msgstr ""
+
+#. module: partner_compassion
+#: help:res.partner,church_unlinked:0
+msgid ""
+"Use this field if the church of the partner can not correctly be determined "
+"and linked."
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.category,name:partner_compassion.res_partner_category_old
+msgid "Old Sponsor"
+msgstr ""
+
+#~ msgid "Gentlemen"
+#~ msgstr "Herrn"
+
+#~ msgid "Madam and Sir"
+#~ msgstr "Frau und Herr"
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid "Code of Conduct"
+msgstr "Verhaltenskodex"
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid "Expected/Acceptable Behaviors"
+msgstr "Erwartete/angebrachte Verhaltensweisen"
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid "Unacceptable Behaviors"
+msgstr "Inakzeptable Verhaltensweisen"
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will be careful about my appearance, language, action, to ensure that my "
+"behavior demonstrates a respect for beneficiaries and their families, their "
+"culture and their rights and follow recommendations provided."
+msgstr ""
+"Ich achte auf mein Erscheinungsbild, meine Sprache und meine Handlungen, "
+"damit ich mit meinem Verhalten Respekt gegenüber den Patenkindern, ihren "
+"Familien, ihrer Kultur und ihren Rechten zeige. Ich befolge diesbezügliche "
+"Empfehlungen."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will contribute to building an environment where children are respected "
+"and encouraged to discuss their concerns and rights."
+msgstr ""
+"Ich trage dazu bei, eine Atmosphäre zu schaffen, in der Kinder respektiert "
+"und ermutigt werden, ihre Anliegen und Rechte auszudrücken."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will demonstrate the proper respect and dignity of all children and will "
+"demonstrate Jesus’s love and care for them, regardless of their gender, age, "
+"race, religion, social background, culture, special need or disability."
+msgstr ""
+"Ich zeige allen Kindern gegenüber Respekt und Würde, begegne ihnen mit Jesu "
+"Liebe und nehme mich ihrer an,\n"
+"unabhängig von Geschlecht, Alter, Ethnie, sozialer Herkunft, Kultur, "
+"besonderer Bedürfnisse oder Behinderung."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will engage in activities with beneficiaries only in open or visible "
+"places, and in the event that an activity needs to take place in an enclosed "
+"space, I will ensure that at least one other approved adult is present."
+msgstr ""
+"Ich nehme nur an Aktivitäten mit den Patenkindern teil, die an einem "
+"offenen, gut sichtbaren Ort stattfinden.\n"
+"Muss die Aktivität in einem geschlossenen Raum stattfinden, sorge ich dafür, "
+"dass mindestens eine andere\n"
+"berechtigte erwachsene Person dabei ist."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid "I will engage in age-appropriate communication with beneficiaries."
+msgstr ""
+"Ich verwende in der Kommunikation mit den Patenkindern altersgerechte "
+"Sprache."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will follow Compassion’s rules about communication with beneficiaries, "
+"including social media interaction."
+msgstr ""
+"Ich befolge die Vorschriften von Compassion hinsichtlich der Kommunikation "
+"mit den Patenkindern. Dazu gehören auch die Vorschriften zur Kommunikation "
+"über Social Media."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will follow dignity standards (for example, only recording children who "
+"are dressed appropriately, understand they are being recorded, etc.) "
+"regarding child photography and videography."
+msgstr ""
+"Beim Fotografieren und Filmen von Kindern befolge ich Grundsätze zur Wahrung "
+"der Würde (z.B. nur Kinder\n"
+"filmen, die angemessen gekleidet sind und die wissen, dass sie gefilmt "
+"werden)."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will keep all information about child protection investigations "
+"confidential, keeping in mind privacy and dignity concerns of all involved."
+msgstr ""
+"Ich behandle jegliche Information aus Nachforschungen zum Kinderschutz "
+"vertraulich, im Bestreben darum, die Privatsphäre und Würde aller "
+"Beteiligten zu wahren und zu bewahren."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will maintain appropriate and reasonable expectations for children based "
+"on their age and ability level. (For example, it is developmentally normal "
+"for a three-year-old to become upset easily when they are tired but we could "
+"expect a teenager to manage their emotions even when they are very tired.)"
+msgstr ""
+"Ich habe den Kindern gegenüber vernünftige, ihrem Alter und ihrem "
+"Entwicklungsstand entsprechende\n"
+"Erwartungen."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will never engage in sexual/sexually suggestive behavior with any child "
+"under age 18, regardless of the legal age of consent in-country."
+msgstr ""
+"Ich verhalte mich niemals sexuell anzüglich gegenüber einem Kind unter 18, "
+"unabhängig des gesetzlichen sexuellen Volljährigkeitsalters des "
+"entsprechenden Landes."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will never travel alone with a beneficiary, without an approved "
+"representative or prior approval, except in a life-threatening emergency "
+"where circumstances require immediate movement."
+msgstr ""
+"Ich reise nie alleine mit einem Patenkind ohne einen anerkannten Vertreter "
+"oder im Vorfeld erteilter Erlaubnis, es\n"
+"sei denn, es handle sich um einen lebensbedrohenden Notfall, bei dem "
+"sofortiges Handeln angesagt ist."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will never use any kind of physical discipline or physical punishment "
+"(some examples include whipping, caning, slapping, forcing punitive "
+"exercise, and other types of corporal punishment) as a method of correction "
+"for beneficiaries."
+msgstr ""
+"Ich benutze nie körperliche Züchtigung oder Bestrafung (z.B. schlagen mit "
+"einer Peitsche, einem Stock oder der Hand, zwingen zu körperlichen Übungen "
+"als Strafe oder andere körperliche Bestrafungen) zur Massregelung von\n"
+"Patenkindern."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will never use language that is verbally/emotionally abusive, sexually "
+"suggestive, degrading, humiliating, shaming or is otherwise culturally "
+"inappropriate with a beneficiary."
+msgstr ""
+"Ich benutze einem Patenkind gegenüber nie eine Sprache, die verbal/emotional "
+"beleidigend, sexuell anzüglich, erniedrigend, demütigend, beschämend oder "
+"anderswie kulturell nangebracht ist."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will never visit a beneficiary, their caregiver(s)and/or church outside "
+"the bounds of acceptable program or tours and visits standards."
+msgstr ""
+"Ich besuche nie ein Patenkind, deren Betreuer und/oder Kirchgemeinde "
+"ausserhalb des festgesetzten Rahmens für Programme, Reisen und Besuche."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will not condone or participate in illegal, unsafe or abusive behavior of "
+"any child, including exploitation, trafficking, harmful traditional "
+"practices, and spiritual or ritualistic abuse."
+msgstr ""
+"Ich dulde illegales, gefährliches und entwürdigendes Verhalten gegenüber "
+"Kindern nicht und nehme auch nicht daran teil. Dazu gehören Ausbeutung, "
+"Menschen- oder Kinderhandel, schädliche traditionelle Praktiken und "
+"geistlicher oder ritueller Missbrauch."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will not gather, disclose or support the disclosure of information about "
+"beneficiaries or their families without prior, express permission that "
+"contains private or privileged content such as physical, mental or emotional "
+"health status, financial data, history of abuse or exploitation, or any "
+"portrayal that does not meet Compassion’s identified dignity standards. "
+"Additionally, I will not disclose information that might allow a beneficiary "
+"or their family to be physically located (such as a map to their home, home "
+"address, or geo-tag to their location in a photograph.) I understand that "
+"disclosure includes content published in any print or digital form on any "
+"public or private platform."
+msgstr ""
+"Ich sammle über kein Medium vertrauliche Informationen über Kinder und deren "
+"Familien, noch gebe ich solche Informationen bekannt, noch unterstütze ich "
+"die Bekanntgabe derselben. Mit Medium sind u.a. Papier, Fotos, Social Media "
+"und alle anderen privaten oder öffentlichen Medienplattformen gemeint."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will not hire any child in any harmful form of child labor and follow "
+"local laws regarding child employment."
+msgstr ""
+"Ich stelle kein Kind zu irgendeiner schädlichen Form von Kinderarbeit ein "
+"und halte mich an die örtliche Gesetzgebung bezüglich der Anstellung von "
+"Kindern."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will not solicit a romantic/dating relationship and will never engage in "
+"sexual/sexually suggestive behavior with any beneficiary, regardless of age."
+msgstr ""
+"Ich lasse mich weder auf eine Liebesbeziehung mit einem Patenkind ein noch "
+"verhalte ich mich ihm gegenüber sexuell anzüglich, egal wie alt es ist."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"I will not touch (some examples include kissing, cuddling, picking up, "
+"holding, etc.) beneficiaries in an inappropriate or culturally insensitive "
+"way."
+msgstr ""
+"Ich berühre (z.B. küssen, knuddeln, hochheben, halten) ein Patenkind nicht "
+"auf unangebrachte oder kulturell\n"
+"unpassende Art und Weise."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"If I witness child abuse, know a child is in danger, observe any concerning "
+"behaviors from colleagues, partners or other representatives, or a child "
+"comes to me with a report of abuse, I will take it seriously and report it "
+"to the proper staff or relevant authorities. I will seek to do everything "
+"within my power to ensure the child is out of danger."
+msgstr ""
+"Werde ich Zeuge eines Kindsmissbrauchs, sehe ich ein Kind in Gefahr, "
+"beobachte ich bei Kollegen, Partnern oder\n"
+"anderen Vertretern beunruhigendes Verhalten oder kommt ein Kind zu mir und "
+"berichtet von Missbrauch, nehme\n"
+"ich das ernst und melde es den zuständigen Mitarbeitern oder Behörden. Ich "
+"tue alles in meiner Macht Stehende,\n"
+"um das Kind vor Gefahr zu schützen."
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+msgid ""
+"If requested, I will comply with child protection related investigations and "
+"make available any documentation or other information necessary for the "
+"completion of the investigation."
+msgstr ""
+"Auf Anfrage hin unterstütze ich Nachforschungen im Zusammenhang mit "
+"Kinderschutz, indem ich für die\n"
+"Nachforschung benötigte Nachweise oder andere Informationen herausgebe."

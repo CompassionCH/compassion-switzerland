@@ -1762,11 +1762,6 @@ msgid "Clothing"
 msgstr "Clothing"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid "Code of Conduct"
-msgstr "Verhaltenskodex"
-
-#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_color
 msgid "Color"
 msgstr "Farbe"
@@ -2363,11 +2358,6 @@ msgid "Excellent"
 msgstr "Excellent"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid "Expected/Acceptable Behaviors"
-msgstr "Erwartete/angebrachte Verhaltensweisen"
-
-#. module: website_event_compassion
 #: model:survey.label,value:website_event_compassion.gpfs_accommodations_4
 #: model:survey.label,value:website_event_compassion.gpfs_contact_4
 #: model:survey.label,value:website_event_compassion.gpfs_food_4
@@ -2707,219 +2697,6 @@ msgid "I will attend the meeting"
 msgstr "I will attend the meeting"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will be careful about my appearance, language, action, to ensure that my "
-"behavior demonstrates a respect for beneficiaries and their families, their "
-"culture and their rights and follow recommendations provided."
-msgstr ""
-"Ich achte auf mein Erscheinungsbild, meine Sprache und meine Handlungen, "
-"damit ich mit meinem Verhalten Respekt gegenüber den Patenkindern, ihren "
-"Familien, ihrer Kultur und ihren Rechten zeige. Ich befolge diesbezügliche "
-"Empfehlungen."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will contribute to building an environment where children are respected "
-"and encouraged to discuss their concerns and rights."
-msgstr ""
-"Ich trage dazu bei, eine Atmosphäre zu schaffen, in der Kinder respektiert "
-"und ermutigt werden, ihre Anliegen und Rechte auszudrücken."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will demonstrate the proper respect and dignity of all children and will "
-"demonstrate Jesus’s love and care for them, regardless of their gender, age, "
-"race, religion, social background, culture, special need or disability."
-msgstr ""
-"Ich zeige allen Kindern gegenüber Respekt und Würde, begegne ihnen mit Jesu "
-"Liebe und nehme mich ihrer an,\n"
-"unabhängig von Geschlecht, Alter, Ethnie, sozialer Herkunft, Kultur, "
-"besonderer Bedürfnisse oder Behinderung."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will engage in activities with beneficiaries only in open or visible "
-"places, and in the event that an activity needs to take place in an enclosed "
-"space, I will ensure that at least one other approved adult is present."
-msgstr ""
-"Ich nehme nur an Aktivitäten mit den Patenkindern teil, die an einem "
-"offenen, gut sichtbaren Ort stattfinden.\n"
-"Muss die Aktivität in einem geschlossenen Raum stattfinden, sorge ich dafür, "
-"dass mindestens eine andere\n"
-"berechtigte erwachsene Person dabei ist."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid "I will engage in age-appropriate communication with beneficiaries."
-msgstr ""
-"Ich verwende in der Kommunikation mit den Patenkindern altersgerechte "
-"Sprache."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will follow Compassion’s rules about communication with beneficiaries, "
-"including social media interaction."
-msgstr ""
-"Ich befolge die Vorschriften von Compassion hinsichtlich der Kommunikation "
-"mit den Patenkindern. Dazu gehören auch die Vorschriften zur Kommunikation "
-"über Social Media."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will follow dignity standards (for example, only recording children who "
-"are dressed appropriately, understand they are being recorded, etc.) "
-"regarding child photography and videography."
-msgstr ""
-"Beim Fotografieren und Filmen von Kindern befolge ich Grundsätze zur Wahrung "
-"der Würde (z.B. nur Kinder\n"
-"filmen, die angemessen gekleidet sind und die wissen, dass sie gefilmt "
-"werden)."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will keep all information about child protection investigations "
-"confidential, keeping in mind privacy and dignity concerns of all involved."
-msgstr ""
-"Ich behandle jegliche Information aus Nachforschungen zum Kinderschutz "
-"vertraulich, im Bestreben darum, die Privatsphäre und Würde aller "
-"Beteiligten zu wahren und zu bewahren."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will maintain appropriate and reasonable expectations for children based "
-"on their age and ability level. (For example, it is developmentally normal "
-"for a three-year-old to become upset easily when they are tired but we could "
-"expect a teenager to manage their emotions even when they are very tired.)"
-msgstr ""
-"Ich habe den Kindern gegenüber vernünftige, ihrem Alter und ihrem "
-"Entwicklungsstand entsprechende\n"
-"Erwartungen."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will never engage in sexual/sexually suggestive behavior with any child "
-"under age 18, regardless of the legal age of consent in-country."
-msgstr ""
-"Ich verhalte mich niemals sexuell anzüglich gegenüber einem Kind unter 18, "
-"unabhängig des gesetzlichen sexuellen Volljährigkeitsalters des "
-"entsprechenden Landes."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will never travel alone with a beneficiary, without an approved "
-"representative or prior approval, except in a life-threatening emergency "
-"where circumstances require immediate movement."
-msgstr ""
-"Ich reise nie alleine mit einem Patenkind ohne einen anerkannten Vertreter "
-"oder im Vorfeld erteilter Erlaubnis, es\n"
-"sei denn, es handle sich um einen lebensbedrohenden Notfall, bei dem "
-"sofortiges Handeln angesagt ist."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will never use any kind of physical discipline or physical punishment "
-"(some examples include whipping, caning, slapping, forcing punitive "
-"exercise, and other types of corporal punishment) as a method of correction "
-"for beneficiaries."
-msgstr ""
-"Ich benutze nie körperliche Züchtigung oder Bestrafung (z.B. schlagen mit "
-"einer Peitsche, einem Stock oder der Hand, zwingen zu körperlichen Übungen "
-"als Strafe oder andere körperliche Bestrafungen) zur Massregelung von\n"
-"Patenkindern."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will never use language that is verbally/emotionally abusive, sexually "
-"suggestive, degrading, humiliating, shaming or is otherwise culturally "
-"inappropriate with a beneficiary."
-msgstr ""
-"Ich benutze einem Patenkind gegenüber nie eine Sprache, die verbal/emotional "
-"beleidigend, sexuell anzüglich, erniedrigend, demütigend, beschämend oder "
-"anderswie kulturell nangebracht ist."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will never visit a beneficiary, their caregiver(s)and/or church outside "
-"the bounds of acceptable program or tours and visits standards."
-msgstr ""
-"Ich besuche nie ein Patenkind, deren Betreuer und/oder Kirchgemeinde "
-"ausserhalb des festgesetzten Rahmens für Programme, Reisen und Besuche."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will not condone or participate in illegal, unsafe or abusive behavior of "
-"any child, including exploitation, trafficking, harmful traditional "
-"practices, and spiritual or ritualistic abuse."
-msgstr ""
-"Ich dulde illegales, gefährliches und entwürdigendes Verhalten gegenüber "
-"Kindern nicht und nehme auch nicht daran teil. Dazu gehören Ausbeutung, "
-"Menschen- oder Kinderhandel, schädliche traditionelle Praktiken und "
-"geistlicher oder ritueller Missbrauch."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will not gather, disclose or support the disclosure of information about "
-"beneficiaries or their families without prior, express permission that "
-"contains private or privileged content such as physical, mental or emotional "
-"health status, financial data, history of abuse or exploitation, or any "
-"portrayal that does not meet Compassion’s identified dignity standards. "
-"Additionally, I will not disclose information that might allow a beneficiary "
-"or their family to be physically located (such as a map to their home, home "
-"address, or geo-tag to their location in a photograph.) I understand that "
-"disclosure includes content published in any print or digital form on any "
-"public or private platform."
-msgstr ""
-"Ich sammle über kein Medium vertrauliche Informationen über Kinder und deren "
-"Familien, noch gebe ich solche Informationen bekannt, noch unterstütze ich "
-"die Bekanntgabe derselben. Mit Medium sind u.a. Papier, Fotos, Social Media "
-"und alle anderen privaten oder öffentlichen Medienplattformen gemeint."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will not hire any child in any harmful form of child labor and follow "
-"local laws regarding child employment."
-msgstr ""
-"Ich stelle kein Kind zu irgendeiner schädlichen Form von Kinderarbeit ein "
-"und halte mich an die örtliche Gesetzgebung bezüglich der Anstellung von "
-"Kindern."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will not solicit a romantic/dating relationship and will never engage in "
-"sexual/sexually suggestive behavior with any beneficiary, regardless of age."
-msgstr ""
-"Ich lasse mich weder auf eine Liebesbeziehung mit einem Patenkind ein noch "
-"verhalte ich mich ihm gegenüber sexuell anzüglich, egal wie alt es ist."
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"I will not touch (some examples include kissing, cuddling, picking up, "
-"holding, etc.) beneficiaries in an inappropriate or culturally insensitive "
-"way."
-msgstr ""
-"Ich berühre (z.B. küssen, knuddeln, hochheben, halten) ein Patenkind nicht "
-"auf unangebrachte oder kulturell\n"
-"unpassende Art und Weise."
-
-#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
 msgid "I won't attend the meeting"
 msgstr "I won't attend the meeting"
@@ -2959,23 +2736,6 @@ msgstr ""
 "von COMPASSION die durch den Besuch entstandenen Kosten zu vergüten."
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"If I witness child abuse, know a child is in danger, observe any concerning "
-"behaviors from colleagues, partners or other representatives, or a child "
-"comes to me with a report of abuse, I will take it seriously and report it "
-"to the proper staff or relevant authorities. I will seek to do everything "
-"within my power to ensure the child is out of danger."
-msgstr ""
-"Werde ich Zeuge eines Kindsmissbrauchs, sehe ich ein Kind in Gefahr, "
-"beobachte ich bei Kollegen, Partnern oder\n"
-"anderen Vertretern beunruhigendes Verhalten oder kommt ein Kind zu mir und "
-"berichtet von Missbrauch, nehme\n"
-"ich das ernst und melde es den zuständigen Mitarbeitern oder Behörden. Ich "
-"tue alles in meiner Macht Stehende,\n"
-"um das Kind vor Gefahr zu schützen."
-
-#. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_event_fundraising
 #: model:ir.model.fields,help:website_event_compassion.field_event_registration_fundraising
 msgid ""
@@ -2995,17 +2755,6 @@ msgstr ""
 #: model:survey.question,comments_message:website_event_compassion.gpms_question_treatment
 msgid "If other, please specify:"
 msgstr "If other, please specify:"
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid ""
-"If requested, I will comply with child protection related investigations and "
-"make available any documentation or other information necessary for the "
-"completion of the investigation."
-msgstr ""
-"Auf Anfrage hin unterstütze ich Nachforschungen im Zusammenhang mit "
-"Kinderschutz, indem ich für die\n"
-"Nachforschung benötigte Nachweise oder andere Informationen herausgebe."
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
@@ -4437,11 +4186,6 @@ msgstr "True if the vaccine is mandatory when travelling to the country"
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_event_type_id
 msgid "Type"
 msgstr "Typ"
-
-#. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
-msgid "Unacceptable Behaviors"
-msgstr "Inakzeptable Verhaltensweisen"
 
 #. module: website_event_compassion
 #: model:event.registration.stage,name:website_event_compassion.stage_all_unconfirmed

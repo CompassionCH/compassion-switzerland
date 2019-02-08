@@ -10,41 +10,46 @@
             <field name="subject">New translator</field>
             <field name="body_html" type="html">
                 <div>
-                    % set partner = object.partner_id
+                % set partner = object.partner_id
                 </div>
-                <p>
-                    Dear ${partner.salutation},
-                    <br/>
-                    <br/>
-                    Welcome in the Compassion Translator Family. You will receive an automatic email with you acces to our translation platform.
-                    <br/>
-                    <br/>
-                    Here you will find some useful informations about translations:
-                    <br/>
-                    <br/>
-                    <b>About translations</b>
+                <div>
+                    <p>Dear ${partner.salutation},</p>
+                    <p>
+                        Welcome in the Compassion Translator Family.
+                % if partner.has_agreed_child_protection_charter
+                        You will receive an automatic email with your access to our translation platform.
+                % else
+                    </p>
+                    <p>
+                        Before you can start translating, you must agree to Compassion's Child Protection Charter.
+                    </p>
+                    <p>
+                        <a href="/partner/${partner.uuid}/child-protection-charter" class="btn btn-primary btn-block mb24" role="button" data-original-title="" title="">Read and agree to Compassion's Child Protection Charter</a>
+                    </p>
+                    <p>
+                        Once you have agreed, you will receive an automatic email with your access to our translation platform.
+                % endif
+                    </p>
+                    <p>Here you will find some useful informations about translations:</p>
+                    <p><b>About translations</b></p>
                     <ul>
-                        <li>We doesn't "tutoyons" the sponsors</li>
+                        <li>We doesn't use the familiar form with the sponsors</li>
                         <li>xxx</li>
                         <li>xxx</li>
                     </ul>
-                    <b>About your profile</b>
+                    <p><b>About your profile</b></p>
                     <ul>
                         <li>xxx</li>
                         <li>xxx</li>
                     </ul>
-                     <b>About the translation platform</b>
+                    <p><b>About the translation platform</b></p>
                     <ul>
                         <li>xxx</li>
                         <li>xxx</li>
                     </ul>
-
-                    <br/>
-                    If you have questions, do not hesitate to contact us.
-                    <br/>
-                    <br/>
-                    Yours sincerely
-                </p>
+                    <p>If you have questions, do not hesitate to contact us.</p>
+                    <p>Yours sincerely</p>
+                </div>
             </field>
         </record>
 
