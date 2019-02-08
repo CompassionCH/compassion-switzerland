@@ -40,8 +40,8 @@ if not testing:
                         "fully understood the content of the Child Protection "
                         "Charter. I agree with all the conditions mentioned "
                         "above. If I do not comply with these conditions,"
-                        "Compassion reserves the right to cancel my "
-                        "sponsorship."
+                        "Compassion reserves the right to deactivate my "
+                        "translator account and cancel my sponsorships."
                     ),
                     'fields': ['charter_agreement']
                 }
