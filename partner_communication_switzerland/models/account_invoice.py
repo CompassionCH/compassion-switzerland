@@ -67,6 +67,8 @@ class AccountInvoice(models.Model):
         """
         partners = self.mapped('partner_id').filtered(
             lambda p: p.thankyou_letter != 'no')
+        gift_category = self.env.ref(
+            'sponsorship_compassion.product_category_gift')
         for partner in partners:
             invoice_lines = self.mapped('invoice_line_ids').filtered(
                 lambda l: l.partner_id == partner)
@@ -86,9 +88,12 @@ class AccountInvoice(models.Model):
         ambassadors = self.mapped('invoice_line_ids.user_id').filtered(
             'advocate_details_id.mail_copy_when_donation')
         for ambassador in ambassadors:
+            # Filter only donations not for made for himself and filter
+            # gifts that are thanked but not directly for ambassador.
             ambassador_lines = self.mapped('invoice_line_ids').filtered(
                 lambda l: l.user_id == ambassador and
-                l.partner_id != ambassador)
+                l.partner_id != ambassador and
+                l.product_id.categ_id != gift_category)
             if ambassador_lines:
                 self.env['partner.communication.job'].create({
                     'partner_id': ambassador.id,
