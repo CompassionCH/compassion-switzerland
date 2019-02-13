@@ -93,77 +93,85 @@ class Contracts(models.Model):
         """
         _logger.info("New sponsorship for child %s from Wordpress: %s",
                      child_local_id, str(form_data))
-        # Add language in data
-        form_data['lang'] = LANG_MAPPING[sponsor_lang]
+        try:
+            # Add language in data
+            form_data['lang'] = LANG_MAPPING[sponsor_lang]
 
-        # Format birthday
-        birthday = form_data.get('birthday', '')
-        if ('/' in birthday) or (' ' in birthday) or ('.' in birthday) and \
-                len(birthday) > 6:
-            form_data['birthday'] = birthday[6:] + '-' + birthday[3:5] + \
-                '-' + birthday[0:2]
+            # Format birthday
+            birthday = form_data.get('birthday', '')
+            if ('/' in birthday) or (' ' in birthday) or \
+                    ('.' in birthday) and len(birthday) > 6:
+                form_data['birthday'] = birthday[6:] + '-' + birthday[3:5] + \
+                    '-' + birthday[0:2]
 
-        # Search for existing partner
-        partner = self.env['res.partner'].search([
-            ('lastname', 'ilike', form_data['last_name']),
-            ('firstname', 'ilike', form_data['first_name']),
-            ('zip', '=', form_data['zipcode']),
-            '|', ('active', '=', True), ('active', '=', False),
-        ])
-        if partner and len(partner) > 1:
-            partner = partner.filtered('has_sponsorships')
-            if len(partner) > 1:
-                partner = partner.filtered(
-                    lambda p: p.email == form_data['email'])
-        partner_ok = partner and len(partner) == 1
-        if not partner_ok:
-            partner = self.create_sponsor_from_web(form_data)
-        elif partner.contact_type == 'attached':
-            if partner.type == 'email_alias':
-                # In this case we want to link to the main partner
-                partner = partner.contact_id
+            # Search for existing partner
+            partner = self.env['res.partner'].search([
+                ('lastname', 'ilike', form_data['last_name']),
+                ('firstname', 'ilike', form_data['first_name']),
+                ('zip', '=', form_data['zipcode']),
+                '|', ('active', '=', True), ('active', '=', False),
+            ])
+            if partner and len(partner) > 1:
+                partner = partner.filtered('has_sponsorships')
+                if len(partner) > 1:
+                    partner = partner.filtered(
+                        lambda p: p.email == form_data['email'])
+            partner_ok = partner and len(partner) == 1
+            if not partner_ok:
+                partner = self.create_sponsor_from_web(form_data)
+            elif partner.contact_type == 'attached':
+                if partner.type == 'email_alias':
+                    # In this case we want to link to the main partner
+                    partner = partner.contact_id
+                else:
+                    # We unarchive the partner to make it visible
+                    partner.write({
+                        'active': True,
+                        'contact_id': False
+                    })
+
+            # Check origin
+            internet_id = self.env.ref('utm.utm_medium_website').id
+            utms = self.env['utm.mixin'].get_utms(
+                utm_source, utm_medium, utm_campaign)
+
+            # Create sponsorship
+            child = self.env['compassion.child'].search([
+                ('local_id', '=', child_local_id)])
+            lines = self._get_sponsorship_standard_lines()
+            if not form_data.get('patenschaftplus'):
+                lines = lines[:-1]
+            sponsorship_type = 'S'
+            partner_id = partner.id
+            if utm_source == 'wrpr':
+                # Special case Write&Pray sponsorship
+                sponsorship_type = 'SC'
+                partner_id = partner.search([
+                    ('name', '=', 'Donors of Compassion')
+                ], limit=1).id or partner.id
+            sponsorship_vals = {
+                'partner_id': partner_id,
+                'correspondent_id': partner.id,
+                'child_id': child.id,
+                'type': sponsorship_type,
+                'contract_line_ids': lines,
+                'next_invoice_date': fields.Date.today(),
+                'source_id': utms['source'],
+                'medium_id': utms.get('medium', internet_id),
+                'campaign_id': utms['campaign'],
+            }
+        except:
+            # We catch any exception to make sure we don't lose any
+            # sponsorship made from the website
+            _logger.error("Error during wordpress sponsorship import",
+                          exc_info=True)
+            sponsorship_vals = {}
+        finally:
+            if not test_mode:
+                return self.with_delay().create_sponsorship_job(
+                    sponsorship_vals, form_data)
             else:
-                # We unarchive the partner to make it visible
-                partner.write({
-                    'active': True,
-                    'contact_id': False
-                })
-
-        # Check origin
-        internet_id = self.env.ref('utm.utm_medium_website').id
-        utms = self.env['utm.mixin'].get_utms(
-            utm_source, utm_medium, utm_campaign)
-
-        # Create sponsorship
-        child = self.env['compassion.child'].search([
-            ('local_id', '=', child_local_id)])
-        lines = self._get_sponsorship_standard_lines()
-        if not form_data.get('patenschaftplus'):
-            lines = lines[:-1]
-        sponsorship_type = 'S'
-        partner_id = partner.id
-        if utm_source == 'wrpr':
-            # Special case Write&Pray sponsorship
-            sponsorship_type = 'SC'
-            partner_id = partner.search([
-                ('name', '=', 'Donors of Compassion')
-            ], limit=1).id or partner.id
-        sponsorship_vals = {
-            'partner_id': partner_id,
-            'correspondent_id': partner.id,
-            'child_id': child.id,
-            'type': sponsorship_type,
-            'contract_line_ids': lines,
-            'next_invoice_date': fields.Date.today(),
-            'source_id': utms['source'],
-            'medium_id': utms.get('medium', internet_id),
-            'campaign_id': utms['campaign'],
-        }
-        if not test_mode:
-            return self.with_delay().create_sponsorship_job(
-                sponsorship_vals, form_data)
-        else:
-            return self.create_sponsorship_job(sponsorship_vals, form_data)
+                return self.create_sponsorship_job(sponsorship_vals, form_data)
 
     @api.model
     def create_sponsor_from_web(self, web_data):
