@@ -178,6 +178,7 @@ if not testing:
         ]
 
         form_id = fields.Char(default='travel')
+        passport = fields.Binary()
 
         @property
         def form_widgets(self):

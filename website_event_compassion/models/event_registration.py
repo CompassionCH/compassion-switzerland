@@ -8,6 +8,8 @@
 #
 ##############################################################################
 import uuid
+import logging
+import base64
 
 from datetime import date
 
@@ -18,9 +20,30 @@ from odoo.tools import config, file_open
 
 from odoo.addons.queue_job.job import job
 
+_logger = logging.getLogger(__name__)
+
 # kanban colors
 RED = 2
 GREEN = 5
+
+try:
+    import magic
+except ImportError:
+    _logger.error("Please install magic to use website_event_compassion")
+
+
+def _get_file_type(data):
+    ftype = magic.from_buffer(base64.b64decode(data), True)
+    if 'pdf' in ftype:
+        return '.pdf'
+    elif 'tiff' in ftype:
+        return '.tiff'
+    elif 'jpeg' in ftype:
+        return '.jpg'
+    elif 'png' in ftype:
+        return '.png'
+    else:
+        return ''
 
 
 class Event(models.Model):
@@ -123,7 +146,8 @@ class Event(models.Model):
     emergency_ok = fields.Boolean(compute='_compute_step2_tasks')
     criminal_record_uploaded = fields.Boolean(
         compute='_compute_step2_tasks')
-    criminal_record = fields.Binary(attachment=True, copy=False)
+    criminal_record = fields.Binary(compute='_compute_criminal_record',
+                                    inverse='_inverse_criminal_record')
     medical_discharge = fields.Binary(attachment=True, copy=False)
     medical_survey_id = fields.Many2one(
         'survey.user_input', 'Medical survey', copy=False)
@@ -150,7 +174,8 @@ class Event(models.Model):
         ('other', 'Other')
     ], string='Emergency contact relation type')
     birth_name = fields.Char()
-    passport = fields.Binary('Copy of the passport', attachment=True)
+    passport = fields.Binary(
+        compute='_compute_passport', inverse='_inverse_passport')
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
 
@@ -229,7 +254,7 @@ class Event(models.Model):
     def _compute_partner_display_name(self):
         for registration in self:
             registration.partner_display_name = \
-                registration.partner_firstname + ' ' + \
+                (registration.partner_firstname or '') + ' ' + \
                 registration.partner_lastname
 
     @api.multi
@@ -335,6 +360,64 @@ class Event(models.Model):
                     treatment.value_free_text and not treatment.skipped
             else:
                 registration.requires_medical_discharge = False
+
+    def _compute_passport(self):
+        for registration in self:
+            registration.passport = self.env['ir.attachment'].search([
+                ('name', 'like', 'Passport'),
+                ('res_id', '=', registration.id),
+                ('res_model', '=', self._name)
+            ], limit=1).datas
+
+    def _inverse_passport(self):
+        attachment_obj = self.env['ir.attachment']
+        for registration in self:
+            passport = registration.passport
+            if passport:
+                name = 'Passport ' + registration.name + _get_file_type(
+                    passport)
+                attachment_obj.create({
+                    'datas_fname': name,
+                    'res_model': self._name,
+                    'res_id': registration.id,
+                    'datas': passport,
+                    'name': name,
+                })
+            else:
+                attachment_obj.search([
+                    ('name', 'like', 'Passport'),
+                    ('res_id', '=', registration.id),
+                    ('res_model', '=', self._name)
+                ]).unlink()
+
+    def _compute_criminal_record(self):
+        for registration in self:
+            registration.criminal_record = self.env['ir.attachment'].search([
+                ('name', 'like', 'Criminal record'),
+                ('res_id', '=', registration.id),
+                ('res_model', '=', self._name)
+            ], limit=1).datas
+
+    def _inverse_criminal_record(self):
+        attachment_obj = self.env['ir.attachment']
+        for registration in self:
+            criminal_record = registration.criminal_record
+            if criminal_record:
+                name = 'Criminal record ' + registration.name + \
+                    _get_file_type(criminal_record)
+                attachment_obj.create({
+                    'datas_fname': name,
+                    'res_model': self._name,
+                    'res_id': registration.id,
+                    'datas': criminal_record,
+                    'name': name,
+                })
+            else:
+                attachment_obj.search([
+                    ('name', 'like', 'Criminal record'),
+                    ('res_id', '=', registration.id),
+                    ('res_model', '=', self._name)
+                ]).unlink()
 
     ##########################################################################
     #                              ORM METHODS                               #
