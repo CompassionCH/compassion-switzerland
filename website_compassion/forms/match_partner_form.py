@@ -15,9 +15,8 @@ testing = tools.config.get('test_enable')
 if not testing:
     # prevent these forms to be registered when running tests
 
-    class EventPartnerMatchform(models.AbstractModel):
+    class PartnerMatchform(models.AbstractModel):
 
-        _name = 'cms.form.event.match.partner'
         _inherit = 'cms.form.match.partner'
 
         def form_before_create_or_update(self, values, extra_values):
@@ -25,16 +24,19 @@ if not testing:
             Avoid updating partner at GMC, use context to prevent this.
             """
             super(
-                EventPartnerMatchform,
+                PartnerMatchform,
                 self.with_context(no_upsert=True)
             ).form_before_create_or_update(values, extra_values)
 
-        def after_partner_match(self, partner, new_partner, vals):
+        def after_partner_match(self, partner, new_partner, partner_vals,
+                                values, extra_values):
             """
             Activate partner if it was a linked contact.
             :param partner: res.partner record matched
             :param new_partner: True if a new partner was created
-            :param vals: partner vals extracted from form
+            :param partner_vals: partner vals extracted from form
+            :param values: form main object values
+            :param extra_values: extra form values
             :return: None
             """
             if partner.contact_type == 'attached':
@@ -42,16 +44,16 @@ if not testing:
                     # In this case we want to link to the main partner
                     partner = partner.contact_id
                     # Don't update e-mail address of main partner
-                    del vals['email']
+                    del partner_vals['email']
                 else:
                     # We unarchive the partner to make it visible
-                    vals.update({
+                    partner_vals.update({
                         'active': True,
                         'contact_id': False
                     })
             if new_partner:
                 # Mark the partner to be validated
-                vals['state'] = 'pending'
-            super(EventPartnerMatchform, self).after_partner_match(
-                partner, new_partner, vals
+                partner_vals['state'] = 'pending'
+            super(PartnerMatchform, self).after_partner_match(
+                partner, new_partner, partner_vals, values, extra_values
             )
