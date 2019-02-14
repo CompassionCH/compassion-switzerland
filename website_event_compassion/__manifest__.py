@@ -30,14 +30,14 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion Events Website',
-    'version': '10.0.1.7.0',
+    'version': '10.0.1.7.1',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'https://github.com/CompassionCH/compassion-modules/tree/10.0',
     'depends': [
         'website_compassion', 'crm_compassion', 'event',
-        'partner_communication_switzerland', 'cms_form_compassion',
+        'partner_communication_switzerland',
         'payment_ogone_compassion', 'survey_phone'
     ],
     'data': [

@@ -186,7 +186,7 @@ class ResPartner(models.Model):
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
         partner = super(ResPartner, self).create(vals)
         partner.compute_geopoint()
-        if partner.contact_type == 'attached':
+        if partner.contact_type == 'attached' and not vals.get('active'):
             partner.active = False
 
         return partner

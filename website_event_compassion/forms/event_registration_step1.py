@@ -66,6 +66,12 @@ if not testing:
             return form
 
         def form_before_create_or_update(self, values, extra_values):
+            """
+            Extract partner data to put in in event.registration.
+            :param values: event.registration values
+            :param extra_values: extra form values
+            :return: Nothing
+            """
             super(EventRegistrationForm, self).form_before_create_or_update(
                 values, extra_values
             )
@@ -80,6 +86,35 @@ if not testing:
                 'event_ticket_id': event.valid_ticket_ids[:1].id,
                 'user_id': event.user_id.id,
             })
+
+        def after_partner_match(self, partner, new_partner, partner_vals,
+                                values, extra_values):
+            """
+            For event registration, we want to be a bit more restrictive in
+            the partner matching, because we allow several people to
+            register with the same e-mail address and coordinates, to allow
+            family members registrations done by one single person.
+            :param partner: res.partner record matched
+            :param new_partner: True if a new partner was created
+            :param partner_vals: partner vals extracted from form
+            :param values: event.registration values
+            :param extra_values: extra form values
+            :return: None
+            """
+            firstname = extra_values['partner_firstname']
+            lastname = extra_values['partner_lastname']
+            if not new_partner and (firstname.lower() !=
+                                    partner.firstname.lower() or
+                                    lastname.lower() !=
+                                    partner.lastname.lower()):
+                # Reconstruct partner vals (name info was deleted)
+                partner_vals = self._get_partner_vals(values, extra_values)
+                # We link the contact to the previously matched partner
+                partner_vals['state'] = 'pending'
+                values['partner_id'] = partner.create(partner_vals).id
+            else:
+                super(EventRegistrationForm, self).after_partner_match(
+                    partner, new_partner, partner_vals, values, extra_values)
 
         def _form_create(self, values):
             """Just create the main object (as superuser)."""

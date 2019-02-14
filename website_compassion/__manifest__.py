@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Website',
-    'version': '10.0.1.1.0',
+    'version': '10.0.1.1.1',
     'category': 'Website',
     'author': 'Sebastien Toth',
     'license': 'AGPL-3',
@@ -45,7 +45,8 @@
         'views/homepage.xml',
         'views/robots.xml',
     ],
-    'depends': ['website', 'cms_form'],
+    'depends': ['website', 'cms_form_compassion',
+                'partner_contact_in_several_companies'],
     'demo': [],
     'installable': True,
     'auto_install': False,
