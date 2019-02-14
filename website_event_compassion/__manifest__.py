@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion Events Website',
-    'version': '10.0.1.7.1',
+    'version': '10.0.1.8.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
@@ -40,6 +40,9 @@
         'partner_communication_switzerland',
         'payment_ogone_compassion', 'survey_phone'
     ],
+    'external_dependencies': {
+        'python': ['magic'],
+    },
     'data': [
         'security/ir.model.access.csv',
         'security/access_rules.xml',
