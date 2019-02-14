@@ -47,6 +47,15 @@ class EventsController(PaymentFormController):
             result = werkzeug.utils.redirect(
                 registration_form.form_next_url(), code=303)
         else:
+            # Check if registration was already present
+            errors = registration_form.form_render_values.get('errors')
+            if errors and errors.get('_integrity'):
+                request.env.cr.rollback()
+                # Replace error message with more friendly text.
+                request.website.get_status_message()
+                request.website.add_status_message(
+                    _("You are already registered to this trip."),
+                    type_='danger', title=_("Error"))
             # Display the Event page
             result = request.render(values.pop('website_template'), values)
         if event.event_type_id.sudo().travel_features:
