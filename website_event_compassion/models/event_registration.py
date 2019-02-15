@@ -569,7 +569,8 @@ class Event(models.Model):
             })],
             'type': 'out_invoice',
         })
-        invoice.action_invoice_open()
+        if self.partner_id.state == 'active':
+            invoice.action_invoice_open()
         self.down_payment_id = invoice
 
     def prepare_group_visit_payment(self):
@@ -623,7 +624,8 @@ class Event(models.Model):
             'invoice_line_ids': [(0, 0, invl) for invl in invl_vals],
             'type': 'out_invoice',
         })
-        invoice.action_invoice_open()
+        if self.partner_id.state == 'active':
+            invoice.action_invoice_open()
         self.group_visit_invoice_id = invoice
 
     def prepare_medical_survey(self):

@@ -47,13 +47,13 @@ if not testing:
                     del partner_vals['email']
                 else:
                     # We unarchive the partner to make it visible
-                    partner_vals.update({
+                    partner.write({
                         'active': True,
                         'contact_id': False
                     })
             if new_partner:
                 # Mark the partner to be validated
-                partner_vals['state'] = 'pending'
+                partner.state = 'pending'
             super(PartnerMatchform, self).after_partner_match(
                 partner, new_partner, partner_vals, values, extra_values
             )
