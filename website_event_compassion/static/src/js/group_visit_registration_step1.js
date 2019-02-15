@@ -22,7 +22,9 @@ odoo.define('website_event_compassion.group_visit_registration_step1', function 
                     double_field_div.show();
                 }
             });
-            if (radio_field.val() == 'single') {
+            // Hide the field if default value is single
+            var checked_field = $('input[type=radio][name=single_double_room]:checked');
+            if (checked_field.val() == 'single') {
                 double_field_div.hide();
             }
         },
