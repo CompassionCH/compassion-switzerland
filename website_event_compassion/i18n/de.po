@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-08 08:35+0000\n"
-"PO-Revision-Date: 2019-02-08 09:36+0100\n"
+"POT-Creation-Date: 2019-02-14 15:58+0000\n"
+"PO-Revision-Date: 2019-02-14 17:02+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -40,7 +40,7 @@ msgid "- Practical information"
 msgstr "- Practical information"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/controllers/events_controller.py:107
+#: code:addons/website_event_compassion/controllers/events_controller.py:116
 #, python-format
 msgid "- Registration"
 msgstr "- Anmeldung"
@@ -66,7 +66,7 @@ msgid "3. Down payment"
 msgstr "3. Anzahlung"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:47
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:61
 #, python-format
 msgid "4 steps to register"
 msgstr "4 Schritte bis zur Anmeldung"
@@ -1373,7 +1373,7 @@ msgid "<i>to</i>"
 msgstr "<i>bis</i>"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:52
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:66
 #, python-format
 msgid ""
 "<p>Thank you for your interest in the work of Compassion, to free more "
@@ -1741,7 +1741,7 @@ msgid "Check to sign the agreements"
 msgstr "Setze zur Annahme des Vertrags einen Haken."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:389
+#: code:addons/website_event_compassion/models/event_registration.py:472
 #, python-format
 msgid "Choose a communication"
 msgstr "Kommunikation"
@@ -1836,7 +1836,7 @@ msgid "Confirmed"
 msgstr "Confirmed"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/controllers/events_controller.py:263
+#: code:addons/website_event_compassion/controllers/events_controller.py:272
 #, python-format
 msgid ""
 "Congratulations! Everything is ready for this beautiful trip to happen. You "
@@ -1863,11 +1863,6 @@ msgstr "Contacts with Compassion employees in the country:"
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
 msgid "Contract visit"
 msgstr "Besuchsvertrag"
-
-#. module: website_event_compassion
-#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_passport
-msgid "Copy of the passport"
-msgstr "Passkopie"
 
 #. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_res_country
@@ -1933,7 +1928,7 @@ msgid "Criminal record"
 msgstr "Strafregisterauszug"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:291
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:297
 #, python-format
 msgid "Criminal record successfully uploaded."
 msgstr "Dein Strafregisterauszug wurde erfolgreich übermittelt."
@@ -2040,7 +2035,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_display_name
-#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_match_partner_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_criminal_record_display_name
@@ -2165,6 +2159,11 @@ msgid "Donation product"
 msgstr "Donation product"
 
 #. module: website_event_compassion
+#: selection:cms.form.group.visit.registration,single_double_room:0
+msgid "Double room"
+msgstr "Doppelzimmer"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_double_room_person
 msgid "Double room with"
 msgstr "Double room with"
@@ -2269,6 +2268,12 @@ msgid ""
 msgstr ""
 "Enter here the internal requirements for this stage(ex: Sign contract). It "
 "will appear as a tooltip over the stage's name."
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/controllers/events_controller.py:58
+#, python-format
+msgid "Error"
+msgstr "Fehler"
 
 #. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_event_event
@@ -2600,6 +2605,11 @@ msgid "Host url"
 msgstr "Host url"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_single_double_room
+msgid "Hotel room"
+msgstr "Hotelzimmer"
+
+#. module: website_event_compassion
 #: model:mail.template,subject:website_event_compassion.group_visit_after_trip_feedback_email
 msgid "How did your trip with Compassion go?"
 msgstr ""
@@ -2705,7 +2715,6 @@ msgstr "I won't attend the meeting"
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_id
-#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_match_partner_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_criminal_record_id
@@ -2937,7 +2946,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment___last_update
-#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_match_partner___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_registration___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_child_protection___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_criminal_record___last_update
@@ -2983,6 +2991,12 @@ msgstr "Zuletzt aktualisiert durch"
 #: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_write_date
 msgid "Last Updated on"
 msgstr "Zuletzt aktualisiert am"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_res_users_last_writing_date
+#| msgid "Passport expiration date"
+msgid "Last writing date"
+msgstr "Last writing date"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_faq_category_event_type_ids
@@ -3074,15 +3088,15 @@ msgid "Minimum participants required"
 msgstr "Minimum participants required"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:220
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:302
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:226
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:308
 #: code:addons/website_event_compassion/forms/medical_discharge_form.py:52
 #, python-format
 msgid "Missing"
 msgstr "fehlend"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:217
+#: code:addons/website_event_compassion/models/event_registration.py:242
 #, python-format
 msgid "Missing wordpress_host in odoo config file"
 msgstr "Missing wordpress_host in odoo config file"
@@ -3278,12 +3292,18 @@ msgid "Partner"
 msgstr "Partner"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_trip_form_passport
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_passport
+msgid "Passport"
+msgstr "Pass"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_passport_expiration_date
 msgid "Passport expiration date"
 msgstr "Gültigkeitsdatum des Passes"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:192
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:198
 #, python-format
 msgid "Passport information"
 msgstr "Angaben zum Pass"
@@ -3329,7 +3349,7 @@ msgid "Pens, coloured pencils, notebooks"
 msgstr "Pens, coloured pencils, notebooks"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:201
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:207
 #, python-format
 msgid "Person of contact"
 msgstr "Kontaktperson"
@@ -3371,19 +3391,19 @@ msgid "Please avoid any special characters"
 msgstr "Bitte keine Sonderzeichen verwenden"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:247
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:253
 #, python-format
 msgid "Please enter a valid date"
 msgstr "Bitte geben Sie ein gültiges Datum ein"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:213
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:219
 #, python-format
 msgid "Please enter a valid phone number"
 msgstr "Bitte füge eine korrekte Telefonnummer ein"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:202
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:208
 #, python-format
 msgid "Please indicate a contact in case of emergency during the trip."
 msgstr ""
@@ -3707,6 +3727,11 @@ msgid "Sign travel agreement"
 msgstr "Sign travel agreement"
 
 #. module: website_event_compassion
+#: selection:cms.form.group.visit.registration,single_double_room:0
+msgid "Single room"
+msgstr "Einzelzimmer"
+
+#. module: website_event_compassion
 #: model:product.template,name:website_event_compassion.product_template_single_room
 msgid "Single room extra fee"
 msgstr "Single room extra fee"
@@ -3861,7 +3886,7 @@ msgid "Survey count"
 msgstr "Survey count"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:428
+#: code:addons/website_event_compassion/models/event_registration.py:511
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_event_wordpress
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
 #, python-format
@@ -3923,8 +3948,8 @@ msgid "Thank you for your commitment."
 msgstr "Thank you for your commitment."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/controllers/events_controller.py:229
-#: code:addons/website_event_compassion/controllers/events_controller.py:251
+#: code:addons/website_event_compassion/controllers/events_controller.py:238
+#: code:addons/website_event_compassion/controllers/events_controller.py:260
 #, python-format
 msgid "Thank you for your efforts in the Compassion trip registration process."
 msgstr ""
@@ -3942,7 +3967,7 @@ msgstr ""
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/controllers/group_visit.py:80
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:159
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:179
 #, python-format
 msgid "Thank you!"
 msgstr "Danke!"
@@ -4161,7 +4186,7 @@ msgid "Trip information"
 msgstr "Reiseinformationen"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:185
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:191
 #, python-format
 msgid "Trip information updated."
 msgstr "Die Reiseinformationen wurden aktualisiert."
@@ -4172,7 +4197,7 @@ msgid "Trip invoice"
 msgstr "Trip invoice"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:99
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:113
 #, python-format
 msgid "Trip options"
 msgstr "Reiseoptionen"
@@ -4264,7 +4289,7 @@ msgid "Valid ticket ids"
 msgstr "Valid ticket ids"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:142
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:151
 #, python-format
 msgid "Verify your e-mail address"
 msgstr "Bestätige deine E-Mailadresse"
@@ -4294,7 +4319,7 @@ msgid "We are glad to confirm your registration to"
 msgstr "Wir bestätigen deine Anmeldung für"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:160
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:180
 #, python-format
 msgid ""
 "We are glad to confirm your registration to %s. You will receive all "
@@ -4304,7 +4329,7 @@ msgstr ""
 "weiteren Schritten erhältst du per E-Mail."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/controllers/events_controller.py:249
+#: code:addons/website_event_compassion/controllers/events_controller.py:258
 #, python-format
 msgid "We are glad to confirm your registration!"
 msgstr "Wir freuen uns, deine Anmeldung zu bestätigen!"
@@ -4401,18 +4426,21 @@ msgstr ""
 "Ja, an einem gut sichtbaren Ort unter Einhaltung der Vorgaben von Compassion."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:103
+#: code:addons/website_event_compassion/controllers/events_controller.py:57
+#, python-format
+msgid "You are already registered to this trip."
+msgstr "Du hast dich schon für diese Reise angemeldet"
+
+#. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:117
 #, python-format
 msgid ""
 "You can have the flight included (CHF %s) or decide to book the flight by "
-"yourself if you want to extend your trip beyond the dates. You can specify "
-"someone if you want to share a room or leave the field empty to have a "
-"single room."
+"yourself if you want to extend your trip beyond the dates. "
 msgstr ""
 "Du kannst mit dem vorgeschlagenen Flug (CHF %s) reisen oder selbst einen "
 "anderen Flug buchen, wenn du z.B. nicht zu denselben Daten wie die Gruppe "
-"fliegst. Ausserdem kannst du wählen, ob du in einem Einzel- oder "
-"Doppelzimmer übernachten möchtest."
+"fliegst."
 
 #. module: website_event_compassion
 #: model:survey.survey,thank_you_message:website_event_compassion.group_visit_feedback_survey
@@ -4422,16 +4450,6 @@ msgid ""
 msgstr ""
 "You can represent Compassion in your church and take advantage of "
 "opportunities to offer visibility for child sponsorship.<br>"
-
-#. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:115
-#, python-format
-msgid ""
-"You can specify someone if you want to share a room or leave the field empty "
-"to have a single room."
-msgstr ""
-"Du kannst wählen, ob du in einem Einzel- oder Doppelzimmer übernachten "
-"möchtest."
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
@@ -4474,7 +4492,7 @@ msgid "Your passport"
 msgstr "Your passport"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:249
+#: code:addons/website_event_compassion/forms/agreement_step2_forms.py:255
 #, python-format
 msgid ""
 "Your passport must be renewed! It should be valid at least six months after "
@@ -4484,7 +4502,7 @@ msgstr ""
 "Rückreise in die Schweiz gültig sein."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/controllers/events_controller.py:253
+#: code:addons/website_event_compassion/controllers/events_controller.py:262
 #, python-format
 msgid ""
 "Your payment was successful and your are now a confirmed participant of the "
@@ -4505,7 +4523,7 @@ msgid "Your registration to the trip with Compassion is confirmed"
 msgstr "Bestätigung deiner Anmeldung zur Reise mit Compassion"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:134
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:143
 #, python-format
 msgid "Your spoken languages"
 msgstr "Ich verstehen folgende Sprachen"
@@ -4737,7 +4755,7 @@ msgid "if you need any further assistance."
 msgstr "."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:596
+#: code:addons/website_event_compassion/models/event_registration.py:679
 #, python-format
 msgid "medical discharge.docx"
 msgstr "Medizinisches Attest.docx"
@@ -4790,6 +4808,16 @@ msgstr ""
 #: model:ir.model,name:website_event_compassion.model_event_registration_communication_wizard
 msgid "wizard that will load a chosenconfig for a email to send"
 msgstr "wizard that will load a chosenconfig for a email to send"
+
+#~ msgid "Copy of the passport"
+#~ msgstr "Passkopie"
+
+#~ msgid ""
+#~ "You can specify someone if you want to share a room or leave the field "
+#~ "empty to have a single room."
+#~ msgstr ""
+#~ "Du kannst wählen, ob du in einem Einzel- oder Doppelzimmer übernachten "
+#~ "möchtest."
 
 #~ msgid "Code of Conduct"
 #~ msgstr "Verhaltenskodex"

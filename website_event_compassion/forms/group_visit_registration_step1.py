@@ -39,8 +39,22 @@ if not testing:
         spoken_lang_es = fields.Boolean('Spanish')
         spoken_lang_po = fields.Boolean('Portuguese')
         include_flight = fields.Boolean(default=True)
-        double_room_person = fields.Char('I want to share a double room with:')
+        single_double_room = fields.Selection([
+            ('single', 'Single room'),
+            ('double', 'Double room'),
+        ], 'Hotel room')
+        double_room_person = fields.Char('I want to share the room with:')
         comments = fields.Text(default='')
+
+        def _form_load_single_double_room(
+                self, fname, field, value, **req_values):
+            youth_type = self.env.ref(
+                'website_event_compassion.event_type_youth_trip')
+            event_type = self.event_id.event_type_id
+            if event_type == youth_type:
+                return 'double'
+            else:
+                return 'single'
 
         @property
         def form_title(self):
@@ -104,20 +118,15 @@ if not testing:
                         'You can have the flight included (CHF %s) or '
                         'decide to book the flight by yourself if you want '
                         'to extend your trip beyond the dates. '
-                        'You can specify someone if you want to share a room '
-                        'or leave the field empty to have a single room.'
                     ) % str(int(event.flight_price)),
                     'fields': [
-                        'include_flight', 'double_room_person', 'comments']
+                        'include_flight', 'single_double_room',
+                        'double_room_person', 'comments']
                 })
             else:
                 trip_options.update({
-                    'description': _(
-                        'You can specify someone if you want to share a room '
-                        'or leave the field empty to have a single room.'
-                    ),
                     'fields': [
-                        'double_room_person', 'comments']
+                        'single_double_room', 'double_room_person', 'comments']
                 })
             return [
                 {
@@ -143,10 +152,21 @@ if not testing:
             # No error
             return 0, 0
 
+        @property
+        def form_widgets(self):
+            # Radio field for single double room
+            res = super(EventRegistrationForm, self).form_widgets
+            res['single_double_room'] = 'cms.form.widget.radio'
+            return res
+
         def form_before_create_or_update(self, values, extra_values):
             super(EventRegistrationForm, self).form_before_create_or_update(
                 values, extra_values
             )
+            if extra_values.get('single_double_room') == 'double' and not \
+                    values.get('double_room_person'):
+                values['double_room_person'] = \
+                    'Double room selected without any indication.'
             values.update({
                 'stage_id': self.env.ref(
                     'website_event_compassion.stage_group_unconfirmed'

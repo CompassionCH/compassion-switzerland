@@ -18,7 +18,7 @@ if not testing:
 
     class EventDonationForm(models.AbstractModel):
         _name = 'cms.form.event.donation'
-        _inherit = ['cms.form.payment', 'cms.form.event.match.partner']
+        _inherit = ['cms.form.payment', 'cms.form.match.partner']
 
         # The form is inside a Muskathlon participant details page
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
