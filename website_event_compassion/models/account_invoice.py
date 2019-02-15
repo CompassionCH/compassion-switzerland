@@ -27,7 +27,8 @@ class AccountInvoice(models.Model):
         self.action_invoice_cancel()
         self.action_invoice_draft()
         self.write(vals)
-        self.action_invoice_open()
+        for invoice in self.filtered(lambda i: i.partner_id.state == 'active'):
+            invoice.action_invoice_open()
         return True
 
     def action_invoice_paid(self):
