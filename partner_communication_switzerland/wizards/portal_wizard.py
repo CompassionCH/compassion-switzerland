@@ -70,4 +70,4 @@ class PortalWizardUser(models.TransientModel):
                 'partner_id': self.user_id.partner_id.id,
                 'object_ids': self.user_id.id,
                 'config_id': self.invitation_config_id.id
-        })
+            })
