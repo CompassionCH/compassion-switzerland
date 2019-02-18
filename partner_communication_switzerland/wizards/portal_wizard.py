@@ -65,8 +65,9 @@ class PortalWizardUser(models.TransientModel):
                               ' your User Preferences to send emails.'))
         self.ensure_one()
 
-        self.uid_communication_id = self.env['partner.communication.job'].create({
-            'partner_id': self.user_id.partner_id.id,
-            'object_ids': self.user_id.id,
-            'config_id': self.invitation_config_id.id
+        self.uid_communication_id = \
+            self.env['partner.communication.job'].create({
+                'partner_id': self.user_id.partner_id.id,
+                'object_ids': self.user_id.id,
+                'config_id': self.invitation_config_id.id
         })
