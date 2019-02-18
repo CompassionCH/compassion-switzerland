@@ -71,7 +71,8 @@
         'views/change_text_wizard_view.xml',
         'views/correspondence_view.xml',
         'views/generate_communication_wizard_view.xml',
-        'views/staff_notifications_settings_view.xml'
+        'views/staff_notifications_settings_view.xml',
+        'wizards/res_partner_create_portal_wizard.xml'
     ],
     'demo': [],
     'installable': True,
