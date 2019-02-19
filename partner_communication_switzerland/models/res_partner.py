@@ -56,6 +56,7 @@ class ResPartner(models.Model):
         thankyou_mapping = {
             'no': 'none',
             'default': 'auto_digital',
+            'only_email': 'auto_digital_only',
             'paper': 'physical'
         }
         for partner in self:
@@ -70,6 +71,7 @@ class ResPartner(models.Model):
         """
         receipt_mapping = {
             'no': 'none',
+            'only_email': 'digital_only',
             'paper': 'physical'
         }
 

@@ -107,7 +107,6 @@
                             <field name="photo_delivery_preference"/>
                         </group>
                         <group>
-                            <field name="abroad"/>
                             <field name="opt_out"/>
                             <field name="send_original"/>
                             <field name="mandatory_review"/>
