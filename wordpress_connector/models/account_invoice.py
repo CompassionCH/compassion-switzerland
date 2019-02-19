@@ -21,6 +21,55 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.model
+    def process_wp_confirmed_donation(self, donnation_infos):
+        """
+        Utility to process the donation done via wordpress.
+        :return:
+        """
+
+        # Extract the partner infos
+        partner_fields = {  # wp_field : odoo_field
+            'email': 'email',
+            'first_name': 'firstname',
+            'last_name': 'lastname',
+            'street': 'street',
+            'zipcode': 'zip',
+            'city': 'city',
+            'language': 'lang',
+            'partner_ref': 'ref'
+        }
+        partner_infos = {}
+        for wp_field, odoo_field in partner_fields.iteritems():
+            partner_infos[odoo_field] = donnation_infos[wp_field]
+
+        # Find the matching odoo country
+        country = self.env['res.country'].with_context(
+            lang=partner_infos['lang']
+        ).search([
+            ('name', '=ilike', donnation_infos['country']),
+        ])
+        partner_infos['country_id'] = country.id
+
+        # Find matching partner
+        match_obj = self.env['res.partner.match']
+        partner = match_obj.match_partner_to_infos(partner_infos)
+
+        # Insert the donation details to the database.
+        pf_brand = donnation_infos['pf_brand']
+        pf_pm = donnation_infos['pf_pm']
+        if pf_brand != pf_pm:
+            payment_mode = "{}_{}".format(pf_brand, pf_pm)
+        else:
+            payment_mode = pf_brand
+
+        return self.create_from_wordpress(
+            partner.id, donnation_infos['orderid'], donnation_infos['amount'],
+            donnation_infos['fund'], donnation_infos['child_id'],
+            donnation_infos['pf_payid'], payment_mode.strip(),
+            donnation_infos['utm_source'], donnation_infos['utm_medium'],
+            donnation_infos['utm_campaign'])
+
+    @api.model
     def create_from_wordpress(
             self, partner_id, wp_origin, amount, fund, child_code,
             pf_payid, payment_mode_name, utm_source, utm_medium, utm_campaign
