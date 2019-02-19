@@ -52,7 +52,7 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
 
         no_mail.mapped('partner_id').write({'email': False})
 
-        action = None
+        action = True
         if self.create_communication:
             uid_communication = portal.mapped('user_ids.uid_communication_id')
             action = {
@@ -68,4 +68,4 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
 
     @api.multi
     def button_cancel(self):
-        return None
+        return True

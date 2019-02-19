@@ -48,12 +48,18 @@ class PortalWizardUser(models.TransientModel):
 
         self.mapped('partner_id').signup_prepare()
 
-        # if the context is not given, create a communication
-        # else do as context say
-        if self.env.context['create_communication'] is None or \
-                self.env.context['create_communication']:
+        if self.env.context['create_communication']:
             for wizard_line in self:
                 wizard_line.create_uid_communication()
+        else:
+            for wizard_line in self:
+                p = wizard_line.partner_id
+                p.signup_prepare()
+                values = {
+                    'login': p.firstname[:1] + p.lastname,
+                    'password': 'to_change1400'
+                }
+                self.env['res.users'].signup(values, p.signup_token)
 
         return res
 
