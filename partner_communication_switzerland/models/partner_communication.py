@@ -132,7 +132,7 @@ class PartnerCommunication(models.Model):
 
         # Verify big due periods
         if len(sponsorships.mapped('months_due')) > 3:
-            self.need_call = True
+            self.need_call = 'before_sending'
 
         payment_mode = sponsorships.with_context(lang='en_US').mapped(
             'payment_mode_id.name')[0]
@@ -142,7 +142,7 @@ class PartnerCommunication(models.Model):
             if self.partner_id.bank_ids:
                 # We received the bank info but withdrawal didn't work.
                 # Mark to call in order to verify the situation.
-                self.need_call = True
+                self.need_call = 'before_sending'
             else:
                 # Don't put payment slip if we just wait the authorization form
                 return dict()
