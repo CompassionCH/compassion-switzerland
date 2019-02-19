@@ -174,7 +174,7 @@ class TestSponsorship(BaseSponsorshipTest):
             'template_id': default_template.id,
             'original_text': 'my text',
             'sponsorship_id': sponsorship.id,
-            'base64string': 'base64data'
+            'letter_image': 'base64data'
         }
         letter = self.env['correspondence'].create(correspondence_data)
 
