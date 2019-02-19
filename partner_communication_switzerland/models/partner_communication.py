@@ -390,7 +390,6 @@ class PartnerCommunication(models.Model):
             if letters:
                 letters.write({
                     'letter_delivered': True,
-                    'letter_read': True,
                 })
 
         # No money extension
