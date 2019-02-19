@@ -201,15 +201,6 @@ class Correspondence(models.Model):
 
         return True
 
-    @api.multi
-    def get_multi_mode(self):
-        """
-        Tells if we should send the communication with a zip download link
-        or with each pdf attached
-        :return: true if multi mode should be used
-        """
-        return len(self) > 3
-
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################

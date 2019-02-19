@@ -61,8 +61,7 @@ class PartnerCommunication(models.Model):
 
     def get_correspondence_attachments(self):
         """
-        Include PDF of letters only if less than 3 letters are sent,
-        or if the send_mode is to print the letters.
+        Include PDF of letters if the send_mode is to print the letters.
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
@@ -70,7 +69,7 @@ class PartnerCommunication(models.Model):
         # Report is used for print configuration
         report = 'report_compassion.b2s_letter'
         letters = self.get_objects()
-        if not letters.get_multi_mode() or self.send_mode == 'physical':
+        if self.send_mode == 'physical':
             for letter in self.get_objects():
                 try:
                     attachments[letter.file_name] = [
@@ -389,7 +388,10 @@ class PartnerCommunication(models.Model):
         if b2s_printed:
             letters = b2s_printed.get_objects()
             if letters:
-                letters.write({'letter_delivered': True})
+                letters.write({
+                    'letter_delivered': True,
+                    'letter_read': True,
+                })
 
         # No money extension
         no_money_1 = self.env.ref('partner_communication_switzerland.'
