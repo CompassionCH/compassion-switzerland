@@ -273,7 +273,8 @@ class PartnerCommunication(models.Model):
                         data={
                             'doc_ids': pay_bvr.ids,
                             'date_start': fields.Date.to_string(date_start),
-                            'date_stop': fields.Date.to_string(date_stop)
+                            'date_stop': fields.Date.to_string(date_stop),
+                            'background': self.send_mode != 'physical'
                         }
                     ))
                 ]
@@ -314,7 +315,11 @@ class PartnerCommunication(models.Model):
             _('child dossier.pdf'): [
                 report_name,
                 base64.b64encode(self.env['report'].get_pdf(
-                    children.ids, report_name, data={'lang': lang}))
+                    children.ids, report_name, data={
+                        'lang': lang,
+                        'is_pdf': self.send_mode != 'physical',
+                        'type': report_name,
+                    }))
             ]
         }
 
@@ -541,7 +546,10 @@ class PartnerCommunication(models.Model):
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
                         sponsorships.ids, report_name,
-                        data={'doc_ids': sponsorships.ids}
+                        data={
+                            'doc_ids': sponsorships.ids,
+                            'background': self.send_mode != 'physical'
+                        }
                     ))
                 ]
             })
@@ -559,7 +567,10 @@ class PartnerCommunication(models.Model):
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
                         gifts_sponsorship.ids, report_name,
-                        data={'doc_ids': gifts_sponsorship.ids}
+                        data={
+                            'doc_ids': gifts_sponsorship.ids,
+                            'background': self.send_mode != 'physical'
+                        }
                     ))
                 ]
             })
@@ -627,7 +638,10 @@ class PartnerCommunication(models.Model):
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
                         csp.ids, report_name,
-                        data={'doc_ids': csp.ids}
+                        data={
+                            'doc_ids': csp.ids,
+                            'background': self.send_mode != 'physical'
+                        }
                     ))
                 ]
             })
