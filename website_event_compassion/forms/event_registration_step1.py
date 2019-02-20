@@ -87,8 +87,7 @@ if not testing:
                 'user_id': event.user_id.id,
             })
 
-        def after_partner_match(self, partner, new_partner, partner_vals,
-                                values, extra_values):
+        def match_after_match(self, partner, new_partner, partner_vals):
             """
             For event registration, we want to be a bit more restrictive in
             the partner matching, because we allow several people to
@@ -97,24 +96,18 @@ if not testing:
             :param partner: res.partner record matched
             :param new_partner: True if a new partner was created
             :param partner_vals: partner vals extracted from form
-            :param values: event.registration values
-            :param extra_values: extra form values
             :return: None
             """
-            firstname = extra_values['partner_firstname']
-            lastname = extra_values['partner_lastname']
+            firstname = partner_vals['firstname']
+            lastname = partner_vals['lastname']
             if not new_partner and (firstname.lower() !=
                                     partner.firstname.lower() or
                                     lastname.lower() !=
                                     partner.lastname.lower()):
-                # Reconstruct partner vals (name info was deleted)
-                partner_vals = self._get_partner_vals(values, extra_values)
-                # We link the contact to the previously matched partner
-                partner_vals['state'] = 'pending'
-                values['partner_id'] = partner.create(partner_vals).id
+                return self.match_create(partner, partner_vals)
             else:
-                super(EventRegistrationForm, self).after_partner_match(
-                    partner, new_partner, partner_vals, values, extra_values)
+                return super(EventRegistrationForm, self).match_after_match(
+                    partner, new_partner, partner_vals)
 
         def _form_create(self, values):
             """Just create the main object (as superuser)."""
