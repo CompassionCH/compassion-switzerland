@@ -16,11 +16,15 @@ def migrate(env, version):
     if not version:
         return
 
-    # id value for Doctors, Pastors, Professor, Miss
+    # id value for Doctor, Pastor, Professor, Miss
     # records don't exist anymore so we don't use env.ref to get their ids
     bad_ids = [7, 30, 45, 58]
 
     for partner in env['res.partner'].search([
         ("title.id", "in", bad_ids)
     ]):
-        partner.title = env.ref('base.res_partner_title_mister').id
+        # 58 is id for Miss
+        if partner.title.id == 58:
+            partner.title = env.ref('base.res_partner_title_madam').id
+        else:
+            partner.title = env.ref('base.res_partner_title_mister').id
