@@ -19,7 +19,7 @@
                     Herewith, you will find the last sent letter from ${firstname}!
                     <br/>
                     <br/>
-                    % if object.send_mode == 'digital' and letter.get_multi_mode():
+                    % if object.send_mode == 'digital':
                         Download your letter${s} here:
                         <ul>
                             % for l in letter.filtered('read_url'):
@@ -64,7 +64,7 @@
                 <p>
                     We are pleased to send you a new letter from ${child.get_list('firstname', 3, child.get_number())}!
                     <br/>
-                    % if object.send_mode == 'digital' and letter.get_multi_mode():
+                    % if object.send_mode == 'digital':
                         Download your letters here:
                         <ul>
                             % for l in letter.filtered('read_url'):
@@ -102,7 +102,7 @@
                     Due to technical issues on our side, we are not sure that you received the e-mail we sent and are therefore sending it again.
                     We apologize for the inconvenience and hope you will enjoy reading the letter${s}.
                     <br/>
-                    % if object.send_mode == 'digital' and letter.get_multi_mode():
+                    % if object.send_mode == 'digital':
                         Download your letters here:
                         <ul>
                             % for l in letter.filtered('read_url'):
