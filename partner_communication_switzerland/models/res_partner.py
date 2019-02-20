@@ -162,3 +162,22 @@ class ResPartner(models.Model):
                               'sms_registration_confirmation_2')
         child_request.sponsorship_id.send_communication(config)
         return True
+
+    @api.multi
+    def create_odoo_user(self):
+        # Override compassion-modules/crm_compassion method
+        # add a step on the odoo user creation with a custom wizard
+        ctx = {
+            'active_ids': self.ids
+        }
+        return {
+            'name': _('Create odoo user'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'res.partner.create.portal.wizard',
+            'view_mode': 'form',
+            'view_id': self.env.ref(
+                'partner_communication_switzerland.'
+                'res_partner_create_portal_wizard_form').id,
+            'target': 'new',
+            'context': ctx,
+        }
