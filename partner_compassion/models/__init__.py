@@ -17,3 +17,4 @@ from . import mail_message
 from . import product
 from . import mail_thread
 from . import advocate_engagement
+from . import match_partner
