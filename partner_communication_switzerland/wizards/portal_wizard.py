@@ -9,25 +9,62 @@
 #
 ##############################################################################
 
-from odoo import api, models
+import logging
+
+from odoo import api, fields, models
+from odoo.tools.translate import _
+from odoo.exceptions import UserError
+
+
+_logger = logging.getLogger(__name__)
 
 
 class PortalWizard(models.TransientModel):
     _inherit = 'portal.wizard'
 
+    invitation_config_id = fields.Many2one('partner.communication.config')
+
+    @api.onchange('portal_id')
+    def onchange_portal_id(self):
+        # set the values of the users created in the super method
+        res = super(PortalWizard, self).onchange_portal_id()
+
+        self.user_ids.write({
+            'invitation_config_id': self.invitation_config_id.id
+        })
+
+        return res
+
+
+class PortalWizardUser(models.TransientModel):
+    _inherit = 'portal.wizard.user'
+
+    invitation_config_id = fields.Many2one('partner.communication.config')
+    uid_communication_id = fields.Many2one('partner.communication.job')
+
     @api.multi
     def action_apply(self):
-        """
-        Generate communication for User invitation
-        """
-        res = super(PortalWizard, self).action_apply()
-        comm_obj = self.env['partner.communication.job']
-        config = self.env.ref(
-            'partner_communication_switzerland.portal_welcome_config')
-        for user in self.mapped('user_ids.user_id'):
-            comm_obj.create({
-                'partner_id': user.partner_id.id,
-                'object_ids': user.id,
-                'config_id': config.id
-            })
+        res = super(PortalWizardUser, self).action_apply()
+
+        self.mapped('partner_id').signup_prepare()
+
+        if self.env.context.get('create_communication'):
+            for wizard_line in self:
+                wizard_line.create_uid_communication()
+
         return res
+
+    @api.multi
+    def create_uid_communication(self):
+        """create a communication that contain a login url"""
+        if not self.env.user.email:
+            raise UserError(_('You must have an email address in'
+                              ' your User Preferences to send emails.'))
+        self.ensure_one()
+
+        self.uid_communication_id = \
+            self.env['partner.communication.job'].create({
+                'partner_id': self.user_id.partner_id.id,
+                'object_ids': self.user_id.id,
+                'config_id': self.invitation_config_id.id
+            })

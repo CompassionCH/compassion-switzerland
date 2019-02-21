@@ -61,8 +61,7 @@ class PartnerCommunication(models.Model):
 
     def get_correspondence_attachments(self):
         """
-        Include PDF of letters only if less than 3 letters are sent,
-        or if the send_mode is to print the letters.
+        Include PDF of letters if the send_mode is to print the letters.
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
@@ -70,7 +69,7 @@ class PartnerCommunication(models.Model):
         # Report is used for print configuration
         report = 'report_compassion.b2s_letter'
         letters = self.get_objects()
-        if not letters.get_multi_mode() or self.send_mode == 'physical':
+        if self.send_mode == 'physical':
             for letter in self.get_objects():
                 try:
                     attachments[letter.file_name] = [
@@ -133,7 +132,7 @@ class PartnerCommunication(models.Model):
 
         # Verify big due periods
         if len(sponsorships.mapped('months_due')) > 3:
-            self.need_call = True
+            self.need_call = 'before_sending'
 
         payment_mode = sponsorships.with_context(lang='en_US').mapped(
             'payment_mode_id.name')[0]
@@ -143,7 +142,7 @@ class PartnerCommunication(models.Model):
             if self.partner_id.bank_ids:
                 # We received the bank info but withdrawal didn't work.
                 # Mark to call in order to verify the situation.
-                self.need_call = True
+                self.need_call = 'before_sending'
             else:
                 # Don't put payment slip if we just wait the authorization form
                 return dict()
@@ -274,7 +273,8 @@ class PartnerCommunication(models.Model):
                         data={
                             'doc_ids': pay_bvr.ids,
                             'date_start': fields.Date.to_string(date_start),
-                            'date_stop': fields.Date.to_string(date_stop)
+                            'date_stop': fields.Date.to_string(date_stop),
+                            'background': self.send_mode != 'physical'
                         }
                     ))
                 ]
@@ -315,7 +315,11 @@ class PartnerCommunication(models.Model):
             _('child dossier.pdf'): [
                 report_name,
                 base64.b64encode(self.env['report'].get_pdf(
-                    children.ids, report_name, data={'lang': lang}))
+                    children.ids, report_name, data={
+                        'lang': lang,
+                        'is_pdf': self.send_mode != 'physical',
+                        'type': report_name,
+                    }))
             ]
         }
 
@@ -389,7 +393,9 @@ class PartnerCommunication(models.Model):
         if b2s_printed:
             letters = b2s_printed.get_objects()
             if letters:
-                letters.write({'letter_delivered': True})
+                letters.write({
+                    'letter_delivered': True,
+                })
 
         # No money extension
         no_money_1 = self.env.ref('partner_communication_switzerland.'
@@ -540,7 +546,10 @@ class PartnerCommunication(models.Model):
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
                         sponsorships.ids, report_name,
-                        data={'doc_ids': sponsorships.ids}
+                        data={
+                            'doc_ids': sponsorships.ids,
+                            'background': self.send_mode != 'physical'
+                        }
                     ))
                 ]
             })
@@ -558,7 +567,10 @@ class PartnerCommunication(models.Model):
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
                         gifts_sponsorship.ids, report_name,
-                        data={'doc_ids': gifts_sponsorship.ids}
+                        data={
+                            'doc_ids': gifts_sponsorship.ids,
+                            'background': self.send_mode != 'physical'
+                        }
                     ))
                 ]
             })
@@ -626,7 +638,10 @@ class PartnerCommunication(models.Model):
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
                         csp.ids, report_name,
-                        data={'doc_ids': csp.ids}
+                        data={
+                            'doc_ids': csp.ids,
+                            'background': self.send_mode != 'physical'
+                        }
                     ))
                 ]
             })

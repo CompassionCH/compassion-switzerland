@@ -43,6 +43,7 @@ class ResPartner(models.Model):
         return [
             ('no', _('No receipt')),
             ('default', _('Default')),
+            ('only_email', _('Only email')),
             ('paper', _('On paper'))]
 
     ##########################################################################
@@ -73,11 +74,6 @@ class ResPartner(models.Model):
     birthday_reminder = fields.Boolean(
         help="Indicates if the partner wants to receive a birthday "
              "reminder of his child.", default=True)
-    abroad = fields.Boolean(
-        'Abroad/Only e-mail',
-        related='email_only',
-        help="Indicates if the partner is abroad and should only be "
-             "updated by e-mail")
     photo_delivery_preference = fields.Selection(
         selection='_get_delivery_preference',
         default='both',

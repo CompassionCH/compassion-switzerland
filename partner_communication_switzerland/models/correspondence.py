@@ -202,13 +202,21 @@ class Correspondence(models.Model):
         return True
 
     @api.multi
-    def get_multi_mode(self):
+    def send_unread_b2s(self):
         """
-        Tells if we should send the communication with a zip download link
-        or with each pdf attached
-        :return: true if multi mode should be used
+        IR Action Rule called 3 days after correspondence is not opened
+        by e-mail. It will create a new communication to send it by post.
+        :return: True
         """
-        return len(self) > 3
+        unread_config = self.env.ref(
+            'partner_communication_switzerland.child_letter_unread')
+        for letter in self:
+            self.env['partner.communication.job'].create({
+                'partner_id': letter.partner_id.id,
+                'config_id': unread_config.id,
+                'object_ids': letter.id
+            })
+        return True
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

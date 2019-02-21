@@ -19,7 +19,7 @@
                     Herewith, you will find the last sent letter from ${firstname}!
                     <br/>
                     <br/>
-                    % if object.send_mode == 'digital' and letter.get_multi_mode():
+                    % if object.send_mode == 'digital':
                         Download your letter${s} here:
                         <ul>
                             % for l in letter.filtered('read_url'):
@@ -64,7 +64,7 @@
                 <p>
                     We are pleased to send you a new letter from ${child.get_list('firstname', 3, child.get_number())}!
                     <br/>
-                    % if object.send_mode == 'digital' and letter.get_multi_mode():
+                    % if object.send_mode == 'digital':
                         Download your letters here:
                         <ul>
                             % for l in letter.filtered('read_url'):
@@ -102,7 +102,7 @@
                     Due to technical issues on our side, we are not sure that you received the e-mail we sent and are therefore sending it again.
                     We apologize for the inconvenience and hope you will enjoy reading the letter${s}.
                     <br/>
-                    % if object.send_mode == 'digital' and letter.get_multi_mode():
+                    % if object.send_mode == 'digital':
                         Download your letters here:
                         <ul>
                             % for l in letter.filtered('read_url'):
@@ -116,6 +116,28 @@
                     % if object.partner_id.send_original:
                         PS: As you requested, we will send you the original letter${s}. Please keep in mind it can take several weeks until we receive it.
                     % endif
+                </p>
+            </field>
+        </record>
+
+        <!-- B2S email not read -->
+        <record id="b2s_email_not_read" model="mail.template">
+            <field name="name">B2S e-mail not read</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">You received a letter from ${object.get_objects().mapped('child_id').get_list('firstname', 3, 'your children')}!</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set letter = object.get_objects()
+                    % set child = letter.mapped('child_id')
+                    % set s = '' if len(child) == 1 else 's'
+                </div>
+                <p>
+                    We are pleased to send you a new letter from ${child.get_list('preferred_name', 3, child.get_number())}!
+                    <br/>
+                    PS: We sent you the letter by e-mail but it seems that the letter was never downloaded. Please inform us in case you want to receive your letters only by e-mail, or only on paper.
                 </p>
             </field>
         </record>

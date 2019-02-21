@@ -33,5 +33,17 @@
             <field name="trg_date_range_type">day</field>
             <field name="server_action_ids" eval="[(6, 0, [ref('send_sms_sponsorship_reminder')])]"/>
         </record>
+
+        <!-- Rule for sending unread B2S letters by post -->
+        <record id="unread_b2s_by_post_rule" model="base.action.rule">
+            <field name="name">B2S letter: send unread letters by post</field>
+            <field name="model_id" ref="model_correspondence"/>
+            <field name="kind">on_time</field>
+            <field name="trg_date_id" ref="field_correspondence_sent_date"/>
+            <field name="filter_domain">[('communication_id.state', '=', 'done'), ('communication_id.send_mode', '=', 'digital'), ('email_read', '=', False)]</field>
+            <field name="trg_date_range">3</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="server_action_ids" eval="[(6, 0, [ref('send_unread_b2s')])]"/>
+        </record>
     </data>
 </odoo>

@@ -157,9 +157,11 @@ class TestSponsorship(BaseSponsorshipTest):
         update_hold.return_value = True
         f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
         with file_open(f_path) as pdf_file:
-            get_pdf.return_value = pdf_file.read()
+            pdf_data = pdf_file.read()
+            get_pdf.return_value = pdf_data
 
         child = self.create_child(self.ref(11))
+        self.michel.letter_delivery_preference = 'physical'
         sponsorship = self.create_contract(
             {
                 'partner_id': self.michel.id,
@@ -174,7 +176,7 @@ class TestSponsorship(BaseSponsorshipTest):
             'template_id': default_template.id,
             'original_text': 'my text',
             'sponsorship_id': sponsorship.id,
-            'base64string': 'base64data'
+            'letter_image': pdf_data.encode('base64')
         }
         letter = self.env['correspondence'].create(correspondence_data)
 

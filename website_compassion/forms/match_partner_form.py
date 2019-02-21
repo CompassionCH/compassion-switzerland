@@ -28,8 +28,7 @@ if not testing:
                 self.with_context(no_upsert=True)
             ).form_before_create_or_update(values, extra_values)
 
-        def after_partner_match(self, partner, new_partner, partner_vals,
-                                values, extra_values):
+        def match_after_match(self, partner, new_partner, partner_vals):
             """
             Activate partner if it was a linked contact.
             :param partner: res.partner record matched
@@ -51,9 +50,6 @@ if not testing:
                         'active': True,
                         'contact_id': False
                     })
-            if new_partner:
-                # Mark the partner to be validated
-                partner.state = 'pending'
-            super(PartnerMatchform, self).after_partner_match(
-                partner, new_partner, partner_vals, values, extra_values
+            return super(PartnerMatchform, self).match_after_match(
+                partner, new_partner, partner_vals
             )
