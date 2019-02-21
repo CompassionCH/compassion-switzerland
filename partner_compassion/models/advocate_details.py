@@ -131,7 +131,10 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
                 u'img_alt': details.display_name,
                 u'image_data': details.partner_id.with_context(
                     bin_size=False).image,
-                u'text': details.quote
+                u'text': details.quote,
+                u'attribution': _('Quote from {firstname} {lastname}').format(
+                    firstname=details.partner_id.firstname,
+                    lastname=details.partner_id.lastname),
             }
             details.thank_you_quote = template_html.format(**html_vals)
 
