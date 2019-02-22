@@ -93,11 +93,11 @@ class Muskathlon(models.Model):
                 mr.reg_id AS registration_id
               FROM recurring_contract AS rc
               LEFT JOIN res_partner AS rp ON rp.id = rc.user_id
-              LEFT JOIN res_partner AS rp2 ON rc.partner_id = rp2.id
+              LEFT JOIN res_partner AS rp2 ON rp2.id = rc.partner_id
               LEFT JOIN recurring_contract_origin AS rco
-                ON rc.origin_id = rco.id
-              LEFT JOIN crm_event_compassion AS cec ON rco.event_id = cec.id
-              LEFT JOIN event_registration mr ON rp.id = mr.partner_id
+                ON rco.id = rc.origin_id
+              LEFT JOIN crm_event_compassion AS cec ON cec.id = rco.event_id
+              LEFT JOIN event_registration mr ON mr.id = rc.registration_id
               WHERE cec.muskathlon_event_id IS NOT NULL
             )
             UNION ALL (
