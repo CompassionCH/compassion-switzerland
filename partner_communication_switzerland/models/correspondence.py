@@ -40,7 +40,7 @@ class Correspondence(models.Model):
         'partner.communication.job', 'Communication')
     email_id = fields.Many2one(
         'mail.mail', 'E-mail', related='communication_id.email_id',
-        store=True)
+        store=True, index=True)
     communication_state = fields.Selection(related='communication_id.state')
     sent_date = fields.Datetime(
         'Communication sent', related='communication_id.sent_date',
