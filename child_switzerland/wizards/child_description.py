@@ -66,12 +66,12 @@ ChildDescription.home_based_lang.update({
 
 ChildDescription.school_yes_lang.update({
     'fr_CH': {
-        'M': u"{preferred_name} va à {level}",
-        'F': u"{preferred_name} va à {level}.",
+        'M': u"{preferred_name} va {level}.",
+        'F': u"{preferred_name} va {level}.",
     },
     'de_DE': {
-        'M': u'{preferred_name} geht in {level}.',
-        'F': u'{preferred_name} geht in {level}.',
+        'M': u'{preferred_name} geht {level}.',
+        'F': u'{preferred_name} geht {level}.',
     },
     'it_IT': {
         'M': u'{preferred_name} frequenta {level}.',
