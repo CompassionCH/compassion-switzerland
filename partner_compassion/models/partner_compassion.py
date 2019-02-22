@@ -355,10 +355,10 @@ class ResPartner(models.Model):
                               u'\r\n<br/>' \
                               u'Subject: {}' \
                               u'\r\n<br/>\r\n<br/>{}'.format(
-                                parent[0].email_from,
-                                parent[0].date,
-                                parent[0].subject,
-                                parent[0].body
+                                  parent[0].email_from,
+                                  parent[0].date,
+                                  parent[0].subject,
+                                  parent[0].body
                               )
                 try:
                     body = unicode(
