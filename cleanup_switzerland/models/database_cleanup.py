@@ -35,11 +35,15 @@ class DatabaseCleanup(models.AbstractModel):
         """
         self.clean_mail_message()
         # Clean emails that are not valid (created by incoming messages)
-        self.env['mail.mail'].search([
+        mail_ids = self.env['mail.mail'].search([
             ('state', '=', 'outgoing'),
             '|', ('author_id', '=', False),
             ('author_id.user_ids', '=', False)
-        ]).unlink()
+        ]).ids
+        self.env.cr.execute(
+            "DELETE FROM mail_mail WHERE id = ANY (%s)",
+            [mail_ids]
+        )
         return True
 
     def clean_mail_message(self):
@@ -76,7 +80,7 @@ class DatabaseCleanup(models.AbstractModel):
         self.env.cr.execute(
             "DELETE FROM mail_message WHERE model = 'account.invoice' "
             "AND res_id IN (SELECT id FROM account_invoice WHERE state IN ("
-            "'cancel', 'paid') AND date_invoice < %s)", [limit_str]
+            "'cancel', 'paid') AND date_invoice < %s LIMIT 1000)", [limit_str]
         )
         count = self.env.cr.rowcount
         self.env.cr.commit()  # pylint: disable=invalid-commit
@@ -85,7 +89,7 @@ class DatabaseCleanup(models.AbstractModel):
         self.env.cr.execute(
             "DELETE FROM mail_message WHERE model='gmc.message.pool' AND "
             "res_id IN (SELECT id FROM gmc_message_pool WHERE state ="
-            "'success')"
+            "'success' LIMIT 1000)"
         )
         count = self.env.cr.rowcount
         self.env.cr.commit()  # pylint: disable=invalid-commit
@@ -94,7 +98,8 @@ class DatabaseCleanup(models.AbstractModel):
         self.env.cr.execute(
             "DELETE FROM mail_message WHERE model='partner.communication.job' "
             "AND res_id IN (SELECT id FROM partner_communication_job WHERE "
-            "state = 'cancel' OR (state = 'done' AND sent_date < %s))",
+            "state = 'cancel' OR (state = 'done' AND sent_date < %s)"
+            "LIMIT 1000)",
             [limit_str]
         )
         count = self.env.cr.rowcount

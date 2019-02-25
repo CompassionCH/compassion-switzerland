@@ -1,6 +1,0 @@
-<!-- Add a sponsor ref for inbox managing. -->
-<odoo>
-    <record model="res.partner" id="base.res_partner_address_26">
-        <field name="ref">776</field>
-    </record>
-</odoo>
