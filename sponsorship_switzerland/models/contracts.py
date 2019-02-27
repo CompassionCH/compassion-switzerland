@@ -413,23 +413,3 @@ class RecurringContracts(models.Model):
             delay = datetime.now() + relativedelta(seconds=15)
             if invoices:
                 invoices.with_delay(eta=delay).group_or_split_reconcile()
-
-    def action_view_waiting_mandate(self):
-        waiting_mandate = self.env['recurring.contract']\
-            .search([('state', '=', 'mandate')])
-
-        waiting_mandate = waiting_mandate.filtered(
-            lambda c:
-            # filter to keep only those who waited for more than 3 month
-            fields.Datetime.from_string(c.mandate_date or c.create_date) <
-            datetime.now() - relativedelta(months=3)
-        )
-
-        return {
-            'name': _('Waiting mandate'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'recurring.contract',
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'domain': [('id', 'in', waiting_mandate.ids)],
-        }

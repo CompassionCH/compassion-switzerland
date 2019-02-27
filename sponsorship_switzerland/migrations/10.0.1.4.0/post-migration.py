@@ -17,7 +17,7 @@ def migrate(cr, version):
         return
 
     cr.execute("""
-ALTER TABLE recurring_contract 
+ALTER TABLE recurring_contract
 ADD COLUMN mandate_date timestamp without time zone;
 UPDATE recurring_contract SET mandate_date = %s WHERE state = 'mandate';
     """ % str(datetime.now()))
