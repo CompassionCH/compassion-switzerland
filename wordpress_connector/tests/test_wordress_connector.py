@@ -36,7 +36,7 @@ class TestWordpressConnector(BaseSponsorshipTest):
             'city': 'MyCity',
             'first_name': 'TestFirstName',
             'last_name': 'TestLastName',
-            'language': ['französich', 'englisch'],
+            'language': [u'französich', u'englisch'],
             'zahlungsweise': 'dauerauftrag',
             'consumer_source_text': 'Times Magazine',
             'zipcode': '1000',
