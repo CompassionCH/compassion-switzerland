@@ -413,3 +413,12 @@ class RecurringContracts(models.Model):
             delay = datetime.now() + relativedelta(seconds=15)
             if invoices:
                 invoices.with_delay(eta=delay).group_or_split_reconcile()
+
+    @api.multi
+    def _clean_invoices(self, since_date=None, to_date=None, keep_lines=None):
+        inv_lines = self.invoice_line_ids.filtered(('state', 'in', 'open'))
+        for invoice in inv_lines.mapped('invoice_id'):
+            invoice.cancel_payment_lines()
+
+        return super(RecurringContracts, self)._clean_invoices(
+            since_date, to_date, keep_lines)
