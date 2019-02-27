@@ -17,6 +17,7 @@ from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
+from odoo.addons.queue_job.job import job, related_action
 
 from odoo import api, models, fields, _
 
@@ -415,8 +416,10 @@ class RecurringContracts(models.Model):
                 invoices.with_delay(eta=delay).group_or_split_reconcile()
 
     @api.multi
+    @job(default_channel='root.recurring_invoicer')
+    @related_action(action='related_action_contract')
     def _clean_invoices(self, since_date=None, to_date=None, keep_lines=None):
-        inv_lines = self.invoice_line_ids.filtered(('state', 'in', 'open'))
+        inv_lines = self.invoice_line_ids.filtered(lambda r: r.state == 'open')
         for invoice in inv_lines.mapped('invoice_id'):
             invoice.cancel_payment_lines()
 
