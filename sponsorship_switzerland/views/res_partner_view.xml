@@ -10,4 +10,15 @@
             </field>
         </field>
     </record>
+
+    <record id="action_view_partner_waiting_mandate" model="ir.actions.server" >
+        <field name="name">Waiting mandate</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="code">
+action = model.action_view_waiting_mandate()
+        </field>
+    </record>
+
+    <menuitem id="menu_waiting_mandate" parent="child_compassion.menu_sponsorship_section"
+              name="Waiting mandate" action="action_view_partner_waiting_mandate" sequence="100"/>
 </odoo>
