@@ -14,20 +14,15 @@ between the database and the mail.
 """
 import logging
 import time
+import urllib2
 from io import BytesIO
 
 from odoo.addons.sbc_compassion.tools import import_letter_functions as func
 from odoo.addons.sbc_switzerland.models.import_letters_history import SmbConfig
 
 from odoo import models, api, fields
-from odoo.tools.config import config
 
 logger = logging.getLogger(__name__)
-
-try:
-    import pysftp
-except ImportError:
-    logger.warning("Please install python dependencies.")
 
 
 class ImportLetterLine(models.Model):
@@ -56,8 +51,8 @@ class ImportLettersHistory(models.Model):
 
     @api.model
     def import_web_letter(self, child_code, sponsor_ref, name, email,
-                          original_text, template_name, pdf_filename,
-                          attachment_filename, ext, utm_source, utm_medium,
+                          original_text, template_name, pdf_url,
+                          attachment_url, ext, utm_source, utm_medium,
                           utm_campaign):
         """
         Call when a letter is set on web site:
@@ -103,11 +98,7 @@ class ImportLettersHistory(models.Model):
                 [('name', '=', template_name)], limit=1)
 
             # save_letter pdf
-            sftp_host = config.get('wp_sftp_host')
-            sftp_user = config.get('wp_sftp_user')
-            sftp_pw = config.get('wp_sftp_pwd')
-            sftp = pysftp.Connection(sftp_host, sftp_user, password=sftp_pw)
-            pdf_data = sftp.open(pdf_filename).read()
+            pdf_data = urllib2.urlopen(pdf_url).read()
             filename = 'WEB_' + sponsor_ref + '_' + \
                 child_code + '_' + str(time.time())[:10] + '.pdf'
 
@@ -152,8 +143,8 @@ class ImportLettersHistory(models.Model):
                 smb_conn.storeFile(share_nas, import_letter_path, file_pdf)
 
                 # save eventual attachment
-                if attachment_filename:
-                    attachment_data = sftp.open(attachment_filename).read()
+                if attachment_url:
+                    attachment_data = urllib2.urlopen(attachment_url).read()
                     filename_attachment = filename.replace(".pdf", "." + ext)
                     logger.info("Try save attachment {} !"
                                 .format(filename_attachment))
@@ -168,7 +159,6 @@ class ImportLettersHistory(models.Model):
                         import_letter_path,
                         file_attachment)
                 smb_conn.close()
-            sftp.close()
 
             # Accept privacy statement
             model_sponsor[:1].set_privacy_statement(
