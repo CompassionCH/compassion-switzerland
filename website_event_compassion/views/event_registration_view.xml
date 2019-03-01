@@ -53,11 +53,13 @@
                     <field name="include_flight"/>
                     <field name="comments"/>
                     <field name="birth_name"/>
+                    <field name="passport"/>
                     <field name="passport_number"/>
                     <field name="passport_expiration_date"/>
                     <field name="emergency_name"/>
                     <field name="emergency_phone"/>
                     <field name="emergency_relation_type"/>
+                    <field name="criminal_record"/>
                 </group>
             </xpath>
             <xpath expr="//sheet/group[1]" position="before">
