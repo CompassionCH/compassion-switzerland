@@ -27,6 +27,7 @@ class RecurringContracts(models.Model):
     _inherit = 'recurring.contract'
 
     first_open_invoice = fields.Date(compute='_compute_first_open_invoice')
+    mandate_date = fields.Datetime(string='State last time mandate')
     has_mandate = fields.Boolean(compute='_compute_has_mandate')
     church_id = fields.Many2one(
         related='partner_id.church_id', readonly=True
@@ -229,7 +230,8 @@ class RecurringContracts(models.Model):
             raise UserError(_(
                 'Please verify the partner before validating the sponsorship'))
         self.write({
-            'state': 'mandate'
+            'state': 'mandate',
+            'mandate_date': fields.Datetime.now()
         })
         for contract in self.filtered(lambda s: 'S' in s.type and
                                       s.child_id.hold_id):
