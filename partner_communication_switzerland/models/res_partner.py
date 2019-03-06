@@ -37,6 +37,7 @@ class ResPartner(models.Model):
         compute='_compute_tax_receipt_preference', store=True
     )
     is_new_donor = fields.Boolean(compute='_compute_new_donor')
+    informal_salutation = fields.Char(compute='_compute_salutation')
 
     @api.multi
     def _compute_salutation(self):
@@ -45,6 +46,7 @@ class ResPartner(models.Model):
         for p in company:
             p.salutation = _("Dear friends of compassion")
             p.short_salutation = p.salutation
+            p.informal_salutation = _("Dear" + self._name)
         super(ResPartner, self - company)._compute_salutation()
 
     @api.multi
