@@ -419,7 +419,7 @@ class RecurringContracts(models.Model):
     @job(default_channel='root.recurring_invoicer')
     @related_action(action='related_action_contract')
     def _clean_invoices(self, since_date=None, to_date=None, keep_lines=None):
-        today = datetime.datetime.now()
+        today = datetime.now()
         inv_lines = self.invoice_line_ids.filtered(lambda r: r.state == 'open'
                                                    or (r.state == 'paid'
                                                        and r.date > today))
