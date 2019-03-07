@@ -53,7 +53,6 @@ class MuskathlonRegistration(models.Model):
                 item.amount for item in muskathlon_report.search([
                     ('user_id', '=', registration.partner_id.id),
                     ('event_id', '=', registration.compassion_event_id.id),
-                    ('registration_id', '=', registration.reg_id),
                 ])
             ))
             registration.amount_raised = amount_raised

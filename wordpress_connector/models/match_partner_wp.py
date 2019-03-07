@@ -52,11 +52,19 @@ class MatchPartnerWP(models.AbstractModel):
 
     @api.model
     def match_lang(self, wp_lang):
-        return LANG_MAPPING[wp_lang]
+        return LANG_MAPPING.get(wp_lang)
 
     @api.model
     def match_title(self, wp_title):
-        return self.env.ref(TITLE_MAPPING[wp_title]).id
+        if wp_title in TITLE_MAPPING:
+            return self.env.ref(TITLE_MAPPING.get(wp_title)).id
+        else:
+            title = self.env['res.partner.title'].with_context(
+                lang='en_US'
+            ).search([
+                ('name', '=ilike', wp_title),
+            ])
+            return title.id
 
     @api.model
     def match_spoken_langs(self, wp_spoken_langs):

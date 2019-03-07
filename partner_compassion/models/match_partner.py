@@ -9,7 +9,8 @@
 #
 ##############################################################################
 
-from odoo import models
+from odoo import api, models
+from odoo.addons.queue_job.job import job
 
 
 class MatchPartner(models.AbstractModel):
@@ -51,3 +52,25 @@ class MatchPartner(models.AbstractModel):
         return super(MatchPartner, self).match_after_match(
             partner, new_partner, infos
         )
+
+    @job
+    @api.model
+    def match_update(self, partner, infos):
+        """
+        Overload the update to create a new linked partner if the given email
+        does not correspond to the matched partner.
+        """
+        if 'email' in infos:
+            all_emails = partner.other_contact_ids.mapped('email')
+            all_emails.append(partner.email)
+            if infos['email'] not in all_emails:
+                vals = {
+                    'contact_type': 'attached',
+                    'type': 'email_alias',
+                    'email': infos['email'],
+                    'contact_id': partner.id,
+                }
+                self.env['res.partner'].sudo().create(vals)
+                # Don't update e-mail address of main partner
+                del infos['email']
+        return super(MatchPartner, self).match_update(partner, infos)

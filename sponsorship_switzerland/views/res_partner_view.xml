@@ -16,7 +16,7 @@
         <field name="res_model">recurring.contract</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain" eval="[('state', '=', 'mandate'), ('mandate_date', '&lt;', (DateTime.now() - timedelta(days=25)).strftime('%Y-%m-%d'))]"/>
+        <field name="domain" eval="[('state', '=', 'mandate'), ('mandate_date', '&lt;', (DateTime.now() - timedelta(days=20)).strftime('%Y-%m-%d'))]"/>
     </record>
 
     <menuitem id="menu_waiting_mandate" parent="child_compassion.menu_sponsorship_section"

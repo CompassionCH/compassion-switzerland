@@ -16,6 +16,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
+from odoo.tools.safe_eval import safe_eval
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 from odoo.addons.queue_job.job import job, related_action
 
@@ -25,7 +26,8 @@ logger = logging.getLogger(__name__)
 
 
 class RecurringContracts(models.Model):
-    _inherit = 'recurring.contract'
+    _name = 'recurring.contract'
+    _inherit = ['recurring.contract', 'ir.needaction_mixin']
 
     first_open_invoice = fields.Date(compute='_compute_first_open_invoice')
     mandate_date = fields.Datetime(string='State last time mandate')
@@ -415,6 +417,7 @@ class RecurringContracts(models.Model):
             if invoices:
                 invoices.with_delay(eta=delay).group_or_split_reconcile()
 
+
     @api.multi
     @job(default_channel='root.recurring_invoicer')
     @related_action(action='related_action_contract')
@@ -427,3 +430,18 @@ class RecurringContracts(models.Model):
 
         return super(RecurringContracts, self)._clean_invoices(
             since_date, to_date, keep_lines)
+
+    @api.model
+    def _needaction_count(self, domain=None):
+        """
+        search the number of recurring.contract only for waiting_mandate menu
+        """
+        waiting_action = self.env.ref('sponsorship_switzerland'
+                                      '.action_view_partner_waiting_mandate')
+
+        if domain != safe_eval(waiting_action.domain):
+            return super(RecurringContracts, self)._needaction_count(domain)
+
+        res = self.search(domain, limit=100, order='id DESC')
+        return len(res)
+
