@@ -417,7 +417,6 @@ class RecurringContracts(models.Model):
             if invoices:
                 invoices.with_delay(eta=delay).group_or_split_reconcile()
 
-
     @api.multi
     @job(default_channel='root.recurring_invoicer')
     @related_action(action='related_action_contract')
@@ -444,4 +443,3 @@ class RecurringContracts(models.Model):
 
         res = self.search(domain, limit=100, order='id DESC')
         return len(res)
-
