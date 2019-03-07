@@ -9,16 +9,90 @@
     position: relative;
 }
 
-#event_header .event_name {
-    color: white;
-    margin: 10px auto;
-    max-width: 90%;
-}
-
 #event_header .banner_text_container {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     padding: 3px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+#event_header .event_name {
+    color: white;
+    margin: 10px auto;
+    max-width: 90%;
+    font-size: 1.5rem !Important;
+   }
+   h2{
+    font-size: 1.5rem !Important;
+   }
+   body{
+    font-size: 1rem !Important;
+   }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+#event_header .event_name {
+    color: white;
+    margin: 10px auto;
+    max-width: 90%;
+    font-size: 2rem !Important;
+   }
+   h2{
+    font-size: 2rem !Important;
+   }
+   body{
+    font-size: 1.5rem !Important;
+   }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+#event_header .event_name {
+    color: white;
+    margin: 10px auto;
+    max-width: 90%;
+    font-size: 2.5rem !Important;
+   }
+   h2{
+    font-size: 2.5rem !Important;
+   }
+   body{
+    font-size: 2rem !Important;
+   }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+#event_header .event_name {
+    color: white;
+    margin: 10px auto;
+    max-width: 90%;
+    font-size: 2.5rem !Important;
+   }
+   h2{
+    font-size: 2.5rem !Important;
+   }
+   body{
+    font-size: 2rem !Important;
+   }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+#event_header .event_name {
+    color: white;
+    margin: 10px auto;
+    max-width: 90%;
+    font-size: 2.5rem !Important;
+   }
+   h2{
+    font-size: 2.5rem !Important;
+   }
+   body{
+    font-size: 2rem !Important;
+   }
 }
