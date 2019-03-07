@@ -87,7 +87,7 @@ if not testing:
                 'user_id': event.user_id.id,
             })
 
-        def match_after_match(self, partner, new_partner, partner_vals):
+        def match_after_match(self, partner, new_partner, partner_vals, opt):
             """
             For event registration, we want to be a bit more restrictive in
             the partner matching, because we allow several people to
@@ -96,6 +96,7 @@ if not testing:
             :param partner: res.partner record matched
             :param new_partner: True if a new partner was created
             :param partner_vals: partner vals extracted from form
+            :param opt: User defined options
             :return: None
             """
             firstname = partner_vals['firstname']
@@ -107,7 +108,7 @@ if not testing:
                 return self.match_create(partner, partner_vals)
             else:
                 return super(EventRegistrationForm, self).match_after_match(
-                    partner, new_partner, partner_vals)
+                    partner, new_partner, partner_vals, opt)
 
         def _form_create(self, values):
             """Just create the main object (as superuser)."""

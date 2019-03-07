@@ -383,6 +383,12 @@ class Event(models.Model):
                     'datas': passport,
                     'name': name,
                 })
+                self.write({
+                    'completed_task_ids': [
+                        (4, self.env.ref(
+                            'website_event_compassion.task_passport').id),
+                    ]
+                })
             else:
                 attachment_obj.search([
                     ('name', 'like', 'Passport'),
@@ -411,6 +417,12 @@ class Event(models.Model):
                     'res_id': registration.id,
                     'datas': criminal_record,
                     'name': name,
+                })
+                self.write({
+                    'completed_task_ids': [
+                        (4, self.env.ref(
+                            'website_event_compassion.task_criminal').id),
+                    ]
                 })
             else:
                 attachment_obj.search([

@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="partner_communication.generate_communication_wizard_form"/>
         <field name="arch" type="xml">
             <field name="selection_domain" position="before">
-                <field name="res_model" widget="radio"/>
+                <field name="res_model" widget="radio" attrs="{'invisible': True}"/>
             </field>
             <field name="selection_domain" position="attributes">
                 <attribute name="options">{'model_field': 'res_model'}</attribute>

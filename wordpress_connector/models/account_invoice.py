@@ -27,6 +27,8 @@ class AccountInvoice(models.Model):
         :return:
         """
 
+        match_obj = self.env['res.partner.match.wp']
+
         # Extract the partner infos
         partner_fields = {  # wp_field : odoo_field
             'email': 'email',
@@ -43,15 +45,10 @@ class AccountInvoice(models.Model):
             partner_infos[odoo_field] = donnation_infos[wp_field]
 
         # Find the matching odoo country
-        country = self.env['res.country'].with_context(
-            lang=partner_infos['lang']
-        ).search([
-            ('name', '=ilike', donnation_infos['country']),
-        ])
-        partner_infos['country_id'] = country.id
+        partner_infos['country_id'] = match_obj.match_country(
+            donnation_infos['country'], partner_infos['lang']).id
 
         # Find matching partner
-        match_obj = self.env['res.partner.match']
         partner = match_obj.match_partner_to_infos(partner_infos)
 
         # Insert the donation details to the database.
