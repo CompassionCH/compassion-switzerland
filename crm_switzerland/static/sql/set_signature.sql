@@ -2,6 +2,9 @@
 CREATE OR REPLACE FUNCTION set_signature(text1 text, text2 text, text3 text, text4 text, wLang varchar)
   RETURNS void AS
 $$
+DECLARE
+	email_banner_url_open   character varying(255);
+	email_banner_url   	character varying(255);
 BEGIN
 	--Supprime les traductions pour la langue en paramètre
 	DELETE FROM ir_translation
@@ -15,7 +18,16 @@ BEGIN
 	SET signature = (SELECT '<span><b>' || p.firstname || ' ' || p.lastname || '</b></span><br>' || '<span>Compassion Suisse</span><br>' || '<span>Rue Galilée 3</span><br>' || '<span>CH-1400 Yverdon-les-Bains</span><br>' || '<span>tel: +41 24 434 21 24</span><br>' FROM res_users u INNER JOIN res_partner p ON u.partner_id = p.id where u.id = users.id)
 	--WHERE users.id = 1
 	;
+
+	--Récupération du paramètre pour l'URL de la bannière
+	SELECT value INTO email_banner_url FROM ir_config_parameter
+	WHERE key = 'email.banner.url';
+
+	--Récupération du paramètre pour l'URL sur click de la bannière
+	SELECT value INTO email_banner_url_open FROM ir_config_parameter
+	WHERE key = 'email.banner.url.open';
 	
+	--Génère les nouvelles signatures
 	INSERT INTO ir_translation
 	SELECT 	nextval('ir_translation_id_seq'::regclass) as id,
 		wLang as lang,
@@ -30,7 +42,8 @@ BEGIN
 		'<span>' || text2 || '</span><br>' ||
 		'<span>' || text3 || '</span><br>' ||
 		'<span>' || text4 || '</span><br>' ||
-		'<span><a style="color:rgb(149,79,114)" href="http://www.compassion.ch/" target="_blank">www.compassion.ch</a></span>' as value,
+		'<span><a style="color:rgb(149,79,114)" href="http://www.compassion.ch/" target="_blank">www.compassion.ch</a></span><br>' ||
+		'<span><a href="' || email_banner_url_open || '" target="_blank"><img height="158px" width="640px" src="' || email_banner_url || wLang || '.png"></img></a></span>' as value,
 		'model' as model
 	FROM res_users users
 	INNER JOIN res_partner p
