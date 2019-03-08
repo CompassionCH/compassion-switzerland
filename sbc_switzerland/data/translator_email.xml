@@ -24,7 +24,7 @@
                         Before you can start translating, you must agree to Compassion's Child Protection Charter.
                     </p>
                     <p>
-                        <a href="/partner/${partner.uuid}/child-protection-charter" class="btn btn-primary btn-block mb24" role="button" data-original-title="" title="">Read and agree to Compassion's Child Protection Charter</a>
+                        <a href="/partner/${partner.uuid}/child-protection-charter?src=trad" class="btn btn-primary btn-block mb24" role="button" data-original-title="" title="">Read and agree to Compassion's Child Protection Charter</a>
                     </p>
                     <p>
                         Once you have agreed, you will receive an automatic email with your access to our translation platform.

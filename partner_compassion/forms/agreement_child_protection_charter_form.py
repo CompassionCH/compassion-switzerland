@@ -8,6 +8,7 @@
 #
 ##############################################################################
 
+from odoo.http import request
 from odoo import models, fields, tools, _
 
 testing = tools.config.get('test_enable')
@@ -57,11 +58,11 @@ if not testing:
 
         def form_cancel_url(self, main_object=None):
             """URL to redirect to after click on "cancel" button."""
-            main_object = main_object or self.main_object
-            if main_object:
-                return "/partner/{}/child-protection-charter"\
-                    .format(main_object.uuid)
-            return "/"
+            redirect = request.httprequest.args.get('redirect')
+            if redirect:
+                return redirect
+            else:
+                return request.httprequest.full_path
 
         def form_before_create_or_update(self, write_values, extra_values):
             pass

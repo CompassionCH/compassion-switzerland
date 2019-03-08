@@ -22,7 +22,20 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
 
     @http.route(route='/partner/<string:reg_uid>/child-protection-charter',
                 auth='public', website=True)
-    def child_protection_charter_agree(self, reg_uid, form_id=None, **kwargs):
+    def child_protection_charter_agree(
+            self, reg_uid, form_id=None, redirect=None, src=None, **kwargs):
+        """
+        This page allows a partner to sign the child protection charter.
+        :param reg_uid: The uuid associated with the partner.
+        :param form_id:
+        :param redirect: The redirection link for the confirmation page.
+        :param src: The source which asked to agree to the charter. The
+            following values are accepted:
+                - None : only the standard confirmation message is shown.
+                - "trad" : a message about the translation platform is shown.
+        :param kwargs: The remaining query string parameters.
+        :return: The rendered web page.
+        """
         # Need sudo() to bypass domain restriction on res.partner for anonymous
         # users.
         partner = request.env['res.partner'].sudo().search([
@@ -47,14 +60,22 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
         })
 
         if partner.has_agreed_child_protection_charter:
-            values = {
-                'confirmation_title': _("Thank you!"),
-                'confirmation_message': _(
-                    "We successfully received your agreement to the Child "
-                    "Protection Charter. You will receive an invitation to "
-                    "connect to the translation platform in the coming day."
+            confirmation_message = _(
+                "We successfully received your agreement to the Child "
+                "Protection Charter."
+            )
+
+            if src == "trad":
+                confirmation_message += " " + _(
+                    "You will receive an invitation to connect to the "
+                    "translation platform in the coming day."
                 )
-            }
+
+            values.update({
+                'confirmation_title': _("Thank you!"),
+                'confirmation_message': confirmation_message,
+                'redirect': redirect,
+            })
             return request.render(
                 'partner_compassion.'
                 'child_protection_charter_confirmation_page', values)
