@@ -6,32 +6,30 @@ DECLARE
 	email_banner_url_open   character varying(255);
 	email_banner_url   	character varying(255);
 BEGIN
-	--Supprime les traductions pour la langue en paramètre
+	--Deletes translations for the language as a parameter
 	DELETE FROM ir_translation
 	WHERE name = 'res.users,signature'
 		AND lang = wLang
-		--AND res_id = 1
 	;
 	
-	-- Signature par défaut chez tout le monde au niveau de la table user est défini en français	
+	-- Default signature for everyone at the user table is defined in French
 	UPDATE res_users users
 	SET signature = (SELECT '<span><b>' || p.firstname || ' ' || p.lastname || '</b></span><br>' || '<span>Compassion Suisse</span><br>' || '<span>Rue Galilée 3</span><br>' || '<span>CH-1400 Yverdon-les-Bains</span><br>' || '<span>tel: +41 24 434 21 24</span><br>' FROM res_users u INNER JOIN res_partner p ON u.partner_id = p.id where u.id = users.id)
-	--WHERE users.id = 1
 	;
 
-	--Récupération du paramètre pour l'URL de la bannière
+	--Retrieving the parameter for the banner URL
 	SELECT value INTO email_banner_url FROM ir_config_parameter
 	WHERE key = 'email.banner.url';
 
-	--Récupération du paramètre pour l'URL sur click de la bannière
+	--Retrieving the parameter for the click URL of the banner
 	SELECT value INTO email_banner_url_open FROM ir_config_parameter
 	WHERE key = 'email.banner.url.open';
 	
-	--Génère les nouvelles signatures
+	--Generate new signatures
 	INSERT INTO ir_translation
 	SELECT 	nextval('ir_translation_id_seq'::regclass) as id,
 		wLang as lang,
-		--La signature SRC doit correspondre à la signature au niveau de la table users, sinon si l'utilisateur va dans ses préférences des langes de la signature, le système génère des nouvelles signatures
+		--The SRC signature must match the signature at the table users, otherwise if the user goes in his preferences of the langes of the signature, the system generates new signatures
 		(SELECT '<span><b>' || p.firstname || ' ' || p.lastname || '</b></span><br>' || '<span>Compassion Suisse</span><br>' || '<span>Rue Galilée 3</span><br>' || '<span>CH-1400 Yverdon-les-Bains</span><br>' || '<span>tel: +41 24 434 21 24</span><br>' FROM res_users u INNER JOIN res_partner p ON u.partner_id = p.id where u.id = users.id) as src,
 		'res.users,signature' as name,
 		users.id as res_id,
@@ -48,7 +46,6 @@ BEGIN
 	FROM res_users users
 	INNER JOIN res_partner p
 		ON users.partner_id = p.id
-	--where users.id = 1
 	;
 END; $$
  
