@@ -50,7 +50,7 @@ class MuskathlonRegistration(models.Model):
         partner = self.env['res.partner'].browse(values.get('partner_id'))
         if partner and partner.has_agreed_child_protection_charter:
             task = self.env.ref('muskathlon.task_sign_child_protection')
-            completed_tasks = values.get('completed_task_ids', [])
+            completed_tasks = values.setdefault('completed_task_ids', [])
             completed_tasks.append((4, task.id))
         return super(MuskathlonRegistration, self).create(values)
 
