@@ -1,4 +1,4 @@
-﻿--Définir la signature Française
+﻿--Define the French signature
 SELECT set_signature(
 	'Compassion Suisse',
 	'Rue Galilée 3',
@@ -7,7 +7,7 @@ SELECT set_signature(
 	'fr_CH'
 );
 
---Définir la signature Anglaise
+--Define the English signature
 SELECT set_signature(
 	'Compassion Switzerland',
 	'Rue Galilée 3',
@@ -16,25 +16,25 @@ SELECT set_signature(
 	'en_US'
 );
 
---Définir la signature Allemande
+--Define the German signature
 SELECT set_signature(
 	'Compassion Schweiz',
-	'Rue Galilée 3',
+	'Effingerstrasse 10',
 	'CH-3011 Bern',
 	'tel: +41 31 552 21 21',
 	'de_DE'
 );
 
---Définir la signature Italienne
+--Define the Italian signature
 SELECT set_signature(
 	'Compassion Svizzera',
-	'Rue Galilée 3',
+	'Effingerstrasse 10',
 	'CH-3011 Bern',
-	'<span style="color:red;">tel:</<span> +41 24 434 21 24',
+	'tel: +41 24 434 21 24',
 	'it_IT'
 );
 
---Définir la signature Espagnole
+--Define the Spanish signature
 SELECT set_signature(
 	'Compassion Suizo',
 	'Rue Galilée 3',
