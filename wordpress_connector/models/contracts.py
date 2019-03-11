@@ -110,8 +110,8 @@ class Contracts(models.Model):
             # Format birthday
             birthday = form_data.get('birthday', '')
             if birthday:
-                birthday = datetime.strptime(birthday, '%d/%m/%Y')
-                partner_infos['birthdate'] = birthday.strftime('%Y-%m-%d')
+                d = birthday.split('/')  # 'dd/mm/YYYY' => ['dd', 'mm', 'YYYY']
+                partner_infos['birthdate'] = '%s-%s-%s' % (d[2], d[1], d[0])
 
             # Search for existing partner
             partner = match_obj.match_partner_to_infos(partner_infos)
