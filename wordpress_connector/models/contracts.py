@@ -93,10 +93,11 @@ class Contracts(models.Model):
 
             partner_infos = {}
             for wp_field, odoo_field in SPONSOR_MAPPING.iteritems():
-                partner_infos[odoo_field] = form_data[wp_field]
+                partner_infos[odoo_field] = form_data.get(wp_field)
 
             # Match lang + title + spoken langs + country
             partner_infos['lang'] = match_obj.match_lang(sponsor_lang)
+            form_data['lang'] = partner_infos['lang']
             partner_infos['title'] = match_obj.match_title(
                 form_data['salutation']
             )
@@ -145,8 +146,6 @@ class Contracts(models.Model):
                 'medium_id': utms.get('medium', internet_id),
                 'campaign_id': utms['campaign'],
             }
-
-            form_data['lang'] = partner_infos['lang']
         except:
             # We catch any exception to make sure we don't lose any
             # sponsorship made from the website
