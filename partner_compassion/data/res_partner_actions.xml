@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="agree_to_child_protection_charter_action" model="ir.actions.server">
+        <field name="name">Has agreed to the child protection charter</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">records.agree_to_child_protection_charter()</field>
+    </record>
+</odoo>

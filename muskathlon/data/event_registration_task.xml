@@ -31,5 +31,10 @@
             <field name="sequence">5</field>
             <field name="stage_id" ref="stage_fill_profile"/>
         </record>
+        <record id="task_sign_child_protection" model="event.registration.task">
+            <field name="name">Sign child protection agreement</field>
+            <field name="sequence">6</field>
+            <field name="stage_id" ref="stage_fill_profile"/>
+        </record>
     </data>
 </odoo>
