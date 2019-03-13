@@ -425,7 +425,7 @@ class RecurringContracts(models.Model):
                                             fields.Datetime.from_string(r.date)
                                             > today))
 
-        inv_lines.mapped('invoice_id').cancel_payment_lines()
+        inv_lines.cancel_payment_lines()
 
         return super(RecurringContracts, self)._clean_invoices(
             since_date, to_date, keep_lines)
