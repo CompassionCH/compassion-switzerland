@@ -16,7 +16,6 @@ from dateutil.relativedelta import relativedelta
 
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
-from odoo.tools.safe_eval import safe_eval
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 from odoo.addons.queue_job.job import job, related_action
 
@@ -26,8 +25,7 @@ logger = logging.getLogger(__name__)
 
 
 class RecurringContracts(models.Model):
-    _name = 'recurring.contract'
-    _inherit = ['recurring.contract', 'ir.needaction_mixin']
+    _inherit = 'recurring.contract'
 
     first_open_invoice = fields.Date(compute='_compute_first_open_invoice')
     mandate_date = fields.Datetime(string='State last time mandate')
@@ -431,4 +429,3 @@ class RecurringContracts(models.Model):
 
         return super(RecurringContracts, self)._clean_invoices(
             since_date, to_date, keep_lines)
-

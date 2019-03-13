@@ -44,6 +44,16 @@ class MuskathlonRegistration(models.Model):
          'Only one registration per participant/event is allowed!')
     ]
 
+    def create(self, values):
+        # Automatically complete the task sign_child_protection if the charter
+        # has already been signed.
+        partner = self.env['res.partner'].browse(values.get('partner_id'))
+        if partner and partner.has_agreed_child_protection_charter:
+            task = self.env.ref('muskathlon.task_sign_child_protection')
+            completed_tasks = values.setdefault('completed_task_ids', [])
+            completed_tasks.append((4, task.id))
+        return super(MuskathlonRegistration, self).create(values)
+
     def _compute_amount_raised(self):
         # Use Muskathlon report to compute Muskathlon event donation
         muskathlon_report = self.env['muskathlon.report']

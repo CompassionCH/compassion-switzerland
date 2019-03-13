@@ -90,17 +90,6 @@
                         data-target="#modal_tripinfo">
                     Change
                 </button>
-                <t t-if="survey_already_filled">
-                    <a class="btn btn-primary btn-xs" t-attf-href="{{survey_url.replace('start', 'print')}}/{{survey_already_filled.token}}">See completed medical survey</a>
-                </t>
-                <t t-else="">
-                    <t t-if="survey_not_started">
-                        <a class="btn btn-primary btn-xs" t-attf-href="{{survey_url}}/{{survey_not_started.token}}">Complete medical survey</a>
-                    </t>
-                    <t t-else="">
-                        <a class="btn btn-primary btn-xs" t-attf-href="{{survey_url}}">Complete medical survey</a>
-                    </t>
-                </t>
             </h3>
             <t t-if="partner.advocate_details_id.trip_information_complete">
                 <t t-set="registration" t-value="partner.registration_ids[:1]"/>
@@ -128,6 +117,26 @@
                     Your trip informations are incomplete. Please correct them.
                 </p>
             </t>
+            <h3>Tasks</h3>
+            <p>
+                <t t-if="survey_already_filled">
+                    <a class="btn btn-success btn-xs" t-attf-href="{{survey_url.replace('start', 'print')}}/{{survey_already_filled.token}}">See completed medical survey</a>
+                </t>
+                <t t-else="">
+                    <t t-if="survey_not_started">
+                        <a class="btn btn-primary btn-xs" t-attf-href="{{survey_url}}/{{survey_not_started.token}}">Complete medical survey</a>
+                    </t>
+                    <t t-else="">
+                        <a class="btn btn-primary btn-xs" t-attf-href="{{survey_url}}">Complete medical survey</a>
+                    </t>
+                </t>
+                <t t-if="child_protection_charter['has_agreed']">
+                    <a class="btn btn-success btn-xs" t-attf-href="{{child_protection_charter['url']}}">You have agreed to the child protection charter</a>
+                </t>
+                <t t-else="">
+                    <a class="btn btn-primary btn-xs" t-attf-href="{{child_protection_charter['url']}}">Read and agree to the child protection charter</a>
+                </t>
+            </p>
         </template>
 
         <template id="picture_1_formatted" name="My profile picture">

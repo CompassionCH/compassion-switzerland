@@ -59,6 +59,7 @@
         'data/calendar_event_type.xml',
         'data/ir_cron.xml',
         'data/mail_channel.xml',
+        'data/res_partner_actions.xml',
         'views/advocate_details.xml',
         'views/partner_compassion_view.xml',
         'views/product_view.xml',

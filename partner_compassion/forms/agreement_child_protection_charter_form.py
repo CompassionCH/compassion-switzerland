@@ -8,6 +8,7 @@
 #
 ##############################################################################
 
+from odoo.http import request
 from odoo import models, fields, tools, _
 
 testing = tools.config.get('test_enable')
@@ -22,6 +23,14 @@ if not testing:
 
         _form_model = 'res.partner'
         _form_required_fields = ['charter_agreement']
+
+        # This assignment is used to prevent the form from using all the
+        # fields. Because the default behaviour when the _form_model_fields
+        # variable is an empty list (which it is by default) is to use all
+        # the fields present in the model (in the method fields_get). When the
+        # variable contains only an unknown field name then none of the fields
+        # present in the model are used.
+        _form_model_fields = ['field_that_does_not_exist']
 
         charter_agreement = fields.Boolean('Check to agree to this charter')
 
@@ -49,21 +58,11 @@ if not testing:
 
         def form_cancel_url(self, main_object=None):
             """URL to redirect to after click on "cancel" button."""
-            main_object = main_object or self.main_object
-            if main_object:
-                return "/partner/{}/child-protection-charter"\
-                    .format(main_object.uuid)
-            return "/"
-
-        def _form_write(self, values):
-            # This overload is used to prevent the form from writing all the
-            # fields. Because the default behaviour when the _form_model_fields
-            # variable is an empty list (which it is by default) is to use all
-            # the fields present in the model.
-            # Another solution would be to add a non-existent field name to the
-            # _form_model_fields variable.
-            # Ex. _form_model_fields = ['does_not_exists']
-            pass
+            redirect = request.httprequest.args.get('redirect')
+            if redirect:
+                return redirect
+            else:
+                return request.httprequest.full_path
 
         def form_before_create_or_update(self, write_values, extra_values):
             pass
