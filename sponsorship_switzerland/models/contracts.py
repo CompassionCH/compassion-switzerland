@@ -424,8 +424,10 @@ class RecurringContracts(models.Model):
         today = datetime.now()
         inv_lines = self.invoice_line_ids.filtered(lambda r: r.state == 'open'
                                                    or (r.state == 'paid'
-                                                       and r.date > today))
-        inv_lines.cancel_payment_lines()
+                                                      and r.date > today))
+
+        for line in inv_lines:
+            line.invoice_id.cancel_payment_lines()
 
         return super(RecurringContracts, self)._clean_invoices(
             since_date, to_date, keep_lines)
