@@ -421,27 +421,14 @@ class RecurringContracts(models.Model):
     @job(default_channel='root.recurring_invoicer')
     @related_action(action='related_action_contract')
     def _clean_invoices(self, since_date=None, to_date=None, keep_lines=None):
-        today = datetime.now()
-        inv_lines = self.invoice_line_ids.filtered(lambda r: r.state == 'open'
-                                                   or (r.state == 'paid'
-                                                      and r.date > today))
+        today = datetime.today()
+        inv_lines = self.invoice_line_ids.filtered(
+            lambda r: r.state == 'open' or (r.state == 'paid' and
+                                            fields.Datetime.from_string(r.date)
+                                            > today))
 
-        for line in inv_lines:
-            line.invoice_id.cancel_payment_lines()
+        inv_lines.mapped('invoice_id').cancel_payment_lines()
 
         return super(RecurringContracts, self)._clean_invoices(
             since_date, to_date, keep_lines)
 
-    @api.model
-    def _needaction_count(self, domain=None):
-        """
-        search the number of recurring.contract only for waiting_mandate menu
-        """
-        waiting_action = self.env.ref('sponsorship_switzerland'
-                                      '.action_view_partner_waiting_mandate')
-
-        if domain != safe_eval(waiting_action.domain):
-            return super(RecurringContracts, self)._needaction_count(domain)
-
-        res = self.search(domain, limit=100, order='id DESC')
-        return len(res)
