@@ -16,6 +16,18 @@ class ResPartner(models.Model):
 
     muskathlon_participant_id = fields.Char('Muskathlon participant ID')
 
+    @api.multi
+    def agree_to_child_protection_charter(self):
+        res = super(ResPartner, self).agree_to_child_protection_charter()
+        task = self.env.ref('muskathlon.task_sign_child_protection')
+        for partner in self:
+            for registration in partner.registration_ids:
+                if task in registration.incomplete_task_ids:
+                    registration.write({
+                        'completed_task_ids': [(4, task.id)]
+                    })
+        return res
+
 
 class ResUsers(models.Model):
     _inherit = 'res.users'

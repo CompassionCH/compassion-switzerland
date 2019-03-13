@@ -62,7 +62,7 @@
         'templates/muskathlon_order_material.xml',
         'templates/assets.xml'
     ],
-    'depends': ['website_event_compassion', 'survey'],
+    'depends': ['website_event_compassion', 'survey', 'partner_compassion'],
     'external_dependencies': {
         'python': ['magic'],
     },

@@ -65,4 +65,20 @@
             </field>
         </field>
     </record>
+
+    <!-- Add language filters in search view -->
+    <record id="view_recurring_contract_lang_filter" model="ir.ui.view">
+        <field name="name">recurring.contract.lang.filter</field>
+        <field name="model">recurring.contract</field>
+        <field name="inherit_id" ref="sponsorship_compassion.view_recurring_contract_filter_graph" />
+        <field name="arch" type="xml">
+            <filter name="last_3_months" position="after">
+                <separator/>
+                <filter string="French" name="french" domain="[('correspondent_id.lang', '=', 'fr_CH')]"/>
+                <filter string="German" name="german" domain="[('correspondent_id.lang', '=', 'de_DE')]"/>
+                <filter string="Italian" name="italian" domain="[('correspondent_id.lang', '=', 'it_IT')]"/>
+                <filter string="English" name="english" domain="[('correspondent_id.lang', '=', 'en_US')]"/>
+            </filter>
+        </field>
+    </record>
 </odoo>
