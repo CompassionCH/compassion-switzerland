@@ -22,12 +22,13 @@ class IrUiMenu(models.Model):
 
         waiting_menu = \
             self.env.ref('sponsorship_switzerland.menu_waiting_mandate')
-        domain = safe_eval(waiting_menu.action.domain)
-        model = waiting_menu.action.res_model
-        counter = \
-            len(self.env[model].search(domain, limit=100, order='id DESC'))
+        if waiting_menu.id in self.ids:
+            domain = safe_eval(waiting_menu.action.domain)
+            model = waiting_menu.action.res_model
+            counter = \
+                len(self.env[model].search(domain, limit=100, order='id DESC'))
 
-        res[waiting_menu.id]['needaction_enabled'] = True
-        res[waiting_menu.id]['needaction_counter'] = counter
+            res[waiting_menu.id]['needaction_enabled'] = True
+            res[waiting_menu.id]['needaction_counter'] = counter
 
         return res
