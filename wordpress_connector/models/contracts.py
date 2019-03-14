@@ -10,7 +10,6 @@
 ##############################################################################
 import logging
 import re
-from datetime import datetime
 
 from odoo.addons.queue_job.job import job, related_action
 
