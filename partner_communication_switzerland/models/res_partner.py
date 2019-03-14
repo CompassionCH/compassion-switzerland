@@ -45,6 +45,7 @@ class ResPartner(models.Model):
         for p in company:
             p.salutation = _("Dear friends of compassion")
             p.short_salutation = p.salutation
+            p.informal_salutation = _("Dear friend of Compassion")
         super(ResPartner, self - company)._compute_salutation()
 
     @api.multi
