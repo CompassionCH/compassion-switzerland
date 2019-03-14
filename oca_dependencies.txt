@@ -18,7 +18,7 @@ partner-contact
 report-print-send
 server-tools
 connector-telephony
-hr
+hr https://github.com/CompassionCH/hr hr-extra-hours
 social
 website-cms
 geospatial
