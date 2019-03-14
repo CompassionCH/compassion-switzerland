@@ -33,12 +33,3 @@ SELECT set_signature(
 	'tel: +41 24 434 21 24',
 	'it_IT'
 );
-
---Define the Spanish signature
-SELECT set_signature(
-	'Compassion Suizo',
-	'Rue Galilée 3',
-	'CH-1400 Yverdon-les-Bains',
-	'tel: +41 24 434 21 24',
-	'es_ES'
-);
