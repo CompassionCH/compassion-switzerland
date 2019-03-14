@@ -14,7 +14,7 @@ BEGIN
 	
 	-- Default signature for everyone at the user table is defined in French
 	UPDATE res_users users
-	SET signature = (SELECT '<span><b>' || p.firstname || ' ' || p.lastname || '</b></span><br>' || '<span>Compassion Suisse</span><br>' || '<span>Rue Galilée 3</span><br>' || '<span>CH-1400 Yverdon-les-Bains</span><br>' || '<span>tel: +41 24 434 21 24</span><br>' FROM res_users u INNER JOIN res_partner p ON u.partner_id = p.id where u.id = users.id)
+	SET signature = (SELECT '<span><b>' || p.preferred_name || ' ' || p.lastname || '</b></span><br>' || '<span>Compassion Suisse</span><br>' || '<span>Rue Galilée 3</span><br>' || '<span>CH-1400 Yverdon-les-Bains</span><br>' || '<span>tel: +41 24 434 21 24</span><br>' FROM res_users u INNER JOIN res_partner p ON u.partner_id = p.id where u.id = users.id)
 	;
 
 	--Retrieving the parameter for the banner URL
@@ -30,17 +30,17 @@ BEGIN
 	SELECT 	nextval('ir_translation_id_seq'::regclass) as id,
 		wLang as lang,
 		--The SRC signature must match the signature at the table users, otherwise if the user goes in his preferences of the langes of the signature, the system generates new signatures
-		(SELECT '<span><b>' || p.firstname || ' ' || p.lastname || '</b></span><br>' || '<span>Compassion Suisse</span><br>' || '<span>Rue Galilée 3</span><br>' || '<span>CH-1400 Yverdon-les-Bains</span><br>' || '<span>tel: +41 24 434 21 24</span><br>' FROM res_users u INNER JOIN res_partner p ON u.partner_id = p.id where u.id = users.id) as src,
+		(SELECT '<span><b>' || p.preferred_name || ' ' || p.lastname || '</b></span><br>' || '<span>Compassion Suisse</span><br>' || '<span>Rue Galilée 3</span><br>' || '<span>CH-1400 Yverdon-les-Bains</span><br>' || '<span>tel: +41 24 434 21 24</span><br>' FROM res_users u INNER JOIN res_partner p ON u.partner_id = p.id where u.id = users.id) as src,
 		'res.users,signature' as name,
 		users.id as res_id,
 		'base' as module,
 		'translated' as slate,
-		'<span><b>' || p.firstname || ' ' || p.lastname || '</b></span><br>' ||
+		'<span><b>' || p.preferred_name || ' ' || p.lastname || '</b></span><br>' ||
 		'<span>' || text1 || '</span><br>' ||
 		'<span>' || text2 || '</span><br>' ||
 		'<span>' || text3 || '</span><br>' ||
 		'<span>' || text4 || '</span><br>' ||
-		'<span><a style="color:rgb(149,79,114)" href="http://www.compassion.ch/" target="_blank">www.compassion.ch</a></span><br>' ||
+		'<span><a style="color:#0054a6" href="https://www.compassion.ch/" target="_blank">www.compassion.ch</a></span><br>' ||
 		'<span><a href="' || email_banner_url_open || '" target="_blank"><img height="158px" width="640px" src="' || email_banner_url || wLang || '.png"></img></a></span>' as value,
 		'model' as model
 	FROM res_users users

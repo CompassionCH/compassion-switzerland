@@ -42,6 +42,7 @@
     'data': [
         'views/crm_phonecall.xml',
         'views/calendar_event.xml',
+        'views/res_users_view.xml',
     ],
     'demo': [],
     'installable': True,
