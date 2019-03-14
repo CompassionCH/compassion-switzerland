@@ -23,7 +23,7 @@ social
 website-cms
 geospatial
 survey
-bank-payment
+bank-payment https://github.com/CompassionCH/bank-payment 10.0-payment-cancel
 web
 l10n-switzerland
 compassion-accounting https://github.com/CompassionCH/compassion-accounting devel
