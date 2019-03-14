@@ -135,7 +135,7 @@
         <field name="name">Action All Attended</field>
         <field name="model_id" ref="model_event_registration"/>
         <field name="code">
-            object.button_reg_close()
+            records.button_reg_close()
         </field>
     </record>
     <record id="event_registration_all_attended" model="ir.values">
