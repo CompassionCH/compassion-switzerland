@@ -38,6 +38,7 @@
     'depends': [
         'crm_compassion',
         'sponsorship_tracking',
+        'account_payment_line_cancel',
         'partner_compassion',
         'account_statement_completion',
         'l10n_ch_lsv_dd',
