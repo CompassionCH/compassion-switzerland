@@ -362,7 +362,7 @@ class PartnerCommunication(models.Model):
             queue_job = self.env['queue.job'].search([
                 ('channel', '=', 'root.group_reconcile'),
                 ('state', '!=', 'done'),
-            ])
+            ], limit=1)
             if queue_job:
                 invoices = self.env['account.invoice'].browse(
                     queue_job.record_ids)
