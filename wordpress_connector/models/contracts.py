@@ -10,7 +10,6 @@
 ##############################################################################
 import logging
 import re
-from datetime import datetime
 
 from odoo.addons.queue_job.job import job, related_action
 
@@ -93,10 +92,11 @@ class Contracts(models.Model):
 
             partner_infos = {}
             for wp_field, odoo_field in SPONSOR_MAPPING.iteritems():
-                partner_infos[odoo_field] = form_data[wp_field]
+                partner_infos[odoo_field] = form_data.get(wp_field)
 
             # Match lang + title + spoken langs + country
             partner_infos['lang'] = match_obj.match_lang(sponsor_lang)
+            form_data['lang'] = partner_infos['lang']
             partner_infos['title'] = match_obj.match_title(
                 form_data['salutation']
             )
@@ -109,8 +109,8 @@ class Contracts(models.Model):
             # Format birthday
             birthday = form_data.get('birthday', '')
             if birthday:
-                birthday = datetime.strptime(birthday, '%d/%m/%Y')
-                partner_infos['birthdate'] = birthday.strftime('%Y-%m-%d')
+                d = birthday.split('/')  # 'dd/mm/YYYY' => ['dd', 'mm', 'YYYY']
+                partner_infos['birthdate'] = '%s-%s-%s' % (d[2], d[1], d[0])
 
             # Search for existing partner
             partner = match_obj.match_partner_to_infos(partner_infos)
@@ -145,8 +145,6 @@ class Contracts(models.Model):
                 'medium_id': utms.get('medium', internet_id),
                 'campaign_id': utms['campaign'],
             }
-
-            form_data['lang'] = partner_infos['lang']
         except:
             # We catch any exception to make sure we don't lose any
             # sponsorship made from the website

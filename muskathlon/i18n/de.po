@@ -6,28 +6,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-24 14:22+0000\n"
-"PO-Revision-Date: 2018-10-25 10:06+0200\n"
+"POT-Creation-Date: 2019-03-15 10:28+0000\n"
+"PO-Revision-Date: 2019-03-15 12:16+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: de\n"
 "X-Generator: Poedit 2.0.6\n"
+
+#. module: muskathlon
+#: code:addons/muskathlon/models/event_registration.py:101
+#, python-format
+msgid "%s - New Muskathlon registration"
+msgstr "%s - New Muskathlon registration"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.new_registration_successful
 msgid ""
 ".\n"
 "                            <br/>\n"
-"                            You will receive a confirmation by e-mail very soon with instructions to complete your\n"
+"                            You will receive a confirmation by e-mail very "
+"soon with instructions to complete your\n"
 "                            profile."
 msgstr ""
 "                            <br/>\n"
 "                            <br/>\n"
-"Bald bekommst du eine E-Mail mit deinen persönlichen Zugangsdaten zum Teilnehmerprofil.\n"
+"Bald bekommst du eine E-Mail mit deinen persönlichen Zugangsdaten zum "
+"Teilnehmerprofil.\n"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.participant_details
@@ -64,52 +72,83 @@ msgstr "30"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
-msgid "<b>The seven childpacks are reserved for you. When someone decides to sponsor one of the children who has been your delegate, and sends the completed form to our office, the sponsorship will be credited to you.</b>"
-msgstr "<b>Die sieben Dossiers sind auf deinen Namen reserviert. Wenn jemand die Patenschaft für ein Kind übernimmt und das Formular ausgefüllt an unser Büro sendet wird dir diese Patenschaft auf dem Barometer gutgeschrieben.</b>"
+msgid ""
+"<b>The seven childpacks are reserved for you. When someone decides to "
+"sponsor one of the children who has been your delegate, and sends the "
+"completed form to our office, the sponsorship will be credited to you.</b>"
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(58, 58, 58);font-"
+"weight: 700\">Die sieben Dossiers sind auf deinen Namen reserviert. Wenn "
+"jemand die Patenschaft für ein Kind übernimmt und das Formular ausgefüllt an "
+"unser Büro sendet wird dir diese Patenschaft auf dem Barometer "
+"gutgeschrieben.</span>"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.registration_failure
 msgid ""
 "<br/>\n"
 "                        <br/>\n"
-"                        If the payment process was successful, please call us."
+"                        If the payment process was successful, please call "
+"us."
 msgstr ""
 "<br/>\n"
 "                        <br/>\n"
-"                       Wenn der Zahlungsvorgang erfolgreich war, rufen Sie uns bitte an."
+"                       Wenn der Zahlungsvorgang erfolgreich war, rufen Sie "
+"uns bitte an."
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.details
 msgid "<span class=\"center-text\">Register</span>"
-msgstr "<font style=\"background-color: transparent;\">TEILNEHMEN</font><br/>"
+msgstr "<span class=\"center-text\">Teilnehmen</span>"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.details
 msgid "<span class=\"center-text\">See participants</span>"
-msgstr "<span class=\"center-text\">Teilnehmer ansehen</span>"
+msgstr "<span class=\"center-text\">Teilnehmende ansehen</span>"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.details
 msgid "<span class=\"text-uppercase dates_text\">Dates</span>"
-msgstr "<span class=\"dates_text text-uppercase\">Datum</span>"
+msgstr "<span class=\"dates_text text-uppercase\">DatUM</span>"
+
+#. module: muskathlon
+#: model:res.users,signature:muskathlon.user_muskathlon_portal
+msgid ""
+"<span><b>Portal Muskathlon</b></span><br><span>Compassion Suisse</"
+"span><br><span>Rue Galilée 3</span><br><span>CH-1400 Yverdon-les-Bains</"
+"span><br><span>tel: +41 24 434 21 24</span><br>"
+msgstr ""
+"<span><b>Portal Muskathlon</b></span><br><span>Compassion Suisse</"
+"span><br><span>Rue Galilée 3</span><br><span>CH-1400 Yverdon-les-Bains</"
+"span><br><span>tel: +41 24 434 21 24</span><br>"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
-msgid "A warm thank you for committing yourself with Compassion to release children from poverty through sponsorship!"
-msgstr "Schön, dass du dich für Compassion engagierst, um Kinder durch Patenschaften aus Armut zu befreien. Herzlichen Dank!"
+msgid ""
+"A warm thank you for committing yourself with Compassion to release children "
+"from poverty through sponsorship!"
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(58, 58, 58)\">Schön, "
+"dass du dich für Compassion engagierst, um Kinder durch Patenschaften aus "
+"Armut zu befreien. Herzlichen Dank!</span>"
 
 #. module: muskathlon
 #: code:addons/muskathlon/forms/advocate_details_form.py:50
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_advocate_details_description
 #, python-format
 msgid "About me"
-msgstr "Über mich"
+msgstr "About me"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_crm_event_compassion_website_muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_event_registration_is_muskathlon
 msgid "Activate Muskathlon template"
 msgstr "Activate Muskathlon template"
+
+#. module: muskathlon
+#: model:event.registration.task,name:muskathlon.task_activate_account
+msgid "Activate account"
+msgstr "Activate account"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.aboutme_formatted
@@ -168,8 +207,10 @@ msgstr "Amount raised percents"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_72
-msgid "Are there other particular details in your family regarding your health ?"
-msgstr "Gibt es weitere wichtige Details bzgl. deiner Gesundheit in deiner Familie?"
+msgid ""
+"Are there other particular details in your family regarding your health ?"
+msgstr ""
+"Gibt es weitere wichtige Details bzgl. deiner Gesundheit in deiner Familie?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_66
@@ -190,16 +231,20 @@ msgstr "Hat/Hatte jemand in deiner Familie Krebs?"
 #: model:survey.question,question:muskathlon.muskathlon_1_34
 #: model:survey.question,question:muskathlon.muskathlon_1_35
 msgid "Are you or have you ever been treated for heart problems ?"
-msgstr "Are you or have you ever been treated for heart problems ?"
+msgstr "Bist du / warst du wegen Herzproblemen in ärztlicher Behandlung?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_36
-msgid "Are you or have you ever been treated for increased/decreased blood pressure ?"
+msgid ""
+"Are you or have you ever been treated for increased/decreased blood "
+"pressure ?"
 msgstr "Gibt es in deiner Familie Bluthochdruck? "
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_21
-msgid "Are you treated/have you been treated by a medical specialist, and if so, for what reason ?"
+msgid ""
+"Are you treated/have you been treated by a medical specialist, and if so, "
+"for what reason ?"
 msgstr ""
 "Bist du/ Warst du in\n"
 "ärztlicher Behandlung und wenn ja, warum?"
@@ -207,7 +252,7 @@ msgstr ""
 #. module: muskathlon
 #: selection:event.registration,sport_level:0
 msgid "Average"
-msgstr "Durchschnitt"
+msgstr "Average"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_6
@@ -226,8 +271,19 @@ msgstr "Beginner"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
-msgid "Below you will find information about your Muskathlon, a form to order personalized flyers and sponsorship files."
-msgstr "<span style=\"background-color: transparent;color: rgb(58, 58, 58);text-align: center\">Hier findest du Informationen über deinen Muskathlon, ein Formular um deinen personalisierten Spendenflyer und Kinderdossiers für Patenschaften zu bestellen.</span>"
+msgid ""
+"Below you will find information about your Muskathlon, a form to order "
+"personalized flyers and sponsorship files."
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(58, 58, 58);text-"
+"align: center\">Hier findest du Informationen über deinen Muskathlon, ein "
+"Formular um deinen personalisierten Spendenflyer und Kinderdossiers für "
+"Patenschaften zu bestellen.</span>"
+
+#. module: muskathlon
+#: selection:cms.form.event.registration.muskathlon,t_shirt_type:0
+msgid "Bikeshirt"
+msgstr "Bikeshirt"
 
 #. module: muskathlon
 #: model:sport.discipline,sport:muskathlon.bike_120
@@ -237,19 +293,9 @@ msgid "Biking"
 msgstr "Biken"
 
 #. module: muskathlon
-#: model:ir.model.fields,field_description:muskathlon.field_advocate_details_birth_name
-msgid "Birth name"
-msgstr "Name (wie im Pass)"
-
-#. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_14
 msgid "Blood type and Rhesus factor"
 msgstr "Blutgruppe und Rhesus Faktor"
-
-#. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Brother"
-msgstr "Bruder"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_details
@@ -276,17 +322,17 @@ msgstr "Stadt"
 #. module: muskathlon
 #: model:sport.discipline,sport:muskathlon.climb
 msgid "Climbing"
-msgstr "Klettern"
+msgstr "Climbing"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_7
 msgid "Climbing experience"
-msgstr "Klettern Erfahrungen"
+msgstr "Climbing experience"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.new_registration_successful_modal
 msgid "Close"
-msgstr "Schliessen"
+msgstr "Schließen"
 
 #. module: muskathlon
 #: model:ir.model,name:muskathlon.model_crm_event_compassion
@@ -333,7 +379,6 @@ msgstr "Angelegt am"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_payment_currency_id
-#: model:ir.model.fields,field_description:muskathlon.field_muskathlon_report_currency
 msgid "Currency"
 msgstr "Währung"
 
@@ -359,11 +404,6 @@ msgid "Date/time"
 msgstr "Date/time"
 
 #. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Daughter"
-msgstr "Tochter"
-
-#. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_event_registration_sport_level_description
 msgid "Describe your sport experience"
 msgstr "Beschreibe deine Sporterfahrung"
@@ -375,7 +415,9 @@ msgstr "Beschreibung"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_41
-msgid "Did you ever have problems with breathing or coughing during or after exercise ?"
+msgid ""
+"Did you ever have problems with breathing or coughing during or after "
+"exercise ?"
 msgstr ""
 "Hattest du jemals\n"
 "Probleme mit dem Atmen oder Husten beim Training?"
@@ -387,7 +429,9 @@ msgstr "Hast du Herzrhythmusstörungen?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_62
-msgid "Did you have a longer period in which you had a fever, flu or a severe viral infection (myocarditis, Pfeiffer/Mono) ?"
+msgid ""
+"Did you have a longer period in which you had a fever, flu or a severe viral "
+"infection (myocarditis, Pfeiffer/Mono) ?"
 msgstr ""
 "Hattest du schon\n"
 "einmal eine längere Krankheitsperiode mit Fieber, Grippe oder einer ernsten\n"
@@ -426,7 +470,8 @@ msgstr "Nimmst du andere Stimulanzien/Drogen?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_30
-msgid "Do you ever have pressure or pain in your chest during or after exercise ?"
+msgid ""
+"Do you ever have pressure or pain in your chest during or after exercise ?"
 msgstr ""
 "Hast du bei oder nach\n"
 "körperlicher Anstrengung Druck oder Schmerzen in der Brust?"
@@ -533,7 +578,9 @@ msgstr "Rauchst du?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_63
-msgid "Do you sometimes notice extreme fatigue that is not in line with your normal workload ?"
+msgid ""
+"Do you sometimes notice extreme fatigue that is not in line with your normal "
+"workload ?"
 msgstr ""
 "Bemerkst du manchmal\n"
 "extreme Müdigkeit, die ausser Relation mit deiner täglichen Arbeit steht?"
@@ -612,7 +659,9 @@ msgstr ""
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "Don't hesitate to order new childpacks."
-msgstr "Gerne kannst du mehrmals Dossiers von Kindern bestellen."
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(58, 58, 58)\">Gerne "
+"kannst du mehrmals Dossiers von Kindern bestellen</span>."
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.participant_details
@@ -640,6 +689,11 @@ msgid "Donator"
 msgstr "Spender/in"
 
 #. module: muskathlon
+#: model:event.registration.stage,name:muskathlon.stage_down_payment
+msgid "Down payment"
+msgstr "Down payment"
+
+#. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_advocate_details_mail_copy_when_donation
 msgid "E-mail notification when you receive a donation"
 msgstr "E-mail Benachrichtigung, wenn ich eine Spende erhalte"
@@ -650,19 +704,9 @@ msgid "Email"
 msgstr "E-Mail"
 
 #. module: muskathlon
-#: model:ir.model.fields,field_description:muskathlon.field_advocate_details_emergency_name
-msgid "Emergency contact name"
-msgstr "Name Notfallkontakt"
-
-#. module: muskathlon
-#: model:ir.model.fields,field_description:muskathlon.field_advocate_details_emergency_phone
-msgid "Emergency contact phone number"
-msgstr "Telefonnummer"
-
-#. module: muskathlon
-#: model:ir.model.fields,field_description:muskathlon.field_advocate_details_emergency_relation_type
-msgid "Emergency contact relation type"
-msgstr "In welcher Beziehung stehst du zum Notfallkontakt?"
+#: model:ir.model.fields,field_description:muskathlon.field_cms_form_event_registration_muskathlon_emergency_name
+msgid "Emergency name"
+msgstr "Notfallkontaktperson"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.tripinfos_formatted
@@ -698,9 +742,24 @@ msgid "Event registrations"
 msgstr "Event registrations"
 
 #. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Father"
-msgstr "Vater"
+#: model:event.registration.task,name:muskathlon.task_emergency
+msgid "Fill emergency contact"
+msgstr "Fill emergency contact"
+
+#. module: muskathlon
+#: model:event.registration.task,name:muskathlon.task_medical
+msgid "Fill medical survey"
+msgstr "Fill medical survey"
+
+#. module: muskathlon
+#: model:event.registration.task,name:muskathlon.task_passport
+msgid "Fill passport"
+msgstr "Fill passport"
+
+#. module: muskathlon
+#: model:event.registration.stage,name:muskathlon.stage_fill_profile
+msgid "Fill profile"
+msgstr "Fill profile"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_event_registration_partner_firstname
@@ -708,10 +767,14 @@ msgid "First name"
 msgstr "Vorname"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:83
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:106
 #, python-format
-msgid "For validating registrations, we ask a fee of CHF %s that you can directly pay with your Postfinance or Credit Card"
-msgstr "Um die Anmeldung zu bestätigen, bitten wir dich um eine Anzahlung von CHF %s, die du direkt mit deiner Post- oder Kreditkarte bezahlen kannst."
+msgid ""
+"For validating registrations, we ask a fee of CHF %s that you can directly "
+"pay with your Postfinance or Credit Card"
+msgstr ""
+"Um die Anmeldung zu bestätigen, bitten wir dich um eine Anzahlung von CHF "
+"%s, die du direkt mit deiner Post- oder Kreditkarte bezahlen kannst."
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_order_material_form_id
@@ -721,11 +784,6 @@ msgid "Form id"
 msgstr "Form id"
 
 #. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Friend"
-msgstr "Freund"
-
-#. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_crm_event_compassion_website_my_fundraising
 msgid "Fundraising"
 msgstr "Fundraising"
@@ -733,7 +791,9 @@ msgstr "Fundraising"
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "Fundraising - tips and ideas"
-msgstr "FUNDRAISINGIDEEN UND HINWEISE"
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(0, 72, 151);font-"
+"weight: 400;line-height: 42px\">FUNDRAISINGIDEEN UND -HINWEISE</span>"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.custom_portal_my_home
@@ -747,7 +807,9 @@ msgstr "Geschlecht"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_33
-msgid "Has someone (in the past) told you to stop exercising because of a heart disease or another illness ?"
+msgid ""
+"Has someone (in the past) told you to stop exercising because of a heart "
+"disease or another illness ?"
 msgstr ""
 "Wurde dir in der\n"
 "Vergangenheit aufgrund von Herzkrankheiten oder anderen Problemen vom Sport\n"
@@ -755,7 +817,9 @@ msgstr ""
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_67
-msgid "Has someone in your family suddenly and unexpectedly deceased from a disease/ailment ?"
+msgid ""
+"Has someone in your family suddenly and unexpectedly deceased from a disease/"
+"ailment ?"
 msgstr ""
 "Ist jemand in deiner\n"
 "Familie an einer plötzlichen und unerwarteten Krankheit gestorben?"
@@ -798,7 +862,9 @@ msgstr "Hattest du schon einmal Borreliose? "
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_64
-msgid "Have you in the past two months suffered from fatigue or deterioration of your physical condition ?"
+msgid ""
+"Have you in the past two months suffered from fatigue or deterioration of "
+"your physical condition ?"
 msgstr ""
 "Hast du in den\n"
 "vergangenen zwei Monaten an Müdigkeit oder extremen körperlichem Abbau\n"
@@ -817,11 +883,18 @@ msgstr "Grösse (in cm)"
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid ""
-"Hereby you can order personalized support flyers to distribute to your relatives (family, friends, colleagues...).\n"
-"                                Click on the image below to view an example of a custom flyer."
+"Hereby you can order personalized support flyers to distribute to your "
+"relatives (family, friends, colleagues...).\n"
+"                                Click on the image below to view an example "
+"of a custom flyer."
 msgstr ""
-"Hier kannst du einen personalisierten Muskathlon-Spendenflyer (für Freunde, Verwandte, Arbeitskollegen, Firmen etc.) bestellen.\n"
-"Klick auf das Bild, dann siehst du wie so ein personalisierter Flyer aussehen wird."
+"<span style=\"background-color: transparent\">Hier kannst du&amp;nbsp;einen "
+"personalisierten Muskathlon-Spendenflyer (für Freunde, Verwandte, "
+"Arbeitskollegen, Firmen etc.) bestellen.</span><span style=\"background-"
+"color: transparent\">\n"
+"Klick auf das Bild,</span><wbr style=\"background-color: transparent\"><span "
+"style=\"background-color: transparent\">&amp;nbsp;dann siehst du wie so ein "
+"personalisierter Flyer aussehen wird.</span></wbr>"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_17
@@ -851,19 +924,14 @@ msgid "How often ?"
 msgstr "Wie oft?"
 
 #. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Husband"
-msgstr "Ehemann"
-
-#. module: muskathlon
 #: model:sport.discipline,page_title:muskathlon.bike_500
 msgid "I will go ... for Compassion"
-msgstr "Ich werde rennen für Compassion"
+msgstr ""
 
 #. module: muskathlon
 #: model:sport.discipline,page_title:muskathlon.bike_120
 msgid "I will go biking for Compassion"
-msgstr "Ich werde biken für Compassion"
+msgstr "Ich werde für Kinder in extremer Armut biken"
 
 #. module: muskathlon
 #: model:sport.discipline,page_title:muskathlon.bike_400
@@ -872,12 +940,12 @@ msgstr "Ich werde biken für Compassion"
 #: model:sport.discipline,page_title:muskathlon.run_42
 #: model:sport.discipline,page_title:muskathlon.run_60
 msgid "I will go running for Compassion"
-msgstr "Ich werde rennen für Compassion"
+msgstr "Ich werde für Kinder in extremer Armut rennen"
 
 #. module: muskathlon
 #: model:sport.discipline,page_title:muskathlon.walk_60
 msgid "I will go walking for Compassion"
-msgstr "Ich werde wandern für Compassion"
+msgstr "Ich werde für Kinder in extremer Armut wandern"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_advocate_details_id
@@ -968,7 +1036,7 @@ msgstr "ID"
 #: model:survey.question,comments_message:muskathlon.muskathlon_1_72
 #: model:survey.question,comments_message:muskathlon.muskathlon_1_73
 msgid "If other, please specify:"
-msgstr "Wenn anders, bitte angeben:"
+msgstr "If other, please specify:"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_event_registration_ambassador_picture_1
@@ -978,10 +1046,18 @@ msgstr "Bild"
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "Information about Compassion"
-msgstr "INFORMATIONEN ÜBER COMPASSION"
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(0, 72, 151);font-"
+"weight: 400;line-height: 42px\">INFORMATIONEN ÜBER COMPASSION</span>"
 
 #. module: muskathlon
-#: code:addons/muskathlon/models/event_registration.py:75
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:94
+#, python-format
+msgid "Information for the trip"
+msgstr "Informationen für die Reise"
+
+#. module: muskathlon
+#: code:addons/muskathlon/models/event_registration.py:86
 #, python-format
 msgid "Invalid sport"
 msgstr "Invalid sport"
@@ -1020,9 +1096,12 @@ msgid "Journal"
 msgstr "Journal"
 
 #. module: muskathlon
+#: model:ir.model.fields,field_description:muskathlon.field_cms_form_order_material_large_picture
+#: model:ir.model.fields,field_description:muskathlon.field_cms_form_order_material_mixin_large_picture
+#: model:ir.model.fields,field_description:muskathlon.field_cms_form_order_muskathlon_childpack_large_picture
 #: model:ir.model.fields,field_description:muskathlon.field_event_registration_ambassador_picture_2
 msgid "Large picture"
-msgstr "Large picture"
+msgstr "Dein Bild"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_advocate_details___last_update
@@ -1060,9 +1139,10 @@ msgid "Lead"
 msgstr "Interessent"
 
 #. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Mother"
-msgstr "Mutter"
+#: model:event.type,name:muskathlon.event_type_muskathlon
+#: model:ir.ui.view,arch_db:muskathlon.advocate_details_search
+msgid "Muskathlon"
+msgstr "Muskathlon"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.participant_details
@@ -1148,7 +1228,7 @@ msgstr "Muskathlons"
 #: model:ir.ui.view,arch_db:muskathlon.custom_portal_my_home
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "My donations"
-msgstr "Mein Spendenbarometer"
+msgstr "Meine Spenden"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.custom_portal_my_home
@@ -1173,7 +1253,7 @@ msgid "Name"
 msgstr "Name"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:122
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:145
 #, python-format
 msgid "New registration"
 msgstr "Neue Anmeldung"
@@ -1222,17 +1302,14 @@ msgstr "Optional large picture for your profile page"
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "Order free personalized Muskathlon flyers"
-msgstr "GRATIS PERSONALISIERTEN MUSKATHLON-SPENDENFLYER BESTELLEN"
+msgstr ""
+"<span style=\"background-color: transparent;font-weight: 400\">GRATIS "
+"PERSONALISIERTEN MUSKATHLON-SPENDENFLYER BESTELLEN</span>"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.view_muskathlon_events_thank_donation
 msgid "Order material page"
 msgstr "Order material page"
-
-#. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Other"
-msgstr "Other"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_sport_discipline_page_title
@@ -1272,20 +1349,20 @@ msgid "Passport"
 msgstr "Passport"
 
 #. module: muskathlon
-#: model:ir.model.fields,field_description:muskathlon.field_advocate_details_passport_expiration_date
-msgid "Passport expiration date"
-msgstr "Ablaufdatum Pass"
-
-#. module: muskathlon
-#: code:addons/muskathlon/forms/trip_form.py:52
+#: code:addons/muskathlon/forms/trip_form.py:57
 #, python-format
 msgid "Passport information"
-msgstr "Passangaben"
+msgstr "Angaben zum Pass"
 
 #. module: muskathlon
-#: model:ir.model.fields,field_description:muskathlon.field_advocate_details_passport_number
-msgid "Passport number"
-msgstr "Passnummer"
+#: model:ir.model.fields,field_description:muskathlon.field_cms_form_event_registration_muskathlon_birth_name
+msgid "Passport name"
+msgstr "Vollständiger Name"
+
+#. module: muskathlon
+#: model:event.registration.task,name:muskathlon.task_down_payment
+msgid "Pay fees"
+msgstr "Pay fees"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_payment_acquirer_ids
@@ -1308,7 +1385,7 @@ msgid "Paymentmethod"
 msgstr "Paymentmethod"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/trip_form.py:42
+#: code:addons/muskathlon/forms/trip_form.py:47
 #, python-format
 msgid "Person of contact"
 msgstr "Kontaktperson"
@@ -1319,7 +1396,7 @@ msgid "Personal data"
 msgstr "Persönliche Informationen"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/trip_form.py:62
+#: code:addons/muskathlon/forms/trip_form.py:67
 #, python-format
 msgid "Personal information for the Muskathlon trip"
 msgstr "Persönliche Angaben für den Muskathlon"
@@ -1327,31 +1404,30 @@ msgstr "Persönliche Angaben für den Muskathlon"
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_match_partner_partner_phone
 msgid "Phone"
-msgstr "Telefon"
+msgstr "Handynummer"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:183
 #: code:addons/muskathlon/forms/partner_coordinates_form.py:81
-#: code:addons/muskathlon/forms/trip_form.py:109
+#: code:addons/muskathlon/forms/trip_form.py:114
 #, python-format
 msgid "Please avoid any special characters"
 msgstr "Bitte keine Sonderzeichen verwenden"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:194
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:210
 #, python-format
 msgid "Please control the amount"
-msgstr "Bitte kontrolliere den Betrag"
+msgstr "Please control the amount"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/trip_form.py:100
+#: code:addons/muskathlon/forms/trip_form.py:105
 #, python-format
 msgid "Please enter a valid date"
-msgstr "Bitte füge ein gültiges Datum ein"
+msgstr "Bitte geben Sie ein gültiges Datum ein"
 
 #. module: muskathlon
 #: code:addons/muskathlon/forms/partner_coordinates_form.py:54
-#: code:addons/muskathlon/forms/trip_form.py:74
+#: code:addons/muskathlon/forms/trip_form.py:79
 #, python-format
 msgid "Please enter a valid phone number"
 msgstr "Bitte füge eine korrekte Telefonnummer ein"
@@ -1360,10 +1436,11 @@ msgstr "Bitte füge eine korrekte Telefonnummer ein"
 #: code:addons/muskathlon/forms/partner_coordinates_form.py:60
 #, python-format
 msgid "Please enter a valid zip code"
-msgstr "Bitte füge eine gültige Postleitzahl ein"
+msgstr "Please enter a valid zip code"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/trip_form.py:43
+#: code:addons/muskathlon/forms/trip_form.py:48
+#: model:ir.model.fields,help:muskathlon.field_cms_form_event_registration_muskathlon_emergency_name
 #, python-format
 msgid "Please indicate a contact in case of emergency during the trip."
 msgstr "Bitte gebe einen Notfallkontakt an."
@@ -1372,6 +1449,16 @@ msgstr "Bitte gebe einen Notfallkontakt an."
 #: model:ir.ui.view,arch_db:muskathlon.registration_failure
 msgid "Please try again."
 msgstr "Bitte versuchen Sie es erneut."
+
+#. module: muskathlon
+#: code:addons/muskathlon/forms/order_material_form.py:59
+#, python-format
+msgid ""
+"Please upload a large image of good quality which will be used to be printed "
+"on your material."
+msgstr ""
+"Please upload a large image of good quality which will be used to be printed "
+"on your material."
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_11
@@ -1387,10 +1474,12 @@ msgstr "Preferred name"
 #: model:ir.model.fields,field_description:muskathlon.field_crm_event_compassion_website_my_press_material
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "Press material"
-msgstr "PRESSEMATERIAL"
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(0, 72, 151);font-"
+"weight: 400;line-height: 42px\">PRESSEMATERIAL</span>"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:127
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:150
 #, python-format
 msgid "Proceed with payment"
 msgstr "Zahlung weiterführen"
@@ -1405,7 +1494,7 @@ msgstr "Profilbild"
 #: code:addons/muskathlon/forms/advocate_details_form.py:58
 #, python-format
 msgid "Profile updated."
-msgstr "Profil aktualisiert."
+msgstr "Profile updated."
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_muskathlon_report_project_id
@@ -1425,10 +1514,15 @@ msgstr "Aufgabe in Warteschlange einreihen"
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_event_registration_ambassador_quote
 msgid "Quote"
-msgstr "Zitat"
+msgstr "Quote"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:129
+#: model:ir.ui.view,arch_db:muskathlon.tripinfos_formatted
+msgid "Read and agree to the child protection charter"
+msgstr "Lesen und stimmen der Kinderschutz zu."
+
+#. module: muskathlon
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:152
 #, python-format
 msgid "Register now"
 msgstr "Jetzt anmelden"
@@ -1450,13 +1544,13 @@ msgid "Registration Successful!"
 msgstr "Registrierung erfolgreich!"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:120
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:143
 #, python-format
 msgid "Registration for "
 msgstr "Teilnehmen "
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:82
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:105
 #, python-format
 msgid "Registration payment"
 msgstr "Anmelden"
@@ -1464,7 +1558,7 @@ msgstr "Anmelden"
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.new_registration_successful
 msgid "Registration successful !"
-msgstr "Registrierung erfolgreich!"
+msgstr "Dankeschön!"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_muskathlon_report_registration_id
@@ -1486,7 +1580,7 @@ msgstr "Rennen"
 #. module: muskathlon
 #: code:addons/muskathlon/forms/advocate_details_form.py:54
 #: code:addons/muskathlon/forms/partner_coordinates_form.py:46
-#: code:addons/muskathlon/forms/trip_form.py:66
+#: code:addons/muskathlon/forms/trip_form.py:71
 #, python-format
 msgid "Save"
 msgstr "Speichern"
@@ -1519,24 +1613,29 @@ msgid "Share my project"
 msgstr "Teile mein Projekt"
 
 #. module: muskathlon
+#: selection:cms.form.event.registration.muskathlon,t_shirt_type:0
+msgid "Shirt"
+msgstr "T-Shirt"
+
+#. module: muskathlon
+#: model:event.registration.task,name:muskathlon.task_sign_child_protection
+msgid "Sign child protection agreement"
+msgstr "Sign child protection agreement"
+
+#. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_25
 msgid "Since what age have you been smoking ?"
 msgstr "Wie lange rauchst du schon?:"
 
 #. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Sister"
-msgstr "Schwester"
+#: selection:cms.form.event.registration.muskathlon,t_shirt_type:0
+msgid "Singlet"
+msgstr "Ärmellos"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.registration_failure
 msgid "Something went wrong with your registration."
 msgstr "Etwas ist bei der Anmeldung schief gelaufen."
-
-#. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Son"
-msgstr "Sohn"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.participant_details
@@ -1557,13 +1656,18 @@ msgstr "Sponsorship name"
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "Sponsorships - Order Childpacks"
-msgstr "FÜR PATENSCHAFTEN SORGEN – DOSSIERS VON KINDERN BESTELLEN"
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(0, 72, 151);font-"
+"weight: 400;line-height: 42px\">FÜR PATENSCHAFTEN SORGEN – DOSSIERS VON "
+"KINDERN BESTELLEN</span>"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_sport_discipline_sport
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "Sport"
-msgstr "SPORT"
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(0, 72, 151);font-"
+"weight: 400;line-height: 42px\">SPORT</span>"
 
 #. module: muskathlon
 #: model:ir.model,name:muskathlon.model_sport_discipline
@@ -1610,7 +1714,7 @@ msgstr "Sport-Profil"
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.details
 msgid "Sports"
-msgstr "Sportdisziplinen"
+msgstr "SportDISZIPLINEN"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_match_partner_partner_state_id
@@ -1643,15 +1747,31 @@ msgid "Support me!"
 msgstr "Unterstütze mich!"
 
 #. module: muskathlon
+#: model:ir.model,name:muskathlon.model_survey_user_input
+msgid "Survey User Input"
+msgstr "Benutzereingaben"
+
+#. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_event_registration_muskathlon_t_shirt_size
 #: model:ir.model.fields,field_description:muskathlon.field_event_registration_t_shirt_size
 msgid "T shirt size"
 msgstr "T shirt Grösse"
 
 #. module: muskathlon
+#: model:ir.model.fields,field_description:muskathlon.field_cms_form_event_registration_muskathlon_t_shirt_type
+#: model:ir.model.fields,field_description:muskathlon.field_event_registration_t_shirt_type
+msgid "T shirt type"
+msgstr "T shirt type"
+
+#. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.tripinfos_formatted
 msgid "T-shirt Size :"
 msgstr "T-shirt Size :"
+
+#. module: muskathlon
+#: model:ir.ui.view,arch_db:muskathlon.tripinfos_formatted
+msgid "Tasks"
+msgstr "Aufgaben"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_event_registration_muskathlon_gtc_accept
@@ -1662,18 +1782,29 @@ msgstr "Geschäftsbedingungen"
 #: model:survey.survey,description:muskathlon.muskathlon_form
 msgid ""
 "Thank you for taking the time to complete this survey.\n"
-"                All questions are mandatory, but you can skip those that do not apply to you by filling \"-\" in the field provided.<br>\n"
+"                All questions are mandatory, but you can skip those that do "
+"not apply to you by filling \"-\" in the field provided.<br>\n"
 "                If you wish to correct other information, please go to your"
 msgstr ""
-"Als Teilnehmer/in beim Muskathlon stehst du vor einem extrem herausfordernden Abenteuer - auch körperlich. Das Medic Team, welches dich auf der Reise und am Muskathlon begleitet, muss gut dafür vorbereitet sein. <br>\n"
-"Dieser Fragebogen ist daher eine wesentliche Hilfe, falls etwas passieren sollte.\n"
-"Fülle den Fragebogen nicht früher als 3 und nicht später als 2 Monate vor deinem Muskathlon aus - deine Angaben müssen aktuell sein! \n"
+"Als Teilnehmer/in beim Muskathlon stehst du vor einem extrem "
+"herausfordernden Abenteuer - auch körperlich. Das Medic Team, welches dich "
+"auf der Reise und am Muskathlon begleitet, muss gut dafür vorbereitet sein. "
+"<br>\n"
+"Dieser Fragebogen ist daher eine wesentliche Hilfe, falls etwas passieren "
+"sollte.\n"
+"Fülle den Fragebogen nicht früher als 3 und nicht später als 2 Monate vor "
+"deinem Muskathlon aus - deine Angaben müssen aktuell sein! \n"
 "<br><br>\n"
-"- Bitte beantworte alle untenstehenden Fragen. (Wenn etwas nicht auf dich zutrifft, füll \"-\" aus)\n"
+"- Bitte beantworte alle untenstehenden Fragen. (Wenn etwas nicht auf dich "
+"zutrifft, füll \"-\" aus)\n"
 "<br><br>\n"
-"- Wenn du am Ende des Fragebogens auf „übermitteln“ klickst, erhält das Medic-Team deine Antworten.\n"
+"- Wenn du am Ende des Fragebogens auf „übermitteln“ klickst, erhält das "
+"Medic-Team deine Antworten.\n"
 "<br><br>\n"
-"Deine Angaben unterstehen der ärztlichen Schweigepflicht und werden nicht an Dritte weitergegeben! Falls du Fragen im Bezug auf den medizinischen Fragebogen hast wende dich an Sara Badertscher 4M (s.badertscher@4m-switzerland.ch). \n"
+"Deine Angaben unterstehen der ärztlichen Schweigepflicht und werden nicht an "
+"Dritte weitergegeben! Falls du Fragen im Bezug auf den medizinischen "
+"Fragebogen hast wende dich an Sara Badertscher 4M (s.badertscher@4m-"
+"switzerland.ch). \n"
 "<br><br>\n"
 "Liebe Grüsse, <br>\n"
 "dein Muskathlon Medic Team"
@@ -1681,7 +1812,9 @@ msgstr ""
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "Thank you for your commitment against extreme poverty."
-msgstr "Merci für deinen extremen Einsatz gegen extreme Armut."
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(58, 58, 58);text-"
+"align: center\">Merci für deinen extremen Einsatz gegen extreme Armut.</span>"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.new_registration_successful
@@ -1689,10 +1822,12 @@ msgid "Thank you for your interest for the"
 msgstr "Herzlichen Glückwunsch! Du bist angemeldet für den "
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/order_material_form.py:48
+#: code:addons/muskathlon/forms/order_material_form.py:69
 #, python-format
-msgid "Thank you for your request. You will hear back from us within the next days."
-msgstr "Thank you for your request. You will hear back from us within the next days."
+msgid ""
+"Thank you for your request. You will hear back from us within the next days."
+msgstr ""
+"Thank you for your request. You will hear back from us within the next days."
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.new_registration_successful_modal
@@ -1772,17 +1907,28 @@ msgstr "Vielen Dank für Ihre Eingabe."
 #: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_72
 #: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_73
 msgid "The answer you entered has an invalid format."
-msgstr "The answer you entered has an invalid format."
+msgstr "Ihre Antwort hat ein ungültiges Format."
 
 #. module: muskathlon
 #: model:ir.model.fields,help:muskathlon.field_event_registration_website_url
 msgid "The full URL to access the document through the website."
-msgstr "Die vollständige URL mit der das Dokument überall aufgerufen werden kann."
+msgstr ""
+"Die vollständige URL mit der das Dokument überall aufgerufen werden kann."
+
+#. module: muskathlon
+#: code:addons/muskathlon/models/event_registration.py:99
+#, python-format
+msgid "The participant registered through the Muskathlon website."
+msgstr "The participant registered through the Muskathlon website."
 
 #. module: muskathlon
 #: model:ir.model.fields,help:muskathlon.field_event_registration_ambassador_picture_1
-msgid "This field holds the image used as avatar for this contact, limited to 1024x1024px"
-msgstr "Dieses Feld enthält das Bild, das als Avatar für diesen Kontakt gespeichert wurde. (max. 1024x1024px)"
+msgid ""
+"This field holds the image used as avatar for this contact, limited to "
+"1024x1024px"
+msgstr ""
+"Dieses Feld enthält das Bild, das als Avatar für diesen Kontakt gespeichert "
+"wurde. (max. 1024x1024px)"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.custom_portal_my_home
@@ -1862,10 +2008,10 @@ msgstr "This partner is registered in a muskathlon but has no advocate_details"
 #: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_72
 #: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_73
 msgid "This question requires an answer."
-msgstr "This question requires an answer."
+msgstr "Diese Frage muss beantwortet werden"
 
 #. module: muskathlon
-#: code:addons/muskathlon/models/event_registration.py:76
+#: code:addons/muskathlon/models/event_registration.py:87
 #, python-format
 msgid "This sport is not in muskathlon"
 msgstr "This sport is not in muskathlon"
@@ -1873,13 +2019,22 @@ msgstr "This sport is not in muskathlon"
 #. module: muskathlon
 #: model:ir.model.fields,help:muskathlon.field_crm_event_compassion_website_muskathlon
 #: model:ir.model.fields,help:muskathlon.field_event_registration_is_muskathlon
-msgid "This will activate the 4M red template for the event on thewebsite and will also use the Muskathlon processes for theregistrations."
-msgstr "This will activate the 4M red template for the event on thewebsite and will also use the Muskathlon processes for theregistrations."
+msgid ""
+"This will activate the 4M red template for the event on thewebsite and will "
+"also use the Muskathlon processes for theregistrations."
+msgstr ""
+"This will activate the 4M red template for the event on thewebsite and will "
+"also use the Muskathlon processes for theregistrations."
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
-msgid "Through your participation, you help children to be freed from poverty in the name of Jesus."
-msgstr "So guet, mit deiner Teilnahme hilfst du mit, Kinder aus Armut zu befreien im Namen von Jesus."
+msgid ""
+"Through your participation, you help children to be freed from poverty in "
+"the name of Jesus."
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(58, 58, 58);text-"
+"align: center\">So guet, mit deiner Teilnahme hilfst du mit, Kinder aus "
+"Armut zu befreien im Namen von Jesus.</span>"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_match_partner_partner_title
@@ -1892,17 +2047,12 @@ msgid "To my donations"
 msgstr "Zu meinem Barometer"
 
 #. module: muskathlon
-#: model:ir.ui.view,arch_db:muskathlon.view_advocate_details_muskathlon
-msgid "Trip information"
-msgstr "Reiseinformationen"
-
-#. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_advocate_details_trip_information_complete
 msgid "Trip information complete"
-msgstr "Reiseinformationen vollständig"
+msgstr "Trip information complete"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/trip_form.py:70
+#: code:addons/muskathlon/forms/trip_form.py:75
 #, python-format
 msgid "Trip information updated."
 msgstr "Reiseinformationen aktualisiert"
@@ -1913,10 +2063,20 @@ msgid "Type"
 msgstr "Typ"
 
 #. module: muskathlon
+#: model:event.registration.task,name:muskathlon.task_picture
+msgid "Upload large picture"
+msgstr "Upload large picture"
+
+#. module: muskathlon
+#: model:ir.model,name:muskathlon.model_res_users
+msgid "Users"
+msgstr "Benutzer"
+
+#. module: muskathlon
 #: code:addons/muskathlon/forms/partner_coordinates_form.py:66
 #, python-format
 msgid "Verify your e-mail address"
-msgstr "Verify your e-mail address"
+msgstr "Bestätige deine E-Mailadresse"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_crm_event_compassion_website_my_introduction
@@ -1946,7 +2106,10 @@ msgstr "Gewicht (in kg)"
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.my_muskathlon_order_material
 msgid "Welcome - We are so glad that you participate to the Muskathlon!"
-msgstr "HERZLICH WILLKOMMEN — UND VIELEN DANK, DASS DU AM MUSKATHLON TEILNIMMST!"
+msgstr ""
+"<span style=\"background-color: transparent;color: rgb(0, 72, 151);font-"
+"weight: 400;line-height: 47.6px;text-align: center\">HERZLICH WILLKOMMEN — "
+"UND VIELEN DANK, DASS DU&amp;nbsp;AM MUSKATHLON TEILNIMMST!&amp;nbsp;</span>"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_23
@@ -1981,22 +2144,22 @@ msgstr ""
 "diese Verletzung?"
 
 #. module: muskathlon
-#: selection:advocate.details,emergency_relation_type:0
-msgid "Wife"
-msgstr "Ehefrau"
-
-#. module: muskathlon
 #: model:ir.model.fields,help:muskathlon.field_cms_form_advocate_details_description
 msgid "Write a small presentation text that will appear on your profile page."
-msgstr "Schreibe kurz, wer du bist. Dieser Text erscheint in deinem öffentlichen Profil."
+msgstr ""
+"Schreibe kurz, wer du bist. Dieser Text erscheint in deinem öffentlichen "
+"Profil."
 
 #. module: muskathlon
 #: model:ir.model.fields,help:muskathlon.field_cms_form_advocate_details_quote
 #: model:ir.model.fields,help:muskathlon.field_cms_form_event_registration_muskathlon_ambassador_quote
-msgid "Write a small quote that will appear on your profile page and will be used in thank you letters your donors will receive."
+msgid ""
+"Write a small quote that will appear on your profile page and will be used "
+"in thank you letters your donors will receive."
 msgstr ""
 "Was motiviert dich, am Muskathlon teilzunehmen?\n"
-"Schreib ein paar Sätze. Sie werden auf deinem Profil veröffentlicht und in den Dankesbriefen an deine Spender/innen erscheinen."
+"Schreib ein paar Sätze. Sie werden auf deinem Profil veröffentlicht und in "
+"den Dankesbriefen an deine Spender/innen erscheinen."
 
 #. module: muskathlon
 #: selection:cms.form.event.registration.muskathlon,t_shirt_size:0
@@ -2014,14 +2177,23 @@ msgid "XXL"
 msgstr "XXL"
 
 #. module: muskathlon
-#: model:ir.ui.view,arch_db:muskathlon.new_registration_successful_modal
-msgid "You will receive a confirmation by e-mail very soon with instructions to complete your profile."
-msgstr ""
-"Herzlichen Glückwunsch! Du bist angemeldet für den Muskathlon 2019 in Kenia!\n"
-"Bald bekommst du eine E-Mail mit deinen persönlichen Zugangsdaten zum Teilnehmerprofil.\n"
+#: model:ir.ui.view,arch_db:muskathlon.tripinfos_formatted
+msgid "You have agreed to the child protection charter"
+msgstr "Du hast der Kinderschutzverordnung zugestimmt."
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:70
+#: model:ir.ui.view,arch_db:muskathlon.new_registration_successful_modal
+msgid ""
+"You will receive a confirmation by e-mail very soon with instructions to "
+"complete your profile."
+msgstr ""
+"Herzlichen Glückwunsch! Du bist angemeldet für den Muskathlon 2019 in "
+"Kenia!\n"
+"Bald bekommst du eine E-Mail mit deinen persönlichen Zugangsdaten zum "
+"Teilnehmerprofil.\n"
+
+#. module: muskathlon
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:83
 #, python-format
 msgid "Your coordinates"
 msgstr "Deine Angaben"
@@ -2036,10 +2208,15 @@ msgstr ""
 "                Du kannst zu deinem"
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/trip_form.py:102
+#: model:ir.model.fields,help:muskathlon.field_cms_form_event_registration_muskathlon_birth_name
+msgid "Your name as printed on your passport"
+msgstr "Dein Name, wie er auf deinem Pass steht"
+
+#. module: muskathlon
+#: code:addons/muskathlon/forms/trip_form.py:107
 #, python-format
 msgid "Your passport must be renewed!"
-msgstr "Dein Reisepass muss erneuert werden!"
+msgstr "Your passport must be renewed!"
 
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.aboutme_formatted
@@ -2047,7 +2224,7 @@ msgid "Your profile is incomplete. Please fill in your data."
 msgstr "Dein Profil ist noch nicht komplett. Bitte ausfüllen."
 
 #. module: muskathlon
-#: code:addons/muskathlon/forms/muskathlon_registration_form.py:60
+#: code:addons/muskathlon/forms/muskathlon_registration_form.py:72
 #, python-format
 msgid "Your sport profile"
 msgstr "Dein Sportprofil"
@@ -2140,7 +2317,7 @@ msgstr "cms.form.payment"
 #. module: muskathlon
 #: model:ir.ui.view,arch_db:muskathlon.participant_details
 msgid "for"
-msgstr " "
+msgstr "für"
 
 #. module: muskathlon
 #: model:survey.survey,description:muskathlon.muskathlon_form

@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import logging
-from odoo import api, models
+from odoo import api, models, fields
 
 from odoo.addons.auth_signup.models.res_partner import now
 
@@ -11,6 +11,7 @@ _logger = logging.getLogger(__name__)
 
 class ResUsers(models.Model):
     _inherit = 'res.users'
+    signature = fields.Html(translate=True)
 
     @api.multi
     def action_reset_password(self):

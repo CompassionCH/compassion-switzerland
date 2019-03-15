@@ -16,8 +16,8 @@ from dateutil.relativedelta import relativedelta
 
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
-from odoo.tools.safe_eval import safe_eval
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
+from odoo.addons.queue_job.job import job, related_action
 
 from odoo import api, models, fields, _
 
@@ -25,8 +25,7 @@ logger = logging.getLogger(__name__)
 
 
 class RecurringContracts(models.Model):
-    _name = 'recurring.contract'
-    _inherit = ['recurring.contract', 'ir.needaction_mixin']
+    _inherit = 'recurring.contract'
 
     first_open_invoice = fields.Date(compute='_compute_first_open_invoice')
     mandate_date = fields.Datetime(string='State last time mandate')
@@ -416,16 +415,18 @@ class RecurringContracts(models.Model):
             if invoices:
                 invoices.with_delay(eta=delay).group_or_split_reconcile()
 
-    @api.model
-    def _needaction_count(self, domain=None):
-        """
-        search the number of recurring.contract only for waiting_mandate menu
-        """
-        waiting_action = self.env.ref('sponsorship_switzerland'
-                                      '.action_view_partner_waiting_mandate')
+    @api.multi
+    @job(default_channel='root.recurring_invoicer')
+    @related_action(action='related_action_contract')
+    def _clean_invoices(self, since_date=None, to_date=None, keep_lines=None):
+        today = datetime.today()
+        # Free invoices from debit orders to avoid the job failing
+        inv_lines = self.invoice_line_ids.filtered(
+            lambda r: r.state == 'open' or (
+                r.state == 'paid' and
+                fields.Datetime.from_string(r.due_date) > today))
 
-        if domain != safe_eval(waiting_action.domain):
-            return super(RecurringContracts, self)._needaction_count(domain)
+        inv_lines.mapped('invoice_id').cancel_payment_lines()
 
-        res = self.search(domain, limit=100, order='id DESC')
-        return len(res)
+        return super(RecurringContracts, self)._clean_invoices(
+            since_date, to_date, keep_lines)

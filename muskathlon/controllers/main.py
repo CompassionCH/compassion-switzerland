@@ -8,6 +8,7 @@
 #
 ##############################################################################
 import json
+import urllib
 from base64 import b64encode
 
 from odoo.http import request, route
@@ -70,7 +71,7 @@ class MuskathlonWebsite(EventsController):
         values.update({
             'trip_info_form': trip_info_form,
             'coordinates_form': coordinates_form,
-            'about_me_form': about_me_form
+            'about_me_form': about_me_form,
         })
         result = request.render("website_portal.portal_my_home", values)
         return self._form_redirect(result)
@@ -227,6 +228,12 @@ class MuskathlonWebsite(EventsController):
         survey_already_filled = surveys_done[0] \
             if surveys_done else False
 
+        child_protection_charter = {
+            'has_agreed': partner.has_agreed_child_protection_charter,
+            'url': '/partner/%s/child-protection-charter?redirect=%s' %
+                   (partner.uuid, urllib.quote('/my/home', safe='')),
+        }
+
         if registrations and partner.advocate_details_id:
             values['registrations'] = registrations
         elif registrations:
@@ -237,6 +244,7 @@ class MuskathlonWebsite(EventsController):
             'survey_url': request.env.ref(
                 'muskathlon.muskathlon_form').public_url,
             'survey_not_started': survey_not_started,
-            'survey_already_filled': survey_already_filled
+            'survey_already_filled': survey_already_filled,
+            'child_protection_charter': child_protection_charter,
         })
         return values

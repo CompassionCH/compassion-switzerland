@@ -18,12 +18,12 @@ partner-contact
 report-print-send
 server-tools
 connector-telephony
-hr
+hr https://github.com/CompassionCH/hr hr-extra-hours
 social
 website-cms
 geospatial
 survey
-bank-payment
+bank-payment https://github.com/CompassionCH/bank-payment 10.0-payment-cancel
 web
 l10n-switzerland
 compassion-accounting https://github.com/CompassionCH/compassion-accounting devel
