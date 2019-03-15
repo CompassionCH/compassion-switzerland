@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-22 12:21+0000\n"
-"PO-Revision-Date: 2019-02-22 13:32+0100\n"
+"POT-Creation-Date: 2019-03-15 10:28+0000\n"
+"PO-Revision-Date: 2019-03-15 11:47+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -53,7 +53,7 @@ msgstr "Active since"
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Address"
-msgstr "Address"
+msgstr "Indirizzo"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
@@ -201,12 +201,12 @@ msgstr "Check duplicates"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter_charter_agreement
 msgid "Check to agree to this charter"
-msgstr ""
+msgstr "Accetto la dichiarazione"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
 msgid "Child Protection Charter Agreement"
-msgstr ""
+msgstr "Child Protection Charter Agreement"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_christmas_card
@@ -247,7 +247,7 @@ msgstr "Fai click per aggiungere un contatto alla tua rubrica"
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid "Code of Conduct"
-msgstr ""
+msgstr "Codice di Condotta"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
@@ -301,13 +301,13 @@ msgstr "Creato il"
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
 msgid "Date agreed"
-msgstr ""
+msgstr "Date agreed"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_date_agreed_child_protection_charter
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users_date_agreed_child_protection_charter
 msgid "Date agreed child protection charter"
-msgstr ""
+msgstr "Date agreed child protection charter"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_deathdate
@@ -414,7 +414,7 @@ msgid "Event type formation"
 msgstr "Event type formation"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:183
+#: code:addons/partner_compassion/models/advocate_details.py:184
 #: model:advocate.engagement,name:partner_compassion.engagement_event
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_event_ids
 #: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
@@ -425,7 +425,7 @@ msgstr "Eventi"
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid "Expected/Acceptable Behaviors"
-msgstr ""
+msgstr "Attesi/Accettabili Comportamenti"
 
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_family
@@ -451,7 +451,7 @@ msgstr "Formation taken"
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_friends
 msgid "Friends"
-msgstr "Friends"
+msgstr "Amici"
 
 #. module: partner_compassion
 #: model:res.partner.title,name:partner_compassion.res_partner_title_friends
@@ -481,7 +481,6 @@ msgstr "Has a car"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
-#| msgid "Has a car"
 msgid "Has agreed"
 msgstr "Has agreed"
 
@@ -489,7 +488,13 @@ msgstr "Has agreed"
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_has_agreed_child_protection_charter
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users_has_agreed_child_protection_charter
 msgid "Has agreed child protection charter"
-msgstr ""
+msgstr "Has agreed child protection charter"
+
+#. module: partner_compassion
+#: model:ir.actions.server,name:partner_compassion.agree_to_child_protection_charter_action
+#| msgid "Has agreed child protection charter"
+msgid "Has agreed to the child protection charter"
+msgstr "Has agreed to the child protection charter"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
@@ -497,7 +502,7 @@ msgid "Has e-mail"
 msgstr "Has e-mail"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:38
+#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:47
 #, python-format
 msgid ""
 "I acknowledge that I have read and fully understood the content of the Child "
@@ -505,6 +510,13 @@ msgid ""
 "not comply with these conditions,Compassion reserves the right to deactivate "
 "my translator account and cancel my sponsorships."
 msgstr ""
+"Mi impegno a rispettare pienamente tutti gli elementi di Codice di condotta "
+"di Compassion International sulla protezione dell'infanzia in relazione al "
+"mio servizio, impiego, partecipazione e / o associazione con Compassion "
+"International, i suoi dipendenti, beneficiari, associati e partner. In caso "
+"di mancato rispetto di queste condizioni, Compassion si riserva il diritto "
+"di disattivare il mio account di traduttore e annullare le mie "
+"sponsorizzazioni."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -513,6 +525,9 @@ msgid ""
 "behavior demonstrates a respect for beneficiaries and their families, their "
 "culture and their rights and follow recommendations provided."
 msgstr ""
+"Sarò attento al mio aspetto, linguaggio, azione, per garantire che il mio "
+"comportamento dimostri rispetto per i beneficiari e le loro famiglie, la "
+"loro cultura e i loro diritti e seguirò le raccomandazioni fornite."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -520,6 +535,8 @@ msgid ""
 "I will contribute to building an environment where children are respected "
 "and encouraged to discuss their concerns and rights."
 msgstr ""
+"Contribuirò a costruire un ambiente in cui i bambini siano rispettati e "
+"incoraggiati a discutere le loro preoccupazioni e i loro diritti."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -528,6 +545,9 @@ msgid ""
 "demonstrate Jesus’s love and care for them, regardless of their gender, age, "
 "race, religion, social background, culture, special need or disability."
 msgstr ""
+"Dimostrerò il rispetto e la dignità di tutti i bambini e dimostrerò l'amore "
+"e la cura di Gesù per loro, indipendentemente dal loro genere, età, razza, "
+"religione, background sociale, cultura, bisogno speciale o disabilità."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -536,11 +556,15 @@ msgid ""
 "places, and in the event that an activity needs to take place in an enclosed "
 "space, I will ensure that at least one other approved adult is present."
 msgstr ""
+"Mi sottoporrò agli appropriati retroscena o controlli di polizia permessi "
+"dalla legge prima del contatto diretto con i beneficiari (al minimo - un "
+"dipendente può essere richiesto di conformarsi ai precedenti / controlli di "
+"polizia.)"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid "I will engage in age-appropriate communication with beneficiaries."
-msgstr ""
+msgstr "Mi impegnerò in una comunicazione adeguata all'età con i beneficiari."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -548,6 +572,8 @@ msgid ""
 "I will follow Compassion’s rules about communication with beneficiaries, "
 "including social media interaction."
 msgstr ""
+"Seguirò le regole di Compassion sulla comunicazione con i beneficiari, "
+"compresa l'interazione con i social media."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -556,6 +582,9 @@ msgid ""
 "are dressed appropriately, understand they are being recorded, etc.) "
 "regarding child photography and videography."
 msgstr ""
+"Seguirò gli standard di dignità (ad esempio, registrando solo i bambini "
+"vestiti in modo appropriato, ecc.) riguardanti la fotografia per bambini e "
+"la videografia."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -563,6 +592,9 @@ msgid ""
 "I will keep all information about child protection investigations "
 "confidential, keeping in mind privacy and dignity concerns of all involved."
 msgstr ""
+"Terrò riservate tutte le informazioni sulle indagini sulla protezione dei "
+"minori, tenendo presenti le preoccupazioni sulla privacy e sulla dignità di "
+"tutti i soggetti coinvolti."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -572,6 +604,11 @@ msgid ""
 "for a three-year-old to become upset easily when they are tired but we could "
 "expect a teenager to manage their emotions even when they are very tired.)"
 msgstr ""
+"Manterò aspettative adeguate e ragionevoli per i bambini in base alla loro "
+"età e livello di abilità. (Ad esempio, è normale nello sviluppo, che un "
+"bambino di tre anni si arrabbifacilmente quando è stanco, ma potremmo "
+"aspettarci che un adolescente gestisca le proprie emozioni anche quando sono "
+"molto stanchi.)"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -579,6 +616,9 @@ msgid ""
 "I will never engage in sexual/sexually suggestive behavior with any child "
 "under age 18, regardless of the legal age of consent in-country."
 msgstr ""
+"Non intraprenderò mai comportamenti sessuali / sessualmente allusivi con "
+"nessun bambino di età inferiore ai 18 anni, indipendentemente dall'età "
+"legale del consenso nel Paese."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -587,6 +627,9 @@ msgid ""
 "representative or prior approval, except in a life-threatening emergency "
 "where circumstances require immediate movement."
 msgstr ""
+"Non viaggerò mai da solo con un beneficiario, senza un rappresentante "
+"approvato o previa approvazione, tranne in un'emergenza potenzialmente "
+"letale in cui le circostanze richiedono un movimento immediato."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -596,6 +639,10 @@ msgid ""
 "exercise, and other types of corporal punishment) as a method of correction "
 "for beneficiaries."
 msgstr ""
+"Non userò mai alcun tipo di disciplina fisica o punizione fisica (alcuni "
+"esempi includono frustate, fustigare, schiaffi, forzare l'esercizio punitivo "
+"e altri tipi di punizioni corporali) come metodo di correzione per i "
+"beneficiari."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -604,6 +651,9 @@ msgid ""
 "suggestive, degrading, humiliating, shaming or is otherwise culturally "
 "inappropriate with a beneficiary."
 msgstr ""
+"Non userò mai un linguaggio verbalmente / emotivamente offensivo, "
+"sessualmente allusivo, degradante, umiliante, vergognoso o culturalmente "
+"inappropriato con un beneficiario."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -611,6 +661,8 @@ msgid ""
 "I will never visit a beneficiary, their caregiver(s)and/or church outside "
 "the bounds of acceptable program or tours and visits standards."
 msgstr ""
+"Non visiterò mai un beneficiario, il suo responsabile e / o la chiesa al di "
+"fuori dei limiti del programma accettabile o degli standard di tour e visite."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -619,6 +671,9 @@ msgid ""
 "any child, including exploitation, trafficking, harmful traditional "
 "practices, and spiritual or ritualistic abuse."
 msgstr ""
+"Non condonerò o parteciperò a comportamenti illegali, non sicuri o abusivi "
+"di qualsiasi bambino, inclusi sfruttamento, traffico, pratiche tradizionali "
+"dannose e abusi spirituali o ritualistici."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -634,6 +689,17 @@ msgid ""
 "disclosure includes content published in any print or digital form on any "
 "public or private platform."
 msgstr ""
+"Non raccoglierò, divulgherò o supporterrò la divulgazione di informazioni "
+"sui beneficiari o sulle loro famiglie senza previa autorizzazione esplicita "
+"che contenga contenuti privati, come stato di salute fisica, mentale o "
+"emotiva, dati finanziari, storia di abuso o sfruttamento o qualsiasi "
+"rappresentazione che non rispetta gli standard di dignità identificati da "
+"Compassion. Inoltre, non divulgherò informazioni che potrebbero consentire a "
+"un beneficiario o alla sua famiglia di essere localizzato fisicamente (come "
+"una mappa a casa, l'indirizzo di casa o il geo- tag nella loro posizione in "
+"una fotografia.) Comprendo che la divulgazione include contenuti pubblicati "
+"in qualsiasi forma di stampa o digitale su qualsiasi piattaforma pubblica o "
+"privata."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -641,6 +707,8 @@ msgid ""
 "I will not hire any child in any harmful form of child labor and follow "
 "local laws regarding child employment."
 msgstr ""
+"Non assumerò alcun bambino in alcuna forma dannosa di lavoro minorile e "
+"seguirò le leggi locali in materia di lavoro minorile."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -648,6 +716,9 @@ msgid ""
 "I will not solicit a romantic/dating relationship and will never engage in "
 "sexual/sexually suggestive behavior with any beneficiary, regardless of age."
 msgstr ""
+"Non solleciterò un rapporto romantico / incontro e non intraprenderò mai "
+"comportamenti sessuali / sessualmente allusivi con nessun beneficiario, "
+"indipendentemente dall'età."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -656,6 +727,8 @@ msgid ""
 "holding, etc.) beneficiaries in an inappropriate or culturally insensitive "
 "way."
 msgstr ""
+"Non toccherò (alcuni esempi includono baci, coccole, trattenere, ecc.) I "
+"beneficiari in modo inappropriato o culturalmente insensibile."
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_id
@@ -675,6 +748,12 @@ msgid ""
 "to the proper staff or relevant authorities. I will seek to do everything "
 "within my power to ensure the child is out of danger."
 msgstr ""
+"Se sono testimone di abusi sui minori, o sono a conoscenza che un bambino è "
+"in pericolo, osservo comportamenti riguardanti colleghi, partner o altri "
+"rappresentanti, o un bambino viene da me con una segnalazione di abuso, lo "
+"prenderò sul serio e lo riferirò al personale appropriato o autorità "
+"competenti. Cercherò di fare tutto ciò che è in mio potere per garantire che "
+"il bambino sia fuori pericolo."
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -683,6 +762,9 @@ msgid ""
 "make available any documentation or other information necessary for the "
 "completion of the investigation."
 msgstr ""
+"Se richiesto, osserverò le indagini relative alla protezione dei minori e "
+"renderò disponibile qualsiasi documentazione o altra informazione necessaria "
+"per il completamento dell'indagine."
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details_lang
@@ -702,7 +784,6 @@ msgstr "Inactive"
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner_has_agreed_child_protection_charter
 #: model:ir.model.fields,help:partner_compassion.field_res_users_has_agreed_child_protection_charter
-#| msgid "Indicates if the partner wants to receive the christmas card."
 msgid "Indicates if the partner has agreed to the child protectioncharter."
 msgstr "Indicates if the partner has agreed to the child protectioncharter."
 
@@ -914,7 +995,6 @@ msgstr "On paper"
 #. module: partner_compassion
 #: code:addons/partner_compassion/models/partner_compassion.py:46
 #, python-format
-#| msgid "Abroad/Only e-mail"
 msgid "Only email"
 msgstr "Only email"
 
@@ -955,7 +1035,7 @@ msgstr "Partner id"
 #. module: partner_compassion
 #: model:res.partner.title,name:partner_compassion.res_partner_title_pastor
 msgid "Pastor"
-msgstr "Pastore"
+msgstr "Pastor"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_photo_delivery_preference
@@ -968,7 +1048,7 @@ msgid "Picture filename"
 msgstr "Picture filename"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:206
+#: code:addons/partner_compassion/models/advocate_details.py:207
 #, python-format
 msgid "Please don't forget to put a break end date"
 msgstr "Please don't forget to put a break end date"
@@ -984,7 +1064,7 @@ msgid "Portal User Config"
 msgstr "Configurazione Utente Portale"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:287
+#: code:addons/partner_compassion/models/partner_compassion.py:289
 #, python-format
 msgid "Possible existing partners found"
 msgstr "Possible existing partners found"
@@ -1032,6 +1112,11 @@ msgstr "Citazione da {firstname} {lastname}"
 #: model:ir.model.fields,field_description:partner_compassion.field_survey_mail_compose_message_tracking_ids
 msgid "Related tracked messages"
 msgstr "Related tracked messages"
+
+#. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_confirmation_page
+msgid "Return"
+msgstr "Rientro"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
@@ -1083,6 +1168,11 @@ msgid "State"
 msgstr "Stato"
 
 #. module: partner_compassion
+#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_confirmation_page
+msgid "Statement of Commitment to Child Protection"
+msgstr "Dichiarazione di Impegno per la Protezione dell’Infanzia"
+
+#. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Street 2..."
 msgstr "Indirizzo 2"
@@ -1108,7 +1198,7 @@ msgid "Survey number"
 msgstr "Survey number"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:195
+#: code:addons/partner_compassion/models/advocate_details.py:196
 #: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 #, python-format
 msgid "Surveys"
@@ -1130,10 +1220,10 @@ msgid "Tax certificate"
 msgstr "Tax certificate"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:30
+#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:39
 #, python-format
 msgid "Thank you for reading the child protection charter carefully."
-msgstr ""
+msgstr "Thank you for reading the child protection charter carefully."
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_thankyou_letter
@@ -1146,9 +1236,8 @@ msgid "Thank you quote"
 msgstr "Thank you quote"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/controllers/child_protection_charter.py:51
+#: code:addons/partner_compassion/controllers/child_protection_charter.py:75
 #, python-format
-#| msgid "Thank you quote"
 msgid "Thank you!"
 msgstr "Thank you!"
 
@@ -1158,9 +1247,10 @@ msgstr "Thank you!"
 msgid ""
 "The date and time when the partner has agreed to the childprotection charter."
 msgstr ""
+"The date and time when the partner has agreed to the childprotection charter."
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:288
+#: code:addons/partner_compassion/models/partner_compassion.py:290
 #, python-format
 msgid ""
 "The partner you want to add may already exist. Please use the \"Check "
@@ -1180,7 +1270,7 @@ msgstr ""
 "don't forget to send new labels to them."
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:235
+#: code:addons/partner_compassion/models/advocate_details.py:236
 #, python-format
 msgid "This is a reminder that {} will have birthday on {}."
 msgstr "This is a reminder that {} will have birthday on {}."
@@ -1199,7 +1289,7 @@ msgstr "Translator"
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid "Unacceptable Behaviors"
-msgstr ""
+msgstr "Comportamenti Inacettabili"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner_church_unlinked
@@ -1227,7 +1317,7 @@ msgstr "Utenti"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_uuid
 msgid "Uuid"
-msgstr ""
+msgstr "Uuid"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
@@ -1240,13 +1330,13 @@ msgid "Waiting for validation"
 msgstr "Waiting for validation"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/controllers/child_protection_charter.py:52
+#: code:addons/partner_compassion/controllers/child_protection_charter.py:63
 #, python-format
 msgid ""
-"We successfully received your agreement to the Child Protection Charter. You "
-"will receive an invitation to connect to the translation platform in the "
-"coming day."
+"We successfully received your agreement to the Child Protection Charter."
 msgstr ""
+"Abbiamo ricevuto con successo il tuo consenso alla Carta per la protezione "
+"dell'infanzia."
 
 #. module: partner_compassion
 #: selection:advocate.details,t_shirt_size:0
@@ -1264,6 +1354,16 @@ msgid "XXL"
 msgstr "XXL"
 
 #. module: partner_compassion
+#: code:addons/partner_compassion/controllers/child_protection_charter.py:69
+#, python-format
+msgid ""
+"You will receive an invitation to connect to the translation platform in the "
+"coming day."
+msgstr ""
+"Il giorno successivo riceverete un invito a connettervi alla piattaforma di "
+"traduzione."
+
+#. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "ZIP"
 msgstr "CAP"
@@ -1274,7 +1374,7 @@ msgid "Zip"
 msgstr "CAP"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:239
+#: code:addons/partner_compassion/models/advocate_details.py:240
 #, python-format
 msgid "[{}] Advocate birthday reminder"
 msgstr "[{}] Advocate birthday reminder"
@@ -1287,7 +1387,7 @@ msgstr "base.partner.merge.automatic.wizard"
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_cms_form_partner_child_protection_charter
 msgid "cms.form.partner.child.protection.charter"
-msgstr ""
+msgstr "cms.form.partner.child.protection.charter"
 
 #. module: partner_compassion
 #: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
@@ -1311,7 +1411,6 @@ msgstr "res.partner.check.double"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_res_partner_match
-#| msgid "res.partner.check.double"
 msgid "res.partner.match"
 msgstr "res.partner.match"
 
@@ -1319,8 +1418,3 @@ msgstr "res.partner.match"
 #: model:ir.model,name:partner_compassion.model_staff_notification_settings
 msgid "staff.notification.settings"
 msgstr "staff.notification.settings"
-
-#~ msgid ""
-#~ "Indicates if the partner is abroad and should only be updated by e-mail"
-#~ msgstr ""
-#~ "Indicates if the partner is abroad and should only be updated by e-mail"
