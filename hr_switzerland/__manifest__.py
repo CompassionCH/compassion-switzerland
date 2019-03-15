@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion CH - HR Management',
-    'version': '10.0.1.1.0',
+    'version': '10.0.1.2.0',
     'license': 'AGPL-3',
     'category': 'HR',
     'author': 'Emanuel Cino',
@@ -38,11 +38,12 @@
     'data': [
         'views/hr_expense_custom.xml',
         'views/res_users_view.xml',
+        'views/hr_payslip_view.xml',
         'data/hr_config.xml'
     ],
     'depends': [
         'hr_expense', 'hr_attendance_management', 'asterisk_click2dial',
-        'web_notify'],
+        'web_notify', 'hr_payroll'],
     'demo': [],
     'installable': True,
     'auto_install': False,

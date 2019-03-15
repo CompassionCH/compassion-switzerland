@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Restrict some fields only to Payroll Manager -->
+    <record id="hr_payroll_limit" model="ir.ui.view">
+        <field name="name">hr.payslip.restrict</field>
+        <field name="model">hr.payslip</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form" />
+        <field name="arch" type="xml">
+            <header position="attributes">
+                <attribute name="groups">hr_payroll.group_hr_payroll_manager</attribute>
+            </header>
+            <div name="button_box" position="attributes">
+                <attribute name="groups">hr_payroll.group_hr_payroll_manager</attribute>
+            </div>
+            <field name="contract_id" position="attributes">
+                <attribute name="groups">hr_payroll.group_hr_payroll_manager</attribute>
+            </field>
+            <field name="struct_id" position="attributes">
+                <attribute name="groups">hr_payroll.group_hr_payroll_manager</attribute>
+            </field>
+            <xpath expr="//notebook" position="attributes">
+                <attribute name="groups">hr_payroll.group_hr_payroll_manager</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
