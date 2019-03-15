@@ -22,11 +22,11 @@
                     % if object.send_mode == 'digital':
                         Download your letter${s} here:
                         <ul>
-                            % for l in letter.filtered('read_url'):
-                            <li>
-                                <a href='${l.read_url}'>${l.read_url}</a>
-                            </li>
-                            % endfor
+                            % for l in list(set(letter.filtered('read_url').mapped('read_url'))):
+                           <li>
+                               <a href='${l}'>${l}</a>
+                           </li>
+                           % endfor
                         </ul>
                         <br/>
                     % endif
@@ -67,11 +67,11 @@
                     % if object.send_mode == 'digital':
                         Download your letters here:
                         <ul>
-                            % for l in letter.filtered('read_url'):
-                            <li>
-                                <a href='${l.read_url}'>${l.read_url}</a>
-                            </li>
-                            % endfor
+                            % for l in list(set(letter.filtered('read_url').mapped('read_url'))):
+                           <li>
+                               <a href='${l}'>${l}</a>
+                           </li>
+                           % endfor
                         </ul>
                         <br/>
                     % endif
@@ -105,7 +105,7 @@
                     % if object.send_mode == 'digital':
                         Download your letters here:
                         <ul>
-                            % for l in letter.filtered('read_url'):
+                            % for l in letter.filtered('read_url').mapped('read_url')[:1]:
                             <li>
                                 <a href='${l.read_url}'>${l.read_url}</a>
                             </li>
