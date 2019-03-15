@@ -17,3 +17,4 @@ Shapely
 simplejson
 pandas
 pyminizip
+pdf2image
