@@ -8,11 +8,18 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
 import base64
+import tempfile
+import os
 from io import BytesIO
 from zipfile import ZipFile
-
 from odoo import api, models, fields
+_logger = logging.getLogger(__name__)
+try:
+    from pdf2image import convert_from_path
+except ImportError:
+    _logger.debug('Can not `import pdf2image`.')
 
 
 class CompassionHold(models.TransientModel):
@@ -82,9 +89,23 @@ class CompassionHold(models.TransientModel):
         """
         zip_buffer = BytesIO()
         with ZipFile(zip_buffer, 'w') as zip_data:
-            for child in self.mapped('sponsorship_ids.child_id'):
-                fname = child.sponsor_ref + '_' + child.local_id + '.jpg'
-                zip_data.writestr(fname, base64.b64decode(child.fullshot))
+            pdf = self.env['report'].with_context(
+                must_skip_send_to_printer=True).get_pdf(
+                self.mapped('sponsorship_ids.child_id.id'),
+                'partner_communication_switzerland.child_picture'
+            )
+            pdfTempFile, pdfTempFileName = tempfile.mkstemp()
+            os.write(pdfTempFile, pdf)
+            pages = convert_from_path(pdfTempFileName)
+            for id, page in enumerate(pages):
+                child = self.env['compassion.child'].browse(
+                    self.mapped('sponsorship_ids.child_id.id')[id])
+                fname = str(child.sponsor_ref) + "_" + str(child.local_id) \
+                                               + '.jpg'
+
+                page.save(os.path.join('/tmp/', fname), 'JPEG')
+                file_byte = open(os.path.join('/tmp/', fname), 'r').read()
+                zip_data.writestr(fname, file_byte)
 
         zip_buffer.seek(0)
         return base64.b64encode(zip_buffer.read())
