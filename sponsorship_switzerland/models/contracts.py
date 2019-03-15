@@ -420,10 +420,11 @@ class RecurringContracts(models.Model):
     @related_action(action='related_action_contract')
     def _clean_invoices(self, since_date=None, to_date=None, keep_lines=None):
         today = datetime.today()
+        # Free invoices from debit orders to avoid the job failing
         inv_lines = self.invoice_line_ids.filtered(
-            lambda r: r.state == 'open' or (r.state == 'paid' and
-                                            fields.Datetime.from_string(r.date)
-                                            > today))
+            lambda r: r.state == 'open' or (
+                r.state == 'paid' and
+                fields.Datetime.from_string(r.due_date) > today))
 
         inv_lines.mapped('invoice_id').cancel_payment_lines()
 
