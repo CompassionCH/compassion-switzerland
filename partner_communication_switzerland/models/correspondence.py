@@ -139,7 +139,7 @@ class Correspondence(models.Model):
             })
         base_url = self.env['ir.config_parameter'].get_param(
             'web.external.url')
-        letter_attach.write({
+        self.write({
             'read_url': "{}/b2s_image?id={}".format(base_url,
                                                     letter_attach.uuid),
         })
