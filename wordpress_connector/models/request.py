@@ -50,7 +50,7 @@ class CrmWordpressRequest(models.Model):
                                     exc_info=True)
                 else:
                     self._parse_front_matter(front_matter, defaults)
-            defaults['description'] = '<pre>{}</pre>'.format(desc)
+            defaults['description'] = u'<pre>{}</pre>'.format(desc)
 
         defaults.update(custom_values)
 
