@@ -222,7 +222,7 @@ class StatementCompletionRule(models.Model):
     ##########################################################################
 
     def _generate_invoice(self, stmts_vals, st_line, partner):
-        """ Genereates an invoice corresponding to the statement line read
+        """ Generates an invoice corresponding to the statement line read
             in order to reconcile the corresponding move lines.
 
         :returns dict, boolean: st_line values to update, true if invoice is
