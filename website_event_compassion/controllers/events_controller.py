@@ -8,15 +8,15 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import werkzeug
-from dateutil.relativedelta import relativedelta
 
 from odoo import http, _
 from odoo.http import request
 
 from odoo.addons.payment.models.payment_acquirer import ValidationError
+from odoo.addons.cms_form_compassion.tools import validity_checker
 from odoo.addons.cms_form_compassion.controllers.payment_controller import \
     PaymentFormController
 
@@ -75,6 +75,9 @@ class EventsController(PaymentFormController):
                 '<model("event.registration"):registration>/success',
                 auth='public', website=True)
     def registration_success(self, event, registration, **kwargs):
+        if validity_checker.is_expired(registration):
+            return request.redirect('/events')
+
         values = {
             'event': event,
             'attendees': registration
@@ -293,7 +296,7 @@ class EventsController(PaymentFormController):
         if transaction.state in ('cancel', 'error'):
             # Cancel potential registration(avoid launching jobs at the same
             # time, can cause rollbacks)
-            delay = datetime.today() + relativedelta(seconds=10)
+            delay = datetime.today() + timedelta(seconds=10)
             transaction.registration_id.with_delay(eta=delay).\
                 cancel_registration()
         return super(EventsController, self).compassion_payment_validate(
