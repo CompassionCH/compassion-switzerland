@@ -25,27 +25,11 @@ class Email(models.Model):
 
     @api.multi
     def send_sendgrid(self):
-        """ Post the message in partner, with tracking.
+        """ Avoid to delete the e-mails sent.
         """
         self.filtered(lambda e: e.state == 'outgoing').write({
             'auto_delete': False})
         super(Email, self).send_sendgrid()
-        for email in self:
-            message = email.mail_message_id
-            for partner in email.recipient_ids:
-                notify = message.model and not (
-                    message.model == 'res.partner' and
-                    message.res_id == partner.id
-                )
-                if notify:
-                    p_message = partner.message_post(
-                        email.body_html, email.subject)
-                    p_message.write({
-                        'subtype_id': self.env.ref('mail.mt_comment').id,
-                        # Set parent to have the tracking working
-                        'parent_id': message.id,
-                        'author_id': message.author_id.id
-                    })
 
     @api.multi
     def _prepare_sendgrid_data(self):

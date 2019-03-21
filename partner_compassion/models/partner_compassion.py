@@ -332,49 +332,6 @@ class ResPartner(models.Model):
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
-    @api.multi
-    @api.returns('self', lambda value: value.id)
-    def message_post(self, body='', subject=None, message_type='notification',
-                     subtype=None, parent_id=False, attachments=None,
-                     content_subtype='html', **kwargs):
-        # Find if the message is a reply of user to partner message
-        if subtype == 'mail.mt_comment' and subject:
-            parent = self.message_ids.filtered(
-                lambda m: m.author_id == self and m.subject and
-                m.subject in subject)
-            if parent:
-                # include previous message at the bottom of the email
-                parent_id = parent[0].id
-                kwargs['partner_ids'] = [(6, 0, self.ids)]
-                reply_quote = u'\r\n<br/>\r\n<br/>\r\n<br/>' \
-                              u'-------------' \
-                              u'\r\n<br/>' \
-                              u'Email from: {}' \
-                              u'\r\n<br/>' \
-                              u'Date: {}' \
-                              u'\r\n<br/>' \
-                              u'Subject: {}' \
-                              u'\r\n<br/>\r\n<br/>{}'.format(
-                                  parent[0].email_from,
-                                  parent[0].date,
-                                  parent[0].subject,
-                                  parent[0].body
-                              )
-                try:
-                    body = unicode(
-                        body.decode('utf-8')) if 'utf-8' in body else body
-                    body += reply_quote
-                except UnicodeEncodeError:
-                    body += reply_quote
-
-        message = super(ResPartner, self.with_context(
-            # Disable autosubscription
-            mail_create_nosubscribe=True)).message_post(
-            body=body, subject=subject, message_type=message_type,
-            subtype=subtype, parent_id=parent_id, attachments=attachments,
-            content_subtype=content_subtype, **kwargs)
-        return message
-
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
