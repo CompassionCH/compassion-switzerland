@@ -9,7 +9,6 @@
 ##############################################################################
 import json
 import urllib
-from datetime import datetime, timedelta
 from base64 import b64encode
 
 from odoo.http import request, route

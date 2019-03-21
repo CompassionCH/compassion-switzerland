@@ -14,7 +14,7 @@ Installation
 
 This module depends on :
 
-*python pdf2image
+`python pdf2image`
 
 Credits
 =======
