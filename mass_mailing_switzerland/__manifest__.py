@@ -43,6 +43,8 @@
         'views/mail_tracking_event_view.xml',
         'views/partner_view.xml',
         'data/refresh_sendgrid_tracking_cron.xml',
+        'data/email_template.xml',
+        'data/communication_config.xml'
     ],
     'depends': [
         'mail_sendgrid_mass_mailing',
