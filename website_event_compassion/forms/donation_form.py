@@ -92,6 +92,7 @@ if not testing:
                     'user_id': ambassador.id
                 })],
                 'type': 'out_invoice',
+                'date_invoice': fields.Date.today(),
             })
 
         def _form_create(self, values):

@@ -8,6 +8,14 @@ This module adds all Sponsorship communications for Compassion Switzerland.
 
 - Adds SMS mass sending with 939 services
 
+
+Installation
+============
+
+This module depends on :
+
+`python pdf2image`
+
 Credits
 =======
 

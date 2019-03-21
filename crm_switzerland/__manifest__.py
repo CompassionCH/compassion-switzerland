@@ -37,7 +37,9 @@
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'crm_phone'
+        'crm_phone',
+        'crm_request',
+        'partner_compassion'
     ],
     'data': [
         'views/crm_phonecall.xml',

@@ -14,6 +14,7 @@ from base64 import b64encode
 from odoo.http import request, route
 from odoo.addons.website_event_compassion.controllers.events_controller \
     import EventsController
+from odoo.addons.cms_form_compassion.tools import validity_checker
 from odoo.addons.payment.models.payment_acquirer import ValidationError
 
 
@@ -162,6 +163,9 @@ class MuskathlonWebsite(EventsController):
            '<model("event.registration"):registration>/success',
            type='http', auth="public", website=True)
     def muskathlon_registration_successful(self, registration, **kwargs):
+        if validity_checker.is_expired(registration):
+            return request.redirect('/events')
+
         values = {
             'registration': registration,
             'event': registration.compassion_event_id
