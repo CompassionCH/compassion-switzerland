@@ -9,12 +9,13 @@
                 <div>
                     % set date_start = object.date_start
                     % set date_end = object.date_end
+                    % set holiday_name = object.holiday_name
                 </div>
                 <div>
-                    Dear xxx,
+                    Dear XXX,
                     <br/>
                     <br/>
-                    Compassion is closed for the moment, from the ${date_start} to the ${date_end}. You will get an answer as soon as we reopen.
+                    Compassion is closed for ${holiday_name}, from the ${date_start} to the ${date_end}. You will get an answer as soon as we reopen.
                     <br/>
                     <br/>
                     Yours sincerely
