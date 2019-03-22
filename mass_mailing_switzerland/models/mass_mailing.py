@@ -141,7 +141,7 @@ class MassMailing(models.Model):
     def compute_sendgrid_view_test(self):
         self.with_context(
             {'lang': self.lang.code or
-                     self.partner_test_sendgrid_id.lang.code}
+             self.partner_test_sendgrid_id.lang.code}
         )._compute_sendgrid_view()
 
     @api.multi
