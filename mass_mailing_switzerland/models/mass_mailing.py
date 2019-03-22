@@ -26,6 +26,9 @@ class MassMailing(models.Model):
     unsub_event_ids = fields.Many2many(
         'mail.tracking.event', compute='_compute_events')
 
+    partner_test_sendgrid_id = fields.Many2one('res.partner',
+                                               'Test Partner')
+
     _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
                          'You have to choose a new slug for each mailing !')]
 
@@ -106,6 +109,40 @@ class MassMailing(models.Model):
             ])
             mass_mail.click_event_ids = clicks
             mass_mail.unsub_event_ids = unsub
+
+    @api.depends('body_html')
+    def _compute_sendgrid_view(self):
+        super(MassMailing, self)._compute_sendgrid_view()
+
+        # change all substitutions if the test partner is set
+        for wizard in self:
+            partner_id = wizard.partner_test_sendgrid_id
+
+            template = wizard.email_template_id.with_context(
+                lang=self.lang.code or self.env.context['lang'])
+            sendgrid_template = template.sendgrid_localized_template
+            if sendgrid_template and partner_id:
+                substitutions = wizard.\
+                    email_template_id.with_context(
+                        {'lang': self.lang.code or self.env.context['lang']}).\
+                    render_substitutions(partner_id.id)
+
+                for sub in substitutions[partner_id.id]:
+                    key = sub[2]['key']
+                    value = sub[2]['value']
+                    res_value = template.render_template(
+                        value, template.model, [partner_id.id]
+                    )[partner_id.id]
+
+                    wizard.body_sendgrid = wizard.body_sendgrid.\
+                        replace(key, res_value)
+
+    @api.onchange('partner_test_sendgrid_id')
+    def compute_sendgrid_view_test(self):
+        self.with_context(
+            {'lang': self.lang.code or
+             self.partner_test_sendgrid_id.lang.code}
+        )._compute_sendgrid_view()
 
     @api.multi
     def recompute_events(self):
