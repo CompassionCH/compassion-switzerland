@@ -41,8 +41,8 @@
                     }
                     #child-ref {
                         position: relative;
-                        top: 140mm;
-                        margin: 0 auto;
+                        top: 135mm;
+                        margin: 0 5mm auto;
                         padding: 2mm;
                         background-color: rgba(255, 255, 255, 0.3);
                         border-radius: 2mm;
@@ -53,7 +53,9 @@
                     <img t-attf-src="data:image/jpeg;base64,{{ o.fullshot }}"/>
                 </div>
                 <div id="child-ref">
-                    <span t-field="o.local_id"/> <span t-field="o.name"/>
+                    <span t-field="o.local_id"/>
+                    <span> </span>
+                    <span t-field="o.name"/>
                 </div>
             </div>
         </t>
