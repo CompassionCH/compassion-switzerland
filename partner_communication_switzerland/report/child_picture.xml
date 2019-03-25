@@ -40,12 +40,13 @@
                         height: 153mm;
                     }
                     #child-ref {
-                        position: absolute;
+                        position: relative;
+                        top: 140mm;
+                        margin: 0 auto;
+                        padding: 2mm;
                         background-color: rgba(255, 255, 255, 0.3);
                         border-radius: 2mm;
-                        padding: 2mm;
-                        top: 140mm;
-                        left: 10mm;
+                        display: table;
                     }
                 </style>
                 <div id="background">
