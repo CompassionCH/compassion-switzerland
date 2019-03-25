@@ -42,11 +42,11 @@
                     #child-ref {
                         position: relative;
                         top: 140mm;
-                        display: table;
                         margin: 0 auto;
                         padding: 2mm;
                         background-color: rgba(255, 255, 255, 0.3);
                         border-radius: 2mm;
+                        display: table;
                     }
                 </style>
                 <div id="background">
