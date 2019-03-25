@@ -40,6 +40,7 @@ class ResPartner(models.Model):
 
     @api.multi
     def _compute_salutation(self):
+        # Special salutation for companies
         company = self.filtered(
             lambda p: not (p.title and p.firstname and not p.is_company))
         for p in company:
@@ -47,6 +48,11 @@ class ResPartner(models.Model):
             p.short_salutation = p.salutation
             p.informal_salutation = _("Dear friend of Compassion")
         super(ResPartner, self - company)._compute_salutation()
+
+        # Family shouldn't be used with informal salutation
+        family = self.env.ref('partner_compassion.res_partner_title_family')
+        for partner in self.filtered(lambda p: p.title == family):
+            partner.informal_salutation = partner.salutation
 
     @api.multi
     @api.depends('thankyou_letter')
