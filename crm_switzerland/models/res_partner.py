@@ -30,6 +30,6 @@ class ResPartner(models.Model):
     @api.model
     def _notify_prepare_template_context(self, message):
         # modification of context for lang
-        message = message.with_context(lang=self.lang)
+        message = message.with_context(lang=self[:1].lang or self.env.lang)
         return super(ResPartner, self).\
             _notify_prepare_template_context(message)
