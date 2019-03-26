@@ -1,0 +1,6 @@
+<odoo>
+    <record id="gist_partner_name" model="trgm.index">
+        <field name="field_id" ref="base.field_res_partner_name"/>
+        <field name="index_type">gist</field>
+    </record>
+</odoo>
