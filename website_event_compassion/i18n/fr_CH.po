@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-26 07:34+0000\n"
-"PO-Revision-Date: 2019-03-26 08:37+0100\n"
+"POT-Creation-Date: 2019-03-26 07:51+0000\n"
+"PO-Revision-Date: 2019-03-26 08:52+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -2808,6 +2808,17 @@ msgstr ""
 "Si vous voulez photographier une personne, il est souhaitable d'obtenir son "
 "accord préalable. Renseignez-vous si vous osez photographier des bâtiments "
 "militaires ou étatiques."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.event_full_page_form
+msgid ""
+"If you wish to register several people (i.e. people of the same family), "
+"please register each person separately. During the process, you may use only "
+"one correspondence address."
+msgstr ""
+"Si vous souhaitez inscrire plusieurs personnes (par exemple d’une même "
+"famille), merci d’inscrire chaque personne séparément. Au cours du "
+"processus, vous pourrez utiliser une seule adresse de correspondance."
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
