@@ -47,6 +47,7 @@ class PaymentTransaction(models.Model):
     def _get_payment_invoice_vals(self):
         vals = super(PaymentTransaction, self)._get_payment_invoice_vals()
         vals['transaction_id'] = self.postfinance_payid
+        vals['reference'] = self.postfinance_payid
         return vals
 
     def _get_auto_post_invoice(self):
