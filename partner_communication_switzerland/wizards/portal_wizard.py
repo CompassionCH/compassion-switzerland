@@ -46,7 +46,7 @@ class PortalWizardUser(models.TransientModel):
     def action_apply(self):
         res = super(PortalWizardUser, self).action_apply()
 
-        self.mapped('partner_id').signup_prepare()
+        self.mapped('partner_id').sudo().signup_prepare()
 
         if self.env.context.get('create_communication'):
             for wizard_line in self:
