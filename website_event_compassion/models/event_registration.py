@@ -564,6 +564,9 @@ class Event(models.Model):
 
     def prepare_down_payment(self):
         # Prepare invoice for down payment
+        mode_pay_bvr = self.env['account.payment.mode'].sudo().search([
+            ('name', '=', 'BVR')
+        ], limit=1)
         self.ensure_one()
         event = self.compassion_event_id
         product = self.event_ticket_id.product_id
@@ -581,6 +584,7 @@ class Event(models.Model):
             })],
             'type': 'out_invoice',
             'reference': product.generate_bvr_reference(self.partner_id),
+            'payment_mode_id': mode_pay_bvr.id,
         })
         if self.partner_id.state == 'active':
             invoice.action_invoice_open()
@@ -588,6 +592,9 @@ class Event(models.Model):
 
     def prepare_group_visit_payment(self):
         # Prepare invoice for group visit payment
+        mode_pay_bvr = self.env['account.payment.mode'].sudo().search([
+            ('name', '=', 'BVR')
+        ], limit=1)
         self.ensure_one()
         event = self.compassion_event_id
         invl_vals = []
@@ -636,7 +643,8 @@ class Event(models.Model):
             'partner_id': self.partner_id.id,
             'invoice_line_ids': [(0, 0, invl) for invl in invl_vals],
             'type': 'out_invoice',
-            'reference': product.generate_bvr_reference(self.partner_id)
+            'reference': product.generate_bvr_reference(self.partner_id),
+            'payment_mode_id': mode_pay_bvr.id,
         })
         if self.partner_id.state == 'active':
             invoice.action_invoice_open()
