@@ -37,7 +37,9 @@
     'category': 'Other',
     'depends': ['l10n_ch_lsv_dd', 'report_compassion'],
     'external_dependencies': {},
-    'data': [],
+    'data': [
+        'views/account_payment_order_view.xml',
+    ],
     'demo': [],
     'auto_install': False,
     'installable': True,
