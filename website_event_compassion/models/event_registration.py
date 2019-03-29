@@ -611,7 +611,6 @@ class Event(models.Model):
                 'name': product.name,
                 'product_id': product.id,
                 'account_analytic_id': event.analytic_id.id,
-                'payment_mode_id': mode_pay_bvr.id,
             })
         if not self.double_room_person:
             single_room_ticket = tickets.filtered(
@@ -625,7 +624,6 @@ class Event(models.Model):
                 'name': product.name,
                 'product_id': product.id,
                 'account_analytic_id': event.analytic_id.id,
-                'payment_mode_id': mode_pay_bvr.id,
             })
         standard_price = tickets.filtered(
             lambda t: t.product_id.product_tmpl_id == self.env.ref(
@@ -638,7 +636,6 @@ class Event(models.Model):
             'name': product.name,
             'product_id': product.id,
             'account_analytic_id': event.analytic_id.id,
-            'payment_mode_id': mode_pay_bvr.id,
         })
         name = u'[{}] Trip payment'.format(event.name)
         invoice = self.env['account.invoice'].create({
@@ -646,7 +643,8 @@ class Event(models.Model):
             'partner_id': self.partner_id.id,
             'invoice_line_ids': [(0, 0, invl) for invl in invl_vals],
             'type': 'out_invoice',
-            'reference': product.generate_bvr_reference(self.partner_id)
+            'reference': product.generate_bvr_reference(self.partner_id),
+            'payment_mode_id': mode_pay_bvr.id,
         })
         if self.partner_id.state == 'active':
             invoice.action_invoice_open()
