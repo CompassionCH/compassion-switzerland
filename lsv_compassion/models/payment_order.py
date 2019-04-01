@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from odoo import models, api, _
+from odoo import fields, models, api, _
 
 from odoo.addons.report_compassion.models.contract_group import setlocale
 
@@ -18,6 +18,43 @@ from odoo.exceptions import UserError
 
 class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
+
+    category_purpose = fields.Selection([
+        # Full category purpose list found on:
+        # https://www.iso20022.org/external_code_list.page
+        # Document "External Code Sets spreadsheet" version Feb 8th 2017
+        ('BONU', 'Bonus Payment'),
+        ('CASH', 'Cash Management Transfer'),
+        ('CBLK', 'Card Bulk Clearing'),
+        ('CCRD', 'Credit Card Payment'),
+        ('CORT', 'Trade Settlement Payment'),
+        ('DCRD', 'Debit Card Payment'),
+        ('DIVI', 'Dividend'),
+        ('DVPM', 'Deliver Against Payment'),
+        ('EPAY', 'ePayment'),
+        ('FCOL', 'Fee Collection'),
+        ('GOVT', 'Government Payment'),
+        ('HEDG', 'Hedging'),
+        ('ICCP', 'Irrevocable Credit Card Payment'),
+        ('IDCP', 'Irrevocable Debit Card Payment'),
+        ('INTC', 'Intra-Company Payment'),
+        ('INTE', 'Interest'),
+        ('LOAN', 'Loan'),
+        ('OTHR', 'Other Payment'),
+        ('PENS', 'Pension Payment'),
+        ('RVPM', 'Receive Against Payment'),
+        ('SALA', 'Salary Payment'),
+        ('SECU', 'Securities'),
+        ('SSBE', 'Social Security Benefit'),
+        ('SUPP', 'Supplier Payment'),
+        ('TAXS', 'Tax Payment'),
+        ('TRAD', 'Trade'),
+        ('TREA', 'Treasury Payment'),
+        ('VATX', 'VAT Payment'),
+        ('WHLD', 'WithHolding'),
+    ], string="Category Purpose",
+        help="If neither your bank nor your local regulations oblige you to "
+             "set the category purpose, leave the field empty.")
 
     @api.multi
     def draft2open(self):

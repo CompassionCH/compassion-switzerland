@@ -422,7 +422,7 @@ class RecurringContracts(models.Model):
                         clean_invoices_paid=True):
         today = datetime.today()
         # Free invoices from debit orders to avoid the job failing
-        inv_lines = self.invoice_line_ids.filtered(
+        inv_lines = self.mapped('invoice_line_ids').filtered(
             lambda r: r.state == 'open' or (
                 r.state == 'paid' and
                 fields.Datetime.from_string(r.due_date) > today))

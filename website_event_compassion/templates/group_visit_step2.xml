@@ -59,6 +59,8 @@
                                                 <li>All gifts I give to my sponsored child or his or her family will be in accordance with Compassion's policy on this subject.</li>
                                                 <li>I am aware that it is important to show respect for the staff members, children, families and communities or churches I will meet. I undertake to take into consideration the cultural sensitivities of the country I am visiting.</li>
                                                 <li>I am aware that the child I am sponsoring has legitimate parents, family or guardians. I undertake to respect and remain within the limits of the sponsor/sponsee relationship with this child.</li>
+                                                <li>In case of cancellation of my participation (as a participant), I take note that the payment of the deposit is non-refundable.</li>
+                                                <li>In addition, I undertake to pay 50% of the travel expenses if I cancel my participation less than 30 days before the departure date of the trip as well as the totality of the plane ticket (if I ordered the plane ticket through Compassion). It is up to me to contact my personal travel cancellation insurance if necessary.</li>
                                             </ul>
                                             <!-- Contract form -->
                                             <t t-raw="contract_form.form_render()"/>

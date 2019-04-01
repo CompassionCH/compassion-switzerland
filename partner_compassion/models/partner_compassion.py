@@ -202,59 +202,36 @@ class ResPartner(models.Model):
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=80):
-        """Extends to look on firstname and reference."""
+        """Extends to use trigram search."""
         if args is None:
             args = []
-        ids = []
         if name:
-            values = name.split(' ')
-            if len(values) == 1:
-                # Search only ref or full name
-                tmp_ids = self.search(
-                    [('ref', '=', name)] + args,
-                    limit=limit
-                )
-                if tmp_ids:
-                    ids += tmp_ids.ids
-                else:
-                    tmp_ids = self.search(
-                        [('name', 'ilike', name)] + args,
-                        limit=limit
-                    )
-                    if tmp_ids:
-                        ids += tmp_ids.ids
-            else:
-                # Search lastname and firstname
-                lastname_ids = self.search(
-                    [('lastname', 'ilike', values[0])] + args,
-                )
-                if lastname_ids:
-                    ids += lastname_ids.ids
-                firstname_ids = self.search(
-                    [('firstname', 'ilike', values[1]),
-                     ('id', 'in', lastname_ids.ids)] + args,
-                )
-                if firstname_ids:
-                    # Give more weight two those who has both results
-                    ids = firstname_ids.ids
-                if not ids:
-                    ids = self.search(
-                        [('name', 'ilike', name)] + args,
-                        limit=limit
-                    ).ids
+            # First find by reference
+            res = self.search([('ref', 'like', name)], limit=limit)
+            if not res:
+                res = self.search(
+                    [('name', '%', name)],
+                    order="similarity(res_partner.name, '%s') DESC" % name,
+                    limit=limit)
+            # Search by e-mail
+            if not res:
+                res = self.search([('email', 'ilike', name)], limit=limit)
         else:
-            ids = self.search(
-                args,
-                limit=limit
-            ).ids
-        # we sort by occurence
-        to_ret_ids = list(set(ids))
-        to_ret_ids = sorted(
-            to_ret_ids,
-            key=lambda x: ids.count(x),
-            reverse=True
-        )[:limit]
-        return self.browse(to_ret_ids).name_get()
+            res = self.search(args, limit=limit)
+        return res.name_get()
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        """ Order search results based on similarity if name search is used."""
+        fuzzy_search = False
+        for arg in args:
+            if arg[0] == 'name' and arg[1] == '%':
+                fuzzy_search = arg[2]
+                break
+        if fuzzy_search:
+            order = "similarity(res_partner.name, '%s') DESC" % fuzzy_search
+        return super(ResPartner, self).search(
+            args, offset, limit, order, count)
 
     ##########################################################################
     #                             ONCHANGE METHODS                           #
