@@ -18,6 +18,7 @@
     </record>
     <record id="view_payment_order_category_purpose_create"
             model="ir.actions.act_window">
+        <field name="name">payment.order.category_purpose</field>
         <field name="res_model">account.payment.line.create</field>
         <field name="inherit_id"
                ref="account_payment_order.account_payment_line_create_action"/>
