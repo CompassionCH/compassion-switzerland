@@ -211,7 +211,7 @@ class ResPartner(models.Model):
             if not res:
                 res = self.search(
                     [('name', '%', name)],
-                    order="similarity(res_partner.name, '%s') DESC" % name,
+                    order=u"similarity(res_partner.name, '%s') DESC" % name,
                     limit=limit)
             # Search by e-mail
             if not res:
@@ -229,7 +229,7 @@ class ResPartner(models.Model):
                 fuzzy_search = arg[2]
                 break
         if fuzzy_search:
-            order = "similarity(res_partner.name, '%s') DESC" % fuzzy_search
+            order = u"similarity(res_partner.name, '%s') DESC" % fuzzy_search
         return super(ResPartner, self).search(
             args, offset, limit, order, count)
 
