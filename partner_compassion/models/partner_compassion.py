@@ -212,7 +212,7 @@ class ResPartner(models.Model):
             res = self.search([('ref', 'like', name)], limit=limit)
             if not res:
                 res = self.search(
-                    [('name', '%', name)],
+                    ['|', ('name', '%', name), ('name', 'ilike', name)],
                     order=u"similarity(res_partner.name, '%s') DESC" % name,
                     limit=limit)
             # Search by e-mail
