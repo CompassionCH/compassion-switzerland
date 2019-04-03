@@ -16,6 +16,7 @@ from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
 from odoo.tools.config import config
 from odoo.addons.base_geoengine.fields import GeoPoint
+from odoo.addons.base_geoengine import fields as geo_fields
 
 # fields that are synced if 'use_parent_address' is checked
 ADDRESS_FIELDS = [
@@ -85,7 +86,7 @@ class ResPartner(models.Model):
         'duplicate_id', readonly=True)
 
     advocate_details_id = fields.Many2one(
-        'advocate.details', 'Advocate details')
+        'advocate.details', 'Advocate details', copy=False)
     engagement_ids = fields.Many2many(
         'advocate.engagement', related='advocate_details_id.engagement_ids'
     )
@@ -112,6 +113,7 @@ class ResPartner(models.Model):
         help="The date and time when the partner has agreed to the child"
              "protection charter."
     )
+    geo_point = geo_fields.GeoPoint(copy=False)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -210,7 +212,7 @@ class ResPartner(models.Model):
             res = self.search([('ref', 'like', name)], limit=limit)
             if not res:
                 res = self.search(
-                    [('name', '%', name)],
+                    ['|', ('name', '%', name), ('name', 'ilike', name)],
                     order=u"similarity(res_partner.name, '%s') DESC" % name,
                     limit=limit)
             # Search by e-mail

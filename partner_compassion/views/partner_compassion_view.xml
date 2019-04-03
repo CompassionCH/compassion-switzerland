@@ -264,7 +264,7 @@
         <field name="arch" type="xml">
             <!-- Use fuzzy search on name -->
             <field name="name" position="replace">
-                <field name="name" filter_domain="['|','|',('name','%',self),('ref','=',self),('email','ilike',self)]"/>
+                <field name="name" filter_domain="['|','|','|', ('name', 'ilike', self), ('name','%',self),('ref','=',self),('email','ilike',self)]"/>
             </field>
             <field name="category_id" position="after">
                 <field name="lang"/>
