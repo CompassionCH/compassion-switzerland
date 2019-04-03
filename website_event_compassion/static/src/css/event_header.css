@@ -4,8 +4,6 @@
     background-repeat: no-repeat;
     background-position: center top;
     height: calc(30vw + 120px);
-    width: 100%;
-    max-height: 400px;
     position: relative;
 }
 
