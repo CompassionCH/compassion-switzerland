@@ -19,11 +19,12 @@ class CrmClaim(models.Model):
             partner = self.env['res.partner'].browse(values['partner_id'])
             for request in self:
                 email_alias = parseaddr(request.email_from)[1]
-                if email_alias != partner.email:
+                if email_alias and email_alias != partner.email:
                     partner.with_context(no_upsert=True).copy({
                         'type': 'email_alias',
                         'email': email_alias,
                         'contact_id': partner.id,
                         'active': False,
                     })
+
         return True
