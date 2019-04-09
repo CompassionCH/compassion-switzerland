@@ -28,7 +28,8 @@ if not testing:
             'ambassador_picture_1', 'ambassador_quote', 'sport_level',
             'sport_level_description', 'gtc_accept', 't_shirt_size',
             't_shirt_type', 'passport_number', 'passport_expiration_date',
-            'emergency_name', 'emergency_phone', 'birth_name'
+            'emergency_name', 'emergency_phone', 'birth_name',
+            'partner_birthdate'
         ]
         _payment_accept_redirect = '/muskathlon_registration/payment/validate'
 
@@ -42,11 +43,9 @@ if not testing:
         )
 
         t_shirt_size = fields.Selection([
-            ('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'),
-            ('XXL', 'XXL')
+            ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL')
         ])
         t_shirt_type = fields.Selection([
-            ('singlet', 'Singlet'),
             ('shirt', 'Shirt'),
             ('bikeshirt', 'Bikeshirt'),
         ])
@@ -84,7 +83,8 @@ if not testing:
                     'description': '',
                     'fields': [
                         'partner_title', 'partner_firstname',
-                        'partner_lastname', 'partner_email', 'partner_phone',
+                        'partner_lastname', 'partner_email',
+                        'partner_birthdate', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
                         'partner_country_id'
                     ]
