@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="view_payment_order_category_purpose_form" model="ir.ui.view">
-        <field name="name">account.payment.order.form</field>
+        <field name="name">account.payment.order.form.purpose</field>
         <field name="model">account.payment.order</field>
         <field name="inherit_id"
                ref="account_payment_order.account_payment_order_form"/>
@@ -14,16 +14,11 @@
                     {'default_category_purpose': category_purpose}
                 </attribute>
             </field>
-        </field>
-    </record>
-    <record id="view_payment_order_category_purpose_create"
-            model="ir.actions.act_window">
-        <field name="name">payment.order.category_purpose</field>
-        <field name="res_model">account.payment.line.create</field>
-        <field name="inherit_id"
-               ref="account_payment_order.account_payment_line_create_action"/>
-        <field name="context">
-            {'default_category_purpose': category_purpose}
+            <button name="%(account_payment_order.account_payment_line_create_action)d" position="attributes">
+                <attribute name="context">
+                    {'default_category_purpose': category_purpose}
+                </attribute>
+            </button>
         </field>
     </record>
 </odoo>
