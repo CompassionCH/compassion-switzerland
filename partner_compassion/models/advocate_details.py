@@ -75,11 +75,10 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
         'advocate_details_id', 'engagement_id', 'Engagement type'
     )
     t_shirt_size = fields.Selection([
-        ('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'),
+        ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'),
         ('XXL', 'XXL')
     ])
     t_shirt_type = fields.Selection([
-        ('singlet', 'Singlet'),
         ('shirt', 'Shirt'),
         ('bikeshirt', 'Bikeshirt'),
     ])
