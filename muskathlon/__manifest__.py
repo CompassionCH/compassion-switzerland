@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Muskathlon',
-    'version': '10.0.3.1.0',
+    'version': '10.0.3.2.0',
     'category': 'Reports',
     'author': 'Sebastien Toth',
     'license': 'AGPL-3',
