@@ -18,5 +18,8 @@ def migrate(env, version):
 
     singlets = env['event.registration'].search(
         [('t_shirt_type', '=', 'singlet')])
-    for reg in singlets:
-        reg.t_shirt_type = 'bikeshirt'
+    singlets.write({'t_shirt_type': 'bikeshirt'})
+
+    xs = env['event.registration'].search(
+        [('t_shirt_size', '=', 'XS')])
+    xs.write({'t_shirt_size': 'S'})
