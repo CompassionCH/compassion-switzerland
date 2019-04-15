@@ -13,7 +13,7 @@ import logging
 from math import ceil
 
 from odoo import models, api, fields
-from odoo.tools import safe_eval
+from odoo.tools.safe_eval import safe_eval
 from odoo.addons.queue_job.job import job
 
 SMS_CHAR_LIMIT = 160
