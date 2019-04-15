@@ -571,27 +571,6 @@ class PartnerCommunication(models.Model):
                 ]
             })
 
-        # Gifts
-        sponsorships = self.get_objects()
-        gifts_sponsorship = sponsorships.filtered(
-            lambda s: s.gift_partner_id == self.partner_id
-            and s.type == 'S'
-        )
-        report_name = 'report_compassion.3bvr_gift_sponsorship'
-        if gifts_sponsorship:
-            attachments.update({
-                _('sponsorship gifts.pdf'): [
-                    report_name,
-                    base64.b64encode(report_obj.get_pdf(
-                        gifts_sponsorship.ids, report_name,
-                        data={
-                            'doc_ids': gifts_sponsorship.ids,
-                            'background': self.send_mode != 'physical'
-                        }
-                    ))
-                ]
-            })
-
         # Childpack if not a SUB of planned exit.
         lifecycle = sponsorships.mapped('parent_id.child_id.lifecycle_ids')
         planned_exit = lifecycle and lifecycle[0].type == 'Planned Exit'
