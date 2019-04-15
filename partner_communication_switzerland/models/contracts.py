@@ -529,6 +529,11 @@ class RecurringContract(models.Model):
         ).send_communication(cancellation, both=True)
         self.filtered(
             lambda s: s.end_reason != '1' and s.parent_id
+            and bool(s.activation_date)
+        ).send_communication(cancellation, correspondent=False)
+        self.filtered(
+            lambda s: s.end_reason != '1' and s.parent_id
+            and not bool(s.activation_date)
         ).send_communication(no_sub, correspondent=False)
 
     def _new_dossier(self):
