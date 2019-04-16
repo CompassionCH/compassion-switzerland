@@ -121,6 +121,23 @@ class PartnerCommunication(models.Model):
                 graduation, background)
         return attachments
 
+    def get_family_slip_attachment(self):
+        """
+        Attach family gift slip with background for sending by e-mail
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        attachments = dict()
+        background = self.send_mode and 'physical' not in self.send_mode
+        sponsorships = self.get_objects()
+        family = self.env['product.product'].with_context(
+            lang='en_US').search([('name', '=', GIFT_NAMES[2])])
+        gifts_to = sponsorships[0].gift_partner_id
+        if sponsorships and gifts_to == self.partner_id:
+            attachments = sponsorships.get_bvr_gift_attachment(
+                family, background)
+        return attachments
+
     def get_reminder_bvr(self):
         """
         Attach sponsorship due payment slip with background for sending by
