@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Muskathlon',
-    'version': '10.0.3.2.0',
+    'version': '10.0.3.3.0',
     'category': 'Reports',
     'author': 'Sebastien Toth',
     'license': 'AGPL-3',
@@ -39,6 +39,7 @@
         'security/ir.model.access.csv',
         'security/access_rules.xml',
         'data/default_sports.xml',
+        'data/delete_medical_survey_cron.xml',
         'data/res_users.xml',
         'data/survey_muskathlon_medical_infos.xml',
         'data/product.xml',
