@@ -222,7 +222,7 @@
             <t t-call="report_compassion.style"/>
             <t t-if="formMargin">
                 <div class="local_id">
-                    <span>Childpack available until: </span><span t-raw="o.get_date('hold_expiration')" id="due_date"/>
+                    <span>Childpack available until: </span><span t-raw="o.get_date('childpack_expiration')" id="due_date"/>
                     <span t-field="o.local_id"/>
                 </div>
             </t>
