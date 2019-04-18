@@ -18,7 +18,9 @@ def migrate(env, version):
     if not version:
         return
 
-    for registration in env['event.registration'].search([]):
+    for registration in env['event.registration'].search([
+            ('survey_id', '=', False),
+            ('event_id.medical_survey_id', '!=', False)]):
         survey = registration.event_id.medical_survey_id
         medical_survey_id = env['survey.user_input'].search([
             ('partner_id', '=', registration.partner_id_id),

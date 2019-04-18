@@ -9,8 +9,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, api
 from datetime import datetime, timedelta
+from odoo import models, fields, api
 
 
 class EventCompassion(models.Model):
@@ -87,13 +87,12 @@ class EventCompassion(models.Model):
             })
         return ret
 
-    @api.multi
+    @api.model
     def _cron_delete_medical_surveys(self):
-        for event in self.env['crm.event.compassion'].search([
-            ('end_date', '<',
-             fields.Datetime.to_string(datetime.now() - timedelta(days=31)))]):
+        for event in self.search(
+                [('end_date', '<', fields.Datetime.to_string(
+                    datetime.now() - timedelta(days=31)))]):
             for registration in event.registration_ids:
-                if len(registration.medical_survey_id) > 0:
-                    # the deletion will cascade to the different
-                    # user_input_line automatically (see postgres)
-                    registration.medical_survey_id.unlink()
+                # the deletion will cascade to the different
+                # user_input_line automatically (see postgres)
+                registration.medical_survey_id.unlink()
