@@ -221,8 +221,11 @@ class MuskathlonWebsite(EventsController):
         registrations = request.env['event.registration']\
             .search([('partner_id', '=', values['user'].partner_id.id)])
         partner = values['user'].partner_id
-        surveys = request.env['survey.user_input']\
-            .search([('partner_id', '=', partner.id)])
+        surveys = request.env['survey.user_input'].search([
+            ('survey_id', 'in', registrations.mapped(
+                'event_id.medical_survey_id').ids),
+            ('partner_id', '=', partner.id),
+        ])
         surveys_not_started = surveys.filtered(lambda r: r.state == 'new') \
             if surveys else False
         survey_not_started = surveys_not_started[0] \
