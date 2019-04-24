@@ -26,8 +26,16 @@ class MassMailingCampaign(models.Model):
         'correspondence', related='campaign_id.correspondence_ids'
     )
     invoice_line_ids = fields.One2many(
-        'account.invoice.line', related='campaign_id.invoice_line_ids'
+        'account.invoice.line', compute='_compute_campaign_invoices'
     )
+
+    @api.multi
+    def _compute_campaign_invoices(self):
+        mass_medium = self.env.ref(
+            'contract_compassion.utm_medium_mass_mailing')
+        for campaign in self:
+            campaign.invoice_line_ids = campaign.campaign_id.invoice_line_ids\
+                .filtered(lambda invl: invl.medium_id == mass_medium)
 
     @api.depends('mass_mailing_ids.clicks_ratio')
     def _compute_click_ratios(self):
