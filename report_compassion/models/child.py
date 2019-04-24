@@ -60,6 +60,9 @@ class CompassionChild(models.Model):
         for child in self:
             hold_expiration = fields.Datetime.from_string(
                 child.hold_expiration)
-            child.childpack_expiration = fields.Datetime.to_string(
-                hold_expiration - timedelta(days=1)
-            )
+            try:
+                child.childpack_expiration = fields.Datetime.to_string(
+                    hold_expiration - timedelta(days=1)
+                )
+            except TypeError:
+                child.childpack_expiration = False
