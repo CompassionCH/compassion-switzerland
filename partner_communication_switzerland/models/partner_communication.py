@@ -558,6 +558,10 @@ class PartnerCommunication(models.Model):
         # Payment slips
         if is_payer and make_payment_pdf:
             report_name = 'report_compassion.3bvr_sponsorship'
+            if sponsorships.mapped('payment_mode_id') == self.env.ref(
+                    'sponsorship_switzerland.payment_mode_permanent_order'):
+                # One single slip is enough for permanent order.
+                report_name = 'report_compassion.bvr_sponsorship'
             attachments.update({
                 _('sponsorship payment slips.pdf'): [
                     report_name,
