@@ -87,7 +87,7 @@ class Contracts(models.Model):
         _logger.info("New sponsorship for child %s from Wordpress: %s",
                      child_local_id, str(form_data))
         try:
-
+            form_data['Child reference'] = child_local_id
             match_obj = self.env['res.partner.match.wp']
 
             partner_infos = {}
@@ -100,9 +100,11 @@ class Contracts(models.Model):
             partner_infos['title'] = match_obj.match_title(
                 form_data['salutation']
             )
-            partner_infos['spoken_lang_ids'] = match_obj.match_spoken_langs(
-                form_data['language']
-            )
+            if form_data.get('language'):
+                partner_infos['spoken_lang_ids'] = match_obj.\
+                    match_spoken_langs(
+                        form_data['language']
+                )
             partner_infos['country_id'] = match_obj.match_country(
                 form_data['land'], partner_infos['lang']).id
 
