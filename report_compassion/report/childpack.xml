@@ -216,13 +216,13 @@
         <div class="page">
             <t t-if="is_pdf">
                 <div id="background">
-                    <img t-attf-src="/report_compassion/static/img/{{ type }}/1703_dossier_web_{{ lang }}.jpg"/>
+                    <img t-attf-src="/report_compassion/static/img/{{ type }}/1904_dossier_{{ lang }}.jpg"/>
                 </div>
             </t>
             <t t-call="report_compassion.style"/>
             <t t-if="formMargin">
                 <div class="local_id">
-                    <span>Childpack available until: </span><span t-raw="o.get_date('hold_expiration')" id="due_date"/>
+                    <span>Childpack available until: </span><span t-raw="o.get_date('childpack_expiration')" id="due_date"/>
                     <span t-field="o.local_id"/>
                 </div>
             </t>

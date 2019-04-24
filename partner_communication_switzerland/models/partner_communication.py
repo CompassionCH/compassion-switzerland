@@ -558,6 +558,10 @@ class PartnerCommunication(models.Model):
         # Payment slips
         if is_payer and make_payment_pdf:
             report_name = 'report_compassion.3bvr_sponsorship'
+            if sponsorships.mapped('payment_mode_id') == self.env.ref(
+                    'sponsorship_switzerland.payment_mode_permanent_order'):
+                # One single slip is enough for permanent order.
+                report_name = 'report_compassion.bvr_sponsorship'
             attachments.update({
                 _('sponsorship payment slips.pdf'): [
                     report_name,
@@ -565,27 +569,6 @@ class PartnerCommunication(models.Model):
                         sponsorships.ids, report_name,
                         data={
                             'doc_ids': sponsorships.ids,
-                            'background': self.send_mode != 'physical'
-                        }
-                    ))
-                ]
-            })
-
-        # Gifts
-        sponsorships = self.get_objects()
-        gifts_sponsorship = sponsorships.filtered(
-            lambda s: s.gift_partner_id == self.partner_id
-            and s.type == 'S'
-        )
-        report_name = 'report_compassion.3bvr_gift_sponsorship'
-        if gifts_sponsorship:
-            attachments.update({
-                _('sponsorship gifts.pdf'): [
-                    report_name,
-                    base64.b64encode(report_obj.get_pdf(
-                        gifts_sponsorship.ids, report_name,
-                        data={
-                            'doc_ids': gifts_sponsorship.ids,
                             'background': self.send_mode != 'physical'
                         }
                     ))

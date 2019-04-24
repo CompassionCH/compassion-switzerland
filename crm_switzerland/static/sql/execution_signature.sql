@@ -30,6 +30,6 @@ SELECT set_signature(
 	'Compassion Svizzera',
 	'Effingerstrasse 10',
 	'CH-3011 Bern',
-	'tel: +41 24 434 21 24',
+	'tel: +41 24 552 21 24',
 	'it_IT'
 );

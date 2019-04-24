@@ -8,6 +8,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from datetime import timedelta
+
 from odoo import api, models, fields
 
 
@@ -20,6 +22,8 @@ class CompassionChild(models.Model):
     description_left = fields.Text(compute='_compute_description')
     description_right = fields.Text(compute='_compute_description')
     project_title = fields.Char(compute='_compute_project_title')
+    childpack_expiration = fields.Datetime(
+        compute='_compute_childpack_expiration')
 
     @api.multi
     def _compute_description(self):
@@ -51,3 +55,14 @@ class CompassionChild(models.Model):
             }
             lang = self.env.lang or 'en_US'
             child.project_title = lang_map.get(lang)
+
+    def _compute_childpack_expiration(self):
+        for child in self:
+            hold_expiration = fields.Datetime.from_string(
+                child.hold_expiration)
+            try:
+                child.childpack_expiration = fields.Datetime.to_string(
+                    hold_expiration - timedelta(days=1)
+                )
+            except TypeError:
+                child.childpack_expiration = False
