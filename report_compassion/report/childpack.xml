@@ -216,7 +216,7 @@
         <div class="page">
             <t t-if="is_pdf">
                 <div id="background">
-                    <img t-attf-src="/report_compassion/static/img/{{ type }}/1703_dossier_web_{{ lang }}.jpg"/>
+                    <img t-attf-src="/report_compassion/static/img/{{ type }}/1904_dossier_{{ lang }}.jpg"/>
                 </div>
             </t>
             <t t-call="report_compassion.style"/>
