@@ -152,7 +152,9 @@ class Contracts(models.Model):
             # sponsorship made from the website
             _logger.error("Error during wordpress sponsorship import",
                           exc_info=True)
-            sponsorship_vals = {}
+            sponsorship_vals = {
+                'type': 'S' if utm_source != 'wrpr' else 'SC'
+            }
         finally:
             if not test_mode:
                 return self.with_delay().create_sponsorship_job(
@@ -202,7 +204,8 @@ class Contracts(models.Model):
                      'lang', 'language',
                      'kirchgemeinde', 'Beruf', 'zahlungsweise',
                      'consumer_source', 'consumer_source_text',
-                     'patenschaftplus', 'mithelfen', 'childID']
+                     'patenschaftplus', 'mithelfen',
+                     'childID', 'Child reference']
 
         for key in list_keys:
             notify_text += "<li>" + key + ": " + \
