@@ -87,7 +87,7 @@ class Contracts(models.Model):
         _logger.info("New sponsorship for child %s from Wordpress: %s",
                      child_local_id, str(form_data))
         try:
-
+            form_data['Child reference'] = child_local_id
             match_obj = self.env['res.partner.match.wp']
 
             partner_infos = {}
@@ -100,9 +100,11 @@ class Contracts(models.Model):
             partner_infos['title'] = match_obj.match_title(
                 form_data['salutation']
             )
-            partner_infos['spoken_lang_ids'] = match_obj.match_spoken_langs(
-                form_data['language']
-            )
+            if form_data.get('language'):
+                partner_infos['spoken_lang_ids'] = match_obj.\
+                    match_spoken_langs(
+                        form_data['language']
+                )
             partner_infos['country_id'] = match_obj.match_country(
                 form_data['land'], partner_infos['lang']).id
 
@@ -122,7 +124,7 @@ class Contracts(models.Model):
 
             # Create sponsorship
             child = self.env['compassion.child'].search([
-                ('local_id', '=', child_local_id)])
+                ('local_id', '=', child_local_id)], limit=1)
             lines = self._get_sponsorship_standard_lines()
             if not form_data.get('patenschaftplus'):
                 lines = lines[:-1]
@@ -150,7 +152,11 @@ class Contracts(models.Model):
             # sponsorship made from the website
             _logger.error("Error during wordpress sponsorship import",
                           exc_info=True)
-            sponsorship_vals = {}
+            sponsorship_vals = {
+                'type': 'S' if utm_source != 'wrpr' else 'SC',
+                'child_id': self.env['compassion.child'].search([
+                    ('local_id', '=', child_local_id)], limit=1).id
+            }
         finally:
             if not test_mode:
                 return self.with_delay().create_sponsorship_job(
@@ -200,7 +206,8 @@ class Contracts(models.Model):
                      'lang', 'language',
                      'kirchgemeinde', 'Beruf', 'zahlungsweise',
                      'consumer_source', 'consumer_source_text',
-                     'patenschaftplus', 'mithelfen', 'childID']
+                     'patenschaftplus', 'mithelfen',
+                     'childID', 'Child reference']
 
         for key in list_keys:
             notify_text += "<li>" + key + ": " + \

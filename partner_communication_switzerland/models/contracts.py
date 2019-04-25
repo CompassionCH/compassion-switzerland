@@ -524,11 +524,24 @@ class RecurringContract(models.Model):
             'partner_communication_switzerland.sponsorship_cancellation')
         no_sub = self.env.ref(
             'partner_communication_switzerland.planned_no_sub')
+        # Send cancellation for regular sponsorships
         self.filtered(
             lambda s: s.end_reason != '1' and not s.parent_id
         ).send_communication(cancellation, both=True)
+        # Send NO SUB letter if activation is less than two weeks ago
+        # otherwise send Cancellation letter for SUB sponsorships
+        activation_limit = date.today() - relativedelta(days=15)
         self.filtered(
             lambda s: s.end_reason != '1' and s.parent_id
+            and (s.activation_date and
+                 fields.Date.from_string(s.activation_date) <
+                 activation_limit)
+        ).send_communication(cancellation, correspondent=False)
+        self.filtered(
+            lambda s: s.end_reason != '1' and s.parent_id
+            and (not s.activation_date or
+                 fields.Date.from_string(s.activation_date) >=
+                 activation_limit)
         ).send_communication(no_sub, correspondent=False)
 
     def _new_dossier(self):
