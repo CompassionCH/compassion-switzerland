@@ -23,7 +23,7 @@ class SurveyUserInput(models.Model):
         if vals.get('state') == 'done':
 
             # Search for medical surveys
-            registrations = self.env['event.registration'].search([
+            registrations = self.env['event.registration'].sudo().search([
                 ('partner_id', 'in', self.mapped('partner_id').ids),
                 ('event_id.event_type_id', '=', self.env.ref(
                     'muskathlon.event_type_muskathlon').id),
