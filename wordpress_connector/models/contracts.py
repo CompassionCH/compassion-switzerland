@@ -124,7 +124,7 @@ class Contracts(models.Model):
 
             # Create sponsorship
             child = self.env['compassion.child'].search([
-                ('local_id', '=', child_local_id)])
+                ('local_id', '=', child_local_id)], limit=1)
             lines = self._get_sponsorship_standard_lines()
             if not form_data.get('patenschaftplus'):
                 lines = lines[:-1]
@@ -153,7 +153,9 @@ class Contracts(models.Model):
             _logger.error("Error during wordpress sponsorship import",
                           exc_info=True)
             sponsorship_vals = {
-                'type': 'S' if utm_source != 'wrpr' else 'SC'
+                'type': 'S' if utm_source != 'wrpr' else 'SC',
+                'child_id': self.env['compassion.child'].search([
+                    ('local_id', '=', child_local_id)], limit=1).id
             }
         finally:
             if not test_mode:
