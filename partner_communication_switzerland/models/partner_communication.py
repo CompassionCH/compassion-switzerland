@@ -527,49 +527,47 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         attachments = OrderedDict()
         report_obj = self.env['report']
-        account_payment_mode_obj = self.env['account.payment.mode']
-        sponsorships = self.get_objects()
-
-        # Include all active sponsorships for Permanent Order
-        if 'Permanent Order' in sponsorships.with_context(
-                lang='en_US').mapped('payment_mode_id.name'):
-            sponsorships += sponsorships\
-                .filtered(lambda s: s.partner_id == self.partner_id)\
-                .mapped('group_id.contract_ids').filtered(
-                    lambda s: s.state == 'active')
-
-        is_payer = self.partner_id in sponsorships.mapped('partner_id')
-        correspondence = self.partner_id in sponsorships.mapped(
-            'correspondent_id')
-        make_payment_pdf = True
-
-        # LSV/DD don't need a payment slip
-        groups = sponsorships.mapped('group_id')
+        account_payment_mode_obj = self.env['account.payment.mode']\
+            .with_context(lang='en_US')
         lsv_dd_modes = account_payment_mode_obj.search(
             ['|', ('name', 'like', 'Direct Debit'), ('name', 'like', 'LSV')])
-        lsv_dd_groups = groups.filtered(
-            lambda r: r.payment_mode_id in lsv_dd_modes)
-        if len(lsv_dd_groups) == len(groups):
-            make_payment_pdf = False
+        permanent_order = self.env.ref(
+            'sponsorship_switzerland.payment_mode_permanent_order')
 
-        # If sponsor already paid, avoid payment slip
-        if len(sponsorships.filtered('period_paid')) == len(sponsorships):
-            make_payment_pdf = False
+        sponsorships = self.get_objects()
+        # Sponsorships included for payment slips
+        bv_sponsorships = sponsorships.filtered(
+            # 1. Needs to be payer
+            lambda s: s.partner_id == self.partner_id and
+            # 2. Permanent Order are always included
+            s.payment_mode_id == permanent_order or (
+                # 3. LSV/DD are never included
+                s.payment_mode_id not in lsv_dd_modes and
+                # 4. If already paid they are not included
+                not s.period_paid)
+        )
+        write_sponsorships = sponsorships.filtered(
+            lambda s: s.correspondent_id == self.partner_id)
+
+        # Include all active sponsorships for Permanent Order
+        bv_sponsorships += bv_sponsorships\
+            .filtered(lambda s: s.payment_mode_id == permanent_order)\
+            .mapped('group_id.contract_ids').filtered(
+                lambda s: s.state in ('active', 'waiting'))
 
         # Payment slips
-        if is_payer and make_payment_pdf:
+        if bv_sponsorships:
             report_name = 'report_compassion.3bvr_sponsorship'
-            if sponsorships.mapped('payment_mode_id') == self.env.ref(
-                    'sponsorship_switzerland.payment_mode_permanent_order'):
+            if bv_sponsorships.mapped('payment_mode_id') == permanent_order:
                 # One single slip is enough for permanent order.
                 report_name = 'report_compassion.bvr_sponsorship'
             attachments.update({
                 _('sponsorship payment slips.pdf'): [
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
-                        sponsorships.ids, report_name,
+                        bv_sponsorships.ids, report_name,
                         data={
-                            'doc_ids': sponsorships.ids,
+                            'doc_ids': bv_sponsorships.ids,
                             'background': self.send_mode != 'physical'
                         }
                     ))
@@ -583,8 +581,8 @@ class PartnerCommunication(models.Model):
             attachments.update(self.get_childpack_attachment())
 
         # Labels
-        if correspondence:
-            attachments.update(self.get_label_attachment(sponsorships))
+        if write_sponsorships:
+            attachments.update(self.get_label_attachment(write_sponsorships))
 
         # Child picture
         report_name = 'partner_communication_switzerland.child_picture'
