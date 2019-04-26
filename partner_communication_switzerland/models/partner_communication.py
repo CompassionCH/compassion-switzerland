@@ -533,9 +533,10 @@ class PartnerCommunication(models.Model):
         # Include all active sponsorships for Permanent Order
         if 'Permanent Order' in sponsorships.with_context(
                 lang='en_US').mapped('payment_mode_id.name'):
-            sponsorships += sponsorships.mapped(
-                'group_id.contract_ids').filtered(
-                lambda s: s.state == 'active')
+            sponsorships += sponsorships\
+                .filtered(lambda s: s.partner_id == self.partner_id)\
+                .mapped('group_id.contract_ids').filtered(
+                    lambda s: s.state == 'active')
 
         is_payer = self.partner_id in sponsorships.mapped('partner_id')
         correspondence = self.partner_id in sponsorships.mapped(
