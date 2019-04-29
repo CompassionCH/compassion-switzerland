@@ -550,7 +550,7 @@ class PartnerCommunication(models.Model):
             lambda s: s.correspondent_id == self.partner_id)
 
         # Include all active sponsorships for Permanent Order
-        bv_sponsorships += bv_sponsorships\
+        bv_sponsorships |= bv_sponsorships\
             .filtered(lambda s: s.payment_mode_id == permanent_order)\
             .mapped('group_id.contract_ids').filtered(
                 lambda s: s.state in ('active', 'waiting'))
