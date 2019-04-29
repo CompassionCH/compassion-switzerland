@@ -107,8 +107,8 @@ class Muskathlon(models.Model):
                 ail.id AS invoice_line_id,
                 ail.partner_id,
                 ail.user_id,
-                aml.credit AS amount,
-                aml.credit * 100 AS amount_cent,
+                COALESCE(aml.credit, ail.price_subtotal) AS amount,
+                COALESCE(aml.credit, ail.price_subtotal) * 100 AS amount_cent,
                 ail.sent_to_4m,
                 ai.payment_mode_id,
                 ail.event_id,
@@ -124,9 +124,9 @@ class Muskathlon(models.Model):
                 mr.reg_id AS registration_id
               FROM account_invoice_line AS ail
               LEFT JOIN account_invoice AS ai ON ail.invoice_id = ai.id
-              LEFT JOIN account_move AS am ON ai.move_id = am.id
+              FULL OUTER JOIN account_move AS am ON ai.move_id = am.id
                 AND ai.partner_id = am.partner_id
-              INNER JOIN LATERAL
+              LEFT JOIN LATERAL
                 (SELECT *
                 FROM account_move_line
                 WHERE move_id = am.id
