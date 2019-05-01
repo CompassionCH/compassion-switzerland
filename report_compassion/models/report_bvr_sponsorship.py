@@ -15,7 +15,7 @@ import logging
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning as odooWarning
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +69,7 @@ class BvrSponsorship(models.AbstractModel):
             lambda s: s.state not in ('terminated', 'cancelled'))
         groups = sponsorships.mapped('group_id')
         if not groups or not months:
-            raise Warning(
+            raise odooWarning(
                 _("Selection not valid. No active sponsorship found."))
 
         # Docs will contain the groups for which we have to print the payment

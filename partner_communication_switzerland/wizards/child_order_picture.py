@@ -97,9 +97,9 @@ class CompassionHold(models.TransientModel):
             pdfTempFile, pdfTempFileName = tempfile.mkstemp()
             os.write(pdfTempFile, pdf)
             pages = convert_from_path(pdfTempFileName)
-            for id, page in enumerate(pages):
+            for page_id, page in enumerate(pages):
                 child = self.env['compassion.child'].browse(
-                    self.mapped('sponsorship_ids.child_id.id')[id])
+                    self.mapped('sponsorship_ids.child_id.id')[page_id])
                 fname = str(child.sponsor_ref) + "_" + str(child.local_id) \
                                                + '.jpg'
 

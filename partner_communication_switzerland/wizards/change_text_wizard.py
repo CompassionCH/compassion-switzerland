@@ -10,7 +10,7 @@
 ##############################################################################
 
 from odoo import models, api, fields, _
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning as odooWarning
 
 
 class ChangeTextWizard(models.TransientModel):
@@ -60,7 +60,8 @@ class ChangeTextWizard(models.TransientModel):
         event = communications.mapped('event_id')
         if event:
             if len(event) > 1:
-                raise Warning(_("You can only change one event at a time."))
+                raise odooWarning(
+                    _("You can only change one event at a time."))
             return 'event'
         else:
             return 'edit'
@@ -91,7 +92,7 @@ class ChangeTextWizard(models.TransientModel):
         if event:
             config = communications.mapped('config_id')
             if len(config) != 1:
-                raise Warning(
+                raise odooWarning(
                     _("You can only update text on one communication type at "
                       "time."))
             if self.event_text != event.thank_you_text:
