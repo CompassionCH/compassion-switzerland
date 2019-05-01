@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'CRM additions for Compassion CH',
-    'version': '10.0.1.1.0',
+    'version': '10.0.1.2.0',
     'category': 'CRM',
     'sequence': 150,
     'author': 'Compassion CH',
