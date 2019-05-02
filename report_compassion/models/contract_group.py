@@ -17,7 +17,7 @@ from dateutil.relativedelta import relativedelta
 from contextlib import contextmanager
 
 from odoo import api, models, fields, _
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning as odooWarning
 from odoo.tools import mod10r
 
 logger = logging.getLogger(__name__)
@@ -82,7 +82,7 @@ class ContractGroup(models.Model):
         if open_invoice:
             first_invoice_date = open_invoice.replace(day=1)
         else:
-            raise Warning(_("No open invoice found !"))
+            raise odooWarning(_("No open invoice found !"))
 
         # Only keep unpaid months
         valid_months = [

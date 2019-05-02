@@ -12,7 +12,7 @@ import base64
 from datetime import datetime
 
 from odoo import api, models, fields, _
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning as odooWarning
 
 
 class PrintSponsorshipBvr(models.TransientModel):
@@ -84,7 +84,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         """
         if fields.Date.from_string(self.date_start) >= \
                 fields.Date.from_string(self.date_stop):
-            raise Warning(_("Date stop must be after date start."))
+            raise odooWarning(_("Date stop must be after date start."))
         data = {
             'date_start': self.date_start,
             'date_stop': self.date_stop,

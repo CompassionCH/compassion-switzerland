@@ -13,7 +13,7 @@ import base64
 from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
 
 from odoo import api, models, fields, _
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning as odooWarning
 
 
 class PrintSponsorshipBvr(models.TransientModel):
@@ -70,7 +70,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         if self.graduation_gift:
             product_search.append(GIFT_NAMES[4])
         if not product_search:
-            raise Warning(_("Please select at least one gift type."))
+            raise odooWarning(_("Please select at least one gift type."))
 
         products = self.env['product.product'].with_context(
             lang='en_US').search([('name', 'in', product_search)])

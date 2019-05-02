@@ -30,7 +30,7 @@ except ImportError:
     )
 
 from odoo import models, fields, api, tools, _
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning as odooWarning
 
 _logger = logging.getLogger(__name__)
 
@@ -167,10 +167,10 @@ class DbBackup(models.Model):
                                       "short.\n"
                 messageContent += "Here is what we got instead:\n"
         if "Failed" in messageTitle:
-            raise Warning(_(messageTitle + '\n\n' +
-                            messageContent + "%s") % tools.ustr(e))
+            raise odooWarning(_(messageTitle + '\n\n' +
+                              messageContent + "%s") % tools.ustr(e))
         else:
-            raise Warning(_(messageTitle + '\n\n' + messageContent))
+            raise odooWarning(_(messageTitle + '\n\n' + messageContent))
 
     @api.multi
     def schedule_backup(self):
@@ -219,7 +219,7 @@ class DbBackup(models.Model):
             if rec.sftp_write is True:
                 try:
                     # Store all values in variables
-                    dir = rec.folder
+                    directory = rec.folder
                     pathToWriteTo = rec.sftp_path
                     ipHost = rec.sftp_host
                     portHost = rec.sftp_port
@@ -256,9 +256,9 @@ class DbBackup(models.Model):
                                 pass
                     srv.chdir(pathToWriteTo)
                     # Loop over all files in the directory.
-                    for f in os.listdir(dir):
+                    for f in os.listdir(directory):
                         if rec.name in f:
-                            fullpath = os.path.join(dir, f)
+                            fullpath = os.path.join(directory, f)
                             if os.path.isfile(fullpath):
                                 if not srv.exists(f):
                                     _logger.info(
@@ -279,10 +279,10 @@ class DbBackup(models.Model):
 
                     # Loop over all files in the directory from the back-ups.
                     # We will check the creation date of every back-up.
-                    for file in srv.listdir(pathToWriteTo):
-                        if rec.name in file:
+                    for file_in_dic in srv.listdir(pathToWriteTo):
+                        if rec.name in file_in_dic:
                             # Get the full path
-                            fullpath = os.path.join(pathToWriteTo, file)
+                            fullpath = os.path.join(pathToWriteTo, file_in_dic)
                             # Get the timestamp from the file on the external
                             # server
                             timestamp = srv.stat(fullpath).st_atime
@@ -296,12 +296,12 @@ class DbBackup(models.Model):
                             if delta.days >= rec.days_to_keep_sftp:
                                 # Only delete files, no directories!
                                 if srv.isfile(fullpath) and (
-                                        ".dump" in file or
-                                        '.zip' in file):
+                                        ".dump" in file_in_dic or
+                                        '.zip' in file_in_dic):
                                     _logger.info(
                                         "Delete too old file from SFTP "
-                                        "servers: " + file)
-                                    srv.unlink(file)
+                                        "servers: " + file_in_dic)
+                                    srv.unlink(file_in_dic)
                     # Close the SFTP session.
                     srv.close()
                 except Exception, e:
@@ -335,10 +335,10 @@ class DbBackup(models.Model):
             # Remove all old files (on local server) in case this is
             # configured..
             if rec.autoremove:
-                dir = rec.folder
+                directory = rec.folder
                 # Loop over all files in the directory.
-                for f in os.listdir(dir):
-                    fullpath = os.path.join(dir, f)
+                for f in os.listdir(directory):
+                    fullpath = os.path.join(directory, f)
                     # Only delete the ones wich are from the current database
                     # (Makes it possible to save different databases in the
                     # same folder)

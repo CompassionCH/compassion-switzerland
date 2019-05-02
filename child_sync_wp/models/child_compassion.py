@@ -135,8 +135,8 @@ class CompassionChild(models.Model):
         ])
 
         # Put children 5 by 5 to avoid delays
-        def loop_five(n, max):
-            while n < max:
+        def loop_five(n, max_value):
+            while n < max_value:
                 yield n
                 n += 5
         try:

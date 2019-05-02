@@ -76,7 +76,7 @@ class BankStatementLine(models.Model):
 
     @api.multi
     def get_move_lines_for_reconciliation(
-            self, excluded_ids=None, str=False, offset=0, limit=None,
+            self, excluded_ids=None, string=False, offset=0, limit=None,
             additional_domain=None, overlook_partner=False):
         """ Sort move lines according to Compassion criterias :
             Move line for current month at first,
@@ -96,7 +96,7 @@ class BankStatementLine(models.Model):
 
         res_asc = super(
             BankStatementLine, self).get_move_lines_for_reconciliation(
-            excluded_ids, str, offset, limit, additional_domain,
+            excluded_ids, string, offset, limit, additional_domain,
             overlook_partner)
 
         # Sort results with date (current month at first)

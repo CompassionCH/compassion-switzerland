@@ -23,7 +23,7 @@ BEGIN
 
     --Retrieving the parameter for the click URL of the banner
     SELECT value INTO email_banner_url_open FROM ir_config_parameter
-    WHERE key = ('email.banner.url.open.' || wLang);
+    WHERE key = ('email.banner.url.open.' || wLang)
 
     --Generate new signatures
     INSERT INTO ir_translation

@@ -155,19 +155,19 @@ class TranslateConnect(MysqlConnector):
         }
         return self.upsert("translation", vals)
 
-    def remove_letter(self, id):
+    def remove_letter(self, text_id):
         """ Delete a letter record with the text_id given """
-        self.remove_from_text(id)
+        self.remove_from_text(text_id)
 
-    def remove_from_text(self, id):
+    def remove_from_text(self, text_id):
         """ Delete a text record for the text_id given """
         self.query("DELETE FROM text WHERE id={}"
-                   .format(id))
+                   .format(text_id))
 
-    def remove_translation_with_odoo_id(self, id):
+    def remove_translation_with_odoo_id(self, text_id):
         self.query("DELETE text FROM text INNER JOIN translation ON text.id\
              = translation.text_id WHERE translation.letter_odoo_id = {}"
-                   .format(id))
+                   .format(text_id))
 
     def get_server_uptime(self):
         return self.selectOne("SHOW GLOBAL STATUS LIKE 'Uptime' ")

@@ -10,21 +10,22 @@ odoo.define('website_event_compassion.group_visit_registration_step1', function 
          * Called when widget is started.
          */
         start: function () {
-            // Trigger on hide or show double room field based on room type selected
+            // Trigger on hide or show double room field based on room type
+            // selected
             var double_field_div = $('div.field-double_room_person');
             var radio_field = $('input[type=radio][name=single_double_room]');
-            radio_field.change(function() {
-                if (this.value == 'single') {
+            radio_field.change(function () {
+                if (this.value === 'single') {
                     double_field_div.find('input').val('');
                     double_field_div.hide();
-                }
-                else if (this.value == 'double') {
+                } else if (this.value === 'double') {
                     double_field_div.show();
                 }
             });
             // Hide the field if default value is single
-            var checked_field = $('input[type=radio][name=single_double_room]:checked');
-            if (checked_field.val() == 'single') {
+            var checked_field =
+                $('input[type=radio][name=single_double_room]:checked');
+            if (checked_field.val() === 'single') {
                 double_field_div.hide();
             }
         },
