@@ -67,7 +67,8 @@ class CrmWordpressRequest(models.Model):
         if 'lang' in fm:
             fm['lang'] = match_obj.match_lang(fm['lang'])
 
-        partner = match_obj.match_partner_to_infos(fm)
+        partner = match_obj.match_partner_to_infos(
+            fm, options={'skip_create': True})
         values['partner_id'] = partner.id
 
         # Match claim type
