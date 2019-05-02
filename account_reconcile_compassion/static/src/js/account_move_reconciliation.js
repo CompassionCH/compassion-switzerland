@@ -42,7 +42,8 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 var product_search = [['name', 'like', gift_name]];
                 $.when(product_obj.call('search', [product_search])).then(
                     function (product_ids) {
-                        if (product_ids) {
+                        if (product_ids !== 'undefined'
+                        && product_ids.length > 0) {
                             self.product_id_field.set_value(product_ids[0]);
                         }
                     });
@@ -59,7 +60,8 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 ];
                 $.when(sponsorship_obj.call('search', [sponsorship_search]))
                     .then(function (sponsorship_ids) {
-                        if (sponsorship_ids) {
+                        if (typeof sponsorship_ids !== 'undefined'
+                        && sponsorship_ids.length > 0) {
                             self.sponsorship_id_field.set_value(
                                 sponsorship_ids[0]);
                         }
@@ -70,12 +72,8 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
             this.product_selected = false;
         },
 
-        /**
-         * Return values of new fields to python.
-         * @param lines
-         * @returns {*}
-         */
-        prepareCreatedMoveLinesForPersisting: function(lines) {
+        // Return values of new fields to python.
+        prepareCreatedMoveLinesForPersisting: function (lines) {
             var result = this._super(lines);
             for (var i = 0; i < result.length; i++) {
                 if (lines[i].sponsorship_id) {
@@ -89,30 +87,24 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 }
             }
             return result;
-        }
+        },
     });
 
     reconciliation.abstractReconciliation.include({
 
-        /**
-         * Init widget
-         * @param parent
-         * @param context
-         */
-        init: function(parent, context) {
+        init: function (parent, context) {
             this._super(parent, context);
 
             // Extend an arbitrary field/widget with an init function that
             // will set the options attribute to a given object.
             // This is useful to pass arguments for a field when using the
             // web_m2x_options module.
-            function fieldWithOptions(fieldClass, options) {
+            function fieldWithOptions (fieldClass, options) {
                 return fieldClass.extend({
-                    // pylint: disable=W7903
-                    init: function() {
+                    init: function () {
                         this._super.apply(this, arguments);
                         this.options = options;
-                    }
+                    },
                 });
             }
 
@@ -126,15 +118,17 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 constructor: fieldWithOptions(FieldMany2One,
                     {
                         'field_color': 'state',
-                        'colors': {'cancelled': 'gray', 'terminated': 'gray',
-                            'mandate': 'red', 'waiting': 'green'},
+                        'colors': {'cancelled': 'gray',
+                            'terminated': 'gray',
+                            'mandate': 'red',
+                            'waiting': 'green'},
                         'create': false,
-                        'create_edit': false
+                        'create_edit': false,
                     }),
                 field_properties: {
                     relation: 'recurring.contract',
                     string: _t('Sponsorship'),
-                    type: 'many2one'
+                    type: 'many2one',
                 },
             };
             this.create_form_fields.user_id = {
@@ -148,7 +142,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 field_properties: {
                     relation: 'res.partner',
                     string: _t('Ambassador'),
-                    type: 'many2one'
+                    type: 'many2one',
                 },
             };
             this.create_form_fields.comment = {
@@ -161,7 +155,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 constructor: FieldChar,
                 field_properties: {
                     string: _t('Gift Instructions'),
-                    type: 'char'
+                    type: 'char',
                 },
             };
         },

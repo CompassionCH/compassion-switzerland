@@ -31,12 +31,19 @@ class SurveyUserInput(models.Model):
                     'muskathlon.stage_fill_profile').id)
             ])
 
-            # if conditions to check that the task is the correct one,
-            # same as survey in event definition
-            registrations.write({
-                'completed_task_ids': [
-                    (4, self.env.ref(
-                        'muskathlon.task_medical').id)
-                ]
-            })
+            for registration in registrations:
+                medical_survey_id = self.env['survey.user_input'].search([
+                    ('partner_id', '=', registration.partner_id_id),
+                    ('survey_id', '=', registration.event_id.medical_survey_id)
+                ], limit=1)
+
+                # if conditions to check that the task is the correct one,
+                # same as survey in event definition
+                registration.write({
+                    'completed_task_ids': [
+                        (4, self.env.ref(
+                            'muskathlon.task_medical').id)
+                    ],
+                    'medical_survey_id': medical_survey_id.id
+                })
         return res

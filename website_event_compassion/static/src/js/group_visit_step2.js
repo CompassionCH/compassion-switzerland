@@ -19,8 +19,8 @@ odoo.define('website_event_compassion.group_visit_step2', function (require) {
         scrollToOpenForm: function () {
             var open_form = this.$('.in form');
             if (open_form.length) {
-                  $('html, body').animate({
-                      scrollTop: open_form.offset().top
+                $('html, body').animate({
+                    scrollTop: open_form.offset().top,
                 }, 1000);
             }
         },
