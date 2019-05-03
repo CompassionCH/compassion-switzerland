@@ -34,7 +34,8 @@ class SurveyUserInput(models.Model):
             for registration in registrations:
                 medical_survey_id = self.env['survey.user_input'].search([
                     ('partner_id', '=', registration.partner_id_id),
-                    ('survey_id', '=', registration.event_id.medical_survey_id)
+                    ('survey_id', '=',
+                     registration.event_id.medical_survey_id.id)
                 ], limit=1)
 
                 # if conditions to check that the task is the correct one,
