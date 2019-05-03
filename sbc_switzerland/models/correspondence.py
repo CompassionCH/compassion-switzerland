@@ -301,6 +301,27 @@ class Correspondence(models.Model):
             if super(Correspondence, self).process_letter():
                 self.send_communication()
 
+    def merge_letters(self):
+        """ We have issues with letters that we send and we have an error.
+        Then when we try to send it again, we have a duplicate letter because
+        GMC created another letter on our system. We use this method to fix
+        it and merge the two letters.
+        """
+        assert len(self) == 2 and len(self.mapped('child_id')) == 1
+        direction = list(set(self.mapped('direction')))
+        assert len(direction) == 1 and direction[0] == \
+            'Supporter To Beneficiary'
+        our_letter = self.filtered('letter_image')
+        gmc_letter = self.filtered('kit_identifier')
+        assert len(our_letter) == 1 and len(gmc_letter) == 1
+        vals = {
+            'kit_identifier': gmc_letter.kit_identifier,
+            'state': gmc_letter.state
+        }
+        gmc_letter.kit_identifier = False
+        gmc_letter.unlink()
+        return our_letter.write(vals)
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
