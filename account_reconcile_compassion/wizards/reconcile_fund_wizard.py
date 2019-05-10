@@ -65,6 +65,7 @@ class ReconcileFundWizard(models.TransientModel):
                 account_id = invoice.account_id.id
                 partner_id = line.partner_id.id
                 active_ids.remove(line.id)
+                journal = line.journal_id
 
         if residual <= 0:
             raise exceptions.UserError(
@@ -79,6 +80,7 @@ class ReconcileFundWizard(models.TransientModel):
 
             # Validate the invoice
             invoice.action_invoice_open()
+            invoice.write({"payment_mode_id": journal.payment_mode_id.id})
             move_lines = move_line_obj.search([
                 ('move_id', '=', invoice.move_id.id),
                 ('account_id', '=', account_id)])
