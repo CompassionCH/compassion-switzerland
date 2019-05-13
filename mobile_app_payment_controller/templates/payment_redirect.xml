@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2019 Emanuel Cino
+License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+-->
+<odoo>
+    <!-- Display a form in modal popup -->
+    <template id="payment_redirect" name="Mobile APP After payment redirect">
+        <div id="mobile_app_payment_redirect" t-att-class="payment_status"/>
+    </template>
+
+    <!--    Load JS -->
+    <template id="assets_form_compassion" name="Assets for mobile_app_payment_controller" inherit_id="website.assets_frontend">
+        <xpath expr="//script[last()]" position="after">
+            <script src="/mobile_app_payment_controller/static/src/js/payment_redirect.js" type="text/javascript"/>
+        </xpath>
+    </template>
+</odoo>
