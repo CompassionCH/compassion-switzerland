@@ -28,3 +28,4 @@ web https://github.com/CompassionCH/web 10.0-widget-collapse-html
 l10n-switzerland
 compassion-accounting https://github.com/CompassionCH/compassion-accounting devel
 compassion-modules https://github.com/CompassionCH/compassion-modules devel
+website https://github.com/CompassionCH/website 10.0
