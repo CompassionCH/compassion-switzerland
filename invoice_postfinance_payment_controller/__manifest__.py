@@ -29,14 +29,14 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Mobile APP Payment Controller',
+    'name': 'Invoice to Postfinance Payment Controller',
     'version': '10.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'https://github.com/CompassionCH/compassion-switzerland/'
                'tree/10.0',
-    'depends': ['mobile_app_connector', 'payment_ogone_compassion',
+    'depends': ['payment_ogone_compassion',
                 'cms_form_compassion', 'website_no_index'],
     'data': [
         'templates/payment_redirect.xml',
