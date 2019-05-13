@@ -8,4 +8,4 @@
 #
 ##############################################################################
 
-from . import controllers
+from . import payment_transaction
