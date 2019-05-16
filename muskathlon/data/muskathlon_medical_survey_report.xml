@@ -79,5 +79,24 @@
             </t>
         </t>
         </template>
+
+        <record id="muskathlon_medical_survey_to_doctor_template" model="mail.template">
+            <field name="name">Muskathlon Medical Survey To Doctor</field>
+            <field name="model_id" ref="survey.user_input"/>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">New medical survey form Muskathlon participant</field>
+            <field name="report_template" ref="muskathlon_medical_survey_report"/>
+            <field name="body_html" type="html">
+                <p>
+                    Dear Doctor,
+                    <br/>
+                    <br/>
+                    Here is the pdf containing the medical survey
+                    <br/>
+                    <br/>
+                    Yours sincerely.
+                </p>
+            </field>
+        </record>
     </data>
 </odoo>
