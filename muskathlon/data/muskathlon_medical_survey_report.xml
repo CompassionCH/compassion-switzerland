@@ -1,88 +1,8 @@
 <odoo>
-    <data noupdate="0">
-
-        <report id="muskathlon_medical_survey_report"
-        model="survey.user_input"
-        string="Muskathlon Medical Report"
-        report_type="qweb-pdf"
-        name="muskathlon.muskathlon_medical_survey"
-        menu="False"/>
-
-        <template id="muskathlon_medical_survey">
-            <t t-call="report.html_container">
-            <t t-foreach="docs" t-as="user_input">
-                <t t-set="print_header" t-value="True"/>
-                <t t-foreach="user_input.user_input_line_ids.mapped('page_id')" t-as="page">
-                    <div class="page">
-                        <style type="text/css">
-                            .user_data {
-                                margin: 10mm 0;
-                                margin-left: auto;
-                                width: 44%;
-                            }
-                            .answers {
-                                background-color: transparent;
-                                border-collapse: collapse;
-                                border-spacing: 0px
-                            }
-                            .answers .survey_label {
-                                width: 40%;
-                                text-align: left;
-                            }
-                            .answers .survey_value {
-                                width: 60%;
-                                padding-left: 10mm;
-                                font-style: italic;
-                            }
-                        </style>
-                        <!-- Header on first page -->
-                        <t t-if="print_header">
-                            <t t-set="print_header" t-value="False"/>
-                            <h1 t-esc="user_input.survey_id.title"/>
-                            <div class="user_data">
-                                <t t-set="partner" t-value="user_input.partner_id"/>
-                                <span t-esc="partner.firstname"/> <span t-esc="partner.lastname"/>
-                                <br/>
-                                <t t-if="partner.email">
-                                    <span t-esc="partner.email or ''"/>
-                                    <br/>
-                                </t>
-                                <t t-if="partner.birthdate_date">
-                                    Born on <span t-esc="partner.get_date('birthdate_date', 'date_full') or ''"/>
-                                    <br/>
-                                </t>
-                                <t t-if="partner.gender">
-                                    <span t-esc="partner.translate('gender') or ''"/>
-                                    <br/>
-                                </t>
-                                <span t-esc="partner.phone or partner.mobile or ''"/>
-                            </div>
-                        </t>
-
-                        <br/>
-                        <br/>
-
-                        <h2 t-esc="page.title"/>
-                        <!-- Answers -->
-                        <table class="answers">
-                            <t t-foreach="user_input.user_input_line_ids" t-as="answer">
-                                <t t-if="answer.page_id == page">
-                                    <tr>
-                                        <td t-esc="answer.question_id.question" class="survey_label"/>
-                                        <td t-esc="answer.value_converted_text" class="survey_value"/>
-                                    </tr>
-                                </t>
-                            </t>
-                        </table>
-                    </div>
-                </t>
-            </t>
-        </t>
-        </template>
+    <data noupdate="1">
 
         <record id="muskathlon_medical_survey_to_doctor_template" model="mail.template">
             <field name="name">Muskathlon Medical Survey To Doctor</field>
-            <field name="model_id" ref="survey.user_input"/>
             <field name="use_default_to" eval="True"/>
             <field name="subject">New medical survey form Muskathlon participant</field>
             <field name="report_template" ref="muskathlon_medical_survey_report"/>
@@ -98,5 +18,13 @@
                 </p>
             </field>
         </record>
+
+        <report id="muskathlon_medical_survey_report_id"
+        model="survey.user_input"
+        string="Muskathlon Medical Report"
+        report_type="qweb-pdf"
+        name="muskathlon_medical_survey_report"
+        menu="False"/>
+
     </data>
 </odoo>
