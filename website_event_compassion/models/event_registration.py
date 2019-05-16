@@ -583,7 +583,7 @@ class Event(models.Model):
                 'account_analytic_id': event.analytic_id.id,
             })],
             'type': 'out_invoice',
-            'reference': product.generate_bvr_reference(self.partner_id),
+            'reference': self.partner_id.generate_bvr_reference(product),
             'payment_mode_id': mode_pay_bvr.id,
         })
         if self.partner_id.state == 'active':
@@ -643,7 +643,7 @@ class Event(models.Model):
             'partner_id': self.partner_id.id,
             'invoice_line_ids': [(0, 0, invl) for invl in invl_vals],
             'type': 'out_invoice',
-            'reference': product.generate_bvr_reference(self.partner_id),
+            'reference': self.partner_id.generate_bvr_reference(product),
             'payment_mode_id': mode_pay_bvr.id,
         })
         if self.partner_id.state == 'active':
