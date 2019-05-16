@@ -103,3 +103,33 @@ class MuskathlonRegistration(models.Model):
             subtype="website_event_compassion.mt_registration_create"
         )
         return True
+
+    @job(default_channel='root.muskathlon')
+    @related_action('related_action_registration')
+    def muskathlon_medical_survey_done(self):
+        for registration in self:
+            user_input = self.env['survey.user_input'].search([
+                ('partner_id', '=', registration.partner_id_id),
+                ('survey_id', '=',
+                 registration.event_id.medical_survey_id.id)
+            ], limit=1)
+
+            registration.write({
+                'completed_task_ids': [
+                    (4, self.env.ref('muskathlon.task_medical').id)
+                ],
+                'medical_survey_id': user_input.id
+            })
+
+            # here we need to send a mail to the muskathlon doctor
+            muskathlon_doctor_email = self.env[
+                'ir.config_parameter'].get_param('muskathlon.doctor.email')
+            if muskathlon_doctor_email:
+                template = self.env \
+                    .ref("muskathlon.medical_survey_to_doctor_template") \
+                    .with_context(email_to=muskathlon_doctor_email).sudo()
+                template.send_mail(
+                    user_input.id, force_send=True, email_values={
+                        'email_to': muskathlon_doctor_email
+                    })
+        return True
