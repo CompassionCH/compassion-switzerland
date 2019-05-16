@@ -22,7 +22,8 @@ The module depends on OCA/website-cms repository.
 
 Configuration
 =============
-Specify who will be notified for new muskathlon registrations in Staff Notification Settings.
+- Specify who will be notified for new muskathlon registrations in Staff Notification Settings.
+- Enter email address of Muskathlon doctor in system parameters
 
 Todo / Improvements
 ===================
