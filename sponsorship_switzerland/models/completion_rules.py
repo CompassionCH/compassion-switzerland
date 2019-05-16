@@ -322,19 +322,16 @@ class StatementCompletionRule(models.Model):
         if contract_groups:
             partner = contract_groups[0].partner_id
         else:
-            # Search open Customer Invoices (with field 'bvr_reference'
-            # set)
+            # Search open Customer Invoices (with field 'bvr_reference' set)
             invoice_obj = self.env['account.invoice']
             invoice_search = [
                 ('reference', '=', bvr_ref),
                 ('state', '=', 'open')]
             if search_old_invoices:
-                invoice_search[1] = ('state', 'in', ('open', 'cancel',
-                                                     'paid'))
+                invoice_search[1] = ('state', 'in', ('open', 'cancel', 'paid'))
             invoices = invoice_obj.search(invoice_search)
             if not invoices:
-                # Search open Supplier Invoices (with field
-                # 'reference_type'
+                # Search open Supplier Invoices (with field 'reference_type'
                 # set to BVR)
                 invoices = invoice_obj.search([
                     '|',
