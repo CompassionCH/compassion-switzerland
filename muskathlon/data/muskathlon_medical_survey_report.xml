@@ -1,5 +1,6 @@
 <odoo>
     <data noupdate="0">
+
         <report id="muskathlon_medical_survey_report"
         model="survey.user_input"
         string="Muskathlon Medical Report"
