@@ -15,7 +15,7 @@ from odoo import models, fields, api
 class RecurringContract(models.Model):
     _inherit = "recurring.contract"
 
-    sent_to_4m = fields.Date('Sent to 4M')
+    sent_to_4m = fields.Date('Sent to 4M', copy=False)
 
     registration_id = fields.Many2one(
         'event.registration', compute='_compute_muskathlon_registration',
