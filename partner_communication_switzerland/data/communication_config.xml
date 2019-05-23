@@ -545,7 +545,7 @@
         </record>
         <record id="ambassador_donation_confirmation_config" model="partner.communication.config">
             <field name="name">Ambassador Donation Confirmation</field>
-            <field name="send_mode">auto_digital</field>
+            <field name="send_mode">digital</field>
             <field name="send_mode_pref_field">global_communication_delivery_preference</field>
             <field name="email_template_id" ref="ambassador_donation_confirmation_template"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
