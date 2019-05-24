@@ -46,7 +46,7 @@ class AccountInvoice(models.Model):
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
-    sent_to_4m = fields.Date('Sent to 4M')
+    sent_to_4m = fields.Date('Sent to 4M', copy=False)
     price_cents = fields.Float(compute='_compute_amount_cents')
 
     @api.multi

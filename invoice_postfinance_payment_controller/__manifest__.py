@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,30 +29,21 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Bank Statement Reconcile for Compassion CH',
+    'name': 'Invoice to Postfinance Payment Controller',
     'version': '10.0.1.0.0',
+    'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
-    'category': 'Finance',
-    'website': 'http://www.compassion.ch',
-    'depends': [
-        'sponsorship_switzerland', 'account_reconcile_create_invoice',
-        'account_bank_statement_import_camt_details'
-    ],
+    'website': 'https://github.com/CompassionCH/compassion-switzerland/'
+               'tree/10.0',
+    'depends': ['payment_ogone_compassion',
+                'cms_form_compassion', 'website_no_index'],
     'data': [
-        'data/statement_operation.xml',
-        'views/account_reconcile_compassion.xml',
-        'views/reconcile_fund_wizard_view.xml',
-        'views/reconcile_split_payment_wizard_view.xml',
-        'views/change_attribution_wizard_view.xml',
-        'views/account_invoice_view.xml',
-        'views/res_config_view.xml',
-        'views/account_journal.xml',
+        'templates/payment_redirect.xml',
     ],
-    'qweb': ['static/src/xml/account_move_reconciliation.xml'],
-    'demo': [],
-    'test': [],
-    'auto_install': False,
+    'demo': [
+    ],
+    'development_status': 'Beta',
     'installable': True,
-    'images': []
+    'auto_install': False,
 }

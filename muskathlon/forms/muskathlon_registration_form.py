@@ -247,20 +247,17 @@ if not testing:
             if partner.advocate_details_id:
                 partner.advocate_details_id.write({
                     'engagement_ids': [(4, sporty.id)],
-                    't_shirt_size': values.get('t_shirt_size')
+                    't_shirt_size': values.get('t_shirt_size'),
+                    'mail_copy_when_donation': True
                 })
             else:
-                # Creation of ambassador details reloads cache and remove
-                # all field values in the form.
-                # This hacks restores the form state after the creation.
-                # backup = self._backup_fields()
                 self.env['advocate.details'].sudo(uid).create({
                     'partner_id': partner.id,
                     'advocacy_source': 'Online Muskathlon registration',
                     'engagement_ids': [(4, sporty.id)],
-                    't_shirt_size': values.get('t_shirt_size')
+                    't_shirt_size': values.get('t_shirt_size'),
+                    'mail_copy_when_donation': True
                 })
-                # self._restore_fields(backup)
             # Convert the name for event registration
             values['name'] = values.pop('partner_lastname', '')
             values['name'] += ' ' + values.pop('partner_firstname')
@@ -302,25 +299,3 @@ if not testing:
                 'reference': 'MUSK-REG-' + str(self.main_object.id),
                 'invoice_id': form_vals['invoice_id']
             })
-
-        def _backup_fields(self):
-            """ Hack method to save data the can be lost when environment
-            is refreshed.
-            :return: dict of values
-            """
-            return {
-                'amount': self.amount,
-                'currency_id': self.currency_id.id,
-                'acquirer_id': self.acquirer_id.id,
-                'partner_id': self.partner_id.id
-            }
-
-        def _restore_fields(self, backup):
-            """Hack method to restore lost field values after environment
-            refresh.
-            :return: None
-            """
-            self.amount = backup['amount']
-            self.currency_id = backup['currency_id']
-            self.acquirer_id = backup['acquirer_id']
-            self.partner_id = backup['partner_id']

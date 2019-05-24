@@ -224,8 +224,8 @@ class BankStatementLine(models.Model):
         """ Add BVR payment mode in invoice. """
         inv_vals = super(BankStatementLine, self)._get_invoice_data(
             ref, mv_line_dicts)
-        inv_vals['payment_mode_id'] = self.env.ref(
-            'sponsorship_switzerland.payment_mode_bvr').id
+        inv_vals['payment_mode_id'] = self.statement_id.journal_id.\
+            payment_mode_id.id
         return inv_vals
 
     def _get_invoice_line_data(self, mv_line_dict, invoice):

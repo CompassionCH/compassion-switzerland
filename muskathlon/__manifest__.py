@@ -39,7 +39,7 @@
         'security/ir.model.access.csv',
         'security/access_rules.xml',
         'data/default_sports.xml',
-        'data/delete_medical_survey_cron.xml',
+        'data/ir_cron.xml',
         'data/res_users.xml',
         'data/survey_muskathlon_medical_infos.xml',
         'data/product.xml',

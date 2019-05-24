@@ -10,6 +10,9 @@
                 <button name="change_attribution" type="object" string="Reconcile" class="oe_highlight"
                         attrs="{'invisible': [('to_reconcile', '=', 0.0)]}"/>
             </xpath>
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>

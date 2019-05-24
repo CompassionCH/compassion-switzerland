@@ -21,14 +21,12 @@ class EndContractWizard(models.TransientModel):
     @api.multi
     def end_contract(self):
         self.ensure_one()
-        child = self.child_id
-
         if self.generate_communication:
             exit_config = self.env.ref(
                 'partner_communication_switzerland.'
                 'lifecycle_child_unplanned_exit')
             self.contract_id.with_context(
-                default_object_ids=child.id,
+                default_object_ids=self.contract_id.id,
                 default_auto_send=False).send_communication(exit_config)
 
         return super(EndContractWizard, self).end_contract()
