@@ -244,17 +244,13 @@ class PartnerCommunication(models.Model):
             children = self.get_objects()
             attachments = self.env['ir.attachment']
             for child in children:
-                pic = child.pictures_ids[0]
-                attachment = self.env['ir.attachment'].search([
-                    ('res_model', '=', 'compassion.child.pictures'),
-                    ('res_id', '=', pic.id),
-                    ('datas_fname', 'like', 'Fullshot')
-                ], limit=1)
-                attachments += attachment.copy({
-                    'name': child.local_id + ' ' + child.last_photo_date +
-                    '.jpg',
+                name = child.local_id + ' ' + child.last_photo_date + '.jpg'
+                attachments += attachments.create({
+                    'name': name,
+                    'datas_fname': name,
                     'res_model': self._name,
-                    'res_id': self.id
+                    'res_id': self.id,
+                    'datas': child.fullshot,
                 })
             self.with_context(no_print=True).ir_attachment_ids = attachments
         else:
