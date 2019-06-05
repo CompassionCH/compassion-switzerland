@@ -9,8 +9,12 @@
 #
 ##############################################################################
 
-from . import child_compassion
-from . import project_compassion
-from . import lang_compassion
-from . import res_country
-from . import field_office
+from odoo import api, models, fields
+from odoo.exceptions import ValidationError
+
+
+class FieldOffice(models.Model):
+    _inherit = 'compassion.field.office'
+
+    country_info_pdf = fields.Binary(string='Data Pdf', filters='*.pdf')
+    filename = fields.Char(string='File Name')

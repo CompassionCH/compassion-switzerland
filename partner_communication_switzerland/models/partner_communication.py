@@ -597,6 +597,14 @@ class PartnerCommunication(models.Model):
             ]
         })
 
+        # Country information
+        attachments.update({
+            _('country information.pdf'): [
+                'country_information_pdf',
+                self.get_objects().child_id.field_office_id.country_info_pdf
+            ]
+        })
+
         return attachments
 
     def get_csp_attachment(self):
