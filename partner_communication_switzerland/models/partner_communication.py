@@ -487,7 +487,6 @@ class PartnerCommunication(models.Model):
         source_id = self.config_id.source_id.id
 
         def _replace_link(match):
-
             full_link = match.group(1).replace('&amp;', '&')
             short_link = self.env['link.tracker'].create({
                 'url': full_link,
@@ -602,6 +601,7 @@ class PartnerCommunication(models.Model):
             _('country information.pdf'): [
                 'country_information_pdf',
                 self.get_objects().child_id.field_office_id.country_info_pdf
+                    .get_country_info_pdf_lang(lang=self.partner_id.lang)
             ]
         })
 

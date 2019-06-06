@@ -6,8 +6,14 @@
             <field name="inherit_id" ref="child_compassion.view_compassion_field_office_form"/>
             <field name="arch" type="xml">
                 <field name="country_information" position="after">
-                    <field name="country_info_pdf" widget="binary" filename="filename"/>
-                    <field name="filename" invisible="1"/>
+                    <field name="fr_country_info_pdf" widget="binary" filename="fr_filename"/>
+                    <field name="de_country_info_pdf" widget="binary" filename="de_filename"/>
+                    <field name="it_country_info_pdf" widget="binary" filename="it_filename"/>
+                    <field name="en_country_info_pdf" widget="binary" filename="en_filename"/>
+                    <field name="fr_filename" invisible="1"/>
+                    <field name="de_filename" invisible="1"/>
+                    <field name="it_filename" invisible="1"/>
+                    <field name="en_filename" invisible="1"/>
                 </field>
             </field>
         </record>
