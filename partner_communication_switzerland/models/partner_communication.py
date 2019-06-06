@@ -597,13 +597,16 @@ class PartnerCommunication(models.Model):
         })
 
         # Country information
-        attachments.update({
-            _('country information.pdf'): [
-                'country_information_pdf',
-                self.get_objects().child_id.field_office_id\
-                    .get_country_info_pdf_lang(lang=self.partner_id.lang)
-            ]
-        })
+        country_info_lang_pdf = self.get_objects().child_id.field_office_id \
+            .get_country_info_pdf_lang(lang=self.partner_id.lang)
+        if country_info_lang_pdf:
+            print("woops")
+            attachments.update({
+                _('country information.pdf'): [
+                    'country_information_pdf',
+                    country_info_lang_pdf
+                ]
+            })
 
         return attachments
 
