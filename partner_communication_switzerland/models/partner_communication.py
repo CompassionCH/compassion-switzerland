@@ -600,7 +600,7 @@ class PartnerCommunication(models.Model):
         attachments.update({
             _('country information.pdf'): [
                 'country_information_pdf',
-                self.get_objects().child_id.field_office_id.country_info_pdf
+                self.get_objects().child_id.field_office_id\
                     .get_country_info_pdf_lang(lang=self.partner_id.lang)
             ]
         })
