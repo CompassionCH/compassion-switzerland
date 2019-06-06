@@ -29,6 +29,12 @@ if not testing:
         ambassador_id = fields.Many2one('res.partner')
         event_id = fields.Many2one('crm.event.compassion')
         invoice_id = fields.Many2one('account.invoice')
+        gtc_accept = fields.Boolean(
+            "Terms and conditions", required=True
+        )
+        partner_opt_out = fields.Boolean(
+            "Unsubscribe from e-mails"
+        )
 
         @property
         def _form_fieldsets(self):
@@ -47,8 +53,34 @@ if not testing:
                         'partner_street', 'partner_zip', 'partner_city',
                         'partner_country_id']
                 },
-
+                {
+                    'id': 'gtc',
+                    'title': _('Data protection'),
+                    'description': _(
+                        "By submitting, you consent that we collect "
+                        "your personal information according to our data "
+                        "policy. You can unsubscribe from our e-mailing lists "
+                        "if you don't want to receive information from "
+                        "Compassion."
+                    ),
+                    'fields': ['partner_opt_out', 'gtc_accept']
+                },
             ]
+
+        @property
+        def form_widgets(self):
+            # Hide fields
+            res = super(EventDonationForm, self).form_widgets
+            res.update({
+                'gtc_accept': 'cms_form_compassion.form.widget.terms',
+            })
+            return res
+
+        @property
+        def gtc(self):
+            statement = self.env['compassion.privacy.statement'].sudo().search(
+                [], limit=1)
+            return statement.text
 
         @property
         def form_title(self):
@@ -98,6 +130,15 @@ if not testing:
         def _form_create(self, values):
             # Create as superuser
             self.main_object = self.form_model.sudo().create(values.copy())
+
+        def form_after_create_or_update(self, values, extra_values):
+            """ Mark the privacy statement as accepted.
+            """
+            super(EventDonationForm,
+                  self).form_after_create_or_update(values, extra_values)
+            partner = self.env['res.partner'].sudo().browse(
+                values.get('partner_id')).exists()
+            partner.set_privacy_statement(origin='event_donation')
 
         def _edit_transaction_values(self, tx_values, form_vals):
             """ Add registration link and change reference. """

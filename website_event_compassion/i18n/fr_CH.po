@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-26 07:51+0000\n"
-"PO-Revision-Date: 2019-03-26 08:52+0100\n"
-"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
+"POT-Creation-Date: 2019-06-05 13:55+0000\n"
+"PO-Revision-Date: 2019-06-05 15:59+0200\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
@@ -66,7 +66,7 @@ msgid "3. Down payment"
 msgstr "3. Paiement acompte"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:61
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:64
 #, python-format
 msgid "4 steps to register"
 msgstr "4 étapes pour vous inscrire"
@@ -177,10 +177,9 @@ msgstr ""
 "   <br/>\n"
 "   <br/>\n"
 "   <b>\n"
-"    Par la présente, nous vous confirmons votre inscription au\n"
-"   </b>\n"
-"   ${event.name}. Il ne reste plus que trois étapes pour que votre "
-"inscription soit validée et qu'une place vous soit réservée sur ce voyage.\n"
+"    Par la présente, nous vous confirmons votre inscription au ${event.name}"
+"</b>. Il ne reste plus que trois étapes pour que votre inscription soit "
+"validée et qu'une place vous soit réservée sur ce voyage.\n"
 "   <br/>\n"
 "   <br/>\n"
 "   <b>\n"
@@ -1011,6 +1010,62 @@ msgstr ""
 
 #. module: website_event_compassion
 #: model:mail.template,body_html:website_event_compassion.group_visit_before_sharing_email
+#, fuzzy
+#| msgid ""
+#| "<div>\n"
+#| "                    % set partner = object.partner_id\n"
+#| "                    % set registration = object.get_objects()\n"
+#| "                    % set event = registration.compassion_event_id\n"
+#| "               % set user = registration.event_id.user_id\n"
+#| "                </div>\n"
+#| "                <p>\n"
+#| "                    ${partner.salutation}\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Thank you for investing time for the ${event.name}. "
+#| "You will help to change the lives of children living in extreme poverty.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Did you know that? Your trip can have an even greater "
+#| "impact. To do this, simply tell your friends and share your sponsorship "
+#| "experience.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    For example, some of your loved ones may imitate you "
+#| "and in turn transform a child's life by committing to sponsor a child.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Encourage them to sponsor a child by sending the "
+#| "message \"1 child\" by SMS to 959 (free) or directly on www.compassion."
+#| "ch.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Feel free to contact us if you would like to be "
+#| "advised on how to organize a small meeting with your friends at home and/"
+#| "or to receive material for this purpose. We are available by phone on 031 "
+#| "552 21 25 or by email at events@compassion.ch.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    At Compassion, we believe that it is possible to "
+#| "change the world, one child at a time. Even if extreme poverty declines - "
+#| "and this is good news - there are still 385 million children living in "
+#| "extreme poverty.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Thank you very much for your commitment to working "
+#| "with us to transform the lives of as many of these children as possible.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Receive our warmest greetings.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "  ${user.preferred_name} ${user.lastname}\n"
+#| "                    <br/>\n"
+#| "  ${user.employee_ids.department_id.name}\n"
+#| "                    <br/>\n"
+#| "                    Compassion Switzerland\n"
+#| "                </p>\n"
+#| "            "
 msgid ""
 "<div>\n"
 "                    % set partner = object.partner_id\n"
@@ -1065,58 +1120,59 @@ msgid ""
 "                </p>\n"
 "            "
 msgstr ""
-"<div>\n"
-"                    % set partner = object.partner_id\n"
-"                    % set registration = object.get_objects()\n"
-"                    % set event = registration.compassion_event_id\n"
-"                </div>\n"
-"                <p>\n"
-"                    ${partner.salutation}\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Thank you for investing time for the ${event.name}. You "
-"will help to change the lives of children living in extreme poverty.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Did you know that? Your trip can have an even greater "
-"impact. To do this, simply tell your friends and share your sponsorship "
-"experience.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    For example, some of your loved ones may imitate you and "
-"in turn transform a child's life by committing to sponsor a child.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Encourage them to sponsor a child by sending the message "
-"\"1 child\" by SMS to 959 (free) or directly on www.compassion.ch.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Feel free to contact us if you would like to be advised "
-"on how to organize a small meeting with your friends at home and/or to "
-"receive material for this purpose. We are available by phone on 031 552 21 "
-"25 or by email at events@compassion.ch.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    At Compassion, we believe that it is possible to change "
-"the world, one child at a time. Even if extreme poverty declines - and this "
-"is good news - there are still 385 million children living in extreme "
-"poverty.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Thank you very much for your commitment to working with "
-"us to transform the lives of as many of these children as possible.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Receive our warmest greetings.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Rose-Marie Reber\n"
-"                    <br/>\n"
-"                    Sponsor and donor service\n"
-"                    <br/>\n"
-"                    Compassion Switzerland\n"
-"                </p>\n"
-"            "
+"\n"
+"  <div>\n"
+"   % set partner = object.partner_id\n"
+"                    \n"
+"% set registration = object.get_objects()\n"
+"                    \n"
+"% set event = registration.compassion_event_id\n"
+"               % set user = registration.event_id.user_id\n"
+"  </div>\n"
+"  <p>\n"
+"   ${partner.salutation}\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Merci d'investir du temps pour le ${event.name}. Vous allez contribuer à "
+"changer la vie d'enfants vivant dans l'extrême pauvreté.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   % if partner.has_sponsorships:\n"
+"    Le saviez-vous ? Votre voyage peut avoir un impact encore plus grand. "
+"Pour cela, il vous suffit d'en parler à vos amis et de témoigner de votre "
+"expérience de parrainage. Ainsi, certains de vos proches pourraient vous "
+"imiter et transformer à leur tour la vie d'un enfant en s'engageant à en "
+"parrainer un. Encouragez-les à parrainer un enfant en envoyant le message "
+"\"1 enfant\" par SMS au 959 (gratuit) ou directement sur www.compassion.ch.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   % endif \n"
+"   N'hésitez pas à prendre contact avec nous si vous souhaitez être "
+"conseillé(e) pour l'organisation d'une petite rencontre avec vos amis chez "
+"vous et/ou pour recevoir du matériel dans ce but. Nous sommes disponibles "
+"par téléphone au 024 434 21 24 ou par courriel à events@compassion.ch.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   A Compassion, nous croyons qu'il est possible de changer le monde, un "
+"enfant à la fois. Même si l'extrême pauvreté recule -et c'est une bonne "
+"nouvelle- il reste néanmoins 385 millions d'enfants qui vivent dans "
+"l'extrême pauvreté.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Merci de tout cœur de votre engagement à nos côtés pour transformer la "
+"vie d'un maximum de ces enfants.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Recevez nos chaleureuses salutations.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   ${user.preferred_name} ${user.lastname}\n"
+"   <br/>\n"
+"   ${user.employee_ids.department_id.name}\n"
+"   <br/>\n"
+"   Compassion Suisse\n"
+"  </p>\n"
+" "
 
 #. module: website_event_compassion
 #: model:mail.template,body_html:website_event_compassion.group_visit_after_trip_feedback_email
@@ -1378,7 +1434,7 @@ msgid "<i>to</i>"
 msgstr "<i>à</i>"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:66
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:69
 #, python-format
 msgid ""
 "<p>Thank you for your interest in the work of Compassion, to free more "
@@ -1715,6 +1771,18 @@ msgstr ""
 "souvenir de votre visite chez lui (elle)."
 
 #. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/donation_form.py:59
+#, python-format
+msgid ""
+"By submitting, you consent that we collect your personal information "
+"according to our data policy. You can unsubscribe from our e-mailing lists "
+"if you don't want to receive information from Compassion."
+msgstr ""
+"En soumettant le formulaire, tu consens à la collecte de tes données selon "
+"notre politique de protection. Tu peux choisir de te désincrire de nos "
+"listes de diffusion si tu ne souhaites pas recevoir d'e-mails de Compassion."
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_barometer
 msgid "CHF"
 msgstr "CHF"
@@ -1947,6 +2015,12 @@ msgid "Criminal record uploaded"
 msgstr "Casier judiciaire envoyé avec succès"
 
 #. module: website_event_compassion
+#: code:addons/website_event_compassion/forms/donation_form.py:58
+#, python-format
+msgid "Data protection"
+msgstr "Protection des données"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.list
 msgid "Date"
 msgstr "Date"
@@ -2016,7 +2090,8 @@ msgstr ""
 #. module: website_event_compassion
 #: model:mail.template,subject:website_event_compassion.group_visit_before_sharing_email
 msgid "Did you speak about your trip with Compassion?"
-msgstr "Did you speak about your trip with Compassion?"
+msgstr ""
+"Avez-vous parlé de votre prochain voyage avec Compassion à vos proches ?"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.robots_disallow
@@ -2147,7 +2222,7 @@ msgid "Donate"
 msgstr "Faire un don"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/donation_form.py:59
+#: code:addons/website_event_compassion/forms/donation_form.py:91
 #, python-format
 msgid "Donation"
 msgstr "Don"
@@ -2158,7 +2233,7 @@ msgid "Donation Receipts"
 msgstr "Remerciements"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/donation_form.py:56
+#: code:addons/website_event_compassion/forms/donation_form.py:88
 #, python-format
 msgid "Donation for "
 msgstr "Don pour "
@@ -2710,7 +2785,7 @@ msgstr "Je souffre des allergies suivantes :"
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_double_room_person
 msgid "I want to share the room with:"
-msgstr "J'aimerais partager une chambre double avec :"
+msgstr "I want to share the room with:"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
@@ -3013,7 +3088,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine___last_update
 msgid "Last Modified on"
-msgstr "Dernière Modification le"
+msgstr "Dernière modification le"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_write_uid
@@ -3026,7 +3101,7 @@ msgstr "Dernière Modification le"
 #: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_write_uid
 msgid "Last Updated by"
-msgstr "Dernière mise à jour par"
+msgstr "Modifié par"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_compassion_open_wizard_write_date
@@ -3039,12 +3114,7 @@ msgstr "Dernière mise à jour par"
 #: model:ir.model.fields,field_description:website_event_compassion.field_res_country_vaccine_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_res_vaccine_write_date
 msgid "Last Updated on"
-msgstr "Dernière mise à jour le"
-
-#. module: website_event_compassion
-#: model:ir.model.fields,field_description:website_event_compassion.field_res_users_last_writing_date
-msgid "Last writing date"
-msgstr "Date de dernière modification"
+msgstr "Modifié le"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,help:website_event_compassion.field_event_faq_category_event_type_ids
@@ -3517,7 +3587,7 @@ msgid "Presentation"
 msgstr "Présentation"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/donation_form.py:63
+#: code:addons/website_event_compassion/forms/donation_form.py:95
 #: code:addons/website_event_compassion/forms/down_payment_step3.py:52
 #: code:addons/website_event_compassion/forms/group_visit_payment.py:52
 #, python-format
@@ -3890,14 +3960,9 @@ msgid "Stand"
 msgstr "Stand"
 
 #. module: website_event_compassion
-#: model:product.template,name:website_event_compassion.product_template_trip_price
-msgid "Standard trip price"
-msgstr "Solde du voyage"
-
-#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
 msgid "Statement of Commitment to Child Protection"
-msgstr "Charte de la protection de l'enfance"
+msgstr "Déclaration d'engagement à la protection de l'enfance"
 
 #. module: website_event_compassion
 #: model:survey.question,question:website_event_compassion.gpfs_question_proposition
@@ -3970,6 +4035,12 @@ msgid "Teach your sponsored child a Bible story."
 msgstr "Enseignez à votre enfant une histoire biblique."
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_gtc_accept
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_group_visit_registration_gtc_accept
+msgid "Terms and conditions"
+msgstr "Conditions générales"
+
+#. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/agreement_step2_forms.py:67
 #, python-format
 msgid "Thank you for having read and signed the travel agreements."
@@ -3979,7 +4050,7 @@ msgstr "Merci d'avoir lu et signé le contrat de voyage."
 #: code:addons/website_event_compassion/forms/agreement_step2_forms.py:120
 #, python-format
 msgid "Thank you for reading the child protection charter carefully."
-msgstr "Merci d'avoir lu et signé la charte de protection de l'enfance."
+msgstr "Merci d'avoir lu et signé le contrat de voyage."
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_decline
@@ -4018,7 +4089,7 @@ msgstr ""
 
 #. module: website_event_compassion
 #: code:addons/website_event_compassion/controllers/group_visit.py:80
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:179
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:204
 #, python-format
 msgid "Thank you!"
 msgstr "Merci !"
@@ -4224,6 +4295,11 @@ msgid "Travel agreements"
 msgstr "Contrats de voyage"
 
 #. module: website_event_compassion
+#: model:product.template,name:website_event_compassion.product_template_trip_price
+msgid "Travel costs"
+msgstr "Solde du voyage"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_type_travel_features
 msgid "Travel features"
 msgstr "Travel features"
@@ -4252,7 +4328,7 @@ msgid "Trip invoice"
 msgstr "Trip invoice"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:113
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:116
 #, python-format
 msgid "Trip options"
 msgstr "Options pour le voyage"
@@ -4344,7 +4420,7 @@ msgid "Valid ticket ids"
 msgstr "Valid ticket ids"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:151
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:158
 #, python-format
 msgid "Verify your e-mail address"
 msgstr "Vérifiez votre adresse e-mail"
@@ -4375,7 +4451,7 @@ msgid "We are glad to confirm your registration to"
 msgstr "Nous sommes heureux de confirmer votre inscription -"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:180
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:205
 #, python-format
 msgid ""
 "We are glad to confirm your registration to %s. You will receive all "
@@ -4490,7 +4566,7 @@ msgid "You are already registered to this trip."
 msgstr "Vous êtes déjà inscrit à ce voyage."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:117
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:120
 #, python-format
 msgid ""
 "You can have the flight included (CHF %s) or decide to book the flight by "
@@ -4524,7 +4600,7 @@ msgid "Your answer"
 msgstr "Votre réponse"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/donation_form.py:42
+#: code:addons/website_event_compassion/forms/donation_form.py:48
 #, python-format
 msgid "Your coordinates"
 msgstr "Tes coordonnées"
@@ -4582,7 +4658,7 @@ msgid "Your registration to the trip with Compassion is confirmed"
 msgstr "Votre inscription au voyage de Compassion est confirmée"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:143
+#: code:addons/website_event_compassion/forms/group_visit_registration_step1.py:146
 #, python-format
 msgid "Your spoken languages"
 msgstr "Vos langues parlées"
@@ -4817,7 +4893,7 @@ msgid "if you need any further assistance."
 msgstr "si vous avez des questions ou besoin d'assistance."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:695
+#: code:addons/website_event_compassion/models/event_registration.py:703
 #, python-format
 msgid "medical discharge.docx"
 msgstr "medical discharge.docx"
@@ -4842,6 +4918,11 @@ msgstr "Paiement"
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid "prefer clothes that cover the knees, stomach and shoulders"
 msgstr "Privilégier des habits couvrant les genoux, le ventre et les épaules"
+
+#. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_privacy_statement_agreement
+msgid "privacy.statement.agreement"
+msgstr "privacy.statement.agreement"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_page
@@ -4871,240 +4952,3 @@ msgstr ""
 #: model:ir.model,name:website_event_compassion.model_event_registration_communication_wizard
 msgid "wizard that will load a chosenconfig for a email to send"
 msgstr "wizard that will load a chosenconfig for a email to send"
-
-#~ msgid "Copy of the passport"
-#~ msgstr "Copie de votre passeport"
-
-#~ msgid ""
-#~ "You can specify someone if you want to share a room or leave the field "
-#~ "empty to have a single room."
-#~ msgstr ""
-#~ "Vous avez le choix de prendre une chambre double. Merci d'indiquer dans "
-#~ "ce cas la personne avec qui vous souhaitez partager la chambre ou de "
-#~ "laisser simplement l'information vide si vous désirez une chambre "
-#~ "individuelle."
-
-#~ msgid "Code of Conduct"
-#~ msgstr "Code de Conduite"
-
-#~ msgid "Expected/Acceptable Behaviors"
-#~ msgstr "Comportements attendus/acceptables"
-
-#~ msgid ""
-#~ "I will be careful about my appearance, language, action, to ensure that "
-#~ "my behavior demonstrates a respect for beneficiaries and their families, "
-#~ "their culture and their rights and follow recommendations provided."
-#~ msgstr ""
-#~ "Je soignerai mon apparence, mon langage et mes actions afin de garantir "
-#~ "que mon comportement témoigne de mon respect pour les enfants et leurs "
-#~ "familles, leur culture et leurs droits, et se conforme aux "
-#~ "recommandations fournies."
-
-#~ msgid ""
-#~ "I will contribute to building an environment where children are respected "
-#~ "and encouraged to discuss their concerns and rights."
-#~ msgstr ""
-#~ "Je contribuerai à créer un environnement où les enfants sont respectés et "
-#~ "encouragés à parler de leurs préoccupations et de leurs droits."
-
-#~ msgid ""
-#~ "I will demonstrate the proper respect and dignity of all children and "
-#~ "will demonstrate Jesus’s love and care for them, regardless of their "
-#~ "gender, age, race, religion, social background, culture, special need or "
-#~ "disability."
-#~ msgstr ""
-#~ "Je ferai preuve du respect et de la dignité appropriés avec tous les "
-#~ "enfants et je témoignerai l’amour et la sollicitude de Jésus à leur "
-#~ "égard, indépendamment de leur sexe, âge, race, religion, origine sociale, "
-#~ "culture, besoins sociaux ou handicaps."
-
-#~ msgid ""
-#~ "I will engage in activities with beneficiaries only in open or visible "
-#~ "places, and in the event that an activity needs to take place in an "
-#~ "enclosed space, I will ensure that at least one other approved adult is "
-#~ "present."
-#~ msgstr ""
-#~ "Je ne participerai à des activités avec les enfants que dans des lieux "
-#~ "ouverts et visibles, et au cas où une activité doive être pratiquée dans "
-#~ "un espace clos, je veillerai à ce qu’au moins un représentant de "
-#~ "Compassion soit présent."
-
-#~ msgid "I will engage in age-appropriate communication with beneficiaries."
-#~ msgstr "Je communiquerai avec les enfants d’une manière adaptée à leur âge."
-
-#~ msgid ""
-#~ "I will follow Compassion’s rules about communication with beneficiaries, "
-#~ "including social media interaction."
-#~ msgstr ""
-#~ "Je respecterai les règles de Compassion en matière de communication avec "
-#~ "les enfants, y compris en ce qui concerne les interactions via les médias "
-#~ "sociaux."
-
-#~ msgid ""
-#~ "I will follow dignity standards (for example, only recording children who "
-#~ "are dressed appropriately, understand they are being recorded, etc.) "
-#~ "regarding child photography and videography."
-#~ msgstr ""
-#~ "Je respecterai les normes en matière de respect de la dignité (par "
-#~ "exemple, je ne photographierai ou ne filmerai que des enfants qui sont "
-#~ "vêtus de manière adéquate, qui comprennent qu’ils sont filmés, etc.) en "
-#~ "matière de photographie et de vidéographie."
-
-#~ msgid ""
-#~ "I will keep all information about child protection investigations "
-#~ "confidential, keeping in mind privacy and dignity concerns of all "
-#~ "involved."
-#~ msgstr ""
-#~ "Je préserverai la confidentialité de toutes les informations relatives "
-#~ "aux enquêtes sur la protection de l’enfance, en gardant en tête les "
-#~ "préoccupations de chacun en termes de vie privée et de dignité."
-
-#~ msgid ""
-#~ "I will maintain appropriate and reasonable expectations for children "
-#~ "based on their age and ability level. (For example, it is developmentally "
-#~ "normal for a three-year-old to become upset easily when they are tired "
-#~ "but we could expect a teenager to manage their emotions even when they "
-#~ "are very tired.)"
-#~ msgstr ""
-#~ "Je répondrai à des attentes appropriées et raisonnables pour les enfants "
-#~ "en fonction de leur âge et de leur niveau de maturité. (Par exemple, il "
-#~ "est normal, en termes de développement, qu’un enfant de trois ans se "
-#~ "sente contrarié facilement lorsqu’il est fatigué, mais l’on peut attendre "
-#~ "d’un adolescent qu’il maîtrise ses émotions, même lorsqu’il est très "
-#~ "fatigué.)"
-
-#~ msgid ""
-#~ "I will never engage in sexual/sexually suggestive behavior with any child "
-#~ "under age 18, regardless of the legal age of consent in-country."
-#~ msgstr ""
-#~ "Je ne me livrerai jamais à un comportement sexuel/sexuellement suggestif "
-#~ "avec un enfant âgé de moins de 18 ans, quelle que soit la majorité "
-#~ "sexuelle dans ce pays."
-
-#~ msgid ""
-#~ "I will never travel alone with a beneficiary, without an approved "
-#~ "representative or prior approval, except in a life-threatening emergency "
-#~ "where circumstances require immediate movement."
-#~ msgstr ""
-#~ "Je ne voyagerai jamais seul avec un enfant sans représentant approuvé ou "
-#~ "sans approbation préalable, sauf dans les cas d’urgence vitale où les "
-#~ "circonstances exigent un déplacement immédiat."
-
-#~ msgid ""
-#~ "I will never use any kind of physical discipline or physical punishment "
-#~ "(some examples include whipping, caning, slapping, forcing punitive "
-#~ "exercise, and other types of corporal punishment) as a method of "
-#~ "correction for beneficiaries."
-#~ msgstr ""
-#~ "Je n’aurai jamais recours à aucun type de sanction physique ou de "
-#~ "châtiment corporel (par exemple coups de fouet, coups de canne, claques, "
-#~ "exercices physiques punitifs et autres types de châtiments corporels) en "
-#~ "guise de méthode disciplinaire pour les enfants."
-
-#~ msgid ""
-#~ "I will never use language that is verbally/emotionally abusive, sexually "
-#~ "suggestive, degrading, humiliating, shaming or is otherwise culturally "
-#~ "inappropriate with a beneficiary."
-#~ msgstr ""
-#~ "Je ne m’exprimerai jamais d’une manière qui soit verbalement/"
-#~ "émotionnellement abusive, sexuellement suggestive, dégradante, "
-#~ "humiliante, stigmatisante ou culturellement inappropriée avec un enfant."
-
-#~ msgid ""
-#~ "I will never visit a beneficiary, their caregiver(s)and/or church outside "
-#~ "the bounds of acceptable program or tours and visits standards."
-#~ msgstr ""
-#~ "Je ne rendrai jamais visite à un enfant, à son parent/tuteur et/ou à son "
-#~ "église en dehors des normes acceptables du programme ou en matière de "
-#~ "visites ou de tournées."
-
-#~ msgid ""
-#~ "I will not condone or participate in illegal, unsafe or abusive behavior "
-#~ "of any child, including exploitation, trafficking, harmful traditional "
-#~ "practices, and spiritual or ritualistic abuse."
-#~ msgstr ""
-#~ "Je n’autoriserai ni ne participerai à aucun comportement illégal, "
-#~ "dangereux ou abusif sur aucun enfant, qu’il relève de faits "
-#~ "d’exploitations, de trafic, de pratiques traditionnelles nocives et "
-#~ "d’abus spirituels ou rituels."
-
-#~ msgid ""
-#~ "I will not gather, disclose or support the disclosure of information "
-#~ "about beneficiaries or their families without prior, express permission "
-#~ "that contains private or privileged content such as physical, mental or "
-#~ "emotional health status, financial data, history of abuse or "
-#~ "exploitation, or any portrayal that does not meet Compassion’s identified "
-#~ "dignity standards. Additionally, I will not disclose information that "
-#~ "might allow a beneficiary or their family to be physically located (such "
-#~ "as a map to their home, home address, or geo-tag to their location in a "
-#~ "photograph.) I understand that disclosure includes content published in "
-#~ "any print or digital form on any public or private platform."
-#~ msgstr ""
-#~ "Je ne collecterai pas, ne divulguerai pas ou n’aiderai pas à la "
-#~ "divulgation, sans permission expresse préalable, d’informations sur les "
-#~ "enfants ou leurs familles contenant des informations privées ou "
-#~ "confidentielles comme l’état de santé physique, mental ou émotionnel, des "
-#~ "données financières, les antécédents d’abus ou d’exploitation, ou toute "
-#~ "représentation non conforme aux normes identifiées par Compassion en "
-#~ "matière de dignité. En outre, je ne divulguerai pas d’informations "
-#~ "susceptibles de permettre de localiser géographiquement un enfant ou sa "
-#~ "famille (comme une carte indiquant l’emplacement de leur domicile, "
-#~ "l’adresse du domicile, ou une balise de géolocalisation de leur domicile "
-#~ "contenue dans une photo.) Je comprends que la divulgation concerne "
-#~ "également les contenus publiés sous forme papier ou numérique, sur toute "
-#~ "plateforme publique ou privée."
-
-#~ msgid ""
-#~ "I will not hire any child in any harmful form of child labor and follow "
-#~ "local laws regarding child employment."
-#~ msgstr ""
-#~ "Je n’emploierai aucun enfant dans aucune forme de travail infantile et je "
-#~ "respecterai les lois locales concernant l’emploi d’enfants."
-
-#~ msgid ""
-#~ "I will not solicit a romantic/dating relationship and will never engage "
-#~ "in sexual/sexually suggestive behavior with any beneficiary, regardless "
-#~ "of age."
-#~ msgstr ""
-#~ "Je ne solliciterai aucune relation romantique/intime et ne me livrerai "
-#~ "jamais à un comportement sexuel/sexuellement suggestif avec un enfant, "
-#~ "quel que soit son âge."
-
-#~ msgid ""
-#~ "I will not touch (some examples include kissing, cuddling, picking up, "
-#~ "holding, etc.) beneficiaries in an inappropriate or culturally "
-#~ "insensitive way."
-#~ msgstr ""
-#~ "Je ne toucherai pas (par exemple en embrassant, en étreignant, ou "
-#~ "soulevant, en tenant, etc.) les enfants d’une manière inappropriée ou "
-#~ "indélicate sur le plan culturel."
-
-#~ msgid ""
-#~ "If I witness child abuse, know a child is in danger, observe any "
-#~ "concerning behaviors from colleagues, partners or other representatives, "
-#~ "or a child comes to me with a report of abuse, I will take it seriously "
-#~ "and report it to the proper staff or relevant authorities. I will seek to "
-#~ "do everything within my power to ensure the child is out of danger."
-#~ msgstr ""
-#~ "Si je suis témoin d’abus sur un enfant, si je sais qu’un enfant est en "
-#~ "danger, si je remarque un comportement préoccupant de la part de "
-#~ "collègues, de partenaires ou d’autres représentants, ou si un enfant "
-#~ "vient me voir pour signaler des abus, je le prendrai au sérieux et je le "
-#~ "signalerai au personnel ou aux autorités concernés. Je chercherai à faire "
-#~ "tout ce qui est en mon pouvoir pour m’assurer que l’enfant est hors de "
-#~ "danger."
-
-#~ msgid ""
-#~ "If requested, I will comply with child protection related investigations "
-#~ "and make available any documentation or other information necessary for "
-#~ "the completion of the investigation."
-#~ msgstr ""
-#~ "Si nécessaire, je me soumettrai aux enquêtes en matière de protection de "
-#~ "l’enfance et je fournirai tous les documents ou informations nécessaires "
-#~ "au bon déroulement de l’enquête."
-
-#~ msgid "Unacceptable Behaviors"
-#~ msgstr "Comportements inacceptables"
-
-#~ msgid "Travel costs"
-#~ msgstr "Solde du voyage"
