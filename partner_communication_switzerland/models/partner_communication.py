@@ -600,7 +600,6 @@ class PartnerCommunication(models.Model):
         country_info_lang_pdf = self.get_objects().child_id.field_office_id \
             .get_country_info_pdf_lang(lang=self.partner_id.lang)
         if country_info_lang_pdf:
-            print("woops")
             attachments.update({
                 _('country information.pdf'): [
                     'country_information_pdf',
