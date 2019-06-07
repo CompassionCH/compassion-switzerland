@@ -217,8 +217,14 @@ class BankStatementLine(models.Model):
     def _process_reconciliation(self, counterpart_aml_dicts=None,
                                 payment_aml_rec=None, new_aml_dicts=None):
         """Bank statement line reconciliation job"""
-        return super(BankStatementLine, self).process_reconciliation(
-            counterpart_aml_dicts, payment_aml_rec, new_aml_dicts)
+        try:
+            return super(BankStatementLine, self).process_reconciliation(
+                counterpart_aml_dicts, payment_aml_rec, new_aml_dicts)
+        except Exception as e:
+            self.env.cr.rollback()
+            self.note = str(e.name)
+            self.env.cr.commit()
+            raise e
 
     def _get_invoice_data(self, ref, mv_line_dicts):
         """ Add BVR payment mode in invoice. """
