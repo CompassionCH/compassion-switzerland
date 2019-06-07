@@ -13,3 +13,4 @@ from . import child_compassion
 from . import project_compassion
 from . import lang_compassion
 from . import res_country
+from . import field_office
