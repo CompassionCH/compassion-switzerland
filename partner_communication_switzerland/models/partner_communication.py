@@ -483,7 +483,6 @@ class PartnerCommunication(models.Model):
         source_id = self.config_id.source_id.id
 
         def _replace_link(match):
-
             full_link = match.group(1).replace('&amp;', '&')
             short_link = self.env['link.tracker'].create({
                 'url': full_link,
@@ -593,6 +592,17 @@ class PartnerCommunication(models.Model):
             ]
         })
 
+        # Country information
+        for field_office in self.get_objects().mapped(
+                'child_id.field_office_id'):
+            country_pdf = field_office.country_info_pdf
+            if country_pdf:
+                attachments.update({
+                    field_office.name + ".pdf": [
+                        'country_information_pdf',
+                        country_pdf
+                    ]
+                })
         return attachments
 
     def get_csp_attachment(self):
