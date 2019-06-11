@@ -599,7 +599,7 @@ class PartnerCommunication(models.Model):
             if country_pdf:
                 attachments.update({
                     field_office.name + ".pdf": [
-                        'country_information_pdf',
+                        'partner_communication_switzerland.field_office_info',
                         country_pdf
                     ]
                 })
