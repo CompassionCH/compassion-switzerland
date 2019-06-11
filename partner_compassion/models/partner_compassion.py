@@ -58,7 +58,7 @@ class ResPartner(models.Model):
         "Church (N/A)",
         help="Use this field if the church of the partner"
              " can not correctly be determined and linked.")
-    deathdate = fields.Date('Death date')
+    deathdate = fields.Date('Death date', track_visibility='onchange')
     nbmag = fields.Integer('Number of Magazines', size=2,
                            required=True, default=1)
     tax_certificate = fields.Selection(
@@ -114,6 +114,16 @@ class ResPartner(models.Model):
              "protection charter."
     )
     geo_point = geo_fields.GeoPoint(copy=False)
+
+    # add track on fields from module base
+    email = fields.Char(track_visibility='onchange')
+    title = fields.Many2one(track_visibility='onchange')
+    lang = fields.Selection(track_visibility='onchange')
+    # module from partner_firstname
+    firstname = fields.Char(track_visibility='onchange')
+    lastname = fields.Char(track_visibility='onchange')
+    # module mail
+    opt_out = fields.Boolean(track_visibility='onchange')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
