@@ -125,6 +125,8 @@ if not testing:
                 })],
                 'type': 'out_invoice',
                 'date_invoice': fields.Date.today(),
+                'payment_term_id': self.env.ref(
+                    "account.account_payment_term_immediate").id
             })
 
         def _form_create(self, values):
