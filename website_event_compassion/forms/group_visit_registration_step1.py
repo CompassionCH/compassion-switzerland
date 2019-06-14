@@ -45,6 +45,9 @@ if not testing:
         ], 'Hotel room')
         double_room_person = fields.Char('I want to share the room with:')
         comments = fields.Text(default='')
+        gtc_accept = fields.Boolean(
+            "Terms and conditions", required=True
+        )
 
         def _form_load_single_double_room(
                 self, fname, field, value, **req_values):
@@ -143,7 +146,11 @@ if not testing:
                     'title': _('Your spoken languages'),
                     'fields': lang_fields
                 },
-                trip_options
+                trip_options,
+                {
+                    'id': 'gtc',
+                    'fields': ['gtc_accept']
+                }
             ]
 
         def _form_validate_email_copy(self, value, **req_values):
@@ -156,8 +163,17 @@ if not testing:
         def form_widgets(self):
             # Radio field for single double room
             res = super(EventRegistrationForm, self).form_widgets
-            res['single_double_room'] = 'cms.form.widget.radio'
+            res.update({
+                'single_double_room': 'cms.form.widget.radio',
+                'gtc_accept': 'cms_form_compassion.form.widget.terms',
+            })
             return res
+
+        @property
+        def gtc(self):
+            statement = self.env['compassion.privacy.statement'].sudo().search(
+                [], limit=1)
+            return statement.text
 
         def form_before_create_or_update(self, values, extra_values):
             super(EventRegistrationForm, self).form_before_create_or_update(
@@ -172,6 +188,15 @@ if not testing:
                     'website_event_compassion.stage_group_unconfirmed'
                 ).id
             })
+
+        def form_after_create_or_update(self, values, extra_values):
+            """ Mark the privacy statement as accepted.
+            """
+            super(EventRegistrationForm,
+                  self).form_after_create_or_update(values, extra_values)
+            partner = self.env['res.partner'].sudo().browse(
+                values.get('partner_id')).exists()
+            partner.set_privacy_statement(origin='group_visit')
 
         def form_next_url(self, main_object=None):
             return u'/event/{}/confirmation?title={}&message={}'.format(

@@ -44,9 +44,10 @@ class ResPartner(models.Model):
         company = self.filtered(
             lambda p: not (p.title and p.firstname and not p.is_company))
         for p in company:
-            p.salutation = _("Dear friends of compassion")
+            p.salutation = _("Dear friends of Compassion")
             p.short_salutation = p.salutation
             p.informal_salutation = _("Dear friend of Compassion")
+            p.full_salutation = p.salutation
         super(ResPartner, self - company)._compute_salutation()
 
         # Family shouldn't be used with informal salutation

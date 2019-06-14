@@ -244,17 +244,13 @@ class PartnerCommunication(models.Model):
             children = self.get_objects()
             attachments = self.env['ir.attachment']
             for child in children:
-                pic = child.pictures_ids[0]
-                attachment = self.env['ir.attachment'].search([
-                    ('res_model', '=', 'compassion.child.pictures'),
-                    ('res_id', '=', pic.id),
-                    ('datas_fname', 'like', 'Fullshot')
-                ], limit=1)
-                attachments += attachment.copy({
-                    'name': child.local_id + ' ' + child.last_photo_date +
-                    '.jpg',
+                name = child.local_id + ' ' + child.last_photo_date + '.jpg'
+                attachments += attachments.create({
+                    'name': name,
+                    'datas_fname': name,
                     'res_model': self._name,
-                    'res_id': self.id
+                    'res_id': self.id,
+                    'datas': child.fullshot,
                 })
             self.with_context(no_print=True).ir_attachment_ids = attachments
         else:
@@ -487,7 +483,6 @@ class PartnerCommunication(models.Model):
         source_id = self.config_id.source_id.id
 
         def _replace_link(match):
-
             full_link = match.group(1).replace('&amp;', '&')
             short_link = self.env['link.tracker'].create({
                 'url': full_link,
@@ -597,6 +592,17 @@ class PartnerCommunication(models.Model):
             ]
         })
 
+        # Country information
+        for field_office in self.get_objects().mapped(
+                'child_id.field_office_id'):
+            country_pdf = field_office.country_info_pdf
+            if country_pdf:
+                attachments.update({
+                    field_office.name + ".pdf": [
+                        'partner_communication_switzerland.field_office_info',
+                        country_pdf
+                    ]
+                })
         return attachments
 
     def get_csp_attachment(self):
