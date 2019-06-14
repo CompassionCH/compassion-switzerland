@@ -29,7 +29,6 @@ try:
     import csv
     from smb.SMBConnection import SMBConnection
     from smb.smb_structs import OperationFailure
-    import MySQLdb
 except ImportError:
     logger.warning("Please install python dependencies.", exc_info=True)
 
