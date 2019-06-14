@@ -159,7 +159,9 @@ if not testing:
             )
             text = html_file.read()
             html_file.close()
-            return text
+            statement = self.env['compassion.privacy.statement'].sudo().search(
+                [], limit=1)
+            return text.decode('utf8') + u'<br/>' + statement.text
 
         def form_init(self, request, main_object=None, **kw):
             form = super(MuskathlonRegistrationForm, self).form_init(
@@ -281,6 +283,15 @@ if not testing:
                 registration_force_draft=True).create(values.copy())
             main_object.with_delay().notify_new_registration()
             self.main_object = main_object
+
+        def form_after_create_or_update(self, values, extra_values):
+            """ Mark the privacy statement as accepted.
+            """
+            super(MuskathlonRegistrationForm,
+                  self).form_after_create_or_update(values, extra_values)
+            partner = self.env['res.partner'].sudo().browse(
+                values.get('partner_id')).exists()
+            partner.set_privacy_statement(origin='muskathlon_reg')
 
         def form_next_url(self, main_object=None):
             # Clean storage of picture

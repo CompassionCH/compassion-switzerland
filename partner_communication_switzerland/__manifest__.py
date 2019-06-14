@@ -62,6 +62,7 @@
         'data/sponsorship_server_actions.xml',
         'data/sponsorship_action_rules.xml',
         'data/utm_data.xml',
+        'data/field_office_info_report.xml',
         'report/child_picture.xml',
         'views/communication_job_view.xml',
         'views/download_child_pictures_view.xml',

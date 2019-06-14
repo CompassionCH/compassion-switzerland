@@ -617,14 +617,15 @@ class Event(models.Model):
                 lambda t: t.product_id.product_tmpl_id == self.env.ref(
                     'website_event_compassion.product_template_single_room'))
             product = single_room_ticket.product_id
-            invl_vals.append({
-                'quantity': 1.0,
-                'price_unit': single_room_ticket.price,
-                'account_id': product.property_account_income_id.id,
-                'name': product.name,
-                'product_id': product.id,
-                'account_analytic_id': event.analytic_id.id,
-            })
+            if product and single_room_ticket.price:
+                invl_vals.append({
+                    'quantity': 1.0,
+                    'price_unit': single_room_ticket.price,
+                    'account_id': product.property_account_income_id.id,
+                    'name': product.name,
+                    'product_id': product.id,
+                    'account_analytic_id': event.analytic_id.id,
+                })
         standard_price = tickets.filtered(
             lambda t: t.product_id.product_tmpl_id == self.env.ref(
                 'website_event_compassion.product_template_trip_price'))
