@@ -241,7 +241,8 @@ class ResPartner(models.Model):
                 fuzzy_search = arg[2]
                 break
         if fuzzy_search:
-            order = u"similarity(res_partner.name, '%s') DESC" % fuzzy_search
+            order = self.env.cr.mogrify(
+                u"similarity(res_partner.name, %s) DESC", [fuzzy_search])
         return super(ResPartner, self).search(
             args, offset, limit, order, count)
 
