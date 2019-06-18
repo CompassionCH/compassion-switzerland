@@ -15,7 +15,6 @@ import logging
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from datetime import datetime
 
 _logger = logging.getLogger(__name__)
 
@@ -85,11 +84,11 @@ class SmsSender(models.TransientModel):
         if not self.partner_id or not self.partner_id.mobile:
             return False
         if self.send_sms(self.partner_id.mobile.replace(u'\xa0', u'')):
-            self.env['sms_sponsorship'].create({
+            self.env['sms.log'].create({
                 'partner_id': self.partner_id.id,
                 'text': self.text,
                 'subject': self.subject,
-                'date': datetime.today()
+                'date': fields.Datetime.now()
             })
             return True
         return False
@@ -98,11 +97,11 @@ class SmsSender(models.TransientModel):
         if not self.sms_request_id or not self.sms_request_id.sender:
             return False
         if self.send_sms(self.sms_request_id.sender.replace(u'\xa0', u'')):
-            self.env['sms_sponsorship'].create({
+            self.env['sms.log'].create({
                 'partner_id': self.partner_id.id,
                 'text': self.text,
                 'subject': self.subject,
-                'date': datetime.today()
+                'date': fields.Datetime.now()
             })
             return True
         return False

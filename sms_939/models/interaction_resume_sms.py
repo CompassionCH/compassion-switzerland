@@ -35,7 +35,7 @@ class InteractionResume(models.TransientModel):
                 0 as message_id,
                 0 as paper_id,
                 NULL as tracking_status
-                FROM "sms_sponsorship" as sms
+                FROM "sms_log" as sms
                 WHERE (sms.partner_id = %s)
                 """, [partner_id])
         for row in self.env.cr.dictfetchall():

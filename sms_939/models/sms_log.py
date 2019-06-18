@@ -10,10 +10,10 @@
 from odoo import models, fields
 
 
-class SponsorshipSMS(models.Model):
-    _name = 'sms_sponsorship'
+class LogSMS(models.Model):
+    _name = 'sms.log'
 
-    partner_id = fields.Id(string='partner_id')
-    text = fields.Char(string='text')
-    subject = fields.Text(string='subject')
-    date = fields.Datetime(string='date')
+    partner_id = fields.Many2one('res.partner', 'Partner')
+    text = fields.Text(required=True)
+    subject = fields.Text()
+    date = fields.Datetime()

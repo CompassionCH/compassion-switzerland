@@ -15,5 +15,5 @@ from . import compassion_child
 from . import recurring_contract
 from . import sms_child_request
 from . import sms_provider
-from . import sms_sponsorship
+from . import sms_log
 from . import interaction_resume_sms
