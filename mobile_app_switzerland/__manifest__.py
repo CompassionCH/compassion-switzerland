@@ -9,7 +9,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -23,26 +23,25 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 # pylint: disable=C8101
 {
-    'name': 'Compassion CH Children',
-    'version': '10.0.1.0.0',
-    'category': 'Other',
+    'name': 'Mobile App Customization for Switerland',
+    'version': '10.0.0.1.0',
+    'category': 'Reports',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
-    'depends': ['child_compassion', 'account_accountant'],
     'data': [
-        'views/description_views.xml',
-        'data/lang_data.xml',
-        'views/res_country_view.xml',
-        'views/field_office_view.xml',
-        'data/ir.advanced.translation.csv',
+        'data/mail_template.xml',
+        'data/communication_config.xml'
     ],
+    'depends': ['mobile_app_connector', 'partner_communication_switzerland'],
+    'external_dependencies': {},
     'demo': [],
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
 }
