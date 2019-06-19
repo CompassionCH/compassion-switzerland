@@ -84,20 +84,24 @@ class SmsSender(models.TransientModel):
         if not self.partner_id or not self.partner_id.mobile:
             return False
         if self.send_sms(self.partner_id.mobile.replace(u'\xa0', u'')):
-            self.partner_id.message_post(body=self.text,
-                                         subject=self.subject,
-                                         partner_ids=self.partner_id,
-                                         type='comment')
+            self.env['sms.log'].create({
+                'partner_id': self.partner_id.id,
+                'text': self.text,
+                'subject': self.subject,
+                'date': fields.Datetime.now()
+            })
             return True
         return False
 
     def send_sms_request(self):
-
         if not self.sms_request_id or not self.sms_request_id.sender:
             return False
         if self.send_sms(self.sms_request_id.sender.replace(u'\xa0', u'')):
-            self.sms_request_id.message_post(body=self.text,
-                                             subject=self.subject,
-                                             type='comment')
+            self.env['sms.log'].create({
+                'partner_id': self.partner_id.id,
+                'text': self.text,
+                'subject': self.subject,
+                'date': fields.Datetime.now()
+            })
             return True
         return False
