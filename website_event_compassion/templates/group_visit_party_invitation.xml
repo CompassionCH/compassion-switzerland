@@ -15,13 +15,17 @@
                     <div class="row mb32">
                         <div class="col-md-9">
                             <h2>Information meeting invitation</h2>
-                            <p>Compassion invites you to a meeting of the participants on <t t-esc="event.get_date('start_date', 'date_full')"/>.</p>
+                            <p>Compassion invites you to a meeting of the participants on <t t-esc="registration.event_id.get_date('date_begin', 'date_full')"/>.</p>
                             <p>On this occasion, we will present you the work of Compassion <t t-esc="event.country_id.preposition"/> <t t-esc="event.country_id.name"/> as well as the detailed program of the trip. There will also be a time for Questions &amp; Answers and an aperitif to get to know each other.</p>
                             <div class="jumbotron mt24">
                                 <table style="border: 0px;">
                                     <tr>
                                         <td style="width: 50%">Date:</td>
-                                        <td style="width: 50%" t-esc="event.get_date('start_date', 'date_full')"/>
+                                        <td style="width: 50%" t-esc="registration.event_id.get_date('date_begin', 'date_full')"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 50%">Time:</td>
+                                        <td style="width: 50%" t-esc="registration.event_id.get_date('date_begin', '%H:%M')"/>
                                     </tr>
                                     <tr>
                                         <td style="width: 50%">Location:</td>

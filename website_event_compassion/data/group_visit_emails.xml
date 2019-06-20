@@ -352,6 +352,9 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
+                    % set meeting = registration.event_id
+                    % set user = meeting.user_id
+                    % set url = registration.env['ir.config_parameter'].get_param('web.external.url') + '/event/' + registration.uuid + '/meeting_invitation'
                 </div>
                 <p>
                     ${partner.salutation}
@@ -360,7 +363,7 @@
                     Your journey ${event.country_id.preposition} ${event.country_id.name} is fast approaching.
                     <br/>
                     <br/>
-                    An unforgettable experience is being prepared. In this perspective, Compassion invites you to a meeting of the participants [place and time of the meeting].
+                    An unforgettable experience is being prepared. In this perspective, Compassion invites you to a meeting of the participants in ${meeting.address_id.city} on ${meeting.get_date('date_begin')} at ${meeting.get_date('date_begin', '%H:%M')}.
                     <br/>
                     <br/>
                     On this occasion, we will present you the work of Compassion ${event.country_id.preposition} ${event.country_id.name} as well as the detailed program of the trip. There will also be a time for Questions &amp; Answers and an aperitif to get to know each other.
@@ -370,7 +373,7 @@
                     <br/>
                     <br/>
                     <div style="margin:0 auto; text-align: center;">
-                        <a href="" style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px">
+                        <a href="${url}" style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px">
                             Accept/Decline invitation
                         </a>
                     </div>
@@ -382,12 +385,13 @@
                     Receive our warmest greetings.
                     <br/>
                     <br/>
-                    Rose-Marie Reber
-                    <br/>
-                    Sponsor and donor service
-                    <br/>
+                     ${user.preferred_name} ${user.lastname}
+                      <br/>
+                      ${user.employee_ids.department_id.name}
+                      <br/>
                     Compassion Switzerland
                 </p>
+
             </field>
         </record>
 
