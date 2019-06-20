@@ -23,7 +23,7 @@
                                         <button id="health-button" type="button" class="btn btn-default">Health and nutrition tips</button>
                                         <button id="luggage-button" type="button" class="btn btn-default">Pack your luggage</button>
                                     </div>
-                                    <a t-att-href="event.country_id.description_url" class="btn btn-default btn-block">More about <t t-esc="event.country_id.name"/></a>
+                                    <a t-att-href="event.country_id.description_url" target="_blank" class="btn btn-default btn-block">More about <t t-esc="event.country_id.name"/></a>
                                 </div>
                                 <div class="col-sm-8" id="practical_content">
                                     <div id="meeting">
