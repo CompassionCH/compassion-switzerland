@@ -21,7 +21,12 @@ class PrintBvrFund(models.TransientModel):
     _name = 'print.bvr.fund'
 
     product_id = fields.Many2one(
-        'product.product', domain=[('fund_id', '!=', False)])
+        'product.product', domain=[
+            ('fund_id', '!=', False),
+            # exclude Sponsorship category
+            ('categ_id', '!=', 3),
+            # exclude Sponsor gifts category
+            ('categ_id', '!=', 5)])
     draw_background = fields.Boolean()
     state = fields.Selection([('new', 'new'), ('pdf', 'pdf')], default='new')
     pdf = fields.Boolean()
