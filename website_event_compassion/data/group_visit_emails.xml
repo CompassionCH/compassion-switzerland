@@ -395,6 +395,58 @@
             </field>
         </record>
 
+        <record id="group_visit_after_trip_party_email" model="mail.template">
+            <field name="name">Group visit: after trip party invitation</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">${object.get_objects().compassion_event_id.name} - Invitation to an after party</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set registration = object.get_objects()
+                    % set event = registration.compassion_event_id
+                    % set meeting = registration.event_id
+                    % set user = meeting.user_id
+                    % set url = registration.env['ir.config_parameter'].get_param('web.external.url') + '/event/' + registration.uuid + '/after_party'
+                </div>
+                <p>
+                    ${partner.salutation}
+                    <br/>
+                    <br/>
+                    We hope that your journey ${event.country_id.preposition} ${event.country_id.name} has been an enriching experience for you.
+                    <br/>
+                    <br/>
+                    Compassion invites you to an after party, where the participants can meet once again in order to spend some more time together and share our feedback. The party will take place in ${meeting.address_id.city} on ${meeting.get_date('date_begin')} at ${meeting.get_date('date_begin', '%H:%M')}.
+                    <br/>
+                    <br/>
+                    <b>Please confirm your participation by clicking here:</b>.
+                    <br/>
+                    <br/>
+                    <div style="margin:0 auto; text-align: center;">
+                        <a href="${url}" style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px">
+                            Accept/Decline invitation
+                        </a>
+                    </div>
+                    <br/>
+                    <br/>
+                    We look forward to seeing you again on this occasion.
+                    <br/>
+                    <br/>
+                    Receive our warmest greetings.
+                    <br/>
+                    <br/>
+                     ${user.preferred_name} ${user.lastname}
+                      <br/>
+                      ${user.employee_ids.department_id.name}
+                      <br/>
+                    Compassion Switzerland
+                </p>
+
+            </field>
+        </record>
+
         <record id="group_visit_detailed_info_email" model="mail.template">
             <field name="name">Group visit: detailed information</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>

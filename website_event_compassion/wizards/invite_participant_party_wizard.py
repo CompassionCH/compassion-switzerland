@@ -42,17 +42,23 @@ class InviteParticipantsToPartyWizard(models.TransientModel):
     def open_event(self):
         event = self.env['event.event'].browse(
             self.env.context.get('active_id'))
+        config = self.env.ref(
+            'website_event_compassion.group_visit_information_day_config')
+        name = ' - Information Party'
+        if event.state == 'done':
+            # Use the after trip party invitation template
+            config = self.env.ref(
+                'website_event_compassion.group_visit_after_party_config')
+            name = ' - After Party'
         party_event = self.env['event.event'].create({
-            'name': event.name + ' - Information Party',
+            'name': event.name + name,
             'event_type_id': self.env.ref(
                 'website_event_compassion.event_type_meeting').id,
             'user_id': self.env.uid,
             'date_begin': self.date_start,
             'date_end': self.date_end,
             'event_mail_ids': [(0, 0, {
-                'communication_id': self.env.ref(
-                    'website_event_compassion.'
-                    'group_visit_information_day_config').id,
+                'communication_id': config.id,
                 'interval_type': 'after_sub',
                 'interval_nbr': '1',
                 'interval_unit': 'hours'
