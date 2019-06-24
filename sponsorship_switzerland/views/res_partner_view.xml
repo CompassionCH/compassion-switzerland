@@ -11,14 +11,18 @@
         </field>
     </record>
 
-    <record id="action_view_partner_waiting_mandate" model="ir.actions.act_window">
-        <field name="name">Waiting mandate</field>
-        <field name="res_model">recurring.contract</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain" eval="[('state', '=', 'mandate'), ('mandate_date', '&lt;', (DateTime.now() - timedelta(days=20)).strftime('%Y-%m-%d'))]"/>
+    <record id="view_partner_restricted" model="ir.ui.view">
+        <field name="name">restricted partners view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
+        <field name="arch" type="xml">
+            <!-- Make tags readonly if restricted tag is present -->
+            <field name="category_id" position="before">
+                <field name="is_restricted"/>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_restricted', '=', True)]}</attribute>
+            </field>
+        </field>
     </record>
-
-    <menuitem id="menu_waiting_mandate" parent="child_compassion.menu_sponsorship_section"
-              name="Waiting mandate" action="action_view_partner_waiting_mandate" sequence="100"/>
 </odoo>
