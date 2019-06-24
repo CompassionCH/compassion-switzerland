@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Tailor Sponsorships to Compassion CH needs',
-    'version': '10.0.1.4.0',
+    'version': '10.0.1.4.1',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
@@ -43,7 +43,8 @@
         'account_statement_completion',
         'l10n_ch_lsv_dd',
         'gift_compassion',
-        'donation_report_compassion'
+        'donation_report_compassion',
+        'web_notify'
     ],
     'demo': [
         'data/demo_journal.xml',
