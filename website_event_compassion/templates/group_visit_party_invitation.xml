@@ -14,9 +14,16 @@
                 <div class="container event_compassion" id="group_visit_medical_info">
                     <div class="row mb32">
                         <div class="col-md-9">
-                            <h2>Information meeting invitation</h2>
-                            <p>Compassion invites you to a meeting of the participants on <t t-esc="registration.event_id.get_date('date_begin', 'date_full')"/>.</p>
-                            <p>On this occasion, we will present you the work of Compassion <t t-esc="event.country_id.preposition"/> <t t-esc="event.country_id.name"/> as well as the detailed program of the trip. There will also be a time for Questions &amp; Answers and an aperitif to get to know each other.</p>
+                            <h2 t-if="meeting == 'before_party'">Information meeting invitation</h2>
+                            <h2 t-if="meeting == 'after_party'">After party invitation</h2>
+                            <div t-if="meeting == 'before_party'">
+                                <p>Compassion invites you to a meeting of the participants on <t t-esc="registration.event_id.get_date('date_begin', 'date_full')"/>.</p>
+                                <p>On this occasion, we will present you the work of Compassion <t t-esc="event.country_id.preposition"/> <t t-esc="event.country_id.name"/> as well as the detailed program of the trip. There will also be a time for Questions &amp; Answers and an aperitif to get to know each other.</p>
+                            </div>
+                            <div t-if="meeting == 'after_party'">
+                                <p>Compassion invites you to an after party on <t t-esc="registration.event_id.get_date('date_begin', 'date_full')"/>.</p>
+                                <p>On this occasion, we will be able to exchange our feedback about the trip.</p>
+                            </div>
                             <div class="jumbotron mt24">
                                 <table style="border: 0px;">
                                     <tr>
@@ -71,9 +78,9 @@
                 <div class="container event_compassion" id="group_visit_medical_info">
                     <div class="row mb32">
                         <div class="col-md-9">
-                            <h2>Information meeting invitation</h2>
+                            <h2>Meeting invitation</h2>
                             <p class="mt32">
-                                We are glad to confirm your participation to our information meeting. We are looking forward to seeing you in <t t-esc="registration.event_id.address_id.sudo().city"/>!
+                                We are glad to confirm your participation. We are looking forward to seeing you in <t t-esc="registration.event_id.address_id.sudo().city"/>!
                             </p>
                         </div>
                         <div class="col-md-3">
@@ -101,9 +108,9 @@
                 <div class="container event_compassion" id="group_visit_medical_info">
                     <div class="row mb32">
                         <div class="col-md-9">
-                            <h2>Information meeting invitation</h2>
+                            <h2>Meeting invitation</h2>
                             <p class="mt32">
-                                Thank you for taking time to respond to our invitation. You won't participate to our information meeting. If you have any questions regarding the trip, don't hesitate to <a href="mailto:info@compassion.ch">contact us</a>.
+                                Thank you for taking time to respond to our invitation. You won't participate to our meeting. If you have any questions regarding the trip, don't hesitate to <a href="mailto:info@compassion.ch">contact us</a>.
                             </p>
                         </div>
                         <div class="col-md-3">

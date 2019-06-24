@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+
+        <!-- Muskathlon Doctor Email -->
+        <record id="muskathlon_doctor_email" model="ir.config_parameter">
+            <field name="key">muskathlon.doctor.email</field>
+            <field name="value">doctor_email@email.com</field>
+        </record>
+
         <!-- User muskathlon Form -->
         <record model="survey.survey" id="muskathlon_form">
             <field name="title">Muskathlon medical survey</field>
