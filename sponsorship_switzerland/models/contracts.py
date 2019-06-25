@@ -224,12 +224,7 @@ class RecurringContracts(models.Model):
 
     @api.multi
     def contract_waiting_mandate(self):
-        # Check if partner is active
-        need_validation = self.filtered(
-            lambda s: s.partner_id.state != 'active')
-        if need_validation:
-            raise UserError(_(
-                'Please verify the partner before validating the sponsorship'))
+        self._check_sponsorship_is_valid()
         self.write({
             'state': 'mandate',
             'mandate_date': fields.Datetime.now()
@@ -248,12 +243,7 @@ class RecurringContracts(models.Model):
     @api.multi
     def contract_waiting(self):
         """ If sponsor has open payments, generate invoices and reconcile. """
-        # Check if partner is active
-        need_validation = self.filtered(
-            lambda s: s.partner_id.state != 'active')
-        if need_validation:
-            raise UserError(_(
-                'Please verify the partner before validating the sponsorship'))
+        self._check_sponsorship_is_valid()
         sponsorships = self.filtered(lambda s: 'S' in s.type)
         for contract in sponsorships:
             payment_mode = contract.payment_mode_id.name
@@ -276,6 +266,34 @@ class RecurringContracts(models.Model):
 
         super(RecurringContracts, self-sponsorships).contract_waiting()
         return True
+
+    def _check_sponsorship_is_valid(self):
+        """
+        Called at contract validation to ensure we can validate the
+        sponsorship.
+        """
+        partners = self.mapped('partner_id') | self.mapped('correspondent_id')
+        # Partner should be active
+        need_validation = partners.filtered(lambda p: p.state != 'active')
+        if need_validation:
+            raise UserError(_(
+                'Please verify the partner before validating the sponsorship'))
+        # Partner shouldn't be restricted
+        if partners.filtered('is_restricted'):
+            raise UserError(_(
+                "This partner has the restricted category active. "
+                "New sponsorships are not allowed."))
+        # Notify for special categories
+        special_categories = partners.mapped('category_id').filtered(
+            'warn_sponsorship')
+        # Since we are in workflow, the user is not set in environment.
+        # We take then the last write user on the records
+        if special_categories:
+            self.mapped('write_uid')[:1].notify_warning(
+                ', '.join(special_categories.mapped('name')),
+                title=_('The sponsor has special categories'),
+                sticky=True
+            )
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

@@ -36,7 +36,7 @@ class PaymentController(Controller):
         postfinance = request.env.ref(
             'payment_ogone_compassion.payment_postfinance')
         transaction_obj = request.env['payment.transaction'].sudo()
-        reference = transaction_obj.get_next_reference('WEB-' + invoice.origin)
+        reference = transaction_obj.get_next_reference(invoice.origin or 'WEB')
         transaction_id = transaction_obj.create({
             'acquirer_id': postfinance.id,
             'type': 'form',
@@ -45,8 +45,8 @@ class PaymentController(Controller):
             'partner_id': invoice.partner_id.id,
             'reference': reference,
             'invoice_id': invoice_id,
-            'accept_url': get_params.get('accept_url'),
-            'decline_url': get_params.get('decline_url'),
+            'accept_url': get_params.get('accept_url', invoice.accept_url),
+            'decline_url': get_params.get('decline_url', invoice.decline_url),
         }).id
         return request.redirect(
             '/compassion/payment/{}?redirect_url={}&display_type=full_page'

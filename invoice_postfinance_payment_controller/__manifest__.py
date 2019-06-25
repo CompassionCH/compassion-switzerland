@@ -30,16 +30,20 @@
 # pylint: disable=C8101
 {
     'name': 'Invoice to Postfinance Payment Controller',
-    'version': '10.0.1.0.0',
+    'version': '10.0.1.1.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'https://github.com/CompassionCH/compassion-switzerland/'
                'tree/10.0',
     'depends': ['payment_ogone_compassion',
-                'cms_form_compassion', 'website_no_index'],
+                'cms_form_compassion', 'website_no_index',
+                'partner_communication', 'l10n_ch_payment_slip'],
     'data': [
         'templates/payment_redirect.xml',
+        'views/send_postfinance_link_view.xml',
+        'data/mail_template.xml',
+        'data/communication_config.xml',
     ],
     'demo': [
     ],

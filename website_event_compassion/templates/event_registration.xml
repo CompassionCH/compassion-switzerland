@@ -24,7 +24,7 @@
                     </t>
                     <t t-call="website_event_compassion.group_visit_event_stepper" t-if="event_step"/>
                     <t t-raw="form.form_render()" />
-                    <p class="mb32">
+                    <p class="mb32" t-if="event_step == 1">
                         If you wish to register several people (i.e. people of the same family), please register each person separately. During the process, you may use only one correspondence address.
                     </p>
                 </div>
