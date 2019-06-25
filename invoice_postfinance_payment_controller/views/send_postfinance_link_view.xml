@@ -34,7 +34,6 @@
         </field>
     </record>
     <act_window id="action_send_postfinance_link"
-        multi="True"
         key2="client_action_multi" name="Send for online payment"
         res_model="account.invoice.send.postfinance.link.wizard" src_model="account.invoice"
         view_mode="form" target="new" view_type="form"
