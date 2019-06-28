@@ -44,6 +44,7 @@ class MuskathlonRegistration(models.Model):
          'Only one registration per participant/event is allowed!')
     ]
 
+    @api.model
     def create(self, values):
         # Automatically complete the task sign_child_protection if the charter
         # has already been signed.
