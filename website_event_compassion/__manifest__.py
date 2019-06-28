@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion Events Website',
-    'version': '10.0.1.8.0',
+    'version': '10.0.1.9.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',

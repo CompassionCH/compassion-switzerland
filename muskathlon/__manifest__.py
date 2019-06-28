@@ -30,9 +30,9 @@
 # pylint: disable=C8101
 {
     'name': 'Muskathlon',
-    'version': '10.0.3.3.0',
+    'version': '10.0.3.4.0',
     'category': 'Reports',
-    'author': 'Sebastien Toth',
+    'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'data': [
@@ -46,6 +46,7 @@
         'data/event_type.xml',
         'data/event_registration_stage.xml',
         'data/event_registration_task.xml',
+        'data/mail_template.xml',
         'reports/muskathlon_view.xml',
         'views/event_compassion_view.xml',
         'views/partner_compassion_view.xml',
@@ -63,7 +64,8 @@
         'templates/muskathlon_order_material.xml',
         'templates/assets.xml'
     ],
-    'depends': ['website_event_compassion', 'survey', 'partner_compassion'],
+    'depends': [
+        'website_event_compassion', 'survey_phone', 'partner_compassion'],
     'external_dependencies': {
         'python': ['magic'],
     },

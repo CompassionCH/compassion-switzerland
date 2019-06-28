@@ -158,8 +158,16 @@ class GroupVisitController(EventsController):
         if not isinstance(values, dict):
             # values can be a redirect in case of error
             return values
+        # To differentiate the information meeting and the after party
+        values['meeting'] = kwargs.get('meeting', 'before_party')
         return request.render(
             'website_event_compassion.group_visit_party_invitation', values)
+
+    @http.route('/event/<string:reg_uid>/after_party',
+                auth='public', website=True)
+    def after_party(self, reg_uid, **kwargs):
+        kwargs['meeting'] = 'after_party'
+        return self.party_invitation(reg_uid, **kwargs)
 
     @http.route('/event/<string:reg_uid>/meeting_confirm',
                 auth='public', website=True)

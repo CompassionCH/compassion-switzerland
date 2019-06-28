@@ -78,7 +78,7 @@ class Correspondence(models.Model):
                 if s:
                     # find the language of text argument
                     lang = letter.detect_lang(letter.translated_text)
-                    letter.has_valid_language = lang in letter.\
+                    letter.has_valid_language = lang and lang in letter.\
                         supporter_languages_ids
 
     ##########################################################################
@@ -105,7 +105,7 @@ class Correspondence(models.Model):
                 language_name = lang.get("name")
                 break
         if not language_name:
-            return False
+            return self.env['res.lang.compassion']
 
         return self.env['res.lang.compassion'].search(
             [('name', '=ilike', language_name)], limit=1)
