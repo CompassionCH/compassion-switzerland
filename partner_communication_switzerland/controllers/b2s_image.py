@@ -9,6 +9,7 @@
 #
 ##############################################################################
 import logging
+from datetime import datetime
 
 from odoo import http
 from odoo.http import request
@@ -36,6 +37,6 @@ class B2sControllerSwitzerland(RestController):
             all_letters = correspondence.communication_id.get_objects()
             all_letters.write({
                 'letter_delivered': True,
-                'email_read': True
+                'email_read': datetime.now()
             })
         return res
