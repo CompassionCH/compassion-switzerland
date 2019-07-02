@@ -54,6 +54,7 @@ class ResPartner(models.Model):
         family = self.env.ref('partner_compassion.res_partner_title_family')
         for partner in self.filtered(lambda p: p.title == family):
             partner.informal_salutation = partner.salutation
+            partner.full_salutation = partner.salutation
 
     @api.multi
     @api.depends('thankyou_letter')
