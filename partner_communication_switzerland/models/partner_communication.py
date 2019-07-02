@@ -593,16 +593,16 @@ class PartnerCommunication(models.Model):
         })
 
         # Country information
-        for field_office in self.get_objects().mapped(
-                'child_id.field_office_id'):
-            country_pdf = field_office.country_info_pdf
-            if country_pdf:
-                attachments.update({
-                    field_office.name + ".pdf": [
-                        'partner_communication_switzerland.field_office_info',
-                        country_pdf
-                    ]
-                })
+        country_info_lang_pdf = self.get_objects().child_id.field_office_id \
+            .get_country_info_pdf_lang(lang=self.partner_id.lang)
+        if country_info_lang_pdf:
+            attachments.update({
+                _('country information.pdf'): [
+                    'country_information_pdf',
+                    country_info_lang_pdf
+                ]
+            })
+
         return attachments
 
     def get_csp_attachment(self):
