@@ -299,6 +299,11 @@ msgid "Coordinates updated."
 msgstr "Angaben aktualisiert"
 
 #. module: muskathlon
+#: model:ir.ui.view,arch_db:muskathlon.tripinfos_formatted
+msgid "Complete medical survey"
+msgstr "Ärztliche Untersuchung abschliessen"
+
+#. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_match_partner_partner_country_id
 msgid "Country"
 msgstr "Land"
@@ -464,6 +469,11 @@ msgstr "Event registrations"
 #: model:event.registration.task,name:muskathlon.task_emergency
 msgid "Fill emergency contact"
 msgstr "Fill emergency contact"
+
+#. module: muskathlon
+#: model:event.registration.task,name:muskathlon.task_medical
+msgid "Fill medical survey"
+msgstr "Fill medical survey"
 
 #. module: muskathlon
 #: model:event.registration.task,name:muskathlon.task_passport

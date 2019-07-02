@@ -209,503 +209,6 @@ msgid "Muskathlon medical survey"
 msgstr "Questionnaire médical pour le Muskathlon"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_00
-msgid "Name"
-msgstr "Nom"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_01
-msgid "Age (years)"
-msgstr "Âge (années)"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_02
-msgid "Height (m)"
-msgstr "Taille (m)"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_03
-msgid "Weight (kg)"
-msgstr "Poids (kg)"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_04
-msgid "Do you have allergies?"
-msgstr "Avez-vous des allergies?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_05
-msgid "If yes, which:"
-msgstr "Si oui, lesquelles :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_06
-msgid "Do you know your blood type (A, B, AB, O)?"
-msgstr "Connaissez-vous votre groupe sanguin (A, B, AB, 0)?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_07
-msgid "If yes, which is it:"
-msgstr "Si oui, quel est-il :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_08
-msgid "Have you ever received a blood bag?"
-msgstr "Est-ce que vous avez déjà reçu une poche de sang?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_09
-msgid "If yes, have some complications followed?"
-msgstr "Si oui : est-ce que des complications ont suivi?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_10
-msgid ""
-"Do you take any anticoagulent medication (for instance ASS, Marcoumar, "
-"Heparine, Clopidogrel, Ticagrelor, Eliquis, Xarelto)?"
-msgstr ""
-"Est-ce que vous prenez des médicaments anticoagulants? (par exemple: ASS, "
-"Marcoumar, Héparine, Clopidogrel, Ticagrelor, Eliquis, Xarelto, …)"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_11
-msgid "If yes, which ones:"
-msgstr "Si oui, lesquels :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_12
-msgid "Do you regularly take other medications?"
-msgstr "Est-ce que vous prenez régulièrement d’autres médicaments ?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_13
-msgid "If yes, which ones (including dosages):"
-msgstr "Si oui, lesquels (dosage inclu)?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_14
-msgid "Have you ever had surgery in the past?"
-msgstr "Est-ce que vous vous êtes déjà fait opérer dans le passé?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_15
-msgid "If yes, which were these surgeries?"
-msgstr "Si oui, quelles étaient ces opérations ?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_16
-msgid "Are you subject to narcosis problems?"
-msgstr "Est-ce que vous êtes sujet à des problèmes de narcose?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_17
-msgid "If yes, describe them:"
-msgstr "Si oui, décrivez-les :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_18
-msgid "Do you have heart disease?"
-msgstr "Est-ce que vous souffrez d’une maladie du coeur?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_19
-msgid "If yes, which ones:"
-msgstr "Si oui, lesquelles:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_20
-msgid "Do you have a disease of the respiratory tract/lungs?"
-msgstr "Est-ce que vous souffrez d’une maladie des voies respiratoires/poumons?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_21
-msgid "If yes, which ones:"
-msgstr "Si oui, lesquelles:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_22
-msgid "Is thyroid disease known to you?"
-msgstr "Est-ce qu’une maladie thyroïdienne vous est connue?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_23
-msgid "If yes, which ones:"
-msgstr "Si oui, lesquelles:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_24
-msgid "Do you have diabetes?"
-msgstr "Est-ce que vous souffrez de diabète?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_25
-msgid ""
-"Do you have any diseases/symptoms of the gastric or intestinal tract?"
-msgstr ""
-"Est-ce que vous souffrez de maladies/symptômes du tractus gastrique "
-"ou de l’intestin?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_26
-msgid "If yes, which ones:"
-msgstr "Si oui, lesquels:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_27
-msgid "Have you been diagnosed with chronic kidney disease?"
-msgstr "Avez-vous été diagnostiqué pour une maladie chronique rénale?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_28
-msgid "If yes, which one:"
-msgstr "Si oui, laquelle :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_29
-msgid "Have you been diagnosed with chronic liver disease?"
-msgstr "Avez-vous été diagnostiqué pour une maladie chronique du foie?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_30
-msgid "If yes, which one:""
-msgstr "Si oui, laquelle :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_31
-msgid "Have you been diagnosed with a disease of the nervous system?"
-msgstr "Avez-vous été diagnostiqué pour une maladie du système nerveux?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_32
-msgid "If yes, which one:"
-msgstr "Si oui, laquelle :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_33
-msgid "Do you suffer from pain in the spine, joints or muscles?"
-msgstr "Souffrez-vous de douleurs à la colonne vertébrale, articulaires ou musculaires?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_34
-msgid "If yes, which ones:"
-msgstr "Si oui, lesquelles:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_35
-msgid "Do you have an infectious disease?"
-msgstr "Est-ce que vous souffrez d’une maladie infectieuse ?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_36
-msgid "If yes, which ones:"
-msgstr "Si oui, lesquelles:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_37
-msgid "Have you been diagnosed with a mental illness?"
-msgstr "Avez-vous été diagnostiqué pour une maladie psychique?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_38
-msgid "If yes, which ones:"
-msgstr "Si oui lesquelles:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_39
-msgid "Do you have other diseases, not listed above?"
-msgstr "Est-ce que vous souffrez d’autres maladies, non citées ci-dessus?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_39_1
-msgid "If yes, which ones:"
-msgstr "Si oui, lesquelles :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_40
-msgid "For women: are you pregnant?"
-msgstr "Pour les femmes: êtes-vous enceinte?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_41
-msgid "Do you smoke?"
-msgstr "Est-ce que vous fumez ?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_42
-msgid "If yes, how often daily:"
-msgstr "Si oui, à quelle fréquence quotidiennement :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_43
-msgid "Do you drink alcohol daily?"
-msgstr "Est-ce que vous consommez de l'alcool quotidiennement?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_44
-msgid "If yes, which alcohol and in which quantity:"
-msgstr "Si oui, quel alcool et en quelle quantité :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_45
-msgid "Do/did you consume drugs?"
-msgstr "Est-ce que vous consommez/avez consommé de la drogue ?"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_46
-msgid "If yes, which one(s):"
-msgstr "Si oui, laquelle/lesquelles :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_1_19_1
-#: model:survey.question,question:muskathlon.muskathlon_1_32_1
-#: model:survey.question,question:muskathlon.muskathlon_1_34_1
-msgid "*Give more details here:"
-msgstr "*Donnez plus de détails ici :"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_arrhythmia
-msgid "Arrhythmia:"
-msgstr "Arythmie:"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_arrhytmia_atrial_fibrillation
-msgid "Atrial fibrillation"
-msgstr "Fibrillation auriculaire"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_hypertension
-msgid "Hypertension"
-msgstr "Hypertension"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_heart_weakness
-msgid "Heart weakness (heart failure)"
-msgstr "Faiblesse cardiaque (insuffisance cardiaque)"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_coronary_disease
-msgid "Coronary disease"
-msgstr "Maladie coronarienne"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_angina_pectoris
-msgid "Angina pectoris"
-msgstr "Angine de poitrine"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_valve_disease
-msgid "Heart Valve Disease/Valve Prosthesis*"
-msgstr "Maladie des valves cardiaques/prothèse valvulaire*"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_difficult_breathing
-msgid "Difficult breathing when climbing stairs"
-msgstr "Difficulté respiratoire lors de la montée de marches"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_arterial_problem
-msgid "Arterial circulation problem (AOMI)"
-msgstr "Problème de circulation artérielle (AOMI)"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_thrombosis
-msgid "Thrombosis"
-msgstr "Thrombose"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_asthma
-msgid "Asthma"
-msgstr "Asthme"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_copd
-msgid "Chronic obstructive pulmonary disease (COPD)"
-msgstr "Broncho-pneumopathie obstructive chronique (BPCO)"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_pulmonary_emphysema
-msgid "Pulmonary emphysema"
-msgstr "Emphysème pulmonaire"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_pulmonary_embolism
-msgid "Pulmonary embolism"
-msgstr "Embolie pulmonaire"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_hyperthyroidism
-msgid "Hyperthyroidism"
-msgstr "Hyperthyroïdie"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_hypothyroidism
-msgid "Hypothyroidism"
-msgstr "Hypothyroïdie"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_stomach_small_intestine
-msgid "Stomach/small intestine"
-msgstr "Estomac/intestin grêle"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_stomach_pains
-msgid "Stomach pains"
-msgstr "Brûlures d’estomac"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_digestive_strangulation
-msgid "Strangulation of the digestive tract"
-msgstr "Etranglement du tube digestif"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_kidney_failure
-msgid "Reduced kidney function (kidney failure)"
-msgstr "Fonction rénale réduite (insuffisance rénale)"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_kidney_infections
-msgid "Kidney infections"
-msgstr "Infections rénales"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_cirrhosis
-msgid "Cirrhosis of the liver"
-msgstr "Cirrhose du foie"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_jaundice
-msgid "Jaundice"
-msgstr "Jaunisse"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_hepatitisABC
-msgid "Hepatitis A B C"
-msgstr "Hépatite A B C"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_epilepsy
-msgid "Epilepsy"
-msgstr "Epilepsie"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_parkinson
-msgid "Parkinson"
-msgstr "Parkinson"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_stroke
-msgid "Stroke"
-msgstr "Attaque cérébrale"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_paralysis
-msgid "Paralysis*"
-msgstr "Paralysies*"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_herniated_disc
-msgid "Herniated disc"
-msgstr "Hernie discale"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_chronic_spine_pain
-msgid "Chronic pain in the spine"
-msgstr "Douleurs chroniques de la colonne vertébrale"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_spondylitis
-msgid "Spondylitis"
-msgstr "Bechterew"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_prothesis
-msgid "Joint pathology, artificial joint prosthesis*"
-msgstr "Pathologie articulaire, prothèse articulaire artificielle*"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_muscular_weakness
-msgid "Muscular weakness*"
-msgstr "Faiblesse musculaire*"
-
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_hepatitis
-msgid "Hepatitis"
-msgstr "Hépatite"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_hiv
-msgid "HIV"
-msgstr "VIH"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_tuberculosis
-msgid "Tuberculosis"
-msgstr "Tuberculose"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_anxiety_panic_crisis
-msgid "Anxiety/panic crisis"
-msgstr "Crise d’angoisse/panique"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_depression
-msgid "Depression"
-msgstr "Dépression"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_1_04_1
-#: model:survey.label,value:muskathlon.muskathlon_1_06_1
-#: model:survey.label,value:muskathlon.muskathlon_1_08_1
-#: model:survey.label,value:muskathlon.muskathlon_1_09_1
-#: model:survey.label,value:muskathlon.muskathlon_1_10_1
-#: model:survey.label,value:muskathlon.muskathlon_1_12_1
-#: model:survey.label,value:muskathlon.muskathlon_1_14_1
-#: model:survey.label,value:muskathlon.muskathlon_1_16_1
-#: model:survey.label,value:muskathlon.muskathlon_1_20_1
-#: model:survey.label,value:muskathlon.muskathlon_1_22_1
-#: model:survey.label,value:muskathlon.muskathlon_1_24_1
-#: model:survey.label,value:muskathlon.muskathlon_1_25_1
-#: model:survey.label,value:muskathlon.muskathlon_1_27_1
-#: model:survey.label,value:muskathlon.muskathlon_1_29_1
-#: model:survey.label,value:muskathlon.muskathlon_1_31_1
-#: model:survey.label,value:muskathlon.muskathlon_1_33_1
-#: model:survey.label,value:muskathlon.muskathlon_1_35_1
-#: model:survey.label,value:muskathlon.muskathlon_1_37_1
-#: model:survey.label,value:muskathlon.muskathlon_1_40_1
-#: model:survey.label,value:muskathlon.muskathlon_1_41_1
-#: model:survey.label,value:muskathlon.muskathlon_1_43_1
-#: model:survey.label,value:muskathlon.muskathlon_1_45_1
-msgid "Yes"
-msgstr "Oui"
-
-#. module: muskathlon
-#: model:survey.label,value:muskathlon.muskathlon_1_04_0
-#: model:survey.label,value:muskathlon.muskathlon_1_06_0
-#: model:survey.label,value:muskathlon.muskathlon_1_08_0
-#: model:survey.label,value:muskathlon.muskathlon_1_09_0
-#: model:survey.label,value:muskathlon.muskathlon_1_10_0
-#: model:survey.label,value:muskathlon.muskathlon_1_12_0
-#: model:survey.label,value:muskathlon.muskathlon_1_14_0
-#: model:survey.label,value:muskathlon.muskathlon_1_16_0
-#: model:survey.label,value:muskathlon.muskathlon_1_20_0
-#: model:survey.label,value:muskathlon.muskathlon_1_22_0
-#: model:survey.label,value:muskathlon.muskathlon_1_24_0
-#: model:survey.label,value:muskathlon.muskathlon_1_25_0
-#: model:survey.label,value:muskathlon.muskathlon_1_27_0
-#: model:survey.label,value:muskathlon.muskathlon_1_29_0
-#: model:survey.label,value:muskathlon.muskathlon_1_31_0
-#: model:survey.label,value:muskathlon.muskathlon_1_33_0
-#: model:survey.label,value:muskathlon.muskathlon_1_35_0
-#: model:survey.label,value:muskathlon.muskathlon_1_37_0
-#: model:survey.label,value:muskathlon.muskathlon_1_40_0
-#: model:survey.label,value:muskathlon.muskathlon_1_41_0
-#: model:survey.label,value:muskathlon.muskathlon_1_43_0
-#: model:survey.label,value:muskathlon.muskathlon_1_45_0
-msgid "No"
-msgstr "Non"
-
-#. module: muskathlon
 #: selection:event.registration,sport_level:0
 msgid "Average"
 msgstr "Average"
@@ -778,6 +281,11 @@ msgstr "Fermer"
 #: model:ir.model,name:muskathlon.model_crm_event_compassion
 msgid "Compassion event"
 msgstr "Evénement Compassion"
+
+#. module: muskathlon
+#: model:ir.ui.view,arch_db:muskathlon.tripinfos_formatted
+msgid "Complete medical survey"
+msgstr "Compléter le questionnaire médical"
 
 #. module: muskathlon
 #: model:ir.model,name:muskathlon.model_recurring_contract
@@ -961,6 +469,11 @@ msgstr "Event registrations"
 #: model:event.registration.task,name:muskathlon.task_emergency
 msgid "Fill emergency contact"
 msgstr "Fill emergency contact"
+
+#. module: muskathlon
+#: model:event.registration.task,name:muskathlon.task_medical
+msgid "Fill medical survey"
+msgstr "Questionnaire médical"
 
 #. module: muskathlon
 #: model:event.registration.task,name:muskathlon.task_passport
@@ -1641,6 +1154,11 @@ msgid "Save"
 msgstr "Sauvegarder"
 
 #. module: muskathlon
+#: model:ir.ui.view,arch_db:muskathlon.tripinfos_formatted
+msgid "See completed medical survey"
+msgstr "Voir le questionnaire médical"
+
+#. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_payment_acquirer_id
 msgid "Selected acquirer"
 msgstr "Selected acquirer"
@@ -1778,6 +1296,11 @@ msgstr "Genre de soutien"
 #: model:ir.ui.view,arch_db:muskathlon.participant_details
 msgid "Support me!"
 msgstr "Soutiens-moi !"
+
+#. module: muskathlon
+#: model:ir.model,name:muskathlon.model_survey_user_input
+msgid "Survey User Input"
+msgstr "Saisie utilisateur du sondage"
 
 #. module: muskathlon
 #: model:ir.model.fields,field_description:muskathlon.field_cms_form_event_registration_muskathlon_t_shirt_size
@@ -2376,3 +1899,500 @@ msgstr "project_donations_total"
 #: model:ir.model,name:muskathlon.model_staff_notification_settings
 msgid "staff.notification.settings"
 msgstr "staff.notification.settings"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_00
+msgid "Name"
+msgstr "Nom"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_01
+msgid "Age (years)"
+msgstr "Âge (années)"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_02
+msgid "Height (m)"
+msgstr "Taille (m)"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_03
+msgid "Weight (kg)"
+msgstr "Poids (kg)"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_04
+msgid "Do you have allergies?"
+msgstr "Avez-vous des allergies?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_05
+msgid "If yes, which:"
+msgstr "Si oui, lesquelles :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_06
+msgid "Do you know your blood type (A, B, AB, O)?"
+msgstr "Connaissez-vous votre groupe sanguin (A, B, AB, 0)?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_07
+msgid "If yes, which is it:"
+msgstr "Si oui, quel est-il :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_08
+msgid "Have you ever received a blood bag?"
+msgstr "Est-ce que vous avez déjà reçu une poche de sang?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_09
+msgid "If yes, have some complications followed?"
+msgstr "Si oui : est-ce que des complications ont suivi?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_10
+msgid ""
+"Do you take any anticoagulent medication (for instance ASS, Marcoumar, "
+"Heparine, Clopidogrel, Ticagrelor, Eliquis, Xarelto)?"
+msgstr ""
+"Est-ce que vous prenez des médicaments anticoagulants? (par exemple: ASS, "
+"Marcoumar, Héparine, Clopidogrel, Ticagrelor, Eliquis, Xarelto, …)"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_11
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquels :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_12
+msgid "Do you regularly take other medications?"
+msgstr "Est-ce que vous prenez régulièrement d’autres médicaments ?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_13
+msgid "If yes, which ones (including dosages):"
+msgstr "Si oui, lesquels (dosage inclu)?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_14
+msgid "Have you ever had surgery in the past?"
+msgstr "Est-ce que vous vous êtes déjà fait opérer dans le passé?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_15
+msgid "If yes, which were these surgeries?"
+msgstr "Si oui, quelles étaient ces opérations ?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_16
+msgid "Are you subject to narcosis problems?"
+msgstr "Est-ce que vous êtes sujet à des problèmes de narcose?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_17
+msgid "If yes, describe them:"
+msgstr "Si oui, décrivez-les :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_18
+msgid "Do you have heart disease?"
+msgstr "Est-ce que vous souffrez d’une maladie du coeur?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_19
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_20
+msgid "Do you have a disease of the respiratory tract/lungs?"
+msgstr "Est-ce que vous souffrez d’une maladie des voies respiratoires/poumons?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_21
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_22
+msgid "Is thyroid disease known to you?"
+msgstr "Est-ce qu’une maladie thyroïdienne vous est connue?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_23
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_24
+msgid "Do you have diabetes?"
+msgstr "Est-ce que vous souffrez de diabète?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_25
+msgid ""
+"Do you have any diseases/symptoms of the gastric or intestinal tract?"
+msgstr ""
+"Est-ce que vous souffrez de maladies/symptômes du tractus gastrique "
+"ou de l’intestin?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_26
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquels:"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_27
+msgid "Have you been diagnosed with chronic kidney disease?"
+msgstr "Avez-vous été diagnostiqué pour une maladie chronique rénale?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_28
+msgid "If yes, which one:"
+msgstr "Si oui, laquelle :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_29
+msgid "Have you been diagnosed with chronic liver disease?"
+msgstr "Avez-vous été diagnostiqué pour une maladie chronique du foie?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_30
+msgid "If yes, which one:""
+msgstr "Si oui, laquelle :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_31
+msgid "Have you been diagnosed with a disease of the nervous system?"
+msgstr "Avez-vous été diagnostiqué pour une maladie du système nerveux?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_32
+msgid "If yes, which one:"
+msgstr "Si oui, laquelle :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_33
+msgid "Do you suffer from pain in the spine, joints or muscles?"
+msgstr "Souffrez-vous de douleurs à la colonne vertébrale, articulaires ou musculaires?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_34
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_35
+msgid "Do you have an infectious disease?"
+msgstr "Est-ce que vous souffrez d’une maladie infectieuse ?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_36
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_37
+msgid "Have you been diagnosed with a mental illness?"
+msgstr "Avez-vous été diagnostiqué pour une maladie psychique?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_38
+msgid "If yes, which ones:"
+msgstr "Si oui lesquelles:"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_39
+msgid "Do you have other diseases, not listed above?"
+msgstr "Est-ce que vous souffrez d’autres maladies, non citées ci-dessus?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_39_1
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_40
+msgid "For women: are you pregnant?"
+msgstr "Pour les femmes: êtes-vous enceinte?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_41
+msgid "Do you smoke?"
+msgstr "Est-ce que vous fumez ?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_42
+msgid "If yes, how often daily:"
+msgstr "Si oui, à quelle fréquence quotidiennement :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_43
+msgid "Do you drink alcohol daily?"
+msgstr "Est-ce que vous consommez de l'alcool quotidiennement?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_44
+msgid "If yes, which alcohol and in which quantity:"
+msgstr "Si oui, quel alcool et en quelle quantité :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_45
+msgid "Do/did you consume drugs?"
+msgstr "Est-ce que vous consommez/avez consommé de la drogue ?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_46
+msgid "If yes, which one(s):"
+msgstr "Si oui, laquelle/lesquelles :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_19_1
+#: model:survey.question,question:muskathlon.muskathlon_1_32_1
+#: model:survey.question,question:muskathlon.muskathlon_1_34_1
+msgid "*Give more details here:"
+msgstr "*Donnez plus de détails ici :"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_arrhythmia
+msgid "Arrhythmia:"
+msgstr "Arythmie:"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_arrhytmia_atrial_fibrillation
+msgid "Atrial fibrillation"
+msgstr "Fibrillation auriculaire"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_hypertension
+msgid "Hypertension"
+msgstr "Hypertension"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_heart_weakness
+msgid "Heart weakness (heart failure)"
+msgstr "Faiblesse cardiaque (insuffisance cardiaque)"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_coronary_disease
+msgid "Coronary disease"
+msgstr "Maladie coronarienne"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_angina_pectoris
+msgid "Angina pectoris"
+msgstr "Angine de poitrine"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_valve_disease
+msgid "Heart Valve Disease/Valve Prosthesis*"
+msgstr "Maladie des valves cardiaques/prothèse valvulaire*"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_difficult_breathing
+msgid "Difficult breathing when climbing stairs"
+msgstr "Difficulté respiratoire lors de la montée de marches"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_arterial_problem
+msgid "Arterial circulation problem (AOMI)"
+msgstr "Problème de circulation artérielle (AOMI)"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_thrombosis
+msgid "Thrombosis"
+msgstr "Thrombose"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_asthma
+msgid "Asthma"
+msgstr "Asthme"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_copd
+msgid "Chronic obstructive pulmonary disease (COPD)"
+msgstr "Broncho-pneumopathie obstructive chronique (BPCO)"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_pulmonary_emphysema
+msgid "Pulmonary emphysema"
+msgstr "Emphysème pulmonaire"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_pulmonary_embolism
+msgid "Pulmonary embolism"
+msgstr "Embolie pulmonaire"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_hyperthyroidism
+msgid "Hyperthyroidism"
+msgstr "Hyperthyroïdie"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_hypothyroidism
+msgid "Hypothyroidism"
+msgstr "Hypothyroïdie"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_stomach_small_intestine
+msgid "Stomach/small intestine"
+msgstr "Estomac/intestin grêle"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_stomach_pains
+msgid "Stomach pains"
+msgstr "Brûlures d’estomac"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_digestive_strangulation
+msgid "Strangulation of the digestive tract"
+msgstr "Etranglement du tube digestif"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_kidney_failure
+msgid "Reduced kidney function (kidney failure)"
+msgstr "Fonction rénale réduite (insuffisance rénale)"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_kidney_infections
+msgid "Kidney infections"
+msgstr "Infections rénales"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_cirrhosis
+msgid "Cirrhosis of the liver"
+msgstr "Cirrhose du foie"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_jaundice
+msgid "Jaundice"
+msgstr "Jaunisse"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_hepatitisABC
+msgid "Hepatitis A B C"
+msgstr "Hépatite A B C"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_epilepsy
+msgid "Epilepsy"
+msgstr "Epilepsie"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_parkinson
+msgid "Parkinson"
+msgstr "Parkinson"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_stroke
+msgid "Stroke"
+msgstr "Attaque cérébrale"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_paralysis
+msgid "Paralysis*"
+msgstr "Paralysies*"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_herniated_disc
+msgid "Herniated disc"
+msgstr "Hernie discale"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_chronic_spine_pain
+msgid "Chronic pain in the spine"
+msgstr "Douleurs chroniques de la colonne vertébrale"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_spondylitis
+msgid "Spondylitis"
+msgstr "Bechterew"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_prothesis
+msgid "Joint pathology, artificial joint prosthesis*"
+msgstr "Pathologie articulaire, prothèse articulaire artificielle*"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_muscular_weakness
+msgid "Muscular weakness*"
+msgstr "Faiblesse musculaire*"
+
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_hepatitis
+msgid "Hepatitis"
+msgstr "Hépatite"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_hiv
+msgid "HIV"
+msgstr "VIH"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_tuberculosis
+msgid "Tuberculosis"
+msgstr "Tuberculose"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_anxiety_panic_crisis
+msgid "Anxiety/panic crisis"
+msgstr "Crise d’angoisse/panique"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_depression
+msgid "Depression"
+msgstr "Dépression"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_1_04_1
+#: model:survey.label,value:muskathlon.muskathlon_1_06_1
+#: model:survey.label,value:muskathlon.muskathlon_1_08_1
+#: model:survey.label,value:muskathlon.muskathlon_1_09_1
+#: model:survey.label,value:muskathlon.muskathlon_1_10_1
+#: model:survey.label,value:muskathlon.muskathlon_1_12_1
+#: model:survey.label,value:muskathlon.muskathlon_1_14_1
+#: model:survey.label,value:muskathlon.muskathlon_1_16_1
+#: model:survey.label,value:muskathlon.muskathlon_1_20_1
+#: model:survey.label,value:muskathlon.muskathlon_1_22_1
+#: model:survey.label,value:muskathlon.muskathlon_1_24_1
+#: model:survey.label,value:muskathlon.muskathlon_1_25_1
+#: model:survey.label,value:muskathlon.muskathlon_1_27_1
+#: model:survey.label,value:muskathlon.muskathlon_1_29_1
+#: model:survey.label,value:muskathlon.muskathlon_1_31_1
+#: model:survey.label,value:muskathlon.muskathlon_1_33_1
+#: model:survey.label,value:muskathlon.muskathlon_1_35_1
+#: model:survey.label,value:muskathlon.muskathlon_1_37_1
+#: model:survey.label,value:muskathlon.muskathlon_1_40_1
+#: model:survey.label,value:muskathlon.muskathlon_1_41_1
+#: model:survey.label,value:muskathlon.muskathlon_1_43_1
+#: model:survey.label,value:muskathlon.muskathlon_1_45_1
+msgid "Yes"
+msgstr "Oui"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_1_04_0
+#: model:survey.label,value:muskathlon.muskathlon_1_06_0
+#: model:survey.label,value:muskathlon.muskathlon_1_08_0
+#: model:survey.label,value:muskathlon.muskathlon_1_09_0
+#: model:survey.label,value:muskathlon.muskathlon_1_10_0
+#: model:survey.label,value:muskathlon.muskathlon_1_12_0
+#: model:survey.label,value:muskathlon.muskathlon_1_14_0
+#: model:survey.label,value:muskathlon.muskathlon_1_16_0
+#: model:survey.label,value:muskathlon.muskathlon_1_20_0
+#: model:survey.label,value:muskathlon.muskathlon_1_22_0
+#: model:survey.label,value:muskathlon.muskathlon_1_24_0
+#: model:survey.label,value:muskathlon.muskathlon_1_25_0
+#: model:survey.label,value:muskathlon.muskathlon_1_27_0
+#: model:survey.label,value:muskathlon.muskathlon_1_29_0
+#: model:survey.label,value:muskathlon.muskathlon_1_31_0
+#: model:survey.label,value:muskathlon.muskathlon_1_33_0
+#: model:survey.label,value:muskathlon.muskathlon_1_35_0
+#: model:survey.label,value:muskathlon.muskathlon_1_37_0
+#: model:survey.label,value:muskathlon.muskathlon_1_40_0
+#: model:survey.label,value:muskathlon.muskathlon_1_41_0
+#: model:survey.label,value:muskathlon.muskathlon_1_43_0
+#: model:survey.label,value:muskathlon.muskathlon_1_45_0
+msgid "No"
+msgstr "Non"
