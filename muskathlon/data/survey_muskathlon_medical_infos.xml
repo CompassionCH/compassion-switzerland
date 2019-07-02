@@ -43,7 +43,7 @@
         <record model="survey.question" id="muskathlon_1_02">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">2</field>
-            <field name="question">Height (cm)</field>
+            <field name="question">Height (m)</field>
             <field name="type">numerical_box</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
@@ -63,12 +63,22 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_04_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_04"/>
+        </record>
+        <record id="muskathlon_1_04_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_04"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_05">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">5</field>
             <field name="question">If yes, which:</field>
             <field name="type">free_text</field>
-            <field name="constr_mandatory" eval="True"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
 
         <!-- BLOOD TYPE -->
@@ -79,13 +89,45 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_06_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_06"/>
+        </record>
+        <record id="muskathlon_1_06_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_06"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_07">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">7</field>
             <field name="question">If yes, which is it:</field>
-            <field name="type">textbox</field>
-            <field name="constr_mandatory" eval="True"/>
+            <field name="type">simple_choice</field>
+            <field name="constr_mandatory" eval="False"/>
         </record>
+        <record id="muskathlon_1_07_0" model="survey.label">
+            <field name="value">A</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_07"/>
+        </record>
+        <record id="muskathlon_1_07_1" model="survey.label">
+            <field name="value">B</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_07"/>
+        </record>
+        <record id="muskathlon_1_07_2" model="survey.label">
+            <field name="value">AB</field>
+            <field name="quizz_mark">2</field>
+            <field name="question_id" ref="muskathlon_1_07"/>
+        </record>
+        <record id="muskathlon_1_07_3" model="survey.label">
+            <field name="value">O</field>
+            <field name="quizz_mark">3</field>
+            <field name="question_id" ref="muskathlon_1_07"/>
+        </record>
+
+        <!-- BLOOD BAG -->
         <record model="survey.question" id="muskathlon_1_08">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">8</field>
@@ -93,29 +135,58 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_08_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_08"/>
+        </record>
+        <record id="muskathlon_1_08_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_08"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_09">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">9</field>
             <field name="question">If yes, have some complications followed?</field>
             <field name="type">simple_choice</field>
-            <field name="constr_mandatory" eval="True"/>
+            <field name="constr_mandatory" eval="False"/>
+        </record>
+        <record id="muskathlon_1_09_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_09"/>
+        </record>
+        <record id="muskathlon_1_09_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_09"/>
         </record>
 
         <!-- MEDICATIONS -->
         <record model="survey.question" id="muskathlon_1_10">
             <field name="page_id" ref="muskathlon_1"/>
-            <field name="question">Do you take any anticoagulent medication (for instance
-                ASS, Marcoumar, Heparine, Clopidogrel, Ticagrelor, Eliquis, Xarelto)?</field>
             <field name="sequence">10</field>
+            <field name="question">Do you take any anticoagulent medication (for instance ASS, Marcoumar, Heparine, Clopidogrel, Ticagrelor, Eliquis, Xarelto)?</field>
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
+        </record>
+        <record id="muskathlon_1_10_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_10"/>
+        </record>
+        <record id="muskathlon_1_10_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_10"/>
         </record>
         <record model="survey.question" id="muskathlon_1_11">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">11</field>
             <field name="question">If yes, which ones:</field>
             <field name="type">textbox</field>
-            <field name="constr_mandatory" eval="True"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <record model="survey.question" id="muskathlon_1_12">
             <field name="page_id" ref="muskathlon_1"/>
@@ -124,12 +195,22 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_12_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_12"/>
+        </record>
+        <record id="muskathlon_1_12_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_12"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_13">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">13</field>
             <field name="question">If yes, which ones (including dosages):</field>
             <field name="type">free_text</field>
-            <field name="constr_mandatory" eval="True"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
 
         <!-- SURGERIES -->
@@ -140,12 +221,22 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_14_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_14"/>
+        </record>
+        <record id="muskathlon_1_14_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_14"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_15">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">15</field>
-            <field name="question">Which were these surgeries?</field>
+            <field name="question">If yes, which were these surgeries?</field>
             <field name="type">free_text</field>
-            <field name="constr_mandatory" eval="True"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
 
         <!-- NARCOSIS -->
@@ -156,12 +247,22 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_16_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_16"/>
+        </record>
+        <record id="muskathlon_1_16_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_16"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_17">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">17</field>
             <field name="question">If yes, describe them:</field>
             <field name="type">free_text</field>
-            <field name="constr_mandatory" eval="True"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
 
         <!-- HEART DISEASE -->
@@ -173,24 +274,21 @@
             <field name="constr_mandatory" eval="True"/>
         </record>
         <record model="survey.question" id="muskathlon_1_19">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">19</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <!-- Arrhythmia -->
-        <record id="muskathlon_arrhythmia" model="survey.label">
+        <!--<record id="muskathlon_arrhythmia" model="survey.label">
             <field name="value">Arrhythmia:</field>
             <field name="question_id" ref="muskathlon_1_19"/>
-        </record>
+        </record>-->
         <record id="muskathlon_arrhytmia_atrial_fibrillation" model="survey.label">
             <field name="value">Atrial fibrillation</field>
-            <field name="question_id" ref="muskathlon_1_19"/>
-        </record>
-        <record id="muskathlon_arrhythmia_other" model="survey.label">
-            <field name="value">Other:</field>
             <field name="question_id" ref="muskathlon_1_19"/>
         </record>
         <!-- Hypertension -->
@@ -213,16 +311,10 @@
             <field name="value">Angina pectoris</field>
             <field name="question_id" ref="muskathlon_1_19"/>
         </record>
-        <!-- Heart Valve Disease / Valve Prosthesis -->
+        <!-- Heart Valve Disease/Valve Prosthesis -->
         <record id="muskathlon_valve_disease" model="survey.label">
-            <field name="value">Heart Valve Disease / Valve Prosthesis</field>
+            <field name="value">Heart Valve Disease/Valve Prosthesis*</field>
             <field name="question_id" ref="muskathlon_1_19"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_19_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">190</field>
-            <field name="question">(description required):</field>
-            <field name="type">textbox</field>
         </record>
         <!-- Difficult breathing when climbing stairs -->
         <record id="muskathlon_difficult_breathing" model="survey.label">
@@ -239,33 +331,40 @@
             <field name="value">Thrombosis</field>
             <field name="question_id" ref="muskathlon_1_19"/>
         </record>
-        <!-- Other heart disease -->
-        <record id="muskathlon_other_heart" model="survey.label">
-            <field name="value">Other disease:</field>
-            <field name="question_id" ref="muskathlon_1_19"/>
-        </record>
         <record model="survey.question" id="muskathlon_1_19_1">
             <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">191</field>
-            <field name="question">Other disease:</field>
-            <field name="type">textbox</field>
+            <field name="sequence">19</field>
+            <field name="question">*Give more details here:</field>
+            <field name="type">free_text</field>
+            <field name="constr_mandatory" eval="False"/>
         </record>
 
         <!-- LUNGS/AIRWAYS DISEASES -->
         <record model="survey.question" id="muskathlon_1_20">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">20</field>
-            <field name="question">Do you have a disease of the airways / lungs?</field>
+            <field name="question">Do you have a disease of the respiratory tract/lungs?</field>
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_20_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_20"/>
+        </record>
+        <record id="muskathlon_1_20_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_20"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_21">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">21</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <!-- Asthma -->
         <record id="muskathlon_asthma" model="survey.label">
@@ -287,17 +386,6 @@
             <field name="value">Pulmonary embolism</field>
             <field name="question_id" ref="muskathlon_1_21"/>
         </record>
-        <!-- Other lungs disease -->
-        <record id="muskathlon_other_lungs" model="survey.label">
-            <field name="value">Other disease:</field>
-            <field name="question_id" ref="muskathlon_1_21"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_21_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">210</field>
-            <field name="question">Other disease:</field>
-            <field name="type">textbox</field>
-        </record>
 
         <!-- LUNGS/AIRWAYS DISEASES -->
         <record model="survey.question" id="muskathlon_1_22">
@@ -307,13 +395,24 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_22_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_22"/>
+        </record>
+        <record id="muskathlon_1_22_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_22"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_23">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">23</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <!-- Hyperthyroidism -->
         <record id="muskathlon_hyperthyroidism" model="survey.label">
@@ -325,17 +424,6 @@
             <field name="value">Hypothyroidism</field>
             <field name="question_id" ref="muskathlon_1_23"/>
         </record>
-        <!-- Other thyroid disease -->
-        <record id="muskathlon_other_thyroid" model="survey.label">
-            <field name="value">Other disease (eg. goiter, inflammation):</field>
-            <field name="question_id" ref="muskathlon_1_23"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_23_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">230</field>
-            <field name="question">Other disease (eg. goiter, inflammation):</field>
-            <field name="type">textbox</field>
-        </record>
 
         <!-- DIABETES -->
         <record model="survey.question" id="muskathlon_1_24">
@@ -345,26 +433,47 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_24_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_24"/>
+        </record>
+        <record id="muskathlon_1_24_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_24"/>
+        </record>
 
         <!-- INTESTINAL/GASTRIC DISEASE -->
         <record model="survey.question" id="muskathlon_1_25">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">25</field>
-            <field name="question">Do you have any diseases / symptoms of the gastric or intestinal tract?</field>
+            <field name="question">Do you have any diseases/symptoms of the gastric or intestinal tract?</field>
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_25_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_25"/>
+        </record>
+        <record id="muskathlon_1_25_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_25"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_26">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">26</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <!-- Stomach/small intestine -->
         <record id="muskathlon_stomach_small_intestine" model="survey.label">
-            <field name="value">Stomach / small intestine</field>
+            <field name="value">Stomach/small intestine</field>
             <field name="question_id" ref="muskathlon_1_26"/>
         </record>
         <!-- Stomach pains -->
@@ -377,17 +486,6 @@
             <field name="value">Strangulation of the digestive tract</field>
             <field name="question_id" ref="muskathlon_1_26"/>
         </record>
-        <!-- Other intestinal disease -->
-        <record id="muskathlon_other_intestinal" model="survey.label">
-            <field name="value">Other disease (eg. Crohn's disease, ulcerative colitis, celiac disease):</field>
-            <field name="question_id" ref="muskathlon_1_26"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_26_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">260</field>
-            <field name="question">Other disease (eg. Crohn's disease, ulcerative colitis, celiac disease):</field>
-            <field name="type">textbox</field>
-        </record>
 
         <!-- KIDNEY DISEASE -->
         <record model="survey.question" id="muskathlon_1_27">
@@ -397,13 +495,24 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_27_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_27"/>
+        </record>
+        <record id="muskathlon_1_27_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_27"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_28">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">28</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <!-- Reduced kidney function (kidney failure) -->
         <record id="muskathlon_kidney_failure" model="survey.label">
@@ -415,17 +524,6 @@
             <field name="value">Kidney infections</field>
             <field name="question_id" ref="muskathlon_1_28"/>
         </record>
-        <!-- Other kidney disease -->
-        <record id="muskathlon_other_kidney" model="survey.label">
-            <field name="value">Other disease:</field>
-            <field name="question_id" ref="muskathlon_1_28"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_28_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">280</field>
-            <field name="question">Other disease:</field>
-            <field name="type">textbox</field>
-        </record>
 
         <!-- LIVER DISEASE -->
         <record model="survey.question" id="muskathlon_1_29">
@@ -435,13 +533,24 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_29_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_29"/>
+        </record>
+        <record id="muskathlon_1_29_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_29"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_30">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">30</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <!-- Cirrhosis of the liver -->
         <record id="muskathlon_cirrhosis" model="survey.label">
@@ -454,20 +563,9 @@
             <field name="question_id" ref="muskathlon_1_30"/>
         </record>
         <!-- Hepatitis A B C -->
-        <record id="muskathlon_hepatitis" model="survey.label">
+        <record id="muskathlon_hepatitisABC" model="survey.label">
             <field name="value">Hepatitis A B C</field>
             <field name="question_id" ref="muskathlon_1_30"/>
-        </record>
-        <!-- Other liver disease -->
-        <record id="muskathlon_other_liver" model="survey.label">
-            <field name="value">Other disease:</field>
-            <field name="question_id" ref="muskathlon_1_30"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_30_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">300</field>
-            <field name="question">Other disease:</field>
-            <field name="type">textbox</field>
         </record>
 
         <!-- NERVOUS SYSTEM DISEASE -->
@@ -478,13 +576,24 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_31_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_31"/>
+        </record>
+        <record id="muskathlon_1_31_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_31"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_32">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">32</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <!-- Epilepsy -->
         <record id="muskathlon_epilepsy" model="survey.label">
@@ -503,25 +612,15 @@
         </record>
         <!-- paralysis -->
         <record id="muskathlon_paralysis" model="survey.label">
-            <field name="value">Paralysis:</field>
-            <field name="question_id" ref="muskathlon_1_32"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_32_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">320</field>
-            <field name="question">Paralysis:</field>
-            <field name="type">textbox</field>
-        </record>
-        <!-- Other nervous system disease -->
-        <record id="muskathlon_other_nervous_system" model="survey.label">
-            <field name="value">Other disease:</field>
+            <field name="value">Paralysis*:</field>
             <field name="question_id" ref="muskathlon_1_32"/>
         </record>
         <record model="survey.question" id="muskathlon_1_32_1">
             <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">321</field>
-            <field name="question">Other disease:</field>
-            <field name="type">textbox</field>
+            <field name="sequence">32</field>
+            <field name="question">*Give more details here:</field>
+            <field name="type">free_text</field>
+            <field name="constr_mandatory" eval="False"/>
         </record>
 
         <!-- MISCELLANEOUS PAIN -->
@@ -532,13 +631,24 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_33_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_33"/>
+        </record>
+        <record id="muskathlon_1_33_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_33"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_34">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">34</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <!-- Herniated disc -->
         <record id="muskathlon_herniated_disc" model="survey.label">
@@ -557,36 +667,20 @@
         </record>
         <!-- Joint pathology/prothesis -->
         <record id="muskathlon_prothesis" model="survey.label">
-            <field name="value">Joint pathology, artificial joint prosthesis:</field>
+            <field name="value">Joint pathology, artificial joint prosthesis*:</field>
             <field name="question_id" ref="muskathlon_1_34"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_34_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">340</field>
-            <field name="question">Joint pathology, artificial joint prosthesis:</field>
-            <field name="type">textbox</field>
         </record>
         <!-- Muscular weakness -->
         <record id="muskathlon_muscular_weakness" model="survey.label">
-            <field name="value">Muscular weakness:</field>
+            <field name="value">Muscular weakness*:</field>
             <field name="question_id" ref="muskathlon_1_34"/>
         </record>
         <record model="survey.question" id="muskathlon_1_34_1">
             <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">341</field>
-            <field name="question">Muscular weakness:</field>
-            <field name="type">textbox</field>
-        </record>
-        <!-- Other miscellaneous pain -->
-        <record id="muskathlon_other_pain" model="survey.label">
-            <field name="value">Other disease:</field>
-            <field name="question_id" ref="muskathlon_1_34"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_34_2">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">342</field>
-            <field name="question">Other disease:</field>
-            <field name="type">textbox</field>
+            <field name="sequence">34</field>
+            <field name="question">*Give more details here:</field>
+            <field name="type">free_text</field>
+            <field name="constr_mandatory" eval="False"/>
         </record>
 
         <!-- INFECTIOUS DISEASE -->
@@ -597,13 +691,24 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_35_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_35"/>
+        </record>
+        <record id="muskathlon_1_35_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_35"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_36">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">36</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
         <!-- Hepatitis -->
         <record id="muskathlon_hepatitis" model="survey.label">
@@ -620,17 +725,6 @@
             <field name="value">Tuberculosis</field>
             <field name="question_id" ref="muskathlon_1_36"/>
         </record>
-        <!-- Other infectious disease -->
-        <record id="muskathlon_other_infectious" model="survey.label">
-            <field name="value">Other disease:</field>
-            <field name="question_id" ref="muskathlon_1_36"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_36_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">360</field>
-            <field name="question">Other disease:</field>
-            <field name="type">textbox</field>
-        </record>
 
         <!-- PSYCHICAL DISEASE -->
         <record model="survey.question" id="muskathlon_1_37">
@@ -640,17 +734,28 @@
             <field name="type">simple_choice</field>
             <field name="constr_mandatory" eval="True"/>
         </record>
+        <record id="muskathlon_1_37_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_37"/>
+        </record>
+        <record id="muskathlon_1_37_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_37"/>
+        </record>
         <record model="survey.question" id="muskathlon_1_38">
-            <field name="question">If yes, which one(s):</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">multiple_choice</field>
             <field name="sequence">38</field>
-            <field name="comments_allowed">1</field>
+            <field name="comments_allowed">True</field>
             <field name="comment_count_as_answer">1</field>
             <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="False"/>
         </record>
-        <!-- Anxiety / panic crisis -->
+        <!-- Anxiety/panic crisis -->
         <record id="muskathlon_anxiety_panic_crisis" model="survey.label">
-            <field name="value">Anxiety / panic crisis</field>
+            <field name="value">Anxiety/panic crisis</field>
             <field name="question_id" ref="muskathlon_1_38"/>
         </record>
         <!-- Depression -->
@@ -658,75 +763,124 @@
             <field name="value">Depression</field>
             <field name="question_id" ref="muskathlon_1_38"/>
         </record>
-        <!-- Other psychical disease -->
-        <record id="muskathlon_other_psychical" model="survey.label">
-            <field name="value">Other disease:</field>
-            <field name="question_id" ref="muskathlon_1_38"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_38_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">380</field>
-            <field name="question">Other disease:</field>
-            <field name="type">textbox</field>
-        </record>
 
         <!-- OTHER DISEASE -->
         <record model="survey.question" id="muskathlon_1_39">
             <field name="page_id" ref="muskathlon_1"/>
             <field name="sequence">39</field>
             <field name="question">Do you have other diseases, not listed above?</field>
+            <field name="type">simple_choice</field>
+            <field name="constr_mandatory" eval="True"/>
+        </record>
+        <record id="muskathlon_1_39_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_39"/>
+        </record>
+        <record id="muskathlon_1_39_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_39"/>
+        </record>
+        <record model="survey.question" id="muskathlon_1_39_1">
+            <field name="page_id" ref="muskathlon_1"/>
+            <field name="sequence">39</field>
+            <field name="question">If yes, which ones:</field>
             <field name="type">free_text</field>
+            <field name="constr_mandatory" eval="False"/>
+        </record>
+
+        <!-- SMOKING -->
+        <record model="survey.question" id="muskathlon_1_41">
+            <field name="question">Do you smoke?</field>
+            <field name="type">simple_choice</field>
+            <field name="sequence">41</field>
+            <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="True"/>
+        </record>
+        <record id="muskathlon_1_41_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_41"/>
+        </record>
+        <record id="muskathlon_1_41_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_41"/>
+        </record>
+        <record model="survey.question" id="muskathlon_1_42">
+            <field name="question">If yes, how often daily:</field>
+            <field name="type">textbox</field>
+            <field name="sequence">42</field>
+            <field name="page_id" ref="muskathlon_1"/>
+        </record>
+
+        <!-- DRINKING ALCOHOL -->
+        <record model="survey.question" id="muskathlon_1_43">
+            <field name="question">Do you drink alcohol daily?</field>
+            <field name="type">simple_choice</field>
+            <field name="sequence">43</field>
+            <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="True"/>
+        </record>
+        <record id="muskathlon_1_43_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_43"/>
+        </record>
+        <record id="muskathlon_1_43_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_43"/>
+        </record>
+        <record model="survey.question" id="muskathlon_1_44">
+            <field name="question">If yes, which alcohol and in which quantity:</field>
+            <field name="type">textbox</field>
+            <field name="sequence">44</field>
+            <field name="page_id" ref="muskathlon_1"/>
+        </record>
+
+        <!-- DRUGS -->
+        <record model="survey.question" id="muskathlon_1_45">
+            <field name="question">Do/did you consume drugs?</field>
+            <field name="type">simple_choice</field>
+            <field name="sequence">45</field>
+            <field name="page_id" ref="muskathlon_1"/>
+            <field name="constr_mandatory" eval="True"/>
+        </record>
+        <record id="muskathlon_1_45_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_45"/>
+        </record>
+        <record id="muskathlon_1_45_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_45"/>
+        </record>
+        <record model="survey.question" id="muskathlon_1_46">
+            <field name="question">If yes, which one(s):</field>
+            <field name="type">textbox</field>
+            <field name="sequence">46</field>
+            <field name="page_id" ref="muskathlon_1"/>
         </record>
 
         <!-- WOMEN: PREGNANCY -->
         <record model="survey.question" id="muskathlon_1_40">
             <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">40</field>
+            <field name="sequence">47</field>
             <field name="question">For women: are you pregnant?</field>
             <field name="type">simple_choice</field>
         </record>
-
-        <!-- LIFESTYLE -->
-        <record model="survey.question" id="muskathlon_1_41">
-            <field name="question">Lifestyle: check only if you are concerned:</field>
-            <field name="type">multiple_choice</field>
-            <field name="sequence">41</field>
-            <field name="comments_allowed">1</field>
-            <field name="comment_count_as_answer">1</field>
-            <field name="page_id" ref="muskathlon_1"/>
+        <record id="muskathlon_1_40_0" model="survey.label">
+            <field name="value">No</field>
+            <field name="quizz_mark">0</field>
+            <field name="question_id" ref="muskathlon_1_40"/>
         </record>
-        <!-- Smoking -->
-        <record id="muskathlon_smoke" model="survey.label">
-            <field name="value">Smoke:</field>
-            <field name="question_id" ref="muskathlon_1_41"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_41_0">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">400</field>
-            <field name="question">I smoke - how often daily? :</field>
-            <field name="type">textbox</field>
-        </record>
-        <!-- Alcool -->
-        <record id="muskathlon_alcohol" model="survey.label">
-            <field name="value">Alcohol:</field>
-            <field name="question_id" ref="muskathlon_1_41"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_41_1">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">401</field>
-            <field name="question">I consume alcohol daily (product, quantity):</field>
-            <field name="type">textbox</field>
-        </record>
-        <!-- Drugs -->
-        <record id="muskathlon_drug" model="survey.label">
-            <field name="value">Drugs:</field>
-            <field name="question_id" ref="muskathlon_1_41"/>
-        </record>
-        <record model="survey.question" id="muskathlon_1_41_2">
-            <field name="page_id" ref="muskathlon_1"/>
-            <field name="sequence">402</field>
-            <field name="question">I use drugs / have used drugs in the past (which):</field>
-            <field name="type">textbox</field>
+        <record id="muskathlon_1_40_1" model="survey.label">
+            <field name="value">Yes</field>
+            <field name="quizz_mark">1</field>
+            <field name="question_id" ref="muskathlon_1_40"/>
         </record>
     </data>
 </odoo>

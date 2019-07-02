@@ -214,8 +214,8 @@ msgstr "Âge (années)"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_02
-msgid "Height (cm)"
-msgstr "Taille (cm)"
+msgid "Height (m)"
+msgstr "Taille (m)"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_03
@@ -240,7 +240,7 @@ msgstr "Connaissez-vous votre groupe sanguin (A, B, AB, 0)?"
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_07
 msgid "If yes, which is it:"
-msgstr "Si oui, quel est-il? :"
+msgstr "Si oui, quel est-il :"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_08
@@ -250,7 +250,7 @@ msgstr "Est-ce que vous avez déjà reçu une poche de sang?"
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_09
 msgid "If yes, have some complications followed?"
-msgstr "Si oui : est-ce des complications ont suivi?"
+msgstr "Si oui : est-ce que des complications ont suivi?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_10
@@ -264,7 +264,7 @@ msgstr ""
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_11
 msgid "If yes, which ones:"
-msgstr "Si oui, lesquels:"
+msgstr "Si oui, lesquels :"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_12
@@ -274,7 +274,7 @@ msgstr "Est-ce que vous prenez régulièrement d’autres médicaments ?"
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_13
 msgid "If yes, which ones (including dosages):"
-msgstr "Si oui, lesquels (dosage inclus)?"
+msgstr "Si oui, lesquels (dosage inclu)?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_14
@@ -283,8 +283,8 @@ msgstr "Est-ce que vous vous êtes déjà fait opérer dans le passé?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_15
-msgid "Which were these surgeries?"
-msgstr "Quelles étaient ces opérations ?"
+msgid "If yes, which were these surgeries?"
+msgstr "Si oui, quelles étaient ces opérations ?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_16
@@ -294,7 +294,7 @@ msgstr "Est-ce que vous êtes sujet à des problèmes de narcose?"
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_17
 msgid "If yes, describe them:"
-msgstr "Si oui, décrivez-les:"
+msgstr "Si oui, décrivez-les :"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_18
@@ -303,18 +303,18 @@ msgstr "Est-ce que vous souffrez d’une maladie du coeur?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_19
-msgid "If yes, which one(s):"
-msgstr "Si oui, laquelle/lesquelles:"
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_20
-msgid "Do you have a disease of the airways / lungs?"
-msgstr "Est-ce que vous souffrez d’une maladie des voies respirations/poumons?"
+msgid "Do you have a disease of the respiratory tract/lungs?"
+msgstr "Est-ce que vous souffrez d’une maladie des voies respiratoires/poumons?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_21
-msgid "If yes, which one(s):"
-msgstr "Si oui, laquelle/lesquelles:"
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_22
@@ -323,8 +323,8 @@ msgstr "Est-ce qu’une maladie thyroïdienne vous est connue?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_23
-msgid "If yes, which one(s):"
-msgstr "Si oui, laquelle/lesquelles:"
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_24
@@ -334,15 +334,15 @@ msgstr "Est-ce que vous souffrez de diabète?"
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_25
 msgid ""
-"Do you have any diseases / symptoms of the gastric or intestinal tract?"
+"Do you have any diseases/symptoms of the gastric or intestinal tract?"
 msgstr ""
 "Est-ce que vous souffrez de maladies/symptômes du tractus gastrique "
 "ou de l’intestin?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_26
-msgid "If yes, which one(s):"
-msgstr "Si oui, laquelle/lesquelles:"
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquels:"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_27
@@ -351,8 +351,8 @@ msgstr "Avez-vous été diagnostiqué pour une maladie chronique rénale?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_28
-msgid "If yes, which one(s):"
-msgstr "Si oui, laquelle/lesquelles"
+msgid "If yes, which one:"
+msgstr "Si oui, laquelle :"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_29
@@ -361,8 +361,8 @@ msgstr "Avez-vous été diagnostiqué pour une maladie chronique du foie? "
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_30
-msgid "If yes, which one(s):""
-msgstr "Si oui, laquelle/lesquelles"
+msgid "If yes, which one:""
+msgstr "Si oui, laquelle :"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_31
@@ -371,8 +371,8 @@ msgstr "Avez-vous été diagnostiqué pour une maladie du système nerveux?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_32
-msgid "If yes, which one(s):"
-msgstr "Si oui, laquelle/lesquelles:"
+msgid "If yes, which one:"
+msgstr "Si oui, laquelle :"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_33
@@ -381,18 +381,18 @@ msgstr "Souffrez-vous de douleurs à la colonne vertébrale, articulaires ou mus
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_34
-msgid "If yes, which one(s):"
-msgstr "Si oui, laquelle/lesquelles:"
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_35
 msgid "Do you have an infectious disease?"
-msgstr "Souffrez-vous de douleurs à la colonne vertébrale, articulaires ou musculaires?"
+msgstr "Est-ce que vous souffrez d’une maladie infectieuse ?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_36
-msgid "If yes, which one(s):"
-msgstr "Si oui, laquelle/lesquelles:"
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles:"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_37
@@ -401,13 +401,18 @@ msgstr "Avez-vous été diagnostiqué pour une maladie psychique?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_38
-msgid "If yes, which one(s):"
-msgstr "Si oui laquelle/lesquelles:"
+msgid "If yes, which ones:"
+msgstr "Si oui lesquelles:"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_39
 msgid "Do you have other diseases, not listed above?"
 msgstr "Est-ce que vous souffrez d’autres maladies, non citées ci-dessus?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_39_1
+msgid "If yes, which ones:"
+msgstr "Si oui, lesquelles :"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_40
@@ -416,268 +421,283 @@ msgstr "Pour les femmes: êtes-vous enceinte?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_41
-msgid "Lifestyle: check only if you are concerned:"
-msgstr "Modes de vie: cochez seulement si vous êtes concerné"
+msgid "Do you smoke?"
+msgstr "Est-ce que vous fumez ?"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_arrhythmia
+#: model:survey.question,question:muskathlon.muskathlon_1_42
+msgid "If yes, how often daily:"
+msgstr "Si oui, à quelle fréquence quotidiennement :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_43
+msgid "Do you drink alcohol daily?"
+msgstr "Est-ce que vous consommez de l'alcool quotidiennement?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_44
+msgid "If yes, which alcohol and in which quantity:"
+msgstr "Si oui, quel alcool et en quelle quantité :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_45
+msgid "Do/did you consume drugs?"
+msgstr "Est-ce que vous consommez/avez consommé de la drogue ?"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_46
+msgid "If yes, which one(s):"
+msgstr "Si oui, laquelle/lesquelles :"
+
+#. module: muskathlon
+#: model:survey.question,question:muskathlon.muskathlon_1_19_1
+#: model:survey.question,question:muskathlon.muskathlon_1_32_1
+#: model:survey.question,question:muskathlon.muskathlon_1_34_1
+msgid "*Give more details here:"
+msgstr "*Donnez plus de détails ici :"
+
+#. module: muskathlon
+#: model:survey.label,value:muskathlon.muskathlon_arrhythmia
 msgid "Arrhythmia:"
 msgstr "Arythmie:"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_arrhytmia_atrial_fibrillation
+#: model:survey.label,value:muskathlon.muskathlon_arrhytmia_atrial_fibrillation
 msgid "Atrial fibrillation"
 msgstr "Fibrillation auriculaire"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_arrhythmia_other
-msgid "Other:"
-msgstr "Autre:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_hypertension
+#: model:survey.label,value:muskathlon.muskathlon_hypertension
 msgid "Hypertension"
 msgstr "Hypertension"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_heart_weakness
+#: model:survey.label,value:muskathlon.muskathlon_heart_weakness
 msgid "Heart weakness (heart failure)"
 msgstr "Faiblesse cardiaque (insuffisance cardiaque)"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_coronary_disease
+#: model:survey.label,value:muskathlon.muskathlon_coronary_disease
 msgid "Coronary disease"
 msgstr "Maladie coronarienne"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_angina_pectoris
+#: model:survey.label,value:muskathlon.muskathlon_angina_pectoris
 msgid "Angina pectoris"
 msgstr "Angine de poitrine"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_valve_disease
-msgid "Heart Valve Disease / Valve Prosthesis (description needed):"
-msgstr "Maladie des valves cardiaques/prothèse valvulaire (description nécessaire):"
+#: model:survey.label,value:muskathlon.muskathlon_valve_disease
+msgid "Heart Valve Disease/Valve Prosthesis*"
+msgstr "Maladie des valves cardiaques/prothèse valvulaire*"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_difficult_breathing
+#: model:survey.label,value:muskathlon.muskathlon_difficult_breathing
 msgid "Difficult breathing when climbing stairs"
 msgstr "Difficulté respiratoire lors de la montée de marches"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_arterial_problem
+#: model:survey.label,value:muskathlon.muskathlon_arterial_problem
 msgid "Arterial circulation problem (AOMI)"
 msgstr "Problème de circulation artérielle (AOMI)"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_thrombosis
+#: model:survey.label,value:muskathlon.muskathlon_thrombosis
 msgid "Thrombosis"
 msgstr "Thrombose"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_heart
-msgid "Other disease:"
-msgstr "Autre maladie:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_asthma
+#: model:survey.label,value:muskathlon.muskathlon_asthma
 msgid "Asthma"
 msgstr "Asthme"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_copd
+#: model:survey.label,value:muskathlon.muskathlon_copd
 msgid "Chronic obstructive pulmonary disease (COPD)"
 msgstr "Broncho-pneumopathie obstructive chronique (BPCO)"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_pulmonary_emphysema
+#: model:survey.label,value:muskathlon.muskathlon_pulmonary_emphysema
 msgid "Pulmonary emphysema"
 msgstr "Emphysème pulmonaire"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_pulmonary_embolism
+#: model:survey.label,value:muskathlon.muskathlon_pulmonary_embolism
 msgid "Pulmonary embolism"
 msgstr "Embolie pulmonaire"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_lungs
-msgid "Other disease:"
-msgstr "Autre maladie:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_hyperthyroidism
+#: model:survey.label,value:muskathlon.muskathlon_hyperthyroidism
 msgid "Hyperthyroidism"
 msgstr "Hyperthyroïdie"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_hypothyroidism
+#: model:survey.label,value:muskathlon.muskathlon_hypothyroidism
 msgid "Hypothyroidism"
 msgstr "Hypothyroïdie"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_thyroid
-msgid "Other disease (eg. goiter, inflammation):"
-msgstr "Autre maladie (ex. goitre, inflammation):"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_stomach_small_intestine
-msgid "Stomach / small intestine"
+#: model:survey.label,value:muskathlon.muskathlon_stomach_small_intestine
+msgid "Stomach/small intestine"
 msgstr "Estomac/intestin grêle"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_stomach_pains
+#: model:survey.label,value:muskathlon.muskathlon_stomach_pains
 msgid "Stomach pains"
 msgstr "Brûlures d’estomac"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_digestive_strangulation
+#: model:survey.label,value:muskathlon.muskathlon_digestive_strangulation
 msgid "Strangulation of the digestive tract"
 msgstr "Etranglement du tube digestif"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_intestinal
-msgid "Other disease (eg. Crohn's disease, ulcerative colitis, celiac disease):"
-msgstr "Autre maladie (ex. maladie de Crohn, colite ulcéreuse, maladie coeliaque):"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_kidney_failure
+#: model:survey.label,value:muskathlon.muskathlon_kidney_failure
 msgid "Reduced kidney function (kidney failure)"
 msgstr "Fonction rénale réduite (insuffisance rénale)"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_kidney_infections
+#: model:survey.label,value:muskathlon.muskathlon_kidney_infections
 msgid "Kidney infections"
 msgstr "Infections rénales"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_kidney
-msgid "Other disease:"
-msgstr "Autre maladie:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_cirrhosis
+#: model:survey.label,value:muskathlon.muskathlon_cirrhosis
 msgid "Cirrhosis of the liver"
 msgstr "Cirrhose du foie"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_jaundice
+#: model:survey.label,value:muskathlon.muskathlon_jaundice
 msgid "Jaundice"
 msgstr "Jaunisse"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_hepatitis
+#: model:survey.label,value:muskathlon.muskathlon_hepatitisABC
 msgid "Hepatitis A B C"
 msgstr "Hépatite A B C"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_liver
-msgid "Other disease:"
-msgstr "Autre maladie:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_epilepsy
+#: model:survey.label,value:muskathlon.muskathlon_epilepsy
 msgid "Epilepsy"
 msgstr "Epilepsie"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_parkinson
+#: model:survey.label,value:muskathlon.muskathlon_parkinson
 msgid "Parkinson"
 msgstr "Parkinson"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_stroke
+#: model:survey.label,value:muskathlon.muskathlon_stroke
 msgid "Stroke"
 msgstr "Attaque cérébrale"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_paralysis
-msgid "Paralysis:"
-msgstr "Paralysies:"
+#: model:survey.label,value:muskathlon.muskathlon_paralysis
+msgid "Paralysis*"
+msgstr "Paralysies*"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_nervous_system
-msgid "Other disease:"
-msgstr "Autre maladie:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_herniated_disc
+#: model:survey.label,value:muskathlon.muskathlon_herniated_disc
 msgid "Herniated disc"
 msgstr "Hernie discale"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_chronic_spine_pain
+#: model:survey.label,value:muskathlon.muskathlon_chronic_spine_pain
 msgid "Chronic pain in the spine"
 msgstr "Douleurs chroniques de la colonne vertébrale"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_spondylitis
+#: model:survey.label,value:muskathlon.muskathlon_spondylitis
 msgid "Spondylitis"
 msgstr "Bechterew"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_prothesis
-msgid "Joint pathology, artificial joint prosthesis:"
-msgstr "Pathologie articulaire, prothèse articulaire artificielle:"
+#: model:survey.label,value:muskathlon.muskathlon_prothesis
+msgid "Joint pathology, artificial joint prosthesis*"
+msgstr "Pathologie articulaire, prothèse articulaire artificielle*"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_muscular_weakness
-msgid "Muscular weakness:"
-msgstr "Faiblesse musculaire:"
+#: model:survey.label,value:muskathlon.muskathlon_muscular_weakness
+msgid "Muscular weakness*"
+msgstr "Faiblesse musculaire*"
+
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_pain
-msgid "Other disease:"
-msgstr "Autre maladie:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_hepatitis
+#: model:survey.label,value:muskathlon.muskathlon_hepatitis
 msgid "Hepatitis"
 msgstr "Hépatite"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_hiv
+#: model:survey.label,value:muskathlon.muskathlon_hiv
 msgid "HIV"
 msgstr "VIH"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_tuberculosis
-msgid "Tuberculosis:"
-msgstr "Tuberculose:"
+#: model:survey.label,value:muskathlon.muskathlon_tuberculosis
+msgid "Tuberculosis"
+msgstr "Tuberculose"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_infectious
-msgid "Other disease:"
-msgstr "Autre maladie:"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_anxiety_panic_crisis
+#: model:survey.label,value:muskathlon.muskathlon_anxiety_panic_crisis
 msgid "Anxiety/panic crisis"
 msgstr "Crise d’angoisse/panique"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_depression
-msgid "Depression:"
-msgstr "Dépression:"
+#: model:survey.label,value:muskathlon.muskathlon_depression
+msgid "Depression"
+msgstr "Dépression"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_other_psychical
-msgid "Other disease:"
-msgstr "Autre maladie:"
+#: model:survey.label,value:muskathlon.muskathlon_1_04_1
+#: model:survey.label,value:muskathlon.muskathlon_1_06_1
+#: model:survey.label,value:muskathlon.muskathlon_1_08_1
+#: model:survey.label,value:muskathlon.muskathlon_1_09_1
+#: model:survey.label,value:muskathlon.muskathlon_1_10_1
+#: model:survey.label,value:muskathlon.muskathlon_1_12_1
+#: model:survey.label,value:muskathlon.muskathlon_1_14_1
+#: model:survey.label,value:muskathlon.muskathlon_1_16_1
+#: model:survey.label,value:muskathlon.muskathlon_1_20_1
+#: model:survey.label,value:muskathlon.muskathlon_1_22_1
+#: model:survey.label,value:muskathlon.muskathlon_1_24_1
+#: model:survey.label,value:muskathlon.muskathlon_1_25_1
+#: model:survey.label,value:muskathlon.muskathlon_1_27_1
+#: model:survey.label,value:muskathlon.muskathlon_1_29_1
+#: model:survey.label,value:muskathlon.muskathlon_1_31_1
+#: model:survey.label,value:muskathlon.muskathlon_1_33_1
+#: model:survey.label,value:muskathlon.muskathlon_1_35_1
+#: model:survey.label,value:muskathlon.muskathlon_1_37_1
+#: model:survey.label,value:muskathlon.muskathlon_1_40_1
+#: model:survey.label,value:muskathlon.muskathlon_1_41_1
+#: model:survey.label,value:muskathlon.muskathlon_1_43_1
+#: model:survey.label,value:muskathlon.muskathlon_1_45_1
+msgid "Yes"
+msgstr "Oui"
 
 #. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_smoke
-msgid "I smoke - how often daily? :"
-msgstr "Je fume - à quelle fréquence quotidiennement? :"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_alcohol
-msgid "I consume alcohol daily (product, quantity):"
-msgstr "Je consomme quotidiennement de l’alcool (produit, quantité):"
-
-#. module: muskathlon
-#: model:survey.question,question:muskathlon.muskathlon_drug
-msgid "I use drugs / have used drugs in the past (which):"
-msgstr "Je consomme des drogues/ai consommé des drogues dans le passé (lesquelles):"
+#: model:survey.label,value:muskathlon.muskathlon_1_04_0
+#: model:survey.label,value:muskathlon.muskathlon_1_06_0
+#: model:survey.label,value:muskathlon.muskathlon_1_08_0
+#: model:survey.label,value:muskathlon.muskathlon_1_09_0
+#: model:survey.label,value:muskathlon.muskathlon_1_10_0
+#: model:survey.label,value:muskathlon.muskathlon_1_12_0
+#: model:survey.label,value:muskathlon.muskathlon_1_14_0
+#: model:survey.label,value:muskathlon.muskathlon_1_16_0
+#: model:survey.label,value:muskathlon.muskathlon_1_20_0
+#: model:survey.label,value:muskathlon.muskathlon_1_22_0
+#: model:survey.label,value:muskathlon.muskathlon_1_24_0
+#: model:survey.label,value:muskathlon.muskathlon_1_25_0
+#: model:survey.label,value:muskathlon.muskathlon_1_27_0
+#: model:survey.label,value:muskathlon.muskathlon_1_29_0
+#: model:survey.label,value:muskathlon.muskathlon_1_31_0
+#: model:survey.label,value:muskathlon.muskathlon_1_33_0
+#: model:survey.label,value:muskathlon.muskathlon_1_35_0
+#: model:survey.label,value:muskathlon.muskathlon_1_37_0
+#: model:survey.label,value:muskathlon.muskathlon_1_40_0
+#: model:survey.label,value:muskathlon.muskathlon_1_41_0
+#: model:survey.label,value:muskathlon.muskathlon_1_43_0
+#: model:survey.label,value:muskathlon.muskathlon_1_45_0
+msgid "No"
+msgstr "Non"
 
 #. module: muskathlon
 #: selection:event.registration,sport_level:0
@@ -1087,35 +1107,6 @@ msgstr "ID"
 #: model:survey.question,comments_message:muskathlon.muskathlon_1_39
 #: model:survey.question,comments_message:muskathlon.muskathlon_1_40
 #: model:survey.question,comments_message:muskathlon.muskathlon_1_41
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
 msgid "If other, please specify:"
 msgstr "Si autre, merci de préciser :"
 
@@ -1806,6 +1797,11 @@ msgstr "Conditions générales"
 
 #. module: muskathlon
 #: model:survey.survey,description:muskathlon.muskathlon_form
+msgid "Muskathlon medical survey"
+msgstr "Questionnaire médical pour le Muskathlon"
+
+#. module: muskathlon
+#: model:survey.survey,description:muskathlon.muskathlon_form
 msgid ""
 "The medical form has several reasons to be. First, it allows the "
 "Muskathlon doctor to assess and apprehend the risks in the context "
@@ -1829,7 +1825,7 @@ msgstr ""
 "d’implant, attestation de simulateur cardiaque), et de les remettre "
 "à notre médecin sur place. Comme dans tout partage d’informations "
 "médicales, l’équipe de 4Medic est aussi soumise au secret professionnel. "
-Toutes les informations partagées seront supprimées après le Muskathlon. "
+"Toutes les informations partagées seront supprimées après le Muskathlon. "
 "Merci beaucoup !"
 
 #. module: muskathlon
@@ -1857,77 +1853,95 @@ msgid "Thank you for your submission."
 msgstr "Merci pour ton inscription."
 
 #. module: muskathlon
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_00
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_01
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_02
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_03
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_04
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_05
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_06
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_07
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_08
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_09
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_10
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_11
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_12
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_13
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_14
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_15
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_16
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_17
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_18
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_19
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_20
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_21
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_22
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_23
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_24
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_25
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_26
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_27
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_28
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_29
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_30
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_31
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_32
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_33
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_34
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_35
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_36
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_37
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_38
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_39
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_40
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_41
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_00
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_01
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_02
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_03
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_04
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_05
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_06
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_07
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_08
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_09
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_10
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_11
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_12
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_13
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_14
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_15
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_16
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_17
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_18
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_19
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_20
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_21
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_22
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_23
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_24
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_25
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_26
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_27
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_28
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_29
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_30
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_31
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_32
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_33
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_34
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_35
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_36
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_37
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_38
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_39
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_40
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_41
+msgid "The answer you entered has an invalid format."
+msgstr "La réponse n'est pas valide."
+
+
+#. module: muskathlon
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_00
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_01
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_02
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_03
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_04
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_05
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_06
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_07
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_08
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_09
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_10
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_11
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_12
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_13
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_14
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_15
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_16
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_17
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_18
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_19
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_20
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_21
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_22
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_23
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_24
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_25
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_26
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_27
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_28
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_29
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_30
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_31
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_32
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_33
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_34
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_35
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_36
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_37
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_38
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_39
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_40
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_41
 msgid "The answer you entered has an invalid format."
 msgstr "La réponse n'est pas valide."
 
@@ -1958,77 +1972,48 @@ msgstr ""
 "Ce partenaire est inscrit au Muskathlon mais n'a pas de détails ambassadeur."
 
 #. module: muskathlon
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_00
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_01
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_02
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_03
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_04
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_05
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_06
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_07
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_08
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_09
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_10
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_11
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_12
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_13
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_14
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_15
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_16
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_17
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_18
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_19
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_20
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_21
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_22
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_23
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_24
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_25
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_26
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_27
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_28
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_29
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_30
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_31
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_32
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_33
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_34
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_35
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_36
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_37
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_38
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_39
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_40
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_41
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
-#: model:survey.question,comments_message:muskathlon.muskathlon_1_
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_00
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_01
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_02
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_03
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_04
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_05
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_06
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_07
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_08
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_09
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_10
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_11
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_12
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_13
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_14
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_15
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_16
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_17
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_18
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_19
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_20
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_21
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_22
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_23
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_24
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_25
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_26
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_27
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_28
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_29
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_30
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_31
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_32
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_33
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_34
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_35
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_36
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_37
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_38
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_39
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_40
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_41
 msgid "This question requires an answer."
 msgstr "Cette question requiert une réponse."
 
