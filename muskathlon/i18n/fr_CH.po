@@ -203,6 +203,12 @@ msgid "Amount raised percents"
 msgstr "Dons récoltés (pourcentage)"
 
 #. module: muskathlon
+#: model:survey.page,title:muskathlon.muskathlon_1
+#: model:survey.survey,title:muskathlon.muskathlon_form
+msgid "Muskathlon medical survey"
+msgstr "Questionnaire médical pour le Muskathlon"
+
+#. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_00
 msgid "Name"
 msgstr "Nom"
@@ -357,7 +363,7 @@ msgstr "Si oui, laquelle :"
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_29
 msgid "Have you been diagnosed with chronic liver disease?"
-msgstr "Avez-vous été diagnostiqué pour une maladie chronique du foie? "
+msgstr "Avez-vous été diagnostiqué pour une maladie chronique du foie?"
 
 #. module: muskathlon
 #: model:survey.question,question:muskathlon.muskathlon_1_30
@@ -1107,6 +1113,11 @@ msgstr "ID"
 #: model:survey.question,comments_message:muskathlon.muskathlon_1_39
 #: model:survey.question,comments_message:muskathlon.muskathlon_1_40
 #: model:survey.question,comments_message:muskathlon.muskathlon_1_41
+#: model:survey.question,comments_message:muskathlon.muskathlon_1_42
+#: model:survey.question,comments_message:muskathlon.muskathlon_1_43
+#: model:survey.question,comments_message:muskathlon.muskathlon_1_44
+#: model:survey.question,comments_message:muskathlon.muskathlon_1_45
+#: model:survey.question,comments_message:muskathlon.muskathlon_1_46
 msgid "If other, please specify:"
 msgstr "Si autre, merci de préciser :"
 
@@ -1942,6 +1953,11 @@ msgstr "La réponse n'est pas valide."
 #: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_39
 #: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_40
 #: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_41
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_42
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_43
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_44
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_45
+#: model:survey.question,validation_error_msg:muskathlon.muskathlon_1_46
 msgid "The answer you entered has an invalid format."
 msgstr "La réponse n'est pas valide."
 
@@ -2014,6 +2030,11 @@ msgstr ""
 #: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_39
 #: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_40
 #: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_41
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_42
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_43
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_44
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_45
+#: model:survey.question,constr_error_msg:muskathlon.muskathlon_1_46
 msgid "This question requires an answer."
 msgstr "Cette question requiert une réponse."
 
@@ -2162,11 +2183,11 @@ msgstr "Tes coordonnées"
 #. module: muskathlon
 #: model:survey.survey,thank_you_message:muskathlon.muskathlon_form
 msgid ""
-"Your medical survey is completed.<br>\n"
-"                You can go to your"
+"Thank you very much on behalf of the entire 4Medic team! We look "
+"forward to meeting you and wish you a blessed and guarded stay!"
 msgstr ""
-"Ton questionnaire médical est rempli !<br>\n"
-"                Tu peux revenir à la "
+"Merci beaucoup au nom de toute l’équipe de 4Medic! Nous nous réjouissons "
+"de vous rencontrer et vous souhaitons un séjour béni et gardé!"
 
 #. module: muskathlon
 #: model:ir.model.fields,help:muskathlon.field_cms_form_event_registration_muskathlon_birth_name
