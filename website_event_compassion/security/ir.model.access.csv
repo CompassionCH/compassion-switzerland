@@ -12,3 +12,5 @@ access_vaccine,Read access on vaccines,model_res_vaccine,,1,0,0,0
 access_vaccine_country,Read access country vaccines,model_res_country_vaccine,,1,0,0,0
 access_vaccine_admin,Full access on vaccines,model_res_vaccine,event.group_event_manager,1,1,1,1
 access_vaccine_country_admin,Full access country vaccines,model_res_country_vaccine,event.group_event_manager,1,1,1,1
+access_event_flight,Create access event flight,model_event_flight,base.group_portal,1,1,1,0
+access_event_flight_admin,Full access on event flights,model_event_flight,event.group_event_manager,1,1,1,1

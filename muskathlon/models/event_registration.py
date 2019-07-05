@@ -39,18 +39,24 @@ class MuskathlonRegistration(models.Model):
         related='compassion_event_id.muskathlon_event_id')
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)
 
+
     _sql_constraints = [
         ('reg_unique', 'unique(event_id,partner_id)',
          'Only one registration per participant/event is allowed!')
     ]
 
+    @api.model
     def create(self, values):
         # Automatically complete the task sign_child_protection if the charter
         # has already been signed.
         partner = self.env['res.partner'].browse(values.get('partner_id'))
+        completed_tasks = values.setdefault('completed_task_ids', [])
         if partner and partner.has_agreed_child_protection_charter:
             task = self.env.ref('muskathlon.task_sign_child_protection')
-            completed_tasks = values.setdefault('completed_task_ids', [])
+            completed_tasks.append((4, task.id))
+        if partner and partner.user_ids and any(
+                partner.mapped('user_ids.login_date')):
+            task = self.env.ref('muskathlon.task_activate_account')
             completed_tasks.append((4, task.id))
         return super(MuskathlonRegistration, self).create(values)
 

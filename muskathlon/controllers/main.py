@@ -49,7 +49,8 @@ class MuskathlonWebsite(EventsController):
         values = self._prepare_portal_layout_values()
         partner = values['partner']
         advocate_details_id = partner.advocate_details_id.id
-        registration = partner.registration_ids[0]
+        registration = partner.registration_ids[:1]
+        form_success = False
 
         # Load forms
         kw['form_model_key'] = 'cms.form.muskathlon.trip.information'
@@ -57,52 +58,75 @@ class MuskathlonWebsite(EventsController):
             'event.registration', registration.id, **kw)
         if form_id is None or form_id == trip_info_form.form_id:
             trip_info_form.form_process()
+            form_success = trip_info_form.form_success
 
         kw['form_model_key'] = 'cms.form.partner.coordinates'
         coordinates_form = self.get_form('res.partner', partner.id, **kw)
         if form_id is None or form_id == coordinates_form.form_id:
             coordinates_form.form_process()
+            form_success = coordinates_form.form_success
 
         kw['form_model_key'] = 'cms.form.advocate.details'
         about_me_form = self.get_form(
             'advocate.details', advocate_details_id, **kw)
         if form_id is None or form_id == about_me_form.form_id:
             about_me_form.form_process()
+            form_success = about_me_form.form_success
+
+        kw['form_model_key'] = 'cms.form.muskathlon.large.picture'
+        large_picture_form = self.get_form(
+            'advocate.details', advocate_details_id, **kw)
+        if form_id is None or form_id == large_picture_form.form_id:
+            large_picture_form.form_process()
+            form_success = large_picture_form.form_success
+
+        kw['form_model_key'] = 'cms.form.muskathlon.flight.details'
+        kw['registration_id'] = registration.id
+        flight_type = kw.get('flight_type')
+        kw['flight_type'] = 'outbound'
+        flight = registration.flight_ids.filtered(
+            lambda f: f.flight_type == 'outbound')
+        outbound_flight_form = self.get_form('event.flight', flight.id, **kw)
+        if form_id is None or (form_id == outbound_flight_form.form_id and
+                               (not flight_type or flight_type == 'outbound')):
+            outbound_flight_form.form_process(**kw)
+            form_success = outbound_flight_form.form_success
+        kw['flight_type'] = 'return'
+        flight = registration.flight_ids.filtered(
+            lambda f: f.flight_type == 'return')
+        return_flight_form = self.get_form('event.flight', flight.id, **kw)
+        if form_id is None or (form_id == return_flight_form.form_id and
+                               (not flight_type or flight_type == 'return')):
+            return_flight_form.form_process(**kw)
+            form_success = return_flight_form.form_success
 
         values.update({
             'trip_info_form': trip_info_form,
             'coordinates_form': coordinates_form,
             'about_me_form': about_me_form,
+            'large_picture_form': large_picture_form,
+            'outbound_flight_form': outbound_flight_form,
+            'return_flight_form': return_flight_form,
         })
-        result = request.render("website_portal.portal_my_home", values)
-        return self._form_redirect(result)
+        # This fixes an issue that forms fail after first submission
+        if form_success:
+            result = request.redirect('/my/home')
+        else:
+            result = request.render("website_portal.portal_my_home", values)
+        return self._form_redirect(result, full_page=True)
 
     @route(['/my/api'], type='http', auth='user', website=True)
     def save_ambassador_picture(self, **post):
         user = request.env.user
         partner = user.partner_id
         return_view = 'website_portal.portal_my_home'
-
-        picture = 'picture_1'
-        picture_post = post.get(picture)
-        if not picture_post:
-            picture = 'picture_2'
-            picture_post = post.get(picture)
-
+        picture_post = post.get('picture_1')
         if picture_post:
-            return_view = 'muskathlon.'+picture+'_formatted'
+            return_view = 'muskathlon.picture_1_formatted'
             image_value = b64encode(picture_post.stream.read())
             if not image_value:
                 return 'no image uploaded'
-            if picture == 'picture_1':
-                partner.write({'image': image_value})
-            else:
-                partner.advocate_details_id.write({
-                    'picture_large': image_value
-                })
-                partner.registration_ids[:1].sudo().completed_task_ids += \
-                    request.env.ref('muskathlon.task_picture')
-
+            partner.write({'image': image_value})
         return request.render(return_view,
                               self._prepare_portal_layout_values())
 

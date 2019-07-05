@@ -11,14 +11,14 @@
             <field name="sequence">1</field>
             <field name="stage_id" ref="stage_fill_profile"/>
         </record>
-        <record id="task_emergency" model="event.registration.task">
-            <field name="name">Fill emergency contact</field>
-            <field name="sequence">2</field>
+        <record id="task_passport" model="event.registration.task">
+            <field name="name">Emergency &amp; Passport</field>
+            <field name="sequence">3</field>
             <field name="stage_id" ref="stage_fill_profile"/>
         </record>
-        <record id="task_passport" model="event.registration.task">
-            <field name="name">Fill passport</field>
-            <field name="sequence">3</field>
+        <record id="task_flight_details" model="event.registration.task">
+            <field name="name">Give flight details</field>
+            <field name="sequence">7</field>
             <field name="stage_id" ref="stage_fill_profile"/>
         </record>
         <record id="task_picture" model="event.registration.task">

@@ -34,12 +34,11 @@ class AccountInvoice(models.Model):
                 advocate = partner.advocate_details_id
                 if partner.user_ids.state == 'active':
                     tasks += self.env.ref('muskathlon.task_activate_account')
-                if registration.passport_number:
+                if registration.passport_number and \
+                        registration.emergency_name:
                     tasks += self.env.ref('muskathlon.task_passport')
                 if advocate.picture_large:
                     tasks += self.env.ref('muskathlon.task_picture')
-                if registration.emergency_name:
-                    tasks += self.env.ref('muskathlon.task_emergency')
                 registration.completed_task_ids += tasks
 
 

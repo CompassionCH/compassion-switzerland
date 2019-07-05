@@ -178,6 +178,7 @@ class Event(models.Model):
         compute='_compute_passport', inverse='_inverse_passport')
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
+    flight_ids = fields.One2many('event.flight', 'registration_id', 'Flights')
 
     # Payment fields
     ################

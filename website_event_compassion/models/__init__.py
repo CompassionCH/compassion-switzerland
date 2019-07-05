@@ -25,3 +25,4 @@ from . import event_faq
 from . import res_country_vaccine
 from . import survey_user_input
 from . import privacy_statement
+from . import event_flight
