@@ -23,7 +23,7 @@ from odoo.addons.sbc_compassion.models.correspondence_page import \
 _logger = logging.getLogger(__name__)
 
 try:
-    import detectlanguagepartner.communication.job
+    import detectlanguage
 except ImportError:
     _logger.warning("Please install detectlanguage")
 
@@ -82,6 +82,7 @@ class Correspondence(models.Model):
                         supporter_languages_ids
 
     @api.multi
+    @api.depends('communication_id.email_id.tracking_event_ids')
     def _compute_email_read(self):
         for mail in self:
             dates = [x.time for x in
