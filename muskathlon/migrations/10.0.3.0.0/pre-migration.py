@@ -16,6 +16,8 @@ def migrate(env, version):
     if not version:
         return
 
+    openupgrade.load_xml()
+
     # Muskathlon registration will become event.registration object:
     # Prepare required columns
     if not openupgrade.column_exists(env.cr, 'event_registration', 'lead_id'):

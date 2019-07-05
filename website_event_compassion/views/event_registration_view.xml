@@ -51,15 +51,18 @@
                 <group name="trip" string="Trip information">
                     <field name="double_room_person"/>
                     <field name="include_flight"/>
+                    <field name="flight_ids"/>
                     <field name="comments"/>
                     <field name="birth_name"/>
+                    <field name="criminal_record"/>
+                </group>
+                <group name="trip_2">
                     <field name="passport"/>
                     <field name="passport_number"/>
                     <field name="passport_expiration_date"/>
                     <field name="emergency_name"/>
                     <field name="emergency_phone"/>
                     <field name="emergency_relation_type"/>
-                    <field name="criminal_record"/>
                 </group>
             </xpath>
             <xpath expr="//sheet/group[1]" position="before">
