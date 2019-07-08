@@ -45,8 +45,8 @@ class Correspondence(models.Model):
     sent_date = fields.Datetime(
         'Communication sent', related='communication_id.sent_date',
         store=True, track_visibility='onchange')
-    email_read = fields.Boolean(
-        related='communication_id.email_id.opened', store=True
+    email_read = fields.Datetime(
+        compute='_compute_email_read', store=True
     )
     letter_delivered = fields.Boolean(oldname='letter_read')
     zip_file = fields.Binary(oldname='zip_id', attachment=True)
@@ -80,6 +80,17 @@ class Correspondence(models.Model):
                     lang = letter.detect_lang(letter.translated_text)
                     letter.has_valid_language = lang and lang in letter.\
                         supporter_languages_ids
+
+    @api.multi
+    @api.depends('communication_id.email_id.tracking_event_ids')
+    def _compute_email_read(self):
+        for mail in self:
+            dates = [x.time for x in
+                     mail.communication_id.email_id.tracking_event_ids
+                     if x.event_type == 'open']
+            if mail.communication_id.email_id.opened:
+                if dates:
+                    mail.email_read = max(dates)
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
