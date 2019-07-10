@@ -184,6 +184,7 @@ if not testing:
         def form_widgets(self):
             res = super(TripForm, self).form_widgets
             res['passport'] = 'cms_form_compassion.form.widget.document'
+            res['passport_expiration_date'] = 'cms.form.widget.date.ch',
             return res
 
         @property

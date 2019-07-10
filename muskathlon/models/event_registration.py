@@ -39,7 +39,6 @@ class MuskathlonRegistration(models.Model):
         related='compassion_event_id.muskathlon_event_id')
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)
 
-
     _sql_constraints = [
         ('reg_unique', 'unique(event_id,partner_id)',
          'Only one registration per participant/event is allowed!')
