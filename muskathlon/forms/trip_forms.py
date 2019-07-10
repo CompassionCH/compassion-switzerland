@@ -65,6 +65,15 @@ if not testing:
             ]
 
         @property
+        def form_widgets(self):
+            # Hide fields
+            res = super(MuskathlonTripForm, self).form_widgets
+            res.update({
+                'passport_expiration_date': 'cms.form.widget.date.ch',
+            })
+            return res
+
+        @property
         def form_title(self):
             return _("Personal information for the Muskathlon trip")
 
@@ -139,7 +148,6 @@ if not testing:
             # pass a copy to avoid pollution of initial values by odoo
             self.main_object.sudo(uid).write(values.copy())
 
-
     class LargePictureForm(models.AbstractModel):
         _name = 'cms.form.muskathlon.large.picture'
         _inherit = 'cms.form'
@@ -213,7 +221,6 @@ if not testing:
             # Clean storage of picture
             self.request.session.pop('picture_large', False)
             return super(LargePictureForm, self).form_next_url(main_object)
-
 
     class FlightDetailsForm(models.AbstractModel):
         _name = 'cms.form.muskathlon.flight.details'

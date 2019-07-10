@@ -130,6 +130,8 @@ if not testing:
                 'ambassador_picture_1':
                 'cms_form_compassion.form.widget.simple.image',
                 'gtc_accept': 'cms_form_compassion.form.widget.terms',
+                'partner_birthdate': 'cms.form.widget.date.ch',
+                'passport_expiration_date': 'cms.form.widget.date.ch',
             })
             return res
 

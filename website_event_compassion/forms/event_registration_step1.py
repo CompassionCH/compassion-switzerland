@@ -45,10 +45,19 @@ if not testing:
                     'fields': [
                         'partner_title', 'partner_lastname',
                         'partner_firstname', 'partner_email', 'partner_phone',
-                        'partner_zip', 'partner_city', 'partner_country_id'
+                        'partner_zip', 'partner_city', 'partner_country_id',
+                        'partner_birthdate'
                     ]
                 }
             ]
+
+        @property
+        def form_widgets(self):
+            res = super(EventRegistrationForm, self).form_widgets
+            res.update({
+                'partner_birthdate': 'cms.form.widget.date.ch',
+            })
+            return res
 
         @property
         def form_title(self):
