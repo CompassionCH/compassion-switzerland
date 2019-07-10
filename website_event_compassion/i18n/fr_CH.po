@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-05 13:55+0000\n"
-"PO-Revision-Date: 2019-06-05 15:59+0200\n"
+"POT-Creation-Date: 2019-07-10 12:30+0000\n"
+"PO-Revision-Date: 2019-07-10 14:45+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -16,6 +16,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "X-Generator: Poedit 2.2.3\n"
+
+#. module: website_event_compassion
+#: model:mail.template,subject:website_event_compassion.group_visit_after_trip_party_email
+#| msgid ""
+#| "Invitation to the ${object.get_objects().compassion_event_id.name} "
+#| "preparation meeting"
+msgid ""
+"${object.get_objects().compassion_event_id.name} - Invitation to an after "
+"party"
+msgstr ""
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
@@ -1009,8 +1019,123 @@ msgstr ""
 " "
 
 #. module: website_event_compassion
+#: model:mail.template,body_html:website_event_compassion.group_visit_after_trip_party_email
+#| msgid ""
+#| "<div>\n"
+#| "                    % set partner = object.partner_id\n"
+#| "                    % set registration = object.get_objects()\n"
+#| "                    % set event = registration.compassion_event_id\n"
+#| "                </div>\n"
+#| "                <p>\n"
+#| "                    ${partner.salutation}\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Your journey ${event.country_id.preposition} ${event."
+#| "country_id.name} is fast approaching.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    An unforgettable experience is being prepared. In "
+#| "this perspective, Compassion invites you to a meeting of the participants "
+#| "[place and time of the meeting].\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    On this occasion, we will present you the work of "
+#| "Compassion ${event.country_id.preposition} ${event.country_id.name} as "
+#| "well as the detailed program of the trip. There will also be a time for "
+#| "Questions &amp; Answers and an aperitif to get to know each other.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    <b>Please confirm your participation by clicking here:"
+#| "</b>.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    <div style=\"margin:0 auto; text-align: center;\">\n"
+#| "                        <a href=\"\" style=\"padding: 12px 18px; font-"
+#| "size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+#| "decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+#| "400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+#| "space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+#| "1px solid #FFFFFF; border-radius:3px\">\n"
+#| "                            Accept/Decline invitation\n"
+#| "                        </a>\n"
+#| "                    </div>\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    We look forward to meeting you (or seeing you again) "
+#| "on this occasion.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Receive our warmest greetings.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Rose-Marie Reber\n"
+#| "                    <br/>\n"
+#| "                    Sponsor and donor service\n"
+#| "                    <br/>\n"
+#| "                    Compassion Switzerland\n"
+#| "                </p>\n"
+#| "            "
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set registration = object.get_objects()\n"
+"                    % set event = registration.compassion_event_id\n"
+"                    % set meeting = registration.event_id\n"
+"                    % set user = meeting.user_id\n"
+"                    % set url = registration.env['ir.config_parameter']."
+"get_param('web.external.url') + '/event/' + registration.uuid + '/"
+"after_party'\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation}\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We hope that your journey ${event.country_id."
+"preposition} ${event.country_id.name} has been an enriching experience for "
+"you.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Compassion invites you to an after party, where the "
+"participants can meet once again in order to spend some more time together "
+"and share our feedback. The party will take place in ${meeting.address_id."
+"city} on ${meeting.get_date('date_begin')} at ${meeting."
+"get_date('date_begin', '%H:%M')}.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>Please confirm your participation by clicking here:</"
+"b>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"${url}\" style=\"padding: 12px 18px; font-"
+"size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+"1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Accept/Decline invitation\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We look forward to seeing you again on this occasion.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                     ${user.preferred_name} ${user.lastname}\n"
+"                      <br/>\n"
+"                      ${user.employee_ids.department_id.name}\n"
+"                      <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"\n"
+"            "
+msgstr ""
+
+#. module: website_event_compassion
 #: model:mail.template,body_html:website_event_compassion.group_visit_before_sharing_email
-#, fuzzy
 #| msgid ""
 #| "<div>\n"
 #| "                    % set partner = object.partner_id\n"
@@ -1120,59 +1245,6 @@ msgid ""
 "                </p>\n"
 "            "
 msgstr ""
-"\n"
-"  <div>\n"
-"   % set partner = object.partner_id\n"
-"                    \n"
-"% set registration = object.get_objects()\n"
-"                    \n"
-"% set event = registration.compassion_event_id\n"
-"               % set user = registration.event_id.user_id\n"
-"  </div>\n"
-"  <p>\n"
-"   ${partner.salutation}\n"
-"   <br/>\n"
-"   <br/>\n"
-"   Merci d'investir du temps pour le ${event.name}. Vous allez contribuer à "
-"changer la vie d'enfants vivant dans l'extrême pauvreté.\n"
-"   <br/>\n"
-"   <br/>\n"
-"   % if partner.has_sponsorships:\n"
-"    Le saviez-vous ? Votre voyage peut avoir un impact encore plus grand. "
-"Pour cela, il vous suffit d'en parler à vos amis et de témoigner de votre "
-"expérience de parrainage. Ainsi, certains de vos proches pourraient vous "
-"imiter et transformer à leur tour la vie d'un enfant en s'engageant à en "
-"parrainer un. Encouragez-les à parrainer un enfant en envoyant le message "
-"\"1 enfant\" par SMS au 959 (gratuit) ou directement sur www.compassion.ch.\n"
-"   <br/>\n"
-"   <br/>\n"
-"   % endif \n"
-"   N'hésitez pas à prendre contact avec nous si vous souhaitez être "
-"conseillé(e) pour l'organisation d'une petite rencontre avec vos amis chez "
-"vous et/ou pour recevoir du matériel dans ce but. Nous sommes disponibles "
-"par téléphone au 024 434 21 24 ou par courriel à events@compassion.ch.\n"
-"   <br/>\n"
-"   <br/>\n"
-"   A Compassion, nous croyons qu'il est possible de changer le monde, un "
-"enfant à la fois. Même si l'extrême pauvreté recule -et c'est une bonne "
-"nouvelle- il reste néanmoins 385 millions d'enfants qui vivent dans "
-"l'extrême pauvreté.\n"
-"   <br/>\n"
-"   <br/>\n"
-"   Merci de tout cœur de votre engagement à nos côtés pour transformer la "
-"vie d'un maximum de ces enfants.\n"
-"   <br/>\n"
-"   <br/>\n"
-"   Recevez nos chaleureuses salutations.\n"
-"   <br/>\n"
-"   <br/>\n"
-"   ${user.preferred_name} ${user.lastname}\n"
-"   <br/>\n"
-"   ${user.employee_ids.department_id.name}\n"
-"   <br/>\n"
-"   Compassion Suisse\n"
-"  </p>\n"
-" "
 
 #. module: website_event_compassion
 #: model:mail.template,body_html:website_event_compassion.group_visit_after_trip_feedback_email
@@ -1317,11 +1389,70 @@ msgstr ""
 
 #. module: website_event_compassion
 #: model:mail.template,body_html:website_event_compassion.group_visit_information_day_email
+#| msgid ""
+#| "<div>\n"
+#| "                    % set partner = object.partner_id\n"
+#| "                    % set registration = object.get_objects()\n"
+#| "                    % set event = registration.compassion_event_id\n"
+#| "                </div>\n"
+#| "                <p>\n"
+#| "                    ${partner.salutation}\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Your journey ${event.country_id.preposition} ${event."
+#| "country_id.name} is fast approaching.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    An unforgettable experience is being prepared. In "
+#| "this perspective, Compassion invites you to a meeting of the participants "
+#| "[place and time of the meeting].\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    On this occasion, we will present you the work of "
+#| "Compassion ${event.country_id.preposition} ${event.country_id.name} as "
+#| "well as the detailed program of the trip. There will also be a time for "
+#| "Questions &amp; Answers and an aperitif to get to know each other.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    <b>Please confirm your participation by clicking here:"
+#| "</b>.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    <div style=\"margin:0 auto; text-align: center;\">\n"
+#| "                        <a href=\"\" style=\"padding: 12px 18px; font-"
+#| "size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+#| "decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+#| "400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+#| "space: nowrap; background-image: none; background-color: #FFFFFF; border: "
+#| "1px solid #FFFFFF; border-radius:3px\">\n"
+#| "                            Accept/Decline invitation\n"
+#| "                        </a>\n"
+#| "                    </div>\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    We look forward to meeting you (or seeing you again) "
+#| "on this occasion.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Receive our warmest greetings.\n"
+#| "                    <br/>\n"
+#| "                    <br/>\n"
+#| "                    Rose-Marie Reber\n"
+#| "                    <br/>\n"
+#| "                    Sponsor and donor service\n"
+#| "                    <br/>\n"
+#| "                    Compassion Switzerland\n"
+#| "                </p>\n"
+#| "            "
 msgid ""
 "<div>\n"
 "                    % set partner = object.partner_id\n"
 "                    % set registration = object.get_objects()\n"
 "                    % set event = registration.compassion_event_id\n"
+"% set meeting = registration.event_id\n"
+"% set user = meeting.user_id\n"
+"% set url = registration.env['ir.config_parameter'].get_param('web.external."
+"url') + '/event/' + registration.uuid + '/meeting_invitation'\n"
 "                </div>\n"
 "                <p>\n"
 "                    ${partner.salutation}\n"
@@ -1332,8 +1463,9 @@ msgid ""
 "                    <br/>\n"
 "                    <br/>\n"
 "                    An unforgettable experience is being prepared. In this "
-"perspective, Compassion invites you to a meeting of the participants [place "
-"and time of the meeting].\n"
+"perspective, Compassion invites you to a meeting of the participants in "
+"${meeting.address_id.city} on ${meeting.get_date('date_begin')} at ${meeting."
+"get_date('date_begin', '%H:%M')}.\n"
 "                    <br/>\n"
 "                    <br/>\n"
 "                    On this occasion, we will present you the work of "
@@ -1347,8 +1479,8 @@ msgid ""
 "                    <br/>\n"
 "                    <br/>\n"
 "                    <div style=\"margin:0 auto; text-align: center;\">\n"
-"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
-"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
+"                        <a href=\"${url}\" style=\"padding: 12px 18px; font-"
+"size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
 "decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
 "400; text-align: center; vertical-align: middle; cursor: pointer; white-"
 "space: nowrap; background-image: none; background-color: #FFFFFF; border: "
@@ -1365,68 +1497,14 @@ msgid ""
 "                    Receive our warmest greetings.\n"
 "                    <br/>\n"
 "                    <br/>\n"
-"                    Rose-Marie Reber\n"
-"                    <br/>\n"
-"                    Sponsor and donor service\n"
-"                    <br/>\n"
+"                     ${user.preferred_name} ${user.lastname}\n"
+"  <br/>\n"
+"  ${user.employee_ids.department_id.name}\n"
+"  <br/>\n"
 "                    Compassion Switzerland\n"
 "                </p>\n"
 "            "
 msgstr ""
-"<div>\n"
-"                    % set partner = object.partner_id\n"
-"                    % set registration = object.get_objects()\n"
-"                    % set event = registration.compassion_event_id\n"
-"                </div>\n"
-"                <p>\n"
-"                    ${partner.salutation}\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Your journey ${event.country_id.preposition} ${event."
-"country_id.name} is fast approaching.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    An unforgettable experience is being prepared. In this "
-"perspective, Compassion invites you to a meeting of the participants [place "
-"and time of the meeting].\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    On this occasion, we will present you the work of "
-"Compassion ${event.country_id.preposition} ${event.country_id.name} as well "
-"as the detailed program of the trip. There will also be a time for Questions "
-"&amp; Answers and an aperitif to get to know each other.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    <b>Please confirm your participation by clicking here:</"
-"b>.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    <div style=\"margin:0 auto; text-align: center;\">\n"
-"                        <a href=\"\" style=\"padding: 12px 18px; font-size: "
-"12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-"
-"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
-"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
-"space: nowrap; background-image: none; background-color: #FFFFFF; border: "
-"1px solid #FFFFFF; border-radius:3px\">\n"
-"                            Accept/Decline invitation\n"
-"                        </a>\n"
-"                    </div>\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    We look forward to meeting you (or seeing you again) on "
-"this occasion.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Receive our warmest greetings.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Rose-Marie Reber\n"
-"                    <br/>\n"
-"                    Sponsor and donor service\n"
-"                    <br/>\n"
-"                    Compassion Switzerland\n"
-"                </p>\n"
-"            "
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_registration_summary
@@ -1545,6 +1623,16 @@ msgid "Advocate information"
 msgstr "Advocate information"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "After party invitation"
+msgstr "Invitation à une rencontre"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.view_event_event_wordpress
+msgid "After trip Party"
+msgstr "Rencontre après-voyage"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_step2
 msgid ""
 "All gifts I give to my sponsored child or his or her family will be in "
@@ -1614,6 +1702,11 @@ msgid ""
 msgstr ""
 "Organisez une rencontre pour parler de votre voyage chez vous. Et profitez-"
 "en pour promouvoir le parrainage d'enfants parmi vos proches.<br>"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_arrival
+msgid "Arrival"
+msgstr "Arrivée"
 
 #. module: website_event_compassion
 #: model:survey.question,question:website_event_compassion.gpfs_question_preparation
@@ -1817,7 +1910,7 @@ msgid "Check to sign the agreements"
 msgstr "Cochez pour approuver"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:484
+#: code:addons/website_event_compassion/models/event_registration.py:485
 #, python-format
 msgid "Choose a communication"
 msgstr "Choisissez une communication"
@@ -1884,6 +1977,11 @@ msgstr "Evénement Compassion"
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
 msgid "Compassion invites you to a meeting of the participants on"
 msgstr "Compassion vous invite à une rencontre des participants le"
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "Compassion invites you to an after party on"
+msgstr "Compassion vous invite à une rencontre après-voyage le"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_complete_stage_task_ids
@@ -1975,6 +2073,7 @@ msgstr "Inviter à une rencontre"
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_create_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_communication_wizard_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_create_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_create_uid
@@ -1988,6 +2087,7 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_create_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_communication_wizard_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_create_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_create_date
@@ -2062,6 +2162,11 @@ msgid "Demonstration of affection"
 msgstr "Démonstration d'affection"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_departure
+msgid "Departure"
+msgstr "Départ"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_res_country_description_url
 msgid "Description url"
 msgstr "URL description"
@@ -2130,6 +2235,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_display_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_communication_wizard_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_display_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_display_name
@@ -2409,6 +2515,11 @@ msgid "Event id"
 msgstr "Event id"
 
 #. module: website_event_compassion
+#: model:ir.model,name:website_event_compassion.model_event_flight
+msgid "Event participant flight"
+msgstr "Vol du participant"
+
+#. module: website_event_compassion
 #: model:ir.model,name:website_event_compassion.model_event_registration
 msgid "Event registration"
 msgstr "Event registration"
@@ -2511,9 +2622,29 @@ msgid "Flight"
 msgstr "Vol"
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_flight_number
+msgid "Flight number"
+msgstr "Numéro de vol"
+
+#. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_event_flight_price
 msgid "Flight price"
 msgstr "Prix du vol"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_flight_type
+msgid "Flight type"
+msgstr "Trajet"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_flight_ids
+msgid "Flights"
+msgstr "Vols"
+
+#. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_flying_company
+msgid "Flying company"
+msgstr "Compagnie aérienne"
 
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_fold
@@ -2813,6 +2944,7 @@ msgstr "Je ne serai pas présent"
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_id
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_communication_wizard_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_id
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_id
@@ -2952,8 +3084,6 @@ msgid "Individual visit"
 msgstr "Visite individuelle"
 
 #. module: website_event_compassion
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_confirm
-#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_decline
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
 msgid "Information meeting invitation"
 msgstr "Rencontre de préparation à votre voyage"
@@ -3082,6 +3212,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category___last_update
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_communication_wizard___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage___last_update
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task___last_update
@@ -3095,6 +3226,7 @@ msgstr "Dernière modification le"
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_write_uid
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_communication_wizard_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_write_uid
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_write_uid
@@ -3108,6 +3240,7 @@ msgstr "Modifié par"
 #: model:ir.model.fields,field_description:website_event_compassion.field_crm_event_invite_participant_party_wizard_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_category_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_faq_write_date
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_communication_wizard_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_stage_write_date
 #: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_task_write_date
@@ -3176,6 +3309,12 @@ msgid "Medical survey"
 msgstr "Questionnaire médical"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_confirm
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_decline
+msgid "Meeting invitation"
+msgstr "Invitation à une rencontre"
+
+#. module: website_event_compassion
 #: model:survey.question,question:website_event_compassion.gpfs_question_meeting_child
 msgid "Meeting with your sponsored child:"
 msgstr "Rencontre avec votre filleul(e) :"
@@ -3214,7 +3353,7 @@ msgid "Missing"
 msgstr "Information manquante"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:242
+#: code:addons/website_event_compassion/models/event_registration.py:243
 #, python-format
 msgid "Missing wordpress_host in odoo config file"
 msgstr "Missing wordpress_host in odoo config file"
@@ -3313,6 +3452,14 @@ msgstr ""
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid ""
+"On this occasion, we will be able to exchange our feedback about the trip."
+msgstr ""
+"A cette occasion, nous aurons l'occasion de s'échanger nos impressions du "
+"voyage."
+
+#. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
 msgid "On this occasion, we will present you the work of Compassion"
 msgstr "A cette occasion, nous vous présenterons le travail de Compassion"
 
@@ -3367,6 +3514,11 @@ msgid "Other"
 msgstr "Autre"
 
 #. module: website_event_compassion
+#: selection:event.flight,flight_type:0
+msgid "Outbound flight"
+msgstr "Vol aller"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid ""
 "Outside the Compassion projects, you can wear tourist clothes (basket t-"
@@ -3388,6 +3540,7 @@ msgstr "Préparez vos bagages"
 #. module: website_event_compassion
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_down_payment_partner_name
 #: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_group_visit_payment_partner_name
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_flight_registration_id
 msgid "Participant"
 msgstr "Participant"
 
@@ -3767,6 +3920,11 @@ msgid "Responsible"
 msgstr "Responsable"
 
 #. module: website_event_compassion
+#: selection:event.flight,flight_type:0
+msgid "Return flight"
+msgstr "Vol retour"
+
+#. module: website_event_compassion
 #: model:survey.page,title:website_event_compassion.gpfs_page1
 msgid "Return from travel"
 msgstr "Retour de voyage"
@@ -4000,7 +4158,7 @@ msgid "Survey count"
 msgstr "Survey count"
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:523
+#: code:addons/website_event_compassion/models/event_registration.py:524
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_event_wordpress
 #: model:ir.ui.view,arch_db:website_event_compassion.view_event_registration_form
 #, python-format
@@ -4056,8 +4214,8 @@ msgstr "Merci d'avoir lu et signé le contrat de voyage."
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_decline
 msgid ""
 "Thank you for taking time to respond to our invitation. You won't "
-"participate to our information meeting. If you have any questions regarding "
-"the trip, don't hesitate to"
+"participate to our meeting. If you have any questions regarding the trip, "
+"don't hesitate to"
 msgstr ""
 "Merci d'avoir pris le temps de répondre à notre invitation. Vous ne serez "
 "pas présent à notre rencontre. Si vous avez des questions particulières "
@@ -4253,6 +4411,11 @@ msgid "This vaccine is already set"
 msgstr "This vaccine is already set"
 
 #. module: website_event_compassion
+#: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_invitation
+msgid "Time:"
+msgstr "Heure :"
+
+#. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_practical_info
 msgid ""
 "To brush your teeth, also use bottled drinking water. Tap water could be "
@@ -4369,6 +4532,11 @@ msgstr ""
 "musulmane."
 
 #. module: website_event_compassion
+#: model:ir.model.fields,field_description:website_event_compassion.field_cms_form_event_donation_partner_opt_out
+msgid "Unsubscribe from e-mails"
+msgstr "Se désinscrire des e-mails"
+
+#. module: website_event_compassion
 #: code:addons/website_event_compassion/forms/medical_discharge_form.py:37
 #, python-format
 msgid "Upload your medical discharge"
@@ -4438,12 +4606,11 @@ msgstr "Visible sur le site web"
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.group_visit_party_confirm
 msgid ""
-"We are glad to confirm your participation to our information meeting. We are "
-"looking forward to seeing you in"
+"We are glad to confirm your participation. We are looking forward to seeing "
+"you in"
 msgstr ""
-"Nous sommes ravis de confirmer votre inscription à la rencontre de "
-"préparation au voyage. Nous nous réjouissons de vous rencontrer à cette "
-"occasion à"
+"Nous sommes ravis de confirmer votre inscription. Nous nous réjouissons de "
+"vous rencontrer à cette occasion à"
 
 #. module: website_event_compassion
 #: model:ir.ui.view,arch_db:website_event_compassion.event_registration_successful
@@ -4893,7 +5060,7 @@ msgid "if you need any further assistance."
 msgstr "si vous avez des questions ou besoin d'assistance."
 
 #. module: website_event_compassion
-#: code:addons/website_event_compassion/models/event_registration.py:703
+#: code:addons/website_event_compassion/models/event_registration.py:705
 #, python-format
 msgid "medical discharge.docx"
 msgstr "medical discharge.docx"
