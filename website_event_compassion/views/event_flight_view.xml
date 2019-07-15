@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_event_flight_form" model="ir.ui.view">
+        <field name="name">event.flight.form</field>
+        <field name="model">event.flight</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="flight_number"/>
+                            <field name="flight_type"/>
+                            <field name="flying_company"/>
+                        </group>
+                        <group>
+                            <field name="departure"/>
+                            <field name="arrival"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_event_flight_tree" model="ir.ui.view">
+        <field name="name">event.flight.tree</field>
+        <field name="model">event.flight</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="flight_type"/>
+                <field name="flight_number"/>
+                <field name="flying_company"/>
+                <field name="departure"/>
+                <field name="arrival"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

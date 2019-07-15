@@ -37,7 +37,7 @@
     'website': 'https://github.com/CompassionCH/compassion-switzerland/'
                'tree/10.0',
     'depends': ['sms_sponsorship', 'sponsorship_switzerland',
-                'child_switzerland'],
+                'child_sync_wp'],
     'data': [
         'security/ir.model.access.csv',
         'data/sms_hook.xml',

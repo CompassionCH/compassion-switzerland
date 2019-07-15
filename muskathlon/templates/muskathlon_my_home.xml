@@ -20,6 +20,23 @@
                     <t t-call="cms_form_compassion.modal_form">
                         <t t-set="form" t-value="trip_info_form"/>
                     </t>
+                    <t t-call="cms_form_compassion.modal_form">
+                        <t t-set="form" t-value="large_picture_form"/>
+                    </t>
+                    <div id="modal_flight_details" class="modal fade cms_modal_form" tabindex="-1" role="dialog" aria-labelledby="donation_modal_label" aria-hidden="true">
+                        <!-- TODO: When upgrading to Bootstrap 4.2 or higher, use class="modal-dialog modal-xl" -->
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div t-attf-class="modal-content {{outbound_flight_form.form_wrapper_css_klass}}">
+                                <div class="modal-body">
+                                    <t t-set="missing_return" t-value="outbound_flight_form.main_object and not return_flight_form.main_object"/>
+                                    <h2 t-if="not missing_return">Outbound flight</h2>
+                                    <t t-raw="outbound_flight_form.form_render()" t-if="not missing_return"/>
+                                    <h2 t-if="outbound_flight_form.main_object">Return flight</h2>
+                                    <t t-raw="return_flight_form.form_render()" t-if="outbound_flight_form.main_object"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </t>
 
                 <t t-if="muskathlete_without_advocate_details">
@@ -48,7 +65,7 @@
                         </div>
                     </div>
                     <!-- Profile page -->
-                    <div class="col-sm-6 col-md-7 col-lg-8" t-if="partner.advocate_details_id">
+                    <div class="col-sm-6 col-md-7 col-lg-8" t-if="registrations">
                         <t t-call="muskathlon.aboutme_formatted"/>
                     </div>
                 </div>
@@ -86,8 +103,8 @@
                                     <tr>
                                         <th>Event</th>
                                         <th>Date</th>
-                                        <th/>
-                                        <th/>
+                                        <th>Documents</th>
+                                        <th>Barometer</th>
                                     </tr>
                                 </thead>
                                 <tbody>

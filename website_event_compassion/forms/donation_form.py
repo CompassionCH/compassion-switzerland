@@ -51,7 +51,7 @@ if not testing:
                         'partner_title', 'partner_firstname',
                         'partner_lastname', 'partner_email', 'partner_phone',
                         'partner_street', 'partner_zip', 'partner_city',
-                        'partner_country_id']
+                        'partner_country_id', 'partner_birthdate']
                 },
                 {
                     'id': 'gtc',
@@ -73,6 +73,7 @@ if not testing:
             res = super(EventDonationForm, self).form_widgets
             res.update({
                 'gtc_accept': 'cms_form_compassion.form.widget.terms',
+                'partner_birthdate': 'cms.form.widget.date.ch',
             })
             return res
 

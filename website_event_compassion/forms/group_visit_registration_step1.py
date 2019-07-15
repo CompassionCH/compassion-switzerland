@@ -166,6 +166,7 @@ if not testing:
             res.update({
                 'single_double_room': 'cms.form.widget.radio',
                 'gtc_accept': 'cms_form_compassion.form.widget.terms',
+                'partner_birthdate': 'cms.form.widget.date.ch',
             })
             return res
 

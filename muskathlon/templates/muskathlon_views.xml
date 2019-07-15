@@ -46,14 +46,6 @@
                         data-target="#modal_advocate_details">
                     Change
                 </button>
-                <label for="upload_picture_2" type="button" class="btn btn-default btn-xs">
-                    <t t-if="details_obj.picture_large">
-                        Change picture
-                    </t>
-                    <t t-else="">
-                        Add a picture
-                    </t>
-                </label>
             </h3>
             <!-- Ambassador details -->
             <div class="row">
@@ -69,74 +61,48 @@
                     </t>
                 </div>
                 <!-- Large picture -->
-                <form id="form_picture_2" action="/my/api" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                    <input type="file"
-                           name="picture_2"
-                           id="upload_picture_2"
-                           accept="image/*"
-                           style="opacity: 0; position: absolute; z-index: -1;"/>
-                </form>
                 <t t-call="muskathlon.picture_2_formatted"/>
             </div>
         </template>
 
         <template id="tripinfos_formatted" name="Muskathlon Trip Information">
-            <h3 class="section-header">
-                Muskathlon trip information
-                <button type="button"
-                        class="btn btn-default btn-xs"
-                        data-toggle="modal"
-                        data-target="#modal_tripinfo">
-                    Change
-                </button>
-            </h3>
-            <t t-if="partner.advocate_details_id.trip_information_complete">
-                <t t-set="registration" t-value="partner.registration_ids[:1]"/>
-                <p>
-                    <h4>T-shirt Size : <t t-esc="partner.advocate_details_id.t_shirt_size"/></h4>
-
-                    <h4>Emergency person</h4>
-                    <span class="custom_icon fa fa-user"/>
-                    <t t-esc="registration.emergency_name"/>,
-                    <t t-esc="registration.emergency_relation_type"/><br/>
-                    <span class="custom_icon fa fa-phone"/>
-                    <t t-esc="registration.emergency_phone"/><br/>
-
-                    <h4>Passport</h4>
-                    <span class="custom_icon fa fa-user"/>
-                    <t t-esc="registration.birth_name"/><br/>
-                    <span class="custom_icon fa fa-file"/>
-                    <t t-esc="registration.passport_number"/><br/>
-                    <span class="custom_icon fa fa-calendar"/>
-                    <t t-esc="registration.passport_expiration_date"/><br/>
-                </p>
-            </t>
-            <t t-else="">
-                <p style="margin-top: 13px;">
-                    Your trip informations are incomplete. Please correct them.
-                </p>
-            </t>
-            <h3>Tasks</h3>
-            <p>
+            <t t-set="registration" t-value="partner.registration_ids[:1]"/>
+            <t t-set="count_tasks" t-value="len(registration.incomplete_task_ids)"/>
+            <h3>Tasks <span class="badge compassion_background_blue" t-esc="count_tasks"/></h3>
+            <div class="list-group">
+                <!-- Large picture -->
+                <a href="#" data-toggle="modal" data-target="#modal_large_picture" t-attf-class="list-group-item {{'list-group-item-success' if partner.advocate_details_id.picture_large else ''}}">Upload a large picture</a>
+                <!-- Trip information -->
+                <a t-attf-class="list-group-item {{'list-group-item-success' if partner.advocate_details_id.trip_information_complete else ''}}" href="#" data-toggle="modal" data-target="#modal_tripinfo">
+                    <t t-if="partner.advocate_details_id.trip_information_complete">
+                        <span>Modify trip information</span>
+                    </t>
+                    <t t-else="">
+                        <span>Trip information incomplete</span>
+                    </t>
+                </a>
+                <!-- Flight information -->
+                <a href="#" data-toggle="modal" data-target="#modal_flight_details" t-attf-class="list-group-item {{'list-group-item-success' if len(registration.flight_ids) == 2 else ''}}">Enter flight information</a>
+                <!-- Medical survey -->
                 <t t-if="survey_already_filled">
-                    <a class="btn btn-success btn-xs" t-attf-href="{{survey_url.replace('start', 'print')}}/{{survey_already_filled.token}}">See completed medical survey</a>
+                    <a class="list-group-item list-group-item-success" t-attf-href="{{survey_url.replace('start', 'print')}}/{{survey_already_filled.token}}">See completed medical survey</a>
                 </t>
                 <t t-else="">
                     <t t-if="survey_not_started">
-                        <a class="btn btn-primary btn-xs" t-attf-href="{{survey_url}}/{{survey_not_started.token}}">Complete medical survey</a>
+                        <a class="list-group-item" t-attf-href="{{survey_url}}/{{survey_not_started.token}}">Complete medical survey</a>
                     </t>
                     <t t-else="">
-                        <a class="btn btn-primary btn-xs" t-attf-href="{{survey_url}}">Complete medical survey</a>
+                        <a class="list-group-item" t-attf-href="{{survey_url}}">Complete medical survey</a>
                     </t>
                 </t>
+                <!-- Child protection charter -->
                 <t t-if="child_protection_charter['has_agreed']">
-                    <a class="btn btn-success btn-xs" t-attf-href="{{child_protection_charter['url']}}">You have agreed to the child protection charter</a>
+                    <a class="list-group-item list-group-item-success" t-attf-href="{{child_protection_charter['url']}}">You have agreed to the child protection charter</a>
                 </t>
                 <t t-else="">
-                    <a class="btn btn-primary btn-xs" t-attf-href="{{child_protection_charter['url']}}">Read and agree to the child protection charter</a>
+                    <a class="list-group-item" t-attf-href="{{child_protection_charter['url']}}">Read and agree to the child protection charter</a>
                 </t>
-            </p>
+            </div>
         </template>
 
         <template id="picture_1_formatted" name="My profile picture">

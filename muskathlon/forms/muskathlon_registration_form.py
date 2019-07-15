@@ -28,8 +28,8 @@ if not testing:
             'ambassador_picture_1', 'ambassador_quote', 'sport_level',
             'sport_level_description', 'gtc_accept', 't_shirt_size',
             't_shirt_type', 'passport_number', 'passport_expiration_date',
-            'emergency_name', 'emergency_phone', 'birth_name',
-            'partner_birthdate'
+            'emergency_name', 'emergency_relation_type',
+            'emergency_phone', 'birth_name', 'partner_birthdate'
         ]
         _payment_accept_redirect = '/muskathlon_registration/payment/validate'
 
@@ -94,8 +94,8 @@ if not testing:
                     'title': _('Information for the trip'),
                     'fields': [
                         'birth_name', 'passport_number',
-                        'passport_expiration_date',
-                        'emergency_name', 'emergency_phone'
+                        'passport_expiration_date', 'emergency_name',
+                        'emergency_relation_type', 'emergency_phone'
                     ]
                 }
             ]
@@ -130,6 +130,8 @@ if not testing:
                 'ambassador_picture_1':
                 'cms_form_compassion.form.widget.simple.image',
                 'gtc_accept': 'cms_form_compassion.form.widget.terms',
+                'partner_birthdate': 'cms.form.widget.date.ch',
+                'passport_expiration_date': 'cms.form.widget.date.ch',
             })
             return res
 
