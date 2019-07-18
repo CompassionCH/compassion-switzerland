@@ -10,6 +10,7 @@
 
 from odoo import models, fields, api, _
 from odoo.addons.queue_job.job import job, related_action
+import datetime
 
 
 class MuskathlonRegistration(models.Model):
@@ -38,6 +39,8 @@ class MuskathlonRegistration(models.Model):
     muskathlon_event_id = fields.Char(
         related='compassion_event_id.muskathlon_event_id')
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)
+
+    is_visible = fields.Boolean(compute='_compute_is_visible')
 
     _sql_constraints = [
         ('reg_unique', 'unique(event_id,partner_id)',
@@ -72,6 +75,13 @@ class MuskathlonRegistration(models.Model):
             ))
             registration.amount_raised = amount_raised
         super(MuskathlonRegistration, (self - m_reg))._compute_amount_raised()
+
+    def _compute_is_visible(self):
+        """if the evenement is less than 2 months, the bolean will be false"""
+        today = datetime.date.today()
+        start_day = fields.Date.from_string(self.event_begin_date)
+        delta = start_day - today
+        self.is_visible = delta.days < 60
 
     @api.onchange('event_id')
     def onchange_event_id(self):
