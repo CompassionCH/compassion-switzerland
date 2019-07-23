@@ -125,7 +125,7 @@ class Contracts(models.Model):
             # Create sponsorship
             child = self.env['compassion.child'].search([
                 ('local_id', '=', child_local_id)], limit=1)
-            lines = self._get_sponsorship_standard_lines()
+            lines = self._get_sponsorship_standard_lines(utm_source == 'wrpr')
             if not form_data.get('patenschaftplus'):
                 lines = lines[:-1]
             sponsorship_type = 'S'
