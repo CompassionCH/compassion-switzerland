@@ -413,8 +413,7 @@ class RecurringContracts(models.Model):
             invoices.write({'reference': ref})
 
     def _reconcile_open_amount(self):
-        # Reconcile open amount of partner with contract invoices
-        self.ensure_one()
+        # Reconcile open amount of partner with contract invoicesgit  self.ensure_one()
         move_lines = self.env['account.move.line'].search([
             ('partner_id', '=', self.partner_id.id),
             ('account_id.code', '=', '1050'),
