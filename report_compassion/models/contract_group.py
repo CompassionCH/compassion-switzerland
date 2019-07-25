@@ -131,17 +131,20 @@ class ContractGroup(models.Model):
             date_stop = fields.Date.from_string(stop)
             nb_month = relativedelta(date_stop, date_start).months + 1
             month = date_start
-            amount = 0
-            for i in range(0, nb_month):
-                valid = sponsorships.filtered(
-                    lambda s: s.first_open_invoice and
-                    fields.Date.from_string(s.first_open_invoice) <= month or
-                    (s.next_invoice_date and
-                     fields.Date.from_string(s.next_invoice_date) <= month)
-                )
-                number_sponsorship = max(number_sponsorship, len(valid))
-                amount += sum(valid.mapped('total_amount'))
-                month += relativedelta(months=1)
+            if sponsorships.mapped('payment_mode_id') == self.env.ref(
+                    'sponsorship_switzerland.payment_mode_bvr'):
+                amount = 0
+                for i in range(0, nb_month):
+                    valid = sponsorships.filtered(
+                        lambda s: s.first_open_invoice and
+                        fields.Date.from_string(s.first_open_invoice) <= month
+                        or (s.next_invoice_date and
+                            fields.Date.from_string(s.next_invoice_date) <=
+                            month)
+                    )
+                    number_sponsorship = max(number_sponsorship, len(valid))
+                    amount += sum(valid.mapped('total_amount'))
+                    month += relativedelta(months=1)
         vals = {
             'amount': "CHF {:.0f}".format(amount),
             'subject': _("for") + " ",
