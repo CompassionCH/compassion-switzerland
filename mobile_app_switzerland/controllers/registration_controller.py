@@ -22,4 +22,4 @@ class RegistrationController(Controller):
         Return registration form
         """
         hostname = config.get("wordpress_host")
-        return request.redirect('https://' + hostname + '/Login')
+        return request.redirect('https://' + hostname + '/app/Login')
