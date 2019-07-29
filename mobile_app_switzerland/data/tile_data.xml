@@ -1,0 +1,5 @@
+<odoo>
+    <record id="mobile_app_connector.tile_subtype_le_t1" model="mobile.app.tile.subtype">
+        <field name="default_records_filter">lambda c: c.direction == 'Beneficiary To Supporter' and c.state == 'Published to Global Partner' and c.letter_image and c.communication_id.state == 'done'</field>
+    </record>
+</odoo>
