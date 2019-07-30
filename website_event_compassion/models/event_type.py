@@ -20,3 +20,6 @@ class EventType(models.Model):
     travel_features = fields.Boolean(
         help='Use this to activate the travel registration features'
     )
+
+    event_mail_ids = fields.Many2many('event.mail',
+                                      domain=[('event_id', '=', False)])

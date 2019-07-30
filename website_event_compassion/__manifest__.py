@@ -65,6 +65,7 @@
         'views/advocate_details.xml',
         'views/event_info_party_wizard.xml',
         'views/event_flight_view.xml',
+        'views/event_type_view.xml',
         'templates/assets.xml',
         'templates/event_page.xml',
         'templates/events_list.xml',
