@@ -28,6 +28,9 @@ class EventMail(models.Model):
     ])
     stage_id = fields.Many2one('event.registration.stage', 'Stage')
 
+    event_type_id = fields.Many2one('event.type')
+    event_id = fields.Many2one(required=False)
+
     @api.multi
     @api.depends('event_id.state', 'event_id.date_begin', 'interval_type',
                  'interval_unit', 'interval_nbr')
