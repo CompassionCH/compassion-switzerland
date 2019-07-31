@@ -9,6 +9,7 @@
 ##############################################################################
 
 from odoo import http
+from odoo.tools import config
 from odoo.http import Controller, request
 
 
@@ -20,4 +21,5 @@ class RegistrationController(Controller):
         """
         Return registration form
         """
-        return request.redirect('compassionappuk://')
+        hostname = config.get("wordpress_host")
+        return request.redirect('https://' + hostname + '/app/Login')

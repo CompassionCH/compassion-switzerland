@@ -10,6 +10,7 @@
 
 from odoo import models, fields, api, _
 from odoo.addons.queue_job.job import job, related_action
+import datetime
 
 
 class MuskathlonRegistration(models.Model):
@@ -38,6 +39,8 @@ class MuskathlonRegistration(models.Model):
     muskathlon_event_id = fields.Char(
         related='compassion_event_id.muskathlon_event_id')
     reg_id = fields.Char(string='Muskathlon registration ID', size=128)
+
+    is_in_two_months = fields.Boolean(compute='_compute_is_in_two_months')
 
     _sql_constraints = [
         ('reg_unique', 'unique(event_id,partner_id)',
@@ -72,6 +75,14 @@ class MuskathlonRegistration(models.Model):
             ))
             registration.amount_raised = amount_raised
         super(MuskathlonRegistration, (self - m_reg))._compute_amount_raised()
+
+    def _compute_is_in_two_months(self):
+        """this function define is the bollean hide or not the survey"""
+        for registration in self:
+            today = datetime.date.today()
+            start_day = fields.Date.from_string(registration.event_begin_date)
+            delta = start_day - today
+            registration.is_in_two_months = delta.days < 60
 
     @api.onchange('event_id')
     def onchange_event_id(self):

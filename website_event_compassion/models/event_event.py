@@ -157,3 +157,17 @@ class Event(models.Model):
             'context': self.env.context,
             'target': 'new',
         }
+
+    @api.onchange('event_type_id')
+    def udpdate_email_list(self):
+        list_mail = []
+        for predefined_mail in self.event_type_id.event_mail_ids:
+            list_mail.append({
+                'communication_id': predefined_mail.communication_id.id,
+                'interval_nbr': predefined_mail.interval_nbr,
+                'interval_unit': predefined_mail.interval_unit,
+                'interval_type': predefined_mail.interval_type,
+                'stage_id': predefined_mail.stage_id.id,
+                'done': predefined_mail.done
+            })
+        self.event_mail_ids = [(0, 0, values) for values in list_mail]
