@@ -124,7 +124,8 @@ class ContractGroup(models.Model):
         self.ensure_one()
         payment_mode = self.with_context(lang='en_US').payment_mode_id
         amount = sum(sponsorships.mapped('total_amount'))
-        number_sponsorship = 0
+        valid = sponsorships
+        number_sponsorship = len(sponsorships)
 
         if start and stop:
             date_start = fields.Date.from_string(start)
@@ -134,6 +135,7 @@ class ContractGroup(models.Model):
             if sponsorships.mapped('payment_mode_id') == self.env.ref(
                     'sponsorship_switzerland.payment_mode_bvr'):
                 amount = 0
+                number_sponsorship = 0
                 for i in range(0, nb_month):
                     valid = sponsorships.filtered(
                         lambda s: s.first_open_invoice and
