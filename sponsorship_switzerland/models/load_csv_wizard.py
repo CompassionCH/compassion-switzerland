@@ -23,7 +23,7 @@ class LoadCsvWizard(models.TransientModel):
     @api.multi
     def link_gift2letters(self):
         for wizard in self:
-            f = StringIO(self.data_csv.decode('base64')
+            f = StringIO(wizard.data_csv.decode('base64')
                          .decode('utf-8-sig').encode('utf-8'))
             reader = csv.reader(f, delimiter=';')
             reader.next()
@@ -41,3 +41,4 @@ class LoadCsvWizard(models.TransientModel):
                 if gift and letter:
                     gift.letter_id = letter
                     letter.gift_id = gift
+                    return True
