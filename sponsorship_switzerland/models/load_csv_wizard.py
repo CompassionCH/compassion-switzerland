@@ -41,4 +41,4 @@ class LoadCsvWizard(models.TransientModel):
                 if gift and letter:
                     gift.letter_id = letter
                     letter.gift_id = gift
-                    return True
+        return True
