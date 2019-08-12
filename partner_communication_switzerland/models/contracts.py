@@ -49,6 +49,15 @@ class RecurringContract(models.Model):
     welcome_active_letter_sent = fields.Boolean(
         "Welcome letters sent",
         default=False, help="Tells if welcome active letter has been sent")
+    send_introduction_letter = fields.Boolean(string='Send the letter '
+        'to the Parrain', default=True)
+    origin_type = fields.Selection(related='origin_id.type')
+    # this field is used to help the xml views to get the type of origin_id
+
+    @api.onchange('origin_id')
+    def _do_not_send_letter_to_transfer(self):
+        if self.origin_id.type == 'transfer':
+            self.send_introduction_letter = False
 
     def _compute_payment_type_attachment(self):
         for contract in self:
@@ -92,14 +101,14 @@ class RecurringContract(models.Model):
         """
         this_month = date.today().replace(day=1)
         for contract in self:
-            if contract.child_id.project_id.suspension != 'fund-suspended' and\
+            if contract.child_id.project_id.suspension != 'fund-suspended' and \
                     contract.type != 'SC':
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang='en_US').filtered(
                     lambda i: i.state == 'open' and
-                    fields.Date.from_string(
-                        i.due_date) < this_month and
-                    i.invoice_id.invoice_type == 'sponsorship'
+                              fields.Date.from_string(
+                                  i.due_date) < this_month and
+                              i.invoice_id.invoice_type == 'sponsorship'
                 )
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
@@ -145,6 +154,9 @@ class RecurringContract(models.Model):
                               (overrides the previous parameter)
         :return: communication created recordset
         """
+        if not self.send_introduction_letter and \
+                self.env['correspondance.type'] == 'communication_type_ids':
+            return
         partner_field = 'correspondent_id' if correspondent else 'partner_id'
         partners = self.mapped(partner_field)
         communications = self.env['partner.communication.job']
@@ -161,12 +173,12 @@ class RecurringContract(models.Model):
                 if contract.correspondent_id != contract.partner_id:
                     communications += self.env[
                         'partner.communication.job'].create({
-                            'config_id': communication.id,
-                            'partner_id': contract.correspondent_id.id,
-                            'object_ids': self.env.context.get(
-                                'default_object_ids', contract.id),
-                            'user_id': communication.user_id.id,
-                        })
+                        'config_id': communication.id,
+                        'partner_id': contract.correspondent_id.id,
+                        'object_ids': self.env.context.get(
+                            'default_object_ids', contract.id),
+                        'user_id': communication.user_id.id,
+                    })
         else:
             for partner in partners:
                 objects = self.filtered(
@@ -292,9 +304,9 @@ class RecurringContract(models.Model):
             ('type', 'like', 'S'),
             ('partner_id.ref', '!=', '1502623')  # if partner is not Demaurex
         ]).filtered(lambda c: not (
-            c.child_id.project_id.lifecycle_ids and
-            c.child_id.project_id.hold_s2b_letters)
-        )
+                c.child_id.project_id.lifecycle_ids and
+                c.child_id.project_id.hold_s2b_letters)
+                    )
 
     @api.model
     def _send_welcome_active_letters_for_activated_sponsorships(self):
@@ -355,7 +367,7 @@ class RecurringContract(models.Model):
         )
         multi_month.compute_due_invoices()
         for sponsorship in self.search(
-            search_domain + [('months_due', '>', 1)]
+                search_domain + [('months_due', '>', 1)]
         ):
             reminder_search = [
                 ('config_id', 'in', [first_reminder_config.id,
@@ -439,8 +451,8 @@ class RecurringContract(models.Model):
         new_spons._new_dossier()
         new_spons.filtered(
             lambda s: s.correspondent_id.email and s.sds_state == 'draft' and
-            s.partner_id.ref != '1502623' and not
-            s.welcome_active_letter_sent
+                      s.partner_id.ref != '1502623' and not
+                      s.welcome_active_letter_sent
         ).write({
             'sds_state': 'waiting_welcome',
             'sds_state_date': fields.Date.today()
@@ -458,8 +470,8 @@ class RecurringContract(models.Model):
         # Waiting welcome for partners with e-mail (except Demaurex)
         welcome = self.filtered(
             lambda s: 'S' in s.type and s.sds_state == 'draft' and
-            s.correspondent_id.email and s.partner_id.ref != '1502623'
-            and not s.welcome_active_letter_sent
+                      s.correspondent_id.email and s.partner_id.ref != '1502623'
+                      and not s.welcome_active_letter_sent
         )
         welcome.write({
             'sds_state': 'waiting_welcome'
@@ -533,15 +545,15 @@ class RecurringContract(models.Model):
         activation_limit = date.today() - relativedelta(days=15)
         self.filtered(
             lambda s: s.end_reason != '1' and s.parent_id
-            and (s.activation_date and
-                 fields.Date.from_string(s.activation_date) <
-                 activation_limit)
+                      and (s.activation_date and
+                           fields.Date.from_string(s.activation_date) <
+                           activation_limit)
         ).send_communication(cancellation, correspondent=False)
         self.filtered(
             lambda s: s.end_reason != '1' and s.parent_id
-            and (not s.activation_date or
-                 fields.Date.from_string(s.activation_date) >=
-                 activation_limit)
+                      and (not s.activation_date or
+                           fields.Date.from_string(s.activation_date) >=
+                           activation_limit)
         ).send_communication(no_sub, correspondent=False)
 
     def _new_dossier(self):
