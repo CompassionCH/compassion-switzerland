@@ -49,20 +49,20 @@ if not testing:
 
         @property
         def _form_fieldsets(self):
-            return [
+            fields = [
                 {
                     'id': 'flyers',
                     'fields': ['flyer_number']
                 },
-                {
+            ]
+            if not self.large_picture:
+                fields.append({
                     'id': 'picture',
                     'description': _(
                         "Please upload a large image of good quality which "
-                        "will be used to be printed on your material.")
-                    if self.large_picture else '',
+                        "will be used to be printed on your material."),
                     'fields': ['large_picture']
-                }
-            ]
+                })
 
         @property
         def form_msg_success_created(self):
@@ -95,7 +95,7 @@ if not testing:
             registration = kw.get('registration')
             form.partner_id = registration and registration.partner_id
             form.event_id = registration and registration.compassion_event_id
-            form.large_picture = form.partner_id.advocate_details_id\
+            form.large_picture = form.partner_id.advocate_details_id \
                 .picture_large
             return form
 
@@ -107,18 +107,20 @@ if not testing:
                 values, extra_values)
             self.o_request.website.get_status_message()
             large_picture = extra_values.get('large_picture')
+            partner = self.partner_id.sudo()
             if large_picture:
                 if isinstance(large_picture, FileStorage):
                     large_picture.stream.seek(0)
                     large_picture = large_picture.stream.read().encode(
                         'base64')
-                partner = self.partner_id.sudo()
                 partner.advocate_details_id.picture_large = large_picture
                 partner.registration_ids[:1].write({
                     'completed_task_ids': [
                         (4, partner.env.ref('muskathlon.task_picture').id)]
                 })
-            staff_id = self.env['staff.notification.settings']\
+            else:
+                extra_values['large_picture'] = partner.image
+            staff_id = self.env['staff.notification.settings'] \
                 .sudo().get_param('muskathlon_order_notify_id')
             values.update({
                 'name': "Muskathlon material order - {}".format(
@@ -140,6 +142,16 @@ if not testing:
                 values, extra_values)
             # Update contact fields on lead
             self.main_object._onchange_partner_id()
+            # Send mail
+            picture = extra_values['large_picture']
+            email_template = self.env.ref(
+                'muskathlon.order_material_mail_template2')
+            email_template.send_mail(self.main_object.id, raise_exception=False,
+                                     force_send=True, email_values={
+                    'attachments': [('picture.jpg', picture)]
+                })
+            return True
+
 
     class OrderMaterialFormFlyer(models.AbstractModel):
         _name = 'cms.form.order.material'
@@ -166,6 +178,7 @@ if not testing:
                 'datas_fname': filename,
                 'name': filename
             })
+
 
     class OrderMaterialFormChildpack(models.AbstractModel):
         _name = 'cms.form.order.muskathlon.childpack'
