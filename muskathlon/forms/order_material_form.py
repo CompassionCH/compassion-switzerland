@@ -146,12 +146,12 @@ if not testing:
             picture = extra_values['large_picture']
             email_template = self.env.ref(
                 'muskathlon.order_material_mail_template2')
-            email_template.send_mail(self.main_object.id, raise_exception=False,
+            email_template.send_mail(self.main_object.id,
+                                     raise_exception=False,
                                      force_send=True, email_values={
                     'attachments': [('picture.jpg', picture)]
                 })
             return True
-
 
     class OrderMaterialFormFlyer(models.AbstractModel):
         _name = 'cms.form.order.material'
