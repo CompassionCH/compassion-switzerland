@@ -49,8 +49,9 @@ class RecurringContract(models.Model):
     welcome_active_letter_sent = fields.Boolean(
         "Welcome letters sent",
         default=False, help="Tells if welcome active letter has been sent")
-    send_introduction_letter = fields.Boolean(string='Send the letter '
-        'to the Parrain', default=True)
+    send_introduction_letter = fields.Boolean(string='Send the B2S introduction'
+                                                     ' letter to the Parrain',
+                                              default=True)
     origin_type = fields.Selection(related='origin_id.type')
     # this field is used to help the xml views to get the type of origin_id
 
@@ -101,8 +102,8 @@ class RecurringContract(models.Model):
         """
         this_month = date.today().replace(day=1)
         for contract in self:
-            if contract.child_id.project_id.suspension != 'fund-suspended' and \
-                    contract.type != 'SC':
+            if contract.child_id.project_id.suspension != \
+                    'fund-suspended' and contract.type != 'SC':
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang='en_US').filtered(
                     lambda i: i.state == 'open' and
@@ -470,8 +471,8 @@ class RecurringContract(models.Model):
         # Waiting welcome for partners with e-mail (except Demaurex)
         welcome = self.filtered(
             lambda s: 'S' in s.type and s.sds_state == 'draft' and
-                      s.correspondent_id.email and s.partner_id.ref != '1502623'
-                      and not s.welcome_active_letter_sent
+                      s.correspondent_id.email and s.partner_id.ref !=
+                      '1502623' and not s.welcome_active_letter_sent
         )
         welcome.write({
             'sds_state': 'waiting_welcome'
