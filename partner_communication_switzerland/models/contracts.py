@@ -49,9 +49,8 @@ class RecurringContract(models.Model):
     welcome_active_letter_sent = fields.Boolean(
         "Welcome letters sent",
         default=False, help="Tells if welcome active letter has been sent")
-    send_introduction_letter = fields.Boolean(string='Send the B2S introduction'
-                                                     ' letter to the Parrain',
-                                              default=True)
+    send_introduction_letter = fields.Boolean(
+        string='Send the B2S introduction letter to the Parrain', default=True)
     origin_type = fields.Selection(related='origin_id.type')
     # this field is used to help the xml views to get the type of origin_id
 
@@ -106,11 +105,9 @@ class RecurringContract(models.Model):
                     'fund-suspended' and contract.type != 'SC':
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang='en_US').filtered(
-                    lambda i: i.state == 'open' and
-                              fields.Date.from_string(
-                                  i.due_date) < this_month and
-                              i.invoice_id.invoice_type == 'sponsorship'
-                )
+                    lambda i: i.state == 'open' and fields.Date.
+                        from_string(i.due_date) < this_month and
+                        i.invoice_id.invoice_type == 'sponsorship')
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
                     'price_subtotal')))
@@ -174,12 +171,12 @@ class RecurringContract(models.Model):
                 if contract.correspondent_id != contract.partner_id:
                     communications += self.env[
                         'partner.communication.job'].create({
-                        'config_id': communication.id,
-                        'partner_id': contract.correspondent_id.id,
-                        'object_ids': self.env.context.get(
-                            'default_object_ids', contract.id),
-                        'user_id': communication.user_id.id,
-                    })
+                            'config_id': communication.id,
+                            'partner_id': contract.correspondent_id.id,
+                            'object_ids': self.env.context.get(
+                                'default_object_ids', contract.id),
+                            'user_id': communication.user_id.id,
+                        })
         else:
             for partner in partners:
                 objects = self.filtered(
@@ -306,8 +303,7 @@ class RecurringContract(models.Model):
             ('partner_id.ref', '!=', '1502623')  # if partner is not Demaurex
         ]).filtered(lambda c: not (
                 c.child_id.project_id.lifecycle_ids and
-                c.child_id.project_id.hold_s2b_letters)
-                    )
+                c.child_id.project_id.hold_s2b_letters))
 
     @api.model
     def _send_welcome_active_letters_for_activated_sponsorships(self):
@@ -452,12 +448,10 @@ class RecurringContract(models.Model):
         new_spons._new_dossier()
         new_spons.filtered(
             lambda s: s.correspondent_id.email and s.sds_state == 'draft' and
-                      s.partner_id.ref != '1502623' and not
-                      s.welcome_active_letter_sent
-        ).write({
-            'sds_state': 'waiting_welcome',
-            'sds_state_date': fields.Date.today()
-        })
+            s.partner_id.ref != '1502623' and not
+            s.welcome_active_letter_sent).write({
+                'sds_state': 'waiting_welcome', 'sds_state_date':
+                fields.Date.today()})
         csp = self.filtered(lambda s: 'CSP' in s.name)
         if csp:
             module = 'partner_communication_switzerland.'
@@ -551,11 +545,10 @@ class RecurringContract(models.Model):
                            activation_limit)
         ).send_communication(cancellation, correspondent=False)
         self.filtered(
-            lambda s: s.end_reason != '1' and s.parent_id
-                      and (not s.activation_date or
-                           fields.Date.from_string(s.activation_date) >=
-                           activation_limit)
-        ).send_communication(no_sub, correspondent=False)
+            lambda s: s.end_reason != '1' and s.parent_id and
+            (not s.activation_date or fields.Date.
+                from_string(s.activation_date) >= activation_limit)).\
+            send_communication(no_sub, correspondent=False)
 
     def _new_dossier(self):
         """
