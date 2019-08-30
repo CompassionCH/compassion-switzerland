@@ -50,7 +50,7 @@ class RecurringContract(models.Model):
         "Welcome letters sent",
         default=False, help="Tells if welcome active letter has been sent")
     send_introduction_letter = fields.Boolean(
-        string='Send the B2S introduction letter to the Parrain', default=True)
+        string='Send B2S intro letter to sponsor', default=True)
     origin_type = fields.Selection(related='origin_id.type')
     # this field is used to help the xml views to get the type of origin_id
 
