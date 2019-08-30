@@ -302,8 +302,8 @@ class RecurringContract(models.Model):
             ('type', 'like', 'S'),
             ('partner_id.ref', '!=', '1502623')  # if partner is not Demaurex
         ]).filtered(lambda c: not (
-                c.child_id.project_id.lifecycle_ids and
-                c.child_id.project_id.hold_s2b_letters))
+            c.child_id.project_id.lifecycle_ids and
+            c.child_id.project_id.hold_s2b_letters))
 
     @api.model
     def _send_welcome_active_letters_for_activated_sponsorships(self):
@@ -540,9 +540,8 @@ class RecurringContract(models.Model):
         activation_limit = date.today() - relativedelta(days=15)
         self.filtered(
             lambda s: s.end_reason != '1' and s.parent_id
-                      and (s.activation_date and
-                           fields.Date.from_string(s.activation_date) <
-                           activation_limit)
+            and (s.activation_date and fields.Date.
+                 from_string(s.activation_date) < activation_limit)
         ).send_communication(cancellation, correspondent=False)
         self.filtered(
             lambda s: s.end_reason != '1' and s.parent_id and
