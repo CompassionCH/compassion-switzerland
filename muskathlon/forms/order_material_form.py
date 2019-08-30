@@ -150,7 +150,6 @@ if not testing:
                 email_values={'attachments': [('picture.jpg', picture)]})
             return True
 
-
     class OrderMaterialFormFlyer(models.AbstractModel):
         _name = 'cms.form.order.material'
         _inherit = 'cms.form.order.material.mixin'
@@ -176,7 +175,6 @@ if not testing:
                 'datas_fname': filename,
                 'name': filename
             })
-
 
     class OrderMaterialFormChildpack(models.AbstractModel):
         _name = 'cms.form.order.muskathlon.childpack'
