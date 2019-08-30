@@ -152,9 +152,6 @@ class RecurringContract(models.Model):
                               (overrides the previous parameter)
         :return: communication created recordset
         """
-        if not self.send_introduction_letter and \
-                self.env['correspondance.type'] == 'communication_type_ids':
-            return
         partner_field = 'correspondent_id' if correspondent else 'partner_id'
         partners = self.mapped(partner_field)
         communications = self.env['partner.communication.job']

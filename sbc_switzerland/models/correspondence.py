@@ -124,6 +124,11 @@ class Correspondence(models.Model):
                     letter.has_valid_language:
                 if super(Correspondence, letter).process_letter():
                     letters_to_send += letter
+                    intro_letter = self.env.ref(
+                        'sbc_compassion.correspondence_type_new_sponsor')
+                    if intro_letter in letter.communication_type_ids and not\
+                            letter.sponsorship_id.send_introduction_letter:
+                        continue
             else:
                 letter.download_attach_letter_image()
                 letter.send_local_translate()
