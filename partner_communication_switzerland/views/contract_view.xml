@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2019 Compassion (http://www.compassion.ch)
+    @author Samy Bucher <samy.bucher@outlook.com>
+    The licence is in the file __manifest__.py
+-->
+<odoo>
+     <record id="view_recurring_contract_form" model="ir.ui.view">
+        <field name="name">recurring.contract.form</field>
+        <field name="model">recurring.contract</field>
+        <field name="inherit_id" ref="contract_compassion.view_recurring_contract_form_compassion"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin_id']" position="after">
+                <field name="origin_type" invisible="1"/>
+<!--                this field is there because the type of origin_id couldn't be reached with the xml file-->
+                <field name="send_introduction_letter" attrs="{'invisible': [('origin_type','!=','transfer')]}"/>
+            </xpath>
+        </field>
+     </record>
+</odoo>
