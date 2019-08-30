@@ -8,15 +8,12 @@
             <field name="subject">${object.partner_id.name} has made an order for ${object.event_id.name}</field>
             <field name="body_html" type="html">
                 <p>
-                    Hello
+                    Hello ${object.user_id.partner_id.preferred_name}
                     <br/>
                     <br/>
+                    ${object.partner_id.name} ordered some material. <b>${object.description}.</b>
                     <br/>
-                    ${object.partner_id.name} ordered some flyers. ${object.description}.
-                    <br/>
-                    The image is in the attachment files.
-                    <br/>
-                    <br/>
+                    The profile picture of the participant is in the attachment files, in case you need it.
                     <br/>
                     <br/>
                     Thank you
