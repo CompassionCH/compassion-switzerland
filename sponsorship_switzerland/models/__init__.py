@@ -19,3 +19,5 @@ from . import gift_compassion
 from . import ir_ui_menu
 from . import queue_job
 from . import contract_origin
+from . import correspondence
+from . import load_csv_wizard

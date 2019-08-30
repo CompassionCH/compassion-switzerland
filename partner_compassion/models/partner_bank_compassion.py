@@ -26,8 +26,9 @@ class ResPartnerBank(models.Model):
         result = super(ResPartnerBank, self).create(data)
 
         part = result.partner_id
-        part.message_post(_("<b>Account number: </b>" + result.acc_number),
-                          _("New account created"), 'comment')
+        if part:
+            part.message_post(_("<b>Account number: </b>" + result.acc_number),
+                              _("New account created"), 'comment')
 
         return result
 

@@ -44,7 +44,8 @@
         'l10n_ch_lsv_dd',
         'gift_compassion',
         'donation_report_compassion',
-        'web_notify'
+        'web_notify',
+        'sbc_compassion'
     ],
     'demo': [
         'data/demo_journal.xml',
@@ -64,7 +65,11 @@
         'views/res_partner_view.xml',
         'views/contract_view.xml',
         'views/postpone_waiting_reminder_wizard_view.xml',
+        'views/correspondence_view.xml',
+        'views/gift_compassion_view.xml',
+        'views/load_csv_wizard_view.xml',
         'reports/end_sponsorships_report_view.xml',
+
     ],
     'installable': True,
     'auto_install': False,

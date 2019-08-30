@@ -39,7 +39,8 @@
         'report_compassion',
         'child_switzerland',
         'sms_939',
-        'auth_signup'
+        'auth_signup',
+        'recurring_contract'
     ],
     'external_dependencies': {
         'python': ['wand', 'detectlanguage', 'sendgrid', 'bs4', 'pdf2image']
@@ -69,6 +70,7 @@
         'views/end_contract_wizard_view.xml',
         'views/disaster_alert_view.xml',
         'views/partner_compassion_view.xml',
+        'views/contract_view.xml',
         'views/change_text_wizard_view.xml',
         'views/correspondence_view.xml',
         'views/generate_communication_wizard_view.xml',
