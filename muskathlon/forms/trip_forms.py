@@ -399,4 +399,3 @@ if not testing:
                 values['completed_task_ids'] = [(4, passport_task.id)]
             else:
                 del values['completed_task_ids']
-
