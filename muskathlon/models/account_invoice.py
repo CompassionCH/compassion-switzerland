@@ -29,7 +29,7 @@ class AccountInvoice(models.Model):
                     self.env.ref('muskathlon.event_type_muskathlon'):
                 registration.confirm_registration()
                 # Check all tasks already done
-                tasks = self.env.ref('muskathlon.task_down_payment')
+                tasks = {}
                 partner = registration.partner_id
                 advocate = partner.advocate_details_id
                 if partner.user_ids.state == 'active':
