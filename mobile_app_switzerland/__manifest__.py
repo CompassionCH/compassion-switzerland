@@ -37,7 +37,10 @@
     'website': 'http://www.compassion.ch',
     'data': [
         'data/mail_template.xml',
-        'data/communication_config.xml'
+        'data/communication_config.xml',
+        'data/tile_data.xml',
+        'security/access_rules.xml',
+        'security/ir.model.access.csv',
     ],
     'depends': ['mobile_app_connector', 'partner_communication_switzerland'],
     'external_dependencies': {},

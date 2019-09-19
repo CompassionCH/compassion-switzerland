@@ -18,7 +18,7 @@ from odoo.addons.payment.models.payment_acquirer import ValidationError
 class PaymentController(Controller):
 
     @route('/postfinance/payment/<int:invoice_id>', type='http',
-           website=True, methods=['GET'],
+           website=True, methods=['GET', 'POST'],
            auth='public', noindex=['header', 'meta', 'robots'])
     def postfinance_payment(self, invoice_id, **get_params):
         """
@@ -77,5 +77,6 @@ class PaymentController(Controller):
         return request.render(
             'invoice_postfinance_payment_controller.payment_redirect',
             {'payment_ok': payment_ok,
-             'tx': tx}
+             'tx': tx,
+             }
         )

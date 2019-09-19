@@ -247,8 +247,9 @@ class RecurringContracts(models.Model):
         sponsorships = self.filtered(lambda s: 'S' in s.type)
         for contract in sponsorships:
             payment_mode = contract.payment_mode_id.name
-            if contract.type == 'S' and ('LSV' in payment_mode or
-                                         'Postfinance' in payment_mode):
+            if contract.type in ['S', 'SC'] and (
+                'LSV' in payment_mode or 'Postfinance' in payment_mode
+            ) and contract.total_amount != 0:
                 # Recompute next_invoice_date
                 today = datetime.today()
                 old_invoice_date = fields.Datetime.from_string(

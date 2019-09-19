@@ -455,6 +455,12 @@ class Event(models.Model):
     @api.model
     def create(self, values):
         record = super(Event, self).create(values)
+
+        # check the subtype note by default
+        # for all the default follower of a new registration
+        self.mapped('message_follower_ids').write(
+            {'subtype_ids': [(4, self.env.ref('mail.mt_note').id)]})
+
         # Set default fundraising objective if none was set
         event = record.event_id
         if not record.amount_objective and event.participants_amount_objective:

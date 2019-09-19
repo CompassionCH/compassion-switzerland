@@ -8,7 +8,8 @@
             <field name="reply_to">reply@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Your Mobile App Account is ready</field>
-            <field name="body_html" type="html">
+            <field name="body_html">
+                <![CDATA[
                 <div>
                     % set partner = object.partner_id
                     % set user = object.get_objects()
@@ -23,8 +24,8 @@
                     Before you can access through the mobile application, you must setup your password.
                     <br/>
                     <br/>
-                    <div style="margin:0 auto; text-align: center;"><a href="${user.signup_url + '&amp;redirect=/registration/success'}"
-                       style="text-decoration:none;color:rgb(124, 123, 173);background-color:transparent;padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px">Activate my account</a></div>
+                    <div style="margin:0 auto; text-align: center;"><a href="${user.signup_url + '&redirect=/registration/success'}"
+                       style="text-decoration:none;color:rgb(124, 123, 173);background-color:#0054A6;padding: 12px 18px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #0054A6; border: 1px solid #0054A6; border-radius:3px">Activate my account</a></div>
                     <br/>
                     <br/>
                         Best regards,
@@ -32,6 +33,7 @@
                     <br/>
                         Compassion Switzerland
                 </p>
+                ]]>
             </field>
         </record>
     </data>

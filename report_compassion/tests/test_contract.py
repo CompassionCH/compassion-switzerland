@@ -50,7 +50,7 @@ class TestContract(TestContractsSwitzerland):
 
     def test_group__get_communication__for_permanent_order(self):
         sponsorship = self._create_sponsorship()
-        group = self.create_group({'partner_id': self.michel.id})
+        group = sponsorship.group_id
         group.advance_billing_months = 5
         group.payment_mode_id = self.env \
             .ref('sponsorship_switzerland.payment_mode_permanent_order')

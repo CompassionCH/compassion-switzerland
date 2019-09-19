@@ -2,11 +2,18 @@
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
-#    @author: Emanuel Cino <ecino@compassion.ch>
+#    Releasing children from poverty in Jesus' name
+#    @author: Samy Bucher <samy.bucher@outlook.com>
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
 
-from . import forms
-from . import controllers
+from odoo import models
+from odoo import fields
+
+
+class Correspondence(models.Model):
+    _inherit = 'correspondence'
+
+    gift_id = fields.Many2one('sponsorship.gift', 'Gift')

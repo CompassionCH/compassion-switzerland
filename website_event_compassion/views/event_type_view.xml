@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="event_type_form" model="ir.ui.view">
+        <field name="name">event.type.form</field>
+        <field name="model">event.type</field>
+        <field name="inherit_id" ref="event.view_event_type_form"/>
+        <field name="arch" type="xml">
+            <sheet>
+                <notebook>
+                    <page string="Planned Emails">
+                        <field name="event_mail_ids">
+                            <tree>
+                                <field name="communication_id"/>
+                                <field name="interval_nbr"/>
+                                <field name="interval_unit"/>
+                                <field name="interval_type"/>
+                                <field name="stage_id"  attrs="{'required': [('interval_type', '=', 'after_stage')]}"/>
+                                <field name="done"/>
+                            </tree>
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="communication_id"/>
+                                            <field name="interval_nbr"/>
+                                            <field name="interval_unit"/>
+                                            <field name="interval_type"/>
+                                            <field name="stage_id"  attrs="{'required': [('interval_type', '=', 'after_stage')]}"/>
+                                            <field name="done"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+        </field>
+    </record>
+</odoo>
