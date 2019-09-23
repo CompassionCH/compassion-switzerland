@@ -25,7 +25,6 @@ class MassMailing(models.Model):
     unsub_ratio = fields.Integer()
     unsub_event_ids = fields.Many2many(
         'mail.tracking.event', compute='_compute_events')
-
     partner_test_sendgrid_id = fields.Many2one('res.partner',
                                                'Test Partner')
 
@@ -110,32 +109,32 @@ class MassMailing(models.Model):
             mass_mail.click_event_ids = clicks
             mass_mail.unsub_event_ids = unsub
 
-    @api.depends('body_html')
+    @api.depends('email_template_id', 'partner_test_sendgrid_id')
     def _compute_sendgrid_view(self):
-        super(MassMailing, self)._compute_sendgrid_view()
-
         # change all substitutions if the test partner is set
         for wizard in self:
-            partner_id = wizard.partner_test_sendgrid_id
-
+            res_id = wizard.partner_test_sendgrid_id.id
             template = wizard.email_template_id.with_context(
-                lang=self.lang.code or self.env.context['lang'])
+                lang=wizard.partner_test_sendgrid_id.lang or
+                self.env.context['lang'])
             sendgrid_template = template.sendgrid_localized_template
-            if sendgrid_template and partner_id:
-                substitutions = wizard.\
-                    email_template_id.with_context(
-                        {'lang': self.lang.code or self.env.context['lang']}).\
-                    render_substitutions(partner_id.id)
-
-                for sub in substitutions[partner_id.id]:
+            if sendgrid_template and res_id:
+                render_body = template.render_template(
+                    template.body_html, template.model, [res_id],
+                    post_process=True)[res_id]
+                body_sendgrid = sendgrid_template.html_content.replace(
+                    '<%body%>', render_body)
+                substitutions = template.render_substitutions(res_id)
+                for sub in substitutions[res_id]:
                     key = sub[2]['key']
                     value = sub[2]['value']
                     res_value = template.render_template(
-                        value, template.model, [partner_id.id]
-                    )[partner_id.id]
-
-                    wizard.body_sendgrid = wizard.body_sendgrid.\
-                        replace(key, res_value)
+                        value, template.model, [res_id]
+                    )[res_id]
+                    body_sendgrid = body_sendgrid.replace(key, res_value)
+                wizard.body_sendgrid = body_sendgrid
+            else:
+                super(MassMailing, wizard)._compute_sendgrid_view()
 
     @api.onchange('partner_test_sendgrid_id')
     def compute_sendgrid_view_test(self):
@@ -287,12 +286,3 @@ class MassMailing(models.Model):
                 mass_mailing.send_mail()
             else:
                 mass_mailing.state = 'done'
-
-    @api.onchange('email_template_id')
-    def onchange_email_template_id(self):
-        if self.email_template_id:
-            template = self.email_template_id.with_context(
-                lang=self.lang.code or self.env.context['lang'])
-            if template.email_from:
-                self.email_from = template.email_from
-            self.body_html = template.body_html
