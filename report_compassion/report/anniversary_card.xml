@@ -14,7 +14,7 @@
     <template id="anniversary_card">
         <t t-set="custom_css">
             .container {
-                font-family: "tetriaLight";
+                font-family: "millerLight";
                 font-size: 10pt;
             }
             .right {
@@ -61,7 +61,7 @@
                 width: 95mm;
             }
             #title {
-                font-family: "tetriaBold";
+                font-family: "millerBold";
                 position: absolute;
                 top: 20mm;
                 left: 7mm;

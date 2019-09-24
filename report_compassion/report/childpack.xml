@@ -43,11 +43,11 @@
         <t t-set="small" t-value="not full"/>
         <t t-set="custom_css">
             .container {
-                font-family: "tetriaLight";
+                font-family: "millerLight";
                 font-size: 8pt;
             }
             .local_id {
-                font-family: "tetriaTab";
+                font-family: "Miller";
                 position: absolute;
                 margin-top: 65mm;
                 margin-left: 56mm;
@@ -102,7 +102,7 @@
                 width: 50%;
             }
             h6 {
-                font-family: "tetriaBlack";
+                font-family: "Miller";
                 text-transform: uppercase;
                 font-weight: bold;
             }
@@ -133,7 +133,7 @@
                 //width: 56mm;
                 //text-align: center;
                 font-size: small;
-                font-family: "tetriaTab";
+                font-family: "Miller";
                 margin-top: 2mm;
                 margin-left: 6.5mm;
             }
@@ -152,7 +152,7 @@
             .summary_field {
                 position: relative;
                 font-weight: bold;
-                font-family: "tetriaBold";
+                font-family: "millerBold";
                 text-transform: uppercase;
                 margin: 0mm;
             }
@@ -253,7 +253,7 @@
     <template id="childpack_mini">
         <t t-set="custom_css">
             .local_id {
-                font-family: "tetriaTab";
+                font-family: "Miller";
                 position: absolute;
                 margin-top: 200mm;
                 margin-left: 8mm;
@@ -261,7 +261,7 @@
                 font-size: 8pt;
             }
             h6 {
-                font-family: "tetriaBlack";
+                font-family: "Miller";
                 text-transform: uppercase;
             }
             .photo {
@@ -281,12 +281,12 @@
                 margin-left: 115mm;
                 margin-top: 185mm;
                 text-transform: uppercase;
-                font-family: "tetriaTab";
+                font-family: "Miller";
                 font-size: 15pt;
                 color: #0054a6;
             }
             .summary .name {
-                font-family: "tetriaBlack";
+                font-family: "Miller";
                 font-weight: bold;
             }
             .summary .ref {

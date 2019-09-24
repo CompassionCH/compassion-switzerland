@@ -38,7 +38,7 @@
   background: #b2cbe4;
   color: #f0f0e9;
   font-size: 26px;
-  font-family: "Tetria Black";
+  font-family: "Miller";
   padding-top: 17px;
   margin-right: 70px;
   position: relative;
@@ -111,7 +111,7 @@
   color: #0a0a0a;
 }
 .compassion-wp .child-sponsor .checkbox-wrapper .right h4 {
-  font-family: "Tetria Regular";
+  font-family: "Miller";
   margin-top: 15px;
 }
 .compassion-wp .child-sponsor .checkbox-wrapper .right .select-wrapper {
@@ -366,7 +366,7 @@
   background: #b2cbe4;
   color: #f0f0e9;
   font-size: 26px;
-  font-family: "Tetria Black";
+  font-family: "Miller";
   padding-top: 17px;
   margin-right: 70px;
   position: relative;
@@ -439,7 +439,7 @@
   color: #0a0a0a;
 }
 .compassion-wp .child-sponsor .checkbox-wrapper .right h4 {
-  font-family: "Tetria Regular";
+  font-family: "Miller";
   margin-top: 15px;
 }
 .compassion-wp .child-sponsor .checkbox-wrapper .right .select-wrapper {
@@ -7066,17 +7066,17 @@
   clear: both;
 }
 @font-face {
-  font-family: "Tetria Light";
+  font-family: "Miller Light";
   src: url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461947/585e209f-e7ff-4613-afd4-ddf81a5ea6cf.eot?#iefix);
   src: url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461947/585e209f-e7ff-4613-afd4-ddf81a5ea6cf.eot?#iefix) format("eot"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461947/57ff1915-a8d0-486a-bb95-409a876d618b.woff2) format("woff2"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461947/976e4301-054b-4abf-b900-20e4c38b0e7a.woff) format("woff"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461947/a5174cda-f2a8-4135-9c97-8703e093ac6b.ttf) format("truetype"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461947/c0726833-af5a-43b9-80d7-fd054090fad7.svg#c0726833-af5a-43b9-80d7-fd054090fad7) format("svg");
 }
 @font-face {
-  font-family: "Tetria Regular";
+  font-family: "Miller";
   src: url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461949/cab94756-f234-488f-a01a-cce881c98106.eot?#iefix);
   src: url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461949/cab94756-f234-488f-a01a-cce881c98106.eot?#iefix) format("eot"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461949/7c58753b-f665-4ce6-9f9f-580d97aed766.woff2) format("woff2"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461949/d50845c9-647f-4aaa-ade0-d9207f585fc9.woff) format("woff"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461949/cdda65a3-0227-4f30-9dbe-635822aae823.ttf) format("truetype"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461949/e5d32bbf-deac-4ce8-b166-934da548f819.svg#e5d32bbf-deac-4ce8-b166-934da548f819) format("svg");
 }
 @font-face {
-  font-family: "Tetria Black";
+  font-family: "Miller";
   src: url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461953/080e2de4-cb66-4411-9da2-c40b05f899f2.eot?#iefix);
   src: url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461953/080e2de4-cb66-4411-9da2-c40b05f899f2.eot?#iefix) format("eot"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461953/d2e71e70-419e-4764-a900-ee9cca52f515.woff2) format("woff2"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461953/c27c9acc-f65f-4e08-b6e0-8d6ccc6ddacd.woff) format("woff"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461953/9a2047fa-3832-4f41-97f2-aa4b7e559763.ttf) format("truetype"), url(https://www.compassion.ch/wp-content/themes/compassion/assets/css/../fonts/1461953/049a3a10-4a7e-4ad9-a01c-0bcd41e78c35.svg#049a3a10-4a7e-4ad9-a01c-0bcd41e78c35) format("svg");
 }
@@ -7170,7 +7170,7 @@
 }
 .compassion-wp body {
   font-size: 16px;
-  font-family: "Tetria Light";
+  font-family: "Miller Light";
   line-height: 24px;
   color: #545152;
   -webkit-font-smoothing: antialiased;
@@ -7225,7 +7225,7 @@
   line-height: 22px;
 }
 .compassion-wp h1, .compassion-wp h2, .compassion-wp h3, .compassion-wp h4, .compassion-wp h5, .compassion-wp h6 {
-  font-family: "Tetria Black";
+  font-family: "Miller";
 }
 .compassion-wp h1.svg-divider, .compassion-wp h2.svg-divider, .compassion-wp h3.svg-divider, .compassion-wp h4.svg-divider, .compassion-wp h5.svg-divider, .compassion-wp h6.svg-divider {
   padding-bottom: 30px;
@@ -7595,7 +7595,7 @@
   margin: 0 10px;
   text-transform: uppercase;
   display: block;
-  font-family: "Tetria Black";
+  font-family: "Miller";
   position: relative;
   text-decoration: none;
 }
@@ -7715,7 +7715,7 @@
   font-size: 22px;
   line-height: 22px;
   margin: 0;
-  font-family: "Tetria Black";
+  font-family: "Miller";
   color: #fff;
 }
 .compassion-wp body.scrolled header.site-header a:not(.button):hover, .compassion-wp body.scrolled header.site-header a:not(.button):active, .compassion-wp body.scrolled header.site-header a:not(.button):focus {
@@ -7805,7 +7805,7 @@
   text-decoration: none;
 }
 .compassion-wp .off-canvas-menu .menu > li > a {
-  font-family: "Tetria Black";
+  font-family: "Miller";
   font-size: 20px;
   line-height: 40px;
   text-transform: uppercase;
@@ -8034,7 +8034,7 @@
 }
 .compassion-wp .amount-input:after {
   content: 'â‚¬';
-  font-family: "Tetria Black";
+  font-family: "Miller";
   font-size: 20px;
   position: absolute;
   right: 10px;
@@ -8044,7 +8044,7 @@
   background: none;
   border: 0;
   color: #333132;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
   font-size: 26px;
   line-height: 26px;
 }
@@ -8104,7 +8104,7 @@
   margin-right: 10px;
 }
 .compassion-wp .donate-form-teaser .input-field {
-  font-family: "Tetria Black";
+  font-family: "Miller";
   font-size: 20px;
 }
 .compassion-wp .donate-form-teaser .select-wrapper {
@@ -8122,7 +8122,7 @@
 }
 .compassion-wp .filter label, .compassion-wp .field-wrapper label {
   display: inline-block;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
   font-size: 16px;
   margin-right: 10px;
 }
@@ -8179,7 +8179,7 @@
   border-color: #99172a;
   background: #fff;
   border-radius: 4px;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
   color: #333132;
   padding: 20px;
   float: left;
@@ -8311,7 +8311,7 @@
   font-size: 22px;
   margin: 0;
   text-decoration: none;
-  font-family: "Tetria Black";
+  font-family: "Miller";
 }
 .compassion-wp .button:hover, .compassion-wp .button:active, .compassion-wp .button:focus {
   background: #0054a6;
@@ -8609,7 +8609,7 @@
 }
 .compassion-wp .section.has_breadcrumb .section_breadcrumb li a, .compassion-wp .section.has_breadcrumb .section_breadcrumb li span {
   font-size: 15px;
-  font-family: "Tetria Light";
+  font-family: "Miller Light";
   text-transform: none;
   color: #fff;
   text-decoration: none;
@@ -8966,7 +8966,7 @@
 .compassion-wp .slick-slider.slick-kundenstimmen .slide-content .person {
   font-size: 16px;
   line-height: 18px;
-  font-family: "Tetria Light";
+  font-family: "Miller Light";
 }
 .compassion-wp .slick-slider.slick-kundenstimmen .slick-dots {
   position: static;
@@ -9269,12 +9269,12 @@
   padding: 14px 8px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  font-family: "Tetria Black";
+  font-family: "Miller";
 }
 .compassion-wp article.blog-teaser .title, .compassion-wp article.blog-teaser .content {
   padding: 0 15px;
   margin-bottom: 10px;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
 }
 .compassion-wp article.blog-teaser .title {
   color: #333132;
@@ -9284,7 +9284,7 @@
   font-size: 18px;
   padding: 0 15px;
   margin-bottom: 10px;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
 }
 .compassion-wp article.blog-teaser .content {
   margin-bottom: 20px;
@@ -9387,7 +9387,7 @@
   clear: both;
 }
 .compassion-wp .article-footer label {
-  font-family: "Tetria Regular";
+  font-family: "Miller";
   font-size: 16px;
   margin-right: 10px;
 }
@@ -9512,7 +9512,7 @@
   color: #fff;
   text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
   margin: 20px 0 10px;
-  font-family: "Tetria Black";
+  font-family: "Miller";
 }
 .compassion-wp .facts-grid .box-content p {
   font-size: 20px;
@@ -9667,7 +9667,7 @@
   padding: 0 25px 20px 25px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease-in-out;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
 }
 .compassion-wp .teaser-box .image {
   width: auto;
@@ -9725,7 +9725,7 @@
   margin: 0;
   color: #fff;
   text-decoration: none;
-  font-family: "Tetria Black";
+  font-family: "Miller";
 }
 .compassion-wp .random-child-wrapper {
   position: fixed;
@@ -9768,7 +9768,7 @@
   height: 0;
   overflow: hidden;
   margin-top: -20px;
-  font-family: "Tetria Black";
+  font-family: "Miller";
   color: #fff;
   font-size: 15px;
   -webkit-transition: all 0.3s ease-in-out;
@@ -9836,7 +9836,7 @@
   display: inline-block;
   line-height: 20px;
   margin-right: 20px;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
 }
 .compassion-wp .random-child-wrapper .random-child-content ul li span {
   line-height: 46px;
@@ -9942,7 +9942,7 @@
 .compassion-wp article.blog-teaser.child-teaser h4 {
   text-align: center;
   padding-bottom: 15px;
-  font-family: "Tetria Black";
+  font-family: "Miller";
 }
 .compassion-wp article.blog-teaser.child-teaser h4.svg-divider:after {
   width: 66px;
@@ -10050,7 +10050,7 @@
 }
 .compassion-wp .single-child .profile .svg-divider {
   text-transform: uppercase;
-  font-family: "Tetria Black";
+  font-family: "Miller";
   padding-bottom: 20px;
 }
 .compassion-wp .single-child .profile .svg-divider:after {
@@ -10074,7 +10074,7 @@
   float: left;
 }
 .compassion-wp .single-child .profile ul li strong {
-  font-family: "Tetria Black";
+  font-family: "Miller";
 }
 .compassion-wp .single-child .profile ul li .single-icon {
   display: inline-block;
@@ -10303,13 +10303,13 @@
 }
 .compassion-wp .world-map .marker .infobox .title {
   text-align: center;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
 }
 .compassion-wp .world-map .marker .infobox a {
   color: #0054a6;
   text-decoration: underline;
   font-size: 16px;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
 }
 .compassion-wp .world-map .marker.active .infobox {
   display: block;
@@ -10380,7 +10380,7 @@
   margin-left: -14px;
 }
 .compassion-wp .infowindow-content h5.svg-divider {
-  font-family: "Tetria Regular";
+  font-family: "Miller";
   text-align: center;
   padding-bottom: 16px;
   margin-bottom: 16px;
@@ -10389,7 +10389,7 @@
   color: #0054a6;
   text-decoration: underline;
   font-size: 16px;
-  font-family: "Tetria Regular";
+  font-family: "Miller";
 }
 .compassion-wp h5.cat-partnerlander {
   margin-top: 20px;
@@ -10467,7 +10467,7 @@
   text-decoration: underline;
 }
 .compassion-wp footer .menu > li > a {
-  font-family: "Tetria Black";
+  font-family: "Miller";
   text-transform: uppercase;
   margin-bottom: 10px;
 }
@@ -10510,7 +10510,7 @@
   margin: 0;
 }
 .compassion-wp footer .sub-footer .menu > li > a {
-  font-family: "Tetria Regular";
+  font-family: "Miller";
   text-transform: none;
   text-decoration: underline;
   margin: 0 6px;

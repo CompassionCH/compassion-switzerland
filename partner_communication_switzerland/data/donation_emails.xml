@@ -152,7 +152,7 @@
                     <br/>
                     <br/>
                     % if object.send_mode == 'physical':
-                        <h2>Your donations in ${year} add up to CHF <span style="font-family: 'tetriaTab';">${donation_amount}</span></h2>
+                        <h2>Your donations in ${year} add up to CHF <span style="font-family: 'miller';">${donation_amount}</span></h2>
                         <p>The Christian humanitarian organisation Compassion Suisse, that serves as an advocate for children in poverty, is exempt from taxes. By a decision taken May 24, 2004 by the cantonal administration of the canton of Vaud, the association is recognized as a registered non profit organisation.
                         </p>
                     % endif

@@ -9,20 +9,16 @@
 
             /* Declare fonts */
             @font-face {
-                font-family: tetria;
-                src: url(/report_compassion/static/font/TetriaLTComBlack.ttf);
+                font-family: miller;
+                src: url(/report_compassion/static/font/Miller Text Roman.otf);
             }
             @font-face {
-                font-family: tetriaBold;
-                src: url(/report_compassion/static/font/TetriaLTComBold.ttf);
+                font-family: millerBold;
+                src: url(/report_compassion/static/font/Miller Text Bold.otf);
             }
             @font-face {
-                font-family: tetriaLight;
-                src: url(/report_compassion/static/font/TetriaLTComLight.ttf);
-            }
-            @font-face {
-                font-family: tetriaTab;
-                src: url(/report_compassion/static/font/TetriaTab.ttf);
+                font-family: millerLight;
+                src: url(/report_compassion/static/font/Miller Display Light.otf);
             }
             @font-face {
                 font-family: ocr;
