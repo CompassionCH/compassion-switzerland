@@ -21,6 +21,11 @@
             <field name="sequence">7</field>
             <field name="stage_id" ref="stage_fill_profile"/>
         </record>
+        <record id="task_scan_passport" model="event.registration.task">
+            <field name="name">Upload passport scan</field>
+            <field name="sequence">8</field>
+            <field name="stage_id" ref="stage_fill_profile"/>
+        </record>
         <record id="task_picture" model="event.registration.task">
             <field name="name">Upload large picture</field>
             <field name="sequence">4</field>

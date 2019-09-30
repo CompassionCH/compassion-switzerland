@@ -80,6 +80,13 @@ class MuskathlonWebsite(EventsController):
             large_picture_form.form_process()
             form_success = large_picture_form.form_success
 
+        kw['form_model_key'] = 'cms.form.muskathlon.passport'
+        passport_form = self.get_form(
+            'event.registration', registration.id, **kw)
+        if form_id is None or form_id == passport_form.form_id:
+            passport_form.form_process()
+            form_success = passport_form.form_success
+
         kw['form_model_key'] = 'cms.form.muskathlon.flight.details'
         kw['registration_id'] = registration.id
         flight_type = kw.get('flight_type')
@@ -105,6 +112,7 @@ class MuskathlonWebsite(EventsController):
             'coordinates_form': coordinates_form,
             'about_me_form': about_me_form,
             'large_picture_form': large_picture_form,
+            'passport_form': passport_form,
             'outbound_flight_form': outbound_flight_form,
             'return_flight_form': return_flight_form,
         })
