@@ -11,9 +11,9 @@
         <field name="distance">42000</field>
     </record>
     <record id="run_60" model="sport.discipline">
-        <field name="name">Run 60km</field>
+        <field name="name">Run 63km</field>
         <field name="sport">Running</field>
-        <field name="distance">60000</field>
+        <field name="distance">63000</field>
     </record>
     <record id="climb" model="sport.discipline">
         <field name="name">Climb</field>
@@ -21,9 +21,9 @@
         <field name="distance">0</field>
     </record>
     <record id="walk_60" model="sport.discipline">
-        <field name="name">Walk 60km</field>
+        <field name="name">Walk 63km</field>
         <field name="sport">Walking</field>
-        <field name="distance">60000</field>
+        <field name="distance">63000</field>
     </record>
     <record id="bike_120" model="sport.discipline">
         <field name="name">Bike 120km</field>
