@@ -21,6 +21,9 @@
                         <t t-set="form" t-value="trip_info_form"/>
                     </t>
                     <t t-call="cms_form_compassion.modal_form">
+                        <t t-set="form" t-value="passport_form"/>
+                    </t>
+                    <t t-call="cms_form_compassion.modal_form">
                         <t t-set="form" t-value="large_picture_form"/>
                     </t>
                     <div id="modal_flight_details" class="modal fade cms_modal_form" tabindex="-1" role="dialog" aria-labelledby="donation_modal_label" aria-hidden="true">

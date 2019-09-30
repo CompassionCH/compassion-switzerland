@@ -1,36 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="invoice_line_inherit_muskathlon" model="ir.ui.view">
-        <field name="name">Invoice line inherit muskathlon</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_supplier_form"/>
-        <field name="arch" type="xml">
-            <field name="invoice_line_tax_ids" position="after">
-                <field name="sent_to_4m"/>
-            </field>
-        </field>
-    </record>
-    <record id="view_invoice_line_form_inherit_muskathlon" model="ir.ui.view">
-        <field name="name">Invoice line view inherit muskathlon</field>
-        <field name="model">account.invoice.line</field>
-        <field name="inherit_id" ref="account.view_invoice_line_form"/>
-        <field name="arch" type="xml">
-            <field name="account_id" position="before">
-                <field name="sent_to_4m"/>
-            </field>
-        </field>
-    </record>
-    <record id="view_invoice_line_tree_4m" model="ir.ui.view">
-        <field name="name">account.invoice.line.4m.tree</field>
-        <field name="model">account.invoice.line</field>
-        <field name="inherit_id" ref="sponsorship_compassion.view_invoice_line_partner_tree"/>
-        <field name="arch" type="xml">
-            <field name="price_subtotal" position="after">
-                <field name="sent_to_4m"/>
-            </field>
-        </field>
-    </record>
-
     <!-- Action for writing sent_to_4m on invoice lines and contracts -->
     <record id="send_4m_action" model="ir.actions.server">
         <field name="name">Send to 4M</field>

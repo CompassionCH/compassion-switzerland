@@ -12,7 +12,7 @@
                     % set year = ctx['year']
                 </div>
                 <div>
-                    <h2>Your donations in ${year} add up to CHF <span style="font-family: 'tetriaTab';">${object.get_receipt_text(year)}</span></h2>
+                    <h2>Your donations in ${year} add up to CHF <span style="font-family: 'miller';">${object.get_receipt_text(year)}</span></h2>
                     <br/>
                     <br/>
                     <p>The Christian humanitarian organisation Compassion Suisse, that serves as an advocate for children in poverty, is exempt from taxes. By a decision taken May 24, 2004 by the cantonal administration of the canton of Vaud, the association is recognized as a registered non profit organisation.

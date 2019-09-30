@@ -83,6 +83,7 @@
                 </a>
                 <!-- Flight information -->
                 <a href="#" data-toggle="modal" data-target="#modal_flight_details" t-attf-class="list-group-item {{'list-group-item-success' if len(registration.flight_ids) == 2 else ''}}">Enter flight information</a>
+                <a href="#" data-toggle="modal" data-target="#modal_passport" t-attf-class="list-group-item {{'list-group-item-success' if registration.passport_uploaded else ''}}">Upload passport scan</a>
                 <!-- Medical survey -->
                 <t t-if="survey_already_filled">
                     <a class="list-group-item list-group-item-success" t-attf-href="{{survey_url.replace('start', 'print')}}/{{survey_already_filled.token}}">See completed medical survey</a>

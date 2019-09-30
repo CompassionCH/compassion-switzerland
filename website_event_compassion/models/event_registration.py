@@ -440,16 +440,15 @@ class Event(models.Model):
         if 'stage_id' in vals:
             vals['stage_date'] = fields.Date.today()
         res = super(Event, self).write(vals)
-        module = 'website_event_compassion.'
+        for registration in self:
+            if registration.state == 'done' and registration.event_id. \
+                    feedback_survey_id and not registration.feedback_survey_id:
+                registration.prepare_feedback_survey()
         # Push registration to next stage if all tasks are complete
         if 'completed_task_ids' in vals:
             for registration in self:
                 if not registration.incomplete_task_ids:
                     registration.next_stage()
-                if vals.get('stage_id') == self.env.ref(
-                        module + 'stage_all_attended'
-                ).id and registration.event_type_id.travel_features:
-                    registration.prepare_feedback_survey()
         return res
 
     @api.model
