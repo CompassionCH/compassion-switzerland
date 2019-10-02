@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="mobile_registration_success" name="CMS wizard form buttons"  inherit_id="mobile_app_connector.mobile_registration_success">
+        <xpath expr="//div[hasclass('col-md-12')]">
+            <br/>
+            <br/>
+            <a t-att-href="app_url" class="btn btn-primary">Back to the App</a>
+        </xpath>
+    </template>
+</odoo>

@@ -41,6 +41,7 @@
         'data/tile_data.xml',
         'security/access_rules.xml',
         'security/ir.model.access.csv',
+        'templates/registration_form.xml'
     ],
     'depends': ['mobile_app_connector', 'partner_communication_switzerland'],
     'external_dependencies': {},

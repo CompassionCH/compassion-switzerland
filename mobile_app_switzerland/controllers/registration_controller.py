@@ -10,14 +10,25 @@
 
 from odoo import http
 from odoo.tools import config
-from odoo.http import Controller, request
+from odoo.http import request
+from odoo.addons.mobile_app_connector.controllers.registration_controller \
+    import RegistrationController
 
 
-class RegistrationController(Controller):
+class RegistrationControllerCH(RegistrationController):
+
+    @http.route('/registration/confirm', type='http', auth='public',
+                website=True)
+    def registration_confirm(self, **kw):
+        hostname = config.get("wordpress_host")
+        return request.render(
+            'mobile_app_connector.mobile_registration_success', {
+                'app_url': 'https://' + hostname + '/app/Login'
+            })
 
     @http.route('/registration/success', type='http', auth='public',
                 website=True)
-    def registration_form(self, **kwargs):
+    def registration_success(self, **kwargs):
         """
         Return registration form
         """
