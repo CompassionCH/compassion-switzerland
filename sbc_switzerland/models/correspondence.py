@@ -286,7 +286,7 @@ class Correspondence(models.Model):
             target_text = 'translated_text'
 
         # Check that layout L4 translation gets on second page
-        if self.b2s_layout_id == self.env.ref('sbc_compassion.b2s_l4') and \
+        if self.template_id.layout == 'CH-A-4S01-1' and \
                 not translate_text.startswith('#PAGE#'):
             translate_text = '#PAGE#' + translate_text
         letter_vals.update({

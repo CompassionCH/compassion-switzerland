@@ -8,7 +8,6 @@ pysftp
 unidecode
 python-magic
 wand
-pdfminer
 matplotlib
 pyPdf
 bs4
