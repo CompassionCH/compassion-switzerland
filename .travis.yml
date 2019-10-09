@@ -19,6 +19,7 @@ addons:
       - python-cups
       - python-mysqldb
       - python-tk
+      - python-pdfminer  # pip takes a too recent version that doesn't work with python 2
       # OpenCV requirements packages
       - zbar-tools
       - python-zbar
