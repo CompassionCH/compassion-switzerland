@@ -38,7 +38,7 @@ class PaymentController(Controller):
         transaction_obj = request.env['payment.transaction'].sudo()
         reference = transaction_obj.get_next_reference(invoice.origin or 'WEB')
         transaction_id = transaction_obj.create({
-            'acquirer_id': postfinance.id,
+            'acquirer_id': 9, # postfinance.id,
             'type': 'form',
             'amount': invoice.amount_total,
             'currency_id': invoice.currency_id.id,
@@ -62,7 +62,8 @@ class PaymentController(Controller):
         payment_ok = True
         tx = request.env['payment.transaction'].sudo()
         try:
-            tx = tx._ogone_form_get_tx_from_data(post)
+            # tx = tx._ogone_form_get_tx_from_data(post)
+            tx = tx._stripe_form_get_tx_from_data(post)
         except ValidationError:
             payment_ok = False
         if not tx.invoice_id or tx.state not in ('done', 'authorized'):
