@@ -116,7 +116,7 @@ class TranslateConnect(MysqlConnector):
         database that has translation_status to 'Traduit" (id = 3) and
         toDo_id to 'Pret' (id = 3)
         (returns -1 if not found). """
-        res = self.selectAll("""
+        res = self.select_all("""
             SELECT tr.id, tr.letter_odoo_id, tr.text, txt.id AS text_id,
             ld.GP_libel AS target_lang, usr.number AS translator,
             ls.GP_libel AS src_lang

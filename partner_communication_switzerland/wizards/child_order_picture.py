@@ -94,9 +94,9 @@ class CompassionHold(models.TransientModel):
                 self.mapped('sponsorship_ids.child_id.id'),
                 'partner_communication_switzerland.child_picture'
             )
-            pdfTempFile, pdfTempFileName = tempfile.mkstemp()
-            os.write(pdfTempFile, pdf)
-            pages = convert_from_path(pdfTempFileName)
+            pdf_temp_file, pdf_temp_file_name = tempfile.mkstemp()
+            os.write(pdf_temp_file, pdf)
+            pages = convert_from_path(pdf_temp_file_name)
             for page_id, page in enumerate(pages):
                 child = self.env['compassion.child'].browse(
                     self.mapped('sponsorship_ids.child_id.id')[page_id])

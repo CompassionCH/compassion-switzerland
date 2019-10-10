@@ -262,7 +262,8 @@ class MonitorCorrectErrors(models.Model):
                 'action_name': 'hold'
             })
 
-        except:
+        except Exception:
+
             # Create a reservation if hold has not been placed.
             self.env.invalidate_all()
             self._create_reservation(child, error_log)
