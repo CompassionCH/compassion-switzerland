@@ -23,7 +23,6 @@ import logging
 from odoo import models, fields, api, tools, _
 from odoo.exceptions import Warning as odooWarning
 
-
 _logger = logging.getLogger(__name__)
 
 try:
@@ -59,8 +58,8 @@ class DbBackup(models.Model):
 
     @api.multi
     def _get_db_name(self):
-        dbName = self._cr.dbname
-        return dbName
+        db_name = self._cr.dbname
+        return db_name
 
     # Columns for local server configuration
     host = fields.Char('Host', size=100, required=True, default='localhost')
@@ -122,7 +121,8 @@ class DbBackup(models.Model):
              'e-mailed when the backup to the external server failed.')
     email_to_notify = fields.Char(
         'E-mail to notify', help='Fill in the e-mail where you want to be '
-                                 'notified that the backup failed on the FTP.')
+                                 'notified that the backup failed on the FTP.'
+    )
 
     @api.multi
     def _check_db_exist(self):
@@ -141,36 +141,36 @@ class DbBackup(models.Model):
         self.ensure_one()
 
         # Check if there is a success or fail and write messages
-        messageTitle = ""
-        messageContent = ""
+        message_title = ""
+        message_content = ""
 
         for rec in self:
             try:
-                ipHost = rec.sftp_host
-                portHost = rec.sftp_port
-                usernameLogin = rec.sftp_user
-                passwordLogin = rec.sftp_password
+                ip_host = rec.sftp_host
+                post_host = rec.sftp_port
+                username_login = rec.sftp_user
+                password_login = rec.sftp_password
                 # Connect with external server over SFTP, so we know sure that
                 # everything works.
                 srv = pysftp.Connection(
-                    host=ipHost, username=usernameLogin,
-                    password=passwordLogin, port=portHost)
+                    host=ip_host, username=username_login,
+                    password=password_login, port=post_host)
                 srv.close()
                 # We have a success.
-                messageTitle = "Connection Test Succeeded!"
-                messageContent = "Everything seems properly set up for FTP " \
-                                 "back-ups!"
+                message_title = "Connection Test Succeeded!"
+                message_content = "Everything seems properly set up for " \
+                                  "FTP back-ups!"
             except Exception, e:
-                messageTitle = "Connection Test Failed!"
+                message_title = "Connection Test Failed!"
                 if len(rec.sftp_host) < 8:
-                    messageContent += "\nYour IP address seems to be too " \
-                                      "short.\n"
-                messageContent += "Here is what we got instead:\n"
-        if "Failed" in messageTitle:
-            raise odooWarning(_(messageTitle + '\n\n' +
-                              messageContent + "%s") % tools.ustr(e))
+                    message_content += "\nYour IP address seems to be too " \
+                                       "short.\n"
+                message_content += "Here is what we got instead:\n"
+        if "Failed" in message_title:
+            raise odooWarning(_(message_title + '\n\n' +
+                                message_content + "%s") % tools.ustr(e))
         else:
-            raise odooWarning(_(messageTitle + '\n\n' + messageContent))
+            raise odooWarning(_(message_title + '\n\n' + message_content))
 
     @api.multi
     def schedule_backup(self):
@@ -183,7 +183,7 @@ class DbBackup(models.Model):
                 try:
                     if not os.path.isdir(rec.folder):
                         os.makedirs(rec.folder)
-                except:
+                except Exception:
                     raise
                 # Create name for dumpfile.
                 bkp_file = '%s_%s.%s' % (time.strftime(
@@ -200,7 +200,7 @@ class DbBackup(models.Model):
                         }
                     )
                     bkp_resp.raise_for_status()
-                except:
+                except Exception:
                     _logger.debug(
                         "Couldn't backup database %s. Bad database "
                         "administrator password for server running at "
@@ -220,41 +220,42 @@ class DbBackup(models.Model):
                 try:
                     # Store all values in variables
                     directory = rec.folder
-                    pathToWriteTo = rec.sftp_path
-                    ipHost = rec.sftp_host
-                    portHost = rec.sftp_port
-                    usernameLogin = rec.sftp_user
-                    passwordLogin = rec.sftp_password
+                    path_to_write_to = rec.sftp_path
+                    ip_host = rec.sftp_host
+                    post_host = rec.sftp_port
+                    username_login = rec.sftp_user
+                    password_login = rec.sftp_password
                     # Connect with external server over SFTP
                     srv = pysftp.Connection(
-                        host=ipHost, username=usernameLogin,
-                        password=passwordLogin, port=portHost)
+                        host=ip_host, username=username_login,
+                        password=password_login, port=post_host)
                     # set keepalive to prevent socket closed / connection
                     # dropped error
                     srv._transport.set_keepalive(30)
                     # Move to the correct directory on external server.
                     # If the user made a typo in his path with multiple
-                    # slashes (/odoo//backups/) it will be fixed by this regex.
-                    pathToWriteTo = re.sub('([/]{2,5})+', '/', pathToWriteTo)
-                    _logger.debug('sftp remote path: %s' % pathToWriteTo)
+                    # slashes (/odoo//backups/) it will be fixed by this regex
+                    path_to_write_to = re.sub('([/]{2,5})+', '/',
+                                              path_to_write_to)
+                    _logger.debug('sftp remote path: %s' % path_to_write_to)
                     try:
-                        srv.chdir(pathToWriteTo)
+                        srv.chdir(path_to_write_to)
                     except IOError:
                         # Create directory and subdirs if they do not exist.
-                        currentDir = ''
-                        for dirElement in pathToWriteTo.split('/'):
-                            currentDir += dirElement + '/'
+                        current_dir = ''
+                        for dirElement in path_to_write_to.split('/'):
+                            current_dir += dirElement + '/'
                             try:
-                                srv.chdir(currentDir)
+                                srv.chdir(current_dir)
                             except:
                                 _logger.info(
                                     '(Part of the) path didn\'t exist. '
-                                    'Creating it now at ' + currentDir)
+                                    'Creating it now at ' + current_dir)
                                 # Make directory and then navigate into it
-                                srv.mkdir(currentDir, mode=777)
-                                srv.chdir(currentDir)
+                                srv.mkdir(current_dir, mode=777)
+                                srv.chdir(current_dir)
                                 pass
-                    srv.chdir(pathToWriteTo)
+                    srv.chdir(path_to_write_to)
                     # Loop over all files in the directory.
                     for f in os.listdir(directory):
                         if rec.name in f:
@@ -275,14 +276,15 @@ class DbBackup(models.Model):
                                         'FTP Server ------ skipped' % fullpath)
 
                     # Navigate in to the correct folder.
-                    srv.chdir(pathToWriteTo)
+                    srv.chdir(path_to_write_to)
 
                     # Loop over all files in the directory from the back-ups.
                     # We will check the creation date of every back-up.
-                    for file_in_dic in srv.listdir(pathToWriteTo):
+                    for file_in_dic in srv.listdir(path_to_write_to):
                         if rec.name in file_in_dic:
                             # Get the full path
-                            fullpath = os.path.join(pathToWriteTo, file_in_dic)
+                            fullpath = os.path.join(path_to_write_to,
+                                                    file_in_dic)
                             # Get the timestamp from the file on the external
                             # server
                             timestamp = srv.stat(fullpath).st_atime
@@ -344,7 +346,8 @@ class DbBackup(models.Model):
                     # same folder)
                     if rec.name in fullpath:
                         timestamp = os.stat(fullpath).st_ctime
-                        createtime = datetime.datetime.fromtimestamp(timestamp)
+                        createtime = datetime.datetime.fromtimestamp(
+                            timestamp)
                         now = datetime.datetime.now()
                         delta = now - createtime
                         if delta.days >= rec.days_to_keep:

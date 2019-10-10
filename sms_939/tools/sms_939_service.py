@@ -19,11 +19,11 @@ except ImportError:
 
 
 class SmsNotificationAnswer(object):
-    def __init__(self, messages, costs=None, maxSMSsize=0):
+    def __init__(self, messages, costs=None, max_sms_size=0):
         """
         :param messages: list of text messages to return to the sender
         :param costs: optional list of costs of the text messages
-        :param maxSMSsize: optional maximal amount of split messages
+        :param max_sms_size: optional maximal amount of split messages
         """
         if messages is None or not isinstance(messages, (list, basestring)):
             raise ValueError("You must give at least one message")
@@ -35,7 +35,7 @@ class SmsNotificationAnswer(object):
             raise ValueError("Costs must be defined for each message sent.")
         self.messages = messages
         self.costs = costs
-        self.maxSMSsize = maxSMSsize
+        self.maxSMSsize = max_sms_size
         self.xml_message = self._get_xml()
 
     def __str__(self):

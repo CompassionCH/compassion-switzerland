@@ -28,7 +28,7 @@ def migrate(env, version):
             src_lang_id = letter.original_language_id.id
             dst_lang_id = letter.translation_language_id.id
             origin_lang_id = letter.original_language_id.id
-            translate_data = tc.selectOne("""
+            translate_data = tc.select_one("""
                 SELECT ls.GP_libel AS src_lang, ld.GP_libel AS dst_lang
                 FROM translation tr
                 INNER JOIN text txt ON tr.text_id = txt.id
@@ -46,7 +46,7 @@ def migrate(env, version):
                     ('code_iso', '=', src_lang_iso)]).id
                 src_lang_id = origin_lang_id
         else:
-            translate_data = tc.selectOne("""
+            translate_data = tc.select_one("""
                 SELECT ls.GP_libel AS src_lang, ld.GP_libel AS dst_lang
                 FROM translation tr
                 INNER JOIN text txt ON tr.text_id = txt.id
