@@ -18,7 +18,7 @@
                     <br/>
                 </p>
                 % for invoice in object.get_objects():
-                    % set url = object.env['ir.config_parameter'].get_param('web.external.url') + '/postfinance/payment/' + str(invoice.id)
+                    % set url = object.env['ir.config_parameter'].get_param('web.external.url') + '/compassion/payment/invoice' + str(invoice.id)
                     <div style="margin:0 auto; text-align: center;">
                         <a href="${url}" style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #0054A6; border: 1px solid #0054A6; border-radius:3px">
                             Online payment
