@@ -14,4 +14,4 @@ from . import bank_statement_line
 from . import statement_operation
 from . import account_partial_reconcile
 from . import res_config
-from . import  account_journal
+from . import account_journal
