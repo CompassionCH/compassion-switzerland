@@ -8,6 +8,8 @@
             <button name="button_confirm" position="before">
                 <button string="Create Information Party" name="button_info_party" type="object" class="oe_highlight" groups="base.group_user" attrs="{'invisible': ['|', ('event_type_id', '!=', %(website_event_compassion.event_type_group_visit)d), ('state', '!=', 'confirm')]}"/>
                 <button string="After trip Party" name="button_info_party" type="object" class="oe_highlight" groups="base.group_user" attrs="{'invisible': ['|', ('event_type_id', '!=', %(website_event_compassion.event_type_group_visit)d), ('state', '!=', 'done')]}"/>
+                <button string="Print Medical Surveys" name="button_print_medical_surveys" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button string="Print Feedback Surveys" name="button_print_feedback_surveys" type="object" class="oe_highlight" groups="base.group_user" /><!--attrs="{'invisible': ['|', ('event_type_id', '!=', %(website_event_compassion.event_type_group_visit)d), ('state', '!=', 'done')]}"/>-->
             </button>
             <xpath expr="//div[@name='button_box']/button[2]" position="attributes">
                 <attribute name="context">{'default_amount_objective': participants_amount_objective, 'default_event_type_id': event_type_id}</attribute>

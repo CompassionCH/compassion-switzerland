@@ -10,6 +10,7 @@
 from datetime import datetime
 
 from odoo import api, models, fields
+from odoo.exceptions import Warning as UserWarning
 
 
 class Event(models.Model):
@@ -88,20 +89,21 @@ class Event(models.Model):
         for event in self:
             event.valid_ticket_ids = event.mapped('event_ticket_ids').filtered(
                 lambda t: not t.is_expired and
-                (t.seats_available or t.seats_availability == 'unlimited')
+                          (
+                                  t.seats_available or t.seats_availability == 'unlimited')
             )
 
     def _compute_registration_open(self):
         for event in self:
             start_date = fields.Datetime.from_string(event.date_begin)
             event.registration_open = event.state == 'confirm' and \
-                event.valid_ticket_ids and datetime.now() < start_date
+                                      event.valid_ticket_ids and datetime.now() < start_date
 
     def _compute_registration_closed(self):
         for event in self:
             start_date = fields.Datetime.from_string(event.date_begin)
             event.registration_closed = event.state == 'done' or \
-                start_date < datetime.now() or not event.valid_ticket_ids
+                                        start_date < datetime.now() or not event.valid_ticket_ids
 
     def _compute_registration_not_started(self):
         for event in self:
@@ -112,7 +114,7 @@ class Event(models.Model):
         for event in self:
             start_date = fields.Datetime.from_string(event.date_begin)
             event.registration_full = event.state == 'confirm' and \
-                datetime.now() < start_date and not event.valid_ticket_ids
+                                      datetime.now() < start_date and not event.valid_ticket_ids
 
     def _compute_faq_category_ids(self):
         for event in self:
@@ -157,6 +159,28 @@ class Event(models.Model):
             'context': self.env.context,
             'target': 'new',
         }
+
+    @api.multi
+    def button_print_medical_surveys(self):
+        medical_survey_ids = self.compassion_event_id.registration_ids \
+            .mapped('medical_survey_id')\
+            .filtered(lambda p: p.state and p.state == 'done')
+        if medical_survey_ids:
+            return self.env['report'].get_action(
+                medical_survey_ids, 'survey_phone.survey_user_input')
+        else:
+            raise UserWarning('There is no medical survey to print')
+
+    @api.multi
+    def button_print_feedback_surveys(self):
+        feedback_survey_ids = self.compassion_event_id.registration_ids \
+            .mapped('feedback_survey_id')\
+            .filtered(lambda p: p.state and p.state == 'done')
+        if feedback_survey_ids:
+            return self.env['report'].get_action(
+                feedback_survey_ids, 'survey_phone.survey_user_input')
+        else:
+            raise UserWarning('There is no feedback survey to print')
 
     @api.onchange('event_type_id')
     def udpdate_email_list(self):
