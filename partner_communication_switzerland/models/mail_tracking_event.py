@@ -38,8 +38,8 @@ class MailTrackingEvent(models.Model):
         return super(MailTrackingEvent, self).process_delivered(
             tracking_email, metadata)
 
-    @api.model
-    def process_hard_bounce(self, tracking_email, metadata):
+    def send_mails_to_partner_and_staff(self, tracking_email, metadata,
+                                        staff_email_body):
         partner = tracking_email.partner_id
         if partner:
             self._invalid_email(tracking_email)
@@ -51,39 +51,30 @@ class MailTrackingEvent(models.Model):
             staff_ids = self.env['staff.notification.settings'].get_param(
                 'invalid_mail_notify_ids')
             del to_write['email']
-            body = _('Warning : Sponsor\'s Email is invalid!\n'
-                     'Error description: ' + metadata.get('error_description'))
+            subject = _('Email invalid! An error occurred: '
+                        + metadata.get('error_type'))
+            body = _(staff_email_body)
             partner.message_post(body=body,
-                                 subject=_('Email invalid'),
+                                 subject=subject,
                                  partner_ids=staff_ids,
                                  type='comment', subtype='mail.mt_comment',
                                  content_subtype='plaintext')
             partner.write(to_write)
+
+    @api.model
+    def process_hard_bounce(self, tracking_email, metadata):
+        body = 'Warning : Sponsor\'s Email is invalid!\nError description: ' \
+               + metadata.get('error_description')
+        self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
 
         return super(MailTrackingEvent, self).process_hard_bounce(
             tracking_email, metadata)
 
     @api.model
     def process_soft_bounce(self, tracking_email, metadata):
-        partner = tracking_email.partner_id
-        if partner:
-            self._invalid_email(tracking_email)
-            to_write = {
-                'invalid_mail': partner.email,
-                'email': False
-            }
-
-            staff_ids = self.env['staff.notification.settings'].get_param(
-                'invalid_mail_notify_ids')
-            del to_write['email']
-            body = _('Warning : Sponsor\'s Email is invalid!\n'
-                     'Error description: ' + metadata.get('error_description'))
-            partner.message_post(body=body,
-                                 subject=_('Email invalid'),
-                                 partner_ids=staff_ids,
-                                 type='comment', subtype='mail.mt_comment',
-                                 content_subtype='plaintext')
-            partner.write(to_write)
+        body = _('Warning : Sponsor\'s Email is invalid!\n Error description: '
+                 + metadata.get('error_description'))
+        self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
 
         return super(MailTrackingEvent, self).process_soft_bounce(
             tracking_email, metadata)
@@ -107,25 +98,10 @@ class MailTrackingEvent(models.Model):
 
     @api.model
     def process_reject(self, tracking_email, metadata):
-        partner = tracking_email.partner_id
-        if partner:
-            self._invalid_email(tracking_email)
-            to_write = {
-                'invalid_mail': partner.email,
-                'email': False
-            }
-            staff_ids = self.env['staff.notification.settings'].get_param(
-                'invalid_mail_notify_ids')
-            del to_write['email']
-            body = _('Warning : There is a problem with this Sponsor\'s Email.'
-                     '\nreason: ' + metadata.get('error_type'))
-            partner.message_post(body=body,
-                                 subject=_('Email invalid'),
-                                 partner_ids=staff_ids,
-                                 type='comment', subtype='mail.mt_comment',
-                                 content_subtype='plaintext')
+        body = _('Warning : There is a problem with this Sponsor\'s Email. \n'
+                 'reason: ' + metadata.get('error_type'))
+        self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
 
-            partner.write(to_write)
         return super(MailTrackingEvent, self).process_reject(
             tracking_email, metadata)
 
