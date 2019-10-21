@@ -87,7 +87,7 @@ class StatementCompletionRule(models.Model):
         if not partner:
             # Some bvr reference have a wrong number of leading zeros,
             # resulting in the partner reference to be offset.
-            flexible_ref_match = re.search(r'^0{,10}([1-9]\d{1,6})0',
+            flexible_ref_match = re.search(r'^0{,10}([1-9]\d{4,6})0',
                                            ref)
             if flexible_ref_match:
                 flexible_ref = flexible_ref_match.group(1)
