@@ -9,6 +9,7 @@
 #
 ##############################################################################
 
+import re
 from odoo import models, fields
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from odoo.addons.sponsorship_compassion.models.product import \
@@ -79,9 +80,23 @@ class StatementCompletionRule(models.Model):
         if 'ref' in st_line:
             ref = st_line['ref']
         res = {}
+
+        partner_ref = ref[9:16]
         partner_obj = self.env['res.partner']
-        partner = partner_obj.search(
-            [('ref', '=', str(int(ref[9:16])))])
+        partner = partner_obj.search([('ref', '=', str(int(partner_ref)))])
+        if not partner:
+            # Some bvr reference have a wrong number of leading zeros,
+            # resulting in the partner reference to be offset.
+            flexible_ref_match = re.search(r'^0{,10}([1-9]\d{4,6})0',
+                                           ref)
+            if flexible_ref_match:
+                flexible_ref = flexible_ref_match.group(1)
+                if int(flexible_ref) != int(partner_ref):
+                    logger.warning(
+                        'The partner reference might be misaligned: %s',
+                        ref)
+                    partner = partner_obj.search([
+                        ('ref', '=', str(int(flexible_ref)))])
         if len(partner) > 1:
             # Take only those who have active sponsorships
             partner = partner.filtered(lambda p: p.sponsorship_ids.filtered(
