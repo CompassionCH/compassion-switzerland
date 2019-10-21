@@ -178,10 +178,10 @@ class Contracts(models.Model):
         :return: <recurring.contract> record
         """
         sponsorship = self.env['recurring.contract'].create(values)
-        ambassador_match = re.match(r'^msk_(\d{1,8})', form_data[
-            'consumer_source_text'])
-        event_match = re.match(r'^msk_(\d{1,8})', form_data[
-            'consumer_source'])
+        ambassador_match = re.match(r'^msk_(\d{1,8})', form_data.get(
+            'consumer_source_text', ''))
+        event_match = re.match(r'^msk_(\d{1,8})', form_data.get(
+            'consumer_source', ''))
         # The sponsorships consumer_source fields were set automatically due
         # to a redirect from the sponsorship button on the muskathlon page.
         if ambassador_match and event_match:
