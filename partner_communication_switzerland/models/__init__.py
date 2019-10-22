@@ -24,3 +24,4 @@ from . import payment_order
 from . import staff_notifications_settings
 from . import sms_child_request
 from . import res_users
+from . import thankyou_config
