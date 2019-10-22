@@ -24,12 +24,13 @@ class TestCompletionRulesSwitzerland(TransactionCase):
 
         self.assertEqual(completion_result, {})
 
-    def test_matching_using_partner_reference__for_gifts(self):
+    def test_matching_using_partner_reference_for_gifts(self):
         partner_ref = '1512077'
         contract_not_in_db = '11111'
         gift_type = '4'
         st_line = {
-            'ref': 'xxxxxxxxx' + partner_ref + contract_not_in_db + gift_type
+            'ref': 'x' * 9 + partner_ref + contract_not_in_db + gift_type +
+            '0' * 5
         }
         self._insert_partner(ref=partner_ref)
 
@@ -49,7 +50,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         self.assertTrue('partner_id' in completion_result)
         self.assertEqual(completion_result['partner_id'], 8)
 
-    def test_lookup_by_sponsor_name__with_multiple_matching(self):
+    def test_lookup_by_sponsor_name_with_multiple_matching(self):
         """
         Two partners match flexible search by name (User Demo and User
         Portal Demo) and the exact match should take precedence
@@ -62,7 +63,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         self.assertTrue('partner_id' in completion_result)
         self.assertEqual(completion_result['partner_id'], 6)
 
-    def test_lookup_by_sponsor_name__for_companies(self):
+    def test_lookup_by_sponsor_name_for_companies(self):
         """
         Looking up corporate partner 'Agrolait'
         Edge case of having a single word instead of first + last name
@@ -75,7 +76,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         self.assertTrue('partner_id' in completion_result)
         self.assertEqual(completion_result['partner_id'], 8)
 
-    def test_lookup_by_sponsor_name__with_wire_transfers(self):
+    def test_lookup_by_sponsor_name_with_wire_transfers(self):
         """
         The logic to split the names is slightly different
         """
@@ -87,7 +88,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         self.assertTrue('partner_id' in completion_result)
         self.assertEqual(completion_result['partner_id'], 8)
 
-    def test_lsv_dd__for_postfinance(self):
+    def test_lsv_dd_for_postfinance(self):
         statement_line = {
             'name': u'anything\nKREDITKARTEN\nanything',
             'amount': 200
@@ -112,7 +113,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         self.assertFalse('partner_id' in completion_result)
         self.assertTrue('account_id' in completion_result)
 
-    def test_lsv_dd__with_zero_amount(self):
+    def test_lsv_dd_with_zero_amount(self):
         rule = self._fetch_rule_by_function_name('get_from_lsv_dd')
         completion_result = rule.auto_complete([], {'amount': 0, 'name': ''})
 
