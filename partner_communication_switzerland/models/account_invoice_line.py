@@ -53,10 +53,15 @@ class AccountInvoiceLine(models.Model):
     def generate_thank_you(self):
         """
         Do not group communications which have not same event linked.
+        Propagate event to the communication and use the creator of the event
+        as the default thanker.
         """
-        event_ids = self.mapped('event_id').ids
+        event = self.mapped('event_id')[:1]
+        user = event.mapped('staff_ids.user_ids')[:1] or event.create_uid
         return super(AccountInvoiceLine, self.with_context(
-            same_job_search=[('event_id', 'in', event_ids)]
+            same_job_search=[('event_id', '=', event.id)],
+            default_event_id=event.id,
+            default_user_id=user.id
         )).generate_thank_you()
 
     @api.multi

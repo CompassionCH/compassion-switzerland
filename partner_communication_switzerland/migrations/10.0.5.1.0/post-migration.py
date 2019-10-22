@@ -24,12 +24,12 @@ def migrate(env, version):
     env.cr.execute("""
         UPDATE partner_communication_job
         SET config_id = %s
-        WHERE config_id IN (49, 51) -- old configs for small and large    
+        WHERE config_id IN (49, 51) -- old configs for small and large
 """, [thankyou_standard.id])
     env.cr.execute("""
             UPDATE partner_communication_job
             SET config_id = %s
-            WHERE config_id IN (52, 54) -- old configs for small and large    
+            WHERE config_id IN (52, 54) -- old configs for small and large
     """, [event_standard.id])
     env.cr.execute("""
         DELETE FROM partner_communication_config
