@@ -9,6 +9,7 @@
 ##############################################################################
 
 from . import advocate_details
+from . import account_invoice_line
 from . import contracts
 from . import event_compassion
 from . import event_registration
