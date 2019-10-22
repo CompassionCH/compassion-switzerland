@@ -48,3 +48,27 @@ class AccountInvoiceLine(models.Model):
                 res_name = gift.thanks_name
 
         return total_string, res_name
+
+    @api.multi
+    def generate_thank_you(self):
+        """
+        Do not group communications which have not same event linked.
+        """
+        event_ids = self.mapped('event_id').ids
+        return super(AccountInvoiceLine, self.with_context(
+            same_job_search=[('event_id', 'in', event_ids)]
+        )).generate_thank_you()
+
+    @api.multi
+    def get_default_thankyou_config(self):
+        """
+        Returns the default communication configuration.
+        Choose event communication if the donations are linked to an event
+        :return: partner.communication.config record
+        """
+        # Special case for gifts : never put in event donation
+        gift = 'gift' in self.mapped('invoice_id.invoice_type')
+        if self.mapped('event_id') and not gift:
+            return self.env.ref('partner_communication_switzerland.'
+                                'config_event_standard')
+        return super(AccountInvoiceLine, self).get_default_thankyou_config()
