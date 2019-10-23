@@ -8,7 +8,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
 from odoo import api, models, fields
 
 
@@ -63,5 +62,7 @@ class Contract(models.Model):
 
     @api.model
     def get_sponsorship_gift_products(self):
-        return self.env['product.product'].with_context(lang='en_US').search([
-            ('name', 'in', GIFT_NAMES[:3])])
+        gift_categ_id = self.env.ref(
+            'sponsorship_compassion.product_category_gift').id
+        return self.env['product.product'].search([
+            ('categ_id', '=', gift_categ_id)])

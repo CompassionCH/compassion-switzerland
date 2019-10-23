@@ -2,7 +2,7 @@
 <odoo>
     <record id="operation_gen" model="account.reconcile.model">
         <field name="name">GEN</field>
-        <field name="product_id" search="[('name', '=', 'General Fund')]"/>
+        <field name="product_id" search="[('default_code', '=', 'fund_gen')]"/>
         <field name="account_id" search="[('code','=','6004')]"/>
         <field name="amount_type">percentage</field>
         <field name="amount">100</field>
@@ -11,7 +11,7 @@
 
     <record id="operation_birthday" model="account.reconcile.model">
         <field name="name">Birthday</field>
-        <field name="product_id" search="[('name', '=', 'Birthday Gift')]"/>
+        <field name="product_id" search="[('default_code', '=', 'gift_birthday')]"/>
         <field name="account_id" search="[('code','=','6003')]"/>
         <field name="amount_type">percentage</field>
         <field name="amount">100</field>
@@ -19,7 +19,7 @@
     </record>
     <record id="operation_gen_gift" model="account.reconcile.model">
         <field name="name">Gen Gift</field>
-        <field name="product_id" search="[('name', '=', 'General Gift')]"/>
+        <field name="product_id" search="[('default_code', '=', 'gift_gen')]"/>
         <field name="account_id" search="[('code','=','6003')]"/>
         <field name="amount_type">percentage</field>
         <field name="amount">100</field>
@@ -27,7 +27,7 @@
     </record>
     <record id="operation_fam_gift" model="account.reconcile.model">
         <field name="name">Family Gift</field>
-        <field name="product_id" search="[('name', '=', 'Family Gift')]"/>
+        <field name="product_id" search="[('default_code', '=', 'gift_family')]"/>
         <field name="account_id" search="[('code','=','6003')]"/>
         <field name="amount_type">percentage</field>
         <field name="amount">100</field>
@@ -35,7 +35,7 @@
     </record>
     <record id="operation_project_gift" model="account.reconcile.model">
         <field name="name">Project Gift</field>
-        <field name="product_id" search="[('name', '=', 'Project Gift')]"/>
+        <field name="product_id" search="[('default_code', '=', 'gift_project')]"/>
         <field name="account_id" search="[('code','=','6003')]"/>
         <field name="amount_type">percentage</field>
         <field name="amount">100</field>
