@@ -10,7 +10,7 @@
 ##############################################################################
 from odoo import api, models, fields
 from odoo.tools import mod10r
-from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
+from odoo.addons.sponsorship_compassion.models.product import GIFT_REF
 
 import logging
 
@@ -51,7 +51,7 @@ class GenerateGiftWizard(models.TransientModel):
         commitment_number = str(contract.commitment_number)
         bvr_reference += '0' * (5 - len(commitment_number)) + commitment_number
         # Type of gift
-        bvr_reference += str(GIFT_NAMES.index(product.name) + 1)
+        bvr_reference += str(GIFT_REF.index(product.default_code) + 1)
         bvr_reference += '0' * 4
 
         if contract.payment_mode_id and 'LSV' in contract.payment_mode_id.name:

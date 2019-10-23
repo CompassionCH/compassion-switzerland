@@ -13,7 +13,7 @@ import re
 from odoo import models, fields
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from odoo.addons.sponsorship_compassion.models.product import \
-    GIFT_CATEGORY, GIFT_NAMES
+    GIFT_CATEGORY, GIFT_REF
 
 from datetime import datetime
 import logging
@@ -288,7 +288,7 @@ class StatementCompletionRule(models.Model):
             if len(contract) == 1:
                 # Retrieve the birthday of child
                 birthdate = ""
-                if product.name == GIFT_NAMES[0]:
+                if product.default_code == GIFT_REF[0]:
                     birthdate = contract.child_id.birthdate
                     birthdate = datetime.strptime(birthdate, DF).strftime(
                         "%d %b").decode('utf-8')
@@ -399,7 +399,7 @@ class StatementCompletionRule(models.Model):
         if payment_type in range(1, 6):
             # Sponsor Gift
             products = product_obj.search(
-                [('name', '=', GIFT_NAMES[payment_type - 1])])
+                [('default_code', '=', GIFT_REF[payment_type - 1])])
             product = products[0] if products else 0
         elif payment_type in range(6, 8):
             # Fund donation

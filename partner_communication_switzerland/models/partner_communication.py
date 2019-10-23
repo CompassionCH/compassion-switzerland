@@ -20,7 +20,7 @@ from datetime import date, datetime
 from io import BytesIO
 
 from dateutil.relativedelta import relativedelta
-from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
+from odoo.addons.sponsorship_compassion.models.product import GIFT_REF
 
 from odoo import api, models, _, fields
 from odoo.exceptions import MissingError, UserError
@@ -98,8 +98,8 @@ class PartnerCommunication(models.Model):
             lambda s: not s.birthday_paid)
         gifts_to = sponsorships[:1].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
-            birthday_gift = self.env['product.product'].with_context(
-                lang='en_US').search([('name', '=', GIFT_NAMES[0])])
+            birthday_gift = self.env['product.product'].search([
+                ('default_code', '=', GIFT_REF[0])], limit=1)
             attachments = sponsorships.get_bvr_gift_attachment(
                 birthday_gift, background)
         return attachments
@@ -113,8 +113,8 @@ class PartnerCommunication(models.Model):
         attachments = dict()
         background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects()
-        graduation = self.env['product.product'].with_context(
-            lang='en_US').search([('name', '=', GIFT_NAMES[4])])
+        graduation = self.env['product.product'].search([
+            ('default_code', '=', GIFT_REF[4])], limit=1)
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.get_bvr_gift_attachment(
@@ -130,8 +130,8 @@ class PartnerCommunication(models.Model):
         attachments = dict()
         background = self.send_mode and 'physical' not in self.send_mode
         sponsorships = self.get_objects()
-        family = self.env['product.product'].with_context(
-            lang='en_US').search([('name', '=', GIFT_NAMES[2])])
+        family = self.env['product.product'].search([
+            ('default_code', '=', GIFT_REF[2])], limit=1)
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.get_bvr_gift_attachment(
@@ -166,9 +166,8 @@ class PartnerCommunication(models.Model):
 
         # Put product sponsorship to print the payment slip for physical print.
         if self.send_mode and 'physical' in self.send_mode:
-            self.product_id = self.env[
-                'product.product'].with_context(lang='en_US').search([
-                    ('name', '=', 'Sponsorship')], limit=1)
+            self.product_id = self.env['product.product'].search([
+                ('default_code', '=', 'sponsorship')], limit=1)
             return dict()
 
         # In other cases, attach the payment slip.
