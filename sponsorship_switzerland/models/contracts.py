@@ -381,7 +381,8 @@ class RecurringContracts(models.Model):
                     'category_id': [(3, sponsor_cat_id),
                                     (4, old_sponsor_cat_id)]})
             # Deactivate pending invoice lines.
-            sponsorship.invoice_line_ids.mapped('invoice_id').action_cancel()
+            sponsorship.invoice_line_ids.mapped('invoice_id').filtered(
+                lambda i: i.state == 'open').action_cancel()
 
     def _on_change_group_id(self, group_id):
         """ Change state of contract if payment is changed to/from LSV or DD.
