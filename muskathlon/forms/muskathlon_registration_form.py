@@ -18,7 +18,7 @@ if not testing:
 
     class MuskathlonRegistrationForm(models.AbstractModel):
         _name = 'cms.form.event.registration.muskathlon'
-        _inherit = ['cms.form.payment', 'cms.form.match.partner']
+        _inherit = ['cms.form.match.partner']
 
         # The form is inside a Muskathlon details page
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
@@ -97,27 +97,12 @@ if not testing:
                         'passport_expiration_date', 'emergency_name',
                         'emergency_relation_type', 'emergency_phone'
                     ]
-                }
-            ]
-            if self.event_id.total_price:
-                fieldset.append({
-                    'id': 'payment',
-                    'title': _('Registration payment'),
-                    'description': _(
-                        'For validating registrations, we ask a fee of '
-                        'CHF %s that you can directly pay with your '
-                        'Postfinance or Credit Card'
-                    ) % str(self.event_id.total_price),
-                    'fields': [
-                        'amount', 'currency_id', 'acquirer_ids',
-                        'gtc_accept'
-                    ]
-                })
-            else:
-                fieldset.append({
+                },
+                {
                     'id': 'gtc',
                     'fields': ['gtc_accept']
-                })
+                }
+            ]
             return fieldset
 
         @property
@@ -126,7 +111,6 @@ if not testing:
             res = super(MuskathlonRegistrationForm, self).form_widgets
             res.update({
                 'event_id': 'cms_form_compassion.form.widget.hidden',
-                'amount': 'cms_form_compassion.form.widget.hidden',
                 'ambassador_picture_1':
                 'cms_form_compassion.form.widget.simple.image',
                 'gtc_accept': 'cms_form_compassion.form.widget.terms',
@@ -134,10 +118,6 @@ if not testing:
                 'passport_expiration_date': 'cms.form.widget.date.ch',
             })
             return res
-
-        @property
-        def _default_amount(self):
-            return self.event_id.total_price
 
         @property
         def form_title(self):
@@ -148,10 +128,7 @@ if not testing:
 
         @property
         def submit_text(self):
-            if self.event_id.total_price:
-                return _("Proceed with payment")
-            else:
-                return _("Register now")
+            return _("Register now")
 
         @property
         def gtc(self):
@@ -205,21 +182,8 @@ if not testing:
             return int(req_values.get('event_id',
                                       self.event_id.id))
 
-        def _form_validate_amount(self, value, **req_values):
-            try:
-                amount = float(value)
-                if amount <= 0:
-                    raise ValueError
-            except ValueError:
-                return 'amount', _('Please control the amount')
-            except TypeError:
-                # If amount is not defined, the event has no fee.
-                return 0, 0
-            # No error
-            return 0, 0
-
         def form_before_create_or_update(self, values, extra_values):
-            """ Create invoice for the registration.
+            """
             Create ambassador details.
             """
             super(MuskathlonRegistrationForm,
@@ -227,26 +191,7 @@ if not testing:
             uid = self.env.ref('muskathlon.user_muskathlon_portal').id
             partner = self.env['res.partner'].sudo().browse(
                 values.get('partner_id')).exists()
-            invoice_obj = self.env['account.invoice'].sudo(uid)
-            invoice = invoice_obj
             event = self.event_id.sudo()
-            if event.total_price:
-                fee_template = self.env.ref('muskathlon.product_registration')
-                product = fee_template.sudo(uid).product_variant_ids[:1]
-                invoice = invoice_obj.create({
-                    'partner_id': partner.id,
-                    'currency_id': extra_values.get('currency_id'),
-                    'origin': 'Muskathlon registration',
-                    'invoice_line_ids': [(0, 0, {
-                        'quantity': 1.0,
-                        'price_unit': event.total_price,
-                        'account_analytic_id':
-                        event.compassion_event_id.analytic_id.id,
-                        'account_id': product.property_account_income_id.id,
-                        'name': 'Muskathlon registration fees',
-                        'product_id': product.id
-                    })]
-                })
             sporty = self.env.ref('partner_compassion.engagement_sport')
             if partner.advocate_details_id:
                 partner.advocate_details_id.write({
@@ -271,9 +216,7 @@ if not testing:
             values['event_id'] = int(values['event_id'])
             values['user_id'] = event.user_id.id
             values['stage_id'] = self.env.ref(
-                'muskathlon.stage_down_payment').id
-            # Store invoice and event for after form creation
-            extra_values['invoice_id'] = invoice.id
+                'muskathlon.stage_fill_profile').id
             self.event_id = event
 
         def _form_create(self, values):
@@ -295,15 +238,18 @@ if not testing:
                 values.get('partner_id')).exists()
             partner.set_privacy_statement(origin='muskathlon_reg')
 
+            event = self.event_id.sudo()
+            registration = self.env['event.registration'].search([
+                ('event_id', '=', event.id),
+                ('partner_id', '=', partner.id)
+            ])
+            registration.confirm_registration()
+
         def form_next_url(self, main_object=None):
             # Clean storage of picture
             self.request.session.pop('ambassador_picture_1', False)
-            if self.event_id.total_price:
-                return super(MuskathlonRegistrationForm, self).form_next_url(
-                    main_object)
-            else:
-                return '/muskathlon_registration/{}/success'.format(
-                    self.main_object.id)
+            return '/muskathlon_registration/{}/success'\
+                .format(self.main_object.id)
 
         def _edit_transaction_values(self, tx_values, form_vals):
             """ Add registration link and change reference. """

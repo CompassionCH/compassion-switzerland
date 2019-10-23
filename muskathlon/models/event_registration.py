@@ -62,6 +62,15 @@ class MuskathlonRegistration(models.Model):
             completed_tasks.append((4, task.id))
         return super(MuskathlonRegistration, self).create(values)
 
+    @api.multi
+    def _compute_step2_tasks(self):
+        # Consider Muskathlon task for scan passport
+        super(MuskathlonRegistration, self)._compute_step2_tasks()
+        muskathlon_passport = self.env.ref('muskathlon.task_scan_passport')
+        for reg in self:
+            reg.passport_uploaded = muskathlon_passport in \
+                reg.completed_task_ids
+
     def _compute_amount_raised(self):
         # Use Muskathlon report to compute Muskathlon event donation
         muskathlon_report = self.env['muskathlon.report']

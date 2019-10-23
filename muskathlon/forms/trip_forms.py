@@ -364,14 +364,38 @@ if not testing:
                 registration.completed_task_ids += self.env.ref(
                     'muskathlon.task_flight_details')
 
-        # def _form_write(self, values):
-        #     """Write as Muskathlon to avoid any security restrictions."""
-        #     uid = self.env.ref('muskathlon.user_muskathlon_portal').id
-        #     # pass a copy to avoid pollution of initial values by odoo
-        #     self.main_object.sudo(uid).write(values.copy())
-        #
-        # def _form_create(self, values):
-        #     """Create as Muskathlon to avoid any security restrictions."""
-        #     uid = self.env.ref('muskathlon.user_muskathlon_portal').id
-        #     # pass a copy to avoid pollution of initial values by odoo
-        #     self.main_object.sudo(uid).create(values.copy())
+    class PassportForm(models.AbstractModel):
+        _name = 'cms.form.muskathlon.passport'
+        _inherit = 'cms.form'
+
+        _form_model = 'event.registration'
+        _form_model_fields = ['passport']
+        _form_required_fields = ['passport']
+        form_id = 'modal_passport'
+
+        passport = fields.Binary()
+
+        @property
+        def form_msg_success_updated(self):
+            return _('Passport successfully uploaded.')
+
+        @property
+        def form_widgets(self):
+            # Hide fields
+            res = super(PassportForm, self).form_widgets
+            res['passport'] = 'cms_form_compassion.form.widget.document'
+            return res
+
+        def _form_validate_passport(self, value, **req_values):
+            if value == '':
+                return 'passport', _('Missing')
+            return 0, 0
+
+        def form_before_create_or_update(self, values, extra_values):
+            if values.get('passport'):
+                # Mark the task criminal record as completed
+                passport_task = self.env.ref(
+                    'muskathlon.task_scan_passport')
+                values['completed_task_ids'] = [(4, passport_task.id)]
+            else:
+                del values['completed_task_ids']

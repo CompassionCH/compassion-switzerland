@@ -158,7 +158,7 @@ header .navbar-brand img {
 #main_footer footer {
     background-color: inherit;
     color: white;
-    font-family: "Tetria Light";
+    font-family: "Miller Light";
     line-height: 25.6px;
 }
 
@@ -169,7 +169,7 @@ header .navbar-brand img {
 #main_footer .footer_section_title {
     text-transform: uppercase;
     display: block;
-    font-family: "Tetria Black";
+    font-family: "Miller";
     font-size: 16px;
     line-height: 16px;
     margin-bottom: 10px;
@@ -178,7 +178,7 @@ header .navbar-brand img {
 
 #main_footer .footer_section_big_title {
     display: block;
-    font-family: "Tetria Black";
+    font-family: "Miller";
     font-size: 20px;
     line-height: 25px;
     margin-bottom: 6px;
@@ -192,7 +192,7 @@ header .navbar-brand img {
 
 #main_footer .end_footer_link {
     display: block;
-    font-family: "Tetria Regular";
+    font-family: "Miller";
     font-size: 15px;
     line-height: 15px;
     text-align: right;

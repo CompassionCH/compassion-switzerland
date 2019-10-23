@@ -19,7 +19,6 @@ from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -27,7 +26,7 @@ class CompassionChild(models.Model):
     _inherit = 'compassion.child'
 
     @api.multi
-    def add_to_wordpress(self):
+    def add_to_wordpress(self, company_id=None):
         # Solve the encoding problems on child's descriptions
         reload(sys)
         sys.setdefaultencoding('UTF8')
@@ -49,21 +48,24 @@ class CompassionChild(models.Model):
                 "wordpress." % str(len(error))
             )
 
-        wp = WPSync()
+        wp_config = self.env['wordpress.configuration'].get_config(company_id)
+        wp = WPSync(wp_config)
         return wp.upload_children(valid_children)
 
     @api.multi
     def remove_from_wordpress(self):
         valid_children = self.filtered(lambda c: c.state == 'I')
         if valid_children:
-            wp = WPSync()
+            wp_config = self.env['wordpress.configuration'].get_config()
+            wp = WPSync(wp_config)
             if wp.remove_children(valid_children):
                 valid_children.write({'state': 'N'})
         return True
 
     @api.multi
-    def raz_wordpress(self):
-        wp = WPSync()
+    def force_remove_from_wordpress(self, company_id=None):
+        wp_config = self.env['wordpress.configuration'].get_config(company_id)
+        wp = WPSync(wp_config)
         if wp.remove_all_children():
             self.write({'state': 'N'})
         return True
@@ -102,11 +104,51 @@ class CompassionChild(models.Model):
         remove old children and release the holds.
         :return: True
         """
+        for company in self.env['res.company'].search([]):
+            wp_config = self.env['wordpress.configuration'].get_config(
+                company.id, raise_error=False)
+            if not wp_config:
+                continue
+            global_pool = self.with_context(default_company_id=company.id)\
+                ._create_diverse_children_pool(take)
+            new_children = self._hold_children(global_pool)
+            valid_new_children = self._update_information_and_filter_invalid(
+                new_children)
+            old_children = self.search([
+                ('state', '=', 'I'),
+                ('hold_id.type', '!=', HoldType.NO_MONEY_HOLD.value)
+            ])
+            self._replace_children_in_wordpress(
+                company.id, old_children, valid_new_children)
+            return True
+
+    def _create_diverse_children_pool(self, take):
         global_pool = self.env['compassion.childpool.search'].create({
             'take': take,
         })
-        global_pool.rich_mix()
-        hold_wizard = self.env['child.hold.wizard'].with_context(
+        try:
+            global_pool.country_mix()
+        except Exception, e:
+            logger.exception("The country-aware children selection failed, "
+                             "falling back to rich mix. %s", e.message)
+            global_pool.rich_mix()
+        return global_pool
+
+    def _update_information_and_filter_invalid(self, children):
+        for child in children:
+            try:
+                child.get_infos()
+                child.mapped('project_id').update_informations()
+            except Exception, e:
+                logger.exception('Error updating child information: %s',
+                                 e.message)
+                continue
+        return children.filtered(
+            lambda c: c.state == 'N' and c.desc_it and c.pictures_ids
+            and c.project_id.description_it)
+
+    def _hold_children(self, global_pool):
+        hold_wizard = global_pool.env['child.hold.wizard'].with_context(
             active_id=global_pool.id, async_mode=False
         ).create({
             'type': HoldType.CONSIGNMENT_HOLD.value,
@@ -117,39 +159,25 @@ class CompassionChild(models.Model):
             'channel': 'web',
         })
         hold_wizard.onchange_type()
-        res_action = hold_wizard.send()
-        children = self.browse(res_action['domain'][0][2]).with_context(
+        send_hold_result = hold_wizard.send()
+        children = self.browse(send_hold_result['domain'][0][2]).with_context(
             async_mode=False)
-        for child in children:
-            try:
-                child.get_infos()
-                child.mapped('project_id').update_informations()
-            except:
-                continue
-        valid_children = children.filtered(
-            lambda c: c.state == 'N' and c.desc_it and c.pictures_ids and
-            c.project_id.description_it)
-        old_children = self.search([
-            ('state', '=', 'I'),
-            ('hold_id.type', '!=', HoldType.NO_MONEY_HOLD.value)
-        ])
+        return children
 
-        # Put children 5 by 5 to avoid delays
-        def loop_five(n, max_value):
-            while n < max_value:
-                yield n
-                n += 5
+    def _replace_children_in_wordpress(self, company_id, old_children,
+                                       new_children):
         try:
             with self.env.cr.savepoint():
-                old_children.raz_wordpress()
-                for i in loop_five(0, len(valid_children)):
+                old_children.force_remove_from_wordpress(company_id)
+                # Put children 5 by 5 to avoid delays
+                for i in range(0, len(new_children), 5):
                     try:
-                        valid_children[i:i + 5].add_to_wordpress()
-                    except:
+                        new_children[i:i + 5].add_to_wordpress(company_id)
+                    except Exception, e:
+                        logger.exception('Failed adding a batch of children to'
+                                         ' wordpress: %s', e.message)
                         continue
 
                 old_children.mapped('hold_id').release_hold()
         except:
             logger.error("Error when refreshing wordpress children.")
-
-        return True

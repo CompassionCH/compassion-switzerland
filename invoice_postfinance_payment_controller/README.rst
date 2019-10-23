@@ -20,27 +20,13 @@ Invoice to Postfinance Payment Controller
 |badge1| |badge2| |badge3| 
 
 This module creates a web page that can take payment information given by an existing invoice
-and redirect the user to Postfinance so that he can pay. It links the payment to Odoo invoice and
+and redirect the user to Postfinance or Stripe so that he can pay. It links the payment to Odoo invoice and
 then redirects back the user.
 
 **Table of contents**
 
 .. contents::
    :local:
-
-Usage
-=====
-
-The route is /postfinance/payment/<invoice_id> that can contain
-following GET parameter for the payment:
-
-* accept_url: the redirection url after successful payment
-* decline_url: the redirection url after declined payment
-
-The redirection page is /postfinance/payment/validate
-
-If no accept_url and decline_url were passed, it will render the default confirmation page,
-otherwise it will redirect the user accordingly.
 
 Bug Tracker
 ===========
@@ -64,6 +50,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Emanuel Cino <ecino@compassion.ch>
+* Benoît Schopfer <bschopfer@compassion.ch>
 
 Maintainers
 ~~~~~~~~~~~

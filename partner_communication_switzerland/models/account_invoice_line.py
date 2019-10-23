@@ -52,108 +52,28 @@ class AccountInvoiceLine(models.Model):
     @api.multi
     def generate_thank_you(self):
         """
-        Creates a thank you letter communication.
-        Must be called only on a single partner and single event at a time.
+        Do not group communications which have not same event linked.
+        Propagate event to the communication and use the creator of the event
+        as the default thanker.
         """
-        invoice_lines = self.filtered('product_id.requires_thankyou')
-        if not invoice_lines:
-            # Avoid generating thank you if no valid invoice lines are present
-            return
-
-        small = self.env.ref('thankyou_letters.config_thankyou_small') + \
-            self.env.ref(
-                'partner_communication_switzerland.config_event_small')
-        standard = self.env.ref('thankyou_letters.config_thankyou_standard')\
-            + self.env.ref('partner_communication_switzerland.'
-                           'config_event_standard')
-        large = self.env.ref('thankyou_letters.config_thankyou_large') + \
-            self.env.ref('partner_communication_switzerland.'
-                         'config_event_large')
-
-        partner = invoice_lines.mapped('partner_id')
-        partner.ensure_one()
-        event = invoice_lines.mapped('event_id')
-        ambassadors = invoice_lines.mapped('user_id')
-
-        event_id = event.id
-
-        if invoice_lines.mapped('contract_id'):
-            event_id = False
-
-        existing_comm = self.env['partner.communication.job'].search([
-            ('partner_id', '=', partner.id),
-            ('state', 'in', ('call', 'pending')),
-            ('config_id', 'in', (small + standard + large).ids),
-            ('event_id', '=', event_id)
-        ])
-        if existing_comm:
-            invoice_lines = existing_comm.get_objects() | invoice_lines
-
-        config = invoice_lines.get_thankyou_config()
-        comm_vals = {
-            'partner_id': partner.id,
-            'config_id': config.id,
-            'object_ids': invoice_lines.ids,
-            'need_call': config.need_call,
-            'event_id': event_id,
-            'ambassador_id': len(ambassadors) == 1 and ambassadors.id,
-            'print_subject': False,
-        }
-        send_mode = config.get_inform_mode(partner)
-        comm_vals['send_mode'] = send_mode[0]
-        comm_vals['auto_send'] = send_mode[1]
-        if partner.is_new_donor:
-            comm_vals['send_mode'] = 'physical'
-
-        success_stories = invoice_lines.mapped('product_id.success_story_id')
-        if success_stories:
-            existing_comm = existing_comm.with_context(
-                default_success_story_id=success_stories[0].id)
-
-        if existing_comm:
-            existing_comm.write(comm_vals)
-            existing_comm.refresh_text()
-        else:
-            # Do not group communications which have not same event linked.
-            existing_comm = existing_comm.with_context(
-                same_job_search=[('event_id', '=', event_id)]
-            ).create(comm_vals)
-        self.mapped('invoice_id').write({
-            'communication_id': existing_comm.id
-        })
+        event = self.mapped('event_id')[:1]
+        user = event.mapped('staff_ids.user_ids')[:1] or event.create_uid
+        return super(AccountInvoiceLine, self.with_context(
+            same_job_search=[('event_id', '=', event.id)],
+            default_event_id=event.id,
+            default_user_id=user.id
+        )).generate_thank_you()
 
     @api.multi
-    def get_thankyou_config(self):
+    def get_default_thankyou_config(self):
         """
-        Get how we should thank the selected invoice lines
-
-            - small: < 100 CHF
-            - standard: 100 - 999 CHF
-            - large: > 1000 CHF or legacy
+        Returns the default communication configuration.
+        Choose event communication if the donations are linked to an event
         :return: partner.communication.config record
         """
-        small = self.env.ref('thankyou_letters.config_thankyou_small')
-        small_e = self.env.ref('partner_communication_switzerland.'
-                               'config_event_small')
-        standard = self.env.ref('thankyou_letters.config_thankyou_standard')
-        standard_e = self.env.ref('partner_communication_switzerland.'
-                                  'config_event_standard')
-        large = self.env.ref('thankyou_letters.config_thankyou_large')
-        large_e = self.env.ref('partner_communication_switzerland.'
-                               'config_event_large')
-
-        # Special case for legacy donation : always treat as large donation
-        legacy = 'legacy' in self.with_context(lang='en_US').mapped(
-            'product_id.name')
         # Special case for gifts : never put in event donation
         gift = 'gift' in self.mapped('invoice_id.invoice_type')
-
-        total_amount = sum(self.mapped('price_subtotal'))
-        event = self.mapped('event_id') and not gift
-        if total_amount < 100 and not legacy:
-            config = small if not event else small_e
-        elif total_amount < 1000 and not legacy:
-            config = standard if not event else standard_e
-        else:
-            config = large if not event else large_e
-        return config
+        if self.mapped('event_id') and not gift:
+            return self.env.ref('partner_communication_switzerland.'
+                                'config_event_standard')
+        return super(AccountInvoiceLine, self).get_default_thankyou_config()

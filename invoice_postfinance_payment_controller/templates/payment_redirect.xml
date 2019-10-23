@@ -67,7 +67,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
                                 <t t-call="invoice_postfinance_payment_controller.payment_confirmation_status" />
                             </div>
                             <div class="pull-right" t-if="invoice and invoice.state != 'paid' and not payment_ok">
-                                <a t-attf-href="/postfinance/payment/{{str(invoice.id)}}?accept_url={{tx.accept_url or ''}}&amp;decline_url={{tx.decline_url or ''}}" class="btn btn-primary">Try again</a>
+                                <a t-attf-href="/compassion/payment/invoice/{{str(invoice.id)}}?accept_url={{tx.accept_url or ''}}&amp;decline_url={{tx.decline_url or ''}}" class="btn btn-primary">Try again</a>
                             </div>
                         </div>
                         <div class="col-lg-3 col-lg-offset-1 col-sm-3 text-muted mt64">

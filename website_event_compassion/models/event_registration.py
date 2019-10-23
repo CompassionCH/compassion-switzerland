@@ -15,8 +15,7 @@ from datetime import date
 
 from odoo import api, models, fields, _, SUPERUSER_ID
 from odoo.addons.website.models.website import slug
-from odoo.exceptions import MissingError
-from odoo.tools import config, file_open
+from odoo.tools import file_open
 
 from odoo.addons.queue_job.job import job
 
@@ -238,11 +237,10 @@ class Event(models.Model):
             registration.host_url = host
 
     def _compute_wordpress_host(self):
-        host = config.get('wordpress_host')
-        if not host:
-            raise MissingError(_('Missing wordpress_host in odoo config file'))
+        wp_obj = self.env['wordpress.configuration']
         for registration in self:
-            registration.wordpress_host = host
+            registration.wordpress_host = wp_obj.get_host(
+                registration.company_id.id)
 
     @api.multi
     @api.depends('state', 'event_id.state')
@@ -440,16 +438,15 @@ class Event(models.Model):
         if 'stage_id' in vals:
             vals['stage_date'] = fields.Date.today()
         res = super(Event, self).write(vals)
-        module = 'website_event_compassion.'
+        for registration in self:
+            if registration.state == 'done' and registration.event_id. \
+                    feedback_survey_id and not registration.feedback_survey_id:
+                registration.prepare_feedback_survey()
         # Push registration to next stage if all tasks are complete
         if 'completed_task_ids' in vals:
             for registration in self:
                 if not registration.incomplete_task_ids:
                     registration.next_stage()
-                if vals.get('stage_id') == self.env.ref(
-                        module + 'stage_all_attended'
-                ).id and registration.event_type_id.travel_features:
-                    registration.prepare_feedback_survey()
         return res
 
     @api.model

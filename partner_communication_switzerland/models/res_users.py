@@ -28,19 +28,20 @@ class ResUsers(models.Model):
             for user in self:
                 self.env['partner.communication.job'].create({
                     'partner_id': user.partner_id.id,
-                    'config_id': config.id
+                    'config_id': config.id,
+                    'auto_send': True
                 })
 
     @api.multi
     def _compute_signature_letter(self):
         """ Translate country in Signature (for Compassion Switzerland) """
         for user in self:
-            employee = user.employee_ids
+            employee = user.employee_ids.sudo()
             signature = ''
             if len(employee) == 1:
                 signature += employee.name + '<br/>'
                 if employee.department_id:
                     signature += employee.department_id.name + '<br/>'
-            signature += user.company_id.name.split(' ')[0] + ' '
-            signature += user.company_id.country_id.name
+            signature += user.sudo().company_id.name.split(' ')[0] + ' '
+            signature += user.sudo().company_id.country_id.name
             user.signature_letter = signature

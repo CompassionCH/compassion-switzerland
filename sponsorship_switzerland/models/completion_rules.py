@@ -9,10 +9,11 @@
 #
 ##############################################################################
 
+import re
 from odoo import models, fields
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from odoo.addons.sponsorship_compassion.models.product import \
-    GIFT_CATEGORY, GIFT_NAMES
+    GIFT_CATEGORY, GIFT_REF
 
 from datetime import datetime
 import logging
@@ -79,9 +80,25 @@ class StatementCompletionRule(models.Model):
         if 'ref' in st_line:
             ref = st_line['ref']
         res = {}
+
+        ref_index = 9  # position of the partner ref inside the BVR number.
+        partner_ref = ref[ref_index:16]
         partner_obj = self.env['res.partner']
-        partner = partner_obj.search(
-            [('ref', '=', str(int(ref[9:16])))])
+        partner = partner_obj.search([('ref', '=', str(int(partner_ref)))])
+        if not partner:
+            # Some bvr reference have a wrong number of leading zeros,
+            # resulting in the partner reference to be offset.
+            flexible_ref_match = re.search(r'^0{,10}([1-9]\d{4,6})0',
+                                           ref)
+            if flexible_ref_match:
+                flexible_ref = flexible_ref_match.group(1)
+                if int(flexible_ref) != int(partner_ref):
+                    logger.warning(
+                        'The partner reference might be misaligned: %s',
+                        ref)
+                    partner = partner_obj.search([
+                        ('ref', '=', str(int(flexible_ref)))])
+                    ref_index = flexible_ref_match.start(1)
         if len(partner) > 1:
             # Take only those who have active sponsorships
             partner = partner.filtered(lambda p: p.sponsorship_ids.filtered(
@@ -93,7 +110,7 @@ class StatementCompletionRule(models.Model):
                 # no open invoice corresponding to the payment. We may need to
                 # generate one depending on the payment type.
                 line_vals, new_invoice = self._generate_invoice(
-                    stmts_vals, st_line, partner)
+                    stmts_vals, st_line, partner, ref_index)
                 res.update(line_vals)
                 # Get the accounting partner (company)
                 res['partner_id'] = partner.commercial_partner_id.id
@@ -221,17 +238,23 @@ class StatementCompletionRule(models.Model):
     #                             PRIVATE METHODS                            #
     ##########################################################################
 
-    def _generate_invoice(self, stmts_vals, st_line, partner):
-        """ Generates an invoice corresponding to the statement line read
-            in order to reconcile the corresponding move lines.
+    def _generate_invoice(self, stmts_vals, st_line, partner, ref_index):
+        """
+        Generates an invoice corresponding to the statement line read
+        in order to reconcile the corresponding move lines.
 
-        :returns dict, boolean: st_line values to update, true if invoice is
+        :param stmts_vals: bank statement values
+        :param st_line: current statement line values
+        :param partner: matched partner
+        :param ref_index: starting index at which the partner ref was found
+        :return: dict, boolean: st_line values to update, true if invoice is
                                 created.
         """
         # Read data in english
         res = dict()
+        ref = st_line['ref']
         product = self.with_context(lang='en_US')._find_product_id(
-            st_line['ref'])
+            partner.ref, ref)
         if not product:
             return res, False
         # Don't gengerate invoice if it's a Sponsor gift
@@ -239,18 +262,33 @@ class StatementCompletionRule(models.Model):
             res['name'] = product.name
             contract_obj = self.env['recurring.contract'].with_context(
                 lang='en_US')
-            contract_number = int(st_line['ref'][16:21])
-            contract = contract_obj.search(
-                ['|',
-                 ('partner_id', '=', partner.id),
-                 ('correspondent_id', '=', partner.id),
-                 ('commitment_number', '=', contract_number),
-                 ('state', '!=', 'draft'),
-                 ('type', 'like', 'S')])
+            # the contract number should be found after the ref on 5 digits.
+            contract_index = ref_index + 7
+            contract_number = int(
+                ref[contract_index:contract_index+5])
+            search_criterias = [
+                '|',
+                ('partner_id', '=', partner.id),
+                ('correspondent_id', '=', partner.id),
+                ('state', '!=', 'draft'),
+                ('type', 'like', 'S')
+            ]
+            contract = contract_obj.search(search_criterias + [
+                ('commitment_number', '=', contract_number)])
+            if not contract:
+                # Maybe the ref is misaligned. Most people have a number < 10
+                # so we try to find this digit in the ref and see if we get
+                # lucky.
+                contract_number_match = re.search(
+                    partner.ref + r'0{1,4}(\d)', ref)
+                if contract_number_match:
+                    contract_number = int(contract_number_match.group(1))
+                    contract = contract_obj.search(search_criterias + [
+                        ('commitment_number', '=', contract_number)])
             if len(contract) == 1:
                 # Retrieve the birthday of child
                 birthdate = ""
-                if product.name == GIFT_NAMES[0]:
+                if product.default_code == GIFT_REF[0]:
                     birthdate = contract.child_id.birthdate
                     birthdate = datetime.strptime(birthdate, DF).strftime(
                         "%d %b").decode('utf-8')
@@ -273,7 +311,7 @@ class StatementCompletionRule(models.Model):
             'payment_term_id': 1,  # Immediate payment
             'payment_mode_id': self.env['account.payment.mode'].search(
                 [('name', '=', 'BVR')]).id,
-            'reference': st_line['ref'],
+            'reference': ref,
             'origin': stmts_vals['name']
         }
 
@@ -343,21 +381,31 @@ class StatementCompletionRule(models.Model):
 
         return partner
 
-    def _find_product_id(self, ref):
+    def _find_product_id(self, partner_ref, ref):
         """ Finds what kind of payment it is,
             based on the reference of the statement line. """
         product_obj = self.env['product.product'].with_context(lang='en_US')
-        payment_type = int(ref[21])
+        # Search for payment type in a flexible manner given its neighbours
+        payment_type_match = re.search(
+            partner_ref + r'0{1,4}[1-9]{1,3}([1-9])0', ref)
+        if payment_type_match:
+            payment_type = int(payment_type_match.group(1))
+            payment_type_index = payment_type_match.start(1)
+        else:
+            # Take payment type from its fixed position where it's supposed.
+            payment_type_index = -6
+            payment_type = int(ref[payment_type_index])
         product = 0
         if payment_type in range(1, 6):
             # Sponsor Gift
             products = product_obj.search(
-                [('name', '=', GIFT_NAMES[payment_type - 1])])
+                [('default_code', '=', GIFT_REF[payment_type - 1])])
             product = products[0] if products else 0
         elif payment_type in range(6, 8):
             # Fund donation
             products = product_obj.search(
-                [('fund_id', '=', int(ref[22:26]))])
+                [('fund_id', '=', int(
+                    ref[payment_type_index+1:payment_type_index+5]))])
             product = products[0] if products else 0
 
         return product

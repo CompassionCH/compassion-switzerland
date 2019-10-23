@@ -10,8 +10,7 @@
 ##############################################################################
 import logging
 from odoo import api, models, fields
-from odoo.addons.sponsorship_compassion.models.product import \
-    GIFT_CATEGORY
+from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
 
 _logger = logging.getLogger(__name__)
 
@@ -129,34 +128,28 @@ class AccountInvoice(models.Model):
                 'active': True
             })
         origin = 'WP ' + wp_origin + ' ' + str(pf_payid)
-        invoice = self.search([
-            ('user_id', '=', self.env.uid),
-            ('partner_id', '=', partner_id),
-            ('state', '=', 'draft')
-        ])
         utms = self.env['utm.mixin'].get_utms(
             utm_source, utm_medium, utm_campaign)
         internet_id = self.env.ref('utm.utm_medium_website').id
         payment_term_id = self.env.ref(
             'account.account_payment_term_immediate').id
-        if not invoice:
-            account = self.env['account.account'].search([
-                ('code', '=', '1050')])
-            # Compute invoice date for birthday gifts
-            invoice_date = fields.Date.today()
-            invoice = self.create({
-                'partner_id': partner_id,
-                'payment_mode_id': payment_mode.id,
-                'origin': origin,
-                'reference': str(pf_payid),
-                'transaction_id': str(pf_payid),
-                'date_invoice': invoice_date,
-                'currency_id': 6,  # Always in CHF
-                'account_id': account.id,
-                'name': 'Postfinance payment ' + str(pf_payid) + ' for ' +
-                wp_origin,
-                'payment_term_id': payment_term_id
-            })
+        account = self.env['account.account'].search([
+            ('code', '=', '1050')])
+        # Compute invoice date for birthday gifts
+        invoice_date = fields.Date.today()
+        invoice = self.create({
+            'partner_id': partner_id,
+            'payment_mode_id': payment_mode.id,
+            'origin': origin,
+            'reference': str(pf_payid),
+            'transaction_id': str(pf_payid),
+            'date_invoice': invoice_date,
+            'currency_id': 6,  # Always in CHF
+            'account_id': account.id,
+            'name': 'Postfinance payment ' + str(pf_payid) + ' for ' +
+            wp_origin,
+            'payment_term_id': payment_term_id
+        })
         analytic_id = self.env['account.analytic.default'].account_get(
             product.id).analytic_id.id
         gift_account = self.env['account.account'].search([

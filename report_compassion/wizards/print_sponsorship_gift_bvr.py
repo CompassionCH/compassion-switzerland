@@ -10,7 +10,7 @@
 ##############################################################################
 import base64
 
-from odoo.addons.sponsorship_compassion.models.product import GIFT_NAMES
+from odoo.addons.sponsorship_compassion.models.product import GIFT_REF
 
 from odoo import api, models, fields, _
 from odoo.exceptions import Warning as odooWarning
@@ -60,20 +60,20 @@ class PrintSponsorshipBvr(models.TransientModel):
         """
         product_search = list()
         if self.birthday_gift:
-            product_search.append(GIFT_NAMES[0])
+            product_search.append(GIFT_REF[0])
         if self.general_gift:
-            product_search.append(GIFT_NAMES[1])
+            product_search.append(GIFT_REF[1])
         if self.family_gift:
-            product_search.append(GIFT_NAMES[2])
+            product_search.append(GIFT_REF[2])
         if self.project_gift:
-            product_search.append(GIFT_NAMES[3])
+            product_search.append(GIFT_REF[3])
         if self.graduation_gift:
-            product_search.append(GIFT_NAMES[4])
+            product_search.append(GIFT_REF[4])
         if not product_search:
             raise odooWarning(_("Please select at least one gift type."))
 
-        products = self.env['product.product'].with_context(
-            lang='en_US').search([('name', 'in', product_search)])
+        products = self.env['product.product'].search([
+            ('default_code', 'in', product_search)])
         data = {
             'doc_ids': self.env.context.get('active_ids'),
             'product_ids': products.ids,

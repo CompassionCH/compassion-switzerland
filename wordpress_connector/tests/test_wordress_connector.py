@@ -28,6 +28,9 @@ mock_get_staff = ('odoo.addons.child_compassion.wizards'
 mock_new_dossier = ('odoo.addons.partner_communication_switzerland.models'
                     '.contracts.RecurringContract._new_dossier')
 
+mock_geolocalize = ('odoo.addons.base_geolocalize.models.res_partner'
+                    '.ResPartner.geo_localize')
+
 
 class TestWordpressConnector(BaseSponsorshipTest):
 
@@ -90,8 +93,9 @@ class TestWordpressConnector(BaseSponsorshipTest):
         return sponsorship, child_sponsored
 
     @mock.patch(mock_update_hold)
+    @mock.patch(mock_geolocalize)
     def create_sponsorship_default(
-            self, child_local_id, update_hold,
+            self, child_local_id, update_hold, geolocalize,
             form_data=None, lang='fr', utm_source=None, utm_medium="Website",
             utm_campaign="Newsletter"):
         """
@@ -99,6 +103,7 @@ class TestWordpressConnector(BaseSponsorshipTest):
         creating a new sponsorship.
         :param child_local_id: Child local_id
         :param update_hold: update hold patch
+        :param update_hold: geolocalize patch
         :param form_data: dictionary simulating wordpress form data
         :param lang: main language of sponsorship
         :param utm_source: utm.source of sponsorship
@@ -107,6 +112,7 @@ class TestWordpressConnector(BaseSponsorshipTest):
         :return: <recurring.contract> record
         """
         update_hold.return_value = True
+        geolocalize.return_value = True
         if not form_data:
             form_data = self.form_data
         if not utm_source:
