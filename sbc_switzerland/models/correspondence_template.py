@@ -16,9 +16,8 @@ class CorrespondenceTemplate(models.Model):
 
     _inherit = 'correspondence.template'
 
-    checkbox_ids = fields.One2many(
-        'correspondence.lang.checkbox', 'template_id',
-        default=lambda self: self._get_default_checkboxes(), copy=True)
+    checkbox_ids = fields.Many2many(
+        default=lambda self: self._get_default_checkboxes())
 
     def _get_default_checkboxes(self):
         return [

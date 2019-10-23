@@ -66,13 +66,13 @@ class Binary(web.controllers.main.Binary):
     @serialize_exception
     def upload_attachment(self, callback, model, id, ufile, multi=False):
         if multi:
-            Model = request.env['ir.attachment']
+            model = request.env['ir.attachment']
             out = """<script language="javascript" type="text/javascript">
                     var win = window.top.window;
                     win.jQuery(win).trigger(%s, %s);
                 </script>"""
             try:
-                attachment_id = Model.create({
+                attachment_id = model.create({
                     'name': ufile.filename,
                     'datas': base64.encodestring(ufile.read()),
                     'datas_fname': ufile.filename,

@@ -1,0 +1,71 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mobile_app_switzerland
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-02 10:06+0000\n"
+"PO-Revision-Date: 2019-10-02 12:12+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.2.4\n"
+"Last-Translator: \n"
+"Language: fr_CH\n"
+
+#. module: mobile_app_switzerland
+#: model:mail.template,body_html:mobile_app_switzerland.mobile_app_welcome_email
+msgid ""
+"<div>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set user = object.get_objects()\n"
+"                </div>\n"
+"                <p>\n"
+"                    ${partner.salutation},\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    You have been given access to the Compassion Mobile "
+"App.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Before you can access through the mobile application, "
+"you must setup your password.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <div style=\"margin:0 auto; text-align: center;\"><a "
+"href=\"${user.signup_url + '&amp;redirect=/registration/success'}\" style="
+"\"padding: 12px 18px; font-size: 12px; line-height: 18px; color: "
+"#0054A6;                        border-color:#FFFFFF; text-decoration: none; "
+"display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: "
+"center; vertical-align: middle; cursor: pointer; white-space: nowrap; "
+"background-image: none;                        background-color: #FFFFFF; "
+"border: 1px solid #FFFFFF; border-radius:3px\">Activate my account</a></"
+"div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                        Best regards,\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                        Compassion Switzerland\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#. module: mobile_app_switzerland
+#: model:ir.ui.view,arch_db:mobile_app_switzerland.mobile_registration_success
+msgid "Back to the App"
+msgstr "Retour sur l'App"
+
+#. module: mobile_app_switzerland
+#: model:mail.template,subject:mobile_app_switzerland.mobile_app_welcome_email
+msgid "Your Mobile App Account is ready"
+msgstr ""
+
+#. module: mobile_app_switzerland
+#: model:ir.model,name:mobile_app_switzerland.model_cms_form_res_users
+msgid "cms.form.res.users"
+msgstr "cms.form.res.users"

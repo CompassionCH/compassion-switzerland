@@ -8,7 +8,6 @@ pysftp
 unidecode
 python-magic
 wand
-pdfminer
 matplotlib
 pyPdf
 bs4
@@ -17,4 +16,4 @@ Shapely
 simplejson
 pandas
 pyminizip
-pdf2image
+pdf2image==1.7.1

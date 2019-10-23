@@ -77,7 +77,8 @@ if not testing:
             if self.large_picture:
                 pic_widget = 'cms_form_compassion.form.widget.hidden'
             else:
-                pic_widget = 'cms_form_compassion.form.widget.simple.image'
+                pic_widget = \
+                    'cms_form_compassion.form.widget.simple.image.required'
             res.update({
                 'form_id': 'cms_form_compassion.form.widget.hidden',
                 'partner_id': 'cms_form_compassion.form.widget.hidden',
@@ -118,7 +119,8 @@ if not testing:
                         (4, partner.env.ref('muskathlon.task_picture').id)]
                 })
             else:
-                extra_values['large_picture'] = partner.image
+                extra_values['large_picture'] = partner.advocate_details_id\
+                    .picture_large
             staff_id = self.env['staff.notification.settings'] \
                 .sudo().get_param('muskathlon_order_notify_id')
             values.update({
@@ -145,9 +147,10 @@ if not testing:
             picture = extra_values['large_picture']
             email_template = self.env.ref(
                 'muskathlon.order_material_mail_template2')
-            email_template.send_mail(
+            email_template.sudo().send_mail(
                 self.main_object.id, raise_exception=False, force_send=True,
-                email_values={'attachments': [('picture.jpg', picture)]})
+                email_values={'attachments': [('picture.jpg', picture)],
+                              'email_to': self.main_object.user_email})
             return True
 
     class OrderMaterialFormFlyer(models.AbstractModel):

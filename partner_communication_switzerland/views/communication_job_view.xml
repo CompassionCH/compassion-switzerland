@@ -82,7 +82,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '!=', False)]</field>
-        <field name="context">{'search_default_pending': True, 'search_default_config': True, 'search_default_event': True, 'default_user_id': uid}</field>
+        <field name="context">{'search_default_my_communications': 1, 'search_default_pending': True, 'search_default_event': True, 'default_user_id': uid}</field>
     </record>
 
     <!-- Communication menus -->

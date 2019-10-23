@@ -40,8 +40,8 @@ class ReconcileFundWizard(models.TransientModel):
         return True
 
     def _get_general_fund(self):
-        general_fund = self.env['product.product'].with_context(
-            lang='en_US').search([('name', '=', 'General Fund')], limit=1)
+        general_fund = self.env['product.product'].search([
+            ('default_code', '=', 'fund_gen')], limit=1)
         return general_fund.id
 
     @api.multi

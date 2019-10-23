@@ -60,7 +60,8 @@ class AdvocateDetails(models.Model):
                     "translation platform with that ref as number")
                 try:
                     tc.remove_user(advocate.partner_id)
-                except:
+                except Exception:
+                    _logger.warning("Couldn't remove user: ", exc_info=True)
                     tc.disable_user(advocate.partner_id)
                 finally:
                     self.env['partner.communication.job'].create({
@@ -82,7 +83,7 @@ class AdvocateDetails(models.Model):
                 "translation platform.")
             try:
                 tc.disable_user(self.partner_id)
-            except:
+            except Exception:
                 _logger.error("couldn't disable translator", exc_info=True)
             finally:
                 self.env['partner.communication.job'].create({
@@ -115,7 +116,8 @@ class AdvocateDetails(models.Model):
                     self.env.context.get('skip_translation_platform_update'):
                 try:
                     tc.remove_user(advocate.partner_id)
-                except:
+                except Exception:
+                    _logger.warning("Couldn't remove user: ", exc_info=True)
                     tc.disable_user(advocate.partner_id)
                 finally:
                     self.env['partner.communication.job'].create({
@@ -151,6 +153,7 @@ class AdvocateDetails(models.Model):
         try:
             tc.upsert_user(self.partner_id, create=True)
         except:
+            _logger.warning("Couldn't upsert user: ", exc_info=True)
             tc.upsert_user(self.partner_id, create=False)
 
         # The translation platform sends an activation email to all the users

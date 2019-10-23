@@ -12,10 +12,6 @@ import logging
 
 from xmlrpclib import ServerProxy, SafeTransport, GzipDecodedResponse
 
-from odoo import _
-from odoo.exceptions import UserError
-from odoo.tools import config
-
 _logger = logging.getLogger(__name__)
 
 
@@ -53,18 +49,12 @@ class CustomTransport(SafeTransport):
 
 class WPSync(object):
 
-    def __init__(self):
-        host = config.get('wordpress_host')
-        user = config.get('wordpress_user')
-        password = config.get('wordpress_pwd')
-        if not (host and user and password):
-            raise UserError(
-                _("Please add configuration for Wordpress uploads")
-            )
+    def __init__(self, wp_config):
         self.xmlrpc_server = ServerProxy(
-            'https://' + host + '/xmlrpc.php', transport=CustomTransport())
-        self.user = user
-        self.pwd = password
+            'https://' + wp_config.host + '/xmlrpc.php',
+            transport=CustomTransport())
+        self.user = wp_config.user
+        self.pwd = wp_config.password
 
     def test_xmlrpc(self):
         return self.xmlrpc_server.demo.sayHello()
@@ -72,16 +62,9 @@ class WPSync(object):
     def upload_children(self, children):
         """ Push children to Wordpress website.
 
-        New :
         1 - Create dictionary and send to Wordpress through XMLRPC method
         2 - Image URL (from Cloudinary) is now part of the post insert and
         not uploaded as file anymore
-
-        Previously :
-        1 - Create and upload a CSV file containing all children
-        information
-        2 - Upload all children pictures
-        3 - Call XMLRPC method that will update Wordpress
 
         :param children: compassion.child recordset
         :return: result of xmlrpc call to wordpress (true/false)

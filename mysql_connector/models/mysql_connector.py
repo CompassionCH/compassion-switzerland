@@ -14,7 +14,7 @@ from odoo.tools.config import config
 logger = logging.getLogger(__name__)
 
 try:
-    import MySQLdb as mdb
+    import MySQLdb as MySQLdb
 except ImportError:
     logger.warning("Please install MySQLdb")
 
@@ -34,10 +34,9 @@ class MysqlConnector(object):
         md = config.get(mysql_db)
         self._con = False
         try:
-            self._con = mdb.connect(mh, mu, mp,
-                                    md, charset='utf8')
-            self._cur = self._con.cursor(mdb.cursors.DictCursor)
-        except mdb.Error, e:
+            self._con = MySQLdb.connect(mh, mu, mp, md, charset='utf8')
+            self._cur = self._con.cursor(MySQLdb.cursors.DictCursor)
+        except MySQLdb.Error, e:
             logger.debug("Error %d: %s" % (e.args[0], e.args[1]))
 
     def __del__(self):
@@ -63,7 +62,7 @@ class MysqlConnector(object):
             self._cur.execute(statement, args)
             return self._cur.lastrowid or True
 
-    def selectOne(self, statement, args=None):
+    def select_one(self, statement, args=None):
         """ Performs a MySQL SELECT statement and returns one single row.
         Args:
             - statement (string) : the query to be executed.
@@ -84,7 +83,7 @@ class MysqlConnector(object):
             self._cur.execute(statement, args)
             return self._cur.fetchone() or dict()
 
-    def selectAll(self, statement, args=None):
+    def select_all(self, statement, args=None):
         """ Performs a MySQL SELECT statement and returns all rows.
          Args:
             - statement (string) : the query to be executed.
@@ -110,15 +109,15 @@ class MysqlConnector(object):
     def is_alive(self):
         """ Test if the connection is alive. """
         try:
-            self.selectOne("SELECT VERSION()")
+            self.select_one("SELECT VERSION()")
             return True
         except Exception:
             return False
 
     def _get_gp_uid(self, uid):
         """Returns the GP user id given the Odoo user id."""
-        iduser = self.selectOne('SELECT ID FROM login WHERE ERP_ID = %s;',
-                                [uid])
+        iduser = self.select_one('SELECT ID FROM login WHERE ERP_ID = %s;',
+                                 [uid])
         return iduser.get('ID', 'XX')
 
     def upsert(self, table, vals):

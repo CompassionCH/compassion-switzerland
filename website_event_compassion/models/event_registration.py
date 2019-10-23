@@ -15,8 +15,7 @@ from datetime import date
 
 from odoo import api, models, fields, _, SUPERUSER_ID
 from odoo.addons.website.models.website import slug
-from odoo.exceptions import MissingError
-from odoo.tools import config, file_open
+from odoo.tools import file_open
 
 from odoo.addons.queue_job.job import job
 
@@ -238,11 +237,10 @@ class Event(models.Model):
             registration.host_url = host
 
     def _compute_wordpress_host(self):
-        host = config.get('wordpress_host')
-        if not host:
-            raise MissingError(_('Missing wordpress_host in odoo config file'))
+        wp_obj = self.env['wordpress.configuration']
         for registration in self:
-            registration.wordpress_host = host
+            registration.wordpress_host = wp_obj.get_host(
+                registration.company_id.id)
 
     @api.multi
     @api.depends('state', 'event_id.state')
