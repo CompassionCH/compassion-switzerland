@@ -10,7 +10,6 @@
 ##############################################################################
 
 from odoo import models, api
-from odoo.tools import config
 
 
 class SendgridSubstitution(models.Model):
@@ -27,7 +26,7 @@ class SendgridSubstitution(models.Model):
         :param source_id:   utm.source id
         :return: True
         """
-        wp_url = config.get('wordpress_host')
+        wp_url = self.env['wordpress.configuration'].get_host()
         for substitution in self.filtered(lambda s: '{wp' in s.key):
             page_path = substitution.key.replace('{wp', '').replace('}', '')
             page_url = '{}{}'.format(wp_url, page_path)
