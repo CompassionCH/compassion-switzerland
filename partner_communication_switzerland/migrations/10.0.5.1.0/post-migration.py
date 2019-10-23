@@ -39,10 +39,10 @@ def migrate(env, version):
     # Create thank you configurations for the different amounts
     christian = env['res.users'].search([
         ('name', 'like', 'Willi Christian')
-    ])
+    ], limit=1)
     rachel = env['res.users'].search([
         ('name', 'like', 'Maglo Rachel')
-    ])
+    ], limit=1)
     env['thankyou.config'].create({
         'min_donation_amount': 0,
         'send_mode': 'digital',
