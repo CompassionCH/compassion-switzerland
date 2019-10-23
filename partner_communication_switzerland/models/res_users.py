@@ -28,7 +28,8 @@ class ResUsers(models.Model):
             for user in self:
                 self.env['partner.communication.job'].create({
                     'partner_id': user.partner_id.id,
-                    'config_id': config.id
+                    'config_id': config.id,
+                    'auto_send': True
                 })
 
     @api.multi
