@@ -23,6 +23,7 @@ class CompassionProject(models.Model):
             ('state', '=', 'I')
         ])
         if children:
-            wp = WPSync()
+            wp_config = self.env['wordpress.configuration'].get_config()
+            wp = WPSync(wp_config)
             wp.remove_children(children)
         return super(CompassionProject, self).suspend_funds()
