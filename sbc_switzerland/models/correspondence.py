@@ -185,7 +185,7 @@ class Correspondence(models.Model):
                 'letter_odoo_id': letter.id,
                 'createdat': letter.scanned_date
             })
-            text_id = tc.selectOne(
+            text_id = tc.select_one(
                 "SELECT text_id FROM translation WHERE id = %s", [
                     translation_id]).get('text_id')
             if text_id:
@@ -206,7 +206,7 @@ class Correspondence(models.Model):
             ('state', '!=', 'Global Partner translation queue')
         ])
         for letter in letters:
-            translation = tc.selectOne(
+            translation = tc.select_one(
                 "SELECT t.id as id, s.id as status "
                 "FROM translation t join translation_status s on "
                 "s.translation_id = t.id "
@@ -228,7 +228,7 @@ class Correspondence(models.Model):
         ])
         logger.info("Found {} letters to transalte.".format(str(len(letters))))
         for letter in letters:
-            letter_id = tc.selectOne(
+            letter_id = tc.select_one(
                 "SELECT id FROM translation WHERE letter_odoo_id = %s",
                 [letter.id]).get('id')
             if not letter_id:
