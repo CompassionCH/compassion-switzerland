@@ -37,9 +37,11 @@ class AccountInvoice(models.Model):
             'zipcode': 'zip',
             'city': 'city',
             'language': 'lang',
-            'partner_ref': 'ref'
+            'partner_ref': 'ref',
         }
-        partner_infos = {}
+        partner_infos = {
+            'company_id': self.env.user.company_id.id
+        }
         for wp_field, odoo_field in partner_fields.iteritems():
             partner_infos[odoo_field] = donnation_infos[wp_field]
 

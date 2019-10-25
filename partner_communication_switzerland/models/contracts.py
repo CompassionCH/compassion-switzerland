@@ -449,7 +449,10 @@ class RecurringContract(models.Model):
             s.welcome_active_letter_sent).write({
                 'sds_state': 'waiting_welcome', 'sds_state_date':
                 fields.Date.today()})
-        csp = self.filtered(lambda s: 'CSP' in s.name)
+        csp = self.filtered(
+            lambda s: '6014' in s.mapped(
+                'contract_line_ids.product_id.property_account_income_id.code')
+        )
         if csp:
             module = 'partner_communication_switzerland.'
             selected_config = self.env.ref(module + 'csp_mail')
