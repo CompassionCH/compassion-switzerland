@@ -105,7 +105,7 @@ class TranslateConnect(MysqlConnector):
     def get_lang_id(self, lang_compassion_id):
         """ Returns the language's id in MySQL that has  GP_Libel pointing
          to the iso_code given (returns -1 if not found). """
-        res = self.selectOne(
+        res = self.select_one(
             "SELECT id FROM language WHERE GP_Libel LIKE '{}'"
             .format(lang_compassion_id.code_iso))
         return res['id'] if res else -1
@@ -170,7 +170,7 @@ class TranslateConnect(MysqlConnector):
                    .format(text_id))
 
     def get_server_uptime(self):
-        return self.selectOne("SHOW GLOBAL STATUS LIKE 'Uptime' ")
+        return self.select_one("SHOW GLOBAL STATUS LIKE 'Uptime' ")
 
     def upsert_user(self, partner, create):
         """ Push or update an user (db table) on local translate platform """

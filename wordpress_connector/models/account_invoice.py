@@ -37,9 +37,11 @@ class AccountInvoice(models.Model):
             'zipcode': 'zip',
             'city': 'city',
             'language': 'lang',
-            'partner_ref': 'ref'
+            'partner_ref': 'ref',
         }
-        partner_infos = {}
+        partner_infos = {
+            'company_id': self.env.user.company_id.id
+        }
         for wp_field, odoo_field in partner_fields.iteritems():
             partner_infos[odoo_field] = donnation_infos[wp_field]
 
@@ -117,7 +119,8 @@ class AccountInvoice(models.Model):
         if not payment_mode:
             # Credit Card Journal
             journal = self.env['account.journal'].search([
-                ('code', '=', 'CCRED')
+                ('code', '=', 'CCRED'),
+                ('company_id', '=', partner.company_id.id),
             ], limit=1)
             payment_mode.create({
                 'name': payment_mode_name,
@@ -177,7 +180,8 @@ class AccountInvoice(models.Model):
             invoice.action_invoice_open()
             payment_vals = {
                 'journal_id': self.env['account.journal'].search(
-                    [('name', '=', 'Web')]).id,
+                    [('name', '=', 'Web'),
+                     ('company_id', '=', partner.company_id.id)]).id,
                 'payment_method_id': self.env['account.payment.method'].search(
                     [('code', '=', 'sepa_direct_debit')]).id,
                 'payment_date': invoice.date,
