@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class BvrSponsorship(models.AbstractModel):
     """
     Model used for preparing data for the bvr report. It can either
-    generate 3bvr report or single bvr report.
+    generate 3bvr report, 2bvr report or single bvr report.
     """
     _name = 'report.report_compassion.bvr_sponsorship'
 
@@ -84,6 +84,24 @@ class BvrSponsorship(models.AbstractModel):
             'months': months
         })
         return self.env['report'].render(report.report_name, final_data)
+
+
+class TwoBvrSponsorship(models.AbstractModel):
+    _inherit = 'report.report_compassion.bvr_sponsorship'
+    _name = 'report.report_compassion.2bvr_sponsorship'
+
+    def _get_report(self):
+        return self.env['report']._get_report_from_name(
+            'report_compassion.2bvr_sponsorship')
+
+    @api.multi
+    def render_html(self, docids, data=None):
+        """ Include setting for telling 2bvr paper has offset between
+        payment slips.
+        """
+        if data is None:
+            data = dict()
+        return super(TwoBvrSponsorship, self).render_html(docids, data)
 
 
 class ThreeBvrSponsorship(models.AbstractModel):

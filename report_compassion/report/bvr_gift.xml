@@ -1,5 +1,5 @@
 <odoo>
-    <!-- Two reports for two paperformats : single BVR page or 3BVR page -->
+    <!-- Three reports for three paperformats : single BVR page, 2BVR or 3BVR page -->
     <report id="report_bvr_gift_sponsorship"
             model="recurring.contract"
             string="Gift Payment Slip"
@@ -9,6 +9,17 @@
     />
     <record id="report_bvr_gift_sponsorship" model="ir.actions.report.xml">
         <field name="paperformat_id" ref="paperformat_bvr"/>
+    </record>
+
+    <report id="report_2bvr_gift_sponsorship"
+            model="recurring.contract"
+            string="Gift Payment Slips"
+            report_type="qweb-pdf"
+            name="report_compassion.2bvr_gift_sponsorship"
+            menu="False"
+    />
+    <record id="report_2bvr_gift_sponsorship" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="paperformat_a4_no_margin_portrait"/>
     </record>
 
     <report id="report_3bvr_gift_sponsorship"
@@ -22,34 +33,78 @@
         <field name="paperformat_id" ref="paperformat_3bvr"/>
     </record>
 
-    <!-- Top container for BVR sponsorship gift reports iterating over all products selected
+    <!-- Top container for 2 BVR sponsorship gift reports iterating over all products selected
+         outputting payment slips for gifts -->
+    <template id="bvr_gift_sponsorship_2bvr">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="report_compassion.report_bvr_sponsorship_gift_document_2bvr"
+                   t-lang="doc.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="2bvr_gift_sponsorship">
+        <t t-call="report_compassion.bvr_gift_sponsorship_2bvr"/>
+    </template>
+
+    <!-- 2 BVR page for sponsorship gift -->
+    <template id="report_bvr_sponsorship_gift_document_2bvr">
+        <t t-set="o" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
+        <t t-set="partner" t-value="o.gift_partner_id"/>
+        <t t-set="partner_address" t-value="partner.short_address"/>
+        <t t-set="company_account"
+           t-value="o.group_id.get_company_bvr_account()"/>
+        <div class="page">
+            <t t-call="report_compassion.bvr_style"/>
+            <t t-foreach="products" t-as="product">
+                <t t-set="margin" t-value="(product_index % 2) * 85"/>
+                <t t-call="report_compassion.report_sponsorship_single_slip">
+                    <t t-set="reference"
+                       t-value="o.generate_bvr_reference(product)"/>
+                    <t t-set="communication"
+                       t-value="o.get_gift_communication(product)"/>
+                    <t t-set="amount" t-value="False"/>
+                    <t t-set="scan_line"
+                       t-value="o.group_id.get_scan_line(company_account, reference)"/>
+                </t>
+            </t>
+        </div>
+    </template>
+
+    <!-- Top container for 3 BVR sponsorship gift reports iterating over all products selected
          outputting payment slips for gifts -->
     <template id="bvr_gift_sponsorship">
         <t t-call="report.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="report_compassion.report_bvr_sponsorship_gift_document" t-lang="doc.partner_id.lang"/>
+                <t t-call="report_compassion.report_bvr_sponsorship_gift_document"
+                   t-lang="doc.partner_id.lang"/>
             </t>
         </t>
     </template>
+
     <template id="3bvr_gift_sponsorship">
         <t t-call="report_compassion.bvr_gift_sponsorship"/>
     </template>
 
     <!-- BVR page for sponsorship gift -->
     <template id="report_bvr_sponsorship_gift_document">
-        <t t-set="o" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
+        <t t-set="o" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
         <t t-set="partner" t-value="o.gift_partner_id"/>
         <t t-set="partner_address" t-value="partner.short_address"/>
-        <t t-set="company_account" t-value="o.group_id.get_company_bvr_account()"/>
+        <t t-set="company_account"
+           t-value="o.group_id.get_company_bvr_account()"/>
         <div class="page">
             <t t-call="report_compassion.bvr_style"/>
             <t t-foreach="products" t-as="product">
-                <t t-set="position" t-value="((offset or 0) * product_index) % 3"/>
                 <t t-call="report_compassion.report_sponsorship_single_slip">
-                    <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
-                    <t t-set="communication" t-value="o.get_gift_communication(product)"/>
+                    <t t-set="reference"
+                       t-value="o.generate_bvr_reference(product)"/>
+                    <t t-set="communication"
+                       t-value="o.get_gift_communication(product)"/>
                     <t t-set="amount" t-value="False"/>
-                    <t t-set="scan_line" t-value="o.group_id.get_scan_line(company_account, reference)"/>
+                    <t t-set="scan_line"
+                       t-value="o.group_id.get_scan_line(company_account, reference)"/>
                 </t>
             </t>
         </div>

@@ -81,7 +81,22 @@
         <field name="dpi">96</field>
     </record>
 
-    <!-- Compassion A4 No margin -->
+    <!-- Compassion A4 No margin Portrait -->
+    <record id="paperformat_a4_no_margin_portrait" model="report.paperformat">
+        <field name="name">Compassion A4 No Margin Portrait</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">3</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <!-- Compassion A4 No margin Landscape -->
     <record id="paperformat_a4_childpack" model="report.paperformat">
         <field name="name">Compassion A4 Childpack</field>
         <field name="default" eval="True"/>
