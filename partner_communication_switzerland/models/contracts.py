@@ -108,7 +108,7 @@ class RecurringContract(models.Model):
                     lang='en_US').filtered(
                     lambda i: i.state == 'open' and fields.Date.
                         from_string(i.due_date) < this_month and
-                              i.invoice_id.invoice_type == 'sponsorship')
+                        i.invoice_id.invoice_type == 'sponsorship')
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
                     'price_subtotal')))
@@ -164,45 +164,34 @@ class RecurringContract(models.Model):
                         'partner_id': contract.partner_id.id,
                         'object_ids': self.env.context.get(
                             'default_object_ids', contract.id),
-                        'user_id': communication.user_id.id,
-                    })
+                        'user_id': communication.user_id.id
+                    }
+                )
                 if contract.correspondent_id != contract.partner_id:
                     communications += self.env[
                         'partner.communication.job'].create({
-                        'config_id': communication.id,
-                        'partner_id': contract.correspondent_id.id,
-                        'object_ids': self.env.context.get(
-                            'default_object_ids', contract.id),
-                        'user_id': communication.user_id.id,
-                    })
+                            'config_id': communication.id,
+                            'partner_id': contract.correspondent_id.id,
+                            'object_ids': self.env.context.get(
+                                'default_object_ids', contract.id),
+                            'user_id': communication.user_id.id
+                        }
+                    )
         else:
             for partner in partners:
                 objects = self.filtered(
                     lambda c: c.correspondent_id == partner if correspondent
                     else c.partner_id == partner
                 )
-
-                same_communication_search = [('partner_id', '=', partner.id),
-                                   ('config_id', '=', communication.id),
-                                   ('object_ids', '=', self.env.context.get(
-                                       'default_object_ids', objects.ids),
-                                    ('state', '=', 'done'))
-                                   ]
-                already_created = self.env['partner.communication.job'].search(
-                    same_communication_search)
-                # si la communication a déjà été envoyée aupravant, on ne la
-                # recrée pas.
-                if not already_created:
-                    communications += self.env[
-                        'partner.communication.job'].create(
-                        {
-                            'config_id': communication.id,
-                            'partner_id': partner.id,
-                            'object_ids': self.env.context.get(
-                                'default_object_ids', objects.ids),
-                            'user_id': communication.user_id.id,
-                        }
-                    )
+                communications += self.env['partner.communication.job'].create(
+                    {
+                        'config_id': communication.id,
+                        'partner_id': partner.id,
+                        'object_ids': self.env.context.get(
+                            'default_object_ids', objects.ids),
+                        'user_id': communication.user_id.id,
+                    }
+                )
         return communications
 
     @api.model
@@ -463,10 +452,7 @@ class RecurringContract(models.Model):
                       s.welcome_active_letter_sent).write({
             'sds_state': 'waiting_welcome', 'sds_state_date':
                 fields.Date.today()})
-        csp = self.filtered(
-            lambda s: '6014' in s.mapped(
-                'contract_line_ids.product_id.property_account_income_id.code')
-        )
+        csp = self.filtered(lambda s: 'CSP' in s.name)
         if csp:
             module = 'partner_communication_switzerland.'
             selected_config = self.env.ref(module + 'csp_mail')
