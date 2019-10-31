@@ -38,7 +38,10 @@
     'data': [
         'data/payment_acquirer.xml',
     ],
-    'depends': ['website', 'payment_ogone'],
+    'depends': [
+        'website', 'payment_ogone', 'wordpress_configuration',
+        'queue_job'
+    ],
     'demo': [],
     'installable': True,
     'auto_install': False,

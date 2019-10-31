@@ -10,12 +10,15 @@
 import time
 import urlparse
 
+import requests
+
 from ..controllers.main import OgoneCompassion
 from odoo import api, models, fields
 from odoo.http import request
 from odoo.tools import float_round
 from odoo.tools.float_utils import float_repr
 from odoo.addons.payment_ogone.models.payment import PaymentTxOgone
+from odoo.addons.queue_job.job import job
 
 # Add 91 as a valid status, because Postfinance Card is only sending this
 PaymentTxOgone._ogone_valid_tx_status = [5, 9, 91, 95, 99, 50, 51, 52, 56]
@@ -101,3 +104,23 @@ class PaymentTransaction(models.Model):
             tx.payment_mode_id = tx.payment_mode_id.search([
                 ('name', 'ilike', tx.postfinance_brand)
             ], limit=1)
+
+    @api.model
+    @job(default_channel='root.ogone_payment')
+    def push_s2s_to_wordpress(self, post_data):
+        """Push Ogone S2S feedback to Wordpress"""
+        # First try to find if invoice is already imported in Odoo
+        transaction_id = post_data.get('PAYID')
+        if transaction_id:
+            invoice = self.env['account.invoice'].search([
+                ('transaction_id', '=', transaction_id)
+            ])
+            if invoice:
+                return "Invoice already imported in Odoo"
+
+        # Send Data to Wordpress
+        host = self.env['wordpress.configuration'].get_host()
+        res = requests.get(
+            "https://" + host + '/confirmation-don', post_data
+        )
+        return "Payment data sent to Wordpress : " + str(res.status_code)
