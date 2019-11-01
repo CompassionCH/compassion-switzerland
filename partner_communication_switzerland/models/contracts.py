@@ -108,7 +108,7 @@ class RecurringContract(models.Model):
                     lang='en_US').filtered(
                     lambda i: i.state == 'open' and fields.Date.
                         from_string(i.due_date) < this_month and
-                              i.invoice_id.invoice_type == 'sponsorship')
+                        i.invoice_id.invoice_type == 'sponsorship')
                 contract.due_invoice_ids = invoice_lines.mapped('invoice_id')
                 contract.amount_due = int(sum(invoice_lines.mapped(
                     'price_subtotal')))
@@ -164,50 +164,31 @@ class RecurringContract(models.Model):
                         'partner_id': contract.partner_id.id,
                         'object_ids': self.env.context.get(
                             'default_object_ids', contract.id),
-                        'user_id': communication.user_id.id
-                    }
-                )
+                        'user_id': communication.user_id.id,
+                    })
                 if contract.correspondent_id != contract.partner_id:
                     communications += self.env[
                         'partner.communication.job'].create({
-                        'config_id': communication.id,
-                        'partner_id': contract.correspondent_id.id,
-                        'object_ids': self.env.context.get(
-                            'default_object_ids', contract.id),
-                        'user_id': communication.user_id.id
-                    }
-                    )
+                            'config_id': communication.id,
+                            'partner_id': contract.correspondent_id.id,
+                            'object_ids': self.env.context.get(
+                                'default_object_ids', contract.id),
+                            'user_id': communication.user_id.id,
+                        })
         else:
             for partner in partners:
                 objects = self.filtered(
                     lambda c: c.correspondent_id == partner if correspondent
                     else c.partner_id == partner
                 )
-
-                same_communication_search = [('partner_id', '=', partner.id),
-                                             ('config_id', '=',
-                                              communication.id),
-                                             ('object_ids', '=',
-                                              self.env.context.get(
-                                                  'default_object_ids',
-                                                  objects.ids),
-                                              ('state', '=', 'done'))
-                                             ]
-                already_created = self.env['partner.communication.job'].search(
-                    same_communication_search)
-                # si la communication a déjà été envoyée aupravant, on ne la
-                # recrée pas.
-                if not already_created:
-                    communications += self.env[
-                        'partner.communication.job'].create(
-                        {
-                            'config_id': communication.id,
-                            'partner_id': partner.id,
-                            'object_ids': self.env.context.get(
-                                'default_object_ids', objects.ids),
-                            'user_id': communication.user_id.id,
-                        }
-                    )
+                communications += self.env['partner.communication.job']\
+                    .create({
+                        'config_id': communication.id,
+                        'partner_id': partner.id,
+                        'object_ids': self.env.context.get(
+                            'default_object_ids', objects.ids),
+                        'user_id': communication.user_id.id,
+                    })
         return communications
 
     @api.model
@@ -318,8 +299,8 @@ class RecurringContract(models.Model):
             ('type', 'like', 'S'),
             ('partner_id.ref', '!=', '1502623')  # if partner is not Demaurex
         ]).filtered(lambda c: not (
-                c.child_id.project_id.lifecycle_ids and
-                c.child_id.project_id.hold_s2b_letters))
+            c.child_id.project_id.lifecycle_ids and
+            c.child_id.project_id.hold_s2b_letters))
 
     @api.model
     def _send_welcome_active_letters_for_activated_sponsorships(self):
@@ -464,13 +445,14 @@ class RecurringContract(models.Model):
         new_spons._new_dossier()
         new_spons.filtered(
             lambda s: s.correspondent_id.email and s.sds_state == 'draft' and
-                s.partner_id.ref != '1502623' and not
-                s.welcome_active_letter_sent).write({
-                    'sds_state': 'waiting_welcome', 'sds_state_date':
-                    fields.Date.today()})
-        csp = self.filtered(lambda s: '6014' in s.mapped(
-            'contract_line_ids.product_id.property_account_income_id.code'
-        ))
+            s.partner_id.ref != '1502623' and not
+            s.welcome_active_letter_sent).write({
+                'sds_state': 'waiting_welcome', 'sds_state_date':
+                fields.Date.today()})
+        csp = self.filtered(
+            lambda s: '6014' in s.mapped(
+                'contract_line_ids.product_id.property_account_income_id.code')
+        )
         if csp:
             module = 'partner_communication_switzerland.'
             selected_config = self.env.ref(module + 'csp_mail')
@@ -557,14 +539,14 @@ class RecurringContract(models.Model):
         # otherwise send Cancellation letter for SUB sponsorships
         activation_limit = date.today() - relativedelta(days=15)
         self.filtered(
-            lambda s: s.end_reason != '1' and s.parent_id and (
-                    s.activation_date and fields.Date.from_string(
-                        s.activation_date) < activation_limit)
+            lambda s: s.end_reason != '1' and s.parent_id
+            and (s.activation_date and fields.Date.
+                 from_string(s.activation_date) < activation_limit)
         ).send_communication(cancellation, correspondent=False)
         self.filtered(
-            lambda s: s.end_reason != '1' and s.parent_id and (
-                    not s.activation_date or fields.Date.from_string(
-                        s.activation_date) >= activation_limit)). \
+            lambda s: s.end_reason != '1' and s.parent_id and
+            (not s.activation_date or fields.Date.
+                from_string(s.activation_date) >= activation_limit)).\
             send_communication(no_sub, correspondent=False)
 
     def _new_dossier(self):
@@ -585,13 +567,30 @@ class RecurringContract(models.Model):
                 corresp = spo.correspondent_id
                 payer = spo.partner_id
                 if corresp.contact_address != payer.contact_address:
-                    spo.send_communication(new_dossier)
-                    spo.send_communication(new_dossier, correspondent=False)
+                    spo._send_new_dossier(new_dossier)
+                    spo._send_new_dossier(new_dossier, correspondent=False)
                     continue
 
-            spo.send_communication(new_dossier)
+            spo._send_new_dossier(new_dossier)
 
         for sub in sub_sponsorships:
-            sub.send_communication(sub_proposal)
+            sub._send_new_dossier(sub_proposal)
             if sub.correspondent_id.id != sub.partner_id.id:
-                sub.send_communication(sub_proposal, correspondent=False)
+                sub._send_new_dossier(sub_proposal, correspondent=False)
+
+    def _send_new_dossier(self, communication_config, correspondent=True):
+        """
+        Sends the New Dossier if it wasn't already sent for this sponsorship.
+        :param communication_config: Communication Config record to search.
+        :param correspondent: True if communication is sent to correspondent
+        :return: None
+        """
+        partner = self.correspondent_id if correspondent else self.partner_id
+        already_sent = self.env['partner.communication.job'].search([
+            ('partner_id', '=', partner.id),
+            ('config_id', '=', communication_config.id),
+            ('object_ids', 'like', str(self.id)),
+            ('state', '=', 'done')
+        ])
+        if not already_sent:
+            self.send_communication(communication_config, correspondent)
