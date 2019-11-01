@@ -52,6 +52,7 @@ class RecurringContract(models.Model):
     send_introduction_letter = fields.Boolean(
         string='Send B2S intro letter to sponsor', default=True)
     origin_type = fields.Selection(related='origin_id.type')
+
     # this field is used to help the xml views to get the type of origin_id
 
     @api.onchange('origin_id')
@@ -180,15 +181,14 @@ class RecurringContract(models.Model):
                     lambda c: c.correspondent_id == partner if correspondent
                     else c.partner_id == partner
                 )
-                communications += self.env['partner.communication.job'].create(
-                    {
+                communications += self.env['partner.communication.job']\
+                    .create({
                         'config_id': communication.id,
                         'partner_id': partner.id,
                         'object_ids': self.env.context.get(
                             'default_object_ids', objects.ids),
                         'user_id': communication.user_id.id,
-                    }
-                )
+                    })
         return communications
 
     @api.model
@@ -567,13 +567,30 @@ class RecurringContract(models.Model):
                 corresp = spo.correspondent_id
                 payer = spo.partner_id
                 if corresp.contact_address != payer.contact_address:
-                    spo.send_communication(new_dossier)
-                    spo.send_communication(new_dossier, correspondent=False)
+                    spo._send_new_dossier(new_dossier)
+                    spo._send_new_dossier(new_dossier, correspondent=False)
                     continue
 
-            spo.send_communication(new_dossier)
+            spo._send_new_dossier(new_dossier)
 
         for sub in sub_sponsorships:
-            sub.send_communication(sub_proposal)
+            sub._send_new_dossier(sub_proposal)
             if sub.correspondent_id.id != sub.partner_id.id:
-                sub.send_communication(sub_proposal, correspondent=False)
+                sub._send_new_dossier(sub_proposal, correspondent=False)
+
+    def _send_new_dossier(self, communication_config, correspondent=True):
+        """
+        Sends the New Dossier if it wasn't already sent for this sponsorship.
+        :param communication_config: Communication Config record to search.
+        :param correspondent: True if communication is sent to correspondent
+        :return: None
+        """
+        partner = self.correspondent_id if correspondent else self.partner_id
+        already_sent = self.env['partner.communication.job'].search([
+            ('partner_id', '=', partner.id),
+            ('config_id', '=', communication_config.id),
+            ('object_ids', 'like', str(self.id)),
+            ('state', '=', 'done')
+        ])
+        if not already_sent:
+            self.send_communication(communication_config, correspondent)

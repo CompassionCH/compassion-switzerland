@@ -44,4 +44,16 @@ class OgoneCompassion(OgoneController):
         transaction_obj.form_feedback(post, 'ogone')
         redirect = post.pop('return_url', '/') + '?' + urllib.urlencode(
             encoded_dict(post))
+        _logger.info('Redirecting to %s', redirect)
         return werkzeug.utils.redirect(redirect)
+
+    @http.route(['/payment/ogone/s2s/feedback'], auth='none', csrf=False)
+    def feedback(self, **kwargs):
+        res = super(OgoneCompassion, self).feedback(**kwargs)
+        if res.response[0] == 'ko':
+            # We push data to Wordpress because donation may come from our
+            # website. We wait a bit to avoid doing it twice in case
+            # the user went to the confirmation page
+            request.env['payment.transaction'].sudo().with_delay(eta=30).\
+                push_s2s_to_wordpress(kwargs.copy())
+        return res

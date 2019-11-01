@@ -8,15 +8,29 @@
 #
 ##############################################################################
 
-from odoo.tests.common import TransactionCase
 import logging
 
+from mock import patch
+from odoo.tests.common import TransactionCase
+
 logger = logging.getLogger(__name__)
+geo_patch = 'odoo.addons.base_geolocalize.models.base_geocoder.GeoCoder' \
+    '.geo_find'
 
 
 class TestMessages(TransactionCase):
     def setUp(self):
         super(TestMessages, self).setUp()
+
+        # Patch copied from test_partner_assign.py
+        def geo_find(addr):
+            return {
+                'Wavre, Belgium': (50.7158956, 4.6128075),
+                'Cannon Hill Park, B46 3AG Birmingham, United Kingdom':
+                (52.45216, -1.898578),
+            }.get(addr)
+        patcher = patch(geo_patch, wraps=geo_find)
+        patcher.start()
 
         res_partner = self.env['res.partner']
         self.church = res_partner.browse(8)
@@ -35,9 +49,9 @@ class TestMessages(TransactionCase):
             u'lang': u'en_US',
             u'phone': u'+41 78 813 12 36'
         }
-
         self.partner = res_partner.browse(18)
         self.partner.write(custom_vals)
+        self.addCleanup(patcher.stop)
 
     def test_name_search(self):
         res = self.env['res.partner'].name_search('Fringeli')
