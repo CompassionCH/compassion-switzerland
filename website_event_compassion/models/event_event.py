@@ -10,6 +10,7 @@
 from datetime import datetime
 
 from odoo import api, models, fields
+from odoo.exceptions import UserError
 
 
 class Event(models.Model):
@@ -159,25 +160,24 @@ class Event(models.Model):
 
     @api.multi
     def button_print_medical_surveys(self):
-        medical_survey_ids = self.compassion_event_id.registration_ids \
-            .mapped('medical_survey_id') \
-            .filtered(lambda p: p.state and p.state == 'done')
+        medical_survey_ids = self.registration_ids.mapped('medical_survey_id')\
+            .filtered(lambda p: p.state == 'done')
         if medical_survey_ids:
             return self.env['report'].get_action(
                 medical_survey_ids, 'survey_phone.survey_user_input')
         else:
-            raise UserWarning('There is no medical survey to print')
+            raise UserError(_('There is no medical survey to print'))
 
     @api.multi
     def button_print_feedback_surveys(self):
-        feedback_survey_ids = self.compassion_event_id.registration_ids \
+        feedback_survey_ids = self.registration_ids\
             .mapped('feedback_survey_id') \
-            .filtered(lambda p: p.state and p.state == 'done')
+            .filtered(lambda p: p.state == 'done')
         if feedback_survey_ids:
             return self.env['report'].get_action(
                 feedback_survey_ids, 'survey_phone.survey_user_input')
         else:
-            raise UserWarning('There is no feedback survey to print')
+            raise UserError(_('There is no feedback survey to print'))
 
     @api.onchange('event_type_id')
     def udpdate_email_list(self):
