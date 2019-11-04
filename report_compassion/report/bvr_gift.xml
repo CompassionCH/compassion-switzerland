@@ -2,7 +2,7 @@
     <!-- Three reports for three paperformats : single BVR page, 2BVR or 3BVR page -->
     <report id="report_bvr_gift_sponsorship"
             model="recurring.contract"
-            string="Gift Payment Slip"
+            string="Gift Payment Slip 1 BVR"
             report_type="qweb-pdf"
             name="report_compassion.bvr_gift_sponsorship"
             menu="False"
@@ -13,7 +13,7 @@
 
     <report id="report_2bvr_gift_sponsorship"
             model="recurring.contract"
-            string="Gift Payment Slips"
+            string="Gift Payment Slips 2 BVR"
             report_type="qweb-pdf"
             name="report_compassion.2bvr_gift_sponsorship"
             menu="False"
@@ -24,7 +24,7 @@
 
     <report id="report_3bvr_gift_sponsorship"
             model="recurring.contract"
-            string="Gift Payment Slips"
+            string="Gift Payment Slips 3 BVR"
             report_type="qweb-pdf"
             name="report_compassion.3bvr_gift_sponsorship"
             menu="False"

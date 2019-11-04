@@ -19,8 +19,7 @@
             <br/>
             Switzerland
         </t>
-        <div class="one_slip"
-             t-attf-style="margin-top: {{ margin }}mm">
+        <div class="one_slip" t-attf-style="margin-top: {{ margin }}mm">
             <t t-if="background">
                 <div id="background">
                     <img src="/report_compassion/static/img/bvr.jpg"/>
@@ -171,7 +170,7 @@
             position: absolute;
             margin-left: 61mm;
             margin-top: 54mm;
-            line-height: 6mm;
+            line-height: 5mm;
             width: 80mm;
             height: 30mm;
             padding: auto;
