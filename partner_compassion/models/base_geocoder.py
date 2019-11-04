@@ -14,7 +14,7 @@ from odoo import models
 _logger = logging.getLogger(__name__)
 
 
-class Geocoder(models.Model):
+class Geocoder(models.AbstractModel):
     _inherit = 'base.geocoder'
 
     def _raise_internet_access_error(self, error):
