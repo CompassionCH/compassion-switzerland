@@ -19,7 +19,7 @@
     <record model="ir.ui.view" id="communication_job_tree_event">
         <field name="name">communication.job.tree.event</field>
         <field name="model">partner.communication.job</field>
-        <field name="inherit_id" ref="thankyou_letters.communication_job_tree_thankyou"/>
+        <field name="inherit_id" ref="thankyou_letters.communication_job_tree_thankyou_donation_amount"/>
         <field name="arch" type="xml">
             <field name="success_sentence_id" position="after">
                 <field name="event_id"/>
