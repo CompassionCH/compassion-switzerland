@@ -11,7 +11,6 @@
 
 import logging
 
-
 from odoo import api, models
 
 logger = logging.getLogger(__name__)
@@ -68,16 +67,6 @@ class TwoBvrGiftSponsorship(models.AbstractModel):
     def _get_report(self):
         return self.env['report']._get_report_from_name(
             'report_compassion.2bvr_gift_sponsorship')
-
-    @api.multi
-    def render_html(self, docids, data=None):
-        """ Include setting for telling 2bvr paper has offset between
-        payment slips.
-        """
-        if data is None:
-            data = dict()
-        return super(TwoBvrGiftSponsorship, self).render_html(
-            docids, data)
 
 
 class ThreeBvrGiftSponsorship(models.AbstractModel):

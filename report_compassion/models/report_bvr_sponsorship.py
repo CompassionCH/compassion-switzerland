@@ -11,7 +11,6 @@
 
 import logging
 
-
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
@@ -93,15 +92,6 @@ class TwoBvrSponsorship(models.AbstractModel):
     def _get_report(self):
         return self.env['report']._get_report_from_name(
             'report_compassion.2bvr_sponsorship')
-
-    @api.multi
-    def render_html(self, docids, data=None):
-        """ Include setting for telling 2bvr paper has offset between
-        payment slips.
-        """
-        if data is None:
-            data = dict()
-        return super(TwoBvrSponsorship, self).render_html(docids, data)
 
 
 class ThreeBvrSponsorship(models.AbstractModel):

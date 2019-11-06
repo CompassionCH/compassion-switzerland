@@ -26,12 +26,10 @@
                 </div>
             </t>
             <div class="receipt">
-                <span t-raw="company_address" class="pay_for"
-                      t-if="not preprinted"/>
+                <span t-raw="company_address" class="pay_for" t-if="not preprinted"/>
                 <span t-raw="communication" class="communication"/>
                 <b>
-                    <span t-esc="company_account" class="account"
-                          t-if="not preprinted"/>
+                    <span t-esc="company_account" class="account" t-if="not preprinted"/>
                 </b>
                 <div t-if="amount" class="amount">
                     <span t-esc="int(amount)"/>
@@ -41,12 +39,10 @@
                 <span t-raw="partner_address" class="pay_from"/>
             </div>
             <div class="transfer">
-                <span t-raw="company_address" class="pay_for"
-                      t-if="not preprinted"/>
+                <span t-raw="company_address" class="pay_for" t-if="not preprinted"/>
                 <span t-esc="reference" class="reference"/>
                 <b>
-                    <span t-esc="company_account" class="account"
-                          t-if="not preprinted"/>
+                    <span t-esc="company_account" class="account" t-if="not preprinted"/>
                 </b>
                 <div t-if="amount" class="amount">
                     <span t-esc="int(amount)"/>
