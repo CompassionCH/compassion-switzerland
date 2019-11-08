@@ -16,10 +16,11 @@
             </field>
         </field>
     </record>
+    <!--   Add event and ambassador in thank you tree view -->
     <record model="ir.ui.view" id="communication_job_tree_event">
         <field name="name">communication.job.tree.event</field>
         <field name="model">partner.communication.job</field>
-        <field name="inherit_id" ref="thankyou_letters.communication_job_tree_thankyou"/>
+        <field name="inherit_id" ref="thankyou_letters.communication_job_tree_thankyou_donation_amount"/>
         <field name="arch" type="xml">
             <field name="success_sentence_id" position="after">
                 <field name="event_id"/>
@@ -81,6 +82,8 @@
         <field name="res_model">partner.communication.job</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('communication_job_tree_event')})]"/>
         <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '!=', False)]</field>
         <field name="context">{'search_default_my_communications': 1, 'search_default_pending': True, 'search_default_event': True, 'default_user_id': uid}</field>
     </record>
