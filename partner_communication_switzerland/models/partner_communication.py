@@ -256,12 +256,17 @@ class PartnerCommunication(models.Model):
             self.ir_attachment_ids = False
         return res
 
-    def get_yearly_payment_slips(self):
+    def get_yearly_payment_slips_2bvr(self):
+        return self.get_yearly_payment_slips(bv_number=2)
+
+    def get_yearly_payment_slips(self, bv_number=3):
         """
         Attach payment slips
+        :param bv_number number of BV on a page (switch between 2BV/3BV page)
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
+        assert bv_number in (2, 3)
         sponsorships = self.get_objects()
         payment_mode_bvr = self.env.ref(
             'sponsorship_switzerland.payment_mode_bvr')
@@ -276,7 +281,8 @@ class PartnerCommunication(models.Model):
             today = date.today()
             date_start = today.replace(today.year + 1, 1, 1)
             date_stop = date_start.replace(month=12, day=31)
-            report_name = 'report_compassion.3bvr_sponsorship'
+            report_name = 'report_compassion.{}bvr_sponsorship'.format(
+                bv_number)
             attachments.update({
                 _('sponsorship payment slips.pdf'): [
                     report_name,
@@ -298,7 +304,8 @@ class PartnerCommunication(models.Model):
                     self.partner_id:
                 pays_gift += sponsorship
         if pays_gift:
-            report_name = 'report_compassion.3bvr_gift_sponsorship'
+            report_name = 'report_compassion.{}bvr_gift_sponsorship'.format(
+                bv_number)
             attachments.update({
                 _('sponsorship gifts.pdf'): [
                     report_name,
