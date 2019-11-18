@@ -37,7 +37,7 @@ class S2BGenerator(models.Model):
 
     selection_domain = fields.Char(
         default="[('partner_id.category_id', '=', 23),"
-                " ('state', '=', 'active')]"
+                " ('state', '=', 'active'), ('child_id', '!=', False)]"
     )
 
 
