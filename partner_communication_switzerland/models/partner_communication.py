@@ -306,12 +306,18 @@ class PartnerCommunication(models.Model):
         if pays_gift:
             report_name = 'report_compassion.{}bvr_gift_sponsorship'.format(
                 bv_number)
+            product_ids = self.env['product.product'].search([
+                ('default_code', 'in', GIFT_REF[:3])
+            ]).ids
             attachments.update({
                 _('sponsorship gifts.pdf'): [
                     report_name,
                     base64.b64encode(report_obj.get_pdf(
                         pays_gift.ids, report_name,
-                        data={'doc_ids': pays_gift.ids}
+                        data={
+                            'doc_ids': pays_gift.ids,
+                            'product_ids': product_ids
+                        }
                     ))
                 ]
             })
