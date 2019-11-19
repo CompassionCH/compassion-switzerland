@@ -36,7 +36,7 @@ class Contract(models.Model):
         child = self.child_id.with_context(lang=lang)
         born = {
             'en_US': u'Born in',
-            'fr_CH': u'Né le',
+            'fr_CH': u'Né le' if child.gender == 'M' else u'Née le',
             'de_DE': u'Geburtstag',
             'it_IT': u'Compleanno',
         }
@@ -51,7 +51,7 @@ class Contract(models.Model):
             'birthdate': born[lang] + ' ' + birthdate
             if 'Birthday' in product.name else ''
         }
-        return communication.format(**vals)
+        return communication.format(**vals).strip('<br/>')
 
     @api.multi
     def generate_bvr_reference(self, product):
