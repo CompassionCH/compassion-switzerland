@@ -142,6 +142,7 @@ class Correspondence(models.Model):
         else:
             _zip = self.env['correspondence.download.wizard'].with_context(
                 active_model=self._name, active_ids=self.ids).create({})
+            _zip.get_letters()
             self.write({'zip_file': False})
             letter_attach = self[:1]
             letter_attach.write({
