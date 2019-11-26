@@ -237,13 +237,7 @@ if not testing:
             partner = self.env['res.partner'].sudo().browse(
                 values.get('partner_id')).exists()
             partner.set_privacy_statement(origin='muskathlon_reg')
-
-            event = self.event_id.sudo()
-            registration = self.env['event.registration'].search([
-                ('event_id', '=', event.id),
-                ('partner_id', '=', partner.id)
-            ])
-            registration.confirm_registration()
+            self.main_object.confirm_registration()
 
         def form_next_url(self, main_object=None):
             # Clean storage of picture
