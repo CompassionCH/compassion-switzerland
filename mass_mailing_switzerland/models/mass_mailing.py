@@ -16,6 +16,7 @@ class MassMailing(models.Model):
     """
     _inherit = 'mail.mass_mailing'
 
+    internal_name = fields.Char("Internal Variant Name")
     total = fields.Integer(compute="_compute_statistics")
 
     mailing_domain_copy = fields.Char(related='mailing_domain')
@@ -30,6 +31,17 @@ class MassMailing(models.Model):
 
     _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
                          'You have to choose a new slug for each mailing !')]
+
+    @api.multi
+    def name_get(self):
+        res = []
+        for mass_mail in self:
+            _id, _name = super(MassMailing, mass_mail).name_get()[0]
+            if mass_mail.internal_name:
+                res.append((_id, u"%s [%s]" % (_name, mass_mail.internal_name)))
+            else:
+                res.append((_id, _name))
+        return res
 
     def compute_clicks_ratio(self):
         for mass_mail in self.filtered('statistics_ids.tracking_event_ids'):
