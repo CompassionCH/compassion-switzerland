@@ -7,6 +7,10 @@
         <field name="model">mail.mass_mailing</field>
         <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']/.." position="after">
+                <field name="internal_name" />
+            </xpath>
+
             <!-- Limit partner selection to those who have e-mail address -->
             <field name="mailing_domain" position="attributes">
                 <attribute name="context">{'search_default_not_opt_out': 1, 'search_default_has_email': 1}</attribute>
@@ -71,6 +75,11 @@
         <field name="model">mail.mass_mailing</field>
         <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_kanban"/>
         <field name="arch" type="xml">
+            <field name="name" position="after">
+                <span style="color:brown;" attrs="{'invisible': [('internal_name', '=', False)]}">
+                     [<field name="internal_name" />]
+                </span>
+            </field>
             <xpath expr="(//div[@class='row'])[2]" position="replace">
                 <div class="row">
                     <div class="col-xs-8">
