@@ -129,7 +129,7 @@ class ImportLettersHistory(models.Model):
                     })]
                 })
 
-            line_id = self.env['import.letter.line'].create(line_vals)
+            self.env['import.letter.line'].create(line_vals)
 
             import_config.import_completed = True
             logger.info("Try to copy file {} !".format(filename))
