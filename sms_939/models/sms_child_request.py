@@ -8,7 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import date
+from datetime import date, datetime
 
 from dateutil.relativedelta import relativedelta
 
@@ -76,6 +76,9 @@ class SmsRequest(models.Model):
             child.remove_from_wordpress()
             child.write({
                 'state': 'S'
+            })
+            child.hold_id.with_delay().write({
+                'expiration_date': datetime.now() + relativedelta(days=2)
             })
 
             return True
