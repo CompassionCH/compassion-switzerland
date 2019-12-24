@@ -78,7 +78,8 @@ class SmsRequest(models.Model):
                 'state': 'S'
             })
 
-            child.hold_id.with_delay().update_expiration_date(datetime.now() + relativedelta(days=2))
+            child.hold_id.with_delay().update_expiration_date(
+                datetime.now() + relativedelta(days=2))
 
             return True
         return False

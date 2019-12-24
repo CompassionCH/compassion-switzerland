@@ -8,7 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models
+from odoo import models
 from odoo.addons.queue_job.job import job
 
 
