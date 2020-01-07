@@ -11,6 +11,7 @@
 import logging
 from odoo import api, models, fields
 from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
+from werkzeug.utils import escape
 
 _logger = logging.getLogger(__name__)
 
@@ -25,6 +26,8 @@ class AccountInvoice(models.Model):
         Utility to process the donation done via wordpress.
         :return:
         """
+        for key in donnation_infos:
+            donnation_infos[key] = escape(donnation_infos[key])
 
         match_obj = self.env['res.partner.match.wp']
 
