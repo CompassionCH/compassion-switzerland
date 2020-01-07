@@ -95,9 +95,10 @@ class SmsRequest(models.Model):
     @job
     def get_children_from_global_pool_for_website(self, take=1):
         company_id = self.env.user.company_id.id
-        global_pool = self.with_context(default_company_id=company_id) \
+        child_env = self.env['compassion.child']
+        global_pool = child_env.with_context(default_company_id=company_id) \
             ._create_diverse_children_pool(take)
-        new_children = self._hold_children(global_pool)
-        valid_new_children = self._update_information_and_filter_invalid(
+        new_children = child_env._hold_children(global_pool)
+        valid_new_children = child_env._update_information_and_filter_invalid(
             new_children)
         valid_new_children.add_to_wordpress(company_id)
