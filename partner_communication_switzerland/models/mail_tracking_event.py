@@ -61,23 +61,33 @@ class MailTrackingEvent(models.Model):
                                  content_subtype='plaintext')
             partner.write(to_write)
 
+    def _remove_address_from_sendgrid_bounce_list(self, tracking_email):
+        tracking_email.partner_id.message_post(
+            _('Partner remove from sendgrid bounced e-mails'))
+        self._get_sendgrid().client.suppression.bounces._(
+            tracking_email.recipient).delete()
+
     @api.model
     def process_hard_bounce(self, tracking_email, metadata):
         body = 'Warning : Sponsor\'s Email is invalid!\nError description: ' \
                + metadata.get('error_description')
         self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
-
-        return super(MailTrackingEvent, self).process_hard_bounce(
-            tracking_email, metadata)
+        try:
+            self._remove_address_from_sendgrid_bounce_list(tracking_email)
+        finally:
+            return super(MailTrackingEvent, self).process_hard_bounce(
+                tracking_email, metadata)
 
     @api.model
     def process_soft_bounce(self, tracking_email, metadata):
         body = _('Warning : Sponsor\'s Email is invalid!\n Error description: '
                  + metadata.get('error_description'))
         self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
-
-        return super(MailTrackingEvent, self).process_soft_bounce(
-            tracking_email, metadata)
+        try:
+            self._remove_address_from_sendgrid_bounce_list(tracking_email)
+        finally:
+            return super(MailTrackingEvent, self).process_soft_bounce(
+                tracking_email, metadata)
 
     @api.model
     def process_unsub(self, tracking_email, metadata):
@@ -102,6 +112,11 @@ class MailTrackingEvent(models.Model):
                  'reason: ' + metadata.get('error_type'))
         self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
 
+        tracking_email.partner_id.message_post(
+            _('Partner remove from sendgrid blocked e-mails'))
+        self._get_sendgrid().client.suppression.blocks._(
+            tracking_email.recipient).delete()
+
         return super(MailTrackingEvent, self).process_reject(
             tracking_email, metadata)
 
@@ -118,6 +133,17 @@ class MailTrackingEvent(models.Model):
                 'partner_id': partner_id,
                 'object_ids': partner_id,
             })
+        tracking_email.partner_id.message_post(
+            _('Partner remove from sendgrid invalid e-mails'))
+        self._get_sendgrid().client.suppression.invalid_emails._(
+            tracking_email.recipient).delete()
+
+    @api.model
+    def process_spam(self, tracking_email, metadata):
+        tracking_email.partner_id.message_post(
+            _('Partner remove from sendgrid spam e-mails'))
+        self._get_sendgrid().client.suppression.spam_reports.delete(
+            request_body={"emails": [tracking_email.recipient]})
 
     def _get_sendgrid(self):
         api_key = config.get('sendgrid_api_key')
