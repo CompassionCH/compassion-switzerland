@@ -8,13 +8,15 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import models
+from odoo.addons.queue_job.job import job
 
-from . import sms_hook
-from . import sms_notification
-from . import compassion_child
-from . import recurring_contract
-from . import sms_child_request
-from . import sms_provider
-from . import sms_log
-from . import interaction_resume_sms
-from . import compassion_hold
+
+class SmsRequest(models.Model):
+    _inherit = 'compassion.hold'
+
+    @job
+    def update_expiration_date(self, new_date):
+        self.write({
+            'expiration_date': new_date
+        })
