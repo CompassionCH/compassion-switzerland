@@ -79,7 +79,9 @@ class SmsRequest(models.Model):
             })
 
             child.hold_id.with_delay().update_expiration_date(
-                datetime.now() + relativedelta(days=2))
+                fields.Datetime.to_string(
+                    datetime.now() + relativedelta(days=1)
+                ))
 
             self.with_delay().get_children_from_global_pool_for_website(1)
 
@@ -92,7 +94,8 @@ class SmsRequest(models.Model):
             self.child_id.add_to_wordpress()
         return super(SmsRequest, self).cancel_request()
 
-    @job
+    @job(default_channel='root.sms_request')
+    @related_action(action='related_action_sms_request')
     def get_children_from_global_pool_for_website(self, take=1):
         company_id = self.env.user.company_id.id
         child_env = self.env['compassion.child']

@@ -15,7 +15,7 @@ from odoo.addons.queue_job.job import job
 class SmsRequest(models.Model):
     _inherit = 'compassion.hold'
 
-    @job
+    @job(default_channel='root.global_pool')
     def update_expiration_date(self, new_date):
         self.write({
             'expiration_date': new_date
