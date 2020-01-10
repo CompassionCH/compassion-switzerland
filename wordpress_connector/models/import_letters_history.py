@@ -19,6 +19,7 @@ from io import BytesIO
 
 from odoo.addons.sbc_compassion.tools import import_letter_functions as func
 from odoo.addons.sbc_switzerland.models.import_letters_history import SmbConfig
+from werkzeug.utils import escape
 
 from odoo import models, api, fields
 
@@ -62,6 +63,9 @@ class ImportLettersHistory(models.Model):
         logger.info("New webletter from Wordpress : %s - %s",
                     sponsor_ref, child_code)
         try:
+            name = escape(name)
+            original_text = escape(original_text)
+
             # Find existing config or create a new one
             web_letter_id = self.env.ref('sbc_switzerland.web_letter').id
             import_config = self.search([
