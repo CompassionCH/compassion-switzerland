@@ -202,7 +202,7 @@
                 <attribute name="string">Linked Partners</attribute>
             </xpath>
             <xpath expr="//field[@name='other_contact_ids']" position="attributes">
-                <attribute name="context">{'default_contact_id': active_id, 'default_name': name, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_lang':lang, 'default_spoken_lang_ids':spoken_lang_ids, 'default_opt_out':False, 'default_birthday_reminder':False, 'default_global_communication_delivery_preference':'none', 'default_photo_delivery_preference':'none', 'default_letter_delivery_preference':'none', 'default_tax_certificate':'no', 'default_thankyou_letter':'no', 'default_nbmag':0, 'default_calendar':0, 'default_christmas_card':0, 'default_email': email}}</attribute>
+                <attribute name="context">{'default_contact_id': active_id, 'default_name': name, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_lang':lang, 'default_spoken_lang_ids':spoken_lang_ids, 'default_opt_out':False, 'default_birthday_reminder':False, 'default_global_communication_delivery_preference':'none', 'default_photo_delivery_preference':'none', 'default_letter_delivery_preference':'none', 'default_tax_certificate':'no', 'default_thankyou_letter':'no', 'default_nbmag':0, 'default_calendar':0, 'default_christmas_card':0, 'default_email': email, 'default_active': False}}</attribute>
             </xpath>
 
             <xpath expr="//field[@name='other_contact_ids']/form/sheet" position="replace">  <!-- pylint: disable=dangerous-view-replace-wo-priority -->
@@ -247,6 +247,7 @@
                             <field name="tax_certificate" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
                             <field name="thankyou_letter" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
                             <field name="email_copy"/>
+                            <field name="active" invisible="1"/>
                         </group>
                     </group>
                     <field name="supplier" invisible="True"/>
