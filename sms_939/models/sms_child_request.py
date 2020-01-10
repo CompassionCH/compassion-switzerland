@@ -8,7 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import date
+from datetime import date, datetime
 
 from dateutil.relativedelta import relativedelta
 
@@ -78,6 +78,13 @@ class SmsRequest(models.Model):
                 'state': 'S'
             })
 
+            child.hold_id.with_delay().update_expiration_date(
+                fields.Datetime.to_string(
+                    datetime.now() + relativedelta(days=1)
+                ))
+
+            self.with_delay().get_children_from_global_pool_for_website(1)
+
             return True
         return False
 
@@ -86,3 +93,15 @@ class SmsRequest(models.Model):
             self.child_id.write({'state': 'N'})
             self.child_id.add_to_wordpress()
         return super(SmsRequest, self).cancel_request()
+
+    @job(default_channel='root.sms_request')
+    @related_action(action='related_action_sms_request')
+    def get_children_from_global_pool_for_website(self, take=1):
+        company_id = self.env.user.company_id.id
+        child_env = self.env['compassion.child']
+        global_pool = child_env.with_context(default_company_id=company_id) \
+            ._create_diverse_children_pool(take)
+        new_children = child_env._hold_children(global_pool)
+        valid_new_children = child_env._update_information_and_filter_invalid(
+            new_children)
+        valid_new_children.add_to_wordpress(company_id)
