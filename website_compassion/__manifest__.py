@@ -28,7 +28,7 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Website',
+    'name': 'Compassion Website',
     'version': '11.0.1.0.0',
     'category': 'Website',
     'author': 'Sebastien Toth',
