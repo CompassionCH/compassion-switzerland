@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018-2020 Compassion CH (http://www.compassion.ch)
 #    @author: Maxime Beck
 #
 #    The licence is in the file __manifest__.py

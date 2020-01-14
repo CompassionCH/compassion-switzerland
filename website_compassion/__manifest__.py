@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -9,7 +8,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018-2020 Compassion CH (http://www.compassion.ch)
 #    @author: Sebastien Toth <popod@me.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -30,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Website',
-    'version': '10.0.1.1.1',
+    'version': '11.0.1.0.0',
     'category': 'Website',
     'author': 'Sebastien Toth',
     'license': 'AGPL-3',
@@ -45,8 +44,11 @@
         'views/homepage.xml',
         'views/robots.xml',
     ],
-    'depends': ['website', 'cms_form_compassion',
-                'partner_contact_in_several_companies'],
+    'depends': [
+        'website',  # Source
+        'cms_form_compassion',  # compassion-modules
+        'partner_contact_in_several_companies'  # OCA/partner_contact
+    ],
     'demo': [],
     'installable': True,
     'auto_install': False,
