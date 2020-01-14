@@ -37,9 +37,6 @@ class RecurringContract(models.Model):
         compute='_compute_payment_type_attachment')
     birthday_paid = fields.Many2many(
         'sponsorship.gift', compute='_compute_birthday_paid')
-    christmas_letter_sent = fields.Boolean(
-        'Has the partner sent a christmas letter this year',
-        compute='_compute_christmas_letter_sent')
     due_invoice_ids = fields.Many2many(
         'account.invoice', compute='_compute_due_invoices', store=True
     )
@@ -97,24 +94,6 @@ class RecurringContract(models.Model):
                 ('gift_date', '<', fields.Date.to_string(in_three_months)),
                 ('sponsorship_gift_type', '=', 'Birthday'),
             ])
-
-    @api.multi
-    def _compute_christmas_letter_sent(self):
-
-        for sponsorship in self:
-            christmas_templates = self.env['correspondence.template'].search([
-                ('name', 'like', '%christmas%')
-            ])
-            last_partner_christmas_correspondence = self.env['correspondence'].search([
-                ('id', '=', sponsorship.partner_id.id),
-                ('template_id', 'in', christmas_templates.ids)
-            ], order='status_date DESC', limit=1)
-
-            sponsorship.christmas_letter_send = False
-            today = datetime.now()
-            if last_partner_christmas_correspondence:
-                if last_partner_christmas_correspondence.status_date.year == today.year:
-                    sponsorship.christmas_letter_send = True
 
     @api.depends('invoice_line_ids', 'invoice_line_ids.state')
     def _compute_due_invoices(self):
@@ -283,18 +262,37 @@ class RecurringContract(models.Model):
             sponsorships_with_birthday_in_two_months,
             self.env.ref(module + 'planned_birthday_reminder')
         )
-        sponsorships_with_birthday_in_two_months.filtered(
-            lambda s: (s.birthday_paid and not s.christmas_letter_sent) or
-                      (not s.birthday_paid and s.christmas_letter_sent) or
-                      (not s.birthday_paid and not s.christmas_letter_sent))
 
         tomorrow = today + relativedelta(days=1)
         sponsorships_with_birthday_tomorrow = \
             self._get_sponsorships_with_child_birthday_on(tomorrow)
-        sponsorships_with_birthday_tomorrow.filtered(
-            lambda s: not s.birthday_paid and not s.christmas_letter_sent)
+
+        sponsorships_to_send_reminder = []
+
+        for sponsorship in sponsorships_with_birthday_tomorrow:
+            sponsorship_correspondences = self.env['correspondence'].search([
+                ('sponsorship_id', '=', sponsorship.id),
+                ('direction', '=', "Supporter To Beneficiary"),
+                ('sent_date', '!=', False),
+                ('sent_date', '<=', str(datetime.now())),
+                ('sent_date', '>=', str(datetime.now() - relativedelta(months=-2)))
+            ])
+
+            if sponsorship_correspondences:
+                sponsorships_to_send_reminder.append(sponsorship_correspondences)
+
+            sponsorship_gifts = self.env['sponsorship.gift'].search([
+                ('sponsorship_id', '=', sponsorship.id),
+            ])
+
+            for gift in sponsorship_gifts:
+                for invoice_line in gift.invoice_line_ids:
+                    if str(datetime.now()) >= invoice_line.last_payment \
+                            >= str(datetime.now() + relativedelta(months=-2)):
+                        sponsorships_to_send_reminder.append(gift.sponsorship_id)
+
         self._send_birthday_reminders(
-            sponsorships_with_birthday_tomorrow,
+            sponsorships_to_send_reminder,
             self.env.ref(module + 'birthday_remainder_1day_before')
         )
 
