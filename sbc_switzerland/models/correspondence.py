@@ -26,7 +26,7 @@ from odoo.addons.sbc_compassion.models.correspondence_page import \
 logger = logging.getLogger(__name__)
 
 try:
-    from pyPdf.pdf import PdfFileReader, PdfFileWriter
+    from PyPDF2 import PdfFileReader, PdfFileWriter
     from smb.SMBConnection import SMBConnection
 except ImportError:
     logger.warning("Please install pyPdf and smb.")
