@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -20,7 +20,7 @@ geo_patch = 'odoo.addons.base_geolocalize.models.base_geocoder.GeoCoder' \
 
 class TestMessages(TransactionCase):
     def setUp(self):
-        super(TestMessages, self).setUp()
+        super().setUp()
 
         # Patch copied from test_partner_assign.py
         def geo_find(addr):
@@ -37,17 +37,17 @@ class TestMessages(TransactionCase):
         self.church.is_church = True
 
         custom_vals = {
-            u'preferred_name': u'Samuel',
-            u'street': u'Impasse des Fr\xeanes 1',
-            u'zip': u'1669',
-            u'firstname': u'Samuel',
-            u'name': u'Fringeli Samuel',
-            u'city': u'Les Sciernes',
-            u'lastname': u'Fringeli',
-            u'ref': u'Fringeli',
-            u'church_id': self.church.id,
-            u'lang': u'en_US',
-            u'phone': u'+41 78 813 12 36'
+            'preferred_name': 'Samuel',
+            'street': 'Impasse des Fr\xeanes 1',
+            'zip': '1669',
+            'firstname': 'Samuel',
+            'name': 'Fringeli Samuel',
+            'city': 'Les Sciernes',
+            'lastname': 'Fringeli',
+            'ref': 'Fringeli',
+            'church_id': self.church.id,
+            'lang': 'en_US',
+            'phone': '+41 78 813 12 36'
         }
         self.partner = res_partner.browse(18)
         self.partner.write(custom_vals)
@@ -59,7 +59,7 @@ class TestMessages(TransactionCase):
         self.assertIn(self.partner.id, ids)
 
     def test_get_lang_from_phone_number(self):
-        phone = self.partner.phone.replace(u'\xa0', u'')
+        phone = self.partner.phone.replace('\xa0', '')
         lang = self.env['res.partner'].get_lang_from_phone_number(phone)
         self.assertEqual(lang, 'en_US')
 
