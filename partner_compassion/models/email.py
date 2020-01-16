@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -29,14 +29,14 @@ class Email(models.Model):
         """
         self.filtered(lambda e: e.state == 'outgoing').write({
             'auto_delete': False})
-        super(Email, self).send_sendgrid()
+        super().send_sendgrid()
 
     @api.multi
     def _prepare_sendgrid_data(self):
         """
         Sends a CC to all linked contacts that have option activated.
         """
-        s_mail = super(Email, self)._prepare_sendgrid_data()
+        s_mail = super()._prepare_sendgrid_data()
         email_cc = self.email_cc or ''
         for recipient in self.recipient_ids.filtered(
                 'other_contact_ids.email_copy'):
@@ -64,5 +64,5 @@ class EmailTemplate(models.Model):
         context = self.env.context.copy()
         if 'tpl_partners_only' in context:
             del context['tpl_partners_only']
-        return super(EmailTemplate, self.with_context(
+        return super(self.with_context(
             context)).generate_email(res_ids, fields=fields)

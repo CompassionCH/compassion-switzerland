@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -72,8 +72,7 @@ class StaffNotificationSettings(models.TransientModel):
 
     @api.model
     def get_default_values(self, _fields):
-        res = super(StaffNotificationSettings,
-                    self).get_default_values(_fields)
+        res = super().get_default_values(_fields)
         param_obj = self.env['ir.config_parameter']
         res.update({
             'advocate_birthday_fr_id': int(param_obj.get_param(
