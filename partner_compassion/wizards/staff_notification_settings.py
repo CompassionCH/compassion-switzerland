@@ -14,7 +14,7 @@ from odoo import api, models, fields
 
 class StaffNotificationSettings(models.TransientModel):
     """ Settings configuration for any Notifications."""
-    _inherit = 'staff.notification.settings'
+    _inherit = 'res.config.settings'
 
     # Notify for advocate birthdays
     advocate_birthday_fr_id = fields.Many2one(
@@ -69,6 +69,19 @@ class StaffNotificationSettings(models.TransientModel):
             'partner_compassion.advocate_birthday_en_id',
             str(self.advocate_birthday_en_id.id)
         )
+
+    @api.multi
+    def set_values(self):
+        super().set_values()
+        self.set_advocate_birthday_de()
+        self.set_advocate_birthday_en()
+        self.set_advocate_birthday_fr()
+        self.set_advocate_birthday_it()
+
+    @api.model
+    def get_values(self):
+        res = super().get_values()
+        return res
 
     @api.model
     def get_default_values(self, _fields):

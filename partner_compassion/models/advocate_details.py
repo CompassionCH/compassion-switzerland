@@ -15,8 +15,8 @@ from datetime import datetime
 from odoo import api, models, fields, _
 from odoo.tools import file_open
 
-from geospatial.base_geoengine import geo_model
-from geospatial.base_geoengine import fields as geo_fields
+from odoo.addons.base_geoengine import geo_model
+from odoo.addons.base_geoengine import fields as geo_fields
 
 _logger = logging.getLogger(__name__)
 
