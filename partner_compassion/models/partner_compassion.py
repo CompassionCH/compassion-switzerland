@@ -162,8 +162,7 @@ class ResPartner(models.Model):
         """
         Update the sponsorship number for the related church as well.
         """
-        return super(
-            self + self.mapped('church_id')).update_number_sponsorships()
+        return super().update_number_sponsorships()
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -190,7 +189,7 @@ class ResPartner(models.Model):
         vals.update({'partner_duplicate_ids': duplicate_ids})
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
         # Never subscribe someone to res.partner record
-        partner = super(self.with_context(
+        partner = super(ResPartner, self.with_context(
             mail_create_nosubscribe=True)).create(vals)
         partner.compute_geopoint()
         if partner.contact_type == 'attached' and not vals.get('active'):
