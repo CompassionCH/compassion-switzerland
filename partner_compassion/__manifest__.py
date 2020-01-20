@@ -47,7 +47,8 @@
         'crm_claim',
         'base_search_fuzzy',                     # oca_addons/server-tools
         'cms_form_compassion',                   # compassion-modules
-        'survey'                                 # source/addons
+        'survey',                                # source/addons
+        'base_phone'                             # oca_addons/connector-telephony
     ],
     'external_dependencies': {
         'python': ['pandas', 'pyminizip', 'sendgrid']
