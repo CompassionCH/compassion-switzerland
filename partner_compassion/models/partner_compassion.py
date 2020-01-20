@@ -11,11 +11,12 @@ import logging
 import tempfile
 import uuid
 
+from ast import literal_eval
 from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
 from odoo.tools.config import config
-from geospatial.base_geoengine.fields import GeoPoint
-from geospatial.base_geoengine import fields as geo_fields
+from odoo.addons.base_geoengine.fields import GeoPoint
+from odoo.addons.base_geoengine import fields as geo_fields
 
 # fields that are synced if 'use_parent_address' is checked
 ADDRESS_FIELDS = [
@@ -317,6 +318,17 @@ class ResPartner(models.Model):
             product.fund_id)
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
+
+    def action_view_partner_invoices(self):
+        action = super().action_view_partner_invoices()
+
+        action['domain'] = literal_eval(action['domain'])
+        action['domain'].clear()
+        action['domain'].append(('type', 'in', ['out_invoice', 'out_refund']))
+        action['context'].update({
+            'search_default_partner_id': self.env.uid,
+            })
+        return action
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #

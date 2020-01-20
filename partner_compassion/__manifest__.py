@@ -35,17 +35,19 @@
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'sbc_compassion',                       # compassion-modules
-        'thankyou_letters',                     # compassion-modules
+        'account_banking_mandate',               # oca_addons/bank-payment
+        'sbc_compassion',                        # compassion-modules
+        'thankyou_letters',                      # compassion-modules
         'mail_sendgrid',
-        'partner_contact_birthdate',            # oca_addons/partner-contact
-        'account_banking_mandate',              # oca_addons/bank-payment
+        'partner_contact_birthdate',             # oca_addons/partner-contact
         'geoengine_partner',
-        'base_geolocalize',                     # source/addons/geolocalize
-        'web_notify',                           # oca_addons/web
-        'partner_contact_in_several_companies', # oca_addons/partner-contact
+        'base_geolocalize',                      # source/addons/geolocalize
+        'web_notify',                            # oca_addons/web
+        'partner_contact_in_several_companies',  # oca_addons/partner-contact
         'crm_claim',
-        'base_search_fuzzy',                    # oca_addons/server-tools
+        'base_search_fuzzy',                     # oca_addons/server-tools
+        'cms_form_compassion',                   # compassion-modules
+        'survey'                                 # source/addons
     ],
     'external_dependencies': {
         'python': ['pandas', 'pyminizip', 'sendgrid']

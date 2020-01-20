@@ -15,7 +15,7 @@
     <field name="inherit_id" ref="base.view_partner_form"/>
     <field name="arch" type="xml">
         <div class="oe_button_box" position="inside">
-            <button name="%(partner_survey.act_partner_survey_input)d"
+            <button name="%(partner_compassion.act_partner_survey_input)d"
                     type="action"
                     class="oe_stat_button oe_inline"
                     icon="fa-list-alt">
