@@ -70,6 +70,6 @@
         'views/gift_compassion_view.xml',
         'views/load_csv_wizard_view.xml',
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }
