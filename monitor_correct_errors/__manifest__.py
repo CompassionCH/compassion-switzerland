@@ -39,6 +39,6 @@
         'data/monitor_correct_errors_cron.xml',
         'security/ir.model.access.csv'
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

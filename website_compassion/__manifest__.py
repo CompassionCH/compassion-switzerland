@@ -48,6 +48,6 @@
     'depends': ['website', 'cms_form_compassion',
                 'partner_contact_in_several_companies'],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

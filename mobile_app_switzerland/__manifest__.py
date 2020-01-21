@@ -46,6 +46,6 @@
     'depends': ['mobile_app_connector', 'partner_communication_switzerland'],
     'external_dependencies': {},
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': True,
 }

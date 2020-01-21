@@ -42,6 +42,6 @@
         'views/main_view.xml',
         'views/results.xml'
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

@@ -71,6 +71,6 @@
         'reports/end_sponsorships_report_view.xml',
 
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

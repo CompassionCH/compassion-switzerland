@@ -37,6 +37,6 @@
     'data': [
         'data/month_end_cron.xml',
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }
