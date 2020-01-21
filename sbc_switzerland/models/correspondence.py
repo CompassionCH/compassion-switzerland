@@ -278,7 +278,12 @@ class Correspondence(models.Model):
         }
         if self.direction == 'Supporter To Beneficiary':
             state = 'Received in the system'
-            target_text = 'original_text'
+
+            # Compute the target text
+            target_text = 'english_text'
+            if 'English' not in translate_lang_id.code_iso:
+                target_text = 'translated_text'
+
             # Remove #BOX# in the text, as supporter letters don't have boxes
             translate_text = translate_text.replace(BOX_SEPARATOR, '\n')
         else:
@@ -396,7 +401,7 @@ class Correspondence(models.Model):
         # Copy file in the imported letter folder
         smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
         if smb_conn.connect(smb_ip, smb_port):
-            file_ = BytesIO(base64.b64decode(self.letter_image))
+            file_ = BytesIO(self.get_image())
             nas_share_name = self.env.ref(
                 'sbc_switzerland.nas_share_name').value
 
