@@ -25,3 +25,4 @@ opencv-contrib-python
 pysmb
 simplejson
 requests
+pandas

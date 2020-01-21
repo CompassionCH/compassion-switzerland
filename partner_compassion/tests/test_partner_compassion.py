@@ -70,11 +70,12 @@ class TestMessages(TransactionCase):
         self.assertIn(self.partner.id, res)
 
     def test_get_lang_from_phone_number(self):
-        phone = self.partner.phone.replace('\xa0', '')
-        lang = self.env['res.partner'].search([('phone', '=', '+41 78 813 12 36')]).mapped('lang')[0]
+        lang = self.env['res.partner'].search([
+            ('phone', '=', '+41 78 813 12 36')
+        ]).mapped('lang')[0]
         self.assertEqual(lang, 'en_US')
 
-    def test_update_sponsorship_number(self):
+    def test_update_sponsorship_number(self):s
         # fake sponsorship number (real is 0)
         self.partner.number_sponsorships = 5
         self.assertEqual(self.partner.number_sponsorships, 5)

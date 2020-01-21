@@ -65,9 +65,9 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
         help='Describe how this advocate has partnered with us.'
     )
     has_car = fields.Selection([
-            ('yes', 'Yes'),
-            ('no', 'No')
-        ], 'Has a car')
+        ('yes', 'Yes'),
+        ('no', 'No')
+    ], 'Has a car')
     formation_ids = fields.Many2many(
         'calendar.event', string='Formation taken',
         compute='_compute_formation', inverse='_inverse_formation',
