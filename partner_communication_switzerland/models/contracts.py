@@ -509,9 +509,21 @@ class RecurringContract(models.Model):
         logger.info("Creating Welcome Letters Communications")
         config = self.env.ref(
             'partner_communication_switzerland.planned_welcome')
-        if not self.origin_id or self.origin_id.type != 'transfer':
-            self.send_communication(config, both=True).send()
-        self.write({'sds_state': 'active'})
+
+        to_send = self.env['recurring.contract'].search([
+            ('sds_state', '=', 'waiting_welcome'),
+            '|',
+            ('origin_id', '=', False),
+            ('origin_id.type', '!=', 'transfer'),
+            ('child_id', '!=', False),
+            ('type', '=', 'S')
+        ])
+
+        if to_send:
+            to_send.send_communication(config, both=True).send()
+            to_send.write({
+                'sds_state': 'active'
+            })
         return True
 
     @api.multi
