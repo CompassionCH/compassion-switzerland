@@ -34,6 +34,6 @@
     "depends": ["mail"],
     'data': ["views/mail_multi_attach.xml"],
     'qweb': ['static/src/xml/*.xml'],
-    "installable": True,
+    "installable": False,
     "auto_install": False
 }

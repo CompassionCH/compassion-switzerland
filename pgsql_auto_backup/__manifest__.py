@@ -42,5 +42,5 @@
         'data/backup_data.xml',
     ],
     'auto_install': False,
-    'installable': True
+    'installable': False
 }
