@@ -45,6 +45,6 @@
         'hr_expense', 'hr_attendance_management', 'asterisk_click2dial',
         'web_notify', 'hr_payroll'],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

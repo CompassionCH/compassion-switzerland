@@ -78,6 +78,6 @@
         'wizards/res_partner_create_portal_wizard.xml'
     ],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

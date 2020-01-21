@@ -85,6 +85,6 @@
         'demo/crm_event_demo.xml'
     ],
     'development_status': 'Beta',
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }
