@@ -267,32 +267,29 @@ class RecurringContract(models.Model):
         sponsorships_with_birthday_tomorrow = \
             self._get_sponsorships_with_child_birthday_on(tomorrow)
 
-        sponsorships_to_send_reminder = []
+        sponsorships_to_avoid = {}
 
         for sponsorship in sponsorships_with_birthday_tomorrow:
             sponsorship_correspondences = self.env['correspondence'].search([
                 ('sponsorship_id', '=', sponsorship.id),
                 ('direction', '=', "Supporter To Beneficiary"),
-                ('sent_date', '!=', False),
-                ('sent_date', '<=', str(datetime.now())),
-                ('sent_date', '>=', str(datetime.now() - relativedelta(months=-2)))
+                ('scanned_date', '>=', fields.Date.to_string(
+                    datetime.now() - relativedelta(months=-2)))
             ])
 
             if sponsorship_correspondences:
-                sponsorships_to_send_reminder.append(sponsorship_correspondences)
+                sponsorships_to_avoid += sponsorship
 
             sponsorship_gifts = self.env['sponsorship.gift'].search([
                 ('sponsorship_id', '=', sponsorship.id),
+                ('date_partner_paid', '>=', fields.Date.to_string(datetime.now() - relativedelta(months=-2)))
             ])
 
-            for gift in sponsorship_gifts:
-                for invoice_line in gift.invoice_line_ids:
-                    if str(datetime.now()) >= invoice_line.last_payment \
-                            >= str(datetime.now() + relativedelta(months=-2)):
-                        sponsorships_to_send_reminder.append(gift.sponsorship_id)
+            if sponsorship_gifts:
+                sponsorships_to_avoid += sponsorship
 
         self._send_birthday_reminders(
-            sponsorships_to_send_reminder,
+            sponsorships_with_birthday_tomorrow - sponsorships_to_avoid,
             self.env.ref(module + 'birthday_remainder_1day_before')
         )
 
