@@ -35,7 +35,8 @@
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': ['sponsorship_compassion',
-                'child_switzerland'
+                'child_switzerland',
+                'wordpress_configuration'
                 ],
     'external_dependencies': {
         'python': ['pysftp', 'wand'],

@@ -89,9 +89,11 @@ class StaffNotificationSettings(models.TransientModel):
     @api.model
     def get_values(self):
         res = super().get_values()
-        res.update(self.get_sponsorship_fr_id())
-        res.update(self.get_sponsorship_de_id())
-        res.update(self.get_sponsorship_it_id())
+        res.update({
+            'sponsorship_fr_id': self.get_sponsorship_fr_id(),
+            'sponsorship_de_id': self.get_sponsorship_de_id(),
+            'sponsorship_it_id': self.get_sponsorship_it_id()
+        })
         return res
 
     @api.multi

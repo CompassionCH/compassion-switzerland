@@ -17,7 +17,7 @@ from odoo.tools import relativedelta
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync
-import imp
+import importlib
 
 logger = logging.getLogger(__name__)
 
@@ -28,8 +28,8 @@ class CompassionChild(models.Model):
     @api.multi
     def add_to_wordpress(self, company_id=None):
         # Solve the encoding problems on child's descriptions
-        imp.reload(sys)
-        sys.setdefaultencoding('UTF8')
+        importlib.reload(sys)
+        # sys.setdefaultencoding('UTF8')
 
         in_two_years = datetime.today() + relativedelta(years=2)
         valid_children = self.filtered(
@@ -97,7 +97,7 @@ class CompassionChild(models.Model):
         return super(CompassionChild, self).child_departed()
 
     @api.model
-    def refresh_wordpress_cron(self, take=120):
+    def refresh_wordpress_cron(self, take=1):
         """
         Find new children on the global childpool, put them on wordpress,
         remove old children and release the holds.
