@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 
 import werkzeug
 
-from odoo import http, _
+from odoo import http, _, fields
 from odoo.http import request
 
 from odoo.addons.payment.models.payment_acquirer import ValidationError
@@ -25,9 +25,17 @@ class EventsController(PaymentFormController):
 
     @http.route('/events/', auth='public', website=True)
     def list(self, **kwargs):
-        events = request.env['crm.event.compassion'].search([
+        today = fields.Date.to_string(datetime.today())
+        started_events = request.env['crm.event.compassion'].search([
             ('website_published', '=', True),
+            ('start_date', '<', today),
+            ('end_date', '>=', today),
         ])
+        future_events = request.env['crm.event.compassion'].search([
+            ('website_published', '=', True),
+            ('start_date', '>=', today),
+        ])
+        events = started_events + future_events
         if len(events) == 1:
             return request.redirect('/event/' + str(events.id))
         return request.render('website_event_compassion.list', {
