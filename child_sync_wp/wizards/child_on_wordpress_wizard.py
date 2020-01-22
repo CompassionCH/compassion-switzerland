@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014-2016 Compassion CH (http://www.compassion.ch)
@@ -16,6 +15,7 @@ from odoo.tools.translate import _
 
 class ChildOnWorpressWizard(models.TransientModel):
     _name = 'child.on.wordpress.wizard'
+    _description = "Put children on WordPress"
 
     child_ids = fields.Many2many(
         'compassion.child', compute='_compute_active_ids',

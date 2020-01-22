@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014-2016 Compassion CH (http://www.compassion.ch)
@@ -14,6 +13,7 @@ from odoo import api, models, fields
 
 class ChildRemoveFromWordpress(models.TransientModel):
     _name = 'child.remove.from.wordpress.wizard'
+    _description = "Remove children from WordPress"
 
     child_ids = fields.Many2many(
         'compassion.child', compute='_compute_active_ids',
