@@ -33,9 +33,7 @@
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
-    'depends': ['child_compassion',
-                # 'account_accountant'
-                ],
+    'depends': ['child_compassion'],
     'data': [
         'views/description_views.xml',
         'data/lang_data.xml',
