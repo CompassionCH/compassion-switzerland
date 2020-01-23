@@ -58,6 +58,11 @@ if not testing:
         emergency_name = fields.Char(
             help='Please indicate a contact in case of emergency '
                  'during the trip.')
+        muskathlon_sponsor = fields.Char(
+            'Sponsor referral',
+            help='(Optionnal) the name of another Muskathlon participant who encouraged'
+            ' you to take part in this event'
+        )
 
         @property
         def discipline_ids(self):
@@ -73,7 +78,8 @@ if not testing:
                     'fields': [
                         'ambassador_picture_1', 'sport_discipline_id',
                         'sport_level', 'sport_level_description',
-                        'ambassador_quote', 't_shirt_size', 't_shirt_type',
+                        'ambassador_quote', 'muskathlon_sponsor',
+                        't_shirt_size', 't_shirt_type',
                         'event_id'
                     ]
                 },
