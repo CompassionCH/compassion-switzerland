@@ -6,8 +6,13 @@
         <field name="inherit_id" ref="crm_compassion.view_contract_tree_crm"/>
         <field eval="18" name="priority"/>
         <field name="arch" type="xml">
-            <tree position="attributes">
-                <attribute name="colors">blue:state == 'draft';red:state == 'mandate';green:state == 'waiting';black:state == 'active';gray:state in ('terminated','cancelled')</attribute>
+            <tree position="attributes"
+                  decoration-danger="state == 'mandate'"
+                  decoration-info="state == 'draft'"
+                  decoration-success="state == 'waiting'"
+                  decoration-primary="state == 'active'"
+                  decoration-warning="state in ('terminated','cancelled')">
+<!--                <attribute name="colors">blue:state == 'draft';red:state == 'mandate';green:state == 'waiting';black:state == 'active';gray:state in ('terminated','cancelled')</attribute>-->
             </tree>
             <field name="origin_id" position="after">
                 <field name="previous_child_id"/>

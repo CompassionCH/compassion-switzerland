@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -12,7 +11,7 @@
 import re
 from odoo import models, fields
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
-from odoo.addons.sponsorship_compassion.models.product import \
+from odoo.addons.sponsorship_compassion.models.product_names import \
     GIFT_CATEGORY, GIFT_REF
 
 from datetime import datetime
@@ -35,30 +34,44 @@ class StatementCompletionRule(models.Model):
     journal_ids = fields.Many2many(
         'account.journal',
         string='Related statement journal')
-    function_to_call = fields.Selection('_get_functions', 'Method')
+    function_to_call = fields.Selection(selection_add=[
+        ('get_from_partner_ref',
+         'Compassion: From line reference '
+         '(based on the partner reference)'),
+        ('get_from_bvr_ref',
+         'Compassion: From line reference '
+         '(based on the BVR reference of the sponsor)'),
+        ('lsv_dd_get_from_bvr_ref',
+         'Compassion [LSV/DD]: From line reference '
+         '(based on the BVR reference of the sponsor)'),
+        ('get_from_lsv_dd', 'Compassion: Put LSV DD Credits in 1098'),
+        ('get_sponsor_name',
+         'Compassion[POST]: From sponsor reference '
+         '(based the sponsor name in the description)'),
+    ])
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
 
-    def _get_functions(self):
-        res = super(StatementCompletionRule, self)._get_functions()
-        res.extend([
-            ('get_from_partner_ref',
-             'Compassion: From line reference '
-             '(based on the partner reference)'),
-            ('get_from_bvr_ref',
-             'Compassion: From line reference '
-             '(based on the BVR reference of the sponsor)'),
-            ('lsv_dd_get_from_bvr_ref',
-             'Compassion [LSV/DD]: From line reference '
-             '(based on the BVR reference of the sponsor)'),
-            ('get_from_lsv_dd', 'Compassion: Put LSV DD Credits in 1098'),
-            ('get_sponsor_name',
-             'Compassion[POST]: From sponsor reference '
-             '(based the sponsor name in the description)'),
-        ])
-        return res
+    # def _get_functions(self):
+    #     res = super()._get_functions()
+    #     res.extend([
+    #         ('get_from_partner_ref',
+    #          'Compassion: From line reference '
+    #          '(based on the partner reference)'),
+    #         ('get_from_bvr_ref',
+    #          'Compassion: From line reference '
+    #          '(based on the BVR reference of the sponsor)'),
+    #         ('lsv_dd_get_from_bvr_ref',
+    #          'Compassion [LSV/DD]: From line reference '
+    #          '(based on the BVR reference of the sponsor)'),
+    #         ('get_from_lsv_dd', 'Compassion: Put LSV DD Credits in 1098'),
+    #         ('get_sponsor_name',
+    #          'Compassion[POST]: From sponsor reference '
+    #          '(based the sponsor name in the description)'),
+    #     ])
+    #     return res
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
@@ -94,8 +107,7 @@ class StatementCompletionRule(models.Model):
                 flexible_ref = flexible_ref_match.group(1)
                 if int(flexible_ref) != int(partner_ref):
                     logger.warning(
-                        'The partner reference might be misaligned: %s',
-                        ref)
+                        f'The partner reference might be misaligned: {ref}')
                     partner = partner_obj.search([
                         ('ref', '=', str(int(flexible_ref)))])
                     ref_index = flexible_ref_match.start(1)
@@ -120,10 +132,11 @@ class StatementCompletionRule(models.Model):
                 # Get the accounting partner (company)
                 res['partner_id'] = partner.commercial_partner_id.id
             else:
+                name = st_line['name']
+                ref = st_line['ref']
                 logger.warning(
-                    'Line named "%s" (Ref:%s) was matched by more '
-                    'than one partner while looking on partners' %
-                    (st_line['name'], st_line['ref']))
+                    f'Line named "{name}" (Ref:{ref}) was matched by more '
+                    'than one partner while looking on partners')
         return res
 
     def get_from_bvr_ref(self, stmts_vals, st_line):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -11,11 +10,12 @@
 import csv
 
 from odoo import api, models, fields
-from StringIO import StringIO
+import io
 
 
 class LoadCsvWizard(models.TransientModel):
     _name = 'load.csv.wizard'
+    _description = "Link gifts with letters"
 
     data_csv = fields.Binary('csv file')
     name_data_csv = fields.Char('File Name')
@@ -23,8 +23,8 @@ class LoadCsvWizard(models.TransientModel):
     @api.multi
     def link_gift2letters(self):
         for wizard in self:
-            f = StringIO(wizard.data_csv.decode('base64')
-                         .decode('utf-8-sig').encode('utf-8'))
+            f = io.StringIO(wizard.data_csv.decode('base64')
+                            .decode('utf-8-sig').encode('utf-8'))
             reader = csv.reader(f, delimiter=';')
             reader.next()
             for row in reader:

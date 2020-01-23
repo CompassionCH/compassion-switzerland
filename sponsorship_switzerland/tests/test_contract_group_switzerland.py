@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -17,7 +16,7 @@ from odoo.exceptions import UserError
 class TestContractGroupSwitzerland(BaseSponsorshipTest):
 
     def setUp(self):
-        super(TestContractGroupSwitzerland, self).setUp()
+        super().setUp()
         self.michel.ref = 'reference'
         self.david.ref = 'refdavid'
 
