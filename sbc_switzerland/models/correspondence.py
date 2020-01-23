@@ -281,7 +281,7 @@ class Correspondence(models.Model):
 
             # Compute the target text
             target_text = 'english_text'
-            if 'English' not in translate_lang_id.code_iso:
+            if translate_lang != 'eng':
                 target_text = 'translated_text'
 
             # Remove #BOX# in the text, as supporter letters don't have boxes
