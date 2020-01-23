@@ -62,12 +62,12 @@ class TranslationDailyReport(models.Model):
 
     @api.multi
     def _compute_letter_image(self):
-        for report in self.filtered('correspondence_id.letter_image'):
-            pdf = self.correspondence_id.with_context(
-                bin_size=False).letter_image.decode('base64')
-            with WandImage(blob=pdf, resolution=75) as letter_image:
-                report.letter_image = letter_image.make_blob('jpg')\
-                    .encode('base64')
+        for report in self.filtered('correspondence_id'):
+            pdf = self.correspondence_id.get_image()
+            if pdf:
+                with WandImage(blob=pdf, resolution=75) as letter_image:
+                    report.letter_image = letter_image.make_blob('jpg')\
+                        .encode('base64')
 
     def _date_format(self):
         """

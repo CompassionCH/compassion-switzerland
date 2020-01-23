@@ -88,9 +88,9 @@ class Correspondence(models.Model):
 
         # Swap pages for L3 layouts as we scan in wrong order
         if correspondence.template_id.layout == 'CH-A-3S01-1' and \
-                correspondence.source != 'compassion':
-            input_pdf = PdfFileReader(BytesIO(base64.b64decode(
-                correspondence.letter_image)))
+                correspondence.source in ('letter', 'email') and \
+                correspondence.store_letter_image:
+            input_pdf = PdfFileReader(BytesIO(correspondence.get_image()))
             output_pdf = PdfFileWriter()
             nb_pages = input_pdf.numPages
             if nb_pages >= 2:
@@ -322,8 +322,8 @@ class Correspondence(models.Model):
         direction = list(set(self.mapped('direction')))
         assert len(direction) == 1 and direction[0] == \
             'Supporter To Beneficiary'
-        our_letter = self.filtered('letter_image')
         gmc_letter = self.filtered('kit_identifier')
+        our_letter = self - gmc_letter
         assert len(our_letter) == 1 and len(gmc_letter) == 1
         vals = {
             'kit_identifier': gmc_letter.kit_identifier,
