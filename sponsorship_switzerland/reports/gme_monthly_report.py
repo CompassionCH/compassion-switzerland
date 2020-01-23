@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 from odoo import api, models, fields, tools
 
@@ -29,7 +28,7 @@ class EndSponsorshipsMonthReport(models.Model):
 
     def _select_category(self):
         return """
-            CASE c.end_reason
+            CASE c.end_reason_id
             WHEN '1' THEN 'child'
             ELSE 'sponsor'
             END
@@ -63,7 +62,7 @@ class EndSponsorshipsMonthReport(models.Model):
         # pylint:disable=E8103
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW %s AS
-            SELECT c.id, c.end_date, c.end_reason, c.sub_sponsorship_id,
+            SELECT c.id, c.end_date, c.end_reason_id, c.sub_sponsorship_id,
                    c.sds_state, p.id as partner_id, %s, %s, %s,
                    p.lang, 100/s.active_sponsorships as active_percentage,
                    100.0/s.terminated_sponsorships as total_percentage,
