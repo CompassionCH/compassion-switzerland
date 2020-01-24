@@ -264,7 +264,7 @@ class RecurringContracts(models.Model):
             super(contract).contract_waiting()
             contract._reconcile_open_amount()
 
-        super(self-sponsorships).contract_waiting()
+        super(RecurringContracts, self-sponsorships).contract_waiting()
         return True
 
     def _check_sponsorship_is_valid(self):
