@@ -270,7 +270,7 @@ class RecurringContract(models.Model):
         sponsorships_to_avoid = {}
 
         for sponsorship in sponsorships_with_birthday_tomorrow:
-            sponsorship_correspondences = self.env['correspondence'].search([
+            sponsorship_correspondences = self.env['correspondence'].search_count([
                 ('sponsorship_id', '=', sponsorship.id),
                 ('direction', '=', "Supporter To Beneficiary"),
                 ('scanned_date', '>=', fields.Date.to_string(
