@@ -78,8 +78,11 @@ class Correspondence(models.Model):
                 if original_lang == french:
                     vals['original_language_id'] = creole.id
 
-            if original_lang.translatable and original_lang not in sponsorship\
-                    .child_id.project_id.field_office_id.spoken_language_ids:
+            # Languages the office/region understand
+            office = sponsorship.child_id.project_id.field_office_id
+            language_ids = office.spoken_language_ids + office.translated_language_ids
+
+            if original_lang.translatable and original_lang not in language_ids:
                 correspondence = super(Correspondence, self.with_context(
                     no_comm_kit=True)).create(vals)
                 correspondence.send_local_translate()
@@ -88,9 +91,9 @@ class Correspondence(models.Model):
 
         # Swap pages for L3 layouts as we scan in wrong order
         if correspondence.template_id.layout == 'CH-A-3S01-1' and \
-                correspondence.source != 'compassion':
-            input_pdf = PdfFileReader(BytesIO(base64.b64decode(
-                correspondence.letter_image)))
+                correspondence.source in ('letter', 'email') and \
+                correspondence.store_letter_image:
+            input_pdf = PdfFileReader(BytesIO(correspondence.get_image()))
             output_pdf = PdfFileWriter()
             nb_pages = input_pdf.numPages
             if nb_pages >= 2:
@@ -278,7 +281,12 @@ class Correspondence(models.Model):
         }
         if self.direction == 'Supporter To Beneficiary':
             state = 'Received in the system'
-            target_text = 'original_text'
+
+            # Compute the target text
+            target_text = 'english_text'
+            if translate_lang != 'eng':
+                target_text = 'translated_text'
+
             # Remove #BOX# in the text, as supporter letters don't have boxes
             translate_text = translate_text.replace(BOX_SEPARATOR, '\n')
         else:
@@ -317,8 +325,8 @@ class Correspondence(models.Model):
         direction = list(set(self.mapped('direction')))
         assert len(direction) == 1 and direction[0] == \
             'Supporter To Beneficiary'
-        our_letter = self.filtered('letter_image')
         gmc_letter = self.filtered('kit_identifier')
+        our_letter = self - gmc_letter
         assert len(our_letter) == 1 and len(gmc_letter) == 1
         vals = {
             'kit_identifier': gmc_letter.kit_identifier,
@@ -396,7 +404,7 @@ class Correspondence(models.Model):
         # Copy file in the imported letter folder
         smb_conn = SMBConnection(smb_user, smb_pass, 'openerp', 'nas')
         if smb_conn.connect(smb_ip, smb_port):
-            file_ = BytesIO(base64.b64decode(self.letter_image))
+            file_ = BytesIO(self.get_image())
             nas_share_name = self.env.ref(
                 'sbc_switzerland.nas_share_name').value
 
