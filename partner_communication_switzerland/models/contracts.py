@@ -274,7 +274,7 @@ class RecurringContract(models.Model):
                 ('sponsorship_id', '=', sponsorship.id),
                 ('direction', '=', "Supporter To Beneficiary"),
                 ('scanned_date', '>=', fields.Date.to_string(
-                    datetime.now() - relativedelta(months=-2)))
+                    datetime.now() - relativedelta(months=2)))
             ])
 
             if sponsorship_correspondences:
