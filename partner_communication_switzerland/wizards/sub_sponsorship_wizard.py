@@ -72,8 +72,7 @@ class SubSponsorshipWizard(models.TransientModel):
                 'partner_communication_switzerland.planned_no_sub')
 
         if config:
-            communications = sponsorship.send_communication(
-                config, correspondent=False)
+            communications = sponsorship.send_communication(config)
             res = {
                 'name': communications[0].subject,
                 'type': 'ir.actions.act_window',
