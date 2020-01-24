@@ -1,5 +1,5 @@
 
-from odoo import api, models, fields, tools
+from odoo import api, models, fields, tools, _
 
 
 class EndSponsorshipsMonthReport(models.Model):
@@ -11,20 +11,23 @@ class EndSponsorshipsMonthReport(models.Model):
     _rec_name = 'date'
 
     lang = fields.Selection('select_lang', readonly=True)
-    end_reason = fields.Selection('get_ending_reasons', readonly=True)
+    end_reason_id = fields.Selection([
+        ('2', _("Mistake from our staff")),
+        ('3', _("Death of partner")),
+        ('4', _("Moved to foreign country")),
+        ('5', _("Not satisfied")),
+        ('6', _("Doesn't pay")),
+        ('8', _("Personal reasons")),
+        ('9', _("Never paid")),
+        ('12', _("Financial reasons")),
+        ('25', _("Not given")),
+    ], readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
 
     @api.model
     def select_lang(self):
         langs = self.env['res.lang'].search([])
         return [(lang.code, lang.name) for lang in langs]
-
-    def get_ending_reasons(self):
-        return self.env['recurring.contract'].with_context(
-            default_type='S').get_ending_reasons()
-
-    def _get_sds_states(self):
-        return self.env['recurring.contract']._get_sds_states()
 
     def _select_category(self):
         return """

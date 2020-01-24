@@ -25,14 +25,6 @@
     </record>
 
     <!-- LSV -->
-    <record id="export_lsv" model="account.payment.method">
-        <field name="bank_account_required" eval="True"/>
-        <field name="mandate_required" eval="True"/>
-        <field name="lsv_treatment_type">P</field>
-        <field name="name">Export LSV method</field>
-        <field name="code">export_lsv</field>
-        <field name="payment_type">inbound</field>
-    </record>
     <record id="payment_mode_lsv" model="account.payment.mode">
         <field name="name">LSV</field>
         <field name="active" eval="True"/>
@@ -68,15 +60,10 @@
     </record>
 
     <!-- Postfinance DD -->
-    <record id="l10n_ch_direct_debit.export_sepa_dd" model="account.payment.method">
-        <field name="mandate_required" eval="True"/>
-        <field name="name">Export SEPA/DD method</field>
-        <field name="code">export_sepa_dd</field>
-    </record>
     <record id="payment_mode_postfinance_dd" model="account.payment.mode">
         <field name="name">Postfinance Direct Debit</field>
         <field name="active" eval="True"/>
-        <field name="payment_method_id" ref="l10n_ch_direct_debit.export_sepa_dd"/>
+        <field name="payment_method_id" ref="l10n_ch_pain_direct_debit.export_sepa_dd"/>
         <field name="payment_type">inbound</field>
         <field name="payment_order_ok" eval="True"/>
         <field name="bank_account_link">fixed</field>
@@ -87,7 +74,7 @@
     <record id="payment_mode_postfinance_dd_25th" model="account.payment.mode">
         <field name="name">Postfinance Direct Debit 25th</field>
         <field name="active" eval="True"/>
-        <field name="payment_method_id" ref="l10n_ch_direct_debit.export_sepa_dd"/>
+        <field name="payment_method_id" ref="l10n_ch_pain_direct_debit.export_sepa_dd"/>
         <field name="payment_type">inbound</field>
         <field name="payment_order_ok" eval="True"/>
         <field name="bank_account_link">fixed</field>
@@ -98,7 +85,7 @@
     <record id="payment_mode_postfinance_dd_multi_months" model="account.payment.mode">
         <field name="name">Postfinance Direct Debit multi-months</field>
         <field name="active" eval="True"/>
-        <field name="payment_method_id" ref="l10n_ch_direct_debit.export_sepa_dd"/>
+        <field name="payment_method_id" ref="l10n_ch_pain_direct_debit.export_sepa_dd"/>
         <field name="payment_type">inbound</field>
         <field name="payment_order_ok" eval="True"/>
         <field name="bank_account_link">fixed</field>
