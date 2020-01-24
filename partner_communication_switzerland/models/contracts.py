@@ -283,7 +283,7 @@ class RecurringContract(models.Model):
             sponsorship_gifts = self.env['sponsorship.gift'].search([
                 ('sponsorship_id', '=', sponsorship.id),
                 ('date_partner_paid', '>=',
-                 fields.Date.to_string(datetime.now() - relativedelta(months=-2)))
+                 fields.Date.to_string(datetime.now() - relativedelta(months=2)))
             ])
 
             if sponsorship_gifts:
