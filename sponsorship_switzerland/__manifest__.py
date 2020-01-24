@@ -41,6 +41,7 @@
         'partner_compassion',               # compassion-switzerland
         'account_statement_completion',     # compassion-accounting
         'l10n_ch_pain_direct_debit',        # l10n-switzerland
+        'l10n_ch_payment_slip',             # l10n-switzerland
         'gift_compassion',                  # compassion-modules
         'donation_report_compassion',       # compassion-accounting
         'web_notify',                       # oca_addons/web
@@ -53,11 +54,13 @@
     'data': [
         'data/product.xml',
         'data/completion_rules.xml',
+        'data/payment_methods.xml',
         'data/payment_modes.xml',
         'data/sequence.xml',
         'data/partner_category_data.xml',
         'security/ir.model.access.csv',
         'reports/sponsorships_evolution_reports_view.xml',
+        'reports/end_sponsorships_report_view.xml',
         'reports/new_sponsorships_report_view.xml',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
@@ -66,7 +69,6 @@
         'views/correspondence_view.xml',
         'views/gift_compassion_view.xml',
         'views/load_csv_wizard_view.xml',
-        'reports/end_sponsorships_report_view.xml',
     ],
     'installable': True,
     'auto_install': False,

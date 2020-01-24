@@ -1,11 +1,11 @@
 
-from odoo import api, models, fields, tools
+from odoo import api, models, fields, tools, _
 
 
 class EndSponsorshipsMonthReport(models.Model):
     _name = "end.sponsorships.month.report"
     _inherit = "fiscal.year.report"
-    _table = 'end_sponsorships_month_report'
+    # _table = 'end_sponsorships_month_report'
     _description = "End of sponsorships monthly report"
     _auto = False
     _rec_name = 'end_date'
@@ -20,10 +20,29 @@ class EndSponsorshipsMonthReport(models.Model):
         ('sub', 'Sub'),
         ('no_sub', 'No sub')
     ], readonly=True)
-    end_reason = fields.Selection('get_ending_reasons', readonly=True)
+    end_reason_id = fields.Selection([
+        ('2', _("Mistake from our staff")),
+        ('3', _("Death of partner")),
+        ('4', _("Moved to foreign country")),
+        ('5', _("Not satisfied")),
+        ('6', _("Doesn't pay")),
+        ('8', _("Personal reasons")),
+        ('9', _("Never paid")),
+        ('12', _("Financial reasons")),
+        ('25', _("Not given")),
+    ], readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
     lang = fields.Selection('select_lang', readonly=True)
-    sds_state = fields.Selection('_get_sds_states', readonly=True)
+    sds_state = fields.Selection([
+        ('draft', _('Draft')),
+        ('active', _('Active')),
+        ('sub_waiting', _('Sub waiting')),
+        ('sub', _('Sub')),
+        ('sub_accept', _('Sub Accept')),
+        ('sub_reject', _('Sub Reject')),
+        ('no_sub', _('No sub')),
+        ('cancelled', _('Cancelled'))
+    ], readonly=True)
     active_percentage = fields.Float(
         string='Percentage (/active)',
         help='Percentage on active sponsorships in that period',
@@ -38,13 +57,6 @@ class EndSponsorshipsMonthReport(models.Model):
     def select_lang(self):
         langs = self.env['res.lang'].search([])
         return [(lang.code, lang.name) for lang in langs]
-
-    def get_ending_reasons(self):
-        return self.env['recurring.contract'].with_context(
-            default_type='S').get_ending_reasons()
-
-    def _get_sds_states(self):
-        return self.env['recurring.contract']._get_sds_states()
 
     def _select_category(self):
         return """
