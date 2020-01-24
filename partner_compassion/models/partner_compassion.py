@@ -196,7 +196,7 @@ class ResPartner(models.Model):
         partner = super(ResPartner, self.with_context(
             mail_create_nosubscribe=True)).create(vals)
         partner.compute_geopoint()
-        if partner.contact_type == 'attached' and not vals.get('active'):
+        if partner.contact_type == 'attached':
             partner.active = False
 
         return partner
