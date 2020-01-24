@@ -78,8 +78,11 @@ class Correspondence(models.Model):
                 if original_lang == french:
                     vals['original_language_id'] = creole.id
 
-            if original_lang.translatable and original_lang not in sponsorship\
-                    .child_id.project_id.field_office_id.spoken_language_ids:
+            # Languages the office/region understand
+            office = sponsorship.child_id.project_id.field_office_id
+            language_ids = office.spoken_language_ids + office.translated_language_ids
+
+            if original_lang.translatable and original_lang not in language_ids:
                 correspondence = super(Correspondence, self.with_context(
                     no_comm_kit=True)).create(vals)
                 correspondence.send_local_translate()
