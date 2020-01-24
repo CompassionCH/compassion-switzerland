@@ -267,7 +267,7 @@ class RecurringContract(models.Model):
         sponsorships_with_birthday_tomorrow = \
             self._get_sponsorships_with_child_birthday_on(tomorrow)
 
-        sponsorships_to_avoid = {}
+        sponsorships_to_avoid = self.env['recurring.contract']
 
         for sponsorship in sponsorships_with_birthday_tomorrow:
             sponsorship_correspondences = self.env['correspondence'].search_count([
