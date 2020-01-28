@@ -315,7 +315,7 @@ class RecurringContracts(models.Model):
         """ For LSV/DD contracts, don't clean invoices that are in a
             Payment Order.
         """
-        invoice_lines = super( )._get_invoice_lines_to_clean(since_date, to_date)
+        invoice_lines = super()._get_invoice_lines_to_clean(since_date, to_date)
         lsv_dd_invoices = self._get_lsv_dd_invoices(invoice_lines.mapped(
             'invoice_id'))
         return invoice_lines.filtered(
