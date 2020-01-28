@@ -16,6 +16,7 @@ from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
+from odoo.addons.queue_job.job import job
 
 logger = logging.getLogger(__name__)
 
@@ -509,23 +510,19 @@ class RecurringContract(models.Model):
         logger.info("Creating Welcome Letters Communications")
         config = self.env.ref(
             'partner_communication_switzerland.planned_welcome')
-        if not self.origin_id or self.origin_id.type != 'transfer':
-            self.send_communication(config, both=True).send()
+        communication = self.send_communication(config, both=True)
         self.write({'sds_state': 'active'})
-        # to_send = self.env['recurring.contract'].search([
-        #     ('sds_state', '=', 'waiting_welcome'),
-        #     '|',
-        #     ('origin_id', '=', False),
-        #     ('origin_id.type', '!=', 'transfer'),
-        #     ('child_id', '!=', False),
-        #     ('type', '=', 'S')
-        # ])
-        #
-        # if to_send:
-        #     to_send.send_communication(config, both=True).send()
-        #     to_send.write({
-        #         'sds_state': 'active'
-        #     })
+
+        self.with_delay(
+            eta=datetime.now() + relativedelta(minutes=30))\
+            .send_welcome_communication(communication)
+
+        return True
+
+    @job
+    def send_welcome_communication(self, communication):
+        self.ensure_one()
+        communication.send()
         return True
 
     @api.multi
