@@ -6,7 +6,7 @@
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
             <field name="function">advocate_cron</field>
-            <field name="model">advocate.details</field>
+            <field name="model_id" ref="model_advocate_details"/>
             <field name="args" eval="()"/>
             <field name="active" eval="False"/>
         </record>

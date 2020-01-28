@@ -5,5 +5,7 @@
         <field name="model_id" ref="model_res_partner"/>
         <field name="state">code</field>
         <field name="code">records.agree_to_child_protection_charter()</field>
+        <field name="binding_model_id" ref="model_res_partner"/>
+        <field name="binding_type">report</field>
     </record>
 </odoo>

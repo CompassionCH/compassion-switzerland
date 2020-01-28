@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -25,7 +25,7 @@ class MailThread(models.AbstractModel):
         partners = self.env['res.partner'].browse(partner_ids)
         allowed = partners.mapped('user_ids').filtered(lambda u: not u.share)
         partner_ids = allowed.mapped('partner_id.id')
-        return super(MailThread, self).message_subscribe(
+        return super().message_subscribe(
             partner_ids, channel_ids, subtype_ids, force)
 
     @api.multi
@@ -33,14 +33,14 @@ class MailThread(models.AbstractModel):
         partners = self.env['res.partner'].browse(partner_ids)
         allowed = partners.mapped('user_ids').filtered(lambda u: not u.share)
         partner_ids = allowed.mapped('partner_id.id')
-        super(MailThread, self)._message_auto_subscribe_notify(partner_ids)
+        super()._message_auto_subscribe_notify(partner_ids)
 
     @api.multi
     def message_get_suggested_recipients(self):
-        result = super(MailThread, self).message_get_suggested_recipients()
+        result = super().message_get_suggested_recipients()
         to_remove = list()
         partner_obj = self.env['res.partner']
-        for message_id, suggestion in result.iteritems():
+        for message_id, suggestion in list(result.items()):
             if suggestion:
                 partner = partner_obj.browse(suggestion[0][0])
                 users = partner.mapped('user_ids').filtered(
@@ -56,7 +56,7 @@ class MailThread(models.AbstractModel):
                                   check_followers=True, force_create=False,
                                   exclude_aliases=True):
 
-        partner_ids = super(MailThread, self)._find_partner_from_emails(
+        partner_ids = super()._find_partner_from_emails(
             emails, res_model, res_id, check_followers,
             force_create, exclude_aliases)
 
