@@ -417,16 +417,16 @@
         </field>
     </record>
 
-    <record id="view_partner_form_invoice_button_ch" model="ir.ui.view">
-        <field name="name">res.partner.form.invoice.switzerland</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="account.partner_view_buttons"/>
-        <field name="arch" type="xml">
-            <button name="action_view_partner_invoices" position="attributes">
-                <attribute name="name">action_view_partner_invoices_ch</attribute>
-            </button>
-        </field>
-    </record>
+<!--    <record id="view_partner_form_invoice_button_ch" model="ir.ui.view">-->
+<!--        <field name="name">res.partner.form.invoice.switzerland</field>-->
+<!--        <field name="model">res.partner</field>-->
+<!--        <field name="inherit_id" ref="account.partner_view_buttons"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <button name="action_view_partner_invoices" position="attributes">-->
+<!--                <attribute name="name">action_view_partner_invoices_ch</attribute>-->
+<!--            </button>-->
+<!--        </field>-->
+<!--    </record>-->
 
     <!-- Add partner title fields -->
     <record id="view_partner_title_ch_form" model="ir.ui.view">
