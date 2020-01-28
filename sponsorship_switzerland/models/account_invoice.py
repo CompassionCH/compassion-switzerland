@@ -56,7 +56,8 @@ class AccountInvoice(models.Model):
                 if not invl.contract_id and invl.product_id.categ_name in (
                         SPONSORSHIP_CATEGORY, GIFT_CATEGORY):
                     raise UserError(
-                        _(f"Invoice {str(invoice.id)} for '{invoice.partner_id.name}' is missing a sponsorship."))
+                        _(f"Invoice {str(invoice.id)} for "
+                          f"'{invoice.partner_id.name}' is missing a sponsorship."))
 
         return super().action_date_assign()
 
