@@ -74,6 +74,6 @@
     'qweb': [
         'static/src/xml/thread_custom.xml'
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
