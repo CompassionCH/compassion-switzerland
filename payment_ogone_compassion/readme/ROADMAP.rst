@@ -1,0 +1,1 @@
+- Style payments success and aborted pages
