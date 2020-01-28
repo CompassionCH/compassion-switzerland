@@ -510,13 +510,14 @@ class RecurringContract(models.Model):
         logger.info("Creating Welcome Letters Communications")
         config = self.env.ref(
             'partner_communication_switzerland.planned_welcome')
-        communication = self.send_communication(config, both=True)
+
+        if not self.origin_id or self.origin_id.type != 'transfer':
+            communication = self.send_communication(config, both=True)
+            self.with_delay(
+                eta=datetime.now() + relativedelta(minutes=30)) \
+                .send_welcome_communication(communication)
+
         self.write({'sds_state': 'active'})
-
-        self.with_delay(
-            eta=datetime.now() + relativedelta(minutes=30))\
-            .send_welcome_communication(communication)
-
         return True
 
     @job
