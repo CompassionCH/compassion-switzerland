@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -25,7 +24,7 @@ class AccountInvoiceLine(models.Model):
         """
         res_name = False
         total = sum(self.mapped('price_subtotal'))
-        total_string = "{:,}".format(int(total)).replace(',', "'")
+        total_string = f"{int(total):,}".replace(',', "'")
 
         event_names = self.mapped('event_id.name')
         product_names = self.mapped('product_id.thanks_name')
@@ -76,4 +75,4 @@ class AccountInvoiceLine(models.Model):
         if self.mapped('event_id') and not gift:
             return self.env.ref('partner_communication_switzerland.'
                                 'config_event_standard')
-        return super(AccountInvoiceLine, self).get_default_thankyou_config()
+        return super().get_default_thankyou_config()

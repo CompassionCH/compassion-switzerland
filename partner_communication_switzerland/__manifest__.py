@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,17 +29,17 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion CH Partner Communications',
-    'version': '10.0.5.1.0',
+    'version': '11.0.0.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'report_compassion',
-        'child_switzerland',
-        'sms_939',
-        'auth_signup',
-        'recurring_contract'
+        'report_compassion',    # compassion-switzerland
+        'child_switzerland',    # compassion-switzerland
+        'sms_939',              # compassion-switzerland
+        'auth_signup',          # source/addons
+        'recurring_contract'    # compassion-accounting
     ],
     'external_dependencies': {
         'python': ['wand', 'detectlanguage', 'sendgrid', 'bs4', 'pdf2image']
@@ -78,6 +77,6 @@
         'wizards/res_partner_create_portal_wizard.xml'
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

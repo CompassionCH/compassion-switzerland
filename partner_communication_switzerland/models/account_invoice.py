@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -122,7 +121,7 @@ class AccountInvoice(models.Model):
     def group_or_split_reconcile(self):
         """Reconcile given invoices with partner open payments.
         """
-        super(AccountInvoice, self).group_or_split_reconcile()
+        super().group_or_split_reconcile()
         # Find if a communication with payment slips is pending and
         # regenerate it.
         jobs = self.env['partner.communication.job'].search([

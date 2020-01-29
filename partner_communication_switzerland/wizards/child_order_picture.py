@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -23,7 +22,7 @@ except ImportError:
 
 
 class CompassionHold(models.TransientModel):
-    _inherit = 'ir.needaction_mixin'
+    _inherit = 'mail.activity.mixin'
     _name = 'child.order.picture.wizard'
 
     sponsorship_ids = fields.Many2many(
@@ -90,7 +89,7 @@ class CompassionHold(models.TransientModel):
         zip_buffer = BytesIO()
         with ZipFile(zip_buffer, 'w') as zip_data:
             pdf = self.env['report'].with_context(
-                must_skip_send_to_printer=True).get_pdf(
+                must_skip_send_to_printer=True).render_qweb_pdf(
                 self.mapped('sponsorship_ids.child_id.id'),
                 'partner_communication_switzerland.child_picture'
             )

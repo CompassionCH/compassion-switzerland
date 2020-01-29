@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -17,7 +16,7 @@ class ChildLifecycle(models.Model):
 
     @api.model
     def process_commkit(self, commkit_data):
-        ids = super(ChildLifecycle, self).process_commkit(commkit_data)
+        ids = super().process_commkit(commkit_data)
         for lifecycle in self.browse(ids).filtered('child_id.sponsor_id'):
             communication_type = self.env[
                 'partner.communication.config'].search([
@@ -42,7 +41,7 @@ class ProjectLifecycle(models.Model):
 
     @api.model
     def process_commkit(self, commkit_data):
-        ids = super(ProjectLifecycle, self).process_commkit(commkit_data)
+        ids = super().process_commkit(commkit_data)
 
         for lifecycle in self.browse(ids):
             search = [

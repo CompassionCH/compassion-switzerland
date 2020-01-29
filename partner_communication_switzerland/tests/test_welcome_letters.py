@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -24,13 +23,13 @@ logger = logging.getLogger(__name__)
 
 mock_update_hold = ('odoo.addons.child_compassion.models.compassion_hold'
                     '.CompassionHold.update_hold')
-mock_get_pdf = 'odoo.addons.report.models.report.Report.get_pdf'
+mock_get_pdf = 'odoo.addons.report.models.report.Report.render_qweb_pdf'
 
 
 class TestSponsorship(BaseSponsorshipTest):
 
     def setUp(self):
-        super(TestSponsorship, self).setUp()
+        super().setUp()
         # Deactivate mandates of Michel Fletcher to avoid directly validate
         # sponsorship to waiting state.
         self.thomas.ref = self.ref(7)

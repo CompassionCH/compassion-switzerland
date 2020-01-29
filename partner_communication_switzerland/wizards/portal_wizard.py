@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -27,7 +26,7 @@ class PortalWizard(models.TransientModel):
     @api.onchange('portal_id')
     def onchange_portal_id(self):
         # set the values of the users created in the super method
-        res = super(PortalWizard, self).onchange_portal_id()
+        res = super().onchange_portal_id()
 
         self.user_ids.write({
             'invitation_config_id': self.invitation_config_id.id
@@ -44,7 +43,7 @@ class PortalWizardUser(models.TransientModel):
 
     @api.multi
     def action_apply(self):
-        res = super(PortalWizardUser, self).action_apply()
+        res = super().action_apply()
 
         self.mapped('partner_id').sudo().signup_prepare()
 

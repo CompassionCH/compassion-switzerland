@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -21,13 +20,13 @@ logger = logging.getLogger(__name__)
 
 mock_update_hold = ('odoo.addons.child_compassion.models.compassion_hold'
                     '.CompassionHold.update_hold')
-mock_get_pdf = 'odoo.addons.report.models.report.Report.get_pdf'
+mock_get_pdf = 'odoo.addons.report.models.report.Report.render_qweb_pdf'
 
 
 class TestSponsorship(BaseSponsorshipTest):
 
     def setUp(self):
-        super(TestSponsorship, self).setUp()
+        super().setUp()
         # Deactivate mandates of Michel Fletcher to avoid directly validate
         # sponsorship to waiting state.
         self.michel.ref = self.ref(7)
@@ -98,14 +97,14 @@ class TestSponsorship(BaseSponsorshipTest):
         communications = self._create_communication(get_pdf, update_hold)
 
         bvr = communications.get_birthday_bvr()
-        self.assertTrue(u'Birthday Gift.pdf' in bvr)
-        values = bvr[u'Birthday Gift.pdf']
+        self.assertTrue('Birthday Gift.pdf' in bvr)
+        values = bvr['Birthday Gift.pdf']
         self.assertEqual(values[0], 'report_compassion.bvr_gift_sponsorship')
-        self.assertRegexpMatches(values[1], r'^JVBERi0xLjIN.{5200}$')
+        self.assertRegex(values[1], r'^JVBERi0xLjIN.{5200}$')
 
         graduation_bvr = communications.get_graduation_bvr()
-        self.assertTrue(u'Graduation Gift.pdf' in graduation_bvr)
-        values = graduation_bvr[u'Graduation Gift.pdf']
+        self.assertTrue('Graduation Gift.pdf' in graduation_bvr)
+        values = graduation_bvr['Graduation Gift.pdf']
         self.assertEqual(values[0], 'report_compassion.bvr_gift_sponsorship')
 
         reminder_bvr = communications.get_reminder_bvr()
@@ -188,7 +187,7 @@ class TestSponsorship(BaseSponsorshipTest):
             'config_id': config.id
         })
         self.assertEqual(len(job.attachment_ids), 1)
-        self.assertRegexpMatches(job.attachment_ids[0].name,
+        self.assertRegex(job.attachment_ids[0].name,
                                  r'^Supporter Letter')
 
     def test_resetting_password(self):

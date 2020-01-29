@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -49,7 +48,7 @@ class PartnerCommunication(models.Model):
 
     @api.model
     def send_mode_select(self):
-        modes = super(PartnerCommunication, self).send_mode_select()
+        modes = super().send_mode_select()
         modes.append(('sms', _('SMS')))
         return modes
 
@@ -175,7 +174,7 @@ class PartnerCommunication(models.Model):
         return {
             _('sponsorship due.pdf'): [
                 report_name,
-                base64.b64encode(self.env['report'].get_pdf(
+                base64.b64encode(self.env['report'].render_qweb_pdf(
                     sponsorships.ids, report_name,
                     data={'background': True, 'doc_ids': sponsorships.ids}
                 ))
@@ -224,7 +223,7 @@ class PartnerCommunication(models.Model):
         attachments[_('sponsorship labels.pdf')] = [
             report_name,
             base64.b64encode(
-                label_wizard.env['report'].get_pdf(
+                label_wizard.env['report'].render_qweb_pdf(
                     label_wizard.ids, report_name, data=label_data))
         ]
         return attachments
@@ -286,7 +285,7 @@ class PartnerCommunication(models.Model):
             attachments.update({
                 _('sponsorship payment slips.pdf'): [
                     report_name,
-                    base64.b64encode(report_obj.get_pdf(
+                    base64.b64encode(report_obj.render_qweb_pdf(
                         pay_bvr.ids, report_name,
                         data={
                             'doc_ids': pay_bvr.ids,
@@ -312,7 +311,7 @@ class PartnerCommunication(models.Model):
             attachments.update({
                 _('sponsorship gifts.pdf'): [
                     report_name,
-                    base64.b64encode(report_obj.get_pdf(
+                    base64.b64encode(report_obj.render_qweb_pdf(
                         pays_gift.ids, report_name,
                         data={
                             'doc_ids': pays_gift.ids,
@@ -339,7 +338,7 @@ class PartnerCommunication(models.Model):
         return {
             _('child dossier.pdf'): [
                 report_name,
-                base64.b64encode(self.env['report'].get_pdf(
+                base64.b64encode(self.env['report'].render_qweb_pdf(
                     children.ids, report_name, data={
                         'lang': lang,
                         'is_pdf': self.send_mode != 'physical',
@@ -363,7 +362,7 @@ class PartnerCommunication(models.Model):
                     report_name,
                     base64.b64encode(
                         self.env['report'].with_context(
-                            must_skip_send_to_printer=True).get_pdf(
+                            must_skip_send_to_printer=True).render_qweb_pdf(
                             self.partner_id.ids, report_name, data=data))
                 ]
             }
@@ -478,7 +477,7 @@ class PartnerCommunication(models.Model):
                 'state': 'done',
                 'sent_date': fields.Datetime.now(),
                 'sms_cost': ceil(
-                    float(len(sms_text)) / SMS_CHAR_LIMIT) * SMS_COST
+                    float(len(sms_text)) // SMS_CHAR_LIMIT) * SMS_COST
             })
         return sms_texts
 
@@ -513,7 +512,7 @@ class PartnerCommunication(models.Model):
     @api.multi
     def open_related(self):
         """ Select a better view for invoice lines. """
-        res = super(PartnerCommunication, self).open_related()
+        res = super().open_related()
         if self.config_id.model == 'account.invoice.line':
             res['context'] = self.with_context(
                 tree_view_ref='sponsorship_compassion'
@@ -571,7 +570,7 @@ class PartnerCommunication(models.Model):
             attachments.update({
                 _('sponsorship payment slips.pdf'): [
                     report_name,
-                    base64.b64encode(report_obj.get_pdf(
+                    base64.b64encode(report_obj.render_qweb_pdf(
                         bv_sponsorships.ids, report_name,
                         data={
                             'doc_ids': bv_sponsorships.ids,
@@ -597,7 +596,7 @@ class PartnerCommunication(models.Model):
         attachments.update({
             _('child picture.pdf'): [
                 report_name,
-                base64.b64encode(report_obj.get_pdf(
+                base64.b64encode(report_obj.render_qweb_pdf(
                     child_ids, report_name,
                     data={'doc_ids': child_ids}
                 ))
@@ -653,7 +652,7 @@ class PartnerCommunication(models.Model):
             attachments.update({
                 _('csv payment slips.pdf'): [
                     report_name,
-                    base64.b64encode(report_obj.get_pdf(
+                    base64.b64encode(report_obj.render_qweb_pdf(
                         csp.ids, report_name,
                         data={
                             'doc_ids': csp.ids,
@@ -679,7 +678,7 @@ class PartnerCommunication(models.Model):
         convert = PdfFileWriter()
         a4_width = 594.48
         a4_height = 844.32  # A4 units in PyPDF
-        for i in xrange(0, pdf.numPages):
+        for i in range(0, pdf.numPages):
             # translation coordinates
             tx = 0
             ty = 0
