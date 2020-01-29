@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -22,6 +21,8 @@ class PrintSponsorshipBvr(models.TransientModel):
     payment slips of a sponsorship.
     """
     _name = 'print.sponsorship.gift.bvr'
+    _description = "Select a period and the format for printing " \
+                   "the payment slips of a sponsorship"
 
     birthday_gift = fields.Boolean(default=True)
     general_gift = fields.Boolean(default=True)

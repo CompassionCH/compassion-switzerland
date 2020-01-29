@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -19,6 +18,7 @@ class ReportTaxReceipt(models.AbstractModel):
     Model used to generate tax receipt
     """
     _name = 'report.report_compassion.tax_receipt'
+    _description = "Used to generate tax receipt"
 
     @api.multi
     def render_html(self, docids, data=None):

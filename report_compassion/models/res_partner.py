@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -22,8 +21,9 @@ class ResPartner(models.Model):
     @api.multi
     def get_receipt_text(self, year):
         """ Formats the donation amount for the tax receipt. """
-        return '{:,.2f}'.format(self.get_receipt(year)).replace(
-            '.00', '.-').replace(',', "'")
+        return f'{self.get_receipt(year):,.2f}'\
+            .replace('.00', '.-')\
+            .replace(',', "'")
 
     @api.multi
     def get_receipt(self, year):

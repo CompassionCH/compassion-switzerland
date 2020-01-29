@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -21,6 +20,7 @@ class PrintChildpack(models.TransientModel):
     Wizard for selecting a the child dossier type and language.
     """
     _name = 'print.childpack'
+    _description = "Select the child dossier type and language"
 
     type = fields.Selection([
         ('report_compassion.childpack_full', 'Full Childpack'),

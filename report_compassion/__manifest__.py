@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,14 +29,14 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion CH PDF-Qweb Reports',
-    'version': '10.0.1.1.0',
+    'version': '11.0.0.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'label',
-        'sponsorship_switzerland'
+        'label',                    # compassion-modules
+        'sponsorship_switzerland'   # compassion-switzerland
     ],
     'external_dependencies': {
         'python': ['pyquery']
@@ -66,6 +65,6 @@
         'data/tax_receipt_email_template.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

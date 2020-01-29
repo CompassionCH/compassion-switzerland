@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -40,8 +39,6 @@ class Contract(models.Model):
             'de_DE': u'Geburtstag',
             'it_IT': u'Compleanno',
         }
-        communication = u"{firstname} ({local_id})<br/>{product}<br/>" \
-                        u"{birthdate}"
         birthdate = fields.Date.from_string(child.birthdate).strftime(
             "%d.%m.%Y")
         vals = {
@@ -51,7 +48,9 @@ class Contract(models.Model):
             'birthdate': born[lang] + ' ' + birthdate
             if 'Birthday' in product.name else ''
         }
-        return communication.format(**vals).strip('<br/>')
+        communication = f"{vals['firstname']} ({vals['local_id']})" \
+                        f"<br/>{vals['product']}<br/>{vals['birthdate']}"
+        return communication
 
     @api.multi
     def generate_bvr_reference(self, product):

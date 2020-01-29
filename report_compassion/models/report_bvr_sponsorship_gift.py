@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
@@ -22,6 +21,7 @@ class BvrSponsorshipGift(models.AbstractModel):
     generate 3bvr report, 2bvr report or single bvr report.
     """
     _name = 'report.report_compassion.bvr_gift_sponsorship'
+    _description = "Used for preparing data for a 3BVR or single BVR report (gifts)"
 
     def _get_report(self):
         return self.env['report']._get_report_from_name(
@@ -85,5 +85,5 @@ class ThreeBvrGiftSponsorship(models.AbstractModel):
         if data is None:
             data = dict()
         data['offset'] = 1
-        return super(ThreeBvrGiftSponsorship, self).render_html(
+        return super().render_html(
             docids, data)

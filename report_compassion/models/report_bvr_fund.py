@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
@@ -23,6 +22,7 @@ class BvrFundReport(models.AbstractModel):
     Model used for preparing data for the bvr report.
     """
     _name = 'report.report_compassion.bvr_fund'
+    _description = "Used for preparing data for the BVR report"
 
     @api.multi
     def render_html(self, docids, data=None):

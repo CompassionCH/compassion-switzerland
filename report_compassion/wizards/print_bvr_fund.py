@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -19,6 +18,7 @@ class PrintBvrFund(models.TransientModel):
     payment slip of a partner.
     """
     _name = 'print.bvr.fund'
+    _description = "Select a product and print payment slip of a partner"
 
     product_id = fields.Many2one(
         'product.product', domain=[

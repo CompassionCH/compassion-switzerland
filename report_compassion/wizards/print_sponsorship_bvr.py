@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -21,6 +20,8 @@ class PrintSponsorshipBvr(models.TransientModel):
     payment slips of a sponsorship.
     """
     _name = 'print.sponsorship.bvr'
+    _description = "Select a period and the format " \
+                   "for printing payment slips of a sponsorship"
 
     period_selection = fields.Selection([
         ('this_year', 'Current year'),

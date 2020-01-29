@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -18,7 +17,7 @@ _logger = logging.getLogger(__name__)
 class TestContract(TestContractsSwitzerland):
 
     def setUp(self):
-        super(TestContract, self).setUp()
+        super().setUp()
         self.product = self.env.ref('product.service_order_01')
 
     def test_get_gift_communication(self):

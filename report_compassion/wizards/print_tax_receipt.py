@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -21,6 +20,7 @@ class PrintTaxReceipt(models.TransientModel):
     Wizard for selecting a the child dossier type and language.
     """
     _name = 'print.tax_receipt'
+    _description = "Select a tax receipt"
 
     state = fields.Selection([('new', 'new'), ('pdf', 'pdf')], default='new')
     year = fields.Integer(default=date.today().year - 1)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
@@ -25,6 +24,7 @@ class ReportChildpackFull(models.AbstractModel):
     Model used to generate childpack in selected language
     """
     _name = 'report.report_compassion.childpack_full'
+    _description = "Used to generate childpack in selected language"
 
     def _get_report(self):
         return self.env['report']._get_report_from_name(
