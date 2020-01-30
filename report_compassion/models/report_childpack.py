@@ -54,33 +54,6 @@ class ReportChildpackFull(models.AbstractModel):
 
         return data
 
-    # @api.multi
-    # def render_html(self, docids, data=None):
-    #     """
-    #     :param data: data collected from the print wizard.
-    #     :return: html rendered report
-    #     """
-    #     if not data:
-    #         data = {}
-    #     lang = data.get('lang', self.env.lang)
-    #     report = self._get_report()
-    #     docs = self.env[report.model].with_context(lang=lang).browse(docids)
-    #
-    #     data.update({
-    #         'doc_model': report.model,
-    #         'docs': docs.with_context(lang=lang)
-    #     })
-    #     # Update project information if data is old
-    #     date_limit = date.today() - relativedelta(days=30)
-    #     for project in docs.mapped('project_id').filtered(
-    #             lambda p: not p.last_update_date or p.last_update_date <
-    #             fields.Date.to_string(date_limit) or not p.country_id
-    #     ):
-    #         project.with_context(async_mode=False).update_informations()
-    #
-    #     return self.env['report'].with_context(lang=lang).render(
-    #         report.report_name, data)
-
 
 # pylint: disable=R7980
 class ReportChildpackSmall(models.AbstractModel):

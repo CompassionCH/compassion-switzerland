@@ -26,7 +26,7 @@
                     <field name="pdf_download" filename="pdf_name"/>
                 </group>
                 <footer>
-                    <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                    <button name="get_report" string="Print" type="object" class="oe_highlight"/>
                 </footer>
             </form>
         </field>
@@ -67,7 +67,7 @@
                     <field name="pdf_download" filename="pdf_name"/>
                 </group>
                 <footer>
-                    <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                    <button name="get_report" string="Print" type="object" class="oe_highlight"/>
                 </footer>
             </form>
         </field>

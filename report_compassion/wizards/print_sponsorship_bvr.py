@@ -78,7 +78,7 @@ class PrintSponsorshipBvr(models.TransientModel):
             self.draw_background = False
 
     @api.multi
-    def print_report(self):
+    def get_report(self):
         """
         Prepare data for the report and call the selected report
         (single bvr / 2 bvr / 3 bvr).
@@ -95,16 +95,14 @@ class PrintSponsorshipBvr(models.TransientModel):
             'background': self.draw_background,
             'preprinted': self.preprinted
         }
-        records = self.env[self.env.context.get('active_model')].browse(
-            data['doc_ids'])
+        report_name = "report_compassion.report_" + self.paper_format.split('.')[1]
+        report_ref = self.env.ref(report_name)
         if self.pdf:
-            name = records.name if len(records) == 1 else \
-                _('sponsorship payment slips')
-            self.pdf_name = name + '.pdf'
-            self.pdf_download = base64.b64encode(
-                self.env['report'].with_context(
-                    must_skip_send_to_printer=True).get_pdf(
-                        records.ids, self.paper_format, data=data))
+            data['background'] = True
+            pdf_data = report_ref.report_action(self, data=data)
+            self.pdf_download = base64.encodebytes(
+                report_ref.render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -115,9 +113,7 @@ class PrintSponsorshipBvr(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env['report'].get_action(
-            records.ids, self.paper_format, data
-        )
+        return report_ref.report_action(self, data=data)
 
 
 class PrintBvrDue(models.TransientModel):
@@ -134,7 +130,7 @@ class PrintBvrDue(models.TransientModel):
     pdf_download = fields.Binary(readonly=True)
 
     @api.multi
-    def print_report(self):
+    def get_report(self):
         """
         Prepare data for the report
         :return: Generated report
@@ -145,12 +141,13 @@ class PrintBvrDue(models.TransientModel):
             'background': self.draw_background,
             'doc_ids': records.ids,
         }
-        report = 'report_compassion.bvr_due'
+        report_ref = self.env.ref('report_compassion.report_bvr_due')
         if self.pdf:
-            self.pdf_download = base64.b64encode(
-                self.env['report'].with_context(
-                    must_skip_send_to_printer=True).get_pdf(
-                    records.ids, report, data=data))
+            data['background'] = True
+            pdf_data = report_ref.report_action(self, data=data)
+            self.pdf_download = base64.encodebytes(
+                report_ref.render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -161,6 +158,4 @@ class PrintBvrDue(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env['report'].get_action(
-            records.ids, report, data
-        )
+        return report_ref.report_action(self, data=data)
