@@ -62,11 +62,11 @@ class PrintTaxReceipt(models.TransientModel):
             raise UserError(_(
                 "You can only generate tax certificate for one language at "
                 "a time."))
+        report_ref = self.env.ref('report_compassion.tax_receipt_report')
         if self.pdf:
-            pdf_data = self.env.ref('report_compassion.tax_receipt_report')\
-                .report_action(self, data=data)
+            pdf_data = report_ref.report_action(self, data=data)
             self.pdf_download = base64.encodebytes(
-                self.env.ref('report_compassion.tax_receipt_report').render_qweb_pdf(
+                report_ref.render_qweb_pdf(
                     pdf_data['data']['doc_ids'], pdf_data['data'])[0])
 
             self.state = 'pdf'
@@ -79,7 +79,7 @@ class PrintTaxReceipt(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env.ref('report_compassion.tax_receipt_report').report_action(self, data=data)
+        return report_ref.report_action(self, data=data)
         # return self.env['report'].get_action(
         #     records.ids, 'report_compassion.tax_receipt', data=data)
 

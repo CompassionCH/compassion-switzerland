@@ -46,7 +46,7 @@ class PrintBvrFund(models.TransientModel):
             self.draw_background = False
 
     @api.multi
-    def print_report(self):
+    def get_report(self):
         """
         Prepare data for the report and call the selected report
         (single bvr / 3 bvr).
@@ -62,13 +62,13 @@ class PrintBvrFund(models.TransientModel):
             'amount': False,
             'communication': False
         }
-        report = 'report_compassion.bvr_fund'
+        report_ref = self.env.ref('report_compassion.report_bvr_fund')
         if self.pdf:
             self.pdf_name = self.product_id.name + '.pdf'
-            self.pdf_download = base64.b64encode(
-                self.env['report'].with_context(
-                    must_skip_send_to_printer=True).get_pdf(
-                        partners.ids, report, data=data))
+            pdf_data = report_ref.report_action(self, data=data)
+            self.pdf_download = base64.encodebytes(
+                report_ref.render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -79,4 +79,41 @@ class PrintBvrFund(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env['report'].get_action(partners.ids, report, data)
+        return report_ref.report_action(self, data=data)
+
+    # @api.multi
+    # def print_report(self):
+    #     """
+    #     Prepare data for the report and call the selected report
+    #     (single bvr / 3 bvr).
+    #     :return: Generated report
+    #     """
+    #     partners = self.env['res.partner'].browse(
+    #         self.env.context.get('active_ids'))
+    #     data = {
+    #         'doc_ids': partners.ids,
+    #         'product_id': self.product_id.id,
+    #         'background': self.draw_background,
+    #         'preprinted': self.preprinted,
+    #         'amount': False,
+    #         'communication': False
+    #     }
+    #     report = 'report_compassion.bvr_fund'
+    #     if self.pdf:
+    #         data['background'] = True
+    #         self.pdf_name = self.product_id.name + '.pdf'
+    #         self.pdf_download = base64.b64encode(
+    #             self.env['report'].with_context(
+    #                 must_skip_send_to_printer=True).get_pdf(
+    #                     partners.ids, report, data=data))
+    #         self.state = 'pdf'
+    #         return {
+    #             'name': 'Download report',
+    #             'type': 'ir.actions.act_window',
+    #             'res_model': self._name,
+    #             'res_id': self.id,
+    #             'view_mode': 'form',
+    #             'target': 'new',
+    #             'context': self.env.context,
+    #         }
+    #     return self.env['report'].get_action(partners.ids, report, data)
