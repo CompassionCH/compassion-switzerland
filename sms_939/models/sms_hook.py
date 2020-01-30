@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -40,6 +39,6 @@ class SmsHook(models.Model):
 
     @api.constrains('func_name')
     def check_func_name(self):
-        if not hasattr(self.env['sms.notification'], self.func_name):
+        if not hasattr(self.env['sms.notification'], self.__name__):
             raise ValidationError(
                 _("The function is not implemented in sms.notification"))

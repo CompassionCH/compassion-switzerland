@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -34,15 +33,14 @@ class SmsRequest(models.Model):
             sms_sender = self.env['sms.sender.wizard'].create({
                 'sms_request_id': self.id,
                 'text': _(
-                    u"Thank you for your interest to sponsor a child with "
-                    u"Compassion. Why don't you take a moment today to change "
-                    u"the life of %s? %s"
-                ) % (self.child_id.preferred_name or _("this child"),
-                     self.full_url),
+                    "Thank you for your interest to sponsor a child with "
+                    "Compassion. Why don't you take a moment today to change "
+                    f"the life of {self.child_id.preferred_name or _('this child')}"
+                    f"? {self.full_url}"),
                 'subject': _("SMS sponsorship reminder")
             })
             sms_sender.send_sms_request()
-        super(SmsRequest, self).send_step1_reminder()
+        super().send_step1_reminder()
 
     @job(default_channel='root.sms_request')
     @related_action(action='related_action_sms_request')
@@ -52,7 +50,7 @@ class SmsRequest(models.Model):
             res = self._take_child_from_website()
             if res:
                 return res
-        return super(SmsRequest, self).reserve_child()
+        return super().reserve_child()
 
     def _take_child_from_website(self):
         """ Search in the website child.
@@ -92,16 +90,4 @@ class SmsRequest(models.Model):
         if not self.event_id:
             self.child_id.write({'state': 'N'})
             self.child_id.add_to_wordpress()
-        return super(SmsRequest, self).cancel_request()
-
-    @job(default_channel='root.sms_request')
-    @related_action(action='related_action_sms_request')
-    def get_children_from_global_pool_for_website(self, take=1):
-        company_id = self.env.user.company_id.id
-        child_env = self.env['compassion.child']
-        global_pool = child_env.with_context(default_company_id=company_id) \
-            ._create_diverse_children_pool(take)
-        new_children = child_env._hold_children(global_pool)
-        valid_new_children = child_env._update_information_and_filter_invalid(
-            new_children)
-        valid_new_children.add_to_wordpress(company_id)
+        return super().cancel_request()

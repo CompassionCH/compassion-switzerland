@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -9,7 +8,7 @@
 #
 ##############################################################################
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import mock
 from odoo.fields import Datetime
 from odoo.tests import HttpCase
@@ -20,7 +19,7 @@ _logger = logging.getLogger(__name__)
 class TestMobileAppConnector(HttpCase):
 
     def setUp(self):
-        super(TestMobileAppConnector, self).setUp()
+        super().setUp()
         self.env['ir.config_parameter'] \
             .set_param('web.external.url', 'base')
         external_url = self.env['ir.config_parameter'] \
@@ -42,7 +41,7 @@ class TestMobileAppConnector(HttpCase):
                 'receptionDate': Datetime.now(),
                 'requestUid': uuid,
             })
-            url_params = urllib.urlencode(params)
+            url_params = urllib.parse.urlencode(params)
             response = self.url_open('/sms/mnc/?' + url_params)
             response_str = response.read()
             return response_str
@@ -124,10 +123,10 @@ class TestMobileAppConnector(HttpCase):
 
         xml = "<?xmlversion='1.0'encoding='utf-8'?>\n<NotificationReply/>"
         self.assertEqual(response.replace(' ', ''), xml)
-        self.assertRegexpMatches(self._get_sms_message(smsbox_send),
+        self.assertRegex(self._get_sms_message(smsbox_send),
                                  r'ce lien : http://localhost:8069/r/\w+$')
 
     def _get_sms_message(self, smsbox_send):
         self.assertTrue(smsbox_send.called)
         sms_args = smsbox_send.call_args[0][0]
-        return next(pair[1] for pair in sms_args if pair[0] == u'text')
+        return next(pair[1] for pair in sms_args if pair[0] == 'text')

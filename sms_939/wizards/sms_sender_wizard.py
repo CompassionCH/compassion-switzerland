@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -9,8 +8,8 @@
 #
 ##############################################################################
 import base64
-import httplib
-import urllib
+import http.client
+import urllib.request, urllib.parse, urllib.error
 import logging
 
 from odoo import models, fields, api, _
@@ -23,12 +22,12 @@ def smsbox_send(request, headers, config):
     server = config['server']
     port = config['port']
     endpoint = config['endpoint']
-    request_server = httplib.HTTPConnection(server, port, timeout=10)
-    url = endpoint + '?' + urllib.urlencode(request)
-    _logger.info("Sending SMS message: %s", url)
+    request_server = http.client.HTTPConnection(server, port, timeout=10)
+    url = endpoint + '?' + urllib.parse.urlencode(request)
+    _logger.info(f"Sending SMS message: {url}")
     request_server.request('GET', url, headers=headers)
     response = request_server.getresponse()
-    _logger.info("SMS response status: %s", response.status)
+    _logger.info(f"SMS response status: {response.status}")
     _logger.debug(response.read())
 
 
@@ -63,8 +62,7 @@ class SmsSender(models.TransientModel):
         headers = {}
         username = self.sms_provider_id.username_939
         password = self.sms_provider_id.password_939
-        auth = base64.encodestring('%s:%s' % (username,
-                                              password)).replace('\n', '')
+        auth = base64.encodebytes(f'{username}:{password}').replace('\n', '')
         headers['Authorization'] = 'Basic ' + auth
         request = [
             ('receiver', mobile),
@@ -83,7 +81,7 @@ class SmsSender(models.TransientModel):
 
         if not self.partner_id or not self.partner_id.mobile:
             return False
-        if self.send_sms(self.partner_id.mobile.replace(u'\xa0', u'')):
+        if self.send_sms(self.partner_id.mobile.replace('\xa0', '')):
             self.env['sms.log'].create({
                 'partner_id': self.partner_id.id,
                 'text': self.text,
@@ -96,7 +94,7 @@ class SmsSender(models.TransientModel):
     def send_sms_request(self):
         if not self.sms_request_id or not self.sms_request_id.sender:
             return False
-        if self.send_sms(self.sms_request_id.sender.replace(u'\xa0', u'')):
+        if self.send_sms(self.sms_request_id.sender.replace('\xa0', '')):
             self.env['sms.log'].create({
                 'partner_id': self.partner_id.id,
                 'text': self.text,

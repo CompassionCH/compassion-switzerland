@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,14 +29,15 @@
 # pylint: disable=C8101
 {
     'name': '939 SMS Services',
-    'version': '10.0.1.0.0',
+    'version': '11.0.0.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'https://github.com/CompassionCH/compassion-switzerland/'
                'tree/10.0',
-    'depends': ['sms_sponsorship', 'sponsorship_switzerland',
-                'child_sync_wp'],
+    'depends': ['sms_sponsorship',              # compassion-modules
+                'sponsorship_switzerland',      # compassion-switzerland
+                'child_sync_wp'],               # compassion-switzerland
     'data': [
         'security/ir.model.access.csv',
         'data/sms_hook.xml',
@@ -49,6 +49,6 @@
         'demo/sms_hook.xml'
     ],
     'development_status': 'Beta',
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
