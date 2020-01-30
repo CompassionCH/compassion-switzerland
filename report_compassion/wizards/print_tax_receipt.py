@@ -42,11 +42,13 @@ class PrintTaxReceipt(models.TransientModel):
             }
 
     @api.multi
-    def print_report(self):
+    def get_report(self):
+        """Call when button 'Get Report' clicked.
         """
-        Print tax receipt
-        :return: Generated report
         """
+                Print tax receipt
+                :return: Generated report
+                """
         model = 'res.partner'
         records = self.env[model].browse(self.env.context.get('active_ids'))
         data = {
@@ -61,11 +63,12 @@ class PrintTaxReceipt(models.TransientModel):
                 "You can only generate tax certificate for one language at "
                 "a time."))
         if self.pdf:
-            self.pdf_download = base64.b64encode(
-                self.env['report'].with_context(
-                    must_skip_send_to_printer=True).get_pdf(
-                        records.ids, 'report_compassion.tax_receipt',
-                        data=data))
+            pdf_data = self.env.ref('report_compassion.tax_receipt_report')\
+                .report_action(self, data=data)
+            self.pdf_download = base64.encodebytes(
+                self.env.ref('report_compassion.tax_receipt_report').render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
+
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -76,5 +79,44 @@ class PrintTaxReceipt(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env['report'].get_action(
-            records.ids, 'report_compassion.tax_receipt', data=data)
+        return self.env.ref('report_compassion.tax_receipt_report').report_action(self, data=data)
+        # return self.env['report'].get_action(
+        #     records.ids, 'report_compassion.tax_receipt', data=data)
+
+#
+# @api.multi
+#     def print_report(self):
+#         """
+#         Print tax receipt
+#         :return: Generated report
+#         """
+#         model = 'res.partner'
+#         records = self.env[model].browse(self.env.context.get('active_ids'))
+#         data = {
+#             'doc_ids': records.ids,
+#             'year': self.year,
+#         }
+#         lang = records.mapped('lang')
+#         if len(lang) == 1:
+#             data['lang'] = lang[0]
+#         else:
+#             raise UserError(_(
+#                 "You can only generate tax certificate for one language at "
+#                 "a time."))
+#         if self.pdf:
+#             self.pdf_download = base64.b64encode(
+#                 self.env['report.report_compassion.tax_receipt'].with_context(
+#                     must_skip_send_to_printer=True).get_report_values(
+#                         records.ids, data=data))
+#             self.state = 'pdf'
+#             return {
+#                 'name': 'Download report',
+#                 'type': 'ir.actions.act_window',
+#                 'res_model': self._name,
+#                 'res_id': self.id,
+#                 'view_mode': 'form',
+#                 'target': 'new',
+#                 'context': self.env.context,
+#             }
+#         return self.env['report'].get_action(
+#             records.ids, 'report_compassion.tax_receipt', data=data)

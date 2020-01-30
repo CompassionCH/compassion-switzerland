@@ -60,6 +60,5 @@ class ResPartner(models.Model):
         for partner in self:
             lang = partner.lang
             with setlocale(lang):
-                date = today.strftime(
-                    lang_map.get(lang, lang_map['en_US'])).decode('utf-8')
+                date = today.strftime(lang_map.get(lang, lang_map['en_US']))
                 partner.date_communication = city + u", " + date

@@ -41,12 +41,14 @@
          <field name="view_mode">form</field>
          <field name="target">new</field>
         <field name="context">{'default_birthday_gift': True, 'default_general_gift': True, 'default_family_gift': True}</field>
+        <field name="binding_model_id" ref="model_recurring_contract"/>
+        <field name="binding_type">report</field>
    </record>
 
-   <record model="ir.values" id="ir_values_print_sponsorship_gift_bvr">
-       <field name="key2" eval="'client_print_multi'"/>
-       <field name="model" eval="'recurring.contract'"/>
-       <field name="name">Gift Payment Slips</field>
-       <field name="value" eval="'ir.actions.act_window,%d'%action_print_sponsorship_gift_bvr"/>
-   </record>
+<!--   <record model="ir.values" id="ir_values_print_sponsorship_gift_bvr">-->
+<!--       <field name="key2" eval="'client_print_multi'"/>-->
+<!--       <field name="model" eval="'recurring.contract'"/>-->
+<!--       <field name="name">Gift Payment Slips</field>-->
+<!--       <field name="value" eval="'ir.actions.act_window,%d'%action_print_sponsorship_gift_bvr"/>-->
+<!--   </record>-->
 </odoo>

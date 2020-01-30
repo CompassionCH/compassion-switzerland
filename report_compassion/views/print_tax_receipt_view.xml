@@ -15,7 +15,8 @@
                     <field name="pdf_download" filename="pdf_name"/>
                 </group>
                 <footer>
-                    <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+<!--                    <button name="print_report" string="Print" type="object" class="oe_highlight"/>-->
+                    <button name="get_report" string="Print" type="object" class="oe_highlight"/>
                 </footer>
             </form>
         </field>
@@ -28,12 +29,14 @@
          <field name="view_type">form</field>
          <field name="view_mode">form</field>
          <field name="target">new</field>
+         <field name="binding_model_id" ref="model_res_partner"/>
+         <field name="binding_type">report</field>
    </record>
 
-   <record model="ir.values" id="ir_values_print_tax_receipt">
-       <field name="key2" eval="'client_print_multi'"/>
-       <field name="model" eval="'res.partner'"/>
-       <field name="name">Tax receipt</field>
-       <field name="value" eval="'ir.actions.act_window,%d'%action_print_tax_receipt"/>
-   </record>
+<!--   <record model="ir.values" id="ir_values_print_tax_receipt">-->
+<!--       <field name="key2" eval="'client_print_multi'"/>-->
+<!--       <field name="model" eval="'res.partner'"/>-->
+<!--       <field name="name">Tax receipt</field>-->
+<!--       <field name="value" eval="'ir.actions.act_window,%d'%action_print_tax_receipt"/>-->
+<!--   </record>-->
 </odoo>

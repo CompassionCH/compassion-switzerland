@@ -9,7 +9,7 @@
 ##############################################################################
 import base64
 
-from odoo.addons.sponsorship_compassion.models.product import GIFT_REF
+from odoo.addons.sponsorship_compassion.models.product_names import GIFT_REF
 
 from odoo import api, models, fields, _
 from odoo.exceptions import Warning as odooWarning
