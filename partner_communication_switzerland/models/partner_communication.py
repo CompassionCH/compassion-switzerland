@@ -19,7 +19,7 @@ from datetime import date, datetime
 from io import BytesIO
 
 from dateutil.relativedelta import relativedelta
-from odoo.addons.sponsorship_compassion.models.product import GIFT_REF
+from odoo.addons.sponsorship_compassion.models.product_names import GIFT_REF
 
 from odoo import api, models, _, fields
 from odoo.exceptions import MissingError, UserError

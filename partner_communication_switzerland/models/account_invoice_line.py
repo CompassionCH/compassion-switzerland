@@ -9,7 +9,7 @@
 ##############################################################################
 
 from odoo import models, api
-from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
+from odoo.addons.sponsorship_compassion.models.product_names import GIFT_CATEGORY
 
 
 class AccountInvoiceLine(models.Model):
