@@ -97,7 +97,7 @@ class TestSponsorship(BaseSponsorshipTest):
             'partner_communication_switzerland.planned_welcome')
         partner_communications = self.env['partner.communication.job'].search([
             ('partner_id', '=', self.thomas.id),
-            ('state', '=', 'done'),
+            ('state', '=', 'pending'),
             ('config_id', '=', welcome_email.id)
         ])
         self.assertTrue(partner_communications)
