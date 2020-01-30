@@ -8,6 +8,7 @@
 #
 ##############################################################################
 from odoo import api, models, fields
+from datetime import date
 
 
 class AccountInvoice(models.Model):
@@ -27,6 +28,21 @@ class AccountInvoice(models.Model):
 
 class Contract(models.Model):
     _inherit = 'recurring.contract'
+
+    amount_due = fields.Integer(compute='_compute_amount_due', store=True)
+
+    def _compute_amount_due(self):
+        this_month = date.today().replace(day=1)
+        for contract in self:
+            if contract.child_id.project_id.suspension != \
+                    'fund-suspended' and contract.type != 'SC':
+                invoice_lines = contract.invoice_line_ids.with_context(
+                    lang='en_US').filtered(lambda i: i.state == 'open' and
+                                           fields.Date.from_string(i.due_date)
+                                           < this_month and
+                                           i.invoice_id.invoice_type == 'sponsorship')
+                contract.amount_due = int(sum(invoice_lines.mapped(
+                    'price_subtotal')))
 
     @api.multi
     def get_gift_communication(self, product):
