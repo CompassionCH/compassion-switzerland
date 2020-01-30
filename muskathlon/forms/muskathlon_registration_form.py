@@ -59,9 +59,8 @@ if not testing:
             help='Please indicate a contact in case of emergency '
                  'during the trip.')
         muskathlon_sponsor = fields.Char(
-            'Sponsor referral',
-            help='(Optionnal) the name of another Muskathlon participant who encouraged'
-            ' you to take part in this event'
+            'Firstname and lastname of the participant',
+            help='(Optionnal) I registered thanks to this participant'
         )
 
         @property
@@ -78,10 +77,15 @@ if not testing:
                     'fields': [
                         'ambassador_picture_1', 'sport_discipline_id',
                         'sport_level', 'sport_level_description',
-                        'ambassador_quote', 'muskathlon_sponsor',
-                        't_shirt_size', 't_shirt_type',
+                        'ambassador_quote', 't_shirt_size', 't_shirt_type',
                         'event_id'
                     ]
+                },
+                {
+                    'id': 'sponsor_referral',
+                    'title': _('Sponsor of my participation'),
+                    'description': '',
+                    'fields': ['muskathlon_sponsor']
                 },
                 {
                     'id': 'partner',
