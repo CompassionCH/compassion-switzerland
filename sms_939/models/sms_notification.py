@@ -99,6 +99,7 @@ class SmsNotification(models.Model):
             })
         else:
             service = getattr(self, self.hook_id.__name__)
+            # service = getattr(self, self.hook_id.func_name)
             try:
                 sms_answer = service()
                 self.write({
