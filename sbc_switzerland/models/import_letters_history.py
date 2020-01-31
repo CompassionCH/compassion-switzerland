@@ -40,8 +40,8 @@ except ImportError:
 class ImportLettersHistory(models.Model):
     """
     Keep history of imported letters.
-    This class add to is parent the possibility to select letters to import
-    from a specify config.
+    This class add to its parent the possibility to select letters to import
+    from a specific config.
     The code is reading QR codes in order to detect child and partner codes
     for every letter, using the zxing library for code detection.
     """
@@ -83,8 +83,7 @@ class ImportLettersHistory(models.Model):
                             share_nas,
                             imported_letter_path)
                     except OperationFailure:
-                        logger.info('--------------- PATH NO CORRECT ------'
-                                    '-----')
+                        logger.info('--------------- PATH NOT CORRECT ---------------')
                         list_paths = []
 
                     for shared_file in list_paths:
@@ -205,7 +204,7 @@ class ImportLettersHistory(models.Model):
                                 # delete files corresponding to web letter in
                                 # 'Import'
                                 try:
-                                    smb_conn.delete_files(
+                                    smb_conn.deleteFiles(
                                         share_nas,
                                         imported_letter_path + filename)
                                 except Exception as inst:
@@ -217,7 +216,7 @@ class ImportLettersHistory(models.Model):
                                 # remove it
                                 if image_ext:
                                     try:
-                                        smb_conn.delete_files(
+                                        smb_conn.deleteFiles(
                                             share_nas,
                                             imported_letter_path +
                                             part_filename + image_ext)
@@ -372,14 +371,13 @@ class ImportLettersHistory(models.Model):
             imported_letter_path = self.check_path(self.import_folder_path)
 
         smb_conn = self._get_smb_connection()
-        if smb_conn and smb_conn.connect(
-                SmbConfig.smb_ip, SmbConfig.smb_port):
+        if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
 
             list_paths = smb_conn.listPath(share_nas, imported_letter_path)
             for shared_file in list_paths:
                 if func.check_file(shared_file.filename) == 1:
                     # when this is manual import we don't have to copy all
-                    # files, web letters are stock in the same folder...
+                    # files, web letters are stored in the same folder...
                     if not self.manual_import or self.is_in_list_letter(
                             shared_file.filename):
                         file_obj = BytesIO()
@@ -476,7 +474,7 @@ class ImportLettersHistory(models.Model):
                         self.import_folder_path) + filename
 
                 try:
-                    smb_conn.delete_files(share_nas, imported_letter_path)
+                    smb_conn.deleteFiles(share_nas, imported_letter_path)
                 except Exception as inst:
                     logger.info('Failed to delete a file on NAS : {}'.
                                 format(inst))

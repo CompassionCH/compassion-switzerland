@@ -144,14 +144,22 @@ class ResPartner(models.Model):
         for partner in partners:
             _logger.info("Generating tax receipts: {}/{}".format(
                 count, total))
-            self.env['partner.communication.job'].create({
+            comm_vals = {
                 'config_id': config.id,
                 'partner_id': partner.id,
                 'object_ids': partner.id,
                 'user_id': config.user_id.id,
                 'show_signature': True,
                 'print_subject': False
-            })
+            }
+            donation_amount = partner.get_receipt(today.year-1)
+            email_limit = int(self.env['ir.config_parameter'].get_param(
+                'partner_communication_switzerland.tax_receipt_email_limit',
+                '1000'))
+            if partner.tax_certificate != 'only_email' and \
+                    donation_amount > email_limit:
+                comm_vals['send_mode'] = 'physical'
+            self.env['partner.communication.job'].create(comm_vals)
             # Commit at each creation of communication to avoid starting all
             # again in case the job failed
             self.env.cr.commit()    # pylint: disable=invalid-commit

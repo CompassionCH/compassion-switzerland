@@ -315,7 +315,7 @@
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
     </record>
     <record id="product_template_fund_nol" model="product.template">
-        <field name="name">Christmas Gift Fund</field>
+        <field name="name">Christmas Gift</field>
         <field name="type">service</field>
         <field name="categ_id" ref="contract_compassion.product_category_fund" />
         <field name="list_price">8</field>

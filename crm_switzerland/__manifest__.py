@@ -30,7 +30,7 @@
 # pylint: disable=C8101
 {
     'name': 'CRM additions for Compassion CH',
-    'version': '10.0.1.2.0',
+    'version': '10.0.1.3.0',
     'category': 'CRM',
     'sequence': 150,
     'author': 'Compassion CH',
@@ -39,12 +39,13 @@
     'depends': [
         'crm_phone',
         'crm_request',
-        'partner_compassion'
+        'partner_compassion',
     ],
     'data': [
         'views/crm_phonecall.xml',
         'views/calendar_event.xml',
         'views/res_users_view.xml',
+        'views/interaction_resume_view.xml'
     ],
     'demo': [],
     'installable': False,

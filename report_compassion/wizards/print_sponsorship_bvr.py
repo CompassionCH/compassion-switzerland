@@ -28,6 +28,7 @@ class PrintSponsorshipBvr(models.TransientModel):
     ], default='this_year')
     paper_format = fields.Selection([
         ('report_compassion.3bvr_sponsorship', '3 BVR'),
+        ('report_compassion.2bvr_sponsorship', '2 BVR'),
         ('report_compassion.bvr_sponsorship', 'Single BVR')
     ], default='report_compassion.3bvr_sponsorship')
     date_start = fields.Date(default=lambda s: s.default_start())
@@ -79,7 +80,7 @@ class PrintSponsorshipBvr(models.TransientModel):
     def print_report(self):
         """
         Prepare data for the report and call the selected report
-        (single bvr / 3 bvr).
+        (single bvr / 2 bvr / 3 bvr).
         :return: Generated report
         """
         if fields.Date.from_string(self.date_start) >= \
@@ -96,7 +97,6 @@ class PrintSponsorshipBvr(models.TransientModel):
         records = self.env[self.env.context.get('active_model')].browse(
             data['doc_ids'])
         if self.pdf:
-            data['background'] = True
             name = records.name if len(records) == 1 else \
                 _('sponsorship payment slips')
             self.pdf_name = name + '.pdf'
@@ -146,7 +146,6 @@ class PrintBvrDue(models.TransientModel):
         }
         report = 'report_compassion.bvr_due'
         if self.pdf:
-            data['background'] = True
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(
                     must_skip_send_to_printer=True).get_pdf(

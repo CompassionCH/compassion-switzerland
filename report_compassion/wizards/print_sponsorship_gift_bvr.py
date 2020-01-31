@@ -31,6 +31,7 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     paper_format = fields.Selection([
         ('report_compassion.3bvr_gift_sponsorship', '3 BVR'),
+        ('report_compassion.2bvr_gift_sponsorship', '2 BVR'),
         ('report_compassion.bvr_gift_sponsorship', 'Single BVR')
     ], default='report_compassion.3bvr_gift_sponsorship')
     draw_background = fields.Boolean()
@@ -55,7 +56,7 @@ class PrintSponsorshipBvr(models.TransientModel):
     def print_report(self):
         """
         Prepare data for the report and call the selected report
-        (single bvr / 3 bvr).
+        (single bvr / 2 bvr / 3 bvr).
         :return: Generated report
         """
         product_search = list()
@@ -83,7 +84,6 @@ class PrintSponsorshipBvr(models.TransientModel):
         records = self.env[self.env.context.get('active_model')].browse(
             data['doc_ids'])
         if self.pdf:
-            data['background'] = True
             name = records.name if len(records) == 1 else \
                 _('gift payment slips')
             self.pdf_name = name + '.pdf'

@@ -180,7 +180,7 @@ class ContractGroup(models.Model):
                 vals['subject'] = ", ".join(product_name.mapped('thanks_name'))
 
         return u"{payment_type} {amount}<br/>{subject}<br/>{date}".format(
-            **vals)
+            **vals).strip('<br/>')
 
     @api.model
     def get_scan_line(self, account, reference, amount=False):

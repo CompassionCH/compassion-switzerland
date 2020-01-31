@@ -101,8 +101,13 @@ class StatementCompletionRule(models.Model):
                     ref_index = flexible_ref_match.start(1)
         if len(partner) > 1:
             # Take only those who have active sponsorships
-            partner = partner.filtered(lambda p: p.sponsorship_ids.filtered(
+            sponsor = partner.filtered(lambda p: p.sponsorship_ids.filtered(
                 lambda s: s.state not in ('terminated', 'cancelled')))
+            if sponsor:
+                partner = sponsor
+            else:
+                # No sponsor, try to find a contact
+                partner = partner.filtered('parent_id')
         # Test that only one partner matches.
         if partner:
             if len(partner) == 1:

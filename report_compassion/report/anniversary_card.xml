@@ -20,6 +20,7 @@
             .right {
                 position: relative;
                 left: 135mm;
+                max-width: 70mm;
             }
             #pp {
                 position: absolute;

@@ -58,6 +58,10 @@ if not testing:
         emergency_name = fields.Char(
             help='Please indicate a contact in case of emergency '
                  'during the trip.')
+        muskathlon_sponsor = fields.Char(
+            'Firstname and lastname of the participant',
+            help='(Optionnal) I registered thanks to this participant'
+        )
 
         @property
         def discipline_ids(self):
@@ -76,6 +80,12 @@ if not testing:
                         'ambassador_quote', 't_shirt_size', 't_shirt_type',
                         'event_id'
                     ]
+                },
+                {
+                    'id': 'sponsor_referral',
+                    'title': _('Sponsor of my participation'),
+                    'description': '',
+                    'fields': ['muskathlon_sponsor']
                 },
                 {
                     'id': 'partner',
@@ -237,13 +247,7 @@ if not testing:
             partner = self.env['res.partner'].sudo().browse(
                 values.get('partner_id')).exists()
             partner.set_privacy_statement(origin='muskathlon_reg')
-
-            event = self.event_id.sudo()
-            registration = self.env['event.registration'].search([
-                ('event_id', '=', event.id),
-                ('partner_id', '=', partner.id)
-            ])
-            registration.confirm_registration()
+            self.main_object.confirm_registration()
 
         def form_next_url(self, main_object=None):
             # Clean storage of picture

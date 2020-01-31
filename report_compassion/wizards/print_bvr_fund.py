@@ -64,7 +64,6 @@ class PrintBvrFund(models.TransientModel):
         }
         report = 'report_compassion.bvr_fund'
         if self.pdf:
-            data['background'] = True
             self.pdf_name = self.product_id.name + '.pdf'
             self.pdf_download = base64.b64encode(
                 self.env['report'].with_context(

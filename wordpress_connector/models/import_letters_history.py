@@ -15,10 +15,12 @@ between the database and the mail.
 import logging
 import time
 import urllib2
+import base64
 from io import BytesIO
 
 from odoo.addons.sbc_compassion.tools import import_letter_functions as func
 from odoo.addons.sbc_switzerland.models.import_letters_history import SmbConfig
+from werkzeug.utils import escape
 
 from odoo import models, api, fields
 
@@ -42,7 +44,7 @@ class ImportLetterReview(models.TransientModel):
 class ImportLettersHistory(models.Model):
     """
     Keep history of imported letters.
-    This class add to is parent the possibility to select letters to import
+    This class add to its parent the possibility to select letters to import
     from a specify config.
     The code is reading QR codes in order to detect child and partner codes
     for every letter, using the zxing library for code detection.
@@ -55,13 +57,15 @@ class ImportLettersHistory(models.Model):
                           attachment_url, ext, utm_source, utm_medium,
                           utm_campaign):
         """
-        Call when a letter is set on web site:
-            - add web letter to an import set with import letter config
-              'Web letter'
+        Called when a letter is sent from the Wordpress web site:
+            - add the letter into an import set with import letter config 'Web letter'
         """
         logger.info("New webletter from Wordpress : %s - %s",
                     sponsor_ref, child_code)
         try:
+            name = escape(name)
+            original_text = escape(original_text)
+
             # Find existing config or create a new one
             web_letter_id = self.env.ref('sbc_switzerland.web_letter').id
             import_config = self.search([
@@ -71,63 +75,65 @@ class ImportLettersHistory(models.Model):
                 import_config = self.create({
                     'config_id': web_letter_id, 'state': 'open'})
 
-            # Retrieve child code and find corresponding id
-            child_field = 'local_id'
-            if len(child_code) == 9:
-                child_field = 'code'
-            model_child = self.env['compassion.child'].search(
-                [(child_field, '=', child_code)])
+            # Retrieve child id
+            child_id = func.find_child(self.env, child_code)
 
-            child_id = model_child.id
+            # Retrieve sponsor id
+            sponsor_id = func.find_partner(self.env, sponsor_ref, email)
 
-            # Retrieve sponsor reference and find corresponding id
-            model_sponsor = self.env['res.partner'].search(
-                ['|', ('ref', '=', sponsor_ref),
-                 ('global_id', '=', sponsor_ref)])
-            if not model_sponsor:
-                model_sponsor = model_sponsor.search([('email', '=', email)])
-            if len(model_sponsor) > 1:
-                model_sponsor = model_sponsor.filtered('has_sponsorships')
-            sponsor_id = model_sponsor[:1].id
-
+            # Detect original language of the text
             lang = self.env['correspondence'].detect_lang(original_text)
             lang_id = lang and lang.id
 
-            # Retrieve template name and find corresponding id
+            # Retrieve the template given its name
             template = self.env['correspondence.template'].search(
                 [('name', '=', template_name)], limit=1)
 
-            # save_letter pdf
+            # Retrieve the PDF generated and hosted by WP
             pdf_data = urllib2.urlopen(pdf_url).read()
             filename = 'WEB_' + sponsor_ref + '_' + \
                 child_code + '_' + str(time.time())[:10] + '.pdf'
 
+            # Append a second (blank) page if necessary to the pdf
             pdf_letter = self.analyze_webletter(pdf_data)
 
-            # analyze attachment to check template and create image preview
+            # here, "attachment" is the PDF
+            # analyze "attachment" to check template and create image preview
             line_vals = func.analyze_attachment(
-                self.env, pdf_letter, filename, template)
+                self.env, pdf_letter, filename, template)[0]
 
             # Check UTM
             internet_id = self.env.ref('utm.utm_medium_website').id
-            utms = self.env['utm.mixin'].get_utms(
-                utm_source, utm_medium, utm_campaign)
+            utms = self.env['utm.mixin'].get_utms(utm_source, utm_medium, utm_campaign)
 
-            for i in xrange(0, len(line_vals)):
-                line_vals[i].update({
-                    'import_id': import_config.id,
-                    'partner_id': sponsor_id,
-                    'child_id': child_id,
-                    'letter_language_id': lang_id,
-                    'original_text': original_text,
-                    'source': 'website',
-                    'source_id': utms['source'],
-                    'medium_id': utms.get('medium', internet_id),
-                    'campaign_id': utms['campaign'],
-                    'email': email,
-                    'partner_name': name
+            line_vals.update({
+                'import_id': import_config.id,
+                'partner_id': sponsor_id.id,
+                'child_id': child_id.id,
+                'letter_language_id': lang_id,
+                'original_text': original_text,
+                'source': 'website',
+                'source_id': utms['source'],
+                'medium_id': utms.get('medium', internet_id),
+                'campaign_id': utms['campaign'],
+                'email': email,
+                'partner_name': name,
+            })
+
+            # Here, "attachment" is the image uploaded by the sponsor
+            if attachment_url:
+                attachment_data = urllib2.urlopen(attachment_url).read()
+                filename_attachment = filename.replace(".pdf", ".%s" % ext)
+                line_vals.update({
+                    'original_attachment_ids': [(0, 0, {
+                        'datas_fname': filename_attachment,
+                        'datas': base64.b64encode(attachment_data),
+                        'name': filename_attachment,
+                        'res_model': 'import.letter.line',
+                    })]
                 })
-                self.env['import.letter.line'].create(line_vals[i])
+
+            self.env['import.letter.line'].create(line_vals)
 
             import_config.import_completed = True
             logger.info("Try to copy file {} !".format(filename))
@@ -144,8 +150,6 @@ class ImportLettersHistory(models.Model):
 
                 # save eventual attachment
                 if attachment_url:
-                    attachment_data = urllib2.urlopen(attachment_url).read()
-                    filename_attachment = filename.replace(".pdf", "." + ext)
                     logger.info("Try save attachment {} !"
                                 .format(filename_attachment))
 
@@ -161,10 +165,10 @@ class ImportLettersHistory(models.Model):
                 smb_conn.close()
 
             # Accept privacy statement
-            model_sponsor[:1].set_privacy_statement(
-                origin='new_letter')
+            sponsor_id.set_privacy_statement(origin='new_letter')
 
             return True
-        except:
+        except Exception as e:
+            logger.error(str(e))
             logger.error("Failed to create webletter", exc_info=True)
             return False

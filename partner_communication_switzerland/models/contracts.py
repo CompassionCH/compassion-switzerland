@@ -16,6 +16,7 @@ from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
+from odoo.addons.queue_job.job import job
 
 logger = logging.getLogger(__name__)
 
@@ -266,8 +267,31 @@ class RecurringContract(models.Model):
         tomorrow = today + relativedelta(days=1)
         sponsorships_with_birthday_tomorrow = \
             self._get_sponsorships_with_child_birthday_on(tomorrow)
+
+        sponsorships_to_avoid = self.env['recurring.contract']
+
+        for sponsorship in sponsorships_with_birthday_tomorrow:
+            sponsorship_correspondences = self.env['correspondence'].search_count([
+                ('sponsorship_id', '=', sponsorship.id),
+                ('direction', '=', "Supporter To Beneficiary"),
+                ('scanned_date', '>=', fields.Date.to_string(
+                    datetime.now() - relativedelta(months=2)))
+            ])
+
+            if sponsorship_correspondences:
+                sponsorships_to_avoid += sponsorship
+
+            sponsorship_gifts = self.env['sponsorship.gift'].search([
+                ('sponsorship_id', '=', sponsorship.id),
+                ('date_partner_paid', '>=',
+                 fields.Date.to_string(datetime.now() - relativedelta(months=2)))
+            ])
+
+            if sponsorship_gifts:
+                sponsorships_to_avoid += sponsorship
+
         self._send_birthday_reminders(
-            sponsorships_with_birthday_tomorrow,
+            sponsorships_with_birthday_tomorrow - sponsorships_to_avoid,
             self.env.ref(module + 'birthday_remainder_1day_before')
         )
 
@@ -509,9 +533,20 @@ class RecurringContract(models.Model):
         logger.info("Creating Welcome Letters Communications")
         config = self.env.ref(
             'partner_communication_switzerland.planned_welcome')
+
         if not self.origin_id or self.origin_id.type != 'transfer':
-            self.send_communication(config, both=True).send()
+            communication = self.send_communication(config, both=True)
+            self.with_delay(
+                eta=datetime.now() + relativedelta(minutes=30)) \
+                .send_welcome_communication(communication)
+
         self.write({'sds_state': 'active'})
+        return True
+
+    @job
+    def send_welcome_communication(self, communication):
+        self.ensure_one()
+        communication.send()
         return True
 
     @api.multi

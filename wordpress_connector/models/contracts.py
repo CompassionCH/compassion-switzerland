@@ -15,6 +15,7 @@ from odoo.addons.queue_job.job import job, related_action
 
 from odoo import api, models, fields, _
 from odoo.tools import config
+from werkzeug.utils import escape
 
 _logger = logging.getLogger(__name__)
 
@@ -88,6 +89,12 @@ class Contracts(models.Model):
                      child_local_id, str(form_data))
         try:
             form_data['Child reference'] = child_local_id
+
+            for field in ['city', 'first_name', 'last_name',
+                          'consumer_source_text', 'zipcode', 'Beruf', 'phone',
+                          'street', 'kirchgemeinde', 'email', 'land']:
+                form_data[field] = escape(form_data.get(field))
+
             match_obj = self.env['res.partner.match.wp']
 
             partner_infos = {
