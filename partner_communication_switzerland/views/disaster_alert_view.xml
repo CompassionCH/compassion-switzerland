@@ -25,7 +25,7 @@
                 <xpath expr="//tree" position="attributes">
                     <attribute name="decoration-primary">state=='pending'</attribute>
                     <attribute name="decoration-muted">state in ('done','cancel')</attribute>
-                    <attribute name="decoration-danger">red:state=='call'</attribute>
+                    <attribute name="decoration-danger">state=='call'</attribute>
                 </xpath>
             </field>
         </record>

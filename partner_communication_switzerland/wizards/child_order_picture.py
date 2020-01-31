@@ -60,7 +60,7 @@ class CompassionHold(models.TransientModel):
         :return: Window Action
         """
         if _print:
-            res = self.env['report'].get_action(
+            res = self.env['ir.actions.report'].get_action(
                 self.mapped('sponsorship_ids.child_id'),
                 'partner_communication_switzerland.child_picture'
             )
@@ -88,11 +88,11 @@ class CompassionHold(models.TransientModel):
         """
         zip_buffer = BytesIO()
         with ZipFile(zip_buffer, 'w') as zip_data:
-            pdf = self.env['report'].with_context(
-                must_skip_send_to_printer=True).render_qweb_pdf(
-                self.mapped('sponsorship_ids.child_id.id'),
-                'partner_communication_switzerland.child_picture'
-            )
+            report_ref = self.env.ref('report_child_picture')
+            pdf_data = report_ref.report_action(self, data={'doc_ids': self.mapped('sponsorship_ids.child_id.id')})
+            pdf = base64.encodebytes(
+                report_ref.render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
             pdf_temp_file, pdf_temp_file_name = tempfile.mkstemp()
             os.write(pdf_temp_file, pdf)
             pages = convert_from_path(pdf_temp_file_name)

@@ -51,6 +51,8 @@ class RecurringContract(models.Model):
     send_introduction_letter = fields.Boolean(
         string='Send B2S intro letter to sponsor', default=True)
     origin_type = fields.Selection(related='origin_id.type')
+    sds_state = fields.Selection(selection_add=[
+        ('waiting_welcome', _('Waiting welcome'))])
 
     # this field is used to help the xml views to get the type of origin_id
 
@@ -424,20 +426,20 @@ class RecurringContract(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         report = 'report_compassion.bvr_gift_sponsorship'
-        report_obj = self.env['report']
         attachments = dict()
         partner_lang = self.mapped('correspondent_id')[0].lang
         product_name = products[0].with_context(lang=partner_lang).name
+        report_ref = self.env.ref('report_compassion.report_bvr_gift_sponsorship')
+        pdf_data = report_ref.report_action(self, data={
+            'doc_ids': self.ids,
+            'product_ids': products.ids,
+            'background': background,
+        })
         attachments[product_name + '.pdf'] = [
             report,
-            base64.b64encode(report.render_qweb_pdf(
-                self.ids, report,
-                data={
-                    'doc_ids': self.ids,
-                    'product_ids': products.ids,
-                    'background': background,
-                }
-            ))
+            base64.encodebytes(
+                report_ref.render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
         ]
         return attachments
 
