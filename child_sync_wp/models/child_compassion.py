@@ -129,7 +129,7 @@ class CompassionChild(models.Model):
             global_pool.country_mix()
         except Exception as e:
             logger.exception("The country-aware children selection failed, "
-                             f"falling back to rich mix. {e.message}")
+                             f"falling back to rich mix. {e}")
             global_pool.rich_mix()
         return global_pool
 
@@ -139,7 +139,7 @@ class CompassionChild(models.Model):
                 child.get_infos()
                 child.mapped('project_id').update_informations()
             except Exception as e:
-                logger.exception(f'Error updating child information: {e.message}')
+                logger.exception(f'Error updating child information: {e}')
                 continue
         return children.filtered(
             lambda c: c.state == 'N' and c.desc_it and c.pictures_ids
@@ -173,7 +173,7 @@ class CompassionChild(models.Model):
                         new_children[i:i + 5].add_to_wordpress(company_id)
                     except Exception as e:
                         logger.exception('Failed adding a batch of children to'
-                                         f' wordpress: {e.message}')
+                                         f' wordpress: {e}')
                         continue
 
                 old_children.mapped('hold_id').release_hold()
