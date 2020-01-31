@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -178,7 +177,7 @@ class ChildDescriptionCH(models.TransientModel):
         }
 
     def his(self, gender, number=SINGULAR, tense=NOMINATIVE):
-        result = super(ChildDescriptionCH, self).his(gender, number, tense)
+        result = super().his(gender, number, tense)
         if self.env.lang == 'de_DE':
             # In german, "sein" becomes "ihr"
             result = self.child_id.get(result)
