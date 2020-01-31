@@ -9,7 +9,6 @@
 ##############################################################################
 import logging
 
-import sys
 from datetime import datetime
 
 from odoo import api, models, fields
@@ -17,7 +16,6 @@ from odoo.tools import relativedelta
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync
-import importlib
 
 logger = logging.getLogger(__name__)
 
