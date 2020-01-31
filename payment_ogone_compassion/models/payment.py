@@ -31,8 +31,8 @@ class PaymentAcquirerOgone(models.Model):
          - standard order: POST address for form-based """
         return {
             'ogone_standard_order_url':
-                f'https://e-payment.postfinance.ch/ncol/{environment}/orderstandard_utf8'
-                '.asp',
+                f'https://e-payment.postfinance.ch/ncol/{environment}'
+                f'/orderstandard_utf8.asp',
             'ogone_direct_order_url':
                 f'https://e-payment.postfinance.ch/ncol/{environment}/orderdirect_utf8'
                 '.asp',

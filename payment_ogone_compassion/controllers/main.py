@@ -1,6 +1,8 @@
 import logging
 import pprint
-import urllib.request, urllib.parse, urllib.error
+import urllib.request
+import urllib.parse
+import urllib.error
 
 import werkzeug
 
