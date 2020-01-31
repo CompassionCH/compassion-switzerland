@@ -27,10 +27,6 @@ class CompassionChild(models.Model):
 
     @api.multi
     def add_to_wordpress(self, company_id=None):
-        # Solve the encoding problems on child's descriptions
-        importlib.reload(sys)
-        # sys.setdefaultencoding('UTF8')
-
         in_two_years = datetime.today() + relativedelta(years=2)
         valid_children = self.filtered(
             lambda c: c.state == 'N' and c.desc_de and
@@ -97,7 +93,7 @@ class CompassionChild(models.Model):
         return super(CompassionChild, self).child_departed()
 
     @api.model
-    def refresh_wordpress_cron(self, take=1):
+    def refresh_wordpress_cron(self, take=120):
         """
         Find new children on the global childpool, put them on wordpress,
         remove old children and release the holds.
@@ -127,9 +123,9 @@ class CompassionChild(models.Model):
         })
         try:
             global_pool.country_mix()
-        except Exception as e:
-            logger.exception("The country-aware children selection failed, "
-                             f"falling back to rich mix. {e}")
+        except:
+            logger.error("The country-aware children selection failed, "
+                         "falling back to rich mix.", exc_info=True)
             global_pool.rich_mix()
         return global_pool
 
@@ -138,8 +134,8 @@ class CompassionChild(models.Model):
             try:
                 child.get_infos()
                 child.mapped('project_id').update_informations()
-            except Exception as e:
-                logger.exception(f'Error updating child information: {e}')
+            except:
+                logger.error('Error updating child information: ', exc_info=True)
                 continue
         return children.filtered(
             lambda c: c.state == 'N' and c.desc_it and c.pictures_ids
@@ -171,9 +167,9 @@ class CompassionChild(models.Model):
                 for i in range(0, len(new_children), 5):
                     try:
                         new_children[i:i + 5].add_to_wordpress(company_id)
-                    except Exception as e:
-                        logger.exception('Failed adding a batch of children to'
-                                         f' wordpress: {e}')
+                    except:
+                        logger.error('Failed adding a batch of children to'
+                                     ' wordpress: ', exc_info=True)
                         continue
 
                 old_children.mapped('hold_id').release_hold()
