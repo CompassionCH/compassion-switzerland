@@ -26,20 +26,15 @@ class EventsController(PaymentFormController):
     @http.route('/events/', auth='public', website=True)
     def list(self, **kwargs):
         today = fields.Date.to_string(datetime.today())
+        # Events that are set to finish after today
         started_events = request.env['crm.event.compassion'].search([
             ('website_published', '=', True),
-            ('start_date', '<', today),
             ('end_date', '>=', today),
         ])
-        future_events = request.env['crm.event.compassion'].search([
-            ('website_published', '=', True),
-            ('start_date', '>=', today),
-        ])
-        events = started_events + future_events
-        if len(events) == 1:
-            return request.redirect('/event/' + str(events.id))
+        if len(started_events) == 1:
+            return request.redirect('/event/' + str(started_events.id))
         return request.render('website_event_compassion.list', {
-            'events': events
+            'events': started_events
         })
 
     ###################################################
