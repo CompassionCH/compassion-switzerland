@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2019-2020 Compassion CH (http://www.compassion.ch)
 #    @author: Christopher Meier <dev@c-meier.ch>
 #
 #    The licence is in the file __manifest__.py
