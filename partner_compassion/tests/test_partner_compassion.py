@@ -75,7 +75,7 @@ class TestMessages(TransactionCase):
         ]).mapped('lang')[0]
         self.assertEqual(lang, 'en_US')
 
-    def test_update_sponsorship_number(self):s
+    def test_update_sponsorship_number(self):
         # fake sponsorship number (real is 0)
         self.partner.number_sponsorships = 5
         self.assertEqual(self.partner.number_sponsorships, 5)

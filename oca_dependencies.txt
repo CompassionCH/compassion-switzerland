@@ -27,6 +27,7 @@ partner-contact 11.0
 queue 11.0
 report-print-send 11.0
 server-ux 11.0
+social https://github.com/CompassionCH/social 11.0-mig-mail_sendgrid
 web 11.0
 website https://github.com/CompassionCH/website 11.0
 website-cms 11.0
@@ -34,4 +35,3 @@ website-cms 11.0
 # hr
 # sale-workflow https://github.com/OCA/sale-workflow branchname
 # server-tools
-# social
