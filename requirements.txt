@@ -26,3 +26,4 @@ pysmb
 simplejson
 requests
 pandas
+pyminizip
