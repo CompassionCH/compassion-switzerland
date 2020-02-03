@@ -22,7 +22,7 @@ connector-telephony
 partner-contact
 server-ux
 crm
-geospatial
+geospatial https://github.com/josueBulle/geospatial 11.0-mig-geoengine_partner
 partner-contact
 queue
 report-print-send
