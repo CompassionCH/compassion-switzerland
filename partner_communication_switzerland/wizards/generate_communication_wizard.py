@@ -111,7 +111,7 @@ class GenerateCommunicationWizard(models.TransientModel):
             if self.force_language and not self.language_added_in_domain:
                 domain = self.selection_domain or '[]'
                 domain = domain[:-1] + \
-                         f", ('{partner_source}.lang', '=', '{self.force_language}')]"
+                    f", ('{partner_source}.lang', '=', '{self.force_language}')]"
                 self.selection_domain = domain.replace('[, ', '[')
                 self.language_added_in_domain = True
             if self.selection_domain:

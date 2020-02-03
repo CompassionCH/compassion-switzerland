@@ -103,7 +103,8 @@ class CompassionHold(models.Model):
             base_url = self.env['ir.config_parameter'].get_param(
                 'web.base.url')
             links = [
-                f'<a href="{base_url}/web#id={data["id"]}&view_type=form&model=compassion.child'
+                f'<a href="{base_url}/web#id={data["id"]}&'
+                f'view_type=form&model=compassion.child'
                 f'&menu_id=442&action=581">{data["local_id"]}</a>'
                 for data in child_codes
             ]

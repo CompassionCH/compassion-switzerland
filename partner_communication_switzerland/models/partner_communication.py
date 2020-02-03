@@ -175,7 +175,8 @@ class PartnerCommunication(models.Model):
             'background': True,
             'doc_ids': sponsorships.ids
         }
-        pdf = self._get_pdf_from_data(data, self.env.ref('report_compassion.report_bvr_due'))
+        pdf = self._get_pdf_from_data(
+            data, self.env.ref('report_compassion.report_bvr_due'))
         return {
             _('sponsorship due.pdf'): [
                 report_name,
@@ -222,7 +223,8 @@ class PartnerCommunication(models.Model):
         })
         label_data = label_wizard.get_report_data()
         report_name = 'label.report_label_name'
-        pdf = self._get_pdf_from_data(label_data, self.env.ref('label.report_dynamic_label'))
+        pdf = self._get_pdf_from_data(
+            label_data, self.env.ref('label.report_dynamic_label'))
         attachments[_('sponsorship labels.pdf')] = [
             report_name,
             pdf
