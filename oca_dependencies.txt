@@ -23,7 +23,7 @@ partner-contact
 server-ux
 crm
 geospatial
-geoengine_base_geolocalize # Not sure, but it fixes the geopoint error message at start-up
+geoengine_base_geolocalize
 partner-contact
 queue
 report-print-send
