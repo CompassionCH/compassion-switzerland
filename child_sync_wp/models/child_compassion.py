@@ -71,13 +71,13 @@ class CompassionChild(models.Model):
         return True
 
     @api.multi
-    def child_sponsored(self):
+    def child_sponsored(self, sponsor_id):
         """ Remove children from the website when they are sponsored. """
         to_remove_from_web = self.filtered(lambda c: c.state == 'I')
         if to_remove_from_web:
             to_remove_from_web.remove_from_wordpress()
 
-        return super(CompassionChild, self).child_sponsored()
+        return super(CompassionChild, self).child_sponsored(sponsor_id)
 
     @api.multi
     def child_released(self):
