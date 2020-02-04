@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -279,7 +278,7 @@ class EventsController(PaymentFormController):
                 "the departure. Until then, don't hesitate to contact us if "
                 "you have any question."
             )
-        return super(EventsController, self).compassion_payment_validate(
+        return super().compassion_payment_validate(
             tx, template, failure_template, **post
         )
 
@@ -299,5 +298,5 @@ class EventsController(PaymentFormController):
             delay = datetime.today() + timedelta(seconds=10)
             transaction.registration_id.with_delay(eta=delay).\
                 cancel_registration()
-        return super(EventsController, self).compassion_payment_validate(
+        return super().compassion_payment_validate(
             transaction, success_template, fail_template, **kwargs)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -8,7 +7,7 @@
 #
 ##############################################################################
 from odoo import models, fields, api
-from odoo.addons.website.models.website import slug
+from odoo.addons.website.models.website import slugify as slug
 
 
 class EventCompassion(models.Model):

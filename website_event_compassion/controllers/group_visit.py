@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -61,7 +60,7 @@ class GroupVisitController(EventsController):
             criminal_form.form_process()
 
         # Reload registration after form process
-        registration.env.invalidate_all()
+        registration.env.clear()
         values.update({
             'event': event,
             'registration': registration,

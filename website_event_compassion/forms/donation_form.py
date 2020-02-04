@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -70,7 +69,7 @@ if not testing:
         @property
         def form_widgets(self):
             # Hide fields
-            res = super(EventDonationForm, self).form_widgets
+            res = super().form_widgets
             res.update({
                 'gtc_accept': 'cms_form_compassion.form.widget.terms',
                 'partner_birthdate': 'cms.form.widget.date.ch',
@@ -96,7 +95,7 @@ if not testing:
             return _("Proceed with payment")
 
         def form_init(self, request, main_object=None, **kw):
-            form = super(EventDonationForm, self).form_init(
+            form = super().form_init(
                 request, main_object, **kw)
             # Store ambassador and event in model to use it in properties
             registration = kw.get('registration')
@@ -107,12 +106,12 @@ if not testing:
 
         def form_before_create_or_update(self, values, extra_values):
             """ Inject invoice values """
-            super(EventDonationForm, self).form_before_create_or_update(
+            super().form_before_create_or_update(
                 values, extra_values)
             event = self.event_id.sudo()
             product = event.odoo_event_id.donation_product_id
             ambassador = self.ambassador_id.sudo()
-            name = u'[{}] Donation for {}'.format(event.name, ambassador.name)
+            name = f'[{event.name}] Donation for {ambassador.name}'
             values.update({
                 'origin': name,
                 'invoice_line_ids': [(0, 0, {

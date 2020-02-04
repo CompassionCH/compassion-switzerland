@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -30,10 +29,14 @@ class CommunicationJob(models.Model):
             'preprinted': False,
             'amount': registration.event_ticket_id.price
         }
+
         report_name = 'report_compassion.bvr_fund'
-        pdf_data = base64.b64encode(self.env['report'].with_context(
-            must_skip_send_to_printer=True).get_pdf(
-            registration.partner_id.ids, report_name, data=report_vals))
+        report_ref = self.env.ref('report_compassion.report_bvr_fund')
+
+        pdf_data = report_ref.report_action(self, data=report_vals)
+        pdf_data = base64.encodebytes(report_ref.render_qweb_pdf(
+                pdf_data['data']['doc_ids'], pdf_data['data'])[0])
+
         return {
             _('down_payment.pdf'): [report_name, pdf_data]
         }
@@ -61,7 +64,7 @@ class CommunicationJob(models.Model):
         }
         report_name = 'report_compassion.bvr_fund'
         pdf_data = base64.b64encode(self.env['report'].with_context(
-            must_skip_send_to_printer=True).get_pdf(
+            must_skip_send_to_printer=True).render_qweb_pdf(
             registration.partner_id.ids, report_name, data=report_vals))
         return {
             event_name + '.pdf': [report_name, pdf_data]

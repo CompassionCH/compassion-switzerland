@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -14,7 +13,7 @@ import base64
 from datetime import date
 
 from odoo import api, models, fields, _, SUPERUSER_ID
-from odoo.addons.website.models.website import slug
+from odoo.addons.website.models.website import slugify as slug
 from odoo.tools import file_open
 
 from odoo.addons.queue_job.job import job
@@ -207,7 +206,7 @@ class Event(models.Model):
                 registration.event_id.participants_amount_objective
             if objective:
                 registration.amount_raised_percents = int(
-                    registration.amount_raised * 100 / objective)
+                    registration.amount_raised * 100 // objective)
 
     def _compute_amount_raised(self):
         for registration in self:
@@ -437,7 +436,7 @@ class Event(models.Model):
     def write(self, vals):
         if 'stage_id' in vals:
             vals['stage_date'] = fields.Date.today()
-        res = super(Event, self).write(vals)
+        res = super().write(vals)
         for registration in self:
             if registration.state == 'done' and registration.event_id. \
                     feedback_survey_id and not registration.feedback_survey_id:
@@ -451,7 +450,7 @@ class Event(models.Model):
 
     @api.model
     def create(self, values):
-        record = super(Event, self).create(values)
+        record = super().create(values)
 
         # check the subtype note by default
         # for all the default follower of a new registration
@@ -469,7 +468,7 @@ class Event(models.Model):
     ##########################################################################
     @api.multi
     def do_draft(self):
-        super(Event, self).do_draft()
+        super().do_draft()
         return self.write({
             'stage_id': self.env.ref(
                 'website_event_compassion.stage_all_unconfirmed').id
@@ -498,7 +497,7 @@ class Event(models.Model):
 
     @api.multi
     def button_reg_close(self):
-        super(Event, self).button_reg_close()
+        super().button_reg_close()
         return self.write({
             'stage_id': self.env.ref(
                 'website_event_compassion.stage_all_attended').id
@@ -506,7 +505,7 @@ class Event(models.Model):
 
     @api.multi
     def button_reg_cancel(self):
-        super(Event, self).button_reg_cancel()
+        super().button_reg_cancel()
         return self.write({
             'stage_id': self.env.ref(
                 'website_event_compassion.stage_all_cancelled').id
@@ -574,7 +573,7 @@ class Event(models.Model):
         self.ensure_one()
         event = self.compassion_event_id
         product = self.event_ticket_id.product_id
-        name = u'[{}] Down payment'.format(event.name)
+        name = f'[{event.name}] Down payment'
         invoice = self.env['account.invoice'].create({
             'origin': name,
             'partner_id': self.partner_id.id,
@@ -642,7 +641,7 @@ class Event(models.Model):
             'product_id': product.id,
             'account_analytic_id': event.analytic_id.id,
         })
-        name = u'[{}] Trip payment'.format(event.name)
+        name = f'[{event.name}] Trip payment'
         invoice = self.env['account.invoice'].create({
             'origin': name,
             'partner_id': self.partner_id.id,
@@ -736,4 +735,4 @@ class Event(models.Model):
         if 'user_id' in init_values and init_values['user_id'] is False:
             # When the registration is created.
             return 'website_event_compassion.mt_registration_create'
-        return super(Event, self)._track_subtype(init_values)
+        return super()._track_subtype(init_values)

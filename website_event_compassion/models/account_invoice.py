@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -35,7 +34,7 @@ class AccountInvoice(models.Model):
         """
         Mark payment done if invoice is related to event registration
         """
-        res = super(AccountInvoice, self).action_invoice_paid()
+        res = super().action_invoice_paid()
         registrations = self.env['event.registration'].sudo().search([
             ('down_payment_id', 'in', self.ids)
         ])

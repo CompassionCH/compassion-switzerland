@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -9,7 +8,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018-2020 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -30,15 +29,18 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion Events Website',
-    'version': '10.0.2.0.0',
+    'version': '11.0.1.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'https://github.com/CompassionCH/compassion-modules/tree/10.0',
     'depends': [
-        'website_compassion', 'crm_compassion', 'event',
-        'partner_communication_switzerland',
-        'payment_ogone_compassion', 'survey_phone'
+        'website_compassion',  # compassion-switzerland
+        'crm_compassion',  # compassion-modules
+        'event',  # source
+        'partner_communication_switzerland',  # compassion-switzerland
+        'payment_ogone_compassion',  # compassion-switzerland
+        'survey_phone'  # compassion-modules
     ],
     'external_dependencies': {
         'python': ['magic'],
@@ -85,6 +87,6 @@
         'demo/crm_event_demo.xml'
     ],
     'development_status': 'Beta',
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

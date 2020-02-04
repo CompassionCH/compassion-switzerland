@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -23,7 +22,7 @@ class SurveyUserInput(models.Model):
         """
         Update event registration if any is linked to the medical survey.
         """
-        res = super(SurveyUserInput, self).write(vals)
+        res = super().write(vals)
         if vals.get('state') == 'done':
             medical_registrations = self.env['event.registration'].search([
                 ('medical_survey_id', 'in', self.ids)
