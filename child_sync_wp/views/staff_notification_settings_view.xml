@@ -11,11 +11,20 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="child_compassion.compassion_settings"/>
         <field name="arch" type="xml">
-            <field name="disaster_notify_ids" position="after">
-                <field name="sponsorship_fr_id"/>
-                <field name="sponsorship_de_id"/>
-                <field name="sponsorship_it_id"/>
-            </field>
+            <xpath expr="//div[@name='notification_configuration']//div[@class='o_setting_right_pane']" position='inside'>
+                <div name="sponsorship_notifications1">
+                    <label for="sponsorship_fr_id" string="User to contact when a sponsorship is made (fr)" class="o_light_label"/>
+                    <field name="sponsorship_fr_id"/>
+                </div>
+                <div name="sponsorship_notifications2">
+                    <label for="sponsorship_de_id" string="User to contact when a sponsorship is made (de)" class="o_light_label"/>
+                    <field name="sponsorship_de_id"/>
+                </div>
+                <div name="sponsorship_notifications3">
+                    <label for="sponsorship_it_id" string="User to contact when a sponsorship is made (it)" class="o_light_label"/>
+                    <field name="sponsorship_it_id"/>
+                </div>
+            </xpath>
         </field>
     </record>
 </odoo>

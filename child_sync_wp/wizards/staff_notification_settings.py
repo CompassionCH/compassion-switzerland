@@ -90,9 +90,9 @@ class StaffNotificationSettings(models.TransientModel):
     def get_values(self):
         res = super().get_values()
         res.update({
-            'sponsorship_fr_id': self.get_sponsorship_fr_id(),
-            'sponsorship_de_id': self.get_sponsorship_de_id(),
-            'sponsorship_it_id': self.get_sponsorship_it_id()
+            'sponsorship_fr_id': int(self.get_sponsorship_fr_id() or 0) or False,
+            'sponsorship_de_id': int(self.get_sponsorship_de_id() or 0) or False,
+            'sponsorship_it_id': int(self.get_sponsorship_it_id() or 0) or False
         })
         return res
 
