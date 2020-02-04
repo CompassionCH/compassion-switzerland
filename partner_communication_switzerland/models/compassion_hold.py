@@ -8,7 +8,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from odoo import api, models, fields
 
@@ -21,6 +21,8 @@ class CompassionHold(models.Model):
 
     no_money_extension_duration = fields.Integer(
         compute='_compute_no_money_extension_duration')
+    has_received_all_reminders = fields.Boolean("True if all 3 reminders were sent",
+                                                default=False)
 
     @api.multi
     def _compute_no_money_extension_duration(self):
@@ -74,6 +76,25 @@ class CompassionHold(models.Model):
         :return: None
         """
         failed = self.env[self._name]
+
+        to_extend_holds = self.filtered(lambda h: h.no_money_extension < 2)
+        today = fields.Datetime.to_string(fields.Datetime.now())
+
+        for hold in to_extend_holds:
+            if hold.no_money_extension < 2 and hold.expiration_date == today\
+                    or (hold.expiration_date - today).days == 1:
+                hold_extension = hold.no_money_extension_duration
+                new_hold_date = fields.Datetime.from_string(
+                    hold.expiration_date) + timedelta(days=hold_extension)
+                next_extension = hold.no_money_extension
+                if hold.type == HoldType.NO_MONEY_HOLD.value:
+                    next_extension += 1
+                hold_vals = {
+                    'no_money_extension': next_extension,
+                    'expiration_date': fields.Datetime.to_string(new_hold_date)
+                }
+                hold.write(hold_vals)
+
         # Last reminder: cancellation notice
         communication_type = self.env.ref(
             'partner_communication_switzerland.'
