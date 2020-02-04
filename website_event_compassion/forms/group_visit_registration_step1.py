@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -162,7 +161,7 @@ if not testing:
         @property
         def form_widgets(self):
             # Radio field for single double room
-            res = super(EventRegistrationForm, self).form_widgets
+            res = super().form_widgets
             res.update({
                 'single_double_room': 'cms.form.widget.radio',
                 'gtc_accept': 'cms_form_compassion.form.widget.terms',
@@ -177,7 +176,7 @@ if not testing:
             return statement.text
 
         def form_before_create_or_update(self, values, extra_values):
-            super(EventRegistrationForm, self).form_before_create_or_update(
+            super().form_before_create_or_update(
                 values, extra_values
             )
             if extra_values.get('single_double_room') == 'double' and not \
@@ -200,7 +199,7 @@ if not testing:
             partner.set_privacy_statement(origin='group_visit')
 
         def form_next_url(self, main_object=None):
-            return u'/event/{}/confirmation?title={}&message={}'.format(
+            return '/event/{}/confirmation?title={}&message={}'.format(
                 self.main_object.compassion_event_id.id,
                 _("Thank you!"),
                 _("We are glad to confirm your registration to %s. "

@@ -1,4 +1,3 @@
-# coding: utf-8
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -30,7 +29,7 @@ class PaymentTransaction(models.Model):
         for transaction in self:
             if 'EVENT-DON' in transaction.reference:
                 transaction.invoice_id.action_invoice_cancel()
-        return super(PaymentTransaction, self).cancel_transaction()
+        return super().cancel_transaction()
 
     @api.multi
     def cancel_transaction_on_update(self):
@@ -42,10 +41,10 @@ class PaymentTransaction(models.Model):
         for transaction in self:
             if 'EVENT-DON' in transaction.reference:
                 transaction.invoice_id.action_invoice_cancel()
-        return super(PaymentTransaction, self).cancel_transaction_on_update()
+        return super().cancel_transaction_on_update()
 
     def _get_payment_invoice_vals(self):
-        vals = super(PaymentTransaction, self)._get_payment_invoice_vals()
+        vals = super()._get_payment_invoice_vals()
         vals['transaction_id'] = self.postfinance_payid
         vals['reference'] = self.postfinance_payid
         return vals
@@ -54,4 +53,4 @@ class PaymentTransaction(models.Model):
         if 'EVENT-DON' in self.reference:
             # Only post when partner was not created
             return self.partner_id.state == 'active'
-        return super(PaymentTransaction, self)._get_auto_post_invoice()
+        return super()._get_auto_post_invoice()

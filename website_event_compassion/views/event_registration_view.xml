@@ -144,13 +144,7 @@
         <field name="code">
             records.button_reg_close()
         </field>
+        <field name="state">code</field>
+        <field name="binding_model_id" ref="model_event_registration"/>
     </record>
-    <record id="event_registration_all_attended" model="ir.values">
-        <field eval="'client_action_multi'" name="key2"/>
-        <field eval="'event.registration'" name="model"/>
-        <field name="name">Attended</field>
-        <field eval="'ir.actions.server,%d'%event_registration_all_attended_action"
-               name="value"/>
-    </record>
-
 </odoo>

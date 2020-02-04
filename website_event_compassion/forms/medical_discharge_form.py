@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -42,7 +41,7 @@ if not testing:
 
         @property
         def form_widgets(self):
-            res = super(MedicalDischargeForm, self).form_widgets
+            res = super().form_widgets
             res['medical_discharge'] = 'cms_form_compassion.form.widget' \
                 '.document'
             return res

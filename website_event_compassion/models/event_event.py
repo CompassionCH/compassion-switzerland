@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -123,7 +122,7 @@ class Event(models.Model):
 
     def _default_tickets(self):
         """ Add flight and single room supplement by default. """
-        res = super(Event, self)._default_tickets()
+        res = super()._default_tickets()
         room = self.env.ref(
             'website_event_compassion.product_template_single_room')
         flight = self.env.ref(

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -54,13 +53,13 @@ if not testing:
         @property
         def form_widgets(self):
             # Hide fields
-            res = super(DownpaymentForm, self).form_widgets
+            res = super().form_widgets
             res['partner_name'] = 'cms_form_compassion.form.widget.readonly'
             res['amount'] = 'cms_form_compassion.form.widget.readonly'
             return res
 
         def form_init(self, request, main_object=None, **kw):
-            form = super(DownpaymentForm, self).form_init(
+            form = super().form_init(
                 request, main_object, **kw)
             # Store ambassador and event in model to use it in properties
             registration = kw.get('registration')
@@ -88,7 +87,7 @@ if not testing:
 
         def form_before_create_or_update(self, values, extra_values):
             """ Inject invoice values """
-            super(DownpaymentForm, self).form_before_create_or_update(
+            super().form_before_create_or_update(
                 values, extra_values)
             values['partner_id'] = self.partner_id.id
 

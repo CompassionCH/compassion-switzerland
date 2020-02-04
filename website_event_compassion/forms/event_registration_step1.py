@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -53,7 +52,7 @@ if not testing:
 
         @property
         def form_widgets(self):
-            res = super(EventRegistrationForm, self).form_widgets
+            res = super().form_widgets
             res.update({
                 'partner_birthdate': 'cms.form.widget.date.ch',
             })
@@ -68,7 +67,7 @@ if not testing:
             return _("Register now")
 
         def form_init(self, request, main_object=None, **kw):
-            form = super(EventRegistrationForm, self).form_init(
+            form = super().form_init(
                 request, main_object, **kw)
             # Store event in form to get its values
             form.event_id = kw.get('event').sudo().odoo_event_id
@@ -81,7 +80,7 @@ if not testing:
             :param extra_values: extra form values
             :return: Nothing
             """
-            super(EventRegistrationForm, self).form_before_create_or_update(
+            super().form_before_create_or_update(
                 values, extra_values
             )
             name = extra_values.get('partner_lastname', '') + ' ' + \
@@ -116,7 +115,7 @@ if not testing:
                                     partner.lastname.lower()):
                 return self.match_create(partner, partner_vals)
             else:
-                return super(EventRegistrationForm, self).match_after_match(
+                return super().match_after_match(
                     partner, new_partner, partner_vals, opt)
 
         def _form_create(self, values):

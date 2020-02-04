@@ -48,7 +48,7 @@
                     </group>
                 </page>
             </xpath>
-            <xpath expr="//notebook/page[1]/group[1]" position="inside">
+            <xpath expr="//group" position="inside">
                 <group>
                     <field name="visa_needed"/>
                     <field name="months_needed_for_a_visa" attrs="{'invisible': [('visa_needed', '=', False)]}"/>
@@ -56,9 +56,6 @@
             </xpath>
             <field name="event_type_id" position="attributes">
                 <attribute name="options">{'limit': 12}</attribute>
-            </field>
-            <field name="reply_to" position="attributes">
-                <attribute name="invisible">1</attribute>
             </field>
             <xpath expr="//field[@name='event_mail_ids']//field[@name='template_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
