@@ -418,17 +418,6 @@
         </field>
     </record>
 
-<!--    <record id="view_partner_form_invoice_button_ch" model="ir.ui.view">-->
-<!--        <field name="name">res.partner.form.invoice.switzerland</field>-->
-<!--        <field name="model">res.partner</field>-->
-<!--        <field name="inherit_id" ref="account.partner_view_buttons"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <button name="action_view_partner_invoices" position="attributes">-->
-<!--                <attribute name="name">action_view_partner_invoices_ch</attribute>-->
-<!--            </button>-->
-<!--        </field>-->
-<!--    </record>-->
-
     <!-- Add partner title fields -->
     <record id="view_partner_title_ch_form" model="ir.ui.view">
         <field name="name">res.partner.title.ch.form</field>
@@ -457,15 +446,8 @@
         </field>
     </record>
 
-<!--    <record id="agree_to_child_protection_charter_item" model="ir.default">-->
-<!--        <field eval="'client_action_multi'" name="key2"/>-->
-<!--        <field name="model">res.partner</field>-->
-<!--        <field name="name">Has agreed to the child protection charter item</field>-->
-<!--        <field eval="'ir.actions.server,%d'%agree_to_child_protection_charter_action" name="value"/>-->
-<!--    </record>-->
-
     <!-- Delete Contacts Top Menu -->
-    <delete model="ir.ui.menu" id="mail.menu_contacts"/>
+    <delete model="ir.ui.menu" id="contact.menu_contacts"/>
 
     <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form"
               parent="child_compassion.menu_sponsorship_section" sequence="0"/>
