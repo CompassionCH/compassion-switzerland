@@ -8,6 +8,7 @@
 #
 ##############################################################################
 import re
+from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
@@ -241,8 +242,8 @@ if not testing:
                 valid = True
                 old = False
                 try:
-                    date = fields.Date.from_string(value)
-                    limit_date = fields.Date.from_string(
+                    date = datetime.strptime(value, '%d.%m.%Y')
+                    limit_date = fields.Datetime.from_string(
                         self.main_object.compassion_event_id.end_date
                     ) + relativedelta(months=6)
                     old = date < limit_date

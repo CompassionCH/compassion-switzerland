@@ -105,8 +105,8 @@ if not testing:
             valid = True
             old = False
             try:
-                date = fields.Date.from_string(value)
-                today = date.today()
+                date = datetime.strptime(value, '%d.%m.%Y')
+                today = datetime.now()
                 old = date < today
                 valid = not old
             except ValueError:
