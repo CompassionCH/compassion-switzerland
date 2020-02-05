@@ -26,7 +26,7 @@ except ImportError:
     _logger.warning("Please install pandas for the Advocate CRON to work")
 
 
-class AdvocateDetails(models.Model, geo_model.GeoModel):
+class AdvocateDetails(geo_model.GeoModel):
     _name = "advocate.details"
     _description = "Advocate Details"
     _rec_name = "partner_id"

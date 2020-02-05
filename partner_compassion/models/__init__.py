@@ -19,4 +19,3 @@ from . import mail_thread
 from . import advocate_engagement
 from . import match_partner
 from . import survey_user_input_line
-from . import res_partner

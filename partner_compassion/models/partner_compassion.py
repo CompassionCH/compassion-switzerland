@@ -16,6 +16,7 @@ from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
 from odoo.tools.config import config
 from odoo.addons.base_geoengine.fields import GeoPoint
+from odoo.addons.base_geoengine import geo_model
 from odoo.addons.base_geoengine import fields as geo_fields
 
 # fields that are synced if 'use_parent_address' is checked
@@ -33,7 +34,7 @@ except ImportError:
     logger.warning("Please install python dependencies.", exc_info=True)
 
 
-class ResPartner(models.Model):
+class ResPartner(geo_model.GeoModel):
     """ This class upgrade the partners to match Compassion needs.
         It also synchronize all changes with the MySQL server of GP.
     """
@@ -123,6 +124,18 @@ class ResPartner(models.Model):
     # module mail
     opt_out = fields.Boolean(track_visibility='onchange')
 
+    # Surveys
+    survey_input_lines = fields.One2many(
+        comodel_name='survey.user_input_line', inverse_name='partner_id',
+        string='Surveys answers')
+    survey_inputs = fields.One2many(
+        comodel_name='survey.user_input', inverse_name='partner_id',
+        string='Surveys')
+    survey_input_count = fields.Integer(
+        string='Survey number', compute='_compute_survey_input_count',
+        store=True)
+
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
@@ -163,6 +176,11 @@ class ResPartner(models.Model):
         Update the sponsorship number for the related church as well.
         """
         return super().update_number_sponsorships()
+
+    @api.depends('survey_inputs')
+    def _compute_survey_input_count(self):
+        for survey in self:
+            survey.survey_input_count = len(survey.survey_inputs)
 
     ##########################################################################
     #                              ORM METHODS                               #
