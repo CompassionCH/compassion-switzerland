@@ -447,7 +447,7 @@
     </record>
 
     <!-- Delete Contacts Top Menu -->
-    <delete model="ir.ui.menu" id="contact.menu_contacts"/>
+    <delete model="ir.ui.menu" id="contacts.menu_contacts"/>
 
     <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form"
               parent="child_compassion.menu_sponsorship_section" sequence="0"/>
