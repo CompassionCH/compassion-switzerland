@@ -8,8 +8,8 @@
     <!-- Configuration View -->
     <record id="view_notification_settings_muskathlon_form" model="ir.ui.view">
         <field name="name">staff.notification.settings.muksathlon.form</field>
-        <field name="model">staff.notification.settings</field>
-        <field name="inherit_id" ref="child_compassion.view_notification_settings_form"/>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="child_compassion.compassion_settings"/>
         <field name="arch" type="xml">
             <field name="disaster_notify_ids" position="after">
                 <field name="advocate_birthday_fr_id"/>

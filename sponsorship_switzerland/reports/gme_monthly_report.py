@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 
-from odoo import api, models, fields, tools
+from odoo import api, models, fields, tools, _
 
 
 class EndSponsorshipsMonthReport(models.Model):
@@ -12,7 +11,17 @@ class EndSponsorshipsMonthReport(models.Model):
     _rec_name = 'date'
 
     lang = fields.Selection('select_lang', readonly=True)
-    end_reason = fields.Selection('get_ending_reasons', readonly=True)
+    end_reason_id = fields.Selection([
+        ('2', _("Mistake from our staff")),
+        ('3', _("Death of partner")),
+        ('4', _("Moved to foreign country")),
+        ('5', _("Not satisfied")),
+        ('6', _("Doesn't pay")),
+        ('8', _("Personal reasons")),
+        ('9', _("Never paid")),
+        ('12', _("Financial reasons")),
+        ('25', _("Not given")),
+    ], readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
 
     @api.model
@@ -20,16 +29,9 @@ class EndSponsorshipsMonthReport(models.Model):
         langs = self.env['res.lang'].search([])
         return [(lang.code, lang.name) for lang in langs]
 
-    def get_ending_reasons(self):
-        return self.env['recurring.contract'].with_context(
-            default_type='S').get_ending_reasons()
-
-    def _get_sds_states(self):
-        return self.env['recurring.contract']._get_sds_states()
-
     def _select_category(self):
         return """
-            CASE c.end_reason
+            CASE c.end_reason_id
             WHEN '1' THEN 'child'
             ELSE 'sponsor'
             END
@@ -63,7 +65,7 @@ class EndSponsorshipsMonthReport(models.Model):
         # pylint:disable=E8103
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW %s AS
-            SELECT c.id, c.end_date, c.end_reason, c.sub_sponsorship_id,
+            SELECT c.id, c.end_date, c.end_reason_id, c.sub_sponsorship_id,
                    c.sds_state, p.id as partner_id, %s, %s, %s,
                    p.lang, 100/s.active_sponsorships as active_percentage,
                    100.0/s.terminated_sponsorships as total_percentage,

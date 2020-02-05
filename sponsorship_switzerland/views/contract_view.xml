@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_recurring_contract_tree_compassion" model="ir.ui.view">
+    <record id="view_recurring_contract_tree_compassion_switzerland" model="ir.ui.view">
         <field name="name">recurring.contract.compassion.tree</field>
         <field name="model">recurring.contract</field>
         <field name="inherit_id" ref="crm_compassion.view_contract_tree_crm"/>
         <field eval="18" name="priority"/>
         <field name="arch" type="xml">
             <tree position="attributes">
-                <attribute name="colors">blue:state == 'draft';red:state == 'mandate';green:state == 'waiting';black:state == 'active';gray:state in ('terminated','cancelled')</attribute>
+                <attribute name="decoration-danger">"state == 'mandate'"</attribute>
+                <attribute name="decoration-info">"state == 'mandate'"</attribute>
+                <attribute name="decoration-success">"state == 'mandate'"</attribute>
+                <attribute name="decoration-primary">"state == 'mandate'"</attribute>
+                <attribute name="decoration-warning">"state == 'mandate'"</attribute>
+                  decoration-info="state == 'draft'"
+                  decoration-success="state == 'waiting'"
+                  decoration-primary="state == 'active'"
+                  decoration-warning="state in ('terminated','cancelled')"
             </tree>
+
             <field name="origin_id" position="after">
                 <field name="previous_child_id"/>
             </field>

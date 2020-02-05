@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -12,6 +11,7 @@ import logging
 import tempfile
 import uuid
 
+from ast import literal_eval
 from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
 from odoo.tools.config import config
@@ -39,14 +39,6 @@ class ResPartner(models.Model):
     """
     _inherit = 'res.partner'
 
-    def _get_receipt_types(self):
-        """ Display values for the receipt selection fields. """
-        return [
-            ('no', _('No receipt')),
-            ('default', _('Default')),
-            ('only_email', _('Only email')),
-            ('paper', _('On paper'))]
-
     ##########################################################################
     #                        NEW PARTNER FIELDS                              #
     ##########################################################################
@@ -61,10 +53,16 @@ class ResPartner(models.Model):
     deathdate = fields.Date('Death date', track_visibility='onchange')
     nbmag = fields.Integer('Number of Magazines', size=2,
                            required=True, default=1)
-    tax_certificate = fields.Selection(
-        _get_receipt_types, required=True, default='default')
-    thankyou_letter = fields.Selection(
-        _get_receipt_types, 'Thank you letter',
+    tax_certificate = fields.Selection([
+        ('no', _('No receipt')),
+        ('default', _('Default')),
+        ('only_email', _('Only email')),
+        ('paper', _('On paper'))], required=True, default='default')
+    thankyou_letter = fields.Selection([
+        ('no', _('No receipt')),
+        ('default', _('Default')),
+        ('only_email', _('Only email')),
+        ('paper', _('On paper'))], 'Thank you letter',
         required=True, default='default')
     calendar = fields.Boolean(
         help="Indicates if the partner wants to receive the Compassion "
@@ -164,9 +162,7 @@ class ResPartner(models.Model):
         """
         Update the sponsorship number for the related church as well.
         """
-        return super(
-            ResPartner,
-            self + self.mapped('church_id')).update_number_sponsorships()
+        return super().update_number_sponsorships()
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -206,8 +202,8 @@ class ResPartner(models.Model):
         email = vals.get('email')
         if email:
             vals['email'] = email.strip()
-        res = super(ResPartner, self).write(vals)
-        if set(('country_id', 'city', 'zip')).intersection(vals):
+        res = super().write(vals)
+        if {'country_id', 'city', 'zip'}.intersection(vals):
             self.geo_localize()
             self.compute_geopoint()
         return res
@@ -223,7 +219,7 @@ class ResPartner(models.Model):
             if not res:
                 res = self.search(
                     ['|', ('name', '%', name), ('name', 'ilike', name)],
-                    order=u"similarity(res_partner.name, '%s') DESC" % name,
+                    order="similarity(res_partner.name, '%s') DESC" % name,
                     limit=limit)
             # Search by e-mail
             if not res:
@@ -242,8 +238,8 @@ class ResPartner(models.Model):
                 break
         if fuzzy_search:
             order = self.env.cr.mogrify(
-                u"similarity(res_partner.name, %s) DESC", [fuzzy_search])
-        return super(ResPartner, self).search(
+                "similarity(res_partner.name, %s) DESC", [fuzzy_search])
+        return super().search(
             args, offset, limit, order, count)
 
     ##########################################################################
@@ -322,13 +318,24 @@ class ResPartner(models.Model):
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
+    def action_view_partner_invoices(self):
+        action = super().action_view_partner_invoices()
+
+        action['domain'] = literal_eval(action['domain'])
+        action['domain'].clear()
+        action['domain'].append(('type', 'in', ['out_invoice', 'out_refund']))
+        action['context'].update({
+            'search_default_partner_id': self.env.uid,
+            })
+        return action
+
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
     @api.multi
     def onchange_type(self, is_company):
         """ Put title 'Friends of Compassion for companies. """
-        res = super(ResPartner, self).onchange_type(is_company)
+        res = super().onchange_type(is_company)
         if is_company:
             res['value']['title'] = self.env.ref(
                 'partner_compassion.res_partner_title_friends').id
@@ -346,7 +353,7 @@ class ResPartner(models.Model):
         # Store information in CSV, inside encrypted zip file.
         self._secure_save_data()
 
-        super(ResPartner, self).forget_me()
+        super().forget_me()
         # Delete other objects and custom CH fields
         self.write({
             'church_id': False,
@@ -446,7 +453,7 @@ class ResPartner(models.Model):
         Include sponsorships of church members
         :return: search domain for recurring.contract
         """
-        domain = super(ResPartner, self)._get_active_sponsorships_domain()
+        domain = super()._get_active_sponsorships_domain()
         domain.insert(0, '|')
         domain.insert(3, ('partner_id', 'in', self.mapped('member_ids').ids))
         domain.insert(4, '|')
@@ -461,8 +468,7 @@ class ResPartner(models.Model):
         :param message: the message record
         :return: mail values
         """
-        mail_values = super(ResPartner,
-                            self)._notify_prepare_email_values(message)
+        mail_values = super()._notify_prepare_email_values(message)
 
         # Find reply-to in mail template.
         base_template = None

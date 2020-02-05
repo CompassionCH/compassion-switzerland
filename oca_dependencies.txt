@@ -20,7 +20,6 @@ compassion-accounting https://github.com/CompassionCH/compassion-accounting 11.0
 compassion-modules https://github.com/CompassionCH/compassion-modules 11.0
 connector-telephony
 partner-contact
-server-ux
 crm
 geospatial
 partner-contact

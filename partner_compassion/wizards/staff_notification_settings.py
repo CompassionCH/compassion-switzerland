@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -14,7 +14,7 @@ from odoo import api, models, fields
 
 class StaffNotificationSettings(models.TransientModel):
     """ Settings configuration for any Notifications."""
-    _inherit = 'staff.notification.settings'
+    _inherit = 'res.config.settings'
 
     # Notify for advocate birthdays
     advocate_birthday_fr_id = fields.Many2one(
@@ -70,10 +70,22 @@ class StaffNotificationSettings(models.TransientModel):
             str(self.advocate_birthday_en_id.id)
         )
 
+    @api.multi
+    def set_values(self):
+        super().set_values()
+        self.set_advocate_birthday_de()
+        self.set_advocate_birthday_en()
+        self.set_advocate_birthday_fr()
+        self.set_advocate_birthday_it()
+
+    @api.model
+    def get_values(self):
+        res = super().get_values()
+        return res
+
     @api.model
     def get_default_values(self, _fields):
-        res = super(StaffNotificationSettings,
-                    self).get_default_values(_fields)
+        res = super().get_default_values(_fields)
         param_obj = self.env['ir.config_parameter']
         res.update({
             'advocate_birthday_fr_id': int(param_obj.get_param(

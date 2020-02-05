@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
@@ -52,7 +51,7 @@ class RecurringContracts(models.Model):
     @api.model
     def _get_states(self):
         """ Add a waiting mandate state """
-        states = super(RecurringContracts, self)._get_states()
+        states = super()._get_states()
         states.insert(2, ('mandate', _('Waiting Mandate')))
         return states
 
@@ -108,11 +107,11 @@ class RecurringContracts(models.Model):
             self._on_change_group_id(vals['group_id'])
 
         # Write the changes
-        return super(RecurringContracts, self).write(vals)
+        return super().write(vals)
 
     @api.onchange('child_id')
     def onchange_child_id(self):
-        res = super(RecurringContracts, self).onchange_child_id()
+        res = super().onchange_child_id()
         warn_categories = self.correspondent_id.category_id.filtered(
             'warn_sponsorship')
         if warn_categories:
@@ -200,7 +199,7 @@ class RecurringContracts(models.Model):
         """ Hook for doing something when contract is activated.
         Update partner to add the 'Sponsor' category
         """
-        super(RecurringContracts, self).contract_active()
+        super().contract_active()
         # Check if partner is active
         need_validation = self.filtered(
             lambda s: s.partner_id.state != 'active')
@@ -262,7 +261,7 @@ class RecurringContracts(models.Model):
                 if next_invoice_date > old_invoice_date:
                     contract.next_invoice_date = fields.Date.to_string(
                         next_invoice_date)
-            super(RecurringContracts, contract).contract_waiting()
+            super(contract).contract_waiting()
             contract._reconcile_open_amount()
 
         super(RecurringContracts, self-sponsorships).contract_waiting()
@@ -303,7 +302,7 @@ class RecurringContracts(models.Model):
         """ For LSV/DD contracts, don't clean invoices that are in a
             Payment Order.
         """
-        search = super(RecurringContracts, self)._filter_clean_invoices(
+        search = super()._filter_clean_invoices(
             since_date, to_date)
         invoices = self.env['account.invoice.line'].search(search).mapped(
             'invoice_id')
@@ -316,9 +315,7 @@ class RecurringContracts(models.Model):
         """ For LSV/DD contracts, don't clean invoices that are in a
             Payment Order.
         """
-        invoice_lines = super(
-            RecurringContracts, self)._get_invoice_lines_to_clean(
-                since_date, to_date)
+        invoice_lines = super()._get_invoice_lines_to_clean(since_date, to_date)
         lsv_dd_invoices = self._get_lsv_dd_invoices(invoice_lines.mapped(
             'invoice_id'))
         return invoice_lines.filtered(
@@ -347,7 +344,7 @@ class RecurringContracts(models.Model):
             Remove sponsor category if sponsor has no other active
             sponsorships.
         """
-        super(RecurringContracts, self)._on_sponsorship_finished()
+        super()._on_sponsorship_finished()
         sponsor_cat_id = self.env.ref(
             'partner_compassion.res_partner_category_sponsor').id
         old_sponsor_cat_id = self.env.ref(
@@ -391,18 +388,18 @@ class RecurringContracts(models.Model):
             group_id)
         payment_name = group.payment_mode_id.name
         if group and ('LSV' in payment_name or 'Postfinance' in payment_name):
-            self.signal_workflow('will_pay_by_lsv_dd')
+            self.contract_waiting_mandate()
         else:
             # Check if old payment_mode was LSV or DD
             for contract in self.filtered('group_id'):
                 payment_name = contract.payment_mode_id.name
                 if 'LSV' in payment_name or 'Postfinance' in payment_name:
-                    contract.signal_workflow('mandate_validated')
+                    contract.contract_active()
 
     @api.multi
     def _update_invoice_lines(self, invoices):
         """ Update bvr_reference of invoices """
-        super(RecurringContracts, self)._update_invoice_lines(invoices)
+        super()._update_invoice_lines(invoices)
         for contract in self:
             ref = False
             bank_modes = self.env['account.payment.mode'].with_context(
@@ -426,7 +423,7 @@ class RecurringContracts(models.Model):
             ('reconciled', '=', False)
         ])
         number_to_reconcile = int(
-            sum(move_lines.mapped('credit') or [0])) / int(self.total_amount)
+            sum(move_lines.mapped('credit') or [0])) // int(self.total_amount)
         if number_to_reconcile:
             self.button_generate_invoices()
             invoices = self.invoice_line_ids.mapped('invoice_id').sorted(
@@ -451,5 +448,5 @@ class RecurringContracts(models.Model):
 
         inv_lines.mapped('invoice_id').cancel_payment_lines()
 
-        return super(RecurringContracts, self)._clean_invoices(
+        return super()._clean_invoices(
             since_date, to_date, keep_lines, clean_invoices_paid)

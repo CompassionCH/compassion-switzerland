@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -14,7 +13,7 @@ from odoo.tests.common import TransactionCase
 class TestCompletionRulesSwitzerland(TransactionCase):
 
     def setUp(self):
-        super(TestCompletionRulesSwitzerland, self).setUp()
+        super().setUp()
 
     def test_matching_using_partner_reference__when_no_client_is_matched(self):
         st_line = {'ref': 'xxxxxxxxx1111111'}

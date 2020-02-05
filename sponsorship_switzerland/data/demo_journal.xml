@@ -11,16 +11,16 @@
         <field name="partner_id" ref="base.main_partner" />
     </record>
 
-    <record id="journal_raif" model="account.journal">
-        <field name="name">Raiffeisen Current Account CHF</field>
-        <field name="code">RCC</field>
-        <field name="type">bank</field>
-        <field name="bank_account_id" ref="bank_partner_raiff"/>
-    </record>
-    <record id="journal_post" model="account.journal">
-        <field name="name">Postfinance CHF</field>
-        <field name="code">CCP</field>
-        <field name="type">bank</field>
-        <field name="bank_account_id" ref="bank_partner_post"/>
-    </record>
+<!--    <record id="journal_raif" model="account.journal">-->
+<!--        <field name="name">Raiffeisen Current Account CHF</field>-->
+<!--        <field name="code">RCC</field>-->
+<!--        <field name="type">bank</field>-->
+<!--        <field name="bank_account_id" ref="bank_partner_raiff"/>-->
+<!--    </record>-->
+<!--    <record id="journal_post" model="account.journal">-->
+<!--        <field name="name">Postfinance CHF</field>-->
+<!--        <field name="code">CCP</field>-->
+<!--        <field name="type">bank</field>-->
+<!--        <field name="bank_account_id" ref="bank_partner_post"/>-->
+<!--    </record>-->
 </odoo>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,22 +29,23 @@
 # pylint: disable=C8101
 {
     'name': 'Tailor Sponsorships to Compassion CH needs',
-    'version': '10.0.1.4.1',
+    'version': '11.0.0.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'crm_compassion',
-        'sponsorship_tracking',
-        'account_payment_line_cancel',
-        'partner_compassion',
-        'account_statement_completion',
-        'l10n_ch_lsv_dd',
-        'gift_compassion',
-        'donation_report_compassion',
-        'web_notify',
-        'sbc_compassion'
+        'crm_compassion',                   # compassion-modules
+        'sponsorship_tracking',             # compassion-modules
+        'account_payment_line_cancel',      # oca_addons/bank-payment
+        'partner_compassion',               # compassion-switzerland
+        'account_statement_completion',     # compassion-accounting
+        'l10n_ch_pain_direct_debit',        # l10n-switzerland
+        'l10n_ch_payment_slip',             # l10n-switzerland
+        'gift_compassion',                  # compassion-modules
+        'donation_report_compassion',       # compassion-accounting
+        'web_notify',                       # oca_addons/web
+        'sbc_compassion'                    # compassion-modules
     ],
     'demo': [
         'data/demo_journal.xml',
@@ -54,12 +54,13 @@
     'data': [
         'data/product.xml',
         'data/completion_rules.xml',
+        'data/payment_methods.xml',
         'data/payment_modes.xml',
         'data/sequence.xml',
         'data/partner_category_data.xml',
-        'workflow/contract_workflow.xml',
         'security/ir.model.access.csv',
         'reports/sponsorships_evolution_reports_view.xml',
+        'reports/end_sponsorships_report_view.xml',
         'reports/new_sponsorships_report_view.xml',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
@@ -68,9 +69,7 @@
         'views/correspondence_view.xml',
         'views/gift_compassion_view.xml',
         'views/load_csv_wizard_view.xml',
-        'reports/end_sponsorships_report_view.xml',
-
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
