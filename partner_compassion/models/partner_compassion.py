@@ -12,7 +12,7 @@ import tempfile
 import uuid
 
 from ast import literal_eval
-from odoo import api, registry, fields, models, _
+from odoo import api, registry, fields, _
 from odoo.tools import mod10r
 from odoo.tools.config import config
 from odoo.addons.base_geoengine.fields import GeoPoint
@@ -134,7 +134,6 @@ class ResPartner(geo_model.GeoModel):
     survey_input_count = fields.Integer(
         string='Survey number', compute='_compute_survey_input_count',
         store=True)
-
 
     ##########################################################################
     #                             FIELDS METHODS                             #
