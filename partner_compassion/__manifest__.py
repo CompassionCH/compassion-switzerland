@@ -35,12 +35,12 @@
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
+        'geoengine_partner',
         'account_banking_mandate',               # oca_addons/bank-payment
         'sbc_compassion',                        # compassion-modules
         'thankyou_letters',                      # compassion-modules
         'mail_sendgrid',
         'partner_contact_birthdate',             # oca_addons/partner-contact
-        'geoengine_partner',
         'base_geolocalize',                      # source/addons/geolocalize
         'web_notify',                            # oca_addons/web
         'partner_contact_in_several_companies',  # oca_addons/partner-contact
