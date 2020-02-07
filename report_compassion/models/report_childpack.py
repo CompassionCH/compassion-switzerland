@@ -48,7 +48,7 @@ class ReportChildpackFull(models.AbstractModel):
         date_limit = date.today() - relativedelta(days=30)
         for project in docs.mapped('project_id').filtered(
                 lambda p: not p.last_update_date or p.last_update_date <
-                          fields.Date.to_string(date_limit) or not p.country_id
+                fields.Date.to_string(date_limit) or not p.country_id
         ):
             project.with_context(async_mode=False).update_informations()
 
