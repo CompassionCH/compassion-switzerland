@@ -10,7 +10,7 @@
 ##############################################################################
 import logging
 
-from odoo import api, models, fields, _
+from odoo import api, models, fields
 
 from odoo.addons.report_compassion.models.contract_group import setlocale
 
