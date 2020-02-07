@@ -78,11 +78,8 @@ class CompassionHold(models.Model):
         failed = self.env[self._name]
 
         to_extend_holds = self.filtered(lambda h: h.no_money_extension < 2)
-        today = fields.Datetime.to_string(fields.Datetime.now())
-
         for hold in to_extend_holds:
-            if hold.no_money_extension < 2 and hold.expiration_date == today\
-                    or (hold.expiration_date - today).days == 1:
+            if hold.no_money_extension < 2:
                 hold_extension = hold.no_money_extension_duration
                 new_hold_date = fields.Datetime.from_string(
                     hold.expiration_date) + timedelta(days=hold_extension)
