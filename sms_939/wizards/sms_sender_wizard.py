@@ -9,7 +9,9 @@
 ##############################################################################
 import base64
 import http.client
-import urllib.request, urllib.parse, urllib.error
+import urllib.request
+import urllib.parse
+import urllib.error
 import logging
 
 from odoo import models, fields, api, _

@@ -8,7 +8,9 @@
 #
 ##############################################################################
 import logging
-import urllib.request, urllib.parse, urllib.error
+import urllib.request
+import urllib.parse
+import urllib.error
 import mock
 from odoo.fields import Datetime
 from odoo.tests import HttpCase
@@ -124,7 +126,7 @@ class TestMobileAppConnector(HttpCase):
         xml = "<?xmlversion='1.0'encoding='utf-8'?>\n<NotificationReply/>"
         self.assertEqual(response.replace(' ', ''), xml)
         self.assertRegex(self._get_sms_message(smsbox_send),
-                                 r'ce lien : http://localhost:8069/r/\w+$')
+                         r'ce lien : http://localhost:8069/r/\w+$')
 
     def _get_sms_message(self, smsbox_send):
         self.assertTrue(smsbox_send.called)
