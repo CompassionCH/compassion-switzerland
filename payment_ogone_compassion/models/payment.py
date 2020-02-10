@@ -50,9 +50,12 @@ class PaymentAcquirerOgone(models.Model):
         for the website visitor. Code copied from ogone module. """
         base_url = request.httprequest.host_url
         ogone_tx_values = dict(values)
+        transaction = self.env['payment.transaction'].search(
+            [('reference', '=', values['reference'])], limit=1
+        )
         temp_ogone_tx_values = {
             'PSPID': self.ogone_pspid,
-            'ORDERID': values['reference'],
+            'ORDERID': values['reference'] + ' - Invoice id: ' + str(transaction.invoice_id.id),
             'AMOUNT': float_repr(float_round(values['amount'], 2) * 100, 0),
             'CURRENCY': values['currency'] and values['currency'].name or '',
             'LANGUAGE': values.get('partner_lang'),
