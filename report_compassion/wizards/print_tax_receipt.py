@@ -43,12 +43,11 @@ class PrintTaxReceipt(models.TransientModel):
 
     @api.multi
     def get_report(self):
-        """Call when button 'Get Report' clicked.
         """
+        Call when button 'Get Report' clicked.
+        Print tax receipt
+        :return: Generated report
         """
-                Print tax receipt
-                :return: Generated report
-                """
         model = 'res.partner'
         records = self.env[model].browse(self.env.context.get('active_ids'))
         data = {
