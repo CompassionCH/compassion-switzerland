@@ -8,6 +8,7 @@
 ##############################################################################
 from odoo import models, fields, api
 from odoo.addons.website.models.website import slugify as slug
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DT_FORMAT
 
 
 class EventCompassion(models.Model):
@@ -34,6 +35,17 @@ class EventCompassion(models.Model):
     accepts_registrations = fields.Boolean(
         related='event_type_id.accepts_registrations')
     seats_expected = fields.Integer(related='odoo_event_id.seats_expected')
+
+    registrations_closed = fields.Boolean("Close new registrations", default=True)
+    registrations_closed_text =\
+        fields.Char("Close Registrations Text", default="This event has ended")
+    registrations_ended = fields.Boolean(compute='_compute_registrations_ended')
+
+    @api.multi
+    def _compute_registrations_ended(self):
+        for event in self:
+            event_end_date = fields.datetime.strptime(event.end_date, DT_FORMAT)
+            event.registrations_ended = fields.datetime.now() > event_end_date
 
     @api.multi
     def _compute_website_url(self):
@@ -71,6 +83,9 @@ class EventCompassion(models.Model):
             elif event.event_type_id in group | youth | indiv:
                 event.type = 'tour'
 
+    def close_registrations(self):
+        self.registrations_closed = True
+
     def open_registrations(self):
         """
         This will create an event.event record and link it to the Compassion
@@ -78,15 +93,17 @@ class EventCompassion(models.Model):
         and participant list.
         :return: action opening the wizard
         """
-        return {
-            'name': 'Open event registrations',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'crm.event.compassion.open.wizard',
-            'context': self.env.context,
-            'target': 'new',
-        }
+        self.registrations_closed = False
+        if not self.odoo_event_id:
+            return {
+                'name': 'Open event registrations',
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'crm.event.compassion.open.wizard',
+                'context': self.env.context,
+                'target': 'new',
+            }
 
     def open_participants(self):
         return {

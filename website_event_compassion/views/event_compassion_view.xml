@@ -8,8 +8,9 @@
         <field name="arch" type="xml">
             <header>
                 <field name="odoo_event_id" invisible="1"/>
-                <field name="accepts_registrations" invisible="1"/>
-                <button name="open_registrations" string="Open registrations" class="oe_highlight" type="object" attrs="{'invisible': ['|', ('accepts_registrations', '!=', True), ('odoo_event_id', '!=', False)]}"/>
+                <field name="registrations_closed" invisible="1"/>
+                <button name="open_registrations" string="Open registrations" class="oe_highlight" type="object" attrs="{'invisible': [('registrations_closed', '=', False)]}"/>
+                <button name="close_registrations" string="Close registrations" type="object" attrs="{'invisible': [('registrations_closed', '=', True)]}"/>
             </header>
             <div name="buttons" position="inside">
                 <button name="open_participants"
@@ -29,6 +30,13 @@
             <field name="type" position="before">
                 <field name="event_type_id" options="{'limit': 12}"/>
             </field>
+
+            <xpath expr="//sheet/group" position="inside">
+                <group>
+                    <field name="registrations_closed_text" attrs="{'invisible': [('registrations_closed', '=', False)]}"/>
+                </group>
+            </xpath>
+
             <notebook>
                 <page string="Donation Receipts">
                     <field name="thank_you_text" widget="text_ckeditor4" options="{'style-inline': true}"/>

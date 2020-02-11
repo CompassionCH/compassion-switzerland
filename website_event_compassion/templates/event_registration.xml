@@ -11,22 +11,31 @@
                 <meta name="robots" content="noindex"/>
             </t>
             <t t-set="title" t-value="form.form_title" />
+            <t t-set="closed" t-value="event.registrations_closed or event.registrations_ended" />
             <div id="wrap" t-att-class="form.form_wrapper_css_klass">
                 <!-- Full width banner -->
                 <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
                 <t t-call="website_event_compassion.event_header"/>
                 <div class="container">
+                    <t t-if="closed and event.registrations_closed_text">
+                        <br />
+                        <span class="form_closed_message" style="color:red" t-esc="event.registrations_closed_text"/>
+                    </t>
                     <t t-if="form.form_title">
                         <h2><span class="form_title" t-esc="form.form_title" /></h2>
                     </t>
+
                     <t t-if="form.form_description">
                         <p class="form_description" t-raw="form.form_description" />
                     </t>
-                    <t t-call="website_event_compassion.group_visit_event_stepper" t-if="event_step"/>
-                    <t t-raw="form.form_render()" />
-                    <p class="mb32" t-if="event_step == 1">
-                        If you wish to register several people (i.e. people of the same family), please register each person separately. During the process, you may use only one correspondence address.
-                    </p>
+
+                    <t t-if="not closed">
+                        <t t-call="website_event_compassion.group_visit_event_stepper" t-if="event_step"/>
+                        <t t-raw="form.form_render()" />
+                        <p class="mb32" t-if="event_step == 1">
+                            If you wish to register several people (i.e. people of the same family), please register each person separately. During the process, you may use only one correspondence address.
+                        </p>
+                    </t>
                 </div>
             </div>
         </t>
