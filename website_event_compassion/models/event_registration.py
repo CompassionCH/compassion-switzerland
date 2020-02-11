@@ -770,3 +770,11 @@ class Event(models.Model):
             # When the registration is created.
             return 'website_event_compassion.mt_registration_create'
         return super()._track_subtype(init_values)
+
+    @api.multi
+    def past_event_action(self):
+        for reg in self:
+            if reg.state == 'open':
+                reg.write({
+                    'stage_id': self.env.ref('website_event_compassion.stage_all_attended').id
+                })

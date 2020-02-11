@@ -1,0 +1,16 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Rule toggling all partners to "Present" when the event has passed -->
+        <record id="past_event_toggle_partner_status" model="base.automation">
+            <field name="name">Events: Update partner status for past events</field>
+            <field name="model_id" ref="model_crm_event_compassion"/>
+            <field name="trigger">on_time</field>
+            <field name="trg_date_id" ref="crm_compassion.field_crm_event_compassion_end_date"/>
+            <field name="trg_date_range">0</field>
+            <field name="trg_date_range_type">minutes</field>
+            <field name="active" eval="True"/>
+            <field name="state">code</field>
+            <field name="code">records.past_event_action()</field>
+        </record>
+    </data>
+</odoo>
