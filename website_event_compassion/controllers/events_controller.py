@@ -101,7 +101,8 @@ class EventsController(PaymentFormController):
 
     def get_event_page_values(self, event, **kwargs):
         """
-        Gets the values used by the website to render the event page.
+        Processes the registration form and gets the values used by the website to
+        render the event page.
         :param event: crm.event.compassion record to render
         :param kwargs: request arguments
         :return: dict: values for the event website template

@@ -569,8 +569,7 @@ class Event(models.Model):
             next_stage = self.env['event.registration.stage'].search([
                 ('sequence', '>', registration.stage_id.sequence),
                 '|',
-                ('event_type_ids', 'in',
-                 registration.stage_id.event_type_ids.ids),
+                ('event_type_ids', 'in', registration.stage_id.event_type_ids.ids),
                 ('event_type_ids', '=', False)
             ], limit=1)
             if next_stage:
@@ -579,12 +578,6 @@ class Event(models.Model):
                     'uuid': self._get_uuid()
                 })
             if next_stage == self.env.ref(
-                    'website_event_compassion.stage_group_pay'):
-                registration.prepare_down_payment()
-            elif next_stage == self.env.ref(
-                    'website_event_compassion.stage_group_documents'):
-                registration.prepare_group_visit_payment()
-            elif next_stage == self.env.ref(
                     'website_event_compassion.stage_group_medical'):
                 registration.prepare_medical_survey()
         # Send potential communications after stage transition
@@ -592,6 +585,9 @@ class Event(models.Model):
         return True
 
     def prepare_down_payment(self):
+        if not self.event_ticket_id:
+            return
+
         # Prepare invoice for down payment
         mode_pay_bvr = self.env['account.payment.mode'].sudo().search([
             ('name', '=', 'BVR')
@@ -620,6 +616,9 @@ class Event(models.Model):
         self.down_payment_id = invoice
 
     def prepare_group_visit_payment(self):
+        if not self.event_id.event_ticket_ids:
+            return
+
         # Prepare invoice for group visit payment
         mode_pay_bvr = self.env['account.payment.mode'].sudo().search([
             ('name', '=', 'BVR')
