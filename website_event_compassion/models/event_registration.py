@@ -108,7 +108,7 @@ class Event(models.Model):
     )
     host_url = fields.Char(compute='_compute_host_url')
     wordpress_host = fields.Char(compute='_compute_wordpress_host')
-    event_name = fields.Char(related='event_id.name')
+    event_name = fields.Char(related='event_id.name', track_visibility='onchange')
     uuid = fields.Char(default=lambda self: self._get_uuid(), copy=False)
     include_flight = fields.Boolean()
     double_room_person = fields.Char('Double room with')
@@ -135,7 +135,7 @@ class Event(models.Model):
     )
     partner_gender = fields.Selection(related='partner_id.title.gender',
                                       readonly=True)
-    comments = fields.Text()
+    comments = fields.Text(track_visibility='onchange')
 
     has_signed_travel_contract = fields.Boolean(compute='_compute_step2_tasks')
     has_signed_child_protection = fields.Boolean(
