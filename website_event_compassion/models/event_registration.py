@@ -715,6 +715,12 @@ class Event(models.Model):
                 'communication_id': communication.id
             })
             communication.send()
+            registration.message_post(
+                _("Event: {}\nPartner:{}\nPartner is under treatment, a medical "
+                  "discharge is required.").format(
+                    registration.event_name, partner.preferred_name),
+                _("Event registration update (medical survey)")
+            )
         return self.write({
             'completed_task_ids': [
                 (4, self.env.ref(
