@@ -43,7 +43,8 @@
         <field name="page_id" ref="gpms_page1"/>
     </record>
     <record id="gpms_question_treatment" model="survey.question">
-        <field name="question">I am under treatment (indicate what is your treatment):</field>
+        <field name="question">I am under treatment:</field>
+        <field name="description"><![CDATA[Indicate what is your treatment or <u>leave the field empty</u>!]]></field>
         <field name="type">free_text</field>
         <field name="page_id" ref="gpms_page1"/>
     </record>
