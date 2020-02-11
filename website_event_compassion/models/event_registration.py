@@ -703,13 +703,15 @@ class Event(models.Model):
                     'object_ids': registration.ids,
                     'config_id': discharge_config.id,
                 })
+            file_data = file_open(
+                'website_event_compassion/static/src/'
+                'medical_discharge_' + partner.lang + '.docx',
+                mode="rb"
+            ).read()
             communication.attachment_ids.create({
                 'name': _('medical discharge.docx'),
                 'report_name': 'report_compassion.a4_bvr',
-                'data': file_open(
-                    'website_event_compassion/static/src/'
-                    'medical_discharge_' + partner.lang + '.docx'
-                ).read().encode('base64'),
+                'data': base64.b64encode(file_data),
                 'communication_id': communication.id
             })
             communication.send()

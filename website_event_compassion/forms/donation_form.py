@@ -136,8 +136,7 @@ if not testing:
         def form_after_create_or_update(self, values, extra_values):
             """ Mark the privacy statement as accepted.
             """
-            super(EventDonationForm,
-                  self).form_after_create_or_update(values, extra_values)
+            super().form_after_create_or_update(values, extra_values)
             partner = self.env['res.partner'].sudo().browse(
                 values.get('partner_id')).exists()
             partner.set_privacy_statement(origin='event_donation')
