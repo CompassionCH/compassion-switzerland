@@ -22,10 +22,15 @@ class PrintSponsorshipBvr(models.TransientModel):
     """
     _name = 'print.sponsorship.bvr'
 
+    def _compute_default_period_selection(self):
+        # After december 15th choose next year by default, to avoid blank BVRs
+        today = datetime.today()
+        return 'next_year' if today >= datetime(today.year, 12, 15) else 'this_year'
+
     period_selection = fields.Selection([
         ('this_year', 'Current year'),
         ('next_year', 'Next year'),
-    ], default='this_year')
+    ], default=_compute_default_period_selection)
     paper_format = fields.Selection([
         ('report_compassion.3bvr_sponsorship', '3 BVR'),
         ('report_compassion.2bvr_sponsorship', '2 BVR'),
@@ -117,6 +122,8 @@ class PrintSponsorshipBvr(models.TransientModel):
         return self.env['report'].get_action(
             records.ids, self.paper_format, data
         )
+
+
 
 
 class PrintBvrDue(models.TransientModel):
