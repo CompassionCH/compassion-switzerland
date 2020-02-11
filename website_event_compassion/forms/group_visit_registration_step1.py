@@ -197,12 +197,17 @@ if not testing:
             })
 
         def form_after_create_or_update(self, values, extra_values):
-            """ Mark the privacy statement as accepted.
+            """
+            Mark the privacy statement as accepted.
+            Create the payment invoices in advance so the staff can edit it when needed
             """
             super().form_after_create_or_update(values, extra_values)
             partner = self.env['res.partner'].sudo().browse(
                 values.get('partner_id')).exists()
             partner.set_privacy_statement(origin='group_visit')
+
+            self.main_object.prepare_down_payment()
+            self.main_object.prepare_group_visit_payment()
 
         def form_next_url(self, main_object=None):
             return '/event/{}/confirmation?title={}&message={}'.format(
