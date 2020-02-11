@@ -70,6 +70,9 @@
                     <button name="get_event_registration_survey" type="object" class="oe_inline oe_stat_button" icon="fa-list-alt">
                         <field name="survey_count" widget="statinfo" string="Surveys"/>
                     </button>
+                    <button name="show_invoice" type="object" class="oe_inline oe_stat_button" icon="fa-file">
+                        <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                    </button>
                 </div>
             </xpath>
 

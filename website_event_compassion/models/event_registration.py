@@ -186,6 +186,7 @@ class Event(models.Model):
         'account.invoice', 'Trip invoice', copy=False)
 
     survey_count = fields.Integer(compute='_compute_survey_count')
+    invoice_count = fields.Integer(compute='_compute_invoice_count')
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -344,6 +345,14 @@ class Event(models.Model):
                     ('partner_id', '=', registration.partner_id.id),
                     ('survey_id', 'in', surveys.ids)
                 ])
+
+    def _compute_invoice_count(self):
+        for registration in self:
+            event = registration.compassion_event_id
+            registration.invoice_count = self.env['account.invoice'].search_count([
+                ('origin', 'like', f'[{event.name}]'),
+                ('partner_id', '=', registration.partner_id.id)
+            ])
 
     @api.depends('medical_survey_id', 'medical_survey_id.state')
     def _compute_requires_medical_discharge(self):
@@ -533,6 +542,23 @@ class Event(models.Model):
             'context': self.env.context,
         }
 
+    @api.multi
+    def show_invoice(self):
+        event_name = self.compassion_event_id.name
+        return {
+            'name': _('Income'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'res_model': 'account.invoice',
+            'src_model': 'event.registration',
+            'context': self.env.context,
+            'domain': [
+                ('origin', 'like', f'[{event_name}]'),
+                ('partner_id', '=', self.partner_id.id)
+            ]
+
+        }
     ##########################################################################
     #                       STAGE TRANSITION METHODS                         #
     ##########################################################################
