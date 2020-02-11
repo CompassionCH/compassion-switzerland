@@ -50,6 +50,6 @@
         'partner_contact_in_several_companies'  # OCA/partner_contact
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

@@ -314,5 +314,4 @@ if not testing:
                 criminal_task = self.env.ref('website_event_compassion.task_criminal')
                 values['completed_task_ids'] = [(4, criminal_task.id)]
             else:
-                if 'completed_task_ids' in values:
-                    del values['completed_task_ids']
+                del values['completed_task_ids']
