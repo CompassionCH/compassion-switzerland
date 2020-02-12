@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2017-2020 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
@@ -52,7 +51,10 @@ class DatabaseCleanup(models.AbstractModel):
         self.env.cr.execute(
             "DELETE FROM mail_message WHERE model IS NULL"
         )
-        models = self.env['ir.model'].search([]).mapped('model')
+
+        self.env.cr.execute(sql.SQL("SELECT DISTINCT model FROM mail_message"))
+        models = [m[0] for m in self.env.cr.fetchall()]
+
         for model in models:
             table = model.replace('.', '_')
             try:
@@ -77,62 +79,69 @@ class DatabaseCleanup(models.AbstractModel):
         today = date.today()
         limit = today - relativedelta(years=1)
         limit_str = limit.strftime("%Y-%m-%d")
-        self.env.cr.execute(
-            "DELETE FROM mail_message WHERE model = 'account.invoice' "
-            "AND res_id IN (SELECT id FROM account_invoice WHERE state IN ("
-            "'cancel', 'paid') AND date_invoice < %s LIMIT 1000)", [limit_str]
-        )
-        count = self.env.cr.rowcount
-        self.env.cr.commit()  # pylint: disable=invalid-commit
-        _logger.info('{} old invoice messages removed'.format(count))
 
-        self.env.cr.execute(
-            "DELETE FROM mail_message WHERE model='gmc.message.pool' AND "
-            "res_id IN (SELECT id FROM gmc_message_pool WHERE state ="
-            "'success' LIMIT 1000)"
-        )
-        count = self.env.cr.rowcount
-        self.env.cr.commit()  # pylint: disable=invalid-commit
-        _logger.info('{} old gmc_pool messages removed'.format(count))
+        if 'account.invoice' in self.env:
+            self.env.cr.execute(
+                "DELETE FROM mail_message WHERE model = 'account.invoice' "
+                "AND res_id IN (SELECT id FROM account_invoice WHERE state IN ("
+                "'cancel', 'paid') AND date_invoice < %s LIMIT 1000)", [limit_str]
+            )
+            count = self.env.cr.rowcount
+            self.env.cr.commit()  # pylint: disable=invalid-commit
+            _logger.info('{} old invoice messages removed'.format(count))
 
-        self.env.cr.execute(
-            "DELETE FROM mail_message WHERE model='partner.communication.job' "
-            "AND res_id IN (SELECT id FROM partner_communication_job WHERE "
-            "state = 'cancel' OR (state = 'done' AND sent_date < %s)"
-            "LIMIT 1000)",
-            [limit_str]
-        )
-        count = self.env.cr.rowcount
-        self.env.cr.commit()  # pylint: disable=invalid-commit
-        _logger.info('{} old partner_communication messages removed'.format(
-            count))
+        if 'gmc.message.pool' in self.env:
+            self.env.cr.execute(
+                "DELETE FROM mail_message WHERE model='gmc.message.pool' AND "
+                "res_id IN (SELECT id FROM gmc_message_pool WHERE state ="
+                "'success' LIMIT 1000)"
+            )
+            count = self.env.cr.rowcount
+            self.env.cr.commit()  # pylint: disable=invalid-commit
+            _logger.info('{} old gmc_pool messages removed'.format(count))
 
-        self.env.cr.execute(
-            "DELETE FROM mail_message WHERE model='correspondence' AND "
-            "res_id IN (SELECT id FROM correspondence WHERE "
-            "state IN ('cancel') OR (state = 'done' AND sent_date < %s))",
-            [limit_str]
-        )
-        count = self.env.cr.rowcount
-        self.env.cr.commit()  # pylint: disable=invalid-commit
-        _logger.info('{} old partner_communication messages removed'.format(
-            count))
+        if 'partner.communication.job' in self.env:
+            self.env.cr.execute(
+                "DELETE FROM mail_message WHERE model='partner.communication.job' "
+                "AND res_id IN (SELECT id FROM partner_communication_job WHERE "
+                "state = 'cancel' OR (state = 'done' AND sent_date < %s)"
+                "LIMIT 1000)",
+                [limit_str]
+            )
+            count = self.env.cr.rowcount
+            self.env.cr.commit()  # pylint: disable=invalid-commit
+            _logger.info('{} old partner_communication messages removed'.format(
+                count))
 
-        self.env.cr.execute(
-            "DELETE FROM mail_message WHERE model='recurring.contract' AND "
-            "res_id IN (SELECT id FROM recurring_contract WHERE "
-            "state IN ('terminated', 'cancelled') AND end_date < %s)",
-            [limit_str]
-        )
-        count = self.env.cr.rowcount
-        self.env.cr.commit()  # pylint: disable=invalid-commit
-        _logger.info('{} old recurring_contract messages removed'.format(
-            count))
+        if 'correspondence' in self.env:
+            self.env.cr.execute(
+                "DELETE FROM mail_message WHERE model='correspondence' AND "
+                "res_id IN (SELECT id FROM correspondence WHERE "
+                "state IN ('cancel') OR (state = 'done' AND sent_date < %s))",
+                [limit_str]
+            )
+            count = self.env.cr.rowcount
+            self.env.cr.commit()  # pylint: disable=invalid-commit
+            _logger.info('{} old partner_communication messages removed'.format(
+                count))
 
-        self.env.cr.execute(
-            "DELETE FROM mail_message WHERE model='account.analytic.account' "
-            "AND date < %s", [limit_str]
-        )
-        count = self.env.cr.rowcount
-        self.env.cr.commit()  # pylint: disable=invalid-commit
-        _logger.info('{} old analytic_account messages removed'.format(count))
+        if 'recurring.contract' in self.env:
+            self.env.cr.execute(
+                "DELETE FROM mail_message WHERE model='recurring.contract' AND "
+                "res_id IN (SELECT id FROM recurring_contract WHERE "
+                "state IN ('terminated', 'cancelled') AND end_date < %s)",
+                [limit_str]
+            )
+            count = self.env.cr.rowcount
+            self.env.cr.commit()  # pylint: disable=invalid-commit
+            _logger.info('{} old recurring_contract messages removed'.format(
+                count))
+
+        if 'account.analytic.account' in self.env:
+            self.env.cr.execute(
+                "DELETE FROM mail_message WHERE model='account.analytic.account' "
+                "AND date < %s", [limit_str]
+            )
+            count = self.env.cr.rowcount
+            self.env.cr.commit()  # pylint: disable=invalid-commit
+            _logger.info('{} old analytic_account messages removed'.format(count))
