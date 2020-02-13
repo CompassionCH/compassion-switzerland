@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -54,13 +55,12 @@
     'data': [
         'data/product.xml',
         'data/completion_rules.xml',
-        'data/payment_methods.xml',
         'data/payment_modes.xml',
         'data/sequence.xml',
         'data/partner_category_data.xml',
+        'workflow/contract_workflow.xml',
         'security/ir.model.access.csv',
         'reports/sponsorships_evolution_reports_view.xml',
-        'reports/end_sponsorships_report_view.xml',
         'reports/new_sponsorships_report_view.xml',
         'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
@@ -69,7 +69,8 @@
         'views/correspondence_view.xml',
         'views/gift_compassion_view.xml',
         'views/load_csv_wizard_view.xml',
+        'reports/end_sponsorships_report_view.xml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
