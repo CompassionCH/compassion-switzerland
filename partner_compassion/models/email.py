@@ -64,5 +64,5 @@ class EmailTemplate(models.Model):
         context = self.env.context.copy()
         if 'tpl_partners_only' in context:
             del context['tpl_partners_only']
-        return super(self.with_context(
+        return super(EmailTemplate, self.with_context(
             context)).generate_email(res_ids, fields=fields)

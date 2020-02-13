@@ -112,7 +112,7 @@ class ResPartner(geo_model.GeoModel):
         help="The date and time when the partner has agreed to the child"
              "protection charter."
     )
-    geo_point = geo_fields.GeoPoint(copy=False)
+    # geo_point = geo_fields.GeoPoint(copy=False)
 
     # add track on fields from module base
     email = fields.Char(track_visibility='onchange')
@@ -256,6 +256,8 @@ class ResPartner(geo_model.GeoModel):
         if fuzzy_search:
             order = self.env.cr.mogrify(
                 "similarity(res_partner.name, %s) DESC", [fuzzy_search])
+        if order and isinstance(order, bytes):
+            order = order.decode("utf-8")
         return super().search(
             args, offset, limit, order, count)
 

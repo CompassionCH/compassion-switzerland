@@ -11,12 +11,28 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="child_compassion.compassion_settings"/>
         <field name="arch" type="xml">
-            <field name="disaster_notify_ids" position="after">
-                <field name="advocate_birthday_fr_id"/>
-                <field name="advocate_birthday_de_id"/>
-                <field name="advocate_birthday_it_id"/>
-                <field name="advocate_birthday_en_id"/>
-            </field>
+            <xpath expr="//div[@name='disaster_alert']" position='after'>
+                <div name="advocate_birthdays">
+                    <label for="advocate_birthday_fr_id" class="o_light_label"/>
+                    <field name="advocate_birthday_fr_id" widget="many2one"/>
+
+                    <label for="advocate_birthday_de_id" class="o_light_label"/>
+                    <field name="advocate_birthday_de_id" widget="many2one"/>
+
+                    <label for="advocate_birthday_fit_id" class="o_light_label"/>
+                    <field name="advocate_birthday_it_id" widget="many2one"/>
+
+                    <label for="advocate_birthday_en_id" class="o_light_label"/>
+                    <field name="advocate_birthday_en_id" widget="many2one"/>
+                </div>
+                <div name="nas_settings">
+                    <label for="share_on_nas"  string="Share" class="o_light_label"/>
+                    <field name="share_on_nas"/>
+
+                    <label for="store_path" string="Store path" class="o_light_label"/>
+                    <field name="store_path"/>
+                </div>
+            </xpath>
         </field>
     </record>
 </odoo>
