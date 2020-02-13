@@ -18,7 +18,7 @@
             name="report_compassion.2bvr_gift_sponsorship"
             menu="False"
     />
-    <record id="report_2bvr_gift_sponsorship" model="ir.actions.report.xml">
+    <record id="report_2bvr_gift_sponsorship" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_a4_no_margin_portrait"/>
     </record>
 
