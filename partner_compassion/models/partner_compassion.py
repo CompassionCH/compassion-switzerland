@@ -17,7 +17,6 @@ from odoo.tools import mod10r
 from odoo.tools.config import config
 from odoo.addons.base_geoengine.fields import GeoPoint
 from odoo.addons.base_geoengine import geo_model
-from odoo.addons.base_geoengine import fields as geo_fields
 
 # fields that are synced if 'use_parent_address' is checked
 ADDRESS_FIELDS = [
@@ -112,7 +111,6 @@ class ResPartner(geo_model.GeoModel):
         help="The date and time when the partner has agreed to the child"
              "protection charter."
     )
-    # geo_point = geo_fields.GeoPoint(copy=False)
 
     # add track on fields from module base
     email = fields.Char(track_visibility='onchange')

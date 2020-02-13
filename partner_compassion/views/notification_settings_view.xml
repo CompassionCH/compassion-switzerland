@@ -19,7 +19,7 @@
                     <label for="advocate_birthday_de_id" class="o_light_label"/>
                     <field name="advocate_birthday_de_id" widget="many2one"/>
 
-                    <label for="advocate_birthday_fit_id" class="o_light_label"/>
+                    <label for="advocate_birthday_it_id" class="o_light_label"/>
                     <field name="advocate_birthday_it_id" widget="many2one"/>
 
                     <label for="advocate_birthday_en_id" class="o_light_label"/>

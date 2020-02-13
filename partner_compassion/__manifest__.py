@@ -63,11 +63,11 @@
         'data/res_partner_actions.xml',
         'data/gist_indexes.xml',
         'views/advocate_details.xml',
+        'views/survey_user_input_action.xml',
         'views/partner_compassion_view.xml',
         'views/product_view.xml',
         'views/partner_check_double.xml',
         'views/notification_settings_view.xml',
-        'views/survey_user_input_action.xml',
         'templates/child_protection_charter.xml'
     ],
     'qweb': [
