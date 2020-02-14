@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -9,6 +8,7 @@
 #
 ##############################################################################
 
+import functools
 from odoo import api, models
 from . import translate_connector
 
@@ -24,14 +24,14 @@ class ResPartner(models.Model):
 
     @api.multi
     def write(self, vals):
-        res = super(ResPartner, self).write(vals)
+        res = super().write(vals)
 
         translation = self.env.ref('partner_compassion.engagement_translation')
 
         for partner in self:
             if translation in partner.engagement_ids:
                 tc_values = ['lang', 'ref', 'email', 'firstname', 'lastname']
-                tc_change = reduce(
+                tc_change = functools.reduce(
                     lambda x, y: x or y, [v in vals for v in tc_values])
 
                 if tc_change:
@@ -44,7 +44,7 @@ class ResPartner(models.Model):
 
     @api.multi
     def agree_to_child_protection_charter(self):
-        res = super(ResPartner, self).agree_to_child_protection_charter()
+        res = super().agree_to_child_protection_charter()
         translation = self.env.ref('partner_compassion.engagement_translation')
         for partner in self:
             advocate = partner.advocate_details_id

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
@@ -36,8 +35,8 @@ class MysqlConnector(object):
         try:
             self._con = MySQLdb.connect(mh, mu, mp, md, charset='utf8')
             self._cur = self._con.cursor(MySQLdb.cursors.DictCursor)
-        except MySQLdb.Error, e:
-            logger.debug("Error %d: %s" % (e.args[0], e.args[1]))
+        except MySQLdb.Error as e:
+            logger.debug(f"Error {e.args[0]}: {e.args[1]}")
 
     def __del__(self):
         """ Close the MySQL connection. """

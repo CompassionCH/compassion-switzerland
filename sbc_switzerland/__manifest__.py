@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,13 +29,16 @@
 # pylint: disable=C8101
 {
     'name': 'Sponsor to beneficiary email communication',
-    'version': '10.0.1.2.0',
+    'version': '11.0.0.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
-    'depends': ['mysql_connector', 'partner_communication_switzerland',
-                'child_switzerland'],
+    'depends': [
+        'mysql_connector',                      # compassion-switzerland
+        'partner_communication_switzerland',    # compassion-switzerland
+        'child_switzerland'                     # compassion-switzerland
+    ],
     'external_dependencies': {
         'python': ['smb', 'pyPdf', 'pysftp', 'wand']
     },
@@ -59,5 +61,5 @@
         'reports/translation_reports_view.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
 }
