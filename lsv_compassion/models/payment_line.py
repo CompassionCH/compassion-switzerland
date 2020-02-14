@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -32,7 +31,6 @@ class BankPaymentLine(models.Model):
         Group payment lines by invoice type.
         :return: list of grouping fields
         """
-        res = super(BankPaymentLine,
-                    self).same_fields_payment_line_and_bank_payment_line()
+        res = super().same_fields_payment_line_and_bank_payment_line()
         res.append('invoice_type')
         return res

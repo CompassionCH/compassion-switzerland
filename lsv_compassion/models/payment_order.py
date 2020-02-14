@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015-2017 Compassion CH (http://www.compassion.ch)
@@ -82,7 +81,7 @@ class PaymentOrder(models.Model):
                     _((('The invoice has been imported in '
                         'a %s payment order : ') % mode) + url))
 
-        return super(PaymentOrder, self).draft2open()
+        return super().draft2open()
 
     @api.multi
     def action_cancel(self):
@@ -94,7 +93,7 @@ class PaymentOrder(models.Model):
                 invoice.message_post(
                     _('The %s order has been cancelled.' % mode))
 
-        return super(PaymentOrder, self).action_cancel()
+        return super().action_cancel()
 
     @api.model
     def _prepare_bank_payment_line(self, paylines):
@@ -103,7 +102,7 @@ class PaymentOrder(models.Model):
         :param paylines: account.payment.line recordset
         :return: dict for bank.payment.line creation
         """
-        res = super(PaymentOrder, self)._prepare_bank_payment_line(paylines)
+        res = super()._prepare_bank_payment_line(paylines)
         partner = paylines.mapped('partner_id')
 
         return self.with_context(lang=partner.lang) \
