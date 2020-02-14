@@ -126,7 +126,7 @@ class MysqlConnector(object):
         query_string = "INSERT INTO {0}({1}) VALUES ({2}) ON DUPLICATE KEY " \
             "UPDATE {3}"
 
-        cols = vals.keys()
+        cols = list(vals.keys())
         col_string = ",".join(cols)
         val_string = ",".join(["%s" for i in range(0, len(vals))])
         update_string = ",".join([
@@ -134,7 +134,7 @@ class MysqlConnector(object):
 
         sql_query = query_string.format(table, col_string, val_string,
                                         update_string)
-        values = vals.values()
+        values = list(vals.values())
         log_string = "UPSERT {0}({1}) WITH VALUES ({2})"
         logger.info(
             log_string.format(table, col_string, val_string) % tuple(values))

@@ -14,7 +14,7 @@ from . import translate_connector
 _logger = logging.getLogger(__name__)
 
 
-class AdvocateDetails(models.Model):
+class AdvocateDetails(models.AbstractModel):
     _inherit = 'advocate.details'
 
     translator_since = fields.Datetime()

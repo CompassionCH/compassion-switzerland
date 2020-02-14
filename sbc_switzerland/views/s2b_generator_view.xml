@@ -4,7 +4,7 @@
     <record id="contract_search_corr_by_compassion" model="ir.ui.view">
         <field name="name">recurring.contract.search.corr.compassion</field>
         <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="contract_compassion.view_recurring_contract_compassion_filter" />
+        <field name="inherit_id" ref="sponsorship_compassion.view_recurring_contract_compassion_filter" />
         <field name="arch" type="xml">
             <search>
                 <separator />
