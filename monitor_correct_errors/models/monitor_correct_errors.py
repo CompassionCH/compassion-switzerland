@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -17,6 +16,7 @@ from datetime import date
 
 class MonitorCorrectErrors(models.Model):
     _name = 'monitor.correct.errors'
+    _description = "Monitor for errors"
 
     error_ids = fields.One2many('error.log', 'monitor_id')
 
@@ -76,7 +76,7 @@ class MonitorCorrectErrors(models.Model):
                 })
 
             except:
-                self.env.invalidate_all()
+                self.env.clear()
                 self._create_reservation(child, error_log)
             self.error_ids += self.env['error.log'].create(error_log)
             # Commit when a error_log is created
@@ -265,7 +265,7 @@ class MonitorCorrectErrors(models.Model):
         except Exception:
 
             # Create a reservation if hold has not been placed.
-            self.env.invalidate_all()
+            self.env.clear()
             self._create_reservation(child, error_log)
 
     def _create_reservation(self, child, error_log):
