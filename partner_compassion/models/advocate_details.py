@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -12,7 +12,7 @@ import logging
 
 from datetime import datetime
 
-from odoo import api, models, fields, _
+from odoo import api, fields, _
 from odoo.tools import file_open
 
 from odoo.addons.base_geoengine import geo_model
@@ -26,7 +26,7 @@ except ImportError:
     _logger.warning("Please install pandas for the Advocate CRON to work")
 
 
-class AdvocateDetails(models.Model, geo_model.GeoModel):
+class AdvocateDetails(geo_model.GeoModel):
     _name = "advocate.details"
     _description = "Advocate Details"
     _rec_name = "partner_id"
@@ -64,7 +64,10 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
     advocacy_source = fields.Text(
         help='Describe how this advocate has partnered with us.'
     )
-    has_car = fields.Selection('_yes_no_selection', 'Has a car')
+    has_car = fields.Selection([
+        ('yes', 'Yes'),
+        ('no', 'No')
+    ], 'Has a car')
     formation_ids = fields.Many2many(
         'calendar.event', string='Formation taken',
         compute='_compute_formation', inverse='_inverse_formation',
@@ -107,13 +110,6 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
          'Only one details per ambassador is allowed!')
     ]
 
-    @api.model
-    def _yes_no_selection(self):
-        return [
-            ('yes', 'Yes'),
-            ('no', 'No')
-        ]
-
     @api.multi
     def _compute_filename(self):
         for details in self:
@@ -124,16 +120,16 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
     def _compute_thank_you_quote(self):
         html_file = file_open(
             'partner_compassion/static/src/html/thank_you_quote_template.html')
-        template_html = unicode(html_file.read())
+        template_html = str(html_file.read())
         for details in self:
+            firstname = details.partner_id.firstname
+            lastname = details.partner_id.lastname
             html_vals = {
-                u'img_alt': details.display_name,
-                u'image_data': details.partner_id.with_context(
+                'img_alt': details.display_name,
+                'image_data': details.partner_id.with_context(
                     bin_size=False).image,
-                u'text': details.quote or '',
-                u'attribution': _('Quote from {firstname} {lastname}').format(
-                    firstname=details.partner_id.firstname,
-                    lastname=details.partner_id.lastname)
+                'text': details.quote or '',
+                'attribution': _(f'Quote from {firstname} {lastname}')
                 if details.quote else '',
             }
             details.thank_you_quote = template_html.format(**html_vals)
@@ -172,7 +168,7 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
     @api.model
     def create(self, vals):
         # Link partner to the advocate details
-        advocate = super(AdvocateDetails, self).create(vals)
+        advocate = super().create(vals)
         advocate.partner_id.advocate_details_id = advocate
         advocate.set_geo_point()
         return advocate
@@ -230,17 +226,16 @@ class AdvocateDetails(models.Model, geo_model.GeoModel):
             lambda a: a.engagement_ids != self.env.ref(
                 "partner_compassion.engagement_sport"))
         for advocate in birthday_advocates:
+            lang = advocate.partner_id.lang[:2]
             notify_partner_id = self.env['staff.notification.settings'].\
-                get_param(
-                'advocate_birthday_{}_id'.format(advocate.partner_id.lang[:2])
-                )
+                get_param(f'advocate_birthday_{lang}_id')
+            preferred_name = advocate.partner_id.preferred_name
+            date = advocate.partner_id.get_date('birthdate_date', '%d %B')
+            display_name = advocate.display_name
             advocate.message_post(
-                body=_(u"This is a reminder that {} will have birthday on {}.")
-                .format(advocate.partner_id.preferred_name,
-                        advocate.partner_id.get_date(
-                            'birthdate_date', '%d %B')),
-                subject=_(u"[{}] Advocate birthday reminder").format(
-                    advocate.display_name),
+                body=_(f"This is a reminder that {preferred_name} "
+                       f"will have birthday on {date}."),
+                subject=_(f"[{display_name}] Advocate birthday reminder"),
                 partner_ids=[notify_partner_id],
                 type='comment',
                 subtype='mail.mt_comment',

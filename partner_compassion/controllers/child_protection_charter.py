@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -53,7 +52,7 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
             request, main_object=partner, **values)
         child_protection_form.form_process()
 
-        partner.env.invalidate_all()
+        partner.env.clear()
         values.update({
             'partner': partner,
             'child_protection_form': child_protection_form,
