@@ -439,10 +439,12 @@ class ResPartner(geo_model.GeoModel):
                 pyminizip.uncompress(
                     src_zip_file.name, SmbConfig.file_pw, zip_dir, 0)
                 csv_path = zip_dir + '/partner_data.csv'
-                with open(csv_path, 'ab') as csv_file:
+                with open(csv_path, 'a', newline='', encoding='utf-8') as csv_file:
                     csv_writer = csv.writer(csv_file)
                     csv_writer.writerow([
-                        str(self.id), self.ref, self.contact_address,
+                        str(self.id),
+                        self.ref,
+                        self.contact_address,
                         fields.Date.today()
                     ])
                 dst_zip_file = tempfile.NamedTemporaryFile()

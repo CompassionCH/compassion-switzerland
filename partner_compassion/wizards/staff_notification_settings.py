@@ -73,9 +73,9 @@ class StaffNotificationSettings(models.TransientModel):
                 else 1)
         )
         self.env['ir.config_parameter'].set_param(
-            'partner_compassion.share_on_nas', "test share")
+            'partner_compassion.share_on_nas', self.share_on_nas)
         self.env['ir.config_parameter'].set_param(
-            'partner_compassion.store_path', "test store")
+            'partner_compassion.store_path', self.store_path)
 
     @api.model
     def get_values(self):
