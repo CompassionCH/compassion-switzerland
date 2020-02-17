@@ -14,24 +14,24 @@
 # To provide both the URL and a branch, use:
 
 # Uncomment when needed
-account-financial-tools 11.0
+account-financial-tools https://github.com/OCA/account-financial-tools 11.0
 bank-payment 11.0
 compassion-accounting https://github.com/CompassionCH/compassion-accounting 11.0
 compassion-modules https://github.com/CompassionCH/compassion-modules 11.0
-connector-telephony 11.0
-partner-contact 11.0
-server-ux 11.0
-crm 11.0
-geospatial 11.0
-partner-contact 11.0
-queue 11.0
-report-print-send 11.0
-server-ux 11.0
-web 11.0
+connector-telephony
+partner-contact
+server-ux
+crm
+geospatial https://github.com/josueBulle/geospatial mix
+partner-contact
+queue
+report-print-send
+server-ux
+social https://github.com/CompassionCH/social 11.0-mig-mail_sendgrid
+web
 website https://github.com/CompassionCH/website 11.0
 website-cms 11.0
 # Uncomment when needed
 # hr
 # sale-workflow https://github.com/OCA/sale-workflow branchname
 # server-tools
-# social

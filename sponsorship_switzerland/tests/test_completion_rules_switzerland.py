@@ -47,7 +47,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         completion_result = rule.auto_complete([], statement_line)
 
         self.assertTrue('partner_id' in completion_result)
-        self.assertEqual(completion_result['partner_id'], 8)
+        self.assertEqual(completion_result['partner_id'], 9)
 
     def test_lookup_by_sponsor_name_with_multiple_matching(self):
         """
@@ -73,7 +73,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         completion_result = rule.auto_complete([], statement_line)
 
         self.assertTrue('partner_id' in completion_result)
-        self.assertEqual(completion_result['partner_id'], 8)
+        self.assertEqual(completion_result['partner_id'], 9)
 
     def test_lookup_by_sponsor_name_with_wire_transfers(self):
         """
@@ -85,7 +85,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         completion_result = rule.auto_complete([], statement_line)
 
         self.assertTrue('partner_id' in completion_result)
-        self.assertEqual(completion_result['partner_id'], 8)
+        self.assertEqual(completion_result['partner_id'], 9)
 
     def test_lsv_dd_for_postfinance(self):
         statement_line = {

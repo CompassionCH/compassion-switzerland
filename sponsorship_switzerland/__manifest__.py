@@ -37,7 +37,7 @@
     'depends': [
         'crm_compassion',                   # compassion-modules
         'sponsorship_tracking',             # compassion-modules
-        'account_payment_line_cancel',      # oca_addons/bank-payment
+        # 'account_payment_line_cancel',      # oca_addons/bank-payment
         'partner_compassion',               # compassion-switzerland
         'account_statement_completion',     # compassion-accounting
         'l10n_ch_pain_direct_debit',        # l10n-switzerland

@@ -38,7 +38,7 @@ class TestContractGroupSwitzerland(BaseSponsorshipTest):
 
     def test_that_changing_payment_mode__regenerate_the_bvr_reference(self):
         group = self.create_group({'partner_id': self.michel.id})
-        group.payment_mode_id = self.env['account.payment.mode'].browse([18])
+        group.payment_mode_id = self.env['account.payment.mode'].browse(16)
 
         self.assertFalse(group.bvr_reference)
         group.on_change_payment_mode()

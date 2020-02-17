@@ -11,6 +11,12 @@
         <field name="partner_id" ref="base.main_partner" />
     </record>
 
+    <record model="res.partner" id="res_partner_ref">
+        <field name="acc_number">CH0709000000173125620</field>
+        <field name="acc_type">iban</field>
+        <field name="partner_id" ref="base.main_partner" />
+    </record>
+
 <!--    <record id="journal_raif" model="account.journal">-->
 <!--        <field name="name">Raiffeisen Current Account CHF</field>-->
 <!--        <field name="code">RCC</field>-->
