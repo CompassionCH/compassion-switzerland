@@ -28,3 +28,4 @@ simplejson
 requests
 pandas
 pyminizip
+unidecode
