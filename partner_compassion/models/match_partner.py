@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -20,7 +20,7 @@ class MatchPartner(models.AbstractModel):
     _inherit = 'res.partner.match'
 
     def match_process_create_infos(self, infos, options=None):
-        create_infos = super(MatchPartner, self).match_process_create_infos(
+        create_infos = super().match_process_create_infos(
             infos, options
         )
 
@@ -50,7 +50,7 @@ class MatchPartner(models.AbstractModel):
                     'active': True,
                     'contact_id': False
                 })
-        return super(MatchPartner, self).match_after_match(
+        return super().match_after_match(
             partner, new_partner, infos, opt
         )
 
@@ -74,4 +74,4 @@ class MatchPartner(models.AbstractModel):
                 self.env['res.partner'].sudo().create(vals)
                 # Don't update e-mail address of main partner
                 del infos['email']
-        return super(MatchPartner, self).match_update(partner, infos, options)
+        return super().match_update(partner, infos, options)

@@ -22,3 +22,8 @@ openupgradelib
 pdfminer
 opencv-python
 opencv-contrib-python
+pysmb
+simplejson
+requests
+pandas
+pyminizip

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,24 +29,26 @@
 # pylint: disable=C8101
 {
     'name': 'Upgrade Partners for Compassion Suisse',
-    'version': '10.0.2.2.1',
+    'version': '11.0.0.0.0',
     'category': 'Partner',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'sbc_compassion',
-        'thankyou_letters',
+        'geoengine_base_geolocalize',            # geospatialslac
+        'account_banking_mandate',               # oca_addons/bank-payment
+        'sbc_compassion',                        # compassion-modules
+        'thankyou_letters',                      # compassion-modules
         'mail_sendgrid',
-        'partner_contact_birthdate',
-        'account_banking_mandate',
-        'geoengine_partner',
-        'base_geolocalize',
-        'web_notify',
-        'partner_survey',
-        'partner_contact_in_several_companies',
+        'partner_contact_birthdate',             # oca_addons/partner-contact
+        'web_notify',                            # oca_addons/web
+        'partner_contact_in_several_companies',  # oca_addons/partner-contact
         'crm_claim',
-        'base_search_fuzzy',
+        'base_search_fuzzy',                     # oca_addons/server-tools
+        'cms_form_compassion',                   # compassion-modules
+        'survey',                                # source/addons
+        'base_phone',                             # oca_addons/connector-telephony
+        'auditlog'
     ],
     'external_dependencies': {
         'python': ['pandas', 'pyminizip', 'sendgrid']
@@ -63,6 +64,7 @@
         'data/res_partner_actions.xml',
         'data/gist_indexes.xml',
         'views/advocate_details.xml',
+        'views/survey_user_input_action.xml',
         'views/partner_compassion_view.xml',
         'views/product_view.xml',
         'views/partner_check_double.xml',
@@ -72,6 +74,6 @@
     'qweb': [
         'static/src/xml/thread_custom.xml'
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
