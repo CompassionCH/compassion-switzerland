@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -20,20 +19,18 @@ class PostponeWaitingReminderWizard(models.TransientModel):
         'recurring.contract', string='Sponsorship', required=True,
     )
     next_reminder = fields.Datetime(required=True)
-    next_reminder_type = fields.Selection(
-        '_select_reminder_type', required=True
-    )
+    next_reminder_type = fields.Selection([
+        ('0', 'Reminder 1'),
+        ('1', 'Reminder 2'),
+        ('2', 'Reminder 3'),
+    ], required=True)
     hold_id = fields.Many2one(
         'compassion.hold', related='sponsorship_id.child_id.hold_id'
     )
 
     @api.model
     def _select_reminder_type(self):
-        return [
-            ('0', 'Reminder 1'),
-            ('1', 'Reminder 2'),
-            ('2', 'Reminder 3'),
-        ]
+        return
 
     @api.multi
     def postpone_reminder(self):

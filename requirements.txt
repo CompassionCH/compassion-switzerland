@@ -22,8 +22,10 @@ openupgradelib
 pdfminer
 opencv-python
 opencv-contrib-python
+python-coveralls
 pysmb
 simplejson
 requests
 pandas
 pyminizip
+unidecode

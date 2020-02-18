@@ -1,5 +1,4 @@
-﻿# -*- coding: utf-8 -*-
-##############################################################################
+﻿##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
@@ -10,7 +9,7 @@
 ##############################################################################
 from odoo import api, models, fields
 from odoo.tools import mod10r
-from odoo.addons.sponsorship_compassion.models.product import GIFT_REF
+from odoo.addons.sponsorship_compassion.models.product_names import GIFT_REF
 
 import logging
 
@@ -23,8 +22,7 @@ class GenerateGiftWizard(models.TransientModel):
 
     @api.multi
     def _setup_invoice(self, contract, invoice_date):
-        res = super(GenerateGiftWizard, self)._setup_invoice(contract,
-                                                             invoice_date)
+        res = super()._setup_invoice(contract, invoice_date)
         res['reference'] = self.generate_bvr_reference(
             contract, self.product_id)
         self._maybe_update_date_for_lsv_dd(res)
