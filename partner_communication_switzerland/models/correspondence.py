@@ -17,8 +17,10 @@ from dateutil.relativedelta import relativedelta
 from odoo import models, api, fields
 from odoo.tools import config
 
-from odoo.addons.sbc_compassion.models.correspondence_page import \
-    BOX_SEPARATOR, PAGE_SEPARATOR
+from odoo.addons.sbc_compassion.models.correspondence_page import (
+    BOX_SEPARATOR,
+    PAGE_SEPARATOR,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -29,29 +31,33 @@ except ImportError:
 
 
 class Correspondence(models.Model):
-    _inherit = 'correspondence'
+    _inherit = "correspondence"
 
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
     letter_delivery_preference = fields.Selection(
-        related='partner_id.letter_delivery_preference')
-    communication_id = fields.Many2one(
-        'partner.communication.job', 'Communication')
-    email_id = fields.Many2one(
-        'mail.mail', 'E-mail', related='communication_id.email_id',
-        store=True, index=True)
-    communication_state = fields.Selection(related='communication_id.state')
-    sent_date = fields.Datetime(
-        'Communication sent', related='communication_id.sent_date',
-        store=True, track_visibility='onchange')
-    email_read = fields.Datetime(
-        compute='_compute_email_read', store=True
+        related="partner_id.letter_delivery_preference"
     )
-    letter_delivered = fields.Boolean(oldname='letter_read')
-    zip_file = fields.Binary(oldname='zip_id', attachment=True)
-    has_valid_language = fields.Boolean(
-        compute='_compute_valid_language', store=True)
+    communication_id = fields.Many2one("partner.communication.job", "Communication")
+    email_id = fields.Many2one(
+        "mail.mail",
+        "E-mail",
+        related="communication_id.email_id",
+        store=True,
+        index=True,
+    )
+    communication_state = fields.Selection(related="communication_id.state")
+    sent_date = fields.Datetime(
+        "Communication sent",
+        related="communication_id.sent_date",
+        store=True,
+        track_visibility="onchange",
+    )
+    email_read = fields.Datetime(compute="_compute_email_read", store=True)
+    letter_delivered = fields.Boolean(oldname="letter_read")
+    zip_file = fields.Binary(oldname="zip_id", attachment=True)
+    has_valid_language = fields.Boolean(compute="_compute_valid_language", store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -60,34 +66,44 @@ class Correspondence(models.Model):
         """ Letter is zip if it contains a zip attachment"""
         for letter in self:
             if letter.zip_file:
-                letter.letter_format = 'zip'
+                letter.letter_format = "zip"
             else:
                 super(Correspondence, letter)._compute_letter_format()
 
     @api.multi
-    @api.depends('supporter_languages_ids', 'page_ids',
-                 'page_ids.translated_text', 'translation_language_id')
+    @api.depends(
+        "supporter_languages_ids",
+        "page_ids",
+        "page_ids.translated_text",
+        "translation_language_id",
+    )
     def _compute_valid_language(self):
         """ Detect if text is written in the language corresponding to the
         language_id """
         for letter in self:
             letter.has_valid_language = False
             if letter.translated_text and letter.translation_language_id:
-                s = letter.translated_text.strip(' \t\n\r.').replace(
-                    BOX_SEPARATOR, '').replace(PAGE_SEPARATOR, '')
+                s = (
+                    letter.translated_text.strip(" \t\n\r.")
+                    .replace(BOX_SEPARATOR, "")
+                    .replace(PAGE_SEPARATOR, "")
+                )
                 if s:
                     # find the language of text argument
                     lang = letter.detect_lang(letter.translated_text)
-                    letter.has_valid_language = lang and lang in letter.\
-                        supporter_languages_ids
+                    letter.has_valid_language = (
+                        lang and lang in letter.supporter_languages_ids
+                    )
 
     @api.multi
-    @api.depends('communication_id.email_id.tracking_event_ids')
+    @api.depends("communication_id.email_id.tracking_event_ids")
     def _compute_email_read(self):
         for mail in self:
-            dates = [x.time for x in
-                     mail.communication_id.email_id.tracking_event_ids
-                     if x.event_type == 'open']
+            dates = [
+                x.time
+                for x in mail.communication_id.email_id.tracking_event_ids
+                if x.event_type == "open"
+            ]
             if mail.communication_id.email_id.opened:
                 if dates:
                     mail.email_read = max(dates)
@@ -102,8 +118,7 @@ class Correspondence(models.Model):
         :param text: text to detect
         :return: res.lang compassion record if the language is found, or False
         """
-        detectlanguage.configuration.api_key = config.get(
-            'detect_language_api_key')
+        detectlanguage.configuration.api_key = config.get("detect_language_api_key")
         language_name = False
         langs = detectlanguage.languages()
         try:
@@ -116,10 +131,13 @@ class Correspondence(models.Model):
                 language_name = lang.get("name")
                 break
         if not language_name:
-            return self.env['res.lang.compassion']
+            return self.env["res.lang.compassion"]
 
-        return self.env['res.lang.compassion'].with_context({'lang': 'en_US'}).search(
-            [('name', '=ilike', language_name)], limit=1)
+        return (
+            self.env["res.lang.compassion"]
+            .with_context({"lang": "en_US"})
+            .search([("name", "=ilike", language_name)], limit=1)
+        )
 
     def get_image(self):
         """ Method for retrieving the image """
@@ -140,21 +158,21 @@ class Correspondence(models.Model):
         if len(self) == 1:
             letter_attach = self
         else:
-            _zip = self.env['correspondence.download.wizard'].with_context(
-                active_model=self._name, active_ids=self.ids).create({})
+            _zip = (
+                self.env["correspondence.download.wizard"]
+                .with_context(active_model=self._name, active_ids=self.ids)
+                .create({})
+            )
             _zip.get_letters()
-            self.write({'zip_file': False})
+            self.write({"zip_file": False})
             letter_attach = self[:1]
-            letter_attach.write({
-                'zip_file': _zip.download_data,
-                'letter_format': 'zip'
-            })
-        base_url = self.env['ir.config_parameter'].get_param(
-            'web.external.url')
-        self.write({
-            'read_url': "{}/b2s_image?id={}".format(base_url,
-                                                    letter_attach.uuid),
-        })
+            letter_attach.write(
+                {"zip_file": _zip.download_data, "letter_format": "zip"}
+            )
+        base_url = self.env["ir.config_parameter"].get_param("web.external.url")
+        self.write(
+            {"read_url": "{}/b2s_image?id={}".format(base_url, letter_attach.uuid), }
+        )
         return True
 
     @api.multi
@@ -180,29 +198,30 @@ class Correspondence(models.Model):
                           already exists.
         :return: True
         """
-        partners = self.mapped('partner_id')
-        final_letter = self.env.ref(
-            'sbc_compassion.correspondence_type_final')
+        partners = self.mapped("partner_id")
+        final_letter = self.env.ref("sbc_compassion.correspondence_type_final")
         final_template = self.env.ref(
-            'partner_communication_switzerland.child_letter_final_config')
+            "partner_communication_switzerland.child_letter_final_config"
+        )
         new_template = self.env.ref(
-            'partner_communication_switzerland.child_letter_config')
+            "partner_communication_switzerland.child_letter_config"
+        )
         old_template = self.env.ref(
-            'partner_communication_switzerland.child_letter_old_config')
+            "partner_communication_switzerland.child_letter_old_config"
+        )
         old_limit = datetime.today() - relativedelta(months=2)
 
         for partner in partners:
             letters = self.filtered(lambda l: l.partner_id == partner)
             no_comm = letters.filtered(lambda l: not l.communication_id)
-            to_generate = letters if self.env.context.get(
-                'overwrite') else no_comm
+            to_generate = letters if self.env.context.get("overwrite") else no_comm
 
             final_letters = to_generate.filtered(
-                lambda l: final_letter in l.communication_type_ids)
+                lambda l: final_letter in l.communication_type_ids
+            )
             new_letters = to_generate - final_letters
             old_letters = new_letters.filtered(
-                lambda l: fields.Datetime.from_string(l.create_date) <
-                old_limit
+                lambda l: fields.Datetime.from_string(l.create_date) < old_limit
             )
             new_letters -= old_letters
 
@@ -210,9 +229,8 @@ class Correspondence(models.Model):
             new_letters._generate_communication(new_template)
             old_letters._generate_communication(old_template)
 
-        if self.env.context.get('force_send'):
-            self.mapped('communication_id').filtered(
-                lambda c: c.state != 'done').send()
+        if self.env.context.get("force_send"):
+            self.mapped("communication_id").filtered(lambda c: c.state != "done").send()
 
         return True
 
@@ -224,13 +242,16 @@ class Correspondence(models.Model):
         :return: True
         """
         unread_config = self.env.ref(
-            'partner_communication_switzerland.child_letter_unread')
+            "partner_communication_switzerland.child_letter_unread"
+        )
         for letter in self:
-            self.env['partner.communication.job'].create({
-                'partner_id': letter.partner_id.id,
-                'config_id': unread_config.id,
-                'object_ids': letter.id
-            })
+            self.env["partner.communication.job"].create(
+                {
+                    "partner_id": letter.partner_id.id,
+                    "config_id": unread_config.id,
+                    "object_ids": letter.id,
+                }
+            )
         return True
 
     ##########################################################################
@@ -245,32 +266,32 @@ class Correspondence(models.Model):
         if not self:
             return True
 
-        partner = self.mapped('partner_id')
+        partner = self.mapped("partner_id")
         auto_send = [l._can_auto_send() for l in self]
         auto_send = reduce(lambda l1, l2: l1 and l2, auto_send)
         comm_vals = {
-            'partner_id': partner.id,
-            'config_id': config.id,
-            'object_ids': self.ids,
-            'auto_send': auto_send and partner.email,    # Don't print auto
-            'user_id': config.user_id.id,
+            "partner_id": partner.id,
+            "config_id": config.id,
+            "object_ids": self.ids,
+            "auto_send": auto_send and partner.email,  # Don't print auto
+            "user_id": config.user_id.id,
         }
 
-        if 'comm_vals' in self.env.context:
-            comm_vals.update(self.env.context['comm_vals'])
+        if "comm_vals" in self.env.context:
+            comm_vals.update(self.env.context["comm_vals"])
 
-        comm_obj = self.env['partner.communication.job']
-        return self.write({
-            'communication_id': comm_obj.create(comm_vals).id
-        })
+        comm_obj = self.env["partner.communication.job"]
+        return self.write({"communication_id": comm_obj.create(comm_vals).id})
 
     @api.model
     def _needaction_domain_get(self):
         ten_days_ago = datetime.today() - relativedelta(days=10)
-        domain = [('direction', '=', 'Beneficiary To Supporter'),
-                  ('state', '=', 'Published to Global Partner'),
-                  ('letter_delivered', '=', False),
-                  ('sent_date', '<', fields.Date.to_string(ten_days_ago))]
+        domain = [
+            ("direction", "=", "Beneficiary To Supporter"),
+            ("state", "=", "Published to Global Partner"),
+            ("letter_delivered", "=", False),
+            ("sent_date", "<", fields.Date.to_string(ten_days_ago)),
+        ]
         return domain
 
     def _can_auto_send(self):
@@ -279,12 +300,12 @@ class Correspondence(models.Model):
         """
         self.ensure_one()
         partner_langs = self.supporter_languages_ids
-        types = self.communication_type_ids.mapped('name')
+        types = self.communication_type_ids.mapped("name")
         valid = (
-            self.sponsorship_id.state == 'active' and
-            'Final Letter' not in types and
-            'HA' not in self.child_id.local_id and
-            'auto' in self.partner_id.letter_delivery_preference
+            self.sponsorship_id.state == "active"
+            and "Final Letter" not in types
+            and "HA" not in self.child_id.local_id
+            and "auto" in self.partner_id.letter_delivery_preference
         )
         if not (partner_langs & self.beneficiary_language_ids):
             valid &= self.has_valid_language
