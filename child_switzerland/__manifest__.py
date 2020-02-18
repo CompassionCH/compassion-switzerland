@@ -42,6 +42,6 @@
         'data/ir.advanced.translation.csv',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
