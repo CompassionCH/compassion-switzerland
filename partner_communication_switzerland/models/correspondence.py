@@ -118,7 +118,7 @@ class Correspondence(models.Model):
         if not language_name:
             return self.env['res.lang.compassion']
 
-        return self.env['res.lang.compassion'].search(
+        return self.env['res.lang.compassion'].with_context({'lang': 'en_US'}).search(
             [('name', '=ilike', language_name)], limit=1)
 
     def get_image(self):
