@@ -433,20 +433,3 @@ class RecurringContracts(models.Model):
             delay = datetime.now() + relativedelta(seconds=15)
             if invoices:
                 invoices.with_delay(eta=delay).group_or_split_reconcile()
-
-    @api.multi
-    @job(default_channel='root.recurring_invoicer')
-    @related_action(action='related_action_contract')
-    def _clean_invoices(self, since_date=None, to_date=None, keep_lines=None,
-                        clean_invoices_paid=True):
-        # today = datetime.today()
-        # Free invoices from debit orders to avoid the job failing
-        # inv_lines = self.mapped('invoice_line_ids').filtered(
-        #     lambda r: r.state == 'open' or (
-        #         r.state == 'paid' and
-        #         fields.Datetime.from_string(r.due_date) > today))
-        #
-        # inv_lines.mapped('invoice_id').cancel_payment_lines()
-
-        return super()._clean_invoices(
-            since_date, to_date, keep_lines, clean_invoices_paid)
