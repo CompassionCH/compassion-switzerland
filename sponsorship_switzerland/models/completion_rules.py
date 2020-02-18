@@ -51,29 +51,6 @@ class StatementCompletionRule(models.Model):
     ])
 
     ##########################################################################
-    #                             FIELDS METHODS                             #
-    ##########################################################################
-
-    # def _get_functions(self):
-    #     res = super()._get_functions()
-    #     res.extend([
-    #         ('get_from_partner_ref',
-    #          'Compassion: From line reference '
-    #          '(based on the partner reference)'),
-    #         ('get_from_bvr_ref',
-    #          'Compassion: From line reference '
-    #          '(based on the BVR reference of the sponsor)'),
-    #         ('lsv_dd_get_from_bvr_ref',
-    #          'Compassion [LSV/DD]: From line reference '
-    #          '(based on the BVR reference of the sponsor)'),
-    #         ('get_from_lsv_dd', 'Compassion: Put LSV DD Credits in 1098'),
-    #         ('get_sponsor_name',
-    #          'Compassion[POST]: From sponsor reference '
-    #          '(based the sponsor name in the description)'),
-    #     ])
-    #     return res
-
-    ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
 
