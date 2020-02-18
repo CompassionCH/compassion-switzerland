@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -30,8 +29,7 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
     @api.multi
     def _compute_name(self):
         for line in self:
-            line.name = u"{} / Line #{}".format(line.partner_id.name,
-                                                line.sponsor_line)
+            line.name = f"{line.partner_id.name} / Line #{line.sponsor_line}"
 
     @api.model_cr
     def init(self):

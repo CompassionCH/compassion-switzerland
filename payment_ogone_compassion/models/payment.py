@@ -1,4 +1,3 @@
-# coding: utf-8
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -8,7 +7,7 @@
 #
 ##############################################################################
 import time
-import urlparse
+import urllib.parse
 
 import requests
 
@@ -32,17 +31,16 @@ class PaymentAcquirerOgone(models.Model):
          - standard order: POST address for form-based """
         return {
             'ogone_standard_order_url':
-                'https://e-payment.postfinance.ch/ncol/%s/orderstandard_utf8'
-                '.asp' % (environment,),
+                f'https://e-payment.postfinance.ch/ncol/{environment}'
+                f'/orderstandard_utf8.asp',
             'ogone_direct_order_url':
-                'https://e-payment.postfinance.ch/ncol/%s/orderdirect_utf8'
-                '.asp' % (environment,),
+                f'https://e-payment.postfinance.ch/ncol/{environment}/orderdirect_utf8'
+                '.asp',
             'ogone_direct_query_url':
-                'https://e-payment.postfinance.ch/ncol/%s/querydirect_utf8'
-                '.asp' % (environment,),
+                f'https://e-payment.postfinance.ch/ncol/{environment}/querydirect_utf8'
+                '.asp',
             'ogone_afu_agree_url':
-                'https://e-payment.postfinance.ch/ncol/%s''/AFU_agree.asp' % (
-                    environment,),
+                f'https://e-payment.postfinance.ch/ncol/{environment}''/AFU_agree.asp',
         }
 
     def ogone_form_generate_values(self, values):
@@ -64,20 +62,20 @@ class PaymentAcquirerOgone(models.Model):
             'OWNERCTY': values.get('partner_country') and values.get(
                 'partner_country').code or '',
             'OWNERTELNO': values.get('partner_phone'),
-            'ACCEPTURL': '%s' % urlparse.urljoin(
+            'ACCEPTURL': '%s' % urllib.parse.urljoin(
                 base_url, OgoneCompassion._accept_url),
-            'DECLINEURL': '%s' % urlparse.urljoin(
+            'DECLINEURL': '%s' % urllib.parse.urljoin(
                 base_url, OgoneCompassion._decline_url),
-            'EXCEPTIONURL': '%s' % urlparse.urljoin(
+            'EXCEPTIONURL': '%s' % urllib.parse.urljoin(
                 base_url, OgoneCompassion._exception_url),
-            'CANCELURL': '%s' % urlparse.urljoin(
+            'CANCELURL': '%s' % urllib.parse.urljoin(
                 base_url, OgoneCompassion._cancel_url),
             'PARAMPLUS': 'return_url=%s' % ogone_tx_values.pop(
                 'return_url') if ogone_tx_values.get('return_url') else False,
         }
         if self.save_token in ['ask', 'always']:
             temp_ogone_tx_values.update({
-                'ALIAS': 'ODOO-NEW-ALIAS-%s' % time.time(),
+                'ALIAS': f'ODOO-NEW-ALIAS-{time.time()}',
                 # something unique,
                 'ALIASUSAGE': values.get(
                     'alias_usage') or self.ogone_alias_usage,

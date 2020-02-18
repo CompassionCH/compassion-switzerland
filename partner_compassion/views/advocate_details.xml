@@ -69,7 +69,7 @@
         <field name="name">advocate.details.tree</field>
         <field name="model">advocate.details</field>
         <field name="arch" type="xml">
-            <tree colors="blue: state=='new';gray: state in ('inactive','on_break')">
+            <tree decoration-primary="state == 'new'" decoration-info="state in ('inactive','on_break')" >
                 <field name="partner_id"/>
                 <field name="active_since"/>
                 <field name="end_date"/>

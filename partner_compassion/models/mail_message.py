@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -57,12 +57,11 @@ class MailMessage(models.Model):
                 search_messages += parent
                 parent = parent.parent_id
             search_messages += message.child_ids
-            mess_results = super(
-                MailMessage, search_messages).tracking_status()
+            mess_results = super(search_messages).tracking_status()
             tracking = mess_results.get(message.id)
             if not tracking and len(mess_results) > 1:
                 tracking_ids = list()
-                for m_id, m_tracking in mess_results.iteritems():
+                for m_id, m_tracking in list(mess_results.items()):
                     if m_tracking:
                         for mm_tracking in m_tracking:
                             if mm_tracking[1] not in tracking_ids:

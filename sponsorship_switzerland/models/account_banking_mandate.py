@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -18,23 +17,25 @@ class AccountMandate(models.Model):
     @api.multi
     def validate(self):
         """Validate LSV/DD Contracts when mandate is validated."""
-        super(AccountMandate, self).validate()
-        self._trigger_contracts('mandate', 'mandate_validated')
+        super().validate()
+        contracts = self._trigger_contracts('mandate')
+        contracts.contract_active()
         return True
 
     @api.multi
     def cancel(self):
         """Set back contracts in waiting mandate state."""
-        super(AccountMandate, self).cancel()
-        self._trigger_contracts('active', 'will_pay_by_lsv_dd')
+        super().cancel()
+        contracts = self._trigger_contracts('active')
+        contracts.contract_waiting_mandate()
         return True
 
     @api.multi
-    def _trigger_contracts(self, state, transition):
+    def _trigger_contracts(self, state):
         """ Fires a given transition on contracts in selected state. """
         contracts = self.env['recurring.contract']
         for mandate in self:
             contracts |= contracts.search(
                 [('partner_id', 'child_of', mandate.partner_id.id),
                  ('state', '=', state)])
-        contracts.signal_workflow(transition)
+        return contracts

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Payment Ogone compassion',
-    'version': '10.0.1.1.0',
+    'version': '11.0.1.0.0',
     'category': 'Reports',
     'author': 'Nicolas Badoux',
     'license': 'AGPL-3',
@@ -39,10 +38,12 @@
         'data/payment_acquirer.xml',
     ],
     'depends': [
-        'website', 'payment_ogone', 'wordpress_configuration',
-        'queue_job'
+        'website',                      # website
+        'payment_ogone',                # source/addons
+        'wordpress_configuration',      # compassion-modules
+        'queue_job'                     # oca_addons/queue
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
@@ -73,18 +72,18 @@ class ContractGroup(models.Model):
             for group in self:
                 old_term = group.payment_mode_id.name
                 if 'LSV' in payment_name or 'Postfinance' in payment_name:
-                    group.contract_ids.signal_workflow('will_pay_by_lsv_dd')
+                    group.contract_ids.contract_waiting_mandate()
                     # LSV/DD Contracts need no reference
                     if group.bvr_reference and \
                             'multi-months' not in payment_name:
                         vals['bvr_reference'] = False
                 elif 'LSV' in old_term or 'Postfinance' in old_term:
-                    group.contract_ids.signal_workflow('mandate_validated')
+                    group.contract_ids.contract_active()
         if 'bvr_reference' in vals:
             inv_vals['reference'] = vals['bvr_reference']
             contracts |= self.mapped('contract_ids')
 
-        res = super(ContractGroup, self).write(vals)
+        res = super().write(vals)
 
         if contracts:
             # Update related open invoices to reflect the changes
@@ -94,7 +93,8 @@ class ContractGroup(models.Model):
             invoices = inv_lines.mapped('invoice_id')
             invoices.action_invoice_cancel()
             invoices.action_invoice_draft()
-            invoices.env.invalidate_all()
+            # invoices.env.invalidate_all()
+            invoices.env.clear()
             invoices.write(inv_vals)
             invoices.action_invoice_open()
         return res
@@ -192,7 +192,7 @@ class ContractGroup(models.Model):
     ##########################################################################
     def _setup_inv_data(self, journal, invoicer, contracts):
         """ Inherit to add BVR ref and mandate """
-        inv_data = super(ContractGroup, self)._setup_inv_data(
+        inv_data = super()._setup_inv_data(
             journal, invoicer, contracts)
 
         ref = ''

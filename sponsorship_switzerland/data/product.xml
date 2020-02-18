@@ -8,7 +8,7 @@
     <record id="product_template_fund_aid" model="product.template">
         <field name="name">AIDS/HIV Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to the AIDS fund we can bring the necessary lifelong care to
             the HIV-infected sponsored children (antiretroviral therapy).
@@ -20,7 +20,7 @@
     <record id="product_template_fund_anl" model="product.template">
         <field name="name">Compassion Suisse</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation to Compassion Suisse we can continue to make
             our work known in Switzerland and to improve our services to sponsors, donors and sponsorchildren.
@@ -32,7 +32,7 @@
     <record id="product_template_fund_any" model="product.template">
         <field name="name">Anonymous donations</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6010')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -40,7 +40,7 @@
     <record id="product_template_fund_bfa" model="product.template">
         <field name="name">Fund "Floods in Burkina Faso"</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation, the sponsored children and their families
             touched by the recent floods in Burkina Faso can receive a precious help. Compassion Burkina
@@ -54,7 +54,7 @@
     <record id="product_template_fund_bib" model="product.template">
         <field name="name">Bible Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation you support the Bible Fund, by which we can
             offer a Bible to each child registered in a Compassion center. The holistic development of the
@@ -67,7 +67,7 @@
     <record id="product_template_fund_bli" model="product.template">
         <field name="name">Blind Children Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6009')]"/>
         <field name="property_account_expense_id" search="[('code','=','5009')]"/>
@@ -75,7 +75,7 @@
     <record id="product_template_fund_c13" model="product.template">
         <field name="name">CSP HA-C13 in Haiti</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">With your donation, you support the CSP (child survival program) in
             Haiti. The center welcomes around 30 mothers and their babies and pregnant women. These women
@@ -89,7 +89,7 @@
     <record id="product_template_fund_c20" model="product.template">
         <field name="name">CSP EC-C20 in Ecuador</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">With your donation, you support the CSP (child survival program) in
             Ecuador. The center welcomes around 30 mothers and their babies and pregnant women. These women
@@ -103,7 +103,7 @@
     <record id="product_template_fund_c3b" model="product.template">
         <field name="name">Cicerolandia BR473 project Fund - supported by C3</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6002')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -111,7 +111,7 @@
     <record id="product_template_fund_c46" model="product.template">
         <field name="name">CSP HA-C46 in Haiti</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">With your donation, you support the CSP (child survival program) in
             Haiti. The center welcomes around 30 mothers and their babies and pregnant women. These women
@@ -125,7 +125,7 @@
     <record id="product_template_fund_cal" model="product.template">
         <field name="name">Calendar</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation, you help us to finance our calendar which
             is a precious communication tool to make our work known in many households during the year.
@@ -139,7 +139,7 @@
     <record id="product_template_fund_csp" model="product.template">
         <field name="name">Child Survival Program</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">The CSP Fund  (Child Survival Program) allows us to support 3 CSP centers,
             two in Haiti and one in Ecuador. Each CSP center welcomes around 30 mothers and their babies and
@@ -154,7 +154,7 @@
     <record id="product_template_fund_don" model="product.template">
         <field name="name">Compassion Suisse grant</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation to Compassion Suisse we can continue to make our
             work known in Switzerland and to improve our services to sponsors, donors and sponsored children.
@@ -166,7 +166,7 @@
     <record id="product_template_fund_fam" model="product.template">
         <field name="name">Famine Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation, the sponsored children and their families touched
             by famine receive a precious help. Compassion distributes food to the affected families but also
@@ -179,7 +179,7 @@
     <record id="product_template_fund_haf" model="product.template">
         <field name="name">Cholera in Haiti - Filter action</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to water filters and rehydratation kits, the families of
             sponsored children can face this severe epidemic efficiently.
@@ -191,7 +191,7 @@
     <record id="product_template_fund_hai" model="product.template">
         <field name="name">Disaster Fund Haiti</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation, the families touched by the terrible earthquake in
             Haiti can receive a precious help. Compassion is currently bringing support and food to the affected
@@ -205,7 +205,7 @@
     <record id="product_template_fund_ind" model="product.template">
         <field name="name">Disaster Fund India</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation, the families touched by the recent cyclone Aila in
             India and Bangladesh can receive a precious help. Compassion has already started to bring support and
@@ -219,7 +219,7 @@
     <record id="product_template_fund_isc" model="product.template">
         <field name="name">International Staff Care Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6005')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -227,7 +227,7 @@
     <record id="product_template_fund_kdo" model="product.template">
         <field name="name">Child gift</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your gift that will be entirely allocated to them, the family of
             your sponsored child will receive a precious additional help to cover their special needs and to
@@ -240,7 +240,7 @@
     <record id="product_template_fund_kgs" model="product.template">
         <field name="name">Kids Games Burkina Faso</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Your support helps the organizer of the Kids Games to plan this event
             for the first time in Burkina Faso. Your support also helps many of the children in the sponsorship
@@ -251,7 +251,7 @@
     <record id="product_template_fund_ldp" model="product.template">
         <field name="name">LDP Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to the LDP Fund, we currently support 3 LDP students, Alfredo and
             Hellen from Ecuador and Tamirat from Ethiopia. The Leadership Development Program allows gifted young
@@ -266,7 +266,7 @@
     <record id="product_template_fund_loc" model="product.template">
         <field name="name">Local projects</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6009')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -274,7 +274,7 @@
     <record id="product_template_fund_mag" model="product.template">
         <field name="name">Compassion magazine</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation you have subscribed to our magazine and you
             help us to cover the publishing costs. Our magazine is an important communication tool and
@@ -286,7 +286,7 @@
     <record id="product_template_fund_mds" model="product.template">
         <field name="name">Project "Marathon des Sables"</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">On behalf of of Raymond Girardet, we thank you for your donation
             which will allow him to realize his project.</field>
@@ -296,7 +296,7 @@
     <record id="product_template_fund_med" model="product.template">
         <field name="name">Medical Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation to the medical fund we can offer each
             sponsored child affected by a serious illness the necessary medical care and that way
@@ -309,7 +309,7 @@
     <record id="product_template_fund_new" model="product.template">
         <field name="name">New Building Yverdon</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6007')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -317,7 +317,7 @@
     <record id="product_template_fund_nol" model="product.template">
         <field name="name">Christmas Gift</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to the Christmas Gift Fund, we can offer a Christmas gift to
             each child registered in a Compassion center. It prevents inequalities between the children
@@ -330,7 +330,7 @@
     <record id="product_template_fund_ovc" model="product.template">
         <field name="name">"Highly Vulnerable Children" Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Compassion's Highly Vulnerable Children's Fund provides food,
             clothing and a nurturing Christian home environment to children in poverty who are orphans
@@ -341,7 +341,7 @@
     <record id="product_template_fund_par" model="product.template">
         <field name="name">Sponsorship Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6000')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -349,7 +349,7 @@
     <record id="product_template_fund_phi" model="product.template">
         <field name="name">Relief Fund Philippines</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation, the families touched by the typhoon in
             the Philippines can receive a precious help. Compassion Philippines continues to distribute
@@ -364,7 +364,7 @@
     <record id="product_template_fund_pro" model="product.template">
         <field name="name">Professional Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">The professional fund allows many young sponsored people to receive
             a professional training before they finish the sponsorship program.
@@ -376,7 +376,7 @@
     <record id="product_template_fund_sgi" model="product.template">
         <field name="name">Special gift</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6016')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -384,7 +384,7 @@
     <record id="product_template_fund_sm" model="product.template">
         <field name="name">"Stop Mosquitoes" campaign</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Malaria Fund</field>
         <field name="property_account_income_id" search="[('code','=','6011')]"/>
@@ -393,7 +393,7 @@
     <record id="product_template_fund_urg" model="product.template">
         <field name="name">Humanitarian Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation to the humanitarian emergency fund,
             you make it possible for the Compassion staff to bring the needed help immediately to
@@ -409,7 +409,7 @@
     <record id="product_template_fund_usp" model="product.template">
         <field name="name">Unsponsored Children Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Your donation to the "Unsponsored Children Fund" unlocks the benefits
             of Compassion's program for children who have been registered but not yet been sponsored. Your
@@ -423,7 +423,7 @@
     <record id="product_template_fund_wol" model="product.template">
         <field name="name">"Water of Life" - Water filter fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation. It allows us to finance water filters
             to provide sponsored children, their families, their community and villages with drinking
@@ -435,7 +435,7 @@
     <record id="product_template_fund_wtp" model="product.template">
         <field name="name">"Water for the children" Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="description">Thanks to your donation. It allows us to finance water disinfection
             project to provide sponsored children, their families, their community and villages with
@@ -447,7 +447,7 @@
     <record id="product_template_fund_4mu" model="product.template">
         <field name="name">Muskathlon</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6016')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -455,7 +455,7 @@
     <record id="product_template_fund_4mu_2" model="product.template">
         <field name="name">The 4th Musketeer Fund</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6016')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -463,7 +463,7 @@
     <record id="product_template_fund_sawyer" model="product.template">
         <field name="name">Sawyer Water Filters for Ndeiya</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6012')]"/>
         <field name="property_account_expense_id" search="[('code','=','5000')]"/>
@@ -471,7 +471,7 @@
     <record id="product_template_fund_muttgen" model="product.template">
         <field name="name">Muttertagsgottesdienst - GEN</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6004')]"/>
         <field name="property_account_expense_id" search="[('code','=','5004')]"/>
@@ -479,7 +479,7 @@
     <record id="product_template_fund_muttcsp" model="product.template">
         <field name="name">Muttertagsgottesdienst - CSP</field>
         <field name="type">service</field>
-        <field name="categ_id" ref="contract_compassion.product_category_fund" />
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
         <field name="property_account_income_id" search="[('code','=','6014')]"/>
         <field name="property_account_expense_id" search="[('code','=','5014')]"/>
