@@ -28,19 +28,17 @@
 
 # pylint: disable=C8101
 {
-    'name': 'LSV-DD Compassion',
-    'version': '11.0.1.0.0',
-    'license': 'AGPL-3',
-    'author': 'Compassion CH',
-    'website': 'http://www.compassion.ch',
-    'category': 'Other',
-    'depends': [
-        'l10n_ch_pain_direct_debit',  # OCA/l10n-switzerland
-        'report_compassion'           # compassion-switzerland
+    "name": "LSV-DD Compassion",
+    "version": "11.0.1.0.0",
+    "license": "AGPL-3",
+    "author": "Compassion CH",
+    "website": "http://www.compassion.ch",
+    "category": "Other",
+    "depends": [
+        "l10n_ch_pain_direct_debit",  # OCA/l10n-switzerland
+        "report_compassion",  # compassion-switzerland
     ],
-    'data': [
-        'views/account_payment_order_view.xml',
-    ],
-    'auto_install': False,
-    'installable': True,
+    "data": ["views/account_payment_order_view.xml", ],
+    "auto_install": False,
+    "installable": True,
 }
