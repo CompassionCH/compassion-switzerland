@@ -69,6 +69,10 @@
             <xpath expr="//field[@name='event_mail_ids']//field[@name='interval_type']" position="after">
                 <field name="stage_id" domain="['|', ('event_type_ids', '=', parent.event_type_id), ('event_type_ids', '=', False)]" attrs="{'required': [('interval_type', '=', 'after_stage')]}"/>
             </xpath>
+
+            <xpath expr="//field[@name='message_follower_ids']" position="after">
+                <field name="activity_ids" widget="mail_activity"/>
+            </xpath>
         </field>
     </record>
 
