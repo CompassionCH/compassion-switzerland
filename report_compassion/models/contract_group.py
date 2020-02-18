@@ -157,8 +157,8 @@ class ContractGroup(models.Model):
             if start and stop and start == stop:
                 vals['date'] = date_start.strftime("%B %Y")
             elif start and stop:
-                vals['date'] = date_start.strftime("%B %Y") +\
-                               " - " + date_stop.strftime("%B %Y")
+                vals['date'] = date_start.strftime("%B %Y") + " - " \
+                               + date_stop.strftime("%B %Y")
             if 'Permanent' in payment_mode.name:
                 vals['payment_type'] = _('ISR for standing order')
                 vals['date'] = ''
