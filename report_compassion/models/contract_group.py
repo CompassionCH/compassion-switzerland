@@ -125,6 +125,8 @@ class ContractGroup(models.Model):
         amount = sum(sponsorships.mapped('total_amount'))
         valid = sponsorships
         number_sponsorship = len(sponsorships)
+        date_start = fields.Date
+        date_stop = fields.Date
 
         if start and stop:
             date_start = fields.Date.from_string(start)
@@ -153,10 +155,10 @@ class ContractGroup(models.Model):
         }
         with setlocale(self.partner_id.lang):
             if start and stop and start == stop:
-                vals['date'] = date_start.strftime("%B %Y").decode('utf-8')
+                vals['date'] = date_start.strftime("%B %Y")
             elif start and stop:
-                vals['date'] = date_start.strftime("%B %Y").decode('utf-8') + \
-                    " - " + date_stop.strftime("%B %Y").decode('utf-8')
+                vals['date'] = date_start.strftime("%B %Y") +\
+                               " - " + date_stop.strftime("%B %Y")
             if 'Permanent' in payment_mode.name:
                 vals['payment_type'] = _('ISR for standing order')
                 vals['date'] = ''

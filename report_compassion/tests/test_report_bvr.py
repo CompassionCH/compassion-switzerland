@@ -24,7 +24,7 @@ class TestReportBVRSponsorship(TestContractsSwitzerland):
         sponsorship = self._create_sponsorship()
 
         report = self.env['report.report_compassion.bvr_sponsorship']
-        html = report.render_html([sponsorship.id])
+        html_dict = report.get_report_values([sponsorship.id])
 
-        self.assertTrue('assets_editor.js' in html)
-        self.assertTrue('id="wrapwrap"' in html)
+        self.assertIsInstance(html_dict, dict,
+                              "There was an error while compiling the report.")
