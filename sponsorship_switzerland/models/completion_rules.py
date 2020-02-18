@@ -97,7 +97,7 @@ class StatementCompletionRule(models.Model):
         ref_index = 9  # position of the partner ref inside the BVR number.
         partner_ref = ref[ref_index:16]
         partner_obj = self.env['res.partner']
-        partner = partner_obj.search([('ref', '=', str(int(partner_ref)))])
+        partner = partner_obj.search([('ref', '=', partner_ref)])
         if not partner:
             # Some bvr reference have a wrong number of leading zeros,
             # resulting in the partner reference to be offset.

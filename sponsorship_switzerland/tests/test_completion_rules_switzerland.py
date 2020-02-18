@@ -24,14 +24,13 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         self.assertEqual(completion_result, {})
 
     def test_matching_using_partner_reference_for_gifts(self):
-        partner_ref = '1512077'
+        partner_ref = self._insert_partner()
         contract_not_in_db = '11111'
         gift_type = '4'
         st_line = {
             'ref': 'x' * 9 + partner_ref + contract_not_in_db + gift_type +
             '0' * 5
         }
-        self._insert_partner(ref=partner_ref)
 
         rule = self._fetch_rule_by_function_name('get_from_partner_ref')
         completion_result = rule.auto_complete([], st_line)
@@ -124,9 +123,9 @@ class TestCompletionRulesSwitzerland(TransactionCase):
             [('function_to_call', '=', rule_function_name)]
         )
 
-    def _insert_partner(self, ref):
+    def _insert_partner(self):
         partner_obj = self.env['res.partner']
-        partner_obj.create({
-            'name': 'Partner',
-            'ref': ref
+        new_partner = partner_obj.create({
+            'name': 'Partner'
         })
+        return new_partner.ref
