@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Mobile App Customization for Switerland',
-    'version': '10.0.0.1.0',
+    'version': '11.0.0.0.0',
     'category': 'Reports',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
@@ -43,9 +42,12 @@
         'security/ir.model.access.csv',
         'templates/registration_form.xml'
     ],
-    'depends': ['mobile_app_connector', 'partner_communication_switzerland'],
+    'depends': [
+        'mobile_app_connector',                 # compassion-modules
+        'partner_communication_switzerland'     # compassion-switzerland
+    ],
     'external_dependencies': {},
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
 }

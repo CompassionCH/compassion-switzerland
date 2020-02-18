@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -44,7 +43,7 @@ if not testing:
 
         def _get_portal_user_vals(self, wizard_id, form_values):
             """ Set the communication to send to user. """
-            vals = super(UserRegistrationForm, self)._get_portal_user_vals(
+            vals = super()._get_portal_user_vals(
                 wizard_id, form_values)
             config_id = self.sudo().env.ref(
                 'mobile_app_switzerland.mobile_app_welcome_config').id
