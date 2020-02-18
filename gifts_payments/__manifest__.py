@@ -30,17 +30,14 @@
 {
     "name": "Gifts payments",
     "version": "11.0.1.0.0",
-    'license': 'AGPL-3',
+    "license": "AGPL-3",
     "author": "Samuel Fringeli",
     "category": "Tools",
-    'depends': [
-        'account_payment_order', # OCA/bank_payment
-        'gift_compassion'        # compassion-modules/gift_compassion
+    "depends": [
+        "account_payment_order",  # OCA/bank_payment
+        "gift_compassion",  # compassion-modules/gift_compassion
     ],
-    'data': [
-        'views/main_view.xml',
-        'views/results.xml'
-    ],
-    'installable': True,
-    'auto_install': False,
+    "data": ["views/main_view.xml", "views/results.xml"],
+    "installable": True,
+    "auto_install": False,
 }
