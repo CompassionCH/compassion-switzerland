@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
@@ -41,7 +41,7 @@ class AccountBankingMandate(models.Model):
     def create(self, data):
         """Override function to notify creation in a message on partner feed
         """
-        result = super(AccountBankingMandate, self).create(data)
+        result = super().create(data)
         result._update_mandate_status_partner('create')
 
         return result
@@ -55,7 +55,7 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             mandate._update_mandate_status_partner('validate')
 
-        super(AccountBankingMandate, self).validate()
+        super().validate()
 
         return True
 
@@ -68,7 +68,7 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             mandate._update_mandate_status_partner('cancel')
 
-        super(AccountBankingMandate, self).cancel()
+        super().cancel()
         return True
 
     @api.multi
@@ -80,7 +80,7 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             mandate._update_mandate_status_partner('back2draft')
 
-        super(AccountBankingMandate, self).back2draft()
+        super().back2draft()
         return True
 
     @api.multi
@@ -92,5 +92,5 @@ class AccountBankingMandate(models.Model):
         for mandate in self:
             mandate._update_mandate_status_partner('delete')
 
-        result = super(AccountBankingMandate, self).unlink()
+        result = super().unlink()
         return result

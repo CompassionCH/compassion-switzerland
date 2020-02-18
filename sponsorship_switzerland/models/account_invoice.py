@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015-2018 Compassion CH (http://www.compassion.ch)
@@ -13,7 +12,7 @@ from odoo import api, models, fields, _
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.addons.queue_job.job import job, related_action
-from odoo.addons.sponsorship_compassion.models.product import \
+from odoo.addons.sponsorship_compassion.models.product_names import \
     GIFT_CATEGORY, SPONSORSHIP_CATEGORY
 
 
@@ -57,10 +56,10 @@ class AccountInvoice(models.Model):
                 if not invl.contract_id and invl.product_id.categ_name in (
                         SPONSORSHIP_CATEGORY, GIFT_CATEGORY):
                     raise UserError(
-                        _("Invoice %s for '%s' is missing a sponsorship.") %
-                        (str(invoice.id), invoice.partner_id.name))
+                        _(f"Invoice {str(invoice.id)} for "
+                          f"'{invoice.partner_id.name}' is missing a sponsorship."))
 
-        return super(AccountInvoice, self).action_date_assign()
+        return super().action_date_assign()
 
     @api.multi
     def show_transactions(self):

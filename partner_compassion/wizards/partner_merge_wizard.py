@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -47,6 +47,6 @@ class PartnerMergeWizard(models.TransientModel):
                     'email': email,
                     'type': 'email_alias'
                 })
-        res = super(PartnerMergeWizard, self.sudo()).action_merge()
+        res = super(self.sudo()).action_merge()
         self.dst_partner_id.geo_point = geo_point
         return res

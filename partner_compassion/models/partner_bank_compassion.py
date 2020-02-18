@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
@@ -23,7 +23,7 @@ class ResPartnerBank(models.Model):
     def create(self, data):
         """Override function to notify creation in a message
         """
-        result = super(ResPartnerBank, self).create(data)
+        result = super().create(data)
 
         part = result.partner_id
         if part:
@@ -42,5 +42,5 @@ class ResPartnerBank(models.Model):
                                 account.acc_number),
                               _("Account deleted"), 'comment')
 
-        result = super(ResPartnerBank, self).unlink()
+        result = super().unlink()
         return result

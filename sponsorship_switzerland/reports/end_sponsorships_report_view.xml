@@ -19,7 +19,7 @@
              <pivot string="Ended Sponsorships" disable_linking="True" display_quantity="True">
                  <field name="category" type="row"/>
                  <field name="sub_category" type="row"/>
-                 <field name="end_reason" type="row"/>
+                 <field name="end_reason_id" type="row"/>
                  <!--<field name="total_percentage" type="measure" operator="avg" widget="percentage"/>-->
                  <field name="fiscal_year" type="col"/>
              </pivot>
@@ -45,7 +45,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="end_date"/>
-                <field name="end_reason"/>
+                <field name="end_reason_id"/>
                 <field name="lang"/>
                 <separator/>
                 <filter string="Child departure" name="child_departure" domain="[('category', '=', 'child')]"/>
