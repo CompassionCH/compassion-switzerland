@@ -136,6 +136,7 @@ class ContractGroup(models.Model):
             'date': '',
         }
         locale = self.partner_id.lang
+        context = {'lang': locale}
         if start and stop:
             start_date = format_date(date_start, format='MMMM yyyy', locale=locale)
             stop_date = format_date(date_stop, format='MMMM yyyy', locale=locale)
@@ -148,7 +149,7 @@ class ContractGroup(models.Model):
             vals['date'] = ''
         else:
             vals['payment_type'] = _('ISR') + ' ' + self.contract_ids[
-                0].with_context(lang=self.partner_id.lang).group_freq
+                0].with_context(context).group_freq
         if number_sponsorship > 1:
             vals['subject'] += str(number_sponsorship) + " " + _(
                 "sponsorships")

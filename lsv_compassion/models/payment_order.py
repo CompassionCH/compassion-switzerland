@@ -70,9 +70,8 @@ class PaymentOrder(models.Model):
             mode = order.payment_mode_id.name
             for invoice in order.mapped(
                     'payment_line_ids.move_line_id.invoice_id'):
-
                 url = '<a href="web#id={}&view_type=form&model=account.' \
-                      'payment.order&action=1174">{}</a>'.\
+                      'payment.order&action=1174">{}</a>'. \
                     format(order.id, order.name)
 
                 invoice.message_post(
@@ -108,8 +107,8 @@ class PaymentOrder(models.Model):
 
     @api.model
     def _prepare_bank_payment_line_with_lang(self, paylines, partner, res):
-        invoices = paylines.mapped('move_line_id.invoice_id').with_context(
-            lang=partner.lang)
+        context = {'lang': partner.lang}
+        invoices = paylines.mapped('move_line_id.invoice_id').with_context(context)
         products = invoices.mapped('invoice_line_ids.product_id')
         invoice_type = list(set(invoices.mapped('invoice_type')))
         invoice_type = invoice_type and invoice_type[0] or 'other'
@@ -124,7 +123,7 @@ class PaymentOrder(models.Model):
                     communication = products.name + ' ' + _('for')
                 else:
                     communication = _('sponsorship gifts').title() + \
-                        ' ' + _('for')
+                                    ' ' + _('for')
                 communication += ' ' + children.preferred_name
             else:
                 communication = str(len(children)) + ' '
