@@ -14,10 +14,10 @@ class PaymentTransaction(models.Model):
     _inherit = "payment.transaction"
 
     accept_url = fields.Char(
-        help='Stores the redirection where the partner should go after the '
-        'transaction is completed.'
+        help="Stores the redirection where the partner should go after the "
+        "transaction is completed."
     )
     decline_url = fields.Char(
-        help='Stores the redirection where the partner should go after the '
-        'transaction is cancelled.'
+        help="Stores the redirection where the partner should go after the "
+        "transaction is cancelled."
     )

@@ -28,29 +28,27 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Invoice to Postfinance Payment Controller',
-    'version': '11.0.1.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'https://github.com/CompassionCH/compassion-switzerland/'
-               'tree/10.0',
-    'depends': [
-        'payment_ogone_compassion',  # compassion-switzerland
-        'cms_form_compassion',       # compassion-modules
-        'website_no_index',          # website
-        'partner_communication',     # compassion-modules
-        'l10n_ch_payment_slip'       # l10n-switzerland
+    "name": "Invoice to Postfinance Payment Controller",
+    "version": "11.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "https://github.com/CompassionCH/compassion-switzerland/" "tree/10.0",
+    "depends": [
+        "payment_ogone_compassion",  # compassion-switzerland
+        "cms_form_compassion",  # compassion-modules
+        "website_no_index",  # website
+        "partner_communication",  # compassion-modules
+        "l10n_ch_payment_slip",  # l10n-switzerland
     ],
-    'data': [
-        'templates/payment_redirect.xml',
-        'views/send_postfinance_link_view.xml',
-        'data/mail_template.xml',
-        'data/communication_config.xml',
+    "data": [
+        "templates/payment_redirect.xml",
+        "views/send_postfinance_link_view.xml",
+        "data/mail_template.xml",
+        "data/communication_config.xml",
     ],
-    'demo': [
-    ],
-    'development_status': 'Beta',
-    'installable': True,
-    'auto_install': False,
+    "demo": [],
+    "development_status": "Beta",
+    "installable": True,
+    "auto_install": False,
 }
