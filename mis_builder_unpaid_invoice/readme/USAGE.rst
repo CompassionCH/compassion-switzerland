@@ -1,0 +1,1 @@
+The view is based on invoice open, but dates are based on move lines as invoice date and move line date can be different because of the closing procedure of Compassion that change the date of moves before closing date.
