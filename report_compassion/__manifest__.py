@@ -39,7 +39,7 @@
         'sponsorship_switzerland'   # compassion-switzerland
     ],
     'external_dependencies': {
-        'python': ['pyquery']
+        'python': ['pyquery', 'babel']
     },
     'data': [
         'report/compassion_layout.xml',

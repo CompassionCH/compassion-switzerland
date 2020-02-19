@@ -8,12 +8,10 @@
 #
 ##############################################################################
 import logging
-import threading
-import locale
 import math
 
 from dateutil.relativedelta import relativedelta
-from contextlib import contextmanager
+from babel.dates import format_date
 
 from odoo import api, models, fields, _
 from odoo.exceptions import Warning as odooWarning
@@ -21,22 +19,7 @@ from odoo.tools import mod10r
 
 logger = logging.getLogger(__name__)
 
-LOCALE_LOCK = threading.Lock()
 COMPASSION_BVR = '01-44443-7'
-
-
-@contextmanager
-def setlocale(name):
-    with LOCALE_LOCK:
-        saved = locale.setlocale(locale.LC_ALL)
-        try:
-            yield locale.setlocale(locale.LC_ALL, (name, 'UTF-8'))
-        except Exception:
-            logger.error("Error when setting locale to " + str(name),
-                         exc_info=True)
-            yield
-        finally:
-            locale.setlocale(locale.LC_ALL, saved)
 
 
 class ContractGroup(models.Model):
@@ -153,32 +136,35 @@ class ContractGroup(models.Model):
             'subject': _("for") + " ",
             'date': '',
         }
-        with setlocale(self.partner_id.lang):
-            if start and stop and start == stop:
-                vals['date'] = date_start.strftime("%B %Y")
-            elif start and stop:
-                vals['date'] = date_start.strftime("%B %Y") + " - " + \
-                    date_stop.strftime("%B %Y")
-            if 'Permanent' in payment_mode.name:
-                vals['payment_type'] = _('ISR for standing order')
-                vals['date'] = ''
+        locale = self.partner_id.lang
+        context = {'lang': locale}
+        if start and stop:
+            start_date = format_date(date_start, format='MMMM yyyy', locale=locale)
+            stop_date = format_date(date_stop, format='MMMM yyyy', locale=locale)
+            if start == stop:
+                vals['date'] = start_date
             else:
-                vals['payment_type'] = _('ISR') + ' ' + self.contract_ids[
-                    0].with_context(lang=self.partner_id.lang).group_freq
-            if number_sponsorship > 1:
-                vals['subject'] += str(number_sponsorship) + " " + _(
-                    "sponsorships")
-            elif number_sponsorship and valid.child_id:
-                vals['subject'] = valid.child_id.preferred_name + \
-                    f" ({valid.child_id.local_id})"
-            elif number_sponsorship and not valid.child_id \
-                    and valid.display_name:
-                product_name = self.env['product.product'].search(
-                    [('id',
-                      'in',
-                      valid.mapped('contract_line_ids.product_id').ids)])
+                vals['date'] = f"{start_date} - {stop_date}"
+        if 'Permanent' in payment_mode.name:
+            vals['payment_type'] = _('ISR for standing order')
+            vals['date'] = ''
+        else:
+            vals['payment_type'] = _('ISR') + ' ' + self.contract_ids[
+                0].with_context(context).group_freq
+        if number_sponsorship > 1:
+            vals['subject'] += str(number_sponsorship) + " " + _(
+                "sponsorships")
+        elif number_sponsorship and valid.child_id:
+            vals['subject'] = valid.child_id.preferred_name + \
+                " ({})".format(valid.child_id.local_id)
+        elif number_sponsorship and not valid.child_id \
+                and valid.display_name:
+            product_name = self.env['product.product'].search(
+                [('id',
+                  'in',
+                  valid.mapped('contract_line_ids.product_id').ids)])
 
-                vals['subject'] = ", ".join(product_name.mapped('thanks_name'))
+            vals['subject'] = ", ".join(product_name.mapped('thanks_name'))
 
         return f"{vals['payment_type']} {vals['amount']}" \
                f"<br/>{vals['subject']}<br/>{vals['date']}"

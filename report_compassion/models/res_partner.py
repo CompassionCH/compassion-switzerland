@@ -7,8 +7,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo.addons.thankyou_letters.models.res_partner import setlocale
 from datetime import date, datetime
+from babel.dates import format_date
 
 from odoo import api, models, fields, _
 
@@ -47,18 +47,10 @@ class ResPartner(models.Model):
 
     @api.multi
     def _compute_date_communication(self):
-        lang_map = {
-            'fr_CH': u'le %d %B %Y',
-            'fr': u'le %d %B %Y',
-            'de_DE': u'%d. %B %Y',
-            'de_CH': u'%d. %B %Y',
-            'en_US': u'%d %B %Y',
-            'it_IT': u'%d %B %Y',
-        }
+        """City and date displayed in the top right of a letter for Yverdon"""
         today = datetime.today()
         city = _("Yverdon-les-Bains")
         for partner in self:
-            lang = partner.lang
-            with setlocale(lang):
-                date = today.strftime(lang_map.get(lang, lang_map['en_US']))
-                partner.date_communication = city + u", " + date
+            date = format_date(today, format='long', locale=partner.lang)
+            formatted_date = f"le {date}" if 'fr' in partner.lang else date
+            partner.date_communication = f"{city}, {formatted_date}"
