@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -18,7 +17,7 @@ def migrate(cr, version):
     cr.execute("""
         update mail_mass_mailing
         set mailing_domain = replace(
-          mailing_model,
+          mailing_model_id,
           'property_payment_term.name',
           'customer_payment_mode_id.name')
         where mailing_domain like '%property_payment_term.name%';

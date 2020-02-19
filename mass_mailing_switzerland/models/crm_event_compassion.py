@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -17,7 +16,7 @@ class EventCompassion(models.Model):
 
     @api.model
     def create(self, vals):
-        event = super(EventCompassion, self).create(vals)
+        event = super().create(vals)
         if event.campaign_id:
             event.analytic_id.campaign_id = event.campaign_id
             event.origin_id.campaign_id = event.campaign_id
@@ -25,7 +24,7 @@ class EventCompassion(models.Model):
 
     @api.multi
     def write(self, vals):
-        res = super(EventCompassion, self).write(vals)
+        res = super().write(vals)
         for new_event in self:
             if new_event.campaign_id:
                 new_event.analytic_id.campaign_id = new_event.campaign_id

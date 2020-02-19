@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017-2018 Compassion CH (http://www.compassion.ch)
@@ -18,14 +17,13 @@ class CorrespondenceMetadata(models.AbstractModel):
 
     @api.model
     def get_fields(self):
-        res = super(CorrespondenceMetadata, self).get_fields()
+        res = super().get_fields()
         res.extend(['campaign_id', 'source_id', 'medium_id'])
         return res
 
     @api.multi
     def get_correspondence_metadata(self):
-        vals = super(CorrespondenceMetadata,
-                     self).get_correspondence_metadata()
+        vals = super().get_correspondence_metadata()
         if vals.get('campaign_id'):
             vals['campaign_id'] = vals['campaign_id'][0]
         if vals.get('source_id'):

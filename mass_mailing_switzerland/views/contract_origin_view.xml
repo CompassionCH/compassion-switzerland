@@ -2,7 +2,7 @@
 <odoo>
     <record id="view_contract_origin_form_mass_mailing" model="ir.ui.view">
         <field name="model">recurring.contract.origin</field>
-        <field name="inherit_id" ref="contract_compassion.view_contract_origin_form"/>
+        <field name="inherit_id" ref="sponsorship_compassion.view_contract_origin_form"/>
         <field name="arch" type="xml">
             <field name="analytic_id" position="after">
                 <field name="campaign_id" attrs="{'invisible': [('type', 'not in', ('marketing','partner', 'event'))],

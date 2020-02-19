@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017-2018 Compassion CH (http://www.compassion.ch)
@@ -29,7 +28,7 @@ class SendgridSubstitution(models.Model):
         wp_url = self.env['wordpress.configuration'].get_host()
         for substitution in self.filtered(lambda s: '{wp' in s.key):
             page_path = substitution.key.replace('{wp', '').replace('}', '')
-            page_url = '{}{}'.format(wp_url, page_path)
+            page_url = f'{wp_url}{page_path}'
             link_tracker = self.env['link.tracker'].sudo().create({
                 'url': page_url,
                 'campaign_id': campaign_id,

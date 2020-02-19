@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -35,6 +34,5 @@ def migrate(env, version):
         else:
             partner.date_opt_out = partner.create_date
             count_not_found += 1
-    logger.info("Updated %s partners with opt_out date from logs", count_log)
-    logger.info("Updated %s partners but opt_out date was not found",
-                count_not_found)
+    logger.info(f"Updated {count_log} partners with opt_out date from logs")
+    logger.info(f"Updated {count_not_found} partners but opt_out date was not found")

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -10,7 +9,7 @@
 ##############################################################################
 from odoo import models, api
 
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 
 class LinkTracker(models.AbstractModel):
@@ -25,5 +24,4 @@ class LinkTracker(models.AbstractModel):
         base_url = self.env['ir.config_parameter'].get_param(
             'web.external.url')
         for link in self:
-            link.short_url = urljoin(
-                base_url, '/r/%(code)s' % {'code': link.code})
+            link.short_url = urljoin(base_url, f'/r/{link.code}')
