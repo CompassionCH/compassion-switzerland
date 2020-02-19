@@ -225,7 +225,7 @@ class Correspondence(models.Model):
         """
         unread_config = self.env.ref(
             'partner_communication_switzerland.child_letter_unread')
-        for letter in self:
+        for letter in self.filtered(lambda c: c.letter_delivered):
             self.env['partner.communication.job'].create({
                 'partner_id': letter.partner_id.id,
                 'config_id': unread_config.id,
