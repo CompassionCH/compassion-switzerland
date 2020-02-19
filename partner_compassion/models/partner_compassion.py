@@ -101,8 +101,7 @@ class ResPartner(geo_model.GeoModel):
         ('email_alias', 'Email alias')
     ])
 
-    uuid = fields.Char(default=lambda self: self._get_uuid(), copy=False,
-                       index=True)
+    uuid = fields.Char(copy=False, index=True)
 
     has_agreed_child_protection_charter = fields.Boolean(
         help="Indicates if the partner has agreed to the child protection"
@@ -136,9 +135,6 @@ class ResPartner(geo_model.GeoModel):
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    def _get_uuid(self):
-        return str(uuid.uuid4())
-
     @api.multi
     def agree_to_child_protection_charter(self):
         return self.write({
@@ -203,6 +199,7 @@ class ResPartner(geo_model.GeoModel):
         duplicate_ids = [(4, itm.id) for itm in duplicate]
         vals.update({'partner_duplicate_ids': duplicate_ids})
         vals['ref'] = self.env['ir.sequence'].get('partner.ref')
+        vals['uuid'] = uuid.uuid4()
         # Never subscribe someone to res.partner record
         partner = super(ResPartner, self.with_context(
             mail_create_nosubscribe=True)).create(vals)
