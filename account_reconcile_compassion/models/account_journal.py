@@ -15,4 +15,4 @@ from odoo import models, fields
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
-    payment_mode_id = fields.Many2one('account.payment.mode', "Payment mode")
+    payment_mode_id = fields.Many2one("account.payment.mode", "Payment mode")
