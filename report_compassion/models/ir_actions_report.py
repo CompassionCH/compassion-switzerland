@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2018 Emanuel Cino <ecino@compassion.ch>
 
 from odoo import models, api
 
 
-class IrActionsReportXml(models.Model):
+class IrActionsReport(models.Model):
 
-    _inherit = 'ir.actions.report.xml'
+    _inherit = 'ir.actions.report'
 
     @api.multi
     def behaviour(self):
@@ -14,7 +13,7 @@ class IrActionsReportXml(models.Model):
         Change behaviour to return user preference in priority.
         :return: report action for printing.
         """
-        result = super(IrActionsReportXml, self).behaviour()
+        result = super().behaviour()
 
         # Retrieve user default values
         user = self.env.user

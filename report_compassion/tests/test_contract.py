@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -18,7 +17,7 @@ _logger = logging.getLogger(__name__)
 class TestContract(TestContractsSwitzerland):
 
     def setUp(self):
-        super(TestContract, self).setUp()
+        super().setUp()
         self.product = self.env.ref('product.service_order_01')
 
     def test_get_gift_communication(self):
@@ -26,7 +25,7 @@ class TestContract(TestContractsSwitzerland):
 
         communication = sponsorship.get_gift_communication(self.product)
 
-        expected = u'Test (IO06790211)<br/>Prepaid Consulting'
+        expected = u'Test (IO06790211)<br/>Prepaid Consulting<br/>'
         self.assertEqual(communication, expected)
 
     def test_group__get_months__for_frequency_one(self):
@@ -58,5 +57,5 @@ class TestContract(TestContractsSwitzerland):
         date = '2050-08-01'
         payment_slip = group.get_communication(date, date, sponsorship)
 
-        expected = u'ISR for standing order CHF 50<br/>Test (IO06790211)'
+        expected = u'ISR for standing order CHF 50<br/>Test (IO06790211)<br/>'
         self.assertEqual(payment_slip, expected)

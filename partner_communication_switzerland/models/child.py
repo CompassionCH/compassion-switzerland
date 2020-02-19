@@ -11,8 +11,8 @@ import logging
 
 from odoo import api, models, fields, _
 
-from odoo.addons.report_compassion.models.contract_group import setlocale
 from functools import reduce
+from babel.dates import format_date
 
 _logger = logging.getLogger(__name__)
 
@@ -70,8 +70,7 @@ class CompassionChild(models.Model):
         for child in self.filtered('completion_date'):
             lang = child.sponsor_id.lang or self.env.lang or 'en_US'
             completion = fields.Date.from_string(child.completion_date)
-            with setlocale(lang):
-                child.completion_month = completion.strftime("%B")
+            child.completion_month = format_date(completion, "MMMM", locale=lang)
 
     @api.multi
     def depart(self):

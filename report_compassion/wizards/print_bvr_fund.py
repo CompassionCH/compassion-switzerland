@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -19,6 +18,7 @@ class PrintBvrFund(models.TransientModel):
     payment slip of a partner.
     """
     _name = 'print.bvr.fund'
+    _description = "Select a product and print payment slip of a partner"
 
     product_id = fields.Many2one(
         'product.product', domain=[
@@ -46,7 +46,7 @@ class PrintBvrFund(models.TransientModel):
             self.draw_background = False
 
     @api.multi
-    def print_report(self):
+    def get_report(self):
         """
         Prepare data for the report and call the selected report
         (single bvr / 3 bvr).
@@ -62,13 +62,13 @@ class PrintBvrFund(models.TransientModel):
             'amount': False,
             'communication': False
         }
-        report = 'report_compassion.bvr_fund'
+        report_ref = self.env.ref('report_compassion.report_bvr_fund')
         if self.pdf:
             self.pdf_name = self.product_id.name + '.pdf'
-            self.pdf_download = base64.b64encode(
-                self.env['report'].with_context(
-                    must_skip_send_to_printer=True).get_pdf(
-                        partners.ids, report, data=data))
+            pdf_data = report_ref.report_action(self, data=data)
+            self.pdf_download = base64.encodebytes(
+                report_ref.render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -79,4 +79,4 @@ class PrintBvrFund(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env['report'].get_action(partners.ids, report, data)
+        return report_ref.report_action(self, data=data)

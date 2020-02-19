@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -14,7 +13,7 @@ from odoo import api, models, fields
 
 class StaffNotificationSettings(models.TransientModel):
     """ Settings configuration for any Notifications."""
-    _inherit = 'staff.notification.settings'
+    _inherit = 'res.config.settings'
 
     # Users to notify when new Sponsorship is made
     sponsorship_fr_id = fields.Many2one(
@@ -37,37 +36,42 @@ class StaffNotificationSettings(models.TransientModel):
         ])
 
     @api.multi
-    def set_sponsorship_fr_id(self):
-        self.env['ir.config_parameter'].set_param(
-            'child_wp.sponsorship_notify_fr_id',
-            str(self.sponsorship_fr_id.id)
-        )
+    def get_sponsorship_fr_id(self):
+        return self.env['ir.config_parameter']\
+            .get_param('child_wp.sponsorship_notify_fr_id', None)
 
     @api.multi
-    def set_sponsorship_de_id(self):
-        self.env['ir.config_parameter'].set_param(
-            'child_wp.sponsorship_notify_de_id',
-            str(self.sponsorship_de_id.id)
-        )
+    def get_sponsorship_de_id(self):
+        return self.env['ir.config_parameter'] \
+            .get_param('child_wp.sponsorship_notify_de_id', None)
 
     @api.multi
-    def set_sponsorship_it_id(self):
-        self.env['ir.config_parameter'].set_param(
-            'child_wp.sponsorship_notify_it_id',
-            str(self.sponsorship_it_id.id)
-        )
+    def get_sponsorship_it_id(self):
+        return self.env['ir.config_parameter'] \
+            .get_param('child_wp.sponsorship_notify_it_id', None)
 
     @api.model
-    def get_default_values(self, _fields):
-        param_obj = self.env['ir.config_parameter']
-        res = {
-            'sponsorship_fr_id': int(param_obj.get_param(
-                'child_wp.sponsorship_notify_fr_id', '18001')),
-            'sponsorship_de_id': int(param_obj.get_param(
-                'child_wp.sponsorship_notify_de_id', '18001')),
-            'sponsorship_it_id': int(param_obj.get_param(
-                'child_wp.sponsorship_notify_it_id', '18002')),
-        }
-        res.update(super(StaffNotificationSettings,
-                         self).get_default_values(_fields))
+    def get_values(self):
+        res = super().get_values()
+        res.update({
+            'sponsorship_fr_id': int(self.get_sponsorship_fr_id() or 0) or False,
+            'sponsorship_de_id': int(self.get_sponsorship_de_id() or 0) or False,
+            'sponsorship_it_id': int(self.get_sponsorship_it_id() or 0) or False
+        })
         return res
+
+    @api.multi
+    def set_values(self):
+        super().set_values()
+        self.env['ir.config_parameter'].set_param(
+            'child_wp.sponsorship_notify_fr_id',
+            str(self.sponsorship_fr_id.id or 0)
+        )
+        self.env['ir.config_parameter'].set_param(
+            'child_wp.sponsorship_notify_de_id',
+            str(self.sponsorship_de_id.id or 0)
+        )
+        self.env['ir.config_parameter'].set_param(
+            'child_wp.sponsorship_notify_it_id',
+            str(self.sponsorship_it_id.id or 0)
+        )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
@@ -22,9 +21,10 @@ class BvrSponsorshipGift(models.AbstractModel):
     generate 3bvr report, 2bvr report or single bvr report.
     """
     _name = 'report.report_compassion.bvr_gift_sponsorship'
+    _description = "Used for preparing data for a 3BVR or single BVR report (gifts)"
 
     def _get_report(self):
-        return self.env['report']._get_report_from_name(
+        return self.env['ir.actions.report']._get_report_from_name(
             'report_compassion.bvr_gift_sponsorship')
 
     def _get_default_data(self):
@@ -38,17 +38,14 @@ class BvrSponsorshipGift(models.AbstractModel):
             'preprinted': False,
         }
 
-    @api.multi
-    def render_html(self, docids, data=None):
-        """
-        Construct the data for printing Payment Slips.
-        :param data: data collected from the print wizard.
-        :return: html rendered report
-        """
+    @api.model
+    def get_report_values(self, docids, data=None):
         report = self._get_report()
         final_data = self._get_default_data()
         if data:
             final_data.update(data)
+            if not docids and data['doc_ids']:
+                docids = data['doc_ids']
 
         final_data.update({
             'doc_model': report.model,  # recurring.contract
@@ -57,7 +54,7 @@ class BvrSponsorshipGift(models.AbstractModel):
             'products': self.env['product.product'].browse(
                 final_data['product_ids'])
         })
-        return self.env['report'].render(report.report_name, final_data)
+        return final_data
 
 
 class TwoBvrGiftSponsorship(models.AbstractModel):
@@ -74,16 +71,13 @@ class ThreeBvrGiftSponsorship(models.AbstractModel):
     _name = 'report.report_compassion.3bvr_gift_sponsorship'
 
     def _get_report(self):
-        return self.env['report']._get_report_from_name(
+        return self.env['ir.actions.report']._get_report_from_name(
             'report_compassion.3bvr_gift_sponsorship')
 
-    @api.multi
-    def render_html(self, docids, data=None):
-        """ Include setting for telling 3bvr paper has offset between
-        payment slips.
-        """
+    @api.model
+    def get_report_values(self, docids, data=None):
         if data is None:
             data = dict()
         data['offset'] = 1
-        return super(ThreeBvrGiftSponsorship, self).render_html(
+        return super().get_report_values(
             docids, data)

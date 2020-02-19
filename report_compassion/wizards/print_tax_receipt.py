@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -21,6 +20,7 @@ class PrintTaxReceipt(models.TransientModel):
     Wizard for selecting a the child dossier type and language.
     """
     _name = 'print.tax_receipt'
+    _description = "Select a tax receipt"
 
     state = fields.Selection([('new', 'new'), ('pdf', 'pdf')], default='new')
     year = fields.Integer(default=date.today().year - 1)
@@ -42,8 +42,9 @@ class PrintTaxReceipt(models.TransientModel):
             }
 
     @api.multi
-    def print_report(self):
+    def get_report(self):
         """
+        Call when button 'Get Report' clicked.
         Print tax receipt
         :return: Generated report
         """
@@ -60,12 +61,13 @@ class PrintTaxReceipt(models.TransientModel):
             raise UserError(_(
                 "You can only generate tax certificate for one language at "
                 "a time."))
+        report_ref = self.env.ref('report_compassion.tax_receipt_report')
         if self.pdf:
-            self.pdf_download = base64.b64encode(
-                self.env['report'].with_context(
-                    must_skip_send_to_printer=True).get_pdf(
-                        records.ids, 'report_compassion.tax_receipt',
-                        data=data))
+            pdf_data = report_ref.report_action(self, data=data)
+            self.pdf_download = base64.encodebytes(
+                report_ref.render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
+
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -76,5 +78,5 @@ class PrintTaxReceipt(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return self.env['report'].get_action(
-            records.ids, 'report_compassion.tax_receipt', data=data)
+
+        return report_ref.report_action(self, data=data)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -10,7 +9,6 @@
 ##############################################################################
 import logging
 
-import sys
 from datetime import datetime
 
 from odoo import api, models, fields
@@ -27,10 +25,6 @@ class CompassionChild(models.Model):
 
     @api.multi
     def add_to_wordpress(self, company_id=None):
-        # Solve the encoding problems on child's descriptions
-        reload(sys)
-        sys.setdefaultencoding('UTF8')
-
         in_two_years = datetime.today() + relativedelta(years=2)
         valid_children = self.filtered(
             lambda c: c.state == 'N' and c.desc_de and
@@ -43,10 +37,9 @@ class CompassionChild(models.Model):
 
         error = self - valid_children
         if error:
+            number = str(len(error))
             logger.error(
-                "%s children have invalid data and were not pushed to "
-                "wordpress." % str(len(error))
-            )
+                f"{number} children have invalid data and were not pushed to wordpress")
 
         wp_config = self.env['wordpress.configuration'].get_config(company_id)
         wp = WPSync(wp_config)
@@ -128,9 +121,9 @@ class CompassionChild(models.Model):
         })
         try:
             global_pool.country_mix()
-        except Exception, e:
-            logger.exception("The country-aware children selection failed, "
-                             "falling back to rich mix. %s", e.message)
+        except:
+            logger.error("The country-aware children selection failed, "
+                         "falling back to rich mix.", exc_info=True)
             global_pool.rich_mix()
         return global_pool
 
@@ -139,9 +132,8 @@ class CompassionChild(models.Model):
             try:
                 child.get_infos()
                 child.mapped('project_id').update_informations()
-            except Exception, e:
-                logger.exception('Error updating child information: %s',
-                                 e.message)
+            except:
+                logger.error('Error updating child information: ', exc_info=True)
                 continue
         return children.filtered(
             lambda c: c.state == 'N' and c.desc_it and c.pictures_ids
@@ -173,9 +165,9 @@ class CompassionChild(models.Model):
                 for i in range(0, len(new_children), 5):
                     try:
                         new_children[i:i + 5].add_to_wordpress(company_id)
-                    except Exception, e:
-                        logger.exception('Failed adding a batch of children to'
-                                         ' wordpress: %s', e.message)
+                    except:
+                        logger.error('Failed adding a batch of children to'
+                                     ' wordpress: ', exc_info=True)
                         continue
 
                 old_children.mapped('hold_id').release_hold()
