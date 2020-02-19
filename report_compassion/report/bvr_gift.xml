@@ -7,7 +7,7 @@
             name="report_compassion.bvr_gift_sponsorship"
             menu="False"
     />
-    <record id="report_bvr_gift_sponsorship" model="ir.actions.report.xml">
+    <record id="report_bvr_gift_sponsorship" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_bvr"/>
     </record>
 
@@ -18,7 +18,7 @@
             name="report_compassion.2bvr_gift_sponsorship"
             menu="False"
     />
-    <record id="report_2bvr_gift_sponsorship" model="ir.actions.report.xml">
+    <record id="report_2bvr_gift_sponsorship" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_a4_no_margin_portrait"/>
     </record>
 
@@ -29,7 +29,7 @@
             name="report_compassion.3bvr_gift_sponsorship"
             menu="False"
     />
-    <record id="report_3bvr_gift_sponsorship" model="ir.actions.report.xml">
+    <record id="report_3bvr_gift_sponsorship" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_3bvr"/>
     </record>
 
@@ -93,7 +93,7 @@
     <!-- Top container for 3 BVR sponsorship gift reports iterating over all products selected
          outputting payment slips for gifts -->
     <template id="bvr_gift_sponsorship">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="report_compassion.report_bvr_sponsorship_gift_document"
                    t-lang="doc.partner_id.lang"/>
@@ -110,9 +110,8 @@
         <t t-set="o" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
         <t t-set="partner" t-value="o.gift_partner_id"/>
         <t t-set="partner_address" t-value="partner.short_address"/>
-        <t t-set="company_account"
-           t-value="o.group_id.get_company_bvr_account()"/>
-        <div class="page">
+        <t t-set="company_account" t-value="o.group_id.get_company_bvr_account()"/>
+        <div class="article">
             <t t-call="report_compassion.bvr_style"/>
             <t t-foreach="products" t-as="product">
                 <t t-call="report_compassion.report_sponsorship_single_slip">

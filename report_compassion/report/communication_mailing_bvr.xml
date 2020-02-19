@@ -6,7 +6,7 @@
             report_type="qweb-pdf"
             name="report_compassion.partner_communication_mailing_bvr"
     />
-    <record id="report_partner_communication_mailing_bvr" model="ir.actions.report.xml">
+    <record id="report_partner_communication_mailing_bvr" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_a4_letter"/>
     </record>
 
@@ -192,7 +192,7 @@
     </template>
 
     <template id="partner_communication_mailing_bvr">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-set="success_story" t-value="docs.mapped('success_story_id')"/>
                 <t t-set="bvr" t-value="docs.mapped('product_id')"/>
@@ -205,7 +205,7 @@
                 <t t-set="success_story" t-value="o.success_story_id"/>
                 <t t-set="body_html" t-value="o.body_html"/>
                 <t t-set="user" t-value="o.user_id"/>
-                <t t-set="show_signature" t-value="o.show_signature and user.signature_image"/>
+                <t t-set="show_signature" t-value="o.show_signature and user.digital_signature"/>
                 <t t-set="product" t-value="o.product_id.with_context(lang=partner.lang)"/>
                 <t t-set="preprinted" t-value="o.preprinted"/>
                 <t t-call="report_compassion.partner_communication_document_mailing_bvr" t-lang="o.partner_id.lang"/>
@@ -214,7 +214,7 @@
     </template>
 
     <template id="partner_communication_document_mailing_bvr">
-        <div class="page">
+        <div class="article">
             <t t-call="report_compassion.communication_style_mailing_bvr"/>
             <t t-call="report_compassion.partner_communication_document_page"/>
         </div>

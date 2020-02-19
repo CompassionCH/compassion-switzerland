@@ -45,7 +45,6 @@ class RecurringContract(models.Model):
         compute='_compute_period_paid',
         help='Tells if the advance billing period is already paid'
     )
-    amount_due = fields.Integer(compute='_compute_due_invoices', store=True)
     months_due = fields.Integer(compute='_compute_due_invoices', store=True)
     welcome_active_letter_sent = fields.Boolean(
         "Welcome letters sent",

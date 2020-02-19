@@ -7,7 +7,7 @@
             name="report_compassion.anniversary_card"
             menu="False"
     />
-    <record id="report_anniversary_card" model="ir.actions.report.xml">
+    <record id="report_anniversary_card" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_anniversary_card"/>
     </record>
 
@@ -91,9 +91,9 @@
                 font-weight: bold;
             }
         </t>
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <div class="page">
+                <div class="article">
                     <t t-call="report_compassion.style"/>
                     <div id="address" class="right">
                         <div id="pp">

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -49,7 +48,7 @@ class CompassionChild(models.Model):
             suffix_s = 's' if not firstname.endswith('s') else ''
             lang_map = {
                 'fr_CH': u"À propos du centre d'accueil",
-                'de_DE': u"Über %s Kinderzentrum" % (firstname + suffix_s),
+                'de_DE': f"Über {firstname + suffix_s} Kinderzentrum",
                 'en_US': firstname + u"'s Project",
                 'it_IT': u'Project',
             }

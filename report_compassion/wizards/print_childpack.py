@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -21,6 +20,7 @@ class PrintChildpack(models.TransientModel):
     Wizard for selecting a the child dossier type and language.
     """
     _name = 'print.childpack'
+    _description = "Select the child dossier type and language"
 
     type = fields.Selection([
         ('report_compassion.childpack_full', 'Full Childpack'),
@@ -56,7 +56,7 @@ class PrintChildpack(models.TransientModel):
         return self.env.lang
 
     @api.multi
-    def print_report(self):
+    def get_report(self):
         """
         Print selected child dossier
         :return: Generated report
@@ -76,14 +76,15 @@ class PrintChildpack(models.TransientModel):
             'is_pdf': self.pdf,
             'type': self.type
         }
-        report_obj = self.env['report'].with_context(lang=self.lang)
+        report_name = "report_compassion.report_" + self.type.split('.')[1]
+        report_ref = self.env.ref(report_name)
         if self.pdf:
             name = records.local_id if len(records) == 1 else 'dossiers'
             self.pdf_name = name + '.pdf'
-            self.pdf_download = base64.b64encode(
-                report_obj.with_context(
-                    must_skip_send_to_printer=True).get_pdf(
-                        records.ids, self.type, data=data))
+            pdf_data = report_ref.report_action(self, data=data)
+            self.pdf_download = base64.encodebytes(
+                report_ref.render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
             self.state = 'pdf'
             return {
                 'name': 'Download report',
@@ -94,4 +95,4 @@ class PrintChildpack(models.TransientModel):
                 'target': 'new',
                 'context': self.env.context,
             }
-        return report_obj.get_action(records.ids, self.type, data=data)
+        return report_ref.report_action(self, data=data)
