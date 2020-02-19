@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -48,8 +47,7 @@ class AccountStatement(models.Model):
         same partner at different place in the tree view.
         """
 
-        result = super(AccountStatement,
-                       self).reconciliation_widget_preprocess()
+        result = super().reconciliation_widget_preprocess()
 
         # The ORDER BY is the change that order the lines in a more
         # comfortable way for reconciliation.

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -22,12 +21,11 @@ class AccountPartialReconcile(models.Model):
 
     def _fix_multiple_exchange_rates_diff(self, amls_to_fix, amount_diff,
                                           diff_in_currency, currency, move):
-
         analytic_account_id = self.env['ir.config_parameter'].get_param(
             'account_reconcile_compassion.currency_exchange_analytic_account'
         )
 
         return super(AccountPartialReconcile, self.with_context(
-            default_analytic_account_id=analytic_account_id)).\
+            default_analytic_account_id=analytic_account_id)). \
             _fix_multiple_exchange_rates_diff(amls_to_fix, amount_diff,
                                               diff_in_currency, currency, move)

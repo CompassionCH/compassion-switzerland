@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -19,12 +18,12 @@ class TestAccountReconcile(TransactionCase):
     """
 
     def setUp(self):
-        super(TestAccountReconcile, self).setUp()
+        super().setUp()
         self.asustek = self.env.ref('base.res_partner_1')
         self.camptocamp = self.env.ref('base.res_partner_12')
         self.statement = self.env['account.bank.statement'].create({
             'journal_id':
-            self.env.ref('l10n_ch_lsv_dd.lsv_account_journal').id,
+                self.env.ref('l10n_ch_lsv_dd.lsv_account_journal').id,
             'date': fields.Date.today(),
 
         })

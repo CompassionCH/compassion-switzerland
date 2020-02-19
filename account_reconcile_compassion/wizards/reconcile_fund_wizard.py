@@ -1,5 +1,4 @@
-﻿# -*- coding: utf-8 -*-
-##############################################################################
+﻿##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
@@ -73,7 +72,7 @@ class ReconcileFundWizard(models.TransientModel):
         if invoice:
             invoice.action_invoice_cancel()
             invoice.action_invoice_draft()
-            invoice.env.invalidate_all()
+            invoice.env.clear()
 
             self._generate_invoice_line(invoice.id, residual, partner_id)
 

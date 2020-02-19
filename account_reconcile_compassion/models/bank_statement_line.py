@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014-2018 Compassion CH (http://www.compassion.ch)
@@ -10,21 +9,19 @@
 ##############################################################################
 
 import logging
+from datetime import datetime
 
 from odoo import api, models, fields, _
+from odoo.addons.queue_job.job import job
+from odoo.addons.sponsorship_compassion.models.product_names import \
+    GIFT_CATEGORY, SPONSORSHIP_CATEGORY
 from odoo.exceptions import UserError
 from odoo.tools import float_round
-from odoo.addons.sponsorship_compassion.models.product import \
-    GIFT_CATEGORY, SPONSORSHIP_CATEGORY
-from odoo.addons.queue_job.job import job
-
-from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
 
 class BankStatementLine(models.Model):
-
     _inherit = 'account.bank.statement.line'
 
     ##########################################################################
@@ -43,7 +40,7 @@ class BankStatementLine(models.Model):
                     '|', ('acc_number', 'like', line.partner_account),
                     ('sanitized_acc_number', 'like', line.partner_account)])
                 partner_bank.write({'partner_id': vals['partner_id']})
-        return super(BankStatementLine, self).write(vals)
+        return super().write(vals)
 
     @api.multi
     def get_reconciliation_proposition(self, excluded_ids=None):
@@ -95,8 +92,7 @@ class BankStatementLine(models.Model):
             'journal_id.default_credit_account_id')
         additional_domain.append(('account_id', 'not in', import_accounts.ids))
 
-        res_asc = super(
-            BankStatementLine, self).get_move_lines_for_reconciliation(
+        res_asc = super().get_move_lines_for_reconciliation(
             excluded_ids, str, offset, limit, additional_domain,
             overlook_partner)
 
@@ -126,7 +122,7 @@ class BankStatementLine(models.Model):
             'notifications': notifications,
             'statement_name': False,
             'num_already_reconciled_lines': num_reconciled +
-            num_already_reconciled,
+                                            num_already_reconciled,
         }
 
     @api.multi
@@ -137,14 +133,14 @@ class BankStatementLine(models.Model):
         :return: account.move.line recordset of counterparts
         """
         self.ensure_one()
-        res = super(BankStatementLine, self).auto_reconcile()
+        res = super().auto_reconcile()
         if not res:
             # Code copied from base account_bank_statement : L669
             amount = self.amount_currency or self.amount
             company_currency = self.journal_id.company_id.currency_id
             st_line_currency = self.currency_id or self.journal_id.currency_id
-            precision = st_line_currency and st_line_currency.decimal_places\
-                or company_currency.decimal_places
+            precision = st_line_currency and st_line_currency.decimal_places \
+                        or company_currency.decimal_places
             params = {
                 'company_id': self.env.user.company_id.id,
                 'account_payable_receivable': (
@@ -155,16 +151,16 @@ class BankStatementLine(models.Model):
                 'ref': self.ref
             }
             currency = (
-                st_line_currency and st_line_currency !=
-                company_currency) and st_line_currency.id or False
+                               st_line_currency and st_line_currency !=
+                               company_currency) and st_line_currency.id or False
             sql_query = self._get_common_sql_query()
             sql_query += " AND aml.ref = %(ref)s AND ("
             sql_query += currency and 'amount_residual_currency' or \
-                'amount_residual'
+                         'amount_residual'
             sql_query += " = %(amount)s OR (acc.internal_type = 'liquidity'" \
                          " AND "
             sql_query += currency and 'amount_currency' or \
-                amount > 0 and 'debit' or 'credit'
+                         amount > 0 and 'debit' or 'credit'
             sql_query += " = %(amount)s)) ORDER BY date_maturity asc," \
                          "aml.id asc"
             self.env.cr.execute(sql_query, params)
@@ -220,7 +216,7 @@ class BankStatementLine(models.Model):
                                 payment_aml_rec=None, new_aml_dicts=None):
         """Bank statement line reconciliation job"""
         try:
-            return super(BankStatementLine, self).process_reconciliation(
+            return super().process_reconciliation(
                 counterpart_aml_dicts, payment_aml_rec, new_aml_dicts)
         except Exception as e:
             self.env.cr.rollback()
@@ -230,14 +226,14 @@ class BankStatementLine(models.Model):
 
     def _get_invoice_data(self, ref, mv_line_dicts):
         """ Add BVR payment mode in invoice. """
-        inv_vals = super(BankStatementLine, self)._get_invoice_data(
+        inv_vals = super()._get_invoice_data(
             ref, mv_line_dicts)
-        inv_vals['payment_mode_id'] = self.statement_id.journal_id.\
+        inv_vals['payment_mode_id'] = self.statement_id.journal_id. \
             payment_mode_id.id
         return inv_vals
 
     def _get_invoice_line_data(self, mv_line_dict, invoice):
-        invl_vals = super(BankStatementLine, self)._get_invoice_line_data(
+        invl_vals = super()._get_invoice_line_data(
             mv_line_dict, invoice)
 
         # Find sponsorship

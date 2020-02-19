@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -13,7 +12,6 @@ from odoo import api, models
 
 
 class AccountOperationTemplate(models.Model):
-
     _inherit = 'account.reconcile.model'
 
     @api.model
@@ -23,7 +21,7 @@ class AccountOperationTemplate(models.Model):
         :param product_id:
         :return: account_id, analytic_id
         """
-        res = super(AccountOperationTemplate, self).product_changed(product_id)
+        res = super().product_changed(product_id)
         if product_id:
             analytic_id = self.env['account.analytic.default'].account_get(
                 product_id).analytic_id.id

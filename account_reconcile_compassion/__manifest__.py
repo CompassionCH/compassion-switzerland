@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,14 +29,15 @@
 # pylint: disable=C8101
 {
     'name': 'Bank Statement Reconcile for Compassion CH',
-    'version': '10.0.1.0.0',
+    'version': '11.0.1.0.0',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'category': 'Finance',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'sponsorship_switzerland', 'account_reconcile_create_invoice',
-        'account_bank_statement_import_camt_details'
+        'sponsorship_switzerland',  # compassion-switzerland
+        'account_reconcile_create_invoice',  # compassion-accounting
+        'account_bank_statement_import_camt_details'  # OCA/bank-statement-import
     ],
     'data': [
         'data/statement_operation.xml',
@@ -50,9 +50,6 @@
         'views/account_journal.xml',
     ],
     'qweb': ['static/src/xml/account_move_reconciliation.xml'],
-    'demo': [],
-    'test': [],
     'auto_install': False,
-    'installable': False,
-    'images': []
+    'installable': True,
 }
