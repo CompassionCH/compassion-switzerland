@@ -19,14 +19,15 @@ class AccountMandate(models.Model):
         """Validate LSV/DD Contracts when mandate is validated."""
         super().validate()
         contracts = self._trigger_contracts('mandate')
-        contracts.contract_active()
+        contracts.mandate_valid()
         return True
 
     @api.multi
     def cancel(self):
         """Set back contracts in waiting mandate state."""
         super().cancel()
-        contracts = self._trigger_contracts('active')
+        contracts = self._trigger_contracts('active') + self._trigger_contracts(
+            'waiting')
         contracts.contract_waiting_mandate()
         return True
 
