@@ -10,6 +10,7 @@
 from odoo import api, models, fields, _
 
 
+
 class MassMailing(models.Model):
     """ Add the mailing domain to be viewed in a text field
     """
@@ -27,9 +28,6 @@ class MassMailing(models.Model):
         'mail.tracking.event', compute='_compute_events')
     partner_test_sendgrid_id = fields.Many2one('res.partner',
                                                'Test Partner')
-
-    _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
-                         'You have to choose a new slug for each mailing !')]
 
     @api.multi
     def name_get(self):
