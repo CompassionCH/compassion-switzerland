@@ -12,7 +12,7 @@ from odoo import api, models
 
 
 class AccountOperationTemplate(models.Model):
-    _inherit = 'account.reconcile.model'
+    _inherit = "account.reconcile.model"
 
     @api.model
     def product_changed(self, product_id):
@@ -23,7 +23,10 @@ class AccountOperationTemplate(models.Model):
         """
         res = super().product_changed(product_id)
         if product_id:
-            analytic_id = self.env['account.analytic.default'].account_get(
-                product_id).analytic_id.id
-            res['analytic_id'] = analytic_id
+            analytic_id = (
+                self.env["account.analytic.default"]
+                .account_get(product_id)
+                .analytic_id.id
+            )
+            res["analytic_id"] = analytic_id
         return res
