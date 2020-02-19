@@ -6,7 +6,7 @@
             name="report_compassion.childpack_full"
             menu="False"
     />
-    <record id="report_childpack_full" model="ir.actions.report.xml">
+    <record id="report_childpack_full" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_childpack"/>
     </record>
 
@@ -17,7 +17,7 @@
             name="report_compassion.childpack_small"
             menu="False"
     />
-    <record id="report_childpack_small" model="ir.actions.report.xml">
+    <record id="report_childpack_small" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_a4_childpack"/>
     </record>
 
@@ -28,7 +28,7 @@
             name="report_compassion.childpack_mini"
             menu="False"
     />
-    <record id="report_childpack_mini" model="ir.actions.report.xml">
+    <record id="report_childpack_mini" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_mini_childpack"/>
     </record>
 
@@ -204,7 +204,7 @@
                 margin: auto;
             }
         </t>
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="report_compassion.childpack_document" t-lang="lang"/>
             </t>
@@ -294,9 +294,9 @@
                 font-size: 8pt;
             }
         </t>
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <div class="page">
+                <div class="article">
                     <t t-call="report_compassion.style"/>
                     <div class="local_id">
                         <span t-field="o.local_id"/>

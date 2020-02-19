@@ -7,7 +7,7 @@
             name="report_compassion.bvr_sponsorship"
             menu="False"
     />
-    <record id="report_bvr_sponsorship" model="ir.actions.report.xml">
+    <record id="report_bvr_sponsorship" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_bvr"/>
     </record>
 
@@ -18,7 +18,7 @@
             name="report_compassion.2bvr_sponsorship"
             menu="False"
     />
-    <record id="report_2bvr_sponsorship" model="ir.actions.report.xml">
+    <record id="report_2bvr_sponsorship" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_a4_no_margin_portrait"/>
     </record>
 
@@ -29,7 +29,7 @@
             name="report_compassion.3bvr_sponsorship"
             menu="False"
     />
-    <record id="report_3bvr_sponsorship" model="ir.actions.report.xml">
+    <record id="report_3bvr_sponsorship" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_3bvr"/>
     </record>
 
@@ -40,14 +40,14 @@
             report_type="qweb-pdf"
             name="report_compassion.bvr_due"
     />
-    <record id="report_bvr_due" model="ir.actions.report.xml">
+    <record id="report_bvr_due" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_bvr"/>
     </record>
 
     <!-- Top container for 3 BVR sponsorship reports iterating over all sponsorship groups
          outputting payment slips for sponsorships and gifts -->
     <template id="bvr_sponsorship">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="report_compassion.report_bvr_sponsorship_document"
                    t-lang="doc.partner_id.lang"/>
@@ -70,7 +70,7 @@
             <t t-set="partner" t-value="o.partner_id"/>
             <t t-set="partner_address" t-value="partner.short_address"/>
             <t t-set="company_account" t-value="o.get_company_bvr_account()"/>
-            <div class="page">
+            <div class="article">
                 <t t-call="report_compassion.bvr_style"/>
                 <t t-foreach="o.get_months(months, docs.get(o))" t-as="date">
                     <t t-call="report_compassion.report_sponsorship_single_slip">
@@ -95,7 +95,7 @@
         <t t-set="partner_address" t-value="partner.short_address"/>
         <t t-set="company_account" t-value="o.get_company_bvr_account()"/>
 
-        <div class="page">
+        <div class="article">
             <t t-call="report_compassion.bvr_style"/>
             <t t-foreach="docs.get(o)" t-as="sponsorship">
                 <t t-foreach="sponsorship.get_sponsorship_gift_products()"
@@ -233,9 +233,9 @@
 
     <!-- Sponsorship Due Template -->
     <template id="bvr_due">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs.mapped('partner_id')" t-as="partner">
-                <div class="page">
+                <div class="article">
                     <t t-call="report_compassion.bvr_style"/>
                     <t t-call="report_compassion.report_bvr_due_document" t-lang="partner.lang"/>
                 </div>

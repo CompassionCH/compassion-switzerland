@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
@@ -109,6 +108,8 @@ class ContractGroup(models.Model):
         amount = sum(sponsorships.mapped('total_amount'))
         valid = sponsorships
         number_sponsorship = len(sponsorships)
+        date_start = fields.Date
+        date_stop = fields.Date
 
         if start and stop:
             date_start = fields.Date.from_string(start)
@@ -131,7 +132,7 @@ class ContractGroup(models.Model):
                     amount += sum(valid.mapped('total_amount'))
                     month += relativedelta(months=1)
         vals = {
-            'amount': "CHF {:.0f}".format(amount),
+            'amount': f"CHF {amount:.0f}",
             'subject': _("for") + " ",
             'date': '',
         }
@@ -165,8 +166,8 @@ class ContractGroup(models.Model):
 
             vals['subject'] = ", ".join(product_name.mapped('thanks_name'))
 
-        return u"{payment_type} {amount}<br/>{subject}<br/>{date}".format(
-            **vals).strip('<br/>')
+        return f"{vals['payment_type']} {vals['amount']}" \
+               f"<br/>{vals['subject']}<br/>{vals['date']}"
 
     @api.model
     def get_scan_line(self, account, reference, amount=False):
@@ -185,11 +186,9 @@ class ContractGroup(models.Model):
         line += reference.replace(" ", "").rjust(27, '0')
         line += '+ '
         account_components = account.split('-')
-        bank_identifier = "%s%s%s" % (
-            account_components[0],
-            account_components[1].rjust(6, '0'),
-            account_components[2]
-        )
+        bank_identifier = f"{account_components[0]}" \
+                          f"{account_components[1].rjust(6, '0')}" \
+                          f"{account_components[2]}"
         line += bank_identifier
         line += '>'
         return line
