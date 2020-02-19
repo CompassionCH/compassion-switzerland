@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -27,4 +26,4 @@ class HrEmployee(models.Model):
         else:
             self.env.user.asterisk_connect(False)
 
-        return super(HrEmployee, self).attendance_action_change()
+        return super().attendance_action_change()

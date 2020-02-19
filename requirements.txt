@@ -1,3 +1,8 @@
+py-Asterisk
+pysmb
+simplejson
+requests
+pandas
 jwt
 pyquery
 pytz

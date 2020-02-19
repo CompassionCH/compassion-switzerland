@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -29,7 +28,7 @@ class HrExpense(models.Model):
         Prevent changing amounts if expense is submitted.
         """
         if self.state == 'draft':
-            super(HrExpense, self)._onchange_product_id()
+            super()._onchange_product_id()
 
 
 class HrExpenseSheet(models.Model):
@@ -41,13 +40,13 @@ class HrExpenseSheet(models.Model):
     @api.model
     def create(self, vals):
         """Notify managers when expense is created."""
-        sheet = super(HrExpenseSheet, self).create(vals)
+        sheet = super().create(vals)
         users = sheet._get_users_to_subscribe() - self.env.user
         sheet._message_auto_subscribe_notify(users.mapped('partner_id').ids)
         return sheet
 
     def _add_followers(self):
         """Notify managers when employee is changed."""
-        super(HrExpenseSheet, self)._add_followers()
+        super()._add_followers()
         users = self._get_users_to_subscribe() - self.env.user
         self._message_auto_subscribe_notify(users.mapped('partner_id').ids)
