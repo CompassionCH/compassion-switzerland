@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -21,7 +20,7 @@ class HrHolidays(models.Model):
         Put all_day in holidays spanning in multiple days.
         Put user requesting holidays as attendee instead of connected user.
         """
-        super(HrHolidays, self).action_validate()
+        super().action_validate()
         for holidays in self:
             if holidays.meeting_id and holidays.date_from and holidays.date_to:
                 partner_id = holidays.employee_id.address_home_id.id

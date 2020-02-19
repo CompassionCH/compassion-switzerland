@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -40,14 +39,14 @@ class ResUser(models.Model):
                     context='default',
                     extension=extension,
                     priority=1,
-                    timeout=unicode(ast_server.wait_time * 1000),
+                    timeout=str(ast_server.wait_time * 1000),
                     caller_id=ast_user.internal_number,
                     account=ast_user.cdraccount)
-                message = 'Your Xivo agent is now {}.'.format(
-                    'connected' if log else 'disconnected')
+                message = "Your Xivo agent is now " \
+                          f"{'connected' if log else 'disconnected'}."
                 ast_user.notify_info(message)
                 ast_manager.Logoff()
-            except Exception, e:
+            except Exception as e:
                 message = "Impossible to connect your Xivo agent\n"
-                message += unicode(e)
+                message += str(e)
                 ast_user.notify_info(message)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion CH - HR Management',
-    'version': '10.0.1.2.0',
+    'version': '11.0.0.0.0',
     'license': 'AGPL-3',
     'category': 'HR',
     'author': 'Emanuel Cino',
@@ -42,9 +41,13 @@
         'data/hr_config.xml'
     ],
     'depends': [
-        'hr_expense', 'hr_attendance_management', 'asterisk_click2dial',
-        'web_notify', 'hr_payroll'],
+        'hr_expense',                   # source/addons
+        'hr_payroll',                   # source/addons
+        'asterisk_click2dial',          # oca_addons/connector-telephony
+        'web_notify',                   # oca_addons/web
+        'hr_attendance_management',     # compassion-modules
+    ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }
