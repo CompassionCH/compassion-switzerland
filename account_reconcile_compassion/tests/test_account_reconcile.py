@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -16,7 +15,7 @@ from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion \
 class TestAccountReconcile(BaseSponsorshipTest):
 
     def setUp(self):
-        super(TestAccountReconcile, self).setUp()
+        super().setUp()
 
         self.t_child = self.create_child('TT123456789')
         self.t_partner = self.env['res.users'].search([
@@ -99,14 +98,14 @@ class TestAccountReconcile(BaseSponsorshipTest):
         self.assertTrue(bank_statement_line)
 
         # should be 12 - 6 * 12 = 72
-        self.assertEquals(bank_statement_line._sort_move_line(
+        self.assertEqual(bank_statement_line._sort_move_line(
             account_move_line), 72)
         # should be 1
-        self.assertEquals(bank_statement_line._sort_move_line(
+        self.assertEqual(bank_statement_line._sort_move_line(
             account_move_line_today), 1)
 
         # test get_move_lines_for_reconciliation method
-        self.assertEquals(
+        self.assertEqual(
             len(bank_statement_line.get_move_lines_for_reconciliation()), 0)
 
         # test linking partner to bank when writing to
@@ -120,7 +119,7 @@ class TestAccountReconcile(BaseSponsorshipTest):
             ('sanitized_acc_number', 'like',
              self.journal.bank_account_id.acc_number)
         ])
-        self.assertEquals(partner_bank.company_id, self.journal.company_id)
+        self.assertEqual(partner_bank.company_id, self.journal.company_id)
 
         acc_partial_rec = self.env['account.partial.reconcile'].create({
             'debit_move_id': account_move_line.id,
