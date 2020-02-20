@@ -64,7 +64,7 @@ class SmsSender(models.TransientModel):
         headers = {}
         username = self.sms_provider_id.username_939
         password = self.sms_provider_id.password_939
-        auth = base64.encodebytes(f'{username}:{password}').replace('\n', '')
+        auth = f'{username}:{password}'.replace('\n', '')
         headers['Authorization'] = 'Basic ' + auth
         request = [
             ('receiver', mobile),
