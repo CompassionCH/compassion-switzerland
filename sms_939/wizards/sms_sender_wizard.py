@@ -7,7 +7,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import base64
 import http.client
 import urllib.request
 import urllib.parse
