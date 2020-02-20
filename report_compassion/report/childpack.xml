@@ -213,7 +213,7 @@
 
     <template id="childpack_document">
         <t t-set="o" t-value="o.with_context({'lang': lang})" />
-        <div class="page">
+        <div class="article">
             <t t-if="is_pdf">
                 <div id="background">
                     <img t-attf-src="/report_compassion/static/img/{{ type }}/1904_dossier_{{ lang }}.jpg"/>
