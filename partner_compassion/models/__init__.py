@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -20,3 +20,4 @@ from . import advocate_engagement
 from . import match_partner
 from . import base_geocoder
 from . import calendar_attendee
+from . import survey_user_input_line

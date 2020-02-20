@@ -22,16 +22,16 @@ connector-telephony
 partner-contact
 server-ux
 crm
-geospatial
-partner-contact
+geospatial https://github.com/josueBulle/geospatial mix
 queue
 report-print-send
 server-ux
+social https://github.com/CompassionCH/social 11.0-mig-mail_sendgrid
 web
 website https://github.com/CompassionCH/website 11.0
 website-cms
+l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 11.0-mig-l10n_ch_pain_direct_debit
 # Uncomment when needed
 # hr
 # sale-workflow https://github.com/OCA/sale-workflow branchname
 # server-tools
-# social

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -18,14 +17,14 @@ _logger = logging.getLogger(__name__)
 class TestReportBVRSponsorship(TestContractsSwitzerland):
 
     def setUp(self):
-        super(TestReportBVRSponsorship, self).setUp()
+        super().setUp()
         self.product = self.env.ref('product.service_order_01')
 
     def test_report_bvr_sponsorship__render_html(self):
         sponsorship = self._create_sponsorship()
 
         report = self.env['report.report_compassion.bvr_sponsorship']
-        html = report.render_html([sponsorship.id])
+        html_dict = report.get_report_values([sponsorship.id])
 
-        self.assertTrue('assets_editor.js' in html)
-        self.assertTrue('id="wrapwrap"' in html)
+        self.assertIsInstance(html_dict, dict,
+                              "There was an error while compiling the report.")
