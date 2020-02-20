@@ -6,7 +6,8 @@
 #
 #    The licence is in the file __manifest__.py
 #
-##############################################################################
+##############################################################################$
+import base64
 import http.client
 import urllib.request
 import urllib.parse
@@ -64,7 +65,8 @@ class SmsSender(models.TransientModel):
         username = self.sms_provider_id.username_939
         password = self.sms_provider_id.password_939
         auth = f'{username}:{password}'.replace('\n', '')
-        headers['Authorization'] = 'Basic ' + auth
+        base64_auth = base64.encodebytes(bytes(auth, 'utf-8'))
+        headers['Authorization'] = 'Basic ' + str(base64_auth)
         request = [
             ('receiver', mobile),
             ('service', 'compassion'),

@@ -48,7 +48,8 @@ class TestMobileAppConnector(HttpCase):
             url_params = urllib.parse.urlencode(params)
             try:
                 response = self.url_open('/sms/mnc/?' + url_params, timeout=1)
-                response_str = response.read()
+                # response_str = response.read()
+                response_str = response.text
                 return response_str
             except ReadTimeout:
                 _logger.error("Timeout occured")
