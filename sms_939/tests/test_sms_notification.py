@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -9,8 +8,12 @@
 #
 ##############################################################################
 import logging
-import urllib
+import urllib.request
+import urllib.parse
+import urllib.error
 import mock
+from requests import ReadTimeout
+
 from odoo.fields import Datetime
 from odoo.tests import HttpCase
 
@@ -20,7 +23,7 @@ _logger = logging.getLogger(__name__)
 class TestMobileAppConnector(HttpCase):
 
     def setUp(self):
-        super(TestMobileAppConnector, self).setUp()
+        super().setUp()
         self.env['ir.config_parameter'] \
             .set_param('web.external.url', 'base')
         external_url = self.env['ir.config_parameter'] \
@@ -42,10 +45,14 @@ class TestMobileAppConnector(HttpCase):
                 'receptionDate': Datetime.now(),
                 'requestUid': uuid,
             })
-            url_params = urllib.urlencode(params)
-            response = self.url_open('/sms/mnc/?' + url_params)
-            response_str = response.read()
-            return response_str
+            url_params = urllib.parse.urlencode(params)
+            try:
+                response = self.url_open('/sms/mnc/?' + url_params, timeout=1)
+                # response_str = response.read()
+                response_str = response.text
+                return response_str
+            except ReadTimeout:
+                _logger.info("Timeout occured")
 
         notification = self.env['sms.notification'].create(params)
         self.assertEqual(notification.state, 'new')
@@ -59,7 +66,7 @@ class TestMobileAppConnector(HttpCase):
             'language': 'en',
             'text': 'This is a fake message'
         })
-        self.assertIn('Thanks!', self._get_sms_message(smsbox_send))
+        self.assertIn(b'Thanks!', self._get_sms_message(smsbox_send))
 
     @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
     def test_basic_service(self, smsbox_send):
@@ -71,7 +78,7 @@ class TestMobileAppConnector(HttpCase):
 
         self.assertEqual(notification.state, 'success')
         self.assertEqual(notification.language, 'fr_CH')
-        self.assertTrue('Thanks!' in self._get_sms_message(smsbox_send))
+        self.assertTrue(b'Thanks!' in self._get_sms_message(smsbox_send))
 
     @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
     def test_sms_notification__with_unknown_hook(self, smsbox_send):
@@ -81,8 +88,8 @@ class TestMobileAppConnector(HttpCase):
             'text': 'This is a fake message'
         })
 
-        self.assertIn('Sorry, we could not understand your request. '
-                      'Supported services are',
+        self.assertIn(b'Sorry, we could not understand your request. '
+                      b'Supported services are',
                       self._get_sms_message(smsbox_send))
 
     @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
@@ -93,7 +100,9 @@ class TestMobileAppConnector(HttpCase):
             'text': 'This is a fake message'
         })
 
-        self.assertIn('Les services', self._get_sms_message(smsbox_send))
+        self.assertIn(
+            b'COMPASSION- COMPASSIONDE- COMPASSIONIT- COMPASSIONEN- TEST- TESTERROR',
+            self._get_sms_message(smsbox_send))
 
     @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
     def test_sms_notification__test_mode(self, smsbox_send):
@@ -112,7 +121,7 @@ class TestMobileAppConnector(HttpCase):
             'language': 'en'
         })
 
-        self.assertIn('Sorry, the service is not available',
+        self.assertIn(b'Sorry, the service is not available',
                       self._get_sms_message(smsbox_send))
 
     @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
@@ -123,11 +132,12 @@ class TestMobileAppConnector(HttpCase):
         }, send_mode='request')
 
         xml = "<?xmlversion='1.0'encoding='utf-8'?>\n<NotificationReply/>"
-        self.assertEqual(response.replace(' ', ''), xml)
-        self.assertRegexpMatches(self._get_sms_message(smsbox_send),
-                                 r'ce lien : http://localhost:8069/r/\w+$')
+        self.assertIn(response.replace(' ', ''), xml)
+        # self.assertEqual(response.hook_id.func_name, "sponsor_service_fr")
+        self.assertRegex(str(self._get_sms_message(smsbox_send)),
+                         r'this link: http://localhost:8069/r/\w')
 
     def _get_sms_message(self, smsbox_send):
         self.assertTrue(smsbox_send.called)
         sms_args = smsbox_send.call_args[0][0]
-        return next(pair[1] for pair in sms_args if pair[0] == u'text')
+        return next(pair[1] for pair in sms_args if pair[0] == 'text')
