@@ -51,7 +51,7 @@ class TestMobileAppConnector(HttpCase):
                 response_str = response.read()
                 return response_str
             except ReadTimeout:
-                print("Timeout occured")
+                _logger.error("Timeout occured")
 
         notification = self.env['sms.notification'].create(params)
         self.assertEqual(notification.state, 'new')
