@@ -52,7 +52,7 @@ class TestMobileAppConnector(HttpCase):
                 response_str = response.text
                 return response_str
             except ReadTimeout:
-                _logger.error("Timeout occured")
+                _logger.info("Timeout occured")
 
         notification = self.env['sms.notification'].create(params)
         self.assertEqual(notification.state, 'new')
@@ -131,7 +131,8 @@ class TestMobileAppConnector(HttpCase):
             'service': 'compassion'
         }, send_mode='request')
 
-        self.assertIn("Thank you for your will to help a child !", response.answer)
+        xml = "<?xmlversion='1.0'encoding='utf-8'?>\n<NotificationReply/>"
+        self.assertEqual(response.replace(' ', ''), xml)
         self.assertRegex(str(self._get_sms_message(smsbox_send)),
                          r'this link: http://localhost:8069/r/\w')
 
