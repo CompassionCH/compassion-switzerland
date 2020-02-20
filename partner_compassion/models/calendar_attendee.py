@@ -7,7 +7,7 @@
 #
 ##############################################################################
 
-from odoo import models, api, fields
+from odoo import models, api
 
 
 class Attendee(models.Model):
