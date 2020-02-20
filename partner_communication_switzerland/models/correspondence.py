@@ -77,7 +77,7 @@ class Correspondence(models.Model):
                     BOX_SEPARATOR, '').replace(PAGE_SEPARATOR, '')
                 if s:
                     # find the language of text argument
-                    lang = letter.detect_lang(letter.translated_text)
+                    lang = self.env['crm.claim'].detect_lang(letter.translated_text)
                     letter.has_valid_language = lang and lang in letter.\
                         supporter_languages_ids
 
@@ -95,31 +95,6 @@ class Correspondence(models.Model):
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    @api.model
-    def detect_lang(self, text):
-        """
-        Use detectlanguage API to find the language of the given text
-        :param text: text to detect
-        :return: res.lang compassion record if the language is found, or False
-        """
-        detectlanguage.configuration.api_key = config.get(
-            'detect_language_api_key')
-        language_name = False
-        langs = detectlanguage.languages()
-        try:
-            code_lang = detectlanguage.simple_detect(text)
-        except (IndexError, detectlanguage.DetectLanguageError):
-            # Language could not be detected
-            return False
-        for lang in langs:
-            if lang.get("code") == code_lang:
-                language_name = lang.get("name")
-                break
-        if not language_name:
-            return self.env['res.lang.compassion']
-
-        return self.env['res.lang.compassion'].search(
-            [('name', '=ilike', language_name)], limit=1)
 
     def get_image(self):
         """ Method for retrieving the image """
