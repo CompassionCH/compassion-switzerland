@@ -88,7 +88,7 @@ class TwoBvrSponsorship(models.AbstractModel):
     _name = 'report.report_compassion.2bvr_sponsorship'
 
     def _get_report(self):
-        return self.env['report']._get_report_from_name(
+        return self.env['ir.actions.report']._get_report_from_name(
             'report_compassion.2bvr_sponsorship')
 
 
