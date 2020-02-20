@@ -43,17 +43,11 @@ class RecurringContracts(models.Model):
         'res.partner', 'Partner language', related='partner_id.lang',
         store=True)
     hillsong_ref = fields.Char(related='origin_id.hillsong_ref', store=True)
+    state = fields.Selection(selection_add=[('mandate', 'Waiting Mandate')])
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    @api.model
-    def _get_states(self):
-        """ Add a waiting mandate state """
-        states = super()._get_states()
-        states.insert(2, ('mandate', _('Waiting Mandate')))
-        return states
-
     @api.multi
     def _compute_first_open_invoice(self):
         for contract in self:
@@ -243,11 +237,16 @@ class RecurringContracts(models.Model):
         """ If sponsor has open payments, generate invoices and reconcile. """
         self._check_sponsorship_is_valid()
         sponsorships = self.filtered(lambda s: 'S' in s.type)
+        needs_mandate = self.env[self._name]
         for contract in sponsorships:
             payment_mode = contract.payment_mode_id.name
             if contract.type in ['S', 'SC'] and (
                 'LSV' in payment_mode or 'Postfinance' in payment_mode
             ) and contract.total_amount != 0:
+                # Check mandate
+                if not contract.partner_id.mapped('bank_ids.mandate_ids').filtered(
+                        lambda m: m.state == 'valid'):
+                    needs_mandate += contract
                 # Recompute next_invoice_date
                 today = datetime.today()
                 old_invoice_date = fields.Datetime.from_string(
@@ -260,10 +259,20 @@ class RecurringContracts(models.Model):
                 if next_invoice_date > old_invoice_date:
                     contract.next_invoice_date = fields.Date.to_string(
                         next_invoice_date)
-            super(contract).contract_waiting()
+            super(RecurringContracts, contract).contract_waiting()
             contract._reconcile_open_amount()
 
+        needs_mandate.contract_waiting_mandate()
         super(RecurringContracts, self-sponsorships).contract_waiting()
+        return True
+
+    @api.multi
+    def mandate_valid(self):
+        # Called when mandate is validated
+        to_transition = self.filtered(lambda c: c.state == 'mandate')
+        to_active = to_transition.filtered('is_active')
+        to_active.contract_active()
+        (to_transition - to_active).contract_waiting()
         return True
 
     def _check_sponsorship_is_valid(self):

@@ -135,7 +135,7 @@ class PaymentOrder(models.Model):
             if invoice_type == 'sponsorship':
                 communication += ' ' + _('Period: ')
                 if len(invoices) < 4:
-                    communication += invoices.get_date('date_invoice', '%B')
+                    communication += invoices.get_date('date_invoice', 'MMMM')
                 else:
                     communication += str(len(invoices)) + ' ' + _('months')
         elif len(products) == 1:

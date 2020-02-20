@@ -36,10 +36,12 @@
     <!-- Top container for 2 BVR sponsorship gift reports iterating over all products selected
          outputting payment slips for gifts -->
     <template id="bvr_gift_sponsorship_2bvr">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="report_compassion.report_bvr_sponsorship_gift_document_2bvr"
-                   t-lang="doc.partner_id.lang"/>
+                <div class="article">
+                    <t t-call="report_compassion.report_bvr_sponsorship_gift_document_2bvr"
+                       t-lang="doc.partner_id.lang"/>
+                </div>
             </t>
         </t>
     </template>
@@ -94,10 +96,12 @@
          outputting payment slips for gifts -->
     <template id="bvr_gift_sponsorship">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="doc">
-                <t t-call="report_compassion.report_bvr_sponsorship_gift_document"
-                   t-lang="doc.partner_id.lang"/>
-            </t>
+            <div class="article">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="report_compassion.report_bvr_sponsorship_gift_document"
+                       t-lang="doc.partner_id.lang"/>
+                </t>
+            </div>
         </t>
     </template>
 
@@ -111,7 +115,7 @@
         <t t-set="partner" t-value="o.gift_partner_id"/>
         <t t-set="partner_address" t-value="partner.short_address"/>
         <t t-set="company_account" t-value="o.group_id.get_company_bvr_account()"/>
-        <div class="article">
+        <div class="page">
             <t t-call="report_compassion.bvr_style"/>
             <t t-foreach="products" t-as="product">
                 <t t-call="report_compassion.report_sponsorship_single_slip">
