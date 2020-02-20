@@ -57,7 +57,7 @@ class MailMessage(models.Model):
                 search_messages += parent
                 parent = parent.parent_id
             search_messages += message.child_ids
-            mess_results = super(search_messages).tracking_status()
+            mess_results = super(MailMessage, search_messages).tracking_status()
             tracking = mess_results.get(message.id)
             if not tracking and len(mess_results) > 1:
                 tracking_ids = list()
