@@ -40,6 +40,8 @@ class TestSponsorship(BaseSponsorshipTest):
             'partner_id': self.michel.id,
             'payment_mode_id': payment_mode_lsv.id,
         })
+        self.is_travis = 'TRAVIS' in os.environ
+        self.base_path = 'partner_communication_switzerland/static/src/test.pdf'
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
@@ -49,10 +51,16 @@ class TestSponsorship(BaseSponsorshipTest):
             dossier communication for the sponsor.
         """
         update_hold.return_value = True
-        cwd = os.getcwd()
-        f_path = cwd + '/compassion-switzerland/partner_communication_switzerland/static/src/test.pdf'
-        with open(f_path, 'rb') as fopen:
-            get_pdf.return_value = fopen.read().decode('latin-1')
+
+        if self.is_travis:
+            travis_path = 'addons/' + self.base_path
+            with file_open(travis_path, 'rb') as test:
+                get_pdf.return_value = test.read()
+        else:
+            cwd = os.getcwd()
+            f_path = cwd + '/compassion-switzerland/' + self.base_path
+            with open(f_path, 'rb') as fopen:
+                get_pdf.return_value = fopen.read().decode('latin-1')
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))
@@ -114,10 +122,16 @@ class TestSponsorship(BaseSponsorshipTest):
 
     def _create_communication(self, get_pdf, update_hold):
         update_hold.return_value = True
-        cwd = os.getcwd()
-        f_path = cwd + '/compassion-switzerland/partner_communication_switzerland/static/src/test.pdf'
-        with open(f_path, 'rb') as fopen:
-            get_pdf.return_value = fopen.read().decode('latin-1')
+
+        if self.is_travis:
+            travis_path = 'addons/' + self.base_path
+            with file_open(travis_path, 'rb') as test:
+                get_pdf.return_value = test.read()
+        else:
+            cwd = os.getcwd()
+            f_path = cwd + '/compassion-switzerland/' + self.base_path
+            with open(f_path, 'rb') as fopen:
+                get_pdf.return_value = fopen.read().decode('latin-1')
 
         child = self.create_child(self.ref(11))
         sponsorship = self.create_contract(
@@ -157,11 +171,18 @@ class TestSponsorship(BaseSponsorshipTest):
     @mock.patch(mock_get_pdf)
     def test_private_convert_pdf(self, get_pdf, update_hold):
         update_hold.return_value = True
-        cwd = os.getcwd()
-        f_path = cwd + '/compassion-switzerland/partner_communication_switzerland/static/src/test.pdf'
-        with open(f_path, 'rb') as fopen:
-            pdf_data = fopen.read().decode('latin-1')
-            get_pdf.return_value = pdf_data
+
+        if self.is_travis:
+            travis_path = 'addons/' + self.base_path
+            with file_open(travis_path, 'rb') as test:
+                pdf_data = test.read()
+                get_pdf.return_value = pdf_data
+        else:
+            cwd = os.getcwd()
+            f_path = cwd + '/compassion-switzerland/' + self.base_path
+            with open(f_path, 'rb') as fopen:
+                pdf_data = fopen.read().decode('latin-1')
+                get_pdf.return_value = pdf_data
 
         child = self.create_child(self.ref(11))
         self.michel.letter_delivery_preference = 'physical'
