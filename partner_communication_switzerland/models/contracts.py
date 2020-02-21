@@ -324,7 +324,7 @@ class RecurringContract(models.Model):
             ('type', 'like', 'S'),
             ('partner_id.ref', '!=', '1502623'),  # if partner is not Demaurex
             ('partner_id.category_id', 'not in',
-             self.env.ref('partner_compassion.res_partner_category_corresp_compass').ids)
+            self.env.ref('partner_compassion.res_partner_category_corresp_compass').ids)
         ]).filtered(lambda c: not (
             c.child_id.project_id.lifecycle_ids and
             c.child_id.project_id.hold_s2b_letters))
