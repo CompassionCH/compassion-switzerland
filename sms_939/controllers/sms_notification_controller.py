@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -25,8 +24,7 @@ class RestController(http.Controller):
     @http.route('/sms/mnc/', type='http', auth='public', methods=['GET'],
                 csrf=False)
     def sms_notification(self, **parameters):
-        _logger.info("SMS Request received : {}".format(
-            json.dumps(parameters)))
+        _logger.info(f"SMS Request received : {json.dumps(parameters)}")
 
         notification_env = request.env['sms.notification'].sudo()
         (notification_env.with_delay(priority=1) if is_async else

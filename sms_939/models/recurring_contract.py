@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -30,9 +29,9 @@ class Contract(models.Model):
                 # Activate contract
                 contract._post_payment_first_month()
                 contract.contract_active()
-        return super(Contract, self).contract_waiting_mandate()
+        return super().contract_waiting_mandate()
 
     def associate_group(self, payment_mode_id):
-        res = super(Contract, self).associate_group(payment_mode_id)
+        res = super().associate_group(payment_mode_id)
         self.group_id.on_change_payment_mode()
         return res

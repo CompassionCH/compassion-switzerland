@@ -66,29 +66,18 @@ class CompassionChild(models.Model):
     @api.multi
     def child_sponsored(self, sponsor_id):
         """ Remove children from the website when they are sponsored. """
-        to_remove_from_web = self.filtered(lambda c: c.state == 'I')
-        if to_remove_from_web:
-            to_remove_from_web.remove_from_wordpress()
-
-        return super(CompassionChild, self).child_sponsored(sponsor_id)
+        if self.state == 'I':
+            self.remove_from_wordpress()
+        return super().child_sponsored(sponsor_id)
 
     @api.multi
-    def child_released(self):
+    def child_released(self, state='R'):
         """ Remove from typo3 when child is released """
         to_remove_from_web = self.filtered(lambda c: c.state == 'I')
         if to_remove_from_web:
             to_remove_from_web.remove_from_wordpress()
 
-        return super(CompassionChild, self).child_released()
-
-    @api.multi
-    def child_departed(self):
-        """ Remove from typo3 when child is deallocated """
-        to_remove_from_web = self.filtered(lambda c: c.state == 'I')
-        if to_remove_from_web:
-            to_remove_from_web.remove_from_wordpress()
-
-        return super(CompassionChild, self).child_departed()
+        return super().child_released(state)
 
     @api.model
     def refresh_wordpress_cron(self, take=120):
