@@ -14,7 +14,9 @@
         <field name="name">sms.notification.tree</field>
         <field name="model">sms.notification</field>
         <field name="arch" type="xml">
-            <tree colors="blue: state == 'new'; red: state == 'failed'; grey: state == 'success'">
+            <tree decoration-primary="state == 'new'"
+                  decoration-danger="state == 'failed'"
+                  decoration-success="state == 'success'">
                 <field name="date"/>
                 <field name="sender"/>
                 <field name="partner_id"/>

@@ -32,11 +32,4 @@
         <field name="binding_type">report</field>
         <field name="binding_model_id" ref="model_compassion_child"/>
    </record>
-
-<!--   <record model="ir.values" id="ir_values_print_childpack">-->
-<!--       <field name="key2" eval="'client_print_multi'"/>-->
-<!--       <field name="model" eval="'compassion.child'"/>-->
-<!--       <field name="name">Childpack</field>-->
-<!--       <field name="value" eval="'ir.actions.act_window,%d'%action_print_childpack"/>-->
-<!--   </record>-->
 </odoo>

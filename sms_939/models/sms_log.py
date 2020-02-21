@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -12,6 +11,7 @@ from odoo import models, fields
 
 class LogSMS(models.Model):
     _name = 'sms.log'
+    _description = "Log of SMS"
 
     partner_id = fields.Many2one('res.partner', 'Partner')
     text = fields.Text(required=True)
