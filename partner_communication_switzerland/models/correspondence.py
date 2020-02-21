@@ -15,7 +15,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import models, api, fields
-from odoo.tools import config
 
 from odoo.addons.sbc_compassion.models.correspondence_page import (
     BOX_SEPARATOR,
@@ -23,11 +22,6 @@ from odoo.addons.sbc_compassion.models.correspondence_page import (
 )
 
 _logger = logging.getLogger(__name__)
-
-try:
-    import detectlanguage
-except ImportError:
-    _logger.warning("Please install detectlanguage")
 
 
 class Correspondence(models.Model):
