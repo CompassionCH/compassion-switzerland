@@ -35,7 +35,7 @@
     "author": "Nicolas Badoux",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
-    "data": ["data/payment_acquirer.xml",],
+    "data": ["data/payment_acquirer.xml"],
     "depends": ["website", "payment_ogone", "wordpress_configuration", "queue_job"],
     "demo": [],
     "installable": True,
