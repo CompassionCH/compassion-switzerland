@@ -24,7 +24,8 @@ logger = logging.getLogger(__name__)
 
 mock_update_hold = ('odoo.addons.child_compassion.models.compassion_hold'
                     '.CompassionHold.update_hold')
-mock_get_pdf = 'odoo.addons.base_report_to_printer.models.ir_actions_report.IrActionsReport.render_qweb_pdf'
+mock_get_pdf = 'odoo.addons.base_report_to_printer.models' \
+               '.ir_actions_report.IrActionsReport.render_qweb_pdf'
 
 
 class TestSponsorship(BaseSponsorshipTest):
@@ -49,6 +50,8 @@ class TestSponsorship(BaseSponsorshipTest):
             'payment_mode_id': self.env.ref(
                 'sponsorship_switzerland.payment_mode_bvr').id,
         })
+        self.is_travis = 'TRAVIS' in os.environ
+        self.base_path = 'partner_communication_switzerland/static/src/test.pdf'
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
@@ -63,10 +66,16 @@ class TestSponsorship(BaseSponsorshipTest):
         contract validation.
         """
         update_hold.return_value = True
-        cwd = os.getcwd()
-        f_path = cwd + '/compassion-switzerland/partner_communication_switzerland/static/src/test.pdf'
-        with open(f_path, 'rb') as fopen:
-            get_pdf.return_value = fopen.read().decode('latin-1')
+
+        if self.is_travis:
+            travis_path = 'addons/' + self.base_path
+            with file_open(travis_path, 'rb') as test:
+                get_pdf.return_value = test.read()
+        else:
+            cwd = os.getcwd()
+            f_path = cwd + '/compassion-switzerland/' + self.base_path
+            with open(f_path, 'rb') as fopen:
+                get_pdf.return_value = fopen.read().decode('latin-1')
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))
@@ -136,10 +145,15 @@ class TestSponsorship(BaseSponsorshipTest):
         they are not sent when contract is validated and activated.
         """
         update_hold.return_value = True
-        cwd = os.getcwd()
-        f_path = cwd + '/compassion-switzerland/partner_communication_switzerland/static/src/test.pdf'
-        with open(f_path, 'rb') as fopen:
-            get_pdf.return_value = fopen.read().decode('latin-1')
+        if self.is_travis:
+            travis_path = 'addons/' + self.base_path
+            with file_open(travis_path, 'rb') as test:
+                get_pdf.return_value = test.read()
+        else:
+            cwd = os.getcwd()
+            f_path = cwd + '/compassion-switzerland/' + self.base_path
+            with open(f_path, 'rb') as fopen:
+                get_pdf.return_value = fopen.read().decode('latin-1')
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))

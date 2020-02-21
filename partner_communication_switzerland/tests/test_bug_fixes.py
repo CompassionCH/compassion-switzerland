@@ -21,7 +21,8 @@ logger = logging.getLogger(__name__)
 
 mock_update_hold = ('odoo.addons.child_compassion.models.compassion_hold'
                     '.CompassionHold.update_hold')
-mock_get_pdf = 'odoo.addons.base_report_to_printer.models.ir_actions_report.IrActionsReport.render_qweb_pdf'
+mock_get_pdf = 'odoo.addons.base_report_to_printer.' \
+               'models.ir_actions_report.IrActionsReport.render_qweb_pdf'
 
 
 class TestSponsorship(BaseSponsorshipTest):
