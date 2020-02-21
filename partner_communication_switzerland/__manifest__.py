@@ -42,7 +42,7 @@
         'recurring_contract'    # compassion-accounting
     ],
     'external_dependencies': {
-        'python': ['wand', 'detectlanguage', 'sendgrid', 'bs4', 'pdf2image', 'babel']
+        'python': ['wand', 'detectlanguage', 'sendgrid', 'bs4', 'pdf2image', 'babel', 'PyPDF2']
     },
     'data': [
         'data/major_revision_emails.xml',

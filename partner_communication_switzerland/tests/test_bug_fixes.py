@@ -8,6 +8,7 @@
 #
 ##############################################################################
 import logging
+import os
 import mock
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion \
     import BaseSponsorshipTest
@@ -20,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 mock_update_hold = ('odoo.addons.child_compassion.models.compassion_hold'
                     '.CompassionHold.update_hold')
-mock_get_pdf = 'odoo.addons.report.models.report.Report.render_qweb_pdf'
+mock_get_pdf = 'odoo.addons.base_report_to_printer.models.ir_actions_report.IrActionsReport.render_qweb_pdf'
 
 
 class TestSponsorship(BaseSponsorshipTest):
@@ -48,9 +49,10 @@ class TestSponsorship(BaseSponsorshipTest):
             dossier communication for the sponsor.
         """
         update_hold.return_value = True
-        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
-        with file_open(f_path) as pdf_file:
-            get_pdf.return_value = pdf_file.read()
+        cwd = os.getcwd()
+        f_path = cwd + '/compassion-switzerland/partner_communication_switzerland/static/src/test.pdf'
+        with open(f_path, 'rb') as fopen:
+            get_pdf.return_value = fopen.read().decode('latin-1')
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))
@@ -112,9 +114,10 @@ class TestSponsorship(BaseSponsorshipTest):
 
     def _create_communication(self, get_pdf, update_hold):
         update_hold.return_value = True
-        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
-        with file_open(f_path) as pdf_file:
-            get_pdf.return_value = pdf_file.read()
+        cwd = os.getcwd()
+        f_path = cwd + '/compassion-switzerland/partner_communication_switzerland/static/src/test.pdf'
+        with open(f_path, 'rb') as fopen:
+            get_pdf.return_value = fopen.read().decode('latin-1')
 
         child = self.create_child(self.ref(11))
         sponsorship = self.create_contract(
@@ -154,9 +157,10 @@ class TestSponsorship(BaseSponsorshipTest):
     @mock.patch(mock_get_pdf)
     def test_private_convert_pdf(self, get_pdf, update_hold):
         update_hold.return_value = True
-        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
-        with file_open(f_path) as pdf_file:
-            pdf_data = pdf_file.read()
+        cwd = os.getcwd()
+        f_path = cwd + '/compassion-switzerland/partner_communication_switzerland/static/src/test.pdf'
+        with open(f_path, 'rb') as fopen:
+            pdf_data = fopen.read().decode('latin-1')
             get_pdf.return_value = pdf_data
 
         child = self.create_child(self.ref(11))

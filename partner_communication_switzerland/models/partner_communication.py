@@ -27,7 +27,7 @@ from odoo.exceptions import MissingError, UserError
 _logger = logging.getLogger(__name__)
 
 try:
-    from pyPdf import PdfFileWriter, PdfFileReader
+    from PyPDF2 import PdfFileWriter, PdfFileReader
     from bs4 import BeautifulSoup
 except ImportError:
     _logger.warning("Please install pypdf and bs4 for using the module")
@@ -700,5 +700,5 @@ class PartnerCommunication(models.Model):
     def _get_pdf_from_data(self, data, report_ref):
         pdf_data = report_ref.report_action(self, data=data)
         return base64.encodebytes(
-            report_ref.render_qweb_pdf(
-                pdf_data['data']['doc_ids'], pdf_data['data'])[0])
+            bytes(report_ref.render_qweb_pdf(
+                pdf_data['data']['doc_ids'], pdf_data['data'])[0], 'utf-8'))
