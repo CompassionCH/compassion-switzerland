@@ -700,9 +700,7 @@ class PartnerCommunication(models.Model):
         return base64.b64encode(output_stream.read())
 
     def _get_pdf_from_data(self, data, report_ref):
-        pdf_data = report_ref.report_action(self, data=data)
-        report_str = report_ref.render_qweb_pdf(
-            pdf_data['data']['doc_ids'], pdf_data['data'])
+        report_str = report_ref.render_qweb_pdf(data['doc_ids'], data)
         if isinstance(report_str, (list, tuple)):
             report_str = report_str[0]
         elif isinstance(report_str, bool):
@@ -712,5 +710,5 @@ class PartnerCommunication(models.Model):
         if isinstance(report_str, bytes):
             output = base64.encodebytes(report_str)
         else:
-            base64.encodebytes(report_str.encode('utf-8'))
+            base64.encodebytes(report_str.encode())
         return output

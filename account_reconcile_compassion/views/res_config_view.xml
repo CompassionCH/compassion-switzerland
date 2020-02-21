@@ -2,13 +2,23 @@
 <odoo>
     <record id="view_account_config_settings_default_analytic" model="ir.ui.view">
         <field name="name">account.settings.analytic</field>
-        <field name="model">account.config.settings</field>
-        <field name="type">form</field>
-        <field name="inherit_id" ref="account.view_account_config_settings" />
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="child_compassion.compassion_settings"/>
         <field name="arch" type="xml">
-            <field name="currency_exchange_journal_id" position="after">
-                <field name="currency_exchange_analytic_account"/>
-            </field>
+            <xpath expr="//div[@name='compassion_settings']" position='inside'>
+                <h2>Currency exchange analytic account</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-xs-12 col-md-12 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="row">
+                                <label class="col-md-3 o_light_label"
+                                       for="currency_exchange_analytic_account"/>
+                                <field name="currency_exchange_analytic_account"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
         </field>
     </record>
 </odoo>
