@@ -1,7 +1,4 @@
 id,src,lang,group,male_singular,male_plural,female_singular,female_plural
-date_short_en,date_short,en_US,Date format,d.M.yyyy,,,
-date_month_en,date_month,en_US,Date format,d MMMM,,,
-date_full_en,date_full,en_US,Date format,d MMMM yyyy,,,
 date_short_fr,date_short,fr_CH,Date format,d.M.yyyy,,,
 date_month_fr,date_month,fr_CH,Date format,d MMMM,,,
 date_full_fr,date_full,fr_CH,Date format,d MMMM yyyy,,,
