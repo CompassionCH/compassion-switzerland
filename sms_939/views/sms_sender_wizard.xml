@@ -1,47 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
     <record id="sms_sender_wizard_form" model="ir.ui.view">
         <field name="name">sms.sender.wizard.form</field>
-        <field name="model">sms.sender.wizard</field>
+        <field name="model">sms.send_sms</field>
+        <field name="inherit_id" ref="sms.send_sms_view_form"/>
         <field name="arch" type="xml">
-            <form>
-                <group>
-                    <field name="sms_provider_id"/>
-                    <field name="subject"/>
-                    <field name="text"/>
-                    <field name="partner_id"/>
-                </group>
-                <footer>
-                    <button string="Send SMS" type="object" name="send_sms_partner"/>
-                </footer>
-            </form>
-        </field>
-    </record>
-
-
-    <record id="sms_sender_wizard_open_action" model="ir.actions.act_window">
-        <field name="name">sms.sender.wizard.action</field>
-        <field name="res_model">sms.sender.wizard</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>
-    </record>
-
-    <record id="res_partner_sms_update" model="ir.ui.view">
-        <field name="name">res_partner_sms_update</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-                <data>
-                    <field name="message_ids" position="before">
-                        <button type="action" class="btn-link"
-                                attrs="{'invisible': [('mobile', '=', False)]}"
-                                icon="fa-fax" string="Send an SMS"
-                                name="%(sms_sender_wizard_open_action)d" context="{'partner_id': id}">
-                        </button>
-                    </field>
-                </data>
+            <field name="recipients" position="before">
+                <field name="sms_provider_id"/>
+            </field>
         </field>
     </record>
 </odoo>
