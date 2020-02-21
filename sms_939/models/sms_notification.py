@@ -121,10 +121,9 @@ class SmsNotification(models.Model):
                         'answer': sms_answer
                     })
         if 'test' not in sms_text:
-            self.env['sms.sender.wizard'].create({
-                'text': sms_answer,
-                'sms_provider_id': self.env.ref('sms_939.small_account_id').id
-            }).send_sms(mobile=sms_receipient)
+            self.env['sms.api'].with_context(
+                sms_provider=self.env.ref('sms_939.small_account_id')
+            )._send_sms([sms_receipient], sms_answer)
         else:
             # Test mode will only print url in job return value
             logger.info(

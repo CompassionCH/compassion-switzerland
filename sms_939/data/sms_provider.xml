@@ -2,7 +2,7 @@
 <odoo>
     <data noupdate="1">
         <record id="large_account_id" model="sms.provider">
-            <field name="name">Large Account</field>
+            <field name="name">MNC 939 Large Account</field>
             <field name="server_939">biz.smsbox.ch</field>
             <field name="port_939">10015</field>
             <field name="endpoint_939">/723/sms/rest/user/websend</field>
@@ -10,12 +10,20 @@
             <field name="password_939">changeme</field>
         </record>
         <record id="small_account_id" model="sms.provider">
-            <field name="name">Small Account</field>
+            <field name="name">MNC 939 Small Account</field>
             <field name="server_939">blue.smsbox.ch</field>
             <field name="port_939">10020</field>
             <field name="endpoint_939">/Blue/sms/reset/user/websend</field>
             <field name="username_939">changeme</field>
             <field name="password_939">changeme</field>
+        </record>
+        <record id="sms_odoo" model="sms.provider">
+            <field name="name">Odoo SMS Service</field>
+            <field name="server_939">https://iap-sms.odoo.com/page/sms-marketing</field>
+            <field name="port_939">10020</field>
+            <field name="endpoint_939">/iap/message_send</field>
+            <field name="username_939">(see SMS module from Odoo for proper configuration)</field>
+            <field name="password_939">(see SMS module from Odoo for proper configuration)</field>
         </record>
     </data>
 </odoo>

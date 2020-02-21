@@ -16,4 +16,4 @@ class LogSMS(models.Model):
     partner_id = fields.Many2one('res.partner', 'Partner')
     text = fields.Text(required=True)
     subject = fields.Char()
-    date = fields.Datetime()
+    date = fields.Datetime(default=fields.Datetime.now)

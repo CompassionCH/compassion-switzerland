@@ -38,7 +38,8 @@
     'depends': [
         'sms_sponsorship',              # compassion-modules
         'sponsorship_switzerland',      # compassion-switzerland
-        'child_sync_wp'                 # compassion-switzerland
+        'child_sync_wp',                # compassion-switzerland
+        'sms',                          # odoo
     ],
     'data': [
         'security/ir.model.access.csv',
