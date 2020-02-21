@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -15,10 +14,10 @@ class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
     accept_url = fields.Char(
-        help='Stores the redirection where the partner should go after the '
-        'transaction is completed.'
+        help="Stores the redirection where the partner should go after the "
+        "transaction is completed."
     )
     decline_url = fields.Char(
-        help='Stores the redirection where the partner should go after the '
-        'transaction is cancelled.'
+        help="Stores the redirection where the partner should go after the "
+        "transaction is cancelled."
     )
