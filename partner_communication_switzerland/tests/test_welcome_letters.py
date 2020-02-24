@@ -29,9 +29,6 @@ mock_get_pdf = 'odoo.addons.base_report_to_printer.models' \
 mock_force_activation = 'odoo.addons.recurring_contract.models.' \
                         'recurring_contract.RecurringContract.force_activation'
 
-mock_get_infos = 'odoo.addons.child_compassion.models.' \
-                        'child_compassion.CompassionChild.get_infos'
-
 
 class TestSponsorship(BaseSponsorshipTest):
 
@@ -135,8 +132,7 @@ class TestSponsorship(BaseSponsorshipTest):
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
-    @mock.patch(mock_get_infos)
-    def test_no_welcome_letters(self, get_pdf, update_hold, get_infos):
+    def test_no_welcome_letters(self, get_pdf, update_hold):
         """
         Create a sponsorship, mark welcome letters already sent and test
         they are not sent when contract is validated and activated.

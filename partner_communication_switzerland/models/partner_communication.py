@@ -598,7 +598,9 @@ class PartnerCommunication(models.Model):
             'doc_model': report.model,
             'docs': self.env[report.model].browse(child_ids),
         }
-        pdf = self._get_pdf_from_data(data, self.env.ref('partner_communication_switzerland.report_child_picture'))
+        pdf = self._get_pdf_from_data(
+            data,
+            self.env.ref('partner_communication_switzerland.report_child_picture'))
         attachments.update({
             _('child picture.pdf'): [
                 report_name,
@@ -696,12 +698,6 @@ class PartnerCommunication(models.Model):
         convert.write(output_stream)
         output_stream.seek(0)
         return base64.b64encode(output_stream.read())
-
-    # def _get_pdf_from_data(self, data, report_ref):
-    #     pdf_data = report_ref.report_action(self, data=data)
-    #     return base64.encodebytes(
-    #         bytes(report_ref.render_qweb_pdf(
-    #             pdf_data['data']['doc_ids'], pdf_data['data'])[0], 'utf-8'))
 
     def _get_pdf_from_data(self, data, report_ref):
         pdf_data = report_ref.report_action(self, data=data)
