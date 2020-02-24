@@ -438,8 +438,8 @@ class RecurringContract(models.Model):
         attachments[product_name + '.pdf'] = [
             report,
             base64.encodebytes(
-                report_ref.render_qweb_pdf(
-                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
+                bytes(report_ref.render_qweb_pdf(
+                    pdf_data['data']['doc_ids'], pdf_data['data']), 'utf-8'))
         ]
         return attachments
 

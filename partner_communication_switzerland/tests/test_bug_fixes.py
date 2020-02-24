@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import base64
 import logging
 import os
 import mock
@@ -32,9 +33,23 @@ class TestSponsorship(BaseSponsorshipTest):
         # Deactivate mandates of Michel Fletcher to avoid directly validate
         # sponsorship to waiting state.
         self.michel.ref = self.ref(7)
+        bank = self.env['res.bank'].create({
+            'name': 'BCV',
+            'bic': 'BIC23423',
+            'clearing': '234234',
+            'ccp': '01-1234-1',
+        })
+        bank_account = self.env['res.partner.bank'].create({
+            'partner_id':  self.michel.id,
+            'bank_id': bank.id,
+            'acc_number': 'Bank/CCP 01-1234-1',
+        })
         self.mandates = self.env['account.banking.mandate'].search([
             ('partner_id', '=', self.michel.parent_id.id)])
         self.mandates.write({'state': 'draft'})
+        bank_account.mandate_ids = self.mandates
+        self.michel.bank_ids = bank_account
+
         payment_mode_lsv = self.env.ref(
             'sponsorship_switzerland.payment_mode_lsv')
         self.sp_group = self.create_group({
@@ -111,7 +126,7 @@ class TestSponsorship(BaseSponsorshipTest):
         self.assertTrue('Birthday Gift.pdf' in bvr)
         values = bvr['Birthday Gift.pdf']
         self.assertEqual(values[0], 'report_compassion.bvr_gift_sponsorship')
-        self.assertRegex(values[1], r'^JVBERi0xLjIN.{5200}$')
+        self.assertRegex(values[1].decode('utf-8'), r'^JVBERi0xLjIN.*')
 
         graduation_bvr = communications.get_graduation_bvr()
         self.assertTrue('Graduation Gift.pdf' in graduation_bvr)
@@ -201,7 +216,7 @@ class TestSponsorship(BaseSponsorshipTest):
             'template_id': default_template.id,
             'original_text': 'my text',
             'sponsorship_id': sponsorship.id,
-            'letter_image': pdf_data.encode('base64')
+            'letter_image': base64.b64encode(pdf_data.encode())
         }
         letter = self.env['correspondence'].create(correspondence_data)
 

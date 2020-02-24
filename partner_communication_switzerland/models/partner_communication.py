@@ -222,7 +222,7 @@ class PartnerCommunication(models.Model):
             'number_of_labels': 33
         })
         label_data = label_wizard.get_report_data()
-        report_name = 'label.report_label_name'
+        report_name = 'label.dynamic_label'
         pdf = self._get_pdf_from_data(
             label_data, self.env.ref('label.report_dynamic_label'))
         attachments[_('sponsorship labels.pdf')] = [
@@ -329,7 +329,7 @@ class PartnerCommunication(models.Model):
             sponsorships = sponsorships.mapped('sub_sponsorship_id')
         children = sponsorships.mapped('child_id')
         # Always retrieve latest information before printing dossier
-        children.get_infos()
+        # children.get_infos()
         report_name = 'report_compassion.childpack_small'
         data = {
             'lang': lang,
@@ -598,7 +598,7 @@ class PartnerCommunication(models.Model):
             'doc_model': report.model,
             'docs': self.env[report.model].browse(child_ids),
         }
-        pdf = self._get_pdf_from_data(data, self.env.ref('report_child_picture'))
+        pdf = self._get_pdf_from_data(data, self.env.ref('partner_communication_switzerland.report_child_picture'))
         attachments.update({
             _('child picture.pdf'): [
                 report_name,
@@ -697,8 +697,19 @@ class PartnerCommunication(models.Model):
         output_stream.seek(0)
         return base64.b64encode(output_stream.read())
 
+    # def _get_pdf_from_data(self, data, report_ref):
+    #     pdf_data = report_ref.report_action(self, data=data)
+    #     return base64.encodebytes(
+    #         bytes(report_ref.render_qweb_pdf(
+    #             pdf_data['data']['doc_ids'], pdf_data['data'])[0], 'utf-8'))
+
     def _get_pdf_from_data(self, data, report_ref):
         pdf_data = report_ref.report_action(self, data=data)
+        report_str = report_ref.render_qweb_pdf(
+            pdf_data['data']['doc_ids'], pdf_data['data'])
+        if isinstance(report_str, list):
+            report_str = report_str[0]
+        elif isinstance(report_str, bool):
+            report_str = ""
         return base64.encodebytes(
-            bytes(report_ref.render_qweb_pdf(
-                pdf_data['data']['doc_ids'], pdf_data['data'])[0], 'utf-8'))
+            report_str.encode('utf-8') if report_str else b"")

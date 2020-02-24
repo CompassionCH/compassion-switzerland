@@ -27,6 +27,12 @@ mock_update_hold = ('odoo.addons.child_compassion.models.compassion_hold'
 mock_get_pdf = 'odoo.addons.base_report_to_printer.models' \
                '.ir_actions_report.IrActionsReport.render_qweb_pdf'
 
+mock_force_activation = 'odoo.addons.recurring_contract.models.' \
+                        'recurring_contract.RecurringContract.force_activation'
+
+mock_get_infos = 'odoo.addons.child_compassion.models.' \
+                        'child_compassion.CompassionChild.get_infos'
+
 
 class TestSponsorship(BaseSponsorshipTest):
 
@@ -90,7 +96,7 @@ class TestSponsorship(BaseSponsorshipTest):
         self.validate_sponsorship(sponsorship)
         self.assertEqual(sponsorship.sds_state, 'waiting_welcome')
         # Perform action rules (shouldn't do anything)
-        self.env['base.action.rule']._check()
+        self.env['base.automation']._check()
         self.assertEqual(sponsorship.sds_state, 'waiting_welcome')
 
         # Simulate the SDS state was in 10 days and check the welcome e-mail
@@ -99,7 +105,7 @@ class TestSponsorship(BaseSponsorshipTest):
         sponsorship.sds_state_date = fields.Date.to_string(eleven_days_ago)
         self.env.ref('partner_communication_switzerland.check_welcome_email') \
             .last_run = fields.Date.to_string(eleven_days_ago)
-        self.env['base.action.rule']._check()
+        self.env['base.automation']._check()
         self.assertEqual(sponsorship.sds_state, 'active')
 
         # Check the communication is generated after sponsorship validation
@@ -139,7 +145,8 @@ class TestSponsorship(BaseSponsorshipTest):
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
-    def test_no_welcome_letters(self, get_pdf, update_hold):
+    @mock.patch(mock_get_infos)
+    def test_no_welcome_letters(self, get_pdf, update_hold, get_infos):
         """
         Create a sponsorship, mark welcome letters already sent and test
         they are not sent when contract is validated and activated.
@@ -166,12 +173,103 @@ class TestSponsorship(BaseSponsorshipTest):
             },
             [{'amount': 50.0}]
         )
+
+        get_infos.return_value = {
+            "BeneficiaryResponseList": [
+                    {"AcademicPerformance_Name": None,
+                     "AgeInYearsAndMonths": "10 Years",
+                     "BeneficiaryStatus": "Active",
+                     "BirthDate": "2010-01-01 00:00:00",
+                     "Beneficiary_CompassID": None,
+                     "CorrespondenceLanguage": "Swahili",
+                     "FirstName": "Test",
+                     "FullBodyImageURL": "",
+                     "FullName": "Last Test",
+                     "FundType": "Sponsorship",
+                     "Gender": "Male",
+                     "Beneficiary_GlobalID": "'wtfhurcpj'",
+                     "IsInHIVAffectedArea": True,
+                     "IsBirthDateEstimated": False,
+                     "IsOrphan": False,
+                     "IsSpecialNeeds": False,
+                     "LastName": "Last",
+                     "LastPhotoDate": "2019-04-29 00:00:00",
+                     "LastReviewDate": "2019-05-07 00:00:00",
+                     "Beneficiary_LocalID": "'iymppypvbiu'",
+                     "Beneficiary_LocalNumber": "10014",
+                     "PreferredName": "Ismail",
+                     "PrimaryCaregiverName": "Zainab Adam",
+                     "ProgramDeliveryType": "Home Based",
+                     "ChristianActivity_Name": ["Camp"],
+                     "ChronicIllness_Name": [],
+                     "Cluster_Name": "Tabora",
+                     "CognitiveAgeGroup_Name": "0-2",
+                     "Community_Name": "Isevya-TZ507",
+                     "Country": "Tanzania",
+                     "FieldOffice_Name": "Tanzania",
+                     "GradeLevelLocal_Name": "Not Enrolled",
+                     "GradeLevelUS_Name": "Not Enrolled",
+                     "HouseholdDuty_Name": ["No Household Duties - Too Young"],
+                     "ICP_Country": "Tanzania",
+                     "ICP_ID": "TZ0507",
+                     "ICP_Name": "Baptist Isevya",
+                     "PhysicalDisability_Name": [],
+                     "RecordType_Name": "Sponsorship Beneficiary",
+                     "FavoriteProjectActivity": ["Dancing and / or Drama"],
+                     "FavoriteSchoolSubject": ["Music"],
+                     "FormalEducationLevel": None,
+                     "MajorOrCourseOfStudy": None,
+                     "NotEnrolledInEducationReason": "Under Age",
+                     "PlannedCompletionDate": "2040-04-16 00:00:00",
+                     "PlannedCompletionDateChangeReason": None,
+                     "ReviewStatus": "Approved",
+                     "SponsorshipStatus": None,
+                     "ThingsILike": ["Dancing", "Dolls"],
+                     "VocationalTrainingType_Name": "Not enrolled",
+                     "HangulName": "\uc774\uc2a4 \ub9c8\uc77c \uc774\ube0c\ub77c\ud798 \ub77c\uc790\ube0c\ ",
+                     "HangulPreferredName": "\uc774\uc2a4 \ub9c8\uc77c\ ",
+                     "SourceKitName": "BeneficiaryKit",
+                     "BeneficiaryHouseholdList": [
+                         {"FemaleGuardianEmploymentStatus": "Sometimes Employed",
+                          "FemaleGuardianOccupation": "Other",
+                          "Household_ID": "H-02887386",
+                          "IsNaturalFatherLivingWithChild": False,
+                          "IsNaturalMotherLivingWithChild": True,
+                          "MaleGuardianEmploymentStatus": None,
+                          "MaleGuardianOccupation": None,
+                          "Household_Name": "Rajab Family (Ismail)",
+                          "NaturalFatherAlive": "Yes",
+                          "NaturalMotherAlive": "Yes",
+                          "NumberOfBrothers": 1,
+                          "NumberOfSiblingBeneficiaries": 1,
+                          "NumberOfSisters": 0,
+                          "ParentsMaritalStatus": "Never Married",
+                          "ParentsTogether": "No",
+                          "YouthHeadedHousehold": False,
+                          "RevisedValues": "RevisedValuesToUpdate",
+                          "SourceKitName": "HouseholdKit",
+                          "BeneficiaryHouseholdMemberList": [
+                              {"FullName": None,
+                               "GlobalID": None,
+                               "LocalID": None,
+                               "HouseholdMemberRole": "Mother",
+                               "IsCaregiver": True,
+                               "IsPrimaryCaregiver": True,
+                               "HouseholdMember_Name": "Zainab Adam"},
+                              {"FullName": "Ismail Ibrahim Rajab",
+                               "GlobalID": "08090897",
+                               "LocalID": "TZ050710014",
+                               "HouseholdMemberRole": "Beneficiary - Male",
+                               "IsCaregiver": False,
+                               "IsPrimaryCaregiver": False,
+                               "HouseholdMember_Name": "Ismail Ibrahim Rajab"}]}]}]}
+
         self.validate_sponsorship(sponsorship)
         self.assertEqual(sponsorship.sds_state, 'active')
         # Perform action rules (shouldn't do anything)
         eleven_days_ago = date.today() - relativedelta(days=11)
         sponsorship.sds_state_date = fields.Date.to_string(eleven_days_ago)
-        self.env['base.action.rule']._check()
+        self.env['base.automation']._check()
         self.assertEqual(sponsorship.sds_state, 'active')
         welcome_email = self.env.ref(
             'partner_communication_switzerland.planned_welcome')
