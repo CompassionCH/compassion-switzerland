@@ -8,7 +8,6 @@
 #
 ##############################################################################
 import logging
-import os
 from datetime import date
 
 import mock
@@ -56,8 +55,6 @@ class TestSponsorship(BaseSponsorshipTest):
             'payment_mode_id': self.env.ref(
                 'sponsorship_switzerland.payment_mode_bvr').id,
         })
-        self.is_travis = 'TRAVIS' in os.environ
-        self.base_path = 'partner_communication_switzerland/static/src/test.pdf'
 
     @mock.patch(mock_update_hold)
     @mock.patch(mock_get_pdf)
@@ -72,16 +69,9 @@ class TestSponsorship(BaseSponsorshipTest):
         contract validation.
         """
         update_hold.return_value = True
-
-        if self.is_travis:
-            travis_path = 'addons/' + self.base_path
-            with file_open(travis_path, 'rb') as test:
-                get_pdf.return_value = test.read()
-        else:
-            cwd = os.getcwd()
-            f_path = cwd + '/compassion-switzerland/' + self.base_path
-            with open(f_path, 'rb') as fopen:
-                get_pdf.return_value = fopen.read().decode('latin-1')
+        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
+        with file_open(f_path, 'rb') as pdf_file:
+            get_pdf.return_value = pdf_file.read()
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))
@@ -152,15 +142,9 @@ class TestSponsorship(BaseSponsorshipTest):
         they are not sent when contract is validated and activated.
         """
         update_hold.return_value = True
-        if self.is_travis:
-            travis_path = 'addons/' + self.base_path
-            with file_open(travis_path, 'rb') as test:
-                get_pdf.return_value = test.read()
-        else:
-            cwd = os.getcwd()
-            f_path = cwd + '/compassion-switzerland/' + self.base_path
-            with open(f_path, 'rb') as fopen:
-                get_pdf.return_value = fopen.read().decode('latin-1')
+        f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
+        with file_open(f_path, 'rb') as pdf_file:
+            get_pdf.return_value = pdf_file.read()
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))
@@ -173,96 +157,6 @@ class TestSponsorship(BaseSponsorshipTest):
             },
             [{'amount': 50.0}]
         )
-
-        # get_infos.return_value = {
-        #     "BeneficiaryResponseList": [
-        #             {"AcademicPerformance_Name": None,
-        #              "AgeInYearsAndMonths": "10 Years",
-        #              "BeneficiaryStatus": "Active",
-        #              "BirthDate": "2010-01-01 00:00:00",
-        #              "Beneficiary_CompassID": None,
-        #              "CorrespondenceLanguage": "Swahili",
-        #              "FirstName": "Test",
-        #              "FullBodyImageURL": "",
-        #              "FullName": "Last Test",
-        #              "FundType": "Sponsorship",
-        #              "Gender": "Male",
-        #              "Beneficiary_GlobalID": "'wtfhurcpj'",
-        #              "IsInHIVAffectedArea": True,
-        #              "IsBirthDateEstimated": False,
-        #              "IsOrphan": False,
-        #              "IsSpecialNeeds": False,
-        #              "LastName": "Last",
-        #              "LastPhotoDate": "2019-04-29 00:00:00",
-        #              "LastReviewDate": "2019-05-07 00:00:00",
-        #              "Beneficiary_LocalID": "'iymppypvbiu'",
-        #              "Beneficiary_LocalNumber": "10014",
-        #              "PreferredName": "Ismail",
-        #              "PrimaryCaregiverName": "Zainab Adam",
-        #              "ProgramDeliveryType": "Home Based",
-        #              "ChristianActivity_Name": ["Camp"],
-        #              "ChronicIllness_Name": [],
-        #              "Cluster_Name": "Tabora",
-        #              "CognitiveAgeGroup_Name": "0-2",
-        #              "Community_Name": "Isevya-TZ507",
-        #              "Country": "Tanzania",
-        #              "FieldOffice_Name": "Tanzania",
-        #              "GradeLevelLocal_Name": "Not Enrolled",
-        #              "GradeLevelUS_Name": "Not Enrolled",
-        #              "HouseholdDuty_Name": ["No Household Duties - Too Young"],
-        #              "ICP_Country": "Tanzania",
-        #              "ICP_ID": "TZ0507",
-        #              "ICP_Name": "Baptist Isevya",
-        #              "PhysicalDisability_Name": [],
-        #              "RecordType_Name": "Sponsorship Beneficiary",
-        #              "FavoriteProjectActivity": ["Dancing and / or Drama"],
-        #              "FavoriteSchoolSubject": ["Music"],
-        #              "FormalEducationLevel": None,
-        #              "MajorOrCourseOfStudy": None,
-        #              "NotEnrolledInEducationReason": "Under Age",
-        #              "PlannedCompletionDate": "2040-04-16 00:00:00",
-        #              "PlannedCompletionDateChangeReason": None,
-        #              "ReviewStatus": "Approved",
-        #              "SponsorshipStatus": None,
-        #              "ThingsILike": ["Dancing", "Dolls"],
-        #              "VocationalTrainingType_Name": "Not enrolled",
-        #              "HangulName": "\uc774\uc2a4 \ub9c8\uc77c \uc774\ube0c\ub77c\ud798 \ub77c\uc790\ube0c\ ",
-        #              "HangulPreferredName": "\uc774\uc2a4 \ub9c8\uc77c\ ",
-        #              "SourceKitName": "BeneficiaryKit",
-        #              "BeneficiaryHouseholdList": [
-        #                  {"FemaleGuardianEmploymentStatus": "Sometimes Employed",
-        #                   "FemaleGuardianOccupation": "Other",
-        #                   "Household_ID": "H-02887386",
-        #                   "IsNaturalFatherLivingWithChild": False,
-        #                   "IsNaturalMotherLivingWithChild": True,
-        #                   "MaleGuardianEmploymentStatus": None,
-        #                   "MaleGuardianOccupation": None,
-        #                   "Household_Name": "Rajab Family (Ismail)",
-        #                   "NaturalFatherAlive": "Yes",
-        #                   "NaturalMotherAlive": "Yes",
-        #                   "NumberOfBrothers": 1,
-        #                   "NumberOfSiblingBeneficiaries": 1,
-        #                   "NumberOfSisters": 0,
-        #                   "ParentsMaritalStatus": "Never Married",
-        #                   "ParentsTogether": "No",
-        #                   "YouthHeadedHousehold": False,
-        #                   "RevisedValues": "RevisedValuesToUpdate",
-        #                   "SourceKitName": "HouseholdKit",
-        #                   "BeneficiaryHouseholdMemberList": [
-        #                       {"FullName": None,
-        #                        "GlobalID": None,
-        #                        "LocalID": None,
-        #                        "HouseholdMemberRole": "Mother",
-        #                        "IsCaregiver": True,
-        #                        "IsPrimaryCaregiver": True,
-        #                        "HouseholdMember_Name": "Zainab Adam"},
-        #                       {"FullName": "Ismail Ibrahim Rajab",
-        #                        "GlobalID": "08090897",
-        #                        "LocalID": "TZ050710014",
-        #                        "HouseholdMemberRole": "Beneficiary - Male",
-        #                        "IsCaregiver": False,
-        #                        "IsPrimaryCaregiver": False,
-        #                        "HouseholdMember_Name": "Ismail Ibrahim Rajab"}]}]}]}
 
         self.validate_sponsorship(sponsorship)
         self.assertEqual(sponsorship.sds_state, 'active')

@@ -711,5 +711,10 @@ class PartnerCommunication(models.Model):
             report_str = report_str[0]
         elif isinstance(report_str, bool):
             report_str = ""
-        return base64.encodebytes(
-            report_str.encode('utf-8') if report_str else b"")
+
+        output = None
+        if isinstance(report_str, bytes):
+            output = base64.encodebytes(report_str)
+        else:
+            base64.encodebytes(report_str.encode('utf-8'))
+        return output
