@@ -59,16 +59,16 @@ class TestMobileAppConnector(HttpCase):
         notification.run_service()
         return notification
 
-    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @mock.patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_controller(self, smsbox_send):
         self._send_sms_notification({
             'service': 'test',
             'language': 'en',
             'text': 'This is a fake message'
         })
-        self.assertIn(b'Thanks!', self._get_sms_message(smsbox_send))
+        self.assertIn('Thanks!', self._get_sms_message(smsbox_send))
 
-    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @mock.patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_basic_service(self, smsbox_send):
         notification = self._send_sms_notification({
             'service': 'test',
@@ -78,9 +78,9 @@ class TestMobileAppConnector(HttpCase):
 
         self.assertEqual(notification.state, 'success')
         self.assertEqual(notification.language, 'fr_CH')
-        self.assertTrue(b'Thanks!' in self._get_sms_message(smsbox_send))
+        self.assertTrue('Thanks!' in self._get_sms_message(smsbox_send))
 
-    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @mock.patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_sms_notification__with_unknown_hook(self, smsbox_send):
         self._send_sms_notification({
             'service': 'wrong_service',
@@ -88,11 +88,11 @@ class TestMobileAppConnector(HttpCase):
             'text': 'This is a fake message'
         })
 
-        self.assertIn(b'Sorry, we could not understand your request. '
-                      b'Supported services are',
+        self.assertIn('Sorry, we could not understand your request. '
+                      'Supported services are',
                       self._get_sms_message(smsbox_send))
 
-    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @mock.patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_sms_notification__test_translation(self, smsbox_send):
         self._send_sms_notification({
             'service': 'wrong_service',
@@ -101,10 +101,10 @@ class TestMobileAppConnector(HttpCase):
         })
 
         self.assertIn(
-            b'COMPASSION- COMPASSIONDE- COMPASSIONIT- COMPASSIONEN- TEST- TESTERROR',
+            'COMPASSION- COMPASSIONDE- COMPASSIONIT- COMPASSIONEN- TEST- TESTERROR',
             self._get_sms_message(smsbox_send))
 
-    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @mock.patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_sms_notification__test_mode(self, smsbox_send):
         self._send_sms_notification({
             'service': 'wrong_service',
@@ -114,17 +114,17 @@ class TestMobileAppConnector(HttpCase):
 
         self.assertFalse(smsbox_send.called)
 
-    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @mock.patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_sms_notification__raising_exception(self, smsbox_send):
         self._send_sms_notification({
             'service': 'testerror',
             'language': 'en'
         })
 
-        self.assertIn(b'Sorry, the service is not available',
+        self.assertIn('Sorry, the service is not available',
                       self._get_sms_message(smsbox_send))
 
-    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @mock.patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_sponsor_service(self, smsbox_send):
         response = self._send_sms_notification({
             'language': 'fr',

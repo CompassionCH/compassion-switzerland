@@ -30,16 +30,15 @@ class SmsRequest(models.Model):
             ('state', 'in', ['step1', 'step2']),
         ]).filtered(lambda r: r.sender == self.sender)
         if not completed_requests:
-            sms_sender = self.env['sms.sender.wizard'].create({
-                'sms_request_id': self.id,
-                'text': _(
-                    "Thank you for your interest to sponsor a child with "
-                    "Compassion. Why don't you take a moment today to change "
-                    f"the life of {self.child_id.preferred_name or _('this child')}"
-                    f"? {self.full_url}"),
-                'subject': _("SMS sponsorship reminder")
-            })
-            sms_sender.send_sms_request()
+            sms_message = _(
+                "Thank you for your interest to sponsor a child with "
+                "Compassion. Why don't you take a moment today to change "
+                f"the life of {self.child_id.preferred_name or _('this child')}"
+                f"? {self.full_url}"
+            )
+            provider = self.env.ref('sms_939.small_account_id')
+            self.partner_id.with_context(sms_provider=provider).message_post_send_sms(
+                sms_message, note_msg=_("SMS sponsorship reminder"))
         super().send_step1_reminder()
 
     @job(default_channel='root.sms_request')

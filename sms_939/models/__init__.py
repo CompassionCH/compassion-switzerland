@@ -17,3 +17,5 @@ from . import sms_provider
 from . import sms_log
 from . import interaction_resume_sms
 from . import compassion_hold
+from . import sms_api
+from . import res_partner

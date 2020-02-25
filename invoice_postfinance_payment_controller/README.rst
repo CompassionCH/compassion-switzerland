@@ -14,13 +14,13 @@ Invoice to Postfinance Payment Controller
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-CompassionCH%2Fcompassion--switzerland-lightgray.png?logo=github
-    :target: https://github.com/CompassionCH/compassion-switzerland/tree/10.0/invoice_postfinance_payment_controller
+    :target: https://github.com/CompassionCH/compassion-switzerland/tree/11.0/invoice_postfinance_payment_controller
     :alt: CompassionCH/compassion-switzerland
 
 |badge1| |badge2| |badge3| 
 
 This module creates a web page that can take payment information given by an existing invoice
-and redirect the user to Postfinance or Stripe so that he can pay. It links the payment to Odoo invoice and
+and redirect the user to Postfinance so that he can pay. It links the payment to Odoo invoice and
 then redirects back the user.
 
 **Table of contents**
@@ -34,7 +34,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/CompassionCH/compassion-switzerland/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20invoice_postfinance_payment_controller%0Aversion:%2010.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20invoice_postfinance_payment_controller%0Aversion:%2011.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -64,4 +64,6 @@ This module is maintained by Compassion Switzerland.
 Compassion Switzerland is a nonprofit organization whose
 mission is to release children from extreme poverty in Jesus name.
 
-This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/10.0/invoice_postfinance_payment_controller>`_ project on GitHub.
+This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/11.0/invoice_postfinance_payment_controller>`_ project on GitHub.
+
+You are welcome to contribute.
