@@ -11,10 +11,10 @@
 
     <data noupdate="1">
         <!-- Rule for sending welcome letter after 10 days of validation -->
-        <record id="check_welcome_email" model="base.action.rule">
+        <record id="check_welcome_email" model="base.automation">
             <field name="name">Sponsorship: Check Welcome Letter</field>
             <field name="model_id" ref="model_recurring_contract"/>
-            <field name="kind">on_time</field>
+            <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="sponsorship_tracking.field_recurring_contract_sds_state_date"/>
             <field name="filter_domain">[('sds_state', '=', 'waiting_welcome'),
                                             '|',
@@ -29,10 +29,10 @@
         </record>
 
         <!-- Rule for sending reminder after SMS request received but step 2 is not completed. -->
-        <record id="sms_sponsorship_reminder" model="base.action.rule">
+        <record id="sms_sponsorship_reminder" model="base.automation">
             <field name="name">SMS Sponsorship: Remind sponsorship confirmation</field>
             <field name="model_id" ref="model_sms_child_request"/>
-            <field name="kind">on_time</field>
+            <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="sms_sponsorship.field_sms_child_request_date"/>
             <field name="filter_domain">[('state', '=', 'step1')]</field>
             <field name="trg_date_range">3</field>
@@ -41,10 +41,10 @@
         </record>
 
         <!-- Rule for sending unread B2S letters by post -->
-        <record id="unread_b2s_by_post_rule" model="base.action.rule">
+        <record id="unread_b2s_by_post_rule" model="base.automation">
             <field name="name">B2S letter: send unread letters by post</field>
             <field name="model_id" ref="model_correspondence"/>
-            <field name="kind">on_time</field>
+            <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="field_correspondence_sent_date"/>
             <field name="filter_domain">[('communication_id.state', '=', 'done'), ('communication_id.send_mode', '=', 'digital'), ('email_read', '=', None)]</field>
             <field name="trg_date_range">3</field>

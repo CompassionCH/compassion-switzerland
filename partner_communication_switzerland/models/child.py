@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -12,7 +11,8 @@ import logging
 
 from odoo import api, models, fields, _
 
-from odoo.addons.report_compassion.models.contract_group import setlocale
+from functools import reduce
+from babel.dates import format_date
 
 _logger = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ class CompassionChild(models.Model):
         """ Private method when a major revision is received for a child.
             Send a communication to the sponsor.
         """
-        super(CompassionChild, self)._major_revision(vals)
+        super()._major_revision(vals)
         if self.revised_value_ids and self.sponsor_id:
             major_revision(self, self.revised_value_ids)
 
@@ -70,8 +70,7 @@ class CompassionChild(models.Model):
         for child in self.filtered('completion_date'):
             lang = child.sponsor_id.lang or self.env.lang or 'en_US'
             completion = fields.Date.from_string(child.completion_date)
-            with setlocale(lang):
-                child.completion_month = completion.strftime("%B")
+            child.completion_month = format_date(completion, "MMMM", locale=lang)
 
     @api.multi
     def depart(self):
@@ -93,7 +92,7 @@ class CompassionChild(models.Model):
                     'partner_communication_switzerland.'
                     'lifecycle_child_unplanned_exit')
             sponsorship.send_communication(communication_type, both=True)
-        super(CompassionChild, self).depart()
+        super().depart()
 
     @api.multi
     def reinstatement(self):
@@ -107,7 +106,7 @@ class CompassionChild(models.Model):
                 'object_ids': child.id,
                 'user_id': communication_type.user_id.id,
             })
-        super(CompassionChild, self).reinstatement()
+        super().reinstatement()
 
     @api.multi
     def new_photo(self):
@@ -116,7 +115,7 @@ class CompassionChild(models.Model):
         - Mark sponsorships for pictures order if delivery is physical
         - Prepare communication for sponsor
         """
-        super(CompassionChild, self).new_photo()
+        super().new_photo()
         communication_config = self.env.ref(
             'partner_communication_switzerland.biennial')
         job_obj = self.env['partner.communication.job']
@@ -178,7 +177,7 @@ class Household(models.Model):
     _inherit = 'compassion.household'
 
     def process_commkit(self, commkit_data):
-        ids = super(Household, self).process_commkit(commkit_data)
+        ids = super().process_commkit(commkit_data)
         households = self.browse(ids)
         for household in households:
             if household.revised_value_ids:
@@ -193,7 +192,7 @@ class ChildNotes(models.Model):
     @api.model
     def create(self, vals):
         """ Inform sponsor when receiving new Notes. """
-        note = super(ChildNotes, self).create(vals)
+        note = super().create(vals)
         child = note.child_id
         if child.sponsor_id:
             communication_config = self.env.ref(

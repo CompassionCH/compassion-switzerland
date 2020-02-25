@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -25,9 +24,9 @@ class SmsNotificationAnswer(object):
         :param costs: optional list of costs of the text messages
         :param max_sms_size: optional maximal amount of split messages
         """
-        if messages is None or not isinstance(messages, (list, basestring)):
+        if messages is None or not isinstance(messages, (list, str)):
             raise ValueError("You must give at least one message")
-        if isinstance(messages, basestring):
+        if isinstance(messages, str):
             messages = [messages]
         if costs is not None and not isinstance(costs, list):
             costs = [costs]

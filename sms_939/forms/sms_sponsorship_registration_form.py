@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -44,7 +43,7 @@ if not testing:
 
         @property
         def _form_fieldsets(self):
-            fieldset = super(PartnerSmsRegistrationForm, self)._form_fieldsets
+            fieldset = super()._form_fieldsets
             fieldset[0]['fields'].extend([
                 'partner_function', 'partner_church_unlinked'])
             fieldset.insert(2, {
@@ -103,8 +102,7 @@ if not testing:
 
         def _get_partner_vals(self, values, extra_values):
             # Add spoken languages
-            result = super(PartnerSmsRegistrationForm,
-                           self)._get_partner_vals(values, extra_values)
+            result = super()._get_partner_vals(values, extra_values)
             spoken_langs = []
             if extra_values.get('spoken_lang_en'):
                 spoken_langs.append(
@@ -131,8 +129,7 @@ if not testing:
             return result
 
         def _get_post_message_values(self, form_vals):
-            vals = super(PartnerSmsRegistrationForm,
-                         self)._get_post_message_values(form_vals)
+            vals = super()._get_post_message_values(form_vals)
             church = form_vals.get('partner_church_unlinked')
             if church:
                 vals['Church'] = church
@@ -141,6 +138,6 @@ if not testing:
             return vals
 
         def _get_partner_keys(self):
-            res = super(PartnerSmsRegistrationForm, self)._get_partner_keys()
+            res = super()._get_partner_keys()
             res.extend(['church_unlinked', 'function'])
             return res

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -21,4 +20,4 @@ from . import report_bvr_sponsorship_gift
 from . import report_bvr_fund
 from . import report_childpack
 from . import report_tax_receipt
-from . import ir_actions_report_xml
+from . import ir_actions_report

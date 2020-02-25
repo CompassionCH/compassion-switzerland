@@ -7,7 +7,7 @@
             name="partner_communication_switzerland.field_office_info"
             menu="False"
         />
-        <record id="report_field_office_info" model="ir.actions.report.xml">
+        <record id="report_field_office_info" model="ir.actions.report">
             <field name="paperformat_id" ref="report_compassion.paperformat_a4_childpack"/>
         </record>
     </data>

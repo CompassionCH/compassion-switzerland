@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -35,7 +34,7 @@ class MailTrackingEvent(models.Model):
         correspondence.write({
             'letter_delivered': True
         })
-        return super(MailTrackingEvent, self).process_delivered(
+        return super().process_delivered(
             tracking_email, metadata)
 
     def send_mails_to_partner_and_staff(self, tracking_email, metadata,
@@ -73,22 +72,16 @@ class MailTrackingEvent(models.Model):
         body = 'Warning : Sponsor\'s Email is invalid!\nError description: ' \
                + metadata.get('error_description')
         self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
-        try:
-            self._remove_address_from_sendgrid_bounce_list(tracking_email)
-        finally:
-            return super(MailTrackingEvent, self).process_hard_bounce(
-                tracking_email, metadata)
+        return super().process_hard_bounce(
+            tracking_email, metadata)
 
     @api.model
     def process_soft_bounce(self, tracking_email, metadata):
         body = _('Warning : Sponsor\'s Email is invalid!\n Error description: '
                  + metadata.get('error_description'))
         self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
-        try:
-            self._remove_address_from_sendgrid_bounce_list(tracking_email)
-        finally:
-            return super(MailTrackingEvent, self).process_soft_bounce(
-                tracking_email, metadata)
+        return super().process_soft_bounce(
+            tracking_email, metadata)
 
     @api.model
     def process_unsub(self, tracking_email, metadata):
@@ -104,7 +97,7 @@ class MailTrackingEvent(models.Model):
             sg.client.suppression.unsubscribes._(
                 tracking_email.recipient).delete()
         finally:
-            return super(MailTrackingEvent, self).process_unsub(
+            return super().process_unsub(
                 tracking_email, metadata)
 
     @api.model
@@ -113,13 +106,7 @@ class MailTrackingEvent(models.Model):
                  'reason: ' + metadata.get('error_type'))
         self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
 
-        tracking_email.partner_id.message_post(
-            _('The email was rejected'), tracking_email.name)
-        self._get_sendgrid().client.suppression.blocks._(
-            tracking_email.recipient).delete()
-
-        return super(MailTrackingEvent, self).process_reject(
-            tracking_email, metadata)
+        return super().process_reject(tracking_email, metadata)
 
     def _invalid_email(self, tracking_email):
         """

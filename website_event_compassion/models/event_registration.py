@@ -47,7 +47,7 @@ def _get_file_type(data):
 
 class Event(models.Model):
     _inherit = ['website.published.mixin', 'website.seo.metadata',
-                'event.registration']
+                'event.registration', 'mail.activity.mixin']
     _name = 'event.registration'
     _description = 'Event registration'
     _order = 'create_date desc'

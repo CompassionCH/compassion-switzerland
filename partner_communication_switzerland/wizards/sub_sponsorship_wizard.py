@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -16,7 +15,7 @@ class SubSponsorshipWizard(models.TransientModel):
 
     @api.multi
     def create_subsponsorship(self):
-        res = super(SubSponsorshipWizard, self).create_subsponsorship()
+        res = super().create_subsponsorship()
         if self.child_id:
             # In this case the sponsorship is already made
             # we generate the departure letter.
@@ -28,7 +27,7 @@ class SubSponsorshipWizard(models.TransientModel):
     @api.multi
     def no_sub(self):
         """ No SUB for the sponsorship. """
-        res = super(SubSponsorshipWizard, self).no_sub()
+        res = super().no_sub()
         sponsorship_id = self.env.context.get('active_id')
         contract = self.env['recurring.contract'].browse(sponsorship_id)
         res = self.send_sub_communication(contract) or res

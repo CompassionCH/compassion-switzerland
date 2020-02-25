@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -39,7 +38,7 @@ class CompassionHold(models.Model):
 
     @api.model
     def beneficiary_hold_removal(self, commkit_data):
-        ids = super(CompassionHold, self).beneficiary_hold_removal(
+        ids = super().beneficiary_hold_removal(
             commkit_data)
         job_obj = self.env['partner.communication.job']
         now = datetime.now()
@@ -104,9 +103,9 @@ class CompassionHold(models.Model):
             base_url = self.env['ir.config_parameter'].get_param(
                 'web.base.url')
             links = [
-                '<a href="{}/web#id={}&view_type=form&model=compassion.child'
-                '&menu_id=442&action=581">{}</a>'.format(
-                    base_url, data['id'], data['local_id'])
+                f'<a href="{base_url}/web#id={data["id"]}&'
+                f'view_type=form&model=compassion.child'
+                f'&menu_id=442&action=581">{data["local_id"]}</a>'
                 for data in child_codes
             ]
             hold_string = list()
@@ -143,7 +142,7 @@ class CompassionHold(models.Model):
             if sponsorship.state == 'draft' or \
                     (sponsorship.state == 'mandate' and sponsor.bank_ids):
                 try:
-                    super(CompassionHold, hold).postpone_no_money_hold()
+                    super().postpone_no_money_hold()
                     hold.no_money_extension -= 1
                     continue
                 except:
@@ -154,7 +153,7 @@ class CompassionHold(models.Model):
                 for invoice in sponsorship.due_invoice_ids[:-1]:
                     invoice.action_invoice_cancel()
             try:
-                super(CompassionHold, hold).postpone_no_money_hold(
+                super().postpone_no_money_hold(
                     notification_text.format(sponsor.name, sponsor.ref))
                 sponsorship.send_communication(communication,
                                                correspondent=False)

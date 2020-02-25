@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -12,7 +11,7 @@ from odoo import models
 from odoo.addons.queue_job.job import job
 
 
-class SmsRequest(models.Model):
+class Hold(models.Model):
     _inherit = 'compassion.hold'
 
     @job(default_channel='root.global_pool')

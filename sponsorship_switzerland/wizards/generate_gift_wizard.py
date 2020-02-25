@@ -58,7 +58,9 @@ class GenerateGiftWizard(models.TransientModel):
             bank_obj = self.env['res.partner.bank']
             company_bank = bank_obj.search([
                 ('partner_id', '=', user.company_id.partner_id.id),
-                ('lsv_identifier', '!=', False)])
+                ('isr_adherent_num', '!=', False),
+                ('acc_type', '=', 'iban')
+            ], limit=1)
             if company_bank:
                 bvr_reference = company_bank.bvr_adherent_num + \
                     bvr_reference[9:]

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -10,7 +9,7 @@
 ##############################################################################
 import logging
 
-from xmlrpclib import ServerProxy, SafeTransport, GzipDecodedResponse
+from xmlrpc.client import ServerProxy, SafeTransport, GzipDecodedResponse
 
 _logger = logging.getLogger(__name__)
 
@@ -100,8 +99,8 @@ class WPSync(object):
 
             if count_insert == len(children):
                 _logger.info(
-                    "Child Upload on Wordpress finished: %s children "
-                    "imported " % count_insert)
+                    f"Child Upload on Wordpress finished: {count_insert} children "
+                    "imported ")
                 return count_insert
             else:
                 if (count_insert > 0) and (count_insert < len(children)):

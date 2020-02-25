@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -20,7 +19,7 @@ class CompassionChild(models.Model):
         Returns JSON data of the child for the mobile sponsor page
         :return: JSON data
         """
-        result = super(CompassionChild, self).get_sms_sponsor_child_data()
+        result = super().get_sms_sponsor_child_data()
         if self.env.lang == 'fr_CH':
             result['description'] = self.desc_fr
         elif self.env.lang == 'de_DE':

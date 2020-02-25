@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -18,3 +17,5 @@ from . import sms_provider
 from . import sms_log
 from . import interaction_resume_sms
 from . import compassion_hold
+from . import sms_api
+from . import res_partner

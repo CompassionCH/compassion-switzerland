@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -20,8 +19,8 @@ class InteractionResume(models.TransientModel):
         :param partner_id: the partner
         :return: True
         """
-        super(InteractionResume, self).populate_resume(partner_id)
-        self.env.cr.execute("""
+        super().populate_resume(partner_id)
+        self.env.cr.execute(f"""
               SELECT
                 'SMS' as communication_type,
                 sms.date as communication_date,
@@ -36,8 +35,8 @@ class InteractionResume(models.TransientModel):
                 0 as paper_id,
                 NULL as tracking_status
                 FROM "sms_log" as sms
-                WHERE (sms.partner_id = %s)
-                """, [partner_id])
+                WHERE (sms.partner_id = {partner_id})
+                """)
         for row in self.env.cr.dictfetchall():
             self.create(row)
         return True

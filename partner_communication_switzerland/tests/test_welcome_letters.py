@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -24,13 +23,17 @@ logger = logging.getLogger(__name__)
 
 mock_update_hold = ('odoo.addons.child_compassion.models.compassion_hold'
                     '.CompassionHold.update_hold')
-mock_get_pdf = 'odoo.addons.report.models.report.Report.get_pdf'
+mock_get_pdf = 'odoo.addons.base_report_to_printer.models' \
+               '.ir_actions_report.IrActionsReport.render_qweb_pdf'
+
+mock_force_activation = 'odoo.addons.recurring_contract.models.' \
+                        'recurring_contract.RecurringContract.force_activation'
 
 
 class TestSponsorship(BaseSponsorshipTest):
 
     def setUp(self):
-        super(TestSponsorship, self).setUp()
+        super().setUp()
         # Deactivate mandates of Michel Fletcher to avoid directly validate
         # sponsorship to waiting state.
         self.thomas.ref = self.ref(7)
@@ -64,7 +67,7 @@ class TestSponsorship(BaseSponsorshipTest):
         """
         update_hold.return_value = True
         f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
-        with file_open(f_path) as pdf_file:
+        with file_open(f_path, 'rb') as pdf_file:
             get_pdf.return_value = pdf_file.read()
 
         # Creation of the sponsorship contract
@@ -80,7 +83,7 @@ class TestSponsorship(BaseSponsorshipTest):
         self.validate_sponsorship(sponsorship)
         self.assertEqual(sponsorship.sds_state, 'waiting_welcome')
         # Perform action rules (shouldn't do anything)
-        self.env['base.action.rule']._check()
+        self.env['base.automation']._check()
         self.assertEqual(sponsorship.sds_state, 'waiting_welcome')
 
         # Simulate the SDS state was in 10 days and check the welcome e-mail
@@ -89,7 +92,7 @@ class TestSponsorship(BaseSponsorshipTest):
         sponsorship.sds_state_date = fields.Date.to_string(eleven_days_ago)
         self.env.ref('partner_communication_switzerland.check_welcome_email') \
             .last_run = fields.Date.to_string(eleven_days_ago)
-        self.env['base.action.rule']._check()
+        sponsorship.send_welcome_letter()
         self.assertEqual(sponsorship.sds_state, 'active')
 
         # Check the communication is generated after sponsorship validation
@@ -136,7 +139,7 @@ class TestSponsorship(BaseSponsorshipTest):
         """
         update_hold.return_value = True
         f_path = 'addons/partner_communication_switzerland/static/src/test.pdf'
-        with file_open(f_path) as pdf_file:
+        with file_open(f_path, 'rb') as pdf_file:
             get_pdf.return_value = pdf_file.read()
 
         # Creation of the sponsorship contract
@@ -150,12 +153,13 @@ class TestSponsorship(BaseSponsorshipTest):
             },
             [{'amount': 50.0}]
         )
+
         self.validate_sponsorship(sponsorship)
         self.assertEqual(sponsorship.sds_state, 'active')
         # Perform action rules (shouldn't do anything)
         eleven_days_ago = date.today() - relativedelta(days=11)
         sponsorship.sds_state_date = fields.Date.to_string(eleven_days_ago)
-        self.env['base.action.rule']._check()
+        self.env['base.automation']._check()
         self.assertEqual(sponsorship.sds_state, 'active')
         welcome_email = self.env.ref(
             'partner_communication_switzerland.planned_welcome')

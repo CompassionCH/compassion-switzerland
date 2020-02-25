@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <!-- End sponsorship form -->
             <field name="keep_child_on_hold" position="after">
-                <field name="generate_communication" attrs="{'invisible': [('end_reason', '!=', '1')]}"/>
+                <field name="generate_communication" attrs="{'invisible': [('end_reason_id', '!=', '1')]}"/>
             </field>
         </field>
     </record>

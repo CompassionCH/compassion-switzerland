@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -29,4 +28,4 @@ class EndContractWizard(models.TransientModel):
                 default_object_ids=self.contract_id.id,
                 default_auto_send=False).send_communication(exit_config)
 
-        return super(EndContractWizard, self).end_contract()
+        return super().end_contract()

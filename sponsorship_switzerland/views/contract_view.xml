@@ -3,21 +3,12 @@
     <record id="view_recurring_contract_tree_compassion_switzerland" model="ir.ui.view">
         <field name="name">recurring.contract.compassion.tree</field>
         <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="crm_compassion.view_contract_tree_crm"/>
+        <field name="inherit_id" ref="recurring_contract.view_recurring_contract_tree"/>
         <field eval="18" name="priority"/>
         <field name="arch" type="xml">
             <tree position="attributes">
-                <attribute name="decoration-danger">"state == 'mandate'"</attribute>
-                <attribute name="decoration-info">"state == 'mandate'"</attribute>
-                <attribute name="decoration-success">"state == 'mandate'"</attribute>
-                <attribute name="decoration-primary">"state == 'mandate'"</attribute>
-                <attribute name="decoration-warning">"state == 'mandate'"</attribute>
-                  decoration-info="state == 'draft'"
-                  decoration-success="state == 'waiting'"
-                  decoration-primary="state == 'active'"
-                  decoration-warning="state in ('terminated','cancelled')"
+                <attribute name="decoration-danger">state == 'mandate'</attribute>
             </tree>
-
             <field name="origin_id" position="after">
                 <field name="previous_child_id"/>
             </field>
@@ -38,13 +29,16 @@
             <field name="next_invoice_date" position="attributes">
                 <attribute name="states">draft,waiting,mandate,active</attribute>
             </field>
+            <field name="state" position="attributes">
+                <attribute name="statusbar_visible">draft,waiting,active,terminated,cancelled</attribute>
+            </field>
         </field>
     </record>
 
     <record id="view_contract_group_form_bvr_compassion" model="ir.ui.view">
         <field name="name">contract.group.compassion.bvr.form</field>
         <field name="model">recurring.contract.group</field>
-        <field name="inherit_id" ref="sponsorship_compassion.view_contract_group_form_sponsorship"/>
+        <field name="inherit_id" ref="sponsorship_compassion.view_contract_group_form_compassion"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="bvr_reference"/>

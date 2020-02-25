@@ -23,7 +23,9 @@
             <field name="inherit_id" ref="child_compassion.view_child_disaster_impact_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="attributes">
-                    <attribute name="colors">blue:state=='pending';grey:state in ('done','cancel');red:state=='call'</attribute>
+                    <attribute name="decoration-primary">state=='pending'</attribute>
+                    <attribute name="decoration-muted">state in ('done','cancel')</attribute>
+                    <attribute name="decoration-danger">state=='call'</attribute>
                 </xpath>
             </field>
         </record>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
@@ -23,15 +22,11 @@ class BvrFundReport(models.AbstractModel):
     Model used for preparing data for the bvr report.
     """
     _name = 'report.report_compassion.bvr_fund'
+    _description = "Used for preparing data for the BVR report"
 
-    @api.multi
-    def render_html(self, docids, data=None):
-        """
-        Construct the data for printing Payment Slips.
-        :param data: data collected from the print wizard.
-        :return: html rendered report
-        """
-        report = self.env['report']._get_report_from_name(
+    @api.model
+    def get_report_values(self, docids, data=None):
+        report = self.env['ir.actions.report']._get_report_from_name(
             'report_compassion.bvr_fund')
         if data is None:
             # By default, prepare a report with background and try to read
@@ -49,9 +44,12 @@ class BvrFundReport(models.AbstractModel):
                 'communication': False
             }
 
+        if not docids and data['doc_ids']:
+            docids = data['doc_ids']
+
         data.update({
             'doc_model': report.model,  # res.partner
             'docs': self.env[report.model].browse(docids),
             'product': self.env['product.product'].browse(data['product_id'])
         })
-        return self.env['report'].render(report.report_name, data)
+        return data
