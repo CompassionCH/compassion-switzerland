@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -28,7 +27,7 @@ from odoo.exceptions import MissingError, UserError
 _logger = logging.getLogger(__name__)
 
 try:
-    from pyPdf import PdfFileWriter, PdfFileReader
+    from PyPDF2 import PdfFileWriter, PdfFileReader
     from bs4 import BeautifulSoup
 except ImportError:
     _logger.warning("Please install pypdf and bs4 for using the module")
@@ -49,7 +48,7 @@ class PartnerCommunication(models.Model):
 
     @api.model
     def send_mode_select(self):
-        modes = super(PartnerCommunication, self).send_mode_select()
+        modes = super().send_mode_select()
         modes.append(('sms', _('SMS')))
         return modes
 
@@ -172,13 +171,16 @@ class PartnerCommunication(models.Model):
 
         # In other cases, attach the payment slip.
         report_name = 'report_compassion.bvr_due'
+        data = {
+            'background': True,
+            'doc_ids': sponsorships.ids
+        }
+        pdf = self._get_pdf_from_data(
+            data, self.env.ref('report_compassion.report_bvr_due'))
         return {
             _('sponsorship due.pdf'): [
                 report_name,
-                base64.b64encode(self.env['report'].get_pdf(
-                    sponsorships.ids, report_name,
-                    data={'background': True, 'doc_ids': sponsorships.ids}
-                ))
+                pdf
             ]
         }
 
@@ -209,23 +211,28 @@ class PartnerCommunication(models.Model):
             ('brand_name', '=', 'Herma A4')], limit=1)
         label_format = self.env['label.config'].search([
             ('name', '=', '4455 SuperPrint WeiB')], limit=1)
-        label_wizard = self.env['label.print.wizard'].with_context({
+        report_context = {
             'active_ids': sponsorships.ids,
             'active_model': 'recurring.contract',
             'label_print': label_print.id,
             'must_skip_send_to_printer': True
-        }).create({
-            'brand_id': label_brand.id,
-            'config_id': label_format.id,
-            'number_of_labels': 33
-        })
+        }
+        label_wizard = self.env['label.print.wizard']\
+            .with_context(report_context) \
+            .create(
+            {
+                'brand_id': label_brand.id,
+                'config_id': label_format.id,
+                'number_of_labels': 33
+            })
         label_data = label_wizard.get_report_data()
         report_name = 'label.report_label'
+        report = self.env['ir.actions.report']._get_report_from_name(report_name) \
+            .with_context(report_context)
+        pdf = self._get_pdf_from_data(label_data, report)
         attachments[_('sponsorship labels.pdf')] = [
             report_name,
-            base64.b64encode(
-                label_wizard.env['report'].get_pdf(
-                    label_wizard.ids, report_name, data=label_data))
+            pdf
         ]
         return attachments
 
@@ -276,25 +283,23 @@ class PartnerCommunication(models.Model):
         pay_bvr = sponsorships.filtered(
             lambda s: s.payment_mode_id == payment_mode_bvr and
             s.partner_id == self.partner_id)
-        report_obj = self.env['report']
         if pay_bvr and pay_bvr.must_pay_next_year():
             today = date.today()
             date_start = today.replace(today.year + 1, 1, 1)
             date_stop = date_start.replace(month=12, day=31)
-            report_name = 'report_compassion.{}bvr_sponsorship'.format(
-                bv_number)
+            report_name = 'report_compassion.3bvr_sponsorship'
+            data = {
+                'doc_ids': pay_bvr.ids,
+                'date_start': fields.Date.to_string(date_start),
+                'date_stop': fields.Date.to_string(date_stop),
+                'background': self.send_mode != 'physical'
+            }
+            pdf = self._get_pdf_from_data(
+                data, self.env.ref('report_compassion.report_3bvr_sponsorship'))
             attachments.update({
                 _('sponsorship payment slips.pdf'): [
                     report_name,
-                    base64.b64encode(report_obj.get_pdf(
-                        pay_bvr.ids, report_name,
-                        data={
-                            'doc_ids': pay_bvr.ids,
-                            'date_start': fields.Date.to_string(date_start),
-                            'date_stop': fields.Date.to_string(date_stop),
-                            'background': self.send_mode != 'physical'
-                        }
-                    ))
+                    pdf
                 ]
             })
         # Attach gifts for correspondents
@@ -304,21 +309,16 @@ class PartnerCommunication(models.Model):
                     self.partner_id:
                 pays_gift += sponsorship
         if pays_gift:
-            report_name = 'report_compassion.{}bvr_gift_sponsorship'.format(
-                bv_number)
-            product_ids = self.env['product.product'].search([
-                ('default_code', 'in', GIFT_REF[:3])
-            ]).ids
+            report_name = 'report_compassion.3bvr_gift_sponsorship'
+            data = {
+                'doc_ids': pays_gift.ids
+            }
+            pdf = self._get_pdf_from_data(
+                data, self.env.ref('report_compassion.report_3bvr_gift_sponsorship'))
             attachments.update({
                 _('sponsorship gifts.pdf'): [
                     report_name,
-                    base64.b64encode(report_obj.get_pdf(
-                        pays_gift.ids, report_name,
-                        data={
-                            'doc_ids': pays_gift.ids,
-                            'product_ids': product_ids
-                        }
-                    ))
+                    pdf
                 ]
             })
         return attachments
@@ -334,17 +334,20 @@ class PartnerCommunication(models.Model):
             sponsorships = sponsorships.mapped('sub_sponsorship_id')
         children = sponsorships.mapped('child_id')
         # Always retrieve latest information before printing dossier
-        children.get_infos()
+        # children.get_infos()
         report_name = 'report_compassion.childpack_small'
+        data = {
+            'lang': lang,
+            'is_pdf': self.send_mode != 'physical',
+            'type': report_name,
+            'doc_ids': children.ids
+        }
+        pdf = self._get_pdf_from_data(
+            data, self.env.ref('report_compassion.report_childpack_small'))
         return {
             _('child dossier.pdf'): [
                 report_name,
-                base64.b64encode(self.env['report'].get_pdf(
-                    children.ids, report_name, data={
-                        'lang': lang,
-                        'is_pdf': self.send_mode != 'physical',
-                        'type': report_name,
-                    }))
+                pdf
             ]
         }
 
@@ -358,13 +361,12 @@ class PartnerCommunication(models.Model):
                 'year': self.env.context.get('year', date.today().year - 1),
                 'lang': self.partner_id.lang,
             }
+            pdf = self._get_pdf_from_data(
+                data, self.env.ref('report_compassion.tax_receipt_report'))
             res = {
                 _('tax receipt.pdf'): [
                     report_name,
-                    base64.b64encode(
-                        self.env['report'].with_context(
-                            must_skip_send_to_printer=True).get_pdf(
-                            self.partner_id.ids, report_name, data=data))
+                    pdf
                 ]
             }
         return res
@@ -478,7 +480,7 @@ class PartnerCommunication(models.Model):
                 'state': 'done',
                 'sent_date': fields.Datetime.now(),
                 'sms_cost': ceil(
-                    float(len(sms_text)) / SMS_CHAR_LIMIT) * SMS_COST
+                    float(len(sms_text)) // SMS_CHAR_LIMIT) * SMS_COST
             })
         return sms_texts
 
@@ -513,7 +515,7 @@ class PartnerCommunication(models.Model):
     @api.multi
     def open_related(self):
         """ Select a better view for invoice lines. """
-        res = super(PartnerCommunication, self).open_related()
+        res = super().open_related()
         if self.config_id.model == 'account.invoice.line':
             res['context'] = self.with_context(
                 tree_view_ref='sponsorship_compassion'
@@ -533,7 +535,6 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         attachments = OrderedDict()
-        report_obj = self.env['report']
         account_payment_mode_obj = self.env['account.payment.mode']\
             .with_context(lang='en_US')
         lsv_dd_modes = account_payment_mode_obj.search(
@@ -564,20 +565,21 @@ class PartnerCommunication(models.Model):
 
         # Payment slips
         if bv_sponsorships:
-            report_name = 'report_compassion.3bvr_sponsorship'
+            report_name = "report_compassion.3bvr_sponsorship"
+            report_ref = self.env.ref('report_compassion.report_3bvr_sponsorship')
             if bv_sponsorships.mapped('payment_mode_id') == permanent_order:
                 # One single slip is enough for permanent order.
-                report_name = 'report_compassion.bvr_sponsorship'
+                report_name = "report_compassion.bvr_sponsorship"
+                report_ref = self.env.ref('report_compassion.report_bvr_sponsorship')
+            data = {
+                'doc_ids': bv_sponsorships.ids,
+                'background': self.send_mode != 'physical'
+            }
+            pdf = self._get_pdf_from_data(data, report_ref)
             attachments.update({
                 _('sponsorship payment slips.pdf'): [
                     report_name,
-                    base64.b64encode(report_obj.get_pdf(
-                        bv_sponsorships.ids, report_name,
-                        data={
-                            'doc_ids': bv_sponsorships.ids,
-                            'background': self.send_mode != 'physical'
-                        }
-                    ))
+                    pdf
                 ]
             })
 
@@ -594,13 +596,20 @@ class PartnerCommunication(models.Model):
         # Child picture
         report_name = 'partner_communication_switzerland.child_picture'
         child_ids = sponsorships.mapped('child_id').ids
+        report = self.env['ir.actions.report']._get_report_from_name(
+            'partner_communication_switzerland.child_picture')
+        data = {
+            'doc_ids': child_ids,
+            'doc_model': report.model,
+            'docs': self.env[report.model].browse(child_ids),
+        }
+        pdf = self._get_pdf_from_data(
+            data,
+            self.env.ref('partner_communication_switzerland.report_child_picture'))
         attachments.update({
             _('child picture.pdf'): [
                 report_name,
-                base64.b64encode(report_obj.get_pdf(
-                    child_ids, report_name,
-                    data={'doc_ids': child_ids}
-                ))
+                pdf
             ]
         })
 
@@ -620,7 +629,6 @@ class PartnerCommunication(models.Model):
     def get_csp_attachment(self):
         self.ensure_one()
         attachments = OrderedDict()
-        report_obj = self.env['report']
         account_payment_mode_obj = self.env['account.payment.mode']
         csp = self.get_objects()
 
@@ -650,19 +658,18 @@ class PartnerCommunication(models.Model):
         # Payment slips
         if is_payer and make_payment_pdf:
             report_name = 'report_compassion.3bvr_sponsorship'
+            data = {
+                'doc_ids': csp.ids,
+                'background': self.send_mode != 'physical'
+            }
+            pdf = self._get_pdf_from_data(
+                data, self.env.ref('report_compassion.report_3bvr_sponsorship'))
             attachments.update({
                 _('csv payment slips.pdf'): [
                     report_name,
-                    base64.b64encode(report_obj.get_pdf(
-                        csp.ids, report_name,
-                        data={
-                            'doc_ids': csp.ids,
-                            'background': self.send_mode != 'physical'
-                        }
-                    ))
+                    pdf
                 ]
             })
-
         return attachments
 
     def _convert_pdf(self, pdf_data):
@@ -679,7 +686,7 @@ class PartnerCommunication(models.Model):
         convert = PdfFileWriter()
         a4_width = 594.48
         a4_height = 844.32  # A4 units in PyPDF
-        for i in xrange(0, pdf.numPages):
+        for i in range(0, pdf.numPages):
             # translation coordinates
             tx = 0
             ty = 0
@@ -696,3 +703,19 @@ class PartnerCommunication(models.Model):
         convert.write(output_stream)
         output_stream.seek(0)
         return base64.b64encode(output_stream.read())
+
+    def _get_pdf_from_data(self, data, report_ref):
+        pdf_data = report_ref.report_action(self, data=data)
+        report_str = report_ref.render_qweb_pdf(
+            pdf_data['data']['doc_ids'], pdf_data['data'])
+        if isinstance(report_str, (list, tuple)):
+            report_str = report_str[0]
+        elif isinstance(report_str, bool):
+            report_str = ""
+
+        output = None
+        if isinstance(report_str, bytes):
+            output = base64.encodebytes(report_str)
+        else:
+            base64.encodebytes(report_str.encode('utf-8'))
+        return output

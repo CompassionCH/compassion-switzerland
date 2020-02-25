@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -8,8 +7,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from urllib import urlencode
-from urlparse import urljoin
+from urllib.parse import urlencode
+from urllib.parse import urljoin
 from odoo import api, models, fields
 
 
@@ -50,7 +49,7 @@ class ChildImpact(models.Model):
 
     @api.model
     def create(self, vals):
-        impact = super(ChildImpact, self).create(vals)
+        impact = super().create(vals)
         partner = impact.child_id.sponsor_id
         if partner:
             communication_config = self.env.ref(

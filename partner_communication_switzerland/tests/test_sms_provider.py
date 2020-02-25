@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -16,7 +15,7 @@ class TestSmsProvider(HttpCase):
     _name = "my.classs"
 
     def setUp(self):
-        super(TestSmsProvider, self).setUp()
+        super().setUp()
         self.env['ir.config_parameter'] \
             .set_param('web.external.url', 'base')
         external_url = self.env['ir.config_parameter'] \

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -19,6 +18,7 @@ from odoo.tools import config
 
 from odoo.addons.sbc_compassion.models.correspondence_page import \
     BOX_SEPARATOR, PAGE_SEPARATOR
+from functools import reduce
 
 _logger = logging.getLogger(__name__)
 
@@ -127,7 +127,7 @@ class Correspondence(models.Model):
         if self.zip_file:
             data = base64.b64decode(self.zip_file)
         else:
-            data = super(Correspondence, self).get_image()
+            data = super().get_image()
         return data
 
     @api.multi
@@ -152,8 +152,7 @@ class Correspondence(models.Model):
         base_url = self.env['ir.config_parameter'].get_param(
             'web.external.url')
         self.write({
-            'read_url': "{}/b2s_image?id={}".format(base_url,
-                                                    letter_attach.uuid),
+            'read_url': f"{base_url}/b2s_image?id={letter_attach.uuid}"
         })
         return True
 
@@ -162,7 +161,7 @@ class Correspondence(models.Model):
         """
         Regenerate communication if already existing
         """
-        res = super(Correspondence, self).compose_letter_image()
+        res = super().compose_letter_image()
         if self.communication_id:
             self.communication_id.refresh_text()
         return res

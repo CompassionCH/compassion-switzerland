@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016-2017 Compassion CH (http://www.compassion.ch)
@@ -52,6 +51,8 @@ class RecurringContract(models.Model):
     send_introduction_letter = fields.Boolean(
         string='Send B2S intro letter to sponsor', default=True)
     origin_type = fields.Selection(related='origin_id.type')
+    sds_state = fields.Selection(selection_add=[
+        ('waiting_welcome', _('Waiting welcome'))])
 
     # this field is used to help the xml views to get the type of origin_id
 
@@ -135,7 +136,7 @@ class RecurringContract(models.Model):
 
     def _get_sds_states(self):
         """ Add waiting_welcome state """
-        res = super(RecurringContract, self)._get_sds_states()
+        res = super()._get_sds_states()
         res.insert(1, ('waiting_welcome', _('Waiting welcome')))
         return res
 
@@ -425,20 +426,19 @@ class RecurringContract(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         report = 'report_compassion.bvr_gift_sponsorship'
-        report_obj = self.env['report']
         attachments = dict()
         partner_lang = self.mapped('correspondent_id')[0].lang
         product_name = products[0].with_context(lang=partner_lang).name
+        report_ref = self.env.ref('report_compassion.report_bvr_gift_sponsorship')
+        pdf_data = report_ref.report_action(self, data={
+            'doc_ids': self.ids,
+            'product_ids': products.ids,
+            'background': background,
+        })
         attachments[product_name + '.pdf'] = [
             report,
-            base64.b64encode(report_obj.get_pdf(
-                self.ids, report,
-                data={
-                    'doc_ids': self.ids,
-                    'product_ids': products.ids,
-                    'background': background,
-                }
-            ))
+            base64.encodebytes(report_ref.render_qweb_pdf(
+                pdf_data['data']['doc_ids'], pdf_data['data']))
         ]
         return attachments
 
@@ -452,7 +452,7 @@ class RecurringContract(models.Model):
 
     @api.multi
     def action_sub_reject(self):
-        res = super(RecurringContract, self).action_sub_reject()
+        res = super().action_sub_reject()
         no_sub_config = self.env.ref(
             'partner_communication_switzerland.planned_no_sub')
         self.send_communication(no_sub_config, correspondent=False)
@@ -463,7 +463,7 @@ class RecurringContract(models.Model):
     ##########################################################################
     @api.multi
     def contract_waiting_mandate(self):
-        res = super(RecurringContract, self).contract_waiting_mandate()
+        res = super().contract_waiting_mandate()
         new_spons = self.filtered(lambda c: 'S' in c.type and not c.is_active)
         new_spons._new_dossier()
         new_spons.filtered(
@@ -496,7 +496,7 @@ class RecurringContract(models.Model):
         })
 
         mandates_valid = self.filtered(lambda c: c.state == 'mandate')
-        res = super(RecurringContract, self).contract_waiting()
+        res = super().contract_waiting()
         self.filtered(
             lambda c: 'S' in c.type and not c.is_active and c not in
                       mandates_valid
@@ -523,9 +523,8 @@ class RecurringContract(models.Model):
         # Send new dossier for write&pray sponsorships
         self.filtered(lambda s: s.type == 'SC').send_communication(
             self.env.ref('partner_communication_switzerland'
-                         '.sponsorship_dossier_wrpr')
-        )
-        return super(RecurringContract, self).contract_active()
+                         '.sponsorship_dossier_wrpr'))
+        return super().contract_active()
 
     @api.multi
     def send_welcome_letter(self):
@@ -550,7 +549,7 @@ class RecurringContract(models.Model):
 
     @api.multi
     def contract_terminated(self):
-        super(RecurringContract, self).contract_terminated()
+        super().contract_terminated()
         if self.child_id:
             self.child_id.sponsorship_ids[0].order_photo = False
         return True
@@ -560,7 +559,7 @@ class RecurringContract(models.Model):
     ##########################################################################
     @api.multi
     def _on_sponsorship_finished(self):
-        super(RecurringContract, self)._on_sponsorship_finished()
+        super()._on_sponsorship_finished()
         cancellation = self.env.ref(
             'partner_communication_switzerland.sponsorship_cancellation')
         no_sub = self.env.ref(

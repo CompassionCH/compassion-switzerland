@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -64,9 +63,9 @@ class GenerateCommunicationWizard(models.TransientModel):
         # Select sponsorships if called from the sponsorship menu
         sponsorship_ids = self.env.context.get('default_sponsorship_ids')
         if sponsorship_ids:
-            return "[('id', 'in', {})]".format(str(sponsorship_ids[0][2]))
+            return f"[('id', 'in', {str(sponsorship_ids[0][2])})]"
         else:
-            return "[('id', 'in', {})]".format(self._default_partners())
+            return f"[('id', 'in', {self._default_partners()})]"
 
     @api.multi
     def _compute_progress(self):
@@ -80,7 +79,7 @@ class GenerateCommunicationWizard(models.TransientModel):
             else:
                 partners = wizard.sponsorship_ids.mapped(wizard.partner_source)
 
-            wizard.progress = float(len(wizard.communication_ids) * 100) / (
+            wizard.progress = float(len(wizard.communication_ids) * 100) // (
                 len(partners) or 1)
         super(GenerateCommunicationWizard,
               self - s_wizards)._compute_progress()
@@ -111,8 +110,8 @@ class GenerateCommunicationWizard(models.TransientModel):
                 partner_source = self.partner_source
             if self.force_language and not self.language_added_in_domain:
                 domain = self.selection_domain or '[]'
-                domain = domain[:-1] + ", ('{}.lang', '=', '{}')]".format(
-                    partner_source, self.force_language)
+                domain = domain[:-1] + \
+                    f", ('{partner_source}.lang', '=', '{self.force_language}')]"
                 self.selection_domain = domain.replace('[, ', '[')
                 self.language_added_in_domain = True
             if self.selection_domain:
@@ -129,7 +128,7 @@ class GenerateCommunicationWizard(models.TransientModel):
             if not self.force_language:
                 self.language_added_in_domain = False
         else:
-            super(GenerateCommunicationWizard, self).onchange_domain()
+            super().onchange_domain()
 
     @api.onchange('sponsorship_ids', 'partner_source')
     def onchange_sponsorships(self):
@@ -149,7 +148,7 @@ class GenerateCommunicationWizard(models.TransientModel):
             text_approximation = len(soup.get_text())
             self.sms_length_estimation = text_approximation
             self.sms_number_estimation = ceil(
-                float(text_approximation) / SMS_CHAR_LIMIT
+                float(text_approximation) // SMS_CHAR_LIMIT
             ) * len(self.partner_ids)
 
     @api.multi

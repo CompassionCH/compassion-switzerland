@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -13,7 +12,7 @@ from odoo import api, models, fields
 
 class StaffNotificationSettings(models.TransientModel):
     """ Settings configuration for any Notifications."""
-    _inherit = 'staff.notification.settings'
+    _inherit = 'res.config.settings'
 
     # Users to notify after Disaster Alert
     invalid_mail_notify_ids = fields.Many2many(
@@ -30,16 +29,20 @@ class StaffNotificationSettings(models.TransientModel):
     def set_invalid_mail_notify_ids(self):
         self.env['ir.config_parameter'].set_param(
             'partner_communication_switzerland.invalid_mail_notify_ids',
-            ','.join(map(str, self.invalid_mail_notify_ids.ids)))
+            ','.join(list(map(str, self.invalid_mail_notify_ids.ids))))
+
+    @api.multi
+    def set_values(self):
+        super().set_values()
+        self.set_invalid_mail_notify_ids()
 
     @api.model
-    def get_default_values(self, _fields):
+    def get_values(self):
         param_obj = self.env['ir.config_parameter']
-        res = super(StaffNotificationSettings, self)\
-            .get_default_values(_fields)
+        res = super().get_values()
         res['invalid_mail_notify_ids'] = False
         partners = param_obj.get_param(
             'partner_communication_switzerland.invalid_mail_notify_ids', False)
         if partners:
-            res['invalid_mail_notify_ids'] = map(int, partners.split(','))
+            res['invalid_mail_notify_ids'] = list(map(int, partners.split(',')))
         return res

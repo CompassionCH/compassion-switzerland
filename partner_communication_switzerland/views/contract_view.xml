@@ -8,7 +8,7 @@
      <record id="view_recurring_contract_form" model="ir.ui.view">
         <field name="name">recurring.contract.form</field>
         <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="contract_compassion.view_recurring_contract_form_compassion"/>
+        <field name="inherit_id" ref="sponsorship_switzerland.view_recurring_contract_form_compassion"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='origin_id']" position="after">
                 <field name="origin_type" invisible="1"/>

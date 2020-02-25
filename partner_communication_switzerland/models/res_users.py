@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import logging
@@ -18,7 +17,7 @@ class ResUsers(models.Model):
         create_mode = bool(self.env.context.get('create_user'))
         # Only override the rest behavior, not normal signup
         if create_mode:
-            super(ResUsers, self).action_reset_password()
+            super().action_reset_password()
         else:
             expiration = now(days=+1)
             self.mapped('partner_id').signup_prepare(
