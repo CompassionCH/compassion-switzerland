@@ -20,7 +20,7 @@ class TestSponsorship(TransactionCase):
     This will test related functionalities with SMS communications.
     """
 
-    @patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_sms_replacement_text(self, sms_send_mock):
         """
         Test that the communication text is well shortened for a SMS

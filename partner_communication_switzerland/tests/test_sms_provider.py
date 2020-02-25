@@ -24,7 +24,7 @@ class TestSmsProvider(HttpCase):
 
         self.partner = self.env.ref('base.res_partner_1')
 
-    @mock.patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @mock.patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_sms_provider(self, smsbox_send):
         wizard = self.env['partner.communication.generate.wizard'].create({
             'name': 'test',
