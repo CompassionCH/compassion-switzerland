@@ -562,6 +562,7 @@ class Event(models.Model):
     ##########################################################################
     #                       STAGE TRANSITION METHODS                         #
     ##########################################################################
+
     @api.multi
     def next_stage(self):
         """ Transition to next registration stage """
@@ -772,8 +773,9 @@ class Event(models.Model):
 
     @api.multi
     def past_event_action(self):
+        stage = self.env.ref('website_event_compassion.stage_all_attended')
         for reg in self:
             if reg.state == 'open':
                 reg.write({
-                    'stage_id': self.env.ref('website_event_compassion.stage_all_attended').id
+                    'stage_id': stage.id
                 })
