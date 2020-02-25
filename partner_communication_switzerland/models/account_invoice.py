@@ -22,11 +22,6 @@ logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    communication_id = fields.Many2one(
-        'partner.communication.job', 'Thank you letter', ondelete='set null',
-        readonly=True
-    )
-
     @api.model
     def thankyou_summary_cron(self):
         """
