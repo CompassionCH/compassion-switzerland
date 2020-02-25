@@ -211,20 +211,25 @@ class PartnerCommunication(models.Model):
             ('brand_name', '=', 'Herma A4')], limit=1)
         label_format = self.env['label.config'].search([
             ('name', '=', '4455 SuperPrint WeiB')], limit=1)
-        label_wizard = self.env['label.print.wizard'].with_context({
+        report_context = {
             'active_ids': sponsorships.ids,
             'active_model': 'recurring.contract',
             'label_print': label_print.id,
             'must_skip_send_to_printer': True
-        }).create({
-            'brand_id': label_brand.id,
-            'config_id': label_format.id,
-            'number_of_labels': 33
-        })
+        }
+        label_wizard = self.env['label.print.wizard']\
+            .with_context(report_context) \
+            .create(
+            {
+                'brand_id': label_brand.id,
+                'config_id': label_format.id,
+                'number_of_labels': 33
+            })
         label_data = label_wizard.get_report_data()
-        report_name = 'label.dynamic_label'
-        pdf = self._get_pdf_from_data(
-            label_data, self.env.ref('label.report_dynamic_label'))
+        report_name = 'label.report_label'
+        report = self.env['ir.actions.report']._get_report_from_name(report_name) \
+            .with_context(report_context)
+        pdf = self._get_pdf_from_data(label_data, report)
         attachments[_('sponsorship labels.pdf')] = [
             report_name,
             pdf
@@ -703,7 +708,7 @@ class PartnerCommunication(models.Model):
         pdf_data = report_ref.report_action(self, data=data)
         report_str = report_ref.render_qweb_pdf(
             pdf_data['data']['doc_ids'], pdf_data['data'])
-        if isinstance(report_str, list):
+        if isinstance(report_str, (list, tuple)):
             report_str = report_str[0]
         elif isinstance(report_str, bool):
             report_str = ""
