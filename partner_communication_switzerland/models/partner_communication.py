@@ -469,13 +469,8 @@ class PartnerCommunication(models.Model):
         for job in self.filtered('partner_mobile'):
             sms_text = job.convert_html_for_sms(link_pattern, sms_medium_id)
             sms_texts.append(sms_text)
-            sms_wizard = self.env['sms.sender.wizard'].with_context(
-                partner_id=job.partner_id.id).create({
-                    'subject': job.subject,
-                    'text': sms_text,
-                    'sms_provider_id': job.sms_provider_id.id
-                })
-            sms_wizard.send_sms_partner()
+            job.partner_id.with_context(sms_provider=job.sms_provider_id)\
+                .message_post_send_sms(sms_text, note_msg=job.subject)
             job.write({
                 'state': 'done',
                 'sent_date': fields.Datetime.now(),
