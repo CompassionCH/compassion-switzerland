@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -20,6 +19,6 @@ class ImportConfig(models.Model):
     import_folder_path = fields.Char()
 
     def get_fields(self):
-        res = super(ImportConfig, self).get_fields()
+        res = super().get_fields()
         res.append('import_folder_path')
         return res

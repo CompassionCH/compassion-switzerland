@@ -23,6 +23,7 @@ detectlanguage
 python-magic
 pyzbar
 matplotlib
+mysqlclient
 openupgradelib
 pdfminer
 opencv-python

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -9,13 +8,15 @@
 #
 ##############################################################################
 import logging
-from odoo import models, api, fields
+from odoo import api, fields
 from . import translate_connector
+from odoo.addons.base_geoengine import geo_model
+
 
 _logger = logging.getLogger(__name__)
 
 
-class AdvocateDetails(models.Model):
+class AdvocateDetails(geo_model.GeoModel):
     _inherit = 'advocate.details'
 
     translator_since = fields.Datetime()
@@ -37,7 +38,7 @@ class AdvocateDetails(models.Model):
     @api.model
     def create(self, vals):
         translation = self.env.ref('partner_compassion.engagement_translation')
-        advocate = super(AdvocateDetails, self).create(vals)
+        advocate = super().create(vals)
         if translation in advocate.engagement_ids:
             advocate._insert_new_translator()
         return advocate
@@ -91,7 +92,7 @@ class AdvocateDetails(models.Model):
                     'partner_id': self.partner_id.id,
                     'object_ids': self.partner_id.id,
                 })
-        return super(AdvocateDetails, self).set_inactive()
+        return super().set_inactive()
 
     def set_active(self):
         translation = self.env.ref('partner_compassion.engagement_translation')
@@ -101,7 +102,7 @@ class AdvocateDetails(models.Model):
             _logger.info("translator activated, put it again "
                          "in translation platform")
             tc.upsert_user(self.partner_id, create=False)
-        return super(AdvocateDetails, self).set_active()
+        return super().set_active()
 
     def unlink(self):
         # Remove from translation platform
@@ -125,7 +126,7 @@ class AdvocateDetails(models.Model):
                         'partner_id': advocate.partner_id.id,
                         'object_ids': advocate.partner_id.id,
                     })
-        return super(AdvocateDetails, self).unlink()
+        return super().unlink()
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #

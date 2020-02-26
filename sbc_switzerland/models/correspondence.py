@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
@@ -11,6 +10,7 @@
 import sys
 import base64
 import logging
+from importlib import reload
 
 from io import BytesIO
 
@@ -60,7 +60,7 @@ class Correspondence(models.Model):
              the local translate plaform.
         """
         if vals.get('direction') == "Beneficiary To Supporter":
-            correspondence = super(Correspondence, self).create(vals)
+            correspondence = super().create(vals)
         else:
             sponsorship = self.env['recurring.contract'].browse(
                 vals['sponsorship_id'])
@@ -87,7 +87,7 @@ class Correspondence(models.Model):
                     no_comm_kit=True)).create(vals)
                 correspondence.send_local_translate()
             else:
-                correspondence = super(Correspondence, self).create(vals)
+                correspondence = super().create(vals)
 
         # Swap pages for L3 layouts as we scan in wrong order
         if correspondence.template_id.layout == 'CH-A-3S01-1' and \
@@ -229,7 +229,7 @@ class Correspondence(models.Model):
         letters = self.search([
             ('state', '=', 'Global Partner translation queue')
         ])
-        logger.info("Found {} letters to transalte.".format(str(len(letters))))
+        logger.info(f"Found {len(letters)} letters to translate.")
         for letter in letters:
             letter_id = tc.select_one(
                 "SELECT id FROM translation WHERE letter_odoo_id = %s",
@@ -312,7 +312,7 @@ class Correspondence(models.Model):
             self.create_commkit()
         else:
             # Recompose the letter image and process letter
-            if super(Correspondence, self).process_letter():
+            if super().process_letter():
                 self.send_communication()
 
     def merge_letters(self):
@@ -363,7 +363,7 @@ class Correspondence(models.Model):
             # Check that the letter is not yet sent to GMC
             if self.kit_identifier:
                 raise UserError(_("Letter already sent to GMC cannot be "
-                                  "translated! [%s]") % self.kit_identifier)
+                                  f"translated! [{self.kit_identifier}]"))
 
             src_lang = self.original_language_id
             child_langs = self.beneficiary_language_ids.filtered(
@@ -413,8 +413,7 @@ class Correspondence(models.Model):
             smb_conn.storeFile(nas_share_name,
                                nas_letters_store_path, file_)
 
-            logger.info('File {} store on NAS with success'
-                        .format(self.file_name))
+            logger.info(f'File {self.file_name} store on NAS with success')
         else:
             raise UserError(_('Connection to NAS failed'))
 
@@ -423,7 +422,6 @@ class Correspondence(models.Model):
     @api.model
     def check_local_translation_done(self):
         reload(sys)
-        sys.setdefaultencoding('UTF8')
         tc = translate_connector.TranslateConnect()
         letters_to_update = tc.get_translated_letters()
 
@@ -438,8 +436,7 @@ class Correspondence(models.Model):
                         correspondence = self.with_env(new_env).browse(
                             letter["letter_odoo_id"])
                         logger.info(
-                            ".....CHECK TRANSLATION FOR LETTER {}"
-                            .format(correspondence.id)
+                            f".....CHECK TRANSLATION FOR LETTER {correspondence.id}"
                         )
                         correspondence.update_translation(
                             letter["target_lang"], letter["text"],
