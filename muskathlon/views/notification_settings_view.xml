@@ -7,15 +7,21 @@
 <odoo>
     <!-- Configuration View -->
     <record id="view_notification_settings_muskathlon_form" model="ir.ui.view">
-        <field name="name">staff.notification.settings.muksathlon.form</field>
-        <field name="model">staff.notification.settings</field>
+        <field name="name">staff.notification.settings.muskathlon.form</field>
+        <field name="model">res.config.settings</field>
         <field name="priority" eval="25"/>
-        <field name="inherit_id" ref="child_compassion.view_notification_settings_form"/>
+        <field name="inherit_id" ref="child_compassion.compassion_settings"/>
         <field name="arch" type="xml">
-            <field name="disaster_notify_ids" position="after">
-                <field name="muskathlon_lead_notify_id"/>
-                <field name="muskathlon_order_notify_id"/>
-            </field>
+            <xpath expr="//div[@name='notification_configuration']//div[hasclass('o_setting_right_pane')]" position='inside'>
+                <group name="muskathlon_notifications">
+                    <group>
+                        <field name="muskathlon_lead_notify_id"/>
+                    </group>
+                    <group>
+                        <field name="muskathlon_order_notify_id"/>
+                    </group>
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>

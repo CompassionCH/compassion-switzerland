@@ -37,36 +37,20 @@
         <field name="model_id" ref="model_account_invoice_line"/>
         <field name="state">code</field>
         <field name="code">records.write({'sent_to_4m': datetime.date.today().strftime('%Y-%m-%d')})</field>
+        <field name="binding_model_id" ref="model_account_invoice_line"/>
     </record>
     <record id="send_4m_action_contract" model="ir.actions.server">
         <field name="name">Send to 4M</field>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="state">code</field>
         <field name="code">records.write({'sent_to_4m': datetime.date.today().strftime('%Y-%m-%d')})</field>
+        <field name="binding_model_id" ref="model_recurring_contract"/>
     </record>
     <record id="send_4m_action_report" model="ir.actions.server">
         <field name="name">Send to 4M</field>
         <field name="model_id" ref="model_muskathlon_report"/>
         <field name="state">code</field>
         <field name="code">records.send_to_4m()</field>
-    </record>
-
-    <record id="send_4m_action_menu" model="ir.values">
-        <field eval="'client_action_multi'" name="key2"/>
-        <field eval="'account.invoice.line'" name="model"/>
-        <field name="name">Send to 4M</field>
-        <field eval="'ir.actions.server,%d'%send_4m_action" name="value"/>
-    </record>
-    <record id="send_4m_action_contract_menu" model="ir.values">
-        <field eval="'client_action_multi'" name="key2"/>
-        <field eval="'recurring.contract'" name="model"/>
-        <field name="name">Send to 4M</field>
-        <field eval="'ir.actions.server,%d'%send_4m_action_contract" name="value"/>
-    </record>
-    <record id="send_4m_action_report_menu" model="ir.values">
-        <field eval="'client_action_multi'" name="key2"/>
-        <field eval="'muskathlon.report'" name="model"/>
-        <field name="name">Send to 4M</field>
-        <field eval="'ir.actions.server,%d'%send_4m_action_report" name="value"/>
+        <field name="binding_model_id" ref="model_muskathlon_report"/>
     </record>
 </odoo>
