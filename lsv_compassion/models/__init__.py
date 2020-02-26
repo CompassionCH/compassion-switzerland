@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
@@ -10,4 +9,3 @@
 ##############################################################################
 from . import payment_order
 from . import payment_line
-from . import res_partner_bank

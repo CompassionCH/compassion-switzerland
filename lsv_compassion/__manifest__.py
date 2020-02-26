@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -29,18 +28,17 @@
 
 # pylint: disable=C8101
 {
-    'name': 'LSV-DD Compassion',
-    'version': '10.0.1.0.0',
-    'license': 'AGPL-3',
-    'author': 'Compassion CH',
-    'website': 'http://www.compassion.ch',
-    'category': 'Other',
-    'depends': ['l10n_ch_lsv_dd', 'report_compassion'],
-    'external_dependencies': {},
-    'data': [
-        'views/account_payment_order_view.xml',
+    "name": "LSV-DD Compassion",
+    "version": "11.0.1.0.0",
+    "license": "AGPL-3",
+    "author": "Compassion CH",
+    "website": "http://www.compassion.ch",
+    "category": "Other",
+    "depends": [
+        "l10n_ch_pain_direct_debit",  # OCA/l10n-switzerland
+        "report_compassion",  # compassion-switzerland
     ],
-    'demo': [],
-    'auto_install': False,
-    'installable': False,
+    "data": ["views/account_payment_order_view.xml", ],
+    "auto_install": False,
+    "installable": True,
 }
