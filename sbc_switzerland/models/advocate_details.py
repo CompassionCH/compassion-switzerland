@@ -8,7 +8,7 @@
 #
 ##############################################################################
 import logging
-from odoo import models, api, fields
+from odoo import api, fields
 from . import translate_connector
 from odoo.addons.base_geoengine import geo_model
 
