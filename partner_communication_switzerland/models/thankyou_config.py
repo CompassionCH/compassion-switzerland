@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -21,4 +20,4 @@ class ThankYouConfig(models.Model):
                 'product_id.name'):
             # Will return the largest donation configuration
             return self.sorted()[-1]
-        return super(ThankYouConfig, self).for_donation(invoice_lines)
+        return super().for_donation(invoice_lines)

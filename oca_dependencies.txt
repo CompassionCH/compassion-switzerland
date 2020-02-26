@@ -22,6 +22,7 @@ connector-telephony
 partner-contact
 server-ux
 crm
+partner-contact
 geospatial https://github.com/josueBulle/geospatial mix
 queue
 report-print-send

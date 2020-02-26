@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -21,7 +20,7 @@ class TestSponsorship(TransactionCase):
     This will test related functionalities with SMS communications.
     """
 
-    @patch('odoo.addons.sms_939.wizards.sms_sender_wizard.smsbox_send')
+    @patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
     def test_sms_replacement_text(self, sms_send_mock):
         """
         Test that the communication text is well shortened for a SMS
@@ -36,13 +35,13 @@ class TestSponsorship(TransactionCase):
             'config_id': config.id,
             'send_mode': 'sms',
             'body_html': """
-<h1>A communication example</h1>
-<p>This is a great example showing that <a href="http://test">
-testing is fun</a>.
-</p>
-<br/>
-<p>See you soon!</p>
-            """
+                        <h1>A communication example</h1>
+                        <p>This is a great example showing that <a href="http://test">
+                        testing is fun</a>.
+                        </p>
+                        <br/>
+                        <p>See you soon!</p>
+                          """
         })
         sms_text = communication.send_by_sms()[0]
         logger.info("SMS text result: \n" + sms_text)
@@ -62,4 +61,4 @@ testing is fun</a>.
         self.assertIn(tracked_link.short_url, sms_text)
         self.assertTrue(sms_send_mock.called)
         self.assertEqual(communication.state, 'done')
-        self.assertTrue(communication.sms_cost)
+        self.assertIsNotNone(communication.sms_cost)

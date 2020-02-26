@@ -457,12 +457,6 @@
         </field>
     </record>
 
-<!--    &lt;!&ndash; Delete Contacts Top Menu &ndash;&gt;-->
-<!--    <delete model="ir.ui.menu" id="contacts.menu_contacts"/>-->
-    <record model ="ir.ui.menu" id="contacts.menu_contacts">
-        <field name="active" eval="False"/>
-    </record>
-
     <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form"
               parent="child_compassion.menu_sponsorship_section" sequence="0"/>
 </odoo>

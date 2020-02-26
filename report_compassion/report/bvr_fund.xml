@@ -6,15 +6,17 @@
             name="report_compassion.bvr_fund"
             menu="False"
     />
-    <record id="report_bvr_fund" model="ir.actions.report.xml">
+    <record id="report_bvr_fund" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_bvr"/>
     </record>
 
     <template id="bvr_fund">
-        <t t-call="report.html_container">
-            <t t-foreach="docs" t-as="doc">
-                <t t-call="report_compassion.report_bvr_fund_document" t-lang="doc.lang"/>
-            </t>
+        <t t-call="web.html_container">
+            <div class="article">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="report_compassion.report_bvr_fund_document" t-lang="doc.lang"/>
+                </t>
+            </div>
         </t>
     </template>
 

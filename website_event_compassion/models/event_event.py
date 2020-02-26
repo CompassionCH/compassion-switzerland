@@ -14,7 +14,7 @@ from odoo.exceptions import UserError
 
 
 class Event(models.Model):
-    _inherit = ['event.event', 'translatable.model']
+    _inherit = ['event.event', 'translatable.model', 'mail.activity.mixin']
     _name = 'event.event'
 
     compassion_event_id = fields.Many2one(

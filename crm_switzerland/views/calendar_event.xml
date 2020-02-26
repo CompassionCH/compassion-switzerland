@@ -4,7 +4,8 @@
         <field name="name">calendar.event.tree.order.date</field>
         <field name="model">calendar.event</field>
         <field name="arch" type="xml">
-            <tree string="Meetings" decoration-bf="message_needaction==True" default_order="start asc">
+            <tree string="Meetings" decoration-bf="message_needaction==True"
+                  default_order="start asc">
                 <field name="name" string="Subject"/>
                 <field name="allday" invisible="True"/>
                 <field name="start" string="Start Date"/>
@@ -26,7 +27,8 @@
                 <attribute name="name">myevents</attribute>
             </xpath>
             <group position="before">
-                <filter string="Upcoming meetings" name="next_meetings" domain="[('start_date', '>=', datetime.date.today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Upcoming meetings" name="next_meetings"
+                        domain="[('start_date', '>=', datetime.date.today().strftime('%Y-%m-%d'))]"/>
             </group>
         </field>
     </record>
@@ -39,15 +41,18 @@
         <field name="view_id" ref="view_calendar_event_tree_order_date"/>
         <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
         <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            Click to schedule a new meeting.
-          </p><p>
-            The calendar is shared between employees and fully integrated with
-            other applications such as the employee holidays or the business
-            opportunities.
-          </p>
+            <p class="oe_view_nocontent_create">
+                Click to schedule a new meeting.
+            </p>
+            <p>
+                The calendar is shared between employees and fully integrated with
+                other applications such as the employee holidays or the business
+                opportunities.
+            </p>
         </field>
-        <field name="context">{'search_default_mymeetings': 1, 'search_default_myevents': 1, 'search_default_next_meetings': 1}</field>
+        <field name="context">{'search_default_mymeetings': 1,
+            'search_default_myevents': 1, 'search_default_next_meetings': 1}
+        </field>
     </record>
     <record id="action_calendar_event_partner" model="ir.actions.act_window">
         <field name="name">Meetings</field>
@@ -56,13 +61,14 @@
         <field name="view_id" ref="view_calendar_event_tree_order_date"/>
         <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
         <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            Click to schedule a new meeting.
-          </p><p>
-            The calendar is shared between employees and fully integrated with
-            other applications such as the employee holidays or the business
-            opportunities.
-          </p>
+            <p class="oe_view_nocontent_create">
+                Click to schedule a new meeting.
+            </p>
+            <p>
+                The calendar is shared between employees and fully integrated with
+                other applications such as the employee holidays or the business
+                opportunities.
+            </p>
         </field>
         <field name="context">{}</field>
     </record>
@@ -70,7 +76,7 @@
     <menuitem
             id="crm_lead_menu_activities"
             name="Next Meetings"
-            parent="sales_team.menu_sales"
+            parent="crm.crm_menu_pipeline"
             sequence="5"
-            action="crm_next_events" />
+            action="crm_next_events"/>
 </odoo>

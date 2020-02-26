@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -45,12 +44,12 @@ class PartnerCommunication(models.Model):
                                   j.product_id)
         print_bvr.write({'report_id': self.env.ref(
             'report_compassion.report_a4_bvr').id})
-        return super(PartnerCommunication, self).send()
+        return super().send()
 
     @api.model
     def _get_default_vals(self, vals, default_vals=None):
         if default_vals is None:
             default_vals = []
         default_vals.append('display_pp')
-        return super(PartnerCommunication, self)._get_default_vals(
+        return super()._get_default_vals(
             vals, default_vals)

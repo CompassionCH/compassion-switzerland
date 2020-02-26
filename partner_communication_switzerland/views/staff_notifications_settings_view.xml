@@ -3,9 +3,9 @@
     <!-- Configuration View -->
     <record id="view_notification_settings_invalid_mail_form" model="ir.ui.view">
         <field name="name">staff.notification.settings.invalid.mail.form</field>
-        <field name="model">staff.notification.settings</field>
+        <field name="model">res.config.settings</field>
         <field name="priority" eval="30"/>
-        <field name="inherit_id" ref="child_compassion.view_notification_settings_form"/>
+        <field name="inherit_id" ref="child_compassion.compassion_settings"/>
         <field name="arch" type="xml">
             <field name="disaster_notify_ids" position="after">
                 <field name="invalid_mail_notify_ids" widget="many2many_tags"/>

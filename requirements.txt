@@ -29,3 +29,5 @@ requests
 pandas
 pyminizip
 unidecode
+bs4
+PyPDF2

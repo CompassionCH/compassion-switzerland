@@ -68,7 +68,10 @@
         <field name="inherit_id" ref="mail.view_mail_tree"/>
         <field name="arch" type="xml">
             <tree position="attributes">
-                <attribute name="colors">grey:state in ('received', 'cancel');blue:state=='outgoing';red:state=='exception';black:state=='sent'</attribute>
+                <attribute name="decoration-muted">state in ('received', 'cancel')</attribute>
+                <attribute name="decoration-info">state=='outgoing'</attribute>
+                <attribute name="decoration-danger">state=='exception'</attribute>
+                <attribute name="decoration-success">state=='sent'</attribute>
             </tree>
         </field>
     </record>
@@ -104,7 +107,7 @@
     <menuitem id="partner_communication.menu_communication_generate" parent="menu_donation" name="Generate Communications" sequence="2"/>
     <menuitem name="Templates" id="menu_communication_templates" parent="child_compassion.menu_communication_config" sequence="4" action="action_communication_template"/>
     <menuitem id="partner_communication.menu_communication_config" parent="menu_donation" name="Communication Rules" sequence="3"/>
-    <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>
+<!--    <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>-->
 
     <!-- Add event donation menu in Sales-->
     <menuitem id="menu_donation_event" name="Event Donations" parent="thankyou_letters.menu_donation_sales" action="action_thank_you_event"/>

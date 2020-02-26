@@ -14,10 +14,13 @@ CRM additions for Compassion CH
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-CompassionCH%2Fcompassion--switzerland-lightgray.png?logo=github
-    :target: https://github.com/CompassionCH/compassion-switzerland/tree/10.0/crm_switzerland
+    :target: https://github.com/CompassionCH/compassion-switzerland/tree/11.0/crm_switzerland
     :alt: CompassionCH/compassion-switzerland
+.. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
+    :target: https://translation.odoo-community.org/projects/compassion-switzerland-11-0/compassion-switzerland-11-0-crm_switzerland
+    :alt: Translate me on Weblate
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| |badge3| |badge4| 
 
 This module extends some CRM views.
 
@@ -46,7 +49,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/CompassionCH/compassion-switzerland/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20crm_switzerland%0Aversion:%2010.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20crm_switzerland%0Aversion:%2011.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -76,4 +79,4 @@ This module is maintained by Compassion Switzerland.
 Compassion Switzerland is a nonprofit organization whose
 mission is to release children from extreme poverty in Jesus name.
 
-This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/10.0/crm_switzerland>`_ project on GitHub.
+This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/11.0/crm_switzerland>`_ project on GitHub.

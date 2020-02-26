@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion CH - Monitor and correct errors',
-    'version': '10.0.1.0.0',
+    'version': '11.0.0.0.0',
     'category': 'Other',
     'author': 'Marco Monzione',
     'website': 'http://www.compassion.ch',
@@ -39,6 +38,6 @@
         'data/monitor_correct_errors_cron.xml',
         'security/ir.model.access.csv'
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

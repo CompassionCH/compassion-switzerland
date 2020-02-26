@@ -6,7 +6,7 @@
             report_type="qweb-pdf"
             name="report_compassion.a4_bvr"
     />
-    <record id="report_a4_bvr" model="ir.actions.report.xml">
+    <record id="report_a4_bvr" model="ir.actions.report">
         <field name="paperformat_id" ref="l10n_ch_payment_slip.paperformat_paymentslip"/>
     </record>
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -30,7 +29,7 @@ class B2sControllerSwitzerland(RestController):
         :param image_id: uuid of the correspondence holding the data.
         :return: file data for user
         """
-        res = super(B2sControllerSwitzerland, self).handler_b2s_image(id)
+        res = super().handler_b2s_image(id)
         correspondence_obj = request.env['correspondence'].sudo()
         correspondence = correspondence_obj.search([('uuid', '=', id)])
         if correspondence.communication_id:
