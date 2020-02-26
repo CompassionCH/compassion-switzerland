@@ -35,13 +35,14 @@
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'data': [
-        'data/payment_acquirer.xml',
+        'views/payment_ogone_templates.xml',
+        'data/payment_acquirer.xml'
     ],
     'depends': [
-        'website',                      # website
-        'payment_ogone',                # source/addons
-        'wordpress_configuration',      # compassion-modules
-        'queue_job'                     # oca_addons/queue
+        'website',  # website
+        'payment_ogone',  # source/addons
+        'wordpress_configuration',  # compassion-modules
+        'queue_job'  # oca_addons/queue
     ],
     'demo': [],
     'installable': True,
