@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -113,7 +112,7 @@ class ChangeTextWizard(models.TransientModel):
                         partner.full_name, self.ambassador_name or '')
             return True
         else:
-            return super(ChangeTextWizard, self).update()
+            return super().update()
 
     @api.multi
     def get_preview(self):
@@ -139,7 +138,7 @@ class ChangeTextWizard(models.TransientModel):
             })
             return self._reload()
         else:
-            return super(ChangeTextWizard, self).get_preview()
+            return super().get_preview()
 
     @api.multi
     def edit(self):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,12 +29,15 @@
 # pylint: disable=C8101
 {
     'name': 'Sync Compassion Children with Wordpress website',
-    'version': '10.0.1.0.0',
+    'version': '11.0.0.0.0',
     'category': 'Other',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_compassion', 'child_switzerland'],
+    'depends': ['sponsorship_compassion',
+                'child_switzerland',
+                'wordpress_configuration'
+                ],
     'external_dependencies': {
         'python': ['pysftp', 'wand'],
     },
@@ -46,6 +48,6 @@
         'data/wordpress_cron.xml',
     ],
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

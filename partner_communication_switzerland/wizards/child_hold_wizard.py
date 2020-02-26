@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -17,7 +16,7 @@ class ChildHoldWizard(models.TransientModel):
     _inherit = 'child.hold.wizard'
 
     def _get_action(self, holds):
-        action = super(ChildHoldWizard, self)._get_action(holds)
+        action = super()._get_action(holds)
         if self.return_action == 'sub':
             sub_contract = self.env['recurring.contract'].browse(
                 self.env.context.get('contract_id'))

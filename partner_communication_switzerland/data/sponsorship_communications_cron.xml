@@ -5,9 +5,9 @@
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
-            <field name="function">send_daily_communication</field>
-            <field name="model">recurring.contract</field>
-            <field name="args" eval="()"/>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="state">code</field>
+            <field name="code">model.send_daily_communication()</field>
             <field name="active" eval="False"/>
         </record>
         <record id="sponsorship_monthly_communication_cron" model="ir.cron">
@@ -15,9 +15,9 @@
             <field name="interval_number">1</field>
             <field name="interval_type">months</field>
             <field name="numbercall">-1</field>
-            <field name="function">send_monthly_communication</field>
-            <field name="model">recurring.contract</field>
-            <field name="args" eval="()"/>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="state">code</field>
+            <field name="code">model.send_monthly_communication()</field>
             <field name="active" eval="False"/>
         </record>
         <record id="sponsorship_reminders_cron" model="ir.cron">
@@ -25,9 +25,9 @@
             <field name="interval_number">1</field>
             <field name="interval_type">months</field>
             <field name="numbercall">-1</field>
-            <field name="function">send_sponsorship_reminders</field>
-            <field name="model">recurring.contract</field>
-            <field name="args" eval="()"/>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="state">code</field>
+            <field name="code">model.send_sponsorship_reminders()</field>
             <field name="active" eval="False"/>
         </record>
         <record id="yearly_tax_receipt_cron" model="ir.cron">
@@ -35,9 +35,9 @@
             <field name="interval_number">12</field>
             <field name="interval_type">months</field>
             <field name="numbercall">-1</field>
-            <field name="function">generate_tax_receipts</field>
-            <field name="model">res.partner</field>
-            <field name="args" eval="()"/>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model.generate_tax_receipts()</field>
             <field name="active" eval="False"/>
         </record>
     </data>

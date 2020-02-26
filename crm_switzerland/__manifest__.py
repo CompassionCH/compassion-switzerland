@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -29,25 +28,26 @@
 
 # pylint: disable=C8101
 {
-    'name': 'CRM additions for Compassion CH',
-    'version': '10.0.1.3.0',
-    'category': 'CRM',
-    'sequence': 150,
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'depends': [
-        'crm_phone',
-        'crm_request',
-        'partner_compassion',
+    "name": "CRM additions for Compassion CH",
+    "version": "11.0.1.0.0",
+    "category": "CRM",
+    "sequence": 150,
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "depends": [
+        "crm_phone",  # oca_addons/connector_telephony
+        "crm_request",  # compassion_modules/crm_request
+        "crm_compassion",  # compassion_modules/crm_compassion
+        "partner_compassion",  # compassion_switzerland/partner_compassion
     ],
-    'data': [
-        'views/crm_phonecall.xml',
-        'views/calendar_event.xml',
-        'views/res_users_view.xml',
-        'views/interaction_resume_view.xml'
+    "data": [
+        "views/crm_phonecall.xml",
+        "views/calendar_event.xml",
+        "views/res_users_view.xml",
+        "views/interaction_resume_view.xml",
     ],
-    'demo': [],
-    'installable': False,
-    'auto_install': False,
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

@@ -3,7 +3,7 @@
     <record id="view_partner_form_remove_opt_out" model="ir.ui.view">
         <field name="name">res.partner.form.compassion.firstname</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="mail.view_emails_partner_info_form"/>
+        <field name="inherit_id" ref="mail.res_partner_view_form_inherit_mail"/>
         <field name="arch" type="xml">
             <field name="opt_out" position="replace"/>
         </field>
@@ -151,8 +151,8 @@
                 <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}" groups="child_compassion.group_sponsorship"/>
             </label>
 
-            <!-- Remove fax -->
-            <field name="fax" position="replace"/>
+<!--            &lt;!&ndash; Remove fax &ndash;&gt;-->
+<!--            <field name="fax" position="replace"/>-->
 
             <!-- Hide elements for non-users -->
             <field name="message_follower_ids" position="attributes">
@@ -167,6 +167,17 @@
             <button name="toggle_active" position="attributes">
                 <attribute name="groups">base.group_user</attribute>
             </button>
+
+            <div class="oe_button_box" position="inside">
+                <button name="%(partner_compassion.act_partner_survey_input)d"
+                        type="action"
+                        class="oe_stat_button oe_inline"
+                        icon="fa-list-alt">
+                    <field name="survey_input_count"
+                           widget="statinfo"
+                           string="Surveys"/>
+                </button>
+            </div>
         </field>
     </record>
 
@@ -202,7 +213,29 @@
                 <attribute name="string">Linked Partners</attribute>
             </xpath>
             <xpath expr="//field[@name='other_contact_ids']" position="attributes">
-                <attribute name="context">{'default_contact_id': active_id, 'default_name': name, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_lang':lang, 'default_spoken_lang_ids':spoken_lang_ids, 'default_opt_out':False, 'default_birthday_reminder':False, 'default_global_communication_delivery_preference':'none', 'default_photo_delivery_preference':'none', 'default_letter_delivery_preference':'none', 'default_tax_certificate':'no', 'default_thankyou_letter':'no', 'default_nbmag':0, 'default_calendar':0, 'default_christmas_card':0, 'default_email': email, 'default_active': False}}</attribute>
+                <attribute name="context">
+                    {'default_contact_id': active_id,
+                    'default_name': name,
+                    'default_street': street,
+                    'default_street2': street2,
+                    'default_city': city,
+                    'default_state_id': state_id,
+                    'default_zip': zip,
+                    'default_country_id': country_id,
+                    'default_supplier': supplier,
+                    'default_lang':lang,
+                    'default_spoken_lang_ids':spoken_lang_ids,
+                    'default_opt_out':False,
+                    'default_birthday_reminder':False,
+                    'default_global_communication_delivery_preference':'none',
+                    'default_photo_delivery_preference':'none',
+                    'default_letter_delivery_preference':'none',
+                    'default_tax_certificate':'no',
+                    'default_thankyou_letter':'no',
+                    'default_nbmag':0,
+                    'default_calendar':0,
+                    'default_christmas_card':0,
+                    'default_email': email}</attribute>
             </xpath>
 
             <xpath expr="//field[@name='other_contact_ids']/form/sheet" position="replace">  <!-- pylint: disable=dangerous-view-replace-wo-priority -->
@@ -304,7 +337,7 @@
     <record model="ir.ui.view" id="res_partner_bvr_search">
         <field name="name">res.partner.bvr.search</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="mail.res_partner_opt_out_search"/>
+        <field name="inherit_id" ref="mail.res_partner_view_search_inherit_mail"/>
         <field name="arch" type="xml">
             <filter name="not_opt_out" position="after">
                 <separator/>
@@ -396,17 +429,6 @@
         </field>
     </record>
 
-    <record id="view_partner_form_invoice_button_ch" model="ir.ui.view">
-        <field name="name">res.partner.form.invoice.switzerland</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="account.partner_view_buttons"/>
-        <field name="arch" type="xml">
-            <xpath expr="//button[@id='invoice_button']" position="attributes">
-                <attribute name="name">%(partner_compassion.action_invoice_compassion_partner)d</attribute>
-            </xpath>
-        </field>
-    </record>
-
     <!-- Add partner title fields -->
     <record id="view_partner_title_ch_form" model="ir.ui.view">
         <field name="name">res.partner.title.ch.form</field>
@@ -434,16 +456,6 @@
             </field>
         </field>
     </record>
-
-    <record id="agree_to_child_protection_charter_item" model="ir.values">
-        <field eval="'client_action_multi'" name="key2"/>
-        <field name="model">res.partner</field>
-        <field name="name">Has agreed to the child protection charter item</field>
-        <field eval="'ir.actions.server,%d'%agree_to_child_protection_charter_action" name="value"/>
-    </record>
-
-    <!-- Delete Contacts Top Menu -->
-    <delete model="ir.ui.menu" id="mail.menu_contacts"/>
 
     <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form"
               parent="child_compassion.menu_sponsorship_section" sequence="0"/>

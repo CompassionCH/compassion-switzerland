@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -70,7 +69,7 @@ class SmsNotification(models.Model):
         lang_or_en = next((lang.code for lang in langs), 'en_US')
         vals['language'] = lang_or_en
 
-        sms = super(SmsNotification, self).create(vals)
+        sms = super().create(vals)
         sms = sms.with_context(lang=lang_or_en)
         return sms
 
@@ -87,10 +86,11 @@ class SmsNotification(models.Model):
         sms_text = self.text or ''
         if not self.hook_id:
             hooks = self.env['sms.hook'].search([])
+            n1 = "\n"
             sms_answer = _(
                 "Sorry, we could not understand your request. "
-                "Supported services are :\n - %s "
-            ) % "\n- ".join(hooks.mapped('name'))
+                f"Supported services are :\n - {n1 + '- '.join(hooks.mapped('name'))}"
+            )
             self.write({
                 'state': 'failed',
                 'failure_details': 'Service is not implemented. '
@@ -108,7 +108,7 @@ class SmsNotification(models.Model):
             except Exception:
                 # Abort pending operations
                 self.env.cr.rollback()
-                self.env.invalidate_all()
+                self.env.clear()
                 logger.warning("Error processing SMS service", exc_info=True)
                 sms_answer = _(
                     "Sorry, the service is not available at this time. "
@@ -121,15 +121,13 @@ class SmsNotification(models.Model):
                         'answer': sms_answer
                     })
         if 'test' not in sms_text:
-            self.env['sms.sender.wizard'].create({
-                'text': sms_answer,
-                'sms_provider_id': self.env.ref('sms_939.small_account_id').id
-            }).send_sms(mobile=sms_receipient)
+            self.env['sms.api'].with_context(
+                sms_provider=self.env.ref('sms_939.small_account_id')
+            )._send_sms([sms_receipient], sms_answer)
         else:
             # Test mode will only print url in job return value
             logger.info(
-                "Test service - answer to %s: %s" % (sms_receipient,
-                                                     sms_answer))
+                f"Test service - answer to {sms_receipient}: {sms_answer}")
             return True
 
     def sponsor_service_fr(self):
@@ -151,7 +149,7 @@ class SmsNotification(models.Model):
         return _(
             "Thank you for your will to help a child ! \n"
             "You can release a child from poverty today by clicking on "
-            "this link: %s") % child_request.full_url
+            f"this link: {child_request.full_url}")
 
     def test_service(self):
         self.ensure_one()

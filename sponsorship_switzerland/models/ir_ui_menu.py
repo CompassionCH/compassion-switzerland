@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -18,7 +17,7 @@ class IrUiMenu(models.Model):
 
     @api.multi
     def get_needaction_data(self):
-        res = super(IrUiMenu, self).get_needaction_data()
+        res = super().get_needaction_data()
 
         waiting_menu = \
             self.env.ref('sponsorship_switzerland.menu_waiting_mandate')

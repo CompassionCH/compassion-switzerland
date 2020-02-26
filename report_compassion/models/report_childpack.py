@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2015 Compassion CH (http://www.compassion.ch)
@@ -25,19 +24,18 @@ class ReportChildpackFull(models.AbstractModel):
     Model used to generate childpack in selected language
     """
     _name = 'report.report_compassion.childpack_full'
+    _description = "Used to generate childpack in selected language"
 
     def _get_report(self):
-        return self.env['report']._get_report_from_name(
+        return self.env['ir.actions.report']._get_report_from_name(
             'report_compassion.childpack_full')
 
-    @api.multi
-    def render_html(self, docids, data=None):
-        """
-        :param data: data collected from the print wizard.
-        :return: html rendered report
-        """
+    @api.model
+    def get_report_values(self, docids, data=None):
         if not data:
             data = {}
+        if not docids and data['doc_ids']:
+            docids = data['doc_ids']
         lang = data.get('lang', self.env.lang)
         report = self._get_report()
         docs = self.env[report.model].with_context(lang=lang).browse(docids)
@@ -54,8 +52,7 @@ class ReportChildpackFull(models.AbstractModel):
         ):
             project.with_context(async_mode=False).update_informations()
 
-        return self.env['report'].with_context(lang=lang).render(
-            report.report_name, data)
+        return data
 
 
 # pylint: disable=R7980
@@ -64,7 +61,7 @@ class ReportChildpackSmall(models.AbstractModel):
     _name = 'report.report_compassion.childpack_small'
 
     def _get_report(self):
-        return self.env['report']._get_report_from_name(
+        return self.env['ir.actions.report']._get_report_from_name(
             'report_compassion.childpack_small')
 
 
@@ -73,5 +70,5 @@ class ReportChildpackMini(models.AbstractModel):
     _name = 'report.report_compassion.childpack_mini'
 
     def _get_report(self):
-        return self.env['report']._get_report_from_name(
+        return self.env['ir.actions.report']._get_report_from_name(
             'report_compassion.childpack_mini')

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -20,7 +19,7 @@ time_path = ('odoo.addons.sponsorship_switzerland.models.contracts'
 class TestContractsSwitzerland(BaseSponsorshipTest):
 
     def setUp(self):
-        super(TestContractsSwitzerland, self).setUp()
+        super().setUp()
 
     @mock.patch(time_path)
     def test_on_change_group_id__recomputes_next_invoice_date(self, time_mock):

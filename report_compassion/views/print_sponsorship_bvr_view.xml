@@ -26,7 +26,7 @@
                     <field name="pdf_download" filename="pdf_name"/>
                 </group>
                 <footer>
-                    <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                    <button name="get_report" string="Print" type="object" class="oe_highlight"/>
                 </footer>
             </form>
         </field>
@@ -39,13 +39,8 @@
          <field name="view_type">form</field>
          <field name="view_mode">form</field>
          <field name="target">new</field>
-   </record>
-
-   <record model="ir.values" id="ir_values_print_sponsorship_bvr">
-       <field name="key2" eval="'client_print_multi'"/>
-       <field name="model" eval="'recurring.contract'"/>
-       <field name="name">Sponsorship Payment Slips</field>
-       <field name="value" eval="'ir.actions.act_window,%d'%action_print_sponsorship_bvr"/>
+         <field name="binding_model_id" ref="model_recurring_contract"/>
+         <field name="binding_type">report</field>
    </record>
 
     <!-- Print BVR Sponsorship Due Wizard -->
@@ -65,7 +60,7 @@
                     <field name="pdf_download" filename="pdf_name"/>
                 </group>
                 <footer>
-                    <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                    <button name="get_report" string="Print" type="object" class="oe_highlight"/>
                 </footer>
             </form>
         </field>
@@ -78,13 +73,8 @@
          <field name="view_type">form</field>
          <field name="view_mode">form</field>
          <field name="target">new</field>
-   </record>
-
-   <record model="ir.values" id="ir_values_print_sponsorship_bvr_due">
-       <field name="key2" eval="'client_print_multi'"/>
-       <field name="model" eval="'recurring.contract'"/>
-       <field name="name">Sponsorship Due</field>
-       <field name="value" eval="'ir.actions.act_window,%d'%action_print_sponsorship_bvr_due"/>
+         <field name="binding_model_id" ref="model_recurring_contract"/>
+         <field name="binding_type">report</field>
    </record>
 
     <!-- Add print menu for sponsorship labels ! -->
@@ -96,11 +86,7 @@
          <field name="view_mode">form</field>
          <field name="target">new</field>
          <field name="context">{'label_print': 1}</field>
+         <field name="binding_model_id" ref="model_recurring_contract"/>
+         <field name="binding_type">report</field>
     </record>
-    <record model="ir.values" id="ir_values_print_sponsorship_label">
-       <field name="key2" eval="'client_print_multi'"/>
-       <field name="model" eval="'recurring.contract'"/>
-       <field name="name">Labels</field>
-       <field name="value" eval="'ir.actions.act_window,%d'%print_sponsorship_label_action"/>
-   </record>
 </odoo>

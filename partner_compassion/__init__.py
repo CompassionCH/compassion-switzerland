@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -12,3 +11,4 @@ from . import controllers
 from . import models
 from . import wizards
 from . import forms
+from .hooks import post_init_hook

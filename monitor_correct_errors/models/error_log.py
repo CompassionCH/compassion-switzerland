@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -13,8 +12,20 @@ from odoo import api, models, fields
 
 class ErrorsLog(models.Model):
     _name = 'error.log'
+    _description = "Logging of errors"
 
-    error_type = fields.Selection('list_error_type')
+    error_type = fields.Selection([
+        ('B2S letters not sent', 'B2S letters not sent'),
+        ('Letters in translation queue for too long',
+         'Letters in translation queue for too long'),
+        ('Sponsored child not in correct state',
+         'Sponsored child not in correct state'),
+        ('Invalid no money holds', 'Invalid no money holds'),
+        ('Letters scanned in for too long',
+         'Letters scanned in for too long'),
+        ('Sponsored child has no sponsor',
+         'Sponsored child has no sponsor')
+    ])
     monitor_id = fields.Many2one('monitor.correct.errors')
 
     record = fields.Char()
@@ -28,21 +39,6 @@ class ErrorsLog(models.Model):
     action_model = fields.Char()
 
     @api.model
-    def list_error_type(self):
-        return [
-            ('B2S letters not sent', 'B2S letters not sent'),
-            ('Letters in translation queue for too long',
-             'Letters in translation queue for too long'),
-            ('Sponsored child not in correct state',
-             'Sponsored child not in correct state'),
-            ('Invalid no money holds', 'Invalid no money holds'),
-            ('Letters scanned in for too long',
-             'Letters scanned in for too long'),
-            ('Sponsored child has no sponsor',
-             'Sponsored child has no sponsor')
-        ]
-
-    @api.model
     def get_error_type(self):
         return [v[0] for v in self.list_error_type()]
 
@@ -51,9 +47,8 @@ class ErrorsLog(models.Model):
         self.ensure_one()
         base_url = self.env['ir.config_parameter'].get_param('web.base.url')
 
-        url = '<a href="{}/web#id={}&view_type=form&model={}">{}</a>'.format(
-            base_url, self.record_id, self.record_model, self.record_name)
-
+        url = f'<a href="{base_url}/web#id={self.record_id}' \
+              f'&view_type=form&model={self.record_model}">{self.record_name}</a>'
         return url
 
     @api.multi
@@ -61,7 +56,7 @@ class ErrorsLog(models.Model):
         self.ensure_one()
         base_url = self.env['ir.config_parameter'].get_param('web.base.url')
 
-        url = '<a href="{}/web#id={}&view_type=form&model={}">{}</a>'.format(
-            base_url, self.action_id, self.action_model, self.action_name)
+        url = f'<a href="{base_url}/web#id={self.action_id}' \
+              f'&view_type=form&model={self.action_model}">{self.action_name}</a>'
 
         return url

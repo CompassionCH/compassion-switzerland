@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016-2018 Compassion CH (http://www.compassion.ch)
@@ -142,8 +141,7 @@ class ResPartner(models.Model):
         total = len(partners)
         count = 1
         for partner in partners:
-            _logger.info("Generating tax receipts: {}/{}".format(
-                count, total))
+            _logger.info(f"Generating tax receipts: {count}/{total}")
             comm_vals = {
                 'config_id': config.id,
                 'partner_id': partner.id,
@@ -152,6 +150,8 @@ class ResPartner(models.Model):
                 'show_signature': True,
                 'print_subject': False
             }
+
+            self.env['partner.communication.job'].create(comm_vals)
             donation_amount = partner.get_receipt(today.year-1)
             email_limit = int(self.env['ir.config_parameter'].get_param(
                 'partner_communication_switzerland.tax_receipt_email_limit',

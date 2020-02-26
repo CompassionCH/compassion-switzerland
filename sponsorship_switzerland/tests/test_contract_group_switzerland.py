@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -17,7 +16,7 @@ from odoo.exceptions import UserError
 class TestContractGroupSwitzerland(BaseSponsorshipTest):
 
     def setUp(self):
-        super(TestContractGroupSwitzerland, self).setUp()
+        super().setUp()
         self.michel.ref = 'reference'
         self.david.ref = 'refdavid'
 
@@ -39,7 +38,7 @@ class TestContractGroupSwitzerland(BaseSponsorshipTest):
 
     def test_that_changing_payment_mode__regenerate_the_bvr_reference(self):
         group = self.create_group({'partner_id': self.michel.id})
-        group.payment_mode_id = self.env['account.payment.mode'].browse([18])
+        group.payment_mode_id = self.env['account.payment.mode'].browse(16)
 
         self.assertFalse(group.bvr_reference)
         group.on_change_payment_mode()

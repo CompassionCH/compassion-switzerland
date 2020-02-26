@@ -6,7 +6,7 @@
             name="report_compassion.childpack_full"
             menu="False"
     />
-    <record id="report_childpack_full" model="ir.actions.report.xml">
+    <record id="report_childpack_full" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_childpack"/>
     </record>
 
@@ -17,7 +17,7 @@
             name="report_compassion.childpack_small"
             menu="False"
     />
-    <record id="report_childpack_small" model="ir.actions.report.xml">
+    <record id="report_childpack_small" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_a4_childpack"/>
     </record>
 
@@ -28,7 +28,7 @@
             name="report_compassion.childpack_mini"
             menu="False"
     />
-    <record id="report_childpack_mini" model="ir.actions.report.xml">
+    <record id="report_childpack_mini" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_mini_childpack"/>
     </record>
 
@@ -204,10 +204,12 @@
                 margin: auto;
             }
         </t>
-        <t t-call="report.html_container">
-            <t t-foreach="docs" t-as="o">
-                <t t-call="report_compassion.childpack_document" t-lang="lang"/>
-            </t>
+        <t t-call="web.html_container">
+            <div class="article">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report_compassion.childpack_document" t-lang="lang"/>
+                </t>
+            </div>
         </t>
     </template>
 
@@ -294,31 +296,33 @@
                 font-size: 8pt;
             }
         </t>
-        <t t-call="report.html_container">
-            <t t-foreach="docs" t-as="o">
-                <div class="page">
-                    <t t-call="report_compassion.style"/>
-                    <div class="local_id">
-                        <span t-field="o.local_id"/>
+        <t t-call="web.html_container">
+            <div class="article">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <t t-call="report_compassion.style"/>
+                        <div class="local_id">
+                            <span t-field="o.local_id"/>
+                        </div>
+                        <div class="photo">
+                            <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
+                        </div>
+                        <div class="summary">
+                            <span t-field="o.preferred_name" class="name"/>, <span t-field="o.age" class="age"/> years, <!-- keep space -->
+                            <t t-if="o.gender == 'M'">
+                                boy
+                            </t>
+                            <t t-if="o.gender == 'F'">
+                                girl
+                            </t>
+                            <br/>
+                            <span t-field="o.project_id.country_id.name"/>
+                            <br/>
+                            <span t-field="o.local_id" class="ref"/>
+                        </div>
                     </div>
-                    <div class="photo">
-                        <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
-                    </div>
-                    <div class="summary">
-                        <span t-field="o.preferred_name" class="name"/>, <span t-field="o.age" class="age"/> years, <!-- keep space -->
-                        <t t-if="o.gender == 'M'">
-                            boy
-                        </t>
-                        <t t-if="o.gender == 'F'">
-                            girl
-                        </t>
-                        <br/>
-                        <span t-field="o.project_id.country_id.name"/>
-                        <br/>
-                        <span t-field="o.local_id" class="ref"/>
-                    </div>
-                </div>
-            </t>
+                </t>
+            </div>
         </t>
     </template>
 </odoo>
