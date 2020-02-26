@@ -60,7 +60,7 @@ class ImportLettersHistory(models.Model):
         for letter in self:
             if letter.manual_import or (
                     letter.state and letter.state != 'draft'):
-                super()._compute_nber_letters()
+                super(ImportLettersHistory, letter)._compute_nber_letters()
             else:
                 # files are not selected by user so we find them on NAS
                 # folder 'Imports' counter

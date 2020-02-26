@@ -130,7 +130,7 @@ class Correspondence(models.Model):
                 if intro_letter in letter.communication_type_ids and not \
                         letter.sponsorship_id.send_introduction_letter:
                     continue
-                if super().process_letter():
+                if super(Correspondence, letter).process_letter():
                     letters_to_send += letter
 
             else:

@@ -49,7 +49,7 @@ class AdvocateDetails(geo_model.GeoModel):
         goodbye_config = self.env.ref('sbc_switzerland.translator_goodbye')
         for advocate in self:
             was_translator = translation in advocate.engagement_ids
-            super().write(vals)
+            super(AdvocateDetails, advocate).write(vals)
             is_translator = translation in advocate.engagement_ids
             if not was_translator and is_translator:
                 advocate._insert_new_translator()
