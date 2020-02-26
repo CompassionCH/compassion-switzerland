@@ -14,32 +14,28 @@ from odoo import models, fields, api
 class AccountConfigSettings(models.TransientModel):
     """
     Add the possibility to configure a default analytic account in
-    acconting->setings to be use for file upload when there is
+    Compassion settings to be use for file upload when there is
     currency exchange.
     """
 
-    _inherit = "account.config.settings"
+    _inherit = "res.config.settings"
 
-    currency_exchange_analytic_account = fields.Many2one(
-        "account.analytic.account",
-        default=lambda s: s.get_currency_exchange_analytic_account(),
-    )
+    currency_exchange_analytic_account = fields.Many2one("account.analytic.account")
 
     @api.multi
-    def set_currency_exchange_analytic_account(self):
-        ir_config = self.env["ir.config_parameter"]
-        ir_config.set_param(
+    def set_values(self):
+        super().set_values()
+        self.env["ir.config_parameter"].set_param(
             "account_reconcile_compassion.currency_exchange_analytic_account",
-            self.currency_exchange_analytic_account.id,
+            str(self.currency_exchange_analytic_account.id),
         )
-        return True
 
-    def get_currency_exchange_analytic_account(self):
-
-        analytic_account_id = self.env["ir.config_parameter"].get_param(
-            "account_reconcile_compassion.currency_exchange_analytic_account"
+    @api.model
+    def get_values(self):
+        res = super().get_values()
+        param_obj = self.env["ir.config_parameter"]
+        res["currency_exchange_analytic_account"] = int(
+            param_obj.get_param(
+                "account_reconcile_compassion.currency_exchange_analytic_account")
         )
-        analytic_account = self.env["account.analytic.account"].search(
-            [("id", "=", analytic_account_id)]
-        )
-        return analytic_account
+        return res
