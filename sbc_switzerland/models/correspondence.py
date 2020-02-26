@@ -189,8 +189,8 @@ class Correspondence(models.Model):
                 'createdat': letter.scanned_date
             })
             text_id = tc.select_one(
-                "SELECT text_id FROM translation "
-                f"WHERE id = {translation_id}").get('text_id')
+                "SELECT text_id FROM translation WHERE id = %s", [
+                    translation_id]).get('text_id')
             if text_id:
                 tc.upsert("text", {
                     'id': text_id,
@@ -213,7 +213,8 @@ class Correspondence(models.Model):
                 "SELECT t.id as id, s.id as status "
                 "FROM translation t join translation_status s on "
                 "s.translation_id = t.id "
-                f"WHERE t.letter_odoo_id = {letter.id} AND s.status_id = 1")
+                "WHERE t.letter_odoo_id = %s AND s.status_id = 1", [letter.id]
+            )
             letter_id = translation.get('id')
             status = translation.get('status')
             if letter_id and status:
@@ -231,8 +232,8 @@ class Correspondence(models.Model):
         logger.info(f"Found {len(letters)} letters to translate.")
         for letter in letters:
             letter_id = tc.select_one(
-                "SELECT id FROM translation WHERE"
-                f" letter_odoo_id = {letter.id}").get('id')
+                "SELECT id FROM translation WHERE letter_odoo_id = %s",
+                [letter.id]).get('id')
             if not letter_id:
                 letter.send_local_translate()
                 logger.info("Send missing: " + letter.kit_identifier)
@@ -421,7 +422,6 @@ class Correspondence(models.Model):
     @api.model
     def check_local_translation_done(self):
         reload(sys)
-        sys.setdefaultencoding('UTF8')
         tc = translate_connector.TranslateConnect()
         letters_to_update = tc.get_translated_letters()
 

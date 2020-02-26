@@ -106,7 +106,7 @@ class TranslateConnect(MysqlConnector):
          to the iso_code given (returns -1 if not found). """
         res = self.select_one(
             "SELECT id FROM language WHERE GP_Libel LIKE "
-            f"'{lang_compassion_id.code_iso}'")
+            "%s", lang_compassion_id.code_iso)
         return res['id'] if res else -1
 
     def get_translated_letters(self):
@@ -160,11 +160,11 @@ class TranslateConnect(MysqlConnector):
 
     def remove_from_text(self, text_id):
         """ Delete a text record for the text_id given """
-        self.query(f"DELETE FROM text WHERE id={text_id}")
+        self.query("DELETE FROM text WHERE id=%s", text_id)
 
     def remove_translation_with_odoo_id(self, text_id):
-        self.query(f"DELETE text FROM text INNER JOIN translation ON text.id\
-             = translation.text_id WHERE translation.letter_odoo_id = {text_id}")
+        self.query("DELETE text FROM text INNER JOIN translation ON text.id\
+             = translation.text_id WHERE translation.letter_odoo_id = %s", text_id)
 
     def get_server_uptime(self):
         return self.select_one("SHOW GLOBAL STATUS LIKE 'Uptime' ")
@@ -198,7 +198,7 @@ class TranslateConnect(MysqlConnector):
 
     def remove_user(self, partner):
         """ Delete a user """
-        return self.query(f"DELETE FROM user WHERE number={partner.ref}")
+        return self.query("DELETE FROM user WHERE number= %s", partner.ref)
 
     def disable_user(self, partner):
         vals = {
