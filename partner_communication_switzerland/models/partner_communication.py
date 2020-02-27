@@ -429,7 +429,7 @@ class PartnerCommunication(models.Model):
                                   'sponsorship_waiting_reminder_2')
         no_money_3 = self.env.ref('partner_communication_switzerland.'
                                   'sponsorship_waiting_reminder_3')
-        settings = self.env['availability.management.settings']
+        settings = self.env['res.config.settings']
         first_extension = settings.get_param('no_money_hold_duration')
         second_extension = settings.get_param('no_money_hold_extension')
         for communication in other_jobs:
