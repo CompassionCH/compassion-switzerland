@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Muskathlon',
-    'version': '10.0.4.2.0',
+    'version': '11.0.1.0.0',
     'category': 'Reports',
     'author': 'Compassion CH',
     'license': 'AGPL-3',
@@ -66,11 +65,14 @@
         'templates/assets.xml'
     ],
     'depends': [
-        'website_event_compassion', 'survey_phone', 'partner_compassion'],
+        'website_event_compassion',  # compassion-switzerland
+        'survey_phone',  # compassion-modules
+        'partner_compassion'  # compassion-switzerland
+    ],
     'external_dependencies': {
         'python': ['magic'],
     },
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

@@ -14,6 +14,7 @@
             <notebook>
                 <page string="Muskathlon website/portal">
                     <group>
+                        <field name="accepts_registrations" invisible="1" />
                         <group string="Registration" attrs="{'invisible': [('accepts_registrations', '!=', True)]}">
                             <field name="sport_discipline_ids"/>
                             <field name="muskathlon_event_id"/>

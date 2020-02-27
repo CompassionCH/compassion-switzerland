@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -7,11 +6,11 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import fields, api
+from odoo.addons.base_geoengine import geo_model
 
-from odoo import models, fields, api
 
-
-class MuskathlonDetails(models.Model):
+class MuskathlonDetails(geo_model.GeoModel):
     _inherit = "advocate.details"
 
     trip_information_complete = fields.Boolean(

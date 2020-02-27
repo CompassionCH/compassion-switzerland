@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -144,13 +143,12 @@ if not testing:
         def gtc(self):
             html_file = file_open(
                 'muskathlon/static/src/html/muskathlon_gtc_{}.html'
-                .format(self.env.lang)
-            )
+                .format(self.env.lang))
             text = html_file.read()
             html_file.close()
             statement = self.env['compassion.privacy.statement'].sudo().search(
                 [], limit=1)
-            return text.decode('utf8') + u'<br/>' + statement.text
+            return text + '<br/>' + (statement.text or '')
 
         def form_init(self, request, main_object=None, **kw):
             form = super(MuskathlonRegistrationForm, self).form_init(
@@ -220,19 +218,17 @@ if not testing:
             # Convert the name for event registration
             values['name'] = values.pop('partner_lastname', '')
             values['name'] += ' ' + values.pop('partner_firstname')
-            # Force default value instead of setting 0.
-            values.pop('amount_objective')
             # Parse integer
             values['event_id'] = int(values['event_id'])
             values['user_id'] = event.user_id.id
-            values['stage_id'] = self.env.ref(
-                'muskathlon.stage_fill_profile').id
+            values['stage_id'] = self.env.ref('muskathlon.stage_fill_profile').id
             self.event_id = event
 
         def _form_create(self, values):
             uid = self.env.ref('muskathlon.user_muskathlon_portal').id
             # If notification is sent in same job, the form is reloaded
             # and all values are lost.
+            values.pop('failed_message_ids')
             main_object = self.form_model.sudo(uid).with_context(
                 tracking_disable=True,
                 registration_force_draft=True).create(values.copy())

@@ -53,7 +53,7 @@
         </record>
         <record id="gmc_message_personal" model="ir.rule">
             <field name="name">Portal partner: create gmc message for me</field>
-            <field name="model_id" ref="message_center_compassion.model_gmc_message_pool"/>
+            <field name="model_id" ref="message_center_compassion.model_gmc_message"/>
             <field name="domain_force">[('partner_id.user_ids', 'in', user.id)]</field>
             <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
             <field name="perm_read" eval="True"/>

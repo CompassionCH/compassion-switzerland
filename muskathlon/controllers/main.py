@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -8,14 +7,17 @@
 #
 ##############################################################################
 import json
-import urllib
+import urllib.error
+import urllib.parse
+import urllib.request
 from base64 import b64encode
 
-from odoo.http import request, route
-from odoo.addons.website_event_compassion.controllers.events_controller \
-    import EventsController
 from odoo.addons.cms_form_compassion.tools import validity_checker
 from odoo.addons.payment.models.payment_acquirer import ValidationError
+from odoo.addons.website_event_compassion.controllers.events_controller \
+    import EventsController
+
+from odoo.http import request, route
 
 
 class MuskathlonWebsite(EventsController):
@@ -270,7 +272,7 @@ class MuskathlonWebsite(EventsController):
         child_protection_charter = {
             'has_agreed': partner.has_agreed_child_protection_charter,
             'url': '/partner/%s/child-protection-charter?redirect=%s' %
-                   (partner.uuid, urllib.quote('/my/home', safe='')),
+                   (partner.uuid, urllib.parse.quote('/my/home', safe='')),
         }
 
         if registrations and partner.advocate_details_id:

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="custom_portal_my_home" inherit_id="website_portal.portal_layout" name="Custom My Portal">
+    <template id="custom_portal_my_home" inherit_id="portal.portal_layout" name="Custom My Portal">
         <xpath expr="//div[@id='wrap']" position="replace">
             <!-- hides navbar from my portal -->
             <style>.mt16 .navbar { display: none !important; }</style>

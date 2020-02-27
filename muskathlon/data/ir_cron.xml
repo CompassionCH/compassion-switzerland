@@ -7,8 +7,9 @@
             <field name="interval_type">months</field>
             <field name="interval_number">1</field>
             <field name="numbercall">-1</field>
-            <field name="model">crm.event.compassion</field>
-            <field name="function">_cron_delete_medical_surveys</field>
+            <field name="state">code</field>
+            <field name="model_id" ref="model_crm_event_compassion"/>
+            <field name="code">model._cron_delete_medical_surveys()</field>
         </record>
         <record id="ir_cron_send_ambassador_donation_receipt"
                 model="ir.cron">
@@ -16,8 +17,9 @@
             <field name="interval_type">hours</field>
             <field name="interval_number">6</field>
             <field name="numbercall">-1</field>
-            <field name="model">account.invoice</field>
-            <field name="function">cron_send_ambassador_donation_receipt</field>
+            <field name="state">code</field>
+            <field name="model_id" ref="partner_communication_switzerland.model_account_invoice"/>
+            <field name="code">model.cron_send_ambassador_donation_receipt()</field>
         </record>
     </data>
 </odoo>

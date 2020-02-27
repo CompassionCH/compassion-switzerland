@@ -13,7 +13,7 @@ base.access_res_partner_portal,res_partner group_portal,model_res_partner,base.g
 access_res_partner_title_portal,res_partner_title group_portal,base.model_res_partner_title,base.group_portal,1,0,0,0
 access_sponsorship_portal,recurring_contract group_portal,model_recurring_contract,base.group_portal,1,0,0,0
 access_sponsor_child_portal,child_compassion group_portal,sponsorship_compassion.model_compassion_child,base.group_portal,1,0,0,0
-access_gmc_message_portal,gmc_message group_portal,message_center_compassion.model_gmc_message_pool,base.group_portal,1,1,1,0
+access_gmc_message_portal,gmc_message group_portal,message_center_compassion.model_gmc_message,base.group_portal,1,1,1,0
 access_gmc_action_portal,gmc_action group_portal,message_center_compassion.model_gmc_action,base.group_portal,1,0,0,0
 access_advanced_translations,Advanced translations everybody,advanced_translation.model_ir_advanced_translation,,1,0,0,0
 access_event_ticket,Public access to event tickets,event_sale.model_event_event_ticket,,1,0,0,0
