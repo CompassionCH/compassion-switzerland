@@ -49,35 +49,39 @@ class PartnerCommunication(models.Model):
                                  and j.product_id)
 
         if bvr_both:
+            origin = self.env.context.get('origin')
             for bvr in bvr_both:
-                # email part
-                pdf_download = self._generate_pdf_data(bvr, background=bvr.send_mode == 'digital')
-                bvr.attachment_ids.unlink()
-                self._create_and_add_attachment(bvr, pdf_download)
+                if origin == 'email' or \
+                        (origin == 'print' and
+                         bvr.report_id !=
+                         self.env.ref('report_compassion.report_a4_bvr')):
+                    # email part
+                    bvr = self._put_bvr_in_attachments(
+                        bvr, background=origin == 'email')
+                    if origin == 'print':
+                        # remove product from communication
+                        # as it is in the attachments
+                        bvr.product_id = False
 
-                # print part
-                if bvr.report_id == self.env.ref('report_compassion.report_a4_bvr'):
-                    bvr.write({'report_id': self.env.ref(
-                        'report_compassion.report_a4_bvr').id})  # TODO what must we do here ?
             return super(PartnerCommunication, bvr_both).send()
 
         if bvr_to_send:
             for bvr in bvr_to_send:
-                pdf_download = self._generate_pdf_data(bvr, background=True)
-                bvr.attachment_ids.unlink()
-                self._create_and_add_attachment(bvr, pdf_download)
+                self._put_bvr_in_attachments(bvr, background=True)
             return super(PartnerCommunication, bvr_to_send).send()
 
         if bvr_to_print:
             for bvr in bvr_to_print:
-                if bvr.report_id == self.env.ref('report_compassion.report_a4_bvr'):
-                    bvr.write({'report_id': self.env.ref(
-                        'report_compassion.report_a4_bvr').id})  # TODO what must we do here ?
-                else:
-                    pdf_download = self._generate_pdf_data(bvr, background=False)
-                    bvr.attachment_ids.unlink()
-                    self._create_and_add_attachment(bvr, pdf_download)
+                if bvr.report_id != self.env.ref('report_compassion.report_a4_bvr'):
+                    self._put_bvr_in_attachments(bvr, background=False)
+                    # remove product_id because of wrong report
+                    bvr.product_id = False
             return super(PartnerCommunication, bvr_to_print).send()
+
+    def _put_bvr_in_attachments(self, bvr, background):
+        pdf_download = self._generate_pdf_data(bvr, background)
+        bvr.attachment_ids.unlink()
+        return self._create_and_add_attachment(bvr, pdf_download)
 
     def _create_and_add_attachment(self, bvr, datas):
         attachment = self.env['ir.attachment'].create({
