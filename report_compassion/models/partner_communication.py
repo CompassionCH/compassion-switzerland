@@ -41,8 +41,26 @@ class PartnerCommunication(models.Model):
         Update the count of succes story prints when sending a receipt.
         :return: True
         """
-        bvr_to_send = self.filtered(lambda j: j.send_mode in 'digital'
+        bvr_to_send = self.filtered(lambda j: j.send_mode == 'digital'
                                     and j.product_id)
+        bvr_to_print = self.filtered(lambda j: j.send_mode == 'physical'
+                                     and j.product_id)
+        bvr_both = self.filtered(lambda j: j.send_mode == 'both'
+                                 and j.product_id)
+
+        if bvr_both:
+            for bvr in bvr_both:
+                # email part
+                pdf_download = self._generate_pdf_data(bvr, background=bvr.send_mode == 'digital')
+                bvr.attachment_ids.unlink()
+                self._create_and_add_attachment(bvr, pdf_download)
+
+                # print part
+                if bvr.report_id == self.env.ref('report_compassion.report_a4_bvr'):
+                    bvr.write({'report_id': self.env.ref(
+                        'report_compassion.report_a4_bvr').id})  # TODO what must we do here ?
+            return super(PartnerCommunication, bvr_both).send()
+
         if bvr_to_send:
             for bvr in bvr_to_send:
                 pdf_download = self._generate_pdf_data(bvr, background=True)
@@ -50,13 +68,11 @@ class PartnerCommunication(models.Model):
                 self._create_and_add_attachment(bvr, pdf_download)
             return super(PartnerCommunication, bvr_to_send).send()
 
-        bvr_to_print = self.filtered(lambda j: j.send_mode in 'physical'
-                                     and j.product_id)
         if bvr_to_print:
             for bvr in bvr_to_print:
                 if bvr.report_id == self.env.ref('report_compassion.report_a4_bvr'):
                     bvr.write({'report_id': self.env.ref(
-                        'report_compassion.report_a4_bvr').id})
+                        'report_compassion.report_a4_bvr').id})  # TODO what must we do here ?
                 else:
                     pdf_download = self._generate_pdf_data(bvr, background=False)
                     bvr.attachment_ids.unlink()
