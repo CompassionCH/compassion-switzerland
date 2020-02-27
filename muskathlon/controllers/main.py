@@ -7,14 +7,17 @@
 #
 ##############################################################################
 import json
-import urllib.request, urllib.parse, urllib.error
+import urllib.error
+import urllib.parse
+import urllib.request
 from base64 import b64encode
 
-from odoo.http import request, route
-from odoo.addons.website_event_compassion.controllers.events_controller \
-    import EventsController
 from odoo.addons.cms_form_compassion.tools import validity_checker
 from odoo.addons.payment.models.payment_acquirer import ValidationError
+from odoo.addons.website_event_compassion.controllers.events_controller \
+    import EventsController
+
+from odoo.http import request, route
 
 
 class MuskathlonWebsite(EventsController):

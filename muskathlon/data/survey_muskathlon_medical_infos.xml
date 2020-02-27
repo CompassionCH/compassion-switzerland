@@ -893,21 +893,21 @@
         </record>
 
         <!-- WOMEN: PREGNANCY -->
-        <record model="survey.question" id="muskathlon_5_40">
+        <record model="survey.question" id="muskathlon_5_47">
             <field name="page_id" ref="muskathlon_5"/>
             <field name="sequence">47</field>
             <field name="question">For women: are you pregnant?</field>
             <field name="type">simple_choice</field>
         </record>
-        <record id="muskathlon_5_40_0" model="survey.label">
+        <record id="muskathlon_5_47_0" model="survey.label">
             <field name="value">No</field>
             <field name="quizz_mark">0</field>
-            <field name="question_id" ref="muskathlon_5_40"/>
+            <field name="question_id" ref="muskathlon_5_47"/>
         </record>
-        <record id="muskathlon_5_40_1" model="survey.label">
+        <record id="muskathlon_5_47_1" model="survey.label">
             <field name="value">Yes</field>
             <field name="quizz_mark">1</field>
-            <field name="question_id" ref="muskathlon_5_40"/>
+            <field name="question_id" ref="muskathlon_5_47"/>
         </record>
     </data>
 </odoo>

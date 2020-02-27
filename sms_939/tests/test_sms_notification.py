@@ -12,7 +12,6 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import mock
-from requests import ReadTimeout
 
 from odoo.fields import Datetime
 from odoo.tests import HttpCase
@@ -46,13 +45,9 @@ class TestMobileAppConnector(HttpCase):
                 'requestUid': uuid,
             })
             url_params = urllib.parse.urlencode(params)
-            try:
-                response = self.url_open('/sms/mnc/?' + url_params, timeout=1)
-                # response_str = response.read()
-                response_str = response.text
-                return response_str
-            except ReadTimeout:
-                _logger.info("Timeout occured")
+            response = self.url_open('/sms/mnc/?' + url_params)
+            response_str = response.text
+            return response_str
 
         notification = self.env['sms.notification'].create(params)
         self.assertEqual(notification.state, 'new')

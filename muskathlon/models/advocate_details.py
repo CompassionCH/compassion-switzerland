@@ -6,7 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, api
+from odoo import fields, api
 from odoo.addons.base_geoengine import geo_model
 
 
