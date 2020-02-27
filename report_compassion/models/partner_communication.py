@@ -51,17 +51,13 @@ class PartnerCommunication(models.Model):
         if bvr_both:
             origin = self.env.context.get('origin')
             for bvr in bvr_both:
-                if origin == 'email' or \
-                        (origin == 'print' and
+                if origin == 'both_email' or \
+                        (origin == 'both_print' and
                          bvr.report_id !=
                          self.env.ref('report_compassion.report_a4_bvr')):
                     # email part
-                    bvr = self._put_bvr_in_attachments(
-                        bvr, background=origin == 'email')
-                    if origin == 'print':
-                        # remove product from communication
-                        # as it is in the attachments
-                        bvr.product_id = False
+                    self._put_bvr_in_attachments(
+                        bvr, background=origin == 'both_email')
 
             return super(PartnerCommunication, bvr_both).send()
 
@@ -74,8 +70,6 @@ class PartnerCommunication(models.Model):
             for bvr in bvr_to_print:
                 if bvr.report_id != self.env.ref('report_compassion.report_a4_bvr'):
                     self._put_bvr_in_attachments(bvr, background=False)
-                    # remove product_id because of wrong report
-                    bvr.product_id = False
             return super(PartnerCommunication, bvr_to_print).send()
 
     def _put_bvr_in_attachments(self, bvr, background):
