@@ -122,14 +122,11 @@ class Correspondence(models.Model):
         intro_letter = self.env.ref(
             'sbc_compassion.correspondence_type_new_sponsor')
         for letter in self:
-            # if letter.original_language_id in \
-            #         letter.supporter_languages_ids or \
-            if (letter.beneficiary_language_ids &
-                    letter.supporter_languages_ids) or \
+            if intro_letter in letter.communication_type_ids and not \
+                    letter.sponsorship_id.send_introduction_letter:
+                continue
+            if (letter.beneficiary_language_ids & letter.supporter_languages_ids) or \
                     letter.has_valid_language:
-                if intro_letter in letter.communication_type_ids and not \
-                        letter.sponsorship_id.send_introduction_letter:
-                    continue
                 if super(Correspondence, letter).process_letter():
                     letters_to_send += letter
 
