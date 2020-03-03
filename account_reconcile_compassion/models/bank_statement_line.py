@@ -76,6 +76,7 @@ class BankStatementLine(models.Model):
 
     @api.multi
     def get_move_lines_for_reconciliation(
+            # pylint: disable=redefined-builtin
             self, excluded_ids=None, str=False, offset=0, limit=None,
             additional_domain=None, overlook_partner=False):
         """ Sort move lines according to Compassion criterias :
@@ -224,7 +225,7 @@ class BankStatementLine(models.Model):
         except Exception as e:
             self.env.cr.rollback()
             self.note = str(e.name)
-            self.env.cr.commit()
+            self.env.cr.commit()  # pylint: disable=invalid-commit
             raise e
 
     def _get_invoice_data(self, ref, mv_line_dicts):

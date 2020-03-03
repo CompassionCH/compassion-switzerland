@@ -60,6 +60,7 @@ class BvrSponsorshipGift(models.AbstractModel):
         return self.env['report'].render(report.report_name, final_data)
 
 
+# pylint: disable=consider-merging-classes-inherited
 class TwoBvrGiftSponsorship(models.AbstractModel):
     _inherit = 'report.report_compassion.bvr_gift_sponsorship'
     _name = 'report.report_compassion.2bvr_gift_sponsorship'
@@ -69,6 +70,7 @@ class TwoBvrGiftSponsorship(models.AbstractModel):
             'report_compassion.2bvr_gift_sponsorship')
 
 
+# pylint: disable=consider-merging-classes-inherited
 class ThreeBvrGiftSponsorship(models.AbstractModel):
     _inherit = 'report.report_compassion.bvr_gift_sponsorship'
     _name = 'report.report_compassion.3bvr_gift_sponsorship'

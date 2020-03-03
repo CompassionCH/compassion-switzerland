@@ -82,7 +82,7 @@ class ImportLettersHistory(models.Model):
             sponsor_id = func.find_partner(self.env, sponsor_ref, email)
 
             # Detect original language of the text
-            lang = self.env['correspondence'].detect_lang(original_text)
+            lang = self.env['crm.claim'].detect_lang(original_text)
             lang_id = lang and lang.id
 
             # Retrieve the template given its name

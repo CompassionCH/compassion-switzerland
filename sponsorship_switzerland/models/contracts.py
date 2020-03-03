@@ -449,7 +449,8 @@ class RecurringContracts(models.Model):
                 r.state == 'paid' and
                 fields.Datetime.from_string(r.due_date) > today))
 
-        inv_lines.mapped('invoice_id').cancel_payment_lines()
+        if inv_lines.mapped('invoice_id'):
+            inv_lines.mapped('invoice_id').cancel_payment_lines()
 
         return super(RecurringContracts, self)._clean_invoices(
             since_date, to_date, keep_lines, clean_invoices_paid)

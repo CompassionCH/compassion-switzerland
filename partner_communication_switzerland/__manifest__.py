@@ -43,7 +43,8 @@
         'recurring_contract'
     ],
     'external_dependencies': {
-        'python': ['wand', 'detectlanguage', 'sendgrid', 'bs4', 'pdf2image']
+        'python': ['wand', 'detectlanguage', 'sendgrid', 'bs4', 'pdf2image',
+                   'python_http_client']
     },
     'data': [
         'data/major_revision_emails.xml',
