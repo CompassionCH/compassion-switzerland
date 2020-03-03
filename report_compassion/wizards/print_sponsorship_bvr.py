@@ -55,13 +55,21 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     @api.model
     def default_start(self):
-        start = datetime.today().replace(day=1, month=1)
+        today = datetime.today()
+        start = today.replace(day=1, month=1)
+        # Exception in December, we want to print for next year.
+        if today.month == 12 and today.day > 10:
+            start = start.replace(year=today.year + 1)
         return fields.Date.to_string(start.replace(day=1))
 
     @api.model
     def default_stop(self):
         today = datetime.today()
-        return fields.Date.to_string(today.replace(day=31, month=12))
+        stop = today.replace(day=31, month=12)
+        # Exception in December, we want to print for next year.
+        if today.month == 12 and today.day > 10:
+            stop = stop.replace(year=today.year + 1)
+        return fields.Date.to_string(stop)
 
     @api.onchange("period_selection")
     def onchange_period(self):

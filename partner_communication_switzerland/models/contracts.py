@@ -125,8 +125,12 @@ class RecurringContract(models.Model):
     def _compute_period_paid(self):
         for contract in self:
             advance_billing = contract.group_id.advance_billing_months
+            this_month = date.today().month
             # Don't consider next year in the period to pay
-            to_pay_period = min(date.today().month + advance_billing, 12)
+            to_pay_period = min(this_month + advance_billing, 12)
+            # Exception for december, we will consider next year
+            if this_month == 12:
+                to_pay_period += advance_billing
             contract.period_paid = contract.months_paid >= to_pay_period
 
     @api.multi
