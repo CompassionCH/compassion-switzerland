@@ -10,8 +10,6 @@
 ##############################################################################
 import logging
 
-from python_http_client import NotFoundError
-
 from odoo import models, api, _
 from odoo.exceptions import UserError
 from odoo.tools.config import config
@@ -20,8 +18,9 @@ _logger = logging.getLogger(__name__)
 
 try:
     from sendgrid import SendGridAPIClient
+    from python_http_client import NotFoundError
 except ImportError:
-    _logger.warning("Please install sendgrid.")
+    _logger.warning("Please install sendgrid and python_http_client")
 
 
 class MailTrackingEvent(models.Model):
