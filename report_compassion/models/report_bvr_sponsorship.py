@@ -83,6 +83,7 @@ class BvrSponsorship(models.AbstractModel):
         return final_data
 
 
+# pylint: disable=consider-merging-classes-inherited
 class TwoBvrSponsorship(models.AbstractModel):
     _inherit = 'report.report_compassion.bvr_sponsorship'
     _name = 'report.report_compassion.2bvr_sponsorship'
@@ -92,6 +93,7 @@ class TwoBvrSponsorship(models.AbstractModel):
             'report_compassion.2bvr_sponsorship')
 
 
+# pylint: disable=consider-merging-classes-inherited
 class ThreeBvrSponsorship(models.AbstractModel):
     _inherit = 'report.report_compassion.bvr_sponsorship'
     _name = 'report.report_compassion.3bvr_sponsorship'

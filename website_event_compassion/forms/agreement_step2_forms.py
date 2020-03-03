@@ -240,7 +240,7 @@ if not testing:
                 valid = True
                 old = False
                 try:
-                    date = datetime.strptime(value, '%d.%m.%Y').date()
+                    date = fields.Date.from_string(value)
                     limit_date = fields.Date.from_string(
                         self.main_object.compassion_event_id.end_date
                     ) + relativedelta(months=6)

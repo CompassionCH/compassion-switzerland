@@ -1,16 +1,18 @@
 <odoo>
-    <!-- Just use another report in order to print on paper tray -->
-    <report id="report_a4_bvr"
-            model="partner.communication.job"
-            string="A4 BVR"
-            report_type="qweb-pdf"
-            name="report_compassion.a4_bvr"
-    />
-    <record id="report_a4_bvr" model="ir.actions.report">
-        <field name="paperformat_id" ref="l10n_ch_payment_slip.paperformat_paymentslip"/>
-    </record>
+    <data noupdate="1">
+        <!-- Just use another report in order to print on paper tray -->
+        <report id="report_a4_bvr"
+                model="partner.communication.job"
+                string="A4 BVR"
+                report_type="qweb-pdf"
+                name="report_compassion.a4_bvr"
+        />
+        <record id="report_a4_bvr" model="ir.actions.report">
+            <field name="paperformat_id" ref="l10n_ch_payment_slip.paperformat_paymentslip"/>
+        </record>
 
-    <template id="a4_bvr">
-        <t t-call="report_compassion.partner_communication"/>
-    </template>
+        <template id="a4_bvr">
+            <t t-call="report_compassion.partner_communication"/>
+        </template>
+    </data>
 </odoo>

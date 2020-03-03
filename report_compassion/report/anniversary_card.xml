@@ -1,97 +1,98 @@
 <odoo>
-    <!-- Report for printing a letter on Compassion Paper -->
-    <report id="report_anniversary_card"
-            model="partner.communication.job"
-            string="Anniversary Card"
-            report_type="qweb-pdf"
-            name="report_compassion.anniversary_card"
-            menu="False"
-    />
-    <record id="report_anniversary_card" model="ir.actions.report">
-        <field name="paperformat_id" ref="paperformat_anniversary_card"/>
-    </record>
+    <data noupdate="1">
+        <!-- Report for printing a letter on Compassion Paper -->
+        <report id="report_anniversary_card"
+                model="partner.communication.job"
+                string="Anniversary Card"
+                report_type="qweb-pdf"
+                name="report_compassion.anniversary_card"
+                menu="False"
+        />
+        <record id="report_anniversary_card" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_anniversary_card"/>
+        </record>
 
-    <template id="anniversary_card">
-        <t t-set="custom_css">
-            .container {
-                font-family: "millerLight";
-                font-size: 10pt;
-            }
-            .right {
-                position: relative;
-                left: 135mm;
-                max-width: 70mm;
-            }
-            #pp {
-                position: absolute;
-                top: 7mm;
-                font-family: verdana;
-            }
-            #partner_address {
-                position: absolute;
-                top: 85mm;
-            }
-            #pp-box {
-                display: inline-block;
-                padding: 1mm;
-                width: 50mm;
-                line-height: initial;
+        <template id="anniversary_card">
+            <t t-set="custom_css">
+                .container {
+                    font-family: "millerLight";
+                    font-size: 10pt;
+                }
+                .right {
+                    position: relative;
+                    left: 135mm;
+                    max-width: 70mm;
+                }
+                #pp {
+                    position: absolute;
+                    top: 7mm;
+                    font-family: verdana;
+                }
+                #partner_address {
+                    position: absolute;
+                    top: 85mm;
+                }
+                #pp-box {
+                    display: inline-block;
+                    padding: 1mm;
+                    width: 50mm;
+                    line-height: initial;
 
-                border-style: solid;
-                border-width: 1pt;
-            }
-            #pp-box div:first-child{
-                font-size: 12pt;
-                font-weight: bold;
-            }
-            #pp-box div:last-child{
-                font-size: 8pt;
-            }
-            #pp-post {
-                display: inline-block;
-                font-size: 6pt;
-            }
-            #pp hr {
-                margin-top: 0.5mm;
-                margin-bottom: 3mm;
-            }
-            #date {
-                position: absolute;
-                top: 7mm;
-                left: 7mm;
-                width: 95mm;
-            }
-            #title {
-                font-family: "millerBold";
-                position: absolute;
-                top: 20mm;
-                left: 7mm;
-                width: 95mm;
-            }
-            #body {
-                position: absolute;
-                top: 30mm;
-                left: 7mm;
-                width: 110mm;
-            }
-            #signature {
-                position: absolute;
-                top: 118mm;
-                left: 75mm;
-            }
-            #footer {
-                font-size: 8pt;
-                position: absolute;
-                top: 130mm;
-                left: 7mm;
-                width: 190mm;
-            }
-            .blue {
-                color: #0054A6;
-                font-weight: bold;
-            }
-        </t>
-        <t t-call="web.html_container">
+                    border-style: solid;
+                    border-width: 1pt;
+                }
+                #pp-box div:first-child{
+                    font-size: 12pt;
+                    font-weight: bold;
+                }
+                #pp-box div:last-child{
+                    font-size: 8pt;
+                }
+                #pp-post {
+                    display: inline-block;
+                    font-size: 6pt;
+                }
+                #pp hr {
+                    margin-top: 0.5mm;
+                    margin-bottom: 3mm;
+                }
+                #date {
+                    position: absolute;
+                    top: 7mm;
+                    left: 7mm;
+                    width: 95mm;
+                }
+                #title {
+                    font-family: "millerBold";
+                    position: absolute;
+                    top: 20mm;
+                    left: 7mm;
+                    width: 95mm;
+                }
+                #body {
+                    position: absolute;
+                    top: 30mm;
+                    left: 7mm;
+                    width: 110mm;
+                }
+                #signature {
+                    position: absolute;
+                    top: 118mm;
+                    left: 75mm;
+                }
+                #footer {
+                    font-size: 8pt;
+                    position: absolute;
+                    top: 130mm;
+                    left: 7mm;
+                    width: 190mm;
+                }
+                .blue {
+                    color: #0054A6;
+                    font-weight: bold;
+                }
+            </t>
+            <t t-call="web.html_container">
             <div class="article">
                 <t t-foreach="docs" t-as="o">
                     <div class="page">
@@ -143,5 +144,6 @@
                 </t>
             </div>
         </t>
-    </template>
+        </template>
+    </data>
 </odoo>

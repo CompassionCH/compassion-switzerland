@@ -42,8 +42,8 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 var product_search = [['name', 'like', gift_name]];
                 $.when(product_obj.call('search', [product_search])).then(
                     function (product_ids) {
-                        if (product_ids !== 'undefined'
-                        && product_ids.length > 0) {
+                        if (product_ids !== 'undefined' &&
+                            product_ids.length > 0) {
                             self.product_id_field.set_value(product_ids[0]);
                         }
                     });
@@ -60,8 +60,8 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                 ];
                 $.when(sponsorship_obj.call('search', [sponsorship_search]))
                     .then(function (sponsorship_ids) {
-                        if (typeof sponsorship_ids !== 'undefined'
-                        && sponsorship_ids.length > 0) {
+                        if (typeof sponsorship_ids !== 'undefined' &&
+                        sponsorship_ids.length > 0) {
                             self.sponsorship_id_field.set_value(
                                 sponsorship_ids[0]);
                         }

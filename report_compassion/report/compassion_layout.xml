@@ -1,33 +1,35 @@
 <odoo>
-    <!-- Custom css for PDF pages -->
-    <template id="style">
-        <style type="text/css">
-            /* Remove padding of reports to allow precise positionning */
-            .container {
-                padding: 0mm;
-            }
+    <data noupdate="1">
+        <!-- Custom css for PDF pages -->
+        <template id="style">
+            <style type="text/css">
+                /* Remove padding of reports to allow precise positionning */
+                .container {
+                    padding: 0mm;
+                }
 
-            /* Declare fonts */
-            @font-face {
-                font-family: miller;
-                src: url(/report_compassion/static/font/Miller Text Roman.otf);
-            }
-            @font-face {
-                font-family: millerBold;
-                src: url(/report_compassion/static/font/Miller Text Bold.otf);
-            }
-            @font-face {
-                font-family: millerLight;
-                src: url(/report_compassion/static/font/Miller Display Light.otf);
-            }
-            @font-face {
-                font-family: ocr;
-                src: url(/l10n_ch_payment_slip/static/src/font/ocrbb.ttf);
-            }
+                /* Declare fonts */
+                @font-face {
+                    font-family: miller;
+                    src: url(/report_compassion/static/font/Miller Text Roman.otf);
+                }
+                @font-face {
+                    font-family: millerBold;
+                    src: url(/report_compassion/static/font/Miller Text Bold.otf);
+                }
+                @font-face {
+                    font-family: millerLight;
+                    src: url(/report_compassion/static/font/Miller Display Light.otf);
+                }
+                @font-face {
+                    font-family: ocr;
+                    src: url(/l10n_ch_payment_slip/static/src/font/ocrbb.ttf);
+                }
 
-            /* Allow custom style for each report */
-            <t t-raw="custom_css"/>
-            <t t-raw="custom_css_2"/>
-        </style>
-    </template>
+                /* Allow custom style for each report */
+                <t t-raw="custom_css"/>
+                <t t-raw="custom_css_2"/>
+            </style>
+        </template>
+    </data>
 </odoo>

@@ -9,7 +9,7 @@
 ##############################################################################
 import logging
 
-from odoo import api, models, fields, _
+from odoo import api, models, fields
 
 from functools import reduce
 from babel.dates import format_date
@@ -136,24 +136,6 @@ class CompassionChild(models.Model):
                 'user_id': communication_config.user_id.id,
             })
         return True
-
-    def get_number(self):
-        """ Returns a string telling how many children are in the recordset.
-        """
-        number_dict = {
-            1: _("one"),
-            2: _("two"),
-            3: _("three"),
-            4: _("four"),
-            5: _("five"),
-            6: _("six"),
-            7: _("seven"),
-            8: _("eight"),
-            9: _("nine"),
-            10: _("ten"),
-        }
-        return number_dict.get(len(self), str(len(self))) + ' ' + self.get(
-            'child')
 
     def get_completion(self):
         """ Return the full completion dates. """

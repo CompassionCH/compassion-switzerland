@@ -125,8 +125,12 @@ class RecurringContract(models.Model):
     def _compute_period_paid(self):
         for contract in self:
             advance_billing = contract.group_id.advance_billing_months
+            this_month = date.today().month
             # Don't consider next year in the period to pay
-            to_pay_period = min(date.today().month + advance_billing, 12)
+            to_pay_period = min(this_month + advance_billing, 12)
+            # Exception for december, we will consider next year
+            if this_month == 12:
+                to_pay_period += advance_billing
             contract.period_paid = contract.months_paid >= to_pay_period
 
     @api.multi
@@ -280,6 +284,7 @@ class RecurringContract(models.Model):
 
             if sponsorship_correspondences:
                 sponsorships_to_avoid += sponsorship
+                continue
 
             sponsorship_gifts = self.env['sponsorship.gift'].search([
                 ('sponsorship_id', '=', sponsorship.id),
@@ -313,6 +318,7 @@ class RecurringContract(models.Model):
 
     @api.model
     def _get_sponsorships_with_child_birthday_on(self, birth_day):
+        corresp_compass_tag = 'partner_compassion.res_partner_category_corresp_compass'
         return self.search([
             ('child_id.birthdate', 'like', birth_day.strftime("%%-%m-%d")),
             '|', ('correspondent_id.birthday_reminder', '=', True),
@@ -321,7 +327,8 @@ class RecurringContract(models.Model):
             ('partner_id.email', '!=', False),
             ('state', '=', 'active'),
             ('type', 'like', 'S'),
-            ('partner_id.ref', '!=', '1502623')  # if partner is not Demaurex
+            ('partner_id.ref', '!=', '1502623'),  # if partner is not Demaurex
+            ('partner_id.category_id', 'not in', self.env.ref(corresp_compass_tag).ids)
         ]).filtered(lambda c: not (
             c.child_id.project_id.lifecycle_ids and
             c.child_id.project_id.hold_s2b_letters))

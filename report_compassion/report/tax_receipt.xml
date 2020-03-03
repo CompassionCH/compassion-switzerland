@@ -1,18 +1,19 @@
 <odoo>
-    <report id="tax_receipt_report"
-            model="res.partner"
-            string="Tax Receipt"
-            report_type="qweb-pdf"
-            name="report_compassion.tax_receipt"
-            menu="False"
-    />
-    <record id="tax_receipt_report" model="ir.actions.report">
-        <!-- A4 no margin -->
-        <field name="paperformat_id" ref="l10n_ch_payment_slip.paperformat_paymentslip"/>
-    </record>
+    <data noupdate="1">
+        <report id="tax_receipt_report"
+                model="res.partner"
+                string="Tax Receipt"
+                report_type="qweb-pdf"
+                name="report_compassion.tax_receipt"
+                menu="False"
+        />
+        <record id="tax_receipt_report" model="ir.actions.report">
+            <!-- A4 no margin -->
+            <field name="paperformat_id" ref="l10n_ch_payment_slip.paperformat_paymentslip"/>
+        </record>
 
-    <template id="tax_receipt">
-        <t t-call="web.html_container">
+        <template id="tax_receipt">
+            <t t-call="web.html_container">
             <div class="article">
                 <t t-foreach="docs" t-as="partner">
                     <t t-set="partner" t-value="partner.with_context({'lang':partner.lang})" />
@@ -26,6 +27,7 @@
                     <t t-set="display_pp" t-value="1"/>
                 </t>
             </div>
-        </t>
-    </template>
+            </t>
+        </template>
+    </data>
 </odoo>

@@ -17,8 +17,9 @@ _logger = logging.getLogger(__name__)
 
 try:
     from sendgrid import SendGridAPIClient
+    from python_http_client import NotFoundError
 except ImportError:
-    _logger.warning("Please install sendgrid.")
+    _logger.warning("Please install sendgrid and python_http_client")
 
 
 class MailTrackingEvent(models.Model):
@@ -124,8 +125,25 @@ class MailTrackingEvent(models.Model):
         tracking_email.partner_id.message_post(
             _('The email couldn\'t be sent due to invalid address'),
             tracking_email.name)
-        self._get_sendgrid().client.suppression.invalid_emails._(
-            tracking_email.recipient).delete()
+        try:
+            self._get_sendgrid().client.suppression.invalid_emails._(
+                tracking_email.recipient).delete()
+            found = True
+        except NotFoundError:
+            try:
+                self._get_sendgrid().client.suppression.blocks._(
+                    tracking_email.recipient).delete()
+                found = True
+            except NotFoundError:
+                try:
+                    self._remove_address_from_sendgrid_bounce_list(tracking_email)
+                    found = True
+                except NotFoundError:
+                    found = False
+        if found:
+            _logger.info("The recipient was removed from the Sendgrid supression lists")
+        else:
+            _logger.error("The recipient is not in the supression lists of sendgrid.")
 
     @api.model
     def process_spam(self, tracking_email, metadata):
