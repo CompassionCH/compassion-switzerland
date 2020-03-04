@@ -5,11 +5,12 @@
         <field name="name">staff.notification.settings.invalid.mail.form</field>
         <field name="model">res.config.settings</field>
         <field name="priority" eval="30"/>
-        <field name="inherit_id" ref="child_compassion.compassion_settings"/>
+        <field name="inherit_id" ref="child_compassion.notification_settings"/>
         <field name="arch" type="xml">
-            <field name="disaster_notify_ids" position="after">
+            <xpath expr="//div[@name='notification_configuration']" position='inside'>
                 <field name="invalid_mail_notify_ids" widget="many2many_tags"/>
-            </field>
+                <label for="invalid_mail_notify_ids" class="o_light_label"/>
+            </xpath>
         </field>
     </record>
 </odoo>
