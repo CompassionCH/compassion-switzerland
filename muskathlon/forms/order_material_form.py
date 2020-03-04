@@ -120,7 +120,7 @@ if not testing:
             else:
                 extra_values['large_picture'] = partner.advocate_details_id\
                     .picture_large
-            staff_id = self.env['staff.notification.settings'] \
+            staff_id = self.env['res.config.settings'] \
                 .sudo().get_param('muskathlon_order_notify_id')
             values.update({
                 'name': "Muskathlon material order - {}".format(

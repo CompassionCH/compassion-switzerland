@@ -27,7 +27,7 @@ class CompassionHold(models.Model):
         Gets the default No Money hold extension duration
         :return: integer: hold duration in days
         """
-        settings = self.env['availability.management.settings']
+        settings = self.env['res.config.settings']
         for hold in self:
             if hold.no_money_extension < 2:
                 hold.no_money_extension_duration = settings.get_param(
