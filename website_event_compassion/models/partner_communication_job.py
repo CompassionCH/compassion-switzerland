@@ -33,9 +33,8 @@ class CommunicationJob(models.Model):
         report_name = 'report_compassion.bvr_fund'
         report_ref = self.env.ref('report_compassion.report_bvr_fund')
 
-        pdf_data = report_ref.report_action(self, data=report_vals)
         pdf_data = base64.encodebytes(report_ref.render_qweb_pdf(
-            pdf_data['data']['doc_ids'], pdf_data['data'])[0])
+            registration.partner_id.ids, report_vals)[0])
 
         return {
             _('down_payment.pdf'): [report_name, pdf_data]

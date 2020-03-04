@@ -37,8 +37,11 @@ class EventCompassion(models.Model):
     seats_expected = fields.Integer(related='odoo_event_id.seats_expected')
 
     registrations_closed = fields.Boolean("Close new registrations", default=True)
-    registrations_closed_text =\
-        fields.Char("Close Registrations Text", default="This event has ended")
+    registrations_closed_text = fields.Char(
+        "Close Registrations Text",
+        default="This event has ended",
+        translate=True
+    )
     registrations_ended = fields.Boolean(compute='_compute_registrations_ended')
 
     @api.multi
