@@ -7,7 +7,6 @@
 #
 ##############################################################################
 import re
-from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import models, fields, tools, _
