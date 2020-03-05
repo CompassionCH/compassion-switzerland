@@ -112,7 +112,7 @@ class TestAccountReconcile(BaseSponsorshipTest):
 
         # test get_move_lines_for_reconciliation method
         self.assertEqual(
-            len(bank_statement_line.get_move_lines_for_reconciliation()), 12
+            len(bank_statement_line.get_move_lines_for_reconciliation()), 6
         )
 
         # test linking partner to bank when writing to

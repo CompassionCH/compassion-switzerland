@@ -128,7 +128,6 @@ class TestMobileAppConnector(HttpCase):
 
         xml = "<?xmlversion='1.0'encoding='utf-8'?>\n<NotificationReply/>"
         self.assertIn(response.replace(' ', ''), xml)
-        # self.assertEqual(response.hook_id.func_name, "sponsor_service_fr")
         self.assertRegex(str(self._get_sms_message(smsbox_send)),
                          r'this link: http://localhost:8069/r/\w')
 
