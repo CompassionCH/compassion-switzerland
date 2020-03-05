@@ -10,7 +10,6 @@
 from odoo import api, models, fields, _
 
 
-
 class MassMailing(models.Model):
     """ Add the mailing domain to be viewed in a text field
     """
