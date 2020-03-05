@@ -23,9 +23,9 @@ class TestMobileAppConnector(HttpCase):
 
     def setUp(self):
         super().setUp()
-        self.env['ir.config_parameter'] \
+        self.env['ir.config_parameter'].sudo() \
             .set_param('web.external.url', 'base')
-        external_url = self.env['ir.config_parameter'] \
+        external_url = self.env['ir.config_parameter'].sudo() \
             .get_param('web.external.url')
         self.assertEqual(external_url, 'base')
 

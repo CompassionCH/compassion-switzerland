@@ -48,7 +48,7 @@ class MailTrackingEvent(models.Model):
                 'email': False
             }
 
-            staff_ids = self.env['res.config.settings'].get_param(
+            staff_ids = self.env['res.config.settings'].sudo().get_param(
                 'invalid_mail_notify_ids')
             del to_write['email']
             subject = _('Email invalid! An error occurred: '

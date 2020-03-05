@@ -205,7 +205,7 @@ class Contracts(models.Model):
         # Notify staff
         sponsor_lang = form_data['lang'][:2]
         staff_param = 'sponsorship_' + sponsor_lang + '_id'
-        staff = self.env['res.config.settings'].get_param(staff_param)
+        staff = self.env['res.config.settings'].sudo().get_param(staff_param)
         notify_text = "A new sponsorship was made on the website. Please " \
                       "verify all information and validate the sponsorship " \
                       "on Odoo: <br/><br/><ul>"

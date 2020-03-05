@@ -424,7 +424,7 @@ class ResPartner(geo_model.GeoModel):
         """
         smb_conn = self._get_smb_connection()
         if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
-            config_obj = self.env['ir.config_parameter']
+            config_obj = self.env['ir.config_parameter'].sudo()
             share_nas = config_obj.get_param('partner_compassion.share_on_nas')
             store_path = config_obj.get_param('partner_compassion.store_path')
             src_zip_file = tempfile.NamedTemporaryFile()

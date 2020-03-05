@@ -45,7 +45,7 @@ class ErrorsLog(models.Model):
     @api.multi
     def format_record_url(self):
         self.ensure_one()
-        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
         url = f'<a href="{base_url}/web#id={self.record_id}' \
               f'&view_type=form&model={self.record_model}">{self.record_name}</a>'
@@ -54,7 +54,7 @@ class ErrorsLog(models.Model):
     @api.multi
     def format_action_url(self):
         self.ensure_one()
-        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
         url = f'<a href="{base_url}/web#id={self.action_id}' \
               f'&view_type=form&model={self.action_model}">{self.action_name}</a>'

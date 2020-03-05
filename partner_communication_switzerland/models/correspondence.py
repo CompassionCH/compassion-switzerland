@@ -135,7 +135,7 @@ class Correspondence(models.Model):
                 'zip_file': _zip.download_data,
                 'letter_format': 'zip'
             })
-        base_url = self.env['ir.config_parameter'].get_param(
+        base_url = self.env['ir.config_parameter'].sudo().get_param(
             'web.external.url')
         self.write({
             'read_url': f"{base_url}/b2s_image?id={letter_attach.uuid}"

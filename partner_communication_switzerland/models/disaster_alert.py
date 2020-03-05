@@ -23,7 +23,7 @@ class DisasterAlert(models.Model):
     def _compute_access_link(self):
         """Generate URL for disaster alert."""
         for disaster in self:
-            base_url = self.env['ir.config_parameter'].get_param(
+            base_url = self.env['ir.config_parameter'].sudo().get_param(
                 'web.base.url')
             query = {'db': self.env.cr.dbname}
             fragment = {

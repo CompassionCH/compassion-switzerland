@@ -25,7 +25,7 @@ class AccountConfigSettings(models.TransientModel):
     @api.multi
     def set_values(self):
         super().set_values()
-        self.env["ir.config_parameter"].set_param(
+        self.env["ir.config_parameter"].sudo().set_param(
             "account_reconcile_compassion.currency_exchange_analytic_account",
             str(self.currency_exchange_analytic_account.id),
         )
@@ -33,7 +33,7 @@ class AccountConfigSettings(models.TransientModel):
     @api.model
     def get_values(self):
         res = super().get_values()
-        param_obj = self.env["ir.config_parameter"]
+        param_obj = self.env["ir.config_parameter"].sudo()
         res["currency_exchange_analytic_account"] = int(
             param_obj.get_param(
                 "account_reconcile_compassion.currency_exchange_analytic_account")

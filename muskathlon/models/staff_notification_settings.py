@@ -28,17 +28,17 @@ class StaffNotificationSettings(models.TransientModel):
     @api.multi
     def set_values(self):
         super().set_values()
-        self.env['ir.config_parameter'].set_param(
+        self.env['ir.config_parameter'].sudo().set_param(
             'muskathlon.muskathlon_lead_notify_id',
             str(self.muskathlon_lead_notify_id.id))
-        self.env['ir.config_parameter'].set_param(
+        self.env['ir.config_parameter'].sudo().set_param(
             'muskathlon.muskathlon_order_notify_id',
             str(self.muskathlon_order_notify_id.id))
 
     @api.model
     def get_values(self):
         res = super().get_values()
-        params = self.env['ir.config_parameter']
+        params = self.env['ir.config_parameter'].sudo()
 
         res.update(
             muskathlon_lead_notify_id=int(params.get_param(

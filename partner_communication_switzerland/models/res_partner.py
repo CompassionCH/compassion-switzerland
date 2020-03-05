@@ -153,7 +153,7 @@ class ResPartner(models.Model):
 
             self.env['partner.communication.job'].create(comm_vals)
             donation_amount = partner.get_receipt(today.year-1)
-            email_limit = int(self.env['ir.config_parameter'].get_param(
+            email_limit = int(self.env['ir.config_parameter'].sudo().get_param(
                 'partner_communication_switzerland.tax_receipt_email_limit',
                 '1000'))
             if partner.tax_certificate != 'only_email' and \

@@ -38,7 +38,7 @@ class StaffNotificationSettings(models.TransientModel):
 
     @api.model
     def get_values(self):
-        param_obj = self.env['ir.config_parameter']
+        param_obj = self.env['ir.config_parameter'].sudo()
         res = super().get_values()
         res['invalid_mail_notify_ids'] = False
         partners = param_obj.get_param(

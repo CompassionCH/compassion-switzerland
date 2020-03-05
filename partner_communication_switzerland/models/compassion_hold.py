@@ -27,7 +27,7 @@ class CompassionHold(models.Model):
         Gets the default No Money hold extension duration
         :return: integer: hold duration in days
         """
-        settings = self.env['res.config.settings']
+        settings = self.env['res.config.settings'].sudo()
         for hold in self:
             if hold.no_money_extension < 2:
                 hold.no_money_extension_duration = settings.get_param(
@@ -100,7 +100,7 @@ class CompassionHold(models.Model):
         if failed:
             # Send warning to Admin users
             child_codes = failed.mapped('child_id').read(['local_id'])
-            base_url = self.env['ir.config_parameter'].get_param(
+            base_url = self.env['ir.config_parameter'].sudo().get_param(
                 'web.base.url')
             links = [
                 f'<a href="{base_url}/web#id={data["id"]}&'

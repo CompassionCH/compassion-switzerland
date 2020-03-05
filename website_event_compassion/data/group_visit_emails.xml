@@ -12,7 +12,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
-                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -67,7 +67,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
-                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -128,7 +128,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
-                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -177,7 +177,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
-                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -232,7 +232,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
-                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -271,7 +271,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.event_id
-                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
@@ -354,7 +354,7 @@
                     % set event = registration.compassion_event_id
                     % set meeting = registration.event_id
                     % set user = meeting.user_id
-                    % set url = registration.env['ir.config_parameter'].get_param('web.external.url') + '/event/' + registration.uuid + '/meeting_invitation'
+                    % set url = registration.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/event/' + registration.uuid + '/meeting_invitation'
                 </div>
                 <p>
                     ${partner.salutation}
@@ -409,7 +409,7 @@
                     % set event = registration.compassion_event_id
                     % set meeting = registration.event_id
                     % set user = meeting.user_id
-                    % set url = registration.env['ir.config_parameter'].get_param('web.external.url') + '/event/' + registration.uuid + '/after_party'
+                    % set url = registration.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/event/' + registration.uuid + '/after_party'
                 </div>
                 <p>
                     ${partner.salutation}
@@ -459,7 +459,7 @@
                     % set partner = object.partner_id
                     % set registration = object.get_objects()
                     % set event = registration.compassion_event_id
-                    % set base_url = object.env['ir.config_parameter'].get_param('web.external.url')
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
                 </div>
                 <p>
                     ${partner.salutation}
