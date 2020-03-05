@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -21,7 +20,7 @@ class ResPartner(models.Model):
     def create(self, vals):
         if vals.get('opt_out'):
             vals['date_opt_out'] = fields.Date.today()
-        return super(ResPartner, self).create(vals)
+        return super().create(vals)
 
     @api.multi
     def write(self, vals):
@@ -29,4 +28,4 @@ class ResPartner(models.Model):
             vals['date_opt_out'] = fields.Date.today()
         elif 'opt_out' in vals:
             vals['date_opt_out'] = False
-        return super(ResPartner, self).write(vals)
+        return super().write(vals)

@@ -127,6 +127,7 @@
     <record model="ir.actions.server" id="update_sendgrid_tracking">
         <field name="name">Refresh Sendgrid URLs</field>
         <field name="model_id" ref="model_mail_template"/>
+        <field name="state">code</field>
         <field name="code">env['mail.template'].refresh_sendgrid_tracking()</field>
     </record>
     <menuitem name="Refresh Sendgrid URLs" id="menu_update_sendgrid_tracking"

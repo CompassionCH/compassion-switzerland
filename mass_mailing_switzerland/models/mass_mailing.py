@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016-2017 Compassion CH (http://www.compassion.ch)
@@ -29,16 +28,13 @@ class MassMailing(models.Model):
     partner_test_sendgrid_id = fields.Many2one('res.partner',
                                                'Test Partner')
 
-    _sql_constraints = [('slug_uniq', 'unique (mailing_slug)',
-                         'You have to choose a new slug for each mailing !')]
-
     @api.multi
     def name_get(self):
         res = []
         for mass_mail in self:
             _id, _name = super(MassMailing, mass_mail).name_get()[0]
             if mass_mail.internal_name:
-                res.append((_id, u"%s [%s]" % (_name, mass_mail.internal_name)))
+                res.append((_id, f"{_name} [{mass_mail.internal_name}]"))
             else:
                 res.append((_id, _name))
         return res

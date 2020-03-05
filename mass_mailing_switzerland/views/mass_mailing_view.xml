@@ -17,7 +17,7 @@
                 <attribute name="widget">basic_domain</attribute>
             </field>
 
-            <xpath expr="//field[@name='mailing_model']/.." position="after">
+            <xpath expr="//field[@name='mailing_model_id']/.." position="after">
                 <field name="mailing_domain_copy" readonly="1"/>
             </xpath>
 
@@ -80,7 +80,7 @@
                      [<field name="internal_name" />]
                 </span>
             </field>
-            <xpath expr="(//div[@class='row'])[2]" position="replace">
+            <xpath expr="//div[hasclass('row')][2]" position="replace">
                 <div class="row">
                     <div class="col-xs-8">
                         <a>Unsubscribe</a>
@@ -98,7 +98,7 @@
         <field name="model">mail.mass_mailing.campaign</field>
         <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_campaign_kanban"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@class='oe_kanban_content']/div[last()]/div[last()]" position="replace">
+            <xpath expr="//div[hasclass('oe_kanban_content')]/div[last()]/div[last()]" position="replace">
                 <div style="display: inline-block; vertical-align: top;">
                     <strong>Opened</strong> <field name="opened_ratio"/> %<br />
                     <strong>Click</strong> <field name="clicks_ratio"/> %<br />

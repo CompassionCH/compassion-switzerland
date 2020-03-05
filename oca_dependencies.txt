@@ -27,7 +27,7 @@ geospatial https://github.com/josueBulle/geospatial mix
 queue
 report-print-send
 server-ux
-social https://github.com/CompassionCH/social 11.0-mig-mail_sendgrid
+social https://github.com/CompassionCH/social 11.0-mig-mail_sendgrid_mass_mailing
 web
 website https://github.com/CompassionCH/website 11.0
 website-cms

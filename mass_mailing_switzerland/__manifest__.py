@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -30,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Mass Mailing Switzerland',
-    'version': '10.0.2.1.3',
+    'version': '11.0.0.0.0',
     'category': 'Mailing',
     'author': 'Emanuel Cino',
     'license': 'AGPL-3',
@@ -46,13 +45,14 @@
         'data/refresh_sendgrid_tracking_cron.xml',
     ],
     'depends': [
-        'mail_sendgrid_mass_mailing',
-        'partner_communication_switzerland'
+        'mail_sendgrid_mass_mailing',           # oca_addons/social
+        'partner_communication_switzerland',    # compassion-switzerland
+        'cms_form_compassion'                   # compassion-modules
     ],
     'external_dependencies': {
         'python': ['pysftp']
     },
     'demo': [],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -29,11 +28,11 @@ class AccountInvoiceLine(models.Model):
                 campaign_id = self.env['account.analytic.account']\
                     .browse(analytic_id).campaign_id.id
             vals['campaign_id'] = campaign_id
-        return super(AccountInvoiceLine, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         # Try to link with campaign
-        res = super(AccountInvoiceLine, self).write(vals)
+        res = super().write(vals)
         if 'event_id' in vals or 'account_analytic_id' in vals:
             for line in self.filtered(lambda l: not l.campaign_id):
                 line.campaign_id = line.event_id.campaign_id or \

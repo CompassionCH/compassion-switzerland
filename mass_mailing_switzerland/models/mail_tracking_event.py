@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -24,7 +23,7 @@ class MailTrackingEvent(models.Model):
 
     @api.model
     def create(self, data):
-        result = super(MailTrackingEvent, self).create(data)
+        result = super().create(data)
 
         if result.url:
             p = re.compile(r'\/([a-zA-Z0-9]{3,6})')

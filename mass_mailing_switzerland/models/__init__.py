@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -16,7 +15,6 @@ from . import mass_mailing_campaign
 from . import mail_template
 from . import utm
 from . import sendgrid_substitution
-from . import link_tracker
 from . import recurring_contract
 from . import correspondence
 from . import account_invoice_line
