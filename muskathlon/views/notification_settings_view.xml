@@ -12,15 +12,15 @@
         <field name="priority" eval="25"/>
         <field name="inherit_id" ref="child_compassion.notification_settings"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='notification_configuration']" position='inside'>
-                <group name="muskathlon_notifications">
-                    <group>
-                        <field name="muskathlon_lead_notify_id"/>
-                    </group>
-                    <group>
-                        <field name="muskathlon_order_notify_id"/>
-                    </group>
-                </group>
+            <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='right_group']">
+                <separator/>
+                <label string="Muskathlon"/>
+                <div name="muskathlon_notifications">
+                    <label for="muskathlon_lead_notify_id" class="o_light_label"/>
+                    <field name="muskathlon_lead_notify_id"/>
+                    <label for="muskathlon_order_notify_id" class="o_light_label"/>
+                    <field name="muskathlon_order_notify_id"/>
+                </div>
             </xpath>
         </field>
     </record>
