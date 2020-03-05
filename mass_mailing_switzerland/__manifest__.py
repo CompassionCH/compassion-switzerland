@@ -46,7 +46,8 @@
     ],
     'depends': [
         'mail_sendgrid_mass_mailing',           # oca_addons/social
-        'partner_communication_switzerland'     # compassion-switzerland
+        'partner_communication_switzerland',    # compassion-switzerland
+        'cms_form_compassion'                   # compassion-modules
     ],
     'external_dependencies': {
         'python': ['pysftp']
