@@ -74,7 +74,6 @@ class PartnerCommunication(models.Model):
 
     def _put_bvr_in_attachments(self, bvr, background):
         pdf_download = self._generate_pdf_data(bvr, background)
-        bvr.attachment_ids.unlink()
         return self._create_and_add_attachment(bvr, pdf_download)
 
     def _create_and_add_attachment(self, bvr, datas):
@@ -83,13 +82,14 @@ class PartnerCommunication(models.Model):
             "type": "binary",
             "datas": datas
         })
+        comm_attachment = self.env['partner.communication.attachment'].create({
+            "name": bvr.report_id.name,
+            "report_name": "report_compassion.a4_bvr",
+            "communication_id": bvr.id,
+            "attachment_id": attachment.id
+        })
         bvr.write({
-            'attachment_ids': [[0, 0, {
-                "name": bvr.report_id.name,
-                "report_name": "report_compassion.a4_bvr",
-                "communication_id": bvr.id,
-                "attachment_id": attachment.id
-            }]]
+            'attachment_ids': [(4, comm_attachment.id)]
         })
         return bvr
 
