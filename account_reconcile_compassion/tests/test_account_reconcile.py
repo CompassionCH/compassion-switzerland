@@ -6,6 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import datetime
 
 from odoo import fields, _
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (
@@ -52,12 +53,13 @@ class TestAccountReconcile(BaseSponsorshipTest):
         )
         self.assertTrue(move)
 
+        date_maturity = str(datetime.datetime(datetime.datetime.today().year, 12, 12))
         account_move_line = self.env["account.move.line"].create(
             {
                 "name": "test_move_line",
                 "account_id": self.account.id,
                 "move_id": move.id,
-                "date_maturity": "2018-12-12",
+                "date_maturity": date_maturity,
                 "currency_id": self.env.ref("base.CHF").id,
             }
         )
@@ -110,7 +112,7 @@ class TestAccountReconcile(BaseSponsorshipTest):
 
         # test get_move_lines_for_reconciliation method
         self.assertEqual(
-            len(bank_statement_line.get_move_lines_for_reconciliation()), 0
+            len(bank_statement_line.get_move_lines_for_reconciliation()), 12
         )
 
         # test linking partner to bank when writing to

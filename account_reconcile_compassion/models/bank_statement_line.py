@@ -39,7 +39,7 @@ class BankStatementLine(models.Model):
             for line in self.filtered("partner_account"):
                 partner_bank = self.env["res.partner.bank"].search(
                     [
-                        ("partner_id", "=", False),
+                        ("partner_id", "=", 1),
                         "|",
                         ("acc_number", "like", line.partner_account),
                         ("sanitized_acc_number", "like", line.partner_account),
@@ -79,9 +79,9 @@ class BankStatementLine(models.Model):
 
     @api.multi
     def get_move_lines_for_reconciliation(
-            # pylint: disable=redefined-builtin
-            self, excluded_ids=None, str=False, offset=0, limit=None,
-            additional_domain=None, overlook_partner=False):
+        # pylint: disable=redefined-builtin
+        self, partner_id=None, excluded_ids=None, str=False, offset=0, limit=None,
+        additional_domain=None, overlook_partner=False):
         """ Sort move lines according to Compassion criterias :
             Move line for current month at first,
             Then other move_lines, from the oldest to the newest.
@@ -99,7 +99,7 @@ class BankStatementLine(models.Model):
         additional_domain.append(("account_id", "not in", import_accounts.ids))
 
         res_asc = super().get_move_lines_for_reconciliation(
-            excluded_ids, str, offset, limit, additional_domain, overlook_partner
+            partner_id, excluded_ids, str, offset, limit, additional_domain, overlook_partner
         )
 
         # Sort results with date (current month at first)

@@ -21,9 +21,10 @@ class TestAccountReconcile(TransactionCase):
         super().setUp()
         self.asustek = self.env.ref("base.res_partner_1")
         self.camptocamp = self.env.ref("base.res_partner_12")
+        journal = self.env.ref("l10n_ch_pain_direct_debit.dd_account_journal_xml_dd")
         self.statement = self.env["account.bank.statement"].create(
             {
-                "journal_id": self.env.ref("l10n_ch_lsv_dd.lsv_account_journal").id,
+                "journal_id": journal.id,
                 "date": fields.Date.today(),
             }
         )
