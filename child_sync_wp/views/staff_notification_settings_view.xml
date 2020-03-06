@@ -12,7 +12,7 @@
         <field name="inherit_id" ref="child_compassion.notification_settings"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='right_group']">
-                <h3>Sponsorships made from the website"</h3>
+                <h3>Sponsorships made from the website</h3>
                 <div name="sponsorship_notifications1">
                     <label for="sponsorship_fr_id" class="o_light_label"/>
                     <field name="sponsorship_fr_id"/>

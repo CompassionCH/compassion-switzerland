@@ -15,6 +15,7 @@ class CompassionChild(models.TransientModel):
     """ Add keywords on all defined sendgrid templates.
     """
     _name = 'init.sendgrid.template'
+    _description = 'Sendgrid template init'
 
     @api.model
     def init_templates(self):
