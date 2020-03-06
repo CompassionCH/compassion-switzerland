@@ -22,25 +22,25 @@ class StaffNotificationSettings(models.TransientModel):
         domain=[
             ('user_ids', '!=', False),
             ('user_ids.share', '=', False),
-        ])
+        ], readonly=False)
     advocate_birthday_de_id = fields.Many2one(
         'res.partner', 'Advocate birthday (DE)',
         domain=[
             ('user_ids', '!=', False),
             ('user_ids.share', '=', False),
-        ])
+        ], readonly=False)
     advocate_birthday_it_id = fields.Many2one(
         'res.partner', 'Advocate birthday (IT)',
         domain=[
             ('user_ids', '!=', False),
             ('user_ids.share', '=', False),
-        ])
+        ], readonly=False)
     advocate_birthday_en_id = fields.Many2one(
         'res.partner', 'Advocate birthday (EN)',
         domain=[
             ('user_ids', '!=', False),
             ('user_ids.share', '=', False),
-        ])
+        ], readonly=False)
 
     share_on_nas = fields.Text()
     store_path = fields.Text()

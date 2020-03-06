@@ -22,7 +22,7 @@ class ReconcileSplitPaymentWizard(models.TransientModel):
     contract_ids = fields.Many2many(
         'recurring.contract',
         default=lambda self: self._get_contract_ids(),
-        string='Related contracts')
+        string='Related contracts', readonly=False)
 
     def _get_contract_ids(self):
         move_line_obj = self.env['account.move.line']

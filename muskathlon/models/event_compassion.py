@@ -20,13 +20,13 @@ class EventCompassion(models.Model):
     muskathlon_event_id = fields.Char(
         string="Muskathlon event ID", size=128)
     registration_ids = fields.One2many(
-        'event.registration', 'compassion_event_id', 'Event registrations')
+        'event.registration', 'compassion_event_id', 'Event registrations', readonly=False)
 
     amount_objective = fields.Integer(compute='_compute_amount_raised')
     amount_raised = fields.Integer(compute='_compute_amount_raised')
     amount_raised_percents = fields.Integer(compute='_compute_amount_raised')
     sport_discipline_ids = fields.Many2many(
-        'sport.discipline', string='Sport disciplines')
+        'sport.discipline', string='Sport disciplines', readonly=False)
 
     website_muskathlon = fields.Boolean(
         'Activate Muskathlon template',

@@ -33,8 +33,8 @@ if not testing:
         ]
         _form_required_fields = ['flyer_number']
 
-        partner_id = fields.Many2one('res.partner')
-        event_id = fields.Many2one('crm.event.compassion')
+        partner_id = fields.Many2one('res.partner', readonly=False)
+        event_id = fields.Many2one('crm.event.compassion', readonly=False)
         form_id = fields.Char()
         flyer_number = fields.Selection([
             ('5', '5'),

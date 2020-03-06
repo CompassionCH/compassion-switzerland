@@ -44,7 +44,7 @@ class ChildImpact(models.Model):
     _inherit = 'child.disaster.impact'
 
     communication_id = fields.Many2one(
-        'partner.communication.job', 'Communication')
+        'partner.communication.job', 'Communication', readonly=False)
     state = fields.Selection(related='communication_id.state')
 
     @api.model

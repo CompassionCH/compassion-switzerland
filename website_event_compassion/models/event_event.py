@@ -17,7 +17,7 @@ class Event(models.Model):
     _name = 'event.event'
 
     compassion_event_id = fields.Many2one(
-        'crm.event.compassion', 'Event')
+        'crm.event.compassion', 'Event', readonly=False)
     flight_price = fields.Float(compute='_compute_total_price')
     total_price = fields.Float(compute='_compute_total_price')
     participants_amount_objective = fields.Integer(
@@ -32,7 +32,7 @@ class Event(models.Model):
              'profile page on the website where people can donate.'
     )
     donation_product_id = fields.Many2one(
-        'product.product', 'Donation product'
+        'product.product', 'Donation product', readonly=False
     )
     sponsorship_donation_value = fields.Float(
         'Sponsorship to CHF donation conversion',
@@ -52,25 +52,25 @@ class Event(models.Model):
         compute='_compute_registration_full'
     )
     valid_ticket_ids = fields.Many2many('event.event.ticket',
-                                        compute='_compute_valid_tickets')
+                                        compute='_compute_valid_tickets', readonly=False)
     # Don't configure any e-mail by default
-    event_mail_ids = fields.One2many('event.mail', default=False)
+    event_mail_ids = fields.One2many('event.mail', default=False, readonly=False)
     faq_category_ids = fields.Many2many(
-        'event.faq.category', compute='_compute_faq_category_ids')
+        'event.faq.category', compute='_compute_faq_category_ids', readonly=False)
 
     visa_needed = fields.Boolean()
     months_needed_for_a_visa = fields.Integer()
-    medical_survey_id = fields.Many2one('survey.survey', 'Medical Survey')
-    feedback_survey_id = fields.Many2one('survey.survey', 'Feedback Survey')
+    medical_survey_id = fields.Many2one('survey.survey', 'Medical Survey', readonly=False)
+    feedback_survey_id = fields.Many2one('survey.survey', 'Feedback Survey', readonly=False)
     country_id = fields.Many2one(
-        'res.country', 'Country', related='compassion_event_id.country_id')
+        'res.country', 'Country', related='compassion_event_id.country_id', readonly=False)
     vaccine_ids = fields.One2many(
         'res.country.vaccine', string='Vaccines',
-        related='compassion_event_id.country_id.vaccine_ids'
+        related='compassion_event_id.country_id.vaccine_ids', readonly=False
     )
     event_ticket_ids = fields.One2many(
         'event.event.ticket', 'event_id', string='Event Ticket',
-        copy=True, default=lambda self: self._default_tickets())
+        copy=True, default=lambda self: self._default_tickets(), readonly=False)
 
     def _compute_total_price(self):
         flight = self.env.ref(
@@ -95,13 +95,13 @@ class Event(models.Model):
 
     def _compute_registration_open(self):
         for event in self:
-            start_date = fields.Datetime.from_string(event.date_begin)
+            start_date = event.date_begin
             event.registration_open = event.state == 'confirm' and \
                 event.valid_ticket_ids and datetime.now() < start_date
 
     def _compute_registration_closed(self):
         for event in self:
-            start_date = fields.Datetime.from_string(event.date_begin)
+            start_date = event.date_begin
             event.registration_closed = event.state == 'done' or \
                 start_date < datetime.now() or not event.valid_ticket_ids
 
@@ -112,7 +112,7 @@ class Event(models.Model):
 
     def _compute_registration_full(self):
         for event in self:
-            start_date = fields.Datetime.from_string(event.date_begin)
+            start_date = event.date_begin
             event.registration_full = event.state == 'confirm' and \
                 datetime.now() < start_date and not event.valid_ticket_ids
 

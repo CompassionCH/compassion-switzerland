@@ -26,7 +26,7 @@ class ErrorsLog(models.Model):
         ('Sponsored child has no sponsor',
          'Sponsored child has no sponsor')
     ])
-    monitor_id = fields.Many2one('monitor.correct.errors')
+    monitor_id = fields.Many2one('monitor.correct.errors', readonly=False)
 
     record = fields.Char()
     record_name = fields.Char()

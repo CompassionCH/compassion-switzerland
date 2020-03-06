@@ -46,7 +46,7 @@ class TranslationDailyReport(models.Model):
     )
     field_office_id = fields.Many2one(
         'compassion.field.office', 'Field office',
-        related='sponsorship_id.project_id.field_office_id'
+        related='sponsorship_id.project_id.field_office_id', readonly=False
     )
     sponsor = fields.Char(
         'Sponsor', related='sponsorship_id.correspondent_id.name')

@@ -19,7 +19,7 @@ from odoo import fields
 class Gift(models.Model):
     _inherit = 'sponsorship.gift'
 
-    letter_id = fields.Many2one('correspondence', 'Thank you letter')
+    letter_id = fields.Many2one('correspondence', 'Thank you letter', readonly=False)
 
     @api.model
     def process_gifts_cron(self):
@@ -39,6 +39,6 @@ class Gift(models.Model):
         (gifts - lsv_dd_gifts).mapped('message_id').process_messages()
         three_days_limit = date.today() - relativedelta(days=3)
         lsv_dd_gifts.filtered(
-            lambda g: fields.Date.from_string(g.gift_date) > three_days_limit
+            lambda g: g.gift_date > three_days_limit
         ).mapped('message_id').process_messages()
         return True

@@ -26,7 +26,7 @@ class PrintBvrFund(models.TransientModel):
             # exclude Sponsorship category
             ('categ_id', '!=', 3),
             # exclude Sponsor gifts category
-            ('categ_id', '!=', 5)])
+            ('categ_id', '!=', 5)], readonly=False)
     draw_background = fields.Boolean()
     state = fields.Selection([('new', 'new'), ('pdf', 'pdf')], default='new')
     pdf = fields.Boolean()

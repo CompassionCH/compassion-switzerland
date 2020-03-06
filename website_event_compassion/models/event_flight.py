@@ -17,7 +17,7 @@ class EventFlight(models.Model):
     _rec_name = 'flight_number'
 
     registration_id = fields.Many2one(
-        'event.registration', 'Participant', required=True)
+        'event.registration', 'Participant', required=True, readonly=False)
     flight_type = fields.Selection([
         ('outbound', 'Outbound flight'),
         ('return', 'Return flight'),

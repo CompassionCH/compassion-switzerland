@@ -11,9 +11,9 @@
                 <field name="campaign_id"/>
             </field>
             <filter name='group_contract' position="after">
-                <filter string="UTM Source" domain="[]" context="{'group_by':'source_id'}"/>
-                <filter string="UTM Medium" domain="[]" context="{'group_by':'medium_id'}"/>
-                <filter string="UTM Campaign" domain="[]" context="{'group_by':'campaign_id'}"/>
+                <filter string="UTM Source" name="utm_source" domain="[]" context="{'group_by':'source_id'}"/>
+                <filter string="UTM Medium" name="utm_medium" domain="[]" context="{'group_by':'medium_id'}"/>
+                <filter string="UTM Campaign" name="utm_campaign" domain="[]" context="{'group_by':'campaign_id'}"/>
             </filter>
         </field>
     </record>

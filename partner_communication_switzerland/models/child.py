@@ -69,7 +69,7 @@ class CompassionChild(models.Model):
         """ Completion month in full text. """
         for child in self.filtered('completion_date'):
             lang = child.sponsor_id.lang or self.env.lang or 'en_US'
-            completion = fields.Date.from_string(child.completion_date)
+            completion = child.completion_date
             child.completion_month = format_date(completion, "MMMM", locale=lang)
 
     @api.multi
@@ -140,7 +140,7 @@ class CompassionChild(models.Model):
     def get_completion(self):
         """ Return the full completion dates. """
         month = self[0].completion_month
-        year = fields.Date.from_string(self[0].completion_date).strftime("%Y")
+        year = self[0].completion_date.strftime("%Y")
         if not month:
             return year
         return month + ' ' + year

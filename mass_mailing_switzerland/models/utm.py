@@ -143,7 +143,7 @@ class UtmSource(models.Model):
 
     name = fields.Char(translate=False)
     mailing_id = fields.Many2one(
-        'mail.mass_mailing', compute='_compute_mailing_id'
+        'mail.mass_mailing', compute='_compute_mailing_id', readonly=False
     )
 
     link_ids = fields.One2many(
@@ -170,12 +170,12 @@ class UtmCampaign(models.Model):
     _name = 'utm.campaign'
 
     name = fields.Char(translate=False)
-    contract_ids = fields.One2many(inverse_name='campaign_id')
-    correspondence_ids = fields.One2many(inverse_name='campaign_id')
-    invoice_line_ids = fields.One2many(inverse_name='campaign_id')
+    contract_ids = fields.One2many(inverse_name='campaign_id', readonly=False)
+    correspondence_ids = fields.One2many(inverse_name='campaign_id', readonly=False)
+    invoice_line_ids = fields.One2many(inverse_name='campaign_id', readonly=False)
 
     mailing_campaign_id = fields.Many2one(
-        'mail.mass_mailing.campaign', compute='_compute_mass_mailing_id'
+        'mail.mass_mailing.campaign', compute='_compute_mass_mailing_id', readonly=False
     )
 
     link_ids = fields.One2many(
@@ -203,9 +203,9 @@ class UtmMedium(models.Model):
     _name = 'utm.medium'
 
     name = fields.Char(translate=False)
-    contract_ids = fields.One2many(inverse_name='medium_id')
-    correspondence_ids = fields.One2many(inverse_name='medium_id')
-    invoice_line_ids = fields.One2many(inverse_name='medium_id')
+    contract_ids = fields.One2many(inverse_name='medium_id', readonly=False)
+    correspondence_ids = fields.One2many(inverse_name='medium_id', readonly=False)
+    invoice_line_ids = fields.One2many(inverse_name='medium_id', readonly=False)
 
     link_ids = fields.One2many(
         'link.tracker', 'medium_id', 'Clicks', readonly=True

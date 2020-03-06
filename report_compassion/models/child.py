@@ -57,8 +57,7 @@ class CompassionChild(models.Model):
 
     def _compute_childpack_expiration(self):
         for child in self:
-            hold_expiration = fields.Datetime.from_string(
-                child.hold_expiration)
+            hold_expiration = child.hold_expiration
             try:
                 child.childpack_expiration = fields.Datetime.to_string(
                     hold_expiration - timedelta(days=1)

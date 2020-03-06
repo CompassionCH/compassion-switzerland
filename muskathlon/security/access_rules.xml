@@ -4,7 +4,7 @@
         <record id="muskathlon_registration_public" model="ir.rule">
             <field name="name">Event Registration: Public</field>
             <field name="model_id" ref="model_event_registration"/>
-            <field name="domain_force">[('website_published', '=', True)]</field>
+            <field name="domain_force">[('is_published', '=', True)]</field>
             <field name="groups" eval="[(4, ref('base.group_public'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
@@ -14,7 +14,7 @@
         <record id="muskathlon_registration_my" model="ir.rule">
             <field name="name">Event Registration: My Registrations</field>
             <field name="model_id" ref="model_event_registration"/>
-            <field name="domain_force">[('website_published', '=', True),('partner_id.user_ids', 'in', user.id)]</field>
+            <field name="domain_force">[('is_published', '=', True),('partner_id.user_ids', 'in', user.id)]</field>
             <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>

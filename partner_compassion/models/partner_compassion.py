@@ -84,13 +84,13 @@ class ResPartner(geo_model.GeoModel):
         'duplicate_id', readonly=True)
 
     advocate_details_id = fields.Many2one(
-        'advocate.details', 'Advocate details', copy=False)
+        'advocate.details', 'Advocate details', copy=False, readonly=False)
     engagement_ids = fields.Many2many(
-        'advocate.engagement', related='advocate_details_id.engagement_ids'
+        'advocate.engagement', related='advocate_details_id.engagement_ids', readonly=False
     )
     other_contact_ids = fields.One2many(string='Linked Partners',
                                         domain=['|', ('active', '=', False),
-                                                ('active', '=', True)])
+                                                ('active', '=', True)], readonly=False)
     state = fields.Selection([
         ('pending', 'Waiting for validation'),
         ('active', 'Active')
@@ -113,7 +113,7 @@ class ResPartner(geo_model.GeoModel):
 
     # add track on fields from module base
     email = fields.Char(track_visibility='onchange')
-    title = fields.Many2one(track_visibility='onchange')
+    title = fields.Many2one(track_visibility='onchange', readonly=False)
     lang = fields.Selection(track_visibility='onchange')
     # module from partner_firstname
     firstname = fields.Char(track_visibility='onchange')
@@ -124,10 +124,10 @@ class ResPartner(geo_model.GeoModel):
     # Surveys
     survey_input_lines = fields.One2many(
         comodel_name='survey.user_input_line', inverse_name='partner_id',
-        string='Surveys answers')
+        string='Surveys answers', readonly=False)
     survey_inputs = fields.One2many(
         comodel_name='survey.user_input', inverse_name='partner_id',
-        string='Surveys')
+        string='Surveys', readonly=False)
     survey_input_count = fields.Integer(
         string='Survey number', compute='_compute_survey_input_count',
         store=True)

@@ -33,7 +33,7 @@ class AdvocateDetails(geo_model.GeoModel):
     _inherit = "mail.thread"
 
     partner_id = fields.Many2one(
-        'res.partner', 'Partner', required=True, ondelete='cascade')
+        'res.partner', 'Partner', required=True, ondelete='cascade', readonly=False)
     description = fields.Text(translate=False)
     quote = fields.Text(translate=False)
     picture_large = fields.Binary(
@@ -71,11 +71,11 @@ class AdvocateDetails(geo_model.GeoModel):
     formation_ids = fields.Many2many(
         'calendar.event', string='Formation taken',
         compute='_compute_formation', inverse='_inverse_formation',
-        groups="base.group_user"
+        groups="base.group_user", readonly=False
     )
     engagement_ids = fields.Many2many(
         'advocate.engagement', 'advocate_engagement_rel',
-        'advocate_details_id', 'engagement_id', 'Engagement type'
+        'advocate_details_id', 'engagement_id', 'Engagement type', readonly=False
     )
     t_shirt_size = fields.Selection([
         ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'),
@@ -86,7 +86,7 @@ class AdvocateDetails(geo_model.GeoModel):
         ('bikeshirt', 'Bikeshirt'),
     ])
     event_ids = fields.Many2many(
-        'crm.event.compassion', string='Events', compute='_compute_events'
+        'crm.event.compassion', string='Events', compute='_compute_events', readonly=False
     )
     event_type_formation = fields.Integer(compute='_compute_formation')
     number_events = fields.Integer(compute='_compute_events')

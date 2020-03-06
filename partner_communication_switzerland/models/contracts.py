@@ -36,9 +36,9 @@ class RecurringContract(models.Model):
     payment_type_attachment = fields.Char(
         compute='_compute_payment_type_attachment')
     birthday_paid = fields.Many2many(
-        'sponsorship.gift', compute='_compute_birthday_paid')
+        'sponsorship.gift', compute='_compute_birthday_paid', readonly=False)
     due_invoice_ids = fields.Many2many(
-        'account.invoice', compute='_compute_due_invoices', store=True
+        'account.invoice', compute='_compute_due_invoices', store=True, readonly=False
     )
     period_paid = fields.Boolean(
         compute='_compute_period_paid',
@@ -91,8 +91,8 @@ class RecurringContract(models.Model):
         for sponsorship in self:
             sponsorship.birthday_paid = self.env['sponsorship.gift'].search([
                 ('sponsorship_id', '=', sponsorship.id),
-                ('gift_date', '>=', fields.Date.to_string(since_six_months)),
-                ('gift_date', '<', fields.Date.to_string(in_three_months)),
+                ('gift_date', '>=', since_six_months),
+                ('gift_date', '<', in_three_months),
                 ('sponsorship_gift_type', '=', 'Birthday'),
             ])
 
@@ -115,7 +115,7 @@ class RecurringContract(models.Model):
                     'price_subtotal')))
                 months = set()
                 for invoice in invoice_lines.mapped('invoice_id'):
-                    idate = fields.Date.from_string(invoice.date)
+                    idate = invoice.date
                     months.add((idate.month, idate.year))
                 contract.months_due = len(months)
             else:
@@ -214,8 +214,8 @@ class RecurringContract(models.Model):
                 day=calendar.monthrange(year_lookup.year,
                                         year_lookup.month)[1])
             anniversary = self.search([
-                ('start_date', '>=', fields.Date.to_string(start)),
-                ('start_date', '<=', fields.Date.to_string(stop)),
+                ('start_date', '>=', start),
+                ('start_date', '<=', stop),
                 ('state', '=', 'active'),
                 ('type', 'like', 'S')
             ])
@@ -229,8 +229,8 @@ class RecurringContract(models.Model):
         wrpr_sponsorships = self.search([
             ('state', '=', 'active'),
             ('type', '=', 'SC'),
-            ('activation_date', '<', fields.Date.to_string(three_month_ago)),
-            ('activation_date', '>=', fields.Date.to_string(four_month_ago)),
+            ('activation_date', '<', three_month_ago),
+            ('activation_date', '>=', four_month_ago),
         ])
         config = self.env.ref(module + 'sponsorship_wrpr_reminder')
         for sponsorship in wrpr_sponsorships:
@@ -404,8 +404,8 @@ class RecurringContract(models.Model):
             # reminder in that case)
             has_first_reminder = comm_obj.search_count(
                 reminder_search +
-                [('sent_date', '>=', fields.Date.to_string(fifty_ago)),
-                 ('sent_date', '<', fields.Date.to_string(twenty_ago))]
+                [('sent_date', '>=', fifty_ago),
+                 ('sent_date', '<', twenty_ago)]
             )
             if has_first_reminder:
                 second_reminder += sponsorship
@@ -414,7 +414,7 @@ class RecurringContract(models.Model):
                 # than twenty days ago
                 has_first_reminder = comm_obj.search_count(
                     reminder_search +
-                    [('sent_date', '>=', fields.Date.to_string(twenty_ago))]
+                    [('sent_date', '>=', twenty_ago)]
                 )
                 if not has_first_reminder:
                     first_reminder += sponsorship

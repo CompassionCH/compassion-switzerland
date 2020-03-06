@@ -20,7 +20,7 @@ class PartnerCommunication(models.Model):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
-    product_id = fields.Many2one('product.product', 'A4 + payment slip')
+    product_id = fields.Many2one('product.product', 'A4 + payment slip', readonly=False)
     preprinted = fields.Boolean(
         help='Enable if you print on a payment slip that already has company '
              'information printed on it.'

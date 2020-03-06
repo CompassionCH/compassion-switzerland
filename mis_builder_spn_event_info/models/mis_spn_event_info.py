@@ -17,35 +17,35 @@ class MisSpnEventInfo(models.Model):
     name = fields.Char()
     account_id = fields.Many2one(
         comodel_name='account.account',
-        string='Account',
+        string='Account', readonly=False
     )
     partner_id = fields.Many2one(
         'res.partner',
-        string='Partner',
+        string='Partner', readonly=False
     )
     invoice_id = fields.Many2one(
         'account.invoice',
-        string='Invoice',
+        string='Invoice', readonly=False
     )
     event_id = fields.Many2one(
         'crm.event.compassion',
-        string='Event',
+        string='Event', readonly=False
     )
     event_type_id = fields.Many2one(
         'event.type',
-        string='Event type',
+        string='Event type', readonly=False
     )
     user_id = fields.Many2one(
         'res.partner',
-        string='Ambassador',
+        string='Ambassador', readonly=False
     )
     analytic_account_id = fields.Many2one(
         'account.analytic.account',
-        string='Analytic account',
+        string='Analytic account', readonly=False
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
-        string='Company',
+        string='Company', readonly=False
     )
     credit = fields.Float()
     debit = fields.Float()

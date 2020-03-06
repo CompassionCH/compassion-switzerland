@@ -28,7 +28,7 @@ class SmsNotification(models.Model):
     sender = fields.Char(required=True)
     operator = fields.Char()
     service = fields.Char(required=True)
-    hook_id = fields.Many2one('sms.hook', 'Hook')
+    hook_id = fields.Many2one('sms.hook', 'Hook', readonly=False)
     language = fields.Char(required=True)
     date = fields.Datetime(default=fields.Datetime.now)
     uuid = fields.Char()
@@ -40,7 +40,7 @@ class SmsNotification(models.Model):
     ], default='new')
     failure_details = fields.Text()
     answer = fields.Text()
-    partner_id = fields.Many2one('res.partner')
+    partner_id = fields.Many2one('res.partner', readonly=False)
 
     @api.model
     def create(self, vals):

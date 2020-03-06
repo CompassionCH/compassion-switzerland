@@ -20,7 +20,7 @@ class ChangeTextWizard(models.TransientModel):
     event_text = fields.Html()
     ambassador_id = fields.Many2one(
         'res.partner', 'Ambassador', compute='_compute_ambassador',
-        inverse='_inverse_ambassador'
+        inverse='_inverse_ambassador', readonly=False
     )
     ambassador_name = fields.Char()
     ambassador_text = fields.Html()

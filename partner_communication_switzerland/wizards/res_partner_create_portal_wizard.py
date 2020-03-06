@@ -25,7 +25,7 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
         'partner.communication.config', 'choose a communication',
         domain="[('model', '=', 'res.users')]",
         default=lambda self: self.env.ref('partner_communication_switzerland'
-                                          '.portal_welcome_config').id
+                                          '.portal_welcome_config').id, readonly=False
     )
 
     @api.multi

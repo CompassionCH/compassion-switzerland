@@ -20,7 +20,7 @@ class AccountConfigSettings(models.TransientModel):
 
     _inherit = "res.config.settings"
 
-    currency_exchange_analytic_account = fields.Many2one("account.analytic.account")
+    currency_exchange_analytic_account = fields.Many2one("account.analytic.account", readonly=False)
 
     @api.multi
     def set_values(self):

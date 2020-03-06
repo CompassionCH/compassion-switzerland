@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Compassion Website',
-    'version': '11.0.1.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Website',
     'author': 'Sebastien Toth',
     'license': 'AGPL-3',

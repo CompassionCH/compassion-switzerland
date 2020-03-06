@@ -21,7 +21,7 @@ _logger = logging.getLogger(__name__)
 class PortalWizard(models.TransientModel):
     _inherit = 'portal.wizard'
 
-    invitation_config_id = fields.Many2one('partner.communication.config')
+    invitation_config_id = fields.Many2one('partner.communication.config', readonly=False)
 
     @api.onchange('portal_id')
     def onchange_portal_id(self):
@@ -38,8 +38,8 @@ class PortalWizard(models.TransientModel):
 class PortalWizardUser(models.TransientModel):
     _inherit = 'portal.wizard.user'
 
-    invitation_config_id = fields.Many2one('partner.communication.config')
-    uid_communication_id = fields.Many2one('partner.communication.job')
+    invitation_config_id = fields.Many2one('partner.communication.config', readonly=False)
+    uid_communication_id = fields.Many2one('partner.communication.job', readonly=False)
 
     @api.multi
     def action_apply(self):

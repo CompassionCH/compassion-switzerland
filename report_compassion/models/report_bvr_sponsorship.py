@@ -52,13 +52,13 @@ class BvrSponsorship(models.AbstractModel):
             if not docids and data['doc_ids']:
                 docids = data['doc_ids']
 
-        start = fields.Datetime.from_string(final_data['date_start'])
-        stop = fields.Datetime.from_string(final_data['date_stop'])
+        start = final_data['date_start']
+        stop = final_data['date_stop']
 
         # Months will contain all months we want to include for payment.
         months = list()
         while start <= stop:
-            months.append(fields.Datetime.to_string(start))
+            months.append(start)
             start = start + relativedelta(months=1)
 
         sponsorships = self.env['recurring.contract'].browse(docids)

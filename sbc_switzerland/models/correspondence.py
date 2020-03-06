@@ -49,7 +49,7 @@ class Correspondence(models.Model):
     _inherit = 'correspondence'
 
     src_translation_lang_id = fields.Many2one(
-        'res.lang.compassion', 'Source of translation')
+        'res.lang.compassion', 'Source of translation', readonly=False)
 
     ##########################################################################
     #                              ORM METHODS                               #

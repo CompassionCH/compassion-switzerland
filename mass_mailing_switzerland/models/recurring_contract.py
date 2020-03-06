@@ -43,7 +43,7 @@ class RecurringContractOrigin(models.Model):
 
     _inherit = 'recurring.contract.origin'
 
-    campaign_id = fields.Many2one('utm.campaign', 'Campaign')
+    campaign_id = fields.Many2one('utm.campaign', 'Campaign', readonly=False)
 
     @api.model
     def create(self, vals):

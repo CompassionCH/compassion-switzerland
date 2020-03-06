@@ -32,7 +32,7 @@ if not testing:
         ]
         _payment_accept_redirect = '/muskathlon_registration/payment/validate'
 
-        invoice_id = fields.Many2one('account.invoice')
+        invoice_id = fields.Many2one('account.invoice', readonly=False)
         ambassador_picture_1 = fields.Binary('Profile picture')
         ambassador_quote = fields.Text(
             'My motto', default="",

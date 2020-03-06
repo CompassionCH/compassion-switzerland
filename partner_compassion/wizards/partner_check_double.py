@@ -15,10 +15,10 @@ from odoo import api, fields, models
 class PartnerCheckDouble(models.TransientModel):
     _name = "res.partner.check.double"
 
-    partner_id = fields.Many2one('res.partner')
+    partner_id = fields.Many2one('res.partner', readonly=False)
     mergeable_partner_ids = fields.Many2many(
-        'res.partner', related='partner_id.partner_duplicate_ids')
-    selected_merge_partner_id = fields.Many2one('res.partner', 'Merge with')
+        'res.partner', related='partner_id.partner_duplicate_ids', readonly=False)
+    selected_merge_partner_id = fields.Many2one('res.partner', 'Merge with', readonly=False)
 
     @api.multi
     def merge_with(self):

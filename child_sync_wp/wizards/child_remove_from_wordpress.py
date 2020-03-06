@@ -17,7 +17,7 @@ class ChildRemoveFromWordpress(models.TransientModel):
 
     child_ids = fields.Many2many(
         'compassion.child', compute='_compute_active_ids',
-        string='Selected children', default=lambda c: c._compute_active_ids()
+        string='Selected children', default=lambda c: c._compute_active_ids(), readonly=False
     )
 
     def _compute_active_ids(self):

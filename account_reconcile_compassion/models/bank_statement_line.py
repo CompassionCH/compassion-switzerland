@@ -190,9 +190,8 @@ class BankStatementLine(models.Model):
                 res_sorted = list()
                 today = datetime.today().date()
                 for mv_line in match_recs:
-                    mv_date = fields.Datetime.from_string(
-                        mv_line.date_maturity or mv_line.date
-                    )
+                    mv_date = mv_line.date_maturity or mv_line.date
+                    
                     if mv_date.month == today.month and mv_date.year == today.year:
                         res_sorted.insert(0, mv_line.id)
                     else:
@@ -205,10 +204,10 @@ class BankStatementLine(models.Model):
     #                             PRIVATE METHODS                            #
     ##########################################################################
     def _sort_move_line(self, move_line):
-        bank_statement_line_date = fields.Datetime.from_string(self.date)
+        bank_statement_line_date = self.date
         limit_year = bank_statement_line_date.year - 5
         index = 0 if move_line.ref == self.ref else limit_year
-        mv_date = fields.Datetime.from_string(move_line.date_maturity or move_line.date)
+        mv_date = move_line.date_maturity or move_line.date
         if (
             mv_date.month == bank_statement_line_date.month
             and mv_date.year == bank_statement_line_date.year

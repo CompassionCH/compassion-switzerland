@@ -18,7 +18,7 @@ class MonitorCorrectErrors(models.Model):
     _name = 'monitor.correct.errors'
     _description = "Monitor for errors"
 
-    error_ids = fields.One2many('error.log', 'monitor_id')
+    error_ids = fields.One2many('error.log', 'monitor_id', readonly=False)
 
     def process_errors(self):
 
@@ -109,7 +109,7 @@ class MonitorCorrectErrors(models.Model):
             ('state', '=', 'Published to Global Partner'),
             ('sent_date', '=', False),
             ('letter_delivered', '=', False),
-            ('status_date', '<', fields.Date.to_string(limit_date))
+            ('status_date', '<', limit_date)
         ])
 
         error_log = {'error_type': 'B2S letters not sent'}
@@ -126,7 +126,7 @@ class MonitorCorrectErrors(models.Model):
         list_correspondence_translation_queue_error = \
             self.env['correspondence'].search([
                 ('state', '=', 'Global Partner translation queue'),
-                ('status_date', '<', fields.Date.to_string(limit_date))
+                ('status_date', '<', limit_date)
             ])
 
         error_log['error_type'] = "Letters in translation queue for too long"
@@ -142,7 +142,7 @@ class MonitorCorrectErrors(models.Model):
 
         list_correspondence_scan_error = self.env['correspondence'].\
             search([('state', '=', 'Received in the system'),
-                    ('status_date', '<', fields.Date.to_string(limit_date))])
+                    ('status_date', '<', limit_date)])
 
         error_log['error_type'] = "Letters scanned in for too long"
 

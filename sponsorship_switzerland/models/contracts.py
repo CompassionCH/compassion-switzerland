@@ -32,7 +32,7 @@ class RecurringContracts(models.Model):
         related='partner_id.church_id', readonly=True
     )
     previous_child_id = fields.Many2one(
-        'compassion.child', 'Previous child', related='parent_id.child_id')
+        'compassion.child', 'Previous child', related='parent_id.child_id', readonly=False)
     is_already_a_sponsor = fields.Boolean(
         compute="_compute_already_a_sponsor", store=True)
     next_waiting_reminder = fields.Datetime(
@@ -55,9 +55,8 @@ class RecurringContracts(models.Model):
                 lambda i: i.state == 'open')
             if invoices:
                 first_open_invoice = min([
-                    fields.Date.from_string(i.date_invoice) for i in invoices])
-                contract.first_open_invoice = fields.Date.to_string(
-                    first_open_invoice)
+                    i.date_invoice for i in invoices])
+                contract.first_open_invoice = first_open_invoice
             elif contract.state not in ('terminated', 'cancelled'):
                 contract.first_open_invoice = contract.next_invoice_date
 
@@ -84,8 +83,7 @@ class RecurringContracts(models.Model):
     @api.multi
     def _compute_next_reminder(self):
         for sponsorship in self.filtered(lambda s: s.child_id.hold_id):
-            hold_expiration = fields.Datetime.from_string(
-                sponsorship.child_id.hold_id.expiration_date)
+            hold_expiration = sponsorship.child_id.hold_id.expiration_date
             sponsorship.next_waiting_reminder = fields.Datetime.to_string(
                 hold_expiration - relativedelta(days=7)
             )
@@ -140,14 +138,12 @@ class RecurringContracts(models.Model):
         if self.state not in ('draft',
                               'mandate') and self.next_invoice_date:
             is_active = True
-            current_date = fields.Datetime.from_string(
-                self.next_invoice_date)
+            current_date = self.next_invoice_date
 
         if self.group_id:
             contract_group = self.group_id
             if contract_group.next_invoice_date:
-                next_group_date = fields.Datetime.from_string(
-                    contract_group.next_invoice_date)
+                next_group_date = contract_group.next_invoice_date
                 next_invoice_date = current_date.replace(
                     day=next_group_date.day)
             else:
@@ -160,7 +156,7 @@ class RecurringContracts(models.Model):
         if current_date.day > 15 or (payment_mode in (
                 'LSV', 'Postfinance') and not is_active):
             next_invoice_date += relativedelta(months=+1)
-        self.next_invoice_date = fields.Date.to_string(next_invoice_date)
+        self.next_invoice_date = next_invoice_date
 
     @api.multi
     def postpone_reminder(self):
@@ -249,16 +245,14 @@ class RecurringContracts(models.Model):
                     needs_mandate += contract
                 # Recompute next_invoice_date
                 today = datetime.today()
-                old_invoice_date = fields.Datetime.from_string(
-                    contract.next_invoice_date)
+                old_invoice_date = contract.next_invoice_date
                 next_invoice_date = old_invoice_date.replace(
                     month=today.month, year=today.year)
                 if today.day > 15 and next_invoice_date.day < 15:
                     next_invoice_date = next_invoice_date + relativedelta(
                         months=+1)
                 if next_invoice_date > old_invoice_date:
-                    contract.next_invoice_date = fields.Date.to_string(
-                        next_invoice_date)
+                    contract.next_invoice_date = next_invoice_date
             super(RecurringContracts, contract).contract_waiting()
             contract._reconcile_open_amount()
 

@@ -29,7 +29,7 @@ class EventStage(models.Model):
         'event.type', 'event_registration_stage_to_type_rel',
         string='Event types', ondelete='set null',
         help='Specific event types that use this stage. '
-             'Other event types will not be able to see or use this stage.')
+             'Other event types will not be able to see or use this stage.', readonly=False)
     fold = fields.Boolean(
         'Folded in Pipeline',
         help='This stage is folded in the kanban view when there are no '

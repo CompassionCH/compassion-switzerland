@@ -56,7 +56,7 @@ class Event(models.Model):
     ##########################################################################
     user_id = fields.Many2one(
         'res.users', 'Responsible', domain=[('share', '=', False)],
-        track_visibility='onchange'
+        track_visibility='onchange', readonly=False
     )
     stage_id = fields.Many2one(
         'event.registration.stage', 'Stage', track_visibility='onchange',
@@ -64,27 +64,27 @@ class Event(models.Model):
         domain="['|', ('event_type_ids', '=', False),"
                "      ('event_type_ids', '=', event_type_id)]",
         group_expand='_read_group_stage_ids',
-        default=lambda r: r._default_stage()
+        default=lambda r: r._default_stage(), readonly=False
     )
     stage_date = fields.Date(default=fields.Date.today, copy=False)
     stage_task_ids = fields.Many2many(
         'event.registration.task', 'event_registration_stage_tasks',
-        compute='_compute_stage_tasks'
+        compute='_compute_stage_tasks', readonly=False
     )
     incomplete_task_ids = fields.Many2many(
         'event.registration.task', 'event_registration_incomplete_tasks',
-        string='Incomplete tasks', compute='_compute_stage_tasks'
+        string='Incomplete tasks', compute='_compute_stage_tasks', readonly=False
     )
     complete_stage_task_ids = fields.Many2many(
         'event.registration.task', 'event_registration_stage_complete_tasks',
         string='Completed tasks', compute='_compute_stage_tasks',
         help='This shows all tasks that the participant completed for the '
-             'current stage of his registration.')
+             'current stage of his registration.', readonly=False)
     completed_task_ids = fields.Many2many(
         'event.registration.task', 'event_registration_completed_tasks',
         string='Completed tasks', copy=False,
         help='This shows all tasks that the participant completed for his '
-             'registration.')
+             'registration.', readonly=False)
     color = fields.Integer(compute='_compute_kanban_color')
     compassion_event_id = fields.Many2one(
         'crm.event.compassion', related='event_id.compassion_event_id',
@@ -101,8 +101,8 @@ class Event(models.Model):
     amount_raised_percents = fields.Integer(
         readonly=True, compute='_compute_amount_raised_percent'
     )
-    website_published = fields.Boolean(
-        compute='_compute_website_published', store=True)
+    is_published = fields.Boolean(
+        compute='_compute_is_published', store=True)
     website_url = fields.Char(
         compute='_compute_website_url'
     )
@@ -148,9 +148,9 @@ class Event(models.Model):
                                     inverse='_inverse_criminal_record')
     medical_discharge = fields.Binary(attachment=True, copy=False)
     medical_survey_id = fields.Many2one(
-        'survey.user_input', 'Medical survey', copy=False)
+        'survey.user_input', 'Medical survey', copy=False, readonly=False)
     feedback_survey_id = fields.Many2one(
-        'survey.user_input', 'Feedback survey', copy=False)
+        'survey.user_input', 'Feedback survey', copy=False, readonly=False)
     requires_medical_discharge = fields.Boolean(
         compute='_compute_requires_medical_discharge', store=True, copy=False
     )
@@ -176,14 +176,14 @@ class Event(models.Model):
         compute='_compute_passport', inverse='_inverse_passport')
     passport_number = fields.Char()
     passport_expiration_date = fields.Date()
-    flight_ids = fields.One2many('event.flight', 'registration_id', 'Flights')
+    flight_ids = fields.One2many('event.flight', 'registration_id', 'Flights', readonly=False)
 
     # Payment fields
     ################
     down_payment_id = fields.Many2one(
-        'account.invoice', 'Down payment', copy=False)
+        'account.invoice', 'Down payment', copy=False, readonly=False)
     group_visit_invoice_id = fields.Many2one(
-        'account.invoice', 'Trip invoice', copy=False)
+        'account.invoice', 'Trip invoice', copy=False, readonly=False)
 
     survey_count = fields.Integer(compute='_compute_survey_count')
     invoice_count = fields.Integer(compute='_compute_invoice_count')
@@ -244,9 +244,9 @@ class Event(models.Model):
 
     @api.multi
     @api.depends('state', 'event_id.state')
-    def _compute_website_published(self):
+    def _compute_is_published(self):
         for registration in self:
-            registration.website_published = registration.state in (
+            registration.is_published = registration.state in (
                 'open', 'done') and registration.event_id.state == 'confirm'
 
     @api.multi
@@ -316,8 +316,7 @@ class Event(models.Model):
     def _compute_kanban_color(self):
         today = date.today()
         for registration in self:
-            stage_date = fields.Date.from_string(
-                registration.stage_date) or today
+            stage_date = registration.stage_date or today
             stage_duration = (today - stage_date).days
             max_duration = registration.stage_id.duration
             if max_duration and stage_duration > max_duration:

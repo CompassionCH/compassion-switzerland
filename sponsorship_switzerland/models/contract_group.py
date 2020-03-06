@@ -24,7 +24,7 @@ class ContractGroup(models.Model):
     bvr_reference = fields.Char(
         'BVR Ref', size=32, track_visibility="onchange")
     payment_mode_id = fields.Many2one(
-        default=lambda self: self._get_op_payment_mode())
+        default=lambda self: self._get_op_payment_mode(), readonly=False)
     change_method = fields.Selection(default='clean_invoices')
 
     ##########################################################################

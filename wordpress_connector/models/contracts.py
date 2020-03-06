@@ -41,8 +41,8 @@ class Contracts(models.Model):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
-    group_id = fields.Many2one(required=False)
-    partner_id = fields.Many2one(required=False)
+    group_id = fields.Many2one(required=False, readonly=False)
+    partner_id = fields.Many2one(required=False, readonly=False)
 
     ##########################################################################
     #                             PUBLIC METHODS                             #

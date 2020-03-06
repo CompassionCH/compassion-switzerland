@@ -16,10 +16,10 @@ class ResCountryVaccine(models.Model):
     name = fields.Char(related='vaccine_id.name')
     country_id = fields.Many2one(
         'res.country', 'Country',
-        required=True, ondelete='cascade', index=True)
+        required=True, ondelete='cascade', index=True, readonly=False)
     vaccine_id = fields.Many2one(
         'res.vaccine', 'Vaccine',
-        required=True, ondelete='cascade', index=True)
+        required=True, ondelete='cascade', index=True, readonly=False)
     mandatory = fields.Boolean(
         help="True if the vaccine is mandatory when travelling to the country"
     )
@@ -46,5 +46,5 @@ class ResCountry(models.Model):
     _inherit = 'res.country'
 
     vaccine_ids = fields.One2many(
-        'res.country.vaccine', 'country_id', 'Vaccines')
+        'res.country.vaccine', 'country_id', 'Vaccines', readonly=False)
     description_url = fields.Char(translate=True)

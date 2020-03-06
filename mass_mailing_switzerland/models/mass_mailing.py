@@ -21,12 +21,12 @@ class MassMailing(models.Model):
     mailing_domain_copy = fields.Char(related='mailing_domain')
     clicks_ratio = fields.Integer(compute=False)
     click_event_ids = fields.Many2many(
-        'mail.tracking.event', compute='_compute_events')
+        'mail.tracking.event', compute='_compute_events', readonly=False)
     unsub_ratio = fields.Integer()
     unsub_event_ids = fields.Many2many(
-        'mail.tracking.event', compute='_compute_events')
+        'mail.tracking.event', compute='_compute_events', readonly=False)
     partner_test_sendgrid_id = fields.Many2one('res.partner',
-                                               'Test Partner')
+                                               'Test Partner', readonly=False)
 
     @api.multi
     def name_get(self):

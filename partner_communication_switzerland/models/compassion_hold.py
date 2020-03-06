@@ -44,7 +44,7 @@ class CompassionHold(models.Model):
         now = datetime.now()
         for hold in self.browse(ids).filtered(
                 lambda h: h.channel in ('ambassador', 'event') and
-                fields.Datetime.from_string(h.expiration_date) > now):
+                h.expiration_date > now):
             communication_type = self.env.ref(
                 'partner_communication_switzerland.hold_removal')
             job_obj.create({

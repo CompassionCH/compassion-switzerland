@@ -16,7 +16,7 @@ class PostponeWaitingReminderWizard(models.TransientModel):
     _name = 'postpone.waiting.reminder.wizard'
 
     sponsorship_id = fields.Many2one(
-        'recurring.contract', string='Sponsorship', required=True,
+        'recurring.contract', string='Sponsorship', required=True, readonly=False
     )
     next_reminder = fields.Datetime(required=True)
     next_reminder_type = fields.Selection([
@@ -25,7 +25,7 @@ class PostponeWaitingReminderWizard(models.TransientModel):
         ('2', 'Reminder 3'),
     ], required=True)
     hold_id = fields.Many2one(
-        'compassion.hold', related='sponsorship_id.child_id.hold_id'
+        'compassion.hold', related='sponsorship_id.child_id.hold_id', readonly=False
     )
 
     @api.model
@@ -43,10 +43,9 @@ class PostponeWaitingReminderWizard(models.TransientModel):
         ]).unlink()
 
         # Set expiration of hold
-        hold_expiration = fields.Datetime.from_string(
-            self.next_reminder) + relativedelta(days=7)
+        hold_expiration = self.next_reminder + relativedelta(days=7)
         self.hold_id.write({
-            'expiration_date': fields.Datetime.to_string(hold_expiration),
+            'expiration_date': hold_expiration,
             'no_money_extension': int(self.next_reminder_type)
         })
         return True

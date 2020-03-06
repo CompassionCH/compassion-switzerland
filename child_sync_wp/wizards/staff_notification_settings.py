@@ -21,19 +21,19 @@ class StaffNotificationSettings(models.TransientModel):
         domain=[
             ('user_ids', '!=', False),
             ('user_ids.share', '=', False),
-        ])
+        ], readonly=False)
     sponsorship_de_id = fields.Many2one(
         'res.partner', 'New sponsorships (DE)',
         domain=[
             ('user_ids', '!=', False),
             ('user_ids.share', '=', False),
-        ])
+        ], readonly=False)
     sponsorship_it_id = fields.Many2one(
         'res.partner', 'New sponsorships (IT)',
         domain=[
             ('user_ids', '!=', False),
             ('user_ids.share', '=', False),
-        ])
+        ], readonly=False)
 
     @api.multi
     def get_sponsorship_fr_id(self):

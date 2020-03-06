@@ -5,7 +5,7 @@
     "name": "MIS Builder unpaid invoice",
     "summary": """
         unpaid invoice for MIS Builder""",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "license": "AGPL-3",
     "author": "Odoo Community Association (OCA), Compassion Switzerland",
     "website": "https://github.com/OCA/mis-builder",

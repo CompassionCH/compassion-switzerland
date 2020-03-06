@@ -13,7 +13,7 @@ class LogSMS(models.Model):
     _name = 'sms.log'
     _description = "Log of SMS"
 
-    partner_id = fields.Many2one('res.partner', 'Partner')
+    partner_id = fields.Many2one('res.partner', 'Partner', readonly=False)
     text = fields.Text(required=True)
     subject = fields.Char()
     date = fields.Datetime(default=fields.Datetime.now)

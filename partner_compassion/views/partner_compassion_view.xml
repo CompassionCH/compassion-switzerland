@@ -305,7 +305,7 @@
                 <field name="city" filter_domain="['|',('city','ilike', self),('zip','ilike',self)]"/>
             </field>
             <xpath expr="//group">
-                <filter string="Language" context="{'group_by': 'lang'}"/>
+                <filter string="Language" name="language" context="{'group_by': 'lang'}"/>
             </xpath>
             <field name="name" position="after">
                  <field name="advocate_details_id"

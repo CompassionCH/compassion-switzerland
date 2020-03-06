@@ -22,7 +22,7 @@ class StaffNotificationSettings(models.TransientModel):
         domain=[
             ('user_ids', '!=', False),
             ('user_ids.share', '=', False),
-        ]
+        ], readonly=False
     )
 
     @api.multi

@@ -67,8 +67,7 @@ class PrintChildpack(models.TransientModel):
         records = self.env[model].browse(self.env.context.get(
             'active_ids')).filtered(
             lambda c: c.state in ('N', 'I', 'P') and c.desc_en and
-            (not c.completion_date or fields.Datetime.from_string(
-                c.completion_date) > in_two_years)
+            (not c.completion_date or c.completion_date > in_two_years)
         ).with_context(lang=self.lang)
         data = {
             'lang': self.lang,
