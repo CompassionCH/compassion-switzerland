@@ -59,18 +59,21 @@ class PartnerCommunication(models.Model):
                     self._put_bvr_in_attachments(
                         bvr, background=origin == 'both_email')
 
-            return super(PartnerCommunication, bvr_both).send()
+            super(PartnerCommunication, bvr_both).send()
 
         if bvr_to_send:
             for bvr in bvr_to_send:
                 self._put_bvr_in_attachments(bvr, background=True)
-            return super(PartnerCommunication, bvr_to_send).send()
+            super(PartnerCommunication, bvr_to_send).send()
 
         if bvr_to_print:
             for bvr in bvr_to_print:
                 if bvr.report_id != self.env.ref('report_compassion.report_a4_bvr'):
                     self._put_bvr_in_attachments(bvr, background=False)
-            return super(PartnerCommunication, bvr_to_print).send()
+            super(PartnerCommunication, bvr_to_print).send()
+
+        return super(
+            PartnerCommunication, self - bvr_both - bvr_to_print - bvr_to_send).send()
 
     def _put_bvr_in_attachments(self, bvr, background):
         pdf_download = self._generate_pdf_data(bvr, background)
