@@ -14,7 +14,7 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='right_group']">
                 <separator/>
-                <label string="Muskathlon"/>
+                <h3>Muskathlon</h3>
                 <div name="muskathlon_notifications">
                     <label for="muskathlon_lead_notify_id" class="o_light_label"/>
                     <field name="muskathlon_lead_notify_id"/>

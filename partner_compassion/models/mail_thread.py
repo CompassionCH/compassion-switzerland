@@ -20,13 +20,12 @@ class MailThread(models.AbstractModel):
     _inherit = 'mail.thread'
 
     @api.multi
-    def message_subscribe(self, partner_ids=None, channel_ids=None,
-                          subtype_ids=None, force=True):
+    def message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None):
         partners = self.env['res.partner'].browse(partner_ids)
         allowed = partners.mapped('user_ids').filtered(lambda u: not u.share)
         partner_ids = allowed.mapped('partner_id.id')
         return super().message_subscribe(
-            partner_ids, channel_ids, subtype_ids, force)
+            partner_ids, channel_ids, subtype_ids)
 
     @api.multi
     def _message_auto_subscribe_notify(self, partner_ids):

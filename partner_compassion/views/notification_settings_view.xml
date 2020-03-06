@@ -13,7 +13,7 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='left_group']">
                 <separator/>
-                <label string="Advocate birthdays"/>
+                <h3>Advocate birthdays</h3>
                 <div name="advocate_birthdays">
                     <label for="advocate_birthday_fr_id" class="o_light_label"/>
                     <field name="advocate_birthday_fr_id" widget="many2one"/>

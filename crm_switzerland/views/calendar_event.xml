@@ -76,7 +76,7 @@
     <menuitem
             id="crm_lead_menu_activities"
             name="Next Meetings"
-            parent="crm.crm_menu_pipeline"
+            parent="crm.crm_menu_sales"
             sequence="5"
             action="crm_next_events"/>
 </odoo>

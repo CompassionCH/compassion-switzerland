@@ -240,8 +240,8 @@ if not testing:
                 old = False
                 try:
                     date = value
-                    limit_date = self.main_object.compassion_event_id.end_date
-                     + relativedelta(months=6)
+                    limit_date = self.main_object.compassion_event_id.end_date \
+                        + relativedelta(months=6)
                     old = date < limit_date
                     valid = not old
                 except ValueError:

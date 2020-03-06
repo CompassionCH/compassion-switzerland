@@ -12,11 +12,8 @@ import logging
 
 from datetime import datetime
 
-from odoo import api, fields, _
+from odoo import api, fields, models, _
 from odoo.tools import file_open
-
-from odoo.addons.base_geoengine import geo_model
-from odoo.addons.base_geoengine import fields as geo_fields
 
 _logger = logging.getLogger(__name__)
 
@@ -26,7 +23,7 @@ except ImportError:
     _logger.warning("Please install pandas for the Advocate CRON to work")
 
 
-class AdvocateDetails(geo_model.GeoModel):
+class AdvocateDetails(models.Model):
     _name = "advocate.details"
     _description = "Advocate Details"
     _rec_name = "partner_id"
@@ -47,7 +44,7 @@ class AdvocateDetails(geo_model.GeoModel):
              'and to this partner.',
     )
     mail_copy_when_donation = fields.Boolean()
-    number_surveys = fields.Integer(related='partner_id.survey_input_count')
+    number_surveys = fields.Integer(related='partner_id.survey_input_count', readonly=False)
 
     # Advocacy fields
     #################
@@ -103,7 +100,7 @@ class AdvocateDetails(geo_model.GeoModel):
         related='partner_id.city', store=True, readonly=True)
     email = fields.Char(
         related='partner_id.email', store=True, readonly=True)
-    geo_point = geo_fields.GeoPoint(readonly=True)
+    geo_point = fields.GeoPoint(readonly=True)
 
     _sql_constraints = [
         ('details_unique', 'unique(partner_id)',

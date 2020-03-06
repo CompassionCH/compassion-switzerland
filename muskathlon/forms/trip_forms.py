@@ -14,7 +14,6 @@ from odoo import models, fields, tools, _
 
 testing = tools.config.get('test_enable')
 
-
 if not testing:
     # prevent these forms to be registered when running tests
 
@@ -147,6 +146,7 @@ if not testing:
             # pass a copy to avoid pollution of initial values by odoo
             self.main_object.sudo(uid).write(values.copy())
 
+
     class LargePictureForm(models.AbstractModel):
         _name = 'cms.form.muskathlon.large.picture'
         _inherit = 'cms.form'
@@ -168,7 +168,7 @@ if not testing:
         @property
         def form_widgets(self):
             res = super(LargePictureForm, self).form_widgets
-            res['picture_large'] =\
+            res['picture_large'] = \
                 'cms_form_compassion.form.widget.simple.image'
             return res
 
@@ -185,7 +185,7 @@ if not testing:
             messages when multiple forms are present on same page.
             """
             # Mark tasks as done
-            self.main_object.partner_id.registration_ids[:1].sudo()\
+            self.main_object.partner_id.registration_ids[:1].sudo() \
                 .completed_task_ids += self.env.ref('muskathlon.task_picture')
             self.o_request.website.get_status_message()
 
@@ -220,6 +220,7 @@ if not testing:
             # Clean storage of picture
             self.request.session.pop('picture_large', False)
             return super(LargePictureForm, self).form_next_url(main_object)
+
 
     class FlightDetailsForm(models.AbstractModel):
         _name = 'cms.form.muskathlon.flight.details'
@@ -338,12 +339,12 @@ if not testing:
             self.o_request.website.get_status_message()
             local_tz = pytz.timezone(self.env.user.tz)
             tz_offset = local_tz.utcoffset(datetime.now())
-            departure = extra_values['departure_date'] + ' ' +
-                extra_values['departure_time'] + ':00 '
-             - tz_offset
-            arrival = extra_values['arrival_date'] + ' ' +
-                extra_values['arrival_time'] + ':00 ',
-             - tz_offset
+            departure = fields.Datetime.from_string(
+                fields.Datetime.to_string(extra_values['departure_date']) + ' ' +
+                extra_values['departure_time'] + ':00 ') - tz_offset
+            arrival = fields.Datetime.from_string(
+                fields.Datetime.to_string(extra_values['arrival_date']) + ' ' +
+                extra_values['arrival_time'] + ':00 ') - tz_offset
             values.update({
                 'registration_id': self.registration_id,
                 'flight_type': self.flight_type,
@@ -360,6 +361,7 @@ if not testing:
             if len(registration.flight_ids) == 2:
                 registration.completed_task_ids += self.env.ref(
                     'muskathlon.task_flight_details')
+
 
     class PassportForm(models.AbstractModel):
         _name = 'cms.form.muskathlon.passport'

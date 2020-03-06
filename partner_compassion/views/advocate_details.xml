@@ -127,7 +127,7 @@
         <field name="model">advocate.details</field>
     </record>
     <record id="geoengine_vector_layer_advocate" model="geoengine.vector.layer">
-        <field name="geo_field_id" ref="partner_compassion.field_advocate_details_geo_point"/>
+        <field name="geo_field_id" ref="partner_compassion.field_advocate_details__geo_point"/>
         <field name="name">Advocate location</field>
         <field eval="6" name="sequence"/>
         <field name="view_id" ref="view_advocate_geo"/>

@@ -8,15 +8,14 @@
 #
 ##############################################################################
 import logging
-from odoo import api, fields
+from odoo import api, fields, models
 from . import translate_connector
-from odoo.addons.base_geoengine import geo_model
 
 
 _logger = logging.getLogger(__name__)
 
 
-class AdvocateDetails(geo_model.GeoModel):
+class AdvocateDetails(models.Model):
     _inherit = 'advocate.details'
 
     translator_since = fields.Datetime()
