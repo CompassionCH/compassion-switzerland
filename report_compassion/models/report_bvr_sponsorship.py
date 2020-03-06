@@ -118,6 +118,7 @@ class BvrSponsorshipDue(models.AbstractModel):
     Allows to send custom data to report.
     """
     _name = 'report.report_compassion.bvr_due'
+    _description = 'Report BVR Sponsorship due'
 
     @api.model
     def get_report_values(self, docids, data=None):

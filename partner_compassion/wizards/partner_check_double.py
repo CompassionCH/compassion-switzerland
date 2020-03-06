@@ -14,6 +14,7 @@ from odoo import api, fields, models
 
 class PartnerCheckDouble(models.TransientModel):
     _name = "res.partner.check.double"
+    _description = "Partner Check Duplicates"
 
     partner_id = fields.Many2one('res.partner', readonly=False)
     mergeable_partner_ids = fields.Many2many(

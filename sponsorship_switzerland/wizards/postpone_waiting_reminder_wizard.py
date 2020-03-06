@@ -14,6 +14,7 @@ from odoo import models, api, fields
 
 class PostponeWaitingReminderWizard(models.TransientModel):
     _name = 'postpone.waiting.reminder.wizard'
+    _description = 'Postpone Waiting Reminder Wizard'
 
     sponsorship_id = fields.Many2one(
         'recurring.contract', string='Sponsorship', required=True, readonly=False

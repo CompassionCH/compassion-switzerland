@@ -138,6 +138,7 @@ class PrintBvrDue(models.TransientModel):
     """
 
     _name = "print.sponsorship.bvr.due"
+    _description = "Print sponsorship due BVR"
 
     draw_background = fields.Boolean()
     state = fields.Selection([("new", "new"), ("pdf", "pdf")], default="new")
