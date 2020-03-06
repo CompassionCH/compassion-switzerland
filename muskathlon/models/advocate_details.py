@@ -6,11 +6,11 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import fields, api
-from odoo.addons.base_geoengine import geo_model
+from odoo import fields, api, models
 
 
-class MuskathlonDetails(geo_model.GeoModel):
+
+class MuskathlonDetails(models.Model):
     _inherit = "advocate.details"
 
     trip_information_complete = fields.Boolean(

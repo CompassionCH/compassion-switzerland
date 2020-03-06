@@ -21,8 +21,8 @@
                 <filter name="language" string="Language" domain="[]" context="{'group_by': 'partner_lang'}"/>
                 <filter name="reprise" string="Reprise" domain="[]" context="{'group_by': 'is_already_a_sponsor'}"/>
 
-                <filter string="By weeks" domain="[]" context="{'group_by': 'activation_date:week'}" />
-                <filter string="By months" domain="[]" context="{'group_by': 'activation_date:month'}" />
+                <filter string="By weeks" name="by_weeks" domain="[]" context="{'group_by': 'activation_date:week'}" />
+                <filter string="By months" name="by_months" domain="[]" context="{'group_by': 'activation_date:month'}" />
             </search>
         </field>
     </record>

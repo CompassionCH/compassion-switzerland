@@ -7,10 +7,10 @@
             <form>
                 <field name="state" invisible="1"/>
                 <sheet>
-                    <div states="invalid_partner" class="alert alert-danger center-block">
+                    <div states="invalid_partner" class="alert alert-danger center-block" role="alert">
                         <p>You selected multiple partners. You can only make this with a single partner.</p>
                     </div>
-                    <div states="invalid_invoice" class="alert alert-danger center-block">
+                    <div states="invalid_invoice" class="alert alert-danger center-block" role="alert">
                         <p>Invalid invoice selection. You can only make this with open invoices.</p>
                     </div>
                     <p>You can edit here the origin of the invoice. This short notice will appear to the partner on the Postfinance transaction page.</p>
@@ -22,7 +22,7 @@
                     <group>
                         <field name="invoice_ids" context="{'search_default_unpaid': 1}"/>
                     </group>
-                    <div states="multi" class="alert alert-info center-block">
+                    <div states="multi" class="alert alert-info center-block" role="status">
                         <p>You selected multiple invoices. This will merge all invoices together in order to generate a single payment for the partner.</p>
                     </div>
                 </sheet>

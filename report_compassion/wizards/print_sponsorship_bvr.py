@@ -100,8 +100,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         (single bvr / 2 bvr / 3 bvr).
         :return: Generated report
         """
-        if self.date_start >= self.date_stop
-        :
+        if self.date_start >= self.date_stop:
             raise odooWarning(_("Date stop must be after date start."))
         data = {
             "date_start": self.date_start,

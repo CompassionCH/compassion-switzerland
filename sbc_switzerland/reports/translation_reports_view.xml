@@ -22,9 +22,9 @@
                 <filter string="Supporter To Beneficiary" name="s2b" domain="[('direction', '=', 'Supporter To Beneficiary')]"/>
                 <filter string="Beneficiary To Supporter" name="s2b" domain="[('direction', '=', 'Beneficiary To Supporter')]"/>
                 <group expand="0" string="Group By">
-                    <filter string="Translator" domain="[]" context="{'group_by': 'translator_id'}" />
-                    <filter string="Language" domain="[]" context="{'group_by': 'language'}" />
-                    <filter string="Direction" domain="[]" context="{'group_by': 'direction'}" />
+                    <filter string="Translator" name="translator" domain="[]" context="{'group_by': 'translator_id'}" />
+                    <filter string="Language" name="language" domain="[]" context="{'group_by': 'language'}" />
+                    <filter string="Direction" name="direction" domain="[]" context="{'group_by': 'direction'}" />
                 </group>
             </search>
         </field>

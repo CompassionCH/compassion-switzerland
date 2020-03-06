@@ -12,11 +12,9 @@ import tempfile
 import uuid
 
 from ast import literal_eval
-from odoo import api, registry, fields, _
+from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
 from odoo.tools.config import config
-from odoo.addons.base_geoengine.fields import GeoPoint
-from odoo.addons.base_geoengine import geo_model
 
 # fields that are synced if 'use_parent_address' is checked
 ADDRESS_FIELDS = [
@@ -33,7 +31,7 @@ except ImportError:
     logger.warning("Please install python dependencies.", exc_info=True)
 
 
-class ResPartner(geo_model.GeoModel):
+class ResPartner(models.Model):
     """ This class upgrade the partners to match Compassion needs.
         It also synchronize all changes with the MySQL server of GP.
     """
@@ -303,7 +301,7 @@ class ResPartner(geo_model.GeoModel):
                       p.partner_longitude).geo_localize()
         for partner in self.filtered(lambda p: p.partner_latitude and
                                      p.partner_longitude):
-            geo_point = GeoPoint.from_latlon(
+            geo_point = fields.GeoPoint.from_latlon(
                 self.env.cr,
                 partner.partner_latitude,
                 partner.partner_longitude)

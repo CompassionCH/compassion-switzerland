@@ -12,7 +12,7 @@ from odoo import api, models
 
 
 class HrHolidays(models.Model):
-    _inherit = "hr.holidays"
+    _inherit = "hr.leave"
 
     @api.multi
     def action_validate(self):
