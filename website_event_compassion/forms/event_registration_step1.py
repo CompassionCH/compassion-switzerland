@@ -29,7 +29,7 @@ if not testing:
 
         form_buttons_template = 'cms_form_compassion.modal_form_buttons'
         form_id = 'modal_compassion_event_registration'
-        event_id = fields.Many2one('event.event')
+        event_id = fields.Many2one('event.event', readonly=False)
 
         @property
         def form_msg_success_created(self):

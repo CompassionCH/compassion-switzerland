@@ -93,7 +93,7 @@ class PaymentTransaction(models.Model):
     postfinance_brand = fields.Char()
     payment_mode_id = fields.Many2one(
         'account.payment.mode', 'Payment mode',
-        compute='_compute_payment_mode', store=True)
+        compute='_compute_payment_mode', store=True, readonly=False)
 
     @api.multi
     @api.depends('postfinance_brand')

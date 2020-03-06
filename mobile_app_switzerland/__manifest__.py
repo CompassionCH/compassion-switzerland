@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Mobile App Customization for Switerland',
-    'version': '11.0.0.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Reports',
     'author': 'Compassion CH',
     'license': 'AGPL-3',

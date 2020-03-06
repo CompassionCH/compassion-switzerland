@@ -307,7 +307,7 @@ if not testing:
                 else:
                     date = registration.event_id.date_end
             local_tz = pytz.timezone(self.env.user.tz)
-            full_date = fields.Datetime.from_string(date).replace(
+            full_date = date.replace(
                 tzinfo=pytz.utc).astimezone(local_tz)
             return full_date.strftime('%d.%m.%Y'), full_date.strftime('%H:%M')
 
@@ -338,19 +338,17 @@ if not testing:
             self.o_request.website.get_status_message()
             local_tz = pytz.timezone(self.env.user.tz)
             tz_offset = local_tz.utcoffset(datetime.now())
-            departure = fields.Datetime.from_string(
-                extra_values['departure_date'] + ' ' +
+            departure = extra_values['departure_date'] + ' ' +
                 extra_values['departure_time'] + ':00 '
-            ) - tz_offset
-            arrival = fields.Datetime.from_string(
-                extra_values['arrival_date'] + ' ' +
+             - tz_offset
+            arrival = extra_values['arrival_date'] + ' ' +
                 extra_values['arrival_time'] + ':00 ',
-            ) - tz_offset
+             - tz_offset
             values.update({
                 'registration_id': self.registration_id,
                 'flight_type': self.flight_type,
-                'departure': fields.Datetime.to_string(departure),
-                'arrival': fields.Datetime.to_string(arrival),
+                'departure': departure,
+                'arrival': arrival,
             })
 
         def form_after_create_or_update(self, values, extra_values):

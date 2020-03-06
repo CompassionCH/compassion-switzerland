@@ -19,11 +19,11 @@ class ReconcileFundWizard(models.TransientModel):
 
     fund_id = fields.Many2one(
         'product.product', 'Fund', required=True,
-        default=lambda self: self._get_general_fund())
+        default=lambda self: self._get_general_fund(), readonly=False)
     contract_ids = fields.Many2many(
         'recurring.contract',
         string='Related contracts',
-        default=lambda self: self._get_contract_ids())
+        default=lambda self: self._get_contract_ids(), readonly=False)
 
     def _get_contract_ids(self):
         move_line_obj = self.env['account.move.line']

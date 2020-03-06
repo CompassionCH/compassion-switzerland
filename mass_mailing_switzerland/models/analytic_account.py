@@ -14,4 +14,4 @@ class AnalyticAccount(models.Model):
 
     _inherit = 'account.analytic.account'
 
-    campaign_id = fields.Many2one('utm.campaign')
+    campaign_id = fields.Many2one('utm.campaign', readonly=False)

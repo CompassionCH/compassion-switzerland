@@ -18,7 +18,7 @@ class RecurringContract(models.Model):
 
     registration_id = fields.Many2one(
         'event.registration', compute='_compute_muskathlon_registration',
-        store=True
+        store=True, readonly=False
     )
 
     @api.multi

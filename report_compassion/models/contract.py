@@ -38,7 +38,7 @@ class Contract(models.Model):
                     'fund-suspended' and contract.type != 'SC':
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang='en_US').filtered(lambda i: i.state == 'open' and
-                                           fields.Date.from_string(i.due_date)
+                                           i.due_date
                                            < this_month and
                                            i.invoice_id.invoice_type == 'sponsorship')
                 contract.amount_due = int(sum(invoice_lines.mapped(
@@ -55,7 +55,7 @@ class Contract(models.Model):
             'de_DE': u'Geburtstag',
             'it_IT': u'Compleanno',
         }
-        birthdate = fields.Date.from_string(child.birthdate).strftime(
+        birthdate = child.birthdate.strftime(
             "%d.%m.%Y")
         vals = {
             'firstname': child.preferred_name,

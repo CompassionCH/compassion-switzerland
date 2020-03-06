@@ -13,7 +13,7 @@ from odoo import models, api, fields
 class GenerateCommunicationWizard(models.TransientModel):
     _inherit = 'partner.communication.generate.wizard'
 
-    product_id = fields.Many2one('product.product', 'Attach payment slip for')
+    product_id = fields.Many2one('product.product', 'Attach payment slip for', readonly=False)
     preprinted = fields.Boolean(
         help='Enable if you print on a payment slip that already has company '
              'information printed on it.'

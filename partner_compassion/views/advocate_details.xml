@@ -105,8 +105,8 @@
                 <filter name="church" string="Church" domain="[('engagement_ids','like', 'Church')]"/>
                 <filter name="translator" string="Translator" domain="[('engagement_ids','like', 'Translation')]"/>
                 <group expand="0" string="Group By...">
-                    <filter string="State" domain="[]" context="{'group_by':'state'}"/>
-                    <filter string="Language" domain="[]" context="{'group_by':'lang'}"/>
+                    <filter string="State" name="state" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="Language" name="language" domain="[]" context="{'group_by':'lang'}"/>
                 </group>
             </search>
         </field>

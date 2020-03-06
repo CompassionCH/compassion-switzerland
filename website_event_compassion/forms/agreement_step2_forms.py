@@ -239,10 +239,9 @@ if not testing:
                 valid = True
                 old = False
                 try:
-                    date = fields.Date.from_string(value)
-                    limit_date = fields.Date.from_string(
-                        self.main_object.compassion_event_id.end_date
-                    ) + relativedelta(months=6)
+                    date = value
+                    limit_date = self.main_object.compassion_event_id.end_date
+                     + relativedelta(months=6)
                     old = date < limit_date
                     valid = not old
                 except ValueError:

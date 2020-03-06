@@ -58,7 +58,7 @@ class ContractGroup(models.Model):
         payment_mode = self.with_context(lang='en_US').payment_mode_id
         # Take first open invoice or next_invoice_date
         open_invoice = min(
-            [fields.Date.from_string(i)
+            [i
              for i in sponsorships.mapped('first_open_invoice')
              if i])
         if open_invoice:
@@ -69,7 +69,7 @@ class ContractGroup(models.Model):
         # Only keep unpaid months
         valid_months = [
             month for month in months
-            if fields.Date.from_string(month) >= first_invoice_date
+            if month >= first_invoice_date
         ]
         if 'Permanent' in payment_mode.name:
             return valid_months[:1]
@@ -112,8 +112,8 @@ class ContractGroup(models.Model):
         date_stop = fields.Date
 
         if start and stop:
-            date_start = fields.Date.from_string(start)
-            date_stop = fields.Date.from_string(stop)
+            date_start = start
+            date_stop = stop
             nb_month = relativedelta(date_stop, date_start).months + 1
             month = date_start
             if sponsorships.mapped('payment_mode_id') == self.env.ref(
@@ -123,9 +123,9 @@ class ContractGroup(models.Model):
                 for i in range(0, nb_month):
                     valid = sponsorships.filtered(
                         lambda s: s.first_open_invoice and
-                        fields.Date.from_string(s.first_open_invoice) <= month
+                        s.first_open_invoice <= month
                         or (s.next_invoice_date and
-                            fields.Date.from_string(s.next_invoice_date) <=
+                            s.next_invoice_date <=
                             month)
                     )
                     number_sponsorship = max(number_sponsorship, len(valid))

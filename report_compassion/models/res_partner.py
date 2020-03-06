@@ -36,8 +36,8 @@ class ResPartner(models.Model):
         start_date = date(year, 1, 1)
         end_date = date(year, 12, 31)
         invoice_lines = self.env['account.invoice.line'].search([
-            ('last_payment', '>=', fields.Date.to_string(start_date)),
-            ('last_payment', '<=', fields.Date.to_string(end_date)),
+            ('last_payment', '>=', start_date),
+            ('last_payment', '<=', end_date),
             ('state', '=', 'paid'),
             ('product_id.requires_thankyou', '=', True),
             '|', ('partner_id', '=', self.id),

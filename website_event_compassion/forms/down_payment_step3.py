@@ -22,11 +22,11 @@ if not testing:
         _payment_accept_redirect = '/event/payment/gpv_payment_validate'
         _display_type = 'full'
 
-        event_id = fields.Many2one('crm.event.compassion')
-        registration_id = fields.Many2one('event.registration')
+        event_id = fields.Many2one('crm.event.compassion', readonly=False)
+        registration_id = fields.Many2one('event.registration', readonly=False)
         partner_name = fields.Char('Participant', readonly=True)
         amount = fields.Float(readonly=True)
-        invoice_id = fields.Many2one('account.invoice')
+        invoice_id = fields.Many2one('account.invoice', readonly=False)
 
         @property
         def _form_fieldsets(self):

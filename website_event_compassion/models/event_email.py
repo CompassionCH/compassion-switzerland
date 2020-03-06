@@ -19,16 +19,16 @@ class EventMail(models.Model):
     ##########################################################################
     communication_id = fields.Many2one(
         'partner.communication.config', 'Communication',
-        domain=[('model_id.model', '=', 'event.registration')],
+        domain=[('model_id.model', '=', 'event.registration')], readonly=False
     )
-    template_id = fields.Many2one(related='communication_id.email_template_id')
+    template_id = fields.Many2one(related='communication_id.email_template_id', readonly=False)
     interval_type = fields.Selection(selection_add=[
         ('after_stage', 'After stage')
     ])
-    stage_id = fields.Many2one('event.registration.stage', 'Stage')
+    stage_id = fields.Many2one('event.registration.stage', 'Stage', readonly=False)
 
-    event_type_id = fields.Many2one('event.type')
-    event_id = fields.Many2one(required=False)
+    event_type_id = fields.Many2one('event.type', readonly=False)
+    event_id = fields.Many2one(required=False, readonly=False)
 
     @api.multi
     @api.depends('event_id.state', 'event_id.date_begin', 'interval_type',
@@ -102,8 +102,7 @@ class EventMailRegistration(models.Model):
                 registration = mail.registration_id
                 scheduler = mail.scheduler_id
                 if registration.stage_id == scheduler.stage_id:
-                    date_open = fields.Datetime.from_string(
-                        registration.stage_date)
+                    date_open = registration.stage_date
                     mail.scheduled_date = fields.Datetime.to_string(
                         date_open + _INTERVALS[scheduler.interval_unit](
                             scheduler.interval_nbr))

@@ -69,13 +69,13 @@ class PrintSponsorshipBvr(models.TransientModel):
         # Exception in December, we want to print for next year.
         if today.month == 12 and today.day > 10:
             stop = stop.replace(year=today.year + 1)
-        return fields.Date.to_string(stop)
+        return stop
 
     @api.onchange("period_selection")
     def onchange_period(self):
         today = datetime.today()
-        start = fields.Datetime.from_string(self.date_start)
-        stop = fields.Datetime.from_string(self.date_stop)
+        start = self.date_start
+        stop = self.date_stop
         if self.period_selection == "this_year":
             start = start.replace(year=today.year)
             stop = stop.replace(year=today.year)
@@ -100,9 +100,8 @@ class PrintSponsorshipBvr(models.TransientModel):
         (single bvr / 2 bvr / 3 bvr).
         :return: Generated report
         """
-        if fields.Date.from_string(self.date_start) >= fields.Date.from_string(
-            self.date_stop
-        ):
+        if self.date_start >= self.date_stop
+        :
             raise odooWarning(_("Date stop must be after date start."))
         data = {
             "date_start": self.date_start,

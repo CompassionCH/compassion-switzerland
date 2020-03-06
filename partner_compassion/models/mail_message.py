@@ -18,11 +18,11 @@ class MailMessage(models.Model):
     """
     _inherit = 'mail.message'
 
-    ancestor = fields.Many2one('mail.message', compute='_compute_ancestor')
+    ancestor = fields.Many2one('mail.message', compute='_compute_ancestor', readonly=False)
     tracking_ids = fields.Many2many(
         'mail.message', 'mail_message_to_mail_message_tracking',
         'message_id', 'tracking_message_id',
-        'Related tracked messages')
+        'Related tracked messages', readonly=False)
 
     @api.multi
     def _compute_ancestor(self):

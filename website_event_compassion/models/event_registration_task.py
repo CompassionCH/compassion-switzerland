@@ -19,4 +19,4 @@ class EventStage(models.Model):
                               help="Used to order tasks. Lower is better.")
     stage_id = fields.Many2one(
         'event.registration.stage', 'Stage', required=True,
-        help='Associate this task to this registration stage.')
+        help='Associate this task to this registration stage.', readonly=False)

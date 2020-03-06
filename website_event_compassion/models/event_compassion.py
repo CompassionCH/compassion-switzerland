@@ -27,11 +27,11 @@ class EventCompassion(models.Model):
     event_type_id = fields.Many2one(
         'event.type', 'Type', required=True,
         # Avoids selecting generic events
-        domain=[('id', '>', 1)],
+        domain=[('id', '>', 1)], readonly=False
     )
     type = fields.Selection(
         compute='_compute_event_type', default='meeting', store=True)
-    odoo_event_id = fields.Many2one('event.event')
+    odoo_event_id = fields.Many2one('event.event', readonly=False)
     accepts_registrations = fields.Boolean(
         related='event_type_id.accepts_registrations')
     seats_expected = fields.Integer(related='odoo_event_id.seats_expected')

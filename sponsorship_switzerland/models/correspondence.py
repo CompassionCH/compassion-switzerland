@@ -15,4 +15,4 @@ from odoo import fields
 class Correspondence(models.Model):
     _inherit = 'correspondence'
 
-    gift_id = fields.Many2one('sponsorship.gift', 'Gift')
+    gift_id = fields.Many2one('sponsorship.gift', 'Gift', readonly=False)

@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     'name': 'Payment Ogone compassion',
-    'version': '11.0.1.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Reports',
     'author': 'Nicolas Badoux',
     'license': 'AGPL-3',

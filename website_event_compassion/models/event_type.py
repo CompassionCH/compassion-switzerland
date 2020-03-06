@@ -21,4 +21,4 @@ class EventType(models.Model):
     )
 
     event_mail_ids = fields.Many2many('event.mail',
-                                      domain=[('event_id', '=', False)])
+                                      domain=[('event_id', '=', False)], readonly=False)

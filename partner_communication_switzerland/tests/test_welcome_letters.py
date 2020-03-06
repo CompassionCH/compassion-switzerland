@@ -89,9 +89,9 @@ class TestSponsorship(BaseSponsorshipTest):
         # Simulate the SDS state was in 10 days and check the welcome e-mail
         # is sent.
         eleven_days_ago = date.today() - relativedelta(days=11)
-        sponsorship.sds_state_date = fields.Date.to_string(eleven_days_ago)
+        sponsorship.sds_state_date = eleven_days_ago
         self.env.ref('partner_communication_switzerland.check_welcome_email') \
-            .last_run = fields.Date.to_string(eleven_days_ago)
+            .last_run = eleven_days_ago
         sponsorship.send_welcome_letter()
         self.assertEqual(sponsorship.sds_state, 'active')
 
@@ -108,7 +108,7 @@ class TestSponsorship(BaseSponsorshipTest):
         # Now test the welcome active communication
         sponsorship.force_activation()
         two_days_ago = date.today() - relativedelta(days=2)
-        sponsorship.activation_date = fields.Date.to_string(two_days_ago)
+        sponsorship.activation_date = two_days_ago
         sponsorship._send_welcome_active_letters_for_activated_sponsorships()
         welcome_active = self.env.ref(
             'partner_communication_switzerland.welcome_activation')
@@ -120,7 +120,7 @@ class TestSponsorship(BaseSponsorshipTest):
         self.assertFalse(sponsorship.welcome_active_letter_sent)
 
         # Now set the start date in the past and welcome active should be sent
-        sponsorship.start_date = fields.Date.to_string(eleven_days_ago)
+        sponsorship.start_date = eleven_days_ago
         sponsorship._send_welcome_active_letters_for_activated_sponsorships()
         partner_communications = self.env['partner.communication.job'].search([
             ('partner_id', '=', self.thomas.id),
@@ -158,7 +158,7 @@ class TestSponsorship(BaseSponsorshipTest):
         self.assertEqual(sponsorship.sds_state, 'active')
         # Perform action rules (shouldn't do anything)
         eleven_days_ago = date.today() - relativedelta(days=11)
-        sponsorship.sds_state_date = fields.Date.to_string(eleven_days_ago)
+        sponsorship.sds_state_date = eleven_days_ago
         self.env['base.automation']._check()
         self.assertEqual(sponsorship.sds_state, 'active')
         welcome_email = self.env.ref(
@@ -172,8 +172,8 @@ class TestSponsorship(BaseSponsorshipTest):
         # Now test the welcome active communication
         sponsorship.force_activation()
         two_days_ago = date.today() - relativedelta(days=2)
-        sponsorship.activation_date = fields.Date.to_string(two_days_ago)
-        sponsorship.start_date = fields.Date.to_string(eleven_days_ago)
+        sponsorship.activation_date = two_days_ago
+        sponsorship.start_date = eleven_days_ago
         sponsorship._send_welcome_active_letters_for_activated_sponsorships()
         welcome_active = self.env.ref(
             'partner_communication_switzerland.welcome_activation')

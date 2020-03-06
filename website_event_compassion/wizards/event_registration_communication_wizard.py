@@ -18,7 +18,7 @@ class EventRegistrationCommunicationWizard(models.TransientModel):
 
     config_id = fields.Many2one(
         'partner.communication.config', 'Communication',
-        domain="[('model', '=', 'event.registration')]"
+        domain="[('model', '=', 'event.registration')]", readonly=False
     )
 
     @api.multi

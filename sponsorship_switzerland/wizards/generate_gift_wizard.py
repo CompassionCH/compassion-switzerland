@@ -37,9 +37,9 @@ class GenerateGiftWizard(models.TransientModel):
         dd = self.env.ref(
             'sponsorship_switzerland.payment_mode_postfinance_dd').ids
         if payment_mode_id in lsv + dd:
-            date_invoice = fields.Date.from_string(res['date_invoice'])
+            date_invoice = res['date_invoice']
             start_of_month = date_invoice.replace(day=1)
-            res['date_invoice'] = fields.Date.to_string(start_of_month)
+            res['date_invoice'] = start_of_month
 
     @api.model
     def generate_bvr_reference(self, contract, product):

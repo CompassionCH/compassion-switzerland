@@ -18,12 +18,12 @@ class OpenEventToParticipant(models.TransientModel):
 
     registration_fee = fields.Float()
     product_id = fields.Many2one('product.product', 'Registration product',
-                                 domain=[('event_ok', '=', True)])
+                                 domain=[('event_ok', '=', True)], readonly=False)
     seats_min = fields.Integer('Minimum participants required')
     seats_max = fields.Integer('Maximum participants allowed')
     fundraising = fields.Boolean()
     donation_product_id = fields.Many2one(
-        'product.product', 'Donation product')
+        'product.product', 'Donation product', readonly=False)
     participants_amount_objective = fields.Integer(
         'Default raise objective by participant', default=10000)
     sponsorship_donation_value = fields.Float(

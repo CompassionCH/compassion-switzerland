@@ -31,13 +31,13 @@ class Correspondence(models.Model):
     letter_delivery_preference = fields.Selection(
         related="partner_id.letter_delivery_preference"
     )
-    communication_id = fields.Many2one("partner.communication.job", "Communication")
+    communication_id = fields.Many2one("partner.communication.job", "Communication", readonly=False)
     email_id = fields.Many2one(
         "mail.mail",
         "E-mail",
         related="communication_id.email_id",
         store=True,
-        index=True,
+        index=True, readonly=False
     )
     communication_state = fields.Selection(related="communication_id.state")
     sent_date = fields.Datetime(
@@ -188,7 +188,7 @@ class Correspondence(models.Model):
             )
             new_letters = to_generate - final_letters
             old_letters = new_letters.filtered(
-                lambda l: fields.Datetime.from_string(l.create_date) < old_limit
+                lambda l: l.create_date < old_limit
             )
             new_letters -= old_letters
 
@@ -257,7 +257,7 @@ class Correspondence(models.Model):
             ("direction", "=", "Beneficiary To Supporter"),
             ("state", "=", "Published to Global Partner"),
             ("letter_delivered", "=", False),
-            ("sent_date", "<", fields.Date.to_string(ten_days_ago)),
+            ("sent_date", "<", ten_days_ago),
         ]
         return domain
 

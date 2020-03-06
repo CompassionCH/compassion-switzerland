@@ -19,16 +19,16 @@ class InviteParticipantsToPartyWizard(models.TransientModel):
     registration_ids = fields.Many2many(
         'event.registration', 'event_registration_to_party_invitation_rel',
         string='Choose participants',
-        default=lambda s: s._default_registration_ids()
+        default=lambda s: s._default_registration_ids(), readonly=False
     )
     event_id = fields.Many2one(
-        'event.event', default=lambda s: s.env.context.get('active_id')
+        'event.event', default=lambda s: s.env.context.get('active_id'), readonly=False
     )
     date_start = fields.Datetime(required=True)
     date_end = fields.Datetime(required=True)
     address_id = fields.Many2one(
         'res.partner', 'Location',
-        default=lambda s: s.env.user.company_id.partner_id.id)
+        default=lambda s: s.env.user.company_id.partner_id.id, readonly=False)
 
     @api.multi
     def _default_registration_ids(self):

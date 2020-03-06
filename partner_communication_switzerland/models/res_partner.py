@@ -86,7 +86,7 @@ class ResPartner(models.Model):
         def _get_default_pref(partner):
             if partner.birthdate_date:
                 today = date.today()
-                birthday = fields.Date.from_string(partner.birthdate_date)
+                birthday = partner.birthdate_date
                 if (today - birthday).days > 365 * 60:
                     # Old people get paper
                     return 'physical'
@@ -123,8 +123,8 @@ class ResPartner(models.Model):
         start_date = today.replace(today.year - 1, 1, 1)
         end_date = today.replace(today.year - 1, 12, 31)
         invoice_lines = self.env['account.invoice.line'].search([
-            ('last_payment', '>=', fields.Date.to_string(start_date)),
-            ('last_payment', '<=', fields.Date.to_string(end_date)),
+            ('last_payment', '>=', start_date),
+            ('last_payment', '<=', end_date),
             ('state', '=', 'paid'),
             ('product_id.requires_thankyou', '=', True),
             ('partner_id.tax_certificate', '!=', 'no'),
@@ -134,7 +134,7 @@ class ResPartner(models.Model):
         existing_comm = self.env['partner.communication.job'].search([
             ('config_id', '=', config.id),
             ('state', 'in', ['pending', 'done', 'call']),
-            ('date', '>', fields.Date.to_string(end_date))
+            ('date', '>', end_date)
         ])
         partners = invoice_lines.mapped('partner_id') - existing_comm.mapped(
             'partner_id')

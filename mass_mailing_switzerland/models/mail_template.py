@@ -15,7 +15,7 @@ class MailTemplate(models.Model):
     _inherit = 'mail.template'
 
     report_product_id = fields.Many2one(
-        'product.product', 'Product for report')
+        'product.product', 'Product for report', readonly=False)
 
     @api.multi
     def generate_email(self, res_ids, fields=None):

@@ -21,7 +21,7 @@ class AdvocateDetails(geo_model.GeoModel):
 
     translator_since = fields.Datetime()
     translated_letter_ids = fields.One2many(
-        'correspondence', related='partner_id.translated_letter_ids')
+        'correspondence', related='partner_id.translated_letter_ids', readonly=False)
     nb_translated_letters = fields.Integer(
         compute='_compute_nb_translated_letters', store=True)
 

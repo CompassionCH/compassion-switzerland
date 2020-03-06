@@ -30,7 +30,7 @@ class GenerateCommunicationWizard(models.TransientModel):
     _inherit = 'partner.communication.generate.wizard'
 
     sponsorship_ids = fields.Many2many(
-        'recurring.contract', string='Sponsorships',
+        'recurring.contract', string='Sponsorships', readonly=False
     )
     res_model = fields.Selection(
         [('res.partner', 'Partners'),
@@ -46,13 +46,13 @@ class GenerateCommunicationWizard(models.TransientModel):
     selection_domain = fields.Char(default=lambda s: s._default_domain())
     # Remove domain filter and handle it in the view
     model_id = fields.Many2one(
-        domain=[]
+        domain=[], readonly=False
     )
     sms_length_estimation = fields.Integer(readonly=True)
     sms_number_estimation = fields.Integer(readonly=True)
     sms_cost_estimation = fields.Float(compute='_compute_sms_cost_estimation')
-    currency_id = fields.Many2one('res.currency', compute='_compute_currency')
-    campaign_id = fields.Many2one('utm.campaign', 'Campaign')
+    currency_id = fields.Many2one('res.currency', compute='_compute_currency', readonly=False)
+    campaign_id = fields.Many2one('utm.campaign', 'Campaign', readonly=False)
     sms_provider_id = fields.Many2one(
         'sms.provider', 'SMS Provider',
         default=lambda self: self.env.ref('sms_939.large_account_id', False),

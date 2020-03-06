@@ -16,12 +16,12 @@ class MuskathlonRegistration(models.Model):
     _name = 'event.registration'
     _inherit = 'event.registration'
 
-    lead_id = fields.Many2one('crm.lead', 'Lead')
+    lead_id = fields.Many2one('crm.lead', 'Lead', readonly=False)
     backup_id = fields.Integer(help='Old muskathlon registration id')
     is_muskathlon = fields.Boolean(
         related='compassion_event_id.website_muskathlon')
     sport_discipline_id = fields.Many2one(
-        'sport.discipline', 'Sport discipline',
+        'sport.discipline', 'Sport discipline', readonly=False
     )
     sport_level = fields.Selection([
         ('beginner', 'Beginner'),
@@ -90,7 +90,7 @@ class MuskathlonRegistration(models.Model):
         """this function define is the bollean hide or not the survey"""
         for registration in self:
             today = datetime.date.today()
-            start_day = fields.Date.from_string(registration.event_begin_date)
+            start_day = registration.event_begin_date
             delta = start_day - today
             registration.is_in_two_months = delta.days < 60
 

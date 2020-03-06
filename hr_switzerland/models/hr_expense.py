@@ -19,7 +19,7 @@ class HrExpense(models.Model):
         states={
             'draft': [('readonly', False)],
             'submit': [('readonly', False)]
-        }
+        }, readonly=False
     )
 
     @api.onchange('product_id')
@@ -35,7 +35,7 @@ class HrExpenseSheet(models.Model):
     _inherit = 'hr.expense.sheet'
 
     # Adding a user_id field for the assign notification to work
-    user_id = fields.Many2one(related='employee_id.user_id')
+    user_id = fields.Many2one(related='employee_id.user_id', readonly=False)
 
     @api.model
     def create(self, vals):

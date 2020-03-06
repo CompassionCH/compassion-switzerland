@@ -46,8 +46,7 @@ class TranslateConnect(MysqlConnector):
         final_letter_id = correspondence.env.ref(
             'sbc_compassion.correspondence_type_final').id
         today = datetime.date.today()
-        letter_age = (today - fields.Date.from_string(
-            correspondence.scanned_date)).days
+        letter_age = (today - correspondence.scanned_date).days
         # Each 15 days aging -> augment priority by 1
         priority = min((letter_age // 15) + 1, 4)
         type_ids = correspondence.communication_type_ids.ids

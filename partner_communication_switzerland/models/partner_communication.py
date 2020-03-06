@@ -36,10 +36,10 @@ except ImportError:
 class PartnerCommunication(models.Model):
     _inherit = 'partner.communication.job'
 
-    event_id = fields.Many2one('crm.event.compassion', 'Event')
-    ambassador_id = fields.Many2one('res.partner', 'Ambassador')
-    currency_id = fields.Many2one('res.currency', compute='_compute_currency')
-    utm_campaign_id = fields.Many2one('utm.campaign')
+    event_id = fields.Many2one('crm.event.compassion', 'Event', readonly=False)
+    ambassador_id = fields.Many2one('res.partner', 'Ambassador', readonly=False)
+    currency_id = fields.Many2one('res.currency', compute='_compute_currency', readonly=False)
+    utm_campaign_id = fields.Many2one('utm.campaign', readonly=False)
     sms_cost = fields.Float()
     sms_provider_id = fields.Many2one(
         'sms.provider', 'SMS Provider',
@@ -290,8 +290,8 @@ class PartnerCommunication(models.Model):
             report_name = 'report_compassion.3bvr_sponsorship'
             data = {
                 'doc_ids': pay_bvr.ids,
-                'date_start': fields.Date.to_string(date_start),
-                'date_stop': fields.Date.to_string(date_stop),
+                'date_start': date_start,
+                'date_stop': date_stop,
                 'background': self.send_mode != 'physical'
             }
             pdf = self._get_pdf_from_data(
@@ -446,8 +446,7 @@ class PartnerCommunication(models.Model):
                 holds = communication.get_objects().mapped('child_id.hold_id')
                 for hold in holds:
                     expiration = datetime.now() + relativedelta(days=extension)
-                    hold.expiration_date = fields.Datetime.to_string(
-                        expiration)
+                    hold.expiration_date = expiration
 
         donor = self.env.ref('partner_compassion.res_partner_category_donor')
         partners = other_jobs.filtered(

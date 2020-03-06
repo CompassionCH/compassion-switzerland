@@ -19,13 +19,13 @@ class MassMailingCampaign(models.Model):
     clicks_ratio = fields.Integer(compute='_compute_click_ratios', store=True)
     unsub_ratio = fields.Integer(compute='_compute_unsub_ratio', store=True)
     contract_ids = fields.One2many(
-        'recurring.contract', related='campaign_id.contract_ids'
+        'recurring.contract', related='campaign_id.contract_ids', readonly=False
     )
     correspondence_ids = fields.One2many(
-        'correspondence', related='campaign_id.correspondence_ids'
+        'correspondence', related='campaign_id.correspondence_ids', readonly=False
     )
     invoice_line_ids = fields.One2many(
-        'account.invoice.line', compute='_compute_campaign_invoices'
+        'account.invoice.line', compute='_compute_campaign_invoices', readonly=False
     )
 
     @api.multi

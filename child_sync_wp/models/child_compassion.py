@@ -32,7 +32,7 @@ class CompassionChild(models.Model):
             c.project_id.description_fr and c.project_id.description_de and
             c.project_id.description_it and c.fullshot and
             (not c.completion_date or
-             fields.Datetime.from_string(c.completion_date) > in_two_years)
+             c.completion_date > in_two_years)
         )
 
         error = self - valid_children

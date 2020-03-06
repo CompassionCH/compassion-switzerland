@@ -18,11 +18,11 @@ class StaffNotificationSettings(models.TransientModel):
     # Users to notify for Muskathlon Registration
     muskathlon_lead_notify_id = fields.Many2one(
         'res.users', 'Muskathlon Registrations',
-        domain=[('share', '=', False)]
+        domain=[('share', '=', False)], readonly=False
     )
     muskathlon_order_notify_id = fields.Many2one(
         'res.users', 'Muskathlon Material Orders',
-        domain=[('share', '=', False)]
+        domain=[('share', '=', False)], readonly=False
     )
 
     @api.multi

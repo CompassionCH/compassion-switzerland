@@ -26,7 +26,7 @@ class SmsRequest(models.Model):
         one_day_ago = date.today() - relativedelta(days=1)
         completed_requests = self.search([
             ('date', '<', fields.Date.today()),
-            ('date', '>=', fields.Date.to_string(one_day_ago)),
+            ('date', '>=', one_day_ago),
             ('state', 'in', ['step1', 'step2']),
         ]).filtered(lambda r: r.sender == self.sender)
         if not completed_requests:

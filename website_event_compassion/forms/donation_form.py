@@ -25,9 +25,9 @@ if not testing:
         _form_model = 'account.invoice'
         _payment_accept_redirect = '/event/payment/validate'
 
-        ambassador_id = fields.Many2one('res.partner')
-        event_id = fields.Many2one('crm.event.compassion')
-        invoice_id = fields.Many2one('account.invoice')
+        ambassador_id = fields.Many2one('res.partner', readonly=False)
+        event_id = fields.Many2one('crm.event.compassion', readonly=False)
+        invoice_id = fields.Many2one('account.invoice', readonly=False)
         gtc_accept = fields.Boolean(
             "Terms and conditions", required=True
         )

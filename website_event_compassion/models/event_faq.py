@@ -18,9 +18,9 @@ class EventFaqCategory(models.Model):
     sequence = fields.Integer(default=1)
     event_type_ids = fields.Many2many(
         'event.type', string='Applies to',
-        help='Leave empty to make the category appear on all events'
+        help='Leave empty to make the category appear on all events', readonly=False
     )
-    question_ids = fields.One2many('event.faq', 'category_id', 'Questions')
+    question_ids = fields.One2many('event.faq', 'category_id', 'Questions', readonly=False)
 
 
 class EventFaq(models.Model):
@@ -34,10 +34,10 @@ class EventFaq(models.Model):
     ##########################################################################
     question_title = fields.Char(required=True, translate=True)
     category_id = fields.Many2one(
-        'event.faq.category', 'Category', required=True)
+        'event.faq.category', 'Category', required=True, readonly=False)
     question_answer = fields.Html(required=True, translate=True)
     sequence = fields.Integer()
     event_type_ids = fields.Many2many(
         'event.type', string='Applies to',
-        help='Leave empty to make the question appear on all events'
+        help='Leave empty to make the question appear on all events', readonly=False
     )

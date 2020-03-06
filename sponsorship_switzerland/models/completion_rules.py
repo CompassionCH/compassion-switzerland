@@ -33,7 +33,7 @@ class StatementCompletionRule(models.Model):
     name = fields.Char('Name', size=128)
     journal_ids = fields.Many2many(
         'account.journal',
-        string='Related statement journal')
+        string='Related statement journal', readonly=False)
     function_to_call = fields.Selection(selection_add=[
         ('get_from_partner_ref',
          'Compassion: From line reference '

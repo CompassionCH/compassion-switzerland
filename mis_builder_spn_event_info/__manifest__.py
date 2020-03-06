@@ -4,7 +4,7 @@
 {
     'name': 'MIS Builder event & sponsorship info',
     'summary': "Events, acquisition for MIS Builder",
-    'version': '11.0.1.0.0',
+    'version': '12.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'compassion suisse',
     'website': 'http://www.compassion.ch',
