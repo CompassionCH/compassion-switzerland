@@ -21,14 +21,6 @@ _logger = logging.getLogger(__name__)
 
 class TestMobileAppConnector(HttpCase):
 
-    def setUp(self):
-        super().setUp()
-        self.env['ir.config_parameter'] \
-            .set_param('web.external.url', 'base')
-        external_url = self.env['ir.config_parameter'] \
-            .get_param('web.external.url')
-        self.assertEqual(external_url, 'base')
-
     def _send_sms_notification(self, params, send_mode='request'):
         uuid = 'uid-1232389'
         params.update({
@@ -128,7 +120,6 @@ class TestMobileAppConnector(HttpCase):
 
         xml = "<?xmlversion='1.0'encoding='utf-8'?>\n<NotificationReply/>"
         self.assertIn(response.replace(' ', ''), xml)
-        # self.assertEqual(response.hook_id.func_name, "sponsor_service_fr")
         self.assertRegex(str(self._get_sms_message(smsbox_send)),
                          r'this link: http://localhost:8069/r/\w')
 

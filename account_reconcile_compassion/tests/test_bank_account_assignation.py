@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -19,42 +18,45 @@ class TestAccountReconcile(TransactionCase):
     """
 
     def setUp(self):
-        super(TestAccountReconcile, self).setUp()
-        self.asustek = self.env.ref('base.res_partner_1')
-        self.camptocamp = self.env.ref('base.res_partner_12')
-        self.statement = self.env['account.bank.statement'].create({
-            'journal_id':
-            self.env.ref('l10n_ch_lsv_dd.lsv_account_journal').id,
-            'date': fields.Date.today(),
-
-        })
+        super().setUp()
+        self.asustek = self.env.ref("base.res_partner_1")
+        self.camptocamp = self.env.ref("base.res_partner_12")
+        journal = self.env.ref("l10n_ch_pain_direct_debit.dd_account_journal_xml_dd")
+        self.statement = self.env["account.bank.statement"].create(
+            {
+                "journal_id": journal.id,
+                "date": fields.Date.today(),
+            }
+        )
 
     def test_assign_partner_bank(self):
         """
         Create a new partner_bank and test when bank.statement.line is
         assigned to partner, the partner_bank is also assigned to the partner
         """
-        acc_number = '77777777'
-        bank_account = self.env['res.partner.bank'].create({
-            'acc_number': acc_number,
-        })
-        line = self.env['account.bank.statement.line'].create({
-            'statement_id': self.statement.id,
-            'name': 'test bank assignation',
-            'date': fields.Date.today(),
-            'amount': 10,
-            'partner_account': acc_number
-        })
+        acc_number = "77777777"
+        bank_account = self.env["res.partner.bank"].create({"acc_number": acc_number})
+        line = self.env["account.bank.statement.line"].create(
+            {
+                "statement_id": self.statement.id,
+                "name": "test bank assignation",
+                "date": fields.Date.today(),
+                "amount": 10,
+                "partner_account": acc_number,
+            }
+        )
         line.partner_id = self.asustek
         self.assertEqual(bank_account.partner_id, self.asustek)
 
         # Subsequent assignation should not change the partner of the bank
-        line = self.env['account.bank.statement.line'].create({
-            'statement_id': self.statement.id,
-            'name': 'test new bank assignation',
-            'date': fields.Date.today(),
-            'amount': 120,
-            'partner_account': acc_number
-        })
+        line = self.env["account.bank.statement.line"].create(
+            {
+                "statement_id": self.statement.id,
+                "name": "test new bank assignation",
+                "date": fields.Date.today(),
+                "amount": 120,
+                "partner_account": acc_number,
+            }
+        )
         line.partner_id = self.camptocamp
         self.assertEqual(bank_account.partner_id, self.asustek)

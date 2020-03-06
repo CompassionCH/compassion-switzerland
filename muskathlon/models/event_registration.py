@@ -154,7 +154,7 @@ class MuskathlonRegistration(models.Model):
 
             # here we need to send a mail to the muskathlon doctor
             muskathlon_doctor_email = self.env[
-                'ir.config_parameter'].get_param('muskathlon.doctor.email')
+                'ir.config_parameter'].sudo().get_param('muskathlon.doctor.email')
             if muskathlon_doctor_email:
                 template = self.env \
                     .ref("muskathlon.medical_survey_to_doctor_template") \

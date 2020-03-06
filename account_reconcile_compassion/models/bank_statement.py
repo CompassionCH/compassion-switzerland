@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014 Compassion CH (http://www.compassion.ch)
@@ -16,14 +15,12 @@ from odoo import api, fields, models
 class AccountStatement(models.Model):
     """ Adds a relation to a recurring invoicer. """
 
-    _inherit = 'account.bank.statement'
+    _inherit = "account.bank.statement"
 
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
-    name = fields.Char(
-        default=lambda b: b._default_name()
-    )
+    name = fields.Char(default=lambda b: b._default_name())
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -31,14 +28,13 @@ class AccountStatement(models.Model):
     @api.model
     def _default_name(self):
         """ Find the appropriate sequence """
-        journal_id = self.env.context.get('default_journal_id')
+        journal_id = self.env.context.get("default_journal_id")
         if journal_id:
-            journal = self.env['account.journal'].browse(journal_id)
-            sequence = self.env['ir.sequence'].search([
-                ('name', '=', journal.name)])
+            journal = self.env["account.journal"].browse(journal_id)
+            sequence = self.env["ir.sequence"].search([("name", "=", journal.name)])
             if sequence:
                 return sequence.next_by_id()
-        return ''
+        return ""
 
     @api.multi
     def reconciliation_widget_preprocess(self):
@@ -48,8 +44,7 @@ class AccountStatement(models.Model):
         same partner at different place in the tree view.
         """
 
-        result = super(AccountStatement,
-                       self).reconciliation_widget_preprocess()
+        result = super().reconciliation_widget_preprocess()
 
         # The ORDER BY is the change that order the lines in a more
         # comfortable way for reconciliation.
@@ -59,8 +54,8 @@ class AccountStatement(models.Model):
                         ORDER BY stl.partner_id
                 """
         # List of statement_ids representing a statement line each.
-        params = (tuple(result['st_lines_ids']),)
+        params = (tuple(result["st_lines_ids"]),)
         self.env.cr.execute(sql_query, params)
         results = [res["id"] for res in self.env.cr.dictfetchall()]
-        result['st_lines_ids'] = results
+        result["st_lines_ids"] = results
         return result

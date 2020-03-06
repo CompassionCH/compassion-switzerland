@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -29,30 +28,28 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Bank Statement Reconcile for Compassion CH',
-    'version': '10.0.1.0.0',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'category': 'Finance',
-    'website': 'http://www.compassion.ch',
-    'depends': [
-        'sponsorship_switzerland', 'account_reconcile_create_invoice',
-        'account_bank_statement_import_camt_details'
+    "name": "Bank Statement Reconcile for Compassion CH",
+    "version": "11.0.1.0.0",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "category": "Finance",
+    "website": "http://www.compassion.ch",
+    "depends": [
+        "sponsorship_switzerland",  # compassion-switzerland
+        "account_reconcile_create_invoice",  # compassion-accounting
+        "account_bank_statement_import_camt_details",  # OCA/bank-statement-import
     ],
-    'data': [
-        'data/statement_operation.xml',
-        'views/account_reconcile_compassion.xml',
-        'views/reconcile_fund_wizard_view.xml',
-        'views/reconcile_split_payment_wizard_view.xml',
-        'views/change_attribution_wizard_view.xml',
-        'views/account_invoice_view.xml',
-        'views/res_config_view.xml',
-        'views/account_journal.xml',
+    "data": [
+        "data/statement_operation.xml",
+        "views/account_reconcile_compassion.xml",
+        "views/reconcile_fund_wizard_view.xml",
+        "views/reconcile_split_payment_wizard_view.xml",
+        "views/change_attribution_wizard_view.xml",
+        "views/account_invoice_view.xml",
+        "views/res_config_view.xml",
+        "views/account_journal.xml",
     ],
-    'qweb': ['static/src/xml/account_move_reconciliation.xml'],
-    'demo': [],
-    'test': [],
-    'auto_install': False,
-    'installable': False,
-    'images': []
+    "qweb": ["static/src/xml/account_move_reconciliation.xml"],
+    "auto_install": False,
+    "installable": True,
 }

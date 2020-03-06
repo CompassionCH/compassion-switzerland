@@ -14,26 +14,25 @@
 # To provide both the URL and a branch, use:
 
 # Uncomment when needed
+account-payment
 account-financial-tools
-bank-payment
+bank-payment https://github.com/CompassionCH/bank-payment.git 11.0-sepa-non-sepa-orders
+bank-statement-import https://github.com/CompassionCH/bank-statement-import 11.0-camt-details
 compassion-accounting https://github.com/CompassionCH/compassion-accounting 11.0
 compassion-modules https://github.com/CompassionCH/compassion-modules 11.0
 connector-telephony
-partner-contact
-server-ux
 crm
-partner-contact
-geospatial https://github.com/josueBulle/geospatial mix
+geospatial https://github.com/CompassionCH/geospatial 11.0-mig-geoengine_base_geolocalize
+hr
+l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 11.0-everything-migrated
+mis-builder
+partner-contact https://github.com/CompassionCH/partner-contact.git 11.0-smart-tag
 queue
 report-print-send
+reporting-engine
+server-tools
 server-ux
 social https://github.com/CompassionCH/social 11.0-mig-mail_sendgrid_mass_mailing
 web
 website https://github.com/CompassionCH/website 11.0
 website-cms
-l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 11.0-mig-l10n_ch_pain_direct_debit
-mis-builder
-# Uncomment when needed
-# hr
-# sale-workflow https://github.com/OCA/sale-workflow branchname
-# server-tools

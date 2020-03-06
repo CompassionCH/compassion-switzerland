@@ -230,7 +230,7 @@ class Event(models.Model):
             registration.amount_raised = amount_raised
 
     def _compute_host_url(self):
-        params_obj = self.env['ir.config_parameter']
+        params_obj = self.env['ir.config_parameter'].sudo()
         host = params_obj.get_param('web.external.url') or \
             params_obj.get_param('web.base.url')
         for registration in self:

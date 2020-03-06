@@ -16,12 +16,6 @@ class TestSmsProvider(HttpCase):
 
     def setUp(self):
         super().setUp()
-        self.env['ir.config_parameter'] \
-            .set_param('web.external.url', 'base')
-        external_url = self.env['ir.config_parameter'] \
-            .get_param('web.external.url')
-        self.assertEqual(external_url, 'base')
-
         self.partner = self.env.ref('base.res_partner_1')
 
     @mock.patch('odoo.addons.sms_939.models.sms_api.SmsApi._smsbox_send')
