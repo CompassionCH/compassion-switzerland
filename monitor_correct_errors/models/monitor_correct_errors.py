@@ -10,7 +10,7 @@
 
 from odoo import models, fields
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
-from dateutil import relativedelta
+from dateutil.relativedelta import relativedelta
 from datetime import date
 
 

@@ -37,7 +37,7 @@
     'depends': [
         'website_compassion',  # compassion-switzerland
         'crm_compassion',  # compassion-modules
-        'event',  # source
+        'event_sale',  # source
         'partner_communication_switzerland',  # compassion-switzerland
         'payment_ogone_compassion',  # compassion-switzerland
         'survey_phone'  # compassion-modules
