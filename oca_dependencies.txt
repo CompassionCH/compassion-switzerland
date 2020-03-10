@@ -32,7 +32,7 @@ report-print-send
 reporting-engine
 server-tools
 server-ux
-social https://github.com/CompassionCH/social 12.0-mail_sendgrid_mass_mailing
+social https://github.com/CompassionCH/social 12.0-sendgrid-all
 web
 website https://github.com/CompassionCH/website 12.0
 website-cms https://github.com/CompassionCH/website-cms 12.0
