@@ -11,7 +11,7 @@
 import logging
 from datetime import datetime
 
-from odoo import api, models, fields, _
+from odoo import api, models, _
 from odoo.addons.queue_job.job import job
 from odoo.addons.sponsorship_compassion.models.product_names import (
     GIFT_CATEGORY,
@@ -79,9 +79,16 @@ class BankStatementLine(models.Model):
 
     @api.multi
     def get_move_lines_for_reconciliation(
-        # pylint: disable=redefined-builtin
-        self, partner_id=None, excluded_ids=None, str=False, offset=0, limit=None,
-            additional_domain=None, overlook_partner=False):
+            # pylint: disable=redefined-builtin
+            self,
+            partner_id=None,
+            excluded_ids=None,
+            str=False,
+            offset=0,
+            limit=None,
+            additional_domain=None,
+            overlook_partner=False,
+    ):
         """ Sort move lines according to Compassion criterias :
             Move line for current month at first,
             Then other move_lines, from the oldest to the newest.
@@ -99,8 +106,13 @@ class BankStatementLine(models.Model):
         additional_domain.append(("account_id", "not in", import_accounts.ids))
 
         res_asc = super().get_move_lines_for_reconciliation(
-            partner_id, excluded_ids, str, offset, limit, additional_domain,
-            overlook_partner
+            partner_id,
+            excluded_ids,
+            str,
+            offset,
+            limit,
+            additional_domain,
+            overlook_partner,
         )
 
         # Sort results with date (current month at first)
@@ -191,7 +203,7 @@ class BankStatementLine(models.Model):
                 today = datetime.today().date()
                 for mv_line in match_recs:
                     mv_date = mv_line.date_maturity or mv_line.date
-                    
+
                     if mv_date.month == today.month and mv_date.year == today.year:
                         res_sorted.insert(0, mv_line.id)
                     else:

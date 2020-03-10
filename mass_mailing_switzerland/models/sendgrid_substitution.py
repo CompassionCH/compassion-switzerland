@@ -12,11 +12,12 @@ from odoo import models, api
 
 
 class SendgridSubstitution(models.Model):
-    _inherit = 'sendgrid.substitution'
+    _inherit = "sendgrid.substitution"
 
     @api.multi
-    def replace_tracking_link(self, campaign_id=False, medium_id=False,
-                              source_id=False):
+    def replace_tracking_link(
+            self, campaign_id=False, medium_id=False, source_id=False
+    ):
         """
         Takes special {wp/page} keywords and automatically creates a
         tracked URL for replacement.
@@ -25,15 +26,21 @@ class SendgridSubstitution(models.Model):
         :param source_id:   utm.source id
         :return: True
         """
-        wp_url = self.env['wordpress.configuration'].get_host()
-        for substitution in self.filtered(lambda s: '{wp' in s.key):
-            page_path = substitution.key.replace('{wp', '').replace('}', '')
-            page_url = f'{wp_url}{page_path}'
-            link_tracker = self.env['link.tracker'].sudo().create({
-                'url': page_url,
-                'campaign_id': campaign_id,
-                'medium_id': medium_id,
-                'source_id': source_id
-            })
-            substitution.value = link_tracker.short_url.split('//')[1]
+        wp_url = self.env["wordpress.configuration"].get_host()
+        for substitution in self.filtered(lambda s: "{wp" in s.key):
+            page_path = substitution.key.replace("{wp", "").replace("}", "")
+            page_url = f"{wp_url}{page_path}"
+            link_tracker = (
+                self.env["link.tracker"]
+                    .sudo()
+                    .create(
+                    {
+                        "url": page_url,
+                        "campaign_id": campaign_id,
+                        "medium_id": medium_id,
+                        "source_id": source_id,
+                    }
+                )
+            )
+            substitution.value = link_tracker.short_url.split("//")[1]
         return True

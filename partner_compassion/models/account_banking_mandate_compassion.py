@@ -1,4 +1,3 @@
-
 ##############################################################################
 #
 #    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
@@ -12,18 +11,21 @@
 from odoo import api, models, _
 
 
-MANDATE_STATE = {'create': 'created',
-                 'cancel': 'cancelled',
-                 'validate': 'validated',
-                 'back2draft': 'back to draft',
-                 'delete': 'deleted'}
+MANDATE_STATE = {
+    "create": "created",
+    "cancel": "cancelled",
+    "validate": "validated",
+    "back2draft": "back to draft",
+    "delete": "deleted",
+}
 
 
 # pylint: disable=C8107
 class AccountBankingMandate(models.Model):
     """ This class upgrade the partners.bank to match Compassion needs.
     """
-    _inherit = 'account.banking.mandate'
+
+    _inherit = "account.banking.mandate"
 
     def _update_mandate_status_partner(self, action):
         """
@@ -34,15 +36,17 @@ class AccountBankingMandate(models.Model):
 
         if action in MANDATE_STATE:
             self.partner_id.message_post(
-                _("For account: " + (self.partner_bank_id.acc_number or '')),
-                _("Mandate " + MANDATE_STATE[action]), 'comment')
+                _("For account: " + (self.partner_bank_id.acc_number or "")),
+                _("Mandate " + MANDATE_STATE[action]),
+                "comment",
+            )
 
     @api.model
     def create(self, data):
         """Override function to notify creation in a message on partner feed
         """
         result = super().create(data)
-        result._update_mandate_status_partner('create')
+        result._update_mandate_status_partner("create")
 
         return result
 
@@ -53,7 +57,7 @@ class AccountBankingMandate(models.Model):
         """
 
         for mandate in self:
-            mandate._update_mandate_status_partner('validate')
+            mandate._update_mandate_status_partner("validate")
 
         super().validate()
 
@@ -66,7 +70,7 @@ class AccountBankingMandate(models.Model):
         """
 
         for mandate in self:
-            mandate._update_mandate_status_partner('cancel')
+            mandate._update_mandate_status_partner("cancel")
 
         super().cancel()
         return True
@@ -78,7 +82,7 @@ class AccountBankingMandate(models.Model):
         """
 
         for mandate in self:
-            mandate._update_mandate_status_partner('back2draft')
+            mandate._update_mandate_status_partner("back2draft")
 
         super().back2draft()
         return True
@@ -90,7 +94,7 @@ class AccountBankingMandate(models.Model):
         """
 
         for mandate in self:
-            mandate._update_mandate_status_partner('delete')
+            mandate._update_mandate_status_partner("delete")
 
         result = super().unlink()
         return result

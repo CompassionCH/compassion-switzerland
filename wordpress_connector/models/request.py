@@ -35,47 +35,43 @@ class CrmWordpressRequest(models.Model):
         defaults = {}
 
         # Read YAML front matter
-        yaml_delim = '---' + '\n'
-        desc = html2plaintext(msg.get('body')) if msg.get('body') else ''
+        yaml_delim = "---" + "\n"
+        desc = html2plaintext(msg.get("body")) if msg.get("body") else ""
         if desc.startswith(yaml_delim):
-            parts = desc[len(yaml_delim):].split('\n' + yaml_delim, 1)
+            parts = desc[len(yaml_delim):].split("\n" + yaml_delim, 1)
 
             if len(parts) == 2:  # Does contain a front matter.
-                defaults['front_matter'] = parts[0]
+                defaults["front_matter"] = parts[0]
                 desc = parts[1]
                 try:
                     front_matter = yaml.load(parts[0])
                 except yaml.YAMLError:
-                    _logger.warning("Could not parse the front matter.",
-                                    exc_info=True)
+                    _logger.warning("Could not parse the front matter.", exc_info=True)
                 else:
                     self._parse_front_matter(front_matter, defaults)
-            defaults['description'] = u'<pre>{}</pre>'.format(desc)
+            defaults["description"] = u"<pre>{}</pre>".format(desc)
 
         defaults.update(custom_values)
 
-        return super(CrmWordpressRequest, self).message_new(
-            msg, custom_values=defaults)
+        return super(CrmWordpressRequest, self).message_new(msg, custom_values=defaults)
 
     def _parse_front_matter(self, fm, values):
         # Match the partner
-        match_obj = self.env['res.partner.match.wp']
+        match_obj = self.env["res.partner.match.wp"]
 
-        if 'title' in fm:
-            fm['title'] = match_obj.match_title(fm['title'])
+        if "title" in fm:
+            fm["title"] = match_obj.match_title(fm["title"])
 
-        if 'lang' in fm:
-            fm['lang'] = match_obj.match_lang(fm['lang'])
+        if "lang" in fm:
+            fm["lang"] = match_obj.match_lang(fm["lang"])
 
-        partner = match_obj.match_partner_to_infos(
-            fm, options={'skip_create': True})
-        values['partner_id'] = partner.id
+        partner = match_obj.match_partner_to_infos(fm, options={"skip_create": True})
+        values["partner_id"] = partner.id
 
         # Match claim type
-        if 'claim_type' in fm:
-            type_name = fm['claim_type']
-            type_obj = self.env['crm.claim.type']
-            ct = type_obj.search([('name', '=ilike', type_name)],
-                                 limit=1)
+        if "claim_type" in fm:
+            type_name = fm["claim_type"]
+            type_obj = self.env["crm.claim.type"]
+            ct = type_obj.search([("name", "=ilike", type_name)], limit=1)
             if ct:
-                values['claim_type'] = ct.id
+                values["claim_type"] = ct.id

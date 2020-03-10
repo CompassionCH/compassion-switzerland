@@ -16,13 +16,20 @@ class MailMessage(models.Model):
     """ Enable many thread notifications to track the same e-mail.
         It reads the parent_id of messages to do so.
     """
-    _inherit = 'mail.message'
 
-    ancestor = fields.Many2one('mail.message', compute='_compute_ancestor', readonly=False)
+    _inherit = "mail.message"
+
+    ancestor = fields.Many2one(
+        "mail.message", compute="_compute_ancestor", readonly=False
+    )
     tracking_ids = fields.Many2many(
-        'mail.message', 'mail_message_to_mail_message_tracking',
-        'message_id', 'tracking_message_id',
-        'Related tracked messages', readonly=False)
+        "mail.message",
+        "mail_message_to_mail_message_tracking",
+        "message_id",
+        "tracking_message_id",
+        "Related tracked messages",
+        readonly=False,
+    )
 
     @api.multi
     def _compute_ancestor(self):
@@ -46,8 +53,10 @@ class MailMessage(models.Model):
         for message in self:
             # if the message is not an email, it will not have a tracking
             # number.
-            if message.message_type != "email" and message.subtype_id.name \
-                    != "Discussions":
+            if (
+                    message.message_type != "email"
+                    and message.subtype_id.name != "Discussions"
+            ):
                 res[message.id] = []
                 continue
             search_messages = message

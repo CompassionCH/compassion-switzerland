@@ -14,11 +14,11 @@ from odoo import models, fields
 class ImportConfig(models.Model):
     """ This class defines all metadata of a correspondence"""
 
-    _inherit = 'import.letter.config'
+    _inherit = "import.letter.config"
 
     import_folder_path = fields.Char()
 
     def get_fields(self):
         res = super().get_fields()
-        res.append('import_folder_path')
+        res.append("import_folder_path")
         return res

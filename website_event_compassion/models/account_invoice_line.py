@@ -14,15 +14,16 @@ class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
     registration_id = fields.Many2one(
-        'event.registration', compute='_compute_registration',
-        store=True, readonly=False
+        "event.registration",
+        compute="_compute_registration",
+        store=True,
+        readonly=False,
     )
 
     @api.multi
-    @api.depends('user_id.registration_ids', 'event_id')
+    @api.depends("user_id.registration_ids", "event_id")
     def _compute_registration(self):
         for line in self:
-            line.registration_id =\
-                line.user_id.registration_ids.filtered(
-                    lambda r: r.event_id == line.event_id
-                )
+            line.registration_id = line.user_id.registration_ids.filtered(
+                lambda r: r.event_id == line.event_id
+            )

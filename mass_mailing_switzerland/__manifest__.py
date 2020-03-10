@@ -28,31 +28,29 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Mass Mailing Switzerland',
-    'version': '12.0.1.0.0',
-    'category': 'Mailing',
-    'author': 'Emanuel Cino',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'data': [
-        'views/mass_mailing_view.xml',
-        'views/mail_template_view.xml',
-        'views/utm_view.xml',
-        'views/contract_origin_view.xml',
-        'views/mail_tracking_event_view.xml',
-        'views/partner_view.xml',
-        'views/account_invoice_line_view.xml',
-        'data/refresh_sendgrid_tracking_cron.xml',
+    "name": "Mass Mailing Switzerland",
+    "version": "12.0.1.0.0",
+    "category": "Mailing",
+    "author": "Emanuel Cino",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "data": [
+        "views/mass_mailing_view.xml",
+        "views/mail_template_view.xml",
+        "views/utm_view.xml",
+        "views/contract_origin_view.xml",
+        "views/mail_tracking_event_view.xml",
+        "views/partner_view.xml",
+        "views/account_invoice_line_view.xml",
+        "data/refresh_sendgrid_tracking_cron.xml",
     ],
-    'depends': [
-        'mail_sendgrid_mass_mailing',           # oca_addons/social
-        'partner_communication_switzerland',    # compassion-switzerland
-        'cms_form_compassion'                   # compassion-modules
+    "depends": [
+        "mail_sendgrid_mass_mailing",  # oca_addons/social
+        "partner_communication_switzerland",  # compassion-switzerland
+        "cms_form_compassion",  # compassion-modules
     ],
-    'external_dependencies': {
-        'python': ['pysftp']
-    },
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "external_dependencies": {"python": ["pysftp"]},
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

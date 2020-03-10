@@ -17,13 +17,13 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
     _description = "Sponsorship Line"
     _auto = False
 
-    name = fields.Char(compute='_compute_name')
-    partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
-    sponsor_line = fields.Integer('Sponsor line number')
-    acquisition_id = fields.Many2one('recurring.contract', 'Acquisition',
-                                     readonly=True)
-    cancellation_id = fields.Many2one('recurring.contract', 'Cancellation',
-                                      readonly=True)
+    name = fields.Char(compute="_compute_name")
+    partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
+    sponsor_line = fields.Integer("Sponsor line number")
+    acquisition_id = fields.Many2one("recurring.contract", "Acquisition", readonly=True)
+    cancellation_id = fields.Many2one(
+        "recurring.contract", "Cancellation", readonly=True
+    )
     is_active = fields.Boolean(readonly=True)
 
     @api.multi
@@ -33,15 +33,17 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
 
     @api.model_cr
     def init(self):
-        tools.drop_view_if_exists(
-            self.env.cr, self._table)
+        tools.drop_view_if_exists(self.env.cr, self._table)
         # We disable the check for SQL injection. The only risk of sql
         # injection is from 'self._table' which is not controlled by an
         # external source.
         # pylint:disable=E8103
-        self.env.cr.execute("""
+        self.env.cr.execute(
+            """
             CREATE OR REPLACE VIEW %s AS
-            """ % self._table + """
+            """
+            % self._table
+            + """
             -- http://www.postgresqltutorial.com/postgresql-window-function/
             select *,
             case
@@ -70,4 +72,5 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
             ) AS cancellation USING(id)
             where id is not null
             order by id
-        """)
+        """
+        )

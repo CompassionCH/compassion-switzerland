@@ -21,45 +21,46 @@ class Muskathlon(models.Model):
     # fields needed for display in tree view
     # WARNING: do not change fields name (used in csv export file)
     date_display = fields.Date(readonly=True)
-    partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
-    partner_name = fields.Char(related="partner_id.display_name",
-                               readonly=True)
-    user_id = fields.Many2one('res.partner', "Ambassador", readonly=True)
+    partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
+    partner_name = fields.Char(related="partner_id.display_name", readonly=True)
+    user_id = fields.Many2one("res.partner", "Ambassador", readonly=True)
     amount = fields.Float("Amount", readonly=True)
     amount_cent = fields.Integer("Amount in currency (cents)", readonly=True)
     sent_to_4m = fields.Date("Date sent to 4M", readonly=True)
-    payment_mode_id = fields.Many2one('account.payment.mode', "Payment mode",
-                                      readonly=True)
-    event_id = fields.Many2one('crm.event.compassion', "Event", readonly=True)
-    journal_id = fields.Many2one('account.journal', 'Journal', readonly=True)
+    payment_mode_id = fields.Many2one(
+        "account.payment.mode", "Payment mode", readonly=True
+    )
+    event_id = fields.Many2one("crm.event.compassion", "Event", readonly=True)
+    journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
 
     # fields needed for csv exportation
     # we cannot use relation fields define before due to csv exportation..
     # WARNING: do not change fields name (used in csv export file)
     status = fields.Char(string="Status", readonly=True)
     type = fields.Char(string="Type", readonly=True)
-    payment_method = fields.Char("Paymentmethod", readonly=True,
-                                 oldname="payment_methode")
+    payment_method = fields.Char(
+        "Paymentmethod", readonly=True, oldname="payment_methode"
+    )
     project_id = fields.Char("ProjectID", readonly=True)
     date = fields.Datetime("Date/time", readonly=True)
     muskathlon_participant_id = fields.Char("ParticipantID", readonly=True)
-    registration_id = fields.Char('RegistrationID', readonly=True)
+    registration_id = fields.Char("RegistrationID", readonly=True)
     sponsorship_name = fields.Char("Sponsorship name", readonly=True)
 
     # Fields for viewing related objects
-    contract_id = fields.Many2one('recurring.contract', 'Sponsorship',
-                                  readonly=True)
-    invoice_line_id = fields.Many2one('account.invoice.line', 'Invoice line',
-                                      readonly=True)
+    contract_id = fields.Many2one("recurring.contract", "Sponsorship", readonly=True)
+    invoice_line_id = fields.Many2one(
+        "account.invoice.line", "Invoice line", readonly=True
+    )
     donation_type = fields.Selection(
-        [('sponsorship', 'Sponsorship'),
-         ('donation', 'Donation')], compute='_compute_donation_type')
+        [("sponsorship", "Sponsorship"), ("donation", "Donation")],
+        compute="_compute_donation_type",
+    )
 
     @api.multi
     def _compute_donation_type(self):
         for line in self:
-            line.donation_type = 'donation' if line.invoice_line_id else \
-                'sponsorship'
+            line.donation_type = "donation" if line.invoice_line_id else "sponsorship"
 
     @api.model_cr
     def init(self):
@@ -67,7 +68,8 @@ class Muskathlon(models.Model):
         # pair and account invoice IDs are impair.
         # many fields are hardcoded due to csv exportation needs
         tools.drop_view_if_exists(self.env.cr, self._table)
-        self.env.cr.execute("""
+        self.env.cr.execute(
+            """
             CREATE OR REPLACE VIEW %s AS (
               SELECT
                 (2 * ROW_NUMBER() OVER (ORDER BY (SELECT rc.id))) AS id,
@@ -142,10 +144,11 @@ class Muskathlon(models.Model):
                 AND cec.muskathlon_event_id IS NOT NULL
                 AND ail.user_id IS NOT NULL
             )
-        """ % self._table)
+        """
+            % self._table
+        )
 
     @api.multi
     def send_to_4m(self):
-        self.mapped('contract_id').write({'sent_to_4m': fields.Date.today()})
-        self.mapped('invoice_line_id').write({
-            'sent_to_4m': fields.Date.today()})
+        self.mapped("contract_id").write({"sent_to_4m": fields.Date.today()})
+        self.mapped("invoice_line_id").write({"sent_to_4m": fields.Date.today()})

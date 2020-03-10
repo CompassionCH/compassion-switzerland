@@ -28,43 +28,41 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Compassion CH PDF-Qweb Reports',
-    'version': '12.0.1.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'depends': [
-        'label',                    # compassion-modules
-        'sponsorship_switzerland'   # compassion-switzerland
+    "name": "Compassion CH PDF-Qweb Reports",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "depends": [
+        "label",  # compassion-modules
+        "sponsorship_switzerland",  # compassion-switzerland
     ],
-    'external_dependencies': {
-        'python': ['pyquery', 'babel']
-    },
-    'data': [
-        'report/compassion_layout.xml',
-        'report/paperformats.xml',
-        'report/childpack.xml',
-        'report/bvr_layout.xml',
-        'report/bvr_sponsorship.xml',
-        'report/partner_communication.xml',
-        'report/bvr_gift.xml',
-        'report/anniversary_card.xml',
-        'report/a4_bvr.xml',
-        'report/bvr_fund.xml',
-        'report/tax_receipt.xml',
-        'report/communication_mailing_bvr.xml',
-        'views/print_sponsorship_bvr_view.xml',
-        'views/print_sponsorship_gift_bvr_view.xml',
-        'views/print_childpack_view.xml',
-        'views/print_bvr_fund_view.xml',
-        'views/communication_job_view.xml',
-        'views/communication_config_view.xml',
-        'views/generate_communication_wizard_view.xml',
-        'views/print_tax_receipt_view.xml',
-        'data/tax_receipt_email_template.xml',
+    "external_dependencies": {"python": ["pyquery", "babel"]},
+    "data": [
+        "report/compassion_layout.xml",
+        "report/paperformats.xml",
+        "report/childpack.xml",
+        "report/bvr_layout.xml",
+        "report/bvr_sponsorship.xml",
+        "report/partner_communication.xml",
+        "report/bvr_gift.xml",
+        "report/anniversary_card.xml",
+        "report/a4_bvr.xml",
+        "report/bvr_fund.xml",
+        "report/tax_receipt.xml",
+        "report/communication_mailing_bvr.xml",
+        "views/print_sponsorship_bvr_view.xml",
+        "views/print_sponsorship_gift_bvr_view.xml",
+        "views/print_childpack_view.xml",
+        "views/print_bvr_fund_view.xml",
+        "views/communication_job_view.xml",
+        "views/communication_config_view.xml",
+        "views/generate_communication_wizard_view.xml",
+        "views/print_tax_receipt_view.xml",
+        "data/tax_receipt_email_template.xml",
     ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

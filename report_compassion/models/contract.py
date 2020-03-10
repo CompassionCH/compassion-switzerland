@@ -15,34 +15,38 @@ class AccountInvoice(models.Model):
     """
     Make Invoice translatable for communications with dates.
     """
-    _inherit = ['account.invoice', 'translatable.model']
-    _name = 'account.invoice'
+
+    _inherit = ["account.invoice", "translatable.model"]
+    _name = "account.invoice"
 
     # Gender field is mandatory for translatable models
-    gender = fields.Char(compute='_compute_gender')
+    gender = fields.Char(compute="_compute_gender")
 
     def _compute_gender(self):
         for i in self:
-            i.gender = 'M'
+            i.gender = "M"
 
 
 class Contract(models.Model):
-    _inherit = 'recurring.contract'
+    _inherit = "recurring.contract"
 
-    amount_due = fields.Integer(compute='_compute_amount_due', store=True)
+    amount_due = fields.Integer(compute="_compute_amount_due", store=True)
 
     def _compute_amount_due(self):
         this_month = date.today().replace(day=1)
         for contract in self:
-            if contract.child_id.project_id.suspension != \
-                    'fund-suspended' and contract.type != 'SC':
+            if (
+                    contract.child_id.project_id.suspension != "fund-suspended"
+                    and contract.type != "SC"
+            ):
                 invoice_lines = contract.invoice_line_ids.with_context(
-                    lang='en_US').filtered(lambda i: i.state == 'open' and
-                                           i.due_date
-                                           < this_month and
-                                           i.invoice_id.invoice_type == 'sponsorship')
-                contract.amount_due = int(sum(invoice_lines.mapped(
-                    'price_subtotal')))
+                    lang="en_US"
+                ).filtered(
+                    lambda i: i.state == "open"
+                    and i.due_date < this_month
+                    and i.invoice_id.invoice_type == "sponsorship"
+                )
+                contract.amount_due = int(sum(invoice_lines.mapped("price_subtotal")))
 
     @api.multi
     def get_gift_communication(self, product):
@@ -50,34 +54,36 @@ class Contract(models.Model):
         lang = self.partner_id.lang
         child = self.child_id.with_context(lang=lang)
         born = {
-            'en_US': u'Born in',
-            'fr_CH': u'Né le' if child.gender == 'M' else u'Née le',
-            'de_DE': u'Geburtstag',
-            'it_IT': u'Compleanno',
+            "en_US": "Born in",
+            "fr_CH": "Né le" if child.gender == "M" else "Née le",
+            "de_DE": "Geburtstag",
+            "it_IT": "Compleanno",
         }
-        birthdate = child.birthdate.strftime(
-            "%d.%m.%Y")
+        birthdate = child.birthdate.strftime("%d.%m.%Y")
         vals = {
-            'firstname': child.preferred_name,
-            'local_id': child.local_id,
-            'product': product.with_context(lang=lang).name,
-            'birthdate': born[lang] + ' ' + birthdate
-            if 'Birthday' in product.name else ''
+            "firstname": child.preferred_name,
+            "local_id": child.local_id,
+            "product": product.with_context(lang=lang).name,
+            "birthdate": born[lang] + " " + birthdate
+            if "Birthday" in product.name
+            else "",
         }
-        communication = f"{vals['firstname']} ({vals['local_id']})" \
-                        f"<br/>{vals['product']}<br/>{vals['birthdate']}"
+        communication = (
+            f"{vals['firstname']} ({vals['local_id']})"
+            f"<br/>{vals['product']}<br/>{vals['birthdate']}"
+        )
         return communication
 
     @api.multi
     def generate_bvr_reference(self, product):
         self.ensure_one()
-        return self.env['l10n_ch.payment_slip']._space(self.env[
-            'generate.gift.wizard'].generate_bvr_reference(
-            self, product).lstrip('0'))
+        return self.env["l10n_ch.payment_slip"]._space(
+            self.env["generate.gift.wizard"]
+                .generate_bvr_reference(self, product)
+                .lstrip("0")
+        )
 
     @api.model
     def get_sponsorship_gift_products(self):
-        gift_categ_id = self.env.ref(
-            'sponsorship_compassion.product_category_gift').id
-        return self.env['product.product'].search([
-            ('categ_id', '=', gift_categ_id)])
+        gift_categ_id = self.env.ref("sponsorship_compassion.product_category_gift").id
+        return self.env["product.product"].search([("categ_id", "=", gift_categ_id)])

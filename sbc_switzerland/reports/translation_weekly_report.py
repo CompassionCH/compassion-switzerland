@@ -20,5 +20,5 @@ class TranslationWeeklyReport(models.Model):
         """
          Used to aggregate data in various formats (in subclasses) "
         :return: (date_trunc value, date format)
-        """""
-        return 'week', 'YYYY-"W"eek WW'
+        """ ""
+        return "week", 'YYYY-"W"eek WW'

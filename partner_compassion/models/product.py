@@ -11,12 +11,12 @@ from odoo import models, fields
 
 
 class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+    _inherit = "product.template"
 
     fund_id = fields.Integer(size=4)
 
 
 class Product(models.Model):
-    _inherit = 'product.product'
+    _inherit = "product.product"
 
-    fund_id = fields.Integer(related='product_tmpl_id.fund_id')
+    fund_id = fields.Integer(related="product_tmpl_id.fund_id")

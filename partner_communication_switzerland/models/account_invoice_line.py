@@ -23,12 +23,12 @@ class AccountInvoiceLine(models.Model):
         :return: (total_donation_amount, product_name)
         """
         res_name = False
-        total = sum(self.mapped('price_subtotal'))
-        total_string = f"{int(total):,}".replace(',', "'")
+        total = sum(self.mapped("price_subtotal"))
+        total_string = f"{int(total):,}".replace(",", "'")
 
-        event_names = self.mapped('event_id.name')
-        product_names = self.mapped('product_id.thanks_name')
-        gift = 'gift' in self.mapped('invoice_id.invoice_type')
+        event_names = self.mapped("event_id.name")
+        product_names = self.mapped("product_id.thanks_name")
+        gift = "gift" in self.mapped("invoice_id.invoice_type")
         if len(event_names) == 1 and not gift:
             res_name = event_names[0]
         elif not event_names and len(product_names) == 1 and not gift:
@@ -36,14 +36,16 @@ class AccountInvoiceLine(models.Model):
         # Special case for gifts : mention it's a gift even if several
         # different gifts are made.
         else:
-            categories = list(set(self.with_context(lang='en_US').mapped(
-                'product_id.categ_name')))
+            categories = list(
+                set(self.with_context(lang="en_US").mapped("product_id.categ_name"))
+            )
             if len(categories) == 1 and categories[0] == GIFT_CATEGORY:
                 gift_template = self.env.ref(
-                    'sponsorship_switzerland.product_template_fund_kdo')
-                gift = self.env['product.product'].search([
-                    ('product_tmpl_id', '=', gift_template.id)
-                ], limit=1)
+                    "sponsorship_switzerland.product_template_fund_kdo"
+                )
+                gift = self.env["product.product"].search(
+                    [("product_tmpl_id", "=", gift_template.id)], limit=1
+                )
                 res_name = gift.thanks_name
 
         return total_string, res_name
@@ -55,13 +57,16 @@ class AccountInvoiceLine(models.Model):
         Propagate event to the communication and use the creator of the event
         as the default thanker.
         """
-        event = self.mapped('event_id')[:1]
-        user = event.mapped('staff_ids.user_ids')[:1] or event.create_uid
-        return super(AccountInvoiceLine, self.with_context(
-            same_job_search=[('event_id', '=', event.id)],
-            default_event_id=event.id,
-            default_user_id=user.id
-        )).generate_thank_you()
+        event = self.mapped("event_id")[:1]
+        user = event.mapped("staff_ids.user_ids")[:1] or event.create_uid
+        return super(
+            AccountInvoiceLine,
+            self.with_context(
+                same_job_search=[("event_id", "=", event.id)],
+                default_event_id=event.id,
+                default_user_id=user.id,
+            ),
+        ).generate_thank_you()
 
     @api.multi
     def get_default_thankyou_config(self):
@@ -71,8 +76,9 @@ class AccountInvoiceLine(models.Model):
         :return: partner.communication.config record
         """
         # Special case for gifts : never put in event donation
-        gift = 'gift' in self.mapped('invoice_id.invoice_type')
-        if self.mapped('event_id') and not gift:
-            return self.env.ref('partner_communication_switzerland.'
-                                'config_event_standard')
+        gift = "gift" in self.mapped("invoice_id.invoice_type")
+        if self.mapped("event_id") and not gift:
+            return self.env.ref(
+                "partner_communication_switzerland." "config_event_standard"
+            )
         return super().get_default_thankyou_config()

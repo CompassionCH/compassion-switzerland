@@ -1,4 +1,3 @@
-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -17,15 +16,14 @@ class MatchPartner(models.AbstractModel):
     """
     Extend the matching so that all create partner must be checked by a human.
     """
-    _inherit = 'res.partner.match'
+
+    _inherit = "res.partner.match"
 
     def match_process_create_infos(self, infos, options=None):
-        create_infos = super().match_process_create_infos(
-            infos, options
-        )
+        create_infos = super().match_process_create_infos(infos, options)
 
         # Mark the partner to be validated
-        create_infos['state'] = 'pending'
+        create_infos["state"] = "pending"
 
         return create_infos
 
@@ -38,21 +36,16 @@ class MatchPartner(models.AbstractModel):
         :param opt: User defined options
         :return: None
         """
-        if partner.contact_type == 'attached':
-            if partner.type == 'email_alias':
+        if partner.contact_type == "attached":
+            if partner.type == "email_alias":
                 # In this case we want to link to the main partner
                 partner = partner.contact_id
                 # Don't update e-mail address of main partner
-                del infos['email']
+                del infos["email"]
             else:
                 # We unarchive the partner to make it visible
-                partner.write({
-                    'active': True,
-                    'contact_id': False
-                })
-        return super().match_after_match(
-            partner, new_partner, infos, opt
-        )
+                partner.write({"active": True, "contact_id": False})
+        return super().match_after_match(partner, new_partner, infos, opt)
 
     @job
     @api.model
@@ -61,17 +54,17 @@ class MatchPartner(models.AbstractModel):
         Overload the update to create a new linked partner if the given email
         does not correspond to the matched partner.
         """
-        if 'email' in infos:
-            all_emails = partner.other_contact_ids.mapped('email')
+        if "email" in infos:
+            all_emails = partner.other_contact_ids.mapped("email")
             all_emails.append(partner.email)
-            if infos['email'] not in all_emails:
+            if infos["email"] not in all_emails:
                 vals = {
-                    'contact_type': 'attached',
-                    'type': 'email_alias',
-                    'email': infos['email'],
-                    'contact_id': partner.id,
+                    "contact_type": "attached",
+                    "type": "email_alias",
+                    "email": infos["email"],
+                    "contact_id": partner.id,
                 }
-                self.env['res.partner'].sudo().create(vals)
+                self.env["res.partner"].sudo().create(vals)
                 # Don't update e-mail address of main partner
-                del infos['email']
+                del infos["email"]
         return super().match_update(partner, infos, options)

@@ -20,5 +20,5 @@ class SponsorshipsEvolutionYearsReport(models.Model):
         """
          Used to aggregate data in various formats (in subclasses) "
         :return: (date_trunc value, date format)
-        """""
-        return ('year', 'YYYY')
+        """ ""
+        return ("year", "YYYY")

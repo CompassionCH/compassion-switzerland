@@ -17,34 +17,36 @@ class ReportTaxReceipt(models.AbstractModel):
     """
     Model used to generate tax receipt
     """
-    _name = 'report.report_compassion.tax_receipt'
+
+    _name = "report.report_compassion.tax_receipt"
     _description = "Used to generate tax receipt"
 
     @api.model
     def get_report_values(self, docids, data=None):
         if not data:
             data = {
-                'year': date.today().year,
-                'lang': self.env.context.get('lang', 'en_US')
+                "year": date.today().year,
+                "lang": self.env.context.get("lang", "en_US"),
             }
-        if not docids and data['doc_ids']:
-            docids = data['doc_ids']
+        if not docids and data["doc_ids"]:
+            docids = data["doc_ids"]
         # We must retrieve the text of the receipt from the mail_template
-        template = self.env.ref(
-            'report_compassion.tax_receipt_template'
-        ).with_context(year=data['year'], lang=data['lang'])
-        texts = template.render_template(
-            template.body_html, 'res.partner', docids)
-        lang = data.get('lang', self.env.lang)
-        report = self.env['ir.actions.report']\
-            ._get_report_from_name('report_compassion.tax_receipt')
-        data.update({
-            'doc_model': report.model,
-            'docs': self.env[report.model].with_context(lang=lang).browse(
-                docids),
-            'texts': texts,
-            'subject': template.subject,
-            'docids': docids
-        })
+        template = self.env.ref("report_compassion.tax_receipt_template").with_context(
+            year=data["year"], lang=data["lang"]
+        )
+        texts = template.render_template(template.body_html, "res.partner", docids)
+        lang = data.get("lang", self.env.lang)
+        report = self.env["ir.actions.report"]._get_report_from_name(
+            "report_compassion.tax_receipt"
+        )
+        data.update(
+            {
+                "doc_model": report.model,
+                "docs": self.env[report.model].with_context(lang=lang).browse(docids),
+                "texts": texts,
+                "subject": template.subject,
+                "docids": docids,
+            }
+        )
 
         return data

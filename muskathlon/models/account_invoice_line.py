@@ -14,10 +14,10 @@ from odoo import models, api, fields
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
-    sent_to_4m = fields.Date('Sent to 4M', copy=False)
-    price_cents = fields.Float(compute='_compute_amount_cents')
+    sent_to_4m = fields.Date("Sent to 4M", copy=False)
+    price_cents = fields.Float(compute="_compute_amount_cents")
 
     @api.multi
     def _compute_amount_cents(self):
         for line in self:
-            line.price_cents = line.price_subtotal*100
+            line.price_cents = line.price_subtotal * 100

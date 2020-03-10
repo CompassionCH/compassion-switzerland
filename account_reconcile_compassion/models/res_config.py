@@ -20,7 +20,9 @@ class AccountConfigSettings(models.TransientModel):
 
     _inherit = "res.config.settings"
 
-    currency_exchange_analytic_account = fields.Many2one("account.analytic.account", readonly=False)
+    currency_exchange_analytic_account = fields.Many2one(
+        "account.analytic.account", readonly=False
+    )
 
     @api.multi
     def set_values(self):
@@ -36,6 +38,7 @@ class AccountConfigSettings(models.TransientModel):
         param_obj = self.env["ir.config_parameter"].sudo()
         res["currency_exchange_analytic_account"] = int(
             param_obj.get_param(
-                "account_reconcile_compassion.currency_exchange_analytic_account")
+                "account_reconcile_compassion.currency_exchange_analytic_account"
+            )
         )
         return res

@@ -1,4 +1,3 @@
-
 ##############################################################################
 #
 #    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
@@ -17,7 +16,7 @@ class ResPartnerBank(models.Model):
     """ This class upgrade the partners.bank to match Compassion needs.
     """
 
-    _inherit = 'res.partner.bank'
+    _inherit = "res.partner.bank"
 
     @api.model
     def create(self, data):
@@ -27,8 +26,11 @@ class ResPartnerBank(models.Model):
 
         part = result.partner_id
         if part:
-            part.message_post(_("<b>Account number: </b>" + result.acc_number),
-                              _("New account created"), 'comment')
+            part.message_post(
+                _("<b>Account number: </b>" + result.acc_number),
+                _("New account created"),
+                "comment",
+            )
 
         return result
 
@@ -38,9 +40,11 @@ class ResPartnerBank(models.Model):
         """
         for account in self:
             part = account.partner_id
-            part.message_post(_("<b>Account number: </b>" +
-                                account.acc_number),
-                              _("Account deleted"), 'comment')
+            part.message_post(
+                _("<b>Account number: </b>" + account.acc_number),
+                _("Account deleted"),
+                "comment",
+            )
 
         result = super().unlink()
         return result

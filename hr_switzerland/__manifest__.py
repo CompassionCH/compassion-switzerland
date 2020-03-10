@@ -28,26 +28,26 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Compassion CH - HR Management',
-    'version': '12.0.1.0.0',
-    'license': 'AGPL-3',
-    'category': 'HR',
-    'author': 'Emanuel Cino',
-    'website': 'http://www.compassion.ch',
-    'data': [
-        'views/hr_expense_custom.xml',
-        'views/res_users_view.xml',
-        'views/hr_payslip_view.xml',
-        'data/hr_config.xml'
+    "name": "Compassion CH - HR Management",
+    "version": "12.0.1.0.0",
+    "license": "AGPL-3",
+    "category": "HR",
+    "author": "Emanuel Cino",
+    "website": "http://www.compassion.ch",
+    "data": [
+        "views/hr_expense_custom.xml",
+        "views/res_users_view.xml",
+        "views/hr_payslip_view.xml",
+        "data/hr_config.xml",
     ],
-    'depends': [
-        'hr_expense',                   # source/addons
-        'hr_payroll',                   # source/addons
-        'asterisk_click2dial',          # oca_addons/connector-telephony
-        'web_notify',                   # oca_addons/web
-        'hr_attendance_management',     # compassion-modules
+    "depends": [
+        "hr_expense",  # source/addons
+        "hr_payroll",  # source/addons
+        "asterisk_click2dial",  # oca_addons/connector-telephony
+        "web_notify",  # oca_addons/web
+        "hr_attendance_management",  # compassion-modules
     ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

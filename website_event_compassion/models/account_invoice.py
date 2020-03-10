@@ -12,7 +12,7 @@ from odoo.addons.queue_job.job import job
 
 
 class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+    _inherit = "account.invoice"
 
     @api.multi
     @job
@@ -26,7 +26,7 @@ class AccountInvoice(models.Model):
         self.action_invoice_cancel()
         self.action_invoice_draft()
         self.write(vals)
-        for invoice in self.filtered(lambda i: i.partner_id.state == 'active'):
+        for invoice in self.filtered(lambda i: i.partner_id.state == "active"):
             invoice.action_invoice_open()
         return True
 
@@ -35,23 +35,21 @@ class AccountInvoice(models.Model):
         Mark payment done if invoice is related to event registration
         """
         res = super().action_invoice_paid()
-        registrations = self.env['event.registration'].sudo().search([
-            ('down_payment_id', 'in', self.ids)
-        ])
+        registrations = (
+            self.env["event.registration"]
+                .sudo()
+                .search([("down_payment_id", "in", self.ids)])
+        )
         registrations.confirm_registration()
         # Mark down payment task as done
-        task = self.env.ref(
-            'website_event_compassion.task_down_payment')
-        registrations.write({
-            'completed_task_ids': [(4, task.id)]
-        })
+        task = self.env.ref("website_event_compassion.task_down_payment")
+        registrations.write({"completed_task_ids": [(4, task.id)]})
         # Mark group visit trip payment done
-        registrations = self.env['event.registration'].sudo().search([
-            ('group_visit_invoice_id', 'in', self.ids)
-        ])
-        task = self.env.ref(
-            'website_event_compassion.task_full_payment')
-        registrations.write({
-            'completed_task_ids': [(4, task.id)]
-        })
+        registrations = (
+            self.env["event.registration"]
+                .sudo()
+                .search([("group_visit_invoice_id", "in", self.ids)])
+        )
+        task = self.env.ref("website_event_compassion.task_full_payment")
+        registrations.write({"completed_task_ids": [(4, task.id)]})
         return res

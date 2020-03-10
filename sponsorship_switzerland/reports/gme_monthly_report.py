@@ -1,32 +1,34 @@
-
 from odoo import api, models, fields, tools, _
 
 
 class EndSponsorshipsMonthReport(models.Model):
     _name = "gme.monthly.report"
     _inherit = "fiscal.year.report"
-    _table = 'gme_monthly_report'
+    _table = "gme_monthly_report"
     _description = "GME monthly acquisition/cancellation"
     _auto = False
-    _rec_name = 'date'
+    _rec_name = "date"
 
-    lang = fields.Selection('select_lang', readonly=True)
-    end_reason_id = fields.Selection([
-        ('2', _("Mistake from our staff")),
-        ('3', _("Death of partner")),
-        ('4', _("Moved to foreign country")),
-        ('5', _("Not satisfied")),
-        ('6', _("Doesn't pay")),
-        ('8', _("Personal reasons")),
-        ('9', _("Never paid")),
-        ('12', _("Financial reasons")),
-        ('25', _("Not given")),
-    ], readonly=True)
-    partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
+    lang = fields.Selection("select_lang", readonly=True)
+    end_reason_id = fields.Selection(
+        [
+            ("2", _("Mistake from our staff")),
+            ("3", _("Death of partner")),
+            ("4", _("Moved to foreign country")),
+            ("5", _("Not satisfied")),
+            ("6", _("Doesn't pay")),
+            ("8", _("Personal reasons")),
+            ("9", _("Never paid")),
+            ("12", _("Financial reasons")),
+            ("25", _("Not given")),
+        ],
+        readonly=True,
+    )
+    partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
 
     @api.model
     def select_lang(self):
-        langs = self.env['res.lang'].search([])
+        langs = self.env["res.lang"].search([])
         return [(lang.code, lang.name) for lang in langs]
 
     def _select_category(self):
@@ -63,7 +65,8 @@ class EndSponsorshipsMonthReport(models.Model):
         # injection is from 'self._table' which is not controlled by an
         # external source.
         # pylint:disable=E8103
-        self.env.cr.execute("""
+        self.env.cr.execute(
+            """
             CREATE OR REPLACE VIEW %s AS
             SELECT c.id, c.end_date, c.end_reason_id, c.sub_sponsorship_id,
                    c.sds_state, p.id as partner_id, %s, %s, %s,
@@ -76,9 +79,12 @@ class EndSponsorshipsMonthReport(models.Model):
               %s
             WHERE c.state = 'terminated' AND c.child_id IS NOT NULL
             AND c.end_date IS NOT NULL
-        """ % (self._table,
-               self._select_fiscal_year('c.end_date'),
-               self._select_category(),
-               self._select_sub_category(),
-               self._join_stats())
+        """
+            % (
+                self._table,
+                self._select_fiscal_year("c.end_date"),
+                self._select_category(),
+                self._select_sub_category(),
+                self._join_stats(),
+            )
         )

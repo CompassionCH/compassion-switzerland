@@ -19,9 +19,11 @@ class PrintSponsorshipBvr(models.TransientModel):
     Wizard for selecting a period and the format for printing
     payment slips of a sponsorship.
     """
-    _name = 'print.sponsorship.bvr'
-    _description = "Select a period and the format " \
-                   "for printing payment slips of a sponsorship"
+
+    _name = "print.sponsorship.bvr"
+    _description = (
+        "Select a period and the format " "for printing payment slips of a sponsorship"
+    )
 
     def _compute_default_period_selection(self):
         # After december 15th choose next year by default, to avoid blank BVRs
@@ -110,15 +112,17 @@ class PrintSponsorshipBvr(models.TransientModel):
             "background": self.draw_background,
             "preprinted": self.preprinted,
         }
-        report_name = "report_compassion.report_" + self.paper_format.split('.')[1]
+        report_name = "report_compassion.report_" + self.paper_format.split(".")[1]
         report_ref = self.env.ref(report_name)
         if self.pdf:
-            data['background'] = True
+            data["background"] = True
             pdf_data = report_ref.report_action(self, data=data)
             self.pdf_download = base64.encodebytes(
                 report_ref.render_qweb_pdf(
-                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
-            self.state = 'pdf'
+                    pdf_data["data"]["doc_ids"], pdf_data["data"]
+                )[0]
+            )
+            self.state = "pdf"
             return {
                 "name": "Download report",
                 "type": "ir.actions.act_window",
@@ -159,14 +163,16 @@ class PrintBvrDue(models.TransientModel):
             "background": self.draw_background,
             "doc_ids": records.ids,
         }
-        report_ref = self.env.ref('report_compassion.report_bvr_due')
+        report_ref = self.env.ref("report_compassion.report_bvr_due")
         if self.pdf:
-            data['background'] = True
+            data["background"] = True
             pdf_data = report_ref.report_action(self, data=data)
             self.pdf_download = base64.encodebytes(
                 report_ref.render_qweb_pdf(
-                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
-            self.state = 'pdf'
+                    pdf_data["data"]["doc_ids"], pdf_data["data"]
+                )[0]
+            )
+            self.state = "pdf"
             return {
                 "name": "Download report",
                 "type": "ir.actions.act_window",

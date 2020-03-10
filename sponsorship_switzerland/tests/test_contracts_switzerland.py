@@ -7,17 +7,16 @@
 #
 ##############################################################################
 
-from odoo.addons.sponsorship_compassion.tests \
-    .test_sponsorship_compassion import BaseSponsorshipTest
+from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (
+    BaseSponsorshipTest,
+)
 import mock
 import datetime
 
-time_path = ('odoo.addons.sponsorship_switzerland.models.contracts'
-             '.datetime')
+time_path = "odoo.addons.sponsorship_switzerland.models.contracts" ".datetime"
 
 
 class TestContractsSwitzerland(BaseSponsorshipTest):
-
     def setUp(self):
         super().setUp()
 
@@ -28,24 +27,24 @@ class TestContractsSwitzerland(BaseSponsorshipTest):
 
         sponsorship.on_change_group_id()
 
-        self.assertEqual(sponsorship.next_invoice_date, '2015-02-01')
+        self.assertEqual(sponsorship.next_invoice_date, "2015-02-01")
 
     def test_sponsorship_termination(self):
-        sponsorship = self._create_sponsorship(contract_type='S')
+        sponsorship = self._create_sponsorship(contract_type="S")
 
         sponsorship.contract_terminated()
 
-    def _create_sponsorship(self, contract_type='SC'):
-        child = self.create_child('IO06790211')
+    def _create_sponsorship(self, contract_type="SC"):
+        child = self.create_child("IO06790211")
         partner_id = self.michel.id
-        group = self.create_group({'partner_id': partner_id})
+        group = self.create_group({"partner_id": partner_id})
         return self.create_contract(
             {
-                'type': contract_type,
-                'child_id': child.id,
-                'group_id': group.id,
-                'partner_id': partner_id,
-                'activation_date': datetime.datetime.today()
+                "type": contract_type,
+                "child_id": child.id,
+                "group_id": group.id,
+                "partner_id": partner_id,
+                "activation_date": datetime.datetime.today(),
             },
-            [{'amount': 50.0}]
+            [{"amount": 50.0}],
         )

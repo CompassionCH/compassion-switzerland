@@ -21,22 +21,22 @@ _logger = logging.getLogger(__name__)
 
 # Mapping from Website form fields to res.partner fields in Odoo
 SPONSOR_MAPPING = {
-    'city': 'city',
-    'first_name': 'firstname',
-    'last_name': 'lastname',
-    'zipcode': 'zip',
-    'Beruf': 'function',
-    'phone': 'phone',
-    'street': 'street',
-    'email': 'email',
-    'kirchgemeinde': 'church_name',
+    "city": "city",
+    "first_name": "firstname",
+    "last_name": "lastname",
+    "zipcode": "zip",
+    "Beruf": "function",
+    "phone": "phone",
+    "street": "street",
+    "email": "email",
+    "kirchgemeinde": "church_name",
 }
 
-test_mode = config.get('test_enable')
+test_mode = config.get("test_enable")
 
 
 class Contracts(models.Model):
-    _inherit = 'recurring.contract'
+    _inherit = "recurring.contract"
 
     ##########################################################################
     #                                 FIELDS                                 #
@@ -48,8 +48,15 @@ class Contracts(models.Model):
     #                             PUBLIC METHODS                             #
     ##########################################################################
     @api.model
-    def create_sponsorship(self, child_local_id, form_data, sponsor_lang,
-                           utm_source, utm_medium, utm_campaign):
+    def create_sponsorship(
+            self,
+            child_local_id,
+            form_data,
+            sponsor_lang,
+            utm_source,
+            utm_medium,
+            utm_campaign,
+    ):
         """
         Called by Wordpress to add a new sponsorship.
         :param form_data: all form values entered on the site
@@ -85,91 +92,103 @@ class Contracts(models.Model):
         :param utm_campaign: identifier from the url tracking
         :return: True if process is good.
         """
-        _logger.info("New sponsorship for child %s from Wordpress: %s",
-                     child_local_id, str(form_data))
+        _logger.info(
+            "New sponsorship for child %s from Wordpress: %s",
+            child_local_id,
+            str(form_data),
+        )
         try:
-            form_data['Child reference'] = child_local_id
+            form_data["Child reference"] = child_local_id
 
-            for field in ['city', 'first_name', 'last_name',
-                          'consumer_source_text', 'zipcode', 'Beruf', 'phone',
-                          'street', 'kirchgemeinde', 'email', 'land']:
+            for field in [
+                "city",
+                "first_name",
+                "last_name",
+                "consumer_source_text",
+                "zipcode",
+                "Beruf",
+                "phone",
+                "street",
+                "kirchgemeinde",
+                "email",
+                "land",
+            ]:
                 form_data[field] = escape(form_data.get(field))
 
-            match_obj = self.env['res.partner.match.wp']
+            match_obj = self.env["res.partner.match.wp"]
 
-            partner_infos = {
-                'company_id': self.env.user.company_id.id
-            }
+            partner_infos = {"company_id": self.env.user.company_id.id}
             for wp_field, odoo_field in SPONSOR_MAPPING.iteritems():
                 partner_infos[odoo_field] = form_data.get(wp_field)
 
             # Match lang + title + spoken langs + country
-            partner_infos['lang'] = match_obj.match_lang(sponsor_lang)
-            form_data['lang'] = partner_infos['lang']
-            partner_infos['title'] = match_obj.match_title(
-                form_data['salutation']
-            )
-            if form_data.get('language'):
-                partner_infos['spoken_lang_ids'] = match_obj.\
-                    match_spoken_langs(
-                        form_data['language']
+            partner_infos["lang"] = match_obj.match_lang(sponsor_lang)
+            form_data["lang"] = partner_infos["lang"]
+            partner_infos["title"] = match_obj.match_title(form_data["salutation"])
+            if form_data.get("language"):
+                partner_infos["spoken_lang_ids"] = match_obj.match_spoken_langs(
+                    form_data["language"]
                 )
-            partner_infos['country_id'] = match_obj.match_country(
-                form_data['land'], partner_infos['lang']).id
+            partner_infos["country_id"] = match_obj.match_country(
+                form_data["land"], partner_infos["lang"]
+            ).id
 
             # Format birthday
-            birthday = form_data.get('birthday', '')
+            birthday = form_data.get("birthday", "")
             if birthday:
-                d = birthday.split('/')  # 'dd/mm/YYYY' => ['dd', 'mm', 'YYYY']
-                partner_infos['birthdate'] = '%s-%s-%s' % (d[2], d[1], d[0])
+                d = birthday.split("/")  # 'dd/mm/YYYY' => ['dd', 'mm', 'YYYY']
+                partner_infos["birthdate"] = "%s-%s-%s" % (d[2], d[1], d[0])
 
             # Search for existing partner
             partner = match_obj.match_partner_to_infos(partner_infos)
 
             # Check origin
-            internet_id = self.env.ref('utm.utm_medium_website').id
-            utms = self.env['utm.mixin'].get_utms(
-                utm_source, utm_medium, utm_campaign)
+            internet_id = self.env.ref("utm.utm_medium_website").id
+            utms = self.env["utm.mixin"].get_utms(utm_source, utm_medium, utm_campaign)
 
             # Create sponsorship
-            child = self.env['compassion.child'].search([
-                ('local_id', '=', child_local_id)], limit=1)
-            lines = self._get_sponsorship_standard_lines(utm_source == 'wrpr')
-            if not form_data.get('patenschaftplus'):
+            child = self.env["compassion.child"].search(
+                [("local_id", "=", child_local_id)], limit=1
+            )
+            lines = self._get_sponsorship_standard_lines(utm_source == "wrpr")
+            if not form_data.get("patenschaftplus"):
                 lines = lines[:-1]
-            sponsorship_type = 'S'
+            sponsorship_type = "S"
             partner_id = partner.id
-            if utm_source == 'wrpr':
+            if utm_source == "wrpr":
                 # Special case Write&Pray sponsorship
-                sponsorship_type = 'SC'
-                partner_id = partner.search([
-                    ('name', '=', 'Donors of Compassion')
-                ], limit=1).id or partner.id
+                sponsorship_type = "SC"
+                partner_id = (
+                    partner.search([("name", "=", "Donors of Compassion")],
+                                   limit=1).id
+                    or partner.id
+                )
             sponsorship_vals = {
-                'partner_id': partner_id,
-                'correspondent_id': partner.id,
-                'child_id': child.id,
-                'type': sponsorship_type,
-                'contract_line_ids': lines,
-                'next_invoice_date': fields.Date.today(),
-                'source_id': utms['source'],
-                'medium_id': utms.get('medium', internet_id),
-                'campaign_id': utms['campaign'],
+                "partner_id": partner_id,
+                "correspondent_id": partner.id,
+                "child_id": child.id,
+                "type": sponsorship_type,
+                "contract_line_ids": lines,
+                "next_invoice_date": fields.Date.today(),
+                "source_id": utms["source"],
+                "medium_id": utms.get("medium", internet_id),
+                "campaign_id": utms["campaign"],
             }
         except:
             # We catch any exception to make sure we don't lose any
             # sponsorship made from the website
-            _logger.error("Error during wordpress sponsorship import",
-                          exc_info=True)
+            _logger.error("Error during wordpress sponsorship import", exc_info=True)
             sponsorship_vals = {
-                'type': 'S' if utm_source != 'wrpr' else 'SC',
-                'child_id': self.env['compassion.child'].search([
-                    ('local_id', '=', child_local_id)], limit=1).id
+                "type": "S" if utm_source != "wrpr" else "SC",
+                "child_id": self.env["compassion.child"]
+                .search([("local_id", "=", child_local_id)], limit=1)
+                .id,
             }
         finally:
             if not test_mode:
                 return self.with_delay().create_sponsorship_job(
-                    sponsorship_vals, form_data)
+                    sponsorship_vals, form_data
+                )
             else:
                 return self.create_sponsorship_job(sponsorship_vals, form_data)
 
@@ -177,8 +196,8 @@ class Contracts(models.Model):
     #                             PRIVATE METHODS                            #
     ##########################################################################
     @api.model
-    @job(default_channel='root.child_sync_wp')
-    @related_action(action='related_action_contract')
+    @job(default_channel="root.child_sync_wp")
+    @related_action(action="related_action_contract")
     def create_sponsorship_job(self, values, form_data):
         """
         Creates the wordpress sponsorship.
@@ -186,54 +205,75 @@ class Contracts(models.Model):
         :param form_data: wordpress form data
         :return: <recurring.contract> record
         """
-        sponsorship = self.env['recurring.contract'].create(values)
-        ambassador_match = re.match(r'^msk_(\d{1,8})', form_data.get(
-            'consumer_source_text', ''))
-        event_match = re.match(r'^msk_(\d{1,8})', form_data.get(
-            'consumer_source', ''))
+        sponsorship = self.env["recurring.contract"].create(values)
+        ambassador_match = re.match(
+            r"^msk_(\d{1,8})", form_data.get("consumer_source_text", "")
+        )
+        event_match = re.match(r"^msk_(\d{1,8})", form_data.get("consumer_source", ""))
         # The sponsorships consumer_source fields were set automatically due
         # to a redirect from the sponsorship button on the muskathlon page.
         if ambassador_match and event_match:
             ambassador_id = int(ambassador_match.group(1))
             event_id = int(event_match.group(1))
-            sponsorship.update({
-                'user_id': ambassador_id,
-                'origin_id': self.env['recurring.contract.origin'].search([
-                    ('event_id', '=', event_id)], limit=1).id
-            })
+            sponsorship.update(
+                {
+                    "user_id": ambassador_id,
+                    "origin_id": self.env["recurring.contract.origin"]
+                    .search([("event_id", "=", event_id)], limit=1)
+                    .id,
+                }
+            )
 
         # Notify staff
-        sponsor_lang = form_data['lang'][:2]
-        staff_param = 'sponsorship_' + sponsor_lang + '_id'
-        staff = self.env['res.config.settings'].sudo().get_param(staff_param)
-        notify_text = "A new sponsorship was made on the website. Please " \
-                      "verify all information and validate the sponsorship " \
-                      "on Odoo: <br/><br/><ul>"
+        sponsor_lang = form_data["lang"][:2]
+        staff_param = "sponsorship_" + sponsor_lang + "_id"
+        staff = self.env["res.config.settings"].sudo().get_param(staff_param)
+        notify_text = (
+            "A new sponsorship was made on the website. Please "
+            "verify all information and validate the sponsorship "
+            "on Odoo: <br/><br/><ul>"
+        )
 
-        list_keys = ['salutation', 'first_name', 'last_name', 'birthday',
-                     'street', 'zipcode', 'city', 'land', 'email', 'phone',
-                     'lang', 'language',
-                     'kirchgemeinde', 'Beruf', 'zahlungsweise',
-                     'consumer_source', 'consumer_source_text',
-                     'patenschaftplus', 'mithelfen',
-                     'childID', 'Child reference']
+        list_keys = [
+            "salutation",
+            "first_name",
+            "last_name",
+            "birthday",
+            "street",
+            "zipcode",
+            "city",
+            "land",
+            "email",
+            "phone",
+            "lang",
+            "language",
+            "kirchgemeinde",
+            "Beruf",
+            "zahlungsweise",
+            "consumer_source",
+            "consumer_source_text",
+            "patenschaftplus",
+            "mithelfen",
+            "childID",
+            "Child reference",
+        ]
 
         for key in list_keys:
-            notify_text += "<li>" + key + ": " + \
-                           unicode(form_data.get(key, '')) + '</li>'
+            notify_text += (
+                "<li>" + key + ": " + unicode(form_data.get(key, "")) + "</li>"
+            )
 
-        title = _('New sponsorship from the website')
-        if 'writepray' in form_data:
-            title = _('New Write&Pray sponsorship from the website')
+        title = _("New sponsorship from the website")
+        if "writepray" in form_data:
+            title = _("New Write&Pray sponsorship from the website")
         sponsorship.message_post(
             body=notify_text,
             subject=title,
             partner_ids=[staff],
-            type='comment',
-            subtype='mail.mt_comment',
-            content_subtype='html'
+            type="comment",
+            subtype="mail.mt_comment",
+            content_subtype="html",
         )
 
-        sponsorship.correspondent_id.set_privacy_statement(
-            origin='new_sponsorship')
+        sponsorship.correspondent_id.set_privacy_statement(origin="new_sponsorship")
         return sponsorship

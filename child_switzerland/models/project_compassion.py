@@ -11,8 +11,8 @@ from odoo import models, fields
 
 
 class CompassionProject(models.Model):
-    _inherit = 'compassion.project'
+    _inherit = "compassion.project"
 
-    description_fr = fields.Text('French description', readonly=True)
-    description_de = fields.Text('German description', readonly=True)
-    description_it = fields.Text('Italian description', readonly=True)
+    description_fr = fields.Text("French description", readonly=True)
+    description_de = fields.Text("German description", readonly=True)
+    description_it = fields.Text("Italian description", readonly=True)

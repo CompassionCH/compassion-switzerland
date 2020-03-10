@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class SmsChildRequest(models.Model):
-    _inherit = 'sms.child.request'
+    _inherit = "sms.child.request"
 
     @api.multi
     def send_step2_reminder(self):
@@ -23,7 +23,8 @@ class SmsChildRequest(models.Model):
         :return: True
         """
         communication_config = self.env.ref(
-            'partner_communication_switzerland.sms_registration_reminder')
+            "partner_communication_switzerland.sms_registration_reminder"
+        )
         for request in self:
             request.sponsorship_id.send_communication(communication_config)
         return True

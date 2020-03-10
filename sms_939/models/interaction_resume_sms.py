@@ -20,7 +20,8 @@ class InteractionResume(models.TransientModel):
         :return: True
         """
         super().populate_resume(partner_id)
-        self.env.cr.execute(f"""
+        self.env.cr.execute(
+            f"""
               SELECT
                 'SMS' as communication_type,
                 sms.date as communication_date,
@@ -36,7 +37,8 @@ class InteractionResume(models.TransientModel):
                 NULL as tracking_status
                 FROM "sms_log" as sms
                 WHERE (sms.partner_id = {partner_id})
-                """)
+                """
+        )
         for row in self.env.cr.dictfetchall():
             self.create(row)
         return True

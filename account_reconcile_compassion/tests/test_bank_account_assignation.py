@@ -23,10 +23,7 @@ class TestAccountReconcile(TransactionCase):
         self.camptocamp = self.env.ref("base.res_partner_12")
         journal = self.env.ref("l10n_ch_pain_direct_debit.dd_account_journal_xml_dd")
         self.statement = self.env["account.bank.statement"].create(
-            {
-                "journal_id": journal.id,
-                "date": fields.Date.today(),
-            }
+            {"journal_id": journal.id, "date": fields.Date.today(), }
         )
 
     def test_assign_partner_bank(self):

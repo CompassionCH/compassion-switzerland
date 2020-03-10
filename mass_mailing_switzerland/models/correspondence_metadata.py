@@ -12,22 +12,23 @@ from odoo import models, api
 
 class CorrespondenceMetadata(models.AbstractModel):
     """ Add mailing origin in correspondence objects. """
-    _inherit = ['correspondence.metadata', 'utm.mixin']
-    _name = 'correspondence.metadata'
+
+    _inherit = ["correspondence.metadata", "utm.mixin"]
+    _name = "correspondence.metadata"
 
     @api.model
     def get_fields(self):
         res = super().get_fields()
-        res.extend(['campaign_id', 'source_id', 'medium_id'])
+        res.extend(["campaign_id", "source_id", "medium_id"])
         return res
 
     @api.multi
     def get_correspondence_metadata(self):
         vals = super().get_correspondence_metadata()
-        if vals.get('campaign_id'):
-            vals['campaign_id'] = vals['campaign_id'][0]
-        if vals.get('source_id'):
-            vals['source_id'] = vals['source_id'][0]
-        if vals.get('medium_id'):
-            vals['medium_id'] = vals['medium_id'][0]
+        if vals.get("campaign_id"):
+            vals["campaign_id"] = vals["campaign_id"][0]
+        if vals.get("source_id"):
+            vals["source_id"] = vals["source_id"][0]
+        if vals.get("medium_id"):
+            vals["medium_id"] = vals["medium_id"][0]
         return vals

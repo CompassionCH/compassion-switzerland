@@ -11,8 +11,8 @@ from odoo import models, fields
 
 
 class CompassionChild(models.Model):
-    _inherit = 'compassion.child'
+    _inherit = "compassion.child"
 
-    desc_fr = fields.Text('French description', readonly=True)
-    desc_de = fields.Text('German description', readonly=True)
-    desc_it = fields.Text('Italian description', readonly=True)
+    desc_fr = fields.Text("French description", readonly=True)
+    desc_de = fields.Text("German description", readonly=True)
+    desc_it = fields.Text("Italian description", readonly=True)

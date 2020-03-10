@@ -16,7 +16,7 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
     _table = "sponsorships_evolution_months_report"
     _description = "Sponsorships Evolution By Months"
     _auto = False
-    _rec_name = 'study_date'
+    _rec_name = "study_date"
 
     study_date = fields.Char(readonly=True)
     sponsored = fields.Integer(readonly=True)
@@ -28,8 +28,8 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
         """
          Used to aggregate data in various formats (in subclasses) "
         :return: (date_trunc value, date format)
-        """""
-        return 'month', 'YYYY.MM'
+        """ ""
+        return "month", "YYYY.MM"
 
     @api.model_cr
     def init(self):
@@ -39,16 +39,19 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
         Each inner query is computing sum of numbers grouped by _date_format
         :return: None
         """
-        tools.drop_view_if_exists(
-            self.env.cr, self._table)
+        tools.drop_view_if_exists(self.env.cr, self._table)
         date_format = self._date_format()
         # We disable the check for SQL injection. The only risk of sql
         # injection is from 'self._table' which is not controlled by an
         # external source.
         # pylint:disable=E8103
-        self.env.cr.execute(("""
-            CREATE OR REPLACE VIEW %s AS
-            """ % self._table + """
+        self.env.cr.execute(
+            (
+                """
+                CREATE OR REPLACE VIEW %s AS
+                """
+                % self._table
+                + """
             -- Super query making windows over monthly data, for cumulative
             -- numbers
             -- http://www.postgresqltutorial.com/postgresql-window-function/
@@ -111,5 +114,7 @@ class SponsorshipsEvolutionMonthsReport(models.Model):
               (rc.activation_date IS NOT NULL OR rc.parent_id IS NOT NULL)
               GROUP BY study_date
             ) AS cancellation USING (study_date)
-        """), [date_format[1]] + [date_format[0]] * 4
+        """
+            ),
+            [date_format[1]] + [date_format[0]] * 4,
         )

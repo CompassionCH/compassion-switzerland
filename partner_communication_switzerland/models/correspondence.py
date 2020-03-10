@@ -15,8 +15,10 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import models, api, fields
 
-from odoo.addons.sbc_compassion.models.correspondence_page import \
-    BOX_SEPARATOR, PAGE_SEPARATOR
+from odoo.addons.sbc_compassion.models.correspondence_page import (
+    BOX_SEPARATOR,
+    PAGE_SEPARATOR,
+)
 from functools import reduce
 
 _logger = logging.getLogger(__name__)
@@ -31,13 +33,16 @@ class Correspondence(models.Model):
     letter_delivery_preference = fields.Selection(
         related="partner_id.letter_delivery_preference"
     )
-    communication_id = fields.Many2one("partner.communication.job", "Communication", readonly=False)
+    communication_id = fields.Many2one(
+        "partner.communication.job", "Communication", readonly=False
+    )
     email_id = fields.Many2one(
         "mail.mail",
         "E-mail",
         related="communication_id.email_id",
         store=True,
-        index=True, readonly=False
+        index=True,
+        readonly=False,
     )
     communication_state = fields.Selection(related="communication_id.state")
     sent_date = fields.Datetime(
@@ -125,21 +130,17 @@ class Correspondence(models.Model):
         else:
             _zip = (
                 self.env["correspondence.download.wizard"]
-                .with_context(active_model=self._name, active_ids=self.ids)
-                .create({})
+                    .with_context(active_model=self._name, active_ids=self.ids)
+                    .create({})
             )
             _zip.get_letters()
             self.write({"zip_file": False})
             letter_attach = self[:1]
-            letter_attach.write({
-                'zip_file': _zip.download_data,
-                'letter_format': 'zip'
-            })
-        base_url = self.env['ir.config_parameter'].sudo().get_param(
-            'web.external.url')
-        self.write({
-            'read_url': f"{base_url}/b2s_image?id={letter_attach.uuid}"
-        })
+            letter_attach.write(
+                {"zip_file": _zip.download_data, "letter_format": "zip"}
+            )
+        base_url = self.env["ir.config_parameter"].sudo().get_param("web.external.url")
+        self.write({"read_url": f"{base_url}/b2s_image?id={letter_attach.uuid}"})
         return True
 
     @api.multi
@@ -187,9 +188,7 @@ class Correspondence(models.Model):
                 lambda l: final_letter in l.communication_type_ids
             )
             new_letters = to_generate - final_letters
-            old_letters = new_letters.filtered(
-                lambda l: l.create_date < old_limit
-            )
+            old_letters = new_letters.filtered(lambda l: l.create_date < old_limit)
             new_letters -= old_letters
 
             final_letters._generate_communication(final_template)

@@ -24,8 +24,13 @@ class MysqlConnector(object):
     which connection settings are stored in the object mysql.config.settings.
     """
 
-    def __init__(self, mysql_host='mysql_host', mysql_user='mysql_user',
-                 mysql_pw='mysql_pw', mysql_db='mysql_db'):
+    def __init__(
+            self,
+            mysql_host="mysql_host",
+            mysql_user="mysql_user",
+            mysql_pw="mysql_pw",
+            mysql_db="mysql_db",
+    ):
         """Establishes the connection to the MySQL server used."""
         mh = config.get(mysql_host)
         mu = config.get(mysql_user)
@@ -33,7 +38,7 @@ class MysqlConnector(object):
         md = config.get(mysql_db)
         self._con = False
         try:
-            self._con = MySQLdb.connect(mh, mu, mp, md, charset='utf8')
+            self._con = MySQLdb.connect(mh, mu, mp, md, charset="utf8")
             self._cur = self._con.cursor(MySQLdb.cursors.DictCursor)
         except MySQLdb.Error as e:
             logger.debug(f"Error {e.args[0]}: {e.args[1]}")
@@ -115,27 +120,24 @@ class MysqlConnector(object):
 
     def _get_gp_uid(self, uid):
         """Returns the GP user id given the Odoo user id."""
-        iduser = self.select_one('SELECT ID FROM login WHERE ERP_ID = %s;',
-                                 [uid])
-        return iduser.get('ID', 'XX')
+        iduser = self.select_one("SELECT ID FROM login WHERE ERP_ID = %s;", [uid])
+        return iduser.get("ID", "XX")
 
     def upsert(self, table, vals):
         """Constructs an UPSERT query given a table name and the values to
         insert/update (given in a dictionary)
         """
-        query_string = "INSERT INTO {0}({1}) VALUES ({2}) ON DUPLICATE KEY " \
-            "UPDATE {3}"
+        query_string = (
+            "INSERT INTO {0}({1}) VALUES ({2}) ON DUPLICATE KEY " "UPDATE {3}"
+        )
 
         cols = list(vals.keys())
         col_string = ",".join(cols)
         val_string = ",".join(["%s" for i in range(0, len(vals))])
-        update_string = ",".join([
-            key + "=VALUES(" + key + ")" for key in cols])
+        update_string = ",".join([key + "=VALUES(" + key + ")" for key in cols])
 
-        sql_query = query_string.format(table, col_string, val_string,
-                                        update_string)
+        sql_query = query_string.format(table, col_string, val_string, update_string)
         values = list(vals.values())
         log_string = "UPSERT {0}({1}) WITH VALUES ({2})"
-        logger.info(
-            log_string.format(table, col_string, val_string) % tuple(values))
+        logger.info(log_string.format(table, col_string, val_string) % tuple(values))
         return self.query(sql_query, values)

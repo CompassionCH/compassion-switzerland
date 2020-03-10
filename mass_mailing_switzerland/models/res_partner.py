@@ -18,14 +18,14 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('opt_out'):
-            vals['date_opt_out'] = fields.Date.today()
+        if vals.get("opt_out"):
+            vals["date_opt_out"] = fields.Date.today()
         return super().create(vals)
 
     @api.multi
     def write(self, vals):
-        if vals.get('opt_out'):
-            vals['date_opt_out'] = fields.Date.today()
-        elif 'opt_out' in vals:
-            vals['date_opt_out'] = False
+        if vals.get("opt_out"):
+            vals["date_opt_out"] = fields.Date.today()
+        elif "opt_out" in vals:
+            vals["date_opt_out"] = False
         return super().write(vals)

@@ -28,22 +28,20 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Payment Ogone compassion',
-    'version': '12.0.1.0.0',
-    'category': 'Reports',
-    'author': 'Nicolas Badoux',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'data': [
-        'data/payment_acquirer.xml',
+    "name": "Payment Ogone compassion",
+    "version": "12.0.1.0.0",
+    "category": "Reports",
+    "author": "Nicolas Badoux",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "data": ["data/payment_acquirer.xml", ],
+    "depends": [
+        "website",  # website
+        "payment_ogone",  # source/addons
+        "wordpress_configuration",  # compassion-modules
+        "queue_job",  # oca_addons/queue
     ],
-    'depends': [
-        'website',                      # website
-        'payment_ogone',                # source/addons
-        'wordpress_configuration',      # compassion-modules
-        'queue_job'                     # oca_addons/queue
-    ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

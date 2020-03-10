@@ -20,25 +20,27 @@ logger = logging.getLogger(__name__)
 
 class SmsHook(models.Model):
     """ A sponsored child """
-    _name = 'sms.hook'
-    _description = 'SMS Keyword Hook'
+
+    _name = "sms.hook"
+    _description = "SMS Keyword Hook"
 
     name = fields.Char(
-        'Keyword service',
-        help='This hook will be called when a SMS from this registered'
-             'service is received.',
-        required=True
+        "Keyword service",
+        help="This hook will be called when a SMS from this registered"
+             "service is received.",
+        required=True,
     )
     func_name = fields.Char(
-        'Function',
-        help='Method name that will be executed at reception. The method must '
-        'exist in sms.notification object and returns a '
-        'SmsNotificationAnswer object',
-        required=True
+        "Function",
+        help="Method name that will be executed at reception. The method must "
+             "exist in sms.notification object and returns a "
+             "SmsNotificationAnswer object",
+        required=True,
     )
 
-    @api.constrains('func_name')
+    @api.constrains("func_name")
     def check_func_name(self):
-        if not hasattr(self.env['sms.notification'], self.func_name):
+        if not hasattr(self.env["sms.notification"], self.func_name):
             raise ValidationError(
-                _("The function is not implemented in sms.notification"))
+                _("The function is not implemented in sms.notification")
+            )

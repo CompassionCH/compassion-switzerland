@@ -8,40 +8,41 @@
 ##############################################################################
 from odoo import models, fields, tools, _
 
-testing = tools.config.get('test_enable')
+testing = tools.config.get("test_enable")
 
 
 if not testing:
     # prevent these forms to be registered when running tests
 
     class AdvocateDetailsForm(models.AbstractModel):
-        _name = 'cms.form.advocate.details'
-        _inherit = 'cms.form'
+        _name = "cms.form.advocate.details"
+        _inherit = "cms.form"
 
-        form_buttons_template = 'cms_form_compassion.modal_form_buttons'
-        form_id = 'modal_advocate_details'
-        _form_model = 'advocate.details'
-        _form_model_fields = [
-            'quote', 'mail_copy_when_donation'
-        ]
+        form_buttons_template = "cms_form_compassion.modal_form_buttons"
+        form_id = "modal_advocate_details"
+        _form_model = "advocate.details"
+        _form_model_fields = ["quote", "mail_copy_when_donation"]
         _form_fields_order = [
-            'quote', 'mail_copy_when_donation',
+            "quote",
+            "mail_copy_when_donation",
         ]
-        _form_required_fields = ['quote']
+        _form_required_fields = ["quote"]
 
         description = fields.Text(
-            string='About me', default="",
+            string="About me",
+            default="",
             help="Write a small presentation text that will appear "
                  "on your profile page.",
         )
         quote = fields.Text(
-            string='My motto', default="",
+            string="My motto",
+            default="",
             help="Write a small quote that will appear on your profile page "
                  "and will be used in thank you letters your donors will "
-                 "receive."
+                 "receive.",
         )
         mail_copy_when_donation = fields.Boolean(
-            string='E-mail notification when you receive a donation'
+            string="E-mail notification when you receive a donation"
         )
 
         @property
@@ -54,7 +55,7 @@ if not testing:
 
         @property
         def form_msg_success_updated(self):
-            return _('Profile updated.')
+            return _("Profile updated.")
 
         def form_before_create_or_update(self, values, extra_values):
             """ Dismiss any pending status message, to avoid multiple

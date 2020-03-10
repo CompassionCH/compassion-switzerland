@@ -12,6 +12,6 @@ from odoo import models, fields
 
 class AnalyticAccount(models.Model):
 
-    _inherit = 'account.analytic.account'
+    _inherit = "account.analytic.account"
 
-    campaign_id = fields.Many2one('utm.campaign', readonly=False)
+    campaign_id = fields.Many2one("utm.campaign", readonly=False)

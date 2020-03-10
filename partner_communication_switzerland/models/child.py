@@ -23,39 +23,49 @@ FRAME_RATIO = 0.08
 def major_revision(child, revised_values):
     """ Finds the correct communication to send. """
     if len(revised_values) == 1:
-        communication_type = child.env['partner.communication.config'].search([
-            ('name', 'ilike', revised_values.name),
-            ('name', 'like', 'Major Revision'),
-        ])
+        communication_type = child.env["partner.communication.config"].search(
+            [
+                ("name", "ilike", revised_values.name),
+                ("name", "like", "Major Revision"),
+            ]
+        )
     else:
         communication_type = child.env.ref(
-            'partner_communication_switzerland.major_revision_multiple')
+            "partner_communication_switzerland.major_revision_multiple"
+        )
     if communication_type:
-        child.env['partner.communication.job'].create({
-            'config_id': communication_type.id,
-            'partner_id': child.sponsor_id.id,
-            'object_ids': child.id,
-            'user_id': communication_type.user_id.id,
-        })
+        child.env["partner.communication.job"].create(
+            {
+                "config_id": communication_type.id,
+                "partner_id": child.sponsor_id.id,
+                "object_ids": child.id,
+                "user_id": communication_type.user_id.id,
+            }
+        )
 
 
 class CompassionChild(models.Model):
     """ Add fields for retrieving values for communications.
     Send a communication when a major revision is received.
     """
-    _inherit = 'compassion.child'
 
-    old_values = fields.Char(compute='_compute_revised_values')
-    old_firstname = fields.Char(compute='_compute_revised_values')
-    current_values = fields.Char(compute='_compute_revised_values')
-    completion_month = fields.Char(compute='_compute_completion_month')
+    _inherit = "compassion.child"
+
+    old_values = fields.Char(compute="_compute_revised_values")
+    old_firstname = fields.Char(compute="_compute_revised_values")
+    current_values = fields.Char(compute="_compute_revised_values")
+    completion_month = fields.Char(compute="_compute_completion_month")
 
     def _compute_revised_values(self):
         for child in self:
-            child.old_values = child.revised_value_ids.get_list('old_value')
+            child.old_values = child.revised_value_ids.get_list("old_value")
             child.current_values = child.revised_value_ids.get_field_value()
-            child.old_firstname = child.revised_value_ids.filtered(
-                lambda c: c.name == 'First Name').old_value or child.firstname
+            child.old_firstname = (
+                child.revised_value_ids.filtered(
+                    lambda c: c.name == "First Name"
+                ).old_value
+                or child.firstname
+            )
 
     def _major_revision(self, vals):
         """ Private method when a major revision is received for a child.
@@ -67,30 +77,33 @@ class CompassionChild(models.Model):
 
     def _compute_completion_month(self):
         """ Completion month in full text. """
-        for child in self.filtered('completion_date'):
-            lang = child.sponsor_id.lang or self.env.lang or 'en_US'
+        for child in self.filtered("completion_date"):
+            lang = child.sponsor_id.lang or self.env.lang or "en_US"
             completion = child.completion_date
             child.completion_month = format_date(completion, "MMMM", locale=lang)
 
     @api.multi
     def depart(self):
         """ Send depart communication to sponsor if no sub. """
-        for child in self.filtered('sponsor_id'):
-            sponsorship = self.env['recurring.contract'].search([
-                ('child_id', '=', child.id),
-                ('state', 'not in', ['terminated', 'cancelled']),
-                ('sds_state', '=', 'no_sub')
-            ])
+        for child in self.filtered("sponsor_id"):
+            sponsorship = self.env["recurring.contract"].search(
+                [
+                    ("child_id", "=", child.id),
+                    ("state", "not in", ["terminated", "cancelled"]),
+                    ("sds_state", "=", "no_sub"),
+                ]
+            )
             if not sponsorship:
                 continue
-            if child.lifecycle_ids[0].type == 'Planned Exit':
+            if child.lifecycle_ids[0].type == "Planned Exit":
                 communication_type = self.env.ref(
-                    'partner_communication_switzerland.'
-                    'lifecycle_child_planned_exit')
+                    "partner_communication_switzerland." "lifecycle_child_planned_exit"
+                )
             else:
                 communication_type = self.env.ref(
-                    'partner_communication_switzerland.'
-                    'lifecycle_child_unplanned_exit')
+                    "partner_communication_switzerland."
+                    "lifecycle_child_unplanned_exit"
+                )
             sponsorship.send_communication(communication_type, both=True)
         super().depart()
 
@@ -98,14 +111,17 @@ class CompassionChild(models.Model):
     def reinstatement(self):
         """ Send communication to sponsor. """
         communication_type = self.env.ref(
-            'partner_communication_switzerland.lifecycle_child_reinstatement')
-        for child in self.filtered('sponsorship_ids'):
-            self.env['partner.communication.job'].create({
-                'config_id': communication_type.id,
-                'partner_id': child.sponsorship_ids[0].correspondent_id.id,
-                'object_ids': child.id,
-                'user_id': communication_type.user_id.id,
-            })
+            "partner_communication_switzerland.lifecycle_child_reinstatement"
+        )
+        for child in self.filtered("sponsorship_ids"):
+            self.env["partner.communication.job"].create(
+                {
+                    "config_id": communication_type.id,
+                    "partner_id": child.sponsorship_ids[0].correspondent_id.id,
+                    "object_ids": child.id,
+                    "user_id": communication_type.user_id.id,
+                }
+            )
         super().reinstatement()
 
     @api.multi
@@ -117,24 +133,28 @@ class CompassionChild(models.Model):
         """
         super().new_photo()
         communication_config = self.env.ref(
-            'partner_communication_switzerland.biennial')
-        job_obj = self.env['partner.communication.job']
+            "partner_communication_switzerland.biennial"
+        )
+        job_obj = self.env["partner.communication.job"]
         for child in self.filtered(
-                lambda r: r.sponsor_id and r.pictures_ids and
-                r.sponsorship_ids[0].state in ('active', 'waiting', 'mandate')
+                lambda r: r.sponsor_id
+                and r.pictures_ids
+                and r.sponsorship_ids[0].state in ("active", "waiting", "mandate")
         ):
             sponsor = child.sponsor_id
             delivery = sponsor.photo_delivery_preference
-            if 'physical' in delivery or delivery == 'both':
+            if "physical" in delivery or delivery == "both":
                 # Mark sponsorship for order the picture
                 child.sponsorship_ids[0].order_photo = True
 
-            job_obj.create({
-                'config_id': communication_config.id,
-                'partner_id': child.sponsor_id.id,
-                'object_ids': child.id,
-                'user_id': communication_config.user_id.id,
-            })
+            job_obj.create(
+                {
+                    "config_id": communication_config.id,
+                    "partner_id": child.sponsor_id.id,
+                    "object_ids": child.id,
+                    "user_id": communication_config.user_id.id,
+                }
+            )
         return True
 
     def get_completion(self):
@@ -143,33 +163,33 @@ class CompassionChild(models.Model):
         year = self[0].completion_date.strftime("%Y")
         if not month:
             return year
-        return month + ' ' + year
+        return month + " " + year
 
     @api.multi
     def get_hold_gifts(self):
         """
         :return: True if all children's gift are held.
         """
-        return reduce(lambda x, y: x and y,
-                      self.mapped('project_id.hold_gifts'))
+        return reduce(lambda x, y: x and y, self.mapped("project_id.hold_gifts"))
 
 
 class Household(models.Model):
     """ Send Communication when Household Major Revision is received. """
-    _inherit = 'compassion.household'
+
+    _inherit = "compassion.household"
 
     def process_commkit(self, commkit_data):
         ids = super().process_commkit(commkit_data)
         households = self.browse(ids)
         for household in households:
             if household.revised_value_ids:
-                for child in household.child_ids.filtered('sponsor_id'):
+                for child in household.child_ids.filtered("sponsor_id"):
                     major_revision(child, self.revised_value_ids)
         return ids
 
 
 class ChildNotes(models.Model):
-    _inherit = 'compassion.child.note'
+    _inherit = "compassion.child.note"
 
     @api.model
     def create(self, vals):
@@ -178,11 +198,14 @@ class ChildNotes(models.Model):
         child = note.child_id
         if child.sponsor_id:
             communication_config = self.env.ref(
-                'partner_communication_switzerland.child_notes')
-            self.env['partner.communication.job'].create({
-                'config_id': communication_config.id,
-                'partner_id': child.sponsor_id.id,
-                'object_ids': child.id,
-                'user_id': communication_config.user_id.id,
-            })
+                "partner_communication_switzerland.child_notes"
+            )
+            self.env["partner.communication.job"].create(
+                {
+                    "config_id": communication_config.id,
+                    "partner_id": child.sponsor_id.id,
+                    "object_ids": child.id,
+                    "user_id": communication_config.user_id.id,
+                }
+            )
         return note

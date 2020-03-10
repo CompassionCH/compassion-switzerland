@@ -9,38 +9,42 @@ _logger = logging.getLogger(__name__)
 
 
 class ResUsers(models.Model):
-    _inherit = 'res.users'
+    _inherit = "res.users"
     signature = fields.Html(translate=True)
 
     @api.multi
     def action_reset_password(self):
-        create_mode = bool(self.env.context.get('create_user'))
+        create_mode = bool(self.env.context.get("create_user"))
         # Only override the rest behavior, not normal signup
         if create_mode:
             super().action_reset_password()
         else:
             expiration = now(days=+1)
-            self.mapped('partner_id').signup_prepare(
-                signup_type="reset", expiration=expiration)
+            self.mapped("partner_id").signup_prepare(
+                signup_type="reset", expiration=expiration
+            )
             config = self.env.ref(
-                'partner_communication_switzerland.reset_password_email')
+                "partner_communication_switzerland.reset_password_email"
+            )
             for user in self:
-                self.env['partner.communication.job'].create({
-                    'partner_id': user.partner_id.id,
-                    'config_id': config.id,
-                    'auto_send': True
-                })
+                self.env["partner.communication.job"].create(
+                    {
+                        "partner_id": user.partner_id.id,
+                        "config_id": config.id,
+                        "auto_send": True,
+                    }
+                )
 
     @api.multi
     def _compute_signature_letter(self):
         """ Translate country in Signature (for Compassion Switzerland) """
         for user in self:
             employee = user.employee_ids.sudo()
-            signature = ''
+            signature = ""
             if len(employee) == 1:
-                signature += employee.name + '<br/>'
+                signature += employee.name + "<br/>"
                 if employee.department_id:
-                    signature += employee.department_id.name + '<br/>'
-            signature += user.sudo().company_id.name.split(' ')[0] + ' '
+                    signature += employee.department_id.name + "<br/>"
+            signature += user.sudo().company_id.name.split(" ")[0] + " "
             signature += user.sudo().company_id.country_id.name
             user.signature_letter = signature

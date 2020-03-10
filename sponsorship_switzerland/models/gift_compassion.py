@@ -17,9 +17,9 @@ from odoo import fields
 
 
 class Gift(models.Model):
-    _inherit = 'sponsorship.gift'
+    _inherit = "sponsorship.gift"
 
-    letter_id = fields.Many2one('correspondence', 'Thank you letter', readonly=False)
+    letter_id = fields.Many2one("correspondence", "Thank you letter", readonly=False)
 
     @api.model
     def process_gifts_cron(self):
@@ -27,18 +27,16 @@ class Gift(models.Model):
         Override to avoid sending LSV/DD gifts too early.
         :return:
         """
-        gifts = self.search([
-            ('state', '=', 'draft'),
-            ('gift_date', '<=', fields.Date.today())
-        ])
-        lsv_dd_gifts = gifts.filtered(
-            lambda g:
-            'LSV' in g.sponsorship_id.payment_mode_id.name or
-            'Postfinance' in g.sponsorship_id.payment_mode_id.name
+        gifts = self.search(
+            [("state", "=", "draft"), ("gift_date", "<=", fields.Date.today())]
         )
-        (gifts - lsv_dd_gifts).mapped('message_id').process_messages()
+        lsv_dd_gifts = gifts.filtered(
+            lambda g: "LSV" in g.sponsorship_id.payment_mode_id.name
+                      or "Postfinance" in g.sponsorship_id.payment_mode_id.name
+        )
+        (gifts - lsv_dd_gifts).mapped("message_id").process_messages()
         three_days_limit = date.today() - relativedelta(days=3)
-        lsv_dd_gifts.filtered(
-            lambda g: g.gift_date > three_days_limit
-        ).mapped('message_id').process_messages()
+        lsv_dd_gifts.filtered(lambda g: g.gift_date > three_days_limit).mapped(
+            "message_id"
+        ).process_messages()
         return True

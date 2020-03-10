@@ -18,7 +18,14 @@ from odoo.tools.config import config
 
 # fields that are synced if 'use_parent_address' is checked
 ADDRESS_FIELDS = [
-    'street', 'street2', 'street3', 'zip', 'city', 'state_id', 'country_id']
+    "street",
+    "street2",
+    "street3",
+    "zip",
+    "city",
+    "state_id",
+    "country_id",
+]
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +42,8 @@ class ResPartner(models.Model):
     """ This class upgrade the partners to match Compassion needs.
         It also synchronize all changes with the MySQL server of GP.
     """
-    _inherit = 'res.partner'
+
+    _inherit = "res.partner"
 
     ##########################################################################
     #                        NEW PARTNER FIELDS                              #
@@ -47,115 +55,148 @@ class ResPartner(models.Model):
     church_unlinked = fields.Char(
         "Church (N/A)",
         help="Use this field if the church of the partner"
-             " can not correctly be determined and linked.")
-    deathdate = fields.Date('Death date', track_visibility='onchange')
-    nbmag = fields.Integer('Number of Magazines', size=2,
-                           required=True, default=1)
-    tax_certificate = fields.Selection([
-        ('no', _('No receipt')),
-        ('default', _('Default')),
-        ('only_email', _('Only email')),
-        ('paper', _('On paper'))], required=True, default='default')
-    thankyou_letter = fields.Selection([
-        ('no', _('No receipt')),
-        ('default', _('Default')),
-        ('only_email', _('Only email')),
-        ('paper', _('On paper'))], 'Thank you letter',
-        required=True, default='default')
+             " can not correctly be determined and linked.",
+    )
+    deathdate = fields.Date("Death date", track_visibility="onchange")
+    nbmag = fields.Integer("Number of Magazines", size=2, required=True, default=1)
+    tax_certificate = fields.Selection(
+        [
+            ("no", _("No receipt")),
+            ("default", _("Default")),
+            ("only_email", _("Only email")),
+            ("paper", _("On paper")),
+        ],
+        required=True,
+        default="default",
+    )
+    thankyou_letter = fields.Selection(
+        [
+            ("no", _("No receipt")),
+            ("default", _("Default")),
+            ("only_email", _("Only email")),
+            ("paper", _("On paper")),
+        ],
+        "Thank you letter",
+        required=True,
+        default="default",
+    )
     calendar = fields.Boolean(
-        help="Indicates if the partner wants to receive the Compassion "
-             "calendar.", default=True)
+        help="Indicates if the partner wants to receive the Compassion " "calendar.",
+        default=True,
+    )
     christmas_card = fields.Boolean(
-        help="Indicates if the partner wants to receive the "
-             "christmas card.", default=True)
+        help="Indicates if the partner wants to receive the " "christmas card.",
+        default=True,
+    )
     birthday_reminder = fields.Boolean(
         help="Indicates if the partner wants to receive a birthday "
-             "reminder of his child.", default=True)
+             "reminder of his child.",
+        default=True,
+    )
     photo_delivery_preference = fields.Selection(
-        selection='_get_delivery_preference',
-        default='both',
+        selection="_get_delivery_preference",
+        default="both",
         required=True,
-        help='Delivery preference for Child photo')
+        help="Delivery preference for Child photo",
+    )
 
     partner_duplicate_ids = fields.Many2many(
-        'res.partner', 'res_partner_duplicates', 'partner_id',
-        'duplicate_id', readonly=True)
+        "res.partner",
+        "res_partner_duplicates",
+        "partner_id",
+        "duplicate_id",
+        readonly=True,
+    )
 
     advocate_details_id = fields.Many2one(
-        'advocate.details', 'Advocate details', copy=False, readonly=False)
-    engagement_ids = fields.Many2many(
-        'advocate.engagement', related='advocate_details_id.engagement_ids', readonly=False
+        "advocate.details", "Advocate details", copy=False, readonly=False
     )
-    other_contact_ids = fields.One2many(string='Linked Partners',
-                                        domain=['|', ('active', '=', False),
-                                                ('active', '=', True)], readonly=False)
-    state = fields.Selection([
-        ('pending', 'Waiting for validation'),
-        ('active', 'Active')
-    ], default='active', track_visibility='onchange')
+    engagement_ids = fields.Many2many(
+        "advocate.engagement",
+        related="advocate_details_id.engagement_ids",
+        readonly=False,
+    )
+    other_contact_ids = fields.One2many(
+        string="Linked Partners",
+        domain=["|", ("active", "=", False), ("active", "=", True)],
+        readonly=False,
+    )
+    state = fields.Selection(
+        [("pending", "Waiting for validation"), ("active", "Active")],
+        default="active",
+        track_visibility="onchange",
+    )
 
-    email_copy = fields.Boolean(string='CC e-mails sent to main partner')
-    type = fields.Selection(selection_add=[
-        ('email_alias', 'Email alias')
-    ])
+    email_copy = fields.Boolean(string="CC e-mails sent to main partner")
+    type = fields.Selection(selection_add=[("email_alias", "Email alias")])
 
     uuid = fields.Char(copy=False, index=True)
 
     has_agreed_child_protection_charter = fields.Boolean(
-        help="Indicates if the partner has agreed to the child protection"
-             "charter.", default=False)
+        help="Indicates if the partner has agreed to the child protection" "charter.",
+        default=False,
+    )
     date_agreed_child_protection_charter = fields.Datetime(
         help="The date and time when the partner has agreed to the child"
              "protection charter."
     )
 
     # add track on fields from module base
-    email = fields.Char(track_visibility='onchange')
-    title = fields.Many2one(track_visibility='onchange', readonly=False)
-    lang = fields.Selection(track_visibility='onchange')
+    email = fields.Char(track_visibility="onchange")
+    title = fields.Many2one(track_visibility="onchange", readonly=False)
+    lang = fields.Selection(track_visibility="onchange")
     # module from partner_firstname
-    firstname = fields.Char(track_visibility='onchange')
-    lastname = fields.Char(track_visibility='onchange')
+    firstname = fields.Char(track_visibility="onchange")
+    lastname = fields.Char(track_visibility="onchange")
     # module mail
-    opt_out = fields.Boolean(track_visibility='onchange')
+    opt_out = fields.Boolean(track_visibility="onchange")
 
     # Surveys
     survey_input_lines = fields.One2many(
-        comodel_name='survey.user_input_line', inverse_name='partner_id',
-        string='Surveys answers', readonly=False)
+        comodel_name="survey.user_input_line",
+        inverse_name="partner_id",
+        string="Surveys answers",
+        readonly=False,
+    )
     survey_inputs = fields.One2many(
-        comodel_name='survey.user_input', inverse_name='partner_id',
-        string='Surveys', readonly=False)
+        comodel_name="survey.user_input",
+        inverse_name="partner_id",
+        string="Surveys",
+        readonly=False,
+    )
     survey_input_count = fields.Integer(
-        string='Survey number', compute='_compute_survey_input_count',
-        store=True)
+        string="Survey number", compute="_compute_survey_input_count", store=True
+    )
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
     @api.multi
     def agree_to_child_protection_charter(self):
-        return self.write({
-            'has_agreed_child_protection_charter': True,
-            'date_agreed_child_protection_charter': fields.Datetime.now()
-        })
+        return self.write(
+            {
+                "has_agreed_child_protection_charter": True,
+                "date_agreed_child_protection_charter": fields.Datetime.now(),
+            }
+        )
 
     @api.multi
     def validate_partner(self):
-        return self.write({
-            'state': 'active'
-        })
+        return self.write({"state": "active"})
 
     @api.multi
     def get_unreconciled_amount(self):
         """Returns the amount of unreconciled credits in Account 1050"""
         self.ensure_one()
-        mv_line_obj = self.env['account.move.line']
-        move_line_ids = mv_line_obj.search([
-            ('partner_id', '=', self.id),
-            ('account_id.code', '=', '1050'),
-            ('credit', '>', '0'),
-            ('full_reconcile_id', '=', False)])
+        mv_line_obj = self.env["account.move.line"]
+        move_line_ids = mv_line_obj.search(
+            [
+                ("partner_id", "=", self.id),
+                ("account_id.code", "=", "1050"),
+                ("credit", ">", "0"),
+                ("full_reconcile_id", "=", False),
+            ]
+        )
         res = 0
         for move_line in move_line_ids:
             res += move_line.credit
@@ -168,7 +209,7 @@ class ResPartner(models.Model):
         """
         return super().update_number_sponsorships()
 
-    @api.depends('survey_inputs')
+    @api.depends("survey_inputs")
     def _compute_survey_input_count(self):
         for survey in self:
             survey.survey_input_count = len(survey.survey_inputs)
@@ -181,59 +222,64 @@ class ResPartner(models.Model):
         """
         Lookup for duplicate partners and notify.
         """
-        email = vals.get('email')
+        email = vals.get("email")
         if email:
-            vals['email'] = email.strip()
+            vals["email"] = email.strip()
         duplicate = self.search(
-            ['|',
-             '&',
-             ('email', '=', vals.get('email')),
-             ('email', '!=', False),
-             '&', '&',
-             ('firstname', 'ilike', vals.get('firstname')),
-             ('lastname', 'ilike', vals.get('lastname')),
-             ('zip', '=', vals.get('zip'))
-             ])
+            [
+                "|",
+                "&",
+                ("email", "=", vals.get("email")),
+                ("email", "!=", False),
+                "&",
+                "&",
+                ("firstname", "ilike", vals.get("firstname")),
+                ("lastname", "ilike", vals.get("lastname")),
+                ("zip", "=", vals.get("zip")),
+            ]
+        )
         duplicate_ids = [(4, itm.id) for itm in duplicate]
-        vals.update({'partner_duplicate_ids': duplicate_ids})
-        vals['ref'] = self.env['ir.sequence'].get('partner.ref')
-        vals['uuid'] = uuid.uuid4()
+        vals.update({"partner_duplicate_ids": duplicate_ids})
+        vals["ref"] = self.env["ir.sequence"].get("partner.ref")
+        vals["uuid"] = uuid.uuid4()
         # Never subscribe someone to res.partner record
-        partner = super(ResPartner, self.with_context(
-            mail_create_nosubscribe=True)).create(vals)
+        partner = super(
+            ResPartner, self.with_context(mail_create_nosubscribe=True)
+        ).create(vals)
         partner.compute_geopoint()
-        if partner.contact_type == 'attached':
+        if partner.contact_type == "attached":
             partner.active = False
 
         return partner
 
     @api.multi
     def write(self, vals):
-        email = vals.get('email')
+        email = vals.get("email")
         if email:
-            vals['email'] = email.strip()
+            vals["email"] = email.strip()
         res = super().write(vals)
-        if {'country_id', 'city', 'zip'}.intersection(vals):
+        if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
             self.compute_geopoint()
         return res
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=80):
+    def name_search(self, name, args=None, operator="ilike", limit=80):
         """Extends to use trigram search."""
         if args is None:
             args = []
         if name:
             # First find by reference
-            res = self.search([('ref', 'like', name)], limit=limit)
+            res = self.search([("ref", "like", name)], limit=limit)
             if not res:
                 res = self.search(
-                    ['|', ('name', '%', name), ('name', 'ilike', name)],
+                    ["|", ("name", "%", name), ("name", "ilike", name)],
                     order="similarity(res_partner.name, '%s') DESC" % name,
-                    limit=limit)
+                    limit=limit,
+                )
             # Search by e-mail
             if not res:
-                res = self.search([('email', 'ilike', name)], limit=limit)
+                res = self.search([("email", "ilike", name)], limit=limit)
         else:
             res = self.search(args, limit=limit)
         return res.name_get()
@@ -243,51 +289,56 @@ class ResPartner(models.Model):
         """ Order search results based on similarity if name search is used."""
         fuzzy_search = False
         for arg in args:
-            if arg[0] == 'name' and arg[1] == '%':
+            if arg[0] == "name" and arg[1] == "%":
                 fuzzy_search = arg[2]
                 break
         if fuzzy_search:
             order = self.env.cr.mogrify(
-                "similarity(res_partner.name, %s) DESC", [fuzzy_search])
+                "similarity(res_partner.name, %s) DESC", [fuzzy_search]
+            )
         if order and isinstance(order, bytes):
             order = order.decode("utf-8")
-        return super().search(
-            args, offset, limit, order, count)
+        return super().search(args, offset, limit, order, count)
 
     ##########################################################################
     #                             ONCHANGE METHODS                           #
     ##########################################################################
-    @api.onchange('lastname', 'firstname', 'zip', 'email')
+    @api.onchange("lastname", "firstname", "zip", "email")
     def _onchange_partner(self):
-        if ((self.lastname and self.firstname and self.zip) or self.email)\
-                and self.contact_type != 'attached':
-            partner_duplicates = self.search([
-                ('id', '!=', self._origin.id),
-                '|',
-                '&',
-                ('email', '=', self.email),
-                ('email', '!=', False),
-                '&', '&',
-                ('firstname', 'ilike', self.firstname),
-                ('lastname', 'ilike', self.lastname),
-                ('zip', '=', self.zip)
-            ])
+        if (
+                (self.lastname and self.firstname and self.zip) or self.email
+        ) and self.contact_type != "attached":
+            partner_duplicates = self.search(
+                [
+                    ("id", "!=", self._origin.id),
+                    "|",
+                    "&",
+                    ("email", "=", self.email),
+                    ("email", "!=", False),
+                    "&",
+                    "&",
+                    ("firstname", "ilike", self.firstname),
+                    ("lastname", "ilike", self.lastname),
+                    ("zip", "=", self.zip),
+                ]
+            )
             if partner_duplicates:
                 self.partner_duplicate_ids = partner_duplicates
                 # Commit the found duplicates
                 with api.Environment.manage():
                     with registry(self.env.cr.dbname).cursor() as new_cr:
                         new_env = api.Environment(new_cr, self.env.uid, {})
-                        self._origin.with_env(new_env).write({
-                            'partner_duplicate_ids': [(6, 0,
-                                                       partner_duplicates.ids)]
-                        })
+                        self._origin.with_env(new_env).write(
+                            {"partner_duplicate_ids": [(6, 0, partner_duplicates.ids)]}
+                        )
                 return {
-                    'warning': {
-                        'title': _("Possible existing partners found"),
-                        'message': _('The partner you want to add may '
-                                     'already exist. Please use the "'
-                                     'Check duplicates" button to review it.')
+                    "warning": {
+                        "title": _("Possible existing partners found"),
+                        "message": _(
+                            "The partner you want to add may "
+                            'already exist. Please use the "'
+                            'Check duplicates" button to review it.'
+                        ),
                     },
                 }
 
@@ -297,15 +348,16 @@ class ResPartner(models.Model):
     @api.multi
     def compute_geopoint(self):
         """ Compute geopoints. """
-        self.filtered(lambda p: not p.partner_latitude or not
-                      p.partner_longitude).geo_localize()
-        for partner in self.filtered(lambda p: p.partner_latitude and
-                                     p.partner_longitude):
+        self.filtered(
+            lambda p: not p.partner_latitude or not p.partner_longitude
+        ).geo_localize()
+        for partner in self.filtered(
+                lambda p: p.partner_latitude and p.partner_longitude
+        ):
             geo_point = fields.GeoPoint.from_latlon(
-                self.env.cr,
-                partner.partner_latitude,
-                partner.partner_longitude)
-            vals = {'geo_point': geo_point.wkt}
+                self.env.cr, partner.partner_latitude, partner.partner_longitude
+            )
+            vals = {"geo_point": geo_point.wkt}
             partner.write(vals)
             partner.advocate_details_id.write(vals)
         return True
@@ -320,25 +372,24 @@ class ResPartner(models.Model):
         """
         self.ensure_one()
         if isinstance(product, int):
-            product = self.env['product.product'].browse(product)
+            product = self.env["product.product"].browse(product)
         ref = self.ref
-        bvr_reference = '0' * (9 + (7 - len(ref))) + ref
-        bvr_reference += '0' * 5
-        bvr_reference += '6'    # Fund donation
-        bvr_reference += '0' * (4 - len(str(product.fund_id))) + str(
-            product.fund_id)
+        bvr_reference = "0" * (9 + (7 - len(ref))) + ref
+        bvr_reference += "0" * 5
+        bvr_reference += "6"  # Fund donation
+        bvr_reference += "0" * (4 - len(str(product.fund_id))) + str(product.fund_id)
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
     def action_view_partner_invoices(self):
         action = super().action_view_partner_invoices()
 
-        action['domain'] = literal_eval(action['domain'])
-        action['domain'].clear()
-        action['domain'].append(('type', 'in', ['out_invoice', 'out_refund']))
-        action['context'].update({
-            'search_default_partner_id': self.env.uid,
-            })
+        action["domain"] = literal_eval(action["domain"])
+        action["domain"].clear()
+        action["domain"].append(("type", "in", ["out_invoice", "out_refund"]))
+        action["context"].update(
+            {"search_default_partner_id": self.env.uid, }
+        )
         return action
 
     ##########################################################################
@@ -349,13 +400,14 @@ class ResPartner(models.Model):
         """ Put title 'Friends of Compassion for companies. """
         res = super().onchange_type(is_company)
         if is_company:
-            res['value']['title'] = self.env.ref(
-                'partner_compassion.res_partner_title_friends').id
+            res["value"]["title"] = self.env.ref(
+                "partner_compassion.res_partner_title_friends"
+            ).id
         return res
 
     @api.model
     def get_lang_from_phone_number(self, phone):
-        record = self.env['phone.common'].get_record_from_phone_number(phone)
+        record = self.env["phone.common"].get_record_from_phone_number(phone)
         if record:
             partner = self.browse(record[1])
         return record and partner.lang
@@ -367,35 +419,35 @@ class ResPartner(models.Model):
 
         super().forget_me()
         # Delete other objects and custom CH fields
-        self.write({
-            'church_id': False,
-            'church_unlinked': False,
-            'street3': False,
-            'firstname': False,
-            'deathdate': False,
-            'geo_point': False,
-            'partner_latitude': False,
-            'partner_longitude': False
-        })
+        self.write(
+            {
+                "church_id": False,
+                "church_unlinked": False,
+                "street3": False,
+                "firstname": False,
+                "deathdate": False,
+                "geo_point": False,
+                "partner_latitude": False,
+                "partner_longitude": False,
+            }
+        )
         self.advocate_details_id.unlink()
         self.survey_inputs.unlink()
-        self.env['mail.tracking.email'].search([
-            ('partner_id', '=', self.id)]).unlink()
-        self.env['auditlog.log'].search([
-            ('model_id.model', '=', 'res.partner'),
-            ('res_id', '=', self.id)
-        ]).unlink()
-        self.env['partner.communication.job'].search([
-            ('partner_id', '=', self.id)
-        ]).unlink()
+        self.env["mail.tracking.email"].search([("partner_id", "=", self.id)]).unlink()
+        self.env["auditlog.log"].search(
+            [("model_id.model", "=", "res.partner"), ("res_id", "=", self.id)]
+        ).unlink()
+        self.env["partner.communication.job"].search(
+            [("partner_id", "=", self.id)]
+        ).unlink()
         self.message_ids.unlink()
         return True
 
     @api.multi
     def open_duplicates(self):
-        partner_wizard = self.env['res.partner.check.double'].create({
-            'partner_id': self.id,
-        })
+        partner_wizard = self.env["res.partner.check.double"].create(
+            {"partner_id": self.id, }
+        )
         return {
             "type": "ir.actions.act_window",
             "res_model": "res.partner.check.double",
@@ -422,45 +474,51 @@ class ResPartner(models.Model):
         """
         smb_conn = self._get_smb_connection()
         if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
-            config_obj = self.env['ir.config_parameter'].sudo()
-            share_nas = config_obj.get_param('partner_compassion.share_on_nas')
-            store_path = config_obj.get_param('partner_compassion.store_path')
+            config_obj = self.env["ir.config_parameter"].sudo()
+            share_nas = config_obj.get_param("partner_compassion.share_on_nas")
+            store_path = config_obj.get_param("partner_compassion.store_path")
             src_zip_file = tempfile.NamedTemporaryFile()
             attrs = smb_conn.retrieveFile(share_nas, store_path, src_zip_file)
             file_size = attrs[1]
             if file_size:
                 src_zip_file.flush()
                 zip_dir = tempfile.mkdtemp()
-                pyminizip.uncompress(
-                    src_zip_file.name, SmbConfig.file_pw, zip_dir, 0)
-                csv_path = zip_dir + '/partner_data.csv'
-                with open(csv_path, 'a', newline='', encoding='utf-8') as csv_file:
+                pyminizip.uncompress(src_zip_file.name, SmbConfig.file_pw, zip_dir, 0)
+                csv_path = zip_dir + "/partner_data.csv"
+                with open(csv_path, "a", newline="", encoding="utf-8") as csv_file:
                     csv_writer = csv.writer(csv_file)
-                    csv_writer.writerow([
-                        str(self.id),
-                        self.ref,
-                        self.contact_address,
-                        fields.Date.today()
-                    ])
+                    csv_writer.writerow(
+                        [
+                            str(self.id),
+                            self.ref,
+                            self.contact_address,
+                            fields.Date.today(),
+                        ]
+                    )
                 dst_zip_file = tempfile.NamedTemporaryFile()
                 pyminizip.compress(
-                    csv_path, '', dst_zip_file.name, SmbConfig.file_pw, 5)
+                    csv_path, "", dst_zip_file.name, SmbConfig.file_pw, 5
+                )
                 try:
                     smb_conn.storeFile(share_nas, store_path, dst_zip_file)
                 except OperationFailure:
                     logger.error(
                         "Couldn't store secure partner data on NAS. "
                         "Please do it manually by replicating the following "
-                        "file: " + dst_zip_file.name)
+                        "file: " + dst_zip_file.name
+                    )
 
     def _get_smb_connection(self):
         """" Retrieve configuration SMB """
-        if not (SmbConfig.smb_user and SmbConfig.smb_pass and
-                SmbConfig.smb_ip and SmbConfig.smb_port):
+        if not (
+                SmbConfig.smb_user
+                and SmbConfig.smb_pass
+                and SmbConfig.smb_ip
+                and SmbConfig.smb_port
+        ):
             return False
         else:
-            return SMBConnection(
-                SmbConfig.smb_user, SmbConfig.smb_pass, 'odoo', 'nas')
+            return SMBConnection(SmbConfig.smb_user, SmbConfig.smb_pass, "odoo", "nas")
 
     def _get_active_sponsorships_domain(self):
         """
@@ -468,11 +526,10 @@ class ResPartner(models.Model):
         :return: search domain for recurring.contract
         """
         domain = super()._get_active_sponsorships_domain()
-        domain.insert(0, '|')
-        domain.insert(3, ('partner_id', 'in', self.mapped('member_ids').ids))
-        domain.insert(4, '|')
-        domain.insert(6, ('correspondent_id', 'in', self.mapped(
-            'member_ids').ids))
+        domain.insert(0, "|")
+        domain.insert(3, ("partner_id", "in", self.mapped("member_ids").ids))
+        domain.insert(4, "|")
+        domain.insert(6, ("correspondent_id", "in", self.mapped("member_ids").ids))
         return domain
 
     @api.model
@@ -486,23 +543,26 @@ class ResPartner(models.Model):
 
         # Find reply-to in mail template.
         base_template = None
-        if message.model and self._context.get('custom_layout', False):
-            base_template = self.env.ref(self._context['custom_layout'],
-                                         raise_if_not_found=False)
+        if message.model and self._context.get("custom_layout", False):
+            base_template = self.env.ref(
+                self._context["custom_layout"], raise_if_not_found=False
+            )
         if not base_template:
             base_template = self.env.ref(
-                'mail.mail_template_data_notification_email_default')
+                "mail.mail_template_data_notification_email_default"
+            )
 
         if base_template.reply_to:
-            mail_values['reply_to'] = base_template.reply_to
+            mail_values["reply_to"] = base_template.reply_to
 
         return mail_values
 
 
-class SmbConfig():
+class SmbConfig:
     """" Little class who contains SMB configuration """
-    smb_user = config.get('smb_user')
-    smb_pass = config.get('smb_pwd')
-    smb_ip = config.get('smb_ip')
-    smb_port = int(config.get('smb_port', 0))
-    file_pw = config.get('partner_data_password')
+
+    smb_user = config.get("smb_user")
+    smb_pass = config.get("smb_pwd")
+    smb_ip = config.get("smb_ip")
+    smb_port = int(config.get("smb_port", 0))
+    file_pw = config.get("partner_data_password")

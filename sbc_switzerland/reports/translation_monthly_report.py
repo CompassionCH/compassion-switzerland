@@ -20,5 +20,5 @@ class TranslationMonthlyReport(models.Model):
         """
          Used to aggregate data in various formats (in subclasses) "
         :return: (date_trunc value, date format)
-        """""
-        return 'month', 'YYYY-Month'
+        """ ""
+        return "month", "YYYY-Month"
