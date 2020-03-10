@@ -135,10 +135,10 @@
         <field eval="1" name="nb_class"/>
         <field name="begin_color">#FF680A</field>
     </record>
-    <record id="geoengine_vector_symbol_advocate" model="geoengine.vector.symbol">
-        <field name="vector_layer_id" ref="geoengine_vector_layer_advocate"/>
-        <field name="img" type="base64" file="base/static/img/res_partner_1-image.jpg"/>
-    </record>
+    <!--    <record id="geoengine_vector_symbol_advocate" model="geoengine.vector.symbol">-->
+    <!--        <field name="vector_layer_id" ref="geoengine_vector_layer_advocate"/>-->
+    <!--        <field name="img" type="base64" file="base/static/img/res_partner_1-image.jpg"/>-->
+    <!--    </record>-->
     <record id="geoengine_raster_layer_advocate_osm" model="geoengine.raster.layer">
         <field name="raster_type">osm</field>
         <field name="name">Advocate background</field>
