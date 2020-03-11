@@ -9,14 +9,14 @@ class AdvancedTranslationTest(SingleTransactionCase):
 
         cls.test_partner_obj = cls.env["res.partner"]
 
-        tang = cls.browse_ref(cls, "base.res_partner_address_1")
-        joseph = cls.browse_ref(cls, "base.res_partner_address_2")
-        julia = cls.browse_ref(cls, "base.res_partner_address_26")
-        jessica = cls.browse_ref(cls, "base.res_partner_address_14")
-        (julia + jessica).write({"gender": "F"})
+        willie = cls.browse_ref(cls, "base.res_partner_address_1")
+        ron = cls.browse_ref(cls, "base.res_partner_address_2")
+        julie = cls.browse_ref(cls, "base.res_partner_address_33")
+        edith = cls.browse_ref(cls, "base.res_partner_address_14")
+        (julie + edith).write({"gender": "F"})
 
-        cls.partner = tang
-        cls.partners = tang + joseph + julia + jessica
+        cls.partner = willie
+        cls.partners = willie + ron + julie + edith
 
     def test_get_date(self):
         self.partner.create_date = "2020-01-02 12:30:59"
