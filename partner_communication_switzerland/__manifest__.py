@@ -28,57 +28,64 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Compassion CH Partner Communications',
-    'version': '11.0.0.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'depends': [
-        'report_compassion',    # compassion-switzerland
-        'child_switzerland',    # compassion-switzerland
-        'sms_939',              # compassion-switzerland
-        'auth_signup',          # source/addons
-        'recurring_contract'    # compassion-accounting
+    "name": "Compassion CH Partner Communications",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "depends": [
+        "report_compassion",  # compassion-switzerland
+        "child_switzerland",  # compassion-switzerland
+        "sms_939",  # compassion-switzerland
+        "auth_signup",  # source/addons
+        "recurring_contract",  # compassion-accounting
     ],
-    'external_dependencies': {
-        'python': ['wand', 'detectlanguage', 'sendgrid',
-                   'bs4', 'pdf2image', 'babel', 'PyPDF2',
-                   'python_http_client']
+    "external_dependencies": {
+        "python": [
+            "wand",
+            "detectlanguage",
+            "sendgrid",
+            "bs4",
+            "pdf2image",
+            "babel",
+            "PyPDF2",
+            "python_http_client",
+        ]
     },
-    'data': [
-        'data/major_revision_emails.xml',
-        'data/child_letter_emails.xml',
-        'data/lifecycle_emails.xml',
-        'data/project_lifecycle_emails.xml',
-        'data/other_emails.xml',
-        'data/sponsorship_planned_emails.xml',
-        'data/donation_emails.xml',
-        'data/manual_emails.xml',
-        'data/communication_config.xml',
-        'data/sponsorship_communications_cron.xml',
-        'data/default_communication.xml',
-        'data/depart_communications.xml',
-        'data/ir.advanced.translation.csv',
-        'data/label_print.xml',
-        'data/sponsorship_server_actions.xml',
-        'data/sponsorship_action_rules.xml',
-        'data/utm_data.xml',
-        'data/field_office_info_report.xml',
-        'report/child_picture.xml',
-        'views/communication_job_view.xml',
-        'views/download_child_pictures_view.xml',
-        'views/end_contract_wizard_view.xml',
-        'views/disaster_alert_view.xml',
-        'views/partner_compassion_view.xml',
-        'views/contract_view.xml',
-        'views/change_text_wizard_view.xml',
-        'views/correspondence_view.xml',
-        'views/generate_communication_wizard_view.xml',
-        'views/staff_notifications_settings_view.xml',
-        'wizards/res_partner_create_portal_wizard.xml'
+    "data": [
+        "data/major_revision_emails.xml",
+        "data/child_letter_emails.xml",
+        "data/lifecycle_emails.xml",
+        "data/project_lifecycle_emails.xml",
+        "data/other_emails.xml",
+        "data/sponsorship_planned_emails.xml",
+        "data/donation_emails.xml",
+        "data/manual_emails.xml",
+        "data/communication_config.xml",
+        "data/sponsorship_communications_cron.xml",
+        "data/default_communication.xml",
+        "data/depart_communications.xml",
+        "data/ir.advanced.translation.csv",
+        "data/label_print.xml",
+        "data/sponsorship_server_actions.xml",
+        "data/sponsorship_action_rules.xml",
+        "data/utm_data.xml",
+        "data/field_office_info_report.xml",
+        "report/child_picture.xml",
+        "views/communication_job_view.xml",
+        "views/download_child_pictures_view.xml",
+        "views/end_contract_wizard_view.xml",
+        "views/disaster_alert_view.xml",
+        "views/partner_compassion_view.xml",
+        "views/contract_view.xml",
+        "views/change_text_wizard_view.xml",
+        "views/correspondence_view.xml",
+        "views/generate_communication_wizard_view.xml",
+        "views/staff_notifications_settings_view.xml",
+        "wizards/res_partner_create_portal_wizard.xml",
     ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

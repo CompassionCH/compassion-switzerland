@@ -19,9 +19,11 @@ class PrintSponsorshipBvr(models.TransientModel):
     Wizard for selecting a period and the format for printing
     payment slips of a sponsorship.
     """
-    _name = 'print.sponsorship.bvr'
-    _description = "Select a period and the format " \
-                   "for printing payment slips of a sponsorship"
+
+    _name = "print.sponsorship.bvr"
+    _description = (
+        "Select a period and the format " "for printing payment slips of a sponsorship"
+    )
 
     def _compute_default_period_selection(self):
         # After december 15th choose next year by default, to avoid blank BVRs
@@ -69,13 +71,13 @@ class PrintSponsorshipBvr(models.TransientModel):
         # Exception in December, we want to print for next year.
         if today.month == 12 and today.day > 10:
             stop = stop.replace(year=today.year + 1)
-        return fields.Date.to_string(stop)
+        return stop
 
     @api.onchange("period_selection")
     def onchange_period(self):
         today = datetime.today()
-        start = fields.Datetime.from_string(self.date_start)
-        stop = fields.Datetime.from_string(self.date_stop)
+        start = self.date_start
+        stop = self.date_stop
         if self.period_selection == "this_year":
             start = start.replace(year=today.year)
             stop = stop.replace(year=today.year)
@@ -100,9 +102,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         (single bvr / 2 bvr / 3 bvr).
         :return: Generated report
         """
-        if fields.Date.from_string(self.date_start) >= fields.Date.from_string(
-            self.date_stop
-        ):
+        if self.date_start >= self.date_stop:
             raise odooWarning(_("Date stop must be after date start."))
         data = {
             "date_start": self.date_start,
@@ -112,15 +112,17 @@ class PrintSponsorshipBvr(models.TransientModel):
             "background": self.draw_background,
             "preprinted": self.preprinted,
         }
-        report_name = "report_compassion.report_" + self.paper_format.split('.')[1]
+        report_name = "report_compassion.report_" + self.paper_format.split(".")[1]
         report_ref = self.env.ref(report_name)
         if self.pdf:
-            data['background'] = True
+            data["background"] = True
             pdf_data = report_ref.report_action(self, data=data)
             self.pdf_download = base64.encodebytes(
                 report_ref.render_qweb_pdf(
-                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
-            self.state = 'pdf'
+                    pdf_data["data"]["doc_ids"], pdf_data["data"]
+                )[0]
+            )
+            self.state = "pdf"
             return {
                 "name": "Download report",
                 "type": "ir.actions.act_window",
@@ -140,6 +142,7 @@ class PrintBvrDue(models.TransientModel):
     """
 
     _name = "print.sponsorship.bvr.due"
+    _description = "Print sponsorship due BVR"
 
     draw_background = fields.Boolean()
     state = fields.Selection([("new", "new"), ("pdf", "pdf")], default="new")
@@ -160,14 +163,16 @@ class PrintBvrDue(models.TransientModel):
             "background": self.draw_background,
             "doc_ids": records.ids,
         }
-        report_ref = self.env.ref('report_compassion.report_bvr_due')
+        report_ref = self.env.ref("report_compassion.report_bvr_due")
         if self.pdf:
-            data['background'] = True
+            data["background"] = True
             pdf_data = report_ref.report_action(self, data=data)
             self.pdf_download = base64.encodebytes(
                 report_ref.render_qweb_pdf(
-                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
-            self.state = 'pdf'
+                    pdf_data["data"]["doc_ids"], pdf_data["data"]
+                )[0]
+            )
+            self.state = "pdf"
             return {
                 "name": "Download report",
                 "type": "ir.actions.act_window",

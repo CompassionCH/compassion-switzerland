@@ -117,41 +117,39 @@ class PaymentOrder(models.Model):
 
     @api.model
     def _prepare_bank_payment_line_with_lang(self, paylines, partner, res):
-        context = {'lang': partner.lang}
-        invoices = paylines.mapped('move_line_id.invoice_id').with_context(context)
-        products = invoices.mapped('invoice_line_ids.product_id')
-        invoice_type = list(set(invoices.mapped('invoice_type')))
-        invoice_type = invoice_type and invoice_type[0] or 'other'
+        context = {"lang": partner.lang}
+        invoices = paylines.mapped("move_line_id.invoice_id").with_context(context)
+        products = invoices.mapped("invoice_line_ids.product_id")
+        invoice_type = list(set(invoices.mapped("invoice_type")))
+        invoice_type = invoice_type and invoice_type[0] or "other"
         communication = False
-        if invoice_type in ('sponsorship', 'gift'):
-            children = invoices.mapped(
-                'invoice_line_ids.contract_id.child_id')
+        if invoice_type in ("sponsorship", "gift"):
+            children = invoices.mapped("invoice_line_ids.contract_id.child_id")
             if len(children) == 1:
-                if invoice_type == 'sponsorship':
-                    communication = _('Sponsorship')
+                if invoice_type == "sponsorship":
+                    communication = _("Sponsorship")
                 elif len(products) == 1:
-                    communication = products.name + ' ' + _('for')
+                    communication = products.name + " " + _("for")
                 else:
-                    communication = _('sponsorship gifts').title() + \
-                        ' ' + _('for')
-                communication += ' ' + children.preferred_name
+                    communication = _("sponsorship gifts").title() + " " + _("for")
+                communication += " " + children.preferred_name
             else:
-                communication = str(len(children)) + ' '
-                if invoice_type == 'sponsorship':
-                    communication += _('sponsorships')
+                communication = str(len(children)) + " "
+                if invoice_type == "sponsorship":
+                    communication += _("sponsorships")
                 else:
-                    communication += _('sponsorship gifts')
+                    communication += _("sponsorship gifts")
 
-            if invoice_type == 'sponsorship':
-                communication += ' ' + _('Period: ')
+            if invoice_type == "sponsorship":
+                communication += " " + _("Period: ")
                 if len(invoices) < 4:
-                    communication += invoices.get_date('date_invoice', 'MMMM')
+                    communication += invoices.get_date("date_invoice", "MMMM")
                 else:
-                    communication += str(len(invoices)) + ' ' + _('months')
+                    communication += str(len(invoices)) + " " + _("months")
         elif len(products) == 1:
             communication = products.name
 
         if communication:
-            res['communication'] = communication
+            res["communication"] = communication
 
         return res

@@ -12,38 +12,39 @@ from odoo import models, fields, api
 
 class RecurringContract(models.Model):
 
-    _inherit = 'recurring.contract'
+    _inherit = "recurring.contract"
 
     @api.model
     def create(self, vals):
-        if 'origin_id' in vals:
-            origin = self.env['recurring.contract.origin'].\
-                search([('id', '=', vals['origin_id'])])
-            if origin.type == 'event':
-                vals['campaign_id'] = origin.event_id.campaign_id.id
-            if origin.type == 'marketing':
+        if "origin_id" in vals:
+            origin = self.env["recurring.contract.origin"].search(
+                [("id", "=", vals["origin_id"])]
+            )
+            if origin.type == "event":
+                vals["campaign_id"] = origin.event_id.campaign_id.id
+            if origin.type == "marketing":
                 origin.analytic_id.campaign_id = origin.campaign_id
 
         return super().create(vals)
 
     @api.multi
     def write(self, vals):
-        if 'origin_id' in vals:
-            origin = self.env['recurring.contract.origin'].\
-                search([('id', '=', vals['origin_id'])])
-            if origin.type == 'event' and not self.mapped('campaign_id'):
-                vals['campaign_id'] = origin.event_id.campaign_id.id
-            if origin.type == 'marketing' and not self.mapped('campaign_id'):
-                vals['campaign_id'] = origin.campaign_id.id
+        if "origin_id" in vals:
+            origin = self.env["recurring.contract.origin"].search(
+                [("id", "=", vals["origin_id"])]
+            )
+            if origin.type == "event" and not self.mapped("campaign_id"):
+                vals["campaign_id"] = origin.event_id.campaign_id.id
+            if origin.type == "marketing" and not self.mapped("campaign_id"):
+                vals["campaign_id"] = origin.campaign_id.id
 
         return super().write(vals)
 
 
 class RecurringContractOrigin(models.Model):
+    _inherit = "recurring.contract.origin"
 
-    _inherit = 'recurring.contract.origin'
-
-    campaign_id = fields.Many2one('utm.campaign', 'Campaign')
+    campaign_id = fields.Many2one("utm.campaign", "Campaign", readonly=False)
 
     @api.model
     def create(self, vals):
@@ -55,7 +56,6 @@ class RecurringContractOrigin(models.Model):
     @api.multi
     def write(self, vals):
         super().write(vals)
-        if 'campaign_id' in vals:
-            self.mapped('analytic_id').write({
-                'campaign_id': vals['campaign_id']})
+        if "campaign_id" in vals:
+            self.mapped("analytic_id").write({"campaign_id": vals["campaign_id"]})
         return super().write(vals)

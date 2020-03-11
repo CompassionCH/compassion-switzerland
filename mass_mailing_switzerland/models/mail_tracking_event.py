@@ -17,8 +17,9 @@ class MailTrackingEvent(models.Model):
     _inherit = "mail.tracking.event"
 
     partner_category_ids = fields.Many2many(
-        'res.partner.category',
-        related='tracking_email_id.partner_id.category_id'
+        "res.partner.category",
+        related="tracking_email_id.partner_id.category_id",
+        readonly=False,
     )
 
     @api.model
@@ -26,10 +27,10 @@ class MailTrackingEvent(models.Model):
         result = super().create(data)
 
         if result.url:
-            p = re.compile(r'\/([a-zA-Z0-9]{3,6})')
+            p = re.compile(r"\/([a-zA-Z0-9]{3,6})")
             code = p.findall(result.url)[-1]
 
-            link = self.env['link.tracker.code'].search([('code', '=', code)])
+            link = self.env["link.tracker.code"].search([("code", "=", code)])
 
             result.url = link.link_id.url
 

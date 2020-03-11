@@ -5,7 +5,7 @@ from odoo import models, api
 
 class IrActionsReport(models.Model):
 
-    _inherit = 'ir.actions.report'
+    _inherit = "ir.actions.report"
 
     @api.multi
     def behaviour(self):
@@ -20,9 +20,9 @@ class IrActionsReport(models.Model):
         if user.printing_action:
             default_action = user.printing_action
             for key, val in result.iteritems():
-                result[key]['action'] = default_action
+                result[key]["action"] = default_action
         if user.printing_printer_id:
             default_printer = user.printing_printer_id
             for key, val in result.iteritems():
-                result[key]['printer'] = default_printer
+                result[key]["printer"] = default_printer
         return result

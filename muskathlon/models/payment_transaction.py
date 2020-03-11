@@ -10,10 +10,10 @@ from odoo import models
 
 
 class PaymentTransaction(models.Model):
-    _inherit = 'payment.transaction'
+    _inherit = "payment.transaction"
 
     def _get_auto_post_invoice(self):
-        if 'MUSK-REG' in self.reference:
+        if "MUSK-REG" in self.reference:
             # Only post when partner was not created
-            return self.partner_id.state == 'active'
+            return self.partner_id.state == "active"
         return super(PaymentTransaction, self)._get_auto_post_invoice()

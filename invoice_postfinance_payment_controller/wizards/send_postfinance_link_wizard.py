@@ -19,6 +19,7 @@ class SendPostfinanceLinkWizard(models.TransientModel):
         "account_invoice_send_postfinance_link_wizard_rel",
         string="Related invoices",
         default=lambda self: self._default_invoices(),
+        readonly=False,
     )
     state = fields.Selection(
         [

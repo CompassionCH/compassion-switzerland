@@ -28,17 +28,15 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Compassion CH Database Cleanup',
-    'version': '11.0.1.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_compassion'],
-    'data': [
-        'data/cleanup_cron.xml',
-    ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "name": "Compassion CH Database Cleanup",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "depends": ["sponsorship_compassion"],
+    "data": ["data/cleanup_cron.xml", ],
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

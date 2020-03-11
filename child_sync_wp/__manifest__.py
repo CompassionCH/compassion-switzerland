@@ -28,26 +28,25 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Sync Compassion Children with Wordpress website',
-    'version': '11.0.0.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'depends': ['sponsorship_compassion',
-                'child_switzerland',
-                'wordpress_configuration'
-                ],
-    'external_dependencies': {
-        'python': ['pysftp', 'wand'],
-    },
-    'data': [
-        'views/child_on_wordpress_wizard.xml',
-        'views/child_remove_from_wordpress.xml',
-        'views/staff_notification_settings_view.xml',
-        'data/wordpress_cron.xml',
+    "name": "Sync Compassion Children with Wordpress website",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "depends": [
+        "sponsorship_compassion",
+        "child_switzerland",
+        "wordpress_configuration",
     ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "external_dependencies": {"python": ["pysftp", "wand"], },
+    "data": [
+        "views/child_on_wordpress_wizard.xml",
+        "views/child_remove_from_wordpress.xml",
+        "views/staff_notification_settings_view.xml",
+        "data/wordpress_cron.xml",
+    ],
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

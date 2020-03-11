@@ -18,8 +18,7 @@ class LinkTrackerCompassion(main.LinkTracker):
 
         # add customs params to target url
         if params:
-            args = '&'.join([key + '=' + val
-                             for key, val in list(params.items())])
+            args = "&".join([key + "=" + val for key, val in list(params.items())])
             redirect_url.location += args
 
         return redirect_url

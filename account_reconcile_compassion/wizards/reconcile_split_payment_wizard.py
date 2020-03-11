@@ -16,31 +16,38 @@ class ReconcileSplitPaymentWizard(models.TransientModel):
     paid more than excepted. It splits the payment into two move lines so
     that one invoice can be reconciled and the extra amount is kept in
     the customer balance. """
-    _name = 'reconcile.split.payment.wizard'
 
-    comment = fields.Char('Indications on left amount', size=64)
+    _name = "reconcile.split.payment.wizard"
+
+    comment = fields.Char("Indications on left amount", size=64)
     contract_ids = fields.Many2many(
-        'recurring.contract',
+        "recurring.contract",
         default=lambda self: self._get_contract_ids(),
-        string='Related contracts')
+        string="Related contracts",
+        readonly=False,
+    )
 
     def _get_contract_ids(self):
-        move_line_obj = self.env['account.move.line']
+        move_line_obj = self.env["account.move.line"]
         contract_ids = False
-        active_ids = self.env.context.get('active_ids')
+        active_ids = self.env.context.get("active_ids")
         if active_ids:
-            contract_ids = move_line_obj.browse(active_ids).filtered(
-                lambda mvl: mvl.debit > 0).mapped(
-                'invoice_id.invoice_line_ids.contract_id.id') or False
+            contract_ids = (
+                move_line_obj.browse(active_ids)
+                .filtered(lambda mvl: mvl.debit > 0)
+                .mapped("invoice_id.invoice_line_ids.contract_id.id")
+                or False
+            )
         return contract_ids
 
     @api.multi
     def reconcile_split_payment(self):
-        ''' Split the payment of a partner into two move_lines in order to
+        """ Split the payment of a partner into two move_lines in order to
         reconcile one of them.
-        '''
+        """
         self.ensure_one()
-        move_line_obj = self.env['account.move.line'].with_context(
-            residual_comment=self.comment)
-        move_lines = move_line_obj.browse(self.env.context.get('active_ids'))
+        move_line_obj = self.env["account.move.line"].with_context(
+            residual_comment=self.comment
+        )
+        move_lines = move_line_obj.browse(self.env.context.get("active_ids"))
         return move_lines.split_payment_and_reconcile()

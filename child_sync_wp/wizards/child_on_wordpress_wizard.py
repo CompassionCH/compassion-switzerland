@@ -14,20 +14,23 @@ from odoo.tools.translate import _
 
 
 class ChildOnWorpressWizard(models.TransientModel):
-    _name = 'child.on.wordpress.wizard'
+    _name = "child.on.wordpress.wizard"
     _description = "Put children on WordPress"
 
     child_ids = fields.Many2many(
-        'compassion.child', compute='_compute_active_ids',
-        string='Selected children', default=lambda c: c._compute_active_ids()
+        "compassion.child",
+        compute="_compute_active_ids",
+        string="Selected children",
+        default=lambda c: c._compute_active_ids(),
+        readonly=False,
     )
 
     def _compute_active_ids(self):
-        children = self.env['compassion.child'].browse(
-            self.env.context.get('active_ids'))
-        possible_states = ['N', 'R', 'Z']
-        valid_children = children.filtered(
-            lambda c: c.state in possible_states)
+        children = self.env["compassion.child"].browse(
+            self.env.context.get("active_ids")
+        )
+        possible_states = ["N", "R", "Z"]
+        valid_children = children.filtered(lambda c: c.state in possible_states)
         for wizard in self:
             wizard.child_ids = valid_children
         return valid_children

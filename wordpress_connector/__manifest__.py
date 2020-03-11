@@ -29,23 +29,23 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Compassion CH Wordpress Connector',
-    'version': '10.0.1.0.0',
-    'category': 'Social',
-    'author': 'Emanuel Cino',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'data': [
-        'views/import_letter_view.xml',
-        'views/request.xml',
+    "name": "Compassion CH Wordpress Connector",
+    "version": "12.0.1.0.0",
+    "category": "Social",
+    "author": "Emanuel Cino",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "data": ["views/import_letter_view.xml", "views/request.xml", ],
+    "depends": [
+        "mass_mailing_switzerland",
+        "child_sync_wp",
+        "cms_form_compassion",
+        "sbc_switzerland",
+        "crm_compassion",
+        "crm_request",
     ],
-    'depends': ['mass_mailing_switzerland', 'child_sync_wp',
-                'cms_form_compassion', 'sbc_switzerland', 'crm_compassion',
-                'crm_request'],
-    'external_dependencies': {
-        'python': ['pysftp']
-    },
-    'demo': [],
-    'installable': False,
-    'auto_install': True,
+    "external_dependencies": {"python": ["pysftp"]},
+    "demo": [],
+    "installable": False,
+    "auto_install": True,
 }

@@ -23,27 +23,29 @@ logger = logging.getLogger(__name__)
 
 
 class RecurringContracts(models.Model):
-    _inherit = 'recurring.contract'
+    _inherit = "recurring.contract"
 
-    first_open_invoice = fields.Date(compute='_compute_first_open_invoice')
-    mandate_date = fields.Datetime(string='State last time mandate')
-    has_mandate = fields.Boolean(compute='_compute_has_mandate')
-    church_id = fields.Many2one(
-        related='partner_id.church_id', readonly=True
-    )
+    first_open_invoice = fields.Date(compute="_compute_first_open_invoice")
+    mandate_date = fields.Datetime(string="State last time mandate")
+    has_mandate = fields.Boolean(compute="_compute_has_mandate")
+    church_id = fields.Many2one(related="partner_id.church_id", readonly=True)
     previous_child_id = fields.Many2one(
-        'compassion.child', 'Previous child', related='parent_id.child_id')
+        "compassion.child",
+        "Previous child",
+        related="parent_id.child_id",
+        readonly=False,
+    )
     is_already_a_sponsor = fields.Boolean(
-        compute="_compute_already_a_sponsor", store=True)
+        compute="_compute_already_a_sponsor", store=True
+    )
     next_waiting_reminder = fields.Datetime(
-        'Next reminder',
-        compute='_compute_next_reminder', store=True
+        "Next reminder", compute="_compute_next_reminder", store=True
     )
     partner_lang = fields.Selection(
-        'res.partner', 'Partner language', related='partner_id.lang',
-        store=True)
-    hillsong_ref = fields.Char(related='origin_id.hillsong_ref', store=True)
-    state = fields.Selection(selection_add=[('mandate', 'Waiting Mandate')])
+        "res.partner", "Partner language", related="partner_id.lang", store=True
+    )
+    hillsong_ref = fields.Char(related="origin_id.hillsong_ref", store=True)
+    state = fields.Selection(selection_add=[("mandate", "Waiting Mandate")])
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -51,41 +53,43 @@ class RecurringContracts(models.Model):
     @api.multi
     def _compute_first_open_invoice(self):
         for contract in self:
-            invoices = contract.invoice_line_ids.mapped('invoice_id').filtered(
-                lambda i: i.state == 'open')
+            invoices = contract.invoice_line_ids.mapped("invoice_id").filtered(
+                lambda i: i.state == "open"
+            )
             if invoices:
-                first_open_invoice = min([
-                    fields.Date.from_string(i.date_invoice) for i in invoices])
-                contract.first_open_invoice = fields.Date.to_string(
-                    first_open_invoice)
-            elif contract.state not in ('terminated', 'cancelled'):
+                first_open_invoice = min([i.date_invoice for i in invoices])
+                contract.first_open_invoice = first_open_invoice
+            elif contract.state not in ("terminated", "cancelled"):
                 contract.first_open_invoice = contract.next_invoice_date
 
     @api.multi
     def _compute_has_mandate(self):
         # Search for an existing valid mandate
         for contract in self:
-            count = self.env['account.banking.mandate'].search_count([
-                ('partner_id', '=', contract.partner_id.id),
-                ('state', '=', 'valid')])
+            count = self.env["account.banking.mandate"].search_count(
+                [("partner_id", "=", contract.partner_id.id), ("state", "=", "valid")]
+            )
             if contract.partner_id.parent_id:
-                count += self.env['account.banking.mandate'].search_count([
-                    ('partner_id', '=', contract.partner_id.parent_id.id),
-                    ('state', '=', 'valid')])
+                count += self.env["account.banking.mandate"].search_count(
+                    [
+                        ("partner_id", "=", contract.partner_id.parent_id.id),
+                        ("state", "=", "valid"),
+                    ]
+                )
             contract.has_mandate = bool(count)
 
     @api.multi
     def _compute_already_a_sponsor(self):
         for contract in self:
-            contract.is_already_a_sponsor =\
+            contract.is_already_a_sponsor = (
                 True if contract.previous_child_id else False
+            )
 
-    @api.depends('child_id.hold_id.expiration_date')
+    @api.depends("child_id.hold_id.expiration_date")
     @api.multi
     def _compute_next_reminder(self):
         for sponsorship in self.filtered(lambda s: s.child_id.hold_id):
-            hold_expiration = fields.Datetime.from_string(
-                sponsorship.child_id.hold_id.expiration_date)
+            hold_expiration = sponsorship.child_id.hold_id.expiration_date
             sponsorship.next_waiting_reminder = fields.Datetime.to_string(
                 hold_expiration - relativedelta(days=7)
             )
@@ -96,71 +100,66 @@ class RecurringContracts(models.Model):
     @api.multi
     def write(self, vals):
         """ Perform various checks when a contract is modified. """
-        if 'group_id' in vals:
-            self._on_change_group_id(vals['group_id'])
+        if "group_id" in vals:
+            self._on_change_group_id(vals["group_id"])
 
         # Write the changes
         return super().write(vals)
 
-    @api.onchange('child_id')
+    @api.onchange("child_id")
     def onchange_child_id(self):
         res = super().onchange_child_id()
-        warn_categories = self.correspondent_id.category_id.filtered(
-            'warn_sponsorship')
+        warn_categories = self.correspondent_id.category_id.filtered("warn_sponsorship")
         if warn_categories:
-            cat_names = warn_categories.mapped('name')
+            cat_names = warn_categories.mapped("name")
             return {
-                'warning': {
-                    'title': _('The sponsor has special categories'),
-                    'message': ', '.join(cat_names)
+                "warning": {
+                    "title": _("The sponsor has special categories"),
+                    "message": ", ".join(cat_names),
                 }
             }
         return res
 
-    @api.onchange('user_id')
+    @api.onchange("user_id")
     def onchange_user_id(self):
         """ Make checks as well when ambassador is changed. """
-        warn_categories = self.user_id.category_id.filtered(
-            'warn_sponsorship')
+        warn_categories = self.user_id.category_id.filtered("warn_sponsorship")
         if warn_categories:
-            cat_names = warn_categories.mapped('name')
+            cat_names = warn_categories.mapped("name")
             return {
-                'warning': {
-                    'title': _('The ambassador has special categories'),
-                    'message': ', '.join(cat_names)
+                "warning": {
+                    "title": _("The ambassador has special categories"),
+                    "message": ", ".join(cat_names),
                 }
             }
 
-    @api.onchange('group_id')
+    @api.onchange("group_id")
     def on_change_group_id(self):
         """ Compute next invoice_date """
         current_date = datetime.today()
         is_active = False
 
-        if self.state not in ('draft',
-                              'mandate') and self.next_invoice_date:
+        if self.state not in ("draft", "mandate") and self.next_invoice_date:
             is_active = True
-            current_date = fields.Datetime.from_string(
-                self.next_invoice_date)
+            current_date = self.next_invoice_date
 
         if self.group_id:
             contract_group = self.group_id
             if contract_group.next_invoice_date:
-                next_group_date = fields.Datetime.from_string(
-                    contract_group.next_invoice_date)
-                next_invoice_date = current_date.replace(
-                    day=next_group_date.day)
+                next_group_date = contract_group.next_invoice_date
+                next_invoice_date = current_date.replace(day=next_group_date.day)
             else:
                 next_invoice_date = current_date.replace(day=1)
             payment_mode = contract_group.payment_mode_id.name
         else:
             next_invoice_date = current_date.replace(day=1)
-            payment_mode = ''
+            payment_mode = ""
 
-        if current_date.day > 15 or (payment_mode in (
-                'LSV', 'Postfinance') and not is_active):
+        if current_date.day > 15 or (
+                payment_mode in ("LSV", "Postfinance") and not is_active
+        ):
             next_invoice_date += relativedelta(months=+1)
-        self.next_invoice_date = fields.Date.to_string(next_invoice_date)
+        self.next_invoice_date = next_invoice_date
 
     @api.multi
     def postpone_reminder(self):
@@ -168,20 +167,22 @@ class RecurringContracts(models.Model):
         extension = self.child_id.hold_id.no_money_extension
         if extension > 2:
             extension = 2
-        wizard = self.env['postpone.waiting.reminder.wizard'].create({
-            'sponsorship_id': self.id,
-            'next_reminder': self.next_waiting_reminder,
-            'next_reminder_type': str(extension)
-        })
+        wizard = self.env["postpone.waiting.reminder.wizard"].create(
+            {
+                "sponsorship_id": self.id,
+                "next_reminder": self.next_waiting_reminder,
+                "next_reminder_type": str(extension),
+            }
+        )
         return {
-            'name': _('Postpone reminder'),
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': wizard._name,
-            'context': self.env.context,
-            'res_id': wizard.id,
-            'target': 'new',
+            "name": _("Postpone reminder"),
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": wizard._name,
+            "context": self.env.context,
+            "res_id": wizard.id,
+            "target": "new",
         }
 
     ##########################################################################
@@ -194,83 +195,85 @@ class RecurringContracts(models.Model):
         """
         super().contract_active()
         # Check if partner is active
-        need_validation = self.filtered(
-            lambda s: s.partner_id.state != 'active')
+        need_validation = self.filtered(lambda s: s.partner_id.state != "active")
         if need_validation:
-            raise UserError(_(
-                'Please verify the partner before validating the sponsorship'))
+            raise UserError(
+                _("Please verify the partner before validating the sponsorship")
+            )
 
         sponsor_cat_id = self.env.ref(
-            'partner_compassion.res_partner_category_sponsor').id
+            "partner_compassion.res_partner_category_sponsor"
+        ).id
         old_sponsor_cat_id = self.env.ref(
-            'partner_compassion.res_partner_category_old').id
-        sponsorships = self.filtered(lambda c: 'S' in c.type)
-        add_sponsor_vals = {'category_id': [
-            (4, sponsor_cat_id),
-            (3, old_sponsor_cat_id)
-        ]}
-        partners = sponsorships.mapped('partner_id') | sponsorships.mapped(
-            'correspondent_id')
+            "partner_compassion.res_partner_category_old"
+        ).id
+        sponsorships = self.filtered(lambda c: "S" in c.type)
+        add_sponsor_vals = {
+            "category_id": [(4, sponsor_cat_id), (3, old_sponsor_cat_id)]
+        }
+        partners = sponsorships.mapped("partner_id") | sponsorships.mapped(
+            "correspondent_id"
+        )
         partners.write(add_sponsor_vals)
         return True
 
     @api.multi
     def contract_waiting_mandate(self):
         self._check_sponsorship_is_valid()
-        self.write({
-            'state': 'mandate',
-            'mandate_date': fields.Datetime.now()
-        })
-        for contract in self.filtered(lambda s: 'S' in s.type and
-                                      s.child_id.hold_id):
+        self.write({"state": "mandate", "mandate_date": fields.Datetime.now()})
+        for contract in self.filtered(lambda s: "S" in s.type and s.child_id.hold_id):
             # Update the hold of the child to No Money Hold
             hold = contract.child_id.hold_id
-            hold.write({
-                'type': HoldType.NO_MONEY_HOLD.value,
-                'expiration_date': hold.get_default_hold_expiration(
-                    HoldType.NO_MONEY_HOLD)
-            })
+            hold.write(
+                {
+                    "type": HoldType.NO_MONEY_HOLD.value,
+                    "expiration_date": hold.get_default_hold_expiration(
+                        HoldType.NO_MONEY_HOLD
+                    ),
+                }
+            )
         return True
 
     @api.multi
     def contract_waiting(self):
         """ If sponsor has open payments, generate invoices and reconcile. """
         self._check_sponsorship_is_valid()
-        sponsorships = self.filtered(lambda s: 'S' in s.type)
+        sponsorships = self.filtered(lambda s: "S" in s.type)
         needs_mandate = self.env[self._name]
         for contract in sponsorships:
             payment_mode = contract.payment_mode_id.name
-            if contract.type in ['S', 'SC'] and (
-                'LSV' in payment_mode or 'Postfinance' in payment_mode
-            ) and contract.total_amount != 0:
+            if (
+                    contract.type in ["S", "SC"]
+                    and ("LSV" in payment_mode or "Postfinance" in payment_mode)
+                    and contract.total_amount != 0
+            ):
                 # Check mandate
-                if not contract.partner_id.mapped('bank_ids.mandate_ids').filtered(
-                        lambda m: m.state == 'valid'):
+                if not contract.partner_id.mapped("bank_ids.mandate_ids").filtered(
+                        lambda m: m.state == "valid"
+                ):
                     needs_mandate += contract
                 # Recompute next_invoice_date
                 today = datetime.today()
-                old_invoice_date = fields.Datetime.from_string(
-                    contract.next_invoice_date)
+                old_invoice_date = contract.next_invoice_date
                 next_invoice_date = old_invoice_date.replace(
-                    month=today.month, year=today.year)
+                    month=today.month, year=today.year
+                )
                 if today.day > 15 and next_invoice_date.day < 15:
-                    next_invoice_date = next_invoice_date + relativedelta(
-                        months=+1)
+                    next_invoice_date = next_invoice_date + relativedelta(months=+1)
                 if next_invoice_date > old_invoice_date:
-                    contract.next_invoice_date = fields.Date.to_string(
-                        next_invoice_date)
+                    contract.next_invoice_date = next_invoice_date
             super(RecurringContracts, contract).contract_waiting()
             contract._reconcile_open_amount()
 
         needs_mandate.contract_waiting_mandate()
-        super(RecurringContracts, self-sponsorships).contract_waiting()
+        super(RecurringContracts, self - sponsorships).contract_waiting()
         return True
 
     @api.multi
     def mandate_valid(self):
         # Called when mandate is validated
-        to_transition = self.filtered(lambda c: c.state == 'mandate')
-        to_active = to_transition.filtered('is_active')
+        to_transition = self.filtered(lambda c: c.state == "mandate")
+        to_active = to_transition.filtered("is_active")
         to_active.contract_active()
         (to_transition - to_active).contract_waiting()
         return True
@@ -280,27 +283,30 @@ class RecurringContracts(models.Model):
         Called at contract validation to ensure we can validate the
         sponsorship.
         """
-        partners = self.mapped('partner_id') | self.mapped('correspondent_id')
+        partners = self.mapped("partner_id") | self.mapped("correspondent_id")
         # Partner should be active
-        need_validation = partners.filtered(lambda p: p.state != 'active')
+        need_validation = partners.filtered(lambda p: p.state != "active")
         if need_validation:
-            raise UserError(_(
-                'Please verify the partner before validating the sponsorship'))
+            raise UserError(
+                _("Please verify the partner before validating the sponsorship")
+            )
         # Partner shouldn't be restricted
-        if partners.filtered('is_restricted'):
-            raise UserError(_(
-                "This partner has the restricted category active. "
-                "New sponsorships are not allowed."))
+        if partners.filtered("is_restricted"):
+            raise UserError(
+                _(
+                    "This partner has the restricted category active. "
+                    "New sponsorships are not allowed."
+                )
+            )
         # Notify for special categories
-        special_categories = partners.mapped('category_id').filtered(
-            'warn_sponsorship')
+        special_categories = partners.mapped("category_id").filtered("warn_sponsorship")
         # Since we are in workflow, the user is not set in environment.
         # We take then the last write user on the records
         if special_categories:
-            self.mapped('write_uid')[:1].notify_warning(
-                ', '.join(special_categories.mapped('name')),
-                title=_('The sponsor has special categories'),
-                sticky=True
+            self.mapped("write_uid")[:1].notify_warning(
+                ", ".join(special_categories.mapped("name")),
+                title=_("The sponsor has special categories"),
+                sticky=True,
             )
 
     ##########################################################################
@@ -310,13 +316,11 @@ class RecurringContracts(models.Model):
         """ For LSV/DD contracts, don't clean invoices that are in a
             Payment Order.
         """
-        search = super()._filter_clean_invoices(
-            since_date, to_date)
-        invoices = self.env['account.invoice.line'].search(search).mapped(
-            'invoice_id')
+        search = super()._filter_clean_invoices(since_date, to_date)
+        invoices = self.env["account.invoice.line"].search(search).mapped("invoice_id")
         lsv_dd_invoices = self._get_lsv_dd_invoices(invoices)
 
-        search.append(('invoice_id', 'not in', lsv_dd_invoices.ids))
+        search.append(("invoice_id", "not in", lsv_dd_invoices.ids))
         return search
 
     def _get_invoice_lines_to_clean(self, since_date, to_date):
@@ -324,24 +328,30 @@ class RecurringContracts(models.Model):
             Payment Order.
         """
         invoice_lines = super()._get_invoice_lines_to_clean(since_date, to_date)
-        lsv_dd_invoices = self._get_lsv_dd_invoices(invoice_lines.mapped(
-            'invoice_id'))
+        lsv_dd_invoices = self._get_lsv_dd_invoices(invoice_lines.mapped("invoice_id"))
         return invoice_lines.filtered(
-            lambda line: line.invoice_id.id not in lsv_dd_invoices.ids)
+            lambda line: line.invoice_id.id not in lsv_dd_invoices.ids
+        )
 
     def _get_lsv_dd_invoices(self, invoices):
-        lsv_dd_invoices = self.env['account.invoice']
+        lsv_dd_invoices = self.env["account.invoice"]
         for invoice in invoices:
-            pay_line = self.env['account.payment.line'].search([
-                ('move_line_id', 'in', invoice.move_id.line_ids.ids),
-                ('order_id.state', 'in', ('open', 'done'))])
+            pay_line = self.env["account.payment.line"].search(
+                [
+                    ("move_line_id", "in", invoice.move_id.line_ids.ids),
+                    ("order_id.state", "in", ("open", "done")),
+                ]
+            )
             if pay_line:
                 lsv_dd_invoices += invoice
 
             # If a draft payment order exitst, we remove the payment line.
-            pay_line = self.env['account.payment.line'].search([
-                ('move_line_id', 'in', invoice.move_id.line_ids.ids),
-                ('order_id.state', '=', 'draft')])
+            pay_line = self.env["account.payment.line"].search(
+                [
+                    ("move_line_id", "in", invoice.move_id.line_ids.ids),
+                    ("order_id.state", "=", "draft"),
+                ]
+            )
             if pay_line:
                 pay_line.unlink()
         return lsv_dd_invoices
@@ -354,54 +364,62 @@ class RecurringContracts(models.Model):
         """
         super()._on_sponsorship_finished()
         sponsor_cat_id = self.env.ref(
-            'partner_compassion.res_partner_category_sponsor').id
+            "partner_compassion.res_partner_category_sponsor"
+        ).id
         old_sponsor_cat_id = self.env.ref(
-            'partner_compassion.res_partner_category_old').id
+            "partner_compassion.res_partner_category_old"
+        ).id
 
         for sponsorship in self:
             partner_id = sponsorship.partner_id.id
             correspondent_id = sponsorship.correspondent_id.id
             # Partner
-            contract_count = self.search_count([
-                '|',
-                ('correspondent_id', '=', partner_id),
-                ('partner_id', '=', partner_id),
-                ('state', '=', 'active'),
-                ('type', 'like', 'S')])
+            contract_count = self.search_count(
+                [
+                    "|",
+                    ("correspondent_id", "=", partner_id),
+                    ("partner_id", "=", partner_id),
+                    ("state", "=", "active"),
+                    ("type", "like", "S"),
+                ]
+            )
             if not contract_count:
                 # Replace sponsor category by old sponsor category
-                sponsorship.partner_id.write({
-                    'category_id': [(3, sponsor_cat_id),
-                                    (4, old_sponsor_cat_id)]})
+                sponsorship.partner_id.write(
+                    {"category_id": [(3, sponsor_cat_id), (4, old_sponsor_cat_id)]}
+                )
             # Correspondent
-            contract_count = self.search_count([
-                '|',
-                ('correspondent_id', '=', correspondent_id),
-                ('partner_id', '=', correspondent_id),
-                ('state', '=', 'active'),
-                ('type', 'like', 'S')])
+            contract_count = self.search_count(
+                [
+                    "|",
+                    ("correspondent_id", "=", correspondent_id),
+                    ("partner_id", "=", correspondent_id),
+                    ("state", "=", "active"),
+                    ("type", "like", "S"),
+                ]
+            )
             if not contract_count:
                 # Replace sponsor category by old sponsor category
-                sponsorship.correspondent_id.write({
-                    'category_id': [(3, sponsor_cat_id),
-                                    (4, old_sponsor_cat_id)]})
+                sponsorship.correspondent_id.write(
+                    {"category_id": [(3, sponsor_cat_id), (4, old_sponsor_cat_id)]}
+                )
             # Deactivate pending invoice lines.
-            sponsorship.invoice_line_ids.mapped('invoice_id').filtered(
-                lambda i: i.state == 'open').action_cancel()
+            sponsorship.invoice_line_ids.mapped("invoice_id").filtered(
+                lambda i: i.state == "open"
+            ).action_cancel()
 
     def _on_change_group_id(self, group_id):
         """ Change state of contract if payment is changed to/from LSV or DD.
         """
-        group = self.env['recurring.contract.group'].browse(
-            group_id)
+        group = self.env["recurring.contract.group"].browse(group_id)
         payment_name = group.payment_mode_id.name
-        if group and ('LSV' in payment_name or 'Postfinance' in payment_name):
+        if group and ("LSV" in payment_name or "Postfinance" in payment_name):
             self.contract_waiting_mandate()
         else:
             # Check if old payment_mode was LSV or DD
-            for contract in self.filtered('group_id'):
+            for contract in self.filtered("group_id"):
                 payment_name = contract.payment_mode_id.name
-                if 'LSV' in payment_name or 'Postfinance' in payment_name:
+                if "LSV" in payment_name or "Postfinance" in payment_name:
                     contract.contract_active()
 
     @api.multi
@@ -410,32 +428,36 @@ class RecurringContracts(models.Model):
         super()._update_invoice_lines(invoices)
         for contract in self:
             ref = False
-            bank_modes = self.env['account.payment.mode'].with_context(
-                lang='en_US').search(
-                ['|', ('name', 'like', 'LSV'),
-                 ('name', 'like', 'Postfinance')])
+            bank_modes = (
+                self.env["account.payment.mode"]
+                    .with_context(lang="en_US")
+                    .search(
+                    ["|", ("name", "like", "LSV"), ("name", "like", "Postfinance")])
+            )
             if contract.group_id.bvr_reference:
                 ref = contract.group_id.bvr_reference
             elif contract.payment_mode_id in bank_modes:
-                seq = self.env['ir.sequence']
-                ref = mod10r(seq.next_by_code('contract.bvr.ref'))
-            invoices.write({'reference': ref})
+                seq = self.env["ir.sequence"]
+                ref = mod10r(seq.next_by_code("contract.bvr.ref"))
+            invoices.write({"reference": ref})
 
     def _reconcile_open_amount(self):
         # Reconcile open amount of partner with contract invoices
         self.ensure_one()
-        move_lines = self.env['account.move.line'].search([
-            ('partner_id', '=', self.partner_id.id),
-            ('account_id.code', '=', '1050'),
-            ('credit', '>', 0),
-            ('reconciled', '=', False)
-        ])
-        number_to_reconcile = int(
-            sum(move_lines.mapped('credit') or [0])) // int(self.total_amount)
+        move_lines = self.env["account.move.line"].search(
+            [
+                ("partner_id", "=", self.partner_id.id),
+                ("account_id.code", "=", "1050"),
+                ("credit", ">", 0),
+                ("reconciled", "=", False),
+            ]
+        )
+        number_to_reconcile = int(sum(move_lines.mapped("credit") or [0])) // int(
+            self.total_amount
+        )
         if number_to_reconcile:
             self.button_generate_invoices()
-            invoices = self.invoice_line_ids.mapped('invoice_id').sorted(
-                'date_invoice')
+            invoices = self.invoice_line_ids.mapped("invoice_id").sorted("date_invoice")
             number = min(len(invoices), number_to_reconcile)
             invoices = invoices[:number]
             delay = datetime.now() + relativedelta(seconds=15)

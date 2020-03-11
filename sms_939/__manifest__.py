@@ -28,30 +28,27 @@
 
 # pylint: disable=C8101
 {
-    'name': '939 SMS Services',
-    'version': '11.0.0.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'https://github.com/CompassionCH/compassion-switzerland/'
-               'tree/10.0',
-    'depends': [
-        'sms_sponsorship',              # compassion-modules
-        'sponsorship_switzerland',      # compassion-switzerland
-        'child_sync_wp',                # compassion-switzerland
-        'sms',                          # odoo
+    "name": "939 SMS Services",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "https://github.com/CompassionCH/compassion-switzerland/" "tree/10.0",
+    "depends": [
+        "sms_sponsorship",  # compassion-modules
+        "sponsorship_switzerland",  # compassion-switzerland
+        "child_sync_wp",  # compassion-switzerland
+        "sms",  # odoo
     ],
-    'data': [
-        'security/ir.model.access.csv',
-        'data/sms_hook.xml',
-        'data/sms_provider.xml',
-        'views/sms_views.xml',
-        'views/sms_sender_wizard.xml'
+    "data": [
+        "security/ir.model.access.csv",
+        "data/sms_hook.xml",
+        "data/sms_provider.xml",
+        "views/sms_views.xml",
+        "views/sms_sender_wizard.xml",
     ],
-    'demo': [
-        'demo/sms_hook.xml'
-    ],
-    'development_status': 'Beta',
-    'installable': True,
-    'auto_install': False,
+    "demo": ["demo/sms_hook.xml"],
+    "development_status": "Beta",
+    "installable": True,
+    "auto_install": False,
 }

@@ -11,6 +11,6 @@ from odoo import models, fields
 
 
 class ResCountry(models.Model):
-    _inherit = 'res.country'
+    _inherit = "res.country"
 
-    preposition = fields.Char(translate=True, default='in')
+    preposition = fields.Char(translate=True, default="in")

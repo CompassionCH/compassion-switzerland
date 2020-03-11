@@ -28,38 +28,36 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Sponsor to beneficiary email communication',
-    'version': '11.0.0.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'depends': [
-        'mysql_connector',                      # compassion-switzerland
-        'partner_communication_switzerland',    # compassion-switzerland
-        'child_switzerland'                     # compassion-switzerland
+    "name": "Sponsor to beneficiary email communication",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "depends": [
+        "mysql_connector",  # compassion-switzerland
+        "partner_communication_switzerland",  # compassion-switzerland
+        "child_switzerland",  # compassion-switzerland
     ],
-    'external_dependencies': {
-        'python': ['smb', 'PyPDF2', 'pysftp', 'wand']
-    },
-    'data': [
-        'security/ir.model.access.csv',
-        'data/scan_letter_params.xml',
-        'data/import_config_templates.xml',
-        'data/nas_parameters.xml',
-        'data/local_letters_cron.xml',
-        'data/translator_email.xml',
-        'data/communication_config.xml',
-        'data/translator_server_actions.xml',
-        'data/translator_action_rules.xml',
-        'data/communication_config.xml',
-        'views/import_config_view.xml',
-        'views/import_letters_history_view.xml',
-        'views/correspondence_view.xml',
-        'views/s2b_generator_view.xml',
-        'views/advocate_view.xml',
-        'reports/translation_reports_view.xml',
+    "external_dependencies": {"python": ["smb", "PyPDF2", "pysftp", "wand"]},
+    "data": [
+        "security/ir.model.access.csv",
+        "data/scan_letter_params.xml",
+        "data/import_config_templates.xml",
+        "data/nas_parameters.xml",
+        "data/local_letters_cron.xml",
+        "data/translator_email.xml",
+        "data/communication_config.xml",
+        "data/translator_server_actions.xml",
+        "data/translator_action_rules.xml",
+        "data/communication_config.xml",
+        "views/import_config_view.xml",
+        "views/import_letters_history_view.xml",
+        "views/correspondence_view.xml",
+        "views/s2b_generator_view.xml",
+        "views/advocate_view.xml",
+        "reports/translation_reports_view.xml",
     ],
-    'demo': [],
-    'installable': True,
+    "demo": [],
+    "installable": True,
 }

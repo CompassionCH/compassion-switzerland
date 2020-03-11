@@ -28,51 +28,49 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Muskathlon',
-    'version': '11.0.1.0.0',
-    'category': 'Reports',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'data': [
-        'security/ir.model.access.csv',
-        'security/access_rules.xml',
-        'data/default_sports.xml',
-        'data/ir_cron.xml',
-        'data/res_users.xml',
-        'data/survey_muskathlon_medical_infos.xml',
-        'data/product.xml',
-        'data/event_type.xml',
-        'data/event_registration_stage.xml',
-        'data/event_registration_task.xml',
-        'data/mail_template.xml',
-        'data/order_material_mail_template.xml',
-        'reports/muskathlon_view.xml',
-        'views/event_compassion_view.xml',
-        'views/partner_compassion_view.xml',
-        'views/recurring_contracts_view.xml',
-        'views/muskathlon_registrations.xml',
-        'views/notification_settings_view.xml',
-        'views/payment_transaction_view.xml',
-        'views/advocate_details.xml',
-        'templates/muskathlon_details.xml',
-        'templates/muskathlon_my_details.xml',
+    "name": "Muskathlon",
+    "version": "12.0.1.0.0",
+    "category": "Reports",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "data": [
+        "security/ir.model.access.csv",
+        "security/access_rules.xml",
+        "data/default_sports.xml",
+        "data/ir_cron.xml",
+        "data/res_users.xml",
+        "data/survey_muskathlon_medical_infos.xml",
+        "data/product.xml",
+        "data/event_type.xml",
+        "data/event_registration_stage.xml",
+        "data/event_registration_task.xml",
+        "data/mail_template.xml",
+        "data/order_material_mail_template.xml",
+        "reports/muskathlon_view.xml",
+        "views/event_compassion_view.xml",
+        "views/partner_compassion_view.xml",
+        "views/recurring_contracts_view.xml",
+        "views/muskathlon_registrations.xml",
+        "views/notification_settings_view.xml",
+        "views/payment_transaction_view.xml",
+        "views/advocate_details.xml",
+        "templates/muskathlon_details.xml",
+        "templates/muskathlon_my_details.xml",
         # 'templates/muskathlon_my_home.xml', TODO Adapt portal to v11 or v12 CO-3135
-        'templates/muskathlon_participant_details.xml',
-        'templates/muskathlon_registration_form.xml',
-        'templates/muskathlon_views.xml',
-        'templates/muskathlon_order_material.xml',
-        'templates/assets.xml'
+        "templates/muskathlon_participant_details.xml",
+        "templates/muskathlon_registration_form.xml",
+        "templates/muskathlon_views.xml",
+        "templates/muskathlon_order_material.xml",
+        "templates/assets.xml",
     ],
-    'depends': [
-        'website_event_compassion',  # compassion-switzerland
-        'survey_phone',  # compassion-modules
-        'partner_compassion'  # compassion-switzerland
+    "depends": [
+        "website_event_compassion",  # compassion-switzerland
+        "survey_phone",  # compassion-modules
+        "partner_compassion",  # compassion-switzerland
     ],
-    'external_dependencies': {
-        'python': ['magic'],
-    },
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "external_dependencies": {"python": ["magic"], },
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

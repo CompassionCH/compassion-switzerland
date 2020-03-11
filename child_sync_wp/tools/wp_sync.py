@@ -20,7 +20,7 @@ class CustomTransport(SafeTransport):
         # read response data from httpresponse, and parse it
 
         # Check for new http response object, else it is a file object
-        if hasattr(response, 'getheader'):
+        if hasattr(response, "getheader"):
             if response.getheader("Content-Encoding", "") == "gzip":
                 stream = GzipDecodedResponse(response)
             else:
@@ -47,11 +47,10 @@ class CustomTransport(SafeTransport):
 
 
 class WPSync(object):
-
     def __init__(self, wp_config):
         self.xmlrpc_server = ServerProxy(
-            'https://' + wp_config.host + '/xmlrpc.php',
-            transport=CustomTransport())
+            "https://" + wp_config.host + "/xmlrpc.php", transport=CustomTransport()
+        )
         self.user = wp_config.user
         self.pwd = wp_config.password
 
@@ -73,39 +72,45 @@ class WPSync(object):
         try:
             for child in children:
                 child_values = {
-                    'local_id': child.local_id,
-                    'number': child.local_id,
-                    'first_name': child.preferred_name,
-                    'name': child.name,
-                    'full_name': child.name,
-                    'birthday': child.birthdate,
-                    'gender': child.gender,
+                    "local_id": child.local_id,
+                    "number": child.local_id,
+                    "first_name": child.preferred_name,
+                    "name": child.name,
+                    "full_name": child.name,
+                    "birthday": child.birthdate,
+                    "gender": child.gender,
                     # CO-1003 in case child has no unsponsored_since date,
                     # we use allocation date
-                    'start_date': child.unsponsored_since or child.date,
-                    'desc': child.desc_fr,
-                    'desc_de': child.desc_de,
-                    'desc_it': child.desc_it,
-                    'country': child.project_id.country_id.name,
-                    'project': child.project_id.description_fr,
-                    'project_de': child.project_id.description_de,
-                    'project_it': child.project_id.description_it,
-                    'cloudinary_url': child.image_url
+                    "start_date": child.unsponsored_since or child.date,
+                    "desc": child.desc_fr,
+                    "desc_de": child.desc_de,
+                    "desc_it": child.desc_it,
+                    "country": child.project_id.country_id.name,
+                    "project": child.project_id.description_fr,
+                    "project_de": child.project_id.description_de,
+                    "project_it": child.project_id.description_it,
+                    "cloudinary_url": child.image_url,
                 }
                 if self.xmlrpc_server.child_import.addChild(
-                        self.user, self.pwd, child_values):
+                        self.user, self.pwd, child_values
+                ):
                     count_insert += 1
                     child.state = "I"
 
             if count_insert == len(children):
                 _logger.info(
                     f"Child Upload on Wordpress finished: {count_insert} children "
-                    "imported ")
+                    "imported "
+                )
                 return count_insert
             else:
                 if (count_insert > 0) and (count_insert < len(children)):
-                    _logger.error("Child Upload partially failed." +
-                                  str(count_insert) + " of " + len(children))
+                    _logger.error(
+                        "Child Upload partially failed."
+                        + str(count_insert)
+                        + " of "
+                        + len(children)
+                    )
                 else:
                     _logger.error("Child Upload failed." + str(count_insert))
         except Exception as error:
@@ -116,7 +121,8 @@ class WPSync(object):
     def remove_children(self, children):
         try:
             res = self.xmlrpc_server.child_import.deleteChildren(
-                self.user, self.pwd, children.mapped('local_id'))
+                self.user, self.pwd, children.mapped("local_id")
+            )
             _logger.info("Remove from Wordpress : " + str(res))
             return res
         except:
@@ -125,7 +131,6 @@ class WPSync(object):
         return False
 
     def remove_all_children(self):
-        res = self.xmlrpc_server.child_import.deleteAllChildren(
-            self.user, self.pwd)
+        res = self.xmlrpc_server.child_import.deleteAllChildren(self.user, self.pwd)
         _logger.info("Remove from Wordpress : " + str(res))
         return res

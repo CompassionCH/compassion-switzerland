@@ -11,8 +11,11 @@ from odoo import models, fields
 
 
 class PrivacyStatementAgreement(models.Model):
-    _inherit = 'privacy.statement.agreement'
+    _inherit = "privacy.statement.agreement"
 
     origin_signature = fields.Selection(
-        selection_add=[('event_donation', 'Event donation'),
-                       ('group_visit', 'Group visit')])
+        selection_add=[
+            ("event_donation", "Event donation"),
+            ("group_visit", "Group visit"),
+        ]
+    )

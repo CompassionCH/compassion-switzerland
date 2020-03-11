@@ -28,66 +28,62 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Compassion Events Website',
-    'version': '11.0.1.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'https://github.com/CompassionCH/compassion-modules/tree/10.0',
-    'depends': [
-        'website_compassion',  # compassion-switzerland
-        'crm_compassion',  # compassion-modules
-        'event',  # source
-        'partner_communication_switzerland',  # compassion-switzerland
-        'payment_ogone_compassion',  # compassion-switzerland
-        'survey_phone'  # compassion-modules
+    "name": "Compassion Events Website",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "https://github.com/CompassionCH/compassion-modules/tree/10.0",
+    "depends": [
+        "website_compassion",  # compassion-switzerland
+        "crm_compassion",  # compassion-modules
+        "event_sale",  # source
+        "partner_communication_switzerland",  # compassion-switzerland
+        "payment_ogone_compassion",  # compassion-switzerland
+        "survey_phone",  # compassion-modules
     ],
-    'external_dependencies': {
-        'python': ['magic'],
-    },
-    'data': [
-        'security/ir.model.access.csv',
-        'security/access_rules.xml',
-        'data/event_type.xml',
-        'data/event_registration_stage.xml',
-        'data/event_registration_task.xml',
-        'data/product.xml',
-        'data/group_visit_emails.xml',
-        'data/communication_config.xml',
-        'data/survey.xml',
-        'data/action_rule_past_event.xml',
-        'data/event_message_subtype.xml',
-        'views/event_compassion_open_wizard.xml',
-        'views/event_compassion_view.xml',
-        'views/event_event_view.xml',
-        'views/event_registration_view.xml',
-        'views/registration_stage_view.xml',
-        'views/registration_task_view.xml',
-        'views/event_faq_view.xml',
-        'views/res_vaccine_view.xml',
-        'views/advocate_details.xml',
-        'views/event_info_party_wizard.xml',
-        'views/event_flight_view.xml',
-        'views/event_type_view.xml',
-        'templates/assets.xml',
-        'templates/event_page.xml',
-        'templates/events_list.xml',
-        'templates/event_registration.xml',
-        'templates/participants_list.xml',
-        'templates/participant_page.xml',
-        'templates/donation_result.xml',
-        'templates/event_faq.xml',
-        'templates/group_visit_step2.xml',
-        'templates/group_visit_medical_info.xml',
-        'templates/group_visit_practical_information.xml',
-        'templates/group_visit_party_invitation.xml',
-        'templates/robots.xml',
-        'wizards/event_registration_communication_wizard.xml',
+    "external_dependencies": {"python": ["magic"], },
+    "data": [
+        "security/ir.model.access.csv",
+        "security/access_rules.xml",
+        "data/event_type.xml",
+        "data/event_registration_stage.xml",
+        "data/event_registration_task.xml",
+        "data/product.xml",
+        "data/group_visit_emails.xml",
+        "data/communication_config.xml",
+        "data/survey.xml",
+        "data/action_rule_past_event.xml",
+        "data/event_message_subtype.xml",
+        "views/event_compassion_open_wizard.xml",
+        "views/event_compassion_view.xml",
+        "views/event_event_view.xml",
+        "views/event_registration_view.xml",
+        "views/registration_stage_view.xml",
+        "views/registration_task_view.xml",
+        "views/event_faq_view.xml",
+        "views/res_vaccine_view.xml",
+        "views/advocate_details.xml",
+        "views/event_info_party_wizard.xml",
+        "views/event_flight_view.xml",
+        "views/event_type_view.xml",
+        "templates/assets.xml",
+        "templates/event_page.xml",
+        "templates/events_list.xml",
+        "templates/event_registration.xml",
+        "templates/participants_list.xml",
+        "templates/participant_page.xml",
+        "templates/donation_result.xml",
+        "templates/event_faq.xml",
+        "templates/group_visit_step2.xml",
+        "templates/group_visit_medical_info.xml",
+        "templates/group_visit_practical_information.xml",
+        "templates/group_visit_party_invitation.xml",
+        "templates/robots.xml",
+        "wizards/event_registration_communication_wizard.xml",
     ],
-    'demo': [
-        'demo/crm_event_demo.xml'
-    ],
-    'development_status': 'Beta',
-    'installable': True,
-    'auto_install': False,
+    "demo": ["demo/crm_event_demo.xml"],
+    "development_status": "Beta",
+    "installable": True,
+    "auto_install": False,
 }

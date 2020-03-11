@@ -1195,11 +1195,6 @@ msgid "Supporters"
 msgstr "Supporters"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_number_surveys
-msgid "Survey number"
-msgstr "Survey number"
-
-#. module: partner_compassion
 #: code:addons/partner_compassion/models/advocate_details.py:196
 #: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 #, python-format

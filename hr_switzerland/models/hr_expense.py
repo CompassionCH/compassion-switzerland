@@ -16,37 +16,35 @@ class HrExpense(models.Model):
 
     # Make product editable when expense is submitted
     product_id = fields.Many2one(
-        states={
-            'draft': [('readonly', False)],
-            'submit': [('readonly', False)]
-        }
+        states={"draft": [("readonly", False)], "submit": [("readonly", False)]},
+        readonly=False,
     )
 
-    @api.onchange('product_id')
+    @api.onchange("product_id")
     def _onchange_product_id(self):
         """
         Prevent changing amounts if expense is submitted.
         """
-        if self.state == 'draft':
+        if self.state == "draft":
             super()._onchange_product_id()
 
 
 class HrExpenseSheet(models.Model):
-    _inherit = 'hr.expense.sheet'
+    _inherit = "hr.expense.sheet"
 
     # Adding a user_id field for the assign notification to work
-    user_id = fields.Many2one(related='employee_id.user_id')
+    user_id = fields.Many2one(related="employee_id.user_id", readonly=False)
 
     @api.model
     def create(self, vals):
         """Notify managers when expense is created."""
         sheet = super().create(vals)
         users = sheet._get_users_to_subscribe() - self.env.user
-        sheet._message_auto_subscribe_notify(users.mapped('partner_id').ids)
+        sheet._message_auto_subscribe_notify(users.mapped("partner_id").ids)
         return sheet
 
     def _add_followers(self):
         """Notify managers when employee is changed."""
         super()._add_followers()
         users = self._get_users_to_subscribe() - self.env.user
-        self._message_auto_subscribe_notify(users.mapped('partner_id').ids)
+        self._message_auto_subscribe_notify(users.mapped("partner_id").ids)

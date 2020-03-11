@@ -13,16 +13,20 @@ from odoo import models
 
 class ChildHoldWizard(models.TransientModel):
     """ Add return action for sub_sponsorship. """
-    _inherit = 'child.hold.wizard'
+
+    _inherit = "child.hold.wizard"
 
     def _get_action(self, holds):
         action = super()._get_action(holds)
-        if self.return_action == 'sub':
-            sub_contract = self.env['recurring.contract'].browse(
-                self.env.context.get('contract_id'))
+        if self.return_action == "sub":
+            sub_contract = self.env["recurring.contract"].browse(
+                self.env.context.get("contract_id")
+            )
             # Send the departure communication
             contract = sub_contract.parent_id
-            action = self.env[
-                'sds.subsponsorship.wizard'].send_sub_communication(
-                    contract) or action
+            action = (
+                self.env["sds.subsponsorship.wizard"].send_sub_communication(
+                    contract)
+                or action
+            )
         return action

@@ -11,6 +11,6 @@ from odoo import models, fields
 
 
 class RecurringContractOrigin(models.Model):
-    _inherit = 'recurring.contract.origin'
+    _inherit = "recurring.contract.origin"
 
     hillsong_ref = fields.Char()

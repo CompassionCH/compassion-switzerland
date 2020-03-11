@@ -11,36 +11,39 @@ from odoo import api, models, fields
 
 
 class ResPartner(models.Model):
-    _inherit = 'res.partner'
+    _inherit = "res.partner"
 
-    muskathlon_participant_id = fields.Char('Muskathlon participant ID')
+    muskathlon_participant_id = fields.Char("Muskathlon participant ID")
 
     @api.multi
     def agree_to_child_protection_charter(self):
         res = super(ResPartner, self).agree_to_child_protection_charter()
-        task = self.env.ref('muskathlon.task_sign_child_protection')
+        task = self.env.ref("muskathlon.task_sign_child_protection")
         for partner in self:
             for registration in partner.registration_ids:
                 if task in registration.incomplete_task_ids:
-                    registration.write({
-                        'completed_task_ids': [(4, task.id)]
-                    })
+                    registration.write({"completed_task_ids": [(4, task.id)]})
         return res
 
 
 class ResUsers(models.Model):
-    _inherit = 'res.users'
+    _inherit = "res.users"
 
     @api.model
     def signup(self, values, token=None):
         """ Mark acccount activation task done for Muskathlon participant. """
         res = super(ResUsers, self).signup(values, token)
         login = res[1]
-        user = self.env['res.users'].search([('login', '=', login)])
+        user = self.env["res.users"].search([("login", "=", login)])
         registration = user.partner_id.registration_ids[:1]
         if registration.event_id.event_type_id == self.env.ref(
-                'muskathlon.event_type_muskathlon'):
-            registration.write({'completed_task_ids': [
-                (4, self.env.ref('muskathlon.task_activate_account').id)
-            ]})
+                "muskathlon.event_type_muskathlon"
+        ):
+            registration.write(
+                {
+                    "completed_task_ids": [
+                        (4, self.env.ref("muskathlon.task_activate_account").id)
+                    ]
+                }
+            )
         return res

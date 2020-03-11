@@ -21,7 +21,7 @@ class HrEmployee(models.Model):
             Check Out: modify check_out field of appropriate attendance record
         """
 
-        if self.attendance_state != 'checked_in':
+        if self.attendance_state != "checked_in":
             self.env.user.asterisk_connect(True)
         else:
             self.env.user.asterisk_connect(False)

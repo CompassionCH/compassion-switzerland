@@ -20,9 +20,12 @@ class PrintSponsorshipBvr(models.TransientModel):
     Wizard for selecting a period and the format for printing
     payment slips of a sponsorship.
     """
-    _name = 'print.sponsorship.gift.bvr'
-    _description = "Select a period and the format for printing " \
-                   "the payment slips of a sponsorship"
+
+    _name = "print.sponsorship.gift.bvr"
+    _description = (
+        "Select a period and the format for printing "
+        "the payment slips of a sponsorship"
+    )
 
     birthday_gift = fields.Boolean(default=True)
     general_gift = fields.Boolean(default=True)
@@ -30,22 +33,25 @@ class PrintSponsorshipBvr(models.TransientModel):
     project_gift = fields.Boolean()
     graduation_gift = fields.Boolean()
 
-    paper_format = fields.Selection([
-        ('report_compassion.3bvr_gift_sponsorship', '3 BVR'),
-        ('report_compassion.2bvr_gift_sponsorship', '2 BVR'),
-        ('report_compassion.bvr_gift_sponsorship', 'Single BVR')
-    ], default='report_compassion.3bvr_gift_sponsorship')
+    paper_format = fields.Selection(
+        [
+            ("report_compassion.3bvr_gift_sponsorship", "3 BVR"),
+            ("report_compassion.2bvr_gift_sponsorship", "2 BVR"),
+            ("report_compassion.bvr_gift_sponsorship", "Single BVR"),
+        ],
+        default="report_compassion.3bvr_gift_sponsorship",
+    )
     draw_background = fields.Boolean()
-    state = fields.Selection([('new', 'new'), ('pdf', 'pdf')], default='new')
+    state = fields.Selection([("new", "new"), ("pdf", "pdf")], default="new")
     pdf = fields.Boolean()
-    pdf_name = fields.Char(default='fund.pdf')
+    pdf_name = fields.Char(default="fund.pdf")
     pdf_download = fields.Binary(readonly=True)
     preprinted = fields.Boolean(
-        help='Enable if you print on a payment slip that already has company '
-             'information printed on it.'
+        help="Enable if you print on a payment slip that already has company "
+             "information printed on it."
     )
 
-    @api.onchange('pdf')
+    @api.onchange("pdf")
     def onchange_pdf(self):
         if self.pdf:
             self.draw_background = True
@@ -74,33 +80,34 @@ class PrintSponsorshipBvr(models.TransientModel):
         if not product_search:
             raise odooWarning(_("Please select at least one gift type."))
 
-        products = self.env['product.product'].search([
-            ('default_code', 'in', product_search)])
+        products = self.env["product.product"].search(
+            [("default_code", "in", product_search)]
+        )
         data = {
-            'doc_ids': self.env.context.get('active_ids'),
-            'product_ids': products.ids,
-            'background': self.draw_background,
-            'preprinted': self.preprinted,
+            "doc_ids": self.env.context.get("active_ids"),
+            "product_ids": products.ids,
+            "background": self.draw_background,
+            "preprinted": self.preprinted,
         }
-        records = self.env[self.env.context.get('active_model')].browse(
-            data['doc_ids'])
+        records = self.env[self.env.context.get("active_model")].browse(data["doc_ids"])
         report_ref = self.env.ref("report_compassion.report_bvr_gift_sponsorship")
         if self.pdf:
-            name = records.name if len(records) == 1 else \
-                _('gift payment slips')
-            self.pdf_name = name + '.pdf'
+            name = records.name if len(records) == 1 else _("gift payment slips")
+            self.pdf_name = name + ".pdf"
             pdf_data = report_ref.report_action(self, data=data)
             self.pdf_download = base64.encodebytes(
                 report_ref.render_qweb_pdf(
-                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
-            self.state = 'pdf'
+                    pdf_data["data"]["doc_ids"], pdf_data["data"]
+                )[0]
+            )
+            self.state = "pdf"
             return {
-                'name': 'Download report',
-                'type': 'ir.actions.act_window',
-                'res_model': self._name,
-                'res_id': self.id,
-                'view_mode': 'form',
-                'target': 'new',
-                'context': self.env.context,
+                "name": "Download report",
+                "type": "ir.actions.act_window",
+                "res_model": self._name,
+                "res_id": self.id,
+                "view_mode": "form",
+                "target": "new",
+                "context": self.env.context,
             }
         return report_ref.report_action(self, data=data)

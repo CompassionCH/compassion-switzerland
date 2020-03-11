@@ -27,21 +27,21 @@
 ##############################################################################
 # pylint: disable=C8101
 {
-    'name': 'Compassion CH Children',
-    'version': '11.0.0.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'depends': ['child_compassion'],
-    'data': [
-        'views/description_views.xml',
-        'data/lang_data.xml',
-        'views/res_country_view.xml',
-        'views/field_office_view.xml',
-        'data/ir.advanced.translation.csv',
+    "name": "Compassion CH Children",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "depends": ["child_compassion"],
+    "data": [
+        "views/description_views.xml",
+        "data/lang_data.xml",
+        "views/res_country_view.xml",
+        "views/field_office_view.xml",
+        "data/ir.advanced.translation.csv",
     ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

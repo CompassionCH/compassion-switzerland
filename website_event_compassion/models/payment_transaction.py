@@ -14,9 +14,11 @@ _logger = logging.getLogger(__name__)
 
 
 class PaymentTransaction(models.Model):
-    _inherit = 'payment.transaction'
+    _inherit = "payment.transaction"
 
-    registration_id = fields.Many2one('event.registration', 'Registration')
+    registration_id = fields.Many2one(
+        "event.registration", "Registration", readonly=False
+    )
 
     @api.multi
     def cancel_transaction(self):
@@ -27,7 +29,7 @@ class PaymentTransaction(models.Model):
         :return: True
         """
         for transaction in self:
-            if 'EVENT-DON' in transaction.reference:
+            if "EVENT-DON" in transaction.reference:
                 transaction.invoice_id.action_invoice_cancel()
         return super().cancel_transaction()
 
@@ -39,18 +41,18 @@ class PaymentTransaction(models.Model):
         :return: True
         """
         for transaction in self:
-            if 'EVENT-DON' in transaction.reference:
+            if "EVENT-DON" in transaction.reference:
                 transaction.invoice_id.action_invoice_cancel()
         return super().cancel_transaction_on_update()
 
     def _get_payment_invoice_vals(self):
         vals = super()._get_payment_invoice_vals()
-        vals['transaction_id'] = self.postfinance_payid
-        vals['reference'] = self.postfinance_payid
+        vals["transaction_id"] = self.postfinance_payid
+        vals["reference"] = self.postfinance_payid
         return vals
 
     def _get_auto_post_invoice(self):
-        if 'EVENT-DON' in self.reference:
+        if "EVENT-DON" in self.reference:
             # Only post when partner was not created
-            return self.partner_id.state == 'active'
+            return self.partner_id.state == "active"
         return super()._get_auto_post_invoice()

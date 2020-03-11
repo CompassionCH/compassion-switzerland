@@ -10,7 +10,8 @@ from odoo import models, fields
 
 
 class ResPartner(models.Model):
-    _inherit = 'res.partner'
+    _inherit = "res.partner"
 
     registration_ids = fields.One2many(
-        'event.registration', 'partner_id', 'Event registrations')
+        "event.registration", "partner_id", "Event registrations", readonly=False
+    )

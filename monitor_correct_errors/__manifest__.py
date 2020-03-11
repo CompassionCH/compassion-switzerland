@@ -28,16 +28,13 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Compassion CH - Monitor and correct errors',
-    'version': '11.0.0.0.0',
-    'category': 'Other',
-    'author': 'Marco Monzione',
-    'website': 'http://www.compassion.ch',
-    'license': 'AGPL-3',
-    'data': [
-        'data/monitor_correct_errors_cron.xml',
-        'security/ir.model.access.csv'
-    ],
-    'installable': True,
-    'auto_install': False,
+    "name": "Compassion CH - Monitor and correct errors",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Marco Monzione",
+    "website": "http://www.compassion.ch",
+    "license": "AGPL-3",
+    "data": ["data/monitor_correct_errors_cron.xml", "security/ir.model.access.csv"],
+    "installable": True,
+    "auto_install": False,
 }

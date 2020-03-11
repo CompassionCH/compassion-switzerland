@@ -21,35 +21,39 @@ class BvrFundReport(models.AbstractModel):
     """
     Model used for preparing data for the bvr report.
     """
-    _name = 'report.report_compassion.bvr_fund'
+
+    _name = "report.report_compassion.bvr_fund"
     _description = "Used for preparing data for the BVR report"
 
     @api.model
     def get_report_values(self, docids, data=None):
-        report = self.env['ir.actions.report']._get_report_from_name(
-            'report_compassion.bvr_fund')
+        report = self.env["ir.actions.report"]._get_report_from_name(
+            "report_compassion.bvr_fund"
+        )
         if data is None:
             # By default, prepare a report with background and try to read
             # product from context
-            product_id = self.env.context.get('report_product_id')
+            product_id = self.env.context.get("report_product_id")
             if not product_id:
                 raise UserError(
-                    _("You must give a product in data to print this "
-                      "report."))
+                    _("You must give a product in data to print this " "report.")
+                )
             data = {
-                'background': True,
-                'product_id': product_id,
-                'preprinted': False,
-                'amount': False,
-                'communication': False
+                "background": True,
+                "product_id": product_id,
+                "preprinted": False,
+                "amount": False,
+                "communication": False,
             }
 
-        if not docids and data['doc_ids']:
-            docids = data['doc_ids']
+        if not docids and data["doc_ids"]:
+            docids = data["doc_ids"]
 
-        data.update({
-            'doc_model': report.model,  # res.partner
-            'docs': self.env[report.model].browse(docids),
-            'product': self.env['product.product'].browse(data['product_id'])
-        })
+        data.update(
+            {
+                "doc_model": report.model,  # res.partner
+                "docs": self.env[report.model].browse(docids),
+                "product": self.env["product.product"].browse(data["product_id"]),
+            }
+        )
         return data

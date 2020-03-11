@@ -14,32 +14,35 @@ import os
 from io import BytesIO
 from zipfile import ZipFile
 from odoo import api, models, fields
+
 _logger = logging.getLogger(__name__)
 try:
     from pdf2image import convert_from_path
 except ImportError:
-    _logger.debug('Can not `import pdf2image`.')
+    _logger.debug("Can not `import pdf2image`.")
 
 
 class CompassionHold(models.TransientModel):
-    _inherit = 'mail.activity.mixin'
-    _name = 'child.order.picture.wizard'
+    _inherit = "mail.activity.mixin"
+    _name = "child.order.picture.wizard"
 
     sponsorship_ids = fields.Many2many(
-        'recurring.contract', string='New biennials', readonly=True,
-        default=lambda s: s._get_sponsorships()
+        "recurring.contract",
+        string="New biennials",
+        readonly=True,
+        default=lambda s: s._get_sponsorships(),
     )
-    filename = fields.Char(default='child_photos.zip')
+    filename = fields.Char(default="child_photos.zip")
     download_data = fields.Binary(readonly=True)
 
     @api.model
     def _get_sponsorships(self):
-        model = 'recurring.contract'
-        if self.env.context.get('active_model') == model:
-            ids = self.env.context.get('active_ids')
+        model = "recurring.contract"
+        if self.env.context.get("active_model") == model:
+            ids = self.env.context.get("active_ids")
             if ids:
                 return self.env[model].browse(ids)
-        elif self.env.context.get('order_menu'):
+        elif self.env.context.get("order_menu"):
             return self.env[model].search(self._needaction_domain_get())
         return False
 
@@ -60,23 +63,23 @@ class CompassionHold(models.TransientModel):
         :return: Window Action
         """
         if _print:
-            res = self.env['ir.actions.report'].get_action(
-                self.mapped('sponsorship_ids.child_id'),
-                'partner_communication_switzerland.child_picture'
+            res = self.env["ir.actions.report"].get_action(
+                self.mapped("sponsorship_ids.child_id"),
+                "partner_communication_switzerland.child_picture",
             )
         else:
             self.download_data = self._make_zip()
             res = {
-                'type': 'ir.actions.act_window',
-                'view_type': 'form',
-                'view_mode': 'form',
-                'res_id': self.id,
-                'res_model': self._name,
-                'context': self.env.context,
-                'target': 'new',
+                "type": "ir.actions.act_window",
+                "view_type": "form",
+                "view_mode": "form",
+                "res_id": self.id,
+                "res_model": self._name,
+                "context": self.env.context,
+                "target": "new",
             }
 
-        self.sponsorship_ids.write({'order_photo': False})
+        self.sponsorship_ids.write({"order_photo": False})
         return res
 
     @api.multi
@@ -87,26 +90,27 @@ class CompassionHold(models.TransientModel):
         :return: b64_data of the generated zip file
         """
         zip_buffer = BytesIO()
-        with ZipFile(zip_buffer, 'w') as zip_data:
-            report_ref = self.env.ref('report_child_picture')
+        with ZipFile(zip_buffer, "w") as zip_data:
+            report_ref = self.env.ref("report_child_picture")
             pdf_data = report_ref.report_action(
-                self, data={
-                    'doc_ids': self.mapped('sponsorship_ids.child_id.id')
-                })
+                self, data={"doc_ids": self.mapped("sponsorship_ids.child_id.id")}
+            )
             pdf = base64.encodebytes(
                 report_ref.render_qweb_pdf(
-                    pdf_data['data']['doc_ids'], pdf_data['data'])[0])
+                    pdf_data["data"]["doc_ids"], pdf_data["data"]
+                )[0]
+            )
             pdf_temp_file, pdf_temp_file_name = tempfile.mkstemp()
             os.write(pdf_temp_file, pdf)
             pages = convert_from_path(pdf_temp_file_name)
             for page_id, page in enumerate(pages):
-                child = self.env['compassion.child'].browse(
-                    self.mapped('sponsorship_ids.child_id.id')[page_id])
-                fname = str(child.sponsor_ref) + "_" + str(child.local_id) \
-                                               + '.jpg'
+                child = self.env["compassion.child"].browse(
+                    self.mapped("sponsorship_ids.child_id.id")[page_id]
+                )
+                fname = str(child.sponsor_ref) + "_" + str(child.local_id) + ".jpg"
 
-                page.save(os.path.join('/tmp/', fname), 'JPEG')
-                file_byte = open(os.path.join('/tmp/', fname), 'r').read()
+                page.save(os.path.join("/tmp/", fname), "JPEG")
+                file_byte = open(os.path.join("/tmp/", fname), "r").read()
                 zip_data.writestr(fname, file_byte)
 
         zip_buffer.seek(0)
@@ -115,12 +119,13 @@ class CompassionHold(models.TransientModel):
     @api.model
     def _needaction_domain_get(self):
         return [
-            ('order_photo', '=', True),
-            ('state', 'not in', [('terminated', 'cancelled')]),
+            ("order_photo", "=", True),
+            ("state", "not in", [("terminated", "cancelled")]),
         ]
 
     @api.model
     def _needaction_count(self, domain=None):
         """ Get the number of actions uid has to perform. """
-        return self.env['recurring.contract'].search_count(
-            self._needaction_domain_get())
+        return self.env["recurring.contract"].search_count(
+            self._needaction_domain_get()
+        )

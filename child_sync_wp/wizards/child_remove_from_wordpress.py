@@ -12,18 +12,22 @@ from odoo import api, models, fields
 
 
 class ChildRemoveFromWordpress(models.TransientModel):
-    _name = 'child.remove.from.wordpress.wizard'
+    _name = "child.remove.from.wordpress.wizard"
     _description = "Remove children from WordPress"
 
     child_ids = fields.Many2many(
-        'compassion.child', compute='_compute_active_ids',
-        string='Selected children', default=lambda c: c._compute_active_ids()
+        "compassion.child",
+        compute="_compute_active_ids",
+        string="Selected children",
+        default=lambda c: c._compute_active_ids(),
+        readonly=False,
     )
 
     def _compute_active_ids(self):
-        children = self.env['compassion.child'].browse(
-            self.env.context.get('active_ids'))
-        valid_children = children.filtered(lambda c: c.state == 'I')
+        children = self.env["compassion.child"].browse(
+            self.env.context.get("active_ids")
+        )
+        valid_children = children.filtered(lambda c: c.state == "I")
         for wizard in self:
             wizard.child_ids = valid_children
         return valid_children

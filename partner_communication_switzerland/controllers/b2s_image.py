@@ -18,8 +18,7 @@ _logger = logging.getLogger(__name__)
 
 
 class B2sControllerSwitzerland(RestController):
-
-    @http.route('/b2s_image', type='http', auth='public', methods=['GET'])
+    @http.route("/b2s_image", type="http", auth="public", methods=["GET"])
     # We don't want to rename parameter id because it's used by our sponsors
     # pylint: disable=redefined-builtin
     def handler_b2s_image(self, id=None):
@@ -32,12 +31,9 @@ class B2sControllerSwitzerland(RestController):
         :return: file data for user
         """
         res = super().handler_b2s_image(id)
-        correspondence_obj = request.env['correspondence'].sudo()
-        correspondence = correspondence_obj.search([('uuid', '=', id)])
+        correspondence_obj = request.env["correspondence"].sudo()
+        correspondence = correspondence_obj.search([("uuid", "=", id)])
         if correspondence.communication_id:
             all_letters = correspondence.communication_id.get_objects()
-            all_letters.write({
-                'letter_delivered': True,
-                'email_read': datetime.now()
-            })
+            all_letters.write({"letter_delivered": True, "email_read": datetime.now()})
         return res

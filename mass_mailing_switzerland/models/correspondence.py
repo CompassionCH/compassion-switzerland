@@ -11,5 +11,5 @@ from odoo import models, fields
 
 
 class Correspondence(models.Model):
-    _inherit = 'correspondence'
-    campaign_id = fields.Many2one('utm.campaign')
+    _inherit = "correspondence"
+    campaign_id = fields.Many2one("utm.campaign", readonly=False)

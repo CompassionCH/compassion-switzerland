@@ -15,6 +15,7 @@ class GiftsPayments(models.TransientModel):
         index=True,
         required=True,
         auto_join=True,
+        readonly=False,
     )
 
     @api.multi
@@ -42,10 +43,11 @@ class GiftsPaymentsResults(models.TransientModel):
         comodel_name="account.move.line",
         string="Gifts paid",
         compute="_compute_move_lines",
+        readonly=False,
     )
 
     gifts_list = fields.Text()
-    move = fields.Many2one("account.move")
+    move = fields.Many2one("account.move", readonly=False)
 
     @api.multi
     def _compute_move_lines(self):

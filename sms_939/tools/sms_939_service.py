@@ -42,20 +42,20 @@ class SmsNotificationAnswer(object):
 
     def _get_xml(self):
         # Generates XML Formatted message for 939 service
-        document = etree.Element('NotificationReply')
+        document = etree.Element("NotificationReply")
         for index, message in enumerate(self.messages):
-            mess_node = etree.SubElement(document, 'message')
-            etree.SubElement(mess_node, 'text').text = message
+            mess_node = etree.SubElement(document, "message")
+            etree.SubElement(mess_node, "text").text = message
             if self.costs:
-                etree.SubElement(mess_node, 'cost').text = str(
-                    self.costs[index])
+                etree.SubElement(mess_node, "cost").text = str(self.costs[index])
             if self.maxSMSsize:
-                etree.SubElement(mess_node, 'maximumSMSAmount').text = str(
-                    self.maxSMSsize)
+                etree.SubElement(mess_node, "maximumSMSAmount").text = str(
+                    self.maxSMSsize
+                )
 
         xml_buffer = BytesIO()
         et = etree.ElementTree(document)
-        et.write(xml_buffer, encoding='utf-8', xml_declaration=True)
+        et.write(xml_buffer, encoding="utf-8", xml_declaration=True)
         return xml_buffer.getvalue()
 
     def get_answer(self):
@@ -63,4 +63,4 @@ class SmsNotificationAnswer(object):
         Wraps messages in an XML Response compatible with 939 API.
         :return: werkzeug.Response object
         """
-        return Response(self.xml_message, content_type='text/xml')
+        return Response(self.xml_message, content_type="text/xml")

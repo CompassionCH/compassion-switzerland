@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Invoice to Postfinance Payment Controller",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",

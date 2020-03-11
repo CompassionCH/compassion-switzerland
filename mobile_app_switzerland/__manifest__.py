@@ -28,26 +28,26 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Mobile App Customization for Switerland',
-    'version': '11.0.0.0.0',
-    'category': 'Reports',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'data': [
-        'data/mail_template.xml',
-        'data/communication_config.xml',
-        'data/tile_data.xml',
-        'security/access_rules.xml',
-        'security/ir.model.access.csv',
-        'templates/registration_form.xml'
+    "name": "Mobile App Customization for Switerland",
+    "version": "12.0.1.0.0",
+    "category": "Reports",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "data": [
+        "data/mail_template.xml",
+        "data/communication_config.xml",
+        "data/tile_data.xml",
+        "security/access_rules.xml",
+        "security/ir.model.access.csv",
+        "templates/registration_form.xml",
     ],
-    'depends': [
-        'mobile_app_connector',                 # compassion-modules
-        'partner_communication_switzerland'     # compassion-switzerland
+    "depends": [
+        "mobile_app_connector",  # compassion-modules
+        "partner_communication_switzerland",  # compassion-switzerland
     ],
-    'external_dependencies': {},
-    'demo': [],
-    'installable': True,
-    'auto_install': True,
+    "external_dependencies": {},
+    "demo": [],
+    "installable": True,
+    "auto_install": True,
 }

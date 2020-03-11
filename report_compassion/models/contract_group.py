@@ -19,29 +19,28 @@ from odoo.tools import mod10r
 
 logger = logging.getLogger(__name__)
 
-COMPASSION_BVR = '01-44443-7'
+COMPASSION_BVR = "01-44443-7"
 
 
 class ContractGroup(models.Model):
-    _inherit = 'recurring.contract.group'
+    _inherit = "recurring.contract.group"
 
-    scan_line = fields.Char(compute='_compute_scan_line')
-    format_ref = fields.Char(compute='_compute_format_ref')
+    scan_line = fields.Char(compute="_compute_scan_line")
+    format_ref = fields.Char(compute="_compute_format_ref")
 
     @api.multi
     def _compute_scan_line(self):
         """ Generate a scan line for contract group. """
         acc_number = self.get_company_bvr_account()
-        for group in self.filtered('bvr_reference'):
-            group.scan_line = self.get_scan_line(
-                acc_number, group.bvr_reference)
+        for group in self.filtered("bvr_reference"):
+            group.scan_line = self.get_scan_line(acc_number, group.bvr_reference)
 
     @api.multi
     def _compute_format_ref(self):
-        slip_obj = self.env['l10n_ch.payment_slip']
+        slip_obj = self.env["l10n_ch.payment_slip"]
         for group in self:
             ref = group.bvr_reference or group.compute_partner_bvr_ref()
-            group.format_ref = slip_obj._space(ref.lstrip('0'))
+            group.format_ref = slip_obj._space(ref.lstrip("0"))
 
     @api.multi
     def get_months(self, months, sponsorships):
@@ -55,23 +54,17 @@ class ContractGroup(models.Model):
         """
         self.ensure_one()
         freq = self.advance_billing_months
-        payment_mode = self.with_context(lang='en_US').payment_mode_id
+        payment_mode = self.with_context(lang="en_US").payment_mode_id
         # Take first open invoice or next_invoice_date
-        open_invoice = min(
-            [fields.Date.from_string(i)
-             for i in sponsorships.mapped('first_open_invoice')
-             if i])
+        open_invoice = min([i for i in sponsorships.mapped("first_open_invoice") if i])
         if open_invoice:
             first_invoice_date = open_invoice.replace(day=1)
         else:
             raise odooWarning(_("No open invoice found !"))
 
         # Only keep unpaid months
-        valid_months = [
-            month for month in months
-            if fields.Date.from_string(month) >= first_invoice_date
-        ]
-        if 'Permanent' in payment_mode.name:
+        valid_months = [month for month in months if month >= first_invoice_date]
+        if "Permanent" in payment_mode.name:
             return valid_months[:1]
         if freq == 1:
             return valid_months
@@ -104,70 +97,72 @@ class ContractGroup(models.Model):
         :return: string of the communication
         """
         self.ensure_one()
-        payment_mode = self.with_context(lang='en_US').payment_mode_id
-        amount = sum(sponsorships.mapped('total_amount'))
+        payment_mode = self.with_context(lang="en_US").payment_mode_id
+        amount = sum(sponsorships.mapped("total_amount"))
         valid = sponsorships
         number_sponsorship = len(sponsorships)
         date_start = fields.Date
         date_stop = fields.Date
 
         if start and stop:
-            date_start = fields.Date.from_string(start)
-            date_stop = fields.Date.from_string(stop)
+            date_start = start
+            date_stop = stop
             nb_month = relativedelta(date_stop, date_start).months + 1
             month = date_start
-            if sponsorships.mapped('payment_mode_id') == self.env.ref(
-                    'sponsorship_switzerland.payment_mode_bvr'):
+            if sponsorships.mapped("payment_mode_id") == self.env.ref(
+                    "sponsorship_switzerland.payment_mode_bvr"
+            ):
                 amount = 0
                 number_sponsorship = 0
                 for i in range(0, nb_month):
                     valid = sponsorships.filtered(
-                        lambda s: s.first_open_invoice and
-                        fields.Date.from_string(s.first_open_invoice) <= month
-                        or (s.next_invoice_date and
-                            fields.Date.from_string(s.next_invoice_date) <=
-                            month)
+                        lambda s: s.first_open_invoice
+                        and s.first_open_invoice <= month
+                        or (
+                            s.next_invoice_date and s.next_invoice_date <= month)
                     )
                     number_sponsorship = max(number_sponsorship, len(valid))
-                    amount += sum(valid.mapped('total_amount'))
+                    amount += sum(valid.mapped("total_amount"))
                     month += relativedelta(months=1)
         vals = {
-            'amount': f"CHF {amount:.0f}",
-            'subject': _("for") + " ",
-            'date': '',
+            "amount": f"CHF {amount:.0f}",
+            "subject": _("for") + " ",
+            "date": "",
         }
         locale = self.partner_id.lang
-        context = {'lang': locale}
+        context = {"lang": locale}
         if start and stop:
-            start_date = format_date(date_start, format='MMMM yyyy', locale=locale)
-            stop_date = format_date(date_stop, format='MMMM yyyy', locale=locale)
+            start_date = format_date(date_start, format="MMMM yyyy", locale=locale)
+            stop_date = format_date(date_stop, format="MMMM yyyy", locale=locale)
             if start == stop:
-                vals['date'] = start_date
+                vals["date"] = start_date
             else:
-                vals['date'] = f"{start_date} - {stop_date}"
-        if 'Permanent' in payment_mode.name:
-            vals['payment_type'] = _('ISR for standing order')
-            vals['date'] = ''
+                vals["date"] = f"{start_date} - {stop_date}"
+        if "Permanent" in payment_mode.name:
+            vals["payment_type"] = _("ISR for standing order")
+            vals["date"] = ""
         else:
-            vals['payment_type'] = _('ISR') + ' ' + self.contract_ids[
-                0].with_context(context).group_freq
+            vals["payment_type"] = (
+                _("ISR") + " " + self.contract_ids[0].with_context(
+                    context).group_freq
+            )
         if number_sponsorship > 1:
-            vals['subject'] += str(number_sponsorship) + " " + _(
-                "sponsorships")
+            vals["subject"] += str(number_sponsorship) + " " + _("sponsorships")
         elif number_sponsorship and valid.child_id:
-            vals['subject'] = valid.child_id.preferred_name + \
-                " ({})".format(valid.child_id.local_id)
-        elif number_sponsorship and not valid.child_id \
-                and valid.display_name:
-            product_name = self.env['product.product'].search(
-                [('id',
-                  'in',
-                  valid.mapped('contract_line_ids.product_id').ids)])
+            vals["subject"] = valid.child_id.preferred_name + " ({})".format(
+                valid.child_id.local_id
+            )
+        elif number_sponsorship and not valid.child_id and valid.display_name:
+            product_name = self.env["product.product"].search(
+                [("id", "in", valid.mapped("contract_line_ids.product_id").ids)]
+            )
 
-            vals['subject'] = ", ".join(product_name.mapped('thanks_name'))
+            vals["subject"] = ", ".join(product_name.mapped("thanks_name"))
 
-        return f"{vals['payment_type']} {vals['amount']}" \
-               f"<br/>{vals['subject']}<br/>{vals['date']}"
+        return (
+            f"{vals['payment_type']} {vals['amount']}"
+            f"<br/>{vals['subject']}<br/>{vals['date']}"
+        )
 
     @api.model
     def get_scan_line(self, account, reference, amount=False):
@@ -175,22 +170,24 @@ class ContractGroup(models.Model):
         if amount:
             line = "01"
             decimal_amount, int_amount = math.modf(amount)
-            str_amount = (str(int(int_amount)) +
-                          str(int(decimal_amount*100)).rjust(2, '0')
-                          ).rjust(10, '0')
+            str_amount = (
+                str(int(int_amount)) + str(int(decimal_amount * 100)).rjust(2, "0")
+            ).rjust(10, "0")
             line += str_amount
             line = mod10r(line)
         else:
             line = "042"
         line += ">"
-        line += reference.replace(" ", "").rjust(27, '0')
-        line += '+ '
-        account_components = account.split('-')
-        bank_identifier = f"{account_components[0]}" \
-                          f"{account_components[1].rjust(6, '0')}" \
-                          f"{account_components[2]}"
+        line += reference.replace(" ", "").rjust(27, "0")
+        line += "+ "
+        account_components = account.split("-")
+        bank_identifier = (
+            f"{account_components[0]}"
+            f"{account_components[1].rjust(6, '0')}"
+            f"{account_components[2]}"
+        )
         line += bank_identifier
-        line += '>'
+        line += ">"
         return line
 
     @api.model

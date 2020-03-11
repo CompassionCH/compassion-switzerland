@@ -28,18 +28,16 @@
 
 # pylint: disable=C8101
 {
-    'name': 'OpenERP MySQL Connector',
-    'version': '11.0.0.0.0',
-    'category': 'Other',
-    'author': 'Compassion CH',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'depends': [],
-    'external_dependencies': {
-        'python': ['MySQLdb'],
-    },
-    'data': [],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "name": "OpenERP MySQL Connector",
+    "version": "12.0.1.0.0",
+    "category": "Other",
+    "author": "Compassion CH",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "depends": [],
+    "external_dependencies": {"python": ["MySQLdb"], },
+    "data": [],
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

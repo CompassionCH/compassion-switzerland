@@ -8,28 +8,33 @@
 ##############################################################################
 from odoo import models, fields, tools, _
 
-testing = tools.config.get('test_enable')
+testing = tools.config.get("test_enable")
 
 
 if not testing:
     # prevent these forms to be registered when running tests
 
     class EventRegistrationForm(models.AbstractModel):
-        _name = 'cms.form.event.registration'
-        _inherit = 'cms.form.match.partner'
+        _name = "cms.form.event.registration"
+        _inherit = "cms.form.match.partner"
 
-        _form_model = 'event.registration'
+        _form_model = "event.registration"
         _form_model_fields = [
-            'name', 'phone', 'email', 'event_id',
+            "name",
+            "phone",
+            "email",
+            "event_id",
         ]
         _form_required_fields = [
-            'partner_title', 'partner_lastname', 'partner_firstname',
-            'partner_email'
+            "partner_title",
+            "partner_lastname",
+            "partner_firstname",
+            "partner_email",
         ]
 
-        form_buttons_template = 'cms_form_compassion.modal_form_buttons'
-        form_id = 'modal_compassion_event_registration'
-        event_id = fields.Many2one('event.event')
+        form_buttons_template = "cms_form_compassion.modal_form_buttons"
+        form_id = "modal_compassion_event_registration"
+        event_id = fields.Many2one("event.event", readonly=False)
 
         @property
         def form_msg_success_created(self):
@@ -40,22 +45,27 @@ if not testing:
         def _form_fieldsets(self):
             return [
                 {
-                    'id': 'coordinates',
-                    'fields': [
-                        'partner_title', 'partner_lastname',
-                        'partner_firstname', 'partner_email', 'partner_phone',
-                        'partner_zip', 'partner_city', 'partner_country_id',
-                        'partner_birthdate'
-                    ]
+                    "id": "coordinates",
+                    "fields": [
+                        "partner_title",
+                        "partner_lastname",
+                        "partner_firstname",
+                        "partner_email",
+                        "partner_phone",
+                        "partner_zip",
+                        "partner_city",
+                        "partner_country_id",
+                        "partner_birthdate",
+                    ],
                 }
             ]
 
         @property
         def form_widgets(self):
             res = super().form_widgets
-            res.update({
-                'partner_birthdate': 'cms.form.widget.date.ch',
-            })
+            res.update(
+                {"partner_birthdate": "cms.form.widget.date.ch", }
+            )
             return res
 
         @property
@@ -67,10 +77,9 @@ if not testing:
             return _("Register now")
 
         def form_init(self, request, main_object=None, **kw):
-            form = super().form_init(
-                request, main_object, **kw)
+            form = super().form_init(request, main_object, **kw)
             # Store event in form to get its values
-            form.event_id = kw.get('event').sudo().odoo_event_id
+            form.event_id = kw.get("event").sudo().odoo_event_id
             return form
 
         def form_before_create_or_update(self, values, extra_values):
@@ -80,20 +89,23 @@ if not testing:
             :param extra_values: extra form values
             :return: Nothing
             """
-            super().form_before_create_or_update(
-                values, extra_values
+            super().form_before_create_or_update(values, extra_values)
+            name = (
+                extra_values.get("partner_lastname", "")
+                + " "
+                + extra_values.get("partner_firstname", "")
             )
-            name = extra_values.get('partner_lastname', '') + ' ' + \
-                extra_values.get('partner_firstname', '')
             event = self.event_id.sudo()
-            values.update({
-                'name': name,
-                'phone': extra_values.get('partner_phone'),
-                'email': extra_values.get('partner_email'),
-                'event_id': event.id,
-                'event_ticket_id': event.valid_ticket_ids[:1].id,
-                'user_id': event.user_id.id,
-            })
+            values.update(
+                {
+                    "name": name,
+                    "phone": extra_values.get("partner_phone"),
+                    "email": extra_values.get("partner_email"),
+                    "event_id": event.id,
+                    "event_ticket_id": event.valid_ticket_ids[:1].id,
+                    "user_id": event.user_id.id,
+                }
+            )
 
         def match_after_match(self, partner, new_partner, partner_vals, opt):
             """
@@ -107,16 +119,17 @@ if not testing:
             :param opt: User defined options
             :return: None
             """
-            firstname = partner_vals['firstname']
-            lastname = partner_vals['lastname']
-            if not new_partner and (firstname.lower() !=
-                                    partner.firstname.lower() or
-                                    lastname.lower() !=
-                                    partner.lastname.lower()):
+            firstname = partner_vals["firstname"]
+            lastname = partner_vals["lastname"]
+            if not new_partner and (
+                    firstname.lower() != partner.firstname.lower()
+                    or lastname.lower() != partner.lastname.lower()
+            ):
                 return self.match_create(partner, partner_vals)
             else:
                 return super().match_after_match(
-                    partner, new_partner, partner_vals, opt)
+                    partner, new_partner, partner_vals, opt
+                )
 
         def _form_create(self, values):
             """Just create the main object (as superuser)."""
@@ -124,5 +137,6 @@ if not testing:
             self.main_object = self.form_model.sudo().create(values.copy())
 
         def form_next_url(self, main_object=None):
-            return '/event/{}/registration/{}/success'.format(
-                self.main_object.event_id.id, self.main_object.id)
+            return "/event/{}/registration/{}/success".format(
+                self.main_object.event_id.id, self.main_object.id
+            )

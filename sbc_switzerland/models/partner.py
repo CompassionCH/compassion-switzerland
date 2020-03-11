@@ -20,19 +20,21 @@ class ResPartner(models.Model):
     It also override the agree_to_child_protection_charter method to activate
     the associated translator advocate.
     """
-    _inherit = 'res.partner'
+
+    _inherit = "res.partner"
 
     @api.multi
     def write(self, vals):
         res = super().write(vals)
 
-        translation = self.env.ref('partner_compassion.engagement_translation')
+        translation = self.env.ref("partner_compassion.engagement_translation")
 
         for partner in self:
             if translation in partner.engagement_ids:
-                tc_values = ['lang', 'ref', 'email', 'firstname', 'lastname']
+                tc_values = ["lang", "ref", "email", "firstname", "lastname"]
                 tc_change = functools.reduce(
-                    lambda x, y: x or y, [v in vals for v in tc_values])
+                    lambda x, y: x or y, [v in vals for v in tc_values]
+                )
 
                 if tc_change:
                     tc = translate_connector.TranslateConnect()
@@ -45,7 +47,7 @@ class ResPartner(models.Model):
     @api.multi
     def agree_to_child_protection_charter(self):
         res = super().agree_to_child_protection_charter()
-        translation = self.env.ref('partner_compassion.engagement_translation')
+        translation = self.env.ref("partner_compassion.engagement_translation")
         for partner in self:
             advocate = partner.advocate_details_id
             if translation in advocate.engagement_ids:

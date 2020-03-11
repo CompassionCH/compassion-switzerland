@@ -6,15 +6,14 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import fields, api
-from odoo.addons.base_geoengine import geo_model
+from odoo import fields, api, models
 
 
-class MuskathlonDetails(geo_model.GeoModel):
+class MuskathlonDetails(models.Model):
     _inherit = "advocate.details"
 
     trip_information_complete = fields.Boolean(
-        compute='_compute_trip_information_complete'
+        compute="_compute_trip_information_complete"
     )
 
     @api.multi
@@ -22,10 +21,13 @@ class MuskathlonDetails(geo_model.GeoModel):
         for record in self:
             registration = record.partner_id.registration_ids[:1]
             trip_info = [
-                registration.emergency_name, registration.emergency_phone,
+                registration.emergency_name,
+                registration.emergency_phone,
                 registration.emergency_relation_type,
-                registration.t_shirt_size, registration.passport_number,
-                registration.passport_expiration_date, registration.birth_name
+                registration.t_shirt_size,
+                registration.passport_number,
+                registration.passport_expiration_date,
+                registration.birth_name,
             ]
             for info in trip_info:
                 if not info:

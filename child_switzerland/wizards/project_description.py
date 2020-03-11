@@ -11,7 +11,7 @@ from odoo import api, models
 
 
 class ProjectDescription(models.TransientModel):
-    _inherit = 'compassion.project.description'
+    _inherit = "compassion.project.description"
 
     @api.model
     def _supported_languages(self):
@@ -21,8 +21,8 @@ class ProjectDescription(models.TransientModel):
         {lang: description_field}
         """
         return {
-            'en_US': 'description_en',
-            'de_DE': 'description_de',
-            'fr_CH': 'description_fr',
-            'it_IT': 'description_it',
+            "en_US": "description_en",
+            "de_DE": "description_de",
+            "fr_CH": "description_fr",
+            "it_IT": "description_it",
         }

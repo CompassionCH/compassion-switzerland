@@ -11,17 +11,22 @@ from odoo import models, api, fields
 
 
 class GenerateCommunicationWizard(models.TransientModel):
-    _inherit = 'partner.communication.generate.wizard'
+    _inherit = "partner.communication.generate.wizard"
 
-    product_id = fields.Many2one('product.product', 'Attach payment slip for')
+    product_id = fields.Many2one(
+        "product.product", "Attach payment slip for", readonly=False
+    )
     preprinted = fields.Boolean(
-        help='Enable if you print on a payment slip that already has company '
-             'information printed on it.'
+        help="Enable if you print on a payment slip that already has company "
+             "information printed on it."
     )
 
     @api.multi
     def generate(self):
-        return super(GenerateCommunicationWizard, self.with_context(
-            default_product_id=self.product_id.id,
-            default_preprinted=self.preprinted
-        )).generate()
+        return super(
+            GenerateCommunicationWizard,
+            self.with_context(
+                default_product_id=self.product_id.id,
+                default_preprinted=self.preprinted,
+            ),
+        ).generate()

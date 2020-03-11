@@ -28,28 +28,28 @@
 
 # pylint: disable=C8101
 {
-    'name': 'Compassion Website',
-    'version': '11.0.1.0.0',
-    'category': 'Website',
-    'author': 'Sebastien Toth',
-    'license': 'AGPL-3',
-    'website': 'http://www.compassion.ch',
-    'data': [
-        'views/header.xml',
-        'views/footer.xml',
-        'views/footer_fr.xml',
-        'views/footer_de.xml',
-        'views/footer_it.xml',
-        'views/assets.xml',
-        'views/homepage.xml',
-        'views/robots.xml',
+    "name": "Compassion Website",
+    "version": "12.0.1.0.0",
+    "category": "Website",
+    "author": "Sebastien Toth",
+    "license": "AGPL-3",
+    "website": "http://www.compassion.ch",
+    "data": [
+        "views/header.xml",
+        "views/footer.xml",
+        "views/footer_fr.xml",
+        "views/footer_de.xml",
+        "views/footer_it.xml",
+        "views/assets.xml",
+        "views/homepage.xml",
+        "views/robots.xml",
     ],
-    'depends': [
-        'website',  # Source
-        'cms_form_compassion',  # compassion-modules
-        'partner_contact_in_several_companies'  # OCA/partner_contact
+    "depends": [
+        "website",  # Source
+        "cms_form_compassion",  # compassion-modules
+        "partner_contact_in_several_companies",  # OCA/partner_contact
     ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
+    "demo": [],
+    "installable": True,
+    "auto_install": False,
 }

@@ -4397,7 +4397,7 @@ msgid "Visa needed"
 msgstr "Visa needed"
 
 #. module: website_event_compassion
-#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_website_published
+#: model:ir.model.fields,field_description:website_event_compassion.field_event_registration_is_published
 msgid "Visible in Website"
 msgstr "Visibile sul sito"
 

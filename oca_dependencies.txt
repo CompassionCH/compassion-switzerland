@@ -14,25 +14,25 @@
 # To provide both the URL and a branch, use:
 
 # Uncomment when needed
-account-payment
 account-financial-tools
-bank-payment https://github.com/CompassionCH/bank-payment.git 11.0-sepa-non-sepa-orders
-bank-statement-import https://github.com/CompassionCH/bank-statement-import 11.0-camt-details
-compassion-accounting https://github.com/CompassionCH/compassion-accounting 11.0
-compassion-modules https://github.com/CompassionCH/compassion-modules 11.0
+account-payment
+bank-payment https://github.com/CompassionCH/bank-payment.git 12.0-sepa-non-sepa-orders
+bank-statement-import https://github.com/CompassionCH/bank-statement-import 12.0-camt-details
+compassion-accounting https://github.com/CompassionCH/compassion-accounting 12.0
+compassion-modules https://github.com/CompassionCH/compassion-modules 12.0
 connector-telephony
 crm
-geospatial https://github.com/CompassionCH/geospatial 11.0-mig-geoengine_base_geolocalize
+geospatial https://github.com/CompassionCH/geospatial 12.0-everything-migrated
 hr
-l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 11.0-everything-migrated
+l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 12.0-everything-migrated
 mis-builder
-partner-contact https://github.com/CompassionCH/partner-contact.git 11.0-smart-tag
+partner-contact https://github.com/CompassionCH/partner-contact.git 12.0-smart-tag
 queue
 report-print-send
 reporting-engine
 server-tools
 server-ux
-social https://github.com/CompassionCH/social 11.0-mig-mail_sendgrid_mass_mailing
+social https://github.com/CompassionCH/social 12.0-sendgrid-all
 web
-website https://github.com/CompassionCH/website 11.0
-website-cms
+website https://github.com/CompassionCH/website 12.0
+website-cms https://github.com/CompassionCH/website-cms 12.0

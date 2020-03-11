@@ -12,7 +12,7 @@ from odoo import models, api
 
 class EventCompassion(models.Model):
 
-    _inherit = 'crm.event.compassion'
+    _inherit = "crm.event.compassion"
 
     @api.model
     def create(self, vals):

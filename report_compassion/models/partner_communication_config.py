@@ -14,7 +14,7 @@ class PartnerCommunicationSwitzerlandConfig(models.Model):
     _inherit = "partner.communication.config"
 
     display_pp = fields.Boolean(
-        string='Display PP',
-        help='If not set, the PP is not printed upper the address.',
-        default=True
+        string="Display PP",
+        help="If not set, the PP is not printed upper the address.",
+        default=True,
     )

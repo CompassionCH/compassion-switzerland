@@ -16,13 +16,12 @@ class SportDiscipline(models.Model):
 
     name = fields.Char(required=True)
     sport = fields.Char(required=True, translate=True)
-    distance = fields.Integer(string='Distance (m)', required=True)
-    distance_km = fields.Integer(compute='_compute_distance_km')
-    page_title = fields.Char(
-        translate=True, default='I will go ... for Compassion')
+    distance = fields.Integer(string="Distance (m)", required=True)
+    distance_km = fields.Integer(compute="_compute_distance_km")
+    page_title = fields.Char(translate=True, default="I will go ... for Compassion")
 
     @api.multi
-    @api.depends('distance')
+    @api.depends("distance")
     def _compute_distance_km(self):
         for sport in self:
-            sport.distance_km = sport.distance/1000
+            sport.distance_km = sport.distance / 1000
