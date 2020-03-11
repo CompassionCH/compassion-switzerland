@@ -41,6 +41,7 @@ class MysqlConnector(object):
     def __del__(self):
         """ Close the MySQL connection. """
         if self._con:
+            self._con.commit()
             self._con.close()
 
     def query(self, statement, args=None):
@@ -57,9 +58,10 @@ class MysqlConnector(object):
         """
         if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
-        with self._con:
+        if self._con:
             self._cur.execute(statement, args)
             return self._cur.lastrowid or True
+        return True
 
     def select_one(self, statement, args=None):
         """ Performs a MySQL SELECT statement and returns one single row.
@@ -78,9 +80,10 @@ class MysqlConnector(object):
         """
         if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
-        with self._con:
+        if self._con:
             self._cur.execute(statement, args)
             return self._cur.fetchone() or dict()
+        return dict()
 
     def select_all(self, statement, args=None):
         """ Performs a MySQL SELECT statement and returns all rows.
@@ -101,16 +104,17 @@ class MysqlConnector(object):
         """
         if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
-        with self._con:
+        if self._con:
             self._cur.execute(statement, args)
             return self._cur.fetchall() or list()
+        return list()
 
     def is_alive(self):
         """ Test if the connection is alive. """
         try:
             self.select_one("SELECT VERSION()")
             return True
-        except Exception:
+        except:
             return False
 
     def _get_gp_uid(self, uid):

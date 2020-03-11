@@ -68,8 +68,8 @@ class TranslateConnect(MysqlConnector):
             'kid_firstname': child.preferred_name,
             'age': child_age,
             'kid_gender': child.gender,
-            'createdat': self.current_time,
-            'updatedat': self.current_time,
+            'createdat': fields.Datetime.to_string(self.current_time),
+            'updatedat': fields.Datetime.to_string(self.current_time),
             'priority_id': priority,
             'text_type_id': text_type_id,
         }
@@ -81,8 +81,8 @@ class TranslateConnect(MysqlConnector):
         vals = {
             'file': self.letter_name[0:-4] + '.rtf',
             'text_id': text_id,
-            'createdat': self.current_time,
-            'updatedat': self.current_time,
+            'createdat': fields.Datetime.to_string(self.current_time),
+            'updatedat': fields.Datetime.to_string(self.current_time),
             'toDo_id': 0,
             'letter_odoo_id': letter.id,
         }
@@ -96,8 +96,8 @@ class TranslateConnect(MysqlConnector):
         vals = {
             'translation_id': translation_id,
             'status_id': to_translate,
-            'createdat': self.current_time,
-            'updatedat': self.current_time,
+            'createdat': fields.Datetime.to_string(self.current_time),
+            'updatedat': fields.Datetime.to_string(self.current_time),
         }
         return self.upsert("translation_status", vals)
 
@@ -139,7 +139,7 @@ class TranslateConnect(MysqlConnector):
         vals = {
             'id': translation_id,
             'toDo_id': 5,
-            'updatedat': self.current_time,
+            'updatedat': fields.Datetime.to_string(self.current_time),
         }
         return self.upsert("translation", vals)
 
@@ -150,7 +150,7 @@ class TranslateConnect(MysqlConnector):
         vals = {
             'id': translation_id,
             'toDo_id': 4,
-            'updatedat': self.current_time,
+            'updatedat': fields.Datetime.to_string(self.current_time),
         }
         return self.upsert("translation", vals)
 

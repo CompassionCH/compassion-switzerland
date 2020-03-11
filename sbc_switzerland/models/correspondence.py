@@ -16,7 +16,7 @@ from io import BytesIO
 
 from . import translate_connector
 
-from odoo import models, api, registry, fields, _
+from odoo import models, api, fields, _
 from odoo.tools.config import config
 from odoo.exceptions import UserError
 from odoo.addons.sbc_compassion.models.correspondence_page import \
@@ -427,23 +427,17 @@ class Correspondence(models.Model):
 
         for letter in letters_to_update:
             try:
-                with api.Environment.manage():
-                    with registry(
-                            self.env.cr.dbname).cursor() as new_cr:
-                        # Create a new environment with new cursor database
-                        new_env = api.Environment(new_cr, self.env.uid,
-                                                  self.env.context)
-                        correspondence = self.with_env(new_env).browse(
-                            letter["letter_odoo_id"])
-                        logger.info(
-                            f".....CHECK TRANSLATION FOR LETTER {correspondence.id}"
-                        )
-                        correspondence.update_translation(
-                            letter["target_lang"], letter["text"],
-                            letter["translator"],
-                            letter["src_lang"]
-                        )
-                        tc.update_translation_to_treated(letter["id"])
+                logger.info(
+                    f".....CHECK TRANSLATION FOR LETTER {letter['letter_odoo_id']}"
+                )
+                correspondence = self.browse(letter["letter_odoo_id"])
+                if correspondence.exists():
+                    correspondence.update_translation(
+                        letter["target_lang"], letter["text"],
+                        letter["translator"],
+                        letter["src_lang"]
+                    )
+                tc.update_translation_to_treated(letter["id"])
             except:
                 logger.error(
                     "Error fetching a translation on translation platform",
