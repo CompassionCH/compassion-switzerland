@@ -35,8 +35,9 @@
     'license': 'AGPL-3',
     'website': 'http://www.compassion.ch',
     'depends': [
-        'label',                    # compassion-modules
-        'sponsorship_switzerland'   # compassion-switzerland
+        'label',                     # compassion-modules
+        'sponsorship_switzerland',   # compassion-switzerland
+        'report_wkhtmltopdf_param',  # reporting-engine
     ],
     'external_dependencies': {
         'python': ['pyquery', 'babel']

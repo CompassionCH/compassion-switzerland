@@ -16,6 +16,10 @@
             <field name="header_spacing">3</field>
             <field name="dpi">96</field>
         </record>
+        <record id="paperformat_childpack_disable_smart_shrinking" model="report.paperformat.parameter">
+            <field name="paperformat_id" ref="paperformat_childpack"/>
+            <field name="name">--disable-smart-shrinking</field>
+        </record>
 
         <record id="paperformat_mini_childpack" model="report.paperformat">
             <field name="name">Mini Childpack</field>
@@ -31,6 +35,10 @@
             <field name="header_line" eval="False"/>
             <field name="header_spacing">3</field>
             <field name="dpi">96</field>
+        </record>
+        <record id="paperformat_mini_childpack_disable_smart_shrinking" model="report.paperformat.parameter">
+            <field name="paperformat_id" ref="paperformat_mini_childpack"/>
+            <field name="name">--disable-smart-shrinking</field>
         </record>
 
         <!-- 3BVR -->
@@ -49,6 +57,10 @@
             <field name="header_spacing">3</field>
             <field name="dpi">96</field>
         </record>
+        <record id="paperformat_3bvr_disable_smart_shrinking" model="report.paperformat.parameter">
+            <field name="paperformat_id" ref="paperformat_3bvr"/>
+            <field name="name">--disable-smart-shrinking</field>
+        </record>
 
         <!-- Single BVR -->
         <record id="paperformat_bvr" model="report.paperformat">
@@ -66,6 +78,10 @@
             <field name="header_spacing">3</field>
             <field name="dpi">96</field>
         </record>
+        <record id="paperformat_bvr_disable_smart_shrinking" model="report.paperformat.parameter">
+            <field name="paperformat_id" ref="paperformat_bvr"/>
+            <field name="name">--disable-smart-shrinking</field>
+        </record>
 
         <!-- Compassion A4 Letter -->
         <record id="paperformat_a4_letter" model="report.paperformat">
@@ -80,6 +96,10 @@
             <field name="header_line" eval="False"/>
             <field name="header_spacing">3</field>
             <field name="dpi">96</field>
+        </record>
+        <record id="paperformat_a4_letter_disable_smart_shrinking" model="report.paperformat.parameter">
+            <field name="paperformat_id" ref="paperformat_a4_letter"/>
+            <field name="name">--disable-smart-shrinking</field>
         </record>
 
         <!-- Compassion A4 No margin Portrait -->
@@ -96,6 +116,10 @@
             <field name="header_spacing">3</field>
             <field name="dpi">96</field>
         </record>
+        <record id="paperformat_a4_no_margin_portrait_disable_smart_shrinking" model="report.paperformat.parameter">
+            <field name="paperformat_id" ref="paperformat_a4_no_margin_portrait"/>
+            <field name="name">--disable-smart-shrinking</field>
+        </record>
 
         <!-- Compassion A4 No margin Landscape -->
         <record id="paperformat_a4_childpack" model="report.paperformat">
@@ -110,6 +134,10 @@
             <field name="header_line" eval="False"/>
             <field name="header_spacing">3</field>
             <field name="dpi">96</field>
+        </record>
+        <record id="paperformat_a4_childpack_disable_smart_shrinking" model="report.paperformat.parameter">
+            <field name="paperformat_id" ref="paperformat_a4_childpack"/>
+            <field name="name">--disable-smart-shrinking</field>
         </record>
 
         <!-- Compassion Anniversary Card -->
@@ -127,6 +155,10 @@
             <field name="header_line" eval="False"/>
             <field name="header_spacing">3</field>
             <field name="dpi">96</field>
+        </record>
+        <record id="paperformat_anniversary_card_disable_smart_shrinking" model="report.paperformat.parameter">
+            <field name="paperformat_id" ref="paperformat_anniversary_card"/>
+            <field name="name">--disable-smart-shrinking</field>
         </record>
 
         <!-- Create empty report for child letters printing -->

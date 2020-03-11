@@ -15,6 +15,10 @@
             <field name="header_spacing">0</field>
             <field name="dpi">96</field>
         </record>
+        <record id="paperformat_child_picture_disable_smart_shrinking" model="report.paperformat.parameter">
+            <field name="paperformat_id" ref="paperformat_child_picture"/>
+            <field name="name">--disable-smart-shrinking</field>
+        </record>
 
         <report id="report_child_picture"
                 model="compassion.child"
