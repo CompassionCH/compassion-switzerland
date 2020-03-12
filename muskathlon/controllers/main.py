@@ -122,14 +122,14 @@ class MuskathlonWebsite(EventsController):
         if form_success:
             result = request.redirect('/my/home')
         else:
-            result = request.render("website_portal.portal_my_home", values)
+            result = request.render("portal.portal_my_home", values)
         return self._form_redirect(result, full_page=True)
 
     @route(['/my/api'], type='http', auth='user', website=True)
     def save_ambassador_picture(self, **post):
         user = request.env.user
         partner = user.partner_id
-        return_view = 'website_portal.portal_my_home'
+        return_view = 'portal.portal_my_home'
         picture_post = post.get('picture_1')
         if picture_post:
             return_view = 'muskathlon.picture_1_formatted'
@@ -251,10 +251,10 @@ class MuskathlonWebsite(EventsController):
                      self).get_donation_success_template(event)
 
     def _prepare_portal_layout_values(self):
-        values = super(MuskathlonWebsite, self)._prepare_portal_layout_values()
-        registrations = request.env['event.registration']\
-            .search([('partner_id', '=', values['user'].partner_id.id)])
-        partner = values['user'].partner_id
+        values = super()._prepare_portal_layout_values()
+        partner = request.env.user.partner_id
+        registrations = request.env['event.registration'].search([
+            ('partner_id', '=', partner.id)])
         surveys = request.env['survey.user_input'].search([
             ('survey_id', 'in', registrations.mapped(
                 'event_id.medical_survey_id').ids),

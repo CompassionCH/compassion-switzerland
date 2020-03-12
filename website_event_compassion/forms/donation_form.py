@@ -34,6 +34,10 @@ if not testing:
         partner_opt_out = fields.Boolean(
             "Unsubscribe from e-mails"
         )
+        blacklist_fields = [
+            'tax_line_ids', 'refund_invoice_ids', 'payment_ids',
+            'payment_move_line_ids', 'timesheet_ids', 'slip_ids', 'failed_message_ids',
+        ]
 
         @property
         def _form_fieldsets(self):
@@ -65,6 +69,12 @@ if not testing:
                     'fields': ['partner_opt_out', 'gtc_accept']
                 },
             ]
+
+        def _form_remove_uwanted(self, _all_fields):
+            """Remove fields from form fields."""
+            super()._form_remove_uwanted(_all_fields)
+            for fname in self.blacklist_fields:
+                _all_fields.pop(fname, None)
 
         @property
         def form_widgets(self):
