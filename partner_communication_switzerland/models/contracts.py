@@ -60,6 +60,9 @@ class RecurringContract(models.Model):
     def _do_not_send_letter_to_transfer(self):
         if self.origin_id.type == 'transfer':
             self.send_introduction_letter = False
+        # If origin is switched back from a transer, field should be reset to default
+        else:
+            self.send_introduction_letter = True
 
     def _compute_payment_type_attachment(self):
         for contract in self:
