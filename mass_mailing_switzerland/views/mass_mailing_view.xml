@@ -14,12 +14,7 @@
             <!-- Limit partner selection to those who have e-mail address -->
             <field name="mailing_domain" position="attributes">
                 <attribute name="context">{'search_default_not_opt_out': 1, 'search_default_has_email': 1}</attribute>
-                <attribute name="widget">basic_domain</attribute>
             </field>
-
-            <xpath expr="//field[@name='mailing_model_id']/.." position="after">
-                <field name="mailing_domain_copy" readonly="1"/>
-            </xpath>
 
             <!-- Add button for resending pending e-mails -->
             <field name="state" position="before">
@@ -54,6 +49,11 @@
                 <attribute name="name">open_emails</attribute>
                 <attribute name="type">object</attribute>
             </xpath>
+
+            <!-- Remove mail_server_id field (we always send with Sendgrid) -->
+            <field name="mail_server_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
         </field>
     </record>
 

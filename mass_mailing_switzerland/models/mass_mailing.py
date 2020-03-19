@@ -19,7 +19,6 @@ class MassMailing(models.Model):
     internal_name = fields.Char("Internal Variant Name")
     total = fields.Integer(compute="_compute_statistics")
 
-    mailing_domain_copy = fields.Char(related="mailing_domain")
     clicks_ratio = fields.Integer(compute=False)
     click_event_ids = fields.Many2many(
         "mail.tracking.event", compute="_compute_events", readonly=False
@@ -31,6 +30,12 @@ class MassMailing(models.Model):
     partner_test_sendgrid_id = fields.Many2one(
         "res.partner", "Test Partner", readonly=False
     )
+
+    # Default values
+    mailing_model_id = fields.Many2one(default=lambda s: s.env.ref(
+        'base.model_res_partner').id)
+    enable_unsubscribe = fields.Boolean(default=True)
+    unsubscribe_tag = fields.Char(default="[unsub]")
 
     @api.multi
     def name_get(self):
@@ -71,6 +76,18 @@ class MassMailing(models.Model):
         )._compute_state()
 
         self._compute_statistics()
+
+    @api.onchange('mailing_model_id', 'contact_list_ids')
+    def _onchange_model_and_list(self):
+        if self.mailing_model_name == 'res.partner':
+            mailing_domain = repr([
+                ('customer', '=', True),
+                ('opt_out', '=', False),
+                ('email', '!=', False)
+            ])
+        else:
+            mailing_domain = super()._onchange_model_and_list()
+        self.mailing_domain = mailing_domain
 
     def _compute_statistics(self):
         self.env.cr.execute(
@@ -137,7 +154,7 @@ class MassMailing(models.Model):
             )
             sendgrid_template = template.sendgrid_localized_template
             if sendgrid_template and res_id:
-                render_body = template.render_template(
+                render_body = template._render_template(
                     template.body_html, template.model, [res_id], post_process=True
                 )[res_id]
                 body_sendgrid = sendgrid_template.html_content.replace(
@@ -147,7 +164,7 @@ class MassMailing(models.Model):
                 for sub in substitutions[res_id]:
                     key = sub[2]["key"]
                     value = sub[2]["value"]
-                    res_value = template.render_template(
+                    res_value = template._render_template(
                         value, template.model, [res_id]
                     )[res_id]
                     body_sendgrid = body_sendgrid.replace(key, res_value)
@@ -179,7 +196,7 @@ class MassMailing(models.Model):
         # in Sendgrid template with tracked URL from Odoo
         emails = self.env["mail.mail"]
         mass_mailing_medium_id = self.env.ref(
-            "contract_compassion.utm_medium_mass_mailing"
+            "recurring_contract.utm_medium_mass_mailing"
         ).id
         for mailing in self.with_context(must_skip_send_to_printer=True):
             substitutions = mailing.mapped("email_template_id.substitution_ids")

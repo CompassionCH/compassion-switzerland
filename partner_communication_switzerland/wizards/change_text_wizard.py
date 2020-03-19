@@ -102,7 +102,7 @@ class ChangeTextWizard(models.TransientModel):
             ):
                 partner.advocate_details_id.thank_you_quote = self.ambassador_text
             template = config.email_template_id
-            new_texts = template.render_template(
+            new_texts = template._render_template(
                 template.body_html, template.model, communications.ids
             )
             for comm in communications:
@@ -124,7 +124,7 @@ class ChangeTextWizard(models.TransientModel):
             template = communication.email_template_id
             if self.event_text != event.thank_you_text:
                 event.thank_you_text = self.event_text
-            preview = template.render_template(
+            preview = template._render_template(
                 self.template_text, template.model, communication.ids
             )[communication.id].replace(event.name, self.event_name or "")
             if partner:

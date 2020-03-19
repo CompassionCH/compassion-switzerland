@@ -34,7 +34,7 @@ class ReportTaxReceipt(models.AbstractModel):
         template = self.env.ref("report_compassion.tax_receipt_template").with_context(
             year=data["year"], lang=data["lang"]
         )
-        texts = template.render_template(template.body_html, "res.partner", docids)
+        texts = template._render_template(template.body_html, "res.partner", docids)
         lang = data.get("lang", self.env.lang)
         report = self.env["ir.actions.report"]._get_report_from_name(
             "report_compassion.tax_receipt"
