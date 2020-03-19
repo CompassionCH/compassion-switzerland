@@ -8,7 +8,6 @@
 ##############################################################################
 from odoo import models, fields, api
 from odoo.addons.website.models.website import slugify as slug
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DT_FORMAT
 
 
 class EventCompassion(models.Model):
@@ -52,8 +51,7 @@ class EventCompassion(models.Model):
     @api.multi
     def _compute_registrations_ended(self):
         for event in self:
-            event_end_date = fields.datetime.strptime(event.end_date, DT_FORMAT)
-            event.registrations_ended = fields.datetime.now() > event_end_date
+            event.registrations_ended = fields.date.today() > event.end_date
 
     @api.multi
     def _compute_website_url(self):

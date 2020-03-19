@@ -27,11 +27,11 @@ class MailThread(models.AbstractModel):
         return super().message_subscribe(partner_ids, channel_ids, subtype_ids)
 
     @api.multi
-    def _message_auto_subscribe_notify(self, partner_ids):
+    def _message_auto_subscribe_notify(self, partner_ids, template):
         partners = self.env["res.partner"].browse(partner_ids)
         allowed = partners.mapped("user_ids").filtered(lambda u: not u.share)
         partner_ids = allowed.mapped("partner_id.id")
-        super()._message_auto_subscribe_notify(partner_ids)
+        super()._message_auto_subscribe_notify(partner_ids, template)
 
     @api.multi
     def message_get_suggested_recipients(self):

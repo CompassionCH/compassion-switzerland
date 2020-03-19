@@ -62,6 +62,12 @@ class ContractGroup(models.Model):
         else:
             raise odooWarning(_("No open invoice found !"))
 
+        for i, month in enumerate(months):
+            if isinstance(month, str):
+                months[i] = fields.Date.from_string(month)
+            if isinstance(month, fields.datetime):
+                months[i] = month.date()
+
         # Only keep unpaid months
         valid_months = [month for month in months if month >= first_invoice_date]
         if "Permanent" in payment_mode.name:

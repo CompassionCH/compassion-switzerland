@@ -26,7 +26,7 @@ class BvrFundReport(models.AbstractModel):
     _description = "Used for preparing data for the BVR report"
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         report = self.env["ir.actions.report"]._get_report_from_name(
             "report_compassion.bvr_fund"
         )

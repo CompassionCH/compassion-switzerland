@@ -22,7 +22,7 @@ class ReportTaxReceipt(models.AbstractModel):
     _description = "Used to generate tax receipt"
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         if not data:
             data = {
                 "year": date.today().year,

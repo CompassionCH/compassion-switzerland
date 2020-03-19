@@ -9,7 +9,7 @@
 ##############################################################################
 
 import logging
-from datetime import datetime
+import datetime
 
 from dateutil.relativedelta import relativedelta
 
@@ -136,7 +136,7 @@ class RecurringContracts(models.Model):
     @api.onchange("group_id")
     def on_change_group_id(self):
         """ Compute next invoice_date """
-        current_date = datetime.today()
+        current_date = datetime.date.today()
         is_active = False
 
         if self.state not in ("draft", "mandate") and self.next_invoice_date:
@@ -253,7 +253,7 @@ class RecurringContracts(models.Model):
                 ):
                     needs_mandate += contract
                 # Recompute next_invoice_date
-                today = datetime.today()
+                today = datetime.date.today()
                 old_invoice_date = contract.next_invoice_date
                 next_invoice_date = old_invoice_date.replace(
                     month=today.month, year=today.year
@@ -460,6 +460,6 @@ class RecurringContracts(models.Model):
             invoices = self.invoice_line_ids.mapped("invoice_id").sorted("date_invoice")
             number = min(len(invoices), number_to_reconcile)
             invoices = invoices[:number]
-            delay = datetime.now() + relativedelta(seconds=15)
+            delay = datetime.datetime.now() + relativedelta(seconds=15)
             if invoices:
                 invoices.with_delay(eta=delay).group_or_split_reconcile()

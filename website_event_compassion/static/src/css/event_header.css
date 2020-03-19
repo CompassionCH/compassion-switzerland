@@ -18,17 +18,10 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
 #event_header .event_name {
-    color: white;
-    margin: 10px auto;
-    max-width: 90%;
-    font-size: 1.5rem !Important;
-   }
-   h2{
-    font-size: 1.5rem !Important;
-   }
-   body{
-    font-size: 1rem !Important;
-   }
+        color: white;
+        margin: 10px auto;
+        max-width: 90%;
+    }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -37,13 +30,6 @@
     color: white;
     margin: 10px auto;
     max-width: 90%;
-    font-size: 2rem !Important;
-   }
-   h2{
-    font-size: 2rem !Important;
-   }
-   body{
-    font-size: 1.5rem !Important;
    }
 }
 
@@ -53,13 +39,6 @@
     color: white;
     margin: 10px auto;
     max-width: 90%;
-    font-size: 2.5rem !Important;
-   }
-   h2{
-    font-size: 2.5rem !Important;
-   }
-   body{
-    font-size: 2rem !Important;
    }
 }
 
@@ -69,13 +48,6 @@
     color: white;
     margin: 10px auto;
     max-width: 90%;
-    font-size: 2.5rem !Important;
-   }
-   h2{
-    font-size: 2.5rem !Important;
-   }
-   body{
-    font-size: 2rem !Important;
    }
 }
 
@@ -85,12 +57,5 @@
     color: white;
     margin: 10px auto;
     max-width: 90%;
-    font-size: 2.5rem !Important;
-   }
-   h2{
-    font-size: 2.5rem !Important;
-   }
-   body{
-    font-size: 2rem !Important;
    }
 }
