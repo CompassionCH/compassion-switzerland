@@ -77,16 +77,8 @@ class PaymentOrder(models.Model):
                 )
 
                 invoice.message_post(
-                    _(
-                        (
-                            (
-                                "The invoice has been imported in "
-                                "a %s payment order : "
-                            )
-                            % mode
-                        )
-                        + url
-                    )
+                    body=f"The invoice has been imported in a {mode} payment order : "
+                         f"{url}"
                 )
 
         return super().draft2open()
