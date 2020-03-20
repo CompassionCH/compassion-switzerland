@@ -15,7 +15,6 @@ from odoo.addons.sponsorship_compassion.models.product_names import (
     GIFT_REF,
 )
 
-from datetime import datetime
 import logging
 
 logger = logging.getLogger(__name__)
