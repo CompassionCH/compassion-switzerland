@@ -42,7 +42,7 @@ class BvrSponsorshipGift(models.AbstractModel):
         }
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         report = self._get_report()
         final_data = self._get_default_data()
         if data:
@@ -85,8 +85,8 @@ class ThreeBvrGiftSponsorship(models.AbstractModel):
         )
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         if data is None:
             data = dict()
         data["offset"] = 1
-        return super().get_report_values(docids, data)
+        return super()._get_report_values(docids, data)

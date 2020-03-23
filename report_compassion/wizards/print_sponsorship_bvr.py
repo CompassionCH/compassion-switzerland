@@ -62,7 +62,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         # Exception in December, we want to print for next year.
         if today.month == 12 and today.day > 10:
             start = start.replace(year=today.year + 1)
-        return fields.Date.to_string(start.replace(day=1))
+        return start.replace(day=1)
 
     @api.model
     def default_stop(self):

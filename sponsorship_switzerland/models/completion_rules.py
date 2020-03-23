@@ -10,13 +10,11 @@
 
 import re
 from odoo import models, fields
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from odoo.addons.sponsorship_compassion.models.product_names import (
     GIFT_CATEGORY,
     GIFT_REF,
 )
 
-from datetime import datetime
 import logging
 
 logger = logging.getLogger(__name__)
@@ -307,11 +305,7 @@ class StatementCompletionRule(models.Model):
                 birthdate = ""
                 if product.default_code == GIFT_REF[0]:
                     birthdate = contract.child_id.birthdate
-                    birthdate = (
-                        datetime.strptime(birthdate, DF)
-                        .strftime("%d %b")
-                        .decode("utf-8")
-                    )
+                    birthdate = birthdate.strftime("%d %b").decode("utf-8")
                 res["name"] += "[" + contract.child_code
                 res["name"] += " (" + birthdate + ")]" if birthdate else "]"
             else:

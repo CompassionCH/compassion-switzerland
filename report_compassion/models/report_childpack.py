@@ -33,7 +33,7 @@ class ReportChildpackFull(models.AbstractModel):
         )
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         if not data:
             data = {}
         if not docids and data["doc_ids"]:

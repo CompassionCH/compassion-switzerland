@@ -27,7 +27,7 @@ class ResPartner(models.Model):
         return new_action
 
     @api.model
-    def _notify_prepare_template_context(self, message):
+    def _notify_prepare_template_context(self, message, *args, **kargs):
         # modification of context for lang
         message = message.with_context(lang=self[:1].lang or self.env.lang)
-        return super()._notify_prepare_template_context(message)
+        return super()._notify_prepare_template_context(message, *args, **kargs)
