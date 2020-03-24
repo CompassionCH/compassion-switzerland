@@ -315,6 +315,8 @@ if not testing:
                 else:
                     date = self.main_object.arrival
             else:
+                # TODO this method will fail if a partner tries to access
+                # his account page while not being registred for an event
                 registration = self.env["event.registration"].browse(
                     self.registration_id
                 )
