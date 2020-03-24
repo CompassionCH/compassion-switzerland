@@ -315,18 +315,24 @@ if not testing:
                 else:
                     date = self.main_object.arrival
             else:
-                # TODO this method will fail if a partner tries to access
-                # his account page while not being registred for an event
                 registration = self.env["event.registration"].browse(
                     self.registration_id
                 )
-                if self.flight_type == "outbound":
-                    date = registration.event_id.date_begin
+                if registration:
+                    if self.flight_type == "outbound":
+                        date = registration.event_id.date_begin
+                    else:
+                        date = registration.event_id.date_end
                 else:
-                    date = registration.event_id.date_end
-            local_tz = pytz.timezone(self.env.user.tz)
-            full_date = date.replace(tzinfo=pytz.utc).astimezone(local_tz)
-            return full_date.strftime("%d.%m.%Y"), full_date.strftime("%H:%M")
+                    date = None
+            if date:
+                local_tz = pytz.timezone(self.env.user.tz)
+                full_date = date.replace(tzinfo=pytz.utc).astimezone(local_tz)
+                return full_date.strftime("%d.%m.%Y"), full_date.strftime("%H:%M")
+            else:
+                # TODO : do we return none, an error or a date ?
+                today = datetime.today().date()
+                return today.strftime("%d.%m.%Y"), today.strftime("%H:%M")
 
         @property
         def submit_text(self):
