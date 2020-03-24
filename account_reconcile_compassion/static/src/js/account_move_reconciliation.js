@@ -1,6 +1,8 @@
 /* This is Javascript extension of module account
    in order to add custom reconcile buttons in the
    Manual Reconcile view */
+
+// TODO CO-3190 Migrate this JS !
 odoo.define('account_reconcile_compassion.reconciliation', function (require) {
     'use strict';
 

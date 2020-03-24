@@ -12,7 +12,6 @@ import logging
 from datetime import datetime
 
 from odoo import api, models, _
-from odoo.addons.queue_job.job import job
 from odoo.addons.sponsorship_compassion.models.product_names import (
     GIFT_CATEGORY,
     SPONSORSHIP_CATEGORY,
@@ -47,76 +46,6 @@ class BankStatementLine(models.Model):
                 )
                 partner_bank.write({"partner_id": vals["partner_id"]})
         return super().write(vals)
-
-    @api.multi
-    def get_reconciliation_proposition(self, excluded_ids=None):
-        """
-        Override completely reconcile proposition.
-        """
-        self.ensure_one()
-        if not self.ref and not self.partner_id:
-            # Never propose when no partner and no reference
-            return self.env["account.move.line"]
-
-        import_accounts = self.mapped(
-            "journal_id.default_debit_account_id"
-        ) | self.mapped("journal_id.default_credit_account_id")
-        domain = [
-            ("account_id", "not in", import_accounts.ids),
-            ("reconciled", "=", False),
-            ("account_id.internal_type", "in", ["payable", "receivable"]),
-            ("account_id.reconcile", "=", True),
-            ("amount_residual", "=", self.amount),
-        ]
-        if self.ref:
-            domain.append(("ref", "ilike", self.ref))
-        if self.partner_id:
-            domain.append(("partner_id", "=", self.partner_id.id))
-        if excluded_ids:
-            domain.append(("id", "not in", excluded_ids))
-        valid = self.env["account.move.line"].search(domain)
-        return valid and valid.sorted(self._sort_move_line)[0]
-
-    @api.multi
-    def get_move_lines_for_reconciliation(
-            # pylint: disable=redefined-builtin
-            self,
-            partner_id=None,
-            excluded_ids=None,
-            str=False,
-            offset=0,
-            limit=None,
-            additional_domain=None,
-            overlook_partner=False,
-    ):
-        """ Sort move lines according to Compassion criterias :
-            Move line for current month at first,
-            Then other move_lines, from the oldest to the newest.
-        """
-        # Propose up to 12 move lines for a complete year.
-        if limit is not None and limit < 12:
-            limit = 12
-
-        # Never propose lines of same account than the import journal
-        if additional_domain is None:
-            additional_domain = list()
-        import_accounts = self.mapped(
-            "journal_id.default_debit_account_id"
-        ) | self.mapped("journal_id.default_credit_account_id")
-        additional_domain.append(("account_id", "not in", import_accounts.ids))
-
-        res_asc = super().get_move_lines_for_reconciliation(
-            partner_id,
-            excluded_ids,
-            str,
-            offset,
-            limit,
-            additional_domain,
-            overlook_partner,
-        )
-
-        # Sort results with date (current month at first)
-        return res_asc.sorted(self._sort_move_line)
 
     @api.multi
     def reconciliation_widget_auto_reconcile(self, num_already_reconciled):
@@ -215,45 +144,6 @@ class BankStatementLine(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _sort_move_line(self, move_line):
-        bank_statement_line_date = self.date
-        limit_year = bank_statement_line_date.year - 5
-        index = 0 if move_line.ref == self.ref else limit_year
-        mv_date = move_line.date_maturity or move_line.date
-        if (
-            mv_date.month == bank_statement_line_date.month
-            and mv_date.year == bank_statement_line_date.year
-        ):
-            index += 1
-        else:
-            index += mv_date.month + (mv_date.year - limit_year) * 12
-        return index
-
-    @api.multi
-    def process_reconciliation(
-        self, counterpart_aml_dicts=None, payment_aml_rec=None, new_aml_dicts=None
-    ):
-        """ Run reconciliation in a job. """
-        return self.with_delay()._process_reconciliation(
-            counterpart_aml_dicts, payment_aml_rec, new_aml_dicts
-        )
-
-    @api.multi
-    @job(default_channel="root.bank_reconciliation")
-    def _process_reconciliation(
-        self, counterpart_aml_dicts=None, payment_aml_rec=None, new_aml_dicts=None
-    ):
-        """Bank statement line reconciliation job"""
-        try:
-            return super().process_reconciliation(
-                counterpart_aml_dicts, payment_aml_rec, new_aml_dicts
-            )
-        except Exception as e:
-            self.env.cr.rollback()
-            self.note = str(e.name)
-            self.env.cr.commit()  # pylint: disable=invalid-commit
-            raise e
-
     def _get_invoice_data(self, ref, mv_line_dicts):
         """ Add BVR payment mode in invoice. """
         inv_vals = super()._get_invoice_data(ref, mv_line_dicts)
