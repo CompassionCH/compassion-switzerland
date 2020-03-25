@@ -89,7 +89,7 @@ class PaymentOrder(models.Model):
         for order in self:
             mode = order.payment_mode_id.name
             for invoice in order.mapped("payment_line_ids.move_line_id.invoice_id"):
-                invoice.message_post(_("The %s order has been cancelled." % mode))
+                invoice.message_post(body=_("The %s order has been cancelled." % mode))
 
         return super().action_cancel()
 
