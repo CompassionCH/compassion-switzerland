@@ -48,7 +48,7 @@
             <field name="context">{'search_default_available':1}</field>
         </record>
 
-        <menuitem id="menu_event_crowdfunding" name="Crowdfunding" parent="event_main_menu"
+        <menuitem id="menu_event_crowdfunding" name="Crowdfunding" parent="event.event_main_menu"
                 sequence="101"/>
 
          <menuitem id="menu_crowdfunding_participant"

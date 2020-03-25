@@ -25,7 +25,7 @@ class CrowdfundingProject(models.Model):
     twitter_url = fields.Char()
     instagram_url = fields.Char()
     personal_web_page_url = fields.Char()
-    product_id = fields.Many2one("product.product") # fund
+    product_id = fields.Many2one("product.product")  # fund
     product_number_goal = fields.Integer()
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
     number_sponsorships_goal = fields.Integer()
@@ -34,8 +34,8 @@ class CrowdfundingProject(models.Model):
     sponsorship_ids = fields.One2many("recurring.contract", "group_id", string="Sponsorships")
     invoice_line_ids = fields.One2many("account.invoice.line", "contract_id", string="Donations")
     project_owner_id = fields.Many2one("crowdfunding.participant")
-    participant_ids = fields.One2many("crowdfunding.participant")
-    event_id = fields.Many2one("event.compassion"),
+    participant_ids = fields.One2many("crowdfunding.participant", "partner_id")
+    event_id = fields.Many2one("event.compassion")
     # doit créer un event lié automatiquement à la création du projet en remplissant le champs:
     #     nom
     #     dates
