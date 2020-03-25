@@ -15,11 +15,20 @@ class CrowdfundingParticipant(models.Model):
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
     number_sponsorships_goal = fields.Integer()
     number_sponsorships_reached = fields.Integer(compute="_compute_number_sponsorships_reached")
-    sponsorship_ids = fields.One2many("recurring.contract", "sponsorships")
-    invoice_line_ids = fields.One2many("account.invoice.line", "donations")
-    presentation_video = fields.Char("Youtube/Vimeo link")
+    # TODO fix one2many fields
+    sponsorship_ids = fields.One2many("recurring.contract", "group_id", string="Sponsorships")
+    invoice_line_ids = fields.One2many("account.invoice.line", "contract_id", string="Donations")
+    presentation_video = fields.Char(help="Youtube/Vimeo link")
     facebook_url = fields.Char()
     twitter_url = fields.Char()
     instagram_url = fields.Char()
     personal_web_page_url = fields.Char()
     profile_photo = fields.Binary()
+
+    @api.multi
+    def _compute_product_number_reached(self):
+        return 0
+
+    @api.multi
+    def _compute_number_sponsorships_reached(self):
+        return 0
