@@ -37,8 +37,7 @@
         "cms_form_compassion",  # compassion-modules
     ],
     "data": [
-        "views/main_view.xml",
-        "views/results.xml"
+        "data/crowdfunding_website.xml"
     ],
     "installable": True,
     "auto_install": False,
