@@ -42,6 +42,7 @@
         "views/crowdfunding_participant_view.xml",
         "views/crowdfunding_project_view.xml",
         "views/product_template_view.xml",
+        "data/crowdfunding_website.xml"
     ],
     "installable": True,
     "auto_install": False,

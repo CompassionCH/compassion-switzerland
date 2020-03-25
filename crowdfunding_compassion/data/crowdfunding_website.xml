@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Monthly Cron for Accounting Entries -->
+    <data noupdate="1">
+        <record id="crowdfunding_website" model="website">
+            <field name="name">Crowdfunding Website</field>
+            <field name="domain"></field>
+            <field name="default_lang_id">1</field>
+        </record>
+    </data>
+</odoo>
