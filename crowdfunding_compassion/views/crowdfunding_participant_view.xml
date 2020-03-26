@@ -6,22 +6,32 @@
             <field name="model">crowdfunding.participant</field>
             <field name="arch" type="xml">
                 <form string="Participant">
-                    <div class="oe_chatter">
-                        <field name="project_id" widget="many2one"/>
-                        <field name="partner_id" widget="many2one"/>
-                        <field name="personal_motivation"/>
-                        <field name="product_number_goal"/>
-                        <field name="product_number_reached"/>
-                        <field name="number_sponsorships_goal"/>
-                        <field name="number_sponsorships_reached"/>
-                        <field name="sponsorship_ids" widget="one2many"/>
-                        <field name="invoice_line_ids" widget="one2many"/>
-                        <field name="presentation_video"/>
-                        <field name="facebook_url"/>
-                        <field name="twitter_url"/>
-                        <field name="instagram_url"/>
-                        <field name="personal_web_page_url"/>
-                        <field name="profile_photo"/>
+                    <div>
+                        <group>
+                            <group>
+                                <field name="project_id" widget="many2one"/>
+                                <field name="partner_id" widget="many2one"/>
+                                <field name="personal_motivation"/>
+                                <field name="product_number_goal"/>
+                                <field name="product_number_reached"/>
+                                <field name="number_sponsorships_goal"/>
+                                <field name="number_sponsorships_reached"/>
+                            </group>
+
+                            <group>
+                                <field name="sponsorship_ids" widget="one2many"/>
+                                <field name="invoice_line_ids" widget="one2many"/>
+                            </group>
+
+                            <group>
+                                <field name="presentation_video" widget="char"/>
+                                <field name="facebook_url" widget="char"/>
+                                <field name="twitter_url" widget="char"/>
+                                <field name="instagram_url" widget="char"/>
+                                <field name="personal_web_page_url" widget="char"/>
+                                <field name="profile_photo" widget="binary"/>
+                            </group>
+                        </group>
                     </div>
                 </form>
             </field>

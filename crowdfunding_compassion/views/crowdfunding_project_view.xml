@@ -6,27 +6,37 @@
             <field name="model">crowdfunding.project</field>
             <field name="arch" type="xml">
                 <form string="Projects">
-                    <div class="oe_chatter">
-                        <field name="name"/>
-                        <field name="description"/>
-                        <field name="type"/>
-                        <field name="deadline"/>
-                        <field name="cover_photo"/>
-                        <field name="presentation_video"/>
-                        <field name="facebook_url"/>
-                        <field name="twitter_url" />
-                        <field name="instagram_url"/>
-                        <field name="personal_web_page_url"/>
-                        <field name="product_id" widget="many2one"/>
-                        <field name="product_number_goal"/>
-                        <field name="product_number_reached"/>
-                        <field name="number_sponsorships_goal"/>
-                        <field name="number_sponsorships_reached"/>
-                        <field name="sponsorship_ids" widget="one2many"/>
-                        <field name="invoice_line_ids" widget="one2many"/>
-                        <field name="project_owner_id" widget="many2one"/>
-                        <field name="participant_ids" widget="one2many"/>
-                        <field name="event_id" widget="many2one"/>
+                    <div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="description"/>
+                                <field name="type"/>
+                                <field name="deadline" widget="date"/>
+                                <field name="cover_photo" widget="binary"/>
+                                <field name="product_id" widget="many2one"/>
+                                <field name="product_number_goal"/>
+                                <field name="product_number_reached"/>
+                                <field name="number_sponsorships_goal"/>
+                                <field name="number_sponsorships_reached"/>
+                                <field name="project_owner_id" widget="many2one"/>
+                                <field name="event_id" widget="many2one"/>
+                            </group>
+
+                            <group>
+                                <field name="sponsorship_ids" widget="one2many"/>
+                                <field name="invoice_line_ids" widget="one2many"/>
+                                <field name="participant_ids" widget="one2many"/>
+                            </group>
+
+                            <group>
+                                <field name="presentation_video" widget="char"/>
+                                <field name="facebook_url" widget="char"/>
+                                <field name="twitter_url" widget="char"/>
+                                <field name="instagram_url" widget="char"/>
+                                <field name="personal_web_page_url" widget="char"/>
+                            </group>
+                        </group>
                     </div>
                 </form>
             </field>
