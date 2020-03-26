@@ -29,14 +29,25 @@ class CrowdfundingProject(models.Model):
     product_number_goal = fields.Integer()
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
     number_sponsorships_goal = fields.Integer()
-    number_sponsorships_reached = fields.Integer(compute="_compute_number_sponsorships_reached")
+    number_sponsorships_reached = fields.Integer(
+        compute="_compute_number_sponsorships_reached")
     # TODO fix one2many fields
-    sponsorship_ids = fields.One2many("recurring.contract", "group_id", string="Sponsorships")
-    invoice_line_ids = fields.One2many("account.invoice.line", "contract_id", string="Donations")
+    sponsorship_ids = fields.One2many(
+        "recurring.contract",
+        "group_id",
+        string="Sponsorships")
+    invoice_line_ids = fields.One2many(
+        "account.invoice.line",
+        "contract_id",
+        string="Donations")
     project_owner_id = fields.Many2one("crowdfunding.participant")
-    participant_ids = fields.One2many("crowdfunding.participant", "partner_id", string="Participants")
+    participant_ids = fields.One2many(
+        "crowdfunding.participant",
+        "partner_id",
+        string="Participants")
     event_id = fields.Many2one("event.compassion")
-    # doit créer un event lié automatiquement à la création du projet en remplissant le champs:
+    # doit créer un event lié automatiquement à
+    # la création du projet en remplissant le champs:
     #     nom
     #     dates
     #     expected_sponsorships

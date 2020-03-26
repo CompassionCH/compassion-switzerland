@@ -14,10 +14,17 @@ class CrowdfundingParticipant(models.Model):
     product_number_goal = fields.Integer()
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
     number_sponsorships_goal = fields.Integer()
-    number_sponsorships_reached = fields.Integer(compute="_compute_number_sponsorships_reached")
+    number_sponsorships_reached = fields.Integer(
+        compute="_compute_number_sponsorships_reached")
     # TODO fix one2many fields
-    sponsorship_ids = fields.One2many("recurring.contract", "group_id", string="Sponsorships")
-    invoice_line_ids = fields.One2many("account.invoice.line", "contract_id", string="Donations")
+    sponsorship_ids = fields.One2many(
+        "recurring.contract",
+        "group_id",
+        string="Sponsorships")
+    invoice_line_ids = fields.One2many(
+        "account.invoice.line",
+        "contract_id",
+        string="Donations")
     presentation_video = fields.Char(help="Youtube/Vimeo link")
     facebook_url = fields.Char(string="Facebook link")
     twitter_url = fields.Char(string="Twitter link")
