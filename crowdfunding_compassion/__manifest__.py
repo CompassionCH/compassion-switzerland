@@ -37,6 +37,7 @@
         "cms_form_compassion",  # compassion-modules
     ],
     "data": [
+        "security/ir.model.access.csv",
         # "data/crowdfunding_website.xml",  present in the other PR for this module
         "views/crowdfunding_participant_view.xml",
         "views/crowdfunding_project_view.xml",
