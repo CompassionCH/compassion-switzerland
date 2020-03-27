@@ -885,12 +885,19 @@ class Event(models.Model):
                 }
             )
             communication.send()
+            user_feedback = self.medical_survey_id.user_input_line_ids.filtered(
+                lambda l: l.question_id == self.env.ref(
+                    'website_event_compassion.gpms_question_treatment')
+            ).value_free_text
             registration.message_post(
-                _(
-                    "Event: {}\nPartner:{}\nPartner is under treatment, a medical "
-                    "discharge is required."
-                ).format(registration.event_name, partner.preferred_name),
-                _("Event registration update (medical survey)"),
+                body=(
+                    f"<ul><li>Event: {registration.event_name}</li>"
+                    f"<li>Partner: {partner.name}</li>"
+                    f"<li>Feedback: {user_feedback}</li>"
+                    f"</ul>Partner is under treatment, a medical discharge is required."
+                ),
+                subject=f"Medical discharge required for {partner.name}",
+                subtype='mt_comment'
             )
         return self.write(
             {

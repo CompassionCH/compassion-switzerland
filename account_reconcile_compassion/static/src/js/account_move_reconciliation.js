@@ -1,6 +1,8 @@
 /* This is Javascript extension of module account
    in order to add custom reconcile buttons in the
    Manual Reconcile view */
+
+// TODO CO-3190 Migrate this JS !
 odoo.define('account_reconcile_compassion.reconciliation', function (require) {
     'use strict';
 
@@ -10,7 +12,7 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
     var _t = core._t;
     var FieldMany2One = core.form_widget_registry.get('many2one');
     var FieldChar = core.form_widget_registry.get('char');
-    var Model = require('web.Model');
+    var rpc = require('web.rpc');
 
     // Extend the class written in module account (bank statement view)
     reconciliation.bankStatementReconciliationLine.include({
@@ -38,34 +40,61 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
             if (child_gift_match) {
                 // Search Gift Product
                 var gift_name = line_name.replace(child_gift_match[0], '');
-                var product_obj = new Model('product.product');
-                var product_search = [['name', 'like', gift_name]];
-                $.when(product_obj.call('search', [product_search])).then(
-                    function (product_ids) {
-                        if (product_ids !== 'undefined' &&
-                            product_ids.length > 0) {
-                            self.product_id_field.set_value(product_ids[0]);
-                        }
-                    });
+                rpc.query({
+                     model: 'product.product',
+                     method: 'search',
+                     args: [{
+                        'name': gift_name,
+                    }]
+                }).then(function(product_ids){
+                     if (product_ids !== 'undefined' &&
+                        product_ids.length > 0) {
+                        self.product_id_field.set_value(product_ids[0]);
+                    }
+                });
+//                var product_obj = new Model('product.product');
+//                var product_search = [['name', 'like', gift_name]];
+//                $.when(product_obj.call('search', [product_search])).then(
+//                    function (product_ids) {
+//                        if (product_ids !== 'undefined' &&
+//                            product_ids.length > 0) {
+//                            self.product_id_field.set_value(product_ids[0]);
+//                        }
+//                    });
 
                 // Search sponsorship
                 var child_code = child_gift_match[0].replace('[', '').replace(
                     ']', '').match(/\w+/)[0];
-                var sponsorship_obj = new Model('recurring.contract');
-                var sponsorship_search = [
-                    ['child_code', 'like', child_code],
-                    '|',
-                    ['correspondent_id', '=', self.st_line.partner_id],
-                    ['partner_id', '=', self.st_line.partner_id],
-                ];
-                $.when(sponsorship_obj.call('search', [sponsorship_search]))
-                    .then(function (sponsorship_ids) {
-                        if (typeof sponsorship_ids !== 'undefined' &&
-                        sponsorship_ids.length > 0) {
-                            self.sponsorship_id_field.set_value(
-                                sponsorship_ids[0]);
-                        }
-                    });
+                rpc.query({
+                     model: 'recurring.contract',
+                     method: 'search',
+                     args: [{
+                        'child_code': child_code,
+                        'correspondent_id': self.st_line.partner_id,
+                        'partner_id': self.st_line.partner_id,
+                    }]
+                }).then(function(sponsorship_ids){
+                    if (typeof sponsorship_ids !== 'undefined' &&
+                    sponsorship_ids.length > 0) {
+                        self.sponsorship_id_field.set_value(
+                            sponsorship_ids[0]);
+                    }
+                });
+//                var sponsorship_obj = new Model('recurring.contract');
+//                var sponsorship_search = [
+//                    ['child_code', 'like', child_code],
+//                    '|',
+//                    ['correspondent_id', '=', self.st_line.partner_id],
+//                    ['partner_id', '=', self.st_line.partner_id],
+//                ];
+//                $.when(sponsorship_obj.call('search', [sponsorship_search]))
+//                    .then(function (sponsorship_ids) {
+//                        if (typeof sponsorship_ids !== 'undefined' &&
+//                        sponsorship_ids.length > 0) {
+//                            self.sponsorship_id_field.set_value(
+//                                sponsorship_ids[0]);
+//                        }
+//                    });
             }
 
             // Store product selected

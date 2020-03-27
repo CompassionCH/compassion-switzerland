@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="crowdfunding_project_view" model="ir.ui.view">
+            <field name="name">Crowdfunding Project View</field>
+            <field name="model">crowdfunding.project</field>
+            <field name="arch" type="xml">
+                <form string="Projects">
+                    <div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="description"/>
+                                <field name="type"/>
+                                <field name="deadline" widget="date"/>
+                                <field name="cover_photo" widget="binary"/>
+                                <field name="product_id" widget="many2one"/>
+                                <field name="product_number_goal"/>
+                                <field name="product_number_reached"/>
+                                <field name="number_sponsorships_goal"/>
+                                <field name="number_sponsorships_reached"/>
+                                <field name="project_owner_id" widget="many2one"/>
+                                <field name="event_id" widget="many2one"/>
+                            </group>
+
+                            <group>
+                                <field name="sponsorship_ids" widget="one2many"/>
+                                <field name="invoice_line_ids" widget="one2many"/>
+                                <field name="participant_ids" widget="one2many"/>
+                            </group>
+
+                            <group>
+                                <field name="presentation_video" widget="char"/>
+                                <field name="facebook_url" widget="char"/>
+                                <field name="twitter_url" widget="char"/>
+                                <field name="instagram_url" widget="char"/>
+                                <field name="personal_web_page_url" widget="char"/>
+                            </group>
+                        </group>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record id="view_crowdfunding_project_tree" model="ir.ui.view">
+            <field name="name">crowdfunding.project.tree</field>
+            <field name="model">crowdfunding.project</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="deadline"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action opening the tree view -->
+        <record id="open_view_crowdfunding_project_tree" model="ir.actions.act_window">
+            <field name="name">Project</field>
+            <field name="res_model">crowdfunding.project</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{'search_default_available':1}</field>
+        </record>
+
+         <menuitem id="menu_crowdfunding_project"
+                  parent="menu_event_crowdfunding"
+                  name="Projects"
+                  action="open_view_crowdfunding_project_tree"
+                  sequence="1"/>
+    </data>
+</odoo>

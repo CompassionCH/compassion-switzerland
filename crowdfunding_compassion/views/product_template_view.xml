@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_only_form_view_crowdfunding" model="ir.ui.view">
+        <field name="name">product.product_template.crowdfunding</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id"
+               ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <field name="product_variant_id" position="after" >
+                <field name="activate_for_crowdfunding"/>
+                <field name="crowdfunding_description"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="crowdfunding_participant_view" model="ir.ui.view">
+            <field name="name">Crowdfunding Participant View</field>
+            <field name="model">crowdfunding.participant</field>
+            <field name="arch" type="xml">
+                <form string="Participant">
+                    <div>
+                        <group>
+                            <group>
+                                <field name="project_id" widget="many2one"/>
+                                <field name="partner_id" widget="many2one"/>
+                                <field name="personal_motivation"/>
+                                <field name="product_number_goal"/>
+                                <field name="product_number_reached"/>
+                                <field name="number_sponsorships_goal"/>
+                                <field name="number_sponsorships_reached"/>
+                            </group>
+
+                            <group>
+                                <field name="sponsorship_ids" widget="one2many"/>
+                                <field name="invoice_line_ids" widget="one2many"/>
+                            </group>
+
+                            <group>
+                                <field name="presentation_video" widget="char"/>
+                                <field name="facebook_url" widget="char"/>
+                                <field name="twitter_url" widget="char"/>
+                                <field name="instagram_url" widget="char"/>
+                                <field name="personal_web_page_url" widget="char"/>
+                                <field name="profile_photo" widget="binary"/>
+                            </group>
+                        </group>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record id="view_crowdfunding_participant_tree" model="ir.ui.view">
+            <field name="name">crowdfunding.participant.tree</field>
+            <field name="model">crowdfunding.participant</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="project_id"/>
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action opening the tree view -->
+        <record id="open_view_crowdfunding_participant_tree" model="ir.actions.act_window">
+            <field name="name">Participants</field>
+            <field name="res_model">crowdfunding.participant</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{'search_default_available':1}</field>
+        </record>
+
+        <menuitem id="menu_event_crowdfunding" name="Crowdfunding" parent="event.event_main_menu"
+                sequence="101"/>
+
+         <menuitem id="menu_crowdfunding_participant"
+                  parent="menu_event_crowdfunding"
+                  name="Participants"
+                  action="open_view_crowdfunding_participant_tree"
+                  sequence="1"/>
+    </data>
+</odoo>

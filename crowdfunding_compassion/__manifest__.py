@@ -38,6 +38,11 @@
     ],
     "data": [
         "data/crowdfunding_website.xml"
+        "security/ir.model.access.csv",
+        # "data/crowdfunding_website.xml",  present in the other PR for this module
+        "views/crowdfunding_participant_view.xml",
+        "views/crowdfunding_project_view.xml",
+        "views/product_template_view.xml",
     ],
     "installable": True,
     "auto_install": False,
