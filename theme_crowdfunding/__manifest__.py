@@ -38,6 +38,7 @@
     ],
     "data": [
     ],
+    ''
     'category': 'Theme',
     "installable": True,
     "auto_install": False,
