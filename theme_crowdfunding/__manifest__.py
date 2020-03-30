@@ -38,6 +38,7 @@
     ],
     "data": [
     ],
+    'css': ['static/src/scss/custom.scss'],
     'category': 'Theme',
     "installable": True,
     "auto_install": False,

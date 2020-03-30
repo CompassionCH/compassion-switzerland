@@ -15,7 +15,7 @@ from odoo.http import request, route
 
 class CrowdFundingWebsite(EventsController):
 
-    @route(["/project_list"], type="http", auth="user", website=True)
+    @route(["/project_list"], type="http", auth="user", website=True, cors="*")
     def projects_list(self, form_id=None, **kw):
         """ Inject data for forms. """
 
