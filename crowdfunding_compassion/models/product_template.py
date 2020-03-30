@@ -8,4 +8,4 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     activate_for_crowdfunding = fields.Boolean()
-    crowdfunding_description = fields.Text()
+    crowdfunding_description = fields.Text(translate=True)
