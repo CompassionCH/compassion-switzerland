@@ -47,7 +47,7 @@ class MuskathlonWebsite(EventsController):
         )
         return request.render("muskathlon.my_details", {"reports": reports})
 
-    @route(["/my", "/my/home"], type="http", auth="user", website=True)
+    @route(["/my", "/my/home"], type="http", auth="user", website=True, cors="*")
     def account(self, form_id=None, **kw):
         """ Inject data for forms. """
         values = self._prepare_portal_layout_values()
@@ -122,6 +122,12 @@ class MuskathlonWebsite(EventsController):
                 "return_flight_form": return_flight_form,
             }
         )
+        values.update(kw)
+        if "registrations" not in values.keys():
+            registrations_array = []
+            for reg in partner.registration_ids:
+                registrations_array.append(reg)
+            values['registrations'] = registrations_array
         # This fixes an issue that forms fail after first submission
         if form_success:
             result = request.redirect("/my/home")

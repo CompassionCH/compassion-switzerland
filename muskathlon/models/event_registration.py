@@ -94,7 +94,7 @@ class MuskathlonRegistration(models.Model):
     def _compute_is_in_two_months(self):
         """this function define is the bollean hide or not the survey"""
         for registration in self:
-            today = datetime.date.today()
+            today = datetime.datetime.today()
             start_day = registration.event_begin_date
             delta = start_day - today
             registration.is_in_two_months = delta.days < 60
