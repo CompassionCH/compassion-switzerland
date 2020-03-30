@@ -43,7 +43,8 @@
         "views/assets.xml",
         "views/homepage.xml",
     ],
-    "category": "Theme",
+    'css': ['static/src/scss/custom.scss'],
+    'category': 'Theme',
     "installable": True,
     "auto_install": False,
 }
