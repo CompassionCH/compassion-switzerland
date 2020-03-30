@@ -1,0 +1,45 @@
+<odoo>
+    <template id="snippet_project_card" name="Project card snippets">
+        <section class="snippet_cards">
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8 ">
+                                <h5 class="card-title">my nice project</h5>
+                            </div>
+
+                            <div class="col-md-4 text-right">
+                                <p>
+                                    <small>
+                                        <i class="fas fa-users white" aria-hidden="true"></i>
+                                        collective
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+
+                        <p>
+                            <small><i class="fas fa-user-circle white" aria-hidden="true"></i>project owner + 10 friends
+                            </small>
+                        </p>
+                    </div>
+                    <img class="card-img-top" src="img/musk_ghana_3.jpg" alt="Card image cap">
+
+                    <div class="card-body">
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="place_into_bar" inherit_id="website.snippets" name="Place into bar">
+        <xpath expr="//div[@id='snippet_structure']/div[@class='o_panel_body']" position="inside">
+            <t t-snippet="theme_tutorial.snippet_project_card"
+               t-thumbnail="/theme_tutorial/static/src/img/ui/snippet_thumb.jpg"/>
+        </xpath>
+    </template>
+</odoo>
+

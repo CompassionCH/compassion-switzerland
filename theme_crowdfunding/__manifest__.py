@@ -37,8 +37,8 @@
         "website"
     ],
     "data": [
+        "views/snippets.xml"
     ],
-    ''
     'category': 'Theme',
     "installable": True,
     "auto_install": False,
