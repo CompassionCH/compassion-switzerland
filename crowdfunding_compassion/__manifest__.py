@@ -35,14 +35,18 @@
     "website": "http://www.compassion.ch",
     "depends": [
         "cms_form_compassion",  # compassion-modules
+        "theme_crowdfunding",  # compassion-switzerland
     ],
     "data": [
-        "security/ir.model.access.csv",
+        "data/crowdfunding_website.xml",
         "data/crowdfunding_event_type.xml",
+        "security/ir.model.access.csv",
         "views/crowdfunding_participant_view.xml",
         "views/crowdfunding_project_view.xml",
         "views/product_template_view.xml",
-        "data/crowdfunding_website.xml"
+        "views/projects_list_page.xml",
+        "views/components.xml",
+        "views/project_page.xml",
     ],
     "installable": True,
     "auto_install": False,

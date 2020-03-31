@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="how_it_works" name="How it works">
+            <div>How it works</div>
+            <div class="alert alert-danger">This should be a red alert - Bootstrap css</div>
+            <div class="card card-header">This should be a blue card - Compassion scss</div>
+        </template>
+    </data>
+</odoo>

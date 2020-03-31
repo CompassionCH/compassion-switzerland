@@ -283,7 +283,6 @@ class MuskathlonWebsite(EventsController):
         registrations = request.env["event.registration"].search(
             [("partner_id", "=", partner.id)]
         )
-
         surveys = request.env["survey.user_input"].search(
             [
                 (

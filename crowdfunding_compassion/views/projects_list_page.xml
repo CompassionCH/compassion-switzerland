@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="crowdfunding_project_list" model="website.page">
+            <field name="url">/project_list</field>
+            <field name="website_indexed" eval="True"/>
+            <field name="website_published">True</field>
+            <field name="name">Project List</field>
+            <field name="type">qweb</field>
+            <field name="key">crowdfunding.project_list</field>
+            <!--            TODO: change 12-->
+            <field name="website_id">12</field>
+            <field name="arch" type="xml">
+                <t name="Project List" t-name="crowdfunding.project_list">
+<!--                    <t t-call="website.layout">-->
+                        <div id="project_list_header">
+<!--                            <t t-snippet="theme_crowdfunding.place_header_into_page"/>-->
+                        </div>
+
+                        <div id="project_list_body">
+
+                        </div>
+
+                        <div id="project_list_footer">
+<!--                            <t t-snippet="theme_crowdfunding.place_footer_into_page"/>-->
+                        </div>
+                    </t>
+<!--                </t>-->
+            </field>
+        </record>
+    </data>
+</odoo>

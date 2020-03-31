@@ -34,10 +34,14 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
-        "website"
+        "website", "website_theme_install"
     ],
     "data": [
-        "views/snippets.xml"
+        "views/header.xml",
+        # "views/footer.xml",
+        # "views/navbar.xml",
+        # "views/snippets.xml",
+        "views/assets.xml"
     ],
     'category': 'Theme',
     "installable": True,
