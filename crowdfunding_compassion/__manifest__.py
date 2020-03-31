@@ -38,7 +38,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
-        # "data/crowdfunding_website.xml",  present in the other PR for this module
+        "data/crowdfunding_event_type.xml",
         "views/crowdfunding_participant_view.xml",
         "views/crowdfunding_project_view.xml",
         "views/product_template_view.xml",
