@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crowdfunding_participant,Access on crowdfunding_participant,model_crowdfunding_participant,base.group_user,1,1,0,0
+full_access_crowdfunding_participant,Full access on crowdfunding_participant,model_crowdfunding_participant,base.group_erp_manager,1,1,1,1
+access_crowdfunding_project,Access on crowdfunding_project,model_crowdfunding_project,base.group_user,1,1,0,0
+full_access_crowdfunding_project,Full access on crowdfunding_project,model_crowdfunding_project,base.group_erp_manager,1,1,1,1
