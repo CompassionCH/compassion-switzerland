@@ -1,7 +1,7 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
 
-from odoo import models, api, fields, _
+from odoo import models, api, fields
 import datetime
 
 
@@ -52,13 +52,13 @@ class CrowdfundingProject(models.Model):
     def create(self, vals):
         self.event_id = self.env['crm.event.compassion'].create({
             'name': self.name,
-            'event_type_id': self.env.ref(  # TODO replace that by a correct event_type
-                    "website_event_compassion.event_type_group_visit"
-                ).id,
+            # TODO replace that by a correct event_type
+            'event_type_id': self.env.ref(
+                "website_event_compassion.event_type_group_visit").id,
             'company_id': self.env.user.company_id,
-            'start_date': datetime.date.today(),  # TODO replace that by correct value
+            'start_date': datetime.date.today(),
             'end_date': self.deadline,
-            'hold_start_date': datetime.date.today(),  # TODO replace that by correct value
+            'hold_start_date': datetime.date.today(),
             'number_allocate_children': self.product_number_goal,
             'planned_sponsorships': self.number_sponsorships_goal
         })
@@ -66,7 +66,8 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:
-            project.product_number_reached = sum(project.invoice_line_ids.mapped('quantity'))
+            project.product_number_reached = \
+                sum(project.invoice_line_ids.mapped('quantity'))
 
     @api.multi
     def _compute_number_sponsorships_reached(self):

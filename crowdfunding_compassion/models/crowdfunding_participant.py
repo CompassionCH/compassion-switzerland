@@ -16,7 +16,8 @@ class CrowdfundingParticipant(models.Model):
         required=True, index=True, ondelete="cascade")
     personal_motivation = fields.Text()
     product_number_goal = fields.Integer()
-    product_number_reached = fields.Integer(compute="_compute_product_number_reached")
+    product_number_reached = fields.Integer(
+        compute="_compute_product_number_reached")
     number_sponsorships_goal = fields.Integer()
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached")
@@ -38,7 +39,8 @@ class CrowdfundingParticipant(models.Model):
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:
-            project.product_number_reached = sum(project.invoice_line_ids.mapped('quantity'))
+            project.product_number_reached = \
+                sum(project.invoice_line_ids.mapped('quantity'))
 
     @api.multi
     def _compute_number_sponsorships_reached(self):
