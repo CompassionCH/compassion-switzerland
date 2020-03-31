@@ -1,0 +1,252 @@
+<odoo>
+    <template id="snippet_project_card" name="Project card snippets">
+        <section class="snippet_cards">
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8 ">
+                                <h5 class="card-title">my nice project</h5>
+                            </div>
+
+                            <div class="col-md-4 text-right">
+                                <p>
+                                    <small>
+                                        <i class="fas fa-users white" aria-hidden="true"></i>
+                                        collective
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+
+                        <p>
+                            <small><i class="fas fa-user-circle white" aria-hidden="true"></i>project owner + 10 friends
+                            </small>
+                        </p>
+                    </div>
+                    <img class="card-img-top" src="img/musk_ghana_3.jpg" alt="Card image cap"/>
+
+                    <div class="card-body">
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="place_into_bar" inherit_id="website.snippets" name="Place into bar">
+        <xpath expr="//div[@id='snippet_structure']/div[@class='o_panel_body']" position="inside">
+            <t t-snippet="theme_tutorial.snippet_project_card"
+               t-thumbnail="/theme_tutorial/static/src/img/ui/snippet_thumb.jpg"/>
+        </xpath>
+    </template>
+
+    <template id="snippet_footer" name="Footer snippet">
+        <footer class="footer pb-5">
+            <div class="container">
+                <div class="row py-5">
+                    <div class="col-sm-12 col-md-4 f-logo">
+                        <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
+                             width="190" height="auto"/>
+
+                        <p>Compassion Suisse est la branche nationale de Compassion International. A travers le
+                            parrainage individuel et en collaboration avec quelque 7000 Eglises locales, nous
+                            apportons un soutien à plus de 2 millions d’enfants parmi les plus démunis dans 25 pays.
+                        </p>
+                    </div>
+
+                    <div class="col-sm-12 col-md-4 pt-2">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">About this platform</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">FAQ</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Fundraising tools</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link " href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-12 col-md-4 pt-2">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">About this platform</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">FAQ</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Fundraising tools</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link " href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 ">
+                        <i class="fab fa-facebook-square fa-2x " aria-hidden="true"></i>
+                        <i class="fab fa-instagram fa-2x" aria-hidden="true"></i>
+                        <i class="fa fa-globe fa-2x" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="col-md-4 ">
+                        <small>© 2020 Compassion Switzerland / all right reserved</small>
+                    </div>
+
+                    <div class="col-sm-12 col-md-4 text-right d-none d-md-block">
+                        <span class="lang-selector">
+                            <img src="img/FR.svg"/>
+                            <img src="img/DE.svg"/>
+                            <img src="img/IT.svg"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </template>
+
+    <template id="snippet_header" name="Header snippet">
+        <header class="masthead">
+            <div class="container">
+                <div class="intro-text">
+                    <h1 class="display-1 blue">H1 Display 1 Page title</h1>
+
+                    <h2 class="display-4 pb-4 ">H2 Display subtitle 2 lines : Montserrat 45px solid #005eb8</h2>
+                    <button type="button" class="btn btn-primary btn-lg">my button negative small</button>
+                    <br/>
+                </div>
+            </div>
+        </header>
+    </template>
+
+    <template id="snippet_achievements_section" name="Achievements section snippet">
+        <section class="# py-5" id="#">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center py-5">
+                        <h3 class="subheading">Together we achieved so far</h3>
+                    </div>
+                </div>
+
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary" aria-hidden="true"></i>
+                            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse" aria-hidden="true"></i>
+                        </span>
+
+                        <h4 class="display-2 count font-weight-bolder">523</h4>
+
+                        <p class="count-text">toilets construction</p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary" aria-hidden="true"></i>
+                            <i class="fas fa-laptop fa-stack-1x fa-inverse" aria-hidden="true"></i>
+                        </span>
+
+                        <h4 class="display-2 count font-weight-bolder">523</h4>
+
+                        <p class="count-text">toilets construction</p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary" aria-hidden="true"></i>
+                            <i class="fas fa-lock fa-stack-1x fa-inverse" aria-hidden="true"></i>
+                        </span>
+
+                        <h4 class="display-2 count font-weight-bolder">523</h4>
+
+                        <p class="count-text">toilets construction</p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary" aria-hidden="true"></i>
+                            <i class="fas fa-lock fa-stack-1x fa-inverse" aria-hidden="true"></i>
+                        </span>
+
+                        <h4 class="display-2 count font-weight-bolder">523</h4>
+
+                        <p class="count-text">toilets construction</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="snippet_how_does_it_work" name="How does it work section snippet">
+        <section class="blue py-5" id="#">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center py-5">
+                        <h3 class="subheading">HOW DOES IT WORK</h3>
+
+                        <p class="count-text font-weight-normal">One line quick explanation of the process as 1-2-3</p>
+                    </div>
+                </div>
+
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <img src="img/DSC-16.jpg" class="w-75 rounded-circle pb-4" alt="Responsive image"/>
+
+                        <p class="count-text font-weight-bold">1. Set up your project, tell why you want to do it</p>
+
+                        <p>this is the body font styles for the whole site : Montserrat 16px solid #333</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <img src="img/DSC-16.jpg" class="w-75 rounded-circle pb-4" alt="Responsive image"/>
+
+                        <p class="count-text font-weight-bold">1. Set up your project, tell why you want to do it</p>
+
+                        <p>this is the body font styles for the whole site : Montserrat 16px solid #333</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <img src="img/DSC-16.jpg" class="w-75 rounded-circle pb-4" alt="Responsive image"/>
+
+                        <p class="count-text font-weight-bold">1. Set up your project, tell why you want to do it</p>
+
+                        <p>this is the body font styles for the whole site : Montserrat 16px solid #333</p>
+                    </div>
+                </div>
+
+                <div class="row text-center py-4">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-white btn-lg">my button white large</button>
+                        <br/>
+                    </div>
+                </div>
+                <div class="row text-center pt-2">
+                    <div class="col-md-12">
+                        <p>or join an existing
+                            <a href="#">collective project</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </template>
+
+
+</odoo>
+

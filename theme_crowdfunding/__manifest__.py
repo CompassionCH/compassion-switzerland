@@ -37,6 +37,7 @@
         "website"
     ],
     "data": [
+        "views/snippets.xml"
     ],
     'css': ['static/src/scss/custom.scss'],
     'category': 'Theme',
