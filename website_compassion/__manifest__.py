@@ -36,7 +36,7 @@
     "website": "http://www.compassion.ch",
     "data": ["data/main_website.xml"],
     "depends": [
-        "website",  # Source
+        "theme_compassion",  # compassion-switzerland
         "cms_form_compassion",  # compassion-modules
         "partner_contact_in_several_companies",  # OCA/partner_contact
     ],
