@@ -35,6 +35,7 @@
     "website": "http://www.compassion.ch",
     "depends": [
         "cms_form_compassion",  # compassion-modules
+        "theme_crowdfunding"     # compassion-switzerland
     ],
     "data": [
         "data/crowdfunding_website.xml",
