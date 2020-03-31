@@ -47,7 +47,7 @@ class MuskathlonWebsite(EventsController):
         )
         return request.render("muskathlon.my_details", {"reports": reports})
 
-    @route(["/my", "/my/home"], type="http", auth="user", website=True, cors="*")
+    @route(["/my", "/my/home"], type="http", auth="user", website=True)
     def account(self, form_id=None, **kw):
         """ Inject data for forms. """
         values = self._prepare_portal_layout_values()

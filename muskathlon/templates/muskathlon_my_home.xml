@@ -50,7 +50,6 @@
                     </t>
                     <div id="modal_flight_details" class="modal fade cms_modal_form" tabindex="-1" role="dialog"
                          aria-labelledby="donation_modal_label" aria-hidden="true">
-                        <!-- TODO: When upgrading to Bootstrap 4.2 or higher, use class="modal-dialog modal-xl" -->
                         <div class="modal-dialog modal-xl" role="document">
                             <div t-attf-class="modal-content {{outbound_flight_form.form_wrapper_css_klass}}">
                                 <div class="modal-body">
