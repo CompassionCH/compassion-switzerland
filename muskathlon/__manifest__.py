@@ -57,7 +57,7 @@
         "views/advocate_details.xml",
         "templates/muskathlon_details.xml",
         "templates/muskathlon_my_details.xml",
-        # 'templates/muskathlon_my_home.xml', TODO Adapt portal to v11 or v12 CO-3135
+        'templates/muskathlon_my_home.xml',
         "templates/muskathlon_participant_details.xml",
         "templates/muskathlon_registration_form.xml",
         "templates/muskathlon_views.xml",
