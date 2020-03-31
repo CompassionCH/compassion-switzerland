@@ -8,22 +8,26 @@ class CrowdfundingParticipant(models.Model):
     _name = "crowdfunding.participant"
     _description = "Participant to one of our crowd-fundings"
 
-    project_id = fields.Many2one("crowdfunding.project", string="Partner project")
-    partner_id = fields.Many2one("res.partner", string="Partner")
-    personal_motivation = fields.Text(string="Personal Motivation")
+    project_id = fields.Many2one(
+        "crowdfunding.project", required=True,
+        index=True, ondelete="cascade", string="Crowdfunding project")
+    partner_id = fields.Many2one(
+        "res.partner", string="Partner",
+        required=True, index=True, ondelete="cascade")
+    personal_motivation = fields.Text()
     product_number_goal = fields.Integer()
-    product_number_reached = fields.Integer(compute="_compute_product_number_reached")
+    product_number_reached = fields.Integer(
+        compute="_compute_product_number_reached")
     number_sponsorships_goal = fields.Integer()
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached")
-    # TODO fix one2many fields
     sponsorship_ids = fields.One2many(
         "recurring.contract",
-        "group_id",
+        "crowdfunding_participant_id",
         string="Sponsorships")
     invoice_line_ids = fields.One2many(
         "account.invoice.line",
-        "contract_id",
+        "crowdfunding_participant_id",
         string="Donations")
     presentation_video = fields.Char(help="Youtube/Vimeo link")
     facebook_url = fields.Char(string="Facebook link")
@@ -34,8 +38,11 @@ class CrowdfundingParticipant(models.Model):
 
     @api.multi
     def _compute_product_number_reached(self):
-        return 0
+        for project in self:
+            project.product_number_reached = \
+                sum(project.invoice_line_ids.mapped('quantity'))
 
     @api.multi
     def _compute_number_sponsorships_reached(self):
-        return 0
+        for project in self:
+            project.number_sponsorships_reached = len(project.sponsorship_ids)
