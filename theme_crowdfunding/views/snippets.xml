@@ -1,5 +1,5 @@
 <odoo>
-    <template id="snippet_project_card" name="Project card snippets">
+    <template id="snippet_project_card" name="Project card snippets" inherit_id="website.snippets">
         <section class="snippet_cards">
             <div class="col-sm-12 col-md-6 col-lg-4">
                 <div class="card">
@@ -35,153 +35,16 @@
         </section>
     </template>
 
-    <template id="place_into_bar" inherit_id="website.snippets" name="Place into bar">
-        <xpath expr="//div[@id='snippet_structure']/div[@class='o_panel_body']" position="inside">
-            <t t-snippet="theme_tutorial.snippet_project_card"
-               t-thumbnail="/theme_tutorial/static/src/img/ui/snippet_thumb.jpg"/>
-        </xpath>
-    </template>
 
-    <template id="snippet_footer" name="Footer snippet">
-        <footer class="footer pb-5">
-            <div class="container">
-                <div class="row py-5">
-                    <div class="col-sm-12 col-md-4 f-logo">
-                        <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
-                             width="190" height="auto"/>
+<!--    <template id="place_into_bar" inherit_id="website.snippets" name="Place into bar">-->
+<!--        <xpath expr="//div[@id='snippet_structure']/div[@class='o_panel_body']" position="inside">-->
+<!--            <t t-snippet="theme_tutorial.snippet_project_card"-->
+<!--               t-thumbnail="/theme_tutorial/static/src/img/ui/snippet_thumb.jpg"/>-->
+<!--        </xpath>-->
+<!--    </template>-->
 
-                        <p>Compassion Suisse est la branche nationale de Compassion International. A travers le
-                            parrainage individuel et en collaboration avec quelque 7000 Eglises locales, nous
-                            apportons un soutien à plus de 2 millions d’enfants parmi les plus démunis dans 25 pays.
-                        </p>
-                    </div>
 
-                    <div class="col-sm-12 col-md-4 pt-2">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">About this platform</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">FAQ</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Fundraising tools</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link " href="#">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="col-sm-12 col-md-4 pt-2">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">About this platform</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">FAQ</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Fundraising tools</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link " href="#">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-12 col-md-4 ">
-                        <i class="fab fa-facebook-square fa-2x " aria-hidden="true"></i>
-                        <i class="fab fa-instagram fa-2x" aria-hidden="true"></i>
-                        <i class="fa fa-globe fa-2x" aria-hidden="true"></i>
-                    </div>
-
-                    <div class="col-md-4 ">
-                        <small>© 2020 Compassion Switzerland / all right reserved</small>
-                    </div>
-
-                    <div class="col-sm-12 col-md-4 text-right d-none d-md-block">
-                        <span class="lang-selector">
-                            <img src="img/FR.svg"/>
-                            <img src="img/DE.svg"/>
-                            <img src="img/IT.svg"/>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </template>
-
-    <template id="snippet_navbar" name="Navbar snippet">
-        <nav class="navbar shadow navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-            <div class="container-fluid">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                    <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
-                         width="190" height="auto"/>
-                </a>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                        aria-label="Toggle navigation">Menu
-                    <i class="fa fa-bars fa-xs " aria-hidden="true"></i>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav text-uppercase ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#services">Services</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#portfolio">Portfolio</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#about">About</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#team">Team</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#contact">Contact</a>
-                        </li>
-                    </ul><!--         user login -->
-                    <i class="fas fa-user-circle white fa-3x" aria-hidden="true"></i> <!--  lang selector        -->
-                    <span class="lang-selector">
-                        <img src="img/FR.svg"/>
-                        <img src="img/DE.svg"/>
-                        <img src="img/IT.svg"/>
-                    </span>
-                </div>
-            </div>
-        </nav>
-
-    </template>
-
-    <template id="snippet_header" name="Header snippet">
-        <header class="masthead">
-            <div class="container">
-                <div class="intro-text">
-                    <h1 class="display-1 blue">H1 Display 1 Page title</h1>
-
-                    <h2 class="display-4 pb-4 ">H2 Display subtitle 2 lines : Montserrat 45px solid #005eb8</h2>
-                    <button type="button" class="btn btn-primary btn-lg">my button negative small</button>
-                    <br/>
-                </div>
-            </div>
-        </header>
-    </template>
-
-    <template id="snippet_achievements_section" name="Achievements section snippet">
+    <template id="snippet_achievements_section" name="Achievements section snippet" inherit_id="website.snippets">
         <section class="# py-5" id="#">
             <div class="container">
                 <div class="row">
@@ -239,7 +102,7 @@
         </section>
     </template>
 
-    <template id="snippet_how_does_it_work" name="How does it work section snippet">
+    <template id="snippet_how_does_it_work" name="How does it work section snippet" inherit_id="website.snippets">
         <section class="blue py-5" id="#">
             <div class="container">
                 <div class="row">

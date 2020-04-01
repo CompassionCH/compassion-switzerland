@@ -39,11 +39,13 @@
     ],
     "data": [
         "data/crowdfunding_website.xml",
+        "data/crowdfunding_event_type.xml",
         "security/ir.model.access.csv",
         "views/crowdfunding_participant_view.xml",
         "views/crowdfunding_project_view.xml",
         "views/product_template_view.xml",
         "views/projects_list_page.xml"
+
     ],
     "installable": True,
     "auto_install": False,

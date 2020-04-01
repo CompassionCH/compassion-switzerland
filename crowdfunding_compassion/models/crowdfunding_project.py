@@ -52,10 +52,9 @@ class CrowdfundingProject(models.Model):
     def create(self, vals):
         self.event_id = self.env['crm.event.compassion'].create({
             'name': self.name,
-            # TODO replace that by a correct event_type
             'event_type_id': self.env.ref(
-                "website_event_compassion.event_type_group_visit").id,
-            'company_id': self.env.user.company_id,
+                "crowdfunding_compassion.event_type_crowdfunding").id,
+            'company_id': self.env.user.company_id.id,
             'start_date': datetime.date.today(),
             'end_date': self.deadline,
             'hold_start_date': datetime.date.today(),

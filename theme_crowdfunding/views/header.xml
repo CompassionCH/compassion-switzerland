@@ -1,0 +1,17 @@
+<odoo>
+    <template id="snippet_header" name="Header snippet" inherit_id="website.snippets">
+<!--        <xpath expr="//div[@id='wrapwrap']/header" position="inside">-->
+            <header class="masthead">
+                <div class="container">
+                    <div class="intro-text">
+                        <h1 class="display-1 blue">H1 Display 1 Page title</h1>
+
+                        <h2 class="display-4 pb-4 ">H2 Display subtitle 2 lines : Montserrat 45px solid #005eb8</h2>
+                        <button type="button" class="btn btn-primary btn-lg">my button negative small</button>
+                        <br/>
+                    </div>
+                </div>
+            </header>
+<!--        </xpath>-->
+    </template>
+</odoo>

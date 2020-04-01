@@ -8,6 +8,6 @@ class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
     crowdfunding_participant_id = fields.Many2one(
-        "crowdfunding.participant", "Crowdfunding project")
+        "crowdfunding.participant", "Crowdfunding participant")
     crowdfunding_project_id = fields.Many2one(
         "crowdfunding.project", "Crowdfunding project")
