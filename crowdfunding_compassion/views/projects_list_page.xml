@@ -8,6 +8,8 @@
             <field name="name">Project List</field>
             <field name="type">qweb</field>
             <field name="key">crowdfunding.project_list</field>
+<!--            TODO: change 12-->
+            <field name="website_id">12</field>
             <field name="arch" type="xml">
                 <t name="Project List" t-name="crowdfunding.project_list">
                     <t t-call="website.layout">
