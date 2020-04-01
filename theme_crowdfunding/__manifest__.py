@@ -40,7 +40,8 @@
         "views/snippets.xml",
         "views/header.xml",
         "views/footer.xml",
-        "views/navbar.xml"
+        "views/navbar.xml",
+        "views/assets.xml"
     ],
     'category': 'Theme',
     "installable": True,
