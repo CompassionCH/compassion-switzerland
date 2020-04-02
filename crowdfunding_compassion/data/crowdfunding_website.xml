@@ -3,8 +3,9 @@
     <data noupdate="1">
         <record id="crowdfunding_website" model="website">
             <field name="name">Crowdfunding Website</field>
-            <field name="domain"></field>
+            <field name="domain"/>
             <field name="default_lang_id">1</field>
+            <field name="theme_id" model="ir.module.module" search="[('name', '=', 'theme_crowdfunding')]"/>
         </record>
     </data>
 </odoo>
