@@ -24,8 +24,18 @@
                                     <div class="col-12 col-lg-4 text-center">
                                         <div class="card project-hero__card">
                                             <h3 class="blue mt-3">Support the project</h3>
-                                            <div class="projet-hero__card-content"/>
-                                            <!-- <button type="button" class="btn btn-primary btn-md">DONATE NOW</button> -->
+                                            <div class="project-hero__card-content"/>
+                                            <div class="project-hero__cart-cta">
+                                                <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <button type="button" class="btn btn-white btn-md">Join the project</button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="row project-hero__card-share-text">Share with you friends</div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
