@@ -11,19 +11,29 @@
             <field name="arch" type="xml">
                 <t t-name="crowdfunding_compassion.project_page_template">
                     <t t-call="website.layout">
-                        <div id="wrap">
+
+                        <!-- Hero -->
+                        <section class="project-hero">
                             <div class="container">
-                                <h1>Our Services</h1>
-                                <ul class="services">
-                                    <li>Cloud Hosting</li>
-                                    <li>Support</li>
-                                    <li>Unlimited space</li>
-                                </ul>
 
+                                <h1 class="project-hero__title">My project name</h1>
+                                <div class="row">
+                                    <div class="col-12 col-lg-8 mb-4 mb-lg-0">
+                                        <img alt="Project image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" class="project-hero__image" />
+                                    </div>
+                                    <div class="col-12 col-lg-4 text-center">
+                                        <div class="card project-hero__card">
+                                            <h3 class="blue mt-3">Support the project</h3>
+                                            <div class="projet-hero__card-content"/>
+                                            <!-- <button type="button" class="btn btn-primary btn-md">DONATE NOW</button> -->
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <t t-call="crowdfunding_compassion.how_it_works"/>
+                                <!-- <t t-call="crowdfunding_compassion.how_it_works"/> -->
                             </div>
-                        </div>
+                        </section>
+
                     </t>
                 </t>
             </field>
