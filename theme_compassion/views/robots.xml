@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="robots_disallow" name="Disallow indexing on robots.txt">
-        <t t-name="website_compassion.robots_disallow">
+        <t t-name="theme_compassion.robots_disallow">
 Disallow: /website_payment/confirm
 Disallow: /website_payment/pay
 Disallow: /web/reset_password
@@ -15,7 +15,7 @@ Disallow: /survey/*
         <xpath expr="." position="replace">
             <t t-name="website.robots">
 User-agent: *
-<t t-call="website_compassion.robots_disallow"/>
+<t t-call="theme_compassion.robots_disallow"/>
 Sitemap: <t t-esc="url_root"/>sitemap.xml
             </t>
         </xpath>

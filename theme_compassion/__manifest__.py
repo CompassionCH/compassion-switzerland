@@ -8,8 +8,8 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2018-2020 Compassion CH (http://www.compassion.ch)
-#    @author: Sebastien Toth <popod@me.com>
+#    Copyright (C) 2020 Compassion CH (http://www.compassion.ch)
+#    @author: Sylvain Losey
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,25 +22,29 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
 # pylint: disable=C8101
 {
-    "name": "Compassion Website",
+    "name": "Main Compassion Theme",
     "version": "12.0.1.0.0",
-    "category": "Website",
-    "author": "Sebastien Toth",
+    "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
-    "data": ["data/main_website.xml"],
-    "depends": [
-        "theme_compassion",  # compassion-switzerland
-        "cms_form_compassion",  # compassion-modules
-        "partner_contact_in_several_companies",  # OCA/partner_contact
+    "depends": ["website", "website_theme_install"],
+    "data": [
+        "views/header.xml",
+        "views/footer.xml",
+        "views/footer_fr.xml",
+        "views/footer_de.xml",
+        "views/footer_it.xml",
+        "views/assets.xml",
+        "views/homepage.xml",
+        "views/robots.xml",
     ],
-    "demo": [],
+    "category": "Theme",
     "installable": True,
     "auto_install": False,
 }

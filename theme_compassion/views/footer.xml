@@ -7,31 +7,29 @@
                 <div id="main_footer">
                     <footer class="footer_with_margin">
                         <div class="main_footer_container">
-                            <t t-if="env.lang == 'fr_CH'">
-                                <div id="french"></div>
-                            </t>
                             <t t-if="env.lang == 'de_DE'">
-                                <div id="german"></div>
+                                <div id="german"/>
                             </t>
                             <t t-if="env.lang == 'it_IT'">
-                                <div id="italian"></div>
+                                <div id="italian"/>
                             </t>
-                            <t t-if="env.lang == 'en_US'">
-                                <div id="french"></div>
+                            <!-- When not german or italian default to french -->
+                            <t t-if="env.lang != 'de_DE' and env.lang != 'it_IT'">
+                                <div id="french"/>
                             </t>
                         </div>
                     </footer>
                     <script>
                         $(function() {
-                            // show navbar image and footer
-                            $('header .navbar-brand img').first().show();
-                            $('#main_footer').show();
+                        // show navbar image and footer
+                        $('header .navbar-brand img').first().show();
+                        $('#main_footer').show();
 
-                            // show main footer menus when click on mobiles
-                            $('#main_footer a.footer_section_title[href="#"]').click(function() {
-                                $(this).next().find('li').toggle();
-                                return false;
-                            });
+                        // show main footer menus when click on mobiles
+                        $('#main_footer a.footer_section_title[href="#"]').click(function() {
+                        $(this).next().find('li').toggle();
+                        return false;
+                        });
                         });
                     </script>
                 </div>
