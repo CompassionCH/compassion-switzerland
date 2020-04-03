@@ -57,7 +57,8 @@
                                 Mauris euismod diam eget mi pretium, et posuere turpis iaculis.
                                 Integer erat odio, tempus a aliquet sit amet, pulvinar sed leo.
                                 Etiam eu elit ut orci blandit ultricies a sit amet libero.
-                                Mauris at eleifend erat. </t>
+                                Mauris at eleifend erat.
+                            </t>
                             <div class="col-sm-12 col-md-6 col-lg-4">
                                 <t t-call="theme_crowdfunding.crowdfunding_project_card"/>
                             </div>
