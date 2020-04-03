@@ -38,8 +38,9 @@
     ],
     "data": [
         "views/header.xml",
-        # "views/footer.xml",
-        # "views/navbar.xml",
+        "views/footer.xml",
+        "views/navbar.xml",
+        "views/cards.xml",
         # "views/snippets.xml",
         "views/assets.xml"
     ],

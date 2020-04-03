@@ -1,23 +1,6 @@
 <odoo>
     <data>
-        <!--        <template id="snippet_header" name="Header snippet" inherit_id="website.layout">-->
-        <!--            <xpath expr="//div[@id='wrapwrap']/header" position="after">-->
-        <!--                <nav class="navbar-brand" aria-label="Pager" role="toolbar"/>-->
-        <!--                <header class="masthead">-->
-        <!--                    <div class="container">-->
-        <!--                        <div class="intro-text">-->
-        <!--                            <h1 class="display-1 blue">H1 Display 1 Page title</h1>-->
-
-        <!--                            <h2 class="display-4 pb-4 ">H2 Display subtitle 2 lines : Montserrat 45px solid #005eb8</h2>-->
-        <!--                            <button type="button" class="btn btn-primary btn-lg">my button negative small</button>-->
-        <!--                            <br/>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </header>-->
-        <!--            </xpath>-->
-        <!--        </template>-->
-
-        <template id="snippet_header_no_xpath" name="Header snippet">
+        <template id="crowdfunding_header" name="Header for Crowdfunding page">
             <nav class="navbar-brand" aria-label="Pager" role="toolbar"/>
             <header class="masthead">
                 <div class="container">
@@ -31,12 +14,5 @@
                 </div>
             </header>
         </template>
-
-        <template id="place_header_into_page" inherit_id="website.snippets" name="Place into page">
-            <xpath expr="//*[@id='snippet_structure']//*[hasclass('o_panel_header')]" position="inside">
-                <t t-snippet="theme_crowdfunding.snippet_header_no_xpath"/>
-            </xpath>
-        </template>
-<!--        //div[@id='project_list_header']-->
     </data>
 </odoo>

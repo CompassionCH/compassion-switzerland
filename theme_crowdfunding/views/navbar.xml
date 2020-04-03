@@ -1,56 +1,53 @@
 <odoo>
     <data>
-        <template id="snippet_navbar" name="Navbar snippet" inherit_id="website.layout">
-<!--                                    <xpath expr="//div[@id='wrapwrap']/navbar" position="replace">-->
-            <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">
-                <nav class="navbar shadow navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-                    <div class="container-fluid">
-                        <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                            <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
-                                 width="190" height="auto"/>
-                        </a>
-                        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                                data-target="#navbarResponsive" aria-controls="navbarResponsive"
-                                aria-expanded="false"
-                                aria-label="Toggle navigation">Menu
-                            <i class="fa fa-bars fa-xs " aria-hidden="true"></i>
-                        </button>
+        <template id="crowdfunding_navbar" name="Navbar for Crowdfunding page">
+            <nav class="navbar shadow navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+                <div class="container-fluid">
+                    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                        <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
+                             width="190" height="auto"/>
+                    </a>
+                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                            data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">Menu
+                        <i class="fa fa-bars fa-xs " aria-hidden="true"></i>
+                    </button>
 
-                        <div class="collapse navbar-collapse" id="navbarResponsive">
-                            <ul class="navbar-nav text-uppercase ml-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#services">Services</a>
-                                </li>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ul class="navbar-nav text-uppercase ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#services">Services</a>
+                            </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#portfolio">Portfolio</a>
-                                </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#portfolio">Portfolio</a>
+                            </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#about">About</a>
-                                </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about">About</a>
+                            </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#team">Team</a>
-                                </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#team">Team</a>
+                            </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#contact">Contact</a>
-                                </li>
-                            </ul>
-                            <!--         user login -->
-                            <i class="fas fa-user-circle white fa-3x"
-                               aria-hidden="true"></i>
-                            <!--  lang selector        -->
-                            <span class="lang-selector">
-                                <img src="img/FR.svg"/>
-                                <img src="img/DE.svg"/>
-                                <img src="img/IT.svg"/>
-                            </span>
-                        </div>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contact">Contact</a>
+                            </li>
+                        </ul>
+                        <!--         user login -->
+                        <i class="fas fa-user-circle white fa-3x"
+                           aria-hidden="true"></i>
+                        <!--  lang selector        -->
+                        <span class="lang-selector">
+                            <img src="img/FR.svg"/>
+                            <img src="img/DE.svg"/>
+                            <img src="img/IT.svg"/>
+                        </span>
                     </div>
-                </nav>
-            </xpath>
+                </div>
+            </nav>
         </template>
     </data>
 </odoo>

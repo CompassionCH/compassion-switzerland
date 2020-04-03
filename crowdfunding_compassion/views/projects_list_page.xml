@@ -9,24 +9,23 @@
             <field name="type">qweb</field>
             <field name="key">crowdfunding.project_list</field>
             <!--            TODO: change 12-->
-            <field name="website_id">12</field>
+            <!--            <field name="website_id">12</field>-->
             <field name="arch" type="xml">
                 <t name="Project List" t-name="crowdfunding.project_list">
-<!--                    <t t-call="website.layout">-->
-                        <div id="project_list_header">
-<!--                            <t t-snippet="theme_crowdfunding.place_header_into_page"/>-->
-                        </div>
+                    <t t-call="website.layout">
+                        <t t-call="theme_crowdfunding.crowdfunding_navbar"/>
 
-                        <div id="project_list_body">
+                        <t t-set="card"/>
+                        <t t-call="theme_crowdfunding.crowdfunding_card_container"/>
 
-                        </div>
-
-                        <div id="project_list_footer">
-<!--                            <t t-snippet="theme_crowdfunding.place_footer_into_page"/>-->
-                        </div>
+                        <t t-call="theme_crowdfunding.crowdfunding_footer"/>
                     </t>
-<!--                </t>-->
+                </t>
             </field>
         </record>
     </data>
 </odoo>
+
+
+
+

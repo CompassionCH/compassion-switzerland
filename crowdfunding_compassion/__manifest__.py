@@ -34,8 +34,9 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
-        "cms_form_compassion",  # compassion-modules
-        "theme_crowdfunding",  # compassion-switzerland
+        "cms_form_compassion",          # compassion-modules
+        "theme_crowdfunding",           # compassion-switzerland
+        "website_event_compassion"      # compassion-switzerland
     ],
     "data": [
         "data/crowdfunding_website.xml",
@@ -47,6 +48,7 @@
         "views/projects_list_page.xml",
         "views/components.xml",
         "views/project_page.xml",
+        # "views/website_view.xml",
     ],
     "installable": True,
     "auto_install": False,

@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <template id="snippet_footer" name="Footer snippet">
+        <template id="crowdfunding_footer" name="Footer for Crowdfunding page">
             <footer class="footer pb-5">
                 <div class="container">
                     <div class="row py-5">
@@ -77,12 +77,6 @@
                     </div>
                 </div>
             </footer>
-        </template>
-
-        <template id="place_footer_into_page" inherit_id="website.snippets" name="Place footer into page">
-            <xpath expr="//t[1]/div[2]" position="inside">
-                <t t-snippet="theme_crowdfunding.snippet_footer"/>
-            </xpath>
         </template>
     </data>
 </odoo>

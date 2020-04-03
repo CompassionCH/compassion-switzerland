@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+        <template id="crowdfunding_project_card" name="Project card">
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8 ">
+                                <h5 class="card-title">my nice project</h5>
+                            </div>
+
+                            <div class="col-md-4 text-right">
+                                <p>
+                                    <small>
+                                        <i class="fas fa-users white" aria-hidden="true"></i>
+                                        collective
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+
+                        <p>
+                            <small><i class="fas fa-user-circle white" aria-hidden="true"></i>project owner + 10
+                                friends
+                            </small>
+                        </p>
+                    </div>
+                    <img class="card-img-top" src="img/musk_ghana_3.jpg" alt="Card image cap"/>
+
+                    <div class="card-body">
+                        <p class="card-text">With supporting text below as a natural lead-in to additional
+                            content.
+                        </p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="crowdfunding_card_container" name="Card container">
+            <div class="container">
+                <!-- 	 1ST row -->
+                <div class="row pb-4">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <t t-call="theme_crowdfunding.crowdfunding_project_card"/>
+                    </div>
+                </div>
+                <!--            LOAD MORE BUTTON -->
+                <div class="row py-4">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" class="btn btn-primary btn-md">Load more projects</button>
+                        <br/>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>
