@@ -53,6 +53,11 @@ h6,
 .h4,
 .h5,
 .h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #707070;
+
   &.blue {
     color: $blue-compassion !important;
   }
@@ -370,7 +375,7 @@ footer {
     height: 100%;
 
     position: relative;
-    padding: 0.5rem;
+    padding: 1rem;
   }
 
   &__card-content {
@@ -421,6 +426,24 @@ footer {
       height: 10px;
       margin-right: 10px;
       border-radius: 0px;
+    }
+  }
+}
+
+.project-content {
+  &__owner {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    h5 {
+      text-transform: uppercase;
     }
   }
 }
