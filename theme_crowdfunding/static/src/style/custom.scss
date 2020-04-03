@@ -58,6 +58,10 @@ h6,
   }
 }
 
+.bg-compassion {
+  background-color: $blue-compassion;
+}
+
 section {
   .subheading {
     font-size: $display4-size;
@@ -309,6 +313,8 @@ footer {
 //CARDS (PROJECT BADGES)
 
 .card {
+  border-radius: 0px;
+
   p {
     margin-bottom: 0;
   }
@@ -379,5 +385,42 @@ footer {
   &__card-share-text {
     font-size: 0.9rem;
     color: $blue-compassion;
+  }
+}
+
+.goal-progress {
+  &__text-tile {
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-right: 10px;
+    }
+  }
+
+  &__text {
+    &--bold {
+      color: $gray-700;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    &--faded {
+      color: $gray-600;
+      font-weight: 400;
+      font-size: 0.8rem;
+    }
+  }
+
+  &__bar {
+    display: flex;
+    align-items: center;
+
+    .progress {
+      width: 100%;
+      height: 10px;
+      margin-right: 10px;
+      border-radius: 0px;
+    }
   }
 }

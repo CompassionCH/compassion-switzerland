@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <template id="how_it_works" name="How it works">
-            <div>How it works</div>
-            <div class="alert alert-danger">This should be a red alert - Bootstrap css</div>
-            <div class="card card-header">This should be a blue card - Compassion scss</div>
+        <template id="goal_progress" name="Goal progress">
+            <div class="goal-progress__text-tile">
+                <img src="/theme_crowdfunding/static/src/img/goal_icon.png" alt="Goal icon"/>
+                <div>
+                    <span class="goal-progress__text--bold">15 toilets built</span>
+                    <span class="goal-progress__text--faded">out of 55</span>
+                </div>
+            </div>
+            <div class="goal-progress__bar mb-2">
+                <div class="progress">
+                    <div class="progress-bar bg-compassion" role="progressbar" style="width: 25%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"/>
+                </div>
+                <span class="goal-progress__text--faded">
+                    27%
+                </span>
+            </div>
         </template>
     </data>
 </odoo>

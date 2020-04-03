@@ -21,10 +21,14 @@
                                     <div class="col-12 col-lg-8 mb-4 mb-lg-0">
                                         <img alt="Project image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" class="project-hero__image" />
                                     </div>
-                                    <div class="col-12 col-lg-4 text-center">
+                                    <div class="col-12 col-lg-4">
                                         <div class="card project-hero__card">
-                                            <h3 class="blue mt-3">Support the project</h3>
-                                            <div class="project-hero__card-content"/>
+                                            <h3 class="blue my-4 text-center">Support the project</h3>
+                                            <div class="project-hero__card-content">
+                                                <t t-call="crowdfunding_compassion.goal_progress"/>
+                                                <t t-call="crowdfunding_compassion.goal_progress"/>
+
+                                            </div>
                                             <div class="project-hero__cart-cta">
                                                 <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
                                                 <div class="row">
@@ -32,18 +36,15 @@
                                                         <button type="button" class="btn btn-white btn-md">Join the project</button>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="row project-hero__card-share-text">Share with you friends</div>
+                                                        <div class="row project-hero__card-share-text">Share with your friends</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- <t t-call="crowdfunding_compassion.how_it_works"/> -->
                             </div>
                         </section>
-
                     </t>
                 </t>
             </field>
