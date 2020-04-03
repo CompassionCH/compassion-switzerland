@@ -49,7 +49,7 @@
                         <section class="project-content">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-12 col-lg-8">
+                                    <div class="col-12 col-lg-8 mb-5">
                                         <div class="project-content__owner mb-4">
                                             <img class="profile-pic" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Project owner"/>
                                             <h5>Project owner and last name</h5>
@@ -63,10 +63,15 @@
 
                                         <h5 class="blue mt-4">FOLLOW MY PROJECT ON</h5>
                                         <a href="#">Facebook</a>
+                                        <br />
                                         <a href="#">Instagram</a>
-
                                     </div>
                                     <div class="col-12 col-lg-4">
+                                        <h3 class="blue text-center">IMPACT SO FAR</h3>
+                                        <t t-call="crowdfunding_compassion.impact_tile_grey" />
+                                        <t t-call="crowdfunding_compassion.impact_tile_blue" />
+                                        <h3 class="blue text-center mt-5">NO IMPACT YET</h3>
+                                        <t t-call="crowdfunding_compassion.impact_tile_empty" />
                                     </div>
                                 </div>
                             </div>
