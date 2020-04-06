@@ -28,8 +28,8 @@
                         <div id="project_cards">
                             <h2 class="blue my-4 text-center">ACTIVE PROJECTS</h2>
                             <t t-set="cards"
-                               t-value="
-                               [[{'title': 'Project title test1',
+                               t-value="[
+                               [{'title': 'Project title test1',
                                'owner': 'John Doe',
                                'collective': 'Doe collective',
                                'description': 'Lorem Ipsum'},
@@ -40,7 +40,20 @@
                                {'title': 'Project title test3',
                                'owner': 'John Doe',
                                'collective': 'Doe collective',
-                               'description': 'Lorem Ipsum'}]]"/>
+                               'description': 'Lorem Ipsum'}],
+                               [{'title': 'Project title test1',
+                               'owner': 'John Doe',
+                               'collective': 'Doe collective',
+                               'description': 'Lorem Ipsum'},
+                               {'title': 'Project title test2',
+                               'owner': 'John Doe',
+                               'collective': 'Doe collective',
+                               'description': 'Lorem Ipsum'},
+                               {'title': 'Project title test3',
+                               'owner': 'John Doe',
+                               'collective': 'Doe collective',
+                               'description': 'Lorem Ipsum'}]
+                               ]"/>
                             <t t-call="theme_crowdfunding.crowdfunding_card_container"/>
                         </div>
 
