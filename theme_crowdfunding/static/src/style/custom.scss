@@ -1,11 +1,9 @@
-
-@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap");
 //Colors
-
 
 // Color system
 
-$white:    #fff !default;
+$white: #fff !default;
 $gray-100: #f8f9fa !default;
 $gray-200: #e9ecef !default;
 $gray-300: #dee2e6 !default;
@@ -15,114 +13,162 @@ $gray-600: #6c757d !default;
 $gray-700: #707070;
 $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
-$black:    #000 !default;
+$black: #000 !default;
 
-$headings-color:$gray-700 ;
+$headings-color: $gray-700;
 $blue-compassion: #005eb8;
 $primary: $blue-compassion;
 
 // Typography
 
 //font sizes
-$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
 
-$h1-font-size:                $font-size-base * 2.6 ; //41.6px
-$h2-font-size:                $font-size-base * 2.15 ; //34.4px
-$h3-font-size:                $font-size-base * 1.7 ; //27.2px
-$h4-font-size:                $font-size-base * 1.25; //20px
-$h5-font-size:                $font-size-base ;
-$h6-font-size:                $font-size-base * 0.85; //13.6px
+$h1-font-size: $font-size-base * 2.6; //41.6px
+$h2-font-size: $font-size-base * 2.15; //34.4px
+$h3-font-size: $font-size-base * 1.7; //27.2px
+$h4-font-size: $font-size-base * 1.25; //20px
+$h5-font-size: $font-size-base;
+$h6-font-size: $font-size-base * 0.85; //13.6px
 
-$display1-size:               4.0625rem ; //65px
-$display2-size:               3.4375rem; //55px
-$display3-size:               2.8125rem; //45px
-$display4-size:				  2.5rem;//40px
+$display1-size: 4.0625rem; //65px
+$display2-size: 3.4375rem; //55px
+$display3-size: 2.8125rem; //45px
+$display4-size: 2.5rem; //40px
 
-$font-size-sm:                $font-size-base * .75;
+$font-size-sm: $font-size-base * 0.75;
 
-
-$font-family-sans-serif: 'Montserrat', sans-serif;
+$font-family-sans-serif: "Montserrat", sans-serif;
 $body-color: #333;
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-	
-	&.blue {color: $blue-compassion !important;
-	}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #707070;
+
+  &.blue {
+    color: $blue-compassion !important;
+  }
 }
 
-section{
-	
-	.subheading{
-		font-size: $display4-size;
-		font-weight: 600;
-	}
-	
-	.count{
-		font-size: $font-size-base  * 4.81;
-// 		font-weight: 900;
-		color:$blue-compassion;
-	}
-	
-	.count-text{
-		font-size: $h3-font-size;
-		color:$blue-compassion;
-// 		font-weight: 700;
-
-	}
-	
-	&.blue{background-color: $blue-compassion;
-		
-	h1, h2, h3, h4, h5, h6,
-	.h1, .h2, .h3, .h4, .h5, .h6, p{color:$white;}
-	
-	a, a:hover
-	{color:$white;
-	text-decoration: underline;}
-		
-
-			
-	}
-	
+.bg-compassion {
+  background-color: $blue-compassion;
 }
 
-//GRID 
+section {
+  .subheading {
+    font-size: $display4-size;
+    font-weight: 600;
+  }
 
-@media (min-width: 1200px){
-.container, .container-sm, .container-md, .container-lg, .container-xl  {  max-width: 1200px !important;
-}}
+  .count {
+    font-size: $font-size-base * 4.81;
+    // 		font-weight: 900;
+    color: $blue-compassion;
+  }
 
-//rounded images 
+  .count-text {
+    font-size: $h3-font-size;
+    color: $blue-compassion;
+    // 		font-weight: 700;
+  }
+
+  &.blue {
+    background-color: $blue-compassion;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .h1,
+    .h2,
+    .h3,
+    .h4,
+    .h5,
+    .h6,
+    p {
+      color: $white;
+    }
+
+    a,
+    a:hover {
+      color: $white;
+      text-decoration: underline;
+    }
+  }
+}
+
+a {
+  color: $blue-compassion;
+  text-decoration: underline;
+
+  &:hover {
+    color: darken($blue-compassion, 20%);
+  }
+}
+
+//GRID
+
+@media (min-width: 1200px) {
+  .container,
+  .container-sm,
+  .container-md,
+  .container-lg,
+  .container-xl {
+    max-width: 1200px !important;
+  }
+}
+
+//rounded images
 
 .profile-pic {
-        width: 200px;
-        height: 200px;
-        overflow: hidden;
-      }
-      .img-thumbnail{
-        height: 200px!important;
-      }
-      
-      
-// buttons 
-
-
-.btn{text-transform: uppercase;}
-
-
-.btn-white {
-	border: none;
-	background-color: $white !important;
-	color:$blue-compassion !important;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+.img-thumbnail {
+  height: 200px !important;
 }
 
-$enable-rounded:   false;
+// buttons
 
+.btn {
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+}
+
+.btn-primary {
+  background-color: $blue-compassion !important;
+  color: $white !important;
+}
+
+.btn-white {
+  background-color: $white !important;
+  color: $blue-compassion !important;
+  border: 1px solid $blue-compassion;
+}
+
+$enable-rounded: false;
 
 //SECTIONS HEAD
 
-.civ-head{
-	text-align: center;
+.civ-head {
+  text-align: center;
   color: white;
   background-image: url("img/SURVIVAL-MamaKate-266@2x.jpg");
   background-repeat: no-repeat;
@@ -130,19 +176,19 @@ $enable-rounded:   false;
   background-position: center center;
   background-size: cover;
   background-color: $gray-300;
-//   padding:200px 0;
-height: 500px;
+  //   padding:200px 0;
+  height: 500px;
 
-.container{  }
+  .container {
+  }
 
-.civ-intro{background: $white;
-	text-transform: uppercase;
-
-}}
-
+  .civ-intro {
+    background: $white;
+    text-transform: uppercase;
+  }
+}
 
 //header
-
 
 header.masthead {
   text-align: center;
@@ -153,7 +199,6 @@ header.masthead {
   background-position: center center;
   background-size: cover;
   background-color: $gray-300;
-  
 }
 
 header.masthead .intro-text {
@@ -173,45 +218,59 @@ header.masthead .intro-text .intro-heading {
   font-weight: 700;
   line-height: 50px;
   margin-bottom: 25px;
-  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
 }
-
-
 
 //footer
 
-footer{background-color: $gray-700;
-    width: 100%;
-    color:$white;
- 
-    p{font-size: $font-size-sm;line-height: 1.5}
-    
-    
-    
-    .nav-link{padding:.5rem 0 !important;}
- 
+footer {
+  background-color: $gray-700;
+  width: 100%;
+  color: $white;
+
+  p {
+    font-size: $font-size-sm;
+    line-height: 1.5;
+  }
+
+  .nav-link {
+    padding: 0.5rem 0 !important;
+  }
 }
 
-.f-logo img {margin-bottom: 1rem}
- 
-//selector language 
-.lang-selector img:nth-child(-n+2){margin-right: 1rem;}
+.f-logo img {
+  margin-bottom: 1rem;
+}
+
+//selector language
+.lang-selector img:nth-child(-n + 2) {
+  margin-right: 1rem;
+}
 
 //font awesome
 
-.fa, .fab, .far, .fas{
-// 	font-size: $h2-font-size;
-	margin-right: 1rem !important;
-	
-	&.white{color:$white;}
+.fa,
+.fab,
+.far,
+.fas {
+  // 	font-size: $h2-font-size;
+  margin-right: 1rem !important;
+
+  &.white {
+    color: $white;
+  }
 }
 
 //nav
 
 #mainNav {
   background-color: $blue-compassion;
-  
-  .fa{font-size: 1.125rem}
+
+  .fa {
+    font-size: 1.125rem;
+  }
 }
 
 #mainNav .navbar-toggler {
@@ -228,7 +287,10 @@ footer{background-color: $gray-700;
   color: #fed136;
 }
 
-#mainNav .navbar-brand.active, #mainNav .navbar-brand:active, #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
+#mainNav .navbar-brand.active,
+#mainNav .navbar-brand:active,
+#mainNav .navbar-brand:focus,
+#mainNav .navbar-brand:hover {
   color: #fec503;
 }
 
@@ -238,48 +300,198 @@ footer{background-color: $gray-700;
   color: white;
 }
 
+.nav-link {
+  &:link {
+    color: $white !important;
+    text-transform: uppercase;
+  }
 
-.nav-link{
-	&:link{color:$white !important;
-		text-transform: uppercase;}
-	
-	&:hover{color:$white !important;
-		text-transform: uppercase;}
-		
-	&:active{color:$white !important;
-		text-transform: uppercase;}
-	&:visited{color:$white !important;
-		text-transform: uppercase;}
+  &:hover {
+    color: $white !important;
+    text-transform: uppercase;
+  }
 
-font-size:1.125rem;
-line-height:normal;
+  &:active {
+    color: $white !important;
+    text-transform: uppercase;
+  }
+  &:visited {
+    color: $white !important;
+    text-transform: uppercase;
+  }
 
+  font-size: 1.125rem;
+  line-height: normal;
 }
-
 
 //CARDS (PROJECT BADGES)
 
-.card{
-	p{
-		margin-bottom: 0;
-	}
-	.card-text{font-size: $font-size-sm;
-		color:$gray-700;
-	}
+.card {
+  border-radius: 0px;
+
+  p {
+    margin-bottom: 0;
+  }
+  .card-text {
+    font-size: $font-size-sm;
+    color: $gray-700;
+  }
 }
 
-.card-header{
-	background-color: $blue-compassion !important;
-	
-	p{color:$white;}
-	
-	.fa, .fab, .far, .fas{
-// 	font-size: $h2-font-size;
-	margin-right: .2rem !important;}
+.card-header {
+  background-color: $blue-compassion !important;
 
-	.card-title{
-		text-transform: uppercase;
-			color: $white !important;
-			margin-bottom: 0;
-	}
+  p {
+    color: $white;
+  }
+
+  .fa,
+  .fab,
+  .far,
+  .fas {
+    // 	font-size: $h2-font-size;
+    margin-right: 0.2rem !important;
+  }
+
+  .card-title {
+    text-transform: uppercase;
+    color: $white !important;
+    margin-bottom: 0;
+  }
 }
+
+// PROJECT PAGE
+.project-hero {
+  background: linear-gradient(180deg, $blue-compassion 95%, $white 95%);
+
+  &__title {
+    font-size: $display2-size;
+    font-weight: 900;
+    color: $white;
+
+    padding-top: 10rem;
+    padding-bottom: 2rem;
+  }
+
+  &__image {
+    height: 30rem;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__card {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+    padding: 1rem;
+  }
+
+  &__card-content {
+    height: 100%;
+  }
+
+  &__card-cta {
+    position: absolute;
+    bottom: 0;
+  }
+
+  &__card-share-text {
+    font-size: 0.9rem;
+    color: $blue-compassion;
+  }
+}
+
+.goal-progress {
+  &__text-tile {
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-right: 10px;
+    }
+  }
+
+  &__bar {
+    display: flex;
+    align-items: center;
+
+    .progress {
+      width: 100%;
+      height: 10px;
+      margin-right: 10px;
+      border-radius: 0px;
+    }
+  }
+}
+
+.project-content {
+  &__owner {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    h5 {
+      text-transform: uppercase;
+    }
+  }
+}
+
+.impact-tile {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  column-gap: 1rem;
+
+  padding: 1rem;
+  margin: 1rem 0;
+  line-height: 1.2;
+
+  &__image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    grid-row: span 2;
+  }
+
+  .text--bold {
+    align-self: end;
+  }
+
+  &--grey {
+    background-color: $gray-200;
+  }
+
+  &--blue {
+    background-color: lighten($blue-compassion, 50%);
+  }
+
+  &--empty {
+    border: 1px dashed $blue-compassion;
+    text-align: center;
+    padding: 1rem;
+  }
+}
+
+// Global styles
+.text {
+  &--bold {
+    color: $gray-700;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  &--faded {
+    color: $gray-600;
+    font-weight: 400;
+    font-size: 0.8rem;
+  }
+}
+
