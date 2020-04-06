@@ -42,12 +42,18 @@
         <template id="crowdfunding_card_container" name="Card container">
             <div class="container">
                 <!-- 	 1ST row -->
-                <t t-foreach="[1, 2, 3]" t-as="i">
+                <t t-foreach="cards" t-as="card_row">
                     <div class="row pb-4">
-                        <t t-foreach="[1, 2, 3]" t-as="j">
-                            <t t-set="project_title">Project title test</t>
-                            <t t-set="project_owner">John Doe</t>
-                            <t t-set="project_collective">Doe collective</t>
+                        <t t-foreach="card_row" t-as="card">
+                            <t t-set="project_title">
+                                <t t-esc="card['title']"/>
+                            </t>
+                            <t t-set="project_owner">
+                                <t t-esc="card['owner']"/>
+                            </t>
+                            <t t-set="project_collective">
+                                <t t-esc="card['collective']"/>
+                            </t>
                             <t t-set="project_description">
                                 Phasellus dapibus ipsum eu orci pulvinar, ac convallis
                                 ex vulputate. Nunc venenatis non ipsum vitae viverra.
