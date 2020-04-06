@@ -496,6 +496,8 @@ footer {
 }
 
 // progress bar
-.progress-bar {
-    background-color: $blue-compassion !important;
+.progress {
+    &-bar {
+        background-color: $blue-compassion !important;
+    }
 }
