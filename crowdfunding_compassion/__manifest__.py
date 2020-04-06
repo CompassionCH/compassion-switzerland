@@ -46,8 +46,6 @@
         "views/crowdfunding_project_view.xml",
         "views/product_template_view.xml",
         "views/projects_list_page.xml",
-        "views/components.xml",
-        "views/project_page.xml",
         # "views/website_view.xml",
     ],
     "installable": True,

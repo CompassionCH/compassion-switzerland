@@ -1,38 +1,40 @@
 <odoo>
     <data>
         <template id="crowdfunding_project_card" name="Project card">
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-8 ">
-                                <h5 class="card-title">my nice project</h5>
-                            </div>
-
-                            <div class="col-md-4 text-right">
-                                <p>
-                                    <small>
-                                        <i class="fas fa-users white" aria-hidden="true"></i>
-                                        collective
-                                    </small>
-                                </p>
-                            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8 ">
+                            <h5 class="card-title">
+                                <t t-esc="project_title"/>
+                            </h5>
                         </div>
 
-                        <p>
-                            <small><i class="fas fa-user-circle white" aria-hidden="true"></i>project owner + 10
-                                friends
-                            </small>
-                        </p>
+                        <div class="col-md-4 text-right">
+                            <p>
+                                <small>
+                                    <i class="fas fa-users white" aria-hidden="true"></i>
+                                    <t t-esc="project_collective"/>
+                                </small>
+                            </p>
+                        </div>
                     </div>
-                    <img class="card-img-top" src="img/musk_ghana_3.jpg" alt="Card image cap"/>
 
-                    <div class="card-body">
-                        <p class="card-text">With supporting text below as a natural lead-in to additional
-                            content.
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
+                    <p>
+                        <small>
+                            <i class="fas fa-user-circle white" aria-hidden="true"></i>
+                            <t t-esc="project_owner"/>
+                        </small>
+                    </p>
+                </div>
+                <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg"
+                     alt="Card image cap"/>
+
+                <div class="card-body">
+                    <p class="card-text">
+                        <t t-esc="project_description"/>
+                    </p>
+                    <a href="#" class="btn btn-primary btn-lg btn-block mb-2">Join</a>
                 </div>
             </div>
         </template>
@@ -40,15 +42,32 @@
         <template id="crowdfunding_card_container" name="Card container">
             <div class="container">
                 <!-- 	 1ST row -->
-                <div class="row pb-4">
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <t t-call="theme_crowdfunding.crowdfunding_project_card"/>
+                <t t-foreach="[1, 2, 3]" t-as="i">
+                    <div class="row pb-4">
+                        <t t-foreach="[1, 2, 3]" t-as="j">
+                            <t t-set="project_title">Project title test</t>
+                            <t t-set="project_owner">John Doe</t>
+                            <t t-set="project_collective">Doe collective</t>
+                            <t t-set="project_description">
+                                Phasellus dapibus ipsum eu orci pulvinar, ac convallis
+                                ex vulputate. Nunc venenatis non ipsum vitae viverra.
+                                Vestibulum dignissim nisi augue. Vivamus justo mauris,
+                                rhoncus eu mauris in, blandit ultrices ipsum.
+                                Donec a imperdiet magna, eget pretium felis.
+                                Mauris euismod diam eget mi pretium, et posuere turpis iaculis.
+                                Integer erat odio, tempus a aliquet sit amet, pulvinar sed leo.
+                                Etiam eu elit ut orci blandit ultricies a sit amet libero.
+                                Mauris at eleifend erat. </t>
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <t t-call="theme_crowdfunding.crowdfunding_project_card"/>
+                            </div>
+                        </t>
                     </div>
-                </div>
+                </t>
                 <!--            LOAD MORE BUTTON -->
                 <div class="row py-4">
                     <div class="col-sm-12 text-center">
-                        <button type="button" class="btn btn-primary btn-md">Load more projects</button>
+                        <button type="button" class="btn btn-primary">Load more projects</button>
                         <br/>
                         <br/>
                     </div>
