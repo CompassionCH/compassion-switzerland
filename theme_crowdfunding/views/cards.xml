@@ -33,7 +33,7 @@
 
                 <p>10 / 25 toilets</p>
                 <div class="progress" style="height: 20px;">
-                    <div class="progress-bar blue" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"/>
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"/>
                 </div>
                 <p>20 days to go</p>
 

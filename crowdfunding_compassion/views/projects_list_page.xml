@@ -18,7 +18,7 @@
                         </xpath>
 
                         <div id="title">
-<!--                            <h1 class="blue my-4 text-center">JOIN A GREAT PROJECT</h1>-->
+                            <br/>
                             <h1 class="h1-font-size text-center blue">JOIN A GREAT PROJECT</h1>
                             <h2 class="text-center">Two lines explanation or introduction about project launch</h2>
                             <br/>
