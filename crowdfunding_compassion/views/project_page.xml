@@ -2,85 +2,77 @@
 <odoo>
     <data>
         <!-- === Project Page === -->
-        <record id="services_page" model="website.page">
-            <field name="name">Project page</field>
-            <field name="website_published">True</field>
-            <field name="url">/project</field>
-            <field name="type">qweb</field>
-            <field name="key">crowdfunding_compassion.project_page</field>
-            <field name="arch" type="xml">
-                <t t-name="crowdfunding_compassion.project_page_template">
-                    <t t-call="website.layout">
+        <template id="project_page">
+            <t t-call="website.layout">
 
-                        <!-- Hero -->
-                        <section class="project-hero mb-5">
-                            <div class="container">
-                                <h1 class="project-hero__title">My project name</h1>
-                                <div class="row">
-                                    <div class="col-12 col-lg-8 mb-4 mb-lg-0">
-                                        <img alt="Project image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" class="project-hero__image" />
+                <!-- Hero -->
+                <section class="project-hero mb-5">
+                    <div class="container">
+                        <h1 class="project-hero__title">
+                            <t t-esc="project.name"/>
+                        </h1>
+                        <div class="row">
+                            <div class="col-12 col-lg-8 mb-4 mb-lg-0">
+                                <img alt="Project image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" class="project-hero__image" />
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="card project-hero__card">
+                                    <h3 class="blue my-3 text-center">Support the project</h3>
+                                    <div class="project-hero__card-content">
+                                        <t t-call="crowdfunding_compassion.goal_progress"/>
+                                        <t t-call="crowdfunding_compassion.goal_progress"/>
                                     </div>
-                                    <div class="col-12 col-lg-4">
-                                        <div class="card project-hero__card">
-                                            <h3 class="blue my-3 text-center">Support the project</h3>
-                                            <div class="project-hero__card-content">
-                                                <t t-call="crowdfunding_compassion.goal_progress"/>
-                                                <t t-call="crowdfunding_compassion.goal_progress"/>
-
+                                    <div class="project-hero__cart-cta">
+                                        <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="button" class="btn btn-white btn-md">Join the project</button>
                                             </div>
-                                            <div class="project-hero__cart-cta">
-                                                <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <button type="button" class="btn btn-white btn-md">Join the project</button>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="row project-hero__card-share-text">Share with your friends</div>
-                                                    </div>
-                                                </div>
+                                            <div class="col">
+                                                <div class="row project-hero__card-share-text">Share with your friends</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </div>
+                    </div>
+                </section>
 
-                        <!-- Content -->
-                        <section class="project-content">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12 col-lg-8 mb-5">
-                                        <div class="project-content__owner mb-4">
-                                            <img class="profile-pic" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Project owner"/>
-                                            <h5>Project owner and last name</h5>
-                                        </div>
-
-                                        <h3 class="blue my-4">About the project</h3>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic ut at nulla optio sapiente dolorem sequi eligendi ea voluptas maiores assumenda illum natus mollitia quis, molestiae obcaecati veniam! Temporibus quas nam minus quasi laudantium sapiente illo voluptatibus libero quam consequatur veniam nisi harum, enim voluptas culpa eius quibusdam quis sed in. Tempora alias unde sed, facilis, libero repellendus dolores pariatur nihil impedit nulla eum nam corrupti inventore dignissimos veritatis ea similique delectus incidunt iste modi? Nostrum dicta numquam alias cumque necessitatibus accusantium? Recusandae, saepe quod enim pariatur eveniet placeat at quaerat eos quo, nobis laborum veniam inventore sed natus sequi nisi? Iste atque quia veniam earum tempore corrupti reiciendis excepturi nemo, eligendi quibusdam soluta perferendis, explicabo cupiditate commodi delectus, in maxime? Sint voluptatibus deserunt nobis nostrum accusamus ipsa aliquam necessitatibus dicta, eligendi praesentium sed ratione? Nihil quasi cum impedit vero distinctio. Velit, expedita dignissimos tenetur vel voluptate illo explicabo, voluptas rerum laudantium alias dolores esse ab voluptatibus voluptatem praesentium non odio, nulla ipsa? Perspiciatis ipsam, nemo dolorum veritatis est expedita doloribus facilis molestiae esse accusamus quo ad, repudiandae fugit ea architecto amet consectetur magni voluptas placeat nam, officia atque adipisci? Cum, incidunt sit quae perferendis impedit velit dolorem odit, earum nulla maiores laborum dolores? Itaque aperiam vitae sunt consequuntur quisquam et excepturi magni? Error dignissimos laboriosam ab culpa perspiciatis fugiat laborum veniam suscipit, quia, voluptatibus aliquid a deserunt! Sit voluptate dignissimos quia reiciendis sapiente necessitatibus quod mollitia. Perspiciatis excepturi nam id obcaecati, totam in consectetur repudiandae ex repellat rem recusandae</p>
-
-                                        <h3 class="blue my-4">Why do I engage in this project</h3>
-                                        <iframe class="my-3" width="100%" height="400px" src="https://www.youtube.com/embed/G5uWIlsUNFk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"/>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi quis ipsam odio cumque quia, ut voluptatem architecto tempore earum aut repellendus, obcaecati eos vel quod natus veritatis sit temporibus sequi amet autem cupiditate fugiat. Saepe omnis debitis, architecto suscipit consectetur, doloribus harum fuga, rem voluptas voluptatem repellendus voluptates at veritatis expedita provident nulla odit nisi sapiente vitae. Nam sunt cupiditate numquam eligendi aspernatur maiores, id quaerat totam praesentium, perferendis voluptatibus nulla natus minima neque, labore nobis. Error quidem placeat quasi fugiat suscipit laborum veritatis? Nihil ipsa, voluptates eveniet vel magnam veritatis neque, reprehenderit doloribus inventore tenetur nesciunt optio voluptatum nobis nisi non animi odit numquam eaque odio quos aut provident pariatur temporibus facilis? Ipsum dolore dolorem, ad provident molestias nulla expedita non, perferendis cumque, quos est! Atque esse modi doloribus quia, doloremque ipsa. Rem non impedit provident id assumenda animi et quae dolores minima ipsum dicta eum accusamus iste autem saepe, quidem neque placeat itaque aspernatur eos deserunt. Modi tempora maxime explicabo, officia neque pariatur voluptatum, itaque facilis praesentium incidunt est doloremque sapiente minus, deleniti cupiditate. Distinctio, adipisci. Similique expedita, ratione corrupti nulla voluptate consequatur sed magnam sint temporibus, ducimus doloribus blanditiis at laboriosam! Laborum commodi corporis eligendi? Dolores, similique.</p>
-
-                                        <h5 class="blue mt-4">FOLLOW MY PROJECT ON</h5>
-                                        <a href="#">Facebook</a>
-                                        <br />
-                                        <a href="#">Instagram</a>
-                                    </div>
-                                    <div class="col-12 col-lg-4">
-                                        <h3 class="blue text-center">IMPACT SO FAR</h3>
-                                        <t t-call="crowdfunding_compassion.impact_tile_grey" />
-                                        <t t-call="crowdfunding_compassion.impact_tile_blue" />
-                                        <h3 class="blue text-center mt-5">NO IMPACT YET</h3>
-                                        <t t-call="crowdfunding_compassion.impact_tile_empty" />
-                                    </div>
+                <!-- Content -->
+                <section class="project-content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 col-lg-8 mb-5">
+                                <div class="project-content__owner mb-4">
+                                    <img class="profile-pic" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Project owner"/>
+                                    <h5>Project owner and last name</h5>
                                 </div>
-                            </div>
-                        </section>
 
-                    </t>
-                </t>
-            </field>
-        </record>
+                                <h3 class="blue my-4">About the project</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic ut at nulla optio sapiente dolorem sequi eligendi ea voluptas maiores assumenda illum natus mollitia quis, molestiae obcaecati veniam! Temporibus quas nam minus quasi laudantium sapiente illo voluptatibus libero quam consequatur veniam nisi harum, enim voluptas culpa eius quibusdam quis sed in. Tempora alias unde sed, facilis, libero repellendus dolores pariatur nihil impedit nulla eum nam corrupti inventore dignissimos veritatis ea similique delectus incidunt iste modi? Nostrum dicta numquam alias cumque necessitatibus accusantium? Recusandae, saepe quod enim pariatur eveniet placeat at quaerat eos quo, nobis laborum veniam inventore sed natus sequi nisi? Iste atque quia veniam earum tempore corrupti reiciendis excepturi nemo, eligendi quibusdam soluta perferendis, explicabo cupiditate commodi delectus, in maxime? Sint voluptatibus deserunt nobis nostrum accusamus ipsa aliquam necessitatibus dicta, eligendi praesentium sed ratione? Nihil quasi cum impedit vero distinctio. Velit, expedita dignissimos tenetur vel voluptate illo explicabo, voluptas rerum laudantium alias dolores esse ab voluptatibus voluptatem praesentium non odio, nulla ipsa? Perspiciatis ipsam, nemo dolorum veritatis est expedita doloribus facilis molestiae esse accusamus quo ad, repudiandae fugit ea architecto amet consectetur magni voluptas placeat nam, officia atque adipisci? Cum, incidunt sit quae perferendis impedit velit dolorem odit, earum nulla maiores laborum dolores? Itaque aperiam vitae sunt consequuntur quisquam et excepturi magni? Error dignissimos laboriosam ab culpa perspiciatis fugiat laborum veniam suscipit, quia, voluptatibus aliquid a deserunt! Sit voluptate dignissimos quia reiciendis sapiente necessitatibus quod mollitia. Perspiciatis excepturi nam id obcaecati, totam in consectetur repudiandae ex repellat rem recusandae</p>
+
+                                <h3 class="blue my-4">Why do I engage in this project</h3>
+                                <iframe class="my-3" width="100%" height="400px" src="https://www.youtube.com/embed/G5uWIlsUNFk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"/>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi quis ipsam odio cumque quia, ut voluptatem architecto tempore earum aut repellendus, obcaecati eos vel quod natus veritatis sit temporibus sequi amet autem cupiditate fugiat. Saepe omnis debitis, architecto suscipit consectetur, doloribus harum fuga, rem voluptas voluptatem repellendus voluptates at veritatis expedita provident nulla odit nisi sapiente vitae. Nam sunt cupiditate numquam eligendi aspernatur maiores, id quaerat totam praesentium, perferendis voluptatibus nulla natus minima neque, labore nobis. Error quidem placeat quasi fugiat suscipit laborum veritatis? Nihil ipsa, voluptates eveniet vel magnam veritatis neque, reprehenderit doloribus inventore tenetur nesciunt optio voluptatum nobis nisi non animi odit numquam eaque odio quos aut provident pariatur temporibus facilis? Ipsum dolore dolorem, ad provident molestias nulla expedita non, perferendis cumque, quos est! Atque esse modi doloribus quia, doloremque ipsa. Rem non impedit provident id assumenda animi et quae dolores minima ipsum dicta eum accusamus iste autem saepe, quidem neque placeat itaque aspernatur eos deserunt. Modi tempora maxime explicabo, officia neque pariatur voluptatum, itaque facilis praesentium incidunt est doloremque sapiente minus, deleniti cupiditate. Distinctio, adipisci. Similique expedita, ratione corrupti nulla voluptate consequatur sed magnam sint temporibus, ducimus doloribus blanditiis at laboriosam! Laborum commodi corporis eligendi? Dolores, similique.</p>
+
+                                <h5 class="blue mt-4">FOLLOW MY PROJECT ON</h5>
+                                <a href="#">Facebook</a>
+                                <br />
+                                <a href="#">Instagram</a>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <h3 class="blue text-center">IMPACT SO FAR</h3>
+                                <t t-call="crowdfunding_compassion.impact_tile_grey" />
+                                <t t-call="crowdfunding_compassion.impact_tile_blue" />
+                                <h3 class="blue text-center mt-5">NO IMPACT YET</h3>
+                                <t t-call="crowdfunding_compassion.impact_tile_empty" />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </t>
+        </template>
     </data>
 </odoo>
