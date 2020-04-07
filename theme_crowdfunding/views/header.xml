@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <template id="crowdfunding_header" name="Header for Crowdfunding page">
+            <nav class="navbar-brand" aria-label="Pager" role="toolbar"/>
+            <header class="masthead">
+                <div class="container">
+                    <div class="intro-text">
+                        <h1 class="display-1 blue">H1 Display 1 Page title</h1>
+
+                        <h2 class="display-4 pb-4 ">H2 Display subtitle 2 lines : Montserrat 45px solid #005eb8</h2>
+                        <button type="button" class="btn btn-primary btn-lg">my button negative small</button>
+                        <br/>
+                    </div>
+                </div>
+            </header>
+        </template>
+    </data>
+</odoo>
