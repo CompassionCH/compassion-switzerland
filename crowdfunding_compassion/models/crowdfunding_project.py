@@ -51,15 +51,16 @@ class CrowdfundingProject(models.Model):
     @api.model
     def create(self, vals):
         self.event_id = self.env['crm.event.compassion'].create({
-            'name': self.name,
+            'name': vals.get('name'),
             'event_type_id': self.env.ref(
                 "crowdfunding_compassion.event_type_crowdfunding").id,
             'company_id': self.env.user.company_id.id,
             'start_date': datetime.date.today(),
-            'end_date': self.deadline,
+            'end_date': vals.get('deadline'),
             'hold_start_date': datetime.date.today(),
-            'number_allocate_children': self.product_number_goal,
-            'planned_sponsorships': self.number_sponsorships_goal
+            'number_allocate_children': vals.get('product_number_goal'),
+            'planned_sponsorships': vals.get('number_sponsorships_goal'),
+            'type': "tour"  # TODO change that, maybe add an event_type field to model
         })
 
     @api.multi

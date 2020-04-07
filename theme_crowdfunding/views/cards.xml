@@ -53,13 +53,16 @@
                     <div class="row pb-4">
                         <t t-foreach="card_row" t-as="card">
                             <t t-set="project_title">
-                                <t t-esc="card['title']"/>
+<!--                                <t t-esc="card['title']"/>-->
+                                <t t-esc="card.name"/>
                             </t>
                             <t t-set="project_owner">
-                                <t t-esc="card['owner']"/>
+<!--                                <t t-esc="card['owner']"/>-->
+                                <t t-esc="card.project_owner_id.partner_id.name"/>
                             </t>
                             <t t-set="project_collective">
-                                <t t-esc="card['collective']"/>
+<!--                                <t t-esc="card['collective']"/>-->
+                                <t t-esc="card.type"/>
                             </t>
                             <t t-set="project_description">
                                 Phasellus dapibus ipsum eu orci pulvinar, ac convallis
