@@ -48,6 +48,8 @@
         "views/projects_list_page.xml",
         "views/crowdfunding_components.xml",
         # "views/website_view.xml",
+        "views/components.xml",
+        "views/project_page.xml",
     ],
     "installable": True,
     "auto_install": False,

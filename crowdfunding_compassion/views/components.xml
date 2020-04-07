@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Goal progress -->
+        <template id="goal_progress" name="Goal progress">
+            <div class="goal-progress__text-tile">
+                <img src="/theme_crowdfunding/static/src/img/goal_icon.png" alt="Goal icon"/>
+                <div>
+                    <span class="text--bold">15 toilets built</span>
+                    <span class="text--faded">out of 55</span>
+                </div>
+            </div>
+            <div class="goal-progress__bar mb-2">
+                <div class="progress">
+                    <div class="progress-bar bg-compassion" role="progressbar" style="width: 25%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"/>
+                </div>
+                <span class="text--faded">
+                    27%
+                </span>
+            </div>
+        </template>
+
+        <!-- Impact tile -->
+        <template id="impact_tile_grey" name="Impact tile grey">
+            <div class="impact-tile impact-tile--grey">
+                <img class="impact-tile__image" src="/theme_crowdfunding/static/src/img/SURVIVAL-MamaKate-266@2x.jpg" alt="Project owner"/>
+                <span class="text--bold">15 toilets built</span>
+                <span class="text--faded">by Andrea 15 days ago</span>
+            </div>
+        </template>
+
+        <template id="impact_tile_blue" name="Impact tile blue">
+            <div class="impact-tile impact-tile--blue">
+                <img class="impact-tile__image" src="/theme_crowdfunding/static/src/img/SURVIVAL-MamaKate-266@2x.jpg" alt="Project owner"/>
+                <span class="text--bold">15 toilets built</span>
+                <span class="text--faded">by Andrea 15 days ago</span>
+            </div>
+        </template>
+
+        <template id="impact_tile_empty" name="Impact tile empty">
+            <div class="impact-tile--empty">
+                Be the first to show love for this project,
+                <br/>
+                <a href="#">make a donation now</a>
+            </div>
+        </template>
+    </data>
+</odoo>
