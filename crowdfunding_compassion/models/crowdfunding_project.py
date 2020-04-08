@@ -68,6 +68,7 @@ class CrowdfundingProject(models.Model):
     #     })
     #     return res
 
+    # TODO: allow public access to account.invoice.line
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:

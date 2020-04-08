@@ -2,20 +2,32 @@
 <odoo>
     <data>
         <!-- Goal progress -->
+        <!-- [goal_reached], [goal_objective] and [goal_name] must be set before calling this template -->
         <template id="goal_progress" name="Goal progress">
             <div class="goal-progress__text-tile">
                 <img src="/theme_crowdfunding/static/src/img/goal_icon.png" alt="Goal icon"/>
                 <div>
-                    <span class="text--bold">15 toilets built</span>
-                    <span class="text--faded">out of 55</span>
+                    <span class="text--bold">
+                        <t t-esc="goal_reached"/>
+                        <t t-esc="goal_name"/>
+                    </span>
+                    <span class="text--faded">
+                        out of
+                        <t t-esc="goal_objective"/>
+                    </span>
                 </div>
             </div>
             <div class="goal-progress__bar mb-2">
+
+                <!-- Compute goal progress percentage -->
+                <t t-set="progress_percentage" t-value="goal_reached / goal_objective * 100"/>
+
                 <div class="progress">
-                    <div class="progress-bar bg-compassion" role="progressbar" style="width: 25%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"/>
+                    <div class="progress-bar bg-compassion" role="progressbar" t-attf-style="width: {{ progress_percentage }}%" t-att-aria-valuenow="progress_percentage" aria-valuemin="0" aria-valuemax="100"/>
                 </div>
                 <span class="text--faded">
-                    27%
+                    <t t-esc="progress_percentage"/>
+                    %
                 </span>
             </div>
         </template>

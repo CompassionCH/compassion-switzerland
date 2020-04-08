@@ -413,7 +413,9 @@ footer {
   }
 
   &__bar {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    column-gap: 0.5rem;
     align-items: center;
 
     .progress {
