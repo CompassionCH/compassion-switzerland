@@ -113,12 +113,21 @@
                             </div>
                             <div class="col-12 col-lg-4">
 
-                                <!-- TODO: Implement this part when forms are done so it's easier to create data to display -->
-                                <h3 class="blue text-center">IMPACT SO FAR</h3>
-                                <t t-call="crowdfunding_compassion.impact_tile_grey" />
-                                <t t-call="crowdfunding_compassion.impact_tile_blue" />
-                                <h3 class="blue text-center mt-5">NO IMPACT YET</h3>
-                                <t t-call="crowdfunding_compassion.impact_tile_empty" />
+                                <!-- TODO: Test this part when forms are done so it's easier to create data to display -->
+                                <t t-if="impact">
+                                    <h3 class="blue text-center">IMPACT SO FAR</h3>
+
+                                    <t t-foreach="impact" t-as="impact_tile">
+                                        <t t-set="impact_tile" t-value="impact_tile"/>
+                                        <t t-call="crowdfunding_compassion.impact_tile" />
+                                    </t>
+                                </t>
+
+                                <t t-else="">
+                                    <h3 class="blue text-center mt-5">NO IMPACT YET</h3>
+                                    <t t-call="crowdfunding_compassion.impact_tile_empty" />
+                                </t>
+
                             </div>
                         </div>
                     </div>

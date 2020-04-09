@@ -33,21 +33,20 @@
         </template>
 
         <!-- Impact tile -->
-        <template id="impact_tile_grey" name="Impact tile grey">
-            <div class="impact-tile impact-tile--grey">
-                <img class="impact-tile__image" src="/theme_crowdfunding/static/src/img/SURVIVAL-MamaKate-266@2x.jpg" alt="Project owner"/>
-                <span class="text--bold">15 toilets built</span>
-                <span class="text--faded">by Andrea 15 days ago</span>
+        <template id="impact_tile" name="Impact tile">
+            <div t-attf-class="impact-tile impact-tile{{ impact_tile.type == 'donation' ? '--grey' : '--blue'">
+                <img class="impact-tile__image" t-att-src="impact_tile.image" alt="Impact image"/>
+                <span class="text--bold">
+                    <t t-esc="impact_tile.text"/>
+                </span>
+                <span class="text--faded">
+                    by
+                    <t t-esc="impact_tile.benefactor"/>
+                    <t t-esc="impact_tile.time_ago"/>
+                </span>
             </div>
         </template>
 
-        <template id="impact_tile_blue" name="Impact tile blue">
-            <div class="impact-tile impact-tile--blue">
-                <img class="impact-tile__image" src="/theme_crowdfunding/static/src/img/SURVIVAL-MamaKate-266@2x.jpg" alt="Project owner"/>
-                <span class="text--bold">15 toilets built</span>
-                <span class="text--faded">by Andrea 15 days ago</span>
-            </div>
-        </template>
 
         <template id="impact_tile_empty" name="Impact tile empty">
             <div class="impact-tile--empty">
