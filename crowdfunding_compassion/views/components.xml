@@ -32,9 +32,37 @@
             </div>
         </template>
 
+        <!-- Participant card -->
+        <!-- Individual [participant] model must be set before calling this template -->
+        <template id="participant_card" name="Participant card">
+            <div class="card participants__card">
+                <img class="participants__image" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Participant image"/>
+                <div class="participants__content">
+                    <h4 class="participants__name">
+                        <t t-esc="participant.partner_id.name"/>
+                    </h4>
+
+                    <!-- Setup data and display the fund progress -->
+                    <t t-set="goal_name" t-value="'toilets built'"/>
+                    <t t-set="goal_reached" t-value="participant.product_number_reached"/>
+                    <t t-set="goal_objective" t-value="participant.product_number_goal"/>
+                    <t t-call="crowdfunding_compassion.goal_progress"/>
+
+                    <!-- Setup data and display the sponsorship progress -->
+                    <t t-set="goal_name" t-value="'sponsored children'"/>
+                    <t t-set="goal_reached" t-value="participant.number_sponsorships_reached"/>
+                    <t t-set="goal_objective" t-value="participant.number_sponsorships_goal"/>
+                    <t t-call="crowdfunding_compassion.goal_progress"/>
+                </div>
+
+
+            </div>
+        </template>
+
         <!-- Impact tile -->
+        <!-- Individual [impact_tile] data must be set before calling this template -->
         <template id="impact_tile" name="Impact tile">
-            <div t-attf-class="impact-tile impact-tile{{ impact_tile.type == 'donation' ? '--grey' : '--blue'">
+            <div t-attf-class="impact-tile impact-tile--{{ impact_tile.color }}">
                 <img class="impact-tile__image" t-att-src="impact_tile.image" alt="Impact image"/>
                 <span class="text--bold">
                     <t t-esc="impact_tile.text"/>

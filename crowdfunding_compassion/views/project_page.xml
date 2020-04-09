@@ -59,6 +59,7 @@
                 <section class="project-content">
                     <div class="container">
                         <div class="row">
+                            <!-- Main content -->
                             <div class="col-12 col-lg-8 mb-5">
                                 <div class="project-content__owner mb-4">
                                     <!-- TODO: Link to uploaded binary once creation form is available -->
@@ -112,6 +113,10 @@
                                     <br/>
                                 </t>
                             </div>
+
+
+
+                            <!-- Side content -->
                             <div class="col-12 col-lg-4">
 
                                 <!-- TODO: Test this part when forms are done so it's easier to create data to display -->
@@ -119,7 +124,6 @@
                                     <h3 class="blue text-center">IMPACT SO FAR</h3>
 
                                     <t t-foreach="impact" t-as="impact_tile">
-                                        <t t-set="impact_tile" t-value="impact_tile"/>
                                         <t t-call="crowdfunding_compassion.impact_tile" />
                                     </t>
                                 </t>
@@ -131,6 +135,18 @@
 
                             </div>
                         </div>
+
+                        <!-- Participants -->
+                        <t t-if="project.type == 'collective'">
+                            <div class="my-5">
+                                <h2 class="blue text-center mb-5">Participants</h2>
+                                <div class="participants">
+                                    <t t-foreach="project.participant_ids" t-as="participant">
+                                        <t t-call="crowdfunding_compassion.participant_card"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
                     </div>
                 </section>
 

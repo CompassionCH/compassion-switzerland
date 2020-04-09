@@ -484,6 +484,33 @@ footer {
   }
 }
 
+.participants {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  column-gap: 3rem;
+  row-gap: 3rem;
+
+  &__card {
+    border: 1px solid $gray-400;
+  }
+
+  &__image {
+    height: 10rem;
+    object-fit: cover;
+  }
+
+  &__name {
+    color: $blue-compassion;
+    margin: 1rem 0;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  &__content {
+    padding: 1rem;
+  }
+}
+
 // Global styles
 .text {
   &--bold {
