@@ -26,8 +26,7 @@
 
                                         <!-- Setup data and display the fund progress -->
                                         <t t-set="goal_name" t-value="'toilets built'"/>
-                                        <!-- TODO: replace by `product_number_goal` when method is fixed` -->
-                                        <t t-set="goal_reached" t-value="30"/>
+                                        <t t-set="goal_reached" t-value="project.product_number_reached"/>
                                         <t t-set="goal_objective" t-value="project.product_number_goal"/>
                                         <t t-call="crowdfunding_compassion.goal_progress"/>
 
@@ -66,7 +65,9 @@
                                     <img class="profile-pic" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Project owner"/>
 
                                     <!-- TODO: Allow public access to partner name -->
-                                    <h5>Project owner and last name</h5>
+                                    <h5>
+                                        <t t-esc="project.project_owner_id.partner_id.name" />
+                                    </h5>
                                 </div>
 
                                 <!-- Project description and video -->
