@@ -4,7 +4,7 @@
             <t t-call="website.layout">
                 <t t-call="theme_crowdfunding.crowdfunding_navbar"/>
 
-                <div id="title">
+                <div id="title" class="text-center">
                     <br/>
                     <t t-set="img_path" t-value="'/theme_crowdfunding/static/src/img/DSC-16.jpg'"/>
                     <t t-call="theme_crowdfunding.crowdfunding_rounded_image"/>
@@ -37,17 +37,11 @@
                     </div>
                     <div class="form-group center">
                         <label for="input_project_description">Project Description</label>
-                        <small id="nameHelp" class="form-text text-muted">
-                            Description of the aim of the project
-                        </small>
-                        <textarea class="form-control" id="project_description" rows="3"/>
+                        <textarea class="form-control" id="project_description" placeholder="Description of the aim of the project" rows="3"/>
                     </div>
                     <div class="form-group center">
                         <label for="input_motivation">Personal Motivation</label>
-                        <small id="nameHelp" class="form-text text-muted">
-                            Your personal motivation to create this project and finish it
-                        </small>
-                        <textarea class="form-control" id="input_motivation" rows="3"/>
+                        <textarea class="form-control" id="input_motivation" placeholder="Your personal motivation to create this project and finish it" rows="3"/>
                     </div>
                     <div class="form-group center">
                         <label for="input_fundraising_duration">Fundraising Duration</label>
@@ -68,23 +62,20 @@
                         <small id="nameHelp" class="form-text text-muted">
                             Paste any video link that showcase your project
                         </small>
-                        <input class="form-control" id="input_video_presentation"/>
+                        <input class="form-control" id="input_video_presentation" placeholder="Paste here the full video link ie: https://www.youtube.com/watch?v=oHg5SJYRHA0"/>
                     </div>
                     <div class="form-group center">
                         <small id="nameHelp" class="form-text text-muted">
                             If you have any social account or page, please link them here
                         </small>
-                        <label for="input_facebook_profile">Facebook page</label>
-                        <input class="form-control" id="input_facebook_profile"/>
+                        <label for="input_facebook_profile">Social medias</label>
+                        <input class="form-control" id="input_facebook_profile" placeholder="Facebook full URL or page"/>
 
-                        <label for="input_twitter_profile">Twitter profile</label>
-                        <input class="form-control" id="input_twitter_profile"/>
+                        <input class="form-control" id="input_twitter_profile" placeholder="Twitter account"/>
 
-                        <label for="input_instagram_profile">Instagram profile</label>
-                        <input class="form-control" id="input_instagram_profile"/>
+                        <input class="form-control" id="input_instagram_profile" placeholder="Instagram account"/>
 
-                        <label for="input_blog_page">Website or blog page</label>
-                        <input class="form-control" id="input_blog_page"/>
+                        <input class="form-control" id="input_blog_page" placeholder="your web page or blog link"/>
                     </div>
 
                     <div class="form-group center">
