@@ -7,20 +7,16 @@
 #
 ##############################################################################
 
-from odoo import models, tools
+from odoo import models
 
-testing = tools.config.get("test_enable")
 
-if not testing:
-    # prevent these forms to be registered when running tests
+class PartnerMatchform(models.AbstractModel):
+    _inherit = "cms.form.match.partner"
 
-    class PartnerMatchform(models.AbstractModel):
-        _inherit = "cms.form.match.partner"
-
-        def form_before_create_or_update(self, values, extra_values):
-            """
-            Avoid updating partner at GMC, use context to prevent this.
-            """
-            super(
-                PartnerMatchform, self.with_context(no_upsert=True)
-            ).form_before_create_or_update(values, extra_values)
+    def form_before_create_or_update(self, values, extra_values):
+        """
+        Avoid updating partner at GMC, use context to prevent this.
+        """
+        super(
+            PartnerMatchform, self.with_context(no_upsert=True)
+        ).form_before_create_or_update(values, extra_values)

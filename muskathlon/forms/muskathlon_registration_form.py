@@ -6,284 +6,279 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, tools, _
+from odoo import models, fields, _
 from odoo.tools import file_open
 
-testing = tools.config.get("test_enable")
 
+class MuskathlonRegistrationForm(models.AbstractModel):
+    _name = "cms.form.event.registration.muskathlon"
+    _inherit = ["cms.form.match.partner"]
 
-if not testing:
-    # prevent these forms to be registered when running tests
+    # The form is inside a Muskathlon details page
+    form_buttons_template = "cms_form_compassion.modal_form_buttons"
+    form_id = "modal_muskathlon_registration"
+    _form_model = "event.registration"
+    _form_required_fields = [
+        "ambassador_picture_1",
+        "ambassador_quote",
+        "sport_level",
+        "sport_level_description",
+        "gtc_accept",
+        "t_shirt_size",
+        "t_shirt_type",
+        "passport_number",
+        "passport_expiration_date",
+        "emergency_name",
+        "emergency_relation_type",
+        "emergency_phone",
+        "birth_name",
+        "partner_birthdate",
+    ]
+    _payment_success_redirect = "/muskathlon_registration/payment/validate"
 
-    class MuskathlonRegistrationForm(models.AbstractModel):
-        _name = "cms.form.event.registration.muskathlon"
-        _inherit = ["cms.form.match.partner"]
+    invoice_id = fields.Many2one("account.invoice", readonly=False)
+    ambassador_picture_1 = fields.Binary("Profile picture")
+    ambassador_quote = fields.Text(
+        "My motto",
+        default="",
+        help="Write a small quote that will appear on your profile page "
+             "and will be used in thank you letters your donors will "
+             "receive.",
+    )
 
-        # The form is inside a Muskathlon details page
-        form_buttons_template = "cms_form_compassion.modal_form_buttons"
-        form_id = "modal_muskathlon_registration"
-        _form_model = "event.registration"
-        _form_required_fields = [
-            "ambassador_picture_1",
-            "ambassador_quote",
-            "sport_level",
-            "sport_level_description",
-            "gtc_accept",
-            "t_shirt_size",
-            "t_shirt_type",
-            "passport_number",
-            "passport_expiration_date",
-            "emergency_name",
-            "emergency_relation_type",
-            "emergency_phone",
-            "birth_name",
-            "partner_birthdate",
+    t_shirt_size = fields.Selection(
+        [("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL"), ("XXL", "XXL")]
+    )
+    t_shirt_type = fields.Selection(
+        [("shirt", "Shirt"), ("bikeshirt", "Bikeshirt"), ]
+    )
+    gtc_accept = fields.Boolean("Terms and conditions", required=True)
+    birth_name = fields.Char(
+        "Passport name", help="Your name as printed on your passport"
+    )
+    emergency_name = fields.Char(
+        help="Please indicate a contact in case of emergency " "during the trip."
+    )
+    muskathlon_sponsor = fields.Char(
+        "Firstname and lastname of the participant",
+        help="(Optionnal) I registered thanks to this participant",
+    )
+
+    @property
+    def discipline_ids(self):
+        return self.event_id.sport_discipline_ids.ids
+
+    @property
+    def _form_fieldsets(self):
+        fieldset = [
+            {
+                "id": "sport",
+                "title": _("Your sport profile"),
+                "description": "",
+                "fields": [
+                    "ambassador_picture_1",
+                    "sport_discipline_id",
+                    "sport_level",
+                    "sport_level_description",
+                    "ambassador_quote",
+                    "t_shirt_size",
+                    "t_shirt_type",
+                    "event_id",
+                ],
+            },
+            {
+                "id": "sponsor_referral",
+                "title": _("Sponsor of my participation"),
+                "description": "",
+                "fields": ["muskathlon_sponsor"],
+            },
+            {
+                "id": "partner",
+                "title": _("Your coordinates"),
+                "description": "",
+                "fields": [
+                    "partner_title",
+                    "partner_firstname",
+                    "partner_lastname",
+                    "partner_email",
+                    "partner_birthdate",
+                    "partner_phone",
+                    "partner_street",
+                    "partner_zip",
+                    "partner_city",
+                    "partner_country_id",
+                ],
+            },
+            {
+                "id": "trip",
+                "title": _("Information for the trip"),
+                "fields": [
+                    "birth_name",
+                    "passport_number",
+                    "passport_expiration_date",
+                    "emergency_name",
+                    "emergency_relation_type",
+                    "emergency_phone",
+                ],
+            },
+            {"id": "gtc", "fields": ["gtc_accept"]},
         ]
-        _payment_accept_redirect = "/muskathlon_registration/payment/validate"
+        return fieldset
 
-        invoice_id = fields.Many2one("account.invoice", readonly=False)
-        ambassador_picture_1 = fields.Binary("Profile picture")
-        ambassador_quote = fields.Text(
-            "My motto",
-            default="",
-            help="Write a small quote that will appear on your profile page "
-                 "and will be used in thank you letters your donors will "
-                 "receive.",
+    @property
+    def form_widgets(self):
+        # Hide fields
+        res = super(MuskathlonRegistrationForm, self).form_widgets
+        res.update(
+            {
+                "event_id": "cms_form_compassion.form.widget.hidden",
+                "ambassador_picture_1":
+                    "cms_form_compassion.form.widget.simple.image",
+                "gtc_accept": "cms_form_compassion.form.widget.terms",
+                "partner_birthdate": "cms.form.widget.date.ch",
+                "passport_expiration_date": "cms.form.widget.date.ch",
+            }
         )
+        return res
 
-        t_shirt_size = fields.Selection(
-            [("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL"), ("XXL", "XXL")]
-        )
-        t_shirt_type = fields.Selection(
-            [("shirt", "Shirt"), ("bikeshirt", "Bikeshirt"), ]
-        )
-        gtc_accept = fields.Boolean("Terms and conditions", required=True)
-        birth_name = fields.Char(
-            "Passport name", help="Your name as printed on your passport"
-        )
-        emergency_name = fields.Char(
-            help="Please indicate a contact in case of emergency " "during the trip."
-        )
-        muskathlon_sponsor = fields.Char(
-            "Firstname and lastname of the participant",
-            help="(Optionnal) I registered thanks to this participant",
-        )
+    @property
+    def form_title(self):
+        if self.event_id:
+            return _("Registration for ") + self.event_id.name
+        else:
+            return _("New registration")
 
-        @property
-        def discipline_ids(self):
-            return self.event_id.sport_discipline_ids.ids
+    @property
+    def submit_text(self):
+        return _("Register now")
 
-        @property
-        def _form_fieldsets(self):
-            fieldset = [
-                {
-                    "id": "sport",
-                    "title": _("Your sport profile"),
-                    "description": "",
-                    "fields": [
-                        "ambassador_picture_1",
-                        "sport_discipline_id",
-                        "sport_level",
-                        "sport_level_description",
-                        "ambassador_quote",
-                        "t_shirt_size",
-                        "t_shirt_type",
-                        "event_id",
-                    ],
-                },
-                {
-                    "id": "sponsor_referral",
-                    "title": _("Sponsor of my participation"),
-                    "description": "",
-                    "fields": ["muskathlon_sponsor"],
-                },
-                {
-                    "id": "partner",
-                    "title": _("Your coordinates"),
-                    "description": "",
-                    "fields": [
-                        "partner_title",
-                        "partner_firstname",
-                        "partner_lastname",
-                        "partner_email",
-                        "partner_birthdate",
-                        "partner_phone",
-                        "partner_street",
-                        "partner_zip",
-                        "partner_city",
-                        "partner_country_id",
-                    ],
-                },
-                {
-                    "id": "trip",
-                    "title": _("Information for the trip"),
-                    "fields": [
-                        "birth_name",
-                        "passport_number",
-                        "passport_expiration_date",
-                        "emergency_name",
-                        "emergency_relation_type",
-                        "emergency_phone",
-                    ],
-                },
-                {"id": "gtc", "fields": ["gtc_accept"]},
-            ]
-            return fieldset
-
-        @property
-        def form_widgets(self):
-            # Hide fields
-            res = super(MuskathlonRegistrationForm, self).form_widgets
-            res.update(
-                {
-                    "event_id": "cms_form_compassion.form.widget.hidden",
-                    "ambassador_picture_1":
-                        "cms_form_compassion.form.widget.simple.image",
-                    "gtc_accept": "cms_form_compassion.form.widget.terms",
-                    "partner_birthdate": "cms.form.widget.date.ch",
-                    "passport_expiration_date": "cms.form.widget.date.ch",
-                }
+    @property
+    def gtc(self):
+        html_file = file_open(
+            "muskathlon/static/src/html/muskathlon_gtc_{}.html".format(
+                self.env.lang
             )
-            return res
+        )
+        text = html_file.read()
+        html_file.close()
+        statement = (
+            self.env["compassion.privacy.statement"].sudo().search([], limit=1)
+        )
+        return text + "<br/>" + (statement.text or "")
 
-        @property
-        def form_title(self):
-            if self.event_id:
-                return _("Registration for ") + self.event_id.name
-            else:
-                return _("New registration")
+    def form_init(self, request, main_object=None, **kw):
+        form = super(MuskathlonRegistrationForm, self).form_init(
+            request, main_object, **kw
+        )
+        # Set default values
+        form.event_id = kw.get("event").sudo().odoo_event_id
+        return form
 
-        @property
-        def submit_text(self):
-            return _("Register now")
-
-        @property
-        def gtc(self):
-            html_file = file_open(
-                "muskathlon/static/src/html/muskathlon_gtc_{}.html".format(
-                    self.env.lang
-                )
-            )
-            text = html_file.read()
-            html_file.close()
-            statement = (
-                self.env["compassion.privacy.statement"].sudo().search([], limit=1)
-            )
-            return text + "<br/>" + (statement.text or "")
-
-        def form_init(self, request, main_object=None, **kw):
-            form = super(MuskathlonRegistrationForm, self).form_init(
-                request, main_object, **kw
-            )
-            # Set default values
-            form.event_id = kw.get("event").sudo().odoo_event_id
-            return form
-
-        def form_get_request_values(self):
-            """ Save uploaded picture in storage to reload it in case of
-            validation error (to avoid the user to have to re-upload it). """
-            values = super(MuskathlonRegistrationForm, self).form_get_request_values()
-            fname = "ambassador_picture_1"
-            image = values.get(fname)
-            form_fields = self.form_fields()
-            image_widget = form_fields[fname]["widget"]
+    def form_get_request_values(self):
+        """ Save uploaded picture in storage to reload it in case of
+        validation error (to avoid the user to have to re-upload it). """
+        values = super(MuskathlonRegistrationForm, self).form_get_request_values()
+        fname = "ambassador_picture_1"
+        image = values.get(fname)
+        form_fields = self.form_fields()
+        image_widget = form_fields[fname]["widget"]
+        if image:
+            image_data = image_widget.form_to_binary(image, **values)
+            # Reset buffer image
+            if hasattr(image, "seek"):
+                image.seek(0)
+            if image_data:
+                self.request.session[fname] = image_data
+        else:
+            image = self.request.session.get(fname)
             if image:
-                image_data = image_widget.form_to_binary(image)
-                # Reset buffer image
-                if hasattr(image, "seek"):
-                    image.seek(0)
-                if image_data:
-                    self.request.session[fname] = image_data
-            else:
-                image = self.request.session.get(fname)
-                if image:
-                    values[fname] = image
-            return values
+                values[fname] = image
+        return values
 
-        def _form_load_sport_level_description(self, fname, field, value, **req_values):
-            # Default value for event.registration field
-            return req_values.get("sport_level_description", "")
+    def _form_load_sport_level_description(self, fname, field, value, **req_values):
+        # Default value for event.registration field
+        return req_values.get("sport_level_description", "")
 
-        def _form_load_event_id(self, fname, field, value, **req_values):
-            # Default value for event.registration field
-            return int(req_values.get("event_id", self.event_id.id))
+    def _form_load_event_id(self, fname, field, value, **req_values):
+        # Default value for event.registration field
+        return int(req_values.get("event_id", self.event_id.id))
 
-        def form_before_create_or_update(self, values, extra_values):
-            """
-            Create ambassador details.
-            """
-            super(MuskathlonRegistrationForm, self).form_before_create_or_update(
-                values, extra_values
-            )
-            uid = self.env.ref("muskathlon.user_muskathlon_portal").id
-            partner = (
-                self.env["res.partner"].sudo().browse(values.get("partner_id")).exists()
-            )
-            event = self.event_id.sudo()
-            sporty = self.env.ref("partner_compassion.engagement_sport")
-            if partner.advocate_details_id:
-                partner.advocate_details_id.write(
-                    {
-                        "engagement_ids": [(4, sporty.id)],
-                        "t_shirt_size": values.get("t_shirt_size"),
-                        "mail_copy_when_donation": True,
-                    }
-                )
-            else:
-                self.env["advocate.details"].sudo(uid).create(
-                    {
-                        "partner_id": partner.id,
-                        "advocacy_source": "Online Muskathlon registration",
-                        "engagement_ids": [(4, sporty.id)],
-                        "t_shirt_size": values.get("t_shirt_size"),
-                        "mail_copy_when_donation": True,
-                    }
-                )
-            # Convert the name for event registration
-            values["name"] = values.pop("partner_lastname", "")
-            values["name"] += " " + values.pop("partner_firstname")
-            # Parse integer
-            values["event_id"] = int(values["event_id"])
-            values["user_id"] = event.user_id.id
-            values["stage_id"] = self.env.ref("muskathlon.stage_fill_profile").id
-            self.event_id = event
-
-        def _form_create(self, values):
-            uid = self.env.ref("muskathlon.user_muskathlon_portal").id
-            # If notification is sent in same job, the form is reloaded
-            # and all values are lost.
-            values.pop("failed_message_ids")
-            main_object = (
-                self.form_model.sudo(uid)
-                    .with_context(tracking_disable=True, registration_force_draft=True)
-                    .create(values.copy())
-            )
-            main_object.with_delay().notify_new_registration()
-            self.main_object = main_object
-
-        def form_after_create_or_update(self, values, extra_values):
-            """ Mark the privacy statement as accepted.
-            """
-            super(MuskathlonRegistrationForm, self).form_after_create_or_update(
-                values, extra_values
-            )
-            partner = (
-                self.env["res.partner"].sudo().browse(values.get("partner_id")).exists()
-            )
-            partner.set_privacy_statement(origin="muskathlon_reg")
-            self.main_object.confirm_registration()
-
-        def form_next_url(self, main_object=None):
-            # Clean storage of picture
-            self.request.session.pop("ambassador_picture_1", False)
-            return "/muskathlon_registration/{}/success".format(self.main_object.id)
-
-        def _edit_transaction_values(self, tx_values, form_vals):
-            """ Add registration link and change reference. """
-            tx_values.update(
+    def form_before_create_or_update(self, values, extra_values):
+        """
+        Create ambassador details.
+        """
+        super(MuskathlonRegistrationForm, self).form_before_create_or_update(
+            values, extra_values
+        )
+        uid = self.env.ref("muskathlon.user_muskathlon_portal").id
+        partner = (
+            self.env["res.partner"].sudo().browse(values.get("partner_id")).exists()
+        )
+        event = self.event_id.sudo()
+        sporty = self.env.ref("partner_compassion.engagement_sport")
+        if partner.advocate_details_id:
+            partner.advocate_details_id.write(
                 {
-                    "registration_id": self.main_object.id,
-                    "reference": "MUSK-REG-" + str(self.main_object.id),
-                    "invoice_id": form_vals["invoice_id"],
+                    "engagement_ids": [(4, sporty.id)],
+                    "t_shirt_size": values.get("t_shirt_size"),
+                    "mail_copy_when_donation": True,
                 }
             )
+        else:
+            self.env["advocate.details"].sudo(uid).create(
+                {
+                    "partner_id": partner.id,
+                    "advocacy_source": "Online Muskathlon registration",
+                    "engagement_ids": [(4, sporty.id)],
+                    "t_shirt_size": values.get("t_shirt_size"),
+                    "mail_copy_when_donation": True,
+                }
+            )
+        # Convert the name for event registration
+        values["name"] = values.pop("partner_lastname", "")
+        values["name"] += " " + values.pop("partner_firstname")
+        # Parse integer
+        values["event_id"] = int(values["event_id"])
+        values["user_id"] = event.user_id.id
+        values["stage_id"] = self.env.ref("muskathlon.stage_fill_profile").id
+        self.event_id = event
+
+    def _form_create(self, values):
+        uid = self.env.ref("muskathlon.user_muskathlon_portal").id
+        # If notification is sent in same job, the form is reloaded
+        # and all values are lost.
+        values.pop("failed_message_ids")
+        main_object = (
+            self.form_model.sudo(uid)
+                .with_context(tracking_disable=True, registration_force_draft=True)
+                .create(values.copy())
+        )
+        main_object.with_delay().notify_new_registration()
+        self.main_object = main_object
+
+    def form_after_create_or_update(self, values, extra_values):
+        """ Mark the privacy statement as accepted.
+        """
+        super(MuskathlonRegistrationForm, self).form_after_create_or_update(
+            values, extra_values
+        )
+        partner = (
+            self.env["res.partner"].sudo().browse(values.get("partner_id")).exists()
+        )
+        partner.set_privacy_statement(origin="muskathlon_reg")
+        self.main_object.sudo().confirm_registration()
+
+    def form_next_url(self, main_object=None):
+        # Clean storage of picture
+        self.request.session.pop("ambassador_picture_1", False)
+        return "/muskathlon_registration/{}/success".format(self.main_object.id)
+
+    def _edit_transaction_values(self, tx_values, form_vals):
+        """ Add registration link and change reference. """
+        tx_values.update(
+            {
+                "registration_id": self.main_object.id,
+                "reference": "MUSK-REG-" + str(self.main_object.id),
+                "invoice_id": form_vals["invoice_id"],
+            }
+        )
