@@ -8,6 +8,7 @@
             <field name="image" type="base64" file="payment_ogone_compassion/static/src/img/postfinance.jpg"/>
             <field name="view_template_id" ref="payment_ogone.ogone_form"/>
             <field name="registration_view_template_id" ref="payment_ogone.ogone_s2s_form"/>
+            <field name="journal_id" search="[('code', '=', 'WEB')]"/>
             <field name="environment">test</field>
             <field name="pre_msg"><![CDATA[
 <p>You will be redirected to Postfinance after clicking on the payment button.</p>]]></field>

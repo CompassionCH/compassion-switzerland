@@ -1,2 +1,1 @@
-Light extension of the OCA module 'payment_ogone' with value and function
-specific for Compassion Switzerland
+Adds Postfinance as payment acquirer with needed configuration

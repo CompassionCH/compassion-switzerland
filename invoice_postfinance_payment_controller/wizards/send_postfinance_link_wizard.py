@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import re
 
 from odoo import api, models, fields
 
@@ -31,10 +32,10 @@ class SendPostfinanceLinkWizard(models.TransientModel):
         compute="_compute_state",
     )
     origin = fields.Char(compute="_compute_origin", inverse="_inverse_origin")
-    accept_url = fields.Char(
+    success_url = fields.Char(
         help="Optional link for redirection after payment is successful"
     )
-    decline_url = fields.Char(
+    error_url = fields.Char(
         help="Optional link for redirection after payment is declined"
     )
 
@@ -77,11 +78,8 @@ class SendPostfinanceLinkWizard(models.TransientModel):
         if self.state == "multi":
             self._merge_invoices()
         self.invoice_ids.ensure_one()
-        self.invoice_ids.write(
-            {"accept_url": self.accept_url, "decline_url": self.decline_url}
-        )
         config_id = self.env.ref(
-            "invoice_postfinance_payment_controller" ".invoice_online_payment_config"
+            "invoice_postfinance_payment_controller.invoice_online_payment_config"
         ).id
         communication = self.env["partner.communication.job"].create(
             {
@@ -90,6 +88,11 @@ class SendPostfinanceLinkWizard(models.TransientModel):
                 "object_ids": self.invoice_ids.id,
             }
         )
+        # Inject success_url and error_url inside the communication
+        new_link = f"/compassion/payment/invoice/{self.invoice_ids.id}?success_url=" \
+                   f"{self.success_url or ''}&error_url={self.error_url or ''}"
+        link_pattern = re.compile(r"/compassion/payment/invoice/\d+")
+        communication.body_html = link_pattern.sub(new_link, communication.body_html)
         return {
             "type": "ir.actions.act_window",
             "view_type": "form",

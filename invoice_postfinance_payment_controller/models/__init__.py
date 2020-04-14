@@ -7,7 +7,4 @@
 #
 ##############################################################################
 
-from . import payment_transaction
-from . import account_invoice
-
 # from . import partner_communication

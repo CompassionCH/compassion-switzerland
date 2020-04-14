@@ -686,6 +686,7 @@ class Event(models.Model):
         return True
 
     def prepare_down_payment(self):
+        self.ensure_one()
         if not self.event_ticket_id:
             return
 
@@ -695,11 +696,10 @@ class Event(models.Model):
                 .sudo()
                 .search([("name", "=", "BVR")], limit=1)
         )
-        self.ensure_one()
         event = self.compassion_event_id
         product = self.event_ticket_id.product_id
         name = f"[{event.name}] Down payment"
-        invoice = self.env["account.invoice"].create(
+        self.down_payment_id = self.env["account.invoice"].create(
             {
                 "origin": name,
                 "partner_id": self.partner_id.id,
@@ -722,11 +722,9 @@ class Event(models.Model):
                 "payment_mode_id": mode_pay_bvr.id,
             }
         )
-        if self.partner_id.state == "active":
-            invoice.action_invoice_open()
-        self.down_payment_id = invoice
 
     def prepare_group_visit_payment(self):
+        self.ensure_one()
         if not self.event_id.event_ticket_ids:
             return
 
@@ -736,7 +734,6 @@ class Event(models.Model):
                 .sudo()
                 .search([("name", "=", "BVR")], limit=1)
         )
-        self.ensure_one()
         event = self.compassion_event_id
         invl_vals = []
         tickets = self.event_id.event_ticket_ids
@@ -792,7 +789,7 @@ class Event(models.Model):
             }
         )
         name = f"[{event.name}] Trip payment"
-        invoice = self.env["account.invoice"].create(
+        self.group_visit_invoice_id = self.env["account.invoice"].create(
             {
                 "origin": name,
                 "partner_id": self.partner_id.id,
@@ -802,9 +799,6 @@ class Event(models.Model):
                 "payment_mode_id": mode_pay_bvr.id,
             }
         )
-        if self.partner_id.state == "active":
-            invoice.action_invoice_open()
-        self.group_visit_invoice_id = invoice
 
     def prepare_medical_survey(self):
         # Attach medical survey for user

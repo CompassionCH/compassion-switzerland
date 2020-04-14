@@ -14,14 +14,14 @@ import werkzeug
 from odoo import http, _, fields
 from odoo.http import request
 
-from odoo.addons.payment.models.payment_acquirer import ValidationError
 from odoo.addons.cms_form_compassion.tools import validity_checker
+from odoo.addons.cms_form.controllers.main import FormControllerMixin
 from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController,
 )
 
 
-class EventsController(PaymentFormController):
+class EventsController(PaymentFormController, FormControllerMixin):
     @http.route("/events/", auth="public", website=True)
     def list(self, **kwargs):
         today = fields.Date.to_string(datetime.today())
@@ -210,42 +210,42 @@ class EventsController(PaymentFormController):
     ########################################
     # Methods for after donation redirection
     ########################################
-    @http.route("/event/payment/validate", type="http", auth="public", website=True)
-    def donation_payment_validate(self, **post):
+    @http.route("/event/payment/validate/<int:invoice_id>",
+                type="http", auth="public", website=True)
+    def donation_payment_validate(self, invoice_id=None, **kwargs):
         """ Method that should be called by the server when receiving an update
         for a transaction.
         """
-        failure_template = "website_event_compassion.donation_failure"
         try:
-            tx = (
-                request.env["payment.transaction"]
-                .sudo()
-                ._ogone_form_get_tx_from_data(post)
-            )
-        except ValidationError:
-            tx = None
+            invoice = request.env["account.invoice"].browse(int(invoice_id))
+            invoice.exists().ensure_one()
+            transaction = invoice.get_portal_last_transaction()
+        except ValueError:
+            transaction = request.env["payment.transaction"]
 
-        if not tx or not tx.invoice_id:
-            return request.render(failure_template, {"error_intro": ""})
+        if transaction.state != "done":
+            # Cancel potential registration(avoid launching jobs at the same
+            # time, can cause rollbacks)
+            delay = datetime.today() + timedelta(seconds=10)
+            transaction.registration_id.with_delay(eta=delay).cancel_registration()
+            return request.render(
+                "website_event_compassion.donation_failure", {"error_intro": ""})
 
-        invoice_lines = tx.invoice_id.invoice_line_ids
+        invoice_lines = invoice.invoice_line_ids
         event = invoice_lines.mapped("event_id")
         ambassador = invoice_lines.mapped("user_id")
         registration = event.registration_ids.filtered(
             lambda r: r.partner_id == ambassador
         )
-        post.update(
-            {"registration": registration, "event": event, "error_intro": "", }
-        )
+        values = {"registration": registration, "event": event, "error_intro": ""}
         success_template = self.get_donation_success_template(event)
-        return self.compassion_payment_validate(
-            tx, success_template, failure_template, **post
-        )
+        return request.render(success_template, values)
 
     @http.route(
-        "/event/payment/gpv_payment_validate", type="http", auth="public", website=True
+        "/event/payment/gpv_payment_validate/<int:invoice_id>", type="http",
+        auth="public", website=True
     )
-    def down_payment_validate(self, **post):
+    def down_payment_validate(self, invoice_id=None, **post):
         """ Method that should be called by the server when receiving an update
         for a transaction.
         """
@@ -254,19 +254,16 @@ class EventsController(PaymentFormController):
             "Thank you for your efforts in the Compassion trip registration " "process."
         )
         try:
-            tx = (
-                request.env["payment.transaction"]
-                .sudo()
-                ._ogone_form_get_tx_from_data(post)
-            )
-        except ValidationError:
-            tx = None
+            invoice = request.env["account.invoice"].browse(int(invoice_id))
+            invoice.exists().ensure_one()
+            tx = invoice.get_portal_last_transaction()
+        except ValueError:
+            tx = request.env["payment.transaction"]
 
-        if not tx or not tx.invoice_id:
+        if tx.state != "done":
             return request.render(failure_template, {"error_intro": error_intro})
 
-        invoice = tx.invoice_id
-        invoice_lines = tx.invoice_id.invoice_line_ids
+        invoice_lines = invoice.invoice_line_ids
         event = invoice_lines.mapped("event_id")
         registration = tx.registration_id
         post.update(
@@ -308,15 +305,3 @@ class EventsController(PaymentFormController):
         :return: xml_id of website template
         """
         return "website_event_compassion.donation_successful"
-
-    def compassion_payment_validate(
-            self, transaction, success_template, fail_template, **kwargs
-    ):
-        if transaction.state in ("cancel", "error"):
-            # Cancel potential registration(avoid launching jobs at the same
-            # time, can cause rollbacks)
-            delay = datetime.today() + timedelta(seconds=10)
-            transaction.registration_id.with_delay(eta=delay).cancel_registration()
-        return super().compassion_payment_validate(
-            transaction, success_template, fail_template, **kwargs
-        )
