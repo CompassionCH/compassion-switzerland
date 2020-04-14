@@ -142,9 +142,17 @@ class Contracts(models.Model):
             if utm_source == 'wrpr':
                 # Special case Write&Pray sponsorship
                 sponsorship_type = 'SC'
-                partner_id = partner.search([
-                    ('name', '=', 'Donors of Compassion')
-                ], limit=1).id or partner.id
+                if form_data.get('writepray') == 'WRPR+DON':
+                    contribution = float(form_data.get('writepray-contribution'))
+                    for line in lines:
+                        if line[2]['product_id'] == 2:
+                            line[2].update({'amount': contribution,
+                                            'subtotal': contribution,
+                                            'quantity': 1})
+                else:
+                    partner_id = partner.search([
+                        ('name', '=', 'Donors of Compassion')
+                    ], limit=1).id or partner.id
             sponsorship_vals = {
                 'partner_id': partner_id,
                 'correspondent_id': partner.id,
