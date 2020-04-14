@@ -1,11 +1,9 @@
 odoo.define('muskathlon.my_home', function (require) {
     'use strict';
 
-    var animation = require('web_editor.snippets.animation');
+    var Widget = require("web.Widget");
 
-    animation.registry.my_home = animation.Class.extend({
-        selector: '#my_home',
-
+    var MuskathlonHome = Widget.extend({
         /**
          * Called when widget is started
          */
@@ -36,4 +34,16 @@ odoo.define('muskathlon.my_home', function (require) {
             });
         },
     });
+
+    $(function () {
+        // TODO This was taken from payment/payment_form.js module, but apparently there could be a better way
+        // of loading the widget into the view. We can see how this one will evolve maybe.
+        $('#muskathlon_my_home').each(function () {
+            var $elem = $(this);
+            var form = new MuskathlonHome(null, $elem.data());
+            form.attachTo($elem);
+        });
+    });
+
+    return MuskathlonHome;
 });

@@ -22,9 +22,10 @@ class GroupVisitController(EventsController):
 
     @http.route("/event/<string:reg_uid>/agreements", auth="public", website=True)
     def group_visit_step2(self, reg_uid, form_id=None, **kwargs):
-        registration = request.env["event.registration"].search(
+        registration = request.env["event.registration"].sudo().search(
             [("uuid", "=", reg_uid)]
         )
+
         if not registration:
             return request.redirect("/events")
         event = registration.compassion_event_id

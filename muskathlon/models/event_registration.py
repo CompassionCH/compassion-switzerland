@@ -11,6 +11,8 @@ from odoo import models, fields, api, _
 from odoo.addons.queue_job.job import job, related_action
 import datetime
 
+from odoo.exceptions import UserError
+
 
 class MuskathlonRegistration(models.Model):
     _name = "event.registration"
@@ -183,9 +185,12 @@ class MuskathlonRegistration(models.Model):
                         .with_context(email_to=muskathlon_doctor_email)
                         .sudo()
                 )
-                template.send_mail(
-                    user_input.id,
-                    force_send=True,
-                    email_values={"email_to": muskathlon_doctor_email},
-                )
+                try:
+                    template.send_mail(
+                        user_input.id,
+                        force_send=True,
+                        email_values={"email_to": muskathlon_doctor_email},
+                    )
+                except UserError:
+                    continue
         return True

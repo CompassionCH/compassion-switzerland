@@ -1,7 +1,7 @@
 odoo.define('website_event_compassion.group_visit_registration_step1', function (require) {
     'use strict';
 
-    var animation = require('web_editor.snippets.animation');
+    var animation = require('website.content.snippets.animation');
 
     animation.registry.group_visit_step1 = animation.Class.extend({
         selector: '.cms_form_group_visit_registration',

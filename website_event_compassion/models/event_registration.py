@@ -122,7 +122,8 @@ class Event(models.Model):
     amount_raised_percents = fields.Integer(
         readonly=True, compute="_compute_amount_raised_percent"
     )
-    is_published = fields.Boolean(compute="_compute_is_published", store=True)
+    website_published = fields.Boolean(
+        oldname="is_published", compute="_compute_is_published", store=True)
     website_url = fields.Char(compute="_compute_website_url")
     host_url = fields.Char(compute="_compute_host_url")
     wordpress_host = fields.Char(compute="_compute_wordpress_host")
@@ -282,7 +283,7 @@ class Event(models.Model):
     @api.depends("state", "event_id.state")
     def _compute_is_published(self):
         for registration in self:
-            registration.is_published = (
+            registration.website_published = (
                 registration.state in ("open", "done")
                 and registration.event_id.state == "confirm"
             )
@@ -438,7 +439,7 @@ class Event(models.Model):
             )
 
     def _inverse_passport(self):
-        attachment_obj = self.env["ir.attachment"]
+        attachment_obj = self.env["ir.attachment"].sudo()
         for registration in self:
             passport = registration.passport
             if passport:
@@ -476,7 +477,7 @@ class Event(models.Model):
     def _compute_criminal_record(self):
         for registration in self:
             registration.criminal_record = (
-                self.env["ir.attachment"]
+                self.env["ir.attachment"].sudo()
                     .search(
                     [
                         ("name", "like", "Criminal record"),
@@ -489,7 +490,7 @@ class Event(models.Model):
             )
 
     def _inverse_criminal_record(self):
-        attachment_obj = self.env["ir.attachment"]
+        attachment_obj = self.env["ir.attachment"].sudo()
         for registration in self:
             criminal_record = registration.criminal_record
             if criminal_record:
@@ -686,6 +687,7 @@ class Event(models.Model):
         return True
 
     def prepare_down_payment(self):
+        self.ensure_one()
         if not self.event_ticket_id:
             return
 
@@ -695,11 +697,10 @@ class Event(models.Model):
                 .sudo()
                 .search([("name", "=", "BVR")], limit=1)
         )
-        self.ensure_one()
         event = self.compassion_event_id
         product = self.event_ticket_id.product_id
         name = f"[{event.name}] Down payment"
-        invoice = self.env["account.invoice"].create(
+        self.down_payment_id = self.env["account.invoice"].create(
             {
                 "origin": name,
                 "partner_id": self.partner_id.id,
@@ -722,11 +723,9 @@ class Event(models.Model):
                 "payment_mode_id": mode_pay_bvr.id,
             }
         )
-        if self.partner_id.state == "active":
-            invoice.action_invoice_open()
-        self.down_payment_id = invoice
 
     def prepare_group_visit_payment(self):
+        self.ensure_one()
         if not self.event_id.event_ticket_ids:
             return
 
@@ -736,7 +735,6 @@ class Event(models.Model):
                 .sudo()
                 .search([("name", "=", "BVR")], limit=1)
         )
-        self.ensure_one()
         event = self.compassion_event_id
         invl_vals = []
         tickets = self.event_id.event_ticket_ids
@@ -792,7 +790,7 @@ class Event(models.Model):
             }
         )
         name = f"[{event.name}] Trip payment"
-        invoice = self.env["account.invoice"].create(
+        self.group_visit_invoice_id = self.env["account.invoice"].create(
             {
                 "origin": name,
                 "partner_id": self.partner_id.id,
@@ -802,9 +800,6 @@ class Event(models.Model):
                 "payment_mode_id": mode_pay_bvr.id,
             }
         )
-        if self.partner_id.state == "active":
-            invoice.action_invoice_open()
-        self.group_visit_invoice_id = invoice
 
     def prepare_medical_survey(self):
         # Attach medical survey for user

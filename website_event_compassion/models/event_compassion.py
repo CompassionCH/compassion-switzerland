@@ -51,7 +51,7 @@ class EventCompassion(models.Model):
     @api.multi
     def _compute_registrations_ended(self):
         for event in self:
-            event.registrations_ended = fields.date.today() > event.end_date
+            event.registrations_ended = fields.Datetime.now() > event.end_date
 
     @api.multi
     def _compute_website_url(self):

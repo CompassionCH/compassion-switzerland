@@ -5,7 +5,7 @@
             <field name="name">Invoice for online payment</field>
             <field name="email_template_id" ref="invoice_online_payment_template"/>
             <field name="send_mode">digital</field>
-            <field name="model_id" ref="model_account_invoice"/>
+            <field name="model_id" ref="account.model_account_invoice"/>
 <!--            <field name="attachments_function">get_report_online_invoice</field>-->
         </record>
     </data>

@@ -86,7 +86,7 @@ class Muskathlon(models.Model):
                 rp.muskathlon_participant_id,
                 rp2.name AS sponsorship_name,
                 rc.start_date AS date,
-                rc.start_date AS date_display,
+                rc.start_date::date AS date_display,
                 'success' AS status,
                 'sponsor' AS type,
                 'transfer' AS payment_method,

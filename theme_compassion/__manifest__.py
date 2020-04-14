@@ -42,7 +42,6 @@
         "views/footer_it.xml",
         "views/assets.xml",
         "views/homepage.xml",
-        "views/robots.xml",
     ],
     "category": "Theme",
     "installable": True,
