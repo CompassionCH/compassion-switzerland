@@ -122,7 +122,8 @@ class Event(models.Model):
     amount_raised_percents = fields.Integer(
         readonly=True, compute="_compute_amount_raised_percent"
     )
-    is_published = fields.Boolean(compute="_compute_is_published", store=True)
+    website_published = fields.Boolean(
+        oldname="is_published", compute="_compute_is_published", store=True)
     website_url = fields.Char(compute="_compute_website_url")
     host_url = fields.Char(compute="_compute_host_url")
     wordpress_host = fields.Char(compute="_compute_wordpress_host")
@@ -282,7 +283,7 @@ class Event(models.Model):
     @api.depends("state", "event_id.state")
     def _compute_is_published(self):
         for registration in self:
-            registration.is_published = (
+            registration.website_published = (
                 registration.state in ("open", "done")
                 and registration.event_id.state == "confirm"
             )
@@ -438,7 +439,7 @@ class Event(models.Model):
             )
 
     def _inverse_passport(self):
-        attachment_obj = self.env["ir.attachment"]
+        attachment_obj = self.env["ir.attachment"].sudo()
         for registration in self:
             passport = registration.passport
             if passport:
@@ -476,7 +477,7 @@ class Event(models.Model):
     def _compute_criminal_record(self):
         for registration in self:
             registration.criminal_record = (
-                self.env["ir.attachment"]
+                self.env["ir.attachment"].sudo()
                     .search(
                     [
                         ("name", "like", "Criminal record"),
@@ -489,7 +490,7 @@ class Event(models.Model):
             )
 
     def _inverse_criminal_record(self):
-        attachment_obj = self.env["ir.attachment"]
+        attachment_obj = self.env["ir.attachment"].sudo()
         for registration in self:
             criminal_record = registration.criminal_record
             if criminal_record:

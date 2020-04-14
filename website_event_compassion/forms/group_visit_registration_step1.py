@@ -71,37 +71,35 @@ class EventRegistrationForm(models.AbstractModel):
         if user_mail and "@" in user_mail:
             user_mail = user_mail.replace("@", "(at)")
 
-        return (
-                _(
-                    "<p>Thank you for your interest in the work of Compassion, "
-                    "to free more children from extreme poverty every day. "
-                    "To live this unique experience of discovery, you just have"
-                    " to complete the following 4 steps:</p>"
-                    "<ol>"
-                    "<li>Register with your coordinates</li>"
-                    "<li>Accept the travel agreements</li>"
-                    "<li>Pay a down payment, then the invoice</li>"
-                    "<li>Prepare the trip</li>"
-                    "</ol>"
-                    "<p>Your registration will be validated and a place will be "
-                    "reserved for you on this trip as soon as you have completed "
-                    "the first three steps above."
-                    "<br/><br/>"
-                    "I will inform you at each important moment of the preparation"
-                    " of the trip of the steps to be taken. If you have any "
-                    "question, don't hesitate to contact me: "
-                    "<br/><br/>"
-                    "%s"
-                    "</br>"
-                    "%s"
-                    "</br>"
-                    "%s"
-                    "</br>"
-                    "Compassion Switzerland"
-                    "</p>"
-                )
-                % (user_name, user.employee_ids.department_id.name, user_mail)
-                + "<br/><br/>"
+        return (_(
+            "<p>Thank you for your interest in the work of Compassion, "
+            "to free more children from extreme poverty every day. "
+            "To live this unique experience of discovery, you just have"
+            " to complete the following 4 steps:</p>"
+            "<ol>"
+            "<li>Register with your coordinates</li>"
+            "<li>Accept the travel agreements</li>"
+            "<li>Pay a down payment, then the invoice</li>"
+            "<li>Prepare the trip</li>"
+            "</ol>"
+            "<p>Your registration will be validated and a place will be "
+            "reserved for you on this trip as soon as you have completed "
+            "the first three steps above."
+            "<br/><br/>"
+            "I will inform you at each important moment of the preparation"
+            " of the trip of the steps to be taken. If you have any "
+            "question, don't hesitate to contact me: "
+            "<br/><br/>"
+            "%s"
+            "</br>"
+            "%s"
+            "</br>"
+            "%s"
+            "</br>"
+            "Compassion Switzerland"
+            "</p>"
+            ) % (user_name, user.employee_ids.department_id.name, user_mail)
+            + "<br/><br/>"
         )
 
     @property
@@ -128,8 +126,7 @@ class EventRegistrationForm(models.AbstractModel):
                         "You can have the flight included (CHF %s) or "
                         "decide to book the flight by yourself if you want "
                         "to extend your trip beyond the dates. "
-                    )
-                                   % str(int(event.flight_price)),
+                    ) % str(int(event.flight_price)),
                     "fields": [
                         "include_flight",
                         "single_double_room",

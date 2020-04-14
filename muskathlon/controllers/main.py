@@ -14,6 +14,7 @@ from base64 import b64encode
 
 from odoo.addons.cms_form_compassion.tools import validity_checker
 from odoo.addons.payment.models.payment_acquirer import ValidationError
+from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.website_event_compassion.controllers.events_controller import (
     EventsController,
 )
@@ -21,7 +22,7 @@ from odoo.addons.website_event_compassion.controllers.events_controller import (
 from odoo.http import request, route
 
 
-class MuskathlonWebsite(EventsController):
+class MuskathlonWebsite(EventsController, CustomerPortal):
     @route('/event/<model("crm.event.compassion"):event>/', auth="public", website=True)
     def event_page(self, event, **kwargs):
         result = super(MuskathlonWebsite, self).event_page(event, **kwargs)

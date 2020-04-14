@@ -86,9 +86,8 @@ class EventRegistrationForm(models.AbstractModel):
         """
         super().form_before_create_or_update(values, extra_values)
         name = (
-                extra_values.get("partner_lastname", "")
-                + " "
-                + extra_values.get("partner_firstname", "")
+            extra_values.get("partner_lastname", "")
+            + " " + extra_values.get("partner_firstname", "")
         )
         event = self.event_id.sudo()
         values.update(

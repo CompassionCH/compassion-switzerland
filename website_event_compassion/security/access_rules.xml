@@ -3,7 +3,7 @@
     <record id="event_compassion_public" model="ir.rule">
         <field name="name">Compassion event: Public</field>
         <field name="model_id" ref="model_crm_event_compassion"/>
-        <field name="domain_force">[('is_published', '=', True)]</field>
+        <field name="domain_force">[('website_published', '=', True)]</field>
         <field name="groups" eval="[(4, ref('base.group_public')), (4, ref('base.group_portal'))]"/>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="False"/>

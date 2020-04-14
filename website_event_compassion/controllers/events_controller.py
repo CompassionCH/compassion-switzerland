@@ -27,7 +27,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         today = fields.Date.to_string(datetime.today())
         # Events that are set to finish after today
         started_events = request.env["crm.event.compassion"].search(
-            [("is_published", "=", True), ("end_date", ">=", today), ]
+            [("website_published", "=", True), ("end_date", ">=", today), ]
         )
         if len(started_events) == 1:
             return request.redirect("/event/" + str(started_events.id))
@@ -162,11 +162,11 @@ class EventsController(PaymentFormController, FormControllerMixin):
         :return:the rendered page
         """
         reg_obj = request.env["event.registration"].sudo()
-        registration = reg_obj.browse(reg_id).exists().filtered("is_published")
+        registration = reg_obj.browse(reg_id).exists().filtered("website_published")
         if not registration:
             # This may be an old link. We can fetch the registration
             registration = reg_obj.search(
-                [("backup_id", "=", reg_id), ("is_published", "=", True)]
+                [("backup_id", "=", reg_id), ("website_published", "=", True)]
             )
             if not registration:
                 return werkzeug.utils.redirect("/event/" + str(event.id), 301)

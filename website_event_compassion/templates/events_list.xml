@@ -27,7 +27,7 @@
                             <t t-foreach="events" t-as="event">
                                 <tr>
                                     <td>
-                                        <t t-esc="time.strftime('%d.%m.%Y',time.strptime(event.start_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                        <t t-esc="event.start_date" t-options="{'widget':'date'}"/>
                                     </td>
                                     <td>
                                         <a t-att-href="event.website_url">

@@ -89,7 +89,7 @@ class GroupVisitPaymentForm(models.AbstractModel):
                             {
                                 "quantity": 1.0,
                                 "price_unit": group_visit_invoice.amount_total
-                                              * 0.019,
+                                * 0.019,
                                 "account_id": account.id,
                                 "name": "Credit card tax",
                                 "account_analytic_id": analytic_account.id,

@@ -186,9 +186,8 @@ class LargePictureForm(models.AbstractModel):
         messages when multiple forms are present on same page.
         """
         # Mark tasks as done
-        self.main_object.partner_id.registration_ids[
-        :1
-        ].sudo().completed_task_ids += self.env.ref("muskathlon.task_picture")
+        self.main_object.partner_id.registration_ids[:1].sudo()\
+            .completed_task_ids += self.env.ref("muskathlon.task_picture")
         self.o_request.website.get_status_message()
 
     def _form_write(self, values):
@@ -356,24 +355,14 @@ class FlightDetailsForm(models.AbstractModel):
         local_tz = pytz.timezone(self.env.user.tz)
         tz_offset = local_tz.utcoffset(datetime.now())
         if extra_values.get("departure_date"):
-            departure = (
-                    fields.Datetime.from_string(
-                        fields.Datetime.to_string(extra_values["departure_date"])
-                        + " "
-                        + extra_values["departure_time"]
-                        + ":00 "
-                    )
-                    - tz_offset
-            )
-            arrival = (
-                fields.Datetime.from_string(
-                    fields.Datetime.to_string(extra_values["arrival_date"])
-                    + " "
-                    + extra_values["arrival_time"]
-                    + ":00 "
-                )
-                - tz_offset
-            )
+            departure = fields.Datetime.from_string(
+                fields.Datetime.to_string(extra_values["departure_date"])
+                + " " + extra_values["departure_time"] + ":00 "
+            ) - tz_offset
+            arrival = fields.Datetime.from_string(
+                fields.Datetime.to_string(extra_values["arrival_date"])
+                + " " + extra_values["arrival_time"] + ":00 "
+            ) - tz_offset
             values.update(
                 {
                     "registration_id": self.registration_id,

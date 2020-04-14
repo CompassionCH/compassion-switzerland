@@ -242,7 +242,7 @@
                     </div>
                 </div>
                 <div class="photo">
-                    <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
+                    <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
                     <p t-field="o.local_id" id="child-ref"/>
                 </div>
                 <div class="summary">
@@ -306,7 +306,7 @@
                             <span t-field="o.local_id"/>
                         </div>
                         <div class="photo">
-                            <span t-field="o.fullshot" t-field-options='{"widget": "image"}'/>
+                            <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
                         </div>
                         <div class="summary">
                             <span t-field="o.preferred_name" class="name"/>, <span t-field="o.age" class="age"/> years, <!-- keep space -->

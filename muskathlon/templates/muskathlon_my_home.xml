@@ -2,33 +2,11 @@
 <odoo>
     <template id="custom_portal_my_home" name="Custom My Portal">
         <t t-call="portal.frontend_layout">
-            <t t-set="is_portal" t-value="True"/>
-
             <!-- hides navbar from my portal -->
-            <style>.mt16 .navbar { display: none !important; }</style>
-
-            <div t-if="o_portal_fullwidth_alert"
-                 class="alert alert-info alert-dismissible rounded-0 fade show d-print-none css_editable_mode_hidden">
-                <div class="container">
-                    <t t-raw="o_portal_fullwidth_alert"/>
-                </div>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">&#215;</button>
-            </div>
-
-            <div t-if="not no_breadcrumbs and not my_details and not breadcrumbs_searchbar"
-                 class="o_portal container mt-3">
-                <div class="row align-items-center bg-white no-gutters border rounded">
-                    <div class="col">
-                        <t t-call="portal.portal_breadcrumbs"></t>
-                    </div>
-                    <div t-if="prev_record or next_record" class="col flex-grow-0">
-                        <t t-call='portal.record_pager'/>
-                    </div>
-                </div>
-            </div>
+            <style>.o_portal.container { display: none !important; }</style>
 
             <!-- Page content -->
-            <div id="my_home" class="container mb64">
+            <div id="muskathlon_my_home" class="container mb64">
                 <!-- Load modals for forms -->
                 <t t-call="cms_form_compassion.modal_form">
                     <t t-set="form" t-value="coordinates_form"/>
@@ -50,7 +28,8 @@
                     </t>
                     <div id="modal_flight_details" class="modal fade cms_modal_form" tabindex="-1" role="dialog"
                          aria-labelledby="donation_modal_label" aria-hidden="true">
-                        <div class="modal-dialog modal-xl" role="document">
+                        <!-- TODO Replace by modal-xl when Bootstrap 4.2 is supported by Odoo -->
+                        <div class="modal-dialog modal-lg" role="document">
                             <div t-attf-class="modal-content {{outbound_flight_form.form_wrapper_css_klass}}">
                                 <div class="modal-body">
                                     <t t-set="missing_return"

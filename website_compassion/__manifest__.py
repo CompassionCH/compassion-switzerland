@@ -34,7 +34,10 @@
     "author": "Sebastien Toth",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
-    "data": ["data/main_website.xml"],
+    "data": [
+        "data/main_website.xml",
+        "views/robots.xml"
+    ],
     "depends": [
         "theme_compassion",  # compassion-switzerland
         "cms_form_compassion",  # compassion-modules
