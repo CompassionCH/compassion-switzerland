@@ -47,21 +47,25 @@ class CrowdfundingProject(models.Model):
         "project_id",
         string="Participants")
     event_id = fields.Many2one("crm.event.compassion", "Event")
+    # event_type_id = fields.Many2one("event.type", "Event type")
 
-    @api.model
-    def create(self, vals):
-        self.event_id = self.env['crm.event.compassion'].create({
-            'name': vals.get('name'),
-            'event_type_id': self.env.ref(
-                "crowdfunding_compassion.event_type_crowdfunding").id,
-            'company_id': self.env.user.company_id.id,
-            'start_date': datetime.date.today(),
-            'end_date': vals.get('deadline'),
-            'hold_start_date': datetime.date.today(),
-            'number_allocate_children': vals.get('product_number_goal'),
-            'planned_sponsorships': vals.get('number_sponsorships_goal'),
-            'type': "tour"  # TODO change that, maybe add an event_type field to model
-        })
+    # TODO fix event.type NULL error
+    # @api.model
+    # def create(self, vals):
+    #     res = super().create(vals)
+    #     res.event_id = self.env['crm.event.compassion'].create({
+    #         'name': vals.get('name'),
+    #         'event_type_id': self.env.ref(
+    #             "crowdfunding_compassion.event_type_crowdfunding").id,
+    #         'company_id': self.env.user.company_id.id,
+    #         'start_date': datetime.date.today(),
+    #         'end_date': vals.get('deadline'),
+    #         'hold_start_date': datetime.date.today(),
+    #         'number_allocate_children': vals.get('product_number_goal'),
+    #         'planned_sponsorships': vals.get('number_sponsorships_goal'),
+    #         'type': "crowdfunding"
+    #     })
+    #     return res
 
     @api.multi
     def _compute_product_number_reached(self):

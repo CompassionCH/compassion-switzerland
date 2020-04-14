@@ -15,10 +15,9 @@ from odoo.http import request, route
 
 class CrowdFundingWebsite(EventsController):
 
-    @route(["/project_list"], type="http", auth="user", website=True, cors="*")
-    def projects_list(self, form_id=None, **kw):
+    @route(["/my_account"], type="http", auth="user", website=True)
+    def my_account(self, form_id=None, **kw):
         """ Inject data for forms. """
 
-        # result = request.redirect("/my/home")
-        result = request.render("crowdfunding.project_list")
+        result = request.render("crowdfunding_compassion.myaccount_view_template")
         return self._form_redirect(result, full_page=True)

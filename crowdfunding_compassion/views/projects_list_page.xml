@@ -3,9 +3,9 @@
     <data>
         <template id="project_list_view_template" name="Product list template">
             <t t-call="website.layout">
-                <xpath expr="//nav[@id='oe_main_menu_navbar']" position="before">
+<!--                <xpath expr="//nav[@id='oe_main_menu_navbar']" position="replace">-->
                     <t t-call="theme_crowdfunding.crowdfunding_navbar"/>
-                </xpath>
+<!--                </xpath>-->
 
                 <div id="title">
                     <br/>
@@ -48,7 +48,9 @@
                     <t t-call="theme_crowdfunding.crowdfunding_card_container"/>
                 </div>
 
-                <t t-call="theme_crowdfunding.crowdfunding_footer"/>
+<!--                <xpath expr="//div[@id='footer']" position="replace">-->
+                    <t t-call="theme_crowdfunding.crowdfunding_footer"/>
+<!--                </xpath>-->
             </t>
         </template>
 
