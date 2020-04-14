@@ -46,6 +46,7 @@
         "views/crowdfunding_project_view.xml",
         "views/product_template_view.xml",
         "views/projects_list_page.xml",
+        "views/project_creation_page.xml",
         "views/myaccount_crowdfunding_page.xml",
         # "views/website_view.xml",
     ],

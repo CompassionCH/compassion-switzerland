@@ -43,6 +43,7 @@
         "views/cards.xml",
         "views/pagination.xml",
         "views/progress_bar.xml",
+        "views/progress_bars.xml",
         "views/assets.xml"
     ],
     'category': 'Theme',

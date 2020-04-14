@@ -37,3 +37,12 @@ class ProjectsController(Controller):
         })
         return request.render(
             "crowdfunding_compassion.project_list_view_template", values)
+
+    @route('/projects/create',
+           auth="public",
+           type="http",
+           website=True)
+    def project_create(self, **kwargs):
+        values = {}
+        return request.render(
+            "crowdfunding_compassion.project_creation_view_template", values)

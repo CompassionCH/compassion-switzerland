@@ -1,0 +1,133 @@
+<odoo>
+    <data>
+        <template id="project_creation_view_template">
+            <t t-call="website.layout">
+                <t t-call="theme_crowdfunding.crowdfunding_navbar"/>
+
+                <div id="title">
+                    <br/>
+                    <t t-set="img_path" t-value="'/theme_crowdfunding/static/src/img/DSC-16.jpg'"/>
+                    <t t-call="theme_crowdfunding.crowdfunding_rounded_image"/>
+                    <h1 class="h1-font-size text-center blue">CREATE A NEW PROJECT</h1>
+                    <h2 class="text-center">Two lines explanation</h2>
+                    <h2 class="text-center">Two lines explanation</h2>
+                    <br/>
+                    <br/>
+                    <t t-call="theme_crowdfunding.crowdfunding_progress_bar_icons"/>
+                    <br/>
+                    <br/>
+                </div>
+
+                <section class="blue py-5">
+                    <div>
+                        <h3 class="center-text">DESCRIBE YOUR PROJECT</h3>
+                        <h5 class="center-text">Here you can describe your project, why you are engaged and set up some
+                            details
+                        </h5>
+                    </div>
+                </section>
+
+                <form>
+                    <div class="form-group center">
+                        <label for="input_project_name">Project name</label>
+                        <small id="nameHelp" class="form-text text-muted">
+                            Use a catchy name that is attractive and accurate to your idea
+                        </small>
+                        <input class="form-control" id="input_project_name"/>
+                    </div>
+                    <div class="form-group center">
+                        <label for="input_project_description">Project Description</label>
+                        <small id="nameHelp" class="form-text text-muted">
+                            Description of the aim of the project
+                        </small>
+                        <textarea class="form-control" id="project_description" rows="3"/>
+                    </div>
+                    <div class="form-group center">
+                        <label for="input_motivation">Personal Motivation</label>
+                        <small id="nameHelp" class="form-text text-muted">
+                            Your personal motivation to create this project and finish it
+                        </small>
+                        <textarea class="form-control" id="input_motivation" rows="3"/>
+                    </div>
+                    <div class="form-group center">
+                        <label for="input_fundraising_duration">Fundraising Duration</label>
+                        <small id="nameHelp" class="form-text text-muted">
+                            Indicate when your project should end (max 240 days)
+                        </small>
+                        <input type="date" class="form-control" id="input_fundraising_duration"/>
+                    </div>
+                    <div class="form-group center">
+                        <label for="input_photo_cover">Cover Photo</label>
+                        <small id="nameHelp" class="form-text text-muted">
+                            Upload a cover photo that represents your project
+                        </small>
+                        <input type="file" class="form-control" id="input_photo_cover"/>
+                    </div>
+                    <div class="form-group center">
+                        <label for="input_video_presentation">Video presentation</label>
+                        <small id="nameHelp" class="form-text text-muted">
+                            Paste any video link that showcase your project
+                        </small>
+                        <input class="form-control" id="input_video_presentation"/>
+                    </div>
+                    <div class="form-group center">
+                        <small id="nameHelp" class="form-text text-muted">
+                            If you have any social account or page, please link them here
+                        </small>
+                        <label for="input_facebook_profile">Facebook page</label>
+                        <input class="form-control" id="input_facebook_profile"/>
+
+                        <label for="input_twitter_profile">Twitter profile</label>
+                        <input class="form-control" id="input_twitter_profile"/>
+
+                        <label for="input_instagram_profile">Instagram profile</label>
+                        <input class="form-control" id="input_instagram_profile"/>
+
+                        <label for="input_blog_page">Website or blog page</label>
+                        <input class="form-control" id="input_blog_page"/>
+                    </div>
+
+                    <div class="form-group center">
+                        <label for="input_project_type">My project is</label>
+                        <select class="form-control" id="input_project_type">
+                            <option>Personal</option>
+                            <option>Collective</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary center">Go to step 2</button>
+                    <br/>
+                    <br/>
+                </form>
+
+                <t t-call="theme_crowdfunding.crowdfunding_footer"/>
+
+
+            </t>
+        </template>
+
+        <record id="project_creation_view" model="ir.ui.view">
+            <field name="name">Project creation view</field>
+            <field name="type">qweb</field>
+            <field name="key">crowdfunding.project_creation</field>
+            <field name="arch" type="xml">
+                <t t-call="crowdfunding_compassion.myaccount_view_template"/>
+            </field>
+        </record>
+
+        <record id="project_creation_page" model="website.page">
+            <field name="url">/projects/create</field>
+            <field name="website_indexed" eval="True"/>
+            <field name="website_published">True</field>
+            <field name="name">Project Creation</field>
+            <field name="type">qweb</field>
+        </record>
+
+        <record id="project_creation_menu" model="website.menu">
+            <field name="name">Project creation menu</field>
+            <field name="page_id" ref="project_creation_page"/>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">86</field>
+        </record>
+    </data>
+</odoo>
