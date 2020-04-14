@@ -7,7 +7,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import datetime, timedelta
 
 from odoo.http import request, route
 from odoo.addons.website_event_compassion.controllers.events_controller import (
@@ -27,4 +26,5 @@ class ProjectsController(EventsController):
         values.update({
             "project_list": [all_active_projects],
         })
-        return request.render("crowdfunding_compassion.project_list_view_template", values)
+        return request.render(
+            "crowdfunding_compassion.project_list_view_template", values)
