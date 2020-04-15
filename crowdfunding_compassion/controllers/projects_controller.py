@@ -46,3 +46,14 @@ class ProjectsController(Controller):
         values = {}
         return request.render(
             "crowdfunding_compassion.project_creation_view_template", values)
+
+    @route('/projects/create/step1',
+           auth="public",
+           type="http",
+           method='POST',
+           website=True)
+    def project_creation_step1(self, **post):
+        values = {}
+        return request.render(
+            "crowdfunding_compassion.project_creation_view_template", values)
+

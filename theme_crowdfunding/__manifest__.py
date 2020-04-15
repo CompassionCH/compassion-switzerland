@@ -44,6 +44,7 @@
         "views/pagination.xml",
         "views/progress_bar.xml",
         "views/progress_bars.xml",
+        "views/project_creation_forms.xml",
         "views/assets.xml"
     ],
     'category': 'Theme',

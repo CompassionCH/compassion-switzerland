@@ -1,0 +1,78 @@
+<odoo>
+    <data>
+        <template id="project_creation_step1_form_template">
+            <form id="project_creation_step1_form" action="/projects/create/step1" method="post">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="form-group center">
+                    <label for="project_name">Project name</label>
+                    <small id="name_help" class="form-text text-muted">
+                        Use a catchy name that is attractive and accurate to your idea
+                    </small>
+                    <input class="form-control" id="project_name"/>
+                </div>
+                <div class="form-group center">
+                    <label for="project_description">Project Description</label>
+                    <textarea class="form-control" id="project_description"
+                              placeholder="Description of the aim of the project" rows="3"/>
+                </div>
+                <div class="form-group center">
+                    <label for="motivation">Personal Motivation</label>
+                    <textarea class="form-control" id="motivation"
+                              placeholder="Your personal motivation to create this project and finish it" rows="3"/>
+                </div>
+                <div class="form-group center">
+                    <label for="fundraising_duration">Fundraising Duration</label>
+                    <small id="date_help" class="form-text text-muted">
+                        Indicate when your project should end (max 240 days)
+                    </small>
+                    <input type="date" class="form-control" id="fundraising_duration"/>
+                </div>
+                <div class="form-group center">
+                    <label for="photo_cover">Cover Photo</label>
+                    <small id="cover_photo_help" class="form-text text-muted">
+                        Upload a cover photo that represents your project
+                    </small>
+                    <input type="file" class="form-control" id="photo_cover"/>
+                </div>
+                <div class="form-group center">
+                    <label for="video_presentation">Video presentation</label>
+                    <small id="presentation_help" class="form-text text-muted">
+                        Paste any video link that showcase your project
+                    </small>
+                    <input class="form-control" id="video_presentation"
+                           placeholder="Paste here the full video link ie: https://www.youtube.com/watch?v=oHg5SJYRHA0"/>
+                </div>
+                <div class="form-group center">
+                    <small id="social_medias_help" class="form-text text-muted">
+                        If you have any social account or page, please link them here
+                    </small>
+                    <label for="facebook_profile">Social medias</label>
+                    <input class="form-control" id="facebook_profile" placeholder="Facebook full URL or page"/>
+
+                    <input class="form-control" id="twitter_profile" placeholder="Twitter account"/>
+
+                    <input class="form-control" id="instagram_profile" placeholder="Instagram account"/>
+
+                    <input class="form-control" id="blog_page" placeholder="your web page or blog link"/>
+                </div>
+
+                <div class="form-group center">
+                    <label for="project_type">My project is</label>
+                    <small id="project_type_help" class="form-text text-muted">
+                        Choose if you are doing your project alone or if you want to open it to other fundraisers
+                    </small>
+                    <select class="form-control" id="project_type">
+                        <option>Personal</option>
+                        <option>Collective</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary center">
+                    Go to step 2
+                </button>
+                <br/>
+                <br/>
+            </form>
+        </template>
+    </data>
+</odoo>

@@ -27,72 +27,9 @@
                     </div>
                 </section>
 
-                <form>
-                    <div class="form-group center">
-                        <label for="input_project_name">Project name</label>
-                        <small id="nameHelp" class="form-text text-muted">
-                            Use a catchy name that is attractive and accurate to your idea
-                        </small>
-                        <input class="form-control" id="input_project_name"/>
-                    </div>
-                    <div class="form-group center">
-                        <label for="input_project_description">Project Description</label>
-                        <textarea class="form-control" id="project_description" placeholder="Description of the aim of the project" rows="3"/>
-                    </div>
-                    <div class="form-group center">
-                        <label for="input_motivation">Personal Motivation</label>
-                        <textarea class="form-control" id="input_motivation" placeholder="Your personal motivation to create this project and finish it" rows="3"/>
-                    </div>
-                    <div class="form-group center">
-                        <label for="input_fundraising_duration">Fundraising Duration</label>
-                        <small id="nameHelp" class="form-text text-muted">
-                            Indicate when your project should end (max 240 days)
-                        </small>
-                        <input type="date" class="form-control" id="input_fundraising_duration"/>
-                    </div>
-                    <div class="form-group center">
-                        <label for="input_photo_cover">Cover Photo</label>
-                        <small id="nameHelp" class="form-text text-muted">
-                            Upload a cover photo that represents your project
-                        </small>
-                        <input type="file" class="form-control" id="input_photo_cover"/>
-                    </div>
-                    <div class="form-group center">
-                        <label for="input_video_presentation">Video presentation</label>
-                        <small id="nameHelp" class="form-text text-muted">
-                            Paste any video link that showcase your project
-                        </small>
-                        <input class="form-control" id="input_video_presentation" placeholder="Paste here the full video link ie: https://www.youtube.com/watch?v=oHg5SJYRHA0"/>
-                    </div>
-                    <div class="form-group center">
-                        <small id="nameHelp" class="form-text text-muted">
-                            If you have any social account or page, please link them here
-                        </small>
-                        <label for="input_facebook_profile">Social medias</label>
-                        <input class="form-control" id="input_facebook_profile" placeholder="Facebook full URL or page"/>
-
-                        <input class="form-control" id="input_twitter_profile" placeholder="Twitter account"/>
-
-                        <input class="form-control" id="input_instagram_profile" placeholder="Instagram account"/>
-
-                        <input class="form-control" id="input_blog_page" placeholder="your web page or blog link"/>
-                    </div>
-
-                    <div class="form-group center">
-                        <label for="input_project_type">My project is</label>
-                        <select class="form-control" id="input_project_type">
-                            <option>Personal</option>
-                            <option>Collective</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary center">Go to step 2</button>
-                    <br/>
-                    <br/>
-                </form>
+                <t t-call="theme_crowdfunding.project_creation_step1_form_template"/>
 
                 <t t-call="theme_crowdfunding.crowdfunding_footer"/>
-
 
             </t>
         </template>
