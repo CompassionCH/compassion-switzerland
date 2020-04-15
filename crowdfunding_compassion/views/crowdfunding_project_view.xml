@@ -67,7 +67,7 @@
             <field name="context">{'search_default_available':1}</field>
         </record>
 
-         <menuitem id="menu_crowdfunding_project"
+        <menuitem id="menu_crowdfunding_project"
                   parent="menu_event_crowdfunding"
                   name="Projects"
                   action="open_view_crowdfunding_project_tree"

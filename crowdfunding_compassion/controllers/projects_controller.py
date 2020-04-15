@@ -39,21 +39,33 @@ class ProjectsController(Controller):
             "crowdfunding_compassion.project_list_view_template", values)
 
     @route('/projects/create',
-           auth="public",
-           type="http",
-           website=True)
-    def project_create(self, **kwargs):
-        values = {}
-        return request.render(
-            "crowdfunding_compassion.project_creation_view_template", values)
-
-    @route('/projects/create/step1',
-           auth="public",
+           auth="user",
            type="http",
            method='POST',
            website=True)
-    def project_creation_step1(self, **post):
-        values = {}
-        return request.render(
-            "crowdfunding_compassion.project_creation_view_template", values)
+    def project_creation_step1(self, partner_id="", **post):
+        if partner_id != "":
+            existing_participant = request.env['crowdfunding.participant'].search([
+                ('partner_id', '=', partner_id)
+            ])
+            if not existing_participant:
+                # create participant if not existing already
+                request.env['crowdfunding.participant'].create({
+                    'partner_id': partner_id
+                })
+            if post:
+                # create project
+                request.env['crowdfunding.project'].create({
+                    "name": post.get("project_name"),
+                    "type": post.get("project_type"),
+                    "deadline": post.get("fundraising_duration"),
+                    "project_owner_id": request.env['crowdfunding.participant'].search([
+                        ('partner_id', '=', partner_id)
+                    ]).id
+                })
+                # return confirmation page
+                return request.render(
+                    "crowdfunding_compassion.project_creation_confirmation_view_template", {})
 
+        return request.render(
+            "crowdfunding_compassion.project_creation_view_template", {"user": request.env.user})

@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <template id="project_creation_step1_form_template">
-            <form id="project_creation_step1_form" action="/projects/create/step1" method="post">
+            <form id="project_creation_step1_form" t-attf-action="/projects/create/?partner_id=#{user.partner_id.id}" method="post">
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <div class="form-group center">
                     <label for="project_name">Project name</label>
