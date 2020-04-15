@@ -2,30 +2,17 @@
     <data>
         <template id="crowdfunding_progress_bar_icons" name="Progress bar with icons">
             <div class="progress center">
-                <div class="circle done">
-                    <span class="label">1</span>
-                    <span class="title">project</span>
-                </div>
-                <span class="bar done"/>
-                <div class="circle done">
-                    <span class="label">2</span>
-                    <span class="title">funds</span>
-                </div>
-                <span class="bar half"/>
-                <div class="circle active">
-                    <span class="label">3</span>
-                    <span class="title">personal information</span>
-                </div>
-                <span class="bar"/>
-                <div class="circle">
-                    <span class="label">4</span>
-                    <span class="title">Review</span>
-                </div>
-                <span class="bar"/>
-                <div class="circle">
-                    <span class="label">5</span>
-                    <span class="title">Finish</span>
-                </div>
+                <ol class="progress">
+                    <li class="is-active" data-step="1">
+                        Your project
+                    </li>
+                    <li data-step="2">
+                        Your funds
+                    </li>
+                    <li data-step="3" class="progress__last">
+                        Your personal informations
+                    </li>
+                </ol>
             </div>
         </template>
     </data>

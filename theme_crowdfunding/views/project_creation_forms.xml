@@ -1,7 +1,8 @@
 <odoo>
     <data>
         <template id="project_creation_step1_form_template">
-            <form id="project_creation_step1_form" t-attf-action="/projects/create/?partner_id=#{user.partner_id.id}" method="post">
+            <form id="project_creation_step1_form" t-attf-action="/projects/create/?partner_id=#{user.partner_id.id}"
+                  method="post">
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <div class="form-group center">
                     <label for="project_name">Project name</label>
@@ -43,16 +44,16 @@
                            placeholder="Paste here the full video link ie: https://www.youtube.com/watch?v=oHg5SJYRHA0"/>
                 </div>
                 <div class="form-group center">
+                    <label for="facebook_profile">Social medias</label>
                     <small id="social_medias_help" class="form-text text-muted">
                         If you have any social account or page, please link them here
                     </small>
-                    <label for="facebook_profile">Social medias</label>
                     <input class="form-control" id="facebook_profile" placeholder="Facebook full URL or page"/>
-
+                    <br/>
                     <input class="form-control" id="twitter_profile" placeholder="Twitter account"/>
-
+                    <br/>
                     <input class="form-control" id="instagram_profile" placeholder="Instagram account"/>
-
+                    <br/>
                     <input class="form-control" id="blog_page" placeholder="your web page or blog link"/>
                 </div>
 
