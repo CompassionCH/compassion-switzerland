@@ -33,7 +33,8 @@
 
                 <p>10 / 25 toilets</p>
                 <div class="progress" style="height: 20px;">
-                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"/>
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                         aria-valuemin="0" aria-valuemax="100"/>
                 </div>
                 <p>20 days to go</p>
 
@@ -53,27 +54,16 @@
                     <div class="row pb-4">
                         <t t-foreach="card_row" t-as="card">
                             <t t-set="project_title">
-<!--                                <t t-esc="card['title']"/>-->
                                 <t t-esc="card.name"/>
                             </t>
                             <t t-set="project_owner">
-<!--                                <t t-esc="card['owner']"/>-->
                                 <t t-esc="card.project_owner_id.partner_id.name"/>
                             </t>
                             <t t-set="project_collective">
-<!--                                <t t-esc="card['collective']"/>-->
                                 <t t-esc="card.type"/>
                             </t>
                             <t t-set="project_description">
-                                Phasellus dapibus ipsum eu orci pulvinar, ac convallis
-                                ex vulputate. Nunc venenatis non ipsum vitae viverra.
-                                Vestibulum dignissim nisi augue. Vivamus justo mauris,
-                                rhoncus eu mauris in, blandit ultrices ipsum.
-                                Donec a imperdiet magna, eget pretium felis.
-                                Mauris euismod diam eget mi pretium, et posuere turpis iaculis.
-                                Integer erat odio, tempus a aliquet sit amet, pulvinar sed leo.
-                                Etiam eu elit ut orci blandit ultricies a sit amet libero.
-                                Mauris at eleifend erat.
+                                <t t-esc="card.description"/>
                             </t>
                             <div class="col-sm-12 col-md-6 col-lg-4">
                                 <t t-call="theme_crowdfunding.crowdfunding_project_card"/>
@@ -84,7 +74,9 @@
                 <!--            LOAD MORE BUTTON -->
                 <div class="row py-4">
                     <div class="col-sm-12 text-center">
-                        <button type="button" class="btn btn-primary">Load more projects</button>
+                        <button type="object" name="_get_3_active_projects" class="btn btn-primary">
+                            Load more projects
+                        </button>
                         <br/>
                         <br/>
                     </div>

@@ -21,10 +21,10 @@ class ProjectsController(EventsController):
            type="http",
            website=True)
     def get_projects_list(self, **kwargs):
-        all_active_projects = request.env['crowdfunding.project'].search([])
         values = {}
+        project_obj = request.env['crowdfunding.project']
         values.update({
-            "project_list": [all_active_projects],
+            "project_list": [project_obj._get_3_active_projects()],
         })
         return request.render(
             "crowdfunding_compassion.project_list_view_template", values)

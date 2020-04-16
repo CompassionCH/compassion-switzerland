@@ -47,6 +47,11 @@ class CrowdfundingProject(models.Model):
         "project_id",
         string="Participants")
     event_id = fields.Many2one("crm.event.compassion", "Event")
+    state = fields.Selection(
+        [("validation", "Validation"), ("active", "Active")],
+        required=True,
+        default="validation",
+    )
     # event_type_id = fields.Many2one("event.type", "Event type")
 
     # TODO fix event.type NULL error
@@ -77,3 +82,8 @@ class CrowdfundingProject(models.Model):
     def _compute_number_sponsorships_reached(self):
         for project in self:
             project.number_sponsorships_reached = len(project.sponsorship_ids)
+
+    def _get_3_active_projects(self):
+        return self.env['crowdfunding.project'].search([
+            ("state", "!=", "validation")
+        ], limit=3, order="deadline ASC")
