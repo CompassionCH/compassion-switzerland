@@ -33,6 +33,28 @@
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>
+        </template>
+
+        <template id="fund_card" name="Fund card">
+            <div class="card fund-card">
+                <div class="fund-card__header">
+                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Participant image"/>
+                    <span class="fund-card__icon"/>
+                </div>
+
+                <div class="fund-card__content">
+
+                    <h5 class="blue my-3 fund-card__title">
+                        <t t-esc="fund"/>
+                    </h5>
+                    <!-- <p>
+                        <t t-esc="fund.description" />
+                    </p> -->
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, consectetur. Doloribus quaerat a et nesciunt hic suscipit tenetur earum laborum fugit, eveniet sit veniam, officia non dolore quidem tempore magnam quisquam saepe maiores ducimus, libero harum sint voluptatibus? Pariatur repellat cupiditate dolore sed dolores tempore nemo necessitatibus, fugit consectetur autem.</p>
+                    <button type="button" class="btn btn-primary btn-md my-3">More infos</button>
+
+                </div>
+            </div>
 
         </template>
     </data>
