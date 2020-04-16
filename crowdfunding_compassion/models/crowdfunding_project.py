@@ -11,6 +11,7 @@ class CrowdfundingProject(models.Model):
 
     name = fields.Char(required=True)
     description = fields.Text()
+    personal_motivation = fields.Text()
     type = fields.Selection(
         [
             ("individual", "Individual"),

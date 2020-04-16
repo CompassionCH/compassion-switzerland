@@ -28,7 +28,7 @@
                     </div>
                 </section>
 
-                <t t-call="theme_crowdfunding.project_creation_step1_form_template"/>
+                <t t-raw="form.form_render()"/>
 
                 <t t-call="theme_crowdfunding.crowdfunding_footer"/>
             </t>
