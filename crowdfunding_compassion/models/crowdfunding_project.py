@@ -6,7 +6,7 @@ from odoo import models, api, fields
 
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
-    _inherit = "website"
+    _inherit = "website.published.mixin"
     _description = "Crowd-funding project"
 
     name = fields.Char(required=True)
@@ -52,7 +52,6 @@ class CrowdfundingProject(models.Model):
         required=True,
         default="validation",
     )
-    # event_type_id = fields.Many2one("event.type", "Event type")
 
     # TODO fix event.type NULL error
     # @api.model
@@ -87,6 +86,11 @@ class CrowdfundingProject(models.Model):
         return self.env['crowdfunding.project'].search([
             ("state", "!=", "validation")
         ], limit=9, order="deadline ASC")
+
+    @api.multi
+    def _compute_website_url(self):
+        for project in self:
+            project.website_url = "/projects/create/confirm"
 
     @api.multi
     def validate(self):
