@@ -33,7 +33,7 @@ class ProjectCreationForm(models.AbstractModel):
     ]
     _form_required_fields = ("name", "type", "deadline")
 
-    _display_type = "full"
+    # _display_type = "full"
 
     @property
     def form_title(self):
@@ -83,10 +83,15 @@ class ProjectCreationForm(models.AbstractModel):
     # Form submission
     #################
     def form_before_create_or_update(self, values, extra_values):
+        owner = self.env["crowdfunding.participant"].search([
+            ("partner_id", "=", self.env.user.partner_id.id)
+        ])
+        if not owner:
+            owner = self.env["crowdfunding.participant"].create({
+                "partner_id": self.env.user.partner_id.id
+            })
         values.update({
-            "project_owner_id": self.env["crowdfunding.participant"].search([
-                ("partner_id", "=", self.env.user.partner_id.id)
-            ]).id
+            "project_owner_id": owner.id
         })
         super().form_before_create_or_update(values, extra_values)
 
@@ -95,8 +100,17 @@ class ProjectCreationForm(models.AbstractModel):
         """
         return True
 
-    # def form_after_create_or_update(self, values, extra_values):
-    #
+    def form_after_create_or_update(self, values, extra_values):
+        comm_obj = self.env["partner.communication.job"]
+        config = self.env.ref("crowdfunding_compassion.project_confirmation_email_template")
+        comm_obj.create(
+            {
+                "config_id": config.id,
+                "partner_id": self.env.user.partner_id.id,
+                "object_ids": self.main_object.ids,
+            }
+        )
+        return True
 
     def form_next_url(self, main_object=None):
         return super().form_next_url(self.main_object)
