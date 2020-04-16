@@ -172,7 +172,7 @@ $enable-rounded: false;
 .civ-head {
   text-align: center;
   color: white;
-  background-image: url("img/SURVIVAL-MamaKate-266@2x.jpg");
+  background-image: url("/theme_crowdfunding/static/src/img/SURVIVAL-MamaKate-266@2x.jpg");
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -195,7 +195,7 @@ $enable-rounded: false;
 header.masthead {
   text-align: center;
   color: white;
-  background-image: url("img/head.jpg");
+  background-image: url("/theme_crowdfunding/static/src/img/head.jpg");
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -488,6 +488,13 @@ footer {
     text-align: center;
     padding: 1rem;
   }
+}
+
+.homepage {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  column-gap: 3rem;
+  row-gap: 3rem;
 }
 
 .participants {
