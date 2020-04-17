@@ -66,15 +66,12 @@ class PrintChildpack(models.TransientModel):
         # Prevent printing dossier if completion date is in less than 2 years
         in_two_years = date.today() + relativedelta(years=2)
         records = (
-            self.env[model]
-                .browse(self.env.context.get("active_ids"))
-                .filtered(
+            self.env[model].browse(self.env.context.get("active_ids"))
+            .filtered(
                 lambda c: c.state in ("N", "I", "P")
-                          and c.desc_en
-                          and (
-                                  not c.completion_date or c.completion_date > in_two_years)
-            )
-                .with_context(lang=self.lang)
+                and c.desc_en and (
+                    not c.completion_date or c.completion_date > in_two_years)
+                ).with_context(lang=self.lang)
         )
         data = {
             "lang": self.lang,
