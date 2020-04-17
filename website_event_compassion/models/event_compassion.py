@@ -74,6 +74,7 @@ class EventCompassion(models.Model):
         group = self.env.ref("website_event_compassion.event_type_group_visit")
         youth = self.env.ref("website_event_compassion.event_type_youth_trip")
         indiv = self.env.ref("website_event_compassion.event_type_individual_visit")
+        crowdfunding = self.env.ref("crowdfunding_compassion.event_type_crowdfunding")
         for event in self:
             if event.event_type_id == sport:
                 event.type = "sport"
@@ -85,6 +86,8 @@ class EventCompassion(models.Model):
                 event.type = "presentation"
             elif event.event_type_id == meeting:
                 event.type = "meeting"
+            elif event.event_type_id == crowdfunding:
+                event.type = "crowdfunding"
             elif event.event_type_id in group | youth | indiv:
                 event.type = "tour"
 
