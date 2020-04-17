@@ -37,6 +37,10 @@
                                 <field name="personal_web_page_url" widget="char"/>
                             </group>
                         </group>
+
+                        <div>
+                            <button name="validate" string="Validate project" type="object" class="oe_stat_button"/>
+                        </div>
                     </div>
                 </form>
             </field>
