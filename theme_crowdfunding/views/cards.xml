@@ -42,7 +42,7 @@
                     <p class="card-text">
                         <t t-esc="project_description"/>
                     </p>
-                    <a href="#" class="btn btn-primary btn-lg btn-block mb-2">Join</a>
+                    <a t-attf-href="/project/{{project_id}}" class="btn btn-primary btn-lg btn-block mb-2">Join</a>
                 </div>
             </div>
         </template>
@@ -65,6 +65,7 @@
                             <t t-set="project_description">
                                 <t t-esc="card.description"/>
                             </t>
+                            <t t-set="project_id" t-value="card.id"/>
                             <div class="col-sm-12 col-md-6 col-lg-4">
                                 <t t-call="theme_crowdfunding.crowdfunding_project_card"/>
                             </div>
