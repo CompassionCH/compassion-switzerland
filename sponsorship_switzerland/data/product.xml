@@ -485,4 +485,12 @@
         <field name="property_account_income_id" search="[('code','=','6014')]"/>
         <field name="property_account_expense_id" search="[('code','=','5014')]"/>
     </record>
+    <record id="product_template_fund_toilets" model="product.template">
+        <field name="name">Toilets for all</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+        <field name="list_price">8</field>
+        <field name="property_account_income_id" search="[('code','=','6012')]"/>
+        <field name="property_account_expense_id" search="[('code','=','5012')]"/>
+    </record>
 </odoo>
