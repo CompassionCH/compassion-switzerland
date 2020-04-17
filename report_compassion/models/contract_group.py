@@ -9,6 +9,7 @@
 ##############################################################################
 import logging
 import math
+from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 from babel.dates import format_date
@@ -48,7 +49,7 @@ class ContractGroup(models.Model):
         Given the list of months to print,
         returns the list of months grouped by the frequency payment
         of the contract group and only containing unpaid sponsorships.
-        :param months: list of dates in string format
+        :param months: list of dates (date, datetime or string)
         :param sponsorships: recordset of included sponsorships
         :return: list of dates grouped in string format
         """
@@ -65,11 +66,14 @@ class ContractGroup(models.Model):
         for i, month in enumerate(months):
             if isinstance(month, str):
                 months[i] = fields.Date.from_string(month)
-            if isinstance(month, fields.datetime):
+            if isinstance(month, datetime):
                 months[i] = month.date()
 
         # Only keep unpaid months
-        valid_months = [month for month in months if month >= first_invoice_date]
+        valid_months = [
+            fields.Date.to_string(month) for month in months
+            if month >= first_invoice_date
+        ]
         if "Permanent" in payment_mode.name:
             return valid_months[:1]
         if freq == 1:
@@ -85,19 +89,21 @@ class ContractGroup(models.Model):
                 if count < freq:
                     count += 1
                 else:
-                    result.append(month_start + " - " + month)
+                    result.append(fields.Date.to_string(month_start) + " - " +
+                                  fields.Date.to_string(month))
                     month_start = ""
                     count = 1
             if not result:
-                result.append(month_start + " - " + month)
+                result.append(fields.Date.to_string(month_start) + " - " +
+                              fields.Date.to_string(month))
             return result
 
     @api.multi
     def get_communication(self, start, stop, sponsorships):
         """
         Get the communication to print on the payment slip for sponsorship
-        :param start: the month start for which we print the payment slip
-        :param stop: the month stop for which we print the payment slip
+        :param start: the month start for which we print the payment slip (string)
+        :param stop: the month stop for which we print the payment slip (string)
         :param sponsorships: recordset of sponsorships for which to print the
                              payment slips
         :return: string of the communication
@@ -107,29 +113,8 @@ class ContractGroup(models.Model):
         amount = sum(sponsorships.mapped("total_amount"))
         valid = sponsorships
         number_sponsorship = len(sponsorships)
-        date_start = fields.Date
-        date_stop = fields.Date
-
-        if start and stop:
-            date_start = start
-            date_stop = stop
-            nb_month = relativedelta(date_stop, date_start).months + 1
-            month = date_start
-            if sponsorships.mapped("payment_mode_id") == self.env.ref(
-                    "sponsorship_switzerland.payment_mode_bvr"
-            ):
-                amount = 0
-                number_sponsorship = 0
-                for i in range(0, nb_month):
-                    valid = sponsorships.filtered(
-                        lambda s: s.first_open_invoice
-                        and s.first_open_invoice <= month
-                        or (
-                            s.next_invoice_date and s.next_invoice_date <= month)
-                    )
-                    number_sponsorship = max(number_sponsorship, len(valid))
-                    amount += sum(valid.mapped("total_amount"))
-                    month += relativedelta(months=1)
+        date_start = fields.Date.to_date(start)
+        date_stop = fields.Date.to_date(stop)
         vals = {
             "amount": f"CHF {amount:.0f}",
             "subject": _("for") + " ",
