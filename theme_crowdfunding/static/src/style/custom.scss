@@ -535,7 +535,7 @@ $mute: #DFE3E4;
   table-layout: fixed;
   width: 100%;
   color: darken($mute, 33%);
-  background-color: #FFF;
+  background-color: #dee2e6;
 
   > li {
     position: relative;
@@ -547,7 +547,7 @@ $mute: #DFE3E4;
       content: attr(data-step);
       display: block;
       margin: 0 auto;
-      background: $mute;
+      background: #0B0B0B;
       width: 3em;
       height: 3em;
       text-align: center; //IE8 doesn't inherit this style
