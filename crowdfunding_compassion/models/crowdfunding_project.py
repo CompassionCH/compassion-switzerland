@@ -27,9 +27,9 @@ class CrowdfundingProject(models.Model):
     instagram_url = fields.Char(string="Instagram link")
     personal_web_page_url = fields.Char(string="Personal web page")
     product_id = fields.Many2one("product.product", "Supported fund")
-    product_number_goal = fields.Integer()
+    product_number_goal = fields.Integer(default=1)
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
-    number_sponsorships_goal = fields.Integer()
+    number_sponsorships_goal = fields.Integer(default=1)
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached")
     sponsorship_ids = fields.One2many(
