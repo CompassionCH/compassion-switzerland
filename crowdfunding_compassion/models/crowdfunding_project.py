@@ -83,7 +83,12 @@ class CrowdfundingProject(models.Model):
         for project in self:
             project.number_sponsorships_reached = len(project.sponsorship_ids)
 
-    def _get_3_active_projects(self):
+    def _get_active_projects_row(self):
         return self.env['crowdfunding.project'].search([
             ("state", "!=", "validation")
         ], limit=3, order="deadline ASC")
+
+    @api.multi
+    def validate(self):
+        for project in self:
+            project.state = "active"

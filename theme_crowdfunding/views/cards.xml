@@ -71,16 +71,6 @@
                         </t>
                     </div>
                 </t>
-                <!--            LOAD MORE BUTTON -->
-                <div class="row py-4">
-                    <div class="col-sm-12 text-center">
-                        <button type="object" name="_get_3_active_projects" class="btn btn-primary">
-                            Load more projects
-                        </button>
-                        <br/>
-                        <br/>
-                    </div>
-                </div>
             </div>
         </template>
     </data>

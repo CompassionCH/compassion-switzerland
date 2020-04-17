@@ -24,7 +24,7 @@ class ProjectsController(EventsController):
         values = {}
         project_obj = request.env['crowdfunding.project']
         values.update({
-            "project_list": [project_obj._get_3_active_projects()],
+            "project_list": [project_obj._get_active_projects_row()],
         })
         return request.render(
             "crowdfunding_compassion.project_list_view_template", values)
