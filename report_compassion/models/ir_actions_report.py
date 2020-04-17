@@ -16,13 +16,5 @@ class IrActionsReport(models.Model):
         result = super().behaviour()
 
         # Retrieve user default values
-        user = self.env.user
-        if user.printing_action:
-            default_action = user.printing_action
-            for key, val in result.iteritems():
-                result[key]["action"] = default_action
-        if user.printing_printer_id:
-            default_printer = user.printing_printer_id
-            for key, val in result.iteritems():
-                result[key]["printer"] = default_printer
+        result.update(self._get_user_default_print_behaviour())
         return result
