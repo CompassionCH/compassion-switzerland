@@ -23,8 +23,20 @@ class ProjectsController(EventsController):
     def get_projects_list(self, **kwargs):
         values = {}
         project_obj = request.env['crowdfunding.project']
+        projects = project_obj._get_active_projects_rows()
+        first_row = []
+        second_row = []
+        third_row = []
+        for project in projects:
+            if len(first_row) < 3:
+                first_row.append(project)
+            elif len(second_row) < 3:
+                second_row.append(project)
+            else:
+                third_row.append(project)
+
         values.update({
-            "project_list": [project_obj._get_active_projects_row()],
+            "project_list": [first_row, second_row, third_row],
         })
         return request.render(
             "crowdfunding_compassion.project_list_view_template", values)
