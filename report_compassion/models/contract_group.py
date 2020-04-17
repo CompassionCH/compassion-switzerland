@@ -11,7 +11,6 @@ import logging
 import math
 from datetime import datetime
 
-from dateutil.relativedelta import relativedelta
 from babel.dates import format_date
 
 from odoo import api, models, fields, _

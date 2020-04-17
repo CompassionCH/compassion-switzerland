@@ -483,21 +483,17 @@ class RecurringContract(models.Model):
         partner_lang = self.mapped("correspondent_id")[0].lang
         product_name = products[0].with_context(lang=partner_lang).name
         report_ref = self.env.ref("report_compassion.report_bvr_gift_sponsorship")
-        pdf_data = report_ref.report_action(
-            self,
+        pdf_data = report_ref.render_qweb_pdf(
+            self.ids,
             data={
                 "doc_ids": self.ids,
                 "product_ids": products.ids,
                 "background": background,
             },
-        )
+        )[0]
         attachments[product_name + ".pdf"] = [
             report,
-            base64.encodebytes(
-                report_ref.render_qweb_pdf(
-                    pdf_data["data"]["doc_ids"], pdf_data["data"]
-                )
-            ),
+            base64.encodebytes(pdf_data),
         ]
         return attachments
 

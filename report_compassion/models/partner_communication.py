@@ -102,10 +102,8 @@ class PartnerCommunication(models.Model):
             "background": background,
         }
         report_ref = self.env.ref("report_compassion.report_a4_bvr")
-        pdf_data = report_ref.report_action(bvr, data=data)
-        return base64.encodebytes(
-            report_ref.render_qweb_pdf(pdf_data["data"]["doc_ids"], pdf_data["data"])[0]
-        )
+        pdf_data = report_ref.render_qweb_pdf(bvr.id, data=data)[0]
+        return base64.encodebytes(pdf_data)
 
     @api.model
     def _get_default_vals(self, vals, default_vals=None):

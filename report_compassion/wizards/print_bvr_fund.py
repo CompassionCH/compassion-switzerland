@@ -69,12 +69,8 @@ class PrintBvrFund(models.TransientModel):
         report_ref = self.env.ref("report_compassion.report_bvr_fund")
         if self.pdf:
             self.pdf_name = self.product_id.name + ".pdf"
-            pdf_data = report_ref.report_action(self, data=data)
-            self.pdf_download = base64.encodebytes(
-                report_ref.render_qweb_pdf(
-                    pdf_data["data"]["doc_ids"], pdf_data["data"]
-                )[0]
-            )
+            pdf_data = report_ref.render_qweb_pdf(partners.ids, data=data)[0]
+            self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {
                 "name": "Download report",
@@ -85,4 +81,4 @@ class PrintBvrFund(models.TransientModel):
                 "target": "new",
                 "context": self.env.context,
             }
-        return report_ref.report_action(self, data=data)
+        return report_ref.report_action(self, data=data, config=False)

@@ -706,6 +706,12 @@ class PartnerCommunication(models.Model):
         return base64.b64encode(output_stream.read())
 
     def _get_pdf_from_data(self, data, report_ref):
+        """
+        Helper to get the PDF base64 encoded given report ref and its data.
+        :param data: values for the report generation
+        :param report_ref: report xml id
+        :return: base64 encoded PDF
+        """
         report_str = report_ref.render_qweb_pdf(data["doc_ids"], data)
         if isinstance(report_str, (list, tuple)):
             report_str = report_str[0]

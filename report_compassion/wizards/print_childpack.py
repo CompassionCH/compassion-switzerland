@@ -8,7 +8,7 @@
 #
 ##############################################################################
 import base64
-from datetime import datetime
+from datetime import date
 
 from odoo.tools import relativedelta
 
@@ -64,17 +64,17 @@ class PrintChildpack(models.TransientModel):
         """
         model = "compassion.child"
         # Prevent printing dossier if completion date is in less than 2 years
-        in_two_years = datetime.today() + relativedelta(years=2)
+        in_two_years = date.today() + relativedelta(years=2)
         records = (
             self.env[model]
-            .browse(self.env.context.get("active_ids"))
-            .filtered(
+                .browse(self.env.context.get("active_ids"))
+                .filtered(
                 lambda c: c.state in ("N", "I", "P")
-                and c.desc_en
-                and (
-                    not c.completion_date or c.completion_date > in_two_years)
+                          and c.desc_en
+                          and (
+                                  not c.completion_date or c.completion_date > in_two_years)
             )
-            .with_context(lang=self.lang)
+                .with_context(lang=self.lang)
         )
         data = {
             "lang": self.lang,
@@ -87,12 +87,8 @@ class PrintChildpack(models.TransientModel):
         if self.pdf:
             name = records.local_id if len(records) == 1 else "dossiers"
             self.pdf_name = name + ".pdf"
-            pdf_data = report_ref.report_action(self, data=data)
-            self.pdf_download = base64.encodebytes(
-                report_ref.render_qweb_pdf(
-                    pdf_data["data"]["doc_ids"], pdf_data["data"]
-                )[0]
-            )
+            pdf_data = report_ref.render_qweb_pdf(records.ids, data=data)
+            self.pdf_download = base64.encodebytes(pdf_data[0])
             self.state = "pdf"
             return {
                 "name": "Download report",
@@ -103,4 +99,4 @@ class PrintChildpack(models.TransientModel):
                 "target": "new",
                 "context": self.env.context,
             }
-        return report_ref.report_action(self, data=data)
+        return report_ref.report_action(self, data=data, config=False)
