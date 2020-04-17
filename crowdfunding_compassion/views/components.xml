@@ -2,6 +2,7 @@
 <odoo>
     <data>
         <!-- Goal progress -->
+        <!-- This is a progress bar and related text for a goal (fund or sponsorships) -->
         <!-- [goal_reached], [goal_objective] and [goal_name] must be set before calling this template -->
         <template id="goal_progress" name="Goal progress">
             <div class="goal-progress__text-tile">
@@ -32,7 +33,29 @@
             </div>
         </template>
 
+        <!-- Project progress -->
+        <!-- This bundles the progress bars and deadline of a given project -->
+        <!--Individual [project] must be set before calling this template -->
+        <template id="project_progress" name="Project progress">
+            <!-- Setup data and display the sponsorship progress -->
+            <t t-set="goal_name" t-value="'sponsored children'"/>
+            <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
+            <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
+            <t t-call="crowdfunding_compassion.goal_progress"/>
+
+            <!-- TODO: Fund icon selector -->
+            <!-- Setup data and display the fund progress -->
+            <t t-if="project.product_id">
+                <t t-set="goal_name" t-value="'toilets built'"/>
+                <t t-set="goal_reached" t-value="project.product_number_reached"/>
+                <t t-set="goal_objective" t-value="project.product_number_goal"/>
+                <t t-call="crowdfunding_compassion.goal_progress"/>
+            </t>
+        </template>
+
+
         <!-- Participant card -->
+        <!-- This is a card shown on a project page with a participant personnal progress bars -->
         <!-- Individual [participant] model must be set before calling this template -->
         <template id="participant_card" name="Participant card">
             <div class="card participants__card">

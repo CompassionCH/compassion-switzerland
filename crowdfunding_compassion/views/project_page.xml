@@ -24,18 +24,8 @@
                                     <h3 class="blue my-3 text-center">Support the project</h3>
                                     <div class="project-hero__card-content">
 
-                                        <!-- Setup data and display the fund progress -->
-                                        <t t-set="goal_name" t-value="'toilets built'"/>
-                                        <t t-set="goal_reached" t-value="project.product_number_reached"/>
-                                        <t t-set="goal_objective" t-value="project.product_number_goal"/>
-                                        <t t-call="crowdfunding_compassion.goal_progress"/>
-
-                                        <!-- Setup data and display the sponsorship progress -->
-                                        <t t-set="goal_name" t-value="'sponsored children'"/>
-                                        <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
-                                        <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
-                                        <t t-call="crowdfunding_compassion.goal_progress"/>
-
+                                    <t t-call="crowdfunding_compassion.project_progress"/>
+                                    
                                     </div>
                                     <div class="project-hero__cart-cta">
                                         <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
@@ -65,7 +55,6 @@
                                     <!-- TODO: Link to uploaded binary once creation form is available -->
                                     <img class="profile-pic" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Project owner"/>
 
-                                    <!-- TODO: Allow public access to partner name -->
                                     <h5>
                                         <t t-esc="project.project_owner_id.partner_id.name" />
                                     </h5>
