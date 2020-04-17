@@ -2,7 +2,6 @@
 #    @author: Quentin Gigon
 
 from odoo import models, api, fields
-import datetime
 
 
 class CrowdfundingProject(models.Model):
