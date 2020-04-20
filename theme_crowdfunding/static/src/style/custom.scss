@@ -116,7 +116,7 @@ section {
 
 a {
   color: $blue-compassion;
-  text-decoration: underline;
+//   text-decoration: underline;
 
   &:hover {
     color: darken($blue-compassion, 20%);
@@ -401,6 +401,12 @@ footer {
   &__card-share-text {
     font-size: 0.9rem;
     color: $blue-compassion;
+  }
+
+  &__card-share-icons  {
+    .fa {
+      margin: 5px !important;
+    }
   }
 }
 
