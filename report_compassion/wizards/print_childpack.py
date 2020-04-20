@@ -80,7 +80,7 @@ class PrintChildpack(models.TransientModel):
             "type": self.type,
         }
         report_name = "report_compassion.report_" + self.type.split(".")[1]
-        report_ref = self.env.ref(report_name)
+        report_ref = self.env.ref(report_name).with_context(lang=self.lang)
         if self.pdf:
             name = records.local_id if len(records) == 1 else "dossiers"
             self.pdf_name = name + ".pdf"

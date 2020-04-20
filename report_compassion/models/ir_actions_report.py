@@ -16,5 +16,6 @@ class IrActionsReport(models.Model):
         result = super().behaviour()
 
         # Retrieve user default values
-        result.update(self._get_user_default_print_behaviour())
+        user_pref = self._get_user_default_print_behaviour()
+        result.update({opt: value for opt, value in user_pref.items() if value})
         return result
