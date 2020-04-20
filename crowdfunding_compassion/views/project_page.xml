@@ -4,7 +4,6 @@
         <!-- === Project Page === -->
         <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
 
-        <!-- TODO: Translation -->
         <template id="project_page">
             <t t-call="website.layout">
 

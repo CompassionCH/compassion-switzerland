@@ -10,7 +10,6 @@ from odoo import models, api, fields
 
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
-    # _inherit = "website"
     _description = "Crowd-funding project"
 
     name = fields.Char(required=True)
@@ -73,7 +72,6 @@ class CrowdfundingProject(models.Model):
     #     })
     #     return res
 
-    # TODO: allow public access to account.invoice.line
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:
