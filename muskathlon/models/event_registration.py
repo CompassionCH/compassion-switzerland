@@ -40,8 +40,6 @@ class MuskathlonRegistration(models.Model):
     muskathlon_event_id = fields.Char(related="compassion_event_id.muskathlon_event_id")
     reg_id = fields.Char(string="Muskathlon registration ID", size=128)
 
-    muskathlon_sponsor = fields.Char()
-
     is_in_two_months = fields.Boolean(compute="_compute_is_in_two_months")
 
     _sql_constraints = [
@@ -136,13 +134,6 @@ class MuskathlonRegistration(models.Model):
         self.message_subscribe(partners.ids)
 
         body = _("The participant registered through the Muskathlon website.")
-        if self.muskathlon_sponsor:
-            body = (
-                body
-                + "<br />"
-                + _("The participant indicated '%s' as referent")
-                % self.muskathlon_sponsor
-            )
 
         self.message_post(
             body=body,

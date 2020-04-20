@@ -59,10 +59,6 @@ class MuskathlonRegistrationForm(models.AbstractModel):
     emergency_name = fields.Char(
         help="Please indicate a contact in case of emergency " "during the trip."
     )
-    muskathlon_sponsor = fields.Char(
-        "Firstname and lastname of the participant",
-        help="(Optionnal) I registered thanks to this participant",
-    )
 
     @property
     def discipline_ids(self):
@@ -85,12 +81,6 @@ class MuskathlonRegistrationForm(models.AbstractModel):
                     "t_shirt_type",
                     "event_id",
                 ],
-            },
-            {
-                "id": "sponsor_referral",
-                "title": _("Sponsor of my participation"),
-                "description": "",
-                "fields": ["muskathlon_sponsor"],
             },
             {
                 "id": "partner",
