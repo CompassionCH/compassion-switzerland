@@ -2,7 +2,6 @@
 #    @author: Quentin Gigon
 
 from odoo import models, api, fields
-import datetime
 
 
 class CrowdfundingProject(models.Model):
@@ -47,20 +46,30 @@ class CrowdfundingProject(models.Model):
         "project_id",
         string="Participants")
     event_id = fields.Many2one("crm.event.compassion", "Event")
+    state = fields.Selection(
+        [("validation", "Validation"), ("active", "Active")],
+        required=True,
+        default="validation",
+    )
+    # event_type_id = fields.Many2one("event.type", "Event type")
 
-    @api.model
-    def create(self, vals):
-        self.event_id = self.env['crm.event.compassion'].create({
-            'name': self.name,
-            'event_type_id': self.env.ref(
-                "crowdfunding_compassion.event_type_crowdfunding").id,
-            'company_id': self.env.user.company_id.id,
-            'start_date': datetime.date.today(),
-            'end_date': self.deadline,
-            'hold_start_date': datetime.date.today(),
-            'number_allocate_children': self.product_number_goal,
-            'planned_sponsorships': self.number_sponsorships_goal
-        })
+    # TODO fix event.type NULL error
+    # @api.model
+    # def create(self, vals):
+    #     res = super().create(vals)
+    #     res.event_id = self.env['crm.event.compassion'].create({
+    #         'name': vals.get('name'),
+    #         'event_type_id': self.env.ref(
+    #             "crowdfunding_compassion.event_type_crowdfunding").id,
+    #         'company_id': self.env.user.company_id.id,
+    #         'start_date': datetime.date.today(),
+    #         'end_date': vals.get('deadline'),
+    #         'hold_start_date': datetime.date.today(),
+    #         'number_allocate_children': vals.get('product_number_goal'),
+    #         'planned_sponsorships': vals.get('number_sponsorships_goal'),
+    #         'type': "crowdfunding"
+    #     })
+    #     return res
 
     @api.multi
     def _compute_product_number_reached(self):
@@ -72,3 +81,13 @@ class CrowdfundingProject(models.Model):
     def _compute_number_sponsorships_reached(self):
         for project in self:
             project.number_sponsorships_reached = len(project.sponsorship_ids)
+
+    def _get_active_projects_rows(self):
+        return self.env['crowdfunding.project'].search([
+            ("state", "!=", "validation")
+        ], limit=9, order="deadline ASC")
+
+    @api.multi
+    def validate(self):
+        for project in self:
+            project.state = "active"

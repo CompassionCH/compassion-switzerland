@@ -1,38 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="crowdfunding_project_list" model="website.page">
-            <field name="url">/project_list</field>
+        <template id="project_list_view_template" name="Product list template">
+            <t t-call="website.layout">
+                <t t-call="theme_crowdfunding.crowdfunding_project_list_header"/>
+
+                <div id="project_cards">
+                    <h2 class="blue my-4 text-center">ACTIVE PROJECTS</h2>
+                    <t t-set="cards" t-value="project_list"/>
+                    <t t-call="theme_crowdfunding.crowdfunding_card_container"/>
+                </div>
+
+                <t t-call="theme_crowdfunding.crowdfunding_projects_pagination"/>
+
+                <t t-call="theme_crowdfunding.crowdfunding_footer"/>
+            </t>
+        </template>
+
+        <record id="project_list_view" model="ir.ui.view">
+            <field name="name">Project List</field>
+            <field name="type">qweb</field>
+            <field name="model">crowdfunding.project</field>
+            <field name="key">crowdfunding.project_list</field>
+            <field name="arch" type="xml">
+                <t t-call="crowdfunding_compassion.project_list_view_template"/>
+            </field>
+        </record>
+
+        <record id="project_list_page" model="website.page">
+            <field name="url">/together/projects</field>
             <field name="website_indexed" eval="True"/>
+            <field name="website_id" eval="ref('crowdfunding_compassion.crowdfunding_website')"/>
             <field name="website_published">True</field>
             <field name="name">Project List</field>
             <field name="type">qweb</field>
-            <field name="key">crowdfunding.project_list</field>
-            <field name="arch" type="xml">
-                <t name="Project List" t-name="crowdfunding.project_list">
-                    <t t-call="website.layout">
-                        <xpath expr="//nav[@id='oe_main_menu_navbar']" position="before">
-                            <t t-call="theme_crowdfunding.crowdfunding_navbar"/>
-                        </xpath>
+        </record>
 
-                        <div id="title">
-<!--                            <h1 class="blue my-4 text-center">JOIN A GREAT PROJECT</h1>-->
-                            <h1 class="h1-font-size text-center blue">JOIN A GREAT PROJECT</h1>
-                            <h2 class="text-center">Two lines explanation or introduction about project launch</h2>
-                            <br/>
-                            <br/>
-                        </div>
-
-                        <div id="project_cards">
-                            <h2 class="blue my-4 text-center">ACTIVE PROJECTS</h2>
-                             <!--                        <t t-set="card" t-value=""/>-->
-                            <t t-call="theme_crowdfunding.crowdfunding_card_container"/>
-                        </div>
-
-                        <t t-call="theme_crowdfunding.crowdfunding_footer"/>
-                    </t>
-                </t>
-            </field>
+        <record id="project_list_menu" model="website.menu">
+            <field name="name">Project List</field>
+            <field name="page_id" ref="project_list_page"/>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">87</field>
         </record>
     </data>
 </odoo>

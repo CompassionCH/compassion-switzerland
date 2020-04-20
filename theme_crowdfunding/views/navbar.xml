@@ -11,7 +11,7 @@
                             data-target="#navbarResponsive" aria-controls="navbarResponsive"
                             aria-expanded="false"
                             aria-label="Toggle navigation">Menu
-                        <i class="fa fa-bars fa-xs " aria-hidden="true"></i>
+                        <i class="fa fa-bars fa-xs " aria-hidden="true"/>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -38,12 +38,12 @@
                         </ul>
                         <!--         user login -->
                         <i class="fas fa-user-circle white fa-3x"
-                           aria-hidden="true"></i>
+                           aria-hidden="true"/>
                         <!--  lang selector        -->
                         <span class="lang-selector">
-                            <img src="img/FR.svg"/>
-                            <img src="img/DE.svg"/>
-                            <img src="img/IT.svg"/>
+                            <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
+                            <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
+                            <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
                         </span>
                     </div>
                 </div>

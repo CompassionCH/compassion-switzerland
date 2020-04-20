@@ -9,7 +9,8 @@ class CrowdfundingParticipant(models.Model):
     _description = "Participant to one of our crowd-fundings"
 
     project_id = fields.Many2one(
-        "crowdfunding.project", required=True,
+        "crowdfunding.project",
+        # required=True,
         index=True, ondelete="cascade", string="Crowdfunding project")
     partner_id = fields.Many2one(
         "res.partner", string="Partner",

@@ -58,9 +58,9 @@
 
                     <div class="row">
                         <div class="col-sm-12 col-md-4 ">
-                            <i class="fab fa-facebook-square fa-2x " aria-hidden="true"></i>
-                            <i class="fab fa-instagram fa-2x" aria-hidden="true"></i>
-                            <i class="fa fa-globe fa-2x" aria-hidden="true"></i>
+                            <i class="fab fa-facebook-square fa-2x " aria-hidden="true"/>
+                            <i class="fab fa-instagram fa-2x" aria-hidden="true"/>
+                            <i class="fa fa-globe fa-2x" aria-hidden="true"/>
                         </div>
 
                         <div class="col-md-4 ">
@@ -69,9 +69,9 @@
 
                         <div class="col-sm-12 col-md-4 text-right d-none d-md-block">
                             <span class="lang-selector">
-                                <img src="img/FR.svg"/>
-                                <img src="img/DE.svg"/>
-                                <img src="img/IT.svg"/>
+                                <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
+                                <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
+                                <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
                             </span>
                         </div>
                     </div>

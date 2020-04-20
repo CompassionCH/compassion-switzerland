@@ -3,7 +3,7 @@
     <data>
         <record id="crowdfunding_website" model="website">
             <field name="name">Crowdfunding Website</field>
-            <field name="domain"/>
+            <field name="domain">localhost:8069</field>
             <field name="default_lang_id">1</field>
             <field name="theme_id" model="ir.module.module" search="[('name', '=', 'theme_crowdfunding')]"/>
         </record>
