@@ -96,3 +96,14 @@ class CrowdfundingProject(models.Model):
     def validate(self):
         for project in self:
             project.state = "active"
+
+            # TODO: send communication
+            comm_obj = self.env["partner.communication.job"]
+            config = self.env.ref("crowdfunding_compassion.project_published_email_template")
+            # comm_obj.create(
+            #     {
+            #         "config_id": config.id,
+            #         "partner_id": self.env.user.partner_id.id,
+            #         "object_ids": self.main_object.ids,
+            #     }
+            # )

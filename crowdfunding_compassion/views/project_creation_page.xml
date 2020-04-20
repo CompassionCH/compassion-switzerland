@@ -34,7 +34,7 @@
         </record>
 
         <record id="project_creation_page" model="website.page">
-            <field name="url">/projects/create</field>
+            <field name="url">/together/projects/create</field>
             <field name="website_indexed" eval="True"/>
             <field name="website_published">True</field>
             <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
@@ -47,6 +47,7 @@
             <field name="page_id" ref="project_creation_page"/>
             <field name="parent_id" ref="website.main_menu"/>
             <field name="sequence" type="int">86</field>
+            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
         </record>
 
 
@@ -80,7 +81,7 @@
         </record>
 
         <record id="project_creation_confirmation_page" model="website.page">
-            <field name="url">/projects/create/confirm</field>
+            <field name="url">/together/projects/confirm</field>
             <field name="website_indexed" eval="True"/>
             <field name="website_published">True</field>
             <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
