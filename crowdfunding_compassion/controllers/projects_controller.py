@@ -8,15 +8,12 @@
 #
 ##############################################################################
 
-from odoo.http import request, route
-from odoo.addons.website_event_compassion.controllers.events_controller import (
-    EventsController,
-)
+from odoo.http import request, route, Controller
 
 
-class ProjectsController(EventsController):
+class ProjectsController(Controller):
 
-    @route('/projects',
+    @route('/together/projects',
            auth="public",
            type="http",
            website=True)

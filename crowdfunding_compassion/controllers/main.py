@@ -20,4 +20,4 @@ class CrowdFundingWebsite(EventsController):
         """ Inject data for forms. """
 
         result = request.render("crowdfunding_compassion.myaccount_view_template")
-        return self._form_redirect(result, full_page=True)
+        return result
