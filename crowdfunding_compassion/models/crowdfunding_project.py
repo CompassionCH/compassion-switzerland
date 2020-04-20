@@ -1,6 +1,10 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
 
+from datetime import date 
+
+from babel.dates import format_timedelta
+
 from odoo import models, api, fields
 
 
@@ -17,6 +21,7 @@ class CrowdfundingProject(models.Model):
         default="individual",
     )
     deadline = fields.Date(string="Deadline of project", required=True, index=True)
+    time_left = fields.Char(compute="_get_time_left")
     cover_photo = fields.Binary(string="Cover Photo", attachment=True)
     presentation_video = fields.Char(string="Youtube/Vimeo link")
     facebook_url = fields.Char(string="Facebook link")
@@ -90,3 +95,9 @@ class CrowdfundingProject(models.Model):
     def validate(self):
         for project in self:
             project.state = "active"
+    
+    @api.multi
+    def _get_time_left(self):
+        for project in self:
+            project.time_left = format_timedelta(project.deadline - date.today(), locale="en")
+

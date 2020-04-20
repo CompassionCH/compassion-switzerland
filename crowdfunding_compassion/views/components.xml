@@ -51,6 +51,9 @@
                 <t t-set="goal_objective" t-value="project.product_number_goal"/>
                 <t t-call="crowdfunding_compassion.goal_progress"/>
             </t>
+
+            <!-- TODO: Add clock icon -->
+            <span class="text--faded"><t t-esc="project.time_left"/> to go</span>
         </template>
 
 

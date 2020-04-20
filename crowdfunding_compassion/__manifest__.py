@@ -40,7 +40,7 @@
     ],
     "data": [
         "data/crowdfunding_website.xml",
-        "data/crowdfunding_event_type.xml",
+        # "data/crowdfunding_event_type.xml",
         "data/demo.xml",
         "security/ir.model.access.csv",
         "views/crowdfunding_participant_view.xml",

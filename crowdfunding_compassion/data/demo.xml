@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Demo data for the crowdfunding website -->
-<odoo noupdate="0">
+<odoo noupdate="1">
 
     <!-- Demo Participants-->
     <record id="participant_owner" model="crowdfunding.participant">
@@ -53,7 +53,7 @@
         <field name="twitter_url">https://twitter.com</field>
         <field name="instagram_url">https://instagram.com</field>
         <field name="personal_web_page_url">https://example.com</field>
-        <field name="product_id" ref="sponsorship_switzerland.product_template_fund_aid"/>
+        <!-- <field name="product_id" ref="sponsorship_switzerland.product_template_fund_aid"/> -->
         <field name="product_number_goal">100</field>
         <field name="number_sponsorships_goal">10</field>
         <field name="project_owner_id" ref="crowdfunding_compassion.participant_owner"/>
