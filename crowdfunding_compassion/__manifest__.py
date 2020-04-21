@@ -41,7 +41,7 @@
     "data": [
         "data/crowdfunding_website.xml",
         "data/crowdfunding_event_type.xml",
-        "data/demo.xml",
+        # "data/demo.xml",
         "data/project_confirmation_email.xml",
         "security/ir.model.access.csv",
         "views/crowdfunding_project_settings.xml",

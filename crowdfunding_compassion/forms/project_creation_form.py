@@ -82,12 +82,13 @@ class ProjectCreationForm(models.AbstractModel):
 
     # Form submission
     #################
+    # TODO change the way we get the partner_id, as it is a public route
     def form_before_create_or_update(self, values, extra_values):
-        owner = self.env["crowdfunding.participant"].search([
+        owner = self.env["crowdfunding.participant"].sudo().search([
             ("partner_id", "=", self.env.user.partner_id.id)
         ])
         if not owner:
-            owner = self.env["crowdfunding.participant"].create({
+            owner = self.env["crowdfunding.participant"].sudo().create({
                 "partner_id": self.env.user.partner_id.id
             })
         values.update({

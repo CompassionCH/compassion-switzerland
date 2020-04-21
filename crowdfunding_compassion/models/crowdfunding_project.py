@@ -1,7 +1,7 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
 import datetime
-from odoo import models, api, fields
+from odoo import models, api, fields, _
 
 
 class CrowdfundingProject(models.Model):
@@ -51,6 +51,7 @@ class CrowdfundingProject(models.Model):
         [("validation", "Validation"), ("active", "Active")],
         required=True,
         default="validation",
+        readonly=True
     )
 
     @api.model
@@ -101,27 +102,40 @@ class CrowdfundingProject(models.Model):
                 ('partner_id', '=', partner.id)
             ])
             if not user:
-                self._create_odoo_user()
+                return self._create_odoo_user()
+            else:
+                project.state = "active"
 
-            project.state = "active"
-
-            # Send email to inform project owner
-            comm_obj = self.env["partner.communication.job"]
-            config = self.env.ref("crowdfunding_compassion.config_project_published")
-            comm_obj.create(
-                {
-                    "config_id": config.id,
-                    "partner_id": partner.id,
-                    "object_ids": project.id,
-                }
-            )
+                # Send email to inform project owner
+                comm_obj = self.env["partner.communication.job"]
+                config = self.env.ref("crowdfunding_compassion.config_project_published")
+                comm_obj.create(
+                    {
+                        "config_id": config.id,
+                        "partner_id": partner.id,
+                        "object_ids": project.id,
+                    }
+                )
 
     @api.multi
     def _create_odoo_user(self):
-        portal = self.env["portal.wizard"].create({})
-        portal.onchange_portal_id()
-        users_portal = portal.mapped("user_ids")
-        users_portal.write({"in_portal": True})
-        res = portal.action_apply()
-
-        return res
+        # portal = self.env["portal.wizard"].create({})
+        # portal.onchange_portal_id()
+        # users_portal = portal.mapped("user_ids")
+        # users_portal.write({"in_portal": True})
+        # res = portal.action_apply()
+        #
+        # return res
+        ctx = {"active_ids": self.ids}
+        return {
+            "name": _("Create odoo user"),
+            "type": "ir.actions.act_window",
+            "res_model": "res.partner.create.portal.wizard",
+            "view_mode": "form",
+            "view_id": self.env.ref(
+                "partner_communication_switzerland."
+                "res_partner_create_portal_wizard_form"
+            ).id,
+            "target": "new",
+            "context": ctx,
+        }

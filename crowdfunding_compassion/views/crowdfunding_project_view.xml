@@ -12,6 +12,7 @@
                                 <field name="name"/>
                                 <field name="description"/>
                                 <field name="type"/>
+                                <field name="state"/>
                                 <field name="deadline" widget="date"/>
                                 <field name="cover_photo" widget="binary"/>
                                 <field name="product_id" widget="many2one"/>
@@ -22,6 +23,10 @@
                                 <field name="project_owner_id" widget="many2one"/>
                                 <field name="event_id" widget="many2one"/>
                             </group>
+
+                            <div>
+                                <button name="validate" string="Validate project" type="object" class="oe_stat_button"/>
+                            </div>
 
                             <group>
                                 <field name="sponsorship_ids" widget="one2many"/>
@@ -37,10 +42,6 @@
                                 <field name="personal_web_page_url" widget="char"/>
                             </group>
                         </group>
-
-                        <div>
-                            <button name="validate" string="Validate project" type="object" class="oe_stat_button"/>
-                        </div>
                     </div>
                 </form>
             </field>

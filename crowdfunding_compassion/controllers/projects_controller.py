@@ -39,10 +39,9 @@ class ProjectsController(Controller, FormControllerMixin):
             "crowdfunding_compassion.project_list_view_template", values)
 
     @route('/together/projects/create',
-           auth="user",
+           auth="public",
            type="http",
            method='POST',
-           csrf=False,
            website=True)
     def project_creation_step1(self, **kwargs):
         values = kwargs.copy()
