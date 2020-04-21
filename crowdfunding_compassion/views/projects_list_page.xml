@@ -2,17 +2,17 @@
     <data>
         <template id="project_list_view_template" name="Product list template">
             <t t-call="website.layout">
-                <t t-call="theme_crowdfunding.crowdfunding_project_list_header"/>
+                <t t-call="crowdfunding_compassion.crowdfunding_project_list_header"/>
 
                 <div id="project_cards">
                     <h2 class="blue my-4 text-center">ACTIVE PROJECTS</h2>
                     <t t-set="cards" t-value="project_list"/>
-                    <t t-call="theme_crowdfunding.crowdfunding_card_container"/>
+                    <t t-call="crowdfunding_compassion.crowdfunding_card_container"/>
                 </div>
 
-                <t t-call="theme_crowdfunding.crowdfunding_projects_pagination"/>
+                <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>
 
-                <t t-call="theme_crowdfunding.crowdfunding_footer"/>
+                <t t-call="crowdfunding_compassion.crowdfunding_footer"/>
             </t>
         </template>
 

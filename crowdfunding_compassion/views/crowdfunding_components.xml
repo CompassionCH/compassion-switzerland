@@ -1,0 +1,299 @@
+<odoo>
+    <data>
+        <!-- Goal progress -->
+        <!-- This is a progress bar and related text for a goal (fund or sponsorships) -->
+        <!-- [goal_reached], [goal_objective] and [goal_name] must be set before calling this template -->
+        <template id="goal_progress" name="Goal progress">
+            <div class="goal-progress__text-tile">
+                <img src="/theme_crowdfunding/static/src/img/goal_icon.png" alt="Goal icon"/>
+                <div>
+                    <span class="text--bold">
+                        <t t-esc="goal_reached"/>
+                        <t t-esc="goal_name"/>
+                    </span>
+                    <span class="text--faded">
+                        out of
+                        <t t-esc="goal_objective"/>
+                    </span>
+                </div>
+            </div>
+            <div class="goal-progress__bar mb-2">
+
+                <!-- Compute goal progress percentage -->
+                <t t-set="progress_percentage" t-value="goal_reached / goal_objective * 100"/>
+
+                <div class="progress">
+                    <div class="progress-bar bg-compassion" role="progressbar"
+                         t-attf-style="width: {{ progress_percentage }}%" t-att-aria-valuenow="progress_percentage"
+                         aria-valuemin="0" aria-valuemax="100"/>
+                </div>
+                <span class="text--faded">
+                    <t t-esc="progress_percentage"/>
+                    %
+                </span>
+            </div>
+        </template>
+
+        <!-- Project progress -->
+        <!-- This bundles the progress bars and deadline of a given project -->
+        <!--Individual [project] must be set before calling this template -->
+        <template id="crowdfunding_project_progress" name="Crowdfunding project progress">
+            <!-- Setup data and display the sponsorship progress -->
+            <t t-set="goal_name" t-value="'sponsored children'"/>
+            <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
+            <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
+            <t t-call="crowdfunding_compassion.goal_progress"/>
+
+            <!-- TODO: Fund icon selector -->
+            <!-- Setup data and display the fund progress -->
+            <t t-if="project.product_id">
+                <t t-set="goal_name" t-value="'toilets built'"/>
+                <t t-set="goal_reached" t-value="project.product_number_reached"/>
+                <t t-set="goal_objective" t-value="project.product_number_goal"/>
+                <t t-call="crowdfunding_compassion.goal_progress"/>
+            </t>
+        </template>
+
+        <template id="crowdfunding_project_card" name="Project card">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8 ">
+                            <h5 class="card-title">
+                                <t t-esc="project_title"/>
+                            </h5>
+                        </div>
+
+                        <div class="col-md-4 text-right">
+                            <p>
+                                <small>
+                                    <i class="fas fa-users white" aria-hidden="true"/>
+                                    <t t-esc="project_collective"/>
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+
+                    <p>
+                        <small>
+                            <i class="fas fa-user-circle white" aria-hidden="true"/>
+                            <t t-esc="project_owner"/>
+                        </small>
+                    </p>
+                </div>
+                <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg"
+                     alt="Card image cap"/>
+                <br/>
+
+                <t t-set="project" t-value="card"/>
+                <t t-call="crowdfunding_compassion.crowdfunding_project_progress"/>
+
+                <!--                <p>10 / 25 toilets</p>-->
+                <!--                <div class="progress" style="height: 20px;">-->
+                <!--                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"-->
+                <!--                         aria-valuemin="0" aria-valuemax="100"/>-->
+                <!--                </div>-->
+                <!--                <p>20 days to go</p>-->
+
+                <div class="card-body">
+                    <p class="card-text">
+                        <t t-esc="project_description"/>
+                    </p>
+                    <a t-attf-href="/project/{{project_id}}" class="btn btn-primary btn-lg btn-block mb-2">Join</a>
+                </div>
+            </div>
+        </template>
+
+        <template id="crowdfunding_card_container" name="Card container">
+            <div class="container">
+                <!-- 	 1ST row -->
+                <t t-foreach="cards" t-as="card_row">
+                    <div class="row pb-4">
+                        <t t-foreach="card_row" t-as="card">
+                            <t t-set="project_title">
+                                <t t-esc="card.name"/>
+                            </t>
+                            <t t-set="project_owner">
+                                <t t-esc="card.project_owner_id.partner_id.name"/>
+                            </t>
+                            <t t-set="project_collective">
+                                <t t-esc="card.type"/>
+                            </t>
+                            <t t-set="project_description">
+                                <t t-esc="card.description"/>
+                            </t>
+                            <t t-set="project_id" t-value="card.id"/>
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <t t-call="crowdfunding_compassion.crowdfunding_project_card"/>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </template>
+
+        <template id="crowdfunding_navbar" name="Navbar for Crowdfunding page">
+            <nav class="navbar shadow navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+                <div class="container-fluid">
+                    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                        <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
+                             width="190" height="auto"/>
+                    </a>
+                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                            data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">Menu
+                        <i class="fa fa-bars fa-xs " aria-hidden="true"/>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ul class="navbar-nav text-uppercase ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#services">Services</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#portfolio">Portfolio</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about">About</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#team">Team</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contact">Contact</a>
+                            </li>
+                        </ul>
+                        <!--         user login -->
+                        <i class="fas fa-user-circle white fa-3x"
+                           aria-hidden="true"/>
+                        <!--  lang selector        -->
+                        <span class="lang-selector">
+                            <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
+                            <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
+                            <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
+                        </span>
+                    </div>
+                </div>
+            </nav>
+        </template>
+
+        <template id="crowdfunding_project_list_header" name="Header for Crowdfunding page">
+            <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
+            <header class="masthead">
+                <div class="container">
+                    <div class="intro-text">
+                        <h1 class="display-1 blue">JOIN A GREAT PROJECT</h1>
+                        <h2 class="display-4 pb-4 ">Two lines explanation or introduction about project launch</h2>
+                        <br/>
+                    </div>
+                </div>
+            </header>
+        </template>
+
+        <template id="crowdfunding_footer" name="Footer for Crowdfunding page">
+            <footer class="footer pb-5">
+                <div class="container">
+                    <div class="row py-5">
+                        <div class="col-sm-12 col-md-4 f-logo">
+                            <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
+                                 width="190" height="auto"/>
+
+                            <p>Compassion Suisse est la branche nationale de Compassion International. A travers le
+                                parrainage individuel et en collaboration avec quelque 7000 Eglises locales, nous
+                                apportons un soutien à plus de 2 millions d’enfants parmi les plus démunis dans 25
+                                pays.
+                            </p>
+                        </div>
+
+                        <div class="col-sm-12 col-md-4 pt-2">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#">About this platform</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">FAQ</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Fundraising tools</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link " href="#">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-sm-12 col-md-4 pt-2">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#">About this platform</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">FAQ</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Fundraising tools</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link " href="#">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 ">
+                            <i class="fab fa-facebook-square fa-2x " aria-hidden="true"/>
+                            <i class="fab fa-instagram fa-2x" aria-hidden="true"/>
+                            <i class="fa fa-globe fa-2x" aria-hidden="true"/>
+                        </div>
+
+                        <div class="col-md-4 ">
+                            <small>© 2020 Compassion Switzerland / all right reserved</small>
+                        </div>
+
+                        <div class="col-sm-12 col-md-4 text-right d-none d-md-block">
+                            <span class="lang-selector">
+                                <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
+                                <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
+                                <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </template>
+
+        <template id="crowdfunding_projects_pagination" name="Pagination for Crowdfunding project list page">
+            <nav aria-label="Navigate through projects" class="text-xs-center">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#">Previous</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </template>
+    </data>
+</odoo>
