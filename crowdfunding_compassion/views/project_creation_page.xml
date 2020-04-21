@@ -49,7 +49,7 @@
             <field name="name">Project creation menu</field>
             <field name="page_id" ref="project_creation_page"/>
             <field name="parent_id" ref="website.main_menu"/>
-            <field name="sequence" type="int">90</field>
+            <field name="sequence" type="int">85</field>
             <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
         </record>
 

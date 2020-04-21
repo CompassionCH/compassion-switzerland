@@ -103,13 +103,13 @@ class ProjectCreationForm(models.AbstractModel):
     def form_after_create_or_update(self, values, extra_values):
         comm_obj = self.env["partner.communication.job"]
         config = self.env.ref("crowdfunding_compassion.config_project_confirmation")
-        # comm_obj.create(
-        #     {
-        #         "config_id": config.id,
-        #         "partner_id": self.env.user.partner_id.id,
-        #         "object_ids": self.main_object.id,
-        #     }
-        # )
+        comm_obj.create(
+            {
+                "config_id": config.id,
+                "partner_id": self.env.user.partner_id.id,
+                "object_ids": self.main_object.id,
+            }
+        )
 
     def form_next_url(self, main_object=None):
         return super().form_next_url(self.main_object)
