@@ -4,7 +4,6 @@ from odoo.http import request, route, Controller
 
 
 class HomepageController(Controller):
-    # Demo route used to display demo project
     @route("/home", auth="public", website=True)
     def homepage(self, **kwargs):
         context = {
@@ -46,7 +45,7 @@ class HomepageController(Controller):
             if project.product_id == toilets_fund.id:
                 impact["toilets"] += project.product_number_reached
 
-            elif project.product_id == scp_fund.id:
+            elif project.product_id == csp_fund.id:
                 impact["csp"] += project.product_number_reached
 
             elif project.product_id:

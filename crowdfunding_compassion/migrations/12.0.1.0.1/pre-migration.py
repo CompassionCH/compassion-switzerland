@@ -1,8 +1,9 @@
 from openupgradelib import openupgrade
 
 
-def migrate(cr, installed_version):
-    if not installed_version:
+@openupgrade.migrate(use_env=True)
+def migrate(env, version):
+    if not version:
         return
 
     # Associate already created toilets fund to new xml record
@@ -12,7 +13,7 @@ def migrate(cr, installed_version):
 
     if toilets_fund:
         openupgrade.add_xmlid(
-            cr,
+            env.cr,
             "sponsorship_switzerland",
             "product_template_fund_toilets",
             "product.template",
