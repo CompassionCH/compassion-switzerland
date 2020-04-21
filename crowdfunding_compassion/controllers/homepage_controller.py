@@ -8,16 +8,13 @@ class HomepageController(Controller):
     @route("/home", auth="public", website=True)
     def homepage(self, **kwargs):
         context = {
-            "funds": [
-                "Building safe toilets",
-                "Help mothers and babies",
-                "Provide medical care",
-                "Sponsor a child",
-            ],
+            "funds": request.env['product.product'].sudo().search([
+                ('activate_for_crowdfunding', '=', True)
+            ]),
             "impact": self._compute_projects_impact(datetime.now().year),
         }
 
-        return request.render("crowdfunding_compassion.homepage", context)
+        return request.render("crowdfunding_compassion.homepage_template", context)
 
     def _compute_projects_impact(self, year, **kwargs):
         projects = (

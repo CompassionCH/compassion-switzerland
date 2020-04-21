@@ -6,6 +6,7 @@
             <field name="domain">together.localhost:8069</field>
             <field name="default_lang_id">1</field>
             <field name="theme_id" model="ir.module.module" search="[('name', '=', 'theme_crowdfunding')]"/>
+            <!-- <field name="homepage_id" ref="crowdfunding_compassion.homepage"/> -->
         </record>
     </data>
 </odoo>
