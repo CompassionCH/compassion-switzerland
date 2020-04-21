@@ -8,9 +8,10 @@
 #
 ##############################################################################
 from odoo.http import request, route, Controller
+from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
 
-class ProjectsController(Controller):
+class ProjectsController(Controller, FormControllerMixin):
 
     @route('/together/projects',
            auth="public",
@@ -56,12 +57,11 @@ class ProjectsController(Controller):
             {
                 "user": request.env.user,
                 "form": project_creation_form,
-                "website_template": "crowdfunding_compassion.project_creation_view_template",
             }
         )
         project_creation_form = values["form"]
         if project_creation_form.form_success:
             result = request.render("crowdfunding_compassion.project_creation_confirmation_view_template", {})
         else:
-            result = request.render(values["website_template"], values)
+            result = request.render("crowdfunding_compassion.project_creation_view_template", values)
         return result

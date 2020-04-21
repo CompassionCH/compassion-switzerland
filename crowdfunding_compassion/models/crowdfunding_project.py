@@ -1,6 +1,6 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
-
+import datetime
 from odoo import models, api, fields
 
 
@@ -95,15 +95,33 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def validate(self):
         for project in self:
+            user_obj = self.env['res.users']
+            partner = self.project_owner_id.partner_id
+            user = user_obj.search([
+                ('partner_id', '=', partner.id)
+            ])
+            if not user:
+                self._create_odoo_user()
+
             project.state = "active"
 
-            # TODO: send communication
+            # Send email to inform project owner
             comm_obj = self.env["partner.communication.job"]
-            config = self.env.ref("crowdfunding_compassion.project_published_email_template")
-            # comm_obj.create(
-            #     {
-            #         "config_id": config.id,
-            #         "partner_id": self.env.user.partner_id.id,
-            #         "object_ids": self.main_object.ids,
-            #     }
-            # )
+            config = self.env.ref("crowdfunding_compassion.config_project_published")
+            comm_obj.create(
+                {
+                    "config_id": config.id,
+                    "partner_id": partner.id,
+                    "object_ids": project.id,
+                }
+            )
+
+    @api.multi
+    def _create_odoo_user(self):
+        portal = self.env["portal.wizard"].create({})
+        portal.onchange_portal_id()
+        users_portal = portal.mapped("user_ids")
+        users_portal.write({"in_portal": True})
+        res = portal.action_apply()
+
+        return res

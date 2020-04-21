@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <!--        Creation page-->
@@ -13,6 +14,7 @@
                             some
                             details
                         </h5>
+
                     </div>
                 </section>
 
@@ -43,10 +45,11 @@
         </record>
 
         <record id="project_creation_menu" model="website.menu">
+            <field name="url">/together/projects/create</field>
             <field name="name">Project creation menu</field>
             <field name="page_id" ref="project_creation_page"/>
             <field name="parent_id" ref="website.main_menu"/>
-            <field name="sequence" type="int">86</field>
+            <field name="sequence" type="int">90</field>
             <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
         </record>
 
