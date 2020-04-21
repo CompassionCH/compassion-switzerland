@@ -61,7 +61,10 @@ class ProjectsController(Controller, FormControllerMixin):
         )
         project_creation_form = values["form"]
         if project_creation_form.form_success:
-            result = request.render("crowdfunding_compassion.project_creation_confirmation_view_template", {})
+            result = request.render(
+                "crowdfunding_compassion.project_creation_confirmation_view_template",
+                {})
         else:
-            result = request.render("crowdfunding_compassion.project_creation_view_template", values)
+            result = request.render(
+                "crowdfunding_compassion.project_creation_view_template", values)
         return result
