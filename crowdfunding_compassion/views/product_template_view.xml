@@ -9,6 +9,7 @@
             <field name="product_variant_id" position="after" >
                 <field name="activate_for_crowdfunding"/>
                 <field name="crowdfunding_description"/>
+                <field name="crowdfunding_impact_text"/>
             </field>
         </field>
     </record>

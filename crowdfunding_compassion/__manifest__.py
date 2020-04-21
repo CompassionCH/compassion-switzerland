@@ -34,11 +34,11 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
-        "cms_form_compassion",     # compassion-modules
-        "theme_crowdfunding",      # compassion-switzerland
-        "sponsorship_switzerland", # compassion-switzerland
-        "crm_compassion",          # compassion-modules
-        "event",                   # odoo base modules
+        "cms_form_compassion",      # compassion-modules
+        "theme_crowdfunding",       # compassion-switzerland
+        "sponsorship_switzerland",  # compassion-switzerland
+        "crm_compassion",           # compassion-modules
+        "event",                    # odoo base modules
     ],
     "data": [
         "data/crowdfunding_website.xml",

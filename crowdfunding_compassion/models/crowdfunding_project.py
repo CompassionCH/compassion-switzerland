@@ -1,7 +1,7 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
 
-from datetime import date 
+from datetime import date
 
 from babel.dates import format_timedelta
 
@@ -15,12 +15,12 @@ class CrowdfundingProject(models.Model):
     name = fields.Char(required=True)
     description = fields.Text()
     type = fields.Selection(
-        [("individual", "Individual"), ("collective", "Collective"),],
+        [("individual", "Individual"), ("collective", "Collective")],
         required=True,
         default="individual",
     )
     deadline = fields.Date(string="Deadline of project", required=True, index=True)
-    time_left = fields.Char(compute="_get_time_left")
+    time_left = fields.Char(compute="_compute_time_left")
     cover_photo = fields.Binary(string="Cover Photo", attachment=True)
     presentation_video = fields.Char(string="Youtube/Vimeo link")
     facebook_url = fields.Char(string="Facebook link")
@@ -93,9 +93,10 @@ class CrowdfundingProject(models.Model):
     def validate(self):
         for project in self:
             project.state = "active"
-    
-    @api.multi
-    def _get_time_left(self):
-        for project in self:
-            project.time_left = format_timedelta(project.deadline - date.today(), locale="en")
 
+    @api.multi
+    def _compute_time_left(self):
+        for project in self:
+            project.time_left = format_timedelta(
+                project.deadline - date.today(), locale="en"
+            )

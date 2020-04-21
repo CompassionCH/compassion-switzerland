@@ -11,14 +11,14 @@ class ProjectController(Controller):
     # TODO: Remove when developmnent is done
     @route("/project/demo", auth="public", website=True)
     def demo_project_page(self, **kwargs):
-        demo_project = request.env.ref("crowdfunding_compassion.demo_project_crowdfunding").sudo()
-        print(f"Demo project ID: {demo_project.id}")
+        demo_project = request.env.ref(
+            "crowdfunding_compassion.demo_project_crowdfunding"
+        ).sudo()
 
         return request.render(
             "crowdfunding_compassion.project_page",
             self._prepare_project_values(demo_project, **kwargs),
         )
-
 
     @route(["/project/<int:project_id>"], auth="public", website=True)
     def project_page(self, project_id, **kwargs):
