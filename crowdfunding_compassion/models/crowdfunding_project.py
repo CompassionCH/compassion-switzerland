@@ -1,7 +1,7 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
 import datetime
-from odoo import models, api, fields, _
+from odoo import models, api, fields
 
 
 class CrowdfundingProject(models.Model):
@@ -110,7 +110,8 @@ class CrowdfundingProject(models.Model):
 
                 # Send email to inform project owner
                 comm_obj = self.env["partner.communication.job"]
-                config = self.env.ref("crowdfunding_compassion.config_project_published")
+                config = self.env.ref(
+                    "crowdfunding_compassion.config_project_published")
                 comm_obj.create(
                     {
                         "config_id": config.id,
