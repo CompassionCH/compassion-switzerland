@@ -143,8 +143,8 @@ a {
 //rounded images
 
 .profile-pic {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
 }
 .img-thumbnail {
@@ -607,12 +607,12 @@ footer {
 
 // Selectable cards
 .card-input-element+.card:hover {
-cursor: pointer;
+    cursor: pointer;
 }
 
 .card-input-element:checked+.card {
-background-color: lighten($blue-compassion, 40%) !important;
-transition: background-color .3s;
+    background-color: lighten($blue-compassion, 50%) !important;
+    transition: background-color .3s;
 }
 
 .fake-btn {
