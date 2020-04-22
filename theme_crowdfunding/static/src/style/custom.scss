@@ -574,6 +574,19 @@ footer {
   }
 }
 
+.donation-type {
+    background-color: $blue-compassion;
+
+    &__title {
+        font-size: $display2-size;
+        font-weight: 900;
+        color: $white;
+
+        padding-top: 10rem;
+        padding-bottom: 2rem;
+    }
+}
+
 // Global styles
 .text {
   &--bold {
