@@ -53,6 +53,8 @@ class CrowdfundingProject(models.Model):
         default="validation",
         readonly=True
     )
+    owner_lastname = fields.Char(string="Your lastname")
+    owner_firstname = fields.Char(string="Your firstname")
 
     @api.model
     def create(self, vals):

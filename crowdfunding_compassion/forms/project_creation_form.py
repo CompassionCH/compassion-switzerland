@@ -8,7 +8,7 @@
 ##############################################################################
 import logging
 
-from odoo import models, _
+from odoo import models, fields, _
 
 _logger = logging.getLogger(__name__)
 
@@ -30,10 +30,11 @@ class ProjectCreationForm(models.AbstractModel):
         "instagram_url",
         "personal_web_page_url",
         "type",
+        "owner_lastname",
+        "owner_firstname"
     ]
-    _form_required_fields = ("name", "type", "deadline")
-
-    # _display_type = "full"
+    _form_required_fields = ("name", "type", "deadline",
+                             "owner_lastname", "owner_firstname")
 
     @property
     def form_title(self):
@@ -52,7 +53,16 @@ class ProjectCreationForm(models.AbstractModel):
                 "cover_photo",
                 "type",
             ],
-        }, {
+        },
+            {
+                "id": "owner",
+                "title": _("Owner infos"),
+                "fields": [
+                    "owner_firstname",
+                    "owner_lastname",
+                ],
+        },
+            {
             "id": "social_medias",
             "title": _("Social Medias"),
             "fields": [
@@ -82,14 +92,19 @@ class ProjectCreationForm(models.AbstractModel):
 
     # Form submission
     #################
-    # TODO change the way we get the partner_id, as it is a public route
+    # TODO check with Ema if we must use name or email to identify partners
     def form_before_create_or_update(self, values, extra_values):
         owner = self.env["crowdfunding.participant"].sudo().search([
-            ("partner_id", "=", self.env.user.partner_id.id)
+            ("partner_id.lastname", "like", values['owner_lastname']),
+            ("partner_id.firstname", "like", values['owner_firstname'])
         ])
         if not owner:
+            partner = self.env['res.partner'].sudo().create({
+                "lastname": values['owner_lastname'],
+                "firstname": values['owner_firstname'],
+            })
             owner = self.env["crowdfunding.participant"].sudo().create({
-                "partner_id": self.env.user.partner_id.id
+                "partner_id": partner.id
             })
         values.update({
             "project_owner_id": owner.id
@@ -104,13 +119,13 @@ class ProjectCreationForm(models.AbstractModel):
     def form_after_create_or_update(self, values, extra_values):
         comm_obj = self.env["partner.communication.job"]
         config = self.env.ref("crowdfunding_compassion.config_project_confirmation")
-        comm_obj.create(
-            {
-                "config_id": config.id,
-                "partner_id": self.env.user.partner_id.id,
-                "object_ids": self.main_object.id,
-            }
-        )
+        # comm_obj.create(
+        #     {
+        #         "config_id": config.id,
+        #         "partner_id": self.main_object.project_owner_id.partner_id.id,
+        #         "object_ids": self.main_object.id,
+        #     }
+        # )
 
     def form_next_url(self, main_object=None):
         return super().form_next_url(self.main_object)
