@@ -10,6 +10,42 @@
                 <section class="donation-type">
                     <div class="container">
                         <h1 class="donation-type__title">I want to</h1>
+
+                        <div class="row pb-5">
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="h-100 w-100">
+                                    <input type="radio" name="donate" class="card-input-element d-none" id="fund" />
+
+                                    <div class="card h-100 card-body justify-content-between align-items-center">
+                                            <span class="donation-type__card-icon"></span>
+                                            <h4 class="blue text-center uppercase">Create impact by building toilets</h4>
+                                            <span class="fake-btn my-3">SELECT</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="h-100 w-100">
+                                    <input type="radio" name="donate" class="card-input-element d-none" id="sponsorship" />
+
+                                    <div class="card h-100 card-body justify-content-between align-items-center">
+                                            <span class="donation-type__card-icon"></span>
+                                            <h4 class="blue text-center uppercase">Sponsor children</h4>
+                                            <span class="fake-btn my-3">SELECT</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <div class="card h-100 w-100">
+                                    <img class="card-img-top donation-type__project-card-image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" alt="Project image"/>
+
+                                    <div class="card-body">
+                                    You are actually creating impact for:
+                                    <h5 class="uppercase mt-2">Project name</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
