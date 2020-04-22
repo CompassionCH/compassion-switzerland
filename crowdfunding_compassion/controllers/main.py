@@ -19,5 +19,5 @@ class CrowdFundingWebsite(EventsController):
     def my_account(self, form_id=None, **kw):
         """ Inject data for forms. """
 
-        result = request.render("crowdfunding_compassion.myaccount_view_template")
+        result = request.render("crowdfunding_compassion.myaccount_crowdfunding_view_template")
         return result
