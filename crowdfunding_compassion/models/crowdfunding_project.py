@@ -104,7 +104,7 @@ class CrowdfundingProject(models.Model):
                 ('partner_id', '=', partner.id)
             ])
             if not user:
-                return self._create_odoo_user()
+                return partner.create_odoo_user()
             else:
                 project.state = "active"
 
@@ -118,26 +118,3 @@ class CrowdfundingProject(models.Model):
                         "object_ids": project.id,
                     }
                 )
-
-    @api.multi
-    def _create_odoo_user(self):
-        # portal = self.env["portal.wizard"].create({})
-        # portal.onchange_portal_id()
-        # users_portal = portal.mapped("user_ids")
-        # users_portal.write({"in_portal": True})
-        # res = portal.action_apply()
-        #
-        # return res
-        ctx = {"active_ids": self.ids}
-        return {
-            "name": _("Create odoo user"),
-            "type": "ir.actions.act_window",
-            "res_model": "res.partner.create.portal.wizard",
-            "view_mode": "form",
-            "view_id": self.env.ref(
-                "partner_communication_switzerland."
-                "res_partner_create_portal_wizard_form"
-            ).id,
-            "target": "new",
-            "context": ctx,
-        }
