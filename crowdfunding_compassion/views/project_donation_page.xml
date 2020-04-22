@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- === Project Donation Page === -->
+        <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
+        <template id="project_donation_page">
+            <t t-call="website.layout">
+
+
+                <section class="donation-type">
+                    <div class="container">
+                        <h1 class="donation-type__title">I want to</h1>
+                    </div>
+                </section>
+
+            </t>
+        </template>
+    </data>
+</odoo>

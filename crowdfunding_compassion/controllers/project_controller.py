@@ -66,6 +66,17 @@ class ProjectController(Controller):
 
         return {"project": project, "impact": impact}
 
+    
+    @route(["/project/<int:project_id>/donation"], auth="public", website=True)
+    def project_donation_page(self, project_id, **kwargs):
+        project = request.env["crowdfunding.project"].sudo().browse([project_id])
+
+        return request.render(
+            "crowdfunding_compassion.project_donation_page",
+            {'project': project},
+        )
+
+
 
 # Utils
 def get_time_ago(date):
