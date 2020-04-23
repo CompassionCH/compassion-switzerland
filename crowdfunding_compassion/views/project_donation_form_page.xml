@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- === Project Donation Form Page === -->
+        <!-- The corresponding [project] and [participant] is passed to this template as context in variable [project] -->
+        <template id="project_donation_form_page">
+            <t t-call="website.layout">
+                Hello <t t-esc="participant.partner_id.name"/>
+            
+            </t>
+        </template>
+    </data>
+</odoo>

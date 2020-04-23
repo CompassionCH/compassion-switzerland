@@ -20,7 +20,6 @@ class ProjectController(Controller):
             self._prepare_project_values(demo_project, **kwargs),
         )
 
-    def project_page(self, project_id, **kw):
     @route(["/project/<model('crowdfunding.project'):project>"], auth="public", website=True)
     def project_page(self, project_id, **kwargs):
         # Get project with sudo, otherwise some parts will be blocked from public
@@ -76,6 +75,13 @@ class ProjectController(Controller):
             {'project': project.sudo(), 'selected_participant': participant},
         )
 
+    @route(["/project/<model('crowdfunding.project'):project>/donation/form/<model('crowdfunding.participant'):participant>"], auth="public", website=True)
+    def project_donation_form_page(self, project, participant, **kwargs):
+
+        return request.render(
+            "crowdfunding_compassion.project_donation_form_page",
+            {'project': project.sudo(), 'participant': participant.sudo()},
+        )
 
 
 # Utils
