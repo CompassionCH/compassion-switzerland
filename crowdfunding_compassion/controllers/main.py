@@ -6,7 +6,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-
 from odoo.http import request, route, Controller
 from odoo.addons.website_event_compassion.controllers.events_controller import (
     EventsController,
@@ -21,6 +20,7 @@ class CrowdFundingWebsite(EventsController):
         values = {}
         participating_projects = []
         owned_projects = []
+        donations = []
         partner = request.env.user.partner_id
         participant = request.env['crowdfunding.participant'].search([
             ('partner_id', '=', partner.id)
@@ -32,6 +32,7 @@ class CrowdFundingWebsite(EventsController):
             owned_projects = request.env['crowdfunding.project'].search([
                 ('project_owner_id', '=', participant.id),
             ])
+            donations = participant.invoice_line_ids
 
         kw["form_model_key"] = "cms.form.partner.coordinates"
         coordinates_form = self.get_form("res.partner", partner.id, **kw)
@@ -43,15 +44,29 @@ class CrowdFundingWebsite(EventsController):
             "partner": partner,
             "owned_projects": owned_projects,
             "participating_projects": participating_projects,
-            "coordinates_form": coordinates_form
+            "donations": donations,
+            "coordinates_form": coordinates_form,
         })
-
-        if "registrations" not in values.keys():
-            registrations_array = []
-            for reg in partner.registration_ids:
-                registrations_array.append(reg)
-            values['registrations'] = registrations_array
 
         result = request.render(
             "crowdfunding_compassion.myaccount_crowdfunding_view_template", values)
+        return result
+
+    @route(["/my_account/project/edit/"], type="http", auth="user", website=True)
+    def my_account_projects_edit(self, project_id=None, **kw):
+        project = request.env['crowdfunding.project'].search([
+            ('id', '=', project_id)
+        ])
+        kw["form_model_key"] = "cms.form.crowdfunding.project.update"
+        project_update_form = self.get_form("crowdfunding.project", project.id, **kw)
+        project_update_form.form_process()
+
+        values = {
+            "form": project_update_form,
+        }
+        if project_update_form.form_success:
+            result = request.redirect("/my_account")
+        else:
+            result = request.render(
+                "crowdfunding_compassion.project_update_view_template", values)
         return result

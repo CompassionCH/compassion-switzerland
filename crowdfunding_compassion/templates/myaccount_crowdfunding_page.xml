@@ -24,6 +24,7 @@
 
                 <h2 class="blue my-2 center">Donations</h2>
                 <section class="center">
+                    <t t-set="donations" t-value="donations"/>
                     <t t-call="crowdfunding_compassion.myaccount_donation_board"/>
                 </section>
             </t>

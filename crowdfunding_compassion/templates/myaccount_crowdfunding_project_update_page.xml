@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <template id="project_update_view_template">
+            <t t-call="website.layout">
+
+                <div t-attf-class="{{form.form_wrapper_css_klass}} center">
+                    <t t-raw="form.form_render()"/>
+                </div>
+
+                <t t-call="crowdfunding_compassion.crowdfunding_footer"/>
+            </t>
+        </template>
+
+        <record id="project_update_view" model="ir.ui.view">
+            <field name="name">Project update view</field>
+            <field name="type">qweb</field>
+            <field name="key">crowdfunding.project_update</field>
+            <field name="arch" type="xml">
+                <t t-call="crowdfunding_compassion.project_update_view_template"/>
+            </field>
+        </record>
+
+        <record id="project_update_page" model="website.page">
+            <field name="url">/together/projects/update</field>
+            <field name="website_indexed" eval="True"/>
+            <field name="website_published">True</field>
+            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
+            <field name="name">Project Update</field>
+            <field name="type">qweb</field>
+        </record>
+    </data>
+</odoo>

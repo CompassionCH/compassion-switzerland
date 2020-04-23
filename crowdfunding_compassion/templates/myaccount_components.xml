@@ -31,12 +31,12 @@
                                         </td>
                                         <td>
                                             <t t-if="owner">
-                                                <a t-attf-href="/project/{{project.id}}">
+                                                <a t-attf-href="/my_account/project/edit?project_id={{project.id}}">
                                                     Edit project
                                                 </a>
                                             </t>
                                             <t t-else="">
-                                               <a t-attf-href="#">
+                                                <a t-attf-href="#">
                                                     Edit registration
                                                 </a>
                                             </t>
@@ -59,10 +59,10 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Event</th>
+                                <th>Product</th>
                                 <th>Amount</th>
                                 <th>Date</th>
-                                <th>Donation</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,18 +70,16 @@
                                t-as="donation">
                                 <tr>
                                     <td>
-                                        <t t-esc="project_name"/>
+                                        <t t-esc="donation.product_id.name"/>
                                     </td>
                                     <td>
-                                        <t t-esc="donation_amount"/>
+                                        <t t-esc="donation.price_subtotal"/>
                                     </td>
                                     <td>
-                                        <t t-esc="preject_deadline"/>
+                                        <t t-esc="donation.date"/>
                                     </td>
                                     <td>
-                                        <a t-attf-href="/donations/{{donation.id}}">
-                                            See details
-                                        </a>
+                                        <t t-esc="donation.description"/>
                                     </td>
                                 </tr>
                             </t>
