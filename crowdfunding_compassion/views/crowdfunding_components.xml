@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <!-- Goal progress -->
+         <!-- Goal progress -->
         <!-- This is a progress bar and related text for a goal (fund or sponsorships) -->
         <!-- [goal_reached], [goal_objective] and [goal_name] must be set before calling this template -->
         <template id="goal_progress" name="Goal progress">
@@ -23,9 +23,7 @@
                 <t t-set="progress_percentage" t-value="goal_reached / goal_objective * 100"/>
 
                 <div class="progress">
-                    <div class="progress-bar bg-compassion" role="progressbar"
-                         t-attf-style="width: {{ progress_percentage }}%" t-att-aria-valuenow="progress_percentage"
-                         aria-valuemin="0" aria-valuemax="100"/>
+                    <div class="progress-bar bg-compassion" role="progressbar" t-attf-style="width: {{ progress_percentage }}%" t-att-aria-valuenow="progress_percentage" aria-valuemin="0" aria-valuemax="100"/>
                 </div>
                 <span class="text--faded">
                     <t t-esc="progress_percentage"/>
@@ -36,22 +34,77 @@
 
         <!-- Project progress -->
         <!-- This bundles the progress bars and deadline of a given project -->
-        <!--Individual [project] must be set before calling this template -->
-        <template id="crowdfunding_project_progress" name="Crowdfunding project progress">
+        <!-- Individual [project] must be set before calling this template -->
+        <!-- TODO: Add sponsorship and fund icons -->
+        <template id="project_progress" name="Project progress">
             <!-- Setup data and display the sponsorship progress -->
             <t t-set="goal_name" t-value="'sponsored children'"/>
             <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
             <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
             <t t-call="crowdfunding_compassion.goal_progress"/>
 
-            <!-- TODO: Fund icon selector -->
             <!-- Setup data and display the fund progress -->
             <t t-if="project.product_id">
-                <t t-set="goal_name" t-value="'toilets built'"/>
+                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text"/>
                 <t t-set="goal_reached" t-value="project.product_number_reached"/>
                 <t t-set="goal_objective" t-value="project.product_number_goal"/>
                 <t t-call="crowdfunding_compassion.goal_progress"/>
             </t>
+
+            <!-- TODO: Add clock icon -->
+            <span class="text--faded"><t t-esc="project.time_left"/> to go</span>
+        </template>
+
+
+        <!-- Participant card -->
+        <!-- This is a card shown on a project page with a participant personnal progress bars -->
+        <!-- Individual [participant] model must be set before calling this template -->
+        <template id="participant_card" name="Participant card">
+            <div class="card participants__card">
+                <img class="participants__image" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Participant image"/>
+                <div class="participants__content">
+                    <h4 class="participants__name">
+                        <t t-esc="participant.partner_id.name"/>
+                    </h4>
+
+                    <!-- Setup data and display the sponsorship progress -->
+                    <t t-set="goal_name" t-value="'sponsored children'"/>
+                    <t t-set="goal_reached" t-value="participant.number_sponsorships_reached"/>
+                    <t t-set="goal_objective" t-value="participant.number_sponsorships_goal"/>
+                    <t t-call="crowdfunding_compassion.goal_progress"/>
+
+                    <!-- Setup data and display the fund progress -->
+                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text"/>
+                    <t t-set="goal_reached" t-value="participant.product_number_reached"/>
+                    <t t-set="goal_objective" t-value="participant.product_number_goal"/>
+                    <t t-call="crowdfunding_compassion.goal_progress"/>
+                </div>
+            </div>
+        </template>
+
+        <!-- Impact tile -->
+        <!-- Individual [impact_tile] data must be set before calling this template -->
+        <template id="impact_tile" name="Impact tile">
+            <div t-attf-class="impact-tile impact-tile--{{ impact_tile.color }}">
+                <img class="impact-tile__image" t-att-src="impact_tile.image" alt="Impact image"/>
+                <span class="text--bold">
+                    <t t-esc="impact_tile.text"/>
+                </span>
+                <span class="text--faded">
+                    by
+                    <t t-esc="impact_tile.benefactor"/>
+                    <t t-esc="impact_tile.time_ago"/>
+                </span>
+            </div>
+        </template>
+
+
+        <template id="impact_tile_empty" name="Impact tile empty">
+            <div class="impact-tile--empty">
+                Be the first to show love for this project,
+                <br/>
+                <a href="#">make a donation now</a>
+            </div>
         </template>
 
         <template id="crowdfunding_project_card" name="Project card">
