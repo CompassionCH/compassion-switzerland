@@ -22,6 +22,7 @@ class ProjectController(Controller):
 
     def project_page(self, project_id, **kw):
     @route(["/project/<model('crowdfunding.project'):project>"], auth="public", website=True)
+    def project_page(self, project_id, **kwargs):
         # Get project with sudo, otherwise some parts will be blocked from public
         # access, for example res.partner or account.invoice.line. This is
         # simpler and less prone to error than defining custom access and
@@ -32,7 +33,7 @@ class ProjectController(Controller):
         )
 
     # TODO: test when we can create data for a project
-    def _prepare_project_values(self, project, **kw):
+    def _prepare_project_values(self, project, **kwargs):
         sponsorships = [
             {
                 "type": "sponsorship",
@@ -65,8 +66,10 @@ class ProjectController(Controller):
         return {"project": project, "impact": impact}
 
 
+    # To preselect a participant, pass its id as particpant query parameter
     @route(["/project/<model('crowdfunding.project'):project>/donation"], auth="public", website=True)
-    def project_donation_page(self, project, participant, **kw):
+    def project_donation_page(self, project, **kwargs):
+        participant = kwargs.get('participant')
 
         return request.render(
             "crowdfunding_compassion.project_donation_page",
