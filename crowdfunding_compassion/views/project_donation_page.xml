@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- === Project Donation Page === -->
+        <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
+        <template id="project_donation_page">
+            <t t-call="website.layout">
+
+                <!-- Donation type selection -->
+                <section class="donation-type">
+                    <div class="container">
+                        <h1 class="donation-type__title">I want to</h1>
+
+                        <div class="row pb-5">
+                            <!-- Fund selectable card -->
+                            <!-- Show fund option only if one is selected -->
+                            <t t-if="project.product_id">
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="h-100 w-100">
+                                        <input type="radio" name="donation-type" value="fund" class="card-input-element d-none" />
+
+                                        <div class="card h-100 card-body d-flex justify-content-around align-items-center">
+                                                <span class="donation-type__card-icon"></span>
+                                                <!-- TODO: Replace by project.product_id.crowdfunding_impact_text_ative (buggy now for some reason) -->
+                                                <h4 class="blue text-center uppercase">Create impact by <t t-esc="project.product_id"/></h4>
+                                                <span class="fake-btn my-3">SELECT</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </t>
+
+                            <!-- Sponsorship selectable card -->
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="h-100 w-100">
+                                    <!-- If there is no product id, select sponsorship by default -->
+                                    <t t-if="project.product_id">
+                                        <input type="radio" name="donation-type" value="sponsorship" class="card-input-element d-none" />
+                                    </t>
+                                    <t t-else="">
+                                        <input type="radio" name="donation-type" value="sponsorship" class="card-input-element d-none" checked="checked" />
+                                    </t>
+
+                                    <div class="card h-100 card-body d-flex justify-content-around align-items-center">
+                                            <span class="donation-type__card-icon"></span>
+                                            <h4 class="blue text-center uppercase">Sponsor children</h4>
+                                            <h6 class="blue text-center uppercase">(You will be redirected to compassion switzerland website)</h6>
+
+                                            <!-- Show the select button also if there is a fund option-->
+                                            <t t-if="project.product_id">
+                                                <span class="fake-btn my-3">SELECT</span>
+                                            </t>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <div class="card h-100 w-100">
+                                    <img class="card-img-top donation-type__project-card-image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" alt="Project image"/>
+
+                                    <div class="card-body">
+                                    You are actually creating impact for:
+                                    <h5 class="uppercase mt-2"><t t-esc="project.name"/></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Participant selection -->
+                <section>
+                    <div class="container">
+                        <h3 class="blue uppercase mt-5 mb-3">I support the project of the following fundraiser</h3>
+
+                        <div>
+                            <t t-foreach="project.participant_ids" t-as="participant">
+                                <label>
+                                    <!-- If the query parameter [participant_id] matches the currently displayed participant, check it -->
+                                    <t t-if="selected_participant and int(selected_participant) == participant.id">
+                                        <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id" checked="checked"/>
+                                    </t>
+                                    <t t-else="">
+                                        <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id"/>
+                                    </t>
+                                    <t t-call="crowdfunding_compassion.participant_picture" />
+                                </label>
+                            </t>
+                        </div>
+                        <a id="url" href="">
+                            <button id="submit" type="submit" class="btn btn-primary btn-lg mb-5 float-right uppercase">Next step</button>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- This function disables the next button if there isn't 2 radios checked (fund/sponsor and participant) and adjusts the link for next step -->
+                <script>
+                    const submit = document.getElementById('submit');
+                    const radios = document.querySelectorAll('input[type="radio"]');
+                    const a = document.getElementById("url");
+
+                    function clickHandler() {
+                        let checked_radios = document.querySelectorAll('input[type=radio]:checked').length;
+                        submit.disabled = checked_radios == 0 || checked_radios == 1;
+
+                        if (!submit.disabled) {
+                            let donationType = document.querySelector('input[name="donation-type"]:checked').value;
+                            let participantId = document.querySelector('input[name="participant"]:checked').value;
+
+                            if (donationType === "fund") {
+                                a.href = `/project/<t t-esc="project.id"/>/donation/form/${participantId}`
+                            }
+
+                            if (donationType === "sponsorship") {
+                                a.href = "TODO: Add redirection to Compassion CH"
+                            }
+                        }
+                    }
+
+                    // Register on each radio change
+                    radios.forEach(radio => {
+                        radio.addEventListener('change', clickHandler);
+                    });
+
+                    // Exectute on page load
+                    clickHandler();
+                </script>
+            </t>
+        </template>
+    </data>
+</odoo>

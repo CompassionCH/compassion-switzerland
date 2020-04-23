@@ -124,6 +124,10 @@ a {
   }
 }
 
+.uppercase {
+    text-transform: uppercase;
+}
+
 //GRID
 
 @media (min-width: 1200px) {
@@ -139,8 +143,8 @@ a {
 //rounded images
 
 .profile-pic {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
 }
 .img-thumbnail {
@@ -573,6 +577,50 @@ footer {
     padding: 1rem;
   }
 }
+
+.donation-type {
+    background-color: $blue-compassion;
+
+    &__title {
+        font-size: $display2-size;
+        font-weight: 900;
+        color: $white;
+
+        padding-top: 10rem;
+        padding-bottom: 2rem;
+    }
+
+    &__card-icon {
+        height: 120px;
+        width: 120px;
+        background-color: $blue-compassion;
+        border-radius: 50%;
+        margin: 2rem auto;
+    }
+
+    &__project-card-image {
+        height: 15rem;
+        object-fit: cover;
+    }
+}
+
+
+// Selectable cards
+.card-input-element+.card:hover {
+    cursor: pointer;
+}
+
+.card-input-element:checked+.card {
+    background-color: lighten($blue-compassion, 50%) !important;
+    transition: background-color .3s;
+}
+
+.fake-btn {
+    background-color: $blue-compassion;
+    color: $white;
+    padding: 0.5rem 1rem;
+}
+  
 
 // Global styles
 .text {
