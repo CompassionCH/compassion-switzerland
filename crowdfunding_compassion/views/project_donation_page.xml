@@ -6,31 +6,48 @@
         <template id="project_donation_page">
             <t t-call="website.layout">
 
-
+                <!-- Donation type selection -->
                 <section class="donation-type">
                     <div class="container">
                         <h1 class="donation-type__title">I want to</h1>
 
                         <div class="row pb-5">
+                            <!-- Fund selectable card -->
+                            <!-- Show fund option only if one is selected -->
+                            <t t-if="project.product_id">
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="h-100 w-100">
+                                        <input type="radio" name="donate" class="card-input-element d-none" id="fund" />
+
+                                        <div class="card h-100 card-body d-flex justify-content-around align-items-center">
+                                                <span class="donation-type__card-icon"></span>
+                                                <!-- TODO: Replace by project.product_id.crowdfunding_impact_text_ative (buggy now for some reason) -->
+                                                <h4 class="blue text-center uppercase">Create impact by <t t-esc="project.product_id"/></h4>
+                                                <span class="fake-btn my-3">SELECT</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </t>
+
+                            <!-- Sponsorship selectable card -->
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <label class="h-100 w-100">
-                                    <input type="radio" name="donate" class="card-input-element d-none" id="fund" />
+                                    <!-- If there is no product id, select sponsorship by default -->
+                                    <t t-if="project.product_id">
+                                        <input type="radio" name="donate" class="card-input-element d-none" id="sponsorship" />
+                                    </t>
+                                    <t t-else="">
+                                        <input type="radio" name="donate" class="card-input-element d-none" id="sponsorship" checked="checked" />
+                                    </t>
 
-                                    <div class="card h-100 card-body d-flex justify-content-between align-items-center">
-                                            <span class="donation-type__card-icon"></span>
-                                            <h4 class="blue text-center uppercase">Create impact by building toilets</h4>
-                                            <span class="fake-btn my-3">SELECT</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-sm-12 col-md-4 mb-3">
-                                <label class="h-100 w-100">
-                                    <input type="radio" name="donate" class="card-input-element d-none" id="sponsorship" />
-
-                                    <div class="card h-100 card-body d-flex justify-content-between align-items-center">
+                                    <div class="card h-100 card-body d-flex justify-content-around align-items-center">
                                             <span class="donation-type__card-icon"></span>
                                             <h4 class="blue text-center uppercase">Sponsor children</h4>
-                                            <span class="fake-btn my-3">SELECT</span>
+
+                                            <!-- Show the select button also if there is a fund option-->
+                                            <t t-if="project.product_id">
+                                                <span class="fake-btn my-3">SELECT</span>
+                                            </t>
                                     </div>
                                 </label>
                             </div>
@@ -41,7 +58,7 @@
 
                                     <div class="card-body">
                                     You are actually creating impact for:
-                                    <h5 class="uppercase mt-2">Project name</h5>
+                                    <h5 class="uppercase mt-2"><t t-esc="project.name"/></h5>
                                     </div>
                                 </div>
                             </div>
@@ -49,20 +66,26 @@
                     </div>
                 </section>
 
+                <!-- Participant selection -->
                 <section>
                     <div class="container">
                         <h3 class="blue uppercase mt-5 mb-3">I support the project of the following fundraiser</h3>
 
                         <div>
-                            <t t-foreach="[1, 2, 3]" t-as="participant">
+                            <t t-foreach="project.participant_ids" t-as="participant">
                                 <label>
-                                    <input type="radio" name="participant" class="card-input-element d-none" id="participant" />
+                                    <!-- If the query parameter [participant_id] matches the currently displayed participant, check it -->
+                                    <t t-if="int(selected_participant) == participant.id">
+                                        <input type="radio" name="participant" class="card-input-element d-none" t-att-id="participant.id" checked="checked"/>
+                                    </t>
+                                    <t t-else="">
+                                        <input type="radio" name="participant" class="card-input-element d-none" t-att-id="participant.id"/>
+                                    </t>
                                     <t t-call="crowdfunding_compassion.participant_picture" />
                                 </label>
                             </t>
                         </div>
-                        
-                        <button type="button" class="btn btn-primary btn-lg mb-5 float-right uppercase">Next step</button>                
+                        <button type="button" class="btn btn-primary btn-lg mb-5 float-right uppercase">Next step</button>
 
                     </div>
                 </section>

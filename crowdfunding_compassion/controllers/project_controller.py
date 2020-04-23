@@ -20,21 +20,19 @@ class ProjectController(Controller):
             self._prepare_project_values(demo_project, **kwargs),
         )
 
-    @route(["/project/<int:project_id>"], auth="public", website=True)
-    def project_page(self, project_id, **kwargs):
+    def project_page(self, project_id, **kw):
+    @route(["/project/<model('crowdfunding.project'):project>"], auth="public", website=True)
         # Get project with sudo, otherwise some parts will be blocked from public
         # access, for example res.partner or account.invoice.line. This is
         # simpler and less prone to error than defining custom access and
         # security rules for each of them.
-        project = request.env["crowdfunding.project"].sudo().browse([project_id])
-
         return request.render(
             "crowdfunding_compassion.project_page",
-            self._prepare_project_values(project, **kwargs),
+            self._prepare_project_values(project.sudo(), **kwargs),
         )
 
     # TODO: test when we can create data for a project
-    def _prepare_project_values(self, project, **kwargs):
+    def _prepare_project_values(self, project, **kw):
         sponsorships = [
             {
                 "type": "sponsorship",
@@ -66,14 +64,13 @@ class ProjectController(Controller):
 
         return {"project": project, "impact": impact}
 
-    
-    @route(["/project/<int:project_id>/donation"], auth="public", website=True)
-    def project_donation_page(self, project_id, **kwargs):
-        project = request.env["crowdfunding.project"].sudo().browse([project_id])
+
+    @route(["/project/<model('crowdfunding.project'):project>/donation"], auth="public", website=True)
+    def project_donation_page(self, project, participant, **kw):
 
         return request.render(
             "crowdfunding_compassion.project_donation_page",
-            {'project': project},
+            {'project': project.sudo(), 'selected_participant': participant},
         )
 
 
