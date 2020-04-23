@@ -8,7 +8,6 @@
 ##############################################################################
 
 from odoo.http import request, route, Controller
-from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.website_event_compassion.controllers.events_controller import (
     EventsController,
 )
@@ -20,14 +19,14 @@ class CrowdFundingWebsite(EventsController):
     def my_account(self, form_id=None, **kw):
         """ Inject data for forms. """
         values = {}
-        projects = []
+        participating_projects = []
         owned_projects = []
         partner = request.env.user.partner_id
         participant = request.env['crowdfunding.participant'].search([
             ('partner_id', '=', partner.id)
         ])
         if participant:
-            projects = request.env['crowdfunding.project'].search([
+            participating_projects = request.env['crowdfunding.project'].search([
                 ('participant_ids', 'in', participant.id)
             ])
             owned_projects = request.env['crowdfunding.project'].search([
@@ -43,9 +42,16 @@ class CrowdFundingWebsite(EventsController):
         values.update({
             "partner": partner,
             "owned_projects": owned_projects,
-            "projects": projects,
+            "participating_projects": participating_projects,
             "coordinates_form": coordinates_form
         })
+
+        if "registrations" not in values.keys():
+            registrations_array = []
+            for reg in partner.registration_ids:
+                registrations_array.append(reg)
+            values['registrations'] = registrations_array
+
         result = request.render(
             "crowdfunding_compassion.myaccount_crowdfunding_view_template", values)
         return result

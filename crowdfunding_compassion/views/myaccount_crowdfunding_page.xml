@@ -17,10 +17,57 @@
 
                 <h2 class="blue my-2">Projects you participate to</h2>
                 <section class="projects no-padding-top">
-                    <t t-set="projects" t-value="projects"/>
+                    <t t-set="projects" t-value="participating_projects"/>
                     <t t-set="owner" t-value="False"/>
                     <t t-call="crowdfunding_compassion.myaccount_project_list_container"/>
                 </section>
+
+                <h2 class="blue my-2">Donations</h2>
+                <t t-if="registrations">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="section-header"
+                                style="margin-top: 25px; margin-bottom: 10px;">
+                                My events
+                            </h3>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Event</th>
+                                        <th>Date</th>
+                                        <th>Documents</th>
+                                        <th>Barometer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="registrations"
+                                       t-as="registration">
+                                        <tr>
+                                            <td>
+                                                <t t-esc="registration.compassion_event_id.name"/>
+                                            </td>
+                                            <td>
+<!--                                                <t t-esc="time.strftime('%d.%m.%Y',time.strptime(registration.compassion_event_id.start_date,'%Y-%m-%d %H:%M:%S'))"/>-->
+                                                <t t-esc="registration.compassion_event_id.start_date"/>
+                                            </td>
+                                            <td>
+                                                <a t-attf-href="/my/muskathlon/{{ registration.id }}">Fundraising /
+                                                    Order material
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a t-attf-href="/my/muskathlon/{{ registration.id }}/donations">My
+                                                    donations
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+
             </t>
         </template>
 
