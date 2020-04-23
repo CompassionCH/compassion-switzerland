@@ -1,60 +1,45 @@
 <odoo>
     <data>
-        <template id="myaccount_project_list_row">
-            <!-- Project-->
-            <div class="project">
-                <div class="row bg-white has-shadow">
-                    <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
-                        <div class="project-title d-flex align-items-center">
-                            <div class="image has-shadow">
-                                <img t-attf-src="data:image/jpeg;charset=utf-8;base64, {{project_img}}" alt="..."
-                                     class="img-fluid"/>
-                            </div>
-                            <div class="text">
-                                <small>
-                                    <t t-esc="project_title"/>
-                                </small>
-                            </div>
-                        </div>
-                        <div class="project-date">
-                            <span class="hidden-sm-down">
-                                <t t-esc="project_deadline"/>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="right-col col-lg-6 d-flex align-items-center">
-                        <!--                        <div class="project-progress">-->
-                        <!--                            <div class="progress">-->
-                        <!--                                <div role="progressbar" style="width: 45%; height: 6px;" aria-valuenow="25"-->
-                        <!--                                     aria-valuemin="0" aria-valuemax="100"-->
-                        <!--                                     class="progress-bar bg-red"/>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <a t-attf-href="/project/{{project_id}}" class="btn btn-primary btn-lg btn-block mb-2">Go to</a>
-                    </div>
+        <template id="myaccount_project_board">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="section-header"
+                        style="margin-top: 25px; margin-bottom: 10px;">
+                    </h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Deadline</th>
+                                <th>Type</th>
+                                <th>Link to project</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="projects">
+                                <t t-foreach="projects"
+                                   t-as="project">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="project.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="project.deadline"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="project.type"/>
+                                        </td>
+                                        <td>
+                                            <a t-attf-href="/project/{{project.id}}">
+                                                Go to
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-        </template>
-
-        <template id="myaccount_project_list_container">
-            <div class="container">
-                <t t-foreach="projects" t-as="project">
-                    <t t-if="project">
-                        <t t-set="project_title">
-                            <t t-esc="project.name"/>
-                        </t>
-                        <t t-set="project_deadline">
-                            <t t-esc="project.deadline"/>
-                        </t>
-                        <t t-set="project_img">
-                            <t t-esc="project.cover_photo"/>
-                        </t>
-                        <t t-set="project_id" t-value="project.id"/>
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <t t-call="crowdfunding_compassion.myaccount_project_list_row"/>
-                        </div>
-                    </t>
-                </t>
             </div>
         </template>
 
