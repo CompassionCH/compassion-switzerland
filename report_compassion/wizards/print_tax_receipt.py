@@ -67,7 +67,8 @@ class PrintTaxReceipt(models.TransientModel):
                     "a time."
                 )
             )
-        report_ref = self.env.ref("report_compassion.tax_receipt_report")
+        report_ref = self.env.ref(
+            "report_compassion.tax_receipt_report").with_context(lang=data["lang"])
         if self.pdf:
             pdf_data = report_ref.render_qweb_pdf(records.ids, data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
