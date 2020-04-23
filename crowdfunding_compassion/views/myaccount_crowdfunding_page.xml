@@ -11,21 +11,21 @@
                 <h2 class="blue my-2 center">Your own projects</h2>
                 <section class="projects no-padding-top center">
                     <t t-set="projects" t-value="owned_projects"/>
+                    <t t-set="owner" t-value="true"/>
                     <t t-call="crowdfunding_compassion.myaccount_project_board"/>
                 </section>
 
                 <h2 class="blue my-2 center">Projects you participate to</h2>
                 <section class="projects no-padding-top center">
                     <t t-set="projects" t-value="participating_projects"/>
+                    <t t-set="owner" t-value="false"/>
                     <t t-call="crowdfunding_compassion.myaccount_project_board"/>
                 </section>
 
                 <h2 class="blue my-2 center">Donations</h2>
                 <section class="center">
-                    <t t-call="crowdfunding_compassion.myaccount_project_board"/>
+                    <t t-call="crowdfunding_compassion.myaccount_donation_board"/>
                 </section>
-
-
             </t>
         </template>
 

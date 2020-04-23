@@ -30,12 +30,60 @@
                                             <t t-esc="project.type"/>
                                         </td>
                                         <td>
-                                            <a t-attf-href="/project/{{project.id}}">
-                                                Go to
-                                            </a>
+                                            <t t-if="owner">
+                                                <a t-attf-href="/project/{{project.id}}">
+                                                    Edit project
+                                                </a>
+                                            </t>
+                                            <t t-else="">
+                                               <a t-attf-href="#">
+                                                    Edit registration
+                                                </a>
+                                            </t>
                                         </td>
                                     </tr>
                                 </t>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="myaccount_donation_board">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="section-header"
+                        style="margin-top: 25px; margin-bottom: 10px;">
+                    </h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Donation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="donations"
+                               t-as="donation">
+                                <tr>
+                                    <td>
+                                        <t t-esc="project_name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="donation_amount"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="preject_deadline"/>
+                                    </td>
+                                    <td>
+                                        <a t-attf-href="/donations/{{donation.id}}">
+                                            See details
+                                        </a>
+                                    </td>
+                                </tr>
                             </t>
                         </tbody>
                     </table>
