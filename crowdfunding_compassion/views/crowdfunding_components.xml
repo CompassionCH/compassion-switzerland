@@ -47,7 +47,7 @@
 
             <!-- Setup data and display the fund progress -->
             <t t-if="project.product_id">
-                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text"/>
+                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
                 <t t-set="goal_reached" t-value="project.product_number_reached"/>
                 <t t-set="goal_objective" t-value="project.product_number_goal"/>
                 <t t-call="crowdfunding_compassion.goal_progress"/>
@@ -76,7 +76,7 @@
                     <t t-call="crowdfunding_compassion.goal_progress"/>
 
                     <!-- Setup data and display the fund progress -->
-                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text"/>
+                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
                     <t t-set="goal_reached" t-value="participant.product_number_reached"/>
                     <t t-set="goal_objective" t-value="participant.product_number_goal"/>
                     <t t-call="crowdfunding_compassion.goal_progress"/>

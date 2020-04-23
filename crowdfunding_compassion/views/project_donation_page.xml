@@ -92,7 +92,8 @@
                     </div>
                 </section>
 
-                <!-- This function disables the next button if there isn't 2 radios checked (fund/sponsor and participant) and adjusts the link for next step -->
+                <!-- This function disables the next button if there isn't 2 radios checked 
+                (fund/sponsor and participant) and adjusts the link for next step -->
                 <script>
                     const submit = document.getElementById('submit');
                     const radios = document.querySelectorAll('input[type="radio"]');

@@ -58,6 +58,7 @@
         "views/crowdfunding_components.xml",
         "views/project_page.xml",
         "views/project_donation_page.xml",
+        "views/project_donation_form_page.xml",
         "views/progress_bar.xml",
     ],
     "demo": [
