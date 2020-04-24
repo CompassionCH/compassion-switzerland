@@ -76,10 +76,10 @@
                                         <t t-esc="donation.price_subtotal"/>
                                     </td>
                                     <td>
-                                        <t t-esc="donation.date"/>
+                                        <t t-esc="donation.due_date"/>
                                     </td>
                                     <td>
-                                        <t t-esc="donation.description"/>
+                                        <t t-esc="donation.name"/>
                                     </td>
                                 </tr>
                             </t>

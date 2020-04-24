@@ -19,17 +19,13 @@ class PartnerCoordinatesForm(models.AbstractModel):
     form_id = "modal_crowdfunding_project_update"
     _form_model = "crowdfunding.project"
     _form_model_fields = [
-        "name",
-        "description",
         "personal_motivation",
-        "deadline",
         "cover_photo",
         "presentation_video",
         "facebook_url",
         "twitter_url",
         "instagram_url",
         "personal_web_page_url",
-        "type",
     ]
 
     @property
@@ -38,12 +34,8 @@ class PartnerCoordinatesForm(models.AbstractModel):
             "id": "project",
             "title": _("Your project"),
             "fields": [
-                "name",
-                "description",
                 "personal_motivation",
-                "deadline",
                 "cover_photo",
-                "type",
             ],
         },
             {
@@ -72,7 +64,6 @@ class PartnerCoordinatesForm(models.AbstractModel):
         # Hide fields
         res = super().form_widgets
         res.update({
-            "deadline": "cms.form.widget.date.ch",
             "cover_photo": "cms_form_compassion.form.widget.simple.image"
         })
         return res

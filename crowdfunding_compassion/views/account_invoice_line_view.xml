@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <!-- Invoice Line Form -->
+        <record model="ir.ui.view" id="view_invoice_line_form_crm_compassion">
+            <field name="name">account.invoice.line.crm.compassion.form</field>
+            <field name="model">account.invoice.line</field>
+            <field name="inherit_id" ref="account.view_invoice_line_form"/>
+            <field name="arch" type="xml">
+                <field name="invoice_line_tax_ids" position="after">
+                    <field name="crowdfunding_participant_id" widget="many2one"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

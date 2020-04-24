@@ -54,6 +54,7 @@
         "views/crowdfunding_project_view.xml",
         "views/product_template_view.xml",
         "views/components.xml",
+        "views/account_invoice_line_view.xml",
         "templates/projects_list_page.xml",
         "templates/myaccount_crowdfunding_page.xml",
         "templates/crowdfunding_components.xml",
