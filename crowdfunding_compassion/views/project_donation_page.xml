@@ -9,7 +9,7 @@
                 <!-- Donation type selection -->
                 <section class="donation-type">
                     <div class="container">
-                        <h1 class="donation-type__title">I want to</h1>
+                        <h1 class="hero-title">I want to</h1>
 
                         <div class="row pb-5">
                             <!-- Fund selectable card -->
