@@ -4,9 +4,9 @@
         <!--        Creation page-->
         <template id="project_creation_view_template">
             <t t-call="website.layout">
-                <t t-call="theme_crowdfunding.crowdfunding_project_creation_header"/>
+                <t t-call="crowdfunding_compassion.crowdfunding_project_creation_header"/>
 
-                <section class="blue py-5">
+                <section class="blue py-5 text-center">
                     <div>
                         <h3 class="center-text">DESCRIBE YOUR PROJECT</h3>
                         <h5 class="center-text">Here you can describe your project, why you are engaged and set
@@ -22,7 +22,7 @@
                     <t t-raw="form.form_render()"/>
                 </div>
 
-                <t t-call="theme_crowdfunding.crowdfunding_footer"/>
+                <t t-call="crowdfunding_compassion.crowdfunding_footer"/>
             </t>
         </template>
 
@@ -58,7 +58,7 @@
         <template id="project_creation_confirmation_view_template">
             <t t-call="website.layout">
 
-                <t t-call="theme_crowdfunding.crowdfunding_navbar"/>
+                <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
 
                 <div id="confirmation" class="text-center">
                     <br/>
@@ -70,7 +70,7 @@
                     <br/>
                 </div>
 
-                <t t-call="theme_crowdfunding.crowdfunding_footer"/>
+                <t t-call="crowdfunding_compassion.crowdfunding_footer"/>
             </t>
         </template>
 
