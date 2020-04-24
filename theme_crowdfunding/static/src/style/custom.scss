@@ -42,6 +42,8 @@ $font-size-sm: $font-size-base * 0.75;
 $font-family-sans-serif: "Montserrat", sans-serif;
 $body-color: #333;
 
+// TODO: Don't apply css globally
+
 h1,
 h2,
 h3,
@@ -115,7 +117,7 @@ section {
 
 a {
   color: $blue-compassion;
-  text-decoration: underline;
+//   text-decoration: underline;
 
   &:hover {
     color: darken($blue-compassion, 20%);
@@ -401,6 +403,12 @@ footer {
     font-size: 0.9rem;
     color: $blue-compassion;
   }
+
+  &__card-share-icons  {
+    .fa {
+      margin: 5px !important;
+    }
+  }
 }
 
 .goal-progress {
@@ -414,7 +422,9 @@ footer {
   }
 
   &__bar {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    column-gap: 0.5rem;
     align-items: center;
 
     .progress {
@@ -477,6 +487,33 @@ footer {
   &--empty {
     border: 1px dashed $blue-compassion;
     text-align: center;
+    padding: 1rem;
+  }
+}
+
+.participants {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  column-gap: 3rem;
+  row-gap: 3rem;
+
+  &__card {
+    border: 1px solid $gray-400;
+  }
+
+  &__image {
+    height: 10rem;
+    object-fit: cover;
+  }
+
+  &__name {
+    color: $blue-compassion;
+    margin: 1rem 0;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  &__content {
     padding: 1rem;
   }
 }

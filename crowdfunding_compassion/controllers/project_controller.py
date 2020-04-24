@@ -7,7 +7,20 @@ from odoo.http import request, route, Controller
 
 class ProjectController(Controller):
 
-    @route(["/together/project/<int:project_id>"], auth="public", website=True)
+    # Demo route used to display demo project
+    # TODO: Remove when developmnent is done
+    @route("/project/demo", auth="public", website=True)
+    def demo_project_page(self, **kwargs):
+        demo_project = request.env.ref(
+            "crowdfunding_compassion.demo_project_crowdfunding"
+        ).sudo()
+
+        return request.render(
+            "crowdfunding_compassion.project_page",
+            self._prepare_project_values(demo_project, **kwargs),
+        )
+
+    @route(["/project/<int:project_id>"], auth="public", website=True)
     def project_page(self, project_id, **kwargs):
         # Get project with sudo, otherwise some parts will be blocked from public
         # access, for example res.partner or account.invoice.line. This is

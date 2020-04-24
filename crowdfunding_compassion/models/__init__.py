@@ -5,4 +5,3 @@ from . import crowdfunding_project_settings
 from . import product_template
 from . import account_invoice_line
 from . import recurring_contract
-# from . import website

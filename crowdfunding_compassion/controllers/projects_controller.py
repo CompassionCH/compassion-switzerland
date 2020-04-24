@@ -13,10 +13,7 @@ from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
 class ProjectsController(Controller, FormControllerMixin):
 
-    @route('/together/projects',
-           auth="public",
-           type="http",
-           website=True)
+    @route('/projects', auth="public", website=True)
     def get_projects_list(self, **kwargs):
         values = {}
         project_obj = request.env['crowdfunding.project']
