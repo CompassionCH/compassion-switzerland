@@ -66,9 +66,9 @@ class CrowdfundingProject(models.Model):
             'event_type_id': self.env.ref(
                 "crowdfunding_compassion.event_type_crowdfunding").id,
             'company_id': self.env.user.company_id.id,
-            'start_date': datetime.date.today(),
+            'start_date': date.today(),
             'end_date': vals.get('deadline'),
-            'hold_start_date': datetime.date.today(),
+            'hold_start_date': date.today(),
             'number_allocate_children': vals.get('product_number_goal'),
             'planned_sponsorships': vals.get('number_sponsorships_goal'),
             'type': "crowdfunding"
