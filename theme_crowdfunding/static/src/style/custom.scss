@@ -168,26 +168,66 @@ a {
 
 $enable-rounded: false;
 
-//SECTIONS HEAD
-
-.civ-head {
+.fund-card {
   text-align: center;
-  color: white;
-  background-image: url("img/SURVIVAL-MamaKate-266@2x.jpg");
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: center center;
-  background-size: cover;
-  background-color: $gray-300;
-  //   padding:200px 0;
-  height: 500px;
 
-  .container {
+  &__header {
+    position: relative;
   }
 
-  .civ-intro {
+  &__image {
+    height: 15rem;
+    width: 100%;
+  }
+
+  &__icon {
+    height: 120px;
+    width: 120px;
+    background-color: $blue-compassion;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 60px);
+  }
+
+  &__title {
+    text-transform: uppercase;
+  }
+
+  &__content {
+    border: solid 1px $blue-compassion;
+    padding: 60px 1rem 1rem;
+  }
+}
+
+.funds {
+  position: relative;
+  margin-bottom: 5rem;
+
+  &__header-image {
+    height: 500px;
+    width: 100%;
+  }
+
+  &__header-title {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2rem;
+    margin: 0;
+
     background: $white;
     text-transform: uppercase;
+    text-align: center;
+  }
+
+  &__cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+    column-gap: 3rem;
+    row-gap: 3rem;
   }
 }
 
@@ -196,7 +236,7 @@ $enable-rounded: false;
 header.masthead {
   text-align: center;
   color: white;
-  background-image: url("img/head.jpg");
+  background-image: url("/theme_crowdfunding/static/src/img/head.jpg");
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -489,6 +529,13 @@ footer {
     text-align: center;
     padding: 1rem;
   }
+}
+
+.homepage {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  column-gap: 3rem;
+  row-gap: 3rem;
 }
 
 .participants {

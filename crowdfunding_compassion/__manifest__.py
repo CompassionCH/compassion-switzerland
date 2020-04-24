@@ -48,6 +48,7 @@
         "views/crowdfunding_project_settings.xml",
         # "data/demo.xml",
         "security/ir.model.access.csv",
+        "views/homepage.xml",
         "views/crowdfunding_components.xml",
         "views/crowdfunding_participant_view.xml",
         "views/crowdfunding_project_view.xml",
