@@ -491,7 +491,6 @@
         <field name="type">service</field>
         <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
         <field name="list_price">8</field>
-        <field name="description">TO DO TO DO TO DO TO DO TO DO</field>
         <field name="property_account_income_id" search="[('code','=','6012')]"/>
         <field name="property_account_expense_id" search="[('code','=','5012')]"/>
         <field name="activate_for_crowdfunding" eval="True"></field>

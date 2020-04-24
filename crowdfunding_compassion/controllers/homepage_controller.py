@@ -4,7 +4,7 @@ from odoo.http import request, route, Controller
 
 
 class HomepageController(Controller):
-    @route("/home", auth="public", website=True)
+    @route("/homepage", auth="public", website=True)
     def homepage(self, **kwargs):
         context = {
             "funds": request.env['product.product'].sudo().search([
