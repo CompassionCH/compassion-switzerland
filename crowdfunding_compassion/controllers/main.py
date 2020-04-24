@@ -22,17 +22,22 @@ class CrowdFundingWebsite(EventsController):
         owned_projects = []
         donations = []
         partner = request.env.user.partner_id
-        participant = request.env['crowdfunding.participant'].search([
-            ('partner_id', '=', partner.id)
+        participations = request.env['crowdfunding.participant'].search([
+            ('partner_id', '=', partner.id),
+            ("project_id.project_owner_id.partner_id", "!=", partner.id)
         ])
-        if participant:
-            participating_projects = request.env['crowdfunding.project'].search([
-                ('participant_ids', 'in', participant.id)
-            ])
-            owned_projects = request.env['crowdfunding.project'].search([
-                ('project_owner_id', '=', participant.id),
-            ])
-            donations = participant.invoice_line_ids
+        for participation in participations:
+            # project = request.env['crowdfunding.project'].search([
+            #     ("participant_ids", "in", participation.id)
+            # ])
+            # if project:
+            participating_projects.append(participation)
+            donations.append(participation.invoice_line_ids)
+
+        for project in request.env['crowdfunding.project'].search([
+            ('project_owner_id.partner_id', '=', partner.id),
+        ]):
+            owned_projects.append(project)
 
         kw["form_model_key"] = "cms.form.partner.coordinates"
         coordinates_form = self.get_form("res.partner", partner.id, **kw)
@@ -71,10 +76,10 @@ class CrowdFundingWebsite(EventsController):
                 "crowdfunding_compassion.project_update_view_template", values)
         return result
 
-    @route(["/my_account/participant/update/"], type="http", auth="user", website=True)
-    def my_account_participants_update(self, partner_id=None, **kw):
+    @route(["/my_account/participation/update/"], type="http", auth="user", website=True)
+    def my_account_participants_update(self, participant_id=None, **kw):
         participant = request.env['crowdfunding.participant'].search([
-            ('partner_id', '=', partner_id)
+            ('id', '=', participant_id)
         ])
         kw["form_model_key"] = "cms.form.crowdfunding.participant.update"
         participant_update_form = self.get_form("crowdfunding.participant", participant.id, **kw)

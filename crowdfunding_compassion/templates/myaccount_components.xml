@@ -16,33 +16,61 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-if="projects">
-                                <t t-foreach="projects"
-                                   t-as="project">
-                                    <tr>
-                                        <td>
-                                            <t t-esc="project.name"/>
-                                        </td>
-                                        <td>
-                                            <t t-esc="project.deadline"/>
-                                        </td>
-                                        <td>
-                                            <t t-esc="project.type"/>
-                                        </td>
-                                        <td>
-                                            <t t-if="owner">
-                                                <a t-attf-href="/my_account/project/edit?project_id={{project.id}}">
-                                                    Edit project
-                                                </a>
-                                            </t>
-                                            <t t-else="">
-                                                <a t-attf-href="#">
-                                                    Edit registration
-                                                </a>
-                                            </t>
-                                        </td>
-                                    </tr>
-                                </t>
+                            <t t-foreach="projects"
+                               t-as="project">
+                                <tr>
+                                    <td>
+                                        <t t-esc="project.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="project.deadline"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="project.type"/>
+                                    </td>
+                                    <td>
+                                        <a t-attf-href="/my_account/project/update?project_id={{project.id}}">
+                                            Edit project
+                                        </a>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="myaccount_participation_board">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="section-header"
+                        style="margin-top: 25px; margin-bottom: 10px;">
+                    </h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Personal Motivation</th>
+                                <th>Link to registration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="participations"
+                               t-as="participation">
+                                <tr>
+                                    <td>
+                                        <t t-esc="participation.project_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="participation.personal_motivation"/>
+                                    </td>
+                                    <td>
+                                        <a t-attf-href="/my_account/participation/update?participant_id={{participation.id}}">
+                                            Edit participation
+                                        </a>
+                                    </td>
+                                </tr>
                             </t>
                         </tbody>
                     </table>
