@@ -35,7 +35,7 @@ class ProjectsController(Controller, FormControllerMixin):
         return request.render(
             "crowdfunding_compassion.project_list_view_template", values)
 
-    @route('/together/projects/create',
+    @route('/projects/create',
            auth="public",
            type="http",
            method='POST',
