@@ -5,8 +5,14 @@
         <!-- The corresponding [project] and [participant] is passed to this template as context in variable [project] -->
         <template id="project_donation_form_page">
             <t t-call="website.layout">
-                Hello <t t-esc="participant.partner_id.name"/>
-            
+
+                <section class="donation-form-amount pb-5">
+                    <div class="container">
+                        <h1 class="hero-title">Make your donation</h1>
+                        <h4 class="white">I want to help <t t-esc="project.name"/> funding for</h4>
+                        <span class="white">(Click one option to select)</span>
+                    </div>
+                </section>
             </t>
         </template>
     </data>

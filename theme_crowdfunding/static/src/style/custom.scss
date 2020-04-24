@@ -50,6 +50,7 @@ h3,
 h4,
 h5,
 h6,
+span,
 .h1,
 .h2,
 .h3,
@@ -63,6 +64,10 @@ h6,
 
   &.blue {
     color: $blue-compassion !important;
+  }
+
+  &.white {
+    color: $white !important;
   }
 }
 
@@ -420,15 +425,6 @@ footer {
 .project-hero {
   background: linear-gradient(180deg, $blue-compassion 95%, $white 95%);
 
-  &__title {
-    font-size: $display2-size;
-    font-weight: 900;
-    color: $white;
-
-    padding-top: 10rem;
-    padding-bottom: 2rem;
-  }
-
   &__image {
     height: 30rem;
     width: 100%;
@@ -462,6 +458,15 @@ footer {
       margin: 5px !important;
     }
   }
+}
+
+.hero-title {
+    font-size: $display2-size;
+    font-weight: 900;
+    color: $white;
+
+    padding-top: 10rem;
+    padding-bottom: 2rem;
 }
 
 .goal-progress {
@@ -581,15 +586,6 @@ footer {
 .donation-type {
     background-color: $blue-compassion;
 
-    &__title {
-        font-size: $display2-size;
-        font-weight: 900;
-        color: $white;
-
-        padding-top: 10rem;
-        padding-bottom: 2rem;
-    }
-
     &__card-icon {
         height: 120px;
         width: 120px;
@@ -604,6 +600,9 @@ footer {
     }
 }
 
+.donation-form-amount {
+    background-color: $blue-compassion;
+}
 
 // Selectable cards
 .card-input-element+.card:hover {
