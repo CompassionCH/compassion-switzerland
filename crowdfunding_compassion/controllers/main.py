@@ -52,8 +52,8 @@ class CrowdFundingWebsite(EventsController):
             "crowdfunding_compassion.myaccount_crowdfunding_view_template", values)
         return result
 
-    @route(["/my_account/project/edit/"], type="http", auth="user", website=True)
-    def my_account_projects_edit(self, project_id=None, **kw):
+    @route(["/my_account/project/update/"], type="http", auth="user", website=True)
+    def my_account_projects_update(self, project_id=None, **kw):
         project = request.env['crowdfunding.project'].search([
             ('id', '=', project_id)
         ])
@@ -69,4 +69,23 @@ class CrowdFundingWebsite(EventsController):
         else:
             result = request.render(
                 "crowdfunding_compassion.project_update_view_template", values)
+        return result
+
+    @route(["/my_account/participant/update/"], type="http", auth="user", website=True)
+    def my_account_participants_update(self, partner_id=None, **kw):
+        participant = request.env['crowdfunding.participant'].search([
+            ('partner_id', '=', partner_id)
+        ])
+        kw["form_model_key"] = "cms.form.crowdfunding.participant.update"
+        participant_update_form = self.get_form("crowdfunding.participant", participant.id, **kw)
+        participant_update_form.form_process()
+
+        values = {
+            "form": participant_update_form,
+        }
+        if participant_update_form.form_success:
+            result = request.redirect("/my_account")
+        else:
+            result = request.render(
+                "crowdfunding_compassion.participant_update_view_template", values)
         return result

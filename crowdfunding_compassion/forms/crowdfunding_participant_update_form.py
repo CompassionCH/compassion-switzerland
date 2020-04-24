@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2020 Compassion CH (http://www.compassion.ch)
 #    @author: Quentin Gigon
 #
 #    The licence is in the file __manifest__.py
@@ -11,16 +11,16 @@ import re
 from odoo import models, _
 
 
-class PartnerCoordinatesForm(models.AbstractModel):
-    _name = "cms.form.crowdfunding.project.update"
+class CrowdfundingParticipatUpdateForm(models.AbstractModel):
+    _name = "cms.form.crowdfunding.participant.update"
     _inherit = "cms.form"
 
     form_buttons_template = "cms_form_compassion.modal_form_buttons"
-    form_id = "modal_crowdfunding_project_update"
-    _form_model = "crowdfunding.project"
+    form_id = "modal_crowdfunding_participant_update"
+    _form_model = "crowdfunding.participant"
     _form_model_fields = [
         "personal_motivation",
-        "cover_photo",
+        "profile_photo",
         "presentation_video",
         "facebook_url",
         "twitter_url",
@@ -35,7 +35,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
             "title": _("Your project"),
             "fields": [
                 "personal_motivation",
-                "cover_photo",
+                "profile_photo",
             ],
         },
             {
@@ -64,7 +64,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
         # Hide fields
         res = super().form_widgets
         res.update({
-            "cover_photo": "cms_form_compassion.form.widget.simple.image"
+            "profile_photo": "cms_form_compassion.form.widget.simple.image"
         })
         return res
 
