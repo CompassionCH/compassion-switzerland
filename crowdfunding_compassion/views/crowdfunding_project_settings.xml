@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crowdfunding_project_settings" model="ir.ui.view">
+        <field name="name">crowdfunding.project.settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="30"/>
+        <field name="inherit_id" ref="child_compassion.notification_settings"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='compassion_settings']">
+                <h2>Crowdfunding projects notifications</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="row mt16">
+                                <label class="col-md-5 o_light_label"
+                                       for="notified_employee_ids"/>
+                                <field name="notified_employee_ids" widget="many2many_tags"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

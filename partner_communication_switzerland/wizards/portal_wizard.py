@@ -28,11 +28,11 @@ class PortalWizard(models.TransientModel):
     @api.onchange("portal_id")
     def onchange_portal_id(self):
         # set the values of the users created in the super method
-        res = super().onchange_portal_id()
+        # res = super().onchange_portal_id()
 
         self.user_ids.write({"invitation_config_id": self.invitation_config_id.id})
 
-        return res
+        return self
 
 
 class PortalWizardUser(models.TransientModel):

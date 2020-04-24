@@ -300,6 +300,19 @@
             </header>
         </template>
 
+        <template id="crowdfunding_project_creation_header" name="Header for project creation page">
+            <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
+            <header class="masthead">
+                <div class="container center">
+                    <div class="intro-text center-text">
+                        <h1 class="display-1 blue">CREATE A NEW PROJECT</h1>
+                        <h2 class="display-4 pb-4 ">Two lines introduction. Two lines introduction.</h2>
+                        <br/>
+                    </div>
+                </div>
+            </header>
+        </template>
+
         <template id="crowdfunding_footer" name="Footer for Crowdfunding page">
             <footer class="footer pb-5">
                 <div class="container">

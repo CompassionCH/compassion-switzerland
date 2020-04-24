@@ -31,6 +31,7 @@
             <field name="website_indexed" eval="True"/>
             <field name="website_id" eval="ref('crowdfunding_compassion.crowdfunding_website')"/>
             <field name="website_published">True</field>
+            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
             <field name="name">Project List</field>
             <field name="type">qweb</field>
         </record>
@@ -40,6 +41,7 @@
             <field name="page_id" ref="project_list_page"/>
             <field name="parent_id" ref="website.main_menu"/>
             <field name="sequence" type="int">87</field>
+            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
         </record>
     </data>
 </odoo>

@@ -10,10 +10,12 @@ from odoo import models, api, fields
 
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
+    _inherit = "website.published.mixin"
     _description = "Crowd-funding project"
 
     name = fields.Char(required=True)
     description = fields.Text()
+    personal_motivation = fields.Text()
     type = fields.Selection(
         [("individual", "Individual"), ("collective", "Collective")],
         required=True,
@@ -28,9 +30,9 @@ class CrowdfundingProject(models.Model):
     instagram_url = fields.Char(string="Instagram link")
     personal_web_page_url = fields.Char(string="Personal web page")
     product_id = fields.Many2one("product.product", "Supported fund")
-    product_number_goal = fields.Integer()
+    product_number_goal = fields.Integer(default=1)
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
-    number_sponsorships_goal = fields.Integer()
+    number_sponsorships_goal = fields.Integer(default=1)
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached"
     )
@@ -51,26 +53,28 @@ class CrowdfundingProject(models.Model):
         [("validation", "Validation"), ("active", "Active")],
         required=True,
         default="validation",
+        readonly=True
     )
-    # event_type_id = fields.Many2one("event.type", "Event type")
+    owner_lastname = fields.Char(string="Your lastname")
+    owner_firstname = fields.Char(string="Your firstname")
 
-    # TODO fix event.type NULL error
-    # @api.model
-    # def create(self, vals):
-    #     res = super().create(vals)
-    #     res.event_id = self.env['crm.event.compassion'].create({
-    #         'name': vals.get('name'),
-    #         'event_type_id': self.env.ref(
-    #             "crowdfunding_compassion.event_type_crowdfunding").id,
-    #         'company_id': self.env.user.company_id.id,
-    #         'start_date': datetime.date.today(),
-    #         'end_date': vals.get('deadline'),
-    #         'hold_start_date': datetime.date.today(),
-    #         'number_allocate_children': vals.get('product_number_goal'),
-    #         'planned_sponsorships': vals.get('number_sponsorships_goal'),
-    #         'type': "crowdfunding"
-    #     })
-    #     return res
+    @api.model
+    def create(self, vals):
+        res = super().create(vals)
+        event = self.env['crm.event.compassion'].create({
+            'name': vals.get('name'),
+            'event_type_id': self.env.ref(
+                "crowdfunding_compassion.event_type_crowdfunding").id,
+            'company_id': self.env.user.company_id.id,
+            'start_date': date.today(),
+            'end_date': vals.get('deadline'),
+            'hold_start_date': date.today(),
+            'number_allocate_children': vals.get('product_number_goal'),
+            'planned_sponsorships': vals.get('number_sponsorships_goal'),
+            'type': "crowdfunding"
+        })
+        res.event_id = event
+        return res
 
     @api.multi
     def _compute_product_number_reached(self):
@@ -90,9 +94,34 @@ class CrowdfundingProject(models.Model):
         ], limit=9, order="deadline ASC")
 
     @api.multi
+    def _compute_website_url(self):
+        for project in self:
+            project.website_url = "/projects/create/confirm"
+
+    @api.multi
     def validate(self):
         for project in self:
-            project.state = "active"
+            user_obj = self.env['res.users']
+            partner = self.project_owner_id.partner_id
+            user = user_obj.search([
+                ('partner_id', '=', partner.id)
+            ])
+            if not user:
+                return partner.create_odoo_user()
+            else:
+                project.state = "active"
+
+                # Send email to inform project owner
+                comm_obj = self.env["partner.communication.job"]
+                config = self.env.ref(
+                    "crowdfunding_compassion.config_project_published")
+                comm_obj.create(
+                    {
+                        "config_id": config.id,
+                        "partner_id": partner.id,
+                        "object_ids": project.id,
+                    }
+                )
 
     @api.multi
     def _compute_time_left(self):

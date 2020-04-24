@@ -16,10 +16,10 @@ class CrowdfundingParticipant(models.Model):
         "res.partner", string="Partner",
         required=True, index=True, ondelete="cascade")
     personal_motivation = fields.Text()
-    product_number_goal = fields.Integer()
+    product_number_goal = fields.Integer(default=1)
     product_number_reached = fields.Integer(
         compute="_compute_product_number_reached")
-    number_sponsorships_goal = fields.Integer()
+    number_sponsorships_goal = fields.Integer(default=1)
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached")
     sponsorship_ids = fields.One2many(
