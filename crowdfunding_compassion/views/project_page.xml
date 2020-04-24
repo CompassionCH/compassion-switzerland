@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- === Project Page === -->
+        <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
+
+        <template id="project_page">
+            <t t-call="website.layout">
+
+                <!-- Hero -->
+                <section class="project-hero mb-5">
+                    <div class="container">
+                        <h1 class="project-hero__title">
+                            <t t-esc="project.name"/>
+                        </h1>
+                        <div class="row">
+                            <div class="col-12 col-lg-8 mb-4 mb-lg-0">
+                                <!-- TODO: Link to uploaded binary once creation form is available -->
+                                <img alt="Project image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" class="project-hero__image" />
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="card project-hero__card">
+                                    <h3 class="blue my-3 text-center">Support the project</h3>
+                                    <div class="project-hero__card-content">
+
+                                    <t t-call="crowdfunding_compassion.project_progress"/>
+
+                                    </div>
+                                    <div class="project-hero__cart-cta">
+                                        <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="button" class="btn btn-white btn-md">Join the project</button>
+                                            </div>
+                                            <div class="col">
+                                                <div class="row project-hero__card-share-text">Share with your friends</div>
+                                                <!-- TODO: update link to production url -->
+                                                <div class="row project-hero__card-share-icons">
+                                                    <t t-set="compassion_project_base_url" t-value="'crowdfunding.compassion.ch/project'" />
+                                                    <a t-attf-href="https://www.facebook.com/sharer.php?u={{ compassion_project_base_url }}/{{ project.id }}" target="_blank">
+                                                        <i class="fa fa-facebook-official"></i>
+                                                    </a>
+                                                    <a t-attf-href="https://twitter.com/intent/tweet?url={{ compassion_project_base_url }}/{{ project.id }}" target="_blank">
+                                                        <i class="fa fa-twitter-square"></i>
+                                                    </a>
+                                                    <a t-attf-href="https://www.linkedin.com/sharing/share-offsite/?url={{ compassion_project_base_url }}/{{ project.id }}" target="_blank">
+                                                        <i class="fa fa-linkedin"></i>
+                                                    </a>
+                                                    <a t-attf-href="mailto:?subject=I wanted you to see this project&amp;body=Check out this project {{ compassion_project_base_url }}/{{ project.id }}.">
+                                                        <i class="fa fa-at"></i>
+                                                    </a>
+                                               </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Content -->
+                <section class="project-content">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Main content -->
+                            <div class="col-12 col-lg-8 mb-5">
+                                <div class="project-content__owner mb-4">
+                                    <!-- TODO: Link to uploaded binary once creation form is available -->
+                                    <img class="profile-pic" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Project owner"/>
+
+                                    <h5>
+                                        <t t-esc="project.project_owner_id.partner_id.name" />
+                                    </h5>
+                                </div>
+
+                                <!-- Project description and video -->
+                                <h3 class="blue my-4">About the project</h3>
+
+                                <p>
+                                    <t t-esc="project.description"/>
+                                </p>
+                                <t t-if="project.presentation_video">
+                                    <iframe class="my-3" width="100%" height="400px" t-att-src="project.presentation_video" frameborder="0"/>
+                                </t>
+
+                                <!-- Project owner personal motivation and video -->
+                                <h3 class="blue my-4">Why do I engage in this project</h3>
+
+                                <p>
+                                    <t t-esc="project.project_owner_id.personal_motivation"/>
+                                </p>
+                                <t t-if="project.project_owner_id.presentation_video">
+                                    <iframe class="my-3" width="100%" height="400px" t-att-src="project.project_owner_id.presentation_video" frameborder="0"/>
+                                </t>
+
+                                <h5 class="blue mt-4">FOLLOW MY PROJECT ON</h5>
+
+                                <t t-if="project.facebook_url">
+                                    <a t-att-href="project.facebook_url" target="_blank">Facebook</a>
+                                    <br/>
+                                </t>
+
+                                <t t-if="project.instagram_url">
+                                    <a t-att-href="project.instagram_url" target="_blank">Instagram</a>
+                                    <br/>
+                                </t>
+
+                                <t t-if="project.twitter_url">
+                                    <a t-att-href="project.twitter_url" target="_blank">Twitter</a>
+                                    <br/>
+                                </t>
+
+                                <t t-if="project.personal_web_page_url">
+                                    <a t-att-href="project.personal_web_page_url" target="_blank">My website</a>
+                                    <br/>
+                                </t>
+                            </div>
+
+
+
+                            <!-- Side content -->
+                            <div class="col-12 col-lg-4">
+
+                                <!-- TODO: Test this part when forms are done so it's easier to create data to display -->
+                                <t t-if="impact">
+                                    <h3 class="blue text-center">IMPACT SO FAR</h3>
+
+                                    <t t-foreach="impact" t-as="impact_tile">
+                                        <t t-call="crowdfunding_compassion.impact_tile" />
+                                    </t>
+                                </t>
+
+                                <t t-else="">
+                                    <h3 class="blue text-center mt-5">NO IMPACT YET</h3>
+                                    <t t-call="crowdfunding_compassion.impact_tile_empty" />
+                                </t>
+
+                            </div>
+                        </div>
+
+                        <!-- Participants -->
+                        <t t-if="project.type == 'collective'">
+                            <div class="my-5">
+                                <h2 class="blue text-center mb-5">Participants</h2>
+                                <div class="participants">
+                                    <t t-foreach="project.participant_ids" t-as="participant">
+                                        <t t-call="crowdfunding_compassion.participant_card"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </section>
+
+            </t>
+        </template>
+    </data>
+</odoo>

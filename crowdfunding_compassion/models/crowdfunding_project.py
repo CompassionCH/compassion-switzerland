@@ -1,24 +1,26 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
 
+from datetime import date
+
+from babel.dates import format_timedelta
+
 from odoo import models, api, fields
 
 
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
-    _inherit = "website"
     _description = "Crowd-funding project"
 
     name = fields.Char(required=True)
     description = fields.Text()
     type = fields.Selection(
-        [
-            ("individual", "Individual"),
-            ("collective", "Collective"),
-        ],
-        required=True, default="individual"
+        [("individual", "Individual"), ("collective", "Collective")],
+        required=True,
+        default="individual",
     )
     deadline = fields.Date(string="Deadline of project", required=True, index=True)
+    time_left = fields.Char(compute="_compute_time_left")
     cover_photo = fields.Binary(string="Cover Photo", attachment=True)
     presentation_video = fields.Char(string="Youtube/Vimeo link")
     facebook_url = fields.Char(string="Facebook link")
@@ -30,21 +32,20 @@ class CrowdfundingProject(models.Model):
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
     number_sponsorships_goal = fields.Integer()
     number_sponsorships_reached = fields.Integer(
-        compute="_compute_number_sponsorships_reached")
+        compute="_compute_number_sponsorships_reached"
+    )
     sponsorship_ids = fields.One2many(
-        "recurring.contract",
-        "crowdfunding_project_id",
-        string="Sponsorships")
+        "recurring.contract", "crowdfunding_project_id", string="Sponsorships"
+    )
     invoice_line_ids = fields.One2many(
-        "account.invoice.line",
-        "crowdfunding_project_id",
-        string="Donations")
+        "account.invoice.line", "crowdfunding_project_id", string="Donations"
+    )
     project_owner_id = fields.Many2one(
-        "crowdfunding.participant", "Project owner", required=True, index=True)
+        "crowdfunding.participant", "Project owner", required=True, index=True
+    )
     participant_ids = fields.One2many(
-        "crowdfunding.participant",
-        "project_id",
-        string="Participants")
+        "crowdfunding.participant", "project_id", string="Participants"
+    )
     event_id = fields.Many2one("crm.event.compassion", "Event")
     state = fields.Selection(
         [("validation", "Validation"), ("active", "Active")],
@@ -74,8 +75,9 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:
-            project.product_number_reached = \
-                sum(project.invoice_line_ids.mapped('quantity'))
+            project.product_number_reached = sum(
+                project.invoice_line_ids.mapped("quantity")
+            )
 
     @api.multi
     def _compute_number_sponsorships_reached(self):
@@ -91,3 +93,10 @@ class CrowdfundingProject(models.Model):
     def validate(self):
         for project in self:
             project.state = "active"
+
+    @api.multi
+    def _compute_time_left(self):
+        for project in self:
+            project.time_left = format_timedelta(
+                project.deadline - date.today(), locale="en"
+            )
