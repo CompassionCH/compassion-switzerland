@@ -59,12 +59,15 @@ class HomepageController(Controller):
             impact["sponsorship"]["number"] += project.number_sponsorships_reached
 
             if project.product_id.name in fund_name_list:
-                impact[project.product_id.name]["number"] += project.product_number_reached
+                impact[project.product_id.name]["number"] += \
+                    project.product_number_reached
 
             elif project.product_id:
                 impact["other"]["number"] += project.product_number_reached
 
-        impact['sponsorship']["image"] = "crowdfunding_compassion/static/src/img/defaut_fund_icon.png"
-        impact['other']["image"] = "crowdfunding_compassion/static/src/img/defaut_fund_icon.png"
+        impact['sponsorship']["image"] = \
+            "crowdfunding_compassion/static/src/img/defaut_fund_icon.png"
+        impact['other']["image"] = \
+            "crowdfunding_compassion/static/src/img/defaut_fund_icon.png"
 
         return impact, fund_name_list
