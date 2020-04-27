@@ -242,7 +242,8 @@
                     <p>
                         <t t-esc="fund['description']"/>
                     </p>
-                    <button type="button" class="btn btn-primary btn-md my-3">More infos</button>
+<!--                    <button type="button" class="btn btn-primary btn-md my-3">More infos</button>-->
+<!--                    TODO truncate description and load full text in modal popup -> CO-3212-->
                 </div>
             </div>
         </template>

@@ -132,8 +132,8 @@
                         <t t-call="crowdfunding_compassion.crowdfunding_project_card_container"/>
                     </div>
 
-                    <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>
-
+<!--                    <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>-->
+<!--                    TODO connect pagination to backend -> CO-3213-->
                     <!-- Load more button -->
                     <!--                    <div class="row py-4">-->
                     <!--                        <div class="col-sm-12 text-center">-->

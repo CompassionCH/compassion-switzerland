@@ -88,23 +88,22 @@ class CrowdfundingProject(models.Model):
         for project in self:
             project.number_sponsorships_reached = len(project.sponsorship_ids)
 
-    def _get_active_projects_list(self):
+    def _get_active_projects_list(self, number=999):
         projects = self.env['crowdfunding.project'].search([
             ("state", "!=", "xvalidation")
-        ], limit=9, order="deadline ASC")
+        ], limit=number, order="deadline ASC")
 
-        first_row = []
-        second_row = []
-        third_row = []
-        for project in projects:
-            if len(first_row) < 3:
-                first_row.append(project)
-            elif len(second_row) < 3:
-                second_row.append(project)
-            else:
-                third_row.append(project)
+        project_list = list(projects)
+        output = []
+        # while there are at least 3 projects in the set
+        while len(project_list) >= 2:
+            row = [project_list.pop(0), project_list.pop(0), project_list.pop(0)]
+            output.append(row)
 
-        return [first_row, second_row, third_row]
+        if len(project_list) > 0:
+            output.append(project_list)
+
+        return output
 
     @api.multi
     def _compute_website_url(self):
