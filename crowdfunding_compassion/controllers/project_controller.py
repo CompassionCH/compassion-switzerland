@@ -21,7 +21,7 @@ class ProjectController(Controller):
         )
 
     @route(["/project/<model('crowdfunding.project'):project>"], auth="public", website=True)
-    def project_page(self, project_id, **kwargs):
+    def project_page(self, project, **kwargs):
         # Get project with sudo, otherwise some parts will be blocked from public
         # access, for example res.partner or account.invoice.line. This is
         # simpler and less prone to error than defining custom access and

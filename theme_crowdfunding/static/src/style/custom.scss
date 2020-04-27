@@ -582,17 +582,24 @@ footer {
         width: 120px;
         background-color: $blue-compassion;
         border-radius: 50%;
-        margin: 2rem auto;
+        margin: 1rem auto;
     }
 
     &__project-card-image {
-        height: 15rem;
+        height: 12rem;
         object-fit: cover;
     }
 }
 
 .donation-form-amount {
-    background-color: $blue-compassion;
+    background: linear-gradient(180deg, $blue-compassion 90%, $white 90%);
+
+    input[type=text] {
+        width: 80%;
+        border: 2px solid $blue-compassion;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+    }
 }
 
 // Selectable cards
@@ -610,7 +617,7 @@ footer {
     color: $white;
     padding: 0.5rem 1rem;
 }
-  
+
 
 // Global styles
 .text {
@@ -627,12 +634,12 @@ footer {
   }
 }
 
-// progress bar
-.progress {
-    &-bar {
-        background-color: $blue-compassion !important;
-    }
-}
+// // progress bar
+// .progress {
+//     &-bar {
+//         background-color: $blue-compassion !important;
+//     }
+// }
 
 .pagination {
    justify-content: center;
@@ -645,118 +652,101 @@ footer {
   width: 50%;
 }
 
-*, *:after, *:before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Open Sans";
-}
-
-
-
 
 $complete: #2ECC71;
 $active: #3498DB;
 $mute: #DFE3E4;
 
-.progress {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  color: darken($mute, 33%);
-  background-color: #dee2e6;
+// .progress {
+//   list-style: none;
+//   margin: 0;
+//   padding: 0;
+//   display: table;
+//   table-layout: fixed;
+//   width: 100%;
+//   color: darken($mute, 33%);
+//   background-color: #dee2e6;
 
-  > li {
-    position: relative;
-    display: table-cell;
-    text-align: center;
-    font-size: 0.8em;
+//   > li {
+//     position: relative;
+//     display: table-cell;
+//     text-align: center;
+//     font-size: 0.8em;
 
-    &:before {
-      content: attr(data-step);
-      display: block;
-      margin: 0 auto;
-      background: #0B0B0B;
-      width: 3em;
-      height: 3em;
-      text-align: center; //IE8 doesn't inherit this style
-      margin-bottom: 0.25em;
-      line-height: 3em;
-      border-radius: 100%;
-      position: relative;
-      z-index: 1000;
-    }
-    &:after {
-      content: '';
-      position: absolute;
-      display: block;
-      background: $mute;
-      width: 100%;
-      height: 0.5em;
-      top: 1.25em;
-      left: 50%;
-      margin-left: 1.5em\9;
-      z-index: -1;
-    }
-    &:last-child:after {
-      display: none;
-    }
-    &.is-complete {
-      color: $complete;
+//     &:before {
+//       content: attr(data-step);
+//       display: block;
+//       margin: 0 auto;
+//       background: #0B0B0B;
+//       width: 3em;
+//       height: 3em;
+//       text-align: center; //IE8 doesn't inherit this style
+//       margin-bottom: 0.25em;
+//       line-height: 3em;
+//       border-radius: 100%;
+//       position: relative;
+//       z-index: 1000;
+//     }
+//     &:after {
+//       content: '';
+//       position: absolute;
+//       display: block;
+//       background: $mute;
+//       width: 100%;
+//       height: 0.5em;
+//       top: 1.25em;
+//       left: 50%;
+//       margin-left: 1.5em\9;
+//       z-index: -1;
+//     }
+//     &:last-child:after {
+//       display: none;
+//     }
+//     &.is-complete {
+//       color: $complete;
 
-      &:before,
-      &:after {
-        color: #FFF;
-        background: $complete;
-      }
-    }
-    &.is-active {
-      color: $active;
+//       &:before,
+//       &:after {
+//         color: #FFF;
+//         background: $complete;
+//       }
+//     }
+//     &.is-active {
+//       color: $active;
 
-      &:before {
-        color: #FFF;
-        background: $active;
-      }
-    }
-  }
-}
-  /**
-   * Needed for IE8
-   */
-  .progress__last:after {
-    display: none!important;
-  }
+//       &:before {
+//         color: #FFF;
+//         background: $active;
+//       }
+//     }
+//   }
+// }
+//   /**
+//    * Needed for IE8
+//    */
+//   .progress__last:after {
+//     display: none!important;
+//   }
 
-  /**
-   * Size Extensions
-   */
-  .progress--medium {
-    font-size: 1.5em;
-  }
-  .progress--large {
-    font-size: 2em;
-  }
+//   /**
+//    * Size Extensions
+//    */
+//   .progress--medium {
+//     font-size: 1.5em;
+//   }
+//   .progress--large {
+//     font-size: 2em;
+//   }
 
-/**
- * Some Generic Stylings
- */
-*, *:after, *:before {
-  box-sizing: border-box;
-}
-h1 {
-  margin-bottom: 1.5em;
-}
-.progress {
-  margin-bottom: 3em;
-}
-a {
-  color: $active;
-  text-decoration: none;
 
-  &:hover {
-    text-decoration: underline;
-  }
-}
+// .progress {
+//   margin-bottom: 3em;
+// }
+// a {
+//   color: $active;
+//   text-decoration: none;
+
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// }

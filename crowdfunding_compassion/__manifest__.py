@@ -46,7 +46,7 @@
         "data/project_confirmation_email.xml",
         "security/ir.model.access.csv",
         "views/crowdfunding_project_settings.xml",
-        # "data/demo.xml",
+        "data/demo.xml",
         "security/ir.model.access.csv",
         "views/homepage.xml",
         "views/crowdfunding_components.xml",

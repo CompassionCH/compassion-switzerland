@@ -22,7 +22,7 @@
                                         <div class="card h-100 card-body d-flex justify-content-around align-items-center">
                                                 <span class="donation-type__card-icon"></span>
                                                 <!-- TODO: Replace by project.product_id.crowdfunding_impact_text_ative (buggy now for some reason) -->
-                                                <h4 class="blue text-center uppercase">Create impact by <t t-esc="project.product_id"/></h4>
+                                                <h4 class="blue text-center uppercase">Create impact by supproting <t t-esc="project.product_id.name"/></h4>
                                                 <span class="fake-btn my-3">SELECT</span>
                                         </div>
                                     </label>
@@ -53,15 +53,10 @@
                                 </label>
                             </div>
 
+                            <!-- Project impact card without progress bars -->
                             <div class="col-sm-12 col-md-4 mb-3">
-                                <div class="card h-100 w-100">
-                                    <img class="card-img-top donation-type__project-card-image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" alt="Project image"/>
-
-                                    <div class="card-body">
-                                    You are actually creating impact for:
-                                    <h5 class="uppercase mt-2"><t t-esc="project.name"/></h5>
-                                    </div>
-                                </div>
+                                <t t-set="display_impact" t-value="False" />
+                                <t t-call="crowdfunding_compassion.project_impact_card" />
                             </div>
                         </div>
                     </div>
@@ -92,7 +87,7 @@
                     </div>
                 </section>
 
-                <!-- This function disables the next button if there isn't 2 radios checked 
+                <!-- This function disables the next button if there isn't 2 radios checked
                 (fund/sponsor and participant) and adjusts the link for next step -->
                 <script>
                     const submit = document.getElementById('submit');
