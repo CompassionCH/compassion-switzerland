@@ -8,10 +8,11 @@ class HomepageController(Controller):
     def homepage(self, **kwargs):
         project_obj = request.env['crowdfunding.project']
         context = {
-            "funds": request.env['product.product'].sudo().search([
+            "funds": request.env['product.template'].sudo().search([
                 ('activate_for_crowdfunding', '=', True)
             ]),
-            "impact": self._compute_projects_impact(datetime.now().year),
+            "impact": self._compute_projects_impact(datetime.now().year)[0],
+            "fund_names": self._compute_projects_impact(datetime.now().year)[1],
             "project_list": project_obj._get_active_projects_list(),
         }
 
@@ -28,46 +29,42 @@ class HomepageController(Controller):
                 ]
             )
         )
+        active_funds = request.env['product.template'].sudo().search([
+            ('activate_for_crowdfunding', '=', True)
+        ])
         impact = {
             "sponsorship": {
                 "number": 0,
-                "image": None
-            },
-            "toilets": {
-                "number": 0,
-                "image": None
-            },
-            "csp": {
-                "number": 0,
-                "image": None
+                "image": None,
+                "impact_text": "sponsored children"
             },
             "other": {
                 "number": 0,
-                "image": None
+                "image": None,
+                "impact_text": "donated to various funds"
             }
         }
-
-        toilets_fund = request.env.ref(
-            "sponsorship_switzerland.product_template_fund_toilets"
-        )
-        csp_fund = request.env.ref("sponsorship_switzerland.product_template_fund_csp")
+        fund_name_list = []
+        for fund in active_funds:
+            fund_name_list.append(fund.name)
+            impact.update({
+                fund.name: {
+                    "number": 0,
+                    "image": fund.image_medium,
+                    "impact_text": fund.crowdfunding_impact_text
+                }
+            })
 
         for project in projects:
             impact["sponsorship"]["number"] += project.number_sponsorships_reached
 
-            if project.product_id.id == toilets_fund.id:
-                impact["toilets"]["number"] += project.product_number_reached
-
-            elif project.product_id.id == csp_fund.id:
-                impact["csp"]["number"] += project.product_number_reached
+            if project.product_id.name in fund_name_list:
+                impact[project.product_id.name]["number"] += project.product_number_reached
 
             elif project.product_id:
                 impact["other"]["number"] += project.product_number_reached
 
-        # TODO check if product_variant_id correct
-        impact['sponsorship']["image"] = toilets_fund.fund_image      # TODO change
-        impact['toilets']["image"] = toilets_fund.fund_image
-        impact['csp']["image"] = csp_fund.fund_image
-        impact['other']["image"] = csp_fund.fund_image                # TODO change
+        impact['sponsorship']["image"] = "crowdfunding_compassion/static/src/img/defaut_fund_icon.png"
+        impact['other']["image"] = "crowdfunding_compassion/static/src/img/defaut_fund_icon.png"
 
-        return impact
+        return impact, fund_name_list

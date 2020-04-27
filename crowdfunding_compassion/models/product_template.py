@@ -10,4 +10,3 @@ class ProductTemplate(models.Model):
     activate_for_crowdfunding = fields.Boolean()
     crowdfunding_description = fields.Text(translate=True)
     crowdfunding_impact_text = fields.Char(translate=True, help="Ex: toilets built")
-    fund_image = fields.Binary(string="Fund Photo", attachment=True)

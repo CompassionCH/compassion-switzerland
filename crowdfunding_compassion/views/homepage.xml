@@ -19,30 +19,24 @@
                         </div>
 
                         <div class="row text-center">
-                            <div class="col-md-3">
-                                <img t-attf-src="data:image/png;base64, {{impact['toilets']['image']}}"
-                                     width="100" height="100"/>
 
-                                <h4 class="display-2 count font-weight-bolder">
-                                    <t t-esc="impact['toilets']['number']"/>
-                                </h4>
+                            <t t-foreach="fund_names" t-as="fund_name">
+                                <div class="col-md-3">
+                                    <img t-attf-src="data:image/png;base64, {{impact[fund_name]['image']}}"
+                                         width="100" height="100"/>
 
-                                <p class="count-text">toilets constructed</p>
-                            </div>
+                                    <h4 class="display-2 count font-weight-bolder">
+                                        <t t-esc="impact[fund_name]['number']"/>
+                                    </h4>
 
-                            <div class="col-md-3">
-                                <img t-attf-src="data:image/png;base64, {{impact['csp']['image']}}"
-                                     width="100" height="100"/>
-
-                                <h4 class="display-2 count font-weight-bolder">
-                                    <t t-esc="impact['csp']['number']"/>
-                                </h4>
-
-                                <p class="count-text">mothers and babys supported</p>
-                            </div>
+                                    <p class="count-text">
+                                        <t t-esc="impact[fund_name]['impact_text']"/>
+                                    </p>
+                                </div>
+                            </t>
 
                             <div class="col-md-3">
-                                <img t-attf-src="data:image/png;base64, {{impact['other']['image']}}"
+                                <img t-attf-src="{{impact['other']['image']}}"
                                      width="100" height="100"/>
 
                                 <h4 class="display-2 count font-weight-bolder">
@@ -53,7 +47,7 @@
                             </div>
 
                             <div class="col-md-3">
-                                <img t-attf-src="data:image/png;base64, {{impact['sponsorship']['image']}}"
+                                <img t-attf-src="{{impact['sponsorship']['image']}}"
                                      width="100" height="100"/>
 
                                 <h4 class="display-2 count font-weight-bolder">
@@ -121,7 +115,7 @@
                                 <p>
                                     or join an existing
                                     <a href="/projects">collective project</a>
-<!--                                    TODO make it so we only see collective projects and not all projects-->
+                                    <!--                                    TODO make it so we only see collective projects and not all projects-->
                                 </p>
                             </div>
                         </div>
@@ -141,13 +135,13 @@
                     <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>
 
                     <!-- Load more button -->
-<!--                    <div class="row py-4">-->
-<!--                        <div class="col-sm-12 text-center">-->
-<!--                            <button type="button" class="btn btn-primary btn-md">Load more projects</button>-->
-<!--                            <br/>-->
-<!--                            <br/>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="row py-4">-->
+                    <!--                        <div class="col-sm-12 text-center">-->
+                    <!--                            <button type="button" class="btn btn-primary btn-md">Load more projects</button>-->
+                    <!--                            <br/>-->
+                    <!--                            <br/>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
                 </section>
 

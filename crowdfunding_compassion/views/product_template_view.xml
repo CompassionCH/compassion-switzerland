@@ -10,7 +10,6 @@
                 <field name="activate_for_crowdfunding"/>
                 <field name="crowdfunding_description"/>
                 <field name="crowdfunding_impact_text"/>
-                <field name="fund_image" widget="binary"/>
             </field>
         </field>
     </record>
