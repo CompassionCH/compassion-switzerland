@@ -7,17 +7,7 @@
             <t t-call="website.layout">
 
                 <!-- Full Page Header  -->
-                <header class="masthead">
-                    <div class="container">
-                        <div class="intro-text">
-                            <h1 class="display-1 blue">MY PLATFORM TITLE</h1>
-
-                            <h2 class="display-4 pb-4 ">Short platform introduction.</h2>
-                            <button type="button" class="btn btn-primary btn-lg">LAUNCH A PROJECT</button>
-                            <br/>
-                        </div>
-                    </div>
-                </header>
+                <t t-call="crowdfunding_compassion.crowdfunding_homepage_header"/>
 
                 <!-- Impact so far -->
                 <section class="# py-5" id="#">
@@ -122,7 +112,7 @@
 
                         <div class="row text-center py-4">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-white btn-lg">LAUNCH YOUR PROJECT</button>
+                                <a class="btn btn-white btn-lg" href="/together/projects/create">LAUNCH YOUR PROJECT</a>
                                 <br/>
                             </div>
                         </div>
@@ -130,7 +120,8 @@
                             <div class="col-md-12">
                                 <p>
                                     or join an existing
-                                    <a href="#">collective project</a>
+                                    <a href="/projects">collective project</a>
+<!--                                    TODO make it so we only see collective projects and not all projects-->
                                 </p>
                             </div>
                         </div>
@@ -147,14 +138,16 @@
                         <t t-call="crowdfunding_compassion.crowdfunding_project_card_container"/>
                     </div>
 
+                    <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>
+
                     <!-- Load more button -->
-                    <div class="row py-4">
-                        <div class="col-sm-12 text-center">
-                            <button type="button" class="btn btn-primary btn-md">Load more projects</button>
-                            <br/>
-                            <br/>
-                        </div>
-                    </div>
+<!--                    <div class="row py-4">-->
+<!--                        <div class="col-sm-12 text-center">-->
+<!--                            <button type="button" class="btn btn-primary btn-md">Load more projects</button>-->
+<!--                            <br/>-->
+<!--                            <br/>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
                 </section>
 
@@ -182,6 +175,7 @@
                     </div>
                 </section>
 
+                <t t-call="crowdfunding_compassion.crowdfunding_footer"/>
             </t>
         </template>
 

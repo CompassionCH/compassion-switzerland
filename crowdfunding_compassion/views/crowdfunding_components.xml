@@ -1,6 +1,6 @@
 <odoo>
     <data>
-         <!-- Goal progress -->
+        <!-- Goal progress -->
         <!-- This is a progress bar and related text for a goal (fund or sponsorships) -->
         <!-- [goal_reached], [goal_objective] and [goal_name] must be set before calling this template -->
         <template id="goal_progress" name="Goal progress">
@@ -23,7 +23,9 @@
                 <t t-set="progress_percentage" t-value="goal_reached / goal_objective * 100"/>
 
                 <div class="progress">
-                    <div class="progress-bar bg-compassion" role="progressbar" t-attf-style="width: {{ progress_percentage }}%" t-att-aria-valuenow="progress_percentage" aria-valuemin="0" aria-valuemax="100"/>
+                    <div class="progress-bar bg-compassion" role="progressbar"
+                         t-attf-style="width: {{ progress_percentage }}%" t-att-aria-valuenow="progress_percentage"
+                         aria-valuemin="0" aria-valuemax="100"/>
                 </div>
                 <span class="text--faded">
                     <t t-esc="progress_percentage"/>
@@ -52,7 +54,10 @@
             </t>
 
             <!-- TODO: Add clock icon -->
-            <span class="text--faded"><t t-esc="project.time_left"/> to go</span>
+            <span class="text--faded">
+                <t t-esc="project.time_left"/>
+                to go
+            </span>
         </template>
 
 
@@ -61,7 +66,8 @@
         <!-- Individual [participant] model must be set before calling this template -->
         <template id="participant_card" name="Participant card">
             <div class="card participants__card">
-                <img class="participants__image" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Participant image"/>
+                <img class="participants__image" src="/theme_crowdfunding/static/src/img/head.jpg"
+                     alt="Participant image"/>
                 <div class="participants__content">
                     <h4 class="participants__name">
                         <t t-esc="participant.partner_id.name"/>
@@ -185,7 +191,7 @@
             </div>
         </template>
 
-         <template id="project_card" name="Project card">
+        <template id="project_card" name="Project card">
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -210,7 +216,8 @@
                         </small>
                     </p>
                 </div>
-                <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg" alt="Card image cap" />
+                <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg"
+                     alt="Card image cap"/>
 
                 <div class="card-body">
                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -219,10 +226,11 @@
             </div>
         </template>
 
-             <template id="fund_card" name="Fund card">
+        <template id="fund_card" name="Fund card">
             <div class="card fund-card">
                 <div class="fund-card__header">
-                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Participant image"/>
+                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg"
+                         alt="Participant image"/>
                     <span class="fund-card__icon"/>
                 </div>
 
@@ -231,7 +239,9 @@
                     <h5 class="blue my-3 fund-card__title">
                         <t t-esc="fund['name']"/>
                     </h5>
-                    <p><t t-esc="fund['description']" /></p>
+                    <p>
+                        <t t-esc="fund['description']"/>
+                    </p>
                     <button type="button" class="btn btn-primary btn-md my-3">More infos</button>
                 </div>
             </div>
@@ -307,6 +317,21 @@
                     <div class="intro-text center-text">
                         <h1 class="display-1 blue">CREATE A NEW PROJECT</h1>
                         <h2 class="display-4 pb-4 ">Two lines introduction. Two lines introduction.</h2>
+                        <br/>
+                    </div>
+                </div>
+            </header>
+        </template>
+
+        <template id="crowdfunding_homepage_header" name="Header for project creation page">
+            <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
+            <header class="masthead">
+                <div class="container">
+                    <div class="intro-text">
+                        <h1 class="display-1 blue">MY PLATFORM TITLE</h1>
+
+                        <h2 class="display-4 pb-4 ">Short platform introduction.</h2>
+                        <a class="btn btn-primary btn-lg" href="/together/projects/create">LAUNCH A PROJECT</a>
                         <br/>
                     </div>
                 </div>
