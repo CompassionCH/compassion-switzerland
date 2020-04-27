@@ -7,7 +7,7 @@
                 <div id="project_cards">
                     <h2 class="blue my-4 text-center">ACTIVE PROJECTS</h2>
                     <t t-set="cards" t-value="project_list"/>
-                    <t t-call="crowdfunding_compassion.crowdfunding_card_container"/>
+                    <t t-call="crowdfunding_compassion.crowdfunding_project_card_container"/>
                 </div>
 
                 <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>

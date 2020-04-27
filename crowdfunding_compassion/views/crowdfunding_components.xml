@@ -139,7 +139,7 @@
                 <br/>
 
                 <t t-set="project" t-value="card"/>
-                <t t-call="crowdfunding_compassion.crowdfunding_project_progress"/>
+                <t t-call="crowdfunding_compassion.project_progress"/>
 
                 <!--                <p>10 / 25 toilets</p>-->
                 <!--                <div class="progress" style="height: 20px;">-->
@@ -157,7 +157,7 @@
             </div>
         </template>
 
-        <template id="crowdfunding_card_container" name="Card container">
+        <template id="crowdfunding_project_card_container" name="Card container">
             <div class="container">
                 <!-- 	 1ST row -->
                 <t t-foreach="cards" t-as="card_row">

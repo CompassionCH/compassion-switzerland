@@ -88,10 +88,23 @@ class CrowdfundingProject(models.Model):
         for project in self:
             project.number_sponsorships_reached = len(project.sponsorship_ids)
 
-    def _get_active_projects_rows(self):
-        return self.env['crowdfunding.project'].search([
-            ("state", "!=", "validation")
+    def _get_active_projects_list(self):
+        projects = self.env['crowdfunding.project'].search([
+            ("state", "!=", "xvalidation")
         ], limit=9, order="deadline ASC")
+
+        first_row = []
+        second_row = []
+        third_row = []
+        for project in projects:
+            if len(first_row) < 3:
+                first_row.append(project)
+            elif len(second_row) < 3:
+                second_row.append(project)
+            else:
+                third_row.append(project)
+
+        return [first_row, second_row, third_row]
 
     @api.multi
     def _compute_website_url(self):

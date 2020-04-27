@@ -6,11 +6,13 @@ from odoo.http import request, route, Controller
 class HomepageController(Controller):
     @route("/homepage", auth="public", website=True)
     def homepage(self, **kwargs):
+        project_obj = request.env['crowdfunding.project']
         context = {
             "funds": request.env['product.product'].sudo().search([
                 ('activate_for_crowdfunding', '=', True)
             ]),
             "impact": self._compute_projects_impact(datetime.now().year),
+            "project_list": project_obj._get_active_projects_list(),
         }
 
         return request.render("crowdfunding_compassion.homepage_template", context)
