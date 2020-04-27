@@ -27,23 +27,21 @@ class CrowdFundingWebsite(EventsController):
             ("project_id.project_owner_id.partner_id", "!=", partner.id)
         ])
         for participation in participations:
-            # project = request.env['crowdfunding.project'].search([
-            #     ("participant_ids", "in", participation.id)
-            # ])
-            # if project:
             participating_projects.append(participation)
-            donations.append(participation.invoice_line_ids)
+            for line in participation.invoice_line_ids:
+                donations.append(line)
 
         for project in request.env['crowdfunding.project'].search([
             ('project_owner_id.partner_id', '=', partner.id),
         ]):
             owned_projects.append(project)
+            for line in project.invoice_line_ids:
+                donations.append(line)
 
         kw["form_model_key"] = "cms.form.partner.coordinates"
         coordinates_form = self.get_form("res.partner", partner.id, **kw)
         if form_id is None or form_id == coordinates_form.form_id:
             coordinates_form.form_process()
-            form_success = coordinates_form.form_success
 
         values.update({
             "partner": partner,

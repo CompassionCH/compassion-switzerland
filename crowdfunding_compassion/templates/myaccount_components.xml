@@ -87,34 +87,75 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Product</th>
+                                <th>Project</th>
+                                <th>Is owner</th>
+                                <th>From</th>
+                                <th>For</th>
                                 <th>Amount</th>
                                 <th>Date</th>
-                                <th>Description</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <t t-foreach="donations"
-                               t-as="donation">
-                                <tr>
-                                    <td>
-                                        <t t-esc="donation.product_id.name"/>
-                                    </td>
-                                    <td>
-                                        <t t-esc="donation.price_subtotal"/>
-                                    </td>
-                                    <td>
-                                        <t t-esc="donation.due_date"/>
-                                    </td>
-                                    <td>
-                                        <t t-esc="donation.name"/>
-                                    </td>
-                                </tr>
+
+                        <t t-foreach="donations"
+                           t-as="donation">
+                            <t t-set="product_name">
+                                <t t-esc="donation.product_id.name"/>
                             </t>
-                        </tbody>
+                            <t t-set="partner_name">
+                                <t t-esc="donation.partner_id.name"/>
+                            </t>
+                            <t t-set="price_subtotal">
+                                <t t-esc="donation.price_subtotal"/>
+                            </t>
+                            <t t-set="due_date">
+                                <t t-esc="donation.due_date"/>
+                            </t>
+                            <t t-set="ambassador">
+                                <t t-esc="donation.user_id"/>
+                            </t>
+                            <t t-set="is_owner">
+                                true
+                            </t>
+                            <t t-if="donation.crowdfunding_project_id.project_owner_id.partner_id.id == donation.partner_id.id">
+                                <t t-set="is_owner">
+                                    false
+                                </t>
+                            </t>
+                            <t t-call="crowdfunding_compassion.myaccount_donation_tbody"/>
+                        </t>
                     </table>
                 </div>
             </div>
+        </template>
+
+        <template id="myaccount_donation_tbody">
+            <tbody>
+                <tr>
+                    <td>
+                        <t t-esc="product_name"/>
+                    </td>
+                    <td>
+                        <t t-esc="is_owner"/>
+                    </td>
+                    <td>
+                        <t t-esc="partner_name"/>
+                    </td>
+                    <td>
+                        <t t-if="is_owner == true">
+                            <t t-esc="ambassador"/>
+                        </t>
+                        <t t-else="">
+                            X
+                        </t>
+                    </td>
+                    <td>
+                        <t t-esc="price_subtotal"/>
+                    </td>
+                    <td>
+                        <t t-esc="due_date"/>
+                    </td>
+                </tr>
+            </tbody>
         </template>
 
         <template id="myaccount_coordinates">
