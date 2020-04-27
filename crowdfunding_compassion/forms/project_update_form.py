@@ -6,8 +6,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import re
-
 from odoo import models, _
 
 

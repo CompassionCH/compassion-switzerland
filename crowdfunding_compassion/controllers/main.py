@@ -6,7 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo.http import request, route, Controller
+from odoo.http import request, route
 from odoo.addons.website_event_compassion.controllers.events_controller import (
     EventsController,
 )
@@ -61,7 +61,8 @@ class CrowdFundingWebsite(EventsController):
             ('id', '=', project_id)
         ])
         kw["form_model_key"] = "cms.form.crowdfunding.project.update"
-        project_update_form = self.get_form("crowdfunding.project", project.id, **kw)
+        project_update_form = self.get_form(
+            "crowdfunding.project", project.id, **kw)
         project_update_form.form_process()
 
         values = {
@@ -74,13 +75,17 @@ class CrowdFundingWebsite(EventsController):
                 "crowdfunding_compassion.project_update_view_template", values)
         return result
 
-    @route(["/my_account/participation/update/"], type="http", auth="user", website=True)
+    @route(["/my_account/participation/update/"],
+           type="http",
+           auth="user",
+           website=True)
     def my_account_participants_update(self, participant_id=None, **kw):
         participant = request.env['crowdfunding.participant'].search([
             ('id', '=', participant_id)
         ])
         kw["form_model_key"] = "cms.form.crowdfunding.participant.update"
-        participant_update_form = self.get_form("crowdfunding.participant", participant.id, **kw)
+        participant_update_form = self.get_form(
+            "crowdfunding.participant", participant.id, **kw)
         participant_update_form.form_process()
 
         values = {
