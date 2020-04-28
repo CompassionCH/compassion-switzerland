@@ -28,14 +28,11 @@ class EventCompassion(models.Model):
     event_type_id = fields.Many2one(
         "event.type",
         "Type",
-        required=True,
         # Avoids selecting generic events
         domain=[("id", ">", 1)],
         readonly=False,
     )
-    type = fields.Selection(
-        compute="_compute_event_type", default="meeting", store=True
-    )
+    type = fields.Selection(default="meeting")
     odoo_event_id = fields.Many2one("event.event", readonly=False)
     accepts_registrations = fields.Boolean(
         related="event_type_id.accepts_registrations"
@@ -64,7 +61,6 @@ class EventCompassion(models.Model):
             event.filename_1 = event.name + "-1.jpg"
 
     @api.multi
-    @api.depends("event_type_id")
     def _compute_event_type(self):
         sport = self.env.ref("website_event_compassion.event_type_sport")
         stand = self.env.ref("website_event_compassion.event_type_stand")
@@ -74,7 +70,6 @@ class EventCompassion(models.Model):
         group = self.env.ref("website_event_compassion.event_type_group_visit")
         youth = self.env.ref("website_event_compassion.event_type_youth_trip")
         indiv = self.env.ref("website_event_compassion.event_type_individual_visit")
-        crowdfunding = self.env.ref("crowdfunding_compassion.event_type_crowdfunding")
         for event in self:
             if event.event_type_id == sport:
                 event.type = "sport"
@@ -86,10 +81,22 @@ class EventCompassion(models.Model):
                 event.type = "presentation"
             elif event.event_type_id == meeting:
                 event.type = "meeting"
-            elif event.event_type_id == crowdfunding:
-                event.type = "crowdfunding"
             elif event.event_type_id in group | youth | indiv:
                 event.type = "tour"
+
+    @api.model
+    def create(self, vals):
+        event = super().create(vals)
+        if "type" not in vals:
+            event._compute_event_type()
+        return event
+
+    @api.multi
+    def write(self, vals):
+        super().write(vals)
+        if "event_type_id" in vals:
+            self._compute_event_type()
+        return True
 
     def close_registrations(self):
         self.registrations_closed = True

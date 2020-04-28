@@ -235,18 +235,19 @@ $enable-rounded: false;
 
 header.masthead {
   text-align: center;
-  color: white;
-  background-image: url("/theme_crowdfunding/static/src/img/head.jpg");
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: center center;
-  background-size: cover;
-  background-color: $gray-300;
+  color: $gray-300;
 }
 
 header.masthead .intro-text {
-  padding-top: 300px;
-  padding-bottom: 200px;
+  padding-top: 8em;
+  padding-bottom: 2em;
+}
+
+header.masthead .intro-text h1 {
+    font-size: 3em;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 0.5em;
 }
 
 header.masthead .intro-text .intro-lead-in {
@@ -265,6 +266,14 @@ header.masthead .intro-text .intro-heading {
     "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
 }
+
+header.masthead.image-background {
+  background-image: url("/theme_crowdfunding/static/src/img/head.jpg");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+ }
 
 //footer
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sponsorship_switzerland.product_template_fund_csp" model="product.template">
+        <field name="crowdfunding_impact_text">mothers and babies supported</field>
+    </record>
+</odoo>

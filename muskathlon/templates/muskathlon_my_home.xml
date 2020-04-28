@@ -30,7 +30,7 @@
                          aria-labelledby="donation_modal_label" aria-hidden="true">
                         <!-- TODO Replace by modal-xl when Bootstrap 4.2 is supported by Odoo -->
                         <div class="modal-dialog modal-lg" role="document">
-                            <div t-attf-class="modal-content {{outbound_flight_form.form_wrapper_css_klass}}">
+                            <div t-attf-class="modal-content #{outbound_flight_form.form_wrapper_css_klass}">
                                 <div class="modal-body">
                                     <t t-set="missing_return"
                                        t-value="outbound_flight_form.main_object and not return_flight_form.main_object"/>
@@ -128,12 +128,12 @@
                                                 <t t-esc="registration.compassion_event_id.start_date"/>
                                             </td>
                                             <td>
-                                                <a t-attf-href="/my/muskathlon/{{ registration.id }}">Fundraising /
+                                                <a t-attf-href="/my/muskathlon/#{ registration.id }">Fundraising /
                                                     Order material
                                                 </a>
                                             </td>
                                             <td>
-                                                <a t-attf-href="/my/muskathlon/{{ registration.id }}/donations">My
+                                                <a t-attf-href="/my/muskathlon/#{ registration.id }/donations">My
                                                     donations
                                                 </a>
                                             </td>

@@ -4,7 +4,7 @@
     <template id="participant_card" name="Participant card"/>
 
     <template id="event_participants_list" name="Event participants list">
-        <div id="compassion_event_participants" t-attf-class="row {{background_color_class}}">
+        <div id="compassion_event_participants" t-attf-class="row #{background_color_class}">
             <div class="col-md-1"/>
             <div class="col-md-10 col-xs-12">
                 <t t-if="event.registration_ids.filtered('website_published')">
@@ -23,8 +23,8 @@
                                    t-value="'/web/image/event.registration/' + str(registration.id) + '/ambassador_picture_1'"/>
                             </t>
                             <a t-att-href="registration.website_url">
-                                <div t-attf-class="participant_image {{background_color_class}}"
-                                     t-attf-style="background-image: url({{ ambassador_picture }});">
+                                <div t-attf-class="participant_image #{background_color_class}"
+                                     t-attf-style="background-image: url(#{ ambassador_picture });">
                                     <t t-call="website_event_compassion.participant_card"/>
                                 </div>
                             </a>
@@ -41,7 +41,7 @@
                                             <t t-set="barometer_amount_class">amount_raised</t>
                                         </t>
                                     </div>
-                                    <h5 t-attf-class="text-uppercase name details {{ background_color_class }}">
+                                    <h5 t-attf-class="text-uppercase name details #{ background_color_class }">
                                         <span class="details_text">Participant<br/>details
                                         </span>
                                     </h5>

@@ -51,7 +51,7 @@
                         }
                     </style>
                     <div id="background">
-                        <img t-attf-src="data:image/jpeg;base64,{{ o.fullshot }}"/>
+                        <img t-attf-src="data:image/jpeg;base64,#{ o.fullshot }"/>
                     </div>
                     <div id="child-ref">
                         <span t-field="o.local_id"/>

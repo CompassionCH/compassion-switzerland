@@ -35,7 +35,6 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "data": [
-        "data/main_website.xml",
         "views/robots.xml"
     ],
     "depends": [

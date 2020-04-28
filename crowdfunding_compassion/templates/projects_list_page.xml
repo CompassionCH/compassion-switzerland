@@ -1,9 +1,11 @@
 <odoo>
     <data>
         <template id="project_list_view_template" name="Product list template">
-            <t t-call="website.layout">
-                <t t-call="crowdfunding_compassion.crowdfunding_project_list_header"/>
-
+            <t t-set="header">
+                <h1 class="display-1 blue">JOIN A GREAT PROJECT</h1>
+                <h2 class="display-4 pb-4 ">Two lines explanation or introduction about project launch</h2>
+            </t>
+            <t t-call="crowdfunding_compassion.layout">
                 <div id="project_cards">
                     <h2 class="blue my-4 text-center">ACTIVE PROJECTS</h2>
                     <t t-set="cards" t-value="project_list"/>
@@ -11,8 +13,6 @@
                 </div>
 
                 <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>
-
-                <t t-call="crowdfunding_compassion.crowdfunding_footer"/>
             </t>
         </template>
 
@@ -27,7 +27,7 @@
         </record>
 
         <record id="project_list_page" model="website.page">
-            <field name="url">/together/projects</field>
+            <field name="url">/projects</field>
             <field name="website_indexed" eval="True"/>
             <field name="website_id" eval="ref('crowdfunding_compassion.crowdfunding_website')"/>
             <field name="website_published">True</field>
