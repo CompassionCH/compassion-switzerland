@@ -23,7 +23,9 @@
                 <t t-set="progress_percentage" t-value="goal_reached / goal_objective * 100"/>
 
                 <div class="progress">
-                    <div class="progress-bar bg-compassion" role="progressbar" t-attf-style="width: {{ progress_percentage }}%" t-att-aria-valuenow="progress_percentage" aria-valuemin="0" aria-valuemax="100"/>
+                    <div class="progress-bar bg-compassion" role="progressbar"
+                         t-attf-style="width: #{ progress_percentage }%" t-att-aria-valuenow="progress_percentage"
+                         aria-valuemin="0" aria-valuemax="100"/>
                 </div>
                 <span class="text--faded">
                     <t t-esc="progress_percentage"/>
@@ -85,7 +87,7 @@
         <!-- Impact tile -->
         <!-- Individual [impact_tile] data must be set before calling this template -->
         <template id="impact_tile" name="Impact tile">
-            <div t-attf-class="impact-tile impact-tile--{{ impact_tile.color }}">
+            <div t-attf-class="impact-tile impact-tile--#{ impact_tile.color }">
                 <img class="impact-tile__image" t-att-src="impact_tile.image" alt="Impact image"/>
                 <span class="text--bold">
                     <t t-esc="impact_tile.text"/>
@@ -152,7 +154,7 @@
                     <p class="card-text">
                         <t t-esc="project_description"/>
                     </p>
-                    <a t-attf-href="/project/{{project_id}}" class="btn btn-primary btn-lg btn-block mb-2">Join</a>
+                    <a t-attf-href="/project/#{project_id}" class="btn btn-primary btn-lg btn-block mb-2">Join</a>
                 </div>
             </div>
         </template>

@@ -58,7 +58,7 @@
                     </div>
                 </section>
 
-                <div t-attf-class="{{form.form_wrapper_css_klass}} center">
+                <div t-attf-class="#{form.form_wrapper_css_klass} center mb-5">
                     <t t-raw="form.form_render()"/>
                 </div>
             </t>
@@ -99,7 +99,8 @@
                     <br/>
                     <br/>
                     <h3>
-                        Thank you for launching a project ! You will receive an email with all the necessary informations
+                        Thank you for launching a project ! You will receive an email with all the necessary
+                        informations
                     </h3>
                     <br/>
                     <br/>

@@ -36,20 +36,24 @@
                                                 <div class="row project-hero__card-share-text">Share with your friends</div>
                                                 <!-- TODO: update link to production url -->
                                                 <div class="row project-hero__card-share-icons">
-                                                    <t t-set="compassion_project_base_url" t-value="'crowdfunding.compassion.ch/project'" />
-                                                    <a t-attf-href="https://www.facebook.com/sharer.php?u={{ compassion_project_base_url }}/{{ project.id }}" target="_blank">
+                                                    <t t-set="compassion_project_base_url"
+                                                       t-value="'crowdfunding.compassion.ch/project'"/>
+                                                    <a t-attf-href="https://www.facebook.com/sharer.php?u=#{ compassion_project_base_url }/#{ project.id }"
+                                                       target="_blank">
                                                         <i class="fa fa-facebook-official"></i>
                                                     </a>
-                                                    <a t-attf-href="https://twitter.com/intent/tweet?url={{ compassion_project_base_url }}/{{ project.id }}" target="_blank">
+                                                    <a t-attf-href="https://twitter.com/intent/tweet?url=#{ compassion_project_base_url }/#{ project.id }"
+                                                       target="_blank">
                                                         <i class="fa fa-twitter-square"></i>
                                                     </a>
-                                                    <a t-attf-href="https://www.linkedin.com/sharing/share-offsite/?url={{ compassion_project_base_url }}/{{ project.id }}" target="_blank">
+                                                    <a t-attf-href="https://www.linkedin.com/sharing/share-offsite/?url=#{ compassion_project_base_url }/#{ project.id }"
+                                                       target="_blank">
                                                         <i class="fa fa-linkedin"></i>
                                                     </a>
-                                                    <a t-attf-href="mailto:?subject=I wanted you to see this project&amp;body=Check out this project {{ compassion_project_base_url }}/{{ project.id }}.">
+                                                    <a t-attf-href="mailto:?subject=I wanted you to see this project&amp;body=Check out this project #{ compassion_project_base_url }/#{ project.id }.">
                                                         <i class="fa fa-at"></i>
                                                     </a>
-                                               </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

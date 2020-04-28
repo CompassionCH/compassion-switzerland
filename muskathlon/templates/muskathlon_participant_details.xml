@@ -42,14 +42,16 @@
                                 <div class="card_container">
                                     <t t-if="not registration.ambassador_picture_2">
                                         <div class="position-relative">
-                                            <img class="participant_image" t-attf-src="/web/image/event.registration/{{ registration.id }}/ambassador_picture_1">
+                                            <img class="participant_image"
+                                                 t-attf-src="/web/image/event.registration/#{ registration.id }/ambassador_picture_1">
                                                 <t t-call="muskathlon.sport_icon"/>
                                             </img>
                                         </div>
                                     </t>
                                     <t t-else="">
                                         <div class="position-relative">
-                                            <img class="participant_image" t-attf-src="/web/image/event.registration/{{registration.id}}/ambassador_picture_2">
+                                            <img class="participant_image"
+                                                 t-attf-src="/web/image/event.registration/#{registration.id}/ambassador_picture_2">
                                                 <t t-call="muskathlon.sport_icon"/>
                                             </img>
                                         </div>
@@ -65,7 +67,7 @@
                                         </a>
                                     </p>
                                     <p class="center-text">
-                                        <a t-attf-href="https://{{ registration.wordpress_host }}/parrainer-un-enfant/?eventId={{ event.id }}&amp;eventName={{ event.name }}&amp;registrationId={{ registration.id }}&amp;participantId={{ registration.partner_id_id }}&amp;participantName={{ registration.partner_name }}"
+                                        <a t-attf-href="https://#{ registration.wordpress_host }/parrainer-un-enfant/?eventId=#{ event.id }&amp;eventName=#{ event.name }&amp;registrationId=#{ registration.id }&amp;participantId=#{ registration.partner_id_id }&amp;participantName=#{ registration.partner_name }"
                                            class="btn btn-danger btn-muskathlon">
                                             Sponsor a child
                                         </a>
@@ -75,7 +77,7 @@
                             <div class="col-sm-7">
                                 <h2 class="side_title" t-field="sport.page_title"/>
                                 Muskathlon :
-                                <a t-attf-href="/event/{{ event.id }}" class="href_muskathlon">
+                                <a t-attf-href="/event/#{ event.id }" class="href_muskathlon">
                                     <t t-esc="event.name.replace('Muskathlon ', '')"/>
                                 </a>
                                 <p class="mt16">
@@ -97,8 +99,13 @@
                                 </div>
                                 <div class="social_share">
                                     <p>Share my project</p>
-                                    <div class="fb-share-button" t-attf-data-href="{{share_url}}" data-layout="button_count"></div>
-                                    <a class="twitter-share-button" t-attf-href="https://twitter.com/intent/tweet?text={{share_content}}&amp;url={{share_url}}&amp;hashtags=Muskathlon" target="new"><i class="fa fa-twitter"/></a>
+                                    <div class="fb-share-button" t-attf-data-href="#{share_url}"
+                                         data-layout="button_count"></div>
+                                    <a class="twitter-share-button"
+                                       t-attf-href="https://twitter.com/intent/tweet?text=#{share_content}&amp;url=#{share_url}&amp;hashtags=Muskathlon"
+                                       target="new">
+                                        <i class="fa fa-twitter"/>
+                                    </a>
                                 </div>
                             </div>
                         </div>

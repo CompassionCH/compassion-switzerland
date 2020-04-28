@@ -38,7 +38,9 @@
                             <p>Thank you for your commitment against extreme poverty.</p>
                             <div class="my_donations">
                                 <h2>My donations</h2>
-                                <a t-attf-href="{{ registration.id }}/donations" class="btn btn-primary">To my donations</a>
+                                <a t-attf-href="#{ registration.id }/donations" class="btn btn-primary">To my
+                                    donations
+                                </a>
                             </div>
                         </div>
                     </div>

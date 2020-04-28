@@ -65,7 +65,7 @@
             </div>
             <div class="col-md-9 mt16">
                 <h4>
-                    <a t-attf-href="{{'/event/' + slug(event.compassion_event_id)}}">
+                    <a t-attf-href="#{'/event/' + slug(event.compassion_event_id)}">
                         <t t-esc="event.name"/>
                     </a>
                 </h4>
