@@ -27,7 +27,7 @@
         </record>
 
         <record id="project_list_page" model="website.page">
-            <field name="url">/together/projects</field>
+            <field name="url">/projects</field>
             <field name="website_indexed" eval="True"/>
             <field name="website_id" eval="ref('crowdfunding_compassion.crowdfunding_website')"/>
             <field name="website_published">True</field>
