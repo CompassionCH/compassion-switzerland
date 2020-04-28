@@ -16,7 +16,7 @@ class ProjectsController(Controller, FormControllerMixin):
     @route('/projects', auth="public", website=True)
     def get_projects_list(self, **kwargs):
         values = {}
-        project_obj = request.env['crowdfunding.project']
+        project_obj = request.env['crowdfunding.project'].sudo()
         projects = project_obj._get_active_projects_rows()
         first_row = []
         second_row = []
