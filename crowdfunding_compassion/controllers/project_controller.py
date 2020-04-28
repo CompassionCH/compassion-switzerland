@@ -3,13 +3,9 @@ from datetime import datetime
 from babel.dates import format_timedelta
 
 from odoo.http import request, route, Controller
-from odoo.addons.cms_form.controllers.main import FormControllerMixin
-from odoo.addons.cms_form_compassion.controllers.payment_controller import (
-    PaymentFormController,
-)
 
 
-class ProjectController(PaymentFormController, FormControllerMixin):
+class ProjectController(Controller):
 
     # Demo route used to display demo project
     # TODO: Remove when developmnent is done
@@ -71,48 +67,6 @@ class ProjectController(PaymentFormController, FormControllerMixin):
         impact = sorted(sponsorships + donations, key=lambda x: x["date"])
 
         return {"project": project, "impact": impact}
-
-    # To preselect a participant, pass its id as particpant query parameter
-    @route(
-        ["/project/<model('crowdfunding.project'):project>/donation"],
-        auth="public",
-        website=True,
-    )
-    def project_donation_page(self, project, **kwargs):
-        participant = kwargs.get("participant")
-
-        return request.render(
-            "crowdfunding_compassion.project_donation_page",
-            {"project": project.sudo(), "selected_participant": participant},
-        )
-
-    @route(
-        [
-            "/project/<model('crowdfunding.project'):project>/donation/form/<model('crowdfunding.participant'):participant>"
-        ],
-        auth="public",
-        website=True,
-    )
-    def project_donation_form_page(self, project, participant, **kwargs):
-        kwargs["form_model_key"] = "cms.form.crowdfunding.donation"
-
-        donation_form = self.get_form(False, **kwargs)
-        donation_form.form_process()
-
-        context = {
-            "project": project.sudo(),
-            "participant": participant.sudo(),
-            "form": donation_form.sudo(),
-            "main_object": project.sudo(),
-        }
-
-        # if donation_form.form_success:
-        #     # The user submitted a donation, redirect to confirmation
-        #     return werkzeug.utils.redirect(donation_form.form_next_url(), code=303)
-
-        return request.render(
-            "crowdfunding_compassion.project_donation_form_page", context,
-        )
 
 
 # Utils

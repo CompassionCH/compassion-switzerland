@@ -56,9 +56,9 @@
                     <div class="container">
                         <h3 class="blue uppercase">Your billing information</h3>
 
-                        <!-- <div t-attf-class="{{form.form_wrapper_css_klass}}">
+                        <div t-attf-class="{{form.form_wrapper_css_klass}}">
                             <t t-raw="form.form_render()"/>
-                        </div> -->
+                        </div>
                     </div>
                 </section>
             </t>
