@@ -16,16 +16,6 @@
             </t>
         </template>
 
-        <record id="project_list_view" model="ir.ui.view">
-            <field name="name">Project List</field>
-            <field name="type">qweb</field>
-            <field name="model">crowdfunding.project</field>
-            <field name="key">crowdfunding.project_list</field>
-            <field name="arch" type="xml">
-                <t t-call="crowdfunding_compassion.project_list_view_template"/>
-            </field>
-        </record>
-
         <record id="project_list_page" model="website.page">
             <field name="url">/projects</field>
             <field name="website_indexed" eval="True"/>
