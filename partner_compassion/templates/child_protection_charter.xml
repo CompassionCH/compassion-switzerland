@@ -76,7 +76,7 @@
                                 <p t-raw="confirmation_message"/>
                                 <t t-if="redirect">
                                     <p>
-                                        <a class="btn btn-primary" t-attf-href="{{redirect}}">Return</a>
+                                        <a class="btn btn-primary" t-attf-href="#{redirect}">Return</a>
                                     </p>
                                 </t>
                             </div>

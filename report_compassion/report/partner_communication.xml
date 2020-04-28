@@ -237,7 +237,8 @@
                         <span> 17-312562-0</span>
                     </div>
                 </t>
-                <div id="address" class="right" t-attf-style="margin-bottom: {{'0' if display_pp or print_header else '10'}}mm;">
+                <div id="address" class="right"
+                     t-attf-style="margin-bottom: #{'0' if display_pp or print_header else '10'}mm;">
                     <div id="pp" t-if="display_pp">
                         <div id="pp-box">
                             <div>P.P.</div>
@@ -249,7 +250,7 @@
                         <hr/>
                     </div>
                     <span t-raw="partner.short_address"/>
-                    <div id="date" t-if="print_header" t-attf-style="margin-top: {{ '10' if display_pp else '20' }}mm;">
+                    <div id="date" t-if="print_header" t-attf-style="margin-top: #{ '10' if display_pp else '20' }mm;">
                         <span t-raw="partner.date_communication"/>
                     </div>
                 </div>
@@ -264,8 +265,10 @@
                     </div>
                     <div id="body">
                         <div t-raw="body_html" class="body_text"/>
-                        <img t-if="show_signature" t-attf-src="data:image/jpg;base64,{{ user.digital_signature }}" class="right" t-attf-style="margin-left: {{ 20 if success_story else 65 }}mm"/>
-                        <div class="right" t-attf-style="margin-top: {{ 10 if not show_signature else 0 }}mm; margin-left: {{ 50 if success_story else 95 }}mm">
+                        <img t-if="show_signature" t-attf-src="data:image/jpg;base64,#{ user.digital_signature }"
+                             class="right" t-attf-style="margin-left: #{ 20 if success_story else 65 }mm"/>
+                        <div class="right"
+                             t-attf-style="margin-top: #{ 10 if not show_signature else 0 }mm; margin-left: #{ 50 if success_story else 95 }mm">
                             <t t-raw="user.signature_letter"/>
                         </div>
                     </div>

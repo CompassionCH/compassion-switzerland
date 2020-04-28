@@ -6,14 +6,12 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo.addons.website_event_compassion.controllers.events_controller import (
-    EventsController,
-)
+from odoo.http import Controller
 
 from odoo.http import request, route
 
 
-class CrowdFundingWebsite(EventsController):
+class CrowdFundingWebsite(Controller):
 
     @route(["/my_account"], type="http", auth="user", website=True)
     def my_account(self, form_id=None, **kw):

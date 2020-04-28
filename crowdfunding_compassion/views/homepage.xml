@@ -4,11 +4,19 @@
 
         <!-- ===  Homepage === -->
         <template id="homepage_template">
-            <t t-call="website.layout">
+            <t t-set="header">
+                <div class="container">
+                    <div class="intro-text">
+                        <h1 class="display-1 blue">MY PLATFORM TITLE</h1>
 
-                <!-- Full Page Header  -->
-                <t t-call="crowdfunding_compassion.crowdfunding_homepage_header"/>
-
+                        <h2 class="display-4 pb-4 ">Short platform introduction.</h2>
+                        <button type="button" class="btn btn-primary btn-lg">LAUNCH A PROJECT</button>
+                        <br/>
+                    </div>
+                </div>
+            </t>
+            <t t-set="headerclass">image-background</t>
+            <t t-call="crowdfunding_compassion.layout">
                 <!-- Impact so far -->
                 <section class="# py-5" id="#">
                     <div class="container">
@@ -173,10 +181,11 @@
             </t>
         </template>
 
+        <!-- TODO Odoo creates automatically a "/" homepage but we cannot find the way to use it instead of creating another one -->
         <record id="homepage" model="website.page">
-            <field name="name">Homepage</field>
+            <field name="name">Crowdfunding Homepage</field>
             <field name="website_published">True</field>
-            <field name="url">/home</field>
+            <field name="url">/homepage</field>
             <field name="type">qweb</field>
             <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
             <field name="view_id" ref="crowdfunding_compassion.homepage_template"/>
