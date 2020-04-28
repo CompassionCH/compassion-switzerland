@@ -40,7 +40,7 @@ class HomepageController(Controller):
         csp_fund = request.env.ref("sponsorship_switzerland.product_template_fund_csp")
 
         for project in projects:
-            impact["sponsorships"] += project.number_sponsorships_reached
+            impact["sponsorship"] += project.number_sponsorships_reached
 
             if project.product_id == toilets_fund.id:
                 impact["toilets"] += project.product_number_reached

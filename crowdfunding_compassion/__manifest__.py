@@ -62,6 +62,7 @@
         "templates/myaccount_crowdfunding_project_update_page.xml",
         "templates/myaccount_crowdfunding_participant_update_page.xml",
         "templates/project_creation_page.xml",
+        "views/progress_bar.xml",
     ],
     "demo": [
         "demo/demo.xml"
