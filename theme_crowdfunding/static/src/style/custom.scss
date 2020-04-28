@@ -122,7 +122,7 @@ section {
 
 a {
   color: $blue-compassion;
-//   text-decoration: underline;
+  //   text-decoration: underline;
 
   &:hover {
     color: darken($blue-compassion, 20%);
@@ -130,7 +130,7 @@ a {
 }
 
 .uppercase {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 //GRID
@@ -444,7 +444,7 @@ footer {
     color: $blue-compassion;
   }
 
-  &__card-share-icons  {
+  &__card-share-icons {
     .fa {
       margin: 5px !important;
     }
@@ -452,12 +452,12 @@ footer {
 }
 
 .hero-title {
-    font-size: $display2-size;
-    font-weight: 900;
-    color: $white;
+  font-size: $display2-size;
+  font-weight: 900;
+  color: $white;
 
-    padding-top: 10rem;
-    padding-bottom: 2rem;
+  padding-top: 10rem;
+  padding-bottom: 2rem;
 }
 
 .goal-progress {
@@ -575,49 +575,48 @@ footer {
 }
 
 .donation-type {
+  background-color: $blue-compassion;
+
+  &__card-icon {
+    height: 120px;
+    width: 120px;
     background-color: $blue-compassion;
+    border-radius: 50%;
+    margin: 1rem auto;
+  }
 
-    &__card-icon {
-        height: 120px;
-        width: 120px;
-        background-color: $blue-compassion;
-        border-radius: 50%;
-        margin: 1rem auto;
-    }
-
-    &__project-card-image {
-        height: 12rem;
-        object-fit: cover;
-    }
+  &__project-card-image {
+    height: 12rem;
+    object-fit: cover;
+  }
 }
 
 .donation-form-amount {
-    background: linear-gradient(180deg, $blue-compassion 90%, $white 90%);
+  background: linear-gradient(180deg, $blue-compassion 90%, $white 90%);
 
-    input[type=text] {
-        width: 80%;
-        border: 2px solid $blue-compassion;
-        border-radius: 4px;
-        padding: 0.5rem 1rem;
-    }
+  input[type="number"] {
+    width: 80%;
+    border: 2px solid $blue-compassion;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+  }
 }
 
 // Selectable cards
-.card-input-element+.card:hover {
-    cursor: pointer;
+.card-input-element + .card:hover {
+  cursor: pointer;
 }
 
-.card-input-element:checked+.card {
-    background-color: lighten($blue-compassion, 50%) !important;
-    transition: background-color .3s;
+.card-input-element:checked + .card {
+  background-color: lighten($blue-compassion, 50%) !important;
+  transition: background-color 0.3s;
 }
 
 .fake-btn {
-    background-color: $blue-compassion;
-    color: $white;
-    padding: 0.5rem 1rem;
+  background-color: $blue-compassion;
+  color: $white;
+  padding: 0.5rem 1rem;
 }
-
 
 // Global styles
 .text {
@@ -642,7 +641,7 @@ footer {
 // }
 
 .pagination {
-   justify-content: center;
+  justify-content: center;
 }
 
 .center {
@@ -652,10 +651,9 @@ footer {
   width: 50%;
 }
 
-
-$complete: #2ECC71;
-$active: #3498DB;
-$mute: #DFE3E4;
+$complete: #2ecc71;
+$active: #3498db;
+$mute: #dfe3e4;
 
 // .progress {
 //   list-style: none;
@@ -737,7 +735,6 @@ $mute: #DFE3E4;
 //   .progress--large {
 //     font-size: 2em;
 //   }
-
 
 // .progress {
 //   margin-bottom: 3em;
