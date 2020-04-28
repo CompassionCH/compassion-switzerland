@@ -14,15 +14,23 @@
                         <div class="row mt-4">
                             <!-- Amount selector -->
                             <div class="col-sm-12 col-md-8">
-                                <h4 class="white">I want to help <t t-esc="project.name"/> funding for</h4>
+                                <h4 class="white">
+                                    I want to help
+                                    <t t-esc="project.name"/>
+                                    funding for
+                                </h4>
                                 <span class="white">(Click one option to select)</span>
                                 <div class="row mt-3">
                                     <div class="col-6 col-lg-3 mb-3">
                                         <label class="h-100 w-100">
                                             <input type="radio" name="amount" value="25" class="card-input-element d-none" />
                                             <div class="card h-100 d-flex justify-content-around align-items-center text-center">
-                                                    <span class="donation-type__card-icon"></span>
-                                                    <h3 class="blue">1 toilet<br/>CHF 25.-</h3>
+                                                <span class="donation-type__card-icon"/>
+                                                <h3 class="blue">
+                                                    1 toilet
+                                                    <br/>
+                                                    CHF 25.-
+                                                </h3>
                                             </div>
                                         </label>
                                     </div>
@@ -30,27 +38,35 @@
                                         <label class="h-100 w-100">
                                             <input type="radio" name="amount" value="75" class="card-input-element d-none" />
                                             <div class="card h-100 d-flex justify-content-around align-items-center text-center">
-                                                    <span class="donation-type__card-icon"></span>
-                                                    <h3 class="blue">3 toilets<br/>CHF 75.-</h3>
+                                                <span class="donation-type__card-icon"/>
+                                                <h3 class="blue">
+                                                    3 toilets
+                                                    <br/>
+                                                    CHF 75.-
+                                                </h3>
                                             </div>
                                         </label>
                                     </div>
                                     <div class="col-6 col-lg-3 mb-3">
                                         <label class="h-100 w-100">
-                                            <input type="radio" name="amount" value="25" class="card-input-element d-none" />
+                                            <input type="radio" name="amount" value="125" class="card-input-element d-none" />
                                             <div class="card h-100 d-flex justify-content-around align-items-center text-center">
-                                                    <span class="donation-type__card-icon"></span>
-                                                    <h3 class="blue">5 toilets<br/>CHF 125.-</h3>
+                                                <span class="donation-type__card-icon"/>
+                                                <h3 class="blue">
+                                                    5 toilets
+                                                    <br/>
+                                                    CHF 125.-
+                                                </h3>
                                             </div>
                                         </label>
                                     </div>
                                     <div class="col-6 col-lg-3 mb-3">
                                         <label class="h-100 w-100">
-                                            <input type="radio" name="amount" value="25" class="card-input-element d-none" />
+                                            <input type="radio" name="amount" value="" class="card-input-element d-none" id="custom-amount-card"/>
                                             <div class="card h-100 d-flex justify-content-around align-items-center text-center">
-                                                    <h3 class="blue">Another amount</h3>
-                                                    <input type="text"/>
-                                                    <h3 class="blue">CHF</h3>
+                                                <h3 class="blue">Another amount</h3>
+                                                <input type="number" id="custom-amount-field"/>
+                                                <h3 class="blue">CHF</h3>
                                             </div>
                                         </label>
                                     </div>
@@ -70,12 +86,26 @@
                     <div class="container">
                         <h3 class="blue uppercase">Your billing information</h3>
 
-                        <div t-attf-class="{{form.form_wrapper_css_klass}}">
+                        <!-- <div t-attf-class="{{form.form_wrapper_css_klass}}">
                             <t t-raw="form.form_render()"/>
-                        </div>
+                        </div> -->
                     </div>
                 </section>
             </t>
+
+            <script>
+                const amountField = document.getElementById('custom-amount-field');
+                const amountCard = document.getElementById('custom-amount-card');
+                const selectedCard = document.querySelectorAll('input[type=radio]:checked');
+
+                // Select custom amount card when its textfield is clicked
+                amountField.addEventListener('click', () => { amountCard.checked = true; });
+
+                // Update the value of the card on textfield input
+                amountField.addEventListener('input', () => { amountCard.value = amountField.value; });
+
+                // TODO: send value of selectedCard to hidden amount field on form submit
+            </script>
         </template>
     </data>
 </odoo>
