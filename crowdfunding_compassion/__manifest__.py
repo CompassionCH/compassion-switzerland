@@ -39,6 +39,13 @@
         "sponsorship_switzerland",  # compassion-switzerland
         "crm_compassion",           # compassion-modules
         "event",                    # odoo base modules
+
+        # TODO: Check which of those are really needed (maybe none)
+        "payment_ogone_compassion",  # compassion-switzerland
+        "website_compassion",  # compassion-switzerland
+        "event_sale",  # source
+        "partner_communication_switzerland",  # compassion-switzerland
+        "survey_phone",  # compassion-modules
     ],
     "data": [
         "data/crowdfunding_website.xml",
@@ -55,8 +62,9 @@
         "views/product_template_view.xml",
         "views/projects_list_page.xml",
         "views/project_creation_page.xml",
-        "views/crowdfunding_components.xml",
         "views/project_page.xml",
+        "views/project_donation_page.xml",
+        "views/project_donation_form_page.xml",
     ],
     "demo": [
         "demo/demo.xml"

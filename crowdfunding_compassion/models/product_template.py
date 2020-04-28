@@ -9,4 +9,5 @@ class ProductTemplate(models.Model):
 
     activate_for_crowdfunding = fields.Boolean()
     crowdfunding_description = fields.Text(translate=True)
-    crowdfunding_impact_text = fields.Char(translate=True, help="Ex: toilets built")
+    crowdfunding_impact_text_active = fields.Char(translate=True, help="Ex: buildling toilets")
+    crowdfunding_impact_text_passive = fields.Char(translate=True, help="Ex: toilets built")

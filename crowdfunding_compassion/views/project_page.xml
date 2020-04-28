@@ -10,7 +10,7 @@
                 <!-- Hero -->
                 <section class="project-hero mb-5">
                     <div class="container">
-                        <h1 class="project-hero__title">
+                        <h1 class="hero-title">
                             <t t-esc="project.name"/>
                         </h1>
                         <div class="row">
