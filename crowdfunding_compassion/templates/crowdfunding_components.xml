@@ -95,7 +95,7 @@
         <!-- Individual [impact_tile] data must be set before calling this template -->
         <template id="impact_tile" name="Impact tile">
             <div t-attf-class="impact-tile impact-tile--#{ impact_tile['color'] }">
-                <img class="impact-tile__image" t-att-src="'Done in other PR'" alt="Impact image"/>
+                <img class="impact-tile__image" t-attf-src="data:image;base64, impact_tile['image']" alt="Impact image"/>
                 <span class="text--bold">
                     <t t-esc="impact_tile['text']"/>
                 </span>
