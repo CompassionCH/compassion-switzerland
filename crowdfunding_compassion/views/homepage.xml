@@ -4,21 +4,19 @@
 
         <!-- ===  Homepage === -->
         <template id="homepage_template">
-            <t t-call="website.layout">
+            <t t-set="header">
+                <div class="container">
+                    <div class="intro-text">
+                        <h1 class="display-1 blue">MY PLATFORM TITLE</h1>
 
-                <!-- Full Page Header  -->
-                <header class="masthead">
-                    <div class="container">
-                        <div class="intro-text">
-                            <h1 class="display-1 blue">MY PLATFORM TITLE</h1>
-
-                            <h2 class="display-4 pb-4 ">Short platform introduction.</h2>
-                            <button type="button" class="btn btn-primary btn-lg">LAUNCH A PROJECT</button>
-                            <br/>
-                        </div>
+                        <h2 class="display-4 pb-4 ">Short platform introduction.</h2>
+                        <button type="button" class="btn btn-primary btn-lg">LAUNCH A PROJECT</button>
+                        <br/>
                     </div>
-                </header>
-
+                </div>
+            </t>
+            <t t-set="headerclass">image-background</t>
+            <t t-call="crowdfunding_compassion.layout">
                 <!-- Impact so far -->
                 <section class="# py-5" id="#">
                     <div class="container">

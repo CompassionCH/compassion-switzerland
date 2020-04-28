@@ -238,7 +238,7 @@
         </template>
 
         <template id="crowdfunding_navbar" name="Navbar for Crowdfunding page">
-            <nav class="navbar shadow navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <nav class="navbar shadow navbar-expand-lg navbar-dark" id="mainNav">
                 <div class="container-fluid">
                     <a class="navbar-brand js-scroll-trigger" href="#page-top">
                         <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
@@ -287,110 +287,103 @@
             </nav>
         </template>
 
-        <template id="crowdfunding_project_list_header" name="Header for Crowdfunding page">
-            <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
-            <header class="masthead">
-                <div class="container">
-                    <div class="intro-text">
-                        <h1 class="display-1 blue">JOIN A GREAT PROJECT</h1>
-                        <h2 class="display-4 pb-4 ">Two lines explanation or introduction about project launch</h2>
-                        <br/>
+        <template id="layout" inherit_id="website.layout"
+                  name="Crowdfunding Website Layout"
+                  priority="20"
+                  customize_show="False">
+            <!--  Replace default header -->
+            <xpath expr="//header" position="attributes">
+                <attribute name="style">display: none</attribute>
+            </xpath>
+            <xpath expr="//header" position="after">
+                <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
+                <header t-attf-class="masthead pt-5 pb-5 #{headerclass or ''}">
+                    <t t-raw="header"/>
+                </header>
+            </xpath>
+            <xpath expr="//footer" position="replace">
+                <footer class="footer pb-5">
+                    <div class="container">
+                        <div class="row py-5">
+                            <div class="col-sm-12 col-md-4 f-logo">
+                                <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
+                                     width="190" height="auto"/>
+
+                                <p>Compassion Suisse est la branche nationale de Compassion International. A travers le
+                                    parrainage individuel et en collaboration avec quelque 7000 Eglises locales, nous
+                                    apportons un soutien à plus de 2 millions d’enfants parmi les plus démunis dans 25
+                                    pays.
+                                </p>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 pt-2">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#">About this platform</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">FAQ</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Fundraising tools</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="#">Contact</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 pt-2">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#">About this platform</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">FAQ</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Fundraising tools</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="#">Contact</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 ">
+                                <i class="fab fa-facebook-square fa-2x " aria-hidden="true"/>
+                                <i class="fab fa-instagram fa-2x" aria-hidden="true"/>
+                                <i class="fa fa-globe fa-2x" aria-hidden="true"/>
+                            </div>
+
+                            <div class="col-md-4 ">
+                                <small>© 2020 Compassion Switzerland / all right reserved</small>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 text-right d-none d-md-block">
+                                <span class="lang-selector">
+                                    <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
+                                    <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
+                                    <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </header>
+                </footer>
+            </xpath>
         </template>
-
-        <template id="crowdfunding_project_creation_header" name="Header for project creation page">
-            <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
-            <header class="masthead">
-                <div class="container center">
-                    <div class="intro-text center-text">
-                        <h1 class="display-1 blue">CREATE A NEW PROJECT</h1>
-                        <h2 class="display-4 pb-4 ">Two lines introduction. Two lines introduction.</h2>
-                        <br/>
-                    </div>
-                </div>
-            </header>
-        </template>
-
-        <template id="crowdfunding_footer" name="Footer for Crowdfunding page">
-            <footer class="footer pb-5">
-                <div class="container">
-                    <div class="row py-5">
-                        <div class="col-sm-12 col-md-4 f-logo">
-                            <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
-                                 width="190" height="auto"/>
-
-                            <p>Compassion Suisse est la branche nationale de Compassion International. A travers le
-                                parrainage individuel et en collaboration avec quelque 7000 Eglises locales, nous
-                                apportons un soutien à plus de 2 millions d’enfants parmi les plus démunis dans 25
-                                pays.
-                            </p>
-                        </div>
-
-                        <div class="col-sm-12 col-md-4 pt-2">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#">About this platform</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">FAQ</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Fundraising tools</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link " href="#">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="col-sm-12 col-md-4 pt-2">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#">About this platform</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">FAQ</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Fundraising tools</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link " href="#">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12 col-md-4 ">
-                            <i class="fab fa-facebook-square fa-2x " aria-hidden="true"/>
-                            <i class="fab fa-instagram fa-2x" aria-hidden="true"/>
-                            <i class="fa fa-globe fa-2x" aria-hidden="true"/>
-                        </div>
-
-                        <div class="col-md-4 ">
-                            <small>© 2020 Compassion Switzerland / all right reserved</small>
-                        </div>
-
-                        <div class="col-sm-12 col-md-4 text-right d-none d-md-block">
-                            <span class="lang-selector">
-                                <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
-                                <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
-                                <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </template>
+        <!-- Attach layout to Crowdfunding website -->
+        <record id="crowdfunding_compassion.layout" model="ir.ui.view">
+            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
+        </record>
 
         <template id="crowdfunding_projects_pagination" name="Pagination for Crowdfunding project list page">
             <nav aria-label="Navigate through projects" class="text-xs-center">

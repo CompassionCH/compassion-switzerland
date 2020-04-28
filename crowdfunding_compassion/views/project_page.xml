@@ -5,7 +5,7 @@
         <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
 
         <template id="project_page">
-            <t t-call="website.layout">
+            <t t-call="crowdfunding_compassion.layout">
 
                 <!-- Hero -->
                 <section class="project-hero mb-5">
