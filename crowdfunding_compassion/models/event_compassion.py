@@ -16,3 +16,5 @@ class EventCompassion(models.Model):
     _inherit = "crm.event.compassion"
 
     type = fields.Selection(selection_add=[("crowdfunding", "Crowdfunding")])
+    crowdfunding_project_id = fields.Many2one(
+        "crowdfunding.project", "Crowdfunding project", ondelete="cascade")
