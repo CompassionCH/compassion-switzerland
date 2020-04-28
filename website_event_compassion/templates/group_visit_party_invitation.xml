@@ -45,10 +45,14 @@
                             <div class="row mt24">
                                 <div class="col-sm-2"/>
                                 <div class="col-sm-4">
-                                    <a t-attf-href="/event/{{registration.uuid}}/meeting_confirm" class="btn btn-primary btn-block mb24" role="button">I will attend the meeting</a>
+                                    <a t-attf-href="/event/#{registration.uuid}/meeting_confirm"
+                                       class="btn btn-primary btn-block mb24" role="button">I will attend the meeting
+                                    </a>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a t-attf-href="/event/{{registration.uuid}}/meeting_decline" class="btn btn-danger btn-block" role="button">I won't attend the meeting</a>
+                                    <a t-attf-href="/event/#{registration.uuid}/meeting_decline"
+                                       class="btn btn-danger btn-block" role="button">I won't attend the meeting
+                                    </a>
                                 </div>
                                 <div class="col-sm-2"/>
                             </div>

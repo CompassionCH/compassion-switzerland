@@ -71,9 +71,13 @@
             <h3>Tasks <span class="badge compassion_background_blue" t-esc="count_tasks"/></h3>
             <div class="list-group">
                 <!-- Large picture -->
-                <a href="#" data-toggle="modal" data-target="#modal_large_picture" t-attf-class="list-group-item {{'list-group-item-success' if partner.advocate_details_id.picture_large else ''}}">Upload a large picture</a>
+                <a href="#" data-toggle="modal" data-target="#modal_large_picture"
+                   t-attf-class="list-group-item #{'list-group-item-success' if partner.advocate_details_id.picture_large else ''}">
+                    Upload a large picture
+                </a>
                 <!-- Trip information -->
-                <a t-attf-class="list-group-item {{'list-group-item-success' if partner.advocate_details_id.trip_information_complete else ''}}" href="#" data-toggle="modal" data-target="#modal_tripinfo">
+                <a t-attf-class="list-group-item #{'list-group-item-success' if partner.advocate_details_id.trip_information_complete else ''}"
+                   href="#" data-toggle="modal" data-target="#modal_tripinfo">
                     <t t-if="partner.advocate_details_id.trip_information_complete">
                         <span>Modify trip information</span>
                     </t>
@@ -82,28 +86,43 @@
                     </t>
                 </a>
                 <!-- Flight information -->
-                <a href="#" data-toggle="modal" data-target="#modal_flight_details" t-attf-class="list-group-item {{'list-group-item-success' if len(registration.flight_ids) == 2 else ''}}">Enter flight information</a>
-                <a href="#" data-toggle="modal" data-target="#modal_passport" t-attf-class="list-group-item {{'list-group-item-success' if registration.passport_uploaded else ''}}">Upload passport scan</a>
+                <a href="#" data-toggle="modal" data-target="#modal_flight_details"
+                   t-attf-class="list-group-item #{'list-group-item-success' if len(registration.flight_ids) == 2 else ''}">
+                    Enter flight information
+                </a>
+                <a href="#" data-toggle="modal" data-target="#modal_passport"
+                   t-attf-class="list-group-item #{'list-group-item-success' if registration.passport_uploaded else ''}">
+                    Upload passport scan
+                </a>
                 <!-- Medical survey -->
                 <t t-if="survey_already_filled">
-                    <a class="list-group-item list-group-item-success" t-attf-href="{{survey_url.replace('start', 'print')}}/{{survey_already_filled.token}}">See completed medical survey</a>
+                    <a class="list-group-item list-group-item-success"
+                       t-attf-href="#{survey_url.replace('start', 'print')}/#{survey_already_filled.token}">See
+                        completed medical survey
+                    </a>
                 </t>
                 <t t-else="">
                     <t t-if="registration.is_in_two_months">
-                         <t t-if="survey_not_started">
-                             <a class="list-group-item" t-attf-href="{{survey_url}}/{{survey_not_started.token}}">Complete medical survey</a>
-                         </t>
-                         <t t-else="">
-                             <a class="list-group-item" t-attf-href="{{survey_url}}">Complete medical survey</a>
+                        <t t-if="survey_not_started">
+                            <a class="list-group-item" t-attf-href="#{survey_url}/{survey_not_started.token}">Complete
+                                medical survey
+                            </a>
+                        </t>
+                        <t t-else="">
+                            <a class="list-group-item" t-attf-href="#{survey_url}">Complete medical survey</a>
                          </t>
                     </t>
                 </t>
                 <!-- Child protection charter -->
                 <t t-if="child_protection_charter['has_agreed']">
-                    <a class="list-group-item list-group-item-success" t-attf-href="{{child_protection_charter['url']}}">You have agreed to the child protection charter</a>
+                    <a class="list-group-item list-group-item-success" t-attf-href="#{child_protection_charter['url']}">
+                        You have agreed to the child protection charter
+                    </a>
                 </t>
                 <t t-else="">
-                    <a class="list-group-item" t-attf-href="{{child_protection_charter['url']}}">Read and agree to the child protection charter</a>
+                    <a class="list-group-item" t-attf-href="#{child_protection_charter['url']}">Read and agree to the
+                        child protection charter
+                    </a>
                 </t>
             </div>
         </template>

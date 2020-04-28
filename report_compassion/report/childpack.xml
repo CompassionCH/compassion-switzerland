@@ -219,7 +219,7 @@
             <div class="page">
                 <t t-if="is_pdf">
                     <div id="background">
-                        <img t-attf-src="/report_compassion/static/img/{{ type }}/1904_dossier_{{ lang }}.jpg"/>
+                        <img t-attf-src="/report_compassion/static/img/#{ type }/1904_dossier_#{ lang }.jpg"/>
                     </div>
                 </t>
                 <t t-call="report_compassion.style"/>
@@ -229,15 +229,19 @@
                         <span t-field="o.local_id"/>
                     </div>
                 </t>
-                <div t-attf-class="desc {{'boy' if o.gender == 'M' else 'girl'}}">
+                <div t-attf-class="desc #{'boy' if o.gender == 'M' else 'girl'}">
                     <div class="left">
                         <t t-raw="o.description_left"/>
-                        <h6 t-if="o.project_id.description_left"><span t-field="o.project_title"/></h6>
+                        <h6 t-if="o.project_id.description_left">
+                            <span t-field="o.project_title"/>
+                        </h6>
                         <t t-raw="o.project_id.description_left"/>
                     </div>
                     <div class="right">
                         <t t-raw="o.description_right"/>
-                        <h6 t-if="not o.project_id.description_left"><span t-field="o.project_title"/></h6>
+                        <h6 t-if="not o.project_id.description_left">
+                            <span t-field="o.project_title"/>
+                        </h6>
                         <t t-raw="o.project_id.description_right"/>
                     </div>
                 </div>

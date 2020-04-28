@@ -4,8 +4,8 @@
         <div id="event_header">
             <!-- Full width banner -->
             <div class="banner_container"
-                 t-attf-style="background-image: url('/web/image/crm.event.compassion/{{ event.id }}/picture_1');">
-                <div t-attf-class="banner_text_container {{background_color_class}}">
+                 t-attf-style="background-image: url('/web/image/crm.event.compassion/#{ event.id }/picture_1');">
+                <div t-attf-class="banner_text_container #{background_color_class}">
                     <h2 class="center-text event_name">
                         <span class="text-uppercase" t-field="event.name"/>
                         <span class="text-uppercase" t-esc="additional_title" t-if="additional_title"/>
@@ -30,20 +30,22 @@
         <p t-att-class="barometer_title_class" t-if="barometer_title_class">Funds raised:</p>
         <div class="progress">
             <div class="progress-bar event_barometer_yellow" role="progressbar"
-                 t-attf-aria-valuenow="{{ barometer.amount_raised_percents }}"
+                 t-attf-aria-valuenow="#{ barometer.amount_raised_percents }"
                  aria-valuemin="0"
                  aria-valuemax="100"
-                 t-attf-style="width: {{ barometer.amount_raised_percents }}%;">
+                 t-attf-style="width: #{ barometer.amount_raised_percents }%;">
             </div>
             <t t-if="amount_inside">
-                <div t-attf-class="progress-amount {{ barometer_amount_class }}">
-                    <t t-esc="'{:n}'.format(barometer.amount_raised or 0).replace(',', '\'')"/>/<t t-esc="'{:n}'.format(barometer.amount_objective or 0).replace(',', '\'')"/>CHF
+                <div t-attf-class="progress-amount #{ barometer_amount_class }">
+                    <t t-esc="'{:n}'.format(barometer.amount_raised or 0).replace(',', '\'')"/>/<t
+                        t-esc="'{:n}'.format(barometer.amount_objective or 0).replace(',', '\'')"/>CHF
                 </div>
             </t>
         </div>
         <t t-if="not amount_inside">
-            <div t-attf-class="{{ barometer_amount_class }}">
-                <t t-esc="'{:n}'.format(barometer.amount_raised or 0).replace(',', '\'')"/>/<t t-esc="'{:n}'.format(barometer.amount_objective or 0).replace(',', '\'')"/>CHF
+            <div t-attf-class="#{ barometer_amount_class }">
+                <t t-esc="'{:n}'.format(barometer.amount_raised or 0).replace(',', '\'')"/>/<t
+                    t-esc="'{:n}'.format(barometer.amount_objective or 0).replace(',', '\'')"/>CHF
             </div>
         </t>
     </template>
@@ -57,7 +59,9 @@
                 <t t-esc="event.get_date('end_date', 'date_full')"/>
             </t>
         </span>
-        <h4><a t-attf-href="{{event.website_url}}/faq">Event FAQ</a></h4>
+        <h4>
+            <a t-attf-href="#{event.website_url}/faq">Event FAQ</a>
+        </h4>
     </template>
 
     <!-- Confirmation page -->

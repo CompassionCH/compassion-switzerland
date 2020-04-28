@@ -76,10 +76,9 @@ class EventCompassion(models.Model):
             )
 
     @api.multi
-    @api.depends("event_type_id")
     def _compute_event_type(self):
         # Map Muskathlon event type
-        super(EventCompassion, self)._compute_event_type()
+        super()._compute_event_type()
         muskathlon = self.env.ref("muskathlon.event_type_muskathlon")
         for event in self.filtered(lambda e: e.event_type_id == muskathlon):
             event.type = "sport"

@@ -64,7 +64,7 @@
                                         </h5>
                                     </div>
                                     <div id="collapse-contract"
-                                         t-attf-class="collapse {{'show' if select == 'contract' else ''}}"
+                                         t-attf-class="collapse #{'show' if select == 'contract' else ''}"
                                          aria-labelledby="heading-contract">
                                         <div class="card-body cms_form_wrapper">
                                             <p>To make your trip enriching and an unforgettable experience, please read
@@ -125,7 +125,7 @@
                                         </h5>
                                     </div>
                                     <div id="collapse-child-protection"
-                                         t-attf-class="collapse {{'show' if select == 'child_protection' else ''}}"
+                                         t-attf-class="collapse #{'show' if select == 'child_protection' else ''}"
                                          aria-labelledby="heading-child-protection">
                                         <div class="card-body cms_form_wrapper">
                                             <t t-call="partner_compassion.child_protection_charter_text"/>
@@ -149,7 +149,7 @@
                                         </h5>
                                     </div>
                                     <div id="collapse-trip"
-                                         t-attf-class="collapse {{'show' if select == 'travel' else ''}}"
+                                         t-attf-class="collapse #{'show' if select == 'travel' else ''}"
                                          aria-labelledby="heading-trip">
                                         <div class="card-body cms_form_wrapper">
                                             <t t-raw="trip_form.form_render()"/>
@@ -170,7 +170,7 @@
                                         </h5>
                                     </div>
                                     <div id="collapse-criminal"
-                                         t-attf-class="collapse {{'show' if select == 'criminal' else ''}}"
+                                         t-attf-class="collapse #{'show' if select == 'criminal' else ''}"
                                          aria-labelledby="heading-criminal">
                                         <div class="card-body cms_form_wrapper">
                                             <t t-raw="criminal_form.form_render()"/>
