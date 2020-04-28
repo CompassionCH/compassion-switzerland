@@ -34,23 +34,17 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
-        "cms_form_compassion",      # compassion-modules
-        "theme_crowdfunding",       # compassion-switzerland
+        "cms_form_compassion",  # compassion-modules
+        "theme_crowdfunding",  # compassion-switzerland
         "sponsorship_switzerland",  # compassion-switzerland
-        "crm_compassion",           # compassion-modules
-        "event",                    # odoo base modules
-
-        # TODO: Check which of those are really needed (maybe none)
-        "payment_ogone_compassion",  # compassion-switzerland
-        "website_compassion",  # compassion-switzerland
-        "event_sale",  # source
-        "partner_communication_switzerland",  # compassion-switzerland
-        "survey_phone",  # compassion-modules
+        "crm_compassion",  # compassion-modules
+        "event",  # odoo base modules
     ],
     "data": [
         "data/crowdfunding_website.xml",
         "data/crowdfunding_event_type.xml",
         "data/project_confirmation_email.xml",
+        "data/demo.xml",
         "data/product.xml",
         "security/ir.model.access.csv",
         "views/crowdfunding_project_settings.xml",
@@ -67,9 +61,7 @@
         "views/project_donation_form_page.xml",
         "views/progress_bar.xml",
     ],
-    "demo": [
-        "demo/demo.xml"
-    ],
+    "demo": ["demo/demo.xml"],
     "installable": True,
     "auto_install": False,
 }

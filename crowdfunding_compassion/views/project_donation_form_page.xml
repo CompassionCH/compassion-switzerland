@@ -20,46 +20,16 @@
                                     funding for
                                 </h4>
                                 <span class="white">(Click one option to select)</span>
+
                                 <div class="row mt-3">
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <label class="h-100 w-100">
-                                            <input type="radio" name="amount" value="25" class="card-input-element d-none" />
-                                            <div class="card h-100 d-flex justify-content-around align-items-center text-center">
-                                                <span class="donation-type__card-icon"/>
-                                                <h3 class="blue">
-                                                    1 toilet
-                                                    <br/>
-                                                    CHF 25.-
-                                                </h3>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <label class="h-100 w-100">
-                                            <input type="radio" name="amount" value="75" class="card-input-element d-none" />
-                                            <div class="card h-100 d-flex justify-content-around align-items-center text-center">
-                                                <span class="donation-type__card-icon"/>
-                                                <h3 class="blue">
-                                                    3 toilets
-                                                    <br/>
-                                                    CHF 75.-
-                                                </h3>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <label class="h-100 w-100">
-                                            <input type="radio" name="amount" value="125" class="card-input-element d-none" />
-                                            <div class="card h-100 d-flex justify-content-around align-items-center text-center">
-                                                <span class="donation-type__card-icon"/>
-                                                <h3 class="blue">
-                                                    5 toilets
-                                                    <br/>
-                                                    CHF 125.-
-                                                </h3>
-                                            </div>
-                                        </label>
-                                    </div>
+
+                                    <!-- Three example quantities are displayed, set the 3 default number of product for each here -->
+                                    <t t-set="fund_default_quantities" t-value="[1, 3, 5]" />
+                                    <t t-foreach="fund_default_quantities" t-as="current_default_quantity">
+                                        <t t-call="crowdfunding_compassion.fund_amount_example" />
+                                    </t>
+
+                                    <!-- Custom amount -->
                                     <div class="col-6 col-lg-3 mb-3">
                                         <label class="h-100 w-100">
                                             <input type="radio" name="amount" value="" class="card-input-element d-none" id="custom-amount-card"/>
