@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <template id="myaccount_crowdfunding_view_template" name="MyAccount crowdfunding template">
-            <t t-call="website.layout">
+            <t t-call="crowdfunding_compassion.layout">
 
                 <h2 class="blue my-2 center">Personal data</h2>
                 <section class="center">
@@ -28,15 +28,6 @@
             </t>
         </template>
 
-        <record id="myaccount_crowdfunding_view" model="ir.ui.view">
-            <field name="name">MyAccount view</field>
-            <field name="type">qweb</field>
-            <field name="key">crowdfunding.myaccount</field>
-            <field name="arch" type="xml">
-                <t t-call="crowdfunding_compassion.myaccount_crowdfunding_view_template"/>
-            </field>
-        </record>
-
         <record id="myaccount_crowdfunding_page" model="website.page">
             <field name="url">/my_account</field>
             <field name="website_indexed" eval="True"/>
@@ -45,11 +36,5 @@
             <field name="name">MyAccount</field>
             <field name="type">qweb</field>
         </record>
-
-        <template id="my_account_crowdfunding_link" name="Link to MyAccount page" inherit_id="portal.frontend_layout">
-            <xpath expr="//a[@href='/my/home']" position="replace">
-                <a href="/my_account" role="menuitem" class="dropdown-item">My Account</a>
-            </xpath>
-        </template>
     </data>
 </odoo>
