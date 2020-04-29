@@ -94,5 +94,26 @@
                 clickHandler();
             </script>
         </template>
+
+        <template id="donation_form_gtc" inherit_id="cms_form.base_form">
+
+            <!-- Add Terms and Conditions to donation form -->
+            <xpath expr="//div[@class='col-sm-9 col-sm-offset-3 above-controls']" position="inside">
+                <div id="donation-gtc">
+                    <p>
+                        By making a donation, you agree on our
+                        <a href="https://compassion.ch/protection-des-donnees/">terms and conditions.</a>
+                        <br/>
+                        You will be redirected to our online payment system. If you wish to give by bank tranfer (IBAN), do not hesitate to
+                        <a href="#">contact us.</a>
+                    </p>
+                    <br/>
+                </div>
+                <script>
+                    const isCrowdfundingDonationForm = window.location.href.includes("donation/form");
+                    document.getElementById("donation-gtc").style.display = isCrowdfundingDonationForm ? 'block' : 'none';
+                </script>
+            </xpath>
+        </template>
     </data>
 </odoo>
