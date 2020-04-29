@@ -1,3 +1,5 @@
+import werkzeug
+
 from odoo.http import request, route
 
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
@@ -6,7 +8,7 @@ from odoo.addons.cms_form_compassion.controllers.payment_controller import (
 )
 
 
-class ProjectController(PaymentFormController, FormControllerMixin):
+class DonationController(PaymentFormController, FormControllerMixin):
 
     # To preselect a participant, pass its id as particpant query parameter
     @route(
@@ -33,8 +35,13 @@ class ProjectController(PaymentFormController, FormControllerMixin):
         kwargs["form_model_key"] = "cms.form.crowdfunding.donation"
 
         donation_form = self.get_form(
-            "crowdfunding.participant", participant.id, **kwargs)
+            "crowdfunding.participant", participant.id, **kwargs
+        )
         donation_form.form_process()
+
+        # If the form is valid, redirect to payment
+        if donation_form.form_success:
+            return werkzeug.utils.redirect(donation_form.form_next_url(), code=303)
 
         context = {
             "project": project.sudo(),
@@ -42,10 +49,6 @@ class ProjectController(PaymentFormController, FormControllerMixin):
             "form": donation_form,
             "main_object": participant.sudo(),
         }
-
-        # if donation_form.form_success:
-        #     # The user submitted a donation, redirect to confirmation
-        #     return werkzeug.utils.redirect(donation_form.form_next_url(), code=303)
 
         return request.render(
             "crowdfunding_compassion.project_donation_form_page", context,
