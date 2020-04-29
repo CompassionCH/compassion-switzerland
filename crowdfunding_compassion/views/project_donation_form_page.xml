@@ -53,7 +53,7 @@
                 </section>
 
                 <section>
-                    <div class="container">
+                    <div class="container mb-5">
                         <h3 class="blue uppercase">Your billing information</h3>
 
                         <div t-attf-class="{{form.form_wrapper_css_klass}}">
@@ -67,7 +67,8 @@
                 const amountField = document.getElementById('custom-amount-field');
                 const amountCard = document.getElementById('custom-amount-card');
                 const amountHiddenField = document.getElementById('amount');
-                const form = document.querySelector("form");
+                const submit = document.querySelector('button[type="submit"]');
+                const radios = document.querySelectorAll('input[type="radio"]');
 
                 // Select custom amount card when its textfield is clicked
                 amountField.addEventListener('click', () => { amountCard.checked = true; });
@@ -76,9 +77,21 @@
                 amountField.addEventListener('input', () => { amountCard.value = amountField.value; });
 
                 // Set value of selected amount to hidden amount form field
-                form.addEventListener('submit', () => {
+                submit.addEventListener('click', () => {
                 amountHiddenField.value = document.querySelector('input[name="amount"]:checked').value;
                 })
+
+                // Disable button unless an amount is selected
+                function clickHandler() {
+                let checked_radios = document.querySelectorAll('input[type=radio]:checked').length;
+                submit.disabled = checked_radios == 0;
+                }
+
+                // Register on each radio change
+                radios.forEach(radio => {radio.addEventListener('change', clickHandler);});
+
+                // Exectute on page load
+                clickHandler();
             </script>
         </template>
     </data>

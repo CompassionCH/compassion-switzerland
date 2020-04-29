@@ -253,10 +253,10 @@ header.masthead .intro-text {
 }
 
 header.masthead .intro-text h1 {
-    font-size: 3em;
-    font-weight: 300;
-    line-height: 1.2;
-    margin-bottom: 0.5em;
+  font-size: 3em;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 0.5em;
 }
 
 header.masthead .intro-text .intro-lead-in {
@@ -282,7 +282,7 @@ header.masthead.image-background {
   background-attachment: scroll;
   background-position: center center;
   background-size: cover;
- }
+}
 
 //footer
 
@@ -625,6 +625,23 @@ footer {
   background-color: $blue-compassion;
   color: $white;
   padding: 0.5rem 1rem;
+}
+
+// Unfuck cms.form checkboxes
+.field-boolean {
+  width: 100%;
+
+  & input[type="checkbox"] {
+    display: inline;
+    width: initial;
+    height: initial;
+    vertical-align: middle;
+
+    & + .help-block {
+      display: inline;
+      margin-left: 1rem;
+    }
+  }
 }
 
 // Global styles

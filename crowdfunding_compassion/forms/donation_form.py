@@ -12,11 +12,13 @@ class CrowdfundingDonationForm(models.AbstractModel):
     _form_fields_hidden = ("amount",)
 
     amount = fields.Float(required=True)
+    anonymous_donation = fields.Boolean(
+        help="I would like to donate anonymously, please do not mention my name in the donors list."
+    )
 
     @property
     def _form_fieldsets(self):
         return [
-            {"id": "payment", "fields": ["amount"]},
             {
                 "id": "partner",
                 "fields": [
@@ -29,6 +31,7 @@ class CrowdfundingDonationForm(models.AbstractModel):
                     "partner_zip",
                     "partner_city",
                     "partner_country_id",
+                    "anonymous_donation",
                 ],
             },
         ]
@@ -77,6 +80,9 @@ class CrowdfundingDonationForm(models.AbstractModel):
                                 "product_id": product.id,
                                 "account_analytic_id": event.analytic_id.id,
                                 "user_id": participant.id,
+                                "crowdfunding_participant_id": participant.id,
+                                "crowdfunding_project_id": project.id,
+                                "is_anonymous": self.is_anonymous,
                             },
                         )
                     ],
@@ -95,6 +101,7 @@ class CrowdfundingDonationForm(models.AbstractModel):
         pass
 
     def form_after_create_or_update(self, values, extra_values):
-        # Get the value of amount
+        # Get the extra values of the form
         self.amount = extra_values.get("amount")
+        self.is_anonymous = extra_values.get("anonymous_donation")
         super().form_after_create_or_update(values, extra_values)
