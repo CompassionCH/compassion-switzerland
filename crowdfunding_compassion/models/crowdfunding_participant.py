@@ -7,6 +7,7 @@ from odoo import models, api, fields
 class CrowdfundingParticipant(models.Model):
     _name = "crowdfunding.participant"
     _description = "Participant to one of our crowd-fundings"
+    _inherit = ["website.seo.metadata", "website.published.multi.mixin"]
 
     name = fields.Char(related="partner_id.name", readonly=True)
     project_id = fields.Many2one(

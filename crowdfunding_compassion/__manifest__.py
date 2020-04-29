@@ -44,6 +44,7 @@
         "data/crowdfunding_website.xml",
         "data/crowdfunding_event_type.xml",
         "data/project_confirmation_email.xml",
+        "data/demo.xml",
         "data/product.xml",
         "security/ir.model.access.csv",
         "views/crowdfunding_project_settings.xml",
@@ -54,9 +55,9 @@
         "views/product_template_view.xml",
         "views/projects_list_page.xml",
         "views/project_creation_page.xml",
-        "views/crowdfunding_components.xml",
         "views/project_page.xml",
         "views/project_donation_page.xml",
+        "views/project_donation_form_page.xml",
         "views/account_invoice_line_view.xml",
         "templates/myaccount_crowdfunding_page.xml",
         "templates/myaccount_components.xml",
@@ -64,9 +65,7 @@
         "views/progress_bar.xml",
         "views/res_partner_view.xml",
     ],
-    "demo": [
-        "demo/demo.xml"
-    ],
+    "demo": ["demo/demo.xml"],
     "installable": True,
     "auto_install": False,
 }
