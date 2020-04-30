@@ -77,7 +77,13 @@ class CrowdfundingProject(models.Model):
             }
         )
         res.event_id = event
+
         res.add_owner2participants()
+
+        self.env['utm.campaign'].create({
+            "name": vals.get('name'),
+        })
+
         return res
 
     @api.multi

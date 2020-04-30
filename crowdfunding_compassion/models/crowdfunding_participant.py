@@ -35,6 +35,26 @@ class CrowdfundingParticipant(models.Model):
     instagram_url = fields.Char(string="Instagram link")
     personal_web_page_url = fields.Char(string="Personal web page")
     profile_photo = fields.Binary(string="Profile photo")
+    sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
+
+    @api.model
+    def create(self, vals):
+        res = super().create(vals)
+        self.env['utm.source'].create({
+            'name': res.partner_id.name
+        })
+        return res
+
+    @api.multi
+    def _compute_sponsorship_url(self):
+        for participant in self:
+            utm_medium = "Crowdfunding"
+            utm_campaign = participant.project_id.name
+            utm_source = participant.partner_id.name
+            participant.sponsorship_url = f"www.compassion.ch/parrainer?" \
+                                          f"utm_medium={utm_medium}" \
+                                          f"&utm_campaign={utm_campaign}" \
+                                          f"&utm_source={utm_source}"
 
     @api.multi
     def _compute_product_number_reached(self):
