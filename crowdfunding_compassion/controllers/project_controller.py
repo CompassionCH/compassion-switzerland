@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from babel.dates import format_timedelta
 
@@ -70,5 +70,5 @@ class ProjectController(Controller):
 
 
 # Utils
-def get_time_ago(date):
-    return format_timedelta(datetime.now() - date, add_direction=True, locale="en")
+def get_time_ago(given_date):
+    return format_timedelta(given_date - date.today(), add_direction=True, locale="en")

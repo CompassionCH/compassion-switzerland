@@ -90,15 +90,15 @@
         <!-- Impact tile -->
         <!-- Individual [impact_tile] data must be set before calling this template -->
         <template id="impact_tile" name="Impact tile">
-            <div t-attf-class="impact-tile impact-tile--#{ impact_tile.color }">
-                <img class="impact-tile__image" t-att-src="impact_tile.image" alt="Impact image"/>
+            <div t-attf-class="impact-tile impact-tile--#{ impact_tile['color'] }">
+                <img class="impact-tile__image" t-att-src="'Done in other PR'" alt="Impact image"/>
                 <span class="text--bold">
-                    <t t-esc="impact_tile.text"/>
+                    <t t-esc="impact_tile['text']"/>
                 </span>
                 <span class="text--faded">
                     by
-                    <t t-esc="impact_tile.benefactor"/>
-                    <t t-esc="impact_tile.time_ago"/>
+                    <t t-esc="impact_tile['benefactor']"/>
+                    <t t-esc="impact_tile['time_ago']"/>
                 </span>
             </div>
         </template>
