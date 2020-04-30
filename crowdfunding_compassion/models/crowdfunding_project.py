@@ -42,21 +42,20 @@ class CrowdfundingProject(models.Model):
     invoice_line_ids = fields.One2many(
         "account.invoice.line", "crowdfunding_project_id", string="Donations"
     )
-    project_owner_id = fields.Many2one(
-        "crowdfunding.participant", "Project owner", required=True, index=True
-    )
+    project_owner_id = fields.Many2one("res.partner", "Project owner", required=True)
     participant_ids = fields.One2many(
         "crowdfunding.participant", "project_id", string="Participants"
     )
     event_id = fields.Many2one("crm.event.compassion", "Event")
     state = fields.Selection(
-        [("validation", "Validation"), ("active", "Active")],
+        [("draft", "Draft"), ("active", "Active")],
         required=True,
-        default="validation",
+        default="draft",
         readonly=True
     )
     owner_lastname = fields.Char(string="Your lastname")
     owner_firstname = fields.Char(string="Your firstname")
+    active = fields.Boolean(default=True)
 
     @api.model
     def create(self, vals):
@@ -75,7 +74,26 @@ class CrowdfundingProject(models.Model):
             'type': "crowdfunding"
         })
         res.event_id = event
+        res.add_owner2participants()
         return res
+
+    @api.multi
+    def write(self, vals):
+        super().write(vals)
+        self.add_owner2participants()
+        return True
+
+    @api.multi
+    def add_owner2participants(self):
+        """Add the project owner to the participant list. """
+        for project in self:
+            if project.project_owner_id not in project.participant_ids.mapped(
+                    'partner_id'):
+                participant = {
+                    'partner_id': project.project_owner_id.id,
+                    'project_id': project.id
+                }
+                project.write({"participant_ids": [(0, 0, participant)]})
 
     @api.multi
     def _compute_product_number_reached(self):
@@ -112,33 +130,24 @@ class CrowdfundingProject(models.Model):
             project.website_url = "/projects/create/confirm"
 
     @api.multi
-    def validate(self):
-        for project in self:
-            user_obj = self.env['res.users']
-            partner = self.project_owner_id.partner_id
-            user = user_obj.search([
-                ('partner_id', '=', partner.id)
-            ])
-            if not user:
-                return partner.create_odoo_user()
-            else:
-                project.state = "active"
-
-                # Send email to inform project owner
-                comm_obj = self.env["partner.communication.job"]
-                config = self.env.ref(
-                    "crowdfunding_compassion.config_project_published")
-                comm_obj.create(
-                    {
-                        "config_id": config.id,
-                        "partner_id": partner.id,
-                        "object_ids": project.id,
-                    }
-                )
-
-    @api.multi
     def _compute_time_left(self):
         for project in self:
             project.time_left = format_timedelta(
                 project.deadline - date.today(), locale="en"
+            )
+
+    @api.multi
+    def validate(self):
+        for project in self:
+            project.state = "active"
+
+            # Send email to inform project owner
+            comm_obj = self.env["partner.communication.job"]
+            config = self.env.ref("crowdfunding_compassion.config_project_published")
+            comm_obj.create(
+                {
+                    "config_id": config.id,
+                    "partner_id": project.project_owner_id,
+                    "object_ids": project.id,
+                }
             )

@@ -8,10 +8,10 @@ class CrowdfundingParticipant(models.Model):
     _name = "crowdfunding.participant"
     _description = "Participant to one of our crowd-fundings"
 
+    name = fields.Char(related="partner_id.name", readonly=True)
     project_id = fields.Many2one(
         "crowdfunding.project",
-        # required=True,
-        index=True, ondelete="cascade", string="Crowdfunding project")
+        index=True, ondelete="cascade", string="Project", required=True)
     partner_id = fields.Many2one(
         "res.partner", string="Partner",
         required=True, index=True, ondelete="cascade")
@@ -39,11 +39,11 @@ class CrowdfundingParticipant(models.Model):
 
     @api.multi
     def _compute_product_number_reached(self):
-        for project in self:
-            project.product_number_reached = \
-                sum(project.invoice_line_ids.mapped('quantity'))
+        for participant in self:
+            participant.product_number_reached = \
+                sum(participant.invoice_line_ids.mapped('quantity'))
 
     @api.multi
     def _compute_number_sponsorships_reached(self):
-        for project in self:
-            project.number_sponsorships_reached = len(project.sponsorship_ids)
+        for participant in self:
+            participant.number_sponsorships_reached = len(participant.sponsorship_ids)
