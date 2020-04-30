@@ -1,6 +1,6 @@
 <odoo>
     <data>
-         <!-- Goal progress -->
+        <!-- Goal progress -->
         <!-- This is a progress bar and related text for a goal (fund or sponsorships) -->
         <!-- [goal_reached], [goal_objective] and [goal_name] must be set before calling this template -->
         <template id="goal_progress" name="Goal progress">
@@ -54,7 +54,10 @@
             </t>
 
             <!-- TODO: Add clock icon -->
-            <span class="text--faded"><t t-esc="project.time_left"/> to go</span>
+            <span class="text--faded">
+                <t t-esc="project.time_left"/>
+                to go
+            </span>
         </template>
 
 
@@ -63,7 +66,8 @@
         <!-- Individual [participant] model must be set before calling this template -->
         <template id="participant_card" name="Participant card">
             <div class="card participants__card">
-                <img class="participants__image" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Participant image"/>
+                <img class="participants__image" src="/theme_crowdfunding/static/src/img/head.jpg"
+                     alt="Participant image"/>
                 <div class="participants__content">
                     <h4 class="participants__name">
                         <t t-esc="participant.partner_id.name"/>
@@ -164,7 +168,7 @@
                 <br/>
 
                 <t t-set="project" t-value="card"/>
-                <t t-call="crowdfunding_compassion.crowdfunding_project_progress"/>
+                <t t-call="crowdfunding_compassion.project_progress"/>
 
                 <!--                <p>10 / 25 toilets</p>-->
                 <!--                <div class="progress" style="height: 20px;">-->
@@ -182,7 +186,7 @@
             </div>
         </template>
 
-        <template id="crowdfunding_card_container" name="Card container">
+        <template id="crowdfunding_project_card_container" name="Card container">
             <div class="container">
                 <!-- 	 1ST row -->
                 <t t-foreach="cards" t-as="card_row">
@@ -192,7 +196,7 @@
                                 <t t-esc="card.name"/>
                             </t>
                             <t t-set="project_owner">
-                                <t t-esc="card.project_owner_id.partner_id.name"/>
+                                <t t-esc="card.project_owner_id.name"/>
                             </t>
                             <t t-set="project_collective">
                                 <t t-esc="card.type"/>
@@ -209,7 +213,6 @@
                 </t>
             </div>
         </template>
-
 
         <template id="crowdfunding_rounded_image" name="Rounded Image">
             <div class="col-md-4 center">

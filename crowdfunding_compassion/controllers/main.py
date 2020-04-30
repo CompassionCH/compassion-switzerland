@@ -24,7 +24,7 @@ class CrowdFundingWebsite(EventsController):
         partner = request.env.user.partner_id
         participations = request.env['crowdfunding.participant'].search([
             ('partner_id', '=', partner.id),
-            ("project_id.project_owner_id.partner_id", "!=", partner.id)
+            ("project_id.project_owner_id", "!=", partner.id)
         ])
         for participation in participations:
             participating_projects.append(participation)
@@ -32,7 +32,7 @@ class CrowdFundingWebsite(EventsController):
                 donations.append(line)
 
         for project in request.env['crowdfunding.project'].search([
-            ('project_owner_id.partner_id', '=', partner.id),
+            ('project_owner_id', '=', partner.id),
         ]):
             owned_projects.append(project)
             for line in project.invoice_line_ids:

@@ -16,21 +16,9 @@ class ProjectsController(Controller, FormControllerMixin):
     @route('/projects', auth="public", website=True)
     def get_projects_list(self, **kwargs):
         values = {}
-        project_obj = request.env['crowdfunding.project'].sudo()
-        projects = project_obj._get_active_projects_rows()
-        first_row = []
-        second_row = []
-        third_row = []
-        for project in projects:
-            if len(first_row) < 3:
-                first_row.append(project)
-            elif len(second_row) < 3:
-                second_row.append(project)
-            else:
-                third_row.append(project)
-
+        project_obj = request.env['crowdfunding.project']
         values.update({
-            "project_list": [first_row, second_row, third_row],
+            "project_list": project_obj.get_active_projects_list(number=9),
         })
         return request.render(
             "crowdfunding_compassion.project_list_view_template", values)
