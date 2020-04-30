@@ -27,7 +27,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         today = fields.Date.to_string(datetime.today())
         # Events that are set to finish after today
         started_events = request.env["crm.event.compassion"].search(
-            [("website_published", "=", True), ("end_date", ">=", today), ]
+            [("website_published", "=", True), ("end_date", ">=", today),]
         )
         if len(started_events) == 1:
             return request.redirect("/event/" + str(started_events.id))
@@ -194,7 +194,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         # This allows the translation to still work on the page
         values.pop("edit_translations", False)
         values.update(
-            {"event": event, "registration": registration, }
+            {"event": event, "registration": registration,}
         )
         donation_form = self.get_form(False, **values)
         donation_form.form_process()
@@ -210,8 +210,12 @@ class EventsController(PaymentFormController, FormControllerMixin):
     ########################################
     # Methods for after donation redirection
     ########################################
-    @http.route("/event/payment/validate/<int:invoice_id>",
-                type="http", auth="public", website=True)
+    @http.route(
+        "/event/payment/validate/<int:invoice_id>",
+        type="http",
+        auth="public",
+        website=True,
+    )
     def donation_payment_validate(self, invoice_id=None, **kwargs):
         """ Method that should be called by the server when receiving an update
         for a transaction.
@@ -229,7 +233,8 @@ class EventsController(PaymentFormController, FormControllerMixin):
             delay = datetime.today() + timedelta(seconds=10)
             transaction.registration_id.with_delay(eta=delay).cancel_registration()
             return request.render(
-                "website_event_compassion.donation_failure", {"error_intro": ""})
+                self.get_donation_failure_template(event), {"error_intro": ""}
+            )
 
         invoice_lines = invoice.invoice_line_ids
         event = invoice_lines.mapped("event_id")
@@ -242,8 +247,10 @@ class EventsController(PaymentFormController, FormControllerMixin):
         return request.render(success_template, values)
 
     @http.route(
-        "/event/payment/gpv_payment_validate/<int:invoice_id>", type="http",
-        auth="public", website=True
+        "/event/payment/gpv_payment_validate/<int:invoice_id>",
+        type="http",
+        auth="public",
+        website=True,
     )
     def down_payment_validate(self, invoice_id=None, **post):
         """ Method that should be called by the server when receiving an update
@@ -302,6 +309,25 @@ class EventsController(PaymentFormController, FormControllerMixin):
         """
         Gets the website templates for donation confirmation
         :param event: crm.event.compassion record
+        :return: template of the corresponding website
+        """
+
+        if event.muskathlon_event_id:
+            return "muskathlon.donation_successful"
+
+        if event.crowdfunding_project_id:
+            return "compassion_crowdfunding.donation_successful"
+
+        return "website_event_compassion.donation_successful"
+
+    def get_donation_failure_template(self, event):
+        """
+        Gets the website templates for donation failure
+        :param event: crm.event.compassion record
         :return: xml_id of website template
         """
-        return "website_event_compassion.donation_successful"
+
+        if event.crowdfunding_project_id:
+            return "compassion_crowdfunding.donation_failure"
+
+        return "website_event_compassion.donation_failure"

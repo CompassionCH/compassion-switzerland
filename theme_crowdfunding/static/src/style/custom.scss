@@ -644,6 +644,12 @@ footer {
   }
 }
 
+// Center an element at the middle of the page
+.center-page {
+  display: grid;
+  place-items: center;
+}
+
 // Global styles
 .text {
   &--bold {

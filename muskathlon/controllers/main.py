@@ -269,11 +269,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             values["website_template"] = "muskathlon.participant_details"
         return values
 
-    def get_donation_success_template(self, event):
-        if event.website_muskathlon:
-            return "muskathlon.donation_successful"
-        return super(MuskathlonWebsite, self).get_donation_success_template(event)
-
     def _prepare_portal_layout_values(self):
         values = super(MuskathlonWebsite, self)._prepare_portal_layout_values()
         if "user" in values:

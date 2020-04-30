@@ -4,7 +4,7 @@
         <!-- === Project Donation Page === -->
         <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
         <template id="project_donation_page">
-            <t t-call="website.layout">
+            <t t-call="crowdfunding_compassion.layout">
 
                 <!-- Donation type selection -->
                 <section class="donation-type">
@@ -98,27 +98,27 @@
                     const a = document.getElementById("url");
 
                     function clickHandler() {
-                    let checked_radios = document.querySelectorAll('input[type=radio]:checked').length;
-                    submit.disabled = !checked_radios == 2
+                        let checked_radios = document.querySelectorAll('input[type=radio]:checked').length;
+                        submit.disabled = checked_radios == 0 || checked_radios == 1;
 
-                    if (!submit.disabled) {
-                    let donationType = document.querySelector('input[name="donation-type"]:checked').value;
-                    let participantId = document.querySelector('input[name="participant"]:checked').value;
+                        if (!submit.disabled) {
+                            let donationType = document.querySelector('input[name="donation-type"]:checked').value;
+                            let participantId = document.querySelector('input[name="participant"]:checked').value;
 
-                    if (donationType === "fund") {
-                    a.href = `/project/
-                    <t t-esc="project.id"/>
-                    /donation/form/${participantId}`
-                    }
+                            if (donationType === "fund") {
+                                a.href = `/project/<t t-esc="project.id"/>/donation/form/${participantId}`
+                            }
 
-                    if (donationType === "sponsorship") {
-                    a.href = "TODO: Add redirection to Compassion CH"
-                    }
-                    }
+                            if (donationType === "sponsorship") {
+                                a.href = "TODO: Add redirection to Compassion CH"
+                            }
+                        }
                     }
 
                     // Register on each radio change
-                    radios.forEach(radio => {radio.addEventListener('change', clickHandler);});
+                    radios.forEach(radio => {
+                        radio.addEventListener('change', clickHandler);
+                    });
 
                     // Exectute on page load
                     clickHandler();
