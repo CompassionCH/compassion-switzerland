@@ -1,5 +1,5 @@
 from odoo.tests.common import TransactionCase
-from odoo import models, api, fields
+from odoo import fields
 from datetime import timedelta
 
 
@@ -24,4 +24,3 @@ class TestCrowdFunding(TransactionCase):
         """Test that the project is archived at the end date"""
         end_time = fields.Date.today() + timedelta(weeks=1)
         self.assertEqual(self.test_project.deadline, end_time)
-

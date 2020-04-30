@@ -85,18 +85,15 @@ class CrowdfundingProject(models.Model):
 
     @api.multi
     def add_owner2participants(self):
-        """Add the """
-        for record in self:
-            if record.project_owner_id not in record.participant_ids.mapped(
+        """Add the project owner to the participant list. """
+        for project in self:
+            if project.project_owner_id not in project.participant_ids.mapped(
                     'partner_id'):
                 participant = {
-                    'partner_id': record.project_owner_id.id,
-                    'project_id': record.id
+                    'partner_id': project.project_owner_id.id,
+                    'project_id': project.id
                 }
-                if record.type == "individual":
-                    # We keep only one participant (the owner)
-                    record.participant_ids.unlink()
-                record.write({"participant_ids": [(0, 0, participant)]})
+                project.write({"participant_ids": [(0, 0, participant)]})
 
     @api.multi
     def _compute_product_number_reached(self):
