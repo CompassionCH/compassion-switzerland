@@ -88,6 +88,29 @@
             </div>
         </template>
 
+        <!-- Fund card -->
+        <template id="fund_card" name="Fund card">
+            <div class="card fund-card">
+                <div class="fund-card__header">
+                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg"
+                         alt="Participant image"/>
+                    <span class="fund-card__icon"/>
+                </div>
+
+                <div class="fund-card__content">
+
+                    <h5 class="blue my-3 fund-card__title">
+                        <t t-esc="fund['name']"/>
+                    </h5>
+                    <p>
+                        <t t-esc="fund['description']"/>
+                    </p>
+<!--                    <button type="button" class="btn btn-primary btn-md my-3">More infos</button>-->
+<!--                    TODO truncate description and load full text in modal popup -> CO-3212-->
+                </div>
+            </div>
+        </template>
+
         <!-- Impact tile -->
         <!-- Individual [impact_tile] data must be set before calling this template -->
         <template id="impact_tile" name="Impact tile">
@@ -191,60 +214,12 @@
             </div>
         </template>
 
-        <template id="project_card" name="Project card">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-8 ">
-                            <h5 class="card-title">my nice project</h5>
-                        </div>
 
-                        <div class="col-md-4 text-right">
-                            <p>
-                                <small>
-                                    <i class="fas fa-users white"/>
-                                    collective
-                                </small>
-                            </p>
-                        </div>
-                    </div>
 
-                    <p>
-                        <small>
-                            <i class="fas fa-user-circle white"/>
-                            project owner + 10 friends
-                        </small>
-                    </p>
-                </div>
-                <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg"
-                     alt="Card image cap"/>
-
-                <div class="card-body">
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </template>
-
-        <template id="fund_card" name="Fund card">
-            <div class="card fund-card">
-                <div class="fund-card__header">
-                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg"
-                         alt="Participant image"/>
-                    <span class="fund-card__icon"/>
-                </div>
-
-                <div class="fund-card__content">
-
-                    <h5 class="blue my-3 fund-card__title">
-                        <t t-esc="fund['name']"/>
-                    </h5>
-                    <p>
-                        <t t-esc="fund['description']"/>
-                    </p>
-<!--                    <button type="button" class="btn btn-primary btn-md my-3">More infos</button>-->
-<!--                    TODO truncate description and load full text in modal popup -> CO-3212-->
-                </div>
+        <template id="crowdfunding_rounded_image" name="Rounded Image">
+            <div class="col-md-4 center">
+                <img t-att-src="img_path" class="w-50 rounded-circle pb-4" alt="Responsive image"/>
+>>>>>>> ee964d893674179cca96d82c609308584b71e40e:crowdfunding_compassion/templates/crowdfunding_components.xml
             </div>
         </template>
 

@@ -1,0 +1,180 @@
+<odoo>
+    <data>
+        <template id="myaccount_project_board">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="section-header"
+                        style="margin-top: 25px; margin-bottom: 10px;">
+                    </h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Deadline</th>
+                                <th>Type</th>
+                                <th>Link to project</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="projects"
+                               t-as="project">
+                                <tr>
+                                    <td>
+                                        <t t-esc="project.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="project.deadline"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="project.type"/>
+                                    </td>
+                                    <td>
+                                        <a t-attf-href="/my_account/project/update?project_id={{project.id}}">
+                                            Edit project
+                                        </a>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="myaccount_participation_board">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="section-header"
+                        style="margin-top: 25px; margin-bottom: 10px;">
+                    </h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Personal Motivation</th>
+                                <th>Link to registration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="participations"
+                               t-as="participation">
+                                <tr>
+                                    <td>
+                                        <t t-esc="participation.project_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="participation.personal_motivation"/>
+                                    </td>
+                                    <td>
+                                        <a t-attf-href="/my_account/participation/update?participant_id={{participation.id}}">
+                                            Edit participation
+                                        </a>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="myaccount_donation_board">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="section-header"
+                        style="margin-top: 25px; margin-bottom: 10px;">
+                    </h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Is owner</th>
+                                <th>From</th>
+                                <th>For</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+
+                        <t t-foreach="donations"
+                           t-as="donation">
+                            <t t-set="product_name">
+                                <t t-esc="donation.product_id.name"/>
+                            </t>
+                            <t t-set="partner_name">
+                                <t t-esc="donation.partner_id.name"/>
+                            </t>
+                            <t t-set="price_subtotal">
+                                <t t-esc="donation.price_subtotal"/>
+                            </t>
+                            <t t-set="due_date">
+                                <t t-esc="donation.due_date"/>
+                            </t>
+                            <t t-set="ambassador">
+                                <t t-esc="donation.user_id"/>
+                            </t>
+                            <t t-set="is_owner">
+                                true
+                            </t>
+                            <t t-if="donation.crowdfunding_project_id.project_owner_id.partner_id.id == donation.partner_id.id">
+                                <t t-set="is_owner">
+                                    false
+                                </t>
+                            </t>
+                            <t t-call="crowdfunding_compassion.myaccount_donation_tbody"/>
+                        </t>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="myaccount_donation_tbody">
+            <tbody>
+                <tr>
+                    <td>
+                        <t t-esc="product_name"/>
+                    </td>
+                    <td>
+                        <t t-esc="is_owner"/>
+                    </td>
+                    <td>
+                        <t t-esc="partner_name"/>
+                    </td>
+                    <td>
+                        <t t-if="is_owner == true">
+                            <t t-esc="ambassador"/>
+                        </t>
+                        <t t-else="">
+                            X
+                        </t>
+                    </td>
+                    <td>
+                        <t t-esc="price_subtotal"/>
+                    </td>
+                    <td>
+                        <t t-esc="due_date"/>
+                    </td>
+                </tr>
+            </tbody>
+        </template>
+
+        <template id="myaccount_coordinates">
+            <!-- Coordinates -->
+            <div class="col-sm-6 col-md-5 col-lg-4">
+                <div class="o_my_details">
+                    <div t-esc="partner"
+                         t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                    <t t-call="cms_form_compassion.modal_form">
+                        <t t-set="form" t-value="coordinates_form"/>
+                    </t>
+                    <button type="button"
+                            class="btn btn-default btn-xs"
+                            data-toggle="modal"
+                            data-target="#modal_coordinates">
+                        Change
+                    </button>
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>
