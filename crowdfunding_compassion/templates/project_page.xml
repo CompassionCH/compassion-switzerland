@@ -32,7 +32,7 @@
                                         </a>
                                         <div class="row">
                                             <div class="col">
-                                                <button type="button" class="btn btn-white btn-md">Join the project</button>
+                                                <button  class="btn btn-white btn-md">Join the project</button>
                                             </div>
                                             <div class="col">
                                                 <div class="row project-hero__card-share-text">Share with your friends</div>

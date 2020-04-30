@@ -69,8 +69,28 @@ class ProjectController(Controller):
         # Chronological list of sponsorships and fund donations for impact display
         impact = sorted(sponsorships + donations, key=lambda x: x["date"])
 
-        return {"project": project, "impact": impact}
+        fund = request.env['product.template'].sudo().search([
+            ('activate_for_crowdfunding', '=', True),
+            ("name", "like", project.product_id.product_tmpl_id.name)
+        ])
 
-    # Utils
-    def get_time_ago(self, date):
-        return format_timedelta(date - datetime.now(), add_direction=True, locale="en")
+        # check if current partner is owner of current project
+        participant = request.env['crowdfunding.participant'].search([
+            ("project_id", "=", project.id),
+            ("partner_id", "=", project.project_owner_id.partner_id.id)
+        ])
+        if not participant:
+            # if not, check in the participants to the projects
+            participant = request.env['crowdfunding.participant'].search([
+                ("project_id", "=", project.id),
+                ("partner_id", "=", request.env.user.partner_id.id)
+            ])
+
+        return {"project": project, "impact": impact, "fund": fund, "participant": participant}
+
+
+# Utils
+def get_time_ago(given_date):
+    if isinstance(given_date, datetime):
+        given_date = given_date.date()
+    return format_timedelta(given_date - date.today(), add_direction=True, locale="en")

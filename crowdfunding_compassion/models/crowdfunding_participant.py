@@ -45,13 +45,20 @@ class CrowdfundingParticipant(models.Model):
         })
         return res
 
+    @api.model
+    def get_sponsorship_url(self, participant_id):
+        participant = self.env['crowdfunding.participant'].search([
+            ('id', '=', participant_id[0])
+        ])
+        return participant.sponsorship_url
+
     @api.multi
     def _compute_sponsorship_url(self):
         for participant in self:
             utm_medium = "Crowdfunding"
             utm_campaign = participant.project_id.name
             utm_source = participant.partner_id.name
-            participant.sponsorship_url = f"www.compassion.ch/parrainer?" \
+            participant.sponsorship_url = f"https://compassion.ch/parrainer-un-enfant/?" \
                                           f"utm_medium={utm_medium}" \
                                           f"&utm_campaign={utm_campaign}" \
                                           f"&utm_source={utm_source}"
