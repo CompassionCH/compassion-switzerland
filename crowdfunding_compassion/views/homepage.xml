@@ -143,7 +143,7 @@
 
                     <div class="container homepage">
                         <t t-foreach="[1, 2, 3, 4, 5, 6]" t-as="project">
-                            <t t-call="crowdfunding_compassion.project_card"/>
+                            <t t-call="crowdfunding_compassion.crowdfunding_project_card"/>
                         </t>
 
                     </div>
