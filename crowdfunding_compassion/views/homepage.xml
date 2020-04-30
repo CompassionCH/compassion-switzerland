@@ -176,8 +176,6 @@
 
                     </div>
                 </section>
-
-                <t t-call="crowdfunding_compassion.crowdfunding_footer"/>
             </t>
         </template>
 

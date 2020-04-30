@@ -8,7 +8,7 @@ class HomepageController(Controller):
     def homepage(self, **kwargs):
         project_obj = request.env['crowdfunding.project']
         context = {
-            "funds": request.env['product.template'].sudo().search([
+            "funds": request.env['product.product'].sudo().search([
                 ('activate_for_crowdfunding', '=', True)
             ]),
             "impact": self._compute_projects_impact(datetime.now().year)[0],
@@ -29,7 +29,7 @@ class HomepageController(Controller):
                 ]
             )
         )
-        active_funds = request.env['product.template'].sudo().search([
+        active_funds = request.env['product.product'].sudo().search([
             ('activate_for_crowdfunding', '=', True)
         ])
         impact = {
