@@ -196,7 +196,7 @@
                                 <t t-esc="card.name"/>
                             </t>
                             <t t-set="project_owner">
-                                <t t-esc="card.project_owner_id.partner_id.name"/>
+                                <t t-esc="card.project_owner_id.name"/>
                             </t>
                             <t t-set="project_collective">
                                 <t t-esc="card.type"/>
@@ -214,12 +214,9 @@
             </div>
         </template>
 
-
-
         <template id="crowdfunding_rounded_image" name="Rounded Image">
             <div class="col-md-4 center">
                 <img t-att-src="img_path" class="w-50 rounded-circle pb-4" alt="Responsive image"/>
->>>>>>> ee964d893674179cca96d82c609308584b71e40e:crowdfunding_compassion/templates/crowdfunding_components.xml
             </div>
         </template>
 

@@ -13,7 +13,7 @@ class HomepageController(Controller):
             ]),
             "impact": self._compute_projects_impact(datetime.now().year)[0],
             "fund_names": self._compute_projects_impact(datetime.now().year)[1],
-            "project_list": project_obj._get_active_projects_list(),
+            "project_list": project_obj.get_active_projects_list(),
         }
 
         return request.render("crowdfunding_compassion.homepage_template", context)

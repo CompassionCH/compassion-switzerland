@@ -114,7 +114,7 @@
 
                         <div class="row text-center py-4">
                             <div class="col-md-12">
-                                <a class="btn btn-white btn-lg" href="/together/projects/create">LAUNCH YOUR PROJECT</a>
+                                <a class="btn btn-white btn-lg" href="/projects/create">LAUNCH YOUR PROJECT</a>
                                 <br/>
                             </div>
                         </div>

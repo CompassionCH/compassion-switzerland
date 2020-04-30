@@ -122,7 +122,7 @@ class ProjectCreationForm(models.AbstractModel):
         comm_obj.create(
             {
                 "config_id": config.id,
-                "partner_id": self.main_object.project_owner_id.partner_id.id,
+                "partner_id": self.main_object.project_owner_id.id,
                 "object_ids": self.main_object.id,
             }
         )

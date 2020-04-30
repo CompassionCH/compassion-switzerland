@@ -18,7 +18,7 @@ class ProjectsController(Controller, FormControllerMixin):
         values = {}
         project_obj = request.env['crowdfunding.project']
         values.update({
-            "project_list": project_obj._get_active_projects_list(number=9),
+            "project_list": project_obj.get_active_projects_list(number=9),
         })
         return request.render(
             "crowdfunding_compassion.project_list_view_template", values)

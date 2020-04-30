@@ -116,7 +116,7 @@
                             <t t-set="is_owner">
                                 true
                             </t>
-                            <t t-if="donation.crowdfunding_project_id.project_owner_id.partner_id.id == donation.partner_id.id">
+                            <t t-if="donation.crowdfunding_project_id.partner_id.id == donation.partner_id.id">
                                 <t t-set="is_owner">
                                     false
                                 </t>

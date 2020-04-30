@@ -107,9 +107,9 @@ class CrowdfundingProject(models.Model):
         for project in self:
             project.number_sponsorships_reached = len(project.sponsorship_ids)
 
-    def _get_active_projects_list(self, number=999):
-        projects = self.env['crowdfunding.project'].search([
-            ("state", "!=", "xvalidation")
+    def get_active_projects_list(self, number=999):
+        projects = self.search([
+            ("state", "!=", "draft")
         ], limit=number, order="deadline ASC")
 
         project_list = list(projects)
