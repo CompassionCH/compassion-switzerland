@@ -112,7 +112,7 @@
                                  odoo.define('website_sale.tour_shop_mail', function (require) {
                                     'use strict';
                                     var rpc = require('web.rpc');
-                                    var args = [[participantId]];
+                                    var args = [participantId];
                                     rpc.query({
                                          model: 'crowdfunding.participant',
                                          method: 'get_sponsorship_url',

@@ -47,8 +47,8 @@ class CrowdfundingParticipant(models.Model):
 
     @api.model
     def get_sponsorship_url(self, participant_id):
-        participant = self.env['crowdfunding.participant'].search([
-            ('id', '=', participant_id[0])
+        participant = self.env['crowdfunding.participant'].sudo().search([
+            ('id', '=', participant_id)
         ])
         return participant.sponsorship_url
 
