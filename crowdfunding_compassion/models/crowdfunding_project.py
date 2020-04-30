@@ -60,19 +60,22 @@ class CrowdfundingProject(models.Model):
     @api.model
     def create(self, vals):
         res = super().create(vals)
-        event = self.env['crm.event.compassion'].create({
-            'name': vals.get('name'),
-            'event_type_id': self.env.ref(
-                "crowdfunding_compassion.event_type_crowdfunding").id,
-            'crowdfunding_project_id': res.id,
-            'company_id': self.env.user.company_id.id,
-            'start_date': date.today(),
-            'end_date': vals.get('deadline'),
-            'hold_start_date': date.today(),
-            'number_allocate_children': vals.get('product_number_goal'),
-            'planned_sponsorships': vals.get('number_sponsorships_goal'),
-            'type': "crowdfunding"
-        })
+        event = self.env["crm.event.compassion"].create(
+            {
+                "name": vals.get("name"),
+                "event_type_id": self.env.ref(
+                    "crowdfunding_compassion.event_type_crowdfunding"
+                ).id,
+                "crowdfunding_project_id": res.id,
+                "company_id": self.env.user.company_id.id,
+                "start_date": date.today(),
+                "end_date": vals.get("deadline"),
+                "hold_start_date": date.today(),
+                "number_allocate_children": vals.get("product_number_goal"),
+                "planned_sponsorships": vals.get("number_sponsorships_goal"),
+                "type": "crowdfunding",
+            }
+        )
         res.event_id = event
         res.add_owner2participants()
         return res
@@ -98,8 +101,9 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:
-            project.product_number_reached = sum(
-                project.invoice_line_ids.mapped("quantity")
+            project.product_number_reached = (
+                sum(project.invoice_line_ids.mapped("price_unit"))
+                / project.product_id.list_price
             )
 
     @api.multi

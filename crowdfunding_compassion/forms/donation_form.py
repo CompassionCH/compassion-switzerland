@@ -13,7 +13,8 @@ class CrowdfundingDonationForm(models.AbstractModel):
 
     amount = fields.Float(required=True)
     anonymous_donation = fields.Boolean(
-        help="I would like to donate anonymously, please do not mention my name in the donors list."
+        help="""I would like to donate anonymously,
+        please do not mention my name in the donors list."""
     )
 
     @property
@@ -42,11 +43,11 @@ class CrowdfundingDonationForm(models.AbstractModel):
 
     @property
     def _payment_success_redirect(self):
-        return f"/event/payment/validate/{self.invoice_id.id}?payment=success"
+        return f"/crowdfunding/payment/validate/{self.invoice_id.id}?payment=success"
 
     @property
     def _payment_error_redirect(self):
-        return f"/event/payment/validate/{self.invoice_id.id}?payment=error"
+        return f"/crowdfunding/payment/validate/{self.invoice_id.id}?payment=error"
 
     def generate_invoice(self):
         participant = self.main_object.sudo()
@@ -55,8 +56,6 @@ class CrowdfundingDonationForm(models.AbstractModel):
         product = project.product_id
         name = f"[{project.name}] Donation for {participant.partner_id.name}"
         partner = self.partner_id.sudo()
-
-        # Validate partner (TODO: Can I do that ?)
         partner.write({"state": "active"})
 
         return (
@@ -73,9 +72,7 @@ class CrowdfundingDonationForm(models.AbstractModel):
                             {
                                 "quantity": 1.0,
                                 "price_unit": self.amount,
-                                # TODO: Uncomment this line, it is correct but for some reason these account id aren't loaded in my db
-                                # "account_id": product.property_account_income_id.id,
-                                "account_id": 169,
+                                "account_id": product.property_account_income_id.id,
                                 "name": name,
                                 "product_id": product.id,
                                 "account_analytic_id": event.analytic_id.id,

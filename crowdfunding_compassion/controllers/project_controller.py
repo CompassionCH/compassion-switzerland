@@ -45,7 +45,8 @@ class ProjectController(Controller):
                 "image": sponsorship.child_id.portrait,
                 "benefactor": sponsorship.correspondent_id.name,
                 "date": sponsorship.activation_date,
-                "time_ago": get_time_ago(sponsorship.activation_date),
+                "time_ago": self.get_time_ago(sponsorship.create_date),
+                "anonymous": "TODO",
             }
             for sponsorship in project.sponsorship_ids
         ]
@@ -54,11 +55,13 @@ class ProjectController(Controller):
             {
                 "type": "donation",
                 "color": "grey",
-                "text": f"{donation.quantity} {donation.product_id.name} built",
+                "text": f"{int(donation.price_unit / donation.product_id.list_price)} "
+                f"{donation.product_id.crowdfunding_impact_text_passive}",
                 "image": "TODO: fund icon selector",
                 "benefactor": donation.invoice_id.partner_id.name,
                 "date": donation.invoice_id.date_invoice,
-                "time_ago": get_time_ago(donation.invoice_id.date_invoice),
+                "time_ago": self.get_time_ago(donation.invoice_id.create_date),
+                "anonymous": donation.is_anonymous,
             }
             for donation in project.invoice_line_ids
         ]
@@ -68,7 +71,6 @@ class ProjectController(Controller):
 
         return {"project": project, "impact": impact}
 
-
-# Utils
-def get_time_ago(date):
-    return format_timedelta(datetime.now() - date, add_direction=True, locale="en")
+    # Utils
+    def get_time_ago(self, date):
+        return format_timedelta(date - datetime.now(), add_direction=True, locale="en")

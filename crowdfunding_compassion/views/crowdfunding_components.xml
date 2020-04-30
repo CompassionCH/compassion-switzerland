@@ -84,21 +84,29 @@
                     <t t-set="goal_objective" t-value="participant.product_number_goal"/>
                     <t t-call="crowdfunding_compassion.goal_progress"/>
                 </div>
+                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
+                    <button type="button" class="btn btn-primary mb-4 center">Support</button>
+                </a>
             </div>
         </template>
 
         <!-- Impact tile -->
         <!-- Individual [impact_tile] data must be set before calling this template -->
         <template id="impact_tile" name="Impact tile">
-            <div t-attf-class="impact-tile impact-tile--#{ impact_tile.color }">
-                <img class="impact-tile__image" t-att-src="impact_tile.image" alt="Impact image"/>
+            <div t-attf-class="impact-tile impact-tile--#{ impact_tile['color'] }">
+                <img class="impact-tile__image" t-att-src="'Done in other PR'" alt="Impact image"/>
                 <span class="text--bold">
-                    <t t-esc="impact_tile.text"/>
+                    <t t-esc="impact_tile['text']"/>
                 </span>
                 <span class="text--faded">
                     by
-                    <t t-esc="impact_tile.benefactor"/>
-                    <t t-esc="impact_tile.time_ago"/>
+                    <t t-if="impact_tile['anonymous']">
+                        Anonymous
+                    </t>
+                    <t t-else="">
+                        <t t-esc="impact_tile['benefactor']"/>
+                    </t>
+                    <t t-esc="impact_tile['time_ago']"/>
                 </span>
             </div>
         </template>
@@ -286,12 +294,11 @@
                         <span class="donation-type__card-icon"/>
                         <h3 class="blue">
                             <t t-esc="current_default_quantity"/>
-                            <!-- TODO: Replace by crowdfunding_name_singular and crowdfunding_name_plural -->
-                            <t t-esc="project.product_id.name" t-if="current_default_quantity == 1" />
-                            <t t-esc="project.product_id.name" t-if="current_default_quantity > 1" />
+                            <t t-esc="project.product_id.crowdfunding_quantity_singular" t-if="current_default_quantity == 1" />
+                            <t t-esc="project.product_id.crowdfunding_quantity_plural" t-if="current_default_quantity > 1" />
                             <br/>
                             CHF
-                            <t t-esc="current_value"/>
+                            <t t-esc="str(int(current_value)) + '.-'"/>
                         </h3>
                     </div>
                 </label>

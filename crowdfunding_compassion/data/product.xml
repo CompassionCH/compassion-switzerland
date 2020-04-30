@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="sponsorship_switzerland.product_template_fund_csp" model="product.template">
+        <field name="activate_for_crowdfunding" eval="True"/>
         <field name="crowdfunding_impact_text_passive">mothers and babies supported</field>
         <field name="crowdfunding_impact_text_active">supporting mothers and babies</field>
-        <field name="crowdfunding_name_singular">mother and baby</field>
-        <field name="crowdfunding_name_plural">mothers and babies</field>
+        <field name="crowdfunding_quantity_singular">mother and baby</field>
+        <field name="crowdfunding_quantity_plural">mothers and babies</field>
     </record>
 </odoo>

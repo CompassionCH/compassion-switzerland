@@ -4,12 +4,11 @@
         <!-- === Project Donation Form Page === -->
         <!-- The corresponding [project] and [participant] is passed to this template as context in variable [project] -->
         <template id="project_donation_form_page">
-            <t t-call="website.layout">
+            <t t-call="crowdfunding_compassion.layout">
 
                 <section class="donation-form-amount pb-5">
                     <div class="container">
                         <h1 class="hero-title">Make your donation</h1>
-
 
                         <div class="row mt-4">
                             <!-- Amount selector -->
@@ -70,7 +69,10 @@
                 const radios = document.querySelectorAll('input[type="radio"]');
 
                 // Select custom amount card when its textfield is clicked
-                amountField.addEventListener('click', () => { amountCard.checked = true; });
+                amountField.addEventListener('click', () => {
+                amountCard.checked = true;
+                clickHandler();
+                });
 
                 // Update the value of the card on textfield input
                 amountField.addEventListener('input', () => { amountCard.value = amountField.value; });
@@ -87,16 +89,15 @@
                 }
 
                 // Register on each radio change
-                radios.forEach(radio => {radio.addEventListener('change', clickHandler);});
+                radios.forEach(radio => {radio.addEventListener('click', clickHandler);});
 
                 // Exectute on page load
                 clickHandler();
             </script>
         </template>
 
+        <!-- Add Terms and Conditions to donation form -->
         <template id="donation_form_gtc" inherit_id="cms_form.base_form">
-
-            <!-- Add Terms and Conditions to donation form -->
             <xpath expr="//div[@class='col-sm-9 col-sm-offset-3 above-controls']" position="inside">
                 <div id="donation-gtc">
                     <p>
@@ -113,6 +114,41 @@
                     document.getElementById("donation-gtc").style.display = isCrowdfundingDonationForm ? 'block' : 'none';
                 </script>
             </xpath>
+        </template>
+
+        <!-- Displayed after sucessful payment by [EventsController] -->
+        <template id="donation_successful" name="Crowdfunding donation success">
+            <t t-call="crowdfunding_compassion.layout">
+                <section>
+                    <div class="jumbotron center-page mt-5">
+                        <h1>Donation Succesful</h1>
+                        <p>Thank you! Your donation helps release children from poverty!</p>
+                        <a href="https://compassion.ch">
+                            <button class="btn btn-primary">Back to Homepage</button>
+                        </a>
+                    </div>
+                </section>
+            </t>
+        </template>
+
+        <!-- Displayed after failure payment by [EventsController] -->
+        <template id="donation_failure" name="Crowdfunding donation failure">
+            <t t-call="crowdfunding_compassion.layout">
+                <section>
+                    <div class="jumbotron center-page mt-5">
+                        <h1>Payment Aborted</h1>
+                        <t t-raw="(error_intro and error_intro + '&lt;br/&gt;&lt;br/&gt;') or ''"/>
+                        Something went wrong during the payment process. Please try again.
+                        <br/>
+                        <br/>
+                        <div class="alert alert-info" role="alert">
+                            In case your payment was successful and you are seeing this message, you may experience some delay in the process of the transaction. Don't hesitate to
+                            <a href="mailto:info@compassion.ch">contact us</a>
+                            if you need any further assistance.
+                        </div>
+                    </div>
+                </section>
+            </t>
         </template>
     </data>
 </odoo>
