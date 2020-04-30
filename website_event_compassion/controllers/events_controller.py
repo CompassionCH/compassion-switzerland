@@ -234,7 +234,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
             return request.render(
                 self.get_donation_failure_template(event), {"error_intro": ""}
             )
-        
+
         ambassador = invoice_lines.mapped("user_id")
         registration = event.registration_ids.filtered(
             lambda r: r.partner_id == ambassador
