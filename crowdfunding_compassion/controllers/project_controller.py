@@ -86,7 +86,12 @@ class ProjectController(Controller):
                 ("partner_id", "=", request.env.user.partner_id.id)
             ])
 
-        return {"project": project, "impact": impact, "fund": fund, "participant": participant}
+        return {
+            "project": project,
+            "impact": impact,
+            "fund": fund,
+            "participant": participant
+        }
 
 
 # Utils

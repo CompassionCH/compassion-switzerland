@@ -13,8 +13,8 @@ class CrowdfundingDonationForm(models.AbstractModel):
 
     amount = fields.Float(required=True)
     anonymous_donation = fields.Boolean(
-        help="""I would like to donate anonymously,
-        please do not mention my name in the donors list."""
+        help="I would like to donate anonymously,"
+             " please do not mention my name in the donors list."
     )
 
     @property

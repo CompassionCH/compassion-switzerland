@@ -58,10 +58,11 @@ class CrowdfundingParticipant(models.Model):
             utm_medium = "Crowdfunding"
             utm_campaign = participant.project_id.name
             utm_source = participant.partner_id.name
-            participant.sponsorship_url = f"https://compassion.ch/parrainer-un-enfant/?" \
-                                          f"utm_medium={utm_medium}" \
-                                          f"&utm_campaign={utm_campaign}" \
-                                          f"&utm_source={utm_source}"
+            participant.sponsorship_url =\
+                f"https://compassion.ch/parrainer-un-enfant/?" \
+                f"utm_medium={utm_medium}" \
+                f"&utm_campaign={utm_campaign}" \
+                f"&utm_source={utm_source}"
 
     @api.multi
     def _compute_product_number_reached(self):
