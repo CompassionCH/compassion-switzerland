@@ -24,8 +24,8 @@
 
                 <div class="progress">
                     <div class="progress-bar bg-compassion" role="progressbar"
-                         t-attf-style="width: #{ progress_percentage }%" t-att-aria-valuenow="progress_percentage"
-                         aria-valuemin="0" aria-valuemax="100"/>
+                        t-attf-style="width: #{ progress_percentage }%" t-att-aria-valuenow="progress_percentage"
+                        aria-valuemin="0" aria-valuemax="100"/>
                 </div>
                 <span class="text--faded">
                     <t t-esc="progress_percentage"/>
@@ -47,7 +47,7 @@
 
             <!-- Setup data and display the fund progress -->
             <t t-if="project.product_id">
-                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text"/>
+                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
                 <t t-set="goal_reached" t-value="project.product_number_reached"/>
                 <t t-set="goal_objective" t-value="project.product_number_goal"/>
                 <t t-call="crowdfunding_compassion.goal_progress"/>
@@ -80,49 +80,34 @@
                     <t t-call="crowdfunding_compassion.goal_progress"/>
 
                     <!-- Setup data and display the fund progress -->
-                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text"/>
+                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
                     <t t-set="goal_reached" t-value="participant.product_number_reached"/>
                     <t t-set="goal_objective" t-value="participant.product_number_goal"/>
                     <t t-call="crowdfunding_compassion.goal_progress"/>
                 </div>
-            </div>
-        </template>
-
-        <!-- Fund card -->
-        <template id="fund_card" name="Fund card">
-            <div class="card fund-card">
-                <div class="fund-card__header">
-                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg"
-                         alt="Participant image"/>
-                    <span class="fund-card__icon"/>
-                </div>
-
-                <div class="fund-card__content">
-
-                    <h5 class="blue my-3 fund-card__title">
-                        <t t-esc="fund['name']"/>
-                    </h5>
-                    <p>
-                        <t t-esc="fund['description']"/>
-                    </p>
-<!--                    <button type="button" class="btn btn-primary btn-md my-3">More infos</button>-->
-<!--                    TODO truncate description and load full text in modal popup -> CO-3212-->
-                </div>
+                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
+                    <button type="button" class="btn btn-primary mb-4 center">Support</button>
+                </a>
             </div>
         </template>
 
         <!-- Impact tile -->
         <!-- Individual [impact_tile] data must be set before calling this template -->
         <template id="impact_tile" name="Impact tile">
-            <div t-attf-class="impact-tile impact-tile--#{ impact_tile.color }">
-                <img class="impact-tile__image" t-att-src="impact_tile.image" alt="Impact image"/>
+            <div t-attf-class="impact-tile impact-tile--#{ impact_tile['color'] }">
+                <img class="impact-tile__image" t-att-src="'Done in other PR'" alt="Impact image"/>
                 <span class="text--bold">
-                    <t t-esc="impact_tile.text"/>
+                    <t t-esc="impact_tile['text']"/>
                 </span>
                 <span class="text--faded">
                     by
-                    <t t-esc="impact_tile.benefactor"/>
-                    <t t-esc="impact_tile.time_ago"/>
+                    <t t-if="impact_tile['anonymous']">
+                        Anonymous
+                    </t>
+                    <t t-else="">
+                        <t t-esc="impact_tile['benefactor']"/>
+                    </t>
+                    <t t-esc="impact_tile['time_ago']"/>
                 </span>
             </div>
         </template>
@@ -133,6 +118,34 @@
                 Be the first to show love for this project,
                 <br/>
                 <a href="#">make a donation now</a>
+            </div>
+        </template>
+
+        <template id="participant_picture" name="Participant picture">
+            <div class="card card-body d-flex justify-content-between align-items-center" style="border: none;">
+                <img class="profile-pic rounded-circle" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Project participant"/>
+
+                <h6 class="uppercase mt-3">
+                    <t t-esc="participant.partner_id.name"/>
+                </h6>
+            </div>
+        </template>
+
+        <template id="project_impact_card" name="Project impact card">
+            <div class="card h-100 w-100">
+                <img class="card-img-top donation-type__project-card-image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" alt="Project image"/>
+
+                <div class="card-body">
+                    You are actually creating impact for:
+                    <h5 class="uppercase mt-2">
+                        <t t-esc="project.name"/>
+                    </h5>
+
+                    <t t-if="display_impact">
+                        <h4 class="blue uppercase text-center mt-5 mb-3">Impact so far</h4>
+                        <t t-call="crowdfunding_compassion.project_progress" />
+                    </t>
+                </div>
             </div>
         </template>
 
@@ -164,7 +177,7 @@
                     </p>
                 </div>
                 <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg"
-                     alt="Card image cap"/>
+                    alt="Card image cap"/>
                 <br/>
 
                 <t t-set="project" t-value="card"/>
@@ -220,17 +233,66 @@
             </div>
         </template>
 
+        <!-- Fund card -->
+        <template id="fund_card" name="Fund card">
+            <div class="card fund-card">
+                <div class="fund-card__header">
+                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg"
+                        alt="Participant image"/>
+                    <span class="fund-card__icon"/>
+                </div>
+
+                <div class="fund-card__content">
+
+                    <h5 class="blue my-3 fund-card__title">
+                        <t t-esc="fund['name']"/>
+                    </h5>
+                    <p>
+                        <t t-esc="fund['description']"/>
+                    </p>
+                    <!--                    <button type="button" class="btn btn-primary btn-md my-3">More infos</button>-->
+                    <!--                    TODO truncate description and load full text in modal popup -> CO-3212-->
+                </div>
+            </div>
+        </template>
+
+        <!-- Uses a [project] with a defined [product_id], and is passed an int [current_default_quantity] -->
+        <!-- Displays a card with a possible donation, for example: 1 toilet - 25CHF -->
+        <template id="fund_amount_example" name="Fund amount example">
+            <!-- Compute value -->
+            <t t-set="current_value" t-value="project.product_id.list_price * current_default_quantity" />
+
+            <div class="col-6 col-lg-3 mb-3">
+                <label class="h-100 w-100">
+                    <input type="radio" name="amount" t-att-value="current_value" class="card-input-element d-none" />
+                    <div class="card h-100 d-flex justify-content-around align-items-center text-center">
+                        <!-- TODO: Replace by fund icon when implementation by Quentin is merged -->
+                        <span class="donation-type__card-icon"/>
+                        <h3 class="blue">
+                            <t t-esc="current_default_quantity"/>
+                            <t t-esc="project.product_id.crowdfunding_quantity_singular" t-if="current_default_quantity == 1" />
+                            <t t-esc="project.product_id.crowdfunding_quantity_plural" t-if="current_default_quantity > 1" />
+                            <br/>
+                            CHF
+                            <t t-esc="str(int(current_value)) + '.-'"/>
+                        </h3>
+                    </div>
+                </label>
+            </div>
+        </template>
+
         <template id="crowdfunding_navbar" name="Navbar for Crowdfunding page">
             <nav class="navbar shadow navbar-expand-lg navbar-dark" id="mainNav">
                 <div class="container-fluid">
                     <a class="navbar-brand js-scroll-trigger" href="#page-top">
                         <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
-                             width="190" height="auto"/>
+                            width="190" height="auto"/>
                     </a>
                     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                            data-target="#navbarResponsive" aria-controls="navbarResponsive"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation">Menu
+                        data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        Menu
                         <i class="fa fa-bars fa-xs " aria-hidden="true"/>
                     </button>
 
@@ -258,7 +320,7 @@
                         </ul>
                         <!--         user login -->
                         <i class="fas fa-user-circle white fa-3x"
-                           aria-hidden="true"/>
+                            aria-hidden="true"/>
                         <!--  lang selector        -->
                         <span class="lang-selector">
                             <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
@@ -271,16 +333,16 @@
         </template>
 
         <template id="layout" inherit_id="website.layout"
-                  name="Crowdfunding Website Layout"
-                  priority="20"
-                  customize_show="False">
+            name="Crowdfunding Website Layout"
+            priority="20"
+            customize_show="False">
             <!--  Replace default header -->
             <xpath expr="//header" position="attributes">
                 <attribute name="style">display: none</attribute>
             </xpath>
             <xpath expr="//header" position="after">
                 <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
-                <header t-attf-class="masthead pt-5 pb-5 #{headerclass or ''}">
+                <header t-attf-class="masthead #{headerclass or ''}">
                     <t t-raw="header"/>
                 </header>
             </xpath>
@@ -290,9 +352,10 @@
                         <div class="row py-5">
                             <div class="col-sm-12 col-md-4 f-logo">
                                 <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
-                                     width="190" height="auto"/>
+                                    width="190" height="auto"/>
 
-                                <p>Compassion Suisse est la branche nationale de Compassion International. A travers le
+                                <p>
+                                    Compassion Suisse est la branche nationale de Compassion International. A travers le
                                     parrainage individuel et en collaboration avec quelque 7000 Eglises locales, nous
                                     apportons un soutien à plus de 2 millions d’enfants parmi les plus démunis dans 25
                                     pays.

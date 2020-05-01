@@ -22,7 +22,6 @@
             <field name="website_indexed" eval="True"/>
             <field name="website_id" eval="ref('crowdfunding_compassion.crowdfunding_website')"/>
             <field name="website_published">True</field>
-            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
             <field name="name">Project List</field>
             <field name="type">qweb</field>
         </record>
