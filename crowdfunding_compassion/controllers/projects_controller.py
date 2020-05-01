@@ -2,12 +2,12 @@
 #
 #    Copyright (C) 2020 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Quentin Gigon
+#    @author: Quentin Gigon, Emanuel Cino
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo.http import request, route, Controller
+from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
 
@@ -22,23 +22,43 @@ class ProjectsController(Controller, FormControllerMixin):
             {"projects": project_obj.sudo().get_active_projects()},
         )
 
-    @route("/projects/create", auth="public", type="http", method="POST", website=True)
-    def project_creation_step1(self, **kwargs):
+    @route(['/projects/create', '/projects/create/page/<int:page>'],
+           auth="public",
+           type="http",
+           method='POST',
+           website=True)
+    def project_creation(self, page=1, **kwargs):
         values = kwargs.copy()
-        values["form_model_key"] = "cms.form.crowdfunding.project"
-        values.update({"is_published": False})
+        values["form_model_key"] = "cms.form.crowdfunding.project.step" + str(page)
+        values.update({
+            "is_published": False,
+            "page": page
+        })
         # This allows the translation to still work on the page
         project_creation_form = self.get_form("crowdfunding.project", **values)
         project_creation_form.form_process()
-        values.update({"user": request.env.user, "form": project_creation_form})
+        values.update({
+            "user": request.env.user,
+            "form": project_creation_form}
+        )
         project_creation_form = values["form"]
         if project_creation_form.form_success:
-            result = request.render(
-                "crowdfunding_compassion.project_creation_confirmation_view_template",
-                {},
-            )
+            # Force saving session, otherwise we lose values between steps
+            request.session.save_request_data()
+            return local_redirect(project_creation_form.form_next_url())
         else:
-            result = request.render(
-                "crowdfunding_compassion.project_creation_view_template", values
+            return request.render(
+                "crowdfunding_compassion.project_creation_view_template", values,
+                headers={'Cache-Control': 'no-cache'}
             )
-        return result
+
+    @route("/projects/create/confirm/",
+           auth="public",
+           type="http",
+           method='POST',
+           website=True)
+    def project_validation(self, **kwargs):
+        return request.render(
+            "crowdfunding_compassion.project_creation_confirmation_view_template",
+            **kwargs
+        )

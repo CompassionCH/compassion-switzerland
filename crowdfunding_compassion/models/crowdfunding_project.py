@@ -14,18 +14,35 @@ class CrowdfundingProject(models.Model):
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 
-    name = fields.Char(required=True)
-    description = fields.Text()
-    personal_motivation = fields.Text()
+    name = fields.Char(
+        "Name of your project",
+        help="Use a catchy name that is accurate to your idea",
+        required=True)
+    description = fields.Text(
+        "Project description",
+        help="Aim of the project, why you want to create it, for which purpose and "
+             "any useful information that the donors should know."
+    )
+    personal_motivation = fields.Text(
+        help="Tell the others what is inspiring you, why it matters to you."
+    )
     type = fields.Selection(
         [("individual", "Individual"), ("collective", "Collective")],
         required=True,
         default="individual",
     )
-    deadline = fields.Date(string="Deadline of project", required=True, index=True)
+    deadline = fields.Date(
+        "Deadline of project",
+        help="Indicate when your project should end.",
+        required=True, index=True)
     time_left = fields.Char(compute="_compute_time_left")
-    cover_photo = fields.Binary(string="Cover Photo", attachment=True)
-    presentation_video = fields.Char(string="Youtube/Vimeo link")
+    cover_photo = fields.Binary(
+        "Cover Photo",
+        help="Upload a cover photo that represents your project. Best size: 900x400px",
+        attachment=True)
+    presentation_video = fields.Char(
+        help="Paste any video link that showcase your project (Youtube or Vimeo)"
+    )
     facebook_url = fields.Char(string="Facebook link")
     twitter_url = fields.Char(string="Twitter link")
     instagram_url = fields.Char(string="Instagram link")

@@ -4,10 +4,10 @@
         <!--        Creation page-->
         <template id="project_creation_view_template">
             <t t-set="header">
-                <div class="row">
+                <div class="row mt-5">
                     <div class="col-md-4 col-xl-2 center">
                         <img src="/crowdfunding_compassion/static/src/img/astronaut_600.jpg"
-                            class="rounded-circle img-fluid"/>
+                             class="rounded-circle img-fluid"/>
                     </div>
                 </div>
                 <h1 class="blue">CREATE A NEW PROJECT</h1>
@@ -17,25 +17,40 @@
                     <div class="col-md-2"/>
                     <div class="col-md-8">
                         <ul class="stepper stepper-horizontal">
+                            <t t-if="page == 1">
+                                <t t-set="class1">active</t>
+                                <t t-set="class2">inactive</t>
+                                <t t-set="class3">inactive</t>
+                            </t>
+                            <t t-if="page == 2">
+                                <t t-set="class1">completed</t>
+                                <t t-set="class2">active</t>
+                                <t t-set="class3">inactive</t>
+                            </t>
+                            <t t-if="page == 3">
+                                <t t-set="class1">completed</t>
+                                <t t-set="class2">completed</t>
+                                <t t-set="class3">active</t>
+                            </t>
                             <!-- First Step -->
-                            <li class="active">
-                                <a href="#!">
+                            <li t-att-class="class1">
+                                <a t-att-href="'/projects/create/' if page != 1 else '#!'">
                                     <span class="circle">1</span>
                                     <span class="label">Your project</span>
                                 </a>
                             </li>
 
                             <!-- Second Step -->
-                            <li class="inactive">
-                                <a href="#!">
+                            <li t-att-class="class2">
+                                <a t-att-href="'/projects/create/page/2' if page >= 2 else '#!'">
                                     <span class="circle">2</span>
                                     <span class="label">Your fund</span>
                                 </a>
                             </li>
 
                             <!-- Third Step -->
-                            <li class="inactive">
-                                <a href="#!">
+                            <li t-att-class="class3">
+                                <a t-att-href="'/projects/create/page/2' if page >= 3 else '#!'">
                                     <span class="circle">3</span>
                                     <span class="label">Your personal information</span>
                                 </a>

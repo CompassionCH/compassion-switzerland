@@ -8,16 +8,40 @@
 ##############################################################################
 import logging
 
-from odoo import models, _
+from odoo import models, fields, _
 
 _logger = logging.getLogger(__name__)
 
 
-class ProjectCreationForm(models.AbstractModel):
-    _name = "cms.form.crowdfunding.project"
-    _inherit = ["cms.form"]
-
+class ProjectCreationWizard(models.AbstractModel):
+    _name = "cms.form.crowdfunding.wizard"
+    _inherit = "cms.form.wizard"
     _form_model = "crowdfunding.project"
+
+    def _wiz_base_url(self):
+        return "/projects/create"
+
+    def form_check_permission(self, raise_exception=True):
+        # no need for this
+        pass
+
+    def wiz_configure_steps(self):
+        return {
+            1: {"form_model": "cms.form.crowdfunding.project.step1"},
+            2: {"form_model": "cms.form.crowdfunding.project.step1"},
+            3: {"form_model": "cms.form.crowdfunding.project.step1"},
+        }
+
+    @property
+    def form_msg_success_created(self):
+        # override to remove text saying item updated after registration
+        return
+
+
+class ProjectCreationFormStep1(models.AbstractModel):
+    _name = "cms.form.crowdfunding.project.step1"
+    _inherit = "cms.form.crowdfunding.wizard"
+
     _form_model_fields = [
         "name",
         "description",
@@ -30,11 +54,7 @@ class ProjectCreationForm(models.AbstractModel):
         "instagram_url",
         "personal_web_page_url",
         "type",
-        "owner_lastname",
-        "owner_firstname"
     ]
-    _form_required_fields = ("name", "type", "deadline",
-                             "owner_lastname", "owner_firstname")
 
     @property
     def form_title(self):
@@ -44,40 +64,38 @@ class ProjectCreationForm(models.AbstractModel):
     def _form_fieldsets(self):
         fieldset = [{
             "id": "project",
-            "title": _("Your project"),
             "fields": [
                 "name",
                 "description",
                 "personal_motivation",
                 "deadline",
                 "cover_photo",
-                "type",
+                "presentation_video",
             ],
-        },
-            {
-                "id": "owner",
-                "title": _("Owner infos"),
-                "fields": [
-                    "owner_firstname",
-                    "owner_lastname",
-                ],
-        },
-            {
+        }, {
             "id": "social_medias",
             "title": _("Social Medias"),
+            "description": _("If you have any social media account that you use to "
+                             "promote your project, you can link them to your "
+                             "personal page."),
             "fields": [
-                "presentation_video",
                 "facebook_url",
                 "twitter_url",
                 "instagram_url",
                 "personal_web_page_url",
             ],
+        }, {
+            "id": "type",
+            "title": _("My project is"),
+            "description": _(
+                "Choose if you are doing your project alone, or if you want to open "
+                "it to other fundraisers (ie: collective sport projects)"),
+            "fields": ["type"]
         }]
         return fieldset
 
     @property
     def form_widgets(self):
-        # Hide fields
         res = super().form_widgets
         res.update({
             "deadline": "cms.form.widget.date.ch",
@@ -85,40 +103,97 @@ class ProjectCreationForm(models.AbstractModel):
         })
         return res
 
+    def _form_create(self, values):
+        """ Holds the creation for the last step. The values will be passed
+        to the next steps. """
+        pass
+
+
+class ProjectCreationStep2(models.AbstractModel):
+    _name = "cms.form.crowdfunding.project.step2"
+    _inherit = "cms.form.crowdfunding.wizard"
+
+    _form_model_fields = [
+        'product_id', 'product_number_goal', 'number_sponsorships_goal'
+    ]
+    _form_fields_hidden = [
+        'product_id', 'product_number_goal', 'number_sponsorships_goal'
+    ]
+
+    def _form_create(self, values):
+        """ Holds the creation for the last step. The values will be passed
+        to the next steps. """
+        pass
+
+
+class ProjectCreationStep3(models.AbstractModel):
+    _name = "cms.form.crowdfunding.project.step3"
+    _inherit = ["cms.form.crowdfunding.wizard", "cms.form.match.partner"]
+
+    _form_model_fields = [
+        'product_id', 'product_number_goal', 'number_sponsorships_goal'
+    ]
+
+    profile_picture = fields.Binary(
+        help="Upload a profile picture, square 800 x 800px",
+        required=True)
+
     @property
-    def form_msg_success_updated(self):
-        # override to remove text saying item updated after registration
-        return
+    def _form_fieldsets(self):
+        return [{
+            "id": "project",
+            "fields": [
+                "partner_firstname",
+                "partner_lastname",
+                "partner_birthdate",
+                "partner_street",
+                "partner_zip",
+                "partner_city",
+                "partner_country_id",
+                "partner_email",
+                "partner_phone",
+                "profile_photo"
+            ],
+        }]
+
+    @property
+    def form_widgets(self):
+        res = super().form_widgets
+        res.update({
+            "profile_photo": "cms_form_compassion.form.widget.simple.image",
+            "partner_birthdate": "cms.form.widget.date.ch",
+        })
+        return res
+
+    def _form_load_partner_id(self, fname, field, value, **req_values):
+        # Try fetching the partner if he is already connected.
+        return value or req_values.get(fname, self.env.user.partner_id.sudo().id)
+
+    def _load_partner_field(self, fname, **req_values):
+        # Try fetching the partner if he is already connected.
+        partner = self.env.user.partner_id.sudo()
+        pf_name = fname.split("partner_")[1]
+        return req_values.get(fname, getattr(partner.sudo(), pf_name, ""))
 
     # Form submission
     #################
-    # TODO check with Ema if we must use name or email to identify partners
     def form_before_create_or_update(self, values, extra_values):
-        owner = self.env["crowdfunding.participant"].sudo().search([
-            ("partner_id.lastname", "like", values['owner_lastname']),
-            ("partner_id.firstname", "like", values['owner_firstname'])
-        ])
-        if not owner:
-            partner = self.env['res.partner'].sudo().create({
-                "lastname": values['owner_lastname'],
-                "firstname": values['owner_firstname'],
-            })
-            owner = self.env["crowdfunding.participant"].sudo().create({
-                "partner_id": partner.id
-            })
-        values.update({
-            "project_owner_id": owner.id
-        })
         super().form_before_create_or_update(values, extra_values)
+        values["project_owner_id"] = values.pop("partner_id")
+        # Take values from previous steps
+        storage = self.wiz_storage_get().get('steps')
+        values.update(storage.get(1, {}))
+        values.update(storage.get(2, {}))
 
-    def _form_write(self, values):
-        """ Nothing to do on write, we handle everything in other methods.
-        """
-        return True
+    def _form_create(self, values):
+        """ Create as root and avoid putting Admin as follower. """
+        self.main_object = self.form_model.sudo().with_context(
+            tracking_disable=True).create(values.copy())
 
     def form_after_create_or_update(self, values, extra_values):
-        comm_obj = self.env["partner.communication.job"]
-        config = self.env.ref("crowdfunding_compassion.config_project_confirmation")
+        comm_obj = self.env["partner.communication.job"].sudo()
+        config = self.env.ref(
+            "crowdfunding_compassion.config_project_confirmation").sudo()
         comm_obj.create(
             {
                 "config_id": config.id,
@@ -128,4 +203,4 @@ class ProjectCreationForm(models.AbstractModel):
         )
 
     def form_next_url(self, main_object=None):
-        return super().form_next_url(self.main_object)
+        return "/projects/create/confirm"
