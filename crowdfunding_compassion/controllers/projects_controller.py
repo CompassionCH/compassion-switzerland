@@ -14,7 +14,7 @@ from odoo.addons.cms_form.controllers.main import FormControllerMixin
 class ProjectsController(Controller, FormControllerMixin):
     @route("/projects", auth="public", website=True)
     def get_projects_list(self, **kwargs):
-        project_obj = request.env["crowdfunding.project"]
+        project_obj = request.env["crowdfunding.project"].sudo()
 
         # TODO connect pagination to backend -> CO-3213
         return request.render(
