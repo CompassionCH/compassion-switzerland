@@ -107,10 +107,13 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:
-            project.product_number_reached = (
-                sum(project.invoice_line_ids.mapped("price_unit"))
-                / project.product_id.list_price
-            )
+            if project.product_id.list_price == 0:
+                project.product_number_reached = 0
+            else:
+                project.product_number_reached = (
+                    sum(project.invoice_line_ids.mapped("price_unit"))
+                    / project.product_id.list_price
+                )
 
     @api.multi
     def _compute_number_sponsorships_reached(self):

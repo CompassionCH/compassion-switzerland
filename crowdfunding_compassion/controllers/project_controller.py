@@ -44,7 +44,7 @@ class ProjectController(Controller):
                 "text": f"{sponsorship.name} was sponsored",
                 "image": sponsorship.child_id.portrait,
                 "benefactor": sponsorship.correspondent_id.name,
-                "date": sponsorship.activation_date,
+                "date": sponsorship.activation_date or datetime.today().date(),
                 "time_ago": self.get_time_ago(sponsorship.create_date),
                 "anonymous": "TODO",
             }
@@ -77,7 +77,7 @@ class ProjectController(Controller):
         # check if current partner is owner of current project
         participant = request.env['crowdfunding.participant'].search([
             ("project_id", "=", project.id),
-            ("partner_id", "=", project.project_owner_id.partner_id.id)
+            ("partner_id", "=", project.project_owner_id.id)
         ])
         if not participant:
             # if not, check in the participants to the projects
@@ -93,9 +93,8 @@ class ProjectController(Controller):
             "participant": participant
         }
 
-
-# Utils
-def get_time_ago(given_date):
-    if isinstance(given_date, datetime):
-        given_date = given_date.date()
-    return format_timedelta(given_date - date.today(), add_direction=True, locale="en")
+    # Utils
+    def get_time_ago(self, given_date):
+        if isinstance(given_date, datetime):
+            given_date = given_date.date()
+        return format_timedelta(given_date - datetime.today().date(), add_direction=True, locale="en")
