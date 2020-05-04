@@ -165,7 +165,7 @@ class CrowdfundingProject(models.Model):
             comm_obj.create(
                 {
                     "config_id": config.id,
-                    "partner_id": project.project_owner_id,
+                    "partner_id": project.project_owner_id.id,
                     "object_ids": project.id,
                 }
             )
