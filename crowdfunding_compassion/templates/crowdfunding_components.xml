@@ -238,8 +238,11 @@
             <div class="card fund-card">
                 <div class="fund-card__header">
                     <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg"
-                        alt="Participant image"/>
-                    <span class="fund-card__icon"/>
+                         alt="Participant image"/>
+                    <span class="fund-card__icon">
+                        <img t-attf-src="data:image;base64, #{fund['image_medium']}"
+                         alt="Fund image"/>
+                    </span>
                 </div>
 
                 <div class="fund-card__content">

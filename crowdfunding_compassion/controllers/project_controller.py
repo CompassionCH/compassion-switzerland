@@ -69,7 +69,7 @@ class ProjectController(Controller):
         # Chronological list of sponsorships and fund donations for impact display
         impact = sorted(sponsorships + donations, key=lambda x: x["date"])
 
-        fund = request.env['product.template'].sudo().search([
+        fund = request.env['product.product'].sudo().search([
             ('activate_for_crowdfunding', '=', True),
             ("name", "like", project.product_id.product_tmpl_id.name)
         ])
