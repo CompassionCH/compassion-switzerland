@@ -97,4 +97,5 @@ class ProjectController(Controller):
     def get_time_ago(self, given_date):
         if isinstance(given_date, datetime):
             given_date = given_date.date()
-        return format_timedelta(given_date - datetime.today().date(), add_direction=True, locale="en")
+        return format_timedelta(given_date - datetime.today().date(),
+                                add_direction=True, locale="en")
