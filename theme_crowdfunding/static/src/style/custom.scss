@@ -207,6 +207,7 @@ $enable-rounded: false;
   &__content {
     border: solid 1px $blue-compassion;
     padding: 60px 1rem 1rem;
+    height: 100%;
   }
 }
 
@@ -635,6 +636,7 @@ footer {
     display: inline;
     width: initial;
     height: initial;
+    margin-top: 0;
     vertical-align: middle;
 
     & + .help-block {
@@ -655,13 +657,13 @@ footer {
   &--bold {
     color: $gray-700;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
 
   &--faded {
     color: $gray-600;
     font-weight: 400;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 }
 

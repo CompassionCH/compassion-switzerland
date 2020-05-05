@@ -51,7 +51,7 @@ class CrowdfundingProject(models.Model):
         [("draft", "Draft"), ("active", "Active")],
         required=True,
         default="draft",
-        readonly=True
+        readonly=True,
     )
     owner_lastname = fields.Char(string="Your lastname")
     owner_firstname = fields.Char(string="Your firstname")
@@ -91,10 +91,11 @@ class CrowdfundingProject(models.Model):
         """Add the project owner to the participant list. """
         for project in self:
             if project.project_owner_id not in project.participant_ids.mapped(
-                    'partner_id'):
+                "partner_id"
+            ):
                 participant = {
-                    'partner_id': project.project_owner_id.id,
-                    'project_id': project.id
+                    "partner_id": project.project_owner_id.id,
+                    "project_id": project.id,
                 }
                 project.write({"participant_ids": [(0, 0, participant)]})
 
@@ -111,22 +112,10 @@ class CrowdfundingProject(models.Model):
         for project in self:
             project.number_sponsorships_reached = len(project.sponsorship_ids)
 
-    def get_active_projects_list(self, number=999):
-        projects = self.search([
-            ("state", "!=", "draft")
-        ], limit=number, order="deadline ASC")
-
-        project_list = list(projects)
-        output = []
-        # while there are at least 3 projects in the set
-        while len(project_list) >= 2:
-            row = [project_list.pop(0), project_list.pop(0), project_list.pop(0)]
-            output.append(row)
-
-        if len(project_list) > 0:
-            output.append(project_list)
-
-        return output
+    def get_active_projects(self, number=999):
+        return self.search(
+            [("state", "!=", "draft")], limit=number, order="deadline ASC"
+        )
 
     @api.multi
     def _compute_website_url(self):

@@ -7,13 +7,13 @@ class HomepageController(Controller):
     @route("/homepage", auth="public", website=True)
     def homepage(self, **kwargs):
         project_obj = request.env["crowdfunding.project"]
+        fund_obj = request.env["product.product"]
+
         context = {
-            "funds": request.env["product.product"]
-            .sudo()
-            .search([("activate_for_crowdfunding", "=", True)]),
+            "funds": fund_obj.sudo().search([("activate_for_crowdfunding", "=", True)]),
             "impact": self._compute_projects_impact(datetime.now().year)[0],
             "fund_names": self._compute_projects_impact(datetime.now().year)[1],
-            "project_list": project_obj.sudo().get_active_projects_list(),
+            "projects": project_obj.sudo().get_active_projects(number=6),
         }
 
         return request.render("crowdfunding_compassion.homepage_template", context)
