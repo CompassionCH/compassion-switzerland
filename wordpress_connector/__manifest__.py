@@ -26,7 +26,8 @@
 #
 ##############################################################################
 
-# pylint: disable=C81
+# pylint: disable=C8101
+{
     "name": "Compassion CH Wordpress Connector",
     "version": "12.0.1.0.0",
     "category": "Social",
