@@ -1,7 +1,7 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
 
-from datetime import date
+from datetime import date, datetime
 
 from babel.dates import format_timedelta
 
@@ -112,11 +112,6 @@ class CrowdfundingProject(models.Model):
         for project in self:
             project.number_sponsorships_reached = len(project.sponsorship_ids)
 
-    def get_active_projects(self, number=999):
-        return self.search(
-            [("state", "!=", "draft")], limit=number, order="deadline ASC"
-        )
-
     @api.multi
     def _compute_website_url(self):
         for project in self:
@@ -144,3 +139,17 @@ class CrowdfundingProject(models.Model):
                     "object_ids": project.id,
                 }
             )
+
+    @api.model
+    def get_active_projects(self, limit=None, year=None):
+        if year:
+            self = self.search(
+                [
+                    ("deadline", ">=", datetime(year, 1, 1)),
+                    ("deadline", "<=", datetime(year, 12, 31)),
+                ]
+            )
+
+        return self.search(
+            [("state", "!=", "draft")], limit=limit, order="deadline ASC"
+        )
