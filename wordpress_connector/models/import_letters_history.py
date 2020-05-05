@@ -13,7 +13,7 @@ between the database and the mail.
 """
 import logging
 import time
-import urllib.request, urllib.error, urllib.parse
+from urllib import request
 import base64
 from io import BytesIO
 
@@ -102,7 +102,7 @@ class ImportLettersHistory(models.Model):
             )
 
             # Retrieve the PDF generated and hosted by WP
-            pdf_data = urllib.request.urlopen(pdf_url).read()
+            pdf_data = request.urlopen(pdf_url).read()
             filename = (
                 "WEB_"
                 + sponsor_ref
@@ -144,7 +144,7 @@ class ImportLettersHistory(models.Model):
 
             # Here, "attachment" is the image uploaded by the sponsor
             if attachment_url:
-                attachment_data = urllib.request.urlopen(attachment_url).read()
+                attachment_data = request.urlopen(attachment_url).read()
                 filename_attachment = filename.replace(".pdf", ".%s" % ext)
                 line_vals.update(
                     {
