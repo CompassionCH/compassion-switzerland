@@ -16,9 +16,10 @@ class ProjectsController(Controller, FormControllerMixin):
     def get_projects_list(self, **kwargs):
         project_obj = request.env["crowdfunding.project"]
 
+        # TODO connect pagination to backend -> CO-3213
         return request.render(
             "crowdfunding_compassion.project_list_page",
-            {"projects": project_obj.sudo().get_active_projects(number=9)},
+            {"projects": project_obj.sudo().get_active_projects()},
         )
 
     @route("/projects/create", auth="public", type="http", method="POST", website=True)
