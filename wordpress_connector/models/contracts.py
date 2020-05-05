@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
@@ -118,7 +117,7 @@ class Contracts(models.Model):
             match_obj = self.env["res.partner.match.wp"]
 
             partner_infos = {"company_id": self.env.user.company_id.id}
-            for wp_field, odoo_field in SPONSOR_MAPPING.iteritems():
+            for wp_field, odoo_field in list(SPONSOR_MAPPING.items()):
                 partner_infos[odoo_field] = form_data.get(wp_field)
 
             # Match lang + title + spoken langs + country
@@ -268,7 +267,7 @@ class Contracts(models.Model):
 
         for key in list_keys:
             notify_text += (
-                "<li>" + key + ": " + unicode(form_data.get(key, "")) + "</li>"
+                "<li>" + key + ": " + str(form_data.get(key, "")) + "</li>"
             )
 
         title = _("New sponsorship from the website")

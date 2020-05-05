@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
@@ -14,7 +13,7 @@ between the database and the mail.
 """
 import logging
 import time
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import base64
 from io import BytesIO
 
@@ -103,7 +102,7 @@ class ImportLettersHistory(models.Model):
             )
 
             # Retrieve the PDF generated and hosted by WP
-            pdf_data = urllib2.urlopen(pdf_url).read()
+            pdf_data = urllib.request.urlopen(pdf_url).read()
             filename = (
                 "WEB_"
                 + sponsor_ref
@@ -145,7 +144,7 @@ class ImportLettersHistory(models.Model):
 
             # Here, "attachment" is the image uploaded by the sponsor
             if attachment_url:
-                attachment_data = urllib2.urlopen(attachment_url).read()
+                attachment_data = urllib.request.urlopen(attachment_url).read()
                 filename_attachment = filename.replace(".pdf", ".%s" % ext)
                 line_vals.update(
                     {

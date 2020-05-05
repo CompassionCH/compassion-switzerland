@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
@@ -48,7 +47,7 @@ class TestWordpressConnector(BaseSponsorshipTest):
             "city": "MyCity",
             "first_name": "TestFirstName",
             "last_name": "TestLastName",
-            "language": [u"französich", u"englisch"],
+            "language": ["französich", "englisch"],
             "zahlungsweise": "dauerauftrag",
             "consumer_source_text": "Times Magazine",
             "zipcode": "1000",
@@ -57,17 +56,17 @@ class TestWordpressConnector(BaseSponsorshipTest):
             "phone": "021 345 67 89",
             "consumer_source": "Anzeige in Zeitschrift",
             "street": "Rue test 1",
-            "kirchgemeinde": u"Mon église",
+            "kirchgemeinde": "Mon église",
             "mithelfen": {"checkbox": "on"},
             "salutation": "Herr",
             "patenschaftplus": {"checkbox": "on"},
             "email": "email@compassion.ch",
-            "childID": u"15783",
+            "childID": "15783",
             "land": "Suisse",
             "lang": "fr_CH",
         }
         self.utm_source = "Search engine"
-        super(TestWordpressConnector, self).setUp()
+        super().setUp()
 
     @mock.patch(mock_new_dossier)
     @mock.patch(mock_update_hold)
@@ -104,7 +103,7 @@ class TestWordpressConnector(BaseSponsorshipTest):
             [{"amount": 50.0}],
         )
         self.validate_sponsorship(sponsorship)
-        super(TestWordpressConnector, self).pay_sponsorship(sponsorship)
+        super().pay_sponsorship(sponsorship)
         return sponsorship, child_sponsored
 
     @mock.patch(mock_update_hold)

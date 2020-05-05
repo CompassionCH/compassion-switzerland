@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2017 Compassion CH (http://www.compassion.ch)
@@ -44,7 +43,7 @@ class AccountInvoice(models.Model):
             "partner_ref": "ref",
         }
         partner_infos = {"company_id": self.env.user.company_id.id}
-        for wp_field, odoo_field in partner_fields.iteritems():
+        for wp_field, odoo_field in list(partner_fields.items()):
             partner_infos[odoo_field] = donnation_infos[wp_field]
 
         # Find the matching odoo country
