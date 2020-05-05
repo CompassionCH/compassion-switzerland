@@ -7,8 +7,11 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import _
 from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
+
+from ..forms.project_creation_form import NoGoalException
 
 
 class ProjectsController(Controller, FormControllerMixin):
@@ -36,11 +39,17 @@ class ProjectsController(Controller, FormControllerMixin):
         })
         # This allows the translation to still work on the page
         project_creation_form = self.get_form("crowdfunding.project", **values)
-        project_creation_form.form_process()
+        try:
+            project_creation_form.form_process()
+        except NoGoalException:
+            request.website.add_status_message(_("Please define a goal"),
+                                               type_='danger')
         values.update({
             "user": request.env.user,
-            "form": project_creation_form}
-        )
+            "form": project_creation_form,
+            "funds": request.env["product.product"].sudo().search([
+                ("activate_for_crowdfunding", "=", True)])
+        })
         project_creation_form = values["form"]
         if project_creation_form.form_success:
             # Force saving session, otherwise we lose values between steps

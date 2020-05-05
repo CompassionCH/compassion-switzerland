@@ -62,8 +62,8 @@
             </t>
             <t t-call="crowdfunding_compassion.layout">
                 <section class="blue py-3 mb-3 text-center">
-                    <div>
-                        <h3 class="center-text">DESCRIBE YOUR PROJECT</h3>
+                    <div t-if="page == 1">
+                        <h3 class="center-text uppercase">Describe your project</h3>
                         <h5 class="center-text">
                             Here you can describe your project, why you are engaged and set
                             up
@@ -71,9 +71,95 @@
                             details
                         </h5>
                     </div>
+                    <div t-if="page == 2">
+                        <h3 class="center-text uppercase">Choose for what you want to invest in</h3>
+                        <h5 class="center-text">
+                            Here you can choose the fund to associate to your project, and/or you can decide if you also
+                            want to promote child sponsorship.
+                        </h5>
+                    </div>
+                    <div t-if="page == 3">
+                        <h3 class="center-text uppercase">Your personal information</h3>
+                        <h5 class="center-text">
+                            Please enter your personal information below. You can always modify this later on your
+                            profile.
+                        </h5>
+                    </div>
                 </section>
 
-                <div t-attf-class="#{form.form_wrapper_css_klass} center mb-5">
+                <t t-if="page == 2">
+                    <!-- Fund selection template -->
+                    <div class="container">
+                        <h3 class="center-text my-3">I want to invest in one of the following cause</h3>
+                        <div class="row">
+                            <t t-set="nb_fund" t-value="len(funds)"/>
+                            <div class="col-lg-1" t-if="nb_fund &lt; 4"/>
+                            <div class="col-sm-2" t-if="nb_fund &lt; 3"/>
+                            <t t-foreach="funds" t-as="product">
+                                <div class="col-xs-6 col-sm-4 col-lg-3">
+                                    <div class="card border-0">
+                                        <span t-field="product.image"
+                                              t-options="{'widget': 'image', 'class': 'card-img-top'}"
+                                              t-if="product.image"/>
+                                        <div class="card-body">
+                                            <h3 class="blue card-title center-text" t-field="product.name"/>
+                                            <p t-field="product.crowdfunding_description"
+                                               class="card-text mb-3 center-text"/>
+                                            <input type="radio" t-attf-id="product-id-#{product_index}" name="product"
+                                                   class="card-input-element d-none" t-att-value="product.id"/>
+                                            <a t-attf-id="product-choose-#{product_index}"
+                                               class="btn btn-primary center">CHOOSE
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div t-attf-id="fund-settings-#{product_index}" class="card bg-blue mb-5"
+                                         style="display: none">
+                                        <div class="card-body center-text">
+                                            <div class="card-title">
+                                                <h4 t-field="product.fund_selector_pre_description" class="white"/>
+                                                <input type="number" t-attf-id="fund-number-#{product_index}"/>
+                                                <h4 t-field="product.fund_selector_post_description" class="white"/>
+                                            </div>
+                                            <p class="card-text text-white">
+                                                <span class="white">Indicate the amount in the above box. 1</span>
+                                                <t t-esc="product.crowdfunding_quantity_singular" class="white"/>
+                                                <span class="white">is equivalent to CHF</span>
+                                                <t t-esc="product.standard_price" class="white"/>.-
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                            <div class="col-lg-1" t-if="nb_fund &lt; 4"/>
+                            <div class="col-sm-2" t-if="nb_fund &lt; 3"/>
+                        </div>
+                        <div class="center text-center">
+                            <input type="checkbox" name="no-product" id="no-product"/>
+                            <span>I don't want to choose a cause. I only want to propose children sponsorship.</span>
+                        </div>
+                        <hr class="blue my-3"/>
+                        <h3 class="center-text">I want children to be released from extreme poverty</h3>
+                        <div class="row my-3">
+                            <div class="col-md-3"/>
+                            <div class="col-md-2 text-right">
+                                <img src="/crowdfunding_compassion/static/src/img/defaut_fund_icon.png" width="100px"/>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="blue">Sponsor children</h3>
+                                <p>If you want to propose children sponsorship, please indicate the number of children
+                                    in
+                                    the box below. One sponsorship is equivalent to CHF 42.-/month
+                                </p>
+                                <input type="number" id="number-sponsorships" name="number-sponsorships"/>
+                                <span>children</span>
+                            </div>
+                            <div class="col-md-3"/>
+                        </div>
+                        <script type="text/javascript" src="/crowdfunding_compassion/static/src/js/creation_form.js"/>
+                    </div>
+
+                </t>
+                <div t-attf-class="#{form.form_wrapper_css_klass} center">
                     <t t-raw="form.form_render()"/>
                 </div>
             </t>

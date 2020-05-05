@@ -109,6 +109,11 @@ class ProjectCreationFormStep1(models.AbstractModel):
         pass
 
 
+class NoGoalException(Exception):
+    def __init__(self):
+        super().__init__("No goal")
+
+
 class ProjectCreationStep2(models.AbstractModel):
     _name = "cms.form.crowdfunding.project.step2"
     _inherit = "cms.form.crowdfunding.wizard"
@@ -117,8 +122,17 @@ class ProjectCreationStep2(models.AbstractModel):
         'product_id', 'product_number_goal', 'number_sponsorships_goal'
     ]
     _form_fields_hidden = [
-        'product_id', 'product_number_goal', 'number_sponsorships_goal'
+        'product_id', 'product_number_goal', 'number_sponsorships_goal',
+        'no_product'
     ]
+
+    no_product = fields.Boolean()
+
+    def form_before_create_or_update(self, values, extra_values):
+        product_goal = values.get('product_number_goal')
+        sponsorship_goal = values.get('number_sponsorships_goal')
+        if not product_goal and not sponsorship_goal:
+            raise NoGoalException
 
     def _form_create(self, values):
         """ Holds the creation for the last step. The values will be passed
@@ -187,6 +201,11 @@ class ProjectCreationStep3(models.AbstractModel):
 
     def _form_create(self, values):
         """ Create as root and avoid putting Admin as follower. """
+        if values.get("no_product") == "on":
+            values.update({
+                "product_id": False,
+                "product_number_goal": 0
+            })
         self.main_object = self.form_model.sudo().with_context(
             tracking_disable=True).create(values.copy())
 

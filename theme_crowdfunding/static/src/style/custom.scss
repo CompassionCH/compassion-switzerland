@@ -645,3 +645,14 @@ footer {
   margin-right: auto;
   width: 50%;
 }
+
+hr.blue {
+    border-top: 1px solid $blue-compassion;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.bg-blue {
+    background-color: $blue-compassion !important;
+}

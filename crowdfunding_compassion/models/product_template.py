@@ -17,3 +17,9 @@ class ProductTemplate(models.Model):
     crowdfunding_impact_text_passive = fields.Char(
         translate=True, help="Ex: toilets built"
     )
+    fund_selector_pre_description = fields.Char(
+        translate=True, help="Ex: I want to give access to toilets for"
+    )
+    fund_selector_post_description = fields.Char(
+        translate=True, help="Ex: children"
+    )

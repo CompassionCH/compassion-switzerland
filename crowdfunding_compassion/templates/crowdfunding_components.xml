@@ -314,12 +314,12 @@
                 <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
             </xpath>
             <xpath expr="//footer" position="replace">
-                <footer class="footer pb-5">
+                <footer class="footer pb-5 mt-5">
                     <div class="container">
                         <div class="row py-5">
                             <div class="col-sm-12 col-md-4 f-logo">
                                 <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
-                                    width="190" height="auto"/>
+                                     width="190" height="auto"/>
 
                                 <p>
                                     Compassion Suisse est la branche nationale de Compassion International. A travers le

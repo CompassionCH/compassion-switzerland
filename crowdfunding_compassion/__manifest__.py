@@ -51,7 +51,7 @@
         "views/crowdfunding_participant_view.xml",
         "views/crowdfunding_project_settings.xml",
         "views/crowdfunding_project_view.xml",
-        "views/product_template_view.xml",
+        "views/product_view.xml",
         "views/res_partner_view.xml",
         "templates/crowdfunding_components.xml",
         "templates/crowdfunding_form_template.xml",
