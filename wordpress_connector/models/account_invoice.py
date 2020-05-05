@@ -9,7 +9,7 @@
 ##############################################################################
 import logging
 from odoo import api, models, fields
-from odoo.addons.sponsorship_compassion.models.product import GIFT_CATEGORY
+from odoo.addons.sponsorship_compassion.models.product_names import GIFT_CATEGORY
 from werkzeug.utils import escape
 
 _logger = logging.getLogger(__name__)
