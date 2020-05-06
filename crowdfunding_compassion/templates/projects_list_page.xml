@@ -2,10 +2,16 @@
     <data>
         <template id="project_list_page" name="Project list page">
             <t t-call="crowdfunding_compassion.layout">
-                <div class="container">
+                <section class="container">
                     <div class="text-center my-5 py-5">
                         <h1 class="display-3 blue uppercase">Join a great project</h1>
-                        <h3 class="display-4 pb-4 ">Here are the collective projects in progress. The countdown has begun. You can join one of these projects and amplify its impact!</h3>
+                        <h2 class="pb-4">
+                            Here are the collective projects in progress.
+                            <br/>
+                            You can join one of these projects and amplify its impact!
+                            <br/>
+                            The countdown has begun.
+                        </h2>
                     </div>
 
                     <div id="project_cards">
@@ -19,9 +25,8 @@
                     </div>
 
                     <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>
-                </div>
+                </section>
             </t>
         </template>
-
     </data>
 </odoo>

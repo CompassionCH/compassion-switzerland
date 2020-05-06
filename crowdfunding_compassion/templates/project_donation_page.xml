@@ -20,12 +20,13 @@
                                         <input type="radio" name="donation-type" value="fund" class="card-input-element d-none" />
 
                                         <div class="card h-100 card-body d-flex justify-content-around align-items-center">
-                                            <span class="donation-type__card-icon"/>
+                                            <img class="donation-type__card-icon" t-attf-src="data:image/png;base64, #{ project.product_id.image_medium }" t-if="isinstance(project.product_id.image_medium, bytes)"/>
+                                            <img class="donation-type__card-icon" src="/crowdfunding_compassion/static/src/img/defaut_fund_icon.png" t-else=""/>
                                             <h4 class="blue text-center uppercase">
                                                 Create impact by
                                                 <t t-esc="project.product_id.crowdfunding_impact_text_active"/>
                                             </h4>
-                                            <span class="fake-btn my-3">SELECT</span>
+                                            <span class="fake-btn my-3 uppercase">Select</span>
                                         </div>
                                     </label>
                                 </div>
@@ -43,13 +44,13 @@
                                     </t>
 
                                     <div class="card h-100 card-body d-flex justify-content-around align-items-center">
-                                        <span class="donation-type__card-icon"/>
+                                        <img class="donation-type__card-icon" src="/crowdfunding_compassion/static/src/img/defaut_fund_icon.png"/>
                                         <h4 class="blue text-center uppercase">Sponsor children</h4>
                                         <h6 class="blue text-center uppercase">(You will be redirected to compassion switzerland website)</h6>
 
                                         <!-- Show the select button also if there is a fund option-->
                                         <t t-if="project.product_id">
-                                            <span class="fake-btn my-3">SELECT</span>
+                                            <span class="fake-btn my-3 uppercase">Select</span>
                                         </t>
                                     </div>
                                 </label>
