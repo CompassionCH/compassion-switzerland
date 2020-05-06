@@ -281,9 +281,6 @@ footer {
 .fab,
 .far,
 .fas {
-  // 	font-size: $h2-font-size;
-  margin-right: 1rem !important;
-
   &.white {
     color: $white;
   }
@@ -629,6 +626,12 @@ footer {
     font-weight: 400;
     font-size: 0.7rem;
   }
+}
+
+.card-img-top {
+  width: 100%;
+  height: 15rem;
+  object-fit: cover;
 }
 
 .pagination {

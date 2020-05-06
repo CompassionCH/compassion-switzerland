@@ -4,26 +4,25 @@
 
         <!-- ===  Homepage === -->
         <template id="homepage_template">
-            <t t-set="header">
-                <div class="container">
-                    <h1 class="display-1 blue uppercase">Together</h1>
-                    <h2 class="display-4">Compassion interactive project platform</h2>
-                    <h3 class="py-4">
-                        Marathon, Anniversary, Barbecue, Bike Trip ?
-                        <br />
-                        Launch your own project or join an existing one.
-                        <br />
-                        Let's change the world together, one child at a time!
-                    </h3>
-
-
-                    <a href="/projects/create">
-                        <button type="button" class="btn btn-primary btn-lg uppercase">Launch a project</button>
-                    </a>
-                    <br/>
-                </div>
-            </t>
             <t t-call="crowdfunding_compassion.layout">
+                <header class="masthead">
+                    <div class="container">
+                        <h1 class="display-1 blue uppercase">Together</h1>
+                        <h2 class="display-4">Compassion interactive project platform</h2>
+                        <h3 class="py-4">
+                            Marathon, Anniversary, Barbecue, Bike Trip ?
+                            <br />
+                            Launch your own project or join an existing one.
+                            <br />
+                            Let's change the world together, one child at a time!
+                        </h3>
+
+                        <a href="/projects/create">
+                            <button type="button" class="btn btn-primary btn-lg uppercase">Launch a project</button>
+                        </a>
+                        <br/>
+                    </div>
+                </header>
                 <!-- Impact so far -->
                 <section class="# py-5" id="#">
                     <div class="container">

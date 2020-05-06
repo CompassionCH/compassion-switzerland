@@ -53,8 +53,8 @@
                 <t t-call="crowdfunding_compassion.goal_progress"/>
             </t>
 
-            <!-- TODO: Add clock icon -->
             <span class="text--faded">
+                <i class="fa fa-clock-o"/>
                 <t t-esc="project.time_left"/>
                 to go
             </span>
@@ -66,8 +66,7 @@
         <!-- Individual [participant] model must be set before calling this template -->
         <template id="participant_card" name="Participant card">
             <div class="card participants__card">
-                <img class="participants__image" src="/theme_crowdfunding/static/src/img/head.jpg"
-                    alt="Participant image"/>
+                <img class="participants__image" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Participant image"/>
                 <div class="participants__content">
                     <h4 class="participants__name">
                         <t t-esc="participant.partner_id.name"/>
@@ -117,7 +116,7 @@
             <div class="impact-tile--empty">
                 Be the first to show love for this project,
                 <br/>
-                <a href="#">make a donation now</a>
+                <a t-attf-href="/project/#{ project.id }/donation">make a donation now</a>
             </div>
         </template>
 
@@ -181,9 +180,7 @@
                             </p>
                         </t>
                     </div>
-
-                    <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg"
-                        alt="Card image cap"/>
+                    <img class="card-img-top" t-attf-src="data:image/png;base64, #{ project.cover_photo }" alt="Project image"/>
                     <br/>
 
                     <div class="card-body">
@@ -305,9 +302,6 @@
             </xpath>
             <xpath expr="//header" position="after">
                 <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
-                <header t-attf-class="masthead #{headerclass or ''}">
-                    <t t-raw="header"/>
-                </header>
             </xpath>
             <xpath expr="//footer" position="replace">
                 <footer class="footer pb-5">

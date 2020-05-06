@@ -2,24 +2,11 @@ from datetime import datetime
 
 from babel.dates import format_timedelta
 
+from odoo import _
 from odoo.http import request, route, Controller
 
 
 class ProjectController(Controller):
-
-    # Demo route used to display demo project
-    # TODO: Remove when developmnent is done
-    @route("/project/demo", auth="public", website=True)
-    def demo_project_page(self, **kwargs):
-        demo_project = request.env.ref(
-            "crowdfunding_compassion.demo_project_crowdfunding"
-        ).sudo()
-
-        return request.render(
-            "crowdfunding_compassion.project_page",
-            self._prepare_project_values(demo_project, **kwargs),
-        )
-
     @route(
         ["/project/<model('crowdfunding.project'):project>"],
         auth="public",
@@ -41,7 +28,7 @@ class ProjectController(Controller):
             {
                 "type": "sponsorship",
                 "color": "blue",
-                "text": f"{sponsorship.name} was sponsored",
+                "text": _("%s was sponsored") % sponsorship.name,
                 "image": sponsorship.child_id.portrait,
                 "benefactor": sponsorship.correspondent_id.name,
                 "date": sponsorship.activation_date or sponsorship.create_date.date(),

@@ -43,6 +43,9 @@ class CrowdfundingProject(models.Model):
         "account.invoice.line", "crowdfunding_project_id", string="Donations"
     )
     project_owner_id = fields.Many2one("res.partner", "Project owner", required=True)
+    owner_participant_id = fields.Many2one(
+        "crowdfunding.participant", compute="_compute_owner_participant_id"
+    )
     participant_ids = fields.One2many(
         "crowdfunding.participant", "project_id", string="Participants"
     )
@@ -77,27 +80,29 @@ class CrowdfundingProject(models.Model):
             }
         )
         res.event_id = event
-        res.add_owner2participants()
+        # res.add_owner2participants()
         return res
 
-    @api.multi
-    def write(self, vals):
-        super().write(vals)
-        self.add_owner2participants()
-        return True
+    # @api.multi
+    # def write(self, vals):
+    #     super().write(vals)
+    #     self.add_owner2participants()
+    #     return True
 
-    @api.multi
-    def add_owner2participants(self):
-        """Add the project owner to the participant list. """
-        for project in self:
-            if project.project_owner_id not in project.participant_ids.mapped(
-                "partner_id"
-            ):
-                participant = {
-                    "partner_id": project.project_owner_id.id,
-                    "project_id": project.id,
-                }
-                project.write({"participant_ids": [(0, 0, participant)]})
+    # TODO: add_owner2participants is commented out for now as it creates duplicate project owners,
+    # check when project creation form is done how to best link project, owner and participants
+    # @api.multi
+    # def add_owner2participants(self):
+    #     """Add the project owner to the participant list. """
+    #     for project in self:
+    #         if project.project_owner_id not in project.participant_ids.mapped(
+    #             "partner_id"
+    #         ):
+    #             participant = {
+    #                 "partner_id": project.project_owner_id.id,
+    #                 "project_id": project.id,
+    #             }
+    #             project.write({"participant_ids": [(0, 0, participant)]})
 
     @api.multi
     def _compute_product_number_reached(self):
@@ -123,6 +128,13 @@ class CrowdfundingProject(models.Model):
             project.time_left = format_timedelta(
                 project.deadline - date.today(), locale="en"
             )
+
+    @api.multi
+    def _compute_owner_participant_id(self):
+        for project in self:
+            project.owner_participant_id = project.participant_ids.filtered(
+                lambda p: p.partner_id == project.project_owner_id
+            ).id
 
     @api.multi
     def validate(self):
