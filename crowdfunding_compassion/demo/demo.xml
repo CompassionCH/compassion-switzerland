@@ -64,6 +64,6 @@
     </record>
 
     <record id="demo_project_crowdfunding" model="crowdfunding.project">
-        <field name="participant_ids" eval="[(4, ref('crowdfunding_compassion.participant_owner')), (4, ref('crowdfunding_compassion.participant_2')), (4, ref('crowdfunding_compassion.participant_3')), (4, ref('crowdfunding_compassion.participant_4'))]"/>
+        <field name="participant_ids" eval="[(4, ref('crowdfunding_compassion.participant_2')), (4, ref('crowdfunding_compassion.participant_3')), (4, ref('crowdfunding_compassion.participant_4'))]"/>
     </record>
 </odoo>

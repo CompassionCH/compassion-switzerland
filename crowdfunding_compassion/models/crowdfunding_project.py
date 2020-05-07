@@ -80,31 +80,27 @@ class CrowdfundingProject(models.Model):
             }
         )
         res.event_id = event
-        # res.add_owner2participants()
+        res.add_owner2participants()
         return res
 
-    # TODO: add_owner2participants is commented out for now as it creates duplicate
-    # project owners, check when project creation form is done how to best
-    # link project, owner and participants
+    @api.multi
+    def write(self, vals):
+        super().write(vals)
+        self.add_owner2participants()
+        return True
 
-    # @api.multi
-    # def write(self, vals):
-    #     super().write(vals)
-    #     self.add_owner2participants()
-    #     return True
-
-    # @api.multi
-    # def add_owner2participants(self):
-    #     """Add the project owner to the participant list. """
-    #     for project in self:
-    #         if project.project_owner_id not in project.participant_ids.mapped(
-    #             "partner_id"
-    #         ):
-    #             participant = {
-    #                 "partner_id": project.project_owner_id.id,
-    #                 "project_id": project.id,
-    #             }
-    #             project.write({"participant_ids": [(0, 0, participant)]})
+    @api.multi
+    def add_owner2participants(self):
+        """Add the project owner to the participant list. """
+        for project in self:
+            if project.project_owner_id not in project.participant_ids.mapped(
+                "partner_id"
+            ):
+                participant = {
+                    "partner_id": project.project_owner_id.id,
+                    "project_id": project.id,
+                }
+                project.write({"participant_ids": [(0, 0, participant)]})
 
     @api.multi
     def _compute_product_number_reached(self):
