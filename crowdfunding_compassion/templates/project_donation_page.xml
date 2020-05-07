@@ -83,56 +83,13 @@
                                 </label>
                             </t>
                         </div>
-                        <a id="url" href="">
+                        <a id="url" href="" t-att-project="project.id">
                             <button id="submit" type="submit" class="btn btn-primary btn-lg mb-5 float-right uppercase">Next step</button>
                         </a>
                     </div>
                 </section>
 
-                <!-- This function disables the next button if there isn't 2 radios checked
-                (fund/sponsor and participant) and adjusts the link for next step -->
-                <script>
-                    const submit = document.getElementById('submit');
-                    const radios = document.querySelectorAll('input[type="radio"]');
-                    const a = document.getElementById("url");
-
-                    function clickHandler() {
-                        let checked_radios = document.querySelectorAll('input[type=radio]:checked').length;
-                        submit.disabled = checked_radios == 0 || checked_radios == 1;
-
-                        if (!submit.disabled) {
-                            let donationType = document.querySelector('input[name="donation-type"]:checked').value;
-                            let participantId = document.querySelector('input[name="participant"]:checked').value;
-
-                            if (donationType === "fund") {
-                                a.href = `/project/<t t-esc="project.id"/>/donation/form/${participantId}`
-                            }
-
-                            if (donationType === "sponsorship") {
-                                 odoo.define('website_sale.tour_shop_mail', function (require) {
-                                    'use strict';
-                                    var rpc = require('web.rpc');
-                                    var args = [participantId];
-                                    rpc.query({
-                                         model: 'crowdfunding.participant',
-                                         method: 'get_sponsorship_url',
-                                         args: [args]
-                                    }).then(function(url){
-                                        a.href = url
-                                    });
-                                });
-                            }
-                        }
-                    }
-
-                    // Register on each radio change
-                    radios.forEach(radio => {
-                        radio.addEventListener('change', clickHandler);
-                    });
-
-                    // Exectute on page load
-                    clickHandler();
-                </script>
+                <script type="text/javascript" src="/crowdfunding_compassion/static/src/js/donation_page.js"/>
             </t>
         </template>
     </data>
