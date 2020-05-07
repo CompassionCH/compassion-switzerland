@@ -69,22 +69,14 @@ class ProjectController(Controller):
         # Chronological list of sponsorships and fund donations for impact display
         impact = sorted(sponsorships + donations, key=lambda x: x["date"])
 
-        fund = request.env['product.template'].sudo().search([
-            ('activate_for_crowdfunding', '=', True),
-            ("name", "like", project.product_id.product_tmpl_id.name)
-        ])
+        fund = project.product_id
 
         # check if current partner is owner of current project
         participant = request.env['crowdfunding.participant'].search([
             ("project_id", "=", project.id),
-            ("partner_id", "=", project.project_owner_id.id)
+            ("partner_id", "in", (project.project_owner_id +
+                                  request.env.user.partner_id).ids)
         ])
-        if not participant:
-            # if not, check in the participants to the projects
-            participant = request.env['crowdfunding.participant'].search([
-                ("project_id", "=", project.id),
-                ("partner_id", "=", request.env.user.partner_id.id)
-            ])
 
         return {
             "project": project,

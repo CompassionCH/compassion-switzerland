@@ -23,7 +23,7 @@
                                             <span class="donation-type__card-icon"/>
                                             <h4 class="blue text-center uppercase">
                                                 Create impact by supporting
-                                                <t t-esc="project.product_id.name"/>
+                                                <t t-esc="project.product_id.crowdfunding_impact_text_active"/>
                                             </h4>
                                             <span class="fake-btn my-3">SELECT</span>
                                         </div>
