@@ -8,6 +8,7 @@ class CrowdfundingParticipant(models.Model):
     _name = "crowdfunding.participant"
     _description = "Participant to one of our crowd-fundings"
     _inherit = ["website.seo.metadata", "website.published.multi.mixin"]
+    _inherits = {'utm.campaign': 'campaign_id'}
 
     name = fields.Char(related="partner_id.name", readonly=True)
     project_id = fields.Many2one(
@@ -29,6 +30,8 @@ class CrowdfundingParticipant(models.Model):
     invoice_line_ids = fields.One2many(
         "account.invoice.line", "crowdfunding_participant_id", string="Donations"
     )
+    campaign_id = fields.Many2one('utm.campaign', 'campaign_id',
+                                  required=True, ondelete='cascade')
     presentation_video = fields.Char(help="Youtube/Vimeo link")
     facebook_url = fields.Char(string="Facebook link")
     twitter_url = fields.Char(string="Twitter link")
@@ -36,14 +39,6 @@ class CrowdfundingParticipant(models.Model):
     personal_web_page_url = fields.Char(string="Personal web page")
     profile_photo = fields.Binary(string="Profile photo")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
-
-    @api.model
-    def create(self, vals):
-        res = super().create(vals)
-        self.env['utm.source'].create({
-            'name': res.partner_id.name
-        })
-        return res
 
     @api.model
     def get_sponsorship_url(self, participant_id):

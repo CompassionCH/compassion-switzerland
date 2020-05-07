@@ -83,10 +83,6 @@ class CrowdfundingProject(models.Model):
 
         res.add_owner2participants()
 
-        self.env['utm.campaign'].create({
-            "name": vals.get('name'),
-        })
-
         return res
 
     @api.multi
