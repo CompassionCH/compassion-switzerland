@@ -87,7 +87,7 @@
                                     <t t-esc="project.description"/>
                                 </p>
                                 <t t-if="project.presentation_video">
-                                    <iframe class="my-3" width="100%" height="400px" t-attf-src="#{project.presentation_video}" frameborder="0"/>
+                                    <iframe class="my-3" width="100%" height="400px" t-att-src="project.presentation_video" frameborder="0"/>
                                 </t>
 
                                 <!-- Project owner personal motivation and video -->
