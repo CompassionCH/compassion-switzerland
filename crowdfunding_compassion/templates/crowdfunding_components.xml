@@ -67,7 +67,7 @@
         <template id="participant_card" name="Participant card">
             <div class="card participants__card">
                 <img class="participants__image" src="/theme_crowdfunding/static/src/img/head.jpg"
-                     alt="Participant image"/>
+                    alt="Participant image"/>
                 <div class="participants__content">
                     <h4 class="participants__name">
                         <t t-esc="participant.partner_id.name"/>
@@ -149,81 +149,52 @@
             </div>
         </template>
 
-        <template id="crowdfunding_project_card" name="Project card">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-8 ">
-                            <h5 class="card-title">
-                                <t t-esc="project_title"/>
-                            </h5>
+        <template id="project_card" name="Project card">
+            <div class="col-lg-4 col-md-6 col-sm-12 ">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8 ">
+                                <h5 class="card-title">
+                                    <t t-esc="project.name"/>
+                                </h5>
+                            </div>
+
+                            <div class="col-md-4 text-right">
+                                <p>
+                                    <t t-if="project.type == 'collective'">
+                                        <small>
+                                            <i class="fa fa-users white"/>
+                                            collective
+                                        </small>
+                                    </t>
+                                </p>
+                            </div>
                         </div>
 
-                        <div class="col-md-4 text-right">
+                        <t t-if="project.type == 'collective'">
                             <p>
                                 <small>
-                                    <i class="fas fa-users white" aria-hidden="true"/>
-                                    <t t-esc="project_collective"/>
+                                    <i class="fa fa-user-circle white"/>
+                                    <t t-esc="project.project_owner_id.name + ' + ' + str((len(project.participant_ids) - 1)) + ' friends'"/>
                                 </small>
                             </p>
-                        </div>
-                    </div>
-
-                    <p>
-                        <small>
-                            <i class="fas fa-user-circle white" aria-hidden="true"/>
-                            <t t-esc="project_owner"/>
-                        </small>
-                    </p>
-                </div>
-                <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg"
-                    alt="Card image cap"/>
-                <br/>
-
-                <t t-set="project" t-value="card"/>
-                <t t-call="crowdfunding_compassion.project_progress"/>
-
-                <!--                <p>10 / 25 toilets</p>-->
-                <!--                <div class="progress" style="height: 20px;">-->
-                <!--                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"-->
-                <!--                         aria-valuemin="0" aria-valuemax="100"/>-->
-                <!--                </div>-->
-                <!--                <p>20 days to go</p>-->
-
-                <div class="card-body">
-                    <p class="card-text">
-                        <t t-esc="project_description"/>
-                    </p>
-                    <a t-attf-href="/project/#{project_id}" class="btn btn-primary btn-lg btn-block mb-2">Join</a>
-                </div>
-            </div>
-        </template>
-
-        <template id="crowdfunding_project_card_container" name="Card container">
-            <div class="container">
-                <!-- 	 1ST row -->
-                <t t-foreach="cards" t-as="card_row">
-                    <div class="row pb-4">
-                        <t t-foreach="card_row" t-as="card">
-                            <t t-set="project_title">
-                                <t t-esc="card.name"/>
-                            </t>
-                            <t t-set="project_owner">
-                                <t t-esc="card.project_owner_id.name"/>
-                            </t>
-                            <t t-set="project_collective">
-                                <t t-esc="card.type"/>
-                            </t>
-                            <t t-set="project_description">
-                                <t t-esc="card.description"/>
-                            </t>
-                            <t t-set="project_id" t-value="card.id"/>
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <t t-call="crowdfunding_compassion.crowdfunding_project_card"/>
-                            </div>
                         </t>
                     </div>
-                </t>
+
+                    <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg"
+                        alt="Card image cap"/>
+                    <br/>
+
+                    <div class="card-body">
+                        <p class="mb-4">
+                            <t t-esc="project.description[:100] + ' ...'"/>
+                        </p>
+                        <t t-call="crowdfunding_compassion.project_progress"/>
+
+                        <a t-attf-href="/project/#{project.id}" class="btn btn-primary btn-block my-3">Join</a>
+                    </div>
+                </div>
             </div>
         </template>
 
@@ -287,7 +258,7 @@
         <template id="crowdfunding_navbar" name="Navbar for Crowdfunding page">
             <nav class="navbar shadow navbar-expand-lg navbar-dark" id="mainNav">
                 <div class="container-fluid">
-                    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                    <a class="navbar-brand js-scroll-trigger" href="/homepage">
                         <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
                             width="190" height="auto"/>
                     </a>
@@ -302,27 +273,19 @@
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ul class="navbar-nav text-uppercase ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#services">Services</a>
+                                <a class="nav-link" href="/projects/create">Submit your project</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#portfolio">Portfolio</a>
+                                <a class="nav-link" href="/projects">Browse active projects</a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="#about">About</a>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#team">Team</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#contact">Contact</a>
-                            </li>
                         </ul>
                         <!--         user login -->
-                        <i class="fas fa-user-circle white fa-3x"
+                        <i class="fa fa-user-circle white fa-3x"
                             aria-hidden="true"/>
                         <!--  lang selector        -->
                         <span class="lang-selector">
