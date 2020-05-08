@@ -8,6 +8,7 @@ class CrowdfundingParticipant(models.Model):
     _name = "crowdfunding.participant"
     _description = "Participant to one of our crowd-fundings"
     _inherit = ["website.seo.metadata", "website.published.multi.mixin"]
+    _inherits = {'utm.campaign': 'campaign_id'}
 
     name = fields.Char(related="partner_id.name", readonly=True)
     project_id = fields.Many2one(
@@ -29,12 +30,31 @@ class CrowdfundingParticipant(models.Model):
     invoice_line_ids = fields.One2many(
         "account.invoice.line", "crowdfunding_participant_id", string="Donations"
     )
+    campaign_id = fields.Many2one('utm.campaign', 'campaign_id',
+                                  required=True, ondelete='cascade')
     presentation_video = fields.Char(help="Youtube/Vimeo link")
     facebook_url = fields.Char(string="Facebook link")
     twitter_url = fields.Char(string="Twitter link")
     instagram_url = fields.Char(string="Instagram link")
     personal_web_page_url = fields.Char(string="Personal web page")
     profile_photo = fields.Binary(string="Profile photo")
+    sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
+
+    @api.model
+    def get_sponsorship_url(self, participant_id):
+        return self.browse(participant_id).sudo().sponsorship_url
+
+    @api.multi
+    def _compute_sponsorship_url(self):
+        for participant in self:
+            utm_medium = "Crowdfunding"
+            utm_campaign = participant.project_id.name
+            utm_source = participant.partner_id.name
+            participant.sponsorship_url =\
+                f"https://compassion.ch/parrainer-un-enfant/?" \
+                f"utm_medium={utm_medium}" \
+                f"&utm_campaign={utm_campaign}" \
+                f"&utm_source={utm_source}"
 
     @api.multi
     def _compute_product_number_reached(self):

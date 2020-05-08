@@ -71,8 +71,23 @@ class ProjectController(Controller):
 
         fund = project.product_id
 
-        return {"project": project, "impact": impact, "fund": fund}
+        # check if current partner is owner of current project
+        participant = request.env['crowdfunding.participant'].search([
+            ("project_id", "=", project.id),
+            ("partner_id", "in", (project.project_owner_id +
+                                  request.env.user.partner_id).ids)
+        ])
+
+        return {
+            "project": project,
+            "impact": impact,
+            "fund": fund,
+            "participant": participant
+        }
 
     # Utils
-    def get_time_ago(self, date):
-        return format_timedelta(date - datetime.now(), add_direction=True, locale="en")
+    def get_time_ago(self, given_date):
+        if isinstance(given_date, datetime):
+            given_date = given_date.date()
+        return format_timedelta(given_date - datetime.today().date(),
+                                add_direction=True, locale="en")

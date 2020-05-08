@@ -11,6 +11,7 @@ from odoo import models, api, fields
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
     _inherit = "website.published.mixin"
+    _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 
     name = fields.Char(required=True)
@@ -47,6 +48,8 @@ class CrowdfundingProject(models.Model):
         "crowdfunding.participant", "project_id", string="Participants"
     )
     event_id = fields.Many2one("crm.event.compassion", "Event")
+    campaign_id = fields.Many2one('utm.campaign', 'campaign_id',
+                                  required=True, ondelete='cascade')
     state = fields.Selection(
         [("draft", "Draft"), ("active", "Active")],
         required=True,
@@ -77,7 +80,9 @@ class CrowdfundingProject(models.Model):
             }
         )
         res.event_id = event
+
         res.add_owner2participants()
+
         return res
 
     @api.multi
@@ -102,10 +107,8 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:
-            project.product_number_reached = (
-                sum(project.invoice_line_ids.mapped("price_unit"))
-                / project.product_id.list_price
-            )
+            project.product_number_reached = int(sum(
+                project.invoice_line_ids.mapped("quantity")))
 
     @api.multi
     def _compute_number_sponsorships_reached(self):

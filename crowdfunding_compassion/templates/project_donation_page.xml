@@ -22,7 +22,7 @@
                                         <div class="card h-100 card-body d-flex justify-content-around align-items-center">
                                             <span class="donation-type__card-icon"/>
                                             <h4 class="blue text-center uppercase">
-                                                Create impact by
+                                                Create impact by supporting
                                                 <t t-esc="project.product_id.crowdfunding_impact_text_active"/>
                                             </h4>
                                             <span class="fake-btn my-3">SELECT</span>
@@ -88,6 +88,7 @@
                         </a>
                     </div>
                 </section>
+
                 <script type="text/javascript" src="/crowdfunding_compassion/static/src/js/donation_page.js"/>
             </t>
         </template>
