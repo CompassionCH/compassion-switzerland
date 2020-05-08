@@ -1,7 +1,7 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
 
-from datetime import date
+from datetime import date, datetime
 
 from babel.dates import format_timedelta
 
@@ -44,6 +44,9 @@ class CrowdfundingProject(models.Model):
         "account.invoice.line", "crowdfunding_project_id", string="Donations"
     )
     project_owner_id = fields.Many2one("res.partner", "Project owner", required=True)
+    owner_participant_id = fields.Many2one(
+        "crowdfunding.participant", compute="_compute_owner_participant_id"
+    )
     participant_ids = fields.One2many(
         "crowdfunding.participant", "project_id", string="Participants"
     )
@@ -115,11 +118,6 @@ class CrowdfundingProject(models.Model):
         for project in self:
             project.number_sponsorships_reached = len(project.sponsorship_ids)
 
-    def get_active_projects(self, number=999):
-        return self.search(
-            [("state", "!=", "draft")], limit=number, order="deadline ASC"
-        )
-
     @api.multi
     def _compute_website_url(self):
         for project in self:
@@ -131,6 +129,13 @@ class CrowdfundingProject(models.Model):
             project.time_left = format_timedelta(
                 project.deadline - date.today(), locale="en"
             )
+
+    @api.multi
+    def _compute_owner_participant_id(self):
+        for project in self:
+            project.owner_participant_id = project.participant_ids.filtered(
+                lambda p: p.partner_id == project.project_owner_id
+            ).id
 
     @api.multi
     def validate(self):
@@ -147,3 +152,17 @@ class CrowdfundingProject(models.Model):
                     "object_ids": project.id,
                 }
             )
+
+    @api.model
+    def get_active_projects(self, limit=None, year=None):
+        if year:
+            self = self.search(
+                [
+                    ("deadline", ">=", datetime(year, 1, 1)),
+                    ("deadline", "<=", datetime(year, 12, 31)),
+                ]
+            )
+
+        return self.search(
+            [("state", "!=", "draft")], limit=limit, order="deadline ASC"
+        )

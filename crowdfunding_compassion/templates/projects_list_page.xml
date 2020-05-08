@@ -2,14 +2,20 @@
     <data>
         <template id="project_list_page" name="Project list page">
             <t t-call="crowdfunding_compassion.layout">
-                <div class="container">
+                <section class="container">
                     <div class="text-center my-5 py-5">
-                        <h1 class="display-3 blue">JOIN A GREAT PROJECT</h1>
-                        <h3 class="display-4 pb-4 ">Two lines explanation or introduction about project launch</h3>
+                        <h1 class="display-3 blue uppercase">Join a great project</h1>
+                        <h2 class="pb-4">
+                            Here are the collective projects in progress.
+                            <br/>
+                            You can join one of these projects and amplify its impact!
+                            <br/>
+                            The countdown has begun.
+                        </h2>
                     </div>
 
                     <div id="project_cards">
-                        <h2 class="subheading blue text-center mb-5">ACTIVE PROJECTS</h2>
+                        <h2 class="subheading blue text-center mb-5 uppercase">Active projects</h2>
 
                         <div class="row">
                             <t t-foreach="projects" t-as="project">
@@ -19,26 +25,8 @@
                     </div>
 
                     <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>
-                </div>
+                </section>
             </t>
         </template>
-
-        <record id="project_list_page" model="website.page">
-            <field name="url">/projects</field>
-            <field name="website_indexed" eval="True"/>
-            <field name="website_id" eval="ref('crowdfunding_compassion.crowdfunding_website')"/>
-            <field name="website_published">True</field>
-            <field name="name">Projects List</field>
-            <field name="type">qweb</field>
-            <field name="view_id" ref="crowdfunding_compassion.project_list_page"/>
-        </record>
-
-        <record id="project_list_menu" model="website.menu">
-            <field name="name">Project List</field>
-            <field name="page_id" ref="project_list_page"/>
-            <field name="parent_id" ref="website.main_menu"/>
-            <field name="sequence" type="int">87</field>
-            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
-        </record>
     </data>
 </odoo>

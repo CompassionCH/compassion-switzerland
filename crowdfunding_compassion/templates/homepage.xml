@@ -4,68 +4,49 @@
 
         <!-- ===  Homepage === -->
         <template id="homepage_template">
-            <t t-set="header">
-                <div class="container">
-                    <div class="intro-text">
-                        <h1 class="display-1 blue">MY PLATFORM TITLE</h1>
+            <t t-call="crowdfunding_compassion.layout">
+                <header class="masthead">
+                    <div class="container">
+                        <h1 class="display-1 blue uppercase">Together</h1>
+                        <h2 class="display-4">Compassion interactive project platform</h2>
+                        <h3 class="py-4">
+                            Marathon, Anniversary, Barbecue, Bike Trip ?
+                            <br />
+                            Launch your own project or join an existing one.
+                            <br />
+                            Let's change the world together, one child at a time!
+                        </h3>
 
-                        <h2 class="display-4 pb-4 ">Short platform introduction.</h2>
                         <a href="/projects/create">
-                            <button type="button" class="btn btn-primary btn-lg">LAUNCH A PROJECT</button>
+                            <button type="button" class="btn btn-primary btn-lg uppercase">Launch a project</button>
                         </a>
                         <br/>
                     </div>
-                </div>
-            </t>
-            <t t-set="headerclass">image-background</t>
-            <t t-call="crowdfunding_compassion.layout">
+                </header>
                 <!-- Impact so far -->
                 <section class="# py-5" id="#">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12 text-center py-5">
-                                <h3 class="subheading">Together we achieved so far</h3>
+                                <h3 class="subheading">What we achieved so far</h3>
                             </div>
                         </div>
 
                         <div class="row text-center">
-
-                            <t t-foreach="fund_names" t-as="fund_name">
+                            <t t-foreach="impact" t-as="fund">
                                 <div class="col">
-                                    <img t-attf-src="data:image/png;base64, {{impact[fund_name]['image']}}"
-                                        width="100" height="100"/>
+                                    <img t-attf-src="data:image/png;base64, #{ impact[fund]['image'] }" height="100" t-if="isinstance(impact[fund]['image'], bytes)"/>
+                                    <img t-att-src="impact[fund]['image']" height="100" t-if="isinstance(impact[fund]['image'], str)"/>
 
                                     <h4 class="display-2 count font-weight-bolder">
-                                        <t t-esc="impact[fund_name]['number']"/>
+                                        <t t-esc="impact[fund]['value']"/>
                                     </h4>
 
                                     <p class="count-text">
-                                        <t t-esc="impact[fund_name]['impact_text']"/>
+                                        <t t-esc="impact[fund]['text']"/>
                                     </p>
                                 </div>
                             </t>
-
-                            <div class="col">
-                                <img t-attf-src="{{impact['other']['image']}}"
-                                    width="100" height="100"/>
-
-                                <h4 class="display-2 count font-weight-bolder">
-                                    <t t-esc="impact['other']['number']"/>
-                                </h4>
-
-                                <p class="count-text">donated to various funds</p>
-                            </div>
-
-                            <div class="col">
-                                <img t-attf-src="{{impact['sponsorship']['image']}}"
-                                    width="100" height="100"/>
-
-                                <h4 class="display-2 count font-weight-bolder">
-                                    <t t-esc="impact['sponsorship']['number']"/>
-                                </h4>
-
-                                <p class="count-text">sponsored children</p>
-                            </div>
                         </div>
                     </div>
                 </section>
@@ -75,11 +56,10 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12 text-center py-5">
-                                <h3 class="subheading">HOW DOES IT WORK</h3>
+                                <h3 class="subheading uppercase">How does it work</h3>
 
                                 <p class="count-text font-weight-normal">
-                                    One line quick explanation of the process as
-                                    1-2-3
+                                    You're just 3 steps from the launch of your project
                                 </p>
                             </div>
                         </div>
@@ -90,11 +70,10 @@
                                     class="w-75 rounded-circle pb-4" alt="Responsive image"/>
 
                                 <p class="count-text font-weight-bold">
-                                    1. Set up your project, tell why you want to do
-                                    it
+                                    1. Launch your project
                                 </p>
 
-                                <p>3 or 4 lines of secondary explanatation or argumentation</p>
+                                <p>Decide on the nature of your project (race, birthday, etc.), present it as well as your motivations. With this new project, not only do you have a new goal in front of you, but you also give your entourage the opportunity to get involved in a project that makes sense. In this way, you will bring more people together to make a difference in the fight against extreme poverty.</p>
                             </div>
 
                             <div class="col-md-4">
@@ -103,7 +82,7 @@
 
                                 <p class="count-text font-weight-bold">2. Choose a fund for your impact</p>
 
-                                <p>3 or 4 lines of secondary explanatation or argumentation</p>
+                                <p>Concretely choose the cause you want to support with your project. Building safe toilets, ensuring the survival of mothers and their babies? Or find sponsors for children in extreme poverty?</p>
                             </div>
 
                             <div class="col-md-4">
@@ -112,14 +91,14 @@
 
                                 <p class="count-text font-weight-bold">3. Publish and start sending love</p>
 
-                                <p>3 or 4 lines of secondary explanatation or argumentation</p>
+                                <p>Make your project known around you! Share the link of your project on social networks, via WhatsApp or e-mail and motivate others to support you!</p>
                             </div>
                         </div>
 
                         <div class="row text-center py-4">
                             <div class="col-md-12">
                                 <a href="/projects/create">
-                                    <button class="btn btn-white btn-lg">LAUNCH YOUR PROJECT</button>
+                                    <button class="btn btn-white btn-lg uppercase">Launch your project</button>
                                 </a>
                                 <br/>
                             </div>
@@ -129,7 +108,7 @@
                                 <p>
                                     or join an existing
                                     <a href="/projects">collective project</a>
-                                    <!--                                    TODO make it so we only see collective projects and not all projects-->
+                                    <!-- TODO make it so we only see collective projects and not all projects-->
                                 </p>
                             </div>
                         </div>
@@ -139,7 +118,7 @@
 
                 <!-- Project section -->
                 <section class="container py-5">
-                    <h2 class="subheading blue text-center mb-5">ACTIVE PROJECTS</h2>
+                    <h2 class="subheading blue text-center mb-5 uppercase">Active projects</h2>
 
                     <div class="row">
                         <t t-foreach="projects" t-as="project">
@@ -160,21 +139,16 @@
                     <div class="funds">
                         <img class="funds__header-image"
                             src="/theme_crowdfunding/static/src/img/SURVIVAL-MamaKate-266@2x.jpg" alt="Header image"/>
-                        <h1 class="blue container subheading funds__header-title">your impact can do a lot</h1>
+                        <h1 class="blue container subheading funds__header-title">Your impact can do a lot</h1>
                     </div>
 
-                    <div class="container funds__cards-container mb-5">
-
-                        <!-- Display activated funds -->
-                        <t t-foreach="funds" t-as="fund">
+                    <div class="container funds__cards-container mb-5 pb-5">
+                        <t t-foreach="impact" t-as="fund">
+                            <t t-set="fund_image" t-value="impact[fund]['image']" />
+                            <t t-set="fund_name" t-value="impact[fund]['name']" />
+                            <t t-set="fund_description" t-value="impact[fund]['description']" />
                             <t t-call="crowdfunding_compassion.fund_card"/>
                         </t>
-
-                        <!-- Display sponsorship card -->
-                        <t t-set="fund"
-                            t-value="{'name': 'Sponsor a child', 'description': 'Description to be added'}"/>
-                        <t t-call="crowdfunding_compassion.fund_card"/>
-
                     </div>
                 </section>
             </t>

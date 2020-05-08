@@ -26,15 +26,11 @@ class ProjectsController(Controller, FormControllerMixin):
     def project_creation_step1(self, **kwargs):
         values = kwargs.copy()
         values["form_model_key"] = "cms.form.crowdfunding.project"
-        values.update(
-            {"is_published": False}
-        )
+        values.update({"is_published": False})
         # This allows the translation to still work on the page
         project_creation_form = self.get_form("crowdfunding.project", **values)
         project_creation_form.form_process()
-        values.update(
-            {"user": request.env.user, "form": project_creation_form}
-        )
+        values.update({"user": request.env.user, "form": project_creation_form})
         project_creation_form = values["form"]
         if project_creation_form.form_success:
             result = request.render(

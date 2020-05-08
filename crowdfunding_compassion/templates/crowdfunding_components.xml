@@ -2,10 +2,11 @@
     <data>
         <!-- Goal progress -->
         <!-- This is a progress bar and related text for a goal (fund or sponsorships) -->
-        <!-- [goal_reached], [goal_objective] and [goal_name] must be set before calling this template -->
+        <!-- [goal_reached], [goal_objective], [goal_image] and [goal_name] must be set before calling this template -->
         <template id="goal_progress" name="Goal progress">
             <div class="goal-progress__text-tile">
-                <img src="/theme_crowdfunding/static/src/img/goal_icon.png" alt="Goal icon"/>
+                <img class="goal-progress__icon" t-attf-src="data:image/png;base64, #{ goal_image }" t-if="isinstance(goal_image, bytes)"/>
+                <img class="goal-progress__icon" t-att-src="goal_image" t-if="isinstance(goal_image, str)"/>
                 <div>
                     <span class="text--bold">
                         <t t-esc="goal_reached"/>
@@ -37,12 +38,12 @@
         <!-- Project progress -->
         <!-- This bundles the progress bars and deadline of a given project -->
         <!-- Individual [project] must be set before calling this template -->
-        <!-- TODO: Add sponsorship and fund icons -->
         <template id="project_progress" name="Project progress">
             <!-- Setup data and display the sponsorship progress -->
             <t t-set="goal_name" t-value="'sponsored children'"/>
             <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
             <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
+            <t t-set="goal_image" t-value="'/theme_crowdfunding/static/src/img/goal_icon.png'" />
             <t t-call="crowdfunding_compassion.goal_progress"/>
 
             <!-- Setup data and display the fund progress -->
@@ -50,11 +51,12 @@
                 <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
                 <t t-set="goal_reached" t-value="project.product_number_reached"/>
                 <t t-set="goal_objective" t-value="project.product_number_goal"/>
+                <t t-set="goal_image" t-value="project.product_id.image_medium or '/theme_crowdfunding/static/src/img/goal_icon.png'" />
                 <t t-call="crowdfunding_compassion.goal_progress"/>
             </t>
 
-            <!-- TODO: Add clock icon -->
             <span class="text--faded">
+                <i class="fa fa-clock-o"/>
                 <t t-esc="project.time_left"/>
                 to go
             </span>
@@ -66,8 +68,7 @@
         <!-- Individual [participant] model must be set before calling this template -->
         <template id="participant_card" name="Participant card">
             <div class="card participants__card">
-                <img class="participants__image" src="/theme_crowdfunding/static/src/img/head.jpg"
-                    alt="Participant image"/>
+                <img class="participants__image" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Participant image"/>
                 <div class="participants__content">
                     <h4 class="participants__name">
                         <t t-esc="participant.partner_id.name"/>
@@ -77,12 +78,14 @@
                     <t t-set="goal_name" t-value="'sponsored children'"/>
                     <t t-set="goal_reached" t-value="participant.number_sponsorships_reached"/>
                     <t t-set="goal_objective" t-value="participant.number_sponsorships_goal"/>
+                    <t t-set="goal_image" t-value="'/theme_crowdfunding/static/src/img/goal_icon.png'" />
                     <t t-call="crowdfunding_compassion.goal_progress"/>
 
                     <!-- Setup data and display the fund progress -->
                     <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
                     <t t-set="goal_reached" t-value="participant.product_number_reached"/>
                     <t t-set="goal_objective" t-value="participant.product_number_goal"/>
+                    <t t-set="goal_image" t-value="participant.project_id.product_id.image_medium or '/theme_crowdfunding/static/src/img/goal_icon.png'" />
                     <t t-call="crowdfunding_compassion.goal_progress"/>
                 </div>
                 <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
@@ -117,13 +120,13 @@
             <div class="impact-tile--empty">
                 Be the first to show love for this project,
                 <br/>
-                <a href="#">make a donation now</a>
+                <a t-attf-href="/project/#{ project.id }/donation">make a donation now</a>
             </div>
         </template>
 
         <template id="participant_picture" name="Participant picture">
             <div class="card card-body d-flex justify-content-between align-items-center" style="border: none;">
-                <img class="profile-pic rounded-circle" src="/theme_crowdfunding/static/src/img/head.jpg" alt="Project participant"/>
+                <img class="profile-pic rounded-circle" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Project participant"/>
 
                 <h6 class="uppercase mt-3">
                     <t t-esc="participant.partner_id.name"/>
@@ -133,7 +136,7 @@
 
         <template id="project_impact_card" name="Project impact card">
             <div class="card h-100 w-100">
-                <img class="card-img-top donation-type__project-card-image" src="/theme_crowdfunding/static/src/img/DSC-16.jpg" alt="Project image"/>
+                <img class="card-img-top donation-type__project-card-image" t-attf-src="data:image/png;base64, #{ project.cover_photo }" alt="Project image"/>
 
                 <div class="card-body">
                     You are actually creating impact for:
@@ -181,9 +184,7 @@
                             </p>
                         </t>
                     </div>
-
-                    <img class="card-img-top" src="/theme_crowdfunding/static/src/img/musk_ghana_3.jpg"
-                        alt="Card image cap"/>
+                    <img class="card-img-top" t-attf-src="data:image/png;base64, #{ project.cover_photo }" alt="Project image"/>
                     <br/>
 
                     <div class="card-body">
@@ -208,21 +209,18 @@
         <template id="fund_card" name="Fund card">
             <div class="card fund-card">
                 <div class="fund-card__header">
-                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg"
-                         alt="Participant image"/>
-                    <span class="fund-card__icon">
-                        <img t-attf-src="data:image;base64, #{fund['image_medium']}"
-                         alt="Fund image"/>
-                    </span>
+                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg"/>
+                    <img class="fund-card__icon" t-attf-src="data:image/png;base64, #{ fund_image }" height="100" t-if="isinstance(fund_image, bytes)"/>
+                    <img class="fund-card__icon" t-att-src="fund_image" height="100" t-if="isinstance(fund_image, str)"/>
                 </div>
 
                 <div class="fund-card__content">
 
                     <h5 class="blue my-3 fund-card__title">
-                        <t t-esc="fund['name']"/>
+                        <t t-esc="fund_name"/>
                     </h5>
                     <p>
-                        <t t-esc="fund['description']"/>
+                        <t t-esc="fund_description"/>
                     </p>
                     <!--                    <button type="button" class="btn btn-primary btn-md my-3">More infos</button>-->
                     <!--                    TODO truncate description and load full text in modal popup -> CO-3212-->
@@ -240,8 +238,8 @@
                 <label class="h-100 w-100">
                     <input type="radio" name="amount" t-att-value="current_value" class="card-input-element d-none" />
                     <div class="card h-100 d-flex justify-content-around align-items-center text-center">
-                        <!-- TODO: Replace by fund icon when implementation by Quentin is merged -->
-                        <span class="donation-type__card-icon"/>
+                        <img class="donation-type__card-icon" t-attf-src="data:image/png;base64, #{ project.product_id.image_medium }" t-if="isinstance(project.product_id.image_medium, bytes)"/>
+                        <img class="donation-type__card-icon" src="/crowdfunding_compassion/static/src/img/defaut_fund_icon.png" t-else=""/>
                         <h3 class="blue">
                             <t t-esc="current_default_quantity"/>
                             <t t-esc="project.product_id.crowdfunding_quantity_singular" t-if="current_default_quantity == 1" />
@@ -308,9 +306,6 @@
             </xpath>
             <xpath expr="//header" position="after">
                 <t t-call="crowdfunding_compassion.crowdfunding_navbar"/>
-                <header t-attf-class="masthead #{headerclass or ''}">
-                    <t t-raw="header"/>
-                </header>
             </xpath>
             <xpath expr="//footer" position="replace">
                 <footer class="footer pb-5">
