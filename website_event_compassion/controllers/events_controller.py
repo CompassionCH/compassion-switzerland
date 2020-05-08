@@ -26,9 +26,9 @@ class EventsController(PaymentFormController, FormControllerMixin):
     def list(self, **kwargs):
         today = fields.Date.to_string(datetime.today())
         # Events that are set to finish after today
-        started_events = request.env["crm.event.compassion"].search(
-            [("website_published", "=", True), ("end_date", ">=", today), ]
-        )
+        started_events = request.env["crm.event.compassion"].search([
+            ("website_published", "=", True), ("end_date", ">=", today),
+        ])
         if len(started_events) == 1:
             return request.redirect("/event/" + str(started_events.id))
         return request.render(
@@ -193,9 +193,9 @@ class EventsController(PaymentFormController, FormControllerMixin):
         values = kwargs.copy()
         # This allows the translation to still work on the page
         values.pop("edit_translations", False)
-        values.update(
-            {"event": event, "registration": registration, }
-        )
+        values.update({
+            "event": event, "registration": registration,
+        })
         donation_form = self.get_form(False, **values)
         donation_form.form_process()
         values.update(
@@ -223,16 +223,18 @@ class EventsController(PaymentFormController, FormControllerMixin):
         except ValueError:
             transaction = request.env["payment.transaction"]
 
+        invoice_lines = invoice.invoice_line_ids
+        event = invoice_lines.mapped("event_id")
+
         if transaction.state != "done":
             # Cancel potential registration(avoid launching jobs at the same
             # time, can cause rollbacks)
             delay = datetime.today() + timedelta(seconds=10)
             transaction.registration_id.with_delay(eta=delay).cancel_registration()
             return request.render(
-                "website_event_compassion.donation_failure", {"error_intro": ""})
+                self.get_donation_failure_template(event), {"error_intro": ""}
+            )
 
-        invoice_lines = invoice.invoice_line_ids
-        event = invoice_lines.mapped("event_id")
         ambassador = invoice_lines.mapped("user_id")
         registration = event.registration_ids.filtered(
             lambda r: r.partner_id == ambassador

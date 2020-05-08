@@ -23,7 +23,7 @@
                                             <img class="donation-type__card-icon" t-attf-src="data:image/png;base64, #{ project.product_id.image_medium }" t-if="isinstance(project.product_id.image_medium, bytes)"/>
                                             <img class="donation-type__card-icon" src="/crowdfunding_compassion/static/src/img/defaut_fund_icon.png" t-else=""/>
                                             <h4 class="blue text-center uppercase">
-                                                Create impact by
+                                                Create impact by supporting
                                                 <t t-esc="project.product_id.crowdfunding_impact_text_active"/>
                                             </h4>
                                             <span class="fake-btn my-3 uppercase">Select</span>
@@ -89,6 +89,7 @@
                         </a>
                     </div>
                 </section>
+
                 <script type="text/javascript" src="/crowdfunding_compassion/static/src/js/donation_page.js"/>
             </t>
         </template>
