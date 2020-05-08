@@ -30,8 +30,8 @@ class ProjectCreationWizard(models.AbstractModel):
     def wiz_configure_steps(self):
         return {
             1: {"form_model": "cms.form.crowdfunding.project.step1"},
-            2: {"form_model": "cms.form.crowdfunding.project.step1"},
-            3: {"form_model": "cms.form.crowdfunding.project.step1"},
+            2: {"form_model": "cms.form.crowdfunding.project.step2"},
+            3: {"form_model": "cms.form.crowdfunding.project.step3"},
         }
 
     @property

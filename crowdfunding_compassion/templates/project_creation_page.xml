@@ -7,71 +7,75 @@
             <t t-set="title" t-if="form.main_object">Join
                 <t t-esc="form.main_object.name"/>
             </t>
-            <t t-set="header">
-                <div class="row mt-5">
-                    <div class="col-md-4 col-xl-2 center">
-                        <img src="/crowdfunding_compassion/static/src/img/astronaut_600.jpg"
-                             class="rounded-circle img-fluid"/>
-                    </div>
-                </div>
-                <t t-if="not form.main_object">
-                    <h1 class="blue uppercase">Create a new project</h1>
-                    <h2>Two lines introduction.</h2>
-                    <h2>Two lines introduction.</h2>
-                </t>
-                <t t-else="">
-                    <h1 class="blue uppercase" t-esc="title"/>
-                    <h2 t-field="form.main_object.description"/>
-                </t>
-                <div class="row">
-                    <div class="col-md-2"/>
-                    <div class="col-md-8">
-                        <ul class="stepper stepper-horizontal">
-                            <t t-if="page == 1">
-                                <t t-set="class1">active</t>
-                                <t t-set="class2">inactive</t>
-                                <t t-set="class3">inactive</t>
-                            </t>
-                            <t t-if="page == 2">
-                                <t t-set="class1">completed</t>
-                                <t t-set="class2">active</t>
-                                <t t-set="class3">inactive</t>
-                            </t>
-                            <t t-if="page == 3">
-                                <t t-set="class1">completed</t>
-                                <t t-set="class2">completed</t>
-                                <t t-set="class3">active</t>
-                            </t>
-                            <!-- First Step -->
-                            <li t-att-class="class1">
-                                <a t-att-href="'/projects/create/' if page != 1 else '#!'">
-                                    <span class="circle">1</span>
-                                    <span class="label">Your project</span>
-                                </a>
-                            </li>
-
-                            <!-- Second Step -->
-                            <li t-att-class="class2">
-                                <a t-att-href="'/projects/create/page/2' if page >= 2 else '#!'">
-                                    <span class="circle">2</span>
-                                    <span class="label" t-if="not product">Your fund</span>
-                                    <span class="label" t-if="product">Your goal</span>
-                                </a>
-                            </li>
-
-                            <!-- Third Step -->
-                            <li t-att-class="class3">
-                                <a t-att-href="'/projects/create/page/2' if page >= 3 else '#!'">
-                                    <span class="circle">3</span>
-                                    <span class="label">Your personal information</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-2"/>
-                </div>
-            </t>
             <t t-call="crowdfunding_compassion.layout">
+                <header>
+                    <div class="container">
+
+                        <div class="row mt-5 mb-3">
+                            <div class="col-md-4 col-xl-2 center">
+                                <img src="/crowdfunding_compassion/static/src/img/astronaut_600.jpg"
+                                     class="rounded-circle img-fluid"/>
+                            </div>
+                        </div>
+                        <t t-if="not form.main_object">
+                            <h1 class="blue uppercase center-text">Create a new project</h1>
+                            <h2 class="center-text">You are only 3 steps away from releasing children from extreme
+                                poverty thanks to your project!
+                            </h2>
+                        </t>
+                        <t t-else="">
+                            <h1 class="blue uppercase center-text" t-esc="title"/>
+                            <h2 class="center-text" t-field="form.main_object.description"/>
+                        </t>
+                        <div class="row">
+                            <div class="col-md-1"/>
+                            <div class="col-md-10">
+                                <ul class="stepper stepper-horizontal">
+                                    <t t-if="page == 1">
+                                        <t t-set="class1">active</t>
+                                        <t t-set="class2">inactive</t>
+                                        <t t-set="class3">inactive</t>
+                                    </t>
+                                    <t t-if="page == 2">
+                                        <t t-set="class1">completed</t>
+                                        <t t-set="class2">active</t>
+                                        <t t-set="class3">inactive</t>
+                                    </t>
+                                    <t t-if="page == 3">
+                                        <t t-set="class1">completed</t>
+                                        <t t-set="class2">completed</t>
+                                        <t t-set="class3">active</t>
+                                    </t>
+                                    <!-- First Step -->
+                                    <li t-att-class="class1">
+                                        <a t-att-href="'/projects/create/' if page != 1 else '#!'">
+                                            <span class="circle">1</span>
+                                            <span class="label">Your project</span>
+                                        </a>
+                                    </li>
+
+                                    <!-- Second Step -->
+                                    <li t-att-class="class2">
+                                        <a t-att-href="'/projects/create/page/2' if page >= 2 else '#!'">
+                                            <span class="circle">2</span>
+                                            <span class="label" t-if="not product">Your fund</span>
+                                            <span class="label" t-if="product">Your goal</span>
+                                        </a>
+                                    </li>
+
+                                    <!-- Third Step -->
+                                    <li t-att-class="class3">
+                                        <a t-att-href="'/projects/create/page/2' if page >= 3 else '#!'">
+                                            <span class="circle">3</span>
+                                            <span class="label">Your personal information</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-1"/>
+                        </div>
+                    </div>
+                </header>
                 <section class="blue py-3 mb-3 text-center">
                     <div t-if="page == 1">
                         <h3 class="center-text uppercase">Describe your project</h3>

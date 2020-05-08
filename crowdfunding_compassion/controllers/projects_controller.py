@@ -17,7 +17,7 @@ from ..forms.project_creation_form import NoGoalException
 class ProjectsController(Controller, FormControllerMixin):
     @route("/projects", auth="public", website=True)
     def get_projects_list(self, **kwargs):
-        project_obj = request.env["crowdfunding.project"].sudo()
+        project_obj = request.env["crowdfunding.project"]
 
         # TODO connect pagination to backend -> CO-3213
         return request.render(
