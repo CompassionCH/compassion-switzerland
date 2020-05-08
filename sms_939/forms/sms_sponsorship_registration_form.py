@@ -132,8 +132,3 @@ class PartnerSmsRegistrationForm(models.AbstractModel):
             vals["Church"] = church
         vals["Volunteering"] = form_vals.get("volunteering") and "Yes" or "No"
         return vals
-
-    def _get_partner_keys(self):
-        res = super()._get_partner_keys()
-        res.extend(["church_unlinked", "function"])
-        return res
