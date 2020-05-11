@@ -9,7 +9,7 @@
 #                            in Jesus' name
 #
 #    Copyright (C) 2020 Compassion CH (http://www.compassion.ch)
-#    @author: Quentin Gigon, Sylvain Losey
+#    @author: Quentin Gigon, Sylvain Losey, Emanuel Cino, Stephane Eicher
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -51,8 +51,9 @@
         "views/crowdfunding_participant_view.xml",
         "views/crowdfunding_project_settings.xml",
         "views/crowdfunding_project_view.xml",
-        "views/product_template_view.xml",
+        "views/product_view.xml",
         "views/res_partner_view.xml",
+        "views/assets.xml",
         "templates/crowdfunding_components.xml",
         "templates/crowdfunding_form_template.xml",
         "templates/homepage.xml",

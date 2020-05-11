@@ -26,20 +26,25 @@
                                     </div>
                                     <div class="project-hero__cart-cta">
                                         <a t-attf-href="/project/#{ project.id }/donation">
-                                            <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
+                                            <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate
+                                                now
+                                            </button>
                                         </a>
-                                        <div class="row">
-                                            <div class="col">
-                                                <button type="button" class="btn btn-white btn-md btn-block">Join the project</button>
+                                        <div class="row mx-auto">
+                                            <div class="col" t-if="project.type == 'collective'">
+                                                <a t-attf-href="/projects/join/#{project.id}"
+                                                   class="btn btn-white btn-md btn-block">Join the project
+                                                </a>
                                             </div>
                                             <div class="col">
-                                                <div class="row project-hero__card-share-text">Share with your friends</div>
+                                                <div class="row project-hero__card-share-text">Share with your friends
+                                                </div>
                                                 <!-- TODO: update link to production url -->
                                                 <div class="row project-hero__card-share-icons">
                                                     <t t-set="compassion_project_base_url"
-                                                        t-value="'crowdfunding.compassion.ch/project'"/>
+                                                       t-value="'crowdfunding.compassion.ch/project'"/>
                                                     <a t-attf-href="https://www.facebook.com/sharer.php?u=#{ compassion_project_base_url }/#{ project.id }"
-                                                        target="_blank">
+                                                       target="_blank">
                                                         <i class="fa fa-facebook-official"/>
                                                     </a>
                                                     <a t-attf-href="https://twitter.com/intent/tweet?url=#{ compassion_project_base_url }/#{ project.id }"

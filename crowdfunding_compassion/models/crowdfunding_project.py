@@ -14,26 +14,45 @@ class CrowdfundingProject(models.Model):
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 
-    name = fields.Char(required=True)
-    description = fields.Text()
-    personal_motivation = fields.Text()
+    name = fields.Char(
+        "Name of your project",
+        help="Use a catchy name that is accurate to your idea",
+        required=True)
+    description = fields.Text(
+        "Project description",
+        help="Aim of the project, why you want to create it, for which purpose and "
+             "any useful information that the donors should know."
+    )
+    personal_motivation = fields.Text(
+        help="Tell the others what is inspiring you, why it matters to you."
+    )
     type = fields.Selection(
         [("individual", "Individual"), ("collective", "Collective")],
         required=True,
         default="individual",
     )
-    deadline = fields.Date(string="Deadline of project", required=True, index=True)
+    deadline = fields.Date(
+        "Deadline of project",
+        help="Indicate when your project should end.",
+        required=True, index=True)
     time_left = fields.Char(compute="_compute_time_left")
-    cover_photo = fields.Binary(string="Cover Photo", attachment=True)
-    presentation_video = fields.Char(string="Youtube/Vimeo link")
-    facebook_url = fields.Char(string="Facebook link")
-    twitter_url = fields.Char(string="Twitter link")
-    instagram_url = fields.Char(string="Instagram link")
-    personal_web_page_url = fields.Char(string="Personal web page")
+    cover_photo = fields.Binary(
+        "Cover Photo",
+        help="Upload a cover photo that represents your project. Best size: 900x400px",
+        attachment=True)
+    presentation_video = fields.Char(
+        help="Paste any video link that showcase your project (Youtube or Vimeo)"
+    )
+    facebook_url = fields.Char("Facebook link")
+    twitter_url = fields.Char("Twitter link")
+    instagram_url = fields.Char("Instagram link")
+    personal_web_page_url = fields.Char("Personal web page")
     product_id = fields.Many2one("product.product", "Supported fund")
-    product_number_goal = fields.Integer(default=1)
+    product_number_goal = fields.Integer(compute="_compute_product_number_goal")
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
-    number_sponsorships_goal = fields.Integer(default=1)
+    number_sponsorships_goal = fields.Integer(
+        compute="_compute_number_sponsorships_goal"
+    )
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached"
     )
@@ -99,7 +118,7 @@ class CrowdfundingProject(models.Model):
         """Add the project owner to the participant list. """
         for project in self:
             if project.project_owner_id not in project.participant_ids.mapped(
-                "partner_id"
+                    "partner_id"
             ):
                 participant = {
                     "partner_id": project.project_owner_id.id,
@@ -108,10 +127,22 @@ class CrowdfundingProject(models.Model):
                 project.write({"participant_ids": [(0, 0, participant)]})
 
     @api.multi
+    def _compute_product_number_goal(self):
+        for project in self:
+            project.product_number_goal = sum(
+                project.participant_ids.mapped('product_number_goal'))
+
+    @api.multi
     def _compute_product_number_reached(self):
         for project in self:
-            project.product_number_reached = int(sum(
-                project.invoice_line_ids.mapped("quantity")))
+            project.product_number_reached = int(
+                sum(project.invoice_line_ids.mapped("quantity")))
+
+    @api.multi
+    def _compute_number_sponsorships_goal(self):
+        for project in self:
+            project.number_sponsorships_goal = sum(
+                project.participant_ids.mapped('number_sponsorships_goal'))
 
     @api.multi
     def _compute_number_sponsorships_reached(self):
@@ -148,7 +179,7 @@ class CrowdfundingProject(models.Model):
             comm_obj.create(
                 {
                     "config_id": config.id,
-                    "partner_id": project.project_owner_id,
+                    "partner_id": project.project_owner_id.id,
                     "object_ids": project.id,
                 }
             )

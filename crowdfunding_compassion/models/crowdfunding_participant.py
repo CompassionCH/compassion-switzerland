@@ -18,9 +18,9 @@ class CrowdfundingParticipant(models.Model):
         "res.partner", string="Partner", required=True, index=True, ondelete="cascade"
     )
     personal_motivation = fields.Text()
-    product_number_goal = fields.Integer(default=1)
+    product_number_goal = fields.Integer(default=0)
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
-    number_sponsorships_goal = fields.Integer(default=1)
+    number_sponsorships_goal = fields.Integer(default=0)
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached"
     )
@@ -37,7 +37,7 @@ class CrowdfundingParticipant(models.Model):
     twitter_url = fields.Char(string="Twitter link")
     instagram_url = fields.Char(string="Instagram link")
     personal_web_page_url = fields.Char(string="Personal web page")
-    profile_photo = fields.Binary(string="Profile photo")
+    profile_photo = fields.Binary(related="partner_id.image")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
 
     @api.model
