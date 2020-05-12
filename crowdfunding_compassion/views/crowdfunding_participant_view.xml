@@ -64,12 +64,12 @@
 
         <menuitem id="menu_event_crowdfunding" name="Crowdfunding"
                   parent="event.event_main_menu"
-                  sequence="101"/>
+                  sequence="10"/>
 
         <menuitem id="menu_crowdfunding_participant"
                   parent="menu_event_crowdfunding"
                   name="Participants"
                   action="open_view_crowdfunding_participant_tree"
-                  sequence="1"/>
+                  sequence="2"/>
     </data>
 </odoo>
