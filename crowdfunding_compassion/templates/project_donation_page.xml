@@ -21,7 +21,9 @@
 
                                         <div class="card h-100 card-body d-flex justify-content-around align-items-center">
                                             <img class="donation-type__card-icon" t-attf-src="data:image/png;base64, #{ project.product_id.image_medium }" t-if="isinstance(project.product_id.image_medium, bytes)"/>
-                                            <img class="donation-type__card-icon" src="/crowdfunding_compassion/static/src/img/defaut_fund_icon.png" t-else=""/>
+                                            <img class="donation-type__card-icon"
+                                                 src="/crowdfunding_compassion/static/src/img/icn_children.png"
+                                                 t-else=""/>
                                             <h4 class="blue text-center uppercase">
                                                 Create impact by supporting
                                                 <t t-esc="project.product_id.crowdfunding_impact_text_active"/>
@@ -44,7 +46,8 @@
                                     </t>
 
                                     <div class="card h-100 card-body d-flex justify-content-around align-items-center">
-                                        <img class="donation-type__card-icon" src="/crowdfunding_compassion/static/src/img/defaut_fund_icon.png"/>
+                                        <img class="donation-type__card-icon"
+                                             src="/crowdfunding_compassion/static/src/img/icn_children.png"/>
                                         <h4 class="blue text-center uppercase">Sponsor children</h4>
                                         <h6 class="blue text-center uppercase">(You will be redirected to compassion switzerland website)</h6>
 
