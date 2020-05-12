@@ -20,7 +20,7 @@ function clickHandler() {
     }
 
     if (donationType === "sponsorship") {
-      a.href = "TODO: Add redirection to Compassion CH";
+        a.href = document.querySelector('input[name="sponsorship_url"]').value;
     }
   }
 }
