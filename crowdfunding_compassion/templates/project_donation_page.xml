@@ -84,6 +84,7 @@
                                         <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id"/>
                                     </t>
                                     <t t-call="crowdfunding_compassion.participant_picture" />
+                                    <input name="sponsorship_url" type="hidden" t-att-value="participant.sponsorship_url"/>
                                 </label>
                             </t>
                         </div>
