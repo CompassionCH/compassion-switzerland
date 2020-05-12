@@ -90,7 +90,7 @@
                     <div class="jumbotron center-page mt-5">
                         <h1>Donation Succesful</h1>
                         <p>Thank you! Your donation helps release children from poverty!</p>
-                        <a href="https://compassion.ch">
+                        <a href="/homepage">
                             <button class="btn btn-primary">Back to Homepage</button>
                         </a>
                     </div>
