@@ -49,14 +49,13 @@
                         </group>
                     </group>
                     <notebook name="project_relation">
-                        <page string="Participants" name="project_participants"
-                              attrs="{'invisible':[('type', '==', 'individual')]}">
+                        <page string="Participants" name="project_participants">
                             <field name="participant_ids" widget="one2many"/>
                         </page>
                         <page string="Sponsorships">
                             <field name="sponsorship_ids" widget="one2many"/>
                         </page>
-                        <page string="Contract">
+                        <page string="Donations">
                             <field name="invoice_line_ids" widget="one2many"/>
                         </page>
                     </notebook>
