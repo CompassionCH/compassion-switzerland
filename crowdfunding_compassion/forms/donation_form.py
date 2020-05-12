@@ -6,6 +6,7 @@ class CrowdfundingDonationForm(models.AbstractModel):
     _inherit = ["cms.form.payment", "cms.form.match.partner"]
 
     _form_model = "crowdfunding.participant"
+    _display_type = "full"
 
     # Just load the participant partner to avoid security issues with relation fields
     _form_model_fields = ["partner_id"]
