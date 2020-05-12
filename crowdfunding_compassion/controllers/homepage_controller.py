@@ -38,7 +38,7 @@ class HomepageController(Controller):
                 "text": fund.crowdfunding_impact_text_passive,
                 "description": fund.description,
                 "image": fund.image_medium
-                         or "crowdfunding_compassion/static/src/img/icn_children.png",
+                or "crowdfunding_compassion/static/src/img/icn_children.png",
             }
 
         for project in current_year_projects:

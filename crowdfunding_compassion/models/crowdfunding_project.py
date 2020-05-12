@@ -14,10 +14,6 @@ class CrowdfundingProject(models.Model):
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 
-    name = fields.Char(
-        "Name of your project",
-        help="Use a catchy name that is accurate to your idea",
-        required=True)
     description = fields.Text(
         "Project description",
         help="Aim of the project, why you want to create it, for which purpose and "
@@ -70,7 +66,7 @@ class CrowdfundingProject(models.Model):
         "crowdfunding.participant", "project_id", string="Participants"
     )
     event_id = fields.Many2one("crm.event.compassion", "Event")
-    campaign_id = fields.Many2one('utm.campaign', 'campaign_id',
+    campaign_id = fields.Many2one('utm.campaign', 'UTM Campaign',
                                   required=True, ondelete='cascade')
     state = fields.Selection(
         [("draft", "Draft"), ("active", "Active")],
@@ -108,12 +104,6 @@ class CrowdfundingProject(models.Model):
         return res
 
     @api.multi
-    def write(self, vals):
-        super().write(vals)
-        self.add_owner2participants()
-        return True
-
-    @api.multi
     def add_owner2participants(self):
         """Add the project owner to the participant list. """
         for project in self:
@@ -123,6 +113,7 @@ class CrowdfundingProject(models.Model):
                 participant = {
                     "partner_id": project.project_owner_id.id,
                     "project_id": project.id,
+                    "name": project.project_owner_id.name
                 }
                 project.write({"participant_ids": [(0, 0, participant)]})
 
