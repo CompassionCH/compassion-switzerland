@@ -66,8 +66,8 @@
 
                         <div class="row text-center">
                             <div class="col-md-4">
-                                <img src="/theme_crowdfunding/static/src/img/DSC-16.jpg"
-                                    class="w-75 rounded-circle pb-4" alt="Responsive image"/>
+                                <img src="/crowdfunding_compassion/static/src/img/howdoesit1.jpg"
+                                     class="w-75 rounded-circle pb-4" alt="Responsive image"/>
 
                                 <p class="count-text font-weight-bold">
                                     1. Launch your project
@@ -77,8 +77,8 @@
                             </div>
 
                             <div class="col-md-4">
-                                <img src="/theme_crowdfunding/static/src/img/DSC-16.jpg"
-                                    class="w-75 rounded-circle pb-4" alt="Responsive image"/>
+                                <img src="/crowdfunding_compassion/static/src/img/howdoesit2.jpg"
+                                     class="w-75 rounded-circle pb-4" alt="Responsive image"/>
 
                                 <p class="count-text font-weight-bold">2. Choose a fund for your impact</p>
 
@@ -86,8 +86,8 @@
                             </div>
 
                             <div class="col-md-4">
-                                <img src="/theme_crowdfunding/static/src/img/DSC-16.jpg"
-                                    class="w-75 rounded-circle pb-4" alt="Responsive image"/>
+                                <img src="/crowdfunding_compassion/static/src/img/howdoesit3.jpg"
+                                     class="w-75 rounded-circle pb-4" alt="Responsive image"/>
 
                                 <p class="count-text font-weight-bold">3. Publish and start sending love</p>
 

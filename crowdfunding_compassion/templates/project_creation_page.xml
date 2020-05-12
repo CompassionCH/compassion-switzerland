@@ -194,7 +194,7 @@
                         <div class="row my-3">
                             <div class="col-md-3"/>
                             <div class="col-md-2 text-right">
-                                <img src="/crowdfunding_compassion/static/src/img/defaut_fund_icon.png" width="100px"/>
+                                <img src="/crowdfunding_compassion/static/src/img/icn_children.png" width="100px"/>
                             </div>
                             <div class="col-md-4">
                                 <h3 class="blue">Sponsor children</h3>

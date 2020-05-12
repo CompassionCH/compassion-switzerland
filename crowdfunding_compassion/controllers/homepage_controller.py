@@ -27,7 +27,7 @@ class HomepageController(Controller):
                 "name": _("Sponsor children"),
                 "text": _("sponsored children"),
                 "description": _("Description to be added"),
-                "image": "crowdfunding_compassion/static/src/img/defaut_fund_icon.png",
+                "image": "crowdfunding_compassion/static/src/img/icn_children.png",
             }
         }
 
@@ -38,7 +38,7 @@ class HomepageController(Controller):
                 "text": fund.crowdfunding_impact_text_passive,
                 "description": fund.description,
                 "image": fund.image_medium
-                or "crowdfunding_compassion/static/src/img/defaut_fund_icon.png",
+                         or "crowdfunding_compassion/static/src/img/icn_children.png",
             }
 
         for project in current_year_projects:
