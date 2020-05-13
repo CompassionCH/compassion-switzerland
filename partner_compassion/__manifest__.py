@@ -41,6 +41,7 @@
         'mail_sendgrid',
         'partner_contact_birthdate',
         'account_banking_mandate',
+        'account_bank_statement_import_camt_details',
         'geoengine_partner',
         'base_geolocalize',
         'web_notify',
@@ -67,6 +68,7 @@
         'views/product_view.xml',
         'views/partner_check_double.xml',
         'views/notification_settings_view.xml',
+        'views/search_bank_address_wizard.xml',
         'templates/child_protection_charter.xml'
     ],
     'qweb': [
