@@ -39,6 +39,7 @@
         "sponsorship_switzerland",  # compassion-switzerland
         "crm_compassion",  # compassion-modules
         "event",  # odoo base modules
+        "wordpress_configuration",  # compassion-modules
     ],
     "data": [
         "data/crowdfunding_website.xml",

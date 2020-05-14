@@ -52,12 +52,13 @@ class CrowdfundingParticipant(models.Model):
 
     @api.multi
     def _compute_sponsorship_url(self):
+        wp = self.env["wordpress.configuration"].sudo().get_config()
         for participant in self:
             utm_medium = "Crowdfunding"
             utm_campaign = participant.project_id.name
             utm_source = participant.name
             participant.sponsorship_url = \
-                f"https://compassion.ch/parrainer-un-enfant/?" \
+                f"https://{wp.host}{wp.sponsorship_url}?" \
                 f"utm_medium={utm_medium}" \
                 f"&utm_campaign={utm_campaign}" \
                 f"&utm_source={utm_source}"
