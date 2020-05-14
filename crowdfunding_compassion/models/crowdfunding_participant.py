@@ -23,8 +23,8 @@ class CrowdfundingParticipant(models.Model):
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached"
     )
-    sponsorship_ids = fields.One2many(
-        "recurring.contract", "crowdfunding_participant_id", string="Sponsorships"
+    sponsorship_ids = fields.Many2many(
+        "recurring.contract", compute="_compute_sponsorships", string="Sponsorships"
     )
     invoice_line_ids = fields.One2many(
         "account.invoice.line", "crowdfunding_participant_id", string="Donations"
@@ -38,6 +38,13 @@ class CrowdfundingParticipant(models.Model):
     personal_web_page_url = fields.Char(string="Personal web page")
     profile_photo = fields.Binary(related="partner_id.image")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
+
+    @api.model
+    def create(self, vals):
+        partner = self.env["res.partner"].browse(vals.get("partner_id"))
+        project = self.env["crowdfunding.project"].browse(vals.get("project_id"))
+        vals["name"] = f"{project.name} - {partner.name}"
+        return super().create(vals)
 
     @api.model
     def get_sponsorship_url(self, participant_id):
@@ -61,6 +68,15 @@ class CrowdfundingParticipant(models.Model):
             participant.product_number_reached = sum(
                 participant.invoice_line_ids.mapped("price_unit")
             ) / (participant.project_id.product_id.list_price or 1)
+
+    @api.multi
+    def _compute_sponsorships(self):
+        for participant in self:
+            participant.sponsorship_ids = self.env["recurring.contract"].search([
+                ("source_id", "=", participant.source_id.id),
+                ("type", "like", "S"),
+                ("state", "!=", "cancelled")
+            ])
 
     @api.multi
     def _compute_number_sponsorships_reached(self):

@@ -273,7 +273,6 @@ class ProjectCreationStep3(models.AbstractModel):
         self.participant_id = self.env["crowdfunding.participant"].sudo().create({
             "partner_id": values["partner_id"],
             "project_id": self.main_object.sudo().id,
-            "name": self.partner_id.sudo().name
         })
 
     def form_after_create_or_update(self, values, extra_values):
