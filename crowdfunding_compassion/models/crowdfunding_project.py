@@ -161,12 +161,11 @@ class CrowdfundingProject(models.Model):
 
     @api.multi
     def validate(self):
+        self.write({"state": "active"})
+        comm_obj = self.env["partner.communication.job"]
+        config = self.env.ref("crowdfunding_compassion.config_project_published")
         for project in self:
-            project.state = "active"
-
             # Send email to inform project owner
-            comm_obj = self.env["partner.communication.job"]
-            config = self.env.ref("crowdfunding_compassion.config_project_published")
             comm_obj.create(
                 {
                     "config_id": config.id,
