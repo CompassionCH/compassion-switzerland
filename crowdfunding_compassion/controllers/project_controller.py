@@ -42,15 +42,16 @@ class ProjectController(Controller):
             {
                 "type": "donation",
                 "color": "grey",
-                "text": f"{int(donation.price_unit / donation.product_id.list_price)} "
-                        f"{donation.product_id.crowdfunding_impact_text_passive}",
+                "text": f"{int(donation.quantity)} "
+                f"{donation.product_id.crowdfunding_impact_text_passive}",
                 "image": donation.product_id.image_medium,
                 "benefactor": donation.invoice_id.partner_id.name,
                 "date": donation.invoice_id.create_date,
                 "time_ago": self.get_time_ago(donation.invoice_id.create_date),
                 "anonymous": donation.is_anonymous,
             }
-            for donation in project.invoice_line_ids
+            for donation in project.invoice_line_ids.filtered(
+                lambda l: l.state == "paid")
         ]
 
         # Chronological list of sponsorships and fund donations for impact display
