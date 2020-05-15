@@ -77,7 +77,7 @@ class CrowdfundingDonationForm(models.AbstractModel):
                                 "name": name,
                                 "product_id": product.id,
                                 "account_analytic_id": event.analytic_id.id,
-                                "user_id": participant.id,
+                                "user_id": participant.partner_id.id,
                                 "crowdfunding_participant_id": participant.id,
                                 "crowdfunding_project_id": project.id,
                                 "is_anonymous": self.is_anonymous,
