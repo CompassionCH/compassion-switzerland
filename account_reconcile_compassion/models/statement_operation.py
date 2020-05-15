@@ -16,6 +16,9 @@ class AccountOperationTemplate(models.Model):
     _inherit = 'account.reconcile.model'
 
     product_id = fields.Many2one('product.product', 'Product', readonly=False)
+    sponsorship_id = fields.Many2one('recurring.contract', 'Sponsorship', readonly=False)
+    user_id = fields.Many2one('res.partner', 'Ambassador', readonly=False)
+    comment = fields.Char('Gift instructions', readonly=False)
 
     @api.onchange('product_id')
     def onchange_product_id(self):

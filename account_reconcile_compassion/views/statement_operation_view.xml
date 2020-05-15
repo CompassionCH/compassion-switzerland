@@ -7,6 +7,9 @@
         <field name="arch" type="xml">
             <field name="account_id" position="before">
                 <field name="product_id"/>
+                <field name="sponsorship_id"/>
+                <field name="user_id"/>
+                <field name="comment"/>
             </field>
         </field>
     </record>

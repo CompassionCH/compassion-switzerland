@@ -138,9 +138,9 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
             }
 
             this.create_form_fields.sponsorship_id = {
-                id: 'sponsorship_id',
+                // id: 'sponsorship_id',
                 index: 6,
-                corresponding_property: 'sponsorship_id',
+                // corresponding_property: 'sponsorship_id',
                 label: _t('Sponsorship'),
                 required: false,
                 tabindex: 16,
@@ -155,9 +155,9 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
                         'create_edit': false,
                     }),
                 field_properties: {
-                    relation: 'recurring.contract',
+                    // relation: 'recurring.contract',
                     string: _t('Sponsorship'),
-                    type: 'many2one',
+                    // type: 'many2one',
                 },
             };
             this.create_form_fields.user_id = {
