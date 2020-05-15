@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -20,12 +19,12 @@ TITLE_MAPPING = {
 }
 
 SPOKEN_LANG_MAPPING = {
-    u"französich": "child_compassion.lang_compassion_french",
-    u"deutsch": "child_switzerland.lang_compassion_german",
-    u"italienisch": "child_switzerland.lang_compassion_italian",
-    u"spanisch": "child_compassion.lang_compassion_spanish",
-    u"englisch": "child_compassion.lang_compassion_english",
-    u"portugiesisch": "child_compassion.lang_compassion_portuguese",
+    "französich": "child_compassion.lang_compassion_french",
+    "deutsch": "child_switzerland.lang_compassion_german",
+    "italienisch": "child_switzerland.lang_compassion_italian",
+    "spanisch": "child_compassion.lang_compassion_spanish",
+    "englisch": "child_compassion.lang_compassion_english",
+    "portugiesisch": "child_compassion.lang_compassion_portuguese",
 }
 
 

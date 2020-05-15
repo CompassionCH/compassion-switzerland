@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #       ______ Releasing children from poverty      _
@@ -46,6 +45,6 @@
     ],
     "external_dependencies": {"python": ["pysftp"]},
     "demo": [],
-    "installable": False,
+    "installable": True,
     "auto_install": True,
 }

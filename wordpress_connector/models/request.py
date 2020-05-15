@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
@@ -49,11 +48,11 @@ class CrmWordpressRequest(models.Model):
                     _logger.warning("Could not parse the front matter.", exc_info=True)
                 else:
                     self._parse_front_matter(front_matter, defaults)
-            defaults["description"] = u"<pre>{}</pre>".format(desc)
+            defaults["description"] = "<pre>{}</pre>".format(desc)
 
         defaults.update(custom_values)
 
-        return super(CrmWordpressRequest, self).message_new(msg, custom_values=defaults)
+        return super().message_new(msg, custom_values=defaults)
 
     def _parse_front_matter(self, fm, values):
         # Match the partner
