@@ -47,12 +47,13 @@ class AccountReconciliationWidget(models.AbstractModel):
         """
 
         def _sort_move_line(move_line):
-            limit_year = target_date.year - 5
+            date = target_date or move_line.date
+            limit_year = date.year - 5
             index = limit_year
             mv_date = move_line.date_maturity or move_line.date
             if (
-                    mv_date.month == target_date.month
-                    and mv_date.year == target_date.year
+                    mv_date.month == date.month
+                    and mv_date.year == date.year
             ):
                 index += 1
             else:
