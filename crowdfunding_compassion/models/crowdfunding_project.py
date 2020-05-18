@@ -52,8 +52,9 @@ class CrowdfundingProject(models.Model):
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached"
     )
-    sponsorship_ids = fields.One2many(
-        "recurring.contract", "crowdfunding_project_id", string="Sponsorships"
+    sponsorship_ids = fields.Many2many(
+        "recurring.contract", string="Sponsorships",
+        compute="_compute_sponsorships"
     )
     invoice_line_ids = fields.One2many(
         "account.invoice.line", "crowdfunding_project_id", string="Donations"
@@ -113,7 +114,6 @@ class CrowdfundingProject(models.Model):
                 participant = {
                     "partner_id": project.project_owner_id.id,
                     "project_id": project.id,
-                    "name": project.project_owner_id.name
                 }
                 project.write({"participant_ids": [(0, 0, participant)]})
 
@@ -126,14 +126,23 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:
-            project.product_number_reached = int(
-                sum(project.invoice_line_ids.mapped("quantity")))
+            invl = project.invoice_line_ids.filtered(lambda l: l.state == "paid")
+            project.product_number_reached = int(sum(invl.mapped("quantity")))
 
     @api.multi
     def _compute_number_sponsorships_goal(self):
         for project in self:
             project.number_sponsorships_goal = sum(
                 project.participant_ids.mapped('number_sponsorships_goal'))
+
+    @api.multi
+    def _compute_sponsorships(self):
+        for project in self:
+            project.sponsorship_ids = self.env["recurring.contract"].search([
+                ("campaign_id", "=", project.campaign_id.id),
+                ("type", "like", "S"),
+                ("state", "!=", "cancelled")
+            ])
 
     @api.multi
     def _compute_number_sponsorships_reached(self):
@@ -161,12 +170,11 @@ class CrowdfundingProject(models.Model):
 
     @api.multi
     def validate(self):
+        self.write({"state": "active"})
+        comm_obj = self.env["partner.communication.job"]
+        config = self.env.ref("crowdfunding_compassion.config_project_published")
         for project in self:
-            project.state = "active"
-
             # Send email to inform project owner
-            comm_obj = self.env["partner.communication.job"]
-            config = self.env.ref("crowdfunding_compassion.config_project_published")
             comm_obj.create(
                 {
                     "config_id": config.id,

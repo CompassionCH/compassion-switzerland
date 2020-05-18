@@ -23,8 +23,8 @@ class CrowdfundingParticipant(models.Model):
     number_sponsorships_reached = fields.Integer(
         compute="_compute_number_sponsorships_reached"
     )
-    sponsorship_ids = fields.One2many(
-        "recurring.contract", "crowdfunding_participant_id", string="Sponsorships"
+    sponsorship_ids = fields.Many2many(
+        "recurring.contract", compute="_compute_sponsorships", string="Sponsorships"
     )
     invoice_line_ids = fields.One2many(
         "account.invoice.line", "crowdfunding_participant_id", string="Donations"
@@ -40,17 +40,25 @@ class CrowdfundingParticipant(models.Model):
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
 
     @api.model
+    def create(self, vals):
+        partner = self.env["res.partner"].browse(vals.get("partner_id"))
+        project = self.env["crowdfunding.project"].browse(vals.get("project_id"))
+        vals["name"] = f"{project.name} - {partner.name}"
+        return super().create(vals)
+
+    @api.model
     def get_sponsorship_url(self, participant_id):
         return self.browse(participant_id).sudo().sponsorship_url
 
     @api.multi
     def _compute_sponsorship_url(self):
+        wp = self.env["wordpress.configuration"].sudo().get_config()
         for participant in self:
             utm_medium = "Crowdfunding"
             utm_campaign = participant.project_id.name
             utm_source = participant.name
             participant.sponsorship_url = \
-                f"https://compassion.ch/parrainer-un-enfant/?" \
+                f"https://{wp.host}{wp.sponsorship_url}?" \
                 f"utm_medium={utm_medium}" \
                 f"&utm_campaign={utm_campaign}" \
                 f"&utm_source={utm_source}"
@@ -58,9 +66,17 @@ class CrowdfundingParticipant(models.Model):
     @api.multi
     def _compute_product_number_reached(self):
         for participant in self:
-            participant.product_number_reached = sum(
-                participant.invoice_line_ids.mapped("price_unit")
-            ) / (participant.project_id.product_id.list_price or 1)
+            invl = participant.invoice_line_ids.filtered(lambda l: l.state == "paid")
+            participant.product_number_reached = int(sum(invl.mapped("quantity")))
+
+    @api.multi
+    def _compute_sponsorships(self):
+        for participant in self:
+            participant.sponsorship_ids = self.env["recurring.contract"].search([
+                ("source_id", "=", participant.source_id.id),
+                ("type", "like", "S"),
+                ("state", "!=", "cancelled")
+            ])
 
     @api.multi
     def _compute_number_sponsorships_reached(self):

@@ -137,7 +137,6 @@
                             <!-- Side content -->
                             <div class="col-12 col-lg-4">
 
-                                <!-- TODO: Test this part when forms are done so it's easier to create data to display -->
                                 <t t-if="impact">
                                     <h3 class="blue text-center uppercase">Impact so far</h3>
 

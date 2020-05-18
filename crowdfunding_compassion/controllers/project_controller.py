@@ -28,12 +28,12 @@ class ProjectController(Controller):
             {
                 "type": "sponsorship",
                 "color": "blue",
-                "text": _("%s was sponsored") % sponsorship.name,
+                "text": _("%s was sponsored") % sponsorship.child_id.preferred_name,
                 "image": sponsorship.child_id.portrait,
                 "benefactor": sponsorship.correspondent_id.name,
-                "date": sponsorship.activation_date or sponsorship.create_date.date(),
+                "date": sponsorship.create_date,
                 "time_ago": self.get_time_ago(sponsorship.create_date),
-                "anonymous": "TODO",
+                "anonymous": False,
             }
             for sponsorship in project.sponsorship_ids
         ]
@@ -42,19 +42,20 @@ class ProjectController(Controller):
             {
                 "type": "donation",
                 "color": "grey",
-                "text": f"{int(donation.price_unit / donation.product_id.list_price)} "
+                "text": f"{int(donation.quantity)} "
                 f"{donation.product_id.crowdfunding_impact_text_passive}",
                 "image": donation.product_id.image_medium,
                 "benefactor": donation.invoice_id.partner_id.name,
-                "date": donation.invoice_id.date_invoice,
+                "date": donation.invoice_id.create_date,
                 "time_ago": self.get_time_ago(donation.invoice_id.create_date),
                 "anonymous": donation.is_anonymous,
             }
-            for donation in project.invoice_line_ids
+            for donation in project.invoice_line_ids.filtered(
+                lambda l: l.state == "paid")
         ]
 
         # Chronological list of sponsorships and fund donations for impact display
-        impact = sorted(sponsorships + donations, key=lambda x: x["date"])
+        impact = sorted(sponsorships + donations, key=lambda x: x["date"], reverse=True)
 
         fund = project.product_id
 
@@ -74,7 +75,5 @@ class ProjectController(Controller):
 
     # Utils
     def get_time_ago(self, given_date):
-        if isinstance(given_date, datetime):
-            given_date = given_date.date()
-        return format_timedelta(given_date - datetime.today().date(),
-                                add_direction=True, locale="en")
+        return format_timedelta(given_date - datetime.today(),
+                                add_direction=True, locale=request.env.lang)

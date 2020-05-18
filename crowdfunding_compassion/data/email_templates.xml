@@ -3,9 +3,11 @@
         <!--Project creation confirmation-->
         <record id="project_confirmation_email_template" model="mail.template">
             <field name="name">Crowdfunding - Project creation confirmation</field>
-            <field name="model_id" ref="model_crowdfunding_project"/>
-            <field name="email_from">&lt;compassion@compassion.ch&gt;</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.address_name}" &lt;compassion@compassion.ch&gt;
+            </field>
             <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
             <field name="subject">Project Creation</field>
             <field name="body_html" type="html">
                 <div>
@@ -35,9 +37,11 @@
         <!--Project join confirmation-->
         <record id="project_join" model="mail.template">
             <field name="name">Crowdfunding - Project joined confirmation</field>
-            <field name="model_id" ref="model_crowdfunding_project"/>
-            <field name="email_from">&lt;compassion@compassion.ch&gt;</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.address_name}" &lt;compassion@compassion.ch&gt;
+            </field>
             <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
             <field name="subject">Project Creation</field>
             <field name="body_html" type="html">
                 <div>
@@ -67,10 +71,11 @@
         <!--Project published communication-->
         <record id="project_published_email_template" model="mail.template">
             <field name="name">Crowdfunding - Project published</field>
-            <field name="model_id" ref="model_crowdfunding_project"/>
-            <field name="email_from">&lt;compassion@compassion.ch&gt;</field>
-            <!--            <field name="email_to">${object.project_owner_id.partner_id.email}</field>-->
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.address_name}" &lt;compassion@compassion.ch&gt;
+            </field>
             <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
             <field name="subject">Project Published</field>
             <field name="body_html" type="html">
                 <div>
@@ -100,10 +105,11 @@
         <!--Donation confirmation-->
         <record id="donation_successful_email_template" model="mail.template">
             <field name="name">Crowdfunding - Donation successful</field>
-            <field name="model_id" ref="model_crowdfunding_project"/>
-            <field name="email_from">&lt;compassion@compassion.ch&gt;</field>
-            <!-- <field name="email_to">${partner.email}</field> -->
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.address_name}" &lt;compassion@compassion.ch&gt;
+            </field>
             <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
             <field name="subject">Donation successful</field>
             <field name="body_html" type="html">
                 <div>

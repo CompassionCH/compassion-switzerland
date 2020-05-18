@@ -49,8 +49,13 @@ class ProjectCreationFormStep1(models.AbstractModel):
     _name = "cms.form.crowdfunding.project.step1"
     _inherit = "cms.form.crowdfunding.wizard"
 
+    campaign_name = fields.Char(
+        "Name of your project",
+        help="Use a catchy name that is accurate to your idea.",
+        required=True
+    )
+
     _form_model_fields = [
-        "name",
         "description",
         "personal_motivation",
         "deadline",
@@ -72,7 +77,7 @@ class ProjectCreationFormStep1(models.AbstractModel):
         fieldset = [{
             "id": "project",
             "fields": [
-                "name",
+                "campaign_name",
                 "description",
                 "personal_motivation",
                 "deadline",
@@ -116,6 +121,11 @@ class ProjectCreationFormStep1(models.AbstractModel):
         })
         return res
 
+    def form_before_create_or_update(self, values, extra_values):
+        super().form_before_create_or_update(values, extra_values)
+        # Put name of campaign in correct field
+        values["name"] = extra_values.pop("campaign_name")
+
     def _form_create(self, values):
         """ Holds the creation for the last step. The values will be passed
         to the next steps. """
@@ -146,6 +156,9 @@ class ProjectCreationStep2(models.AbstractModel):
         sponsorship_goal = extra_values.get('participant_number_sponsorships_goal')
         if not product_goal and not sponsorship_goal:
             raise NoGoalException
+        if values.get("no_product") == "on":
+            values["product_id"] = False
+        super().form_before_create_or_update(values, extra_values)
 
     def _form_create(self, values):
         """ Holds the creation for the last step. The values will be passed
@@ -251,8 +264,6 @@ class ProjectCreationStep3(models.AbstractModel):
     def _form_create(self, values):
         """Called for new project.
          Create as root and avoid putting Admin as follower. """
-        if values.get("no_product") == "on":
-            values["product_id"] = False
         values["project_owner_id"] = values.pop("partner_id")
         self.main_object = self.form_model.sudo().with_context(
             tracking_disable=True).create(values.copy())
@@ -262,7 +273,6 @@ class ProjectCreationStep3(models.AbstractModel):
         self.participant_id = self.env["crowdfunding.participant"].sudo().create({
             "partner_id": values["partner_id"],
             "project_id": self.main_object.sudo().id,
-            "name": self.partner_id.sudo().name
         })
 
     def form_after_create_or_update(self, values, extra_values):
