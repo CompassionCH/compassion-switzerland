@@ -634,21 +634,19 @@ class RecurringContract(models.Model):
         activation_limit = date.today() - relativedelta(days=15)
         self.filtered(
             lambda s: s.end_reason != "1"
-                      and s.parent_id
-                      and (
-                              s.activation_date
-                              and fields.Date.from_string(
-                          s.activation_date) < activation_limit
-                      )
+            and s.parent_id
+            and (
+                s.activation_date
+                and fields.Date.from_string(s.activation_date) < activation_limit
+            )
         ).with_context({}).send_communication(cancellation, correspondent=False)
         self.filtered(
             lambda s: s.end_reason != "1"
-                      and s.parent_id
-                      and (
-                              not s.activation_date
-                              or fields.Date.from_string(
-                          s.activation_date) >= activation_limit
-                      )
+            and s.parent_id
+            and (
+                not s.activation_date
+                or fields.Date.from_string(s.activation_date) >= activation_limit
+            )
         ).with_context({}).send_communication(no_sub, correspondent=False)
 
     def _new_dossier(self):
