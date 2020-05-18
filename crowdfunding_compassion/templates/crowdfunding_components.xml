@@ -288,6 +288,15 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#about">About</a>
                             </li>
+
+                            <li class="nav-item">
+                                <t t-if="request.session.get('uid')">
+                                    <a class="nav-link" href="/web/session/logout?redirect=/">Logout</a>
+                                </t>
+                                <t t-else="">
+                                    <a class="nav-link" href="/web/login?redirect=/">Login</a>
+                                </t>
+                            </li>
                         </ul>
                         <!--         user login -->
                         <i class="fa fa-user-circle white fa-3x"
