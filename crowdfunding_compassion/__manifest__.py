@@ -64,6 +64,7 @@
         "templates/project_donation_form_page.xml",
         "templates/project_donation_page.xml",
         "templates/project_page.xml",
+        "templates/participant_page.xml",
         "templates/projects_list_page.xml",
     ],
     "demo": ["demo/demo.xml"],

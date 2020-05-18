@@ -72,7 +72,9 @@
                 <img class="participants__image" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Participant image"/>
                 <div class="participants__content">
                     <h4 class="participants__name">
-                        <t t-esc="participant.partner_id.name"/>
+                        <a t-attf-href="/participant/#{project.id}/#{participant.id}">
+                            <t t-esc="participant.partner_id.name" />
+                        </a>
                     </h4>
 
                     <!-- Setup data and display the sponsorship progress -->
