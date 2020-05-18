@@ -8,3 +8,4 @@
 ##############################################################################
 
 from . import agreement_child_protection_charter_form
+from . import partner_coordinates_form
