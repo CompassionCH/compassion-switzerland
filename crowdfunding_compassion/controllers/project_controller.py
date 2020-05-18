@@ -24,8 +24,44 @@ class ProjectController(Controller):
             self._prepare_project_values(project.sudo(), **kwargs),
         )
 
+    @route(["/participant/<int:project_id>/<int:participant_id>"],
+           type="http",
+           auth="user",
+           website=True)
+    def participant(self, project_id=0, participant_id=0):
+        participant = request.env['crowdfunding.participant'].sudo().search([
+            ("id", "=", participant_id)
+        ])
+        project = request.env['crowdfunding.project'].sudo().search([
+            ("id", "=", project_id)
+        ])
+        sponsorships, donations = self.get_sponsorships_and_donations(project)
+        values = {
+            "participant": participant,
+            "project": project,
+            "impact": self.get_impact(sponsorships, donations),
+        }
+        return request.render("crowdfunding_compassion.participant_page", values)
+
     # TODO: test when we can create data for a project
     def _prepare_project_values(self, project, **kwargs):
+        sponsorships, donations = self.get_sponsorships_and_donations(project)
+
+        # check if current partner is owner of current project
+        participant = request.env['crowdfunding.participant'].search([
+            ("project_id", "=", project.id),
+            ("partner_id", "in", (project.project_owner_id +
+                                  request.env.user.partner_id).ids)
+        ])
+
+        return {
+            "project": project,
+            "impact": self.get_impact(sponsorships, donations),
+            "fund": project.product_id,
+            "participant": participant
+        }
+
+    def get_sponsorships_and_donations(self, project):
         sponsorships = [
             {
                 "type": "sponsorship",
@@ -55,28 +91,11 @@ class ProjectController(Controller):
             for donation in project.invoice_line_ids.filtered(
                 lambda l: l.state == "paid")
         ]
+        return sponsorships, donations
 
+    def get_impact(self, sponsorships, donations):
         # Chronological list of sponsorships and fund donations for impact display
-        impact = sorted(sponsorships + donations, key=lambda x: x["date"], reverse=True)
-
-        fund = project.product_id
-
-        # check if current partner is owner of current project
-        participant = request.env['crowdfunding.participant'].search([
-            ("project_id", "=", project.id),
-            ("partner_id", "in", (project.project_owner_id +
-                                  request.env.user.partner_id).ids)
-        ])
-
-        return {
-            "project": project,
-            "impact": impact,
-            "fund": fund,
-            "participant": participant,
-            "sponsor_banner": base64.b64encode(file_open(
-                "crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg",
-                "rb").read()),
-        }
+        return sorted(sponsorships + donations, key=lambda x: x["date"])
 
     # Utils
     def get_time_ago(self, given_date):

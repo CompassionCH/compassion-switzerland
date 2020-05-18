@@ -92,20 +92,3 @@ class CrowdFundingWebsite(EventsController):
                 "crowdfunding_compassion.crowdfunding_form_template", values
             )
         return result
-
-    @route(["/participant/<int:project_id>/<int:participant_id>"],
-           type="http",
-           auth="user",
-           website=True)
-    def participant(self, project_id=0, participant_id=0):
-        participant = request.env['crowdfunding.participant'].sudo().search([
-            ("id", "=", participant_id)
-        ])
-        project = request.env['crowdfunding.project'].sudo().search([
-            ("id", "=", project_id)
-        ])
-        values = {
-            "participant": participant,
-            "project": project,
-        }
-        return request.render("crowdfunding_compassion.participant_page", values)

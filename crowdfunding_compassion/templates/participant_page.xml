@@ -3,6 +3,7 @@
     <data>
         <!-- === Participant Page === -->
         <!-- The corresponding [crowdfunding.participant] is passed to this template as context in variable [participant] -->
+        <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
         <template id="participant_page">
             <t t-call="crowdfunding_compassion.layout">
 
@@ -23,46 +24,15 @@
                                     </h3>
                                     <div class="project-hero__card-content">
 
-<!--                                        <t t-call="crowdfunding_compassion.project_progress"/>-->
+                                        <t t-call="crowdfunding_compassion.project_progress"/>
 
                                     </div>
                                     <div class="project-hero__cart-cta">
                                         <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
-                                            <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate
-                                                now
+                                            <button type="button" class="btn btn-primary btn-lg btn-block mb-2">
+                                                Donate now
                                             </button>
                                         </a>
-<!--                                        <div class="row mx-auto">-->
-<!--                                            <div class="col" t-if="project.type == 'collective'">-->
-<!--                                                <a t-attf-href="/projects/join/#{project.id}"-->
-<!--                                                   class="btn btn-white btn-md btn-block">Join the project-->
-<!--                                                </a>-->
-<!--                                            </div>-->
-<!--                                            <div class="col">-->
-<!--                                                <div class="row project-hero__card-share-text">Share with your friends-->
-<!--                                                </div>-->
-<!--                                                &lt;!&ndash; TODO: update link to production url &ndash;&gt;-->
-<!--                                                <div class="row project-hero__card-share-icons">-->
-<!--                                                    <t t-set="compassion_project_base_url"-->
-<!--                                                       t-value="'crowdfunding.compassion.ch/project'"/>-->
-<!--                                                    <a t-attf-href="https://www.facebook.com/sharer.php?u=#{ compassion_project_base_url }/#{ project.id }"-->
-<!--                                                       target="_blank">-->
-<!--                                                        <i class="fa fa-facebook-official"/>-->
-<!--                                                    </a>-->
-<!--                                                    <a t-attf-href="https://twitter.com/intent/tweet?url=#{ compassion_project_base_url }/#{ project.id }"-->
-<!--                                                        target="_blank">-->
-<!--                                                        <i class="fa fa-twitter-square"/>-->
-<!--                                                    </a>-->
-<!--                                                    <a t-attf-href="https://www.linkedin.com/sharing/share-offsite/?url=#{ compassion_project_base_url }/#{ project.id }"-->
-<!--                                                        target="_blank">-->
-<!--                                                        <i class="fa fa-linkedin"/>-->
-<!--                                                    </a>-->
-<!--                                                    <a t-attf-href="mailto:?subject=I wanted you to see this project&amp;body=Check out this project #{ compassion_project_base_url }/#{ project.id }.">-->
-<!--                                                        <i class="fa fa-at"/>-->
-<!--                                                    </a>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +62,7 @@
                                     <iframe class="my-3" width="100%" height="400px" t-att-src="participant.presentation_video" frameborder="0"/>
                                 </t>
 
-                                <h5 class="blue mt-4 uppercase">Follow my project on</h5>
+                                <h5 class="blue mt-4 uppercase">Follow me on</h5>
 
                                 <t t-if="participant.facebook_url">
                                     <a t-att-href="participant.facebook_url" target="_blank">Facebook</a>
@@ -113,37 +83,27 @@
                                     <a t-att-href="participant.personal_web_page_url" target="_blank">My website</a>
                                     <br/>
                                 </t>
-
-<!--                                <t t-if="project.product_id">-->
-<!--                                    <t t-set="fund_image"-->
-<!--                                       t-value="project.product_id.image_medium or '/crowdfunding_compassion/static/src/img/icn_children.png'"/>-->
-<!--                                    <t t-set="fund_name" t-value="project.product_id.crowdfunding_impact_text_active" />-->
-<!--                                    <t t-set="fund_description" t-value="project.product_id.description" />-->
-<!--                                    <div class="my-5">-->
-<!--                                        <t t-call="crowdfunding_compassion.fund_card"/>-->
-<!--                                    </div>-->
-<!--                                </t>-->
                             </div>
 
 
                             <!-- Side content -->
-<!--                            <div class="col-12 col-lg-4">-->
+                            <div class="col-12 col-lg-4">
 
-<!--                                &lt;!&ndash; TODO: Test this part when forms are done so it's easier to create data to display &ndash;&gt;-->
-<!--                                <t t-if="impact">-->
-<!--                                    <h3 class="blue text-center uppercase">Impact so far</h3>-->
+                                <!-- TODO: Test this part when forms are done so it's easier to create data to display -->
+                                <t t-if="impact">
+                                    <h3 class="blue text-center uppercase">Impact so far</h3>
 
-<!--                                    <t t-foreach="impact" t-as="impact_tile">-->
-<!--                                        <t t-call="crowdfunding_compassion.impact_tile" />-->
-<!--                                    </t>-->
-<!--                                </t>-->
+                                    <t t-foreach="impact" t-as="impact_tile">
+                                        <t t-call="crowdfunding_compassion.impact_tile" />
+                                    </t>
+                                </t>
 
-<!--                                <t t-else="">-->
-<!--                                    <h3 class="blue text-center mt-5 uppercase">No impact yet</h3>-->
-<!--                                    <t t-call="crowdfunding_compassion.impact_tile_empty" />-->
-<!--                                </t>-->
+                                <t t-else="">
+                                    <h3 class="blue text-center mt-5 uppercase">No impact yet</h3>
+                                    <t t-call="crowdfunding_compassion.impact_tile_empty" />
+                                </t>
 
-<!--                            </div>-->
+                            </div>
                         </div>
                     </div>
                 </section>
