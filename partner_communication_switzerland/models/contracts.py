@@ -512,7 +512,7 @@ class RecurringContract(models.Model):
     def action_sub_reject(self):
         res = super().action_sub_reject()
         no_sub_config = self.env.ref("partner_communication_switzerland.planned_no_sub")
-        self.send_communication(no_sub_config, correspondent=False)
+        self.send_communication.with_context({})(no_sub_config, correspondent=False)
         return res
 
     ##########################################################################
@@ -536,7 +536,8 @@ class RecurringContract(models.Model):
         if csp:
             module = "partner_communication_switzerland."
             selected_config = self.env.ref(module + "csp_mail")
-            csp.send_communication(selected_config, correspondent=False)
+            csp.with_context({}).send_communication(
+                selected_config, correspondent=False)
 
         return res
 
@@ -556,13 +557,14 @@ class RecurringContract(models.Model):
         res = super().contract_waiting()
         self.filtered(
             lambda c: "S" in c.type and not c.is_active and c not in mandates_valid
-        )._new_dossier()
+        ).with_context({})._new_dossier()
 
         csp = self.filtered(lambda s: "CSP" in s.name)
         if csp:
             module = "partner_communication_switzerland."
             selected_config = self.env.ref(module + "csp_mail")
-            csp.send_communication(selected_config, correspondent=False)
+            csp.with_context({}).send_communication(
+                selected_config, correspondent=False)
 
         return res
 
@@ -579,7 +581,7 @@ class RecurringContract(models.Model):
         # This prevents sending welcome e-mail if it's already active
         self.write({"sds_state": "active"})
         # Send new dossier for write&pray sponsorships
-        self.filtered(lambda s: s.type == "SC").send_communication(
+        self.filtered(lambda s: s.type == "SC").with_context({}).send_communication(
             self.env.ref(
                 "partner_communication_switzerland" ".sponsorship_dossier_wrpr"
             )
@@ -592,7 +594,7 @@ class RecurringContract(models.Model):
         config = self.env.ref("partner_communication_switzerland.planned_welcome")
 
         if not self.origin_id or self.origin_id.type != "transfer":
-            communication = self.send_communication(config, both=True)
+            communication = self.with_context({}).send_communication(config, both=True)
             self.with_delay(
                 eta=datetime.now() + relativedelta(minutes=30)
             ).send_welcome_communication(communication)
@@ -626,28 +628,28 @@ class RecurringContract(models.Model):
         # Send cancellation for regular sponsorships
         self.filtered(
             lambda s: s.end_reason != "1" and not s.parent_id
-        ).send_communication(cancellation, both=True)
+        ).with_context({}).send_communication(cancellation, both=True)
         # Send NO SUB letter if activation is less than two weeks ago
         # otherwise send Cancellation letter for SUB sponsorships
         activation_limit = date.today() - relativedelta(days=15)
         self.filtered(
             lambda s: s.end_reason != "1"
-            and s.parent_id
-            and (
-                s.activation_date
-                and fields.Date.from_string(
-                    s.activation_date) < activation_limit
-            )
-        ).send_communication(cancellation, correspondent=False)
+                      and s.parent_id
+                      and (
+                              s.activation_date
+                              and fields.Date.from_string(
+                          s.activation_date) < activation_limit
+                      )
+        ).with_context({}).send_communication(cancellation, correspondent=False)
         self.filtered(
             lambda s: s.end_reason != "1"
-            and s.parent_id
-            and (
-                not s.activation_date
-                or fields.Date.from_string(
-                    s.activation_date) >= activation_limit
-            )
-        ).send_communication(no_sub, correspondent=False)
+                      and s.parent_id
+                      and (
+                              not s.activation_date
+                              or fields.Date.from_string(
+                          s.activation_date) >= activation_limit
+                      )
+        ).with_context({}).send_communication(no_sub, correspondent=False)
 
     def _new_dossier(self):
         """
@@ -695,4 +697,5 @@ class RecurringContract(models.Model):
             ]
         )
         if not already_sent:
-            self.send_communication(communication_config, correspondent)
+            self.with_context({}).send_communication(
+                communication_config, correspondent)
