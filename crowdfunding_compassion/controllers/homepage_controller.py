@@ -23,21 +23,24 @@ class HomepageController(Controller):
 
         impact = {
             "sponsorship": {
+                "type": "sponsorship",
                 "value": 0,
                 "name": _("Sponsor children"),
                 "text": _("sponsored children"),
                 "description": _("Description to be added"),
-                "image": "crowdfunding_compassion/static/src/img/icn_children.png",
+                "icon_image": "crowdfunding_compassion/static/src/img/icn_children.png",
             }
         }
 
         for fund in active_funds:
             impact[fund.name] = {
+                "type": "fund",
                 "value": 0,
                 "name": fund.crowdfunding_impact_text_active,
                 "text": fund.crowdfunding_impact_text_passive,
                 "description": fund.description,
-                "image": fund.image_medium
+                "icon_image": fund.image_medium,
+                "header_image": fund.image_large
                 or "crowdfunding_compassion/static/src/img/icn_children.png",
             }
 

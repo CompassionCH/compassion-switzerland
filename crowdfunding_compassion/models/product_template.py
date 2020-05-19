@@ -23,3 +23,6 @@ class ProductTemplate(models.Model):
     fund_selector_post_description = fields.Char(
         translate=True, help="Ex: children"
     )
+    image_large = fields.Binary(
+        "Large image", help="Image for header", attachment=True
+    )
