@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="product_form_view_crowdfunding" model="ir.ui.view">
+    <record id="product_template_form_view_crowdfunding" model="ir.ui.view">
         <field name="name">product.product_template.crowdfunding</field>
-        <field name="model">product.product</field>
-        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
-            <notebook>
+            <xpath expr="//notebook">
                 <page string="Crowdfunding" name="crowdfunding">
                     <group>
                         <field name="activate_for_crowdfunding"/>
@@ -20,7 +20,7 @@
                         <field name="fund_selector_post_description"/>
                     </group>
                 </page>
-            </notebook>
+            </xpath>
         </field>
     </record>
 </odoo>
