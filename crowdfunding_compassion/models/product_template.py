@@ -24,5 +24,5 @@ class ProductTemplate(models.Model):
         translate=True, help="Ex: children"
     )
     image_large = fields.Binary(
-        "Large image", help="Image for header"
+        "Large image", help="Image for header", attachment=True
     )
