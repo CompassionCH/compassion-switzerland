@@ -288,7 +288,7 @@
                         <i class="fa fa-bars fa-xs " aria-hidden="true"/>
                     </button>
 
-                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <div class="collapse navbar-collapse dropdown" id="navbarResponsive">
                         <ul class="navbar-nav text-uppercase ml-auto">
                             <li class="nav-item">
                                 <a class="nav-link" href="/projects/create">Submit your project</a>
@@ -299,25 +299,22 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/my_account">My Account</a>
-                            </li>
-
-                            <li class="nav-item">
                                 <a class="nav-link" href="#about">About</a>
                             </li>
 
-                            <li class="nav-item">
-                                <t t-if="request.session.get('uid')">
-                                    <a class="nav-link" href="/web/session/logout?redirect=/">Logout</a>
-                                </t>
-                                <t t-else="">
-                                    <a class="nav-link" href="/web/login?redirect=/">Login</a>
-                                </t>
+                            <li class="nav-item dropdown mr-5">
+                                <a class="nav-link dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-user-circle white fa-3x"/>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/my_account">My Account</a></li>
+                                    <t t-if="request.session.get('uid')">
+                                        <li><a class="dropdown-item" href="/web/session/logout?redirect=/homepage">Logout</a></li>
+                                    </t>
+                                </ul>
                             </li>
                         </ul>
-                        <!--         user login -->
-                        <i class="fa fa-user-circle white fa-3x"
-                            aria-hidden="true"/>
+
                         <!--  lang selector        -->
                         <span class="lang-selector">
                             <a href="/fr_CH/homepage">
