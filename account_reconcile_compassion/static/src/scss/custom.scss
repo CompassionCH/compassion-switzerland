@@ -7,3 +7,10 @@
     width: 60%;
 }
 
+.o_reconciliation {
+    .o_reconciliation_line {
+        &[data-mode="create"] > .create {
+            max-height: 300px;
+        }
+    }
+}

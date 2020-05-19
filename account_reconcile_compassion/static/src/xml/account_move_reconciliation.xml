@@ -36,15 +36,18 @@
                 <td class="o_td_label">Product</td>
                 <td class="o_td_field"></td>
             </tr>
-            <tr class="create_sponsorship_id">
+           <tr class="create_sponsorship_id">
                 <td class="o_td_label">Sponsorship</td>
                 <td class="o_td_field"></td>
             </tr>
-                        <tr class="create_user_id">
+            <tr class="create_user_id">
                 <td class="o_td_label">Ambassador</td>
                 <td class="o_td_field"></td>
             </tr>
-                        <tr class="create_comment">
+        </t>
+
+        <t t-jquery="tr.create_journal_id" t-operation="after">
+            <tr class="create_comment">
                 <td class="o_td_label">Gift instructions</td>
                 <td class="o_td_field"></td>
             </tr>

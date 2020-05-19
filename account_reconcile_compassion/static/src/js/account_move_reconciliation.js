@@ -19,10 +19,10 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
     // by _onAction uses the target of the event to get the handle, which won't be available if 
     // the event is triggered programmaticaly. Therefore the handle is passed in data for this event
     custom_events: _.extend({}, statement_action.StatementAction.prototype.custom_events, {
-      update_proposition_manually: '_onUpdatePropositionManually',
+      update_proposition_programmaticaly: '_onUpdatePropositionProgrammaticaly',
     }),
 
-    _onUpdatePropositionManually: function (event) {
+    _onUpdatePropositionProgrammaticaly: function (event) {
       var self = this;
       var handle = event.data.data.handle;
       var line = this.model.getLine(handle);
@@ -320,7 +320,7 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
           ]
         }).then(function (product_ids) {
           if (product_ids !== "undefined" && product_ids.length > 0) {
-            self.trigger_up('update_proposition_manually', {
+            self.trigger_up('update_proposition_programmaticaly', {
               'data': { product_id: { 'id': product_ids[0] }, handle: handle },
             });
           }
@@ -341,7 +341,7 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
           ]
         }).then(function (sponsorship_ids) {
           if (typeof sponsorship_ids !== "undefined" && sponsorship_ids.length > 0) {
-            self.trigger_up('update_proposition_manually', {
+            self.trigger_up('update_proposition_programmaticaly', {
               'data': { sponsorship_id: { 'id': sponsorship_ids[0] }, handle: handle },
             });
           }
