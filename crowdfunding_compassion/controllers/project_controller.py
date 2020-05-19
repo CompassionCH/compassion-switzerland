@@ -35,7 +35,13 @@ class ProjectController(Controller):
         project = request.env['crowdfunding.project'].sudo().search([
             ("id", "=", project_id)
         ])
-        sponsorships, donations = self.get_sponsorships_and_donations(project)
+        sponsorships, donations = self.get_sponsorships_and_donations(
+            project.sponsorship_ids.filtered(
+                lambda s: s.partner_id == participant.partner_id),
+            project.invoice_line_ids.filtered(
+                lambda line: line.partner_id == participant.partner_id
+            )
+        )
         values = {
             "participant": participant,
             "project": project,
@@ -43,9 +49,9 @@ class ProjectController(Controller):
         }
         return request.render("crowdfunding_compassion.participant_page", values)
 
-    # TODO: test when we can create data for a project
     def _prepare_project_values(self, project, **kwargs):
-        sponsorships, donations = self.get_sponsorships_and_donations(project)
+        sponsorships, donations = self.get_sponsorships_and_donations(
+            project.sponsorship_ids, project.invoice_line_ids)
 
         # check if current partner is owner of current project
         participant = request.env['crowdfunding.participant'].search([
@@ -61,7 +67,7 @@ class ProjectController(Controller):
             "participant": participant
         }
 
-    def get_sponsorships_and_donations(self, project):
+    def get_sponsorships_and_donations(self, sponsorship_ids, invoice_line_ids):
         sponsorships = [
             {
                 "type": "sponsorship",
@@ -73,7 +79,7 @@ class ProjectController(Controller):
                 "time_ago": self.get_time_ago(sponsorship.create_date),
                 "anonymous": False,
             }
-            for sponsorship in project.sponsorship_ids
+            for sponsorship in sponsorship_ids
         ]
 
         donations = [
@@ -88,7 +94,7 @@ class ProjectController(Controller):
                 "time_ago": self.get_time_ago(donation.invoice_id.create_date),
                 "anonymous": donation.is_anonymous,
             }
-            for donation in project.invoice_line_ids.filtered(
+            for donation in invoice_line_ids.filtered(
                 lambda l: l.state == "paid")
         ]
         return sponsorships, donations
