@@ -288,6 +288,7 @@ class ProjectCreationStep3(models.AbstractModel):
                 "crowdfunding_compassion.config_project_confirmation").sudo()
             participant = self.main_object.sudo().participant_ids
             partner = self.main_object.sudo().project_owner_id
+        partner.sudo().write({"image": extra_values.get('partner_image')})
         extra_values.update(values)
         participant_values = {
             key.replace("participant_", ""): val for key, val in extra_values.items()
