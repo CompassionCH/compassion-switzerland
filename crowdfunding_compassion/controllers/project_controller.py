@@ -20,7 +20,7 @@ class ProjectController(Controller):
         # simpler and less prone to error than defining custom access and
         # security rules for each of them.
         return request.render(
-            "crowdfunding_compassion.project_page",
+            "crowdfunding_compassion.presentation_page",
             self._prepare_project_values(project.sudo(), **kwargs),
         )
 
@@ -41,8 +41,9 @@ class ProjectController(Controller):
             "participant": participant,
             "project": project,
             "impact": self.get_impact(sponsorships, donations),
+            "model": "participant",
         }
-        return request.render("crowdfunding_compassion.participant_page", values)
+        return request.render("crowdfunding_compassion.presentation_page", values)
 
     def _prepare_project_values(self, project, **kwargs):
         sponsorships, donations = self.get_sponsorships_and_donations(
@@ -59,7 +60,8 @@ class ProjectController(Controller):
             "project": project,
             "impact": self.get_impact(sponsorships, donations),
             "fund": project.product_id,
-            "participant": participant
+            "participant": participant,
+            "model": "project",
         }
 
     def get_sponsorships_and_donations(self, sponsorship_ids, invoice_line_ids):
