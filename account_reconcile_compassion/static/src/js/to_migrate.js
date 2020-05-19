@@ -23,17 +23,17 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
          */
         initializeCreateForm: function () {
             var self = this;
-            _.each(self.create_form, function (field) {
-                if (field.name === 'sponsorship_id') {
-                    field.field.domain = [
-                        '|', '|', ['partner_id', '=', self.partner_id],
-                        ['partner_id.parent_id', '=', self.partner_id],
-                        ['correspondent_id', '=', self.partner_id],
-                        ['state', '!=', 'draft'],
-                    ];
-                }
-            });
-            this._super();
+            // _.each(self.create_form, function (field) {
+            //     if (field.name === 'sponsorship_id') {
+            //         field.field.domain = [
+            //             '|', '|', ['partner_id', '=', self.partner_id],
+            //             ['partner_id.parent_id', '=', self.partner_id],
+            //             ['correspondent_id', '=', self.partner_id],
+            //             ['state', '!=', 'draft'],
+            //         ];
+            //     }
+            // });
+            // this._super();
 
             var line_name = self.st_line.name;
             var child_gift_match = line_name.match(/\[.+\]/);
@@ -119,74 +119,74 @@ odoo.define('account_reconcile_compassion.reconciliation', function (require) {
         },
     });
 
-    reconciliation.abstractReconciliation.include({
+    // reconciliation.abstractReconciliation.include({
 
-        init: function (parent, context) {
-            this._super(parent, context);
+    //     init: function (parent, context) {
+    //         this._super(parent, context);
 
-            // Extend an arbitrary field/widget with an init function that
-            // will set the options attribute to a given object.
-            // This is useful to pass arguments for a field when using the
-            // web_m2x_options module.
-            function fieldWithOptions (fieldClass, options) {
-                return fieldClass.extend({
-                    init: function () {
-                        this._super.apply(this, arguments);
-                        this.options = options;
-                    },
-                });
-            }
+    //         // Extend an arbitrary field/widget with an init function that
+    //         // will set the options attribute to a given object.
+    //         // This is useful to pass arguments for a field when using the
+    //         // web_m2x_options module.
+    //         function fieldWithOptions (fieldClass, options) {
+    //             return fieldClass.extend({
+    //                 init: function () {
+    //                     this._super.apply(this, arguments);
+    //                     this.options = options;
+    //                 },
+    //             });
+    //         }
 
-            this.create_form_fields.sponsorship_id = {
-                // id: 'sponsorship_id',
-                index: 6,
-                // corresponding_property: 'sponsorship_id',
-                label: _t('Sponsorship'),
-                required: false,
-                tabindex: 16,
-                constructor: fieldWithOptions(FieldMany2One,
-                    {
-                        'field_color': 'state',
-                        'colors': {'cancelled': 'gray',
-                            'terminated': 'gray',
-                            'mandate': 'red',
-                            'waiting': 'green'},
-                        'create': false,
-                        'create_edit': false,
-                    }),
-                field_properties: {
-                    // relation: 'recurring.contract',
-                    string: _t('Sponsorship'),
-                    // type: 'many2one',
-                },
-            };
-            this.create_form_fields.user_id = {
-                id: 'user_id',
-                index: 7,
-                corresponding_property: 'user_id',
-                label: _t('Ambassador'),
-                required: false,
-                tabindex: 17,
-                constructor: FieldMany2One,
-                field_properties: {
-                    relation: 'res.partner',
-                    string: _t('Ambassador'),
-                    type: 'many2one',
-                },
-            };
-            this.create_form_fields.comment = {
-                id: 'comment',
-                index: 7,
-                corresponding_property: 'comment',
-                label: _t('Gift Instructions'),
-                required: false,
-                tabindex: 17,
-                constructor: FieldChar,
-                field_properties: {
-                    string: _t('Gift Instructions'),
-                    type: 'char',
-                },
-            };
+            // this.create_form_fields.sponsorship_id = {
+            //     // id: 'sponsorship_id',
+            //     index: 6,
+            //     // corresponding_property: 'sponsorship_id',
+            //     label: _t('Sponsorship'),
+            //     required: false,
+            //     tabindex: 16,
+            //     constructor: fieldWithOptions(FieldMany2One,
+            //         {
+            //             'field_color': 'state',
+            //             'colors': {'cancelled': 'gray',
+            //                 'terminated': 'gray',
+            //                 'mandate': 'red',
+            //                 'waiting': 'green'},
+            //             'create': false,
+            //             'create_edit': false,
+            //         }),
+            //     field_properties: {
+            //         // relation: 'recurring.contract',
+            //         string: _t('Sponsorship'),
+            //         // type: 'many2one',
+            //     },
+            // };
+            // this.create_form_fields.user_id = {
+            //     id: 'user_id',
+            //     index: 7,
+            //     corresponding_property: 'user_id',
+            //     label: _t('Ambassador'),
+            //     required: false,
+            //     tabindex: 17,
+            //     constructor: FieldMany2One,
+            //     field_properties: {
+            //         relation: 'res.partner',
+            //         string: _t('Ambassador'),
+            //         type: 'many2one',
+            //     },
+            // };
+            // this.create_form_fields.comment = {
+            //     id: 'comment',
+            //     index: 7,
+            //     corresponding_property: 'comment',
+            //     label: _t('Gift Instructions'),
+            //     required: false,
+            //     tabindex: 17,
+            //     constructor: FieldChar,
+            //     field_properties: {
+            //         string: _t('Gift Instructions'),
+            //         type: 'char',
+            //     },
+            // };
         },
     });
 });
