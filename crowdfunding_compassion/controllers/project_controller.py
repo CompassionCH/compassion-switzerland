@@ -24,17 +24,12 @@ class ProjectController(Controller):
             self._prepare_project_values(project.sudo(), **kwargs),
         )
 
-    @route(["/participant/<int:project_id>/<int:participant_id>"],
+    @route(["/participant/<model('crowdfunding.participant'):participant>/"],
            type="http",
            auth="user",
            website=True)
-    def participant(self, project_id=0, participant_id=0):
-        participant = request.env['crowdfunding.participant'].sudo().search([
-            ("id", "=", participant_id)
-        ])
-        project = request.env['crowdfunding.project'].sudo().search([
-            ("id", "=", project_id)
-        ])
+    def participant(self, participant=None, **kwargs):
+        project = participant.project_id
         sponsorships, donations = self.get_sponsorships_and_donations(
             project.sponsorship_ids.filtered(
                 lambda s: s.partner_id == participant.partner_id),
