@@ -211,9 +211,8 @@
         <template id="fund_card" name="Fund card">
             <div class="card fund-card">
                 <div class="fund-card__header">
-                    <img class="fund-card__image" src="/theme_crowdfunding/static/src/img/head.jpg"/>
-                    <img class="fund-card__icon" t-attf-src="data:image/png;base64, #{ fund_image }" height="100" t-if="isinstance(fund_image, bytes)"/>
-                    <img class="fund-card__icon" t-att-src="fund_image" height="100" t-if="isinstance(fund_image, str)"/>
+                    <img class="fund-card__image" t-attf-src="data:image/png;base64, #{ fund_image }"/>
+                    <img class="fund-card__icon" t-attf-src="data:image/png;base64, #{ fund_icon }" height="100"/>
                 </div>
 
                 <div class="fund-card__content">

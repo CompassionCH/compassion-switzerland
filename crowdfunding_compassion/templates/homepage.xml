@@ -35,8 +35,8 @@
                         <div class="row text-center">
                             <t t-foreach="impact" t-as="fund">
                                 <div class="col">
-                                    <img t-attf-src="data:image/png;base64, #{ impact[fund]['image'] }" height="100" t-if="isinstance(impact[fund]['image'], bytes)"/>
-                                    <img t-att-src="impact[fund]['image']" height="100" t-if="isinstance(impact[fund]['image'], str)"/>
+                                    <img t-attf-src="data:image/png;base64, #{ impact[fund]['icon_image'] }" height="100" t-if="isinstance(impact[fund]['icon_image'], bytes)"/>
+                                    <img t-att-src="impact[fund]['icon_image']" height="100" t-if="isinstance(impact[fund]['icon_image'], str)"/>
 
                                     <h4 class="display-2 count font-weight-bolder">
                                         <t t-esc="impact[fund]['value']"/>
@@ -144,7 +144,14 @@
 
                     <div class="container funds__cards-container mb-5 pb-5">
                         <t t-foreach="impact" t-as="fund">
-                            <t t-set="fund_image" t-value="impact[fund]['image']" />
+                            <t t-if="impact[fund]['type'] == 'sponsorship'">
+                                <t t-set="fund_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'" />
+                            </t>
+                            <t t-else="">
+                                <t t-set="fund_image" t-value="impact[fund]['header_image']" />
+                            </t>
+
+                            <t t-set="fund_icon" t-value="impact[fund]['icon_image']" />
                             <t t-set="fund_name" t-value="impact[fund]['name']" />
                             <t t-set="fund_description" t-value="impact[fund]['description']" />
                             <t t-call="crowdfunding_compassion.fund_card"/>

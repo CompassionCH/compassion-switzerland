@@ -18,6 +18,7 @@
                         <field name="crowdfunding_impact_text_active"/>
                         <field name="fund_selector_pre_description"/>
                         <field name="fund_selector_post_description"/>
+                        <field name="image_large"/>
                     </group>
                 </page>
             </notebook>
