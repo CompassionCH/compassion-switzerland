@@ -353,6 +353,10 @@ class RecurringContract(models.Model):
             ('origin_id.type', '!=', 'transfer'),
             ('welcome_active_letter_sent', '=', False)
         ])
+        # should remove records that have not the field welcome_active_letter_sent
+        to_send.filtered(
+            lambda contract: 'welcome_active_letter_sent' in contract._fields
+                             and contract.welcome_active_letter_sent)
         if to_send:
             to_send.send_communication(welcome, both=True).send()
             to_send.write({
