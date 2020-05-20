@@ -184,7 +184,7 @@ class RecurringContract(models.Model):
                             'user_id': communication.user_id.id,
                         })
         else:
-            for partner in partners:
+            for partner in set(partners):
                 objects = self.filtered(
                     lambda c: c.correspondent_id == partner if correspondent
                     else c.partner_id == partner
