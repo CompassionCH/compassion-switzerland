@@ -10,27 +10,31 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
   var reconciliation_renderer = require("account.ReconciliationRenderer");
   var reconciliation_model = require("account.ReconciliationModel");
   var statement_action = require("account.ReconciliationClientAction");
-  var rpc = require('web.rpc');
+  var rpc = require("web.rpc");
   var qweb = core.qweb;
   var _t = core._t;
 
   statement_action.StatementAction.include({
     // Event which allows to modify fields programmaticaly The update_proposition event handled
-    // by _onAction uses the target of the event to get the handle, which won't be available if 
+    // by _onAction uses the target of the event to get the handle, which won't be available if
     // the event is triggered programmaticaly. Therefore the handle is passed in data for this event
-    custom_events: _.extend({}, statement_action.StatementAction.prototype.custom_events, {
-      update_proposition_programmaticaly: '_onUpdatePropositionProgrammaticaly',
-    }),
+    custom_events: _.extend(
+      {},
+      statement_action.StatementAction.prototype.custom_events,
+      {
+        update_proposition_programmaticaly: "_onUpdatePropositionProgrammaticaly",
+      }
+    ),
 
     _onUpdatePropositionProgrammaticaly: function (event) {
       var self = this;
       var handle = event.data.data.handle;
       var line = this.model.getLine(handle);
-      this.model['updateProposition'](handle, event.data.data).always(function () {
+      this.model["updateProposition"](handle, event.data.data).always(function () {
         self._getWidget(handle).update(line);
       });
-    }
-  })
+    },
+  });
 
   reconciliation_renderer.StatementRenderer.include({
     events: _.extend({}, reconciliation_renderer.StatementRenderer.prototype.events, {
@@ -51,7 +55,6 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
     },
   });
 
-  // Extend the class written in module account (bank statement view)
   reconciliation_renderer.LineRenderer.include({
     // Overload of the default function in 'account.ReconciliationRenderer' which adds the product_id field.
     // It doesn't seem possible to call the superclass function and then add the field as basic_model.js
@@ -139,13 +142,13 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
           ],
 
           {
-            account_id: { string: _t("Account") },
-            label: { string: _t("Label") },
-            amount: { string: _t("Account") },
-            product_id: { string: _t("Product") },
-            sponsorship_id: { string: _t("Sponsorship") },
-            user_id: { string: _t("Ambassador") },
-            comment: { string: _t("Gift instructions") },
+            account_id: {string: _t("Account")},
+            label: {string: _t("Label")},
+            amount: {string: _t("Account")},
+            product_id: {string: _t("Product")},
+            sponsorship_id: {string: _t("Sponsorship")},
+            user_id: {string: _t("Ambassador")},
+            comment: {string: _t("Gift instructions")},
           }
         )
         .then(function (recordID) {
@@ -156,42 +159,42 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
             self,
             "account_id",
             record,
-            { mode: "edit" }
+            {mode: "edit"}
           );
 
           self.fields.journal_id = new relational_fields.FieldMany2One(
             self,
             "journal_id",
             record,
-            { mode: "edit" }
+            {mode: "edit"}
           );
 
           self.fields.tax_id = new relational_fields.FieldMany2One(
             self,
             "tax_id",
             record,
-            { mode: "edit", additionalContext: { append_type_to_tax_name: true } }
+            {mode: "edit", additionalContext: {append_type_to_tax_name: true}}
           );
 
           self.fields.analytic_account_id = new relational_fields.FieldMany2One(
             self,
             "analytic_account_id",
             record,
-            { mode: "edit" }
+            {mode: "edit"}
           );
 
           self.fields.analytic_tag_ids = new relational_fields.FieldMany2ManyTags(
             self,
             "analytic_tag_ids",
             record,
-            { mode: "edit" }
+            {mode: "edit"}
           );
 
           self.fields.force_tax_included = new basic_fields.FieldBoolean(
             self,
             "force_tax_included",
             record,
-            { mode: "edit" }
+            {mode: "edit"}
           );
 
           self.fields.label = new basic_fields.FieldChar(self, "label", record, {
@@ -210,21 +213,21 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
             self,
             "product_id",
             record,
-            { mode: "edit" }
+            {mode: "edit"}
           );
 
           self.fields.sponsorship_id = new relational_fields.FieldMany2One(
             self,
             "sponsorship_id",
             record,
-            { mode: "edit" }
+            {mode: "edit"}
           );
 
           self.fields.user_id = new relational_fields.FieldMany2One(
             self,
             "user_id",
             record,
-            { mode: "edit" }
+            {mode: "edit"}
           );
 
           self.fields.comment = new basic_fields.FieldChar(self, "comment", record, {
@@ -312,40 +315,42 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
 
       // Search product
       if (child_gift_match) {
-        rpc.query({
-          model: "product.product",
-          method: "search",
-          args: [
-            [["name", "=", child_gift_match]]
-          ]
-        }).then(function (product_ids) {
-          if (product_ids !== "undefined" && product_ids.length > 0) {
-            self.trigger_up('update_proposition_programmaticaly', {
-              'data': { product_id: { 'id': product_ids[0] }, handle: handle },
-            });
-          }
-        });
+        rpc
+          .query({
+            model: "product.product",
+            method: "search",
+            args: [[["name", "=", child_gift_match]]],
+          })
+          .then(function (product_ids) {
+            if (product_ids !== "undefined" && product_ids.length > 0) {
+              self.trigger_up("update_proposition_programmaticaly", {
+                data: {product_id: {id: product_ids[0]}, handle: handle},
+              });
+            }
+          });
 
         // Search sponsorship
         let child_code = child_gift_match[0]
           .replace("[", "")
           .replace("]", "")
           .match(/\w+/)[0];
-        rpc.query({
-          model: "recurring.contract",
-          method: "search",
-          args: [
-            ['child_code', '=', child_code],
-            ['correspondent_id', '=', line.partner_id],
-            ['partner_id', '=', line.partner_id],
-          ]
-        }).then(function (sponsorship_ids) {
-          if (typeof sponsorship_ids !== "undefined" && sponsorship_ids.length > 0) {
-            self.trigger_up('update_proposition_programmaticaly', {
-              'data': { sponsorship_id: { 'id': sponsorship_ids[0] }, handle: handle },
-            });
-          }
-        });
+        rpc
+          .query({
+            model: "recurring.contract",
+            method: "search",
+            args: [
+              ["child_code", "=", child_code],
+              ["correspondent_id", "=", line.partner_id],
+              ["partner_id", "=", line.partner_id],
+            ],
+          })
+          .then(function (sponsorship_ids) {
+            if (typeof sponsorship_ids !== "undefined" && sponsorship_ids.length > 0) {
+              self.trigger_up("update_proposition_programmaticaly", {
+                data: {sponsorship_id: {id: sponsorship_ids[0]}, handle: handle},
+              });
+            }
+          });
       }
     },
 
@@ -357,7 +362,7 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
         return this._rpc({
           model: "account.reconcile.model",
           method: "product_changed",
-          args: [{ product_id: values.product_id.id }],
+          args: [{product_id: values.product_id.id}],
         }).then(function (changes) {
           if (changes) {
             if (changes.account_id) values.account_id = changes.account_id;
@@ -370,21 +375,55 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
       }
     },
 
+    // Copy from the original function, I did not find a better way to do this
+    // CHANGE: 'product_id' added to the fields []
     quickCreateProposition: function (handle, reconcileModelId) {
-      // Add product field from the reconcile model into the proposition
-      this._super(handle, reconcileModelId);
       var line = this.getLine(handle);
       var reconcileModel = _.find(this.reconcileModels, function (r) {
         return r.id === reconcileModelId;
       });
-      line.reconciliation_proposition[0].product_id = this._formatNameGet(
-        reconcileModel.product_id
-      );
+      var fields = [
+        // product_id added from original function
+        "product_id",
+        "account_id",
+        "amount",
+        "amount_type",
+        "analytic_account_id",
+        "journal_id",
+        "label",
+        "force_tax_included",
+        "tax_id",
+        "analytic_tag_ids",
+      ];
+      this._blurProposition(handle);
+
+      var focus = this._formatQuickCreate(line, _.pick(reconcileModel, fields));
+      focus.reconcileModelId = reconcileModelId;
+      line.reconciliation_proposition.push(focus);
+
       if (reconcileModel.has_second_line) {
-        line.reconciliation_proposition[1].product_id =
-          line.reconciliation_proposition[0].product_id;
+        var second = {};
+        _.each(fields, function (key) {
+          second[key] =
+            "second_" + key in reconcileModel
+              ? reconcileModel["second_" + key]
+              : reconcileModel[key];
+        });
+        focus = this._formatQuickCreate(line, second);
+        focus.reconcileModelId = reconcileModelId;
+        line.reconciliation_proposition.push(focus);
+        this._computeReconcileModels(handle, reconcileModelId);
       }
+      line.createForm = _.pick(focus, this.quickCreateFields);
       return this._computeLine(line);
+    },
+
+    // Add product_id to the QuickCreate prop
+    _formatQuickCreate: function (line, values) {
+      values = values || {};
+      let prop = this._super(line, values);
+      prop.product_id = this._formatNameGet(values.product_id);
+      return prop;
     },
   });
 
