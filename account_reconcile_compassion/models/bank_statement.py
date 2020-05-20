@@ -22,11 +22,12 @@ class AccountStatement(models.Model):
     ##########################################################################
     name = fields.Char(default=lambda b: b._default_name())
     invoice_ids = fields.Many2many(
-        'account.invoice', string='Invoices', compute='_compute_invoices',
-        readonly=False
+        "account.invoice",
+        string="Invoices",
+        compute="_compute_invoices",
+        readonly=False,
     )
-    generated_invoices_count = fields.Integer(
-        'Invoices', compute='_compute_invoices')
+    generated_invoices_count = fields.Integer("Invoices", compute="_compute_invoices")
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -44,12 +45,12 @@ class AccountStatement(models.Model):
 
     @api.multi
     def _compute_invoices(self):
-        invoice_obj = self.env['account.invoice']
+        invoice_obj = self.env["account.invoice"]
         for stmt in self:
-            invoices = invoice_obj.search([('origin', '=', stmt.name)])
+            invoices = invoice_obj.search([("origin", "=", stmt.name)])
             stmt.invoice_ids = invoices
             stmt.generated_invoices_count = len(invoices)
-            
+
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
@@ -58,20 +59,22 @@ class AccountStatement(models.Model):
     def to_invoices(self):
         self.ensure_one()
         return {
-            'name': 'Generated Invoices',
-            'view_mode': 'tree,form',
-            'view_type': 'form',
-            'res_model': 'account.invoice',
-            'domain': [('origin', '=', self.name)],
-            'type': 'ir.actions.act_window',
-            'target': 'current',
-            'context': {'form_view_ref': 'account.invoice_form',
-                        'journal_type': 'sale'},
+            "name": "Generated Invoices",
+            "view_mode": "tree,form",
+            "view_type": "form",
+            "res_model": "account.invoice",
+            "domain": [("origin", "=", self.name)],
+            "type": "ir.actions.act_window",
+            "target": "current",
+            "context": {
+                "form_view_ref": "account.invoice_form",
+                "journal_type": "sale",
+            },
         }
 
     @api.multi
     def unlink(self):
-        self.mapped('invoice_ids').filtered(
-            lambda i: i.state in ('draft', 'open')
+        self.mapped("invoice_ids").filtered(
+            lambda i: i.state in ("draft", "open")
         ).action_invoice_cancel()
         return super(AccountStatement, self).unlink()
