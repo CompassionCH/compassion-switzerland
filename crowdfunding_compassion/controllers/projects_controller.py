@@ -32,15 +32,14 @@ class ProjectsController(Controller, FormControllerMixin):
            method='POST',
            website=True)
     def project_creation(self, page=1, project_id=0, **kwargs):
-        values = kwargs.copy()
         if project_id and page == 1:
             # Joining project can skip directly to step2
             page = 2
-        values["form_model_key"] = "cms.form.crowdfunding.project.step" + str(page)
-        values.update({
+        values = {
+            "form_model_key": "cms.form.crowdfunding.project.step" + str(page),
             "is_published": False,
             "page": page
-        })
+        }
         # This allows the translation to still work on the page
         project_creation_form = self.get_form(
             "crowdfunding.project", int(project_id), **values)
