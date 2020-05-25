@@ -1,9 +1,11 @@
+import base64
 from datetime import datetime
 
 from babel.dates import format_timedelta
 
 from odoo import _
 from odoo.http import request, route, Controller
+from odoo.tools import file_open
 
 
 class ProjectController(Controller):
@@ -70,7 +72,10 @@ class ProjectController(Controller):
             "project": project,
             "impact": impact,
             "fund": fund,
-            "participant": participant
+            "participant": participant,
+            "sponsor_banner": base64.b64encode(file_open(
+                "crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg",
+                "rb").read()),
         }
 
     # Utils

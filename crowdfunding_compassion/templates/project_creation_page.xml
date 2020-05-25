@@ -114,7 +114,6 @@
                     <div class="container">
                         <!-- If no cause is selected for the project we display the funds available. -->
                         <t t-if="not product">
-                            <h3 class="center-text my-3">I want to invest in one of the following cause</h3>
                             <div class="row">
                                 <t t-set="nb_fund" t-value="len(funds)"/>
                                 <div class="col-lg-1" t-if="nb_fund &lt; 4"/>
@@ -156,16 +155,9 @@
                                 <div class="col-lg-1" t-if="nb_fund &lt; 4"/>
                                 <div class="col-sm-2" t-if="nb_fund &lt; 3"/>
                             </div>
-                            <div class="center text-center">
-                                <input type="checkbox" name="no-product" id="no-product"/>
-                                <span>I don't want to choose a cause. I only want to propose children sponsorship.
-                                </span>
-                            </div>
                         </t>
                         <!-- If a cause is set, it means a participant is joining and must only set his personal goal. -->
                         <t t-if="product">
-                            <h3 class="center-text my-3">By joining the project, I will invest in the following cause
-                            </h3>
                             <div class="center center-text">
                                 <img t-attf-src="data:image;base64,#{product.image_medium}" class="d-block mx-auto"
                                      t-if="product.image_medium"/>
@@ -183,14 +175,8 @@
                                     <span t-esc="product.standard_price"/>.-
                                 </p>
                             </div>
-                            <div class="center text-center">
-                                <input type="checkbox" name="no-product" id="no-product"/>
-                                <span>I don't want to promote the cause. I only want to propose children sponsorship.
-                                </span>
-                            </div>
                         </t>
                         <hr class="blue my-3"/>
-                        <h3 class="center-text">I want children to be released from extreme poverty</h3>
                         <div class="row my-3">
                             <div class="col-md-3"/>
                             <div class="col-md-2 text-right">

@@ -30,8 +30,6 @@ class CrowdFundingWebsite(EventsController):
         owned_projects = request.env["crowdfunding.project"].search(
             [("project_owner_id", "=", partner.id)]
         )
-        donations += owned_projects.mapped("invoice_line_ids").filtered(
-            lambda l: l.state != "cancel")
 
         kw["form_model_key"] = "cms.form.partner.coordinates"
         coordinates_form = self.get_form("res.partner", partner.id, **kw)

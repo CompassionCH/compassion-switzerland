@@ -24,7 +24,7 @@
                         </div>
                     </div>
 
-                    <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/>
+<!--                    <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/> TODO CO-3212 -->
                 </section>
             </t>
         </template>

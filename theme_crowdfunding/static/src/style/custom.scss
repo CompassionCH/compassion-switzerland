@@ -183,6 +183,7 @@ $enable-rounded: false;
   &__image {
     height: 15rem;
     width: 100%;
+    object-fit: cover;
   }
 
   &__icon {
@@ -241,7 +242,7 @@ $enable-rounded: false;
 .masthead {
   text-align: center;
   color: $gray-300;
-  padding: 8rem 0;
+  padding: 5rem 0;
 
   background-image: url("/theme_crowdfunding/static/src/img/head.jpg");
   background-position: center center;
@@ -426,7 +427,7 @@ footer {
   font-weight: 900;
   color: $white;
 
-  padding-top: 10rem;
+  padding-top: 5rem;
   padding-bottom: 2rem;
 }
 

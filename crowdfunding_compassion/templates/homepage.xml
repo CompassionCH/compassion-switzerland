@@ -7,7 +7,7 @@
             <t t-call="crowdfunding_compassion.layout">
                 <header class="masthead">
                     <div class="container">
-                        <h1 class="display-1 blue uppercase">Together</h1>
+                        <h1 class="display-1 blue uppercase font-weight-bold">Together</h1>
                         <h2 class="display-4">Compassion interactive project platform</h2>
                         <h3 class="py-4">
                             Marathon, Anniversary, Barbecue, Bike Trip ?
@@ -144,13 +144,7 @@
 
                     <div class="container funds__cards-container mb-5 pb-5">
                         <t t-foreach="impact" t-as="fund">
-                            <t t-if="impact[fund]['type'] == 'sponsorship'">
-                                <t t-set="fund_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'" />
-                            </t>
-                            <t t-else="">
-                                <t t-set="fund_image" t-value="impact[fund]['header_image']" />
-                            </t>
-
+                            <t t-set="fund_image" t-value="impact[fund]['header_image']"/>
                             <t t-set="fund_icon" t-value="impact[fund]['icon_image']" />
                             <t t-set="fund_name" t-value="impact[fund]['name']" />
                             <t t-set="fund_description" t-value="impact[fund]['description']" />

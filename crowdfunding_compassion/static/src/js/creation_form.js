@@ -34,10 +34,6 @@ odoo.define('crowdfunding_compassion.creation_form', function (require) {
                 $("#participant_number_sponsorships_goal").val($(this).val());
             });
 
-            $("#no-product").change(function () {
-                $("#no_product").val($(this).val());
-            });
-
             // Hide required fields legend
             $(".above-controls").hide();
 

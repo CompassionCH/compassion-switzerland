@@ -71,7 +71,7 @@
                 <!-- Participant selection -->
                 <section>
                     <div class="container">
-                        <h3 class="blue uppercase mt-5 mb-3">I support the project of the following fundraiser</h3>
+                        <h3 class="blue uppercase mt-5 mb-3">Choose which fundraiser you want to support</h3>
 
                         <div>
                             <t t-foreach="project.participant_ids" t-as="participant">

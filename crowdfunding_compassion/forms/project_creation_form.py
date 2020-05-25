@@ -144,10 +144,9 @@ class ProjectCreationStep2(models.AbstractModel):
     _form_model_fields = ['product_id']
     _form_fields_hidden = [
         'product_id', 'participant_product_number_goal',
-        'participant_number_sponsorships_goal', 'no_product'
+        'participant_number_sponsorships_goal'
     ]
 
-    no_product = fields.Boolean()
     participant_product_number_goal = fields.Integer()
     participant_number_sponsorships_goal = fields.Integer()
 
@@ -156,7 +155,7 @@ class ProjectCreationStep2(models.AbstractModel):
         sponsorship_goal = extra_values.get('participant_number_sponsorships_goal')
         if not product_goal and not sponsorship_goal:
             raise NoGoalException
-        if values.get("no_product") == "on":
+        if not product_goal:
             values["product_id"] = False
         super().form_before_create_or_update(values, extra_values)
 
@@ -183,8 +182,7 @@ class ProjectCreationStep3(models.AbstractModel):
 
     partner_image = fields.Binary(
         "Profile picture",
-        help="Upload a profile picture, square 800 x 800px",
-        required=True)
+        help="Upload a profile picture, square 800 x 800px")
     participant_personal_motivation = fields.Text(
         "Personal motivation",
         help="Tell the others what is inspiring you, why it matters to you.",

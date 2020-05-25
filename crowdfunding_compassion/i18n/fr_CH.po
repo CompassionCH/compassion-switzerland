@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-08 10:01+0000\n"
-"PO-Revision-Date: 2020-05-18 15:53+0200\n"
+"PO-Revision-Date: 2020-05-25 13:43+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -340,7 +340,7 @@ msgstr "Anonyme"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_donation__anonymous_donation
 msgid "Anonymous Donation"
-msgstr "Donation anonyme"
+msgstr "Don anonyme"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
@@ -378,7 +378,7 @@ msgstr "En rejoignant ce projet, tu soutiens la cause suivante"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
 msgid "By making a donation, you agree on our"
-msgstr "En faisant une donation, tu acceptes nos"
+msgstr "En faisant un don, tu acceptes nos"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
@@ -668,12 +668,12 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_successful
 msgid "Donation Succesful"
-msgstr "Donation réussie"
+msgstr "Ton don est envoyé"
 
 #. module: crowdfunding_compassion
 #: model:mail.template,subject:crowdfunding_compassion.donation_successful_email_template
 msgid "Donation successful"
-msgstr "Donation réussie"
+msgstr "Ton don est envoyé"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__invoice_line_ids
@@ -1097,7 +1097,7 @@ msgstr "Liens vers l'inscription"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
 msgid "Make your donation"
-msgstr "Fais ta donnation"
+msgstr "Faire un don"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
@@ -1913,7 +1913,7 @@ msgstr "démarrer"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.impact_tile_empty
 msgid "make a donation now"
-msgstr "faire une donation maintenant"
+msgstr "faire un don maintenant"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view

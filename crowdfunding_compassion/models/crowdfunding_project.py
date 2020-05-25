@@ -17,10 +17,12 @@ class CrowdfundingProject(models.Model):
     description = fields.Text(
         "Project description",
         help="Aim of the project, why you want to create it, for which purpose and "
-             "any useful information that the donors should know."
+             "any useful information that the donors should know.",
+        required=True
     )
     personal_motivation = fields.Text(
-        help="Tell the others what is inspiring you, why it matters to you."
+        help="Tell the others what is inspiring you, why it matters to you.",
+        required=True
     )
     type = fields.Selection(
         [("individual", "Individual"), ("collective", "Collective")],

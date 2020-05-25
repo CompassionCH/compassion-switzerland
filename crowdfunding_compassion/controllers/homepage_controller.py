@@ -1,7 +1,9 @@
+import base64
 from datetime import datetime
 
 from odoo import _
 from odoo.http import request, route, Controller
+from odoo.tools.misc import file_open
 
 
 class HomepageController(Controller):
@@ -20,6 +22,11 @@ class HomepageController(Controller):
         active_funds = fund_obj.sudo().search(
             [("activate_for_crowdfunding", "=", True)]
         )
+        sponsor_banner = base64.b64encode(file_open(
+            "crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg", "rb"
+        ).read())
+        sponsor_icon = base64.b64encode(file_open(
+            "crowdfunding_compassion/static/src/img/icn_children.png", "rb").read())
 
         impact = {
             "sponsorship": {
@@ -28,7 +35,8 @@ class HomepageController(Controller):
                 "name": _("Sponsor children"),
                 "text": _("sponsored children"),
                 "description": _("Description to be added"),
-                "icon_image": "crowdfunding_compassion/static/src/img/icn_children.png",
+                "icon_image": sponsor_icon,
+                "header_image": sponsor_banner
             }
         }
 
@@ -39,9 +47,8 @@ class HomepageController(Controller):
                 "name": fund.crowdfunding_impact_text_active,
                 "text": fund.crowdfunding_impact_text_passive,
                 "description": fund.description,
-                "icon_image": fund.image_medium,
-                "header_image": fund.image_large
-                or "crowdfunding_compassion/static/src/img/icn_children.png",
+                "icon_image": fund.image_medium or sponsor_icon,
+                "header_image": fund.image_large or sponsor_banner,
             }
 
         for project in current_year_projects:
