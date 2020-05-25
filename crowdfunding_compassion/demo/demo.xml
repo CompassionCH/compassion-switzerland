@@ -56,7 +56,22 @@
     <record id="participant_4" model="crowdfunding.participant">
         <field name="partner_id" ref="base.res_partner_4" />
         <field name="project_id" ref="crowdfunding_compassion.demo_project_crowdfunding"/>
-        <field name="personal_motivation">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi quis ipsam odio cumque quia, ut voluptatem architecto tempore earum aut repellendus, obcaecati eos vel quod natus veritatis sit temporibus sequi amet autem cupiditate fugiat. Saepe omnis debitis, architecto suscipit consectetur, doloribus harum fuga, rem voluptas voluptatem repellendus voluptates at veritatis expedita provident nulla odit nisi sapiente vitae. Nam sunt cupiditate numquam eligendi aspernatur maiores, id quaerat totam praesentium, perferendis voluptatibus nulla natus minima neque, labore nobis. Error quidem placeat quasi fugiat suscipit laborum veritatis? Nihil ipsa, voluptates eveniet vel magnam veritatis neque, reprehenderit doloribus inventore tenetur nesciunt optio voluptatum nobis nisi non animi odit numquam eaque odio quos aut provident pariatur temporibus facilis? Ipsum dolore dolorem, ad provident molestias nulla expedita non, perferendis cumque, quos est! Atque esse modi doloribus quia, doloremque ipsa. Rem non impedit provident id assumenda animi et quae dolores minima ipsum dicta eum accusamus iste autem saepe, quidem neque placeat itaque aspernatur eos deserunt. Modi tempora maxime explicabo, officia neque pariatur voluptatum, itaque facilis praesentium incidunt est doloremque sapiente minus, deleniti cupiditate. Distinctio, adipisci. Similique expedita, ratione corrupti nulla voluptate consequatur sed magnam sint temporibus, ducimus doloribus blanditiis at laboriosam! Laborum commodi corporis eligendi? Dolores, similique.</field>
+        <field name="personal_motivation">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi quis ipsam
+            odio cumque quia, ut voluptatem architecto tempore earum aut repellendus, obcaecati eos vel quod natus
+            veritatis sit temporibus sequi amet autem cupiditate fugiat. Saepe omnis debitis, architecto suscipit
+            consectetur, doloribus harum fuga, rem voluptas voluptatem repellendus voluptates at veritatis expedita
+            provident nulla odit nisi sapiente vitae. Nam sunt cupiditate numquam eligendi aspernatur maiores, id
+            quaerat totam praesentium, perferendis voluptatibus nulla natus minima neque, labore nobis. Error quidem
+            placeat quasi fugiat suscipit laborum veritatis? Nihil ipsa, voluptates eveniet vel magnam veritatis neque,
+            reprehenderit doloribus inventore tenetur nesciunt optio voluptatum nobis nisi non animi odit numquam eaque
+            odio quos aut provident pariatur temporibus facilis? Ipsum dolore dolorem, ad provident molestias nulla
+            expedita non, perferendis cumque, quos est! Atque esse modi doloribus quia, doloremque ipsa. Rem non impedit
+            provident id assumenda animi et quae dolores minima ipsum dicta eum accusamus iste autem saepe, quidem neque
+            placeat itaque aspernatur eos deserunt. Modi tempora maxime explicabo, officia neque pariatur voluptatum,
+            itaque facilis praesentium incidunt est doloremque sapiente minus, deleniti cupiditate. Distinctio,
+            adipisci. Similique expedita, ratione corrupti nulla voluptate consequatur sed magnam sint temporibus,
+            ducimus doloribus blanditiis at laboriosam! Laborum commodi corporis eligendi? Dolores, similique.
+        </field>
         <field name="product_number_goal">40</field>
         <field name="number_sponsorships_goal">70</field>
         <field name="presentation_video">https://www.youtube.com/embed/YLe8vaJK-rQ</field>
@@ -64,6 +79,16 @@
     </record>
 
     <record id="demo_project_crowdfunding" model="crowdfunding.project">
-        <field name="participant_ids" eval="[(4, ref('crowdfunding_compassion.participant_2')), (4, ref('crowdfunding_compassion.participant_3')), (4, ref('crowdfunding_compassion.participant_4'))]"/>
+        <field name="participant_ids"
+               eval="[(4, ref('crowdfunding_compassion.participant_2')), (4, ref('crowdfunding_compassion.participant_3')), (4, ref('crowdfunding_compassion.participant_4'))]"/>
+    </record>
+
+    <!-- Activate one product -->
+    <record id="sponsorship_switzerland.product_template_fund_csp" model="product.template">
+        <field name="activate_for_crowdfunding" eval="True"/>
+        <field name="crowdfunding_impact_text_passive">mothers and babies supported</field>
+        <field name="crowdfunding_impact_text_active">supporting mothers and babies</field>
+        <field name="crowdfunding_quantity_singular">mother and baby</field>
+        <field name="crowdfunding_quantity_plural">mothers and babies</field>
     </record>
 </odoo>

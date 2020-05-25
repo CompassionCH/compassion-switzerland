@@ -47,7 +47,6 @@
         "data/crowdfunding_website.xml",
         "data/crowdfunding_event_type.xml",
         "data/email_templates.xml",
-        "data/product.xml",
         "data/utm_medium.xml",
         "views/account_invoice_line_view.xml",
         "views/crowdfunding_participant_view.xml",
