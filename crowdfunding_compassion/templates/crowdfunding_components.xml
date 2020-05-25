@@ -319,10 +319,10 @@
                             <a href="/fr_CH/homepage">
                                 <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
                             </a>
-                            <a href="/de_CH/homepage">
+                            <a href="/de_DE/homepage">
                                 <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
                             </a>
-                            <a href="/it_CH/homepage">
+                            <a href="/it_IT/homepage">
                                 <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
                             </a>
                         </span>
@@ -415,10 +415,10 @@
                                     <a href="/fr_CH/homepage">
                                         <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
                                     </a>
-                                    <a href="/de_CH/homepage">
+                                    <a href="/de_DE/homepage">
                                         <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
                                     </a>
-                                    <a href="/it_CH/homepage">
+                                    <a href="/it_IT/homepage">
                                         <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
                                     </a>
                                 </span>
