@@ -39,8 +39,12 @@ $display4-size: 2.5rem; //40px
 
 $font-size-sm: $font-size-base * 0.75;
 
-$font-family-sans-serif: "Montserrat", sans-serif;
+$font-family-base: "Montserrat", sans-serif;
 $body-color: #333;
+
+body {
+  font-family: $font-family-base;
+}
 
 h1,
 h2,
@@ -56,6 +60,7 @@ h6,
 .h6 {
   margin-bottom: 0.5rem;
   font-weight: 500;
+  font-family: $font-family-base;
   line-height: 1.2;
   color: #707070;
 
