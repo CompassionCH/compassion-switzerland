@@ -354,11 +354,12 @@ class RecurringContract(models.Model):
             ('welcome_active_letter_sent', '=', False)
         ])
         if to_send:
-            to_send.send_communication(welcome, both=True).send()
             to_send.write({
                 'sds_state': 'active',
                 'welcome_active_letter_sent': True
             })
+            to_send.send_communication(welcome, both=True).send()
+
 
     @api.model
     def send_sponsorship_reminders(self):
