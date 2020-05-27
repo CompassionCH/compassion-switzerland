@@ -360,7 +360,6 @@ class RecurringContract(models.Model):
             })
             to_send.send_communication(welcome, both=True).send()
 
-
     @api.model
     def send_sponsorship_reminders(self):
         logger.info("Creating Sponsorship Reminders")
