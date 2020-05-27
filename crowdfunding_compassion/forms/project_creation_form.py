@@ -254,6 +254,18 @@ class ProjectCreationStep3(models.AbstractModel):
     #################
     def form_before_create_or_update(self, values, extra_values):
         super().form_before_create_or_update(values, extra_values)
+        res_city_zip_obj = self.env['res.city.zip']
+        self.partner_zip_id = res_city_zip_obj.search([
+            ("name", '=', extra_values.get('partner_zip', None)),
+            ("city_id.name", '=', extra_values.get('partner_city'))
+        ], limit=1)
+        if not self.partner_zip_id:
+            same_zip_cities = res_city_zip_obj.search([
+                ("name", '=', extra_values.get('partner_zip', None))
+            ])
+            if same_zip_cities and len(same_zip_cities) == 1:
+                self.partner_zip_id = same_zip_cities
+
         # Take values from previous steps
         storage = self.wiz_storage_get().get('steps')
         values.update(storage.get(1, {}))
