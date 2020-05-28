@@ -18,7 +18,7 @@
                                     <t t-esc="project.name"/>
                                     funding for
                                 </h4>
-                                <span class="white">(Click one option to select)</span>
+                                <span style="color:white">(Click one option to select)</span>
 
                                 <div class="row mt-3">
 

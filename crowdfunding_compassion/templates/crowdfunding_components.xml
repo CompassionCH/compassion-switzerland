@@ -140,14 +140,14 @@
             <div class="card h-100 w-100">
                 <img class="card-img-top donation-type__project-card-image" t-attf-src="data:image/png;base64, #{ project.cover_photo }" alt="Project image"/>
 
-                <div class="card-body">
+                <div class="card-body text-center">
                     You are actually creating impact for:
-                    <h5 class="uppercase mt-2">
+                    <h4 class="uppercase mt-2">
                         <t t-esc="project.name"/>
-                    </h5>
+                    </h4>
 
                     <t t-if="display_impact">
-                        <h4 class="blue uppercase text-center mt-5 mb-3">Impact so far</h4>
+                        <h4 class="blue uppercase mt-5 mb-3">Impact so far</h4>
                         <t t-call="crowdfunding_compassion.project_progress" />
                     </t>
                 </div>

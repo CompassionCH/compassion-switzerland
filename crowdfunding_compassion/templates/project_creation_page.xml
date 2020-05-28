@@ -4,8 +4,7 @@
         <!--        Creation page-->
         <template id="project_creation_view_template">
             <t t-set="title" t-if="not form.main_object">Project creation</t>
-            <t t-set="title" t-if="form.main_object">Join
-                <t t-esc="form.main_object.name"/>
+            <t t-set="title" t-if="form.main_object">Join "<t t-esc="form.main_object.name"/>"
             </t>
             <t t-call="crowdfunding_compassion.layout">
                 <header>
@@ -121,35 +120,37 @@
                                 <t t-foreach="funds" t-as="fund">
                                     <div class="col-xs-6 col-sm-4 col-lg-3">
                                         <div class="card border-0">
-                                            <img t-attf-src="data:image;base64,#{fund.image_medium}"
-                                                 class="d-block mx-auto" t-if="fund.image"/>
+                                            <a t-attf-id="product-choose-#{fund_index}"
+                                               class="btn center">
+                                                 <img t-attf-src="data:image;base64,#{fund.image_medium}"
+                                                      class="d-block mx-auto" t-if="fund.image"/>
+                                            </a>
+
                                             <div class="card-body">
                                                 <h3 class="blue card-title center-text" t-field="fund.name"/>
                                                 <p t-field="fund.crowdfunding_description"
                                                    class="card-text mb-3 center-text"/>
                                                 <input type="radio" t-attf-id="product-id-#{fund_index}" name="product"
                                                        class="card-input-element d-none" t-att-value="fund.id"/>
-                                                <a t-attf-id="product-choose-#{fund_index}"
-                                                   class="btn btn-primary center">CHOOSE
-                                                </a>
                                             </div>
-                                        </div>
-                                        <div t-attf-id="fund-settings-#{fund_index}" class="card bg-blue mb-5"
-                                             style="display: none">
-                                            <div class="card-body center-text">
-                                                <div class="card-title">
-                                                    <h4 t-field="fund.fund_selector_pre_description" class="white"/>
-                                                    <input type="number" t-attf-id="fund-number-#{fund_index}"/>
-                                                    <h4 t-field="fund.fund_selector_post_description" class="white"/>
+                                            <div t-attf-id="fund-settings-#{fund_index}" class="card bg-blue mb-5"
+                                                 style="display: none">
+                                                <div class="card-body center-text">
+                                                    <div class="card-title">
+                                                        <h4 t-field="fund.fund_selector_pre_description" class="white"/>
+                                                        <input type="number" t-attf-id="fund-number-#{fund_index}"/>
+                                                        <h4 t-field="fund.fund_selector_post_description" class="white"/>
+                                                    </div>
+                                                    <p class="card-text text-white">
+                                                        <span class="white">Indicate the amount in the above box. 1</span>
+                                                        <t t-esc="fund.crowdfunding_quantity_singular" class="white"/>
+                                                        <span class="white">is equivalent to CHF</span>
+                                                        <t t-esc="fund.standard_price" class="white"/>.-
+                                                    </p>
                                                 </div>
-                                                <p class="card-text text-white">
-                                                    <span class="white">Indicate the amount in the above box. 1</span>
-                                                    <t t-esc="fund.crowdfunding_quantity_singular" class="white"/>
-                                                    <span class="white">is equivalent to CHF</span>
-                                                    <t t-esc="fund.standard_price" class="white"/>.-
-                                                </p>
                                             </div>
                                         </div>
+
                                     </div>
                                 </t>
                                 <div class="col-lg-1" t-if="nb_fund &lt; 4"/>
@@ -161,13 +162,13 @@
                             <div class="center center-text">
                                 <img t-attf-src="data:image;base64,#{product.image_medium}" class="d-block mx-auto"
                                      t-if="product.image_medium"/>
-                                <h3 class="blue center-text" t-field="product.name"/>
+                                <h3 class="blue center-text" style="margin-top: 10px;" t-field="product.name"/>
                                 <p t-field="product.crowdfunding_description" class="mb-3"/>
                                 <input type="radio" id="product-id-1" name="product" class="d-none"
                                        t-att-value="product.id"/>
-                                <h4 t-field="product.fund_selector_pre_description"/>
+                                <h4 t-field="product.fund_selector_pre_description" style="margin-top: 10px;"/>
                                 <input type="number" id="fund-number-1"/>
-                                <h4 t-field="product.fund_selector_post_description"/>
+                                <h4 t-field="product.fund_selector_post_description" style="margin-top: 10px;"/>
                                 <p>
                                     <span>Indicate the amount in the above box. 1</span>
                                     <span t-esc="product.crowdfunding_quantity_singular"/>
@@ -225,9 +226,10 @@
         <template id="project_creation_confirmation_view_template">
             <t t-call="crowdfunding_compassion.layout">
                 <t t-set="title" t-value="project.name"/>
-                <div id="confirmation" class="text-center">
+                <div id="confirmation" class="text-center" t-attf-style="background-image:url('data:image/jpg;base64,crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg')">
                     <br/>
                     <br/>
+
                     <h3>
                         Thank you for
                         <span t-if="is_new">launching</span>

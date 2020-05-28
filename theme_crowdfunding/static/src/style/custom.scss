@@ -115,9 +115,12 @@ section {
     }
 
     a,
+    a.button:hover {
+        text-decoration: none;
+    }
     a:hover {
       color: $white;
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 }
@@ -429,7 +432,7 @@ footer {
 
 .hero-title {
   font-size: $display2-size;
-  font-weight: 900;
+  font-weight: 700;
   color: $white;
 
   padding-top: 5rem;
@@ -660,4 +663,8 @@ hr.blue {
 
 .bg-blue {
     background-color: $blue-compassion !important;
+}
+
+.nounderline {
+  text-decoration: none !important
 }

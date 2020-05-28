@@ -25,9 +25,9 @@
 
                                     </div>
                                     <div class="project-hero__cart-cta">
-                                        <a t-attf-href="/project/#{ project.id }/donation">
-                                            <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate
-                                                now
+                                        <a t-attf-href="/project/#{ project.id }/donation" class="nounderline">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block mb-2">
+                                                Donate now
                                             </button>
                                         </a>
                                         <div class="row mx-auto">
@@ -37,7 +37,7 @@
                                                 </a>
                                             </div>
                                             <div class="col">
-                                                <div class="row project-hero__card-share-text">Share with your friends
+                                                <div class="row project-hero__card-share-text" style="font-size: 10px;">Share with your friends
                                                 </div>
                                                 <!-- TODO: update link to production url -->
                                                 <div class="row project-hero__card-share-icons">
@@ -45,18 +45,18 @@
                                                        t-value="'crowdfunding.compassion.ch/project'"/>
                                                     <a t-attf-href="https://www.facebook.com/sharer.php?u=#{ compassion_project_base_url }/#{ project.id }"
                                                        target="_blank">
-                                                        <i class="fa fa-facebook-official"/>
+                                                        <i class="fa fa-facebook-official fa-lg"/>
                                                     </a>
                                                     <a t-attf-href="https://twitter.com/intent/tweet?url=#{ compassion_project_base_url }/#{ project.id }"
                                                         target="_blank">
-                                                        <i class="fa fa-twitter-square"/>
+                                                        <i class="fa fa-twitter-square fa-lg"/>
                                                     </a>
                                                     <a t-attf-href="https://www.linkedin.com/sharing/share-offsite/?url=#{ compassion_project_base_url }/#{ project.id }"
                                                         target="_blank">
-                                                        <i class="fa fa-linkedin"/>
+                                                        <i class="fa fa-linkedin fa-lg"/>
                                                     </a>
                                                     <a t-attf-href="mailto:?subject=I wanted you to see this project&amp;body=Check out this project #{ compassion_project_base_url }/#{ project.id }.">
-                                                        <i class="fa fa-at"/>
+                                                        <i class="fa fa-at fa-lg"/>
                                                     </a>
                                                 </div>
                                             </div>
@@ -100,29 +100,26 @@
                                     <iframe class="my-3" width="100%" height="400px" t-att-src="project.owner_participant_id.presentation_video" frameborder="0"/>
                                 </t>
 
-                                <h5 class="blue mt-4 uppercase"
-                                    t-if="project.facebook_url or project.instagram_url or project.twitter_url or project.personal_web_page_url">
-                                    Follow my project on
-                                </h5>
+                                <t t-if="project.facebook_url or project.instagram_url or project.twitter_url or project.personal_web_page_url">
+                                    <h5 class="blue mt-4 uppercase">
+                                        Follow my project on
+                                    </h5>
 
-                                <t t-if="project.facebook_url">
-                                    <a t-att-href="project.facebook_url" target="_blank">Facebook</a>
-                                    <br/>
-                                </t>
-
-                                <t t-if="project.instagram_url">
-                                    <a t-att-href="project.instagram_url" target="_blank">Instagram</a>
-                                    <br/>
-                                </t>
-
-                                <t t-if="project.twitter_url">
-                                    <a t-att-href="project.twitter_url" target="_blank">Twitter</a>
-                                    <br/>
-                                </t>
-
-                                <t t-if="project.personal_web_page_url">
-                                    <a t-att-href="project.personal_web_page_url" target="_blank">My website</a>
-                                    <br/>
+                                    <a t-attf-href="project.facebook_url"
+                                       target="_blank">
+                                        <i class="fa fa-facebook-official fa-4x"/>
+                                    </a>
+                                    <a t-attf-href="project.instagram_url"
+                                       target="_blank">
+                                        <i class="fa fa-instagram-square fa-4x"/>
+                                    </a>
+                                    <a t-attf-href="project.twitter_url"
+                                        target="_blank">
+                                        <i class="fa fa-twitter-square fa-4x"/>
+                                    </a>
+                                    <a t-attf-href="project.personal_web_page_url">
+                                        <i class="fa fa-at fa-4x"/>
+                                    </a>
                                 </t>
 
                                 <t t-if="project.product_id">
