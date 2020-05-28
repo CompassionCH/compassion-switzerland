@@ -15,4 +15,3 @@ from . import res_config
 from . import account_journal
 from . import account_reconciliation_widget
 from . import account_reconcile_model
-from . import statement_operation

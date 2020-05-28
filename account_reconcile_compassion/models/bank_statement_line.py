@@ -140,7 +140,7 @@ class BankStatementLine(models.Model):
                         res_sorted.append(mv_line.id)
                 res = match_recs.browse(res_sorted[0])
                 return self._reconcile(res)
-        return res
+            return res
 
         def get_statement_line_for_reconciliation_widget(self):
             # Add partner reference for reconcile view
