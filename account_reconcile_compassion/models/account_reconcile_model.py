@@ -1,9 +1,21 @@
-from odoo import api, models, _
+from odoo import api, models, fields, _
 from odoo.exceptions import UserError
 
 
 class AccountReconcileModel(models.Model):
+
     _inherit = "account.reconcile.model"
+
+    product_id = fields.Many2one("product.product", "Product", readonly=False)
+    user_id = fields.Many2one("res.partner", "Ambassador", readonly=False)
+    comment = fields.Char("Gift instructions", readonly=False)
+    sponsorship_id = fields.Many2one(
+        "recurring.contract", "Sponsorship", readonly=False
+    )
+
+    @api.onchange("product_id")
+    def onchange_product_id(self):
+        self.account_id = self.product_id.property_account_income_id
 
     @api.model
     def product_changed(self, product_id):
@@ -12,34 +24,55 @@ class AccountReconcileModel(models.Model):
         :param product_id:
         :return: account_id, analytic_id
         """
-        res = super().product_changed(product_id)
-        if product_id and product_id['product_id']:
+        if product_id and product_id["product_id"]:
+            product = self.env["product.product"].browse(product_id["product_id"])
+            account = product.property_account_income_id
+            taxes = product.taxes_id
+            res = {}
+            if account:
+                res["account_id"] = {
+                    "id": account.id,
+                    "display_name": account.display_name,
+                }
+            else:
+                res["account_id"] = False
+
+            if taxes:
+                res["tax_id"] = {"id": taxes.id, "display_name": taxes.display_name}
+            else:
+                res["tax_id"] = False
+
             analytic_id = (
                 self.env["account.analytic.default"]
-                    .account_get(product_id['product_id'])
-                    .analytic_id.id
+                .account_get(product_id["product_id"])
+                .analytic_id.id
             )
             res["analytic_id"] = analytic_id
-        return res
+            return res
+        return False
 
     @api.multi
-    def _get_invoice_matching_query(self, st_lines, excluded_ids=None,
-                                    partner_map=None):
+    def _get_invoice_matching_query(
+        self, st_lines, excluded_ids=None, partner_map=None
+    ):
         # Since this is source-code copied, we won't check pylint
         # pylint: disable=W1401
-        ''' Get the query applying all rules trying to match existing entries with
+        """ Get the query applying all rules trying to match existing entries with
         the given statement lines.
         :param st_lines:        Account.bank.statement.lines recordset.
         :param excluded_ids:    Account.move.lines to exclude.
         :param partner_map:     Dict mapping each line with new partner eventually.
         :return:                (query, params)
-        '''
+        """
         # CODE COPIED FROM ODOO SOURCE BUT WE REMOVE SOME PART OF THE QUERY WHICH
         # IS VERY SLOW
-        if any(m.rule_type != 'invoice_matching' for m in self):
-            raise UserError(_(
-                'Programmation Error: Can\'t call _get_invoice_matching_query() for '
-                'different rules than \'invoice_matching\''))
+        if any(m.rule_type != "invoice_matching" for m in self):
+            raise UserError(
+                _(
+                    "Programmation Error: Can't call _get_invoice_matching_query() for "
+                    "different rules than 'invoice_matching'"
+                )
+            )
 
         queries = []
         all_params = []
@@ -48,7 +81,7 @@ class AccountReconcileModel(models.Model):
             # through the number/reference
             # (higher priority) from invoice matching using the partner (lower
             # priority).
-            query = '''
+            query = """
                 SELECT
                     %s                                  AS sequence,
                     %s                                  AS model_id,
@@ -139,25 +172,25 @@ class AccountReconcileModel(models.Model):
                         AND aml.reconciled IS FALSE
                         )
                     )
-                '''
+                """
             # Filter on the same currency.
             if rule.match_same_currency:
-                query += '''
+                query += """
                         AND COALESCE(st_line.currency_id, journal.currency_id,
                         company.currency_id) = COALESCE(aml.currency_id,
                         company.currency_id)
-                    '''
+                    """
 
             params = [rule.sequence, rule.id, tuple(st_lines.ids)]
             # Filter out excluded account.move.line.
             if excluded_ids:
-                query += 'AND aml.id NOT IN %s'
+                query += "AND aml.id NOT IN %s"
                 params += [tuple(excluded_ids)]
             query, params = rule._apply_conditions(query, params)
             queries.append(query)
             all_params += params
         full_query = self._get_with_tables(st_lines, partner_map=partner_map)
-        full_query += ' UNION ALL '.join(queries)
+        full_query += " UNION ALL ".join(queries)
         # Oldest due dates come first.
-        full_query += ' ORDER BY aml_date_maturity, aml_id'
+        full_query += " ORDER BY aml_date_maturity, aml_id"
         return full_query, all_params
