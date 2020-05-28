@@ -203,8 +203,8 @@
                     </div>
 
                 </t>
-                <div t-attf-class="#{form.form_wrapper_css_klass} center mobile_form">
-                    <t t-raw="form.form_render()"/>
+                <div t-attf-class="#{form.form_wrapper_css_klass} center">
+                    <t t-raw="form.form_render()" class="col-xs-12"/>
                 </div>
             </t>
         </template>
