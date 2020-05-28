@@ -1,11 +1,9 @@
-import base64
 from datetime import datetime
 
 from babel.dates import format_timedelta
 
 from odoo import _
 from odoo.http import request, route, Controller
-from odoo.tools import file_open
 
 
 class ProjectController(Controller):
@@ -20,12 +18,51 @@ class ProjectController(Controller):
         # simpler and less prone to error than defining custom access and
         # security rules for each of them.
         return request.render(
-            "crowdfunding_compassion.project_page",
+            "crowdfunding_compassion.presentation_page",
             self._prepare_project_values(project.sudo(), **kwargs),
         )
 
-    # TODO: test when we can create data for a project
+    @route(["/participant/<model('crowdfunding.participant'):participant>/"],
+           type="http",
+           auth="user",
+           website=True)
+    def participant(self, participant=None, **kwargs):
+        project = participant.project_id
+        sponsorships, donations = self.get_sponsorships_and_donations(
+            project.sponsorship_ids.filtered(
+                lambda s: s.partner_id == participant.partner_id),
+            project.invoice_line_ids.filtered(
+                lambda line: line.partner_id == participant.partner_id
+            )
+        )
+        values = {
+            "participant": participant,
+            "project": project,
+            "impact": self.get_impact(sponsorships, donations),
+            "model": "participant",
+        }
+        return request.render("crowdfunding_compassion.presentation_page", values)
+
     def _prepare_project_values(self, project, **kwargs):
+        sponsorships, donations = self.get_sponsorships_and_donations(
+            project.sponsorship_ids, project.invoice_line_ids)
+
+        # check if current partner is owner of current project
+        participant = request.env['crowdfunding.participant'].search([
+            ("project_id", "=", project.id),
+            ("partner_id", "in", (project.project_owner_id +
+                                  request.env.user.partner_id).ids)
+        ])
+
+        return {
+            "project": project,
+            "impact": self.get_impact(sponsorships, donations),
+            "fund": project.product_id,
+            "participant": participant,
+            "model": "project",
+        }
+
+    def get_sponsorships_and_donations(self, sponsorship_ids, invoice_line_ids):
         sponsorships = [
             {
                 "type": "sponsorship",
@@ -37,7 +74,7 @@ class ProjectController(Controller):
                 "time_ago": self.get_time_ago(sponsorship.create_date),
                 "anonymous": False,
             }
-            for sponsorship in project.sponsorship_ids
+            for sponsorship in sponsorship_ids
         ]
 
         donations = [
@@ -52,31 +89,14 @@ class ProjectController(Controller):
                 "time_ago": self.get_time_ago(donation.invoice_id.create_date),
                 "anonymous": donation.is_anonymous,
             }
-            for donation in project.invoice_line_ids.filtered(
+            for donation in invoice_line_ids.filtered(
                 lambda l: l.state == "paid")
         ]
+        return sponsorships, donations
 
+    def get_impact(self, sponsorships, donations):
         # Chronological list of sponsorships and fund donations for impact display
-        impact = sorted(sponsorships + donations, key=lambda x: x["date"], reverse=True)
-
-        fund = project.product_id
-
-        # check if current partner is owner of current project
-        participant = request.env['crowdfunding.participant'].search([
-            ("project_id", "=", project.id),
-            ("partner_id", "in", (project.project_owner_id +
-                                  request.env.user.partner_id).ids)
-        ])
-
-        return {
-            "project": project,
-            "impact": impact,
-            "fund": fund,
-            "participant": participant,
-            "sponsor_banner": base64.b64encode(file_open(
-                "crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg",
-                "rb").read()),
-        }
+        return sorted(sponsorships + donations, key=lambda x: x["date"])
 
     # Utils
     def get_time_ago(self, given_date):
