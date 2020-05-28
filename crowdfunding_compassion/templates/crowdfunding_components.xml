@@ -306,9 +306,12 @@
                                     <i class="fa fa-user-circle white fa-3x"/>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/my_account">My Account</a></li>
                                     <t t-if="request.session.get('uid')">
+                                        <li><a class="dropdown-item" href="/my_account">My Account</a></li>
                                         <li><a class="dropdown-item" href="/web/session/logout?redirect=/homepage">Logout</a></li>
+                                    </t>
+                                    <t t-else="">
+                                        <li><a class="dropdown-item" href="http://together.localhost:8069/web/login?redirect=/homepage">Login</a></li>
                                     </t>
                                 </ul>
                             </li>
