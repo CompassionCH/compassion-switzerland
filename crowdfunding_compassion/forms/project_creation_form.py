@@ -314,5 +314,22 @@ class ProjectCreationStep3(models.AbstractModel):
             "object_ids": self.main_object.sudo().id,
         })
 
+        # Notify staff of new participant
+        settings = self.env["res.config.settings"].sudo()
+        notify_ids = settings.get_param("new_participant_notify_ids")
+        if notify_ids:
+            participant.partner_id.message_post(
+                subject=_("New Crowdfunding participant"),
+                body=_(
+                    "%s created or joined a project. "
+                    "A user may need to be created if he doesn't have access"
+                )
+                % participant.partner_id.name,
+                partner_ids=notify_ids,
+                type="comment",
+                subtype="mail.mt_comment",
+                content_subtype="plaintext",
+            )
+
     def form_next_url(self, main_object):
         return f"/projects/create/confirm/{main_object.id}"
