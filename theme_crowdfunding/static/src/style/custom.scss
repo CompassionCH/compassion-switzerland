@@ -85,7 +85,7 @@ section {
 
   .count {
     font-size: $font-size-base * 4.81;
-    // 		font-weight: 900;
+    font-weight: 700;
     color: $blue-compassion;
   }
 
@@ -217,7 +217,7 @@ $enable-rounded: false;
   margin-bottom: 5rem;
 
   &__header-image {
-    height: 500px;
+    height: auto;
     width: 100%;
   }
 
