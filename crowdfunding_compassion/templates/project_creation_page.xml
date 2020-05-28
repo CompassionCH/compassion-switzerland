@@ -12,8 +12,8 @@
 
                         <div class="row mt-5 mb-3">
                             <div class="col-md-4 col-xl-2 center">
-                                <img src="/crowdfunding_compassion/static/src/img/astronaut_600.jpg"
-                                     class="rounded-circle img-fluid"/>
+                                <img t-attf-src="data:image/png;base64, #{ form.main_object.cover_photo }"
+                                     class="rounded-img img-fluid"/>
                             </div>
                         </div>
                         <t t-if="not form.main_object">

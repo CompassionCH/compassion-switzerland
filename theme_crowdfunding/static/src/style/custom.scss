@@ -19,6 +19,7 @@ $black: #000 !default;
 $headings-color: $gray-700;
 $blue-compassion: #005eb8;
 $primary: $blue-compassion;
+$link-hover-color:  darken($link-color, 15%) !default;
 
 // Typography
 
@@ -667,4 +668,19 @@ hr.blue {
 
 .nounderline {
   text-decoration: none !important
+}
+
+.rounded-img {
+  display: inline-block;
+  position: relative;
+  width: 125px;
+  height: 125px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.rounded-img img {
+  width: auto;
+  height: 100%;
+  margin-left: -50px;
 }
