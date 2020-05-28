@@ -1,11 +1,9 @@
-import base64
 from datetime import datetime
 
 from babel.dates import format_timedelta
 
 from odoo import _
 from odoo.http import request, route, Controller
-from odoo.tools import file_open
 
 
 class ProjectController(Controller):

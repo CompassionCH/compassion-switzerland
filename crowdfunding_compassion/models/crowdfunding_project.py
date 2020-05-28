@@ -15,7 +15,7 @@ class CrowdfundingProject(models.Model):
     _description = "Crowd-funding project"
 
     description = fields.Text(
-        "Project description", required=True,
+        "Project description",
         help="Aim of the project, why you want to create it, for which purpose and "
              "any useful information that the donors should know.",
         required=True
