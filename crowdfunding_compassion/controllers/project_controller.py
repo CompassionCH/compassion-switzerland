@@ -24,10 +24,10 @@ class ProjectController(Controller):
 
     @route(["/participant/<model('crowdfunding.participant'):participant>/"],
            type="http",
-           auth="user",
+           auth="public",
            website=True)
     def participant(self, participant=None, **kwargs):
-        project = participant.project_id
+        project = participant.project_id.sudo()
         sponsorships, donations = self.get_sponsorships_and_donations(
             project.sponsorship_ids.filtered(
                 lambda s: s.partner_id == participant.partner_id),
@@ -36,7 +36,7 @@ class ProjectController(Controller):
             )
         )
         values = {
-            "participant": participant,
+            "participant": participant.sudo(),
             "project": project,
             "impact": self.get_impact(sponsorships, donations),
             "model": "participant",

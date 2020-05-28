@@ -69,11 +69,17 @@
         <!-- Individual [participant] model must be set before calling this template -->
         <template id="participant_card" name="Participant card">
             <div class="card participants__card">
-                <img class="participants__image" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Participant image"/>
+                <div style="margin: 0 auto; width: 50%">
+                    <a t-attf-href="/participant/#{participant.id}">
+                        <img class="participants__image"
+                             t-attf-src="data:image/png;base64, #{ participant.profile_photo }"
+                             alt="Participant image"/>
+                    </a>
+                </div>
                 <div class="participants__content">
                     <h4 class="participants__name">
                         <a t-attf-href="/participant/#{participant.id}">
-                            <t t-esc="participant.partner_id.name" />
+                            <t t-esc="participant.partner_id.name"/>
                         </a>
                     </h4>
 
