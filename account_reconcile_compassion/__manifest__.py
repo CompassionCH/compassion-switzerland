@@ -35,8 +35,9 @@
     "category": "Finance",
     "website": "http://www.compassion.ch",
     "depends": [
+        "account",
+        "analytic",
         "sponsorship_switzerland",  # compassion-switzerland
-        "account_reconcile_create_invoice",  # compassion-accounting
         "account_bank_statement_import_camt_details",  # OCA/bank-statement-import
     ],
     "data": [
@@ -48,6 +49,8 @@
         "views/account_invoice_view.xml",
         "views/res_config_view.xml",
         "views/account_journal.xml",
+        "views/statement_view.xml",
+        "views/statement_operation_view.xml",
     ],
     "qweb": ["static/src/xml/account_move_reconciliation.xml"],
     "auto_install": False,
