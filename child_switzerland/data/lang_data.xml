@@ -2,18 +2,24 @@
     <data noupdate="1">
         <!-- Install missing languages for Switzerland -->
         <function model="res.lang.compassion" name="lang_ch_install"/>
-
-        <!-- Compassion languages -->
-        <record id="lang_compassion_german" model="res.lang.compassion">
-            <field name="name">German</field>
-            <field name="code_iso">deu</field>
-            <field name="translatable">1</field>
-        </record>
-
-        <record id="lang_compassion_italian" model="res.lang.compassion">
-            <field name="name">Italian</field>
-            <field name="code_iso">ita</field>
-            <field name="translatable">1</field>
-        </record>
     </data>
+
+    <!-- Compassion languages -->
+    <record id="lang_compassion_german" model="res.lang.compassion">
+        <field name="name">German</field>
+        <field name="code_iso">deu</field>
+        <field name="translatable">1</field>
+        <field name="lang_id" ref="base.lang_de"/>
+    </record>
+
+    <record id="lang_compassion_italian" model="res.lang.compassion">
+        <field name="name">Italian</field>
+        <field name="code_iso">ita</field>
+        <field name="translatable">1</field>
+        <field name="lang_id" ref="base.lang_it"/>
+    </record>
+
+    <record id="child_compassion.lang_compassion_french" model="res.lang.compassion">
+        <field name="lang_id" ref="base.lang_fr_CH"/>
+    </record>
 </odoo>
