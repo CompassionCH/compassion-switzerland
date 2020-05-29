@@ -103,3 +103,15 @@ class CrowdfundingDonationForm(models.AbstractModel):
         self.amount = extra_values.get("amount")
         self.is_anonymous = extra_values.get("anonymous_donation")
         super().form_after_create_or_update(values, extra_values)
+
+        # Send email to inform participant of new donation
+        participant = self.main_object.sudo()
+        comm_obj = self.env["partner.communication.job"].sudo()
+        config = self.env.ref("crowdfunding_compassion.config_donation_received")
+        comm_obj.create(
+            {
+                "config_id": config.id,
+                "partner_id": participant.partner_id.id,
+                "object_ids": participant.project_id.id,
+            }
+        )
