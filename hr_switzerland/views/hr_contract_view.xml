@@ -1,0 +1,12 @@
+<odoo>
+    <record id="hr_contract_form_inherit" model="ir.ui.view">
+        <field name="name">hr.contract.view.form.analytic.tags</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_payroll_account.hr_contract_form_inherit"/>
+        <field name="arch" type="xml">
+            <field name="analytic_account_id" position="before">
+                <field name="analytic_tag_id" groups="analytic.group_analytic_accounting"/>
+            </field>
+        </field>
+    </record>
+</odoo>
