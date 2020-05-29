@@ -42,7 +42,7 @@
     ],
     "depends": [
         "hr_expense",  # source/addons
-        "hr_payroll",  # source/addons
+        "hr_payroll_account",  # source/addons
         "asterisk_click2dial",  # oca_addons/connector-telephony
         "web_notify",  # oca_addons/web
         "hr_attendance_management",  # compassion-modules
