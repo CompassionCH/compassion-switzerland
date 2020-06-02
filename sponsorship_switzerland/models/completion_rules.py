@@ -305,7 +305,7 @@ class StatementCompletionRule(models.Model):
                 birthdate = ""
                 if product.default_code == GIFT_REF[0]:
                     birthdate = contract.child_id.birthdate
-                    birthdate = birthdate.strftime("%d %b").decode("utf-8")
+                    birthdate = birthdate.strftime("%d %b")
                 res["name"] += "[" + contract.child_code
                 res["name"] += " (" + birthdate + ")]" if birthdate else "]"
             else:
@@ -391,7 +391,7 @@ class StatementCompletionRule(models.Model):
                     [
                         "|",
                         ("reference", "=", bvr_ref),
-                        ("bvr_reference", "=", bvr_ref),
+                        ("isr_reference", "=", bvr_ref),
                         ("state", "=", "open"),
                     ]
                 )

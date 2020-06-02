@@ -38,6 +38,7 @@
         "views/hr_expense_custom.xml",
         "views/res_users_view.xml",
         "views/hr_payslip_view.xml",
+        "views/hr_contract_view.xml",
         "data/hr_config.xml",
     ],
     "depends": [
