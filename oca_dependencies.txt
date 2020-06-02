@@ -28,7 +28,7 @@ l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 12.0-everythin
 mis-builder
 partner-contact https://github.com/CompassionCH/partner-contact.git 12.0-smart-tag
 queue
-report-print-send
+report-print-send https://github.com/CompassionCH/report-print-send 12.0-everything-migrated
 reporting-engine
 server-tools
 server-ux
