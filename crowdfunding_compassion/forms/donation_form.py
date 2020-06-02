@@ -1,4 +1,5 @@
 from odoo import models, fields
+import re
 
 
 class CrowdfundingDonationForm(models.AbstractModel):
@@ -37,6 +38,12 @@ class CrowdfundingDonationForm(models.AbstractModel):
                 ],
             },
         ]
+
+    def _form_validate_partner_phone(self, value, **req_values):
+        if value and not re.match(r"^[+\d][\d\s]{7,}$", value, re.UNICODE):
+            return "phone", _("Please enter a valid phone number")
+        # No error
+        return 0, 0
 
     def _load_partner_field(self, fname, **req_values):
         """ Prevents taking participant partner to fill donor fields. """
