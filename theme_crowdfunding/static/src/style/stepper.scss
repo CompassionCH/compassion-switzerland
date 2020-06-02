@@ -48,6 +48,9 @@ ul.stepper li.completed a .label {
     font-weight: 600;
     color: rgba(0, 0, 0, 0.87)
 }
+ul.stepper li.inactive {
+    pointer-events: none;
+}
 
 .stepper-horizontal {
     position: relative;
@@ -98,10 +101,6 @@ ul.stepper li.completed a .label {
     margin: .5rem 0 0 0;
     content: "";
     background-color: rgba(0, 0, 0, 0.1)
-}
-
-.stepper-horizontal li:hover {
-    background-color: rgba(0, 0, 0, 0.06)
 }
 
 @media (max-width: 47.9375rem) {

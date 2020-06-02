@@ -44,6 +44,7 @@ $body-color: #333;
 
 body {
   font-family: $font-family-base;
+  color: #212529;
 }
 
 h1,
@@ -130,8 +131,16 @@ a {
 
   &:hover {
     color: darken($blue-compassion, 20%);
+    text-decoration: none !important;
   }
 }
+
+button {
+  &:hover {
+    background-color: darken($blue-compassion, 15%) !important;
+  }
+}
+
 
 .uppercase {
   text-transform: uppercase;
@@ -169,7 +178,7 @@ a {
 }
 
 .btn-primary {
-  background-color: $blue-compassion !important;
+  background-color: $blue-compassion;
   color: $white !important;
 }
 
@@ -671,9 +680,7 @@ hr.blue {
     background-color: $blue-compassion !important;
 }
 
-.nounderline {
-  text-decoration: none !important
-}
+
 
 .rounded-img {
   display: inline-block;
@@ -689,3 +696,22 @@ hr.blue {
   height: 100%;
   margin-left: -50px;
 }
+
+.creation-form {
+    button {
+        margin-right: 1rem;
+    }
+
+    .fieldset-description {
+        width: 75%;
+    }
+}
+
+.status_message{
+  width: 50%;
+  position:fixed;
+  top: 50%; // half of width
+  left: 25%; // half of height
+  z-index: 1;
+}
+
