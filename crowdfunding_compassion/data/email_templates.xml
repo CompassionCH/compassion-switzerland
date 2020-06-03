@@ -144,9 +144,6 @@
             <field name="subject">Donation received</field>
             <field name="body_html" type="html">
                 <div>
-                    % set project = object
-                </div>
-                <div>
                     Dear Compassion member,
                     <br/>
                     <br/>
