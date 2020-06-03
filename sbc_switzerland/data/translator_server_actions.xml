@@ -1,5 +1,5 @@
 <odoo>
-    <record id="send_welcome_action" model="ir.actions.server">
+    <record id="send_welcome_translator" model="ir.actions.server">
         <field name="name">Send Translator Welcome Letter</field>
         <field name="model_id" ref="model_advocate_details"/>
         <field name="state">code</field>

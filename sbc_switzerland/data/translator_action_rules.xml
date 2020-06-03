@@ -8,7 +8,7 @@
             <field name="trg_date_id" ref="field_advocate_details__translator_since"/>
             <field name="trg_date_range">10</field>
             <field name="trg_date_range_type">day</field>
-            <field name="action_server_id" ref="send_welcome_action"/>
+            <field name="action_server_id" ref="send_welcome_translator"/>
         </record>
     </data>
 </odoo>
