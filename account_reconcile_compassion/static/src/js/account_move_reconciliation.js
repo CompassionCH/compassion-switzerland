@@ -328,7 +328,7 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
     });
 
 
-    var reconciliation_model_override = {
+    reconciliation_model.StatementModel.include({
         quickCreateFields: [
             "product_id",
             "sponsorship_id",
@@ -336,34 +336,27 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
             "comment",
             "account_id",
             "amount",
-            "amount_type",
             "analytic_account_id",
-            "journal_id",
             "label",
-            "force_tax_included",
             "tax_id",
-            "analytic_tag_ids",
+            "force_tax_included",
+            "analytic_tag_ids"
         ],
 
         createProposition: function (handle) {
             var self = this;
             var line = this.getLine(handle);
 
-            // Retrieves the first statement that has a debit (customer payment)
-            var customer_payment = _.find(line.reconciliation_proposition, function (
-                statement
-            ) {
-                return statement.debit > 0;
-            });
-
             // Try to prefill fields from the customer payment
-            var child_gift_match = customer_payment.name.match(/\[.+\]/);
+            var line_name = line.st_line.name;
+            var child_gift_match = line_name.match(/\[.+\]/);
             if (child_gift_match) {
-                // Search product
+                // Search gift product
+                var gift_name = line_name.replace(child_gift_match[0], '');
                 rpc.query({
                     model: "product.product",
                     method: "search",
-                    args: [[["name", "=", child_gift_match]]],
+                    args: [[["name", "like", gift_name]]],
                 }).then(function (product_ids) {
                     if (product_ids !== "undefined" && product_ids.length > 0) {
                         // This emits a custom event handled by
@@ -383,18 +376,16 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
                 });
 
                 // Search sponsorship
-                var child_code = child_gift_match[0]
-                    .replace("[", "")
-                    .replace("]", "")
-                    .match(/\w+/)[0];
+                var child_code = child_gift_match[0].replace('[', '').replace(']', '').match(/\w+/)[0];
                 rpc.query({
                     model: "recurring.contract",
                     method: "search",
-                    args: [
-                        ["child_code", "=", child_code],
+                    args: [[
+                        ["child_code", "like", child_code],
+                        '|',
                         ["correspondent_id", "=", line.partner_id],
                         ["partner_id", "=", line.partner_id],
-                    ],
+                    ]],
                 }).then(function (sponsorship_ids) {
                     if (typeof sponsorship_ids !== "undefined" && sponsorship_ids.length > 0) {
                         self.trigger_up("update_proposition_programmaticaly", {
@@ -496,11 +487,7 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
             result.comment = prop.comment;
             return result;
         },
-    }
-
-    reconciliation_model.StatementModel.include(reconciliation_model_override);
-    reconciliation_model.ManualModel.include(reconciliation_model_override);
-
+    });
 
     return {
         StatementAction: statement_action,
