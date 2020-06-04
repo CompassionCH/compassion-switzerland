@@ -498,7 +498,7 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
             result.sponsorship_id = prop.sponsorship_id ? prop.sponsorship_id.id : null;
             result.user_id = prop.user_id ? prop.user_id.id : null;
             result.comment = prop.comment;
-            result.no_notifications = prop.no_notifications;
+            result.no_notifications = prop.no_notifications ? prop.no_notifications : false;
             return result;
         },
     });
