@@ -235,7 +235,7 @@ class BankStatementLine(models.Model):
         else:
             ref = mod10r(
                 (
-                    self.date.replace("-", "")
+                    str(self.date).replace("-", "")
                     + str(self.statement_id.id)
                     + str(self.id)
                 ).ljust(26, "0")

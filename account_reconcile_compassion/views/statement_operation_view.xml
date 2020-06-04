@@ -10,6 +10,7 @@
                 <field name="user_id"/>
                 <field name="sponsorship_id"/>
                 <field name="comment"/>
+                <field name="no_notifications"/>
             </field>
         </field>
     </record>
