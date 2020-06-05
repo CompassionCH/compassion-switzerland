@@ -9,7 +9,7 @@
 ##############################################################################
 import logging
 
-from datetime import datetime
+from datetime import date
 
 from odoo import api, models
 from odoo.tools import relativedelta
@@ -25,7 +25,7 @@ class CompassionChild(models.Model):
 
     @api.multi
     def add_to_wordpress(self, company_id=None):
-        in_two_years = datetime.today() + relativedelta(years=2)
+        in_two_years = date.today() + relativedelta(years=2)
         valid_children = self.filtered(
             lambda c: c.state == "N"
             and c.desc_de
