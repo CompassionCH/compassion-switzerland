@@ -103,4 +103,3 @@ class CrowdfundingDonationForm(models.AbstractModel):
         self.amount = extra_values.get("amount")
         self.is_anonymous = extra_values.get("anonymous_donation")
         super().form_after_create_or_update(values, extra_values)
-
