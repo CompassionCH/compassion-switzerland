@@ -30,8 +30,8 @@ logger = logging.getLogger(__name__)
 try:
     from smb.SMBConnection import SMBConnection
     from smb.smb_structs import OperationFailure
-    from pyPdf import PdfFileWriter, PdfFileReader
-    from pyPdf.pdf import PageObject
+    from PyPDF2 import PdfFileWriter, PdfFileReader
+    from PyPDF2.pdf import PageObject
 except ImportError:
     logger.warning("Please install python dependencies.")
 
