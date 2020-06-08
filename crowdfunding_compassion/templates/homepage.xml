@@ -107,7 +107,7 @@
                             <div class="col-md-12">
                                 <p>
                                     or join an existing
-                                    <a href="/projects">collective project</a>
+                                    <a href="/projects" style="color: white">collective project</a>
                                     <!-- TODO make it so we only see collective projects and not all projects-->
                                 </p>
                             </div>

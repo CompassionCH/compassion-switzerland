@@ -18,7 +18,9 @@ $black: #000 !default;
 
 $headings-color: $gray-700;
 $blue-compassion: #005eb8;
-$primary: $blue-compassion;
+$primary: $blue-compassion !default;
+$secondary: #fff !default;
+$success: $blue-compassion !default;
 
 // Typography
 
@@ -182,6 +184,18 @@ button {
   color: $white !important;
 }
 
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:active:focus, .open>.dropdown-toggle.btn-primary {
+    background-color: lighten($blue-compassion, 7.5%);
+}
+
+.btn-white:hover {
+    background-color: $gray-100 !important;
+}
+
+.dropdown-item:active, .dropdown-item.active, .dropdown-item:active:focus {
+    background-color: lighten($blue-compassion, 25%);
+}
+
 .btn-white {
   background-color: $white !important;
   color: $blue-compassion !important;
@@ -320,18 +334,18 @@ footer {
   text-transform: uppercase;
   color: white;
   border: 0;
-  background-color: #fed136;
+  background-color: darken($blue-compassion, 15%);
 }
 
 #mainNav .navbar-brand {
-  color: #fed136;
+  color: darken($blue-compassion, 50%);
 }
 
 #mainNav .navbar-brand.active,
 #mainNav .navbar-brand:active,
 #mainNav .navbar-brand:focus,
 #mainNav .navbar-brand:hover {
-  color: #fec503;
+  color: $white;
 }
 
 #mainNav .navbar-nav .nav-item .nav-link {
@@ -433,6 +447,7 @@ footer {
   }
 
   &__card-share-icons {
+    font-size: 1.6rem;
     .fa {
       margin: 5px !important;
     }
@@ -456,8 +471,8 @@ footer {
 
   &__icon {
     margin-right: 10px;
-    height: 20px;
-    width: 20px;
+    height: 35px;
+    width: 35px;
   }
 
   &__bar {
@@ -648,7 +663,7 @@ footer {
   &--faded {
     color: $gray-600;
     font-weight: 400;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
   }
 }
 

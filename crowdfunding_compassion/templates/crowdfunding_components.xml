@@ -292,8 +292,7 @@
                         data-target="#navbarResponsive" aria-controls="navbarResponsive"
                         aria-expanded="false"
                         aria-label="Toggle navigation">
-                        Menu
-                        <i class="fa fa-bars fa-xs " aria-hidden="true"/>
+                        <i class="fa fa-bars fa-xs "/>
                     </button>
 
                     <div class="collapse navbar-collapse dropdown" id="navbarResponsive">
