@@ -25,7 +25,7 @@
             </field>
             <field name="trg_date_range">10</field>
             <field name="trg_date_range_type">day</field>
-            <field name="action_server_id" ref="send_welcome_action"/>
+            <field name="action_server_id" ref="send_welcome_letter"/>
         </record>
 
         <!-- Rule for sending reminder after SMS request received but step 2 is not completed. -->
