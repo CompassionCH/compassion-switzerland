@@ -31,7 +31,7 @@ class CrowdfundingParticipant(models.Model):
     )
     source_id = fields.Many2one('utm.source', 'UTM Source',
                                 required=True, ondelete='cascade')
-    presentation_video = fields.Char(help="Youtube/Vimeo link")
+    presentation_video = fields.Char(help="https://vimeo.com/jlkj34ék5")
     facebook_url = fields.Char(string="Facebook link")
     twitter_url = fields.Char(string="Twitter link")
     instagram_url = fields.Char(string="Instagram link")

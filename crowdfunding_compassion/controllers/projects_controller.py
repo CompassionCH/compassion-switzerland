@@ -30,7 +30,6 @@ class ProjectsController(Controller, FormControllerMixin):
            auth="public",
            type="http",
            method='POST',
-           csrf=False,
            website=True)
     def project_creation(self, page=1, project_id=0, **kwargs):
         if project_id and page == 1:

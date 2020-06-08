@@ -62,8 +62,3 @@ odoo.define('crowdfunding_compassion.creation_form', function (require) {
 
     return animation.registry.crowdfunding_creation_form;
 });
-
-$( document ).ready(function() {
-    presentation_input = document.getElementById("presentation_video")
-    presentation_input.placeholder = "e.g. https://vimeo.com/jlkj34ék5"
-});
