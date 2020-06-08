@@ -12,8 +12,11 @@ class AccountReconcileModel(models.Model):
     sponsorship_id = fields.Many2one(
         "recurring.contract", "Sponsorship", readonly=False
     )
-    no_notifications = fields.Boolean(
-        "Disable notifications", readonly=False, default=True)
+    avoid_mobile_donation_notification = fields.Boolean(
+        default=True,
+        help='Uncheck to send a mobile notification for donation confirmation',
+        readonly=False
+    )
 
     @api.onchange("product_id")
     def onchange_product_id(self):

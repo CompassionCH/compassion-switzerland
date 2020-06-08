@@ -51,7 +51,7 @@
                 <td class="o_td_label">Gift instructions</td>
                 <td class="o_td_field"></td>
             </tr>
-            <tr class="create_no_notifications">
+            <tr class="create_avoid_mobile_donation_notification">
                 <td class="o_td_label">Disable notifications</td>
                 <td class="o_td_field"></td>
             </tr>
