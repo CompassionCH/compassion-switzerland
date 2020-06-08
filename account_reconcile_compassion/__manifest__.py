@@ -37,7 +37,8 @@
     "depends": [
         "account",
         "analytic",
-        "sponsorship_switzerland",  # compassion-switzerland
+        "sponsorship_switzerland",  # compassion-switzerland,
+        "mobile_app_connector",  # compassion-modules
         "account_bank_statement_import_camt_details",  # OCA/bank-statement-import
     ],
     "data": [

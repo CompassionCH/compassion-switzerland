@@ -8,5 +8,5 @@ def migrate(env, version):
     openupgrade.load_xml(
         env.cr,
         "partner_communication_switzerland",
-        "data/translator_action_rules.xml"
+        "data/sponsorship_action_rules.xml"
     )
