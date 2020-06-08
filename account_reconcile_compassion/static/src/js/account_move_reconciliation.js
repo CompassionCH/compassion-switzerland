@@ -1,5 +1,5 @@
 /* eslint-disable */
-odoo.define("account_reconcile_create_invoice.reconciliation", function (require) {
+odoo.define("account_reconcile_compassion.reconciliation", function (require) {
     "use strict";
 
     var core = require("web.core");
@@ -141,6 +141,10 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
                         type: "char",
                         name: "comment",
                     },
+                    {
+                        type: "boolean",
+                        name: "avoid_mobile_donation_notification",
+                    }
                 ],
 
                 {
@@ -168,6 +172,9 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
                     comment: {
                         string: _t("Gift instructions"),
                     },
+                    avoid_mobile_donation_notification: {
+                        string: _t("Disable notifications")
+                    }
                 }
             )
                 .then(function (recordID) {
@@ -276,6 +283,10 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
                         mode: "edit",
                     });
 
+                    self.fields.avoid_mobile_donation_notification = new basic_fields.FieldBoolean(self, "avoid_mobile_donation_notification", record, {
+                        mode: "edit",
+                    });
+
                     var $create = $(
                         qweb.render("reconciliation.line.create", {
                             state: state,
@@ -317,6 +328,8 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
                     );
                     self.fields.user_id.appendTo($create.find(".create_user_id .o_td_field"));
                     self.fields.comment.appendTo($create.find(".create_comment .o_td_field"));
+                    self.fields.avoid_mobile_donation_notification.appendTo(
+                    $create.find(".create_avoid_mobile_donation_notification .o_td_field"));
 
                     self.$(".create").append($create);
 
@@ -340,7 +353,8 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
             "label",
             "tax_id",
             "force_tax_included",
-            "analytic_tag_ids"
+            "analytic_tag_ids",
+            "avoid_mobile_donation_notification",
         ],
 
         createProposition: function (handle) {
@@ -481,10 +495,11 @@ odoo.define("account_reconcile_create_invoice.reconciliation", function (require
         // Add additional fields to send information server side
         _formatToProcessReconciliation: function (line, prop) {
             var result = this._super(line, prop);
-            result.product_id = prop.product_id;
-            result.sponsorship_id = prop.sponsorship_id;
-            result.user_id = prop.user_id;
+            result.product_id = prop.product_id ? prop.product_id.id : null;
+            result.sponsorship_id = prop.sponsorship_id ? prop.sponsorship_id.id : null;
+            result.user_id = prop.user_id ? prop.user_id.id : null;
             result.comment = prop.comment;
+            result.avoid_mobile_donation_notification = prop.avoid_mobile_donation_notification ? prop.avoid_mobile_donation_notification : false;
             return result;
         },
     });

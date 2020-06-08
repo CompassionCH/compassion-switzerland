@@ -46,12 +46,17 @@
             </tr>
         </t>
 
-        <t t-jquery="tr.create_journal_id" t-operation="after">
+        <t t-jquery="tr.create_amount" t-operation="after">
             <tr class="create_comment">
                 <td class="o_td_label">Gift instructions</td>
                 <td class="o_td_field"></td>
             </tr>
+            <tr class="create_avoid_mobile_donation_notification">
+                <td class="o_td_label">Disable notifications</td>
+                <td class="o_td_field"></td>
+            </tr>
         </t>
+
     </t>
 
     <t t-extend="bank_statement_reconciliation_statement_line_details">
