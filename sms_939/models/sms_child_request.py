@@ -25,12 +25,13 @@ class SmsRequest(models.Model):
         """ Sends SMS reminder using 939 API """
         self.ensure_one()
         one_day_ago = date.today() - relativedelta(days=1)
+        # Avoid sending reminder if sponsor made a sponsorship the last day
         completed_requests = self.search([
             ('date', '<', fields.Date.today()),
             ('date', '>=', fields.Date.to_string(one_day_ago)),
             ('state', 'in', ['step1', 'step2']),
         ]).filtered(lambda r: r.sender == self.sender)
-        if not completed_requests:
+        if self.source == 'SMS' and not completed_requests:
             sms_sender = self.env['sms.sender.wizard'].create({
                 'sms_request_id': self.id,
                 'text': _(
@@ -80,7 +81,7 @@ class SmsRequest(models.Model):
 
             child.hold_id.with_delay().update_expiration_date(
                 fields.Datetime.to_string(
-                    datetime.now() + relativedelta(days=1)
+                    datetime.now() + relativedelta(days=2)
                 ))
 
             self.with_delay().get_children_from_global_pool_for_website(1)
