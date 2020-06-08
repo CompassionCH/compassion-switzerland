@@ -39,7 +39,8 @@ class CrowdfundingProject(models.Model):
         help="Upload a cover photo that represents your project. Best size: 900x400px",
         attachment=True)
     presentation_video = fields.Char(
-        help="https://vimeo.com/jlkj34ék5"
+        help="Paste any video link that showcase your project"
+             " (e.g. https://vimeo.com/jlkj34ek5)"
     )
     facebook_url = fields.Char("Facebook link")
     twitter_url = fields.Char("Twitter link")
