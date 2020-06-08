@@ -132,5 +132,36 @@
             <field name="email_template_id" ref="donation_successful_email_template"/>
             <field name="model_id" ref="model_crowdfunding_project"/>
         </record>
+
+         <!--Donation received communication-->
+        <record id="donation_received_email_template" model="mail.template">
+            <field name="name">Crowdfunding - Donation received</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.address_name}" &lt;compassion@compassion.ch&gt;
+            </field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">Donation received</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear Compassion member,
+                    <br/>
+                    <br/>
+                    You received a new donation! Check your project page to see more details.
+                    <br/>
+                    <br/>
+                    Yours sincerely
+                </div>
+            </field>
+        </record>
+
+        <record id="config_donation_received" model="partner.communication.config">
+            <field name="name">Crowdfunding - Donation received</field>
+            <field name="send_mode">auto_digital</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="print_if_not_email">False</field>
+            <field name="email_template_id" ref="donation_received_email_template"/>
+            <field name="model_id" ref="model_crowdfunding_project"/>
+        </record>
     </data>
 </odoo>

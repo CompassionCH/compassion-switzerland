@@ -74,13 +74,23 @@ class DonationController(PaymentFormController, FormControllerMixin):
             return request.render("crowdfunding_compassion.donation_failure")
 
         else:
+            comm_obj = request.env["partner.communication.job"].sudo()
+
             # Send confirmation email
             config = request.env.ref(
                 "crowdfunding_compassion.config_donation_successful_email_template"
             )
-
-            request.env["partner.communication.job"].sudo().create(
+            comm_obj.create(
                 {"config_id": config.id, "partner_id": invoice.partner_id.id}
+            )
+
+            # Send email to inform participant of new donation
+            config = request.env.ref("crowdfunding_compassion.config_donation_received")
+            comm_obj.create(
+                {
+                    "config_id": config.id,
+                    "partner_id": invoice.invoice_line_ids[0].user_id.id,
+                }
             )
 
         return request.render("crowdfunding_compassion.donation_successful")
