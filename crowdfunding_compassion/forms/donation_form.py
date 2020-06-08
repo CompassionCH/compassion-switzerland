@@ -71,7 +71,8 @@ class CrowdfundingDonationForm(models.AbstractModel):
                             0,
                             0,
                             {
-                                "quantity": self.amount / product.standard_price,
+                                "quantity": self.amount / product.standard_price
+                                if product.standard_price != 0 else 0,
                                 "price_unit": product.standard_price,
                                 "account_id": product.property_account_income_id.id,
                                 "name": name,

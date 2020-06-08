@@ -148,14 +148,14 @@
             <div class="card h-100 w-100">
                 <img class="card-img-top donation-type__project-card-image" t-attf-src="data:image/png;base64, #{ project.cover_photo }" alt="Project image"/>
 
-                <div class="card-body">
+                <div class="card-body text-center">
                     You are actually creating impact for:
-                    <h5 class="uppercase mt-2">
+                    <h4 class="uppercase mt-2">
                         <t t-esc="project.name"/>
-                    </h5>
+                    </h4>
 
                     <t t-if="display_impact">
-                        <h4 class="blue uppercase text-center mt-5 mb-3">Impact so far</h4>
+                        <h4 class="blue uppercase mt-5 mb-3">Impact so far</h4>
                         <t t-call="crowdfunding_compassion.project_progress" />
                     </t>
                 </div>
@@ -195,7 +195,8 @@
                             <p>
                                 <small>
                                     <i class="fa fa-user-circle white"/>
-                                    <t t-esc="project.project_owner_id.name + ' + ' + str((len(project.participant_ids) - 1)) + ' friends'"/>
+                                    <t t-if="(len(project.participant_ids) - 1) > 0"
+                                       t-esc="project.project_owner_id.name + ' + ' + str((len(project.participant_ids) - 1)) + ' friends'"/>
                                 </small>
                             </p>
                         </t>
@@ -314,9 +315,12 @@
                                     <i class="fa fa-user-circle white fa-3x"/>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/my_account">My Account</a></li>
                                     <t t-if="request.session.get('uid')">
+                                        <li><a class="dropdown-item" href="/my_account">My Account</a></li>
                                         <li><a class="dropdown-item" href="/web/session/logout?redirect=/homepage">Logout</a></li>
+                                    </t>
+                                    <t t-else="">
+                                        <li><a class="dropdown-item" href="http://together.localhost:8069/web/login?redirect=/homepage">Login</a></li>
                                     </t>
                                 </ul>
                             </li>

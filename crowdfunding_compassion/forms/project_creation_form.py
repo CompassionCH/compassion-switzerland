@@ -213,7 +213,7 @@ class ProjectCreationStep3(models.AbstractModel):
             ],
         }]
         storage = self.wiz_storage_get().get('steps')
-        if self.main_object or storage.get(2, {}).get("type") == "collective":
+        if storage.get(1, {}).get("type") == "collective" or self.main_object:
             # Add personal motivation at first
             fieldset[0]["fields"].insert(0, "participant_personal_motivation")
             # Add social media info for the participant

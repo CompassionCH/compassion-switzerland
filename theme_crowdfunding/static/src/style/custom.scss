@@ -44,6 +44,7 @@ $body-color: #333;
 
 body {
   font-family: $font-family-base;
+  color: #212529;
 }
 
 h1,
@@ -85,7 +86,7 @@ section {
 
   .count {
     font-size: $font-size-base * 4.81;
-    // 		font-weight: 900;
+    font-weight: 700;
     color: $blue-compassion;
   }
 
@@ -115,9 +116,12 @@ section {
     }
 
     a,
+    a.button:hover {
+        text-decoration: none;
+    }
     a:hover {
       color: $white;
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 }
@@ -127,8 +131,16 @@ a {
 
   &:hover {
     color: darken($blue-compassion, 20%);
+    text-decoration: none !important;
   }
 }
+
+button {
+  &:hover {
+    background-color: darken($blue-compassion, 15%) !important;
+  }
+}
+
 
 .uppercase {
   text-transform: uppercase;
@@ -166,7 +178,7 @@ a {
 }
 
 .btn-primary {
-  background-color: $blue-compassion !important;
+  background-color: $blue-compassion;
   color: $white !important;
 }
 
@@ -217,7 +229,7 @@ $enable-rounded: false;
   margin-bottom: 5rem;
 
   &__header-image {
-    height: 500px;
+    height: auto;
     width: 100%;
   }
 
@@ -429,7 +441,7 @@ footer {
 
 .hero-title {
   font-size: $display2-size;
-  font-weight: 900;
+  font-weight: 700;
   color: $white;
 
   padding-top: 5rem;
@@ -667,3 +679,39 @@ hr.blue {
 .bg-blue {
     background-color: $blue-compassion !important;
 }
+
+
+
+.rounded-img {
+  display: inline-block;
+  position: relative;
+  width: 125px;
+  height: 125px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.rounded-img img {
+  width: auto;
+  height: 100%;
+  margin-left: -50px;
+}
+
+.creation-form {
+    button {
+        margin-right: 1rem;
+    }
+
+    .fieldset-description {
+        width: 75%;
+    }
+}
+
+.status_message{
+  width: 50%;
+  position:fixed;
+  top: 50%; // half of width
+  left: 25%; // half of height
+  z-index: 1;
+}
+
