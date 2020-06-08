@@ -297,7 +297,8 @@ class BankStatementLine(models.Model):
             "comment": ";".join([d.get("comment", "") for d in mv_line_dicts]),
             "currency_id": self.journal_currency_id.id,
             "payment_mode_id": self.statement_id.journal_id.payment_mode_id.id,
-            "avoid_mobile_donation_notification": mv_line_dicts[0]['avoid_mobile_donation_notification']
+            "avoid_mobile_donation_notification":
+                mv_line_dicts[0]['avoid_mobile_donation_notification']
         }
 
     def _get_invoice_line_data(self, mv_line_dict, invoice):
