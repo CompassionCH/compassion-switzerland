@@ -7,8 +7,10 @@
 #
 ##############################################################################
 import logging
+from base64 import b64encode
 
 from odoo import models, fields, _
+from odoo.tools import file_open
 
 _logger = logging.getLogger(__name__)
 
@@ -284,16 +286,23 @@ class ProjectCreationStep3(models.AbstractModel):
             config = self.env.ref(
                 "crowdfunding_compassion.config_project_join").sudo()
             participant = self.participant_id
-            partner = self.participant_id.partner_id
+            partner = self.participant_id.partner_id.sudo()
 
         else:
             config = self.env.ref(
                 "crowdfunding_compassion.config_project_confirmation").sudo()
             participant = self.main_object.sudo().participant_ids
-            partner = self.main_object.sudo().project_owner_id
+            partner = self.main_object.sudo().project_owner_id.sudo()
 
         if extra_values.get('partner_image'):
-            partner.sudo().write({"image": extra_values.get('partner_image')})
+            partner.write({"image": extra_values.get('partner_image')})
+        if not partner.image:
+            partner.write({
+                "image": b64encode(file_open(
+                    "crowdfunding_compassion/static/src/img/default_user_icon.png",
+                    "rb"
+                ).read())})
+
         extra_values.update(values)
         participant_values = {
             key.replace("participant_", ""): val for key, val in extra_values.items()

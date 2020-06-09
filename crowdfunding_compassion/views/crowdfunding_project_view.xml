@@ -18,7 +18,7 @@
                             <field name="description"/>
                             <field name="type"/>
                             <field name="deadline" widget="date"/>
-                            <field name="cover_photo" widget="binary"/>
+                            <field name="cover_photo" widget="binary" required="1"/>
                             <field name="project_owner_id" widget="many2one"/>
                             <field name="event_id" widget="many2one"/>
                         </group>

@@ -13,15 +13,8 @@
                         <div class="row mt-4">
                             <!-- Amount selector -->
                             <div class="col-sm-12 col-md-8">
-                                <h4 class="white">
-                                    I want to help
-                                    <t t-esc="project.name"/>
-                                    funding for
-                                </h4>
-                                <span style="color:white">(Click one option to select)</span>
-
+                                <h4 class="white">Choose your donation amount</h4>
                                 <div class="row mt-3">
-
                                     <!-- Three example quantities are displayed, set the 3 default number of product for each here -->
                                     <t t-set="fund_default_quantities" t-value="[1, 3, 5]" />
                                     <t t-foreach="fund_default_quantities" t-as="current_default_quantity">
@@ -69,7 +62,7 @@
                 <div id="donation-gtc">
                     <p>
                         By making a donation, you agree on our
-                        <a href="https://compassion.ch/protection-des-donnees/">terms and conditions.</a>
+                        <a href="https://compassion.ch/protection-des-donnees/" target="_blank">terms and conditions.</a>
                         <br/>
                         You will be redirected to our online payment system. If you wish to give by bank tranfer (IBAN), do not hesitate to
                         <a href="#">contact us.</a>

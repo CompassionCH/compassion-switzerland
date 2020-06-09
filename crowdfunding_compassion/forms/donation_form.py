@@ -14,9 +14,9 @@ class CrowdfundingDonationForm(models.AbstractModel):
 
     amount = fields.Float(required=True)
     anonymous_donation = fields.Boolean(
-        help="I would like to donate anonymously,"
-             " please do not mention my name in the donors list."
+        help="I would like to donate anonymously."
     )
+    partner_opt_out = fields.Boolean("Unsubscribe from e-mails")
 
     @property
     def _form_fieldsets(self):
@@ -34,6 +34,7 @@ class CrowdfundingDonationForm(models.AbstractModel):
                     "partner_city",
                     "partner_country_id",
                     "anonymous_donation",
+                    "partner_opt_out"
                 ],
             },
         ]
