@@ -432,10 +432,6 @@ footer {
     padding: 1rem;
   }
 
-  &__card-content {
-    height: 100%;
-  }
-
   &__card-cta {
     position: absolute;
     bottom: 0;
@@ -467,6 +463,7 @@ footer {
   &__text-tile {
     display: flex;
     align-items: center;
+    text-align: left !important;
   }
 
   &__icon {

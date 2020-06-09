@@ -46,7 +46,9 @@ class CrowdfundingProject(models.Model):
     twitter_url = fields.Char("Twitter link")
     instagram_url = fields.Char("Instagram link")
     personal_web_page_url = fields.Char("Personal web page")
-    product_id = fields.Many2one("product.product", "Supported fund")
+    product_id = fields.Many2one(
+        "product.product", "Supported fund",
+        domain=[("activate_for_crowdfunding", "=", True)])
     product_number_goal = fields.Integer(compute="_compute_product_number_goal")
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
     number_sponsorships_goal = fields.Integer(
@@ -161,7 +163,7 @@ class CrowdfundingProject(models.Model):
     def _compute_time_left(self):
         for project in self:
             project.time_left = format_timedelta(
-                project.deadline - date.today(), locale="en"
+                project.deadline - date.today(), locale=self.env.lang[:2]
             )
 
     @api.multi
