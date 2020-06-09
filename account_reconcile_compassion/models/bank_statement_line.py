@@ -234,12 +234,10 @@ class BankStatementLine(models.Model):
             ref = mod10r(self.ref[:26])
         else:
             ref = mod10r(
-                (
-                    str(self.date).replace("-", "")
-                    + str(self.statement_id.id)
-                    + str(self.id)
-                ).ljust(26, "0")
-            )
+                str(self.date).replace("-", "")
+                + str(self.statement_id.id)
+                + str(self.id)
+            ).ljust(26, "0")
 
         if invoice:
             invoice.action_invoice_cancel()

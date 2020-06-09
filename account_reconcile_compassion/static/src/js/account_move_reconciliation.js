@@ -173,7 +173,7 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
                         string: _t("Gift instructions"),
                     },
                     avoid_mobile_donation_notification: {
-                        string: _t("Disable notifications")
+                        string: _t("Disable mobile notification")
                     }
                 }
             )
@@ -434,6 +434,7 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
                     if (changes) {
                         if (changes.account_id) values.account_id = changes.account_id;
                         if (changes.tax_id) values.tax_id = changes.tax_id;
+                        if (changes.analytic_id) values.analytic_account_id = changes.analytic_id;
                     }
                     return parent.call(self, handle, values);
                 });
