@@ -61,9 +61,8 @@
                                                 <button type="button" class="btn btn-white btn-lg btn-block mb-2">Join the project</button>
                                             </a>
                                             <div class="row project-hero__card-share-text mx-auto">Share with your friends</div>
-                                            <!-- TODO: update link to production url -->
                                             <div class="row project-hero__card-share-icons mx-auto">
-                                                <t t-set="compassion_project_base_url" t-value="'crowdfunding.compassion.ch/project'"/>
+                                                <t t-set="compassion_project_base_url" t-value="base_url + '/project'"/>
                                                 <a t-attf-href="https://www.facebook.com/sharer.php?u=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
                                                     <i class="fa fa-facebook-official"/>
                                                 </a>
