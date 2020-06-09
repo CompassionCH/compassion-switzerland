@@ -61,4 +61,5 @@ class HomepageController(Controller):
         return {
             "projects": project_obj.sudo().get_active_projects(limit=6),
             "impact": impact,
+            "base_url": request.website.domain
         }

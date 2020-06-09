@@ -40,6 +40,7 @@ class ProjectController(Controller):
             "project": project,
             "impact": self.get_impact(sponsorships, donations),
             "model": "participant",
+            "base_url": request.website.domain
         }
         return request.render("crowdfunding_compassion.presentation_page", values)
 
@@ -60,6 +61,7 @@ class ProjectController(Controller):
             "fund": project.product_id,
             "participant": participant,
             "model": "project",
+            "base_url": request.website.domain
         }
 
     def get_sponsorships_and_donations(self, sponsorship_ids, invoice_line_ids):
