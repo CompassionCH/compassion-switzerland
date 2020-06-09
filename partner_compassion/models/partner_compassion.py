@@ -11,7 +11,6 @@ import logging
 import tempfile
 import uuid
 
-from ast import literal_eval
 from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
 from odoo.tools.config import config
@@ -383,13 +382,9 @@ class ResPartner(models.Model):
 
     def action_view_partner_invoices(self):
         action = super().action_view_partner_invoices()
-
-        action["domain"] = literal_eval(action["domain"])
         action["domain"].clear()
         action["domain"].append(("type", "in", ["out_invoice", "out_refund"]))
-        action["context"].update(
-            {"search_default_partner_id": self.env.uid, }
-        )
+        action["context"] = {"search_default_partner_id": self.id}
         return action
 
     ##########################################################################
