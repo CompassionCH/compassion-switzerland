@@ -25,8 +25,7 @@
                                                  src="/crowdfunding_compassion/static/src/img/icn_children.png"
                                                  t-else=""/>
                                             <h4 class="blue text-center uppercase">
-                                                Create impact by supporting
-                                                <t t-esc="project.product_id.crowdfunding_impact_text_active"/>
+                                                Create impact by <t t-esc="project.product_id.crowdfunding_impact_text_active"/>
                                             </h4>
                                             <span class="fake-btn my-3 uppercase">Select</span>
                                         </div>
