@@ -52,8 +52,8 @@ class AccountReconcileModel(models.Model):
                 .account_get(product_id["product_id"])
                 .analytic_id
             )
-            res["analytic_id"] = {"id": analytic_id.id, "display_name":
-                analytic_id.display_name}
+            res["analytic_id"] = {
+                "id": analytic_id.id, "display_name": analytic_id.display_name}
             return res
         return False
 
