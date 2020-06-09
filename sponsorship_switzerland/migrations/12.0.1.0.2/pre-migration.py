@@ -8,7 +8,7 @@ def migrate(env, version):
 
     # Associate already created toilets fund to new xml record
     covid_fund = env["product.template"].search(
-        [("default_code", "=", "toilet")]
+        [("default_code", "=", "coronavirus")]
     )
 
     if covid_fund:
