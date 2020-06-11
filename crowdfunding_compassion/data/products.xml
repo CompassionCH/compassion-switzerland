@@ -21,10 +21,10 @@
             <field name="crowdfunding_description">38% of the world population does not have daily access to a decent toilet. Compassion is committed to building and sanitizing toilets for children.</field>
             <field name="crowdfunding_impact_text_passive">access to toilets</field>
             <field name="crowdfunding_impact_text_active">giving access to toilets</field>
-            <field name="crowdfunding_quantity_singular">toilet</field>
-            <field name="crowdfunding_quantity_plural">toilets</field>
-            <field name="fund_selector_pre_description">I want to finance the construction of</field>
-            <field name="fund_selector_post_description">toilets</field>
+            <field name="crowdfunding_quantity_singular">toilet access</field>
+            <field name="crowdfunding_quantity_plural">toilet accesses</field>
+            <field name="fund_selector_pre_description">I want to give access to toilets for</field>
+            <field name="fund_selector_post_description">children</field>
             <field name="image" type="base64" file="crowdfunding_compassion/static/src/img/defaut_fund_icon.png"/>
             <field name="image_large" type="base64" file="crowdfunding_compassion/static/src/img/fonds_toilets.jpg"/>
         </record>
