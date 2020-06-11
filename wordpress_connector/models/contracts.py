@@ -132,6 +132,28 @@ class Contracts(models.Model):
                 form_data["land"], partner_infos["lang"]
             ).id
 
+            # Try to find a res.city.zip location for given data
+            res_city_zip_obj = self.env["res.city.zip"]
+            partner_location = res_city_zip_obj.search([
+                ("name", '=', partner_infos.get("zip", None)),
+                ("city_id.name", '=ilike', partner_infos.get("city"))
+            ], limit=1)
+            if not partner_location:
+                partner_location = res_city_zip_obj.search([
+                    ("name", '=', partner_infos.get('zip', None))
+                ])
+            if len(partner_location) == 1:
+                partner_infos.update({
+                    "zip_id": partner_location.id,
+                    "city": partner_location.city_id.name,
+                    "city_id": partner_location.city_id.id,
+                    "state_id": partner_location.city_id.state_id.id,
+                })
+            else:
+                # Remove bad address data
+                partner_infos.pop("zip", False)
+                partner_infos.pop("city", False)
+
             # Format birthday
             birthday = form_data.get("birthday", "")
             if birthday:
