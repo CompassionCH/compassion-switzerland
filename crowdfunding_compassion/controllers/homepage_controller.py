@@ -46,7 +46,7 @@ class HomepageController(Controller):
                 "value": 0,
                 "name": fund.crowdfunding_impact_text_active,
                 "text": fund.crowdfunding_impact_text_passive,
-                "description": fund.description,
+                "description": fund.crowdfunding_description,
                 "icon_image": fund.image_medium or sponsor_icon,
                 "header_image": fund.image_large or sponsor_banner,
             }
