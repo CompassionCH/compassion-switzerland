@@ -52,6 +52,7 @@
         "views/account_journal.xml",
         "views/statement_view.xml",
         "views/statement_operation_view.xml",
+        "views/view_bank_statement_form.xml",
     ],
     "qweb": ["static/src/xml/account_move_reconciliation.xml"],
     "auto_install": False,
