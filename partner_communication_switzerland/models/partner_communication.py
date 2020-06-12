@@ -84,7 +84,8 @@ class PartnerCommunication(models.Model):
                     self.send_mode = False
                     self.auto_send = False
                     self.message_post(
-                        _("The letter image is missing!"), _("Missing letter")
+                        body=_("The letter image is missing!"),
+                        subject=_("Missing letter")
                     )
                     continue
         else:

@@ -67,8 +67,8 @@ class MailTrackingEvent(models.Model):
 
     def _remove_address_from_sendgrid_bounce_list(self, tracking_email):
         tracking_email.partner_id.message_post(
-            _("The email was bounced and not delivered to the partner"),
-            tracking_email.name,
+            body=_("The email was bounced and not delivered to the partner"),
+            subject=tracking_email.name,
         )
         self._get_sendgrid().client.suppression.bounces._(
             tracking_email.recipient
@@ -100,7 +100,8 @@ class MailTrackingEvent(models.Model):
         """
         tracking_email.partner_id.opt_out = True
         tracking_email.partner_id.message_post(
-            _("Partner Unsubscribed from marketing e-mails"), _("Opt-out")
+            body=_("Partner Unsubscribed from marketing e-mails"),
+            subject=_("Opt-out")
         )
         sg = self._get_sendgrid()
         try:
@@ -133,7 +134,8 @@ class MailTrackingEvent(models.Model):
                 }
             )
         tracking_email.partner_id.message_post(
-            _("The email couldn't be sent due to invalid address"), tracking_email.name
+            body=_("The email couldn't be sent due to invalid address"),
+            subject=tracking_email.name
         )
         try:
             self._get_sendgrid().client.suppression.invalid_emails._(
@@ -160,7 +162,8 @@ class MailTrackingEvent(models.Model):
     @api.model
     def process_spam(self, tracking_email, metadata):
         tracking_email.partner_id.message_post(
-            _("The email was marked as spam by the partner"), tracking_email.name
+            body=_("The email was marked as spam by the partner"),
+            subject=tracking_email.name
         )
         self._get_sendgrid().client.suppression.spam_reports.delete(
             request_body={"emails": [tracking_email.recipient]}

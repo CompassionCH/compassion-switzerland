@@ -36,9 +36,9 @@ class AccountBankingMandate(models.Model):
 
         if action in MANDATE_STATE:
             self.partner_id.message_post(
-                _("For account: " + (self.partner_bank_id.acc_number or "")),
-                _("Mandate " + MANDATE_STATE[action]),
-                "comment",
+                body=_("For account: " + (self.partner_bank_id.acc_number or "")),
+                subject=_("Mandate " + MANDATE_STATE[action]),
+                type="comment",
             )
 
     @api.model
