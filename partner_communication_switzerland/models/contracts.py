@@ -625,15 +625,16 @@ class RecurringContract(models.Model):
             "partner_communication_switzerland.sponsorship_cancellation"
         )
         no_sub = self.env.ref("partner_communication_switzerland.planned_no_sub")
+        depart = self.env.ref("sponsorship_compassion.end_reason_depart")
         # Send cancellation for regular sponsorships
         self.filtered(
-            lambda s: s.end_reason != "1" and not s.parent_id
+            lambda s: s.end_reason_id != depart and not s.parent_id
         ).with_context({}).send_communication(cancellation, both=True)
         # Send NO SUB letter if activation is less than two weeks ago
         # otherwise send Cancellation letter for SUB sponsorships
         activation_limit = date.today() - relativedelta(days=15)
         self.filtered(
-            lambda s: s.end_reason != "1"
+            lambda s: s.end_reason_id != depart
             and s.parent_id
             and (
                 s.activation_date
@@ -641,7 +642,7 @@ class RecurringContract(models.Model):
             )
         ).with_context({}).send_communication(cancellation, correspondent=False)
         self.filtered(
-            lambda s: s.end_reason != "1"
+            lambda s: s.end_reason_id != depart
             and s.parent_id
             and (
                 not s.activation_date
