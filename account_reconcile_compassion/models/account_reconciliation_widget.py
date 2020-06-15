@@ -76,15 +76,3 @@ class AccountReconciliationWidget(models.AbstractModel):
             domain = expression.AND([domain, [("ref", "ilike", st_line.ref)]])
         return domain
 
-    @api.model
-    def _process_move_lines(self, move_line_ids, new_mv_line_dicts):
-        """ Run reconciliation in a job. """
-        self.with_delay()._process_move_lines_delayed(move_line_ids, new_mv_line_dicts)
-        return True
-
-    @api.model
-    @job(default_channel="root.bank_reconciliation")
-    def _process_move_lines_delayed(self, move_line_ids, new_mv_line_dicts):
-        """Bank statement line reconciliation job"""
-        super()._process_move_lines(move_line_ids, new_mv_line_dicts)
-        return True

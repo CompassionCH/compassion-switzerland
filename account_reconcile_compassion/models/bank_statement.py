@@ -110,7 +110,7 @@ class AccountStatement(models.Model):
                     if reconcile['open_balance_dict']:
                         new_aml_dicts.append(reconcile['open_balance_dict'])
 
-                    line.with_delay().process_reconciliation(
+                    line.process_reconciliation(
                         counterpart_aml_dicts=reconcile['counterpart_aml_dicts'],
                         payment_aml_rec=reconcile['payment_aml_rec'],
                         new_aml_dicts=new_aml_dicts,

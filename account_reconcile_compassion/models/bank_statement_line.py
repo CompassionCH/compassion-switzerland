@@ -63,7 +63,7 @@ class BankStatementLine(models.Model):
 
     @api.multi
     @job(default_channel="root.bank_reconciliation")
-    def process_reconciliation(
+    def _process_reconciliation(
         self, counterpart_aml_dicts=None, payment_aml_rec=None, new_aml_dicts=None
     ):
         """ Create invoice if product_id is set in move_lines
@@ -130,7 +130,15 @@ class BankStatementLine(models.Model):
                     data["move_line"] = new_counterpart
                     counterpart_aml_dicts.append(data)
 
-        return super(BankStatementLine, self).process_reconciliation(
+        return super().process_reconciliation(
+            counterpart_aml_dicts, payment_aml_rec, new_aml_dicts
+        )
+
+    # Always process reconciliations in a job
+    def process_reconciliation(
+            self, counterpart_aml_dicts=None, payment_aml_rec=None, new_aml_dicts=None
+    ):
+        self.with_delay()._process_reconciliation(
             counterpart_aml_dicts, payment_aml_rec, new_aml_dicts
         )
 
