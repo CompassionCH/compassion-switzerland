@@ -47,13 +47,17 @@ class AccountReconcileModel(models.Model):
             else:
                 res["tax_id"] = False
 
-            analytic_id = (
+            analytic_default = (
                 self.env["account.analytic.default"]
                 .account_get(product_id["product_id"])
-                .analytic_id
             )
+            analytic = analytic_default.analytic_id
             res["analytic_id"] = {
-                "id": analytic_id.id, "display_name": analytic_id.display_name}
+                "id": analytic.id, "display_name": analytic.display_name}
+            res["analytic_tag_ids"] = [{
+                "id": tag.id,
+                "display_name": tag.display_name
+            } for tag in analytic_default.analytic_tag_ids]
             return res
         return False
 

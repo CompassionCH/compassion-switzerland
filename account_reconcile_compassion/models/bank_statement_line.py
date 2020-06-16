@@ -232,6 +232,8 @@ class BankStatementLine(models.Model):
             "user_id": mv_line_dict.get("user_id"),
             "quantity": 1,
             "product_id": mv_line_dict["product_id"],
+            "account_analytic_id": mv_line_dict["analytic_account_id"],
+            "analytic_tag_ids": mv_line_dict["analytic_tag_ids"],
             "invoice_id": invoice.id,
         }
         # Remove analytic account from bank journal item:

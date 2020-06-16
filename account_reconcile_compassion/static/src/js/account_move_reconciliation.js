@@ -435,6 +435,12 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
                         if (changes.account_id) values.account_id = changes.account_id;
                         if (changes.tax_id) values.tax_id = changes.tax_id;
                         if (changes.analytic_id) values.analytic_account_id = changes.analytic_id;
+                        if (changes.analytic_tag_ids) {
+                            // Replace analytic tags as the parent method doesn't support several tags added
+                            var line = self.getLine(handle);
+                            var prop = _.last(_.filter(line.reconciliation_proposition, '__focus'));
+                            prop.analytic_tag_ids = changes.analytic_tag_ids;
+                        }
                     }
                     return parent.call(self, handle, values);
                 });
@@ -501,6 +507,7 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
             result.user_id = prop.user_id ? prop.user_id.id : null;
             result.comment = prop.comment;
             result.avoid_mobile_donation_notification = prop.avoid_mobile_donation_notification ? prop.avoid_mobile_donation_notification : false;
+            result.analytic_account_id = prop.analytic_account_id.id
             return result;
         },
     });
