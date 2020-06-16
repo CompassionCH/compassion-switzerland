@@ -79,6 +79,11 @@ class AccountStatement(models.Model):
         ).action_invoice_cancel()
         return super(AccountStatement, self).unlink()
 
+    @api.model
+    def create(self, vals_list):
+        statements = super().create(vals_list)
+        statements.auto_reconcile()
+        return statements
 
     @api.multi
     def auto_reconcile(self):
@@ -100,7 +105,8 @@ class AccountStatement(models.Model):
                     if line.journal_entry_ids:
                         continue
 
-                    reconcile = reconcile_model._prepare_reconciliation(line, move_lines)
+                    reconcile = reconcile_model._prepare_reconciliation(
+                        line, move_lines)
 
                     # An open balance is needed but no partner has been found.
                     if reconcile['open_balance_dict'] is False:
@@ -115,5 +121,3 @@ class AccountStatement(models.Model):
                         payment_aml_rec=reconcile['payment_aml_rec'],
                         new_aml_dicts=new_aml_dicts,
                     )
-
-

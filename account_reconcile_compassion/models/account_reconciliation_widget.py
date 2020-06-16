@@ -1,6 +1,5 @@
 from odoo import api, models
 from odoo.osv import expression
-from odoo.addons.queue_job.job import job
 
 
 class AccountReconciliationWidget(models.AbstractModel):
@@ -75,4 +74,3 @@ class AccountReconciliationWidget(models.AbstractModel):
         if st_line.ref:
             domain = expression.AND([domain, [("ref", "ilike", st_line.ref)]])
         return domain
-

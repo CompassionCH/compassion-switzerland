@@ -9,7 +9,6 @@
 ##############################################################################
 
 import logging
-from datetime import datetime
 
 from odoo import api, models, _
 from odoo.addons.sponsorship_compassion.models.product_names import (
@@ -17,7 +16,7 @@ from odoo.addons.sponsorship_compassion.models.product_names import (
     SPONSORSHIP_CATEGORY,
 )
 from odoo.exceptions import UserError
-from odoo.tools import float_round, mod10r
+from odoo.tools import mod10r
 from functools import reduce
 from odoo.addons.queue_job.job import job
 
@@ -49,13 +48,13 @@ class BankStatementLine(models.Model):
                 partner_bank.write({"partner_id": vals["partner_id"]})
         return super().write(vals)
 
-        def get_statement_line_for_reconciliation_widget(self):
-            # Add partner reference for reconcile view
-            res = super(
-                BankStatementLine, self
-            ).get_statement_line_for_reconciliation_widget()
-            res["partner_ref"] = self.partner_id.ref
-            return res
+    def get_statement_line_for_reconciliation_widget(self):
+        # Add partner reference for reconcile view
+        res = super(
+            BankStatementLine, self
+        ).get_statement_line_for_reconciliation_widget()
+        res["partner_ref"] = self.partner_id.ref
+        return res
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
@@ -285,38 +284,3 @@ class BankStatementLine(models.Model):
         return inv_lines.mapped("invoice_id").filtered(
             lambda i: i.amount_total == self.amount
         )
-
-    def _reconcile(self, matching_records):
-        # Now reconcile (code copied from L707)
-        counterpart_aml_dicts = []
-        payment_aml_rec = self.env["account.move.line"]
-        for aml in matching_records:
-            if aml.account_id.internal_type == "liquidity":
-                payment_aml_rec = payment_aml_rec | aml
-            else:
-                amount = (
-                    aml.currency_id
-                    and aml.amount_residual_currency
-                    or aml.amount_residual
-                )
-                counterpart_aml_dicts.append(
-                    {
-                        "name": aml.name if aml.name != "/" else aml.move_id.name,
-                        "debit": amount < 0 and -amount or 0,
-                        "credit": amount > 0 and amount or 0,
-                        "move_line": aml,
-                    }
-                )
-
-        try:
-            with self._cr.savepoint():
-                counterpart = self.process_reconciliation(
-                    counterpart_aml_dicts=counterpart_aml_dicts,
-                    payment_aml_rec=payment_aml_rec,
-                )
-            return counterpart
-        except UserError:
-            self.invalidate_cache()
-            self.env["account.move"].invalidate_cache()
-            self.env["account.move.line"].invalidate_cache()
-            return False
