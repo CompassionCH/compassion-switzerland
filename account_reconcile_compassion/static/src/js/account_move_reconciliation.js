@@ -507,7 +507,7 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
             result.user_id = prop.user_id ? prop.user_id.id : null;
             result.comment = prop.comment;
             result.avoid_mobile_donation_notification = prop.avoid_mobile_donation_notification ? prop.avoid_mobile_donation_notification : false;
-            result.analytic_account_id = prop.analytic_account_id.id
+            result.analytic_account_id = prop.analytic_account_id ? prop.analytic_account_id.id : null;
             return result;
         },
     });
