@@ -19,6 +19,7 @@ class ProjectCreationWizard(models.AbstractModel):
     _name = "cms.form.crowdfunding.wizard"
     _inherit = "cms.form.wizard"
     _form_model = "crowdfunding.project"
+    _form_model_fields = []
     _form_extra_css_klass = "crowdfunding_project_creation_from"
     _wiz_name = _name
 
@@ -46,6 +47,15 @@ class ProjectCreationWizard(models.AbstractModel):
         # Dismiss default status message
         self.o_request.website.get_status_message()
 
+    def form_process(self, data):
+        super().form_process()
+
+        values = self.form_load_defaults()
+        for field in data.keys():
+            if field in values:
+                values[field] = data[field]
+
+        self.form_render_values['form_data'] = values
 
 class ProjectCreationFormStep1(models.AbstractModel):
     _name = "cms.form.crowdfunding.project.step1"
@@ -139,6 +149,11 @@ class NoGoalException(Exception):
         super().__init__("No goal")
 
 
+class NegativeGoalException(Exception):
+    def __init__(self):
+        super().__init__("Negative goal")
+
+
 class ProjectCreationStep2(models.AbstractModel):
     _name = "cms.form.crowdfunding.project.step2"
     _inherit = "cms.form.crowdfunding.wizard"
@@ -158,11 +173,15 @@ class ProjectCreationStep2(models.AbstractModel):
         # New projects must have at least either a sponsorship or a fund objective
         if not product_goal and not sponsorship_goal:
             raise NoGoalException
+        elif product_goal and int(product_goal) < 0 or sponsorship_goal and int(sponsorship_goal) < 0:
+            raise NegativeGoalException
+
         # Existing projects with sponsorship and fund chosen must have both
         if self.main_object:
             if self.main_object.product_id and self.main_object.number_sponsorships_goal:
                 if not product_goal or not sponsorship_goal:
                     raise NoGoalException
+
         if not product_goal:
             values["product_id"] = False
         super().form_before_create_or_update(values, extra_values)
