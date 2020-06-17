@@ -45,9 +45,16 @@ class ProjectsController(Controller, FormControllerMixin):
         if 'name' in data:
             data['campaign_name'] = data['name']
 
+        form = request.httprequest.form
+
         # This allows the translation to still work on the page
         project_creation_form = self.get_form(
             "crowdfunding.project", int(project_id), **values)
+
+        if 'wiz_submit' in form and form['wiz_submit'] == 'prev':
+            return local_redirect(project_creation_form.form_next_url(
+                project_creation_form.main_object))
+
         try:
             project_creation_form.form_process(data)
         except NoGoalException:
