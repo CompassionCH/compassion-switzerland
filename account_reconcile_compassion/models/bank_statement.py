@@ -78,3 +78,46 @@ class AccountStatement(models.Model):
             lambda i: i.state in ("draft", "open")
         ).action_invoice_cancel()
         return super(AccountStatement, self).unlink()
+
+    @api.model
+    def create(self, vals_list):
+        statements = super().create(vals_list)
+        statements.auto_reconcile()
+        return statements
+
+    @api.multi
+    def auto_reconcile(self):
+        """ Auto reconcile matching invoices through jobs to avoid timeouts
+        Inspired by the `if model.auto_reconcile` part of _apply_rules()"""
+        reconcile_model = self.env["account.reconcile.model"].search(
+            [("rule_type", "!=", "writeoff_button")]
+        )
+
+        for bank_statement in self:
+            matching_amls = reconcile_model._apply_rules(bank_statement.line_ids)
+
+            for line_id, result in matching_amls.items():
+                if result["aml_ids"]:
+                    line = bank_statement.line_ids.browse(line_id)
+                    move_lines = self.env["account.move.line"].browse(result["aml_ids"])
+
+                    # Check that line wasn't already reconciled
+                    if line.journal_entry_ids:
+                        continue
+
+                    reconcile = reconcile_model._prepare_reconciliation(
+                        line, move_lines)
+
+                    # An open balance is needed but no partner has been found.
+                    if reconcile['open_balance_dict'] is False:
+                        continue
+
+                    new_aml_dicts = reconcile['new_aml_dicts']
+                    if reconcile['open_balance_dict']:
+                        new_aml_dicts.append(reconcile['open_balance_dict'])
+
+                    line.process_reconciliation(
+                        counterpart_aml_dicts=reconcile['counterpart_aml_dicts'],
+                        payment_aml_rec=reconcile['payment_aml_rec'],
+                        new_aml_dicts=new_aml_dicts,
+                    )

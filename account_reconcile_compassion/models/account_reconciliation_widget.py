@@ -1,6 +1,5 @@
 from odoo import api, models
 from odoo.osv import expression
-from odoo.addons.queue_job.job import job
 
 
 class AccountReconciliationWidget(models.AbstractModel):
@@ -67,24 +66,12 @@ class AccountReconciliationWidget(models.AbstractModel):
     def _domain_move_lines_for_reconciliation(self, st_line, aml_accounts, partner_id,
                                               excluded_ids=None, search_str=False):
         """
-        Restrict propositions to move lines with same references as bank statement line
+        Restrict propositions to move lines that don't have the same account
         """
         domain = super()._domain_move_lines_for_reconciliation(
             st_line, aml_accounts, partner_id, excluded_ids, search_str
         )
-        if st_line.ref:
-            domain = expression.AND([domain, [("ref", "ilike", st_line.ref)]])
+        domain = expression.AND([domain, [
+            ("account_id", "!=", st_line.journal_id.default_credit_account_id.id)
+        ]])
         return domain
-
-    @api.model
-    def _process_move_lines(self, move_line_ids, new_mv_line_dicts):
-        """ Run reconciliation in a job. """
-        self.with_delay()._process_reconciliation(move_line_ids, new_mv_line_dicts)
-        return True
-
-    @api.model
-    @job(default_channel="root.bank_reconciliation")
-    def _process_reconciliation(self, move_line_ids, new_mv_line_dicts):
-        """Bank statement line reconciliation job"""
-        super()._process_move_lines(move_line_ids, new_mv_line_dicts)
-        return True
