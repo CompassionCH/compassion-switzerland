@@ -11,7 +11,7 @@ from odoo import _
 from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
-from ..forms.project_creation_form import NoGoalException
+from ..forms.project_creation_form import NoGoalException, NegativeGoalException
 
 
 class ProjectsController(Controller, FormControllerMixin):
@@ -40,13 +40,21 @@ class ProjectsController(Controller, FormControllerMixin):
             "is_published": False,
             "page": page
         }
+
+        data = request.session['cms.form.crowdfunding.wizard']['steps'][page]
+        if 'name' in data:
+            data['campaign_name'] = data['name']
+
         # This allows the translation to still work on the page
         project_creation_form = self.get_form(
             "crowdfunding.project", int(project_id), **values)
         try:
-            project_creation_form.form_process()
+            project_creation_form.form_process(data)
         except NoGoalException:
             request.website.add_status_message(_("Please define a goal"),
+                                               type_='danger')
+        except NegativeGoalException:
+            request.website.add_status_message(_("Please define a positive goal"),
                                                type_='danger')
         values.update({
             "user": request.env.user,
