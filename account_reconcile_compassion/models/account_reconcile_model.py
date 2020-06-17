@@ -205,35 +205,23 @@ class AccountReconcileModel(models.Model):
         full_query += " ORDER BY aml_date_maturity, aml_id"
         return full_query, all_params
 
-    # Filter out the automatically matched propositions to those with the same ref
-    # This isn't optimal performance wise but seems to be the simplest option.
-    # In some special cases, matches can be lost, more info in the commit.
     @api.multi
-    def _apply_rules(self, st_lines, excluded_ids=None, partner_map=None):
-        matching_amls = super()._apply_rules(st_lines, excluded_ids, partner_map)
+    def _apply_conditions(self, query, params):
+        """
+        Applies Compassion criteria for the invoices automatically matched
+        - Not from the same account
+        - Have the same reference
+        """
+        query, params = super()._apply_conditions(query, params)
 
-        # Fetch all matching_amls recordsets at once to avoid hitting the db too often
-        matching_amls_recordset = self.env["account.move.line"].browse(
-            [x for l in matching_amls.values() for x in l["aml_ids"]]
-        )
+        # Exclude account.move.lines that have the same account as the statement_lines
+        query += """
+            AND aml.account_id NOT IN 
+            (journal.default_credit_account_id, journal.default_debit_account_id)
+        """
 
-        st_lines_ids_that_have_a_match = [
-            k for k, v in matching_amls.items() if v["aml_ids"]
-        ]
+        # Keep only account.move.lines with a ref containing the statement_line ref
+        # strpos() > 0 is an efficient way to check if a substring exists
+        query += " AND strpos(st_line.ref, aml.ref) > 0"
 
-        # Filter out statement lines that have a match without the same reference
-        for line in st_lines:
-            if line.id in st_lines_ids_that_have_a_match:
-                matching_lines = matching_amls_recordset.browse(
-                    matching_amls[line.id]["aml_ids"]
-                )
-
-                # Remove matching_lines that don't have a ref or don't have the same
-                for matching_line in matching_lines:
-                    if (
-                        not matching_line.statement_line_id.ref
-                        or line.ref != matching_line.statement_line_id.ref
-                    ):
-                        matching_amls[line.id]["aml_ids"].remove(matching_line.id)
-
-        return matching_amls
+        return query, params

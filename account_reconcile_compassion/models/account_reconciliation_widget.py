@@ -66,11 +66,12 @@ class AccountReconciliationWidget(models.AbstractModel):
     def _domain_move_lines_for_reconciliation(self, st_line, aml_accounts, partner_id,
                                               excluded_ids=None, search_str=False):
         """
-        Restrict propositions to move lines with same references as bank statement line
+        Restrict propositions to move lines that don't have the same account
         """
         domain = super()._domain_move_lines_for_reconciliation(
             st_line, aml_accounts, partner_id, excluded_ids, search_str
         )
-        if st_line.ref:
-            domain = expression.AND([domain, [("ref", "ilike", st_line.ref)]])
+        domain = expression.AND([domain, [
+            ("account_id", "!=", st_line.journal_id.default_credit_account_id.id)
+        ]])
         return domain
