@@ -164,16 +164,15 @@
             <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
                 <div class="card mb-4 h-100">
                     <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-8">
+                        <div class="project-card__header">
+                            <div>
                                 <h5 class="card-title">
                                     <a t-attf-href="/project/#{project.id}" style="color: white">
                                         <t t-esc="project.name"/>
                                     </a>
                                 </h5>
                             </div>
-
-                            <div class="col-md-4 text-right">
+                            <div class="project-card__header-align-right">
                                 <p>
                                     <t t-if="project.type == 'collective'">
                                         <small>
@@ -189,28 +188,31 @@
                                     </t>
                                 </p>
                             </div>
+                            <div>
+                                <t t-if="project.type == 'collective'">
+                                    <p>
+                                        <small>
+                                            <i class="fa fa-user-circle white"/>
+                                            <t t-esc="project.project_owner_id.name"/>
+                                            <t t-if="(len(project.participant_ids) - 1) > 0">
+                                               <t t-esc="' + ' + str((len(project.participant_ids) - 1))"/>
+                                                <span> friends</span>
+                                            </t>
+                                        </small>
+                                    </p>
+                                </t>
+                                <t t-else="">
+                                    <p>
+                                        <small>
+                                            <i class="fa fa-user-circle white"/>
+                                            <t t-esc="project.project_owner_id.name"/>
+                                        </small>
+                                    </p>
+                                </t>
+                            </div>
                         </div>
 
-                        <t t-if="project.type == 'collective'">
-                            <p>
-                                <small>
-                                    <i class="fa fa-user-circle white"/>
-                                    <t t-esc="project.project_owner_id.name"/>
-                                    <t t-if="(len(project.participant_ids) - 1) > 0">
-                                       <t t-esc="' + ' + str((len(project.participant_ids) - 1))"/>
-                                        <span> friends</span>
-                                    </t>
-                                </small>
-                            </p>
-                        </t>
-                        <t t-else="">
-                            <p>
-                                <small>
-                                    <i class="fa fa-user-circle white"/>
-                                    <t t-esc="project.project_owner_id.name"/>
-                                </small>
-                            </p>
-                        </t>
+
                     </div>
                     <a t-attf-href="/project/#{project.id}">
                         <img class="card-img-top" t-attf-src="data:image/png;base64, #{ project.cover_photo }" alt="Project image"/>
@@ -240,7 +242,7 @@
 
         <!-- Fund card -->
         <template id="fund_card" name="Fund card">
-            <div class="card fund-card">
+            <div class="card fund-card col-sm-12 col-lg-6 col-xl-4">
                 <div class="fund-card__header">
                     <img class="fund-card__image" t-attf-src="data:image/png;base64, #{ fund_image }"/>
                     <img class="fund-card__icon" t-attf-src="data:image/png;base64, #{ fund_icon }" height="100"/>
@@ -328,20 +330,21 @@
                                     </t>
                                 </ul>
                             </li>
+                            <li class="nav-item">
+                                   <!--  lang selector        -->
+                                <span class="lang-selector">
+                                    <a href="/fr_CH/homepage">
+                                        <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
+                                    </a>
+                                    <a href="/de_DE/homepage">
+                                        <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
+                                    </a>
+                                    <a href="/it_IT/homepage">
+                                        <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
+                                    </a>
+                                </span>
+                            </li>
                         </ul>
-
-                        <!--  lang selector        -->
-                        <span class="lang-selector">
-                            <a href="/fr_CH/homepage">
-                                <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
-                            </a>
-                            <a href="/de_DE/homepage">
-                                <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
-                            </a>
-                            <a href="/it_IT/homepage">
-                                <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
-                            </a>
-                        </span>
                     </div>
                 </div>
             </nav>

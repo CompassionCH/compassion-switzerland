@@ -142,14 +142,16 @@
                         <h1 class="blue container subheading funds__header-title">Your impact can do a lot</h1>
                     </div>
 
-                    <div class="container funds__cards-container mb-5 pb-5">
-                        <t t-foreach="impact" t-as="fund">
-                            <t t-set="fund_image" t-value="impact[fund]['header_image']"/>
-                            <t t-set="fund_icon" t-value="impact[fund]['icon_image']" />
-                            <t t-set="fund_name" t-value="impact[fund]['name']" />
-                            <t t-set="fund_description" t-value="impact[fund]['description']" />
-                            <t t-call="crowdfunding_compassion.fund_card"/>
-                        </t>
+                    <div class="container mb-5 pb-5">
+                        <div class="row">
+                            <t t-foreach="impact" t-as="fund">
+                                <t t-set="fund_image" t-value="impact[fund]['header_image']"/>
+                                <t t-set="fund_icon" t-value="impact[fund]['icon_image']" />
+                                <t t-set="fund_name" t-value="impact[fund]['name']" />
+                                <t t-set="fund_description" t-value="impact[fund]['description']" />
+                                <t t-call="crowdfunding_compassion.fund_card"/>
+                            </t>
+                        </div>
                     </div>
                 </section>
             </t>
