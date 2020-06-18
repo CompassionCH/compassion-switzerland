@@ -62,9 +62,8 @@ class AccountInvoice(models.Model):
                 ):
                     raise UserError(
                         _(
-                            f"Invoice {str(invoice.id)} for "
-                            f"'{invoice.partner_id.name}' is missing a sponsorship."
-                        )
+                            "Invoice %s for '%s' is missing a sponsorship."
+                        ) % (str(invoice.id), invoice.partner_id.name)
                     )
 
         return super().action_date_assign()

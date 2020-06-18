@@ -95,8 +95,8 @@ class SmsNotification(models.Model):
             n1 = "\n"
             sms_answer = _(
                 "Sorry, we could not understand your request. "
-                f"Supported services are :\n - {n1 + '- '.join(hooks.mapped('name'))}"
-            )
+                "Supported services are :\n - %s"
+            ) % (n1 + '- '.join(hooks.mapped('name')))
             self.write(
                 {
                     "state": "failed",
@@ -153,9 +153,8 @@ class SmsNotification(models.Model):
         )
         return _(
             "Thank you for your will to help a child ! \n"
-            "You can release a child from poverty today by clicking on "
-            f"this link: {child_request.full_url}"
-        )
+            "You can release a child from poverty today by clicking on this link: %s"
+        ) % child_request.full_url
 
     def test_service(self):
         self.ensure_one()

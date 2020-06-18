@@ -357,9 +357,8 @@ class Correspondence(models.Model):
             if self.kit_identifier:
                 raise UserError(
                     _(
-                        "Letter already sent to GMC cannot be "
-                        f"translated! [{self.kit_identifier}]"
-                    )
+                        "Letter already sent to GMC cannot be translated! [%s]"
+                    ) % self.kit_identifier
                 )
 
             src_lang = self.original_language_id
