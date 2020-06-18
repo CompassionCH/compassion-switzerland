@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Sponsor to beneficiary email communication",
-    "version": "12.0.1.0.1",
+    "version": "12.0.1.0.2",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -48,7 +48,6 @@
         "data/local_letters_cron.xml",
         "data/translator_email.xml",
         "data/communication_config.xml",
-        "data/translator_server_actions.xml",
         "data/translator_action_rules.xml",
         "data/communication_config.xml",
         "views/import_config_view.xml",
