@@ -9,8 +9,8 @@
                 <header>
                     <div class="container">
 
-                    <div class="row mt-5 mb-3">
-                        <div class="col-md-4 col-xl-2 center">
+                    <div class="row justify-content-center mt-5 mb-3">
+                        <div class="col-4 text-center">
                             <t t-if="form.main_object.cover_photo">
                                 <img t-attf-src="data:image/png;base64, #{ form.main_object.cover_photo }"
                                      class="rounded-img img-fluid"/>
@@ -52,25 +52,31 @@
                                     <!-- First Step -->
                                     <li t-att-class="class1">
                                         <a t-att-href="'/projects/create/' if page != 1 else '#!'">
-                                            <span class="circle">1</span>
-                                            <span class="label">Your project</span>
+                                            <div class="row">
+                                                <div class="col-sm-12"><span class="circle">1</span></div>
+                                                <div class="col-sm-12"><span class="label">Your project</span></div>
+                                            </div>
                                         </a>
                                     </li>
 
                                     <!-- Second Step -->
                                     <li t-att-class="class2">
                                         <a t-att-href="'/projects/create/page/2' if page >= 2 else '#!'">
-                                            <span class="circle">2</span>
-                                            <span class="label" t-if="not product">Your fund</span>
-                                            <span class="label" t-if="product">Your goal</span>
+                                            <div class="row">
+                                                <div class="col-sm-12"><span class="circle">2</span></div>
+                                                <div class="col-sm-12"><span class="label" t-if="not product">Your fund</span></div>
+                                                <div class="col-sm-12"><span class="label" t-if="product">Your goal</span></div>
+                                            </div>
                                         </a>
                                     </li>
 
                                     <!-- Third Step -->
                                     <li t-att-class="class3">
                                         <a t-att-href="'/projects/create/page/2' if page >= 3 else '#!'">
-                                            <span class="circle">3</span>
-                                            <span class="label">Your personal information</span>
+                                            <div class="row">
+                                                <div class="col-sm-12"><span class="circle">3</span></div>
+                                                <div class="col-sm-12"><span class="label">Your personal information</span></div>
+                                            </div>
                                         </a>
                                     </li>
                                 </ul>
@@ -125,8 +131,7 @@
                                             <a t-attf-id="product-choose-#{fund_index}"
                                                class="btn center">
                                                 <img t-attf-src="data:image;base64,#{fund.image_medium}"
-                                                     class="d-block mx-auto" t-if="fund.image"
-                                                     style="border: 1px solid #005eb8;"/>
+                                                     class="d-block mx-auto" t-if="fund.image"/>
                                             </a>
 
                                             <div class="card-body">
@@ -186,7 +191,7 @@
                 </t>
                 <div class="container creation-form">
                     <div class="row justify-content-center">
-                        <div class="col-xs-9">
+                        <div class="col">
                             <div t-attf-class="#{form.form_wrapper_css_klass} ">
                                 <t t-raw="form.form_render()"/>
                             </div>
