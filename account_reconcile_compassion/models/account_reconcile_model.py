@@ -216,7 +216,7 @@ class AccountReconcileModel(models.Model):
 
         # Exclude account.move.lines that have the same account as the statement_lines
         query += """
-            AND aml.account_id NOT IN 
+            AND aml.account_id NOT IN
             (journal.default_credit_account_id, journal.default_debit_account_id)
         """
 

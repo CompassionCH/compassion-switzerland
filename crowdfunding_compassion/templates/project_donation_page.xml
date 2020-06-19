@@ -5,12 +5,12 @@
         <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
         <template id="project_donation_page">
             <t t-call="crowdfunding_compassion.layout">
-
                 <!-- Donation type selection -->
                 <section class="donation-type">
                     <div class="container">
                         <h1 class="hero-title">I want to</h1>
-
+                        <p class="text-white">Select your type of support</p>
+                        <p class="text-white">Below, select which person you support</p>
                         <div class="row pb-5">
                             <!-- Fund selectable card -->
                             <!-- Show fund option only if one is selected -->

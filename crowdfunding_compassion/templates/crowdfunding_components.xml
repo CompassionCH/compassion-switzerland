@@ -333,13 +333,13 @@
                             <li class="nav-item">
                                    <!--  lang selector        -->
                                 <span class="lang-selector">
-                                    <a href="/fr_CH/homepage">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='fr_CH')">
                                         <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
                                     </a>
-                                    <a href="/de_DE/homepage">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='de_DE')">
                                         <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
                                     </a>
-                                    <a href="/it_IT/homepage">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='it_IT')">
                                         <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
                                     </a>
                                 </span>
@@ -366,14 +366,9 @@
                     <div class="container">
                         <div class="row py-5">
                             <div class="col-sm-12 col-md-4 f-logo">
-                                <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
+                                <img t-attf-src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-#{env.lang[:2]}.svg"
                                      width="190" height="auto"/>
-
-                                <p>
-                                    Compassion Suisse est la branche nationale de Compassion International. A travers le
-                                    parrainage individuel et en collaboration avec quelque 7000 Eglises locales, nous
-                                    apportons un soutien à plus de 2 millions d’enfants parmi les plus démunis dans 25
-                                    pays.
+                                <p>Compassion Switzerland is the national branch of Compassion International. Through individual sponsorship and in collaboration with more than 8,000 local churches, we support more than 2 million of the world's poorest children in 25 countries.
                                 </p>
                             </div>
 
@@ -426,18 +421,18 @@
                             </div>
 
                             <div class="col-md-4 ">
-                                <small>© 2020 Compassion Switzerland / all right reserved</small>
+                                <small>© 2020 Compassion Switzerland / all rights reserved</small>
                             </div>
 
                             <div class="col-sm-12 col-md-4 text-right d-none d-md-block">
                                 <span class="lang-selector">
-                                    <a href="/fr_CH/homepage">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='fr_CH')">
                                         <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
                                     </a>
-                                    <a href="/de_DE/homepage">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='de_DE')">
                                         <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
                                     </a>
-                                    <a href="/it_IT/homepage">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='it_IT')">
                                         <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
                                     </a>
                                 </span>
