@@ -300,13 +300,27 @@ $enable-rounded: false;
 // Header
 
 .masthead {
+  position: relative;
   text-align: center;
   color: $gray-300;
   padding: 5rem 0;
 
   background-image: url("/theme_crowdfunding/static/src/img/head.jpg");
-  background-position: center center;
   background-size: cover;
+  min-height: 200px;
+  @media(min-width: 768px) {
+    min-height: 350px;
+  }
+  @media(min-width: 1200px) {
+    min-height: 500px;
+  }
+}
+
+.masthead h1 {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 0;
 }
 
 //footer

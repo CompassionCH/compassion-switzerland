@@ -6,26 +6,24 @@
         <template id="homepage_template">
             <t t-call="crowdfunding_compassion.layout">
                 <header class="masthead">
-                    <div class="container">
-                        <h1 class="display-1 blue uppercase font-weight-bold">Together</h1>
-                        <h2 class="display-4">Compassion interactive project platform</h2>
-                        <h3 class="py-4">
-                            Marathon, Anniversary, Barbecue, Bike Trip ?
-                            <br />
-                            Launch your own project or join an existing one.
-                            <br />
-                            Let's change the world together, one child at a time!
-                        </h3>
-
-                        <a href="/projects/create">
-                            <button type="button" class="btn btn-primary btn-lg uppercase">Launch a project</button>
-                        </a>
-                        <br/>
-                    </div>
+                    <h1 class="display-1 text-white uppercase font-weight-bold pt-4">Together</h1>
                 </header>
                 <!-- Impact so far -->
                 <section class="# py-5" id="#">
                     <div class="container">
+                        <div class="center-block text-center">
+                             <h2 class="display-4">Compassion interactive project platform</h2>
+                            <h3 class="py-4">
+                                Marathon, Anniversary, Barbecue, Bike Trip ?
+                                <br />
+                                Launch your own project or join an existing one.
+                                <br />
+                                Let's change the world together, one child at a time!
+                            </h3>
+                            <a href="/projects/create">
+                                <button type="button" class="btn btn-primary btn-lg uppercase mx-auto">Launch a project</button>
+                            </a>
+                        </div>
                         <div class="row">
                             <div class="col-lg-12 text-center py-5">
                                 <h3 class="subheading">What we achieved so far</h3>
