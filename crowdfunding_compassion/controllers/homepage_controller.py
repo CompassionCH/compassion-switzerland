@@ -34,7 +34,13 @@ class HomepageController(Controller):
                 "value": 0,
                 "name": _("Sponsor children"),
                 "text": _("sponsored children"),
-                "description": _("Description to be added"),
+                "description": _("""
+For 42 francs a month, you're opening the way out of poverty for a child. Sponsorship
+ ensures that the child is known, loved and protected. In particular, it gives the child
+ access to schooling, tutoring, regular balanced meals, medical care and training in the
+ spiritual field, hygiene, etc. Every week, the child participates in the activities of
+ one of the project center of the 8,000 local churches that are partners of
+ Compassion. They allow him or her to discover and develop his or her talents."""),
                 "icon_image": sponsor_icon,
                 "header_image": sponsor_banner
             }

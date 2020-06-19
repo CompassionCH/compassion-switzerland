@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-09 13:07+0000\n"
-"PO-Revision-Date: 2020-06-09 15:25+0200\n"
+"POT-Creation-Date: 2020-06-19 07:56+0000\n"
+"PO-Revision-Date: 2020-06-19 11:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -18,7 +18,33 @@ msgstr ""
 "X-Generator: Poedit 2.3.1\n"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:325
+#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:37
+#, python-format
+msgid ""
+"\n"
+"For 42 francs a month, you're opening the way out of poverty for a child. "
+"Sponsorship\n"
+" ensures that the child is known, loved and protected. In particular, it "
+"gives the child\n"
+" access to schooling, tutoring, regular balanced meals, medical care and "
+"training in the\n"
+" spiritual field, hygiene, etc. Every week, the child participates in the "
+"activities of\n"
+" one of the project center of the 8,000 local churches that are partners of\n"
+" Compassion. They allow him or her to discover and develop his or her "
+"talents."
+msgstr ""
+"\n"
+"Pour 42 francs par mois, vous lui ouvrez la voie pour sortir de la pauvreté. "
+"Le parrainage assure à l'enfant d'être connu, aimé et protégé. Il lui donne "
+"notamment l'accès à la scolarité, au soutien scolaire, à des repas "
+"équilibrés réguliers, à un suivi médical et à des formations dans le domaine "
+"spirituel, de l'hygiène, etc. L'enfant participe chaque semaine à des "
+"activités d'un des centres d'accueil des 8000 Eglises locales partenaires de "
+"Compassion. Elles lui permettent de découvrir et développer ses talents."
+
+#. module: crowdfunding_compassion
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:327
 #, python-format
 msgid ""
 "%s created or joined a project. A user may need to be created if he doesn't "
@@ -28,7 +54,7 @@ msgstr ""
 "have access"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/project_controller.py:70
+#: code:addons/crowdfunding_compassion/controllers/project_controller.py:72
 #, python-format
 msgid "%s was sponsored"
 msgstr "%s a été parrainé"
@@ -258,8 +284,8 @@ msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
-msgid "<small>© 2020 Compassion Switzerland / all right reserved</small>"
-msgstr "<small>© 2020 Compassion Switzerland / Tous droits réservés</small>"
+msgid "<small>© 2020 Compassion Switzerland / all rights reserved</small>"
+msgstr "<small>© 2020 Compassion Suisse / Tous droits réservés</small>"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
@@ -396,6 +422,11 @@ msgid ""
 msgstr "Sois la première personne à faire un impact"
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "Below, select which person you support"
+msgstr "En-bas, sélectionne la personne que tu soutiens"
+
+#. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_donation__partner_birthdate
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__partner_birthdate
 msgid "Birthdate"
@@ -483,14 +514,15 @@ msgstr "Collectif"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 msgid ""
-"Compassion Suisse est la branche nationale de Compassion International. A "
-"travers le\n"
-"                                    parrainage individuel et en "
-"collaboration avec quelque 7000 Eglises locales, nous\n"
-"                                    apportons un soutien à plus de 2 "
-"millions d’enfants parmi les plus démunis dans 25\n"
-"                                    pays."
+"Compassion Switzerland is the national branch of Compassion International. "
+"Through individual sponsorship and in collaboration with more than 8,000 "
+"local churches, we support more than 2 million of the world's poorest "
+"children in 25 countries."
 msgstr ""
+"Compassion Suisse est la branche nationale de Compassion International. A "
+"travers le parrainage individuel et en collaboration avec quelque 8000 "
+"Eglises locales, nous apportons un soutien à plus de 2 millions d'enfants "
+"parmi les plus démunis dans 25 pays."
 
 #. module: crowdfunding_compassion
 #: model:ir.model,name:crowdfunding_compassion.model_crm_event_compassion
@@ -669,12 +701,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 msgid "Describe your project"
 msgstr "Décris ton projet"
-
-#. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:37
-#, python-format
-msgid "Description to be added"
-msgstr "Description à ajouter"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_donation__display_name
@@ -924,7 +950,7 @@ msgstr ""
 #. module: crowdfunding_compassion
 #. openerp-web
 #: code:addons/crowdfunding_compassion/forms/project_creation_form.py:99
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:225
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:227
 #: code:addons/crowdfunding_compassion/static/src/js/creation_form.js:47
 #, python-format
 msgid ""
@@ -1169,7 +1195,7 @@ msgid "Navigate through projects"
 msgstr "Naviguer dans les projets"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:324
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:326
 #, python-format
 msgid "New Crowdfunding participant"
 msgstr "Nouveau participant TOGETHER"
@@ -1481,6 +1507,11 @@ msgid "See more projects"
 msgstr "Voir plus de projets"
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "Select your type of support"
+msgstr "Choisis le type de soutien"
+
+#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 msgid "Set your personal goal"
 msgstr "Définis ton objectif"
@@ -1493,7 +1524,7 @@ msgstr "Partager avec tes proches"
 #. module: crowdfunding_compassion
 #: code:addons/crowdfunding_compassion/forms/crowdfunding_participant_update_form.py:41
 #: code:addons/crowdfunding_compassion/forms/project_creation_form.py:98
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:224
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:226
 #: code:addons/crowdfunding_compassion/forms/project_update_form.py:41
 #, python-format
 msgid "Social Medias"
@@ -1891,6 +1922,16 @@ msgid "contact us."
 msgstr "contactes-nous."
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
+msgid "data protection policy, and general terms and conditions."
+msgstr "protection des données et le conditions générales."
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
+msgid "https://compassion.ch/protection-des-donnees/"
+msgstr "https://compassion.ch/protection-des-donnees/"
+
+#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
 msgid "if you need any further assistance."
 msgstr "si tu as besoin d'aide supplémentaire."
@@ -1936,14 +1977,15 @@ msgid "sponsored children"
 msgstr "enfants parrainés"
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
-msgid "terms and conditions."
-msgstr "termes et conditions."
-
-#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_progress
 msgid "to go"
 msgstr "restant"
+
+#~ msgid "Description to be added"
+#~ msgstr "Description à ajouter"
+
+#~ msgid "terms and conditions."
+#~ msgstr "termes et conditions."
 
 #~ msgid ""
 #~ "<span class=\"white\">Indicate the amount in the above box. 1\n"

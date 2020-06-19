@@ -60,12 +60,13 @@
         <template id="donation_form_gtc" inherit_id="cms_form.base_form">
             <xpath expr="//div[@class='col-sm-9 col-sm-offset-3 above-controls']" position="inside">
                 <div id="donation-gtc">
+                    <t t-set="terms_link">https://compassion.ch/protection-des-donnees/</t>
                     <p>
                         By making a donation, you agree on our
-                        <a href="https://compassion.ch/protection-des-donnees/" target="_blank">terms and conditions.</a>
+                        <a t-att-href="terms_link" target="_blank">data protection policy, and general terms and conditions.</a>
                         <br/>
                         You will be redirected to our online payment system. If you wish to give by bank tranfer (IBAN), do not hesitate to
-                        <a href="#">contact us.</a>
+                        <a href="mailto:together@compassion.ch">contact us.</a>
                     </p>
                     <br/>
                 </div>
