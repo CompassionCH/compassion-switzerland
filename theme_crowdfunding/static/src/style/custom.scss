@@ -240,6 +240,7 @@ $enable-rounded: false;
 .fund-card {
   text-align: center;
   border: none;
+  height: 100%;
 
   &__header {
     position: relative;
@@ -274,10 +275,11 @@ $enable-rounded: false;
 
 .funds {
   position: relative;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 
   &__header-image {
     height: auto;
+    min-height: 20rem;
     width: 100%;
   }
 
