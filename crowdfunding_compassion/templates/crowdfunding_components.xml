@@ -40,11 +40,13 @@
         <!-- Individual [project] must be set before calling this template -->
         <template id="project_progress" name="Project progress">
             <!-- Setup data and display the sponsorship progress -->
-            <t t-set="goal_name">sponsored children</t>
-            <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
-            <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
-            <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
-            <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
+            <t t-if="project.number_sponsorships_goal">
+                <t t-set="goal_name">sponsored children</t>
+                <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
+                <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
+                <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
+                <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
+            </t>
 
             <!-- Setup data and display the fund progress -->
             <t t-if="project.product_id">
@@ -69,11 +71,11 @@
         <!-- Individual [participant] model must be set before calling this template -->
         <template id="participant_card" name="Participant card">
             <div class="card participants__card">
-                <div style="margin: 0 auto; width: 50%">
-                    <a t-attf-href="/participant/#{participant.id}">
+                <a t-attf-href="/participant/#{participant.id}">
+                    <div>
                         <img class="participants__image" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Participant image"/>
-                    </a>
-                </div>
+                    </div>
+                </a>
                 <div class="participants__content">
                     <h4 class="participants__name">
                         <a t-attf-href="/participant/#{participant.id}">

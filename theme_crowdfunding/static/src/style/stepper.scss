@@ -1,9 +1,15 @@
 // Stepper widget taken from Material Design Bootstrap library
 
 .primary-color,
-ul.stepper li.active a .circle,
-ul.stepper li.completed a .circle {
-    background-color: $blue-compassion !important
+ul.stepper li.active a .circle {
+    background-color: $blue-compassion;
+}
+
+ul.stepper li.completed a .circle,
+ul.stepper li.inactive a .circle {
+    background-color: $white;
+    color: $blue-compassion;
+    border: 1px solid $gray-300;
 }
 
 .danger-color,
@@ -14,15 +20,19 @@ ul.stepper li.warning a .circle {
 
 
 ul.stepper {
-    padding: 1.5rem 0;
+    padding: 3rem 0;
     overflow-x: hidden;
     overflow-y: auto;
     counter-reset: section
 }
 
 ul.stepper li a {
-    padding: 1.5rem;
-    text-align: center
+    padding: 0.5rem;
+    text-align: center;
+
+    @media (max-width: 47.9375rem) {
+        padding: 1.5rem;
+    }
 }
 
 ul.stepper li a .circle {
@@ -39,13 +49,15 @@ ul.stepper li a .circle {
 
 ul.stepper li a .label {
     display: inline-block;
-    color: rgba(0, 0, 0, 0.38)
+    color: rgba(0, 0, 0, 0.38);
+    margin-top: 0.5rem;
 }
 
 ul.stepper li.active a .label,
-ul.stepper li.completed a .label {
-    font-weight: 600;
-    color: rgba(0, 0, 0, 0.87)
+ul.stepper li.completed a .label,
+ul.stepper li.inactive a .label {
+    font-weight: 400;
+    color: $blue-compassion;
 }
 ul.stepper li.inactive {
     pointer-events: none;
@@ -58,7 +70,8 @@ ul.stepper li.inactive {
     display: flex;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
-    justify-content: space-between
+    justify-content: space-between;
+    align-items: center;
 }
 
 .stepper-horizontal li {
@@ -133,11 +146,16 @@ ul.stepper li.inactive {
 
     .stepper-horizontal li:not(:last-child):after {
         position: absolute;
-        top: 3.75rem;
-        left: 2.19rem;
+        top: 5.2rem;
+        left: 6.2rem;
         width: 1px;
-        height: calc(100% - 40px);
-        content: ""
+        height: calc(100% - 70px);
+        content: "";
+    }
+
+    // Push lines after the first one more to the left to align the line
+    .stepper-horizontal li:not(:first-child):after {
+        left: 6.5rem;
     }
 }
 
@@ -200,10 +218,6 @@ ul.stepper li.inactive {
     -ms-flex-order: 2;
     order: 2;
     margin-top: .2rem
-}
-
-.stepper-vertical li.completed a .label {
-    font-weight: 500
 }
 
 .stepper-vertical li .step-content {

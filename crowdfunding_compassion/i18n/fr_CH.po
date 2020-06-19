@@ -1115,7 +1115,7 @@ msgid ""
 "networks, via WhatsApp or e-mail and motivate others to support you!"
 msgstr ""
 "Fait connaitre ton projet autour de toi! Partage le lien de ton projet sur "
-"les réseaux sociaux ou par email et motives les autres à te supporter!"
+"les réseaux sociaux ou par email et motives les autres à te soutenir!"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
