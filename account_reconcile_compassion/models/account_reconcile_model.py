@@ -228,6 +228,6 @@ class AccountReconcileModel(models.Model):
 
         # Keep only account.move.lines with a ref containing the statement_line ref
         # strpos() > 0 is an efficient way to check if a substring exists
-        query += " AND strpos(st_line.ref, aml.ref) > 0"
+        query += " AND strpos(aml.ref, st_line.ref)>0"
 
         return query, params
