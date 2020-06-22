@@ -7,6 +7,8 @@ from babel.dates import format_timedelta
 
 from odoo import models, api, fields
 
+import urllib.parse as urlparse
+
 
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
@@ -41,6 +43,9 @@ class CrowdfundingProject(models.Model):
     presentation_video = fields.Char(
         help="Paste any video link that showcase your project"
              " (e.g. https://vimeo.com/jlkj34ek5)"
+    )
+    presentation_video_embed = fields.Char(
+        compute="_compute_presentation_video_embed"
     )
     facebook_url = fields.Char("Facebook link")
     twitter_url = fields.Char("Twitter link")
@@ -121,6 +126,22 @@ class CrowdfundingProject(models.Model):
                     "project_id": project.id,
                 }
                 project.write({"participant_ids": [(0, 0, participant)]})
+
+    # create an embedded version of the user input of presentation_video
+    @api.onchange("presentation_video")
+    def _compute_presentation_video_embed(self):
+        url_data = urlparse.urlparse(self.presentation_video)
+        if "youtube" in url_data.hostname and "embed" not in url_data.path:
+            query = urlparse.parse_qs(url_data.query)
+            self.presentation_video_embed = \
+                "/".join([url_data.scheme + "://" + url_data.hostname, "embed",
+                          query["v"][0]])
+        elif "vimeo" in url_data.hostname and "video" not in url_data.path:
+            self.presentation_video_embed = \
+                "/".join([url_data.scheme + "://player." + url_data.hostname, "video",
+                          url_data.path.lstrip("/")])
+        else:
+            self.presentation_video_embed = self.presentation_video
 
     @api.multi
     def _compute_product_number_goal(self):
