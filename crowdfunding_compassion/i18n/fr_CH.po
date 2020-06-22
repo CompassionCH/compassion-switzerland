@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-19 13:40+0000\n"
-"PO-Revision-Date: 2020-06-19 15:42+0200\n"
+"POT-Creation-Date: 2020-06-22 07:41+0000\n"
+"PO-Revision-Date: 2020-06-22 09:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -575,11 +575,6 @@ msgid "Create a new project"
 msgstr "Lance ton projet"
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
-msgid "Create impact by"
-msgstr "Fais la différence en"
-
-#. module: crowdfunding_compassion
 #: code:addons/crowdfunding_compassion/forms/project_creation_form.py:75
 #, python-format
 msgid "Create your project"
@@ -1141,14 +1136,23 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
 #: model_terms:website.page,arch_db:crowdfunding_compassion.homepage
+#, fuzzy
+#| msgid ""
+#| "Marathon, Anniversary, Barbecue, Bike Trip ?\n"
+#| "                            <br/>\n"
+#| "                            Launch your own project or join an existing "
+#| "one.\n"
+#| "                            <br/>\n"
+#| "                            Let's change the world together, one child at "
+#| "a time!"
 msgid ""
 "Marathon, Anniversary, Barbecue, Bike Trip ?\n"
-"                            <br/>\n"
-"                            Launch your own project or join an existing "
+"                                <br/>\n"
+"                                Launch your own project or join an existing "
 "one.\n"
-"                            <br/>\n"
-"                            Let's change the world together, one child at a "
-"time!"
+"                                <br/>\n"
+"                                Let's change the world together, one child "
+"at a time!"
 msgstr ""
 "Marathon ? Anniversaire ? Barbecue ? Voyage à vélo ? ?\n"
 "                            <br/>\n"
@@ -1542,9 +1546,13 @@ msgid "Source Name"
 msgstr ""
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "Sponsor a child"
+msgstr "Parrainer un enfant"
+
+#. module: crowdfunding_compassion
 #: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:35
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 #, python-format
 msgid "Sponsor children"
 msgstr "Parrainer des enfants"
@@ -1975,6 +1983,9 @@ msgstr "enfants parrainés"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_progress
 msgid "to go"
 msgstr "restant"
+
+#~ msgid "Create impact by"
+#~ msgstr "Fais la différence en"
 
 #~ msgid ""
 #~ "<span class=\"circle\">1</span>\n"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-19 13:40+0000\n"
-"PO-Revision-Date: 2020-06-19 16:53+0200\n"
+"POT-Creation-Date: 2020-06-22 07:41+0000\n"
+"PO-Revision-Date: 2020-06-22 09:42+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -502,11 +502,6 @@ msgstr "Hintergrundbild"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 msgid "Create a new project"
 msgstr "Starte dein Projekt"
-
-#. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
-msgid "Create impact by"
-msgstr " "
 
 #. module: crowdfunding_compassion
 #: code:addons/crowdfunding_compassion/forms/project_creation_form.py:75
@@ -1062,12 +1057,12 @@ msgstr ""
 #: model_terms:website.page,arch_db:crowdfunding_compassion.homepage
 msgid ""
 "Marathon, Anniversary, Barbecue, Bike Trip ?\n"
-"                            <br/>\n"
-"                            Launch your own project or join an existing "
+"                                <br/>\n"
+"                                Launch your own project or join an existing "
 "one.\n"
-"                            <br/>\n"
-"                            Let's change the world together, one child at a "
-"time!"
+"                                <br/>\n"
+"                                Let's change the world together, one child "
+"at a time!"
 msgstr ""
 "Marathon? Geburtstag? Grillparty? Grössere Velotour? <br/> Starte dein "
 "eigenes Projekt oder schliesse dich einem Projekt an<br/>\n"
@@ -1454,9 +1449,13 @@ msgid "Source Name"
 msgstr "Bezeichnung der Herkunft"
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "Sponsor a child"
+msgstr "Eine Patenschaft übernehmen"
+
+#. module: crowdfunding_compassion
 #: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:35
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 #, python-format
 msgid "Sponsor children"
 msgstr "Eine Patenschaft übernehmen"
@@ -1890,6 +1889,9 @@ msgstr "Patenkinder"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_progress
 msgid "to go"
 msgstr "verbleibend"
+
+#~ msgid "Create impact by"
+#~ msgstr " "
 
 #~ msgid ""
 #~ "<span class=\"circle\">1</span>\n"
