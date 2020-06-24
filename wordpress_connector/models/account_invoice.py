@@ -196,11 +196,9 @@ class AccountInvoice(models.Model):
             "invoice_line_ids.product_id.categ_name"
         )
         partner.set_privacy_statement(origin="new_gift")
-        new_partner = partner.state != "active"
         if (
                 analytic_id
                 and (not requires_sponsorship or sponsorship)
-                and not new_partner
         ):
             invoice.action_invoice_open()
             payment_vals = {

@@ -137,7 +137,8 @@ class AdvocateDetails(models.Model):
                 "img_alt": details.display_name,
                 "image_data": details.partner_id.with_context(bin_size=False).image,
                 "text": details.quote or "",
-                "attribution": _(f"Quote from {firstname} {lastname}")
+                "attribution": _("Quote from %s %s"
+                                 % (firstname, lastname))
                 if details.quote
                 else "",
             }
@@ -246,10 +247,9 @@ class AdvocateDetails(models.Model):
             display_name = advocate.display_name
             advocate.message_post(
                 body=_(
-                    f"This is a reminder that {preferred_name} "
-                    f"will have birthday on {date}."
-                ),
-                subject=_(f"[{display_name}] Advocate birthday reminder"),
+                    "This is a reminder that %s will have birthday on %s."
+                ) % (preferred_name, date),
+                subject=_("[%s] Advocate birthday reminder") % display_name,
                 partner_ids=[notify_partner_id],
                 type="comment",
                 subtype="mail.mt_comment",

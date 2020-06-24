@@ -22,7 +22,8 @@ class MatchPartner(models.AbstractModel):
     def match_process_create_infos(self, infos, options=None):
         create_infos = super().match_process_create_infos(infos, options)
 
-        # Mark the partner to be validated
+        # TODO CO-3284 replace with mail.activity assigned to a user. Do the change
+        # in top module cms_form_compassion and remove the inheritance here.
         create_infos["state"] = "pending"
 
         return create_infos

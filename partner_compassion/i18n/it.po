@@ -6,20 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-15 10:28+0000\n"
-"PO-Revision-Date: 2019-03-15 11:47+0100\n"
-"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
+"POT-Creation-Date: 2020-06-22 12:54+0000\n"
+"PO-Revision-Date: 2020-06-22 16:04+0200\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_bank_compassion.py:29
-#: code:addons/partner_compassion/models/partner_bank_compassion.py:40
+#: code:addons/partner_compassion/models/partner_bank_compassion.py:30
+#: code:addons/partner_compassion/models/partner_bank_compassion.py:44
 #, python-format
 msgid "<b>Account number: </b>"
 msgstr "<b>Account number: </b>"
@@ -30,10 +30,16 @@ msgid "A generic banking mandate"
 msgstr "A generic banking mandate"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_bank_compassion.py:42
+#: code:addons/partner_compassion/models/partner_bank_compassion.py:45
 #, python-format
 msgid "Account deleted"
 msgstr "Account deleted"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_needaction
+#| msgid "Active or New"
+msgid "Action Needed"
+msgstr "Action Needed"
 
 #. module: partner_compassion
 #: selection:advocate.details,state:0 selection:res.partner,state:0
@@ -41,33 +47,42 @@ msgid "Active"
 msgstr "Active"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.advocate_details_search
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__active_since
+#| msgid "Active since"
+msgid "Active Since"
+msgstr "Active Since"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 msgid "Active or New"
 msgstr "Active or New"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_active_since
-msgid "Active since"
-msgstr "Active since"
-
-#. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Address"
-msgstr "Indirizzo"
+msgstr "Address"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__type
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__type
+#| msgid "Address"
+msgid "Address Type"
+msgstr "Address Type"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 msgid "Advocacy"
 msgstr "Advocacy"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_advocacy_source
-msgid "Advocacy source"
-msgstr "Advocacy source"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__advocacy_source
+#| msgid "Advocacy source"
+msgid "Advocacy Source"
+msgstr "Advocacy Source"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "Advocate"
 msgstr "Advocate"
 
@@ -87,28 +102,34 @@ msgid "Advocate background"
 msgstr "Advocate background"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_staff_notification_settings_advocate_birthday_de_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__advocate_birthday_de_id
 msgid "Advocate birthday (DE)"
 msgstr "Advocate birthday (DE)"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_staff_notification_settings_advocate_birthday_en_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__advocate_birthday_en_id
 msgid "Advocate birthday (EN)"
 msgstr "Advocate birthday (EN)"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_staff_notification_settings_advocate_birthday_fr_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__advocate_birthday_fr_id
 msgid "Advocate birthday (FR)"
 msgstr "Advocate birthday (FR)"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_staff_notification_settings_advocate_birthday_it_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__advocate_birthday_it_id
 msgid "Advocate birthday (IT)"
 msgstr "Advocate birthday (IT)"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_ambassador_details_id
-#: model:ir.model.fields,field_description:partner_compassion.field_res_users_advocate_details_id
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_notification_settings_muskathlon_form
+#| msgid "Advocate birthday (DE)"
+msgid "Advocate birthdays"
+msgstr "Advocate birthdays"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__advocate_details_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__advocate_details_id
 msgid "Advocate details"
 msgstr "Advocate details"
 
@@ -125,17 +146,32 @@ msgid "Advocates"
 msgstr "Advocates"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "All customers with LSV or DD payment terms"
 msgstr "All customers with LSV or DD payment terms"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "All customers without LSV or DD"
 msgstr "All customers without LSV or DD"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details_lang
+#: model:ir.model.fields,help:partner_compassion.field_res_partner__lang
+#: model:ir.model.fields,help:partner_compassion.field_res_users__lang
+#| msgid ""
+#| "If the selected language is loaded in the system, all documents related "
+#| "to this contact will be printed in this language. If not, it will be "
+#| "English."
+msgid ""
+"All the emails and documents sent to this contact will be translated in this "
+"language."
+msgstr ""
+"All the emails and documents sent to this contact will be translated in this "
+"language."
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Alternate address"
 msgstr "Alternate address"
 
@@ -145,6 +181,7 @@ msgid "Ambassador"
 msgstr "Ambassador"
 
 #. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_account_invoice_send__ancestor
 #: model:ir.model.fields,field_description:partner_compassion.field_mail_compose_message_ancestor
 #: model:ir.model.fields,field_description:partner_compassion.field_mail_mail_ancestor
 #: model:ir.model.fields,field_description:partner_compassion.field_mail_message_ancestor
@@ -153,14 +190,24 @@ msgid "Ancestor"
 msgstr "Ancestor"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_attachment_count
+msgid "Attachment Count"
+msgstr "Attachment Count"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "BVR"
 msgstr "BVR"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr "Conti bancari"
+msgstr "Bank Accounts"
+
+#. module: partner_compassion
+#: model:ir.cron,cron_name:partner_compassion.advocate_birthday_cron
+msgid "Base: Auto-vacuum internal data"
+msgstr "Base: Auto-vacuum internal data"
 
 #. module: partner_compassion
 #: selection:advocate.details,t_shirt_type:0
@@ -173,60 +220,80 @@ msgid "Birthdate"
 msgstr "Data di nascita"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_birthday_reminder
-msgid "Birthday reminder"
-msgstr "Birthday reminder"
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__birthday_reminder
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__birthday_reminder
+#| msgid "Birthday reminder"
+msgid "Birthday Reminder"
+msgstr "Birthday Reminder"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_break_end
-msgid "Break end"
-msgstr "Break end"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__break_end
+#| msgid "Break end"
+msgid "Break End"
+msgstr "Break End"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_email_copy
-#: model:ir.model.fields,field_description:partner_compassion.field_res_users_email_copy
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__email_copy
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__email_copy
 msgid "CC e-mails sent to main partner"
 msgstr "CC e-mails sent to main partner"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_calendar
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__calendar
 msgid "Calendar"
 msgstr "Calendar"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
+#: model:ir.model,name:partner_compassion.model_calendar_attendee
+#| msgid "Contact information"
+msgid "Calendar Attendee Information"
+msgstr "Calendar Attendee Information"
+
+#. module: partner_compassion
+#: model:ir.cron,name:partner_compassion.advocate_birthday_cron
+#| msgid "[{}] Advocate birthday reminder"
+msgid "Check advocates (birthday + break end)"
+msgstr "Check advocates (birthday + break end)"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 msgid "Check duplicates"
 msgstr "Check duplicates"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter_charter_agreement
+#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter__charter_agreement
 msgid "Check to agree to this charter"
 msgstr "Accetto la dichiarazione"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
 msgid "Child Protection Charter Agreement"
 msgstr "Child Protection Charter Agreement"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_christmas_card
-msgid "Christmas card"
-msgstr "Christmas card"
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__christmas_card
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__christmas_card
+#| msgid "Christmas card"
+msgid "Christmas Card"
+msgstr "Christmas Card"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.advocate_details_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 msgid "Church"
 msgstr "Church"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_church_unlinked
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__church_unlinked
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__church_unlinked
 msgid "Church (N/A)"
 msgstr "Church (N/A)"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users_church_member_count
-msgid "Church member count"
-msgstr "Church member count"
+#| msgid "Church member count"
+msgid "Church Member Count"
+msgstr "Church Member Count"
 
 #. module: partner_compassion
 #: model:advocate.engagement,name:partner_compassion.engagement_church
@@ -235,34 +302,58 @@ msgstr "Church presentation"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_city
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "City"
 msgstr "Città"
 
 #. module: partner_compassion
-#: model:ir.actions.act_window,help:partner_compassion.action_partner_supporter_form
+#: model_terms:ir.actions.act_window,help:partner_compassion.action_partner_supporter_form
 msgid "Click to add a contact in your address book."
 msgstr "Fai click per aggiungere un contatto alla tua rubrica"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid "Code of Conduct"
 msgstr "Codice di Condotta"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model:ir.model,name:partner_compassion.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configurazione"
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_res_partner
+#: selection:res.partner,type:0
+#| msgid "Contact Name"
+msgid "Contact"
+msgstr "Contact"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Contact Name"
 msgstr "Nome di Contatto"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Contact correspondence"
 msgstr "Contact correspondence"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Contact information"
 msgstr "Contact information"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/forms/partner_coordinates_form.py:51
+#, python-format
+msgid "Coordinates"
+msgstr ""
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/forms/partner_coordinates_form.py:59
+#, python-format
+msgid "Coordinates updated."
+msgstr ""
 
 #. module: partner_compassion
 #: model:res.partner.category,name:partner_compassion.res_partner_category_prog_corresp
@@ -275,58 +366,64 @@ msgid "Correspondance by Compassion"
 msgstr "Correspondance by Compassion"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 msgid "Correspondence"
 msgstr "Correspondence"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Country"
 msgstr "Nazione"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_create_uid
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement_create_uid
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_create_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__create_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__create_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__create_uid
 msgid "Created by"
 msgstr "Creato da"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_create_date
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement_create_date
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_create_date
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__create_date
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__create_date
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__create_date
 msgid "Created on"
 msgstr "Creato il"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__date_agreed_child_protection_charter
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__date_agreed_child_protection_charter
+#| msgid "Date agreed child protection charter"
+msgid "Date Agreed Child Protection Charter"
+msgstr "Date Agreed Child Protection Charter"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
 msgid "Date agreed"
 msgstr "Date agreed"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_date_agreed_child_protection_charter
-#: model:ir.model.fields,field_description:partner_compassion.field_res_users_date_agreed_child_protection_charter
-msgid "Date agreed child protection charter"
-msgstr "Date agreed child protection charter"
-
-#. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_deathdate
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__deathdate
 msgid "Death date"
 msgstr "Death date"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:45
+#: code:addons/partner_compassion/models/partner_compassion.py:64
+#: code:addons/partner_compassion/models/partner_compassion.py:74
+#: selection:res.partner,tax_certificate:0
+#: selection:res.partner,thankyou_letter:0
 #, python-format
 msgid "Default"
 msgstr "Default"
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_res_partner_photo_delivery_preference
+#: model:ir.model.fields,help:partner_compassion.field_res_partner__photo_delivery_preference
+#: model:ir.model.fields,help:partner_compassion.field_res_users__photo_delivery_preference
 msgid "Delivery preference for Child photo"
 msgstr "Delivery preference for Child photo"
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_advocate_details_advocacy_source
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__advocacy_source
 msgid "Describe how this advocate has partnered with us."
 msgstr "Describe how this advocate has partnered with us."
 
@@ -336,13 +433,14 @@ msgid "Description"
 msgstr "Descrizione"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_display_name
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement_display_name
-#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter_display_name
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_display_name
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__display_name
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__display_name
+#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter__display_name
+#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_coordinates__display_name
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__display_name
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_match_display_name
 msgid "Display Name"
-msgstr "Nome Visualizzato"
+msgstr "Visualizza Nome"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_mail_followers
@@ -355,30 +453,31 @@ msgid "Donor"
 msgstr "Donor"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "EN living in DE"
 msgstr "EN living in DE"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "EN living in FR"
 msgstr "EN living in FR"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "EN living in IT"
 msgstr "EN living in IT"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_email
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__email
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__email
 msgid "Email"
 msgstr "Email"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_email_template
-#: model:ir.model,name:partner_compassion.model_mail_template
 msgid "Email Templates"
-msgstr "Modelli di Email"
+msgstr "Template di Email"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_mail_thread
@@ -386,14 +485,21 @@ msgid "Email Thread"
 msgstr "Thread Email"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_end_date
-msgid "End date"
-msgstr "End date"
+#: selection:res.partner,type:0
+#| msgid "Email Templates"
+msgid "Email alias"
+msgstr "Email alias"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_engagement_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_engagement_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_res_users_engagement_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__end_date
+#| msgid "End date"
+msgid "End Date"
+msgstr "End Date"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engagement_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__engagement_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__engagement_ids
 msgid "Engagement type"
 msgstr "Engagement type"
 
@@ -404,28 +510,35 @@ msgid "Engagement types"
 msgstr "Engagement types"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.advocate_details_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 msgid "Event"
 msgstr "Event"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_event_type_formation
-msgid "Event type formation"
-msgstr "Event type formation"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__event_type_formation
+#| msgid "Event type formation"
+msgid "Event Type Formation"
+msgstr "Event Type Formation"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:184
+#: code:addons/partner_compassion/models/advocate_details.py:192
 #: model:advocate.engagement,name:partner_compassion.engagement_event
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_event_ids
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__event_ids
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 #, python-format
 msgid "Events"
 msgstr "Eventi"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid "Expected/Acceptable Behaviors"
 msgstr "Attesi/Accettabili Comportamenti"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__failed_message_ids
+#| msgid "Message"
+msgid "Failed Messages"
+msgstr "Failed Messages"
 
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_family
@@ -438,20 +551,37 @@ msgid "Family"
 msgstr "Famiglia"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/account_banking_mandate_compassion.py:37
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__firstname
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__firstname
+msgid "First name"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_follower_ids
+#| msgid "Document Followers"
+msgid "Followers"
+msgstr "Followers"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Followers (Channels)"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Followers (Partners)"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/models/account_banking_mandate_compassion.py:39
 #, python-format
 msgid "For account: "
 msgstr "For account: "
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_formation_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__formation_ids
 msgid "Formation taken"
 msgstr "Formation taken"
-
-#. module: partner_compassion
-#: model:res.partner.title,shortcut:partner_compassion.res_partner_title_friends
-msgid "Friends"
-msgstr "Amici"
 
 #. module: partner_compassion
 #: model:res.partner.title,name:partner_compassion.res_partner_title_friends
@@ -459,50 +589,57 @@ msgid "Friends of Compassion"
 msgstr "Amici di Compassion"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_product_product_fund_id
-#: model:ir.model.fields,field_description:partner_compassion.field_product_template_fund_id
-msgid "Fund id"
-msgstr "Fund id"
+#: model:ir.model.fields,field_description:partner_compassion.field_product_product__fund_id
+#: model:ir.model.fields,field_description:partner_compassion.field_product_template__fund_id
+#| msgid "Fund id"
+msgid "Fund"
+msgstr "Fund"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_geo_point
-msgid "Geo point"
-msgstr "Geo point"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__geo_point
+#| msgid "Geo point"
+msgid "Geo Point"
+msgstr "Geo Point"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.advocate_details_search
+#: model:ir.model,name:partner_compassion.model_portal_wizard
+msgid "Grant Portal Access"
+msgstr "Gestione Accessi Portale"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 msgid "Group By..."
 msgstr "Raggruppa per..."
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_has_car
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__has_agreed_child_protection_charter
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__has_agreed_child_protection_charter
+#| msgid "Has agreed child protection charter"
+msgid "Has Agreed Child Protection Charter"
+msgstr "Has Agreed Child Protection Charter"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__has_car
 msgid "Has a car"
 msgstr "Has a car"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
 msgid "Has agreed"
 msgstr "Has agreed"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_has_agreed_child_protection_charter
-#: model:ir.model.fields,field_description:partner_compassion.field_res_users_has_agreed_child_protection_charter
-msgid "Has agreed child protection charter"
-msgstr "Has agreed child protection charter"
-
-#. module: partner_compassion
 #: model:ir.actions.server,name:partner_compassion.agree_to_child_protection_charter_action
-#| msgid "Has agreed child protection charter"
 msgid "Has agreed to the child protection charter"
 msgstr "Has agreed to the child protection charter"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "Has e-mail"
 msgstr "Has e-mail"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:47
+#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:40
 #, python-format
 msgid ""
 "I acknowledge that I have read and fully understood the content of the Child "
@@ -519,7 +656,7 @@ msgstr ""
 "sponsorizzazioni."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will be careful about my appearance, language, action, to ensure that my "
 "behavior demonstrates a respect for beneficiaries and their families, their "
@@ -530,7 +667,7 @@ msgstr ""
 "loro cultura e i loro diritti e seguirò le raccomandazioni fornite."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will contribute to building an environment where children are respected "
 "and encouraged to discuss their concerns and rights."
@@ -539,7 +676,7 @@ msgstr ""
 "incoraggiati a discutere le loro preoccupazioni e i loro diritti."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will demonstrate the proper respect and dignity of all children and will "
 "demonstrate Jesus’s love and care for them, regardless of their gender, age, "
@@ -550,7 +687,7 @@ msgstr ""
 "religione, background sociale, cultura, bisogno speciale o disabilità."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will engage in activities with beneficiaries only in open or visible "
 "places, and in the event that an activity needs to take place in an enclosed "
@@ -562,12 +699,12 @@ msgstr ""
 "polizia.)"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid "I will engage in age-appropriate communication with beneficiaries."
 msgstr "Mi impegnerò in una comunicazione adeguata all'età con i beneficiari."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will follow Compassion’s rules about communication with beneficiaries, "
 "including social media interaction."
@@ -576,7 +713,7 @@ msgstr ""
 "compresa l'interazione con i social media."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will follow dignity standards (for example, only recording children who "
 "are dressed appropriately, understand they are being recorded, etc.) "
@@ -587,7 +724,7 @@ msgstr ""
 "la videografia."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will keep all information about child protection investigations "
 "confidential, keeping in mind privacy and dignity concerns of all involved."
@@ -597,7 +734,7 @@ msgstr ""
 "tutti i soggetti coinvolti."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will maintain appropriate and reasonable expectations for children based "
 "on their age and ability level. (For example, it is developmentally normal "
@@ -611,7 +748,7 @@ msgstr ""
 "molto stanchi.)"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will never engage in sexual/sexually suggestive behavior with any child "
 "under age 18, regardless of the legal age of consent in-country."
@@ -621,7 +758,7 @@ msgstr ""
 "legale del consenso nel Paese."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will never travel alone with a beneficiary, without an approved "
 "representative or prior approval, except in a life-threatening emergency "
@@ -632,7 +769,7 @@ msgstr ""
 "letale in cui le circostanze richiedono un movimento immediato."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will never use any kind of physical discipline or physical punishment "
 "(some examples include whipping, caning, slapping, forcing punitive "
@@ -645,7 +782,7 @@ msgstr ""
 "beneficiari."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will never use language that is verbally/emotionally abusive, sexually "
 "suggestive, degrading, humiliating, shaming or is otherwise culturally "
@@ -656,7 +793,7 @@ msgstr ""
 "inappropriato con un beneficiario."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will never visit a beneficiary, their caregiver(s)and/or church outside "
 "the bounds of acceptable program or tours and visits standards."
@@ -665,7 +802,7 @@ msgstr ""
 "fuori dei limiti del programma accettabile o degli standard di tour e visite."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will not condone or participate in illegal, unsafe or abusive behavior of "
 "any child, including exploitation, trafficking, harmful traditional "
@@ -676,7 +813,7 @@ msgstr ""
 "dannose e abusi spirituali o ritualistici."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will not gather, disclose or support the disclosure of information about "
 "beneficiaries or their families without prior, express permission that "
@@ -702,7 +839,7 @@ msgstr ""
 "privata."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will not hire any child in any harmful form of child labor and follow "
 "local laws regarding child employment."
@@ -711,7 +848,7 @@ msgstr ""
 "seguirò le leggi locali in materia di lavoro minorile."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will not solicit a romantic/dating relationship and will never engage in "
 "sexual/sexually suggestive behavior with any beneficiary, regardless of age."
@@ -721,7 +858,7 @@ msgstr ""
 "indipendentemente dall'età."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "I will not touch (some examples include kissing, cuddling, picking up, "
 "holding, etc.) beneficiaries in an inappropriate or culturally insensitive "
@@ -734,13 +871,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_id
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement_id
 #: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter_id
+#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_coordinates__id
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_id
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_match_id
 msgid "ID"
 msgstr "ID"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "If I witness child abuse, know a child is in danger, observe any concerning "
 "behaviors from colleagues, partners or other representatives, or a child "
@@ -756,7 +894,22 @@ msgstr ""
 "il bambino sia fuori pericolo."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_unread
+msgid "If checked new messages require your attention."
+msgstr "If checked new messages require your attention."
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "If checked, new messages require your attention."
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "If checked, some messages have a delivery error."
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid ""
 "If requested, I will comply with child protection related investigations and "
 "make available any documentation or other information necessary for the "
@@ -767,28 +920,19 @@ msgstr ""
 "per il completamento dell'indagine."
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_advocate_details_lang
-msgid ""
-"If the selected language is loaded in the system, all documents related to "
-"this contact will be printed in this language. If not, it will be English."
-msgstr ""
-"Se la lingua selezionata è caricata nel sistema, tutti i documenti relativi "
-"a questo contatto saranno stampati in questa lingua. Se non è così, saranno "
-"stampati in inglese."
-
-#. module: partner_compassion
 #: selection:advocate.details,state:0
 msgid "Inactive"
 msgstr "Inactive"
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_res_partner_has_agreed_child_protection_charter
-#: model:ir.model.fields,help:partner_compassion.field_res_users_has_agreed_child_protection_charter
+#: model:ir.model.fields,help:partner_compassion.field_res_partner__has_agreed_child_protection_charter
+#: model:ir.model.fields,help:partner_compassion.field_res_users__has_agreed_child_protection_charter
 msgid "Indicates if the partner has agreed to the child protectioncharter."
 msgstr "Indicates if the partner has agreed to the child protectioncharter."
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_res_partner_birthday_reminder
+#: model:ir.model.fields,help:partner_compassion.field_res_partner__birthday_reminder
+#: model:ir.model.fields,help:partner_compassion.field_res_users__birthday_reminder
 msgid ""
 "Indicates if the partner wants to receive a birthday reminder of his child."
 msgstr ""
@@ -796,19 +940,27 @@ msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner_calendar
+#: model:ir.model.fields,help:partner_compassion.field_res_users__calendar
 msgid "Indicates if the partner wants to receive the Compassion calendar."
 msgstr "Indicates if the partner wants to receive the Compassion calendar."
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_res_partner_christmas_card
+#: model:ir.model.fields,help:partner_compassion.field_res_partner__christmas_card
+#: model:ir.model.fields,help:partner_compassion.field_res_users__christmas_card
 msgid "Indicates if the partner wants to receive the christmas card."
 msgstr "Indicates if the partner wants to receive the christmas card."
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_invalid_mail
-#: model:ir.model.fields,field_description:partner_compassion.field_res_users_invalid_mail
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__invalid_mail
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__invalid_mail
 msgid "Invalid mail"
 msgstr "Invalid mail"
+
+#. module: partner_compassion
+#: selection:res.partner,type:0
+#| msgid "Invoices"
+msgid "Invoice address"
+msgstr "Invoice address"
 
 #. module: partner_compassion
 #: model:ir.actions.act_window,name:partner_compassion.action_invoice_compassion_partner
@@ -816,12 +968,18 @@ msgid "Invoices"
 msgstr "Fatture"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.partner_check_double_wizards
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_is_follower
+#| msgid "Document Followers"
+msgid "Is Follower"
+msgstr "Is Follower"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.partner_check_double_wizards
 msgid "Keep partners"
 msgstr "Keep partners"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "LSV/DD"
 msgstr "LSV/DD"
 
@@ -833,72 +991,103 @@ msgstr "Signoras"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_lang
-#: model:ir.ui.view,arch_db:partner_compassion.advocate_details_search
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__lang
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__lang
+#: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "Language"
 msgstr "Lingua"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_picture_large
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__picture_large
 msgid "Large picture"
 msgstr "Large picture"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details___last_update
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement___last_update
-#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter___last_update
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double___last_update
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__last_event
+#| msgid "Last event"
+msgid "Last Event"
+msgstr "Last Event"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details____last_update
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement____last_update
+#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter____last_update
+#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_coordinates____last_update
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double____last_update
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_match___last_update
 msgid "Last Modified on"
 msgstr "Ultima modifica il"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_write_uid
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement_write_uid
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_write_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__write_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__write_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__write_uid
 msgid "Last Updated by"
 msgstr "Ultima modifica di"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_write_date
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement_write_date
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_write_date
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__write_date
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__write_date
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__write_date
 msgid "Last Updated on"
 msgstr "Ultima modifica il"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_last_event
-msgid "Last event"
-msgstr "Last event"
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__lastname
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__lastname
+#| msgid "Last event"
+msgid "Last name"
+msgstr "Last name"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 msgid "Letters"
 msgstr "Letters"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__other_contact_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__other_contact_ids
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Linked Partners"
 msgstr "Linked Partners"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_mail_copy_when_donation
-msgid "Mail copy when donation"
-msgstr "Mail copy when donation"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__mail_copy_when_donation
+#| msgid "Mail copy when donation"
+msgid "Mail Copy When Donation"
+msgstr "Mail Copy When Donation"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/account_banking_mandate_compassion.py:38
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Main Attachment"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/models/account_banking_mandate_compassion.py:40
 #, python-format
 msgid "Mandate "
 msgstr "Mandate "
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.partner_check_double_wizards
+#: model:ir.model,name:partner_compassion.model_res_partner_match
+#| msgid "Keep partners"
+msgid "Match partner"
+msgstr "Match partner"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.partner_check_double_wizards
 msgid "Merge"
 msgstr "Merge"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_selected_merge_partner_id
+#: model:ir.model,name:partner_compassion.model_base_partner_merge_automatic_wizard
+#| msgid "Partner id"
+msgid "Merge Partner Wizard"
+msgstr "Merge Partner Wizard"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__selected_merge_partner_id
 msgid "Merge with"
 msgstr "Merge with"
 
@@ -908,9 +1097,20 @@ msgid "Message"
 msgstr "Messaggio"
 
 #. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_has_error
+msgid "Message Delivery error"
+msgstr "Message Delivery error"
+
+#. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_mail_notification
 msgid "Message Notifications"
 msgstr "Message Notifications"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_ids
+#| msgid "Message"
+msgid "Messages"
+msgstr "Messages"
 
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_men
@@ -933,13 +1133,19 @@ msgid "Mr. and Mrs."
 msgstr "Sig. e Sig.ra"
 
 #. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_notification_settings_muskathlon_form
+#| msgid "Settings"
+msgid "NAS Settings"
+msgstr "NAS Settings"
+
+#. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement_name
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_geo
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_geo
 msgid "Name"
 msgstr "Nome"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_bank_compassion.py:30
+#: code:addons/partner_compassion/models/partner_bank_compassion.py:31
 #, python-format
 msgid "New account created"
 msgstr "New account created"
@@ -950,23 +1156,61 @@ msgid "New advocate"
 msgstr "New advocate"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:44
+#: selection:advocate.details,has_car:0
+msgid "No"
+msgstr "No"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/models/partner_compassion.py:63
+#: code:addons/partner_compassion/models/partner_compassion.py:73
+#: selection:res.partner,tax_certificate:0
+#: selection:res.partner,thankyou_letter:0
 #, python-format
 msgid "No receipt"
 msgstr "No receipt"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_number_events
-msgid "Number events"
-msgstr "Number events"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__number_events
+#| msgid "Number events"
+msgid "Number Events"
+msgstr "Number Events"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_needaction_counter
+#| msgid "Number of Magazines"
+msgid "Number of Actions"
+msgstr "Number of Actions"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_nbmag
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__nbmag
 msgid "Number of Magazines"
 msgstr "Number of Magazines"
 
 #. module: partner_compassion
-#: model:ir.actions.act_window,help:partner_compassion.action_partner_supporter_form
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_has_error_counter
+#| msgid "Number of Magazines"
+msgid "Number of error"
+msgstr "Number of error"
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Number of messages which requires an action"
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Number of messages with delivery error"
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_unread_counter
+#| msgid "Number of Magazines"
+msgid "Number of unread messages"
+msgstr "Number of unread messages"
+
+#. module: partner_compassion
+#: model_terms:ir.actions.act_window,help:partner_compassion.action_partner_supporter_form
 msgid ""
 "Odoo helps you easily track all activities related to\n"
 "                a customer: discussions, history of business opportunities,\n"
@@ -987,13 +1231,19 @@ msgid "On break"
 msgstr "On break"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:47
+#: code:addons/partner_compassion/models/partner_compassion.py:66
+#: code:addons/partner_compassion/models/partner_compassion.py:76
+#: selection:res.partner,tax_certificate:0
+#: selection:res.partner,thankyou_letter:0
 #, python-format
 msgid "On paper"
 msgstr "On paper"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:46
+#: code:addons/partner_compassion/models/partner_compassion.py:65
+#: code:addons/partner_compassion/models/partner_compassion.py:75
+#: selection:res.partner,tax_certificate:0
+#: selection:res.partner,thankyou_letter:0
 #, python-format
 msgid "Only email"
 msgstr "Only email"
@@ -1004,9 +1254,21 @@ msgid "Only one details per ambassador is allowed!"
 msgstr "Only one details per ambassador is allowed!"
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_advocate_details_picture_large
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__opt_out
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__opt_out
+msgid "Opt Out"
+msgstr "Opt Out"
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__picture_large
 msgid "Optional large picture for your profile page"
 msgstr "Optional large picture for your profile page"
+
+#. module: partner_compassion
+#: selection:res.partner,type:0
+#| msgid "Change address"
+msgid "Other address"
+msgstr "Other address"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_mail_mail
@@ -1014,49 +1276,63 @@ msgid "Outgoing Mails"
 msgstr "Email in Uscita"
 
 #. module: partner_compassion
-#: model:ir.model,name:partner_compassion.model_res_partner
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_partner_id
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__partner_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__partner_id
+#: model:ir.model.fields,field_description:partner_compassion.field_survey_user_input_line__partner_id
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Partner"
 msgstr "Partner"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_mergeable_partner_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_partner_duplicate_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_res_users_partner_duplicate_ids
-msgid "Partner duplicate ids"
-msgstr "Partner duplicate ids"
+#: model:ir.model,name:partner_compassion.model_res_partner_check_double
+#| msgid "Partner duplicate ids"
+msgid "Partner Check Duplicates"
+msgstr "Partner Check Duplicates"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_partner_id
-msgid "Partner id"
-msgstr "Partner id"
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__partner_duplicate_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__mergeable_partner_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__partner_duplicate_ids
+#| msgid "Partner duplicate ids"
+msgid "Partner Duplicate"
+msgstr "Partner Duplicate"
 
 #. module: partner_compassion
-#: model:res.partner.title,name:partner_compassion.res_partner_title_pastor
-msgid "Pastor"
-msgstr "Pastor"
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__photo_delivery_preference
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__photo_delivery_preference
+#| msgid "Photo delivery preference"
+msgid "Photo Delivery Preference"
+msgstr "Photo Delivery Preference"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_photo_delivery_preference
-msgid "Photo delivery preference"
-msgstr "Photo delivery preference"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__picture_filename
+#| msgid "Picture filename"
+msgid "Picture Filename"
+msgstr "Picture Filename"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_picture_filename
-msgid "Picture filename"
-msgstr "Picture filename"
+#: code:addons/partner_compassion/forms/partner_coordinates_form.py:90
+#, python-format
+msgid "Please avoid any special characters"
+msgstr "Grazie di evitare caratteri speciali"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:207
+#: code:addons/partner_compassion/models/advocate_details.py:215
 #, python-format
 msgid "Please don't forget to put a break end date"
 msgstr "Please don't forget to put a break end date"
 
 #. module: partner_compassion
-#: model:ir.model,name:partner_compassion.model_portal_wizard
-msgid "Portal Access Management"
-msgstr "Gestione Accessi Portale"
+#: code:addons/partner_compassion/forms/partner_coordinates_form.py:63
+#, python-format
+msgid "Please enter a valid phone number"
+msgstr "Grazie di inserire un numero di telefono valido"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/forms/partner_coordinates_form.py:69
+#, python-format
+msgid "Please enter a valid zip code"
+msgstr "Grazie di inserire un codice postale  valido"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_portal_wizard_user
@@ -1064,15 +1340,16 @@ msgid "Portal User Config"
 msgstr "Configurazione Utente Portale"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:289
+#: code:addons/partner_compassion/models/partner_compassion.py:335
 #, python-format
 msgid "Possible existing partners found"
 msgstr "Possible existing partners found"
 
 #. module: partner_compassion
-#: model:res.partner.title,shortcut:partner_compassion.res_partner_title_pastor
-msgid "Pr."
-msgstr "Pr."
+#: selection:res.partner,type:0
+#| msgid "Alternate address"
+msgid "Private Address"
+msgstr "Private Address"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_product_product
@@ -1085,12 +1362,12 @@ msgid "Product Template"
 msgstr "Modello Prodotto"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Profile page"
 msgstr "Profile page"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Put on break"
 msgstr "Put on break"
 
@@ -1100,38 +1377,56 @@ msgid "Quote"
 msgstr "Quote"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:135
+#: code:addons/partner_compassion/models/advocate_details.py:141
 #, python-format
-msgid "Quote from {firstname} {lastname}"
-msgstr "Citazione da {firstname} {lastname}"
+msgid "Quote from %s %s"
+msgstr "Citazione da %s %s"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_mail_compose_message_tracking_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_mail_mail_tracking_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_mail_message_tracking_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_survey_mail_compose_message_tracking_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_account_invoice_send__tracking_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_mail_compose_message__tracking_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_mail_mail__tracking_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_mail_message__tracking_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_survey_mail_compose_message__tracking_ids
 msgid "Related tracked messages"
 msgstr "Related tracked messages"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_confirmation_page
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_confirmation_page
 msgid "Return"
 msgstr "Rientro"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: code:addons/partner_compassion/forms/partner_coordinates_form.py:55
+#, python-format
+msgid "Save"
+msgstr "Salva"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Set active"
 msgstr "Set active"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Set inactive"
 msgstr "Set inactive"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Settings"
 msgstr "Configurazione"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__share_on_nas
+msgid "Share On Nas"
+msgstr "Share On Nas"
+
+#. module: partner_compassion
+#: selection:res.partner,type:0
+#| msgid "Change address"
+msgid "Shipping address"
+msgstr "Shipping address"
 
 #. module: partner_compassion
 #: selection:advocate.details,t_shirt_type:0
@@ -1139,12 +1434,7 @@ msgid "Shirt"
 msgstr "Shirt"
 
 #. module: partner_compassion
-#: selection:advocate.details,t_shirt_type:0
-msgid "Singlet"
-msgstr "Singlet"
-
-#. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 #: model:res.partner.category,name:partner_compassion.res_partner_category_sponsor
 msgid "Sponsor"
 msgstr "Sponsor"
@@ -1155,35 +1445,41 @@ msgid "Sport"
 msgstr "Sport"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.advocate_details_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 msgid "Sport person"
 msgstr "Sport person"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_state
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_state
-#: model:ir.ui.view,arch_db:partner_compassion.advocate_details_search
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "State"
 msgstr "Stato"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_confirmation_page
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_confirmation_page
 msgid "Statement of Commitment to Child Protection"
 msgstr "Dichiarazione di Impegno per la Protezione dell’Infanzia"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__store_path
+msgid "Store Path"
+msgstr "Store Path"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Street 2..."
 msgstr "Indirizzo 2"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Street..."
 msgstr "Via..."
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_street3
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__street3
 msgid "Street3"
 msgstr "Street3"
 
@@ -1193,59 +1489,88 @@ msgid "Supporters"
 msgstr "Supporters"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:196
-#: model:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: model:ir.model,name:partner_compassion.model_survey_user_input_line
+msgid "Survey User Input Line"
+msgstr "Survey User Input Line"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__number_surveys
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__survey_input_count
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__survey_input_count
+msgid "Survey number"
+msgstr "Survey number"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/models/advocate_details.py:204
+#: model:ir.actions.act_window,name:partner_compassion.act_partner_survey_input
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__survey_inputs
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__survey_inputs
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 #, python-format
 msgid "Surveys"
 msgstr "Surveys"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_t_shirt_size
-msgid "T shirt size"
-msgstr "T shirt size"
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__survey_input_lines
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__survey_input_lines
+#| msgid "Survey number"
+msgid "Surveys answers"
+msgstr "Surveys answers"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_t_shirt_type
-msgid "T shirt type"
-msgstr "T shirt type"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__t_shirt_size
+#| msgid "T shirt size"
+msgid "T Shirt Size"
+msgstr "T Shirt Size"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_tax_certificate
-msgid "Tax certificate"
-msgstr "Tax certificate"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__t_shirt_type
+#| msgid "T shirt type"
+msgid "T Shirt Type"
+msgstr "T Shirt Type"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:39
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__tax_certificate
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__tax_certificate
+#| msgid "Tax certificate"
+msgid "Tax Certificate"
+msgstr "Tax Certificate"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__thank_you_quote
+#| msgid "Thank you quote"
+msgid "Thank You Quote"
+msgstr "Thank You Quote"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:33
 #, python-format
 msgid "Thank you for reading the child protection charter carefully."
 msgstr "Thank you for reading the child protection charter carefully."
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_thankyou_letter
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__thankyou_letter
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__thankyou_letter
 msgid "Thank you letter"
 msgstr "Thank you letter"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_thank_you_quote
-msgid "Thank you quote"
-msgstr "Thank you quote"
-
-#. module: partner_compassion
-#: code:addons/partner_compassion/controllers/child_protection_charter.py:75
+#: code:addons/partner_compassion/controllers/child_protection_charter.py:78
 #, python-format
 msgid "Thank you!"
 msgstr "Thank you!"
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_res_partner_date_agreed_child_protection_charter
-#: model:ir.model.fields,help:partner_compassion.field_res_users_date_agreed_child_protection_charter
+#: model:ir.model.fields,help:partner_compassion.field_res_partner__date_agreed_child_protection_charter
+#: model:ir.model.fields,help:partner_compassion.field_res_users__date_agreed_child_protection_charter
 msgid ""
 "The date and time when the partner has agreed to the childprotection charter."
 msgstr ""
 "The date and time when the partner has agreed to the childprotection charter."
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:290
+#: code:addons/partner_compassion/models/partner_compassion.py:336
 #, python-format
 msgid ""
 "The partner you want to add may already exist. Please use the \"Check "
@@ -1255,7 +1580,7 @@ msgstr ""
 "duplicates\" button to review it."
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/wizards/partner_merge_wizard.py:36
+#: code:addons/partner_compassion/wizards/partner_merge_wizard.py:38
 #, python-format
 msgid ""
 "The selected partners are sponsors! Please first modify the sponsorship and "
@@ -1265,10 +1590,24 @@ msgstr ""
 "don't forget to send new labels to them."
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:236
+#: code:addons/partner_compassion/models/advocate_details.py:249
 #, python-format
-msgid "This is a reminder that {} will have birthday on {}."
-msgstr "This is a reminder that {} will have birthday on {}."
+#| msgid "This is a reminder that {} will have birthday on {}."
+msgid "This is a reminder that %s will have birthday on %s."
+msgstr "This is a reminder that %s will have birthday on %s."
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__title
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__title
+msgid "Title"
+msgstr "Title"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__total_invoiced
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__total_invoiced
+#| msgid "Invoices"
+msgid "Total Invoiced"
+msgstr "Total Invoiced"
 
 #. module: partner_compassion
 #: model:advocate.engagement,name:partner_compassion.engagement_translation
@@ -1276,18 +1615,30 @@ msgid "Translation"
 msgstr "Translation"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.advocate_details_search
+#: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 #: model:res.partner.category,name:partner_compassion.res_partner_category_translator
 msgid "Translator"
 msgstr "Translator"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
+#: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
 msgid "Unacceptable Behaviors"
 msgstr "Comportamenti Inacettabili"
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_res_partner_church_unlinked
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_unread
+#| msgid "Message"
+msgid "Unread Messages"
+msgstr "Unread Messages"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Unread Messages Counter"
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_res_partner__church_unlinked
+#: model:ir.model.fields,help:partner_compassion.field_res_users__church_unlinked
 msgid ""
 "Use this field if the church of the partner can not correctly be determined "
 "and linked."
@@ -1296,7 +1647,17 @@ msgstr ""
 "and linked."
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_advocate_details_thank_you_quote
+#: model:ir.model.fields,help:partner_compassion.field_res_partner__type
+#: model:ir.model.fields,help:partner_compassion.field_res_users__type
+msgid ""
+"Used by Sales and Purchase Apps to select the relevant address depending on "
+"the context."
+msgstr ""
+"Used by Sales and Purchase Apps to select the relevant address depending on "
+"the context."
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__thank_you_quote
 msgid ""
 "Used in thank you letters for donations linked to an event and to this "
 "partner."
@@ -1311,13 +1672,20 @@ msgstr "Utenti"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_uuid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__uuid
 msgid "Uuid"
 msgstr "Uuid"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 msgid "Validate"
 msgstr "Valida"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/forms/partner_coordinates_form.py:75
+#, python-format
+msgid "Verify your e-mail address"
+msgstr "Grazie di verificare il tuo indirizzo email"
 
 #. module: partner_compassion
 #: selection:res.partner,state:0
@@ -1325,7 +1693,7 @@ msgid "Waiting for validation"
 msgstr "Waiting for validation"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/controllers/child_protection_charter.py:63
+#: code:addons/partner_compassion/controllers/child_protection_charter.py:65
 #, python-format
 msgid ""
 "We successfully received your agreement to the Child Protection Charter."
@@ -1334,14 +1702,20 @@ msgstr ""
 "dell'infanzia."
 
 #. module: partner_compassion
-#: selection:advocate.details,t_shirt_size:0
-msgid "XL"
-msgstr "XL"
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__website_message_ids
+#| msgid "Message"
+msgid "Website Messages"
+msgstr "Website Messages"
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__website_message_ids
+msgid "Website communication history"
+msgstr "Website communication history"
 
 #. module: partner_compassion
 #: selection:advocate.details,t_shirt_size:0
-msgid "XS"
-msgstr "XS"
+msgid "XL"
+msgstr "XL"
 
 #. module: partner_compassion
 #: selection:advocate.details,t_shirt_size:0
@@ -1349,7 +1723,12 @@ msgid "XXL"
 msgstr "XXL"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/controllers/child_protection_charter.py:69
+#: selection:advocate.details,has_car:0
+msgid "Yes"
+msgstr "Si"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/controllers/child_protection_charter.py:71
 #, python-format
 msgid ""
 "You will receive an invitation to connect to the translation platform in the "
@@ -1359,7 +1738,7 @@ msgstr ""
 "traduzione."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "ZIP"
 msgstr "CAP"
 
@@ -1369,15 +1748,11 @@ msgid "Zip"
 msgstr "CAP"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:240
+#: code:addons/partner_compassion/models/advocate_details.py:252
 #, python-format
-msgid "[{}] Advocate birthday reminder"
-msgstr "[{}] Advocate birthday reminder"
-
-#. module: partner_compassion
-#: model:ir.model,name:partner_compassion.model_base_partner_merge_automatic_wizard
-msgid "base.partner.merge.automatic.wizard"
-msgstr "base.partner.merge.automatic.wizard"
+#| msgid "[{}] Advocate birthday reminder"
+msgid "[%s] Advocate birthday reminder"
+msgstr "[%s] Advocate birthday reminder"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_cms_form_partner_child_protection_charter
@@ -1385,31 +1760,67 @@ msgid "cms.form.partner.child.protection.charter"
 msgstr "cms.form.partner.child.protection.charter"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model:ir.model,name:partner_compassion.model_cms_form_partner_coordinates
+#| msgid "cms.form.partner.child.protection.charter"
+msgid "cms.form.partner.coordinates"
+msgstr "cms.form.partner.coordinates"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "e.g. Mr."
 msgstr "e.g. Mr."
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "e.g. Sales Director"
 msgstr "ad esempio, Direttore Vendite"
 
 #. module: partner_compassion
-#: model:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "internal note..."
 msgstr "nota interna..."
 
-#. module: partner_compassion
-#: model:ir.model,name:partner_compassion.model_res_partner_check_double
-msgid "res.partner.check.double"
-msgstr "res.partner.check.double"
+#~ msgid "Account bank statement line"
+#~ msgstr "Account bank statement line"
 
-#. module: partner_compassion
-#: model:ir.model,name:partner_compassion.model_res_partner_match
-msgid "res.partner.match"
-msgstr "res.partner.match"
+#~ msgid "Cancel change"
+#~ msgstr "Cancel change"
 
-#. module: partner_compassion
-#: model:ir.model,name:partner_compassion.model_staff_notification_settings
-msgid "staff.notification.settings"
-msgstr "staff.notification.settings"
+#~ msgid "City/Location"
+#~ msgstr "Città/Locazione"
+
+#~ msgid "Last time used"
+#~ msgstr "Last time used"
+
+#~ msgid "Partner address (Maybe)"
+#~ msgstr "Partner address (Maybe)"
+
+#~ msgid "Quote from {firstname} {lastname}"
+#~ msgstr "Citazione da {firstname} {lastname}"
+
+#~ msgid "Search address in banks data"
+#~ msgstr "Search address in banks data"
+
+#~ msgid "Street"
+#~ msgstr "Indirizzo"
+
+#~ msgid "base.geocoder"
+#~ msgstr "base.geocoder"
+
+#~ msgid "base.partner.merge.automatic.wizard"
+#~ msgstr "base.partner.merge.automatic.wizard"
+
+#~ msgid "res.partner.check.double"
+#~ msgstr "res.partner.check.double"
+
+#~ msgid "res.partner.match"
+#~ msgstr "res.partner.match"
+
+#~ msgid "search address from banks data"
+#~ msgstr "search address from banks data"
+
+#~ msgid "search.bank.address.wizard"
+#~ msgstr "search.bank.address.wizard"
+
+#~ msgid "staff.notification.settings"
+#~ msgstr "staff.notification.settings"

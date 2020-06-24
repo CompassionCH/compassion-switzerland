@@ -40,11 +40,13 @@
         <!-- Individual [project] must be set before calling this template -->
         <template id="project_progress" name="Project progress">
             <!-- Setup data and display the sponsorship progress -->
-            <t t-set="goal_name">sponsored children</t>
-            <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
-            <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
-            <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
-            <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
+            <t t-if="project.number_sponsorships_goal">
+                <t t-set="goal_name">sponsored children</t>
+                <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
+                <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
+                <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
+                <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
+            </t>
 
             <!-- Setup data and display the fund progress -->
             <t t-if="project.product_id">
@@ -69,11 +71,11 @@
         <!-- Individual [participant] model must be set before calling this template -->
         <template id="participant_card" name="Participant card">
             <div class="card participants__card">
-                <div style="margin: 0 auto; width: 50%">
-                    <a t-attf-href="/participant/#{participant.id}">
+                <a t-attf-href="/participant/#{participant.id}">
+                    <div>
                         <img class="participants__image" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Participant image"/>
-                    </a>
-                </div>
+                    </div>
+                </a>
                 <div class="participants__content">
                     <h4 class="participants__name">
                         <a t-attf-href="/participant/#{participant.id}">
@@ -164,16 +166,15 @@
             <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
                 <div class="card mb-4 h-100">
                     <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-8">
+                        <div class="project-card__header">
+                            <div>
                                 <h5 class="card-title">
                                     <a t-attf-href="/project/#{project.id}" style="color: white">
                                         <t t-esc="project.name"/>
                                     </a>
                                 </h5>
                             </div>
-
-                            <div class="col-md-4 text-right">
+                            <div class="project-card__header-align-right">
                                 <p>
                                     <t t-if="project.type == 'collective'">
                                         <small>
@@ -189,28 +190,31 @@
                                     </t>
                                 </p>
                             </div>
+                            <div>
+                                <t t-if="project.type == 'collective'">
+                                    <p>
+                                        <small>
+                                            <i class="fa fa-user-circle white"/>
+                                            <t t-esc="project.project_owner_id.name"/>
+                                            <t t-if="(len(project.participant_ids) - 1) > 0">
+                                               <t t-esc="' + ' + str((len(project.participant_ids) - 1))"/>
+                                                <span> friends</span>
+                                            </t>
+                                        </small>
+                                    </p>
+                                </t>
+                                <t t-else="">
+                                    <p>
+                                        <small>
+                                            <i class="fa fa-user-circle white"/>
+                                            <t t-esc="project.project_owner_id.name"/>
+                                        </small>
+                                    </p>
+                                </t>
+                            </div>
                         </div>
 
-                        <t t-if="project.type == 'collective'">
-                            <p>
-                                <small>
-                                    <i class="fa fa-user-circle white"/>
-                                    <t t-esc="project.project_owner_id.name"/>
-                                    <t t-if="(len(project.participant_ids) - 1) > 0">
-                                       <t t-esc="' + ' + str((len(project.participant_ids) - 1))"/>
-                                        <span> friends</span>
-                                    </t>
-                                </small>
-                            </p>
-                        </t>
-                        <t t-else="">
-                            <p>
-                                <small>
-                                    <i class="fa fa-user-circle white"/>
-                                    <t t-esc="project.project_owner_id.name"/>
-                                </small>
-                            </p>
-                        </t>
+
                     </div>
                     <a t-attf-href="/project/#{project.id}">
                         <img class="card-img-top" t-attf-src="data:image/png;base64, #{ project.cover_photo }" alt="Project image"/>
@@ -240,14 +244,12 @@
 
         <!-- Fund card -->
         <template id="fund_card" name="Fund card">
-            <div class="card fund-card">
+            <div class="card fund-card my-3">
                 <div class="fund-card__header">
                     <img class="fund-card__image" t-attf-src="data:image/png;base64, #{ fund_image }"/>
                     <img class="fund-card__icon" t-attf-src="data:image/png;base64, #{ fund_icon }" height="100"/>
                 </div>
-
                 <div class="fund-card__content">
-
                     <h5 class="blue my-3 fund-card__title">
                         <t t-esc="fund_name"/>
                     </h5>
@@ -328,20 +330,21 @@
                                     </t>
                                 </ul>
                             </li>
+                            <li class="nav-item">
+                                   <!--  lang selector        -->
+                                <span class="lang-selector">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='fr_CH')">
+                                        <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
+                                    </a>
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='de_DE')">
+                                        <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
+                                    </a>
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='it_IT')">
+                                        <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
+                                    </a>
+                                </span>
+                            </li>
                         </ul>
-
-                        <!--  lang selector        -->
-                        <span class="lang-selector">
-                            <a href="/fr_CH/homepage">
-                                <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
-                            </a>
-                            <a href="/de_DE/homepage">
-                                <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
-                            </a>
-                            <a href="/it_IT/homepage">
-                                <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
-                            </a>
-                        </span>
                     </div>
                 </div>
             </nav>
@@ -363,14 +366,9 @@
                     <div class="container">
                         <div class="row py-5">
                             <div class="col-sm-12 col-md-4 f-logo">
-                                <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg"
+                                <img t-attf-src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-#{env.lang[:2]}.svg"
                                      width="190" height="auto"/>
-
-                                <p>
-                                    Compassion Suisse est la branche nationale de Compassion International. A travers le
-                                    parrainage individuel et en collaboration avec quelque 7000 Eglises locales, nous
-                                    apportons un soutien à plus de 2 millions d’enfants parmi les plus démunis dans 25
-                                    pays.
+                                <p>Compassion Switzerland is the national branch of Compassion International. Through individual sponsorship and in collaboration with more than 8,000 local churches, we support more than 2 million of the world's poorest children in 25 countries.
                                 </p>
                             </div>
 
@@ -423,18 +421,18 @@
                             </div>
 
                             <div class="col-md-4 ">
-                                <small>© 2020 Compassion Switzerland / all right reserved</small>
+                                <small>© 2020 Compassion Switzerland / all rights reserved</small>
                             </div>
 
                             <div class="col-sm-12 col-md-4 text-right d-none d-md-block">
                                 <span class="lang-selector">
-                                    <a href="/fr_CH/homepage">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='fr_CH')">
                                         <img src="/theme_crowdfunding/static/src/img/FR.svg"/>
                                     </a>
-                                    <a href="/de_DE/homepage">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='de_DE')">
                                         <img src="/theme_crowdfunding/static/src/img/DE.svg"/>
                                     </a>
-                                    <a href="/it_IT/homepage">
+                                    <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='it_IT')">
                                         <img src="/theme_crowdfunding/static/src/img/IT.svg"/>
                                     </a>
                                 </span>

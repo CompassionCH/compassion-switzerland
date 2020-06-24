@@ -17,6 +17,7 @@ function clickHandler() {
 
     if (donationType === "fund") {
       a.href = `/project/${a.getAttribute("project")}/donation/form/${participantId}`;
+      a.target = "";
     }
 
     if (donationType === "sponsorship") {

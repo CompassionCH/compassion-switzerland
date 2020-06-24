@@ -217,7 +217,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         for a transaction.
         """
         try:
-            invoice = request.env["account.invoice"].browse(int(invoice_id))
+            invoice = request.env["account.invoice"].browse(int(invoice_id)).sudo()
             invoice.exists().ensure_one()
             transaction = invoice.get_portal_last_transaction()
         except ValueError:

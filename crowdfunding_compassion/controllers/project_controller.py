@@ -98,7 +98,7 @@ class ProjectController(Controller):
 
     def get_impact(self, sponsorships, donations):
         # Chronological list of sponsorships and fund donations for impact display
-        return sorted(sponsorships + donations, key=lambda x: x["date"])
+        return sorted(sponsorships + donations, key=lambda x: x["date"], reverse=True)
 
     # Utils
     def get_time_ago(self, given_date):

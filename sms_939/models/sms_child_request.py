@@ -32,12 +32,12 @@ class SmsRequest(models.Model):
             ]
         ).filtered(lambda r: r.sender == self.sender)
         if not completed_requests:
+            child_name = self.child_id.preferred_name or _('this child')
             sms_message = _(
                 "Thank you for your interest to sponsor a child with "
                 "Compassion. Why don't you take a moment today to change "
-                f"the life of {self.child_id.preferred_name or _('this child')}"
-                f"? {self.full_url}"
-            )
+                "the life of %s? %s"
+            ) % (child_name, self.full_url)
             provider = self.env.ref("sms_939.small_account_id")
             self.partner_id.with_context(sms_provider=provider).message_post_send_sms(
                 sms_message, note_msg=_("SMS sponsorship reminder")

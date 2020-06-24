@@ -4,6 +4,7 @@
         <!-- === Project Donation Form Page === -->
         <!-- The corresponding [project] and [participant] is passed to this template as context in variable [project] -->
         <template id="project_donation_form_page">
+            <t t-set="title">Donate to <t t-esc="project.name"/></t>
             <t t-call="crowdfunding_compassion.layout">
 
                 <section class="donation-form-amount pb-5">
@@ -60,12 +61,13 @@
         <template id="donation_form_gtc" inherit_id="cms_form.base_form">
             <xpath expr="//div[@class='col-sm-9 col-sm-offset-3 above-controls']" position="inside">
                 <div id="donation-gtc">
+                    <t t-set="terms_link">https://compassion.ch/protection-des-donnees/</t>
                     <p>
                         By making a donation, you agree on our
-                        <a href="https://compassion.ch/protection-des-donnees/" target="_blank">terms and conditions.</a>
+                        <a t-att-href="terms_link" target="_blank">data protection policy, and general terms and conditions.</a>
                         <br/>
                         You will be redirected to our online payment system. If you wish to give by bank tranfer (IBAN), do not hesitate to
-                        <a href="#">contact us.</a>
+                        <a href="mailto:together@compassion.ch">contact us.</a>
                     </p>
                     <br/>
                 </div>

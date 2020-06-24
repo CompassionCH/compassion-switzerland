@@ -75,7 +75,7 @@ class AccountReconcileModel(models.Model):
         :return:                (query, params)
         """
         # CODE COPIED FROM ODOO SOURCE BUT WE REMOVE SOME PART OF THE QUERY WHICH
-        # IS VERY SLOW
+        # IS VERY SLOW. WE ALSO REORER THE RESULTS TO MATCH CURRENT MONTH FIRST
         if any(m.rule_type != "invoice_matching" for m in self):
             raise UserError(
                 _(
@@ -201,8 +201,14 @@ class AccountReconcileModel(models.Model):
             all_params += params
         full_query = self._get_with_tables(st_lines, partner_map=partner_map)
         full_query += " UNION ALL ".join(queries)
-        # Oldest due dates come first.
-        full_query += " ORDER BY aml_date_maturity, aml_id"
+        # Current month, then oldest due dates come first.
+        full_query += """
+            ORDER BY CASE 
+                   WHEN EXTRACT(MONTH from aml.date_maturity) = EXTRACT(MONTH from NOW())
+                    AND EXTRACT(YEAR from aml.date_maturity) = EXTRACT(YEAR from NOW()) THEN 0
+                   ELSE 1
+                 END, aml_date_maturity, aml_id;
+        """
         return full_query, all_params
 
     @api.multi
@@ -216,12 +222,12 @@ class AccountReconcileModel(models.Model):
 
         # Exclude account.move.lines that have the same account as the statement_lines
         query += """
-            AND aml.account_id NOT IN 
+            AND aml.account_id NOT IN
             (journal.default_credit_account_id, journal.default_debit_account_id)
         """
 
         # Keep only account.move.lines with a ref containing the statement_line ref
         # strpos() > 0 is an efficient way to check if a substring exists
-        query += " AND strpos(st_line.ref, aml.ref) > 0"
+        query += " AND strpos(aml.ref, st_line.ref)>0"
 
         return query, params

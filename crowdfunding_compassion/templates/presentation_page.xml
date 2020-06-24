@@ -5,6 +5,7 @@
         <!-- The corresponding [crowdfunding.project] or [crowdfunding.participant] is passed to this template
          as context in variable [project] or [participant] -->
         <template id="presentation_page">
+            <t t-set="title"><t t-esc="project.name"/></t>
             <t t-call="crowdfunding_compassion.layout">
 
                 <!-- Hero -->
@@ -40,7 +41,7 @@
                                                    t-value="participant.project_id.product_id.image_medium or '/crowdfunding_compassion/static/src/img/icn_children.png'"/>
                                                 <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
                                             </div>
-                                            <div class="project-hero__cart-cta">
+                                            <div class="project-hero__card-cta">
                                                 <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
                                                     <button type="button" class="btn btn-primary btn-lg btn-block mb-2">
                                                         Donate now
@@ -53,28 +54,32 @@
                                         <div class="project-hero__card-content">
                                             <t t-call="crowdfunding_compassion.project_progress"/>
                                         </div>
-                                        <div class="project-hero__cart-cta">
+                                        <div class="project-hero__card-cta">
                                             <a t-attf-href="/project/#{ project.id }/donation">
                                                 <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
                                             </a>
                                             <a t-if="project.type == 'collective'" t-attf-href="/projects/join/#{project.id}">
                                                 <button type="button" class="btn btn-white btn-lg btn-block mb-2">Join the project</button>
                                             </a>
-                                            <div class="row project-hero__card-share-text mx-auto">Share with your friends</div>
-                                            <div class="row project-hero__card-share-icons mx-auto">
-                                                <t t-set="compassion_project_base_url" t-value="base_url + '/project'"/>
-                                                <a t-attf-href="https://www.facebook.com/sharer.php?u=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
-                                                    <i class="fa fa-facebook-official"/>
-                                                </a>
-                                                <a t-attf-href="https://twitter.com/intent/tweet?url=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
-                                                    <i class="fa fa-twitter-square"/>
-                                                </a>
-                                                <a t-attf-href="https://www.linkedin.com/sharing/share-offsite/?url=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
-                                                    <i class="fa fa-linkedin"/>
-                                                </a>
-                                                <a t-attf-href="mailto:?subject=I wanted you to see this project&amp;body=Check out this project #{ compassion_project_base_url }/#{ project.id }.">
-                                                    <i class="fa fa-at"/>
-                                                </a>
+                                            <div class="row">
+                                                <div class="col project-hero__card-share-text align-self-center">Share with your friends</div>
+                                                <div class="col align-self-center">
+                                                    <div class="row project-hero__card-share-icons mx-auto">
+                                                        <t t-set="compassion_project_base_url" t-value="base_url + '/project'"/>
+                                                        <a t-attf-href="https://www.facebook.com/sharer.php?u=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
+                                                            <i class="fa fa-facebook-official"/>
+                                                        </a>
+                                                        <a t-attf-href="https://twitter.com/intent/tweet?url=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
+                                                            <i class="fa fa-twitter-square"/>
+                                                        </a>
+                                                        <a t-attf-href="https://www.linkedin.com/sharing/share-offsite/?url=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
+                                                            <i class="fa fa-linkedin"/>
+                                                        </a>
+                                                        <a t-attf-href="mailto:?subject=I wanted you to see this project&amp;body=Check out this project #{ compassion_project_base_url }/#{ project.id }.">
+                                                            <i class="fa fa-at"/>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </t>
@@ -135,7 +140,9 @@
                                 </p>
 
                                 <t t-if="model == 'project'">
-                                    <h5 class="blue mt-4 uppercase">Follow my project on</h5>
+                                    <t t-if="project.facebook_url or project.instagram_url or project.twitter_url or project.personal_web_page_url">
+                                        <h5 class="blue mt-4 uppercase">Follow my project on</h5>
+                                    </t>
 
                                     <t t-if="project.facebook_url">
                                         <a t-att-href="project.facebook_url" target="_blank">Facebook</a>
@@ -162,13 +169,17 @@
                                         <t t-set="fund_icon" t-value="project.product_id.image_medium" />
                                         <t t-set="fund_name" t-value="project.product_id.crowdfunding_impact_text_active" />
                                         <t t-set="fund_description" t-value="project.product_id.crowdfunding_description" />
-                                        <div class="my-5">
-                                            <t t-call="crowdfunding_compassion.fund_card"/>
+                                        <div class="row justify-content-center">
+                                            <div class="col-sm-12 col-md-8 my-5">
+                                                <t t-call="crowdfunding_compassion.fund_card"/>
+                                            </div>
                                         </div>
                                     </t>
                                 </t>
                                 <t t-else="">
-                                    <h5 class="blue mt-4 uppercase">Follow me on</h5>
+                                    <t t-if="participant.facebook_url or participant.instagram_url or participant.twitter_url or participant.personal_web_page_url">
+                                        <h5 class="blue mt-4 uppercase">Follow me on</h5>
+                                    </t>
 
                                     <t t-if="participant.facebook_url">
                                         <a t-att-href="participant.facebook_url" target="_blank">Facebook</a>

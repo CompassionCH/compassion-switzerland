@@ -194,7 +194,7 @@ class RecurringContracts(models.Model):
         Update partner to add the 'Sponsor' category
         """
         super().contract_active()
-        # Check if partner is active
+        # TODO CO-3284 Replace this check by looking if mail.activity exists
         need_validation = self.filtered(lambda s: s.partner_id.state != "active")
         if need_validation:
             raise UserError(
@@ -284,7 +284,7 @@ class RecurringContracts(models.Model):
         sponsorship.
         """
         partners = self.mapped("partner_id") | self.mapped("correspondent_id")
-        # Partner should be active
+        # TODO CO-3284 Replace check with mail.activity exists
         need_validation = partners.filtered(lambda p: p.state != "active")
         if need_validation:
             raise UserError(

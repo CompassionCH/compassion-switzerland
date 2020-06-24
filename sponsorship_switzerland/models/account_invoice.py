@@ -44,12 +44,6 @@ class AccountInvoice(models.Model):
               set.
             - Prevent validating invoices missing related contract.
         """
-        to_validate = self.filtered(lambda i: i.partner_id.state != "active")
-        if to_validate:
-            raise UserError(
-                _("Please verify the partner before validating the invoice.")
-            )
-
         for invoice in self.filtered("payment_mode_id"):
             if "LSV" in invoice.payment_mode_id.name and not invoice.reference:
                 seq = self.env["ir.sequence"]
@@ -62,9 +56,8 @@ class AccountInvoice(models.Model):
                 ):
                     raise UserError(
                         _(
-                            f"Invoice {str(invoice.id)} for "
-                            f"'{invoice.partner_id.name}' is missing a sponsorship."
-                        )
+                            "Invoice %s for '%s' is missing a sponsorship."
+                        ) % (str(invoice.id), invoice.partner_id.name)
                     )
 
         return super().action_date_assign()
