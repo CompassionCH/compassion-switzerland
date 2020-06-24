@@ -11,7 +11,8 @@ from odoo import _
 from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
-from ..forms.project_creation_form import NoGoalException, NegativeGoalException
+from ..forms.project_creation_form import NoGoalException,\
+    NegativeGoalException, InvalidDateException
 
 
 class ProjectsController(Controller, FormControllerMixin):
@@ -41,28 +42,36 @@ class ProjectsController(Controller, FormControllerMixin):
             "page": page
         }
 
-        data = request.session['cms.form.crowdfunding.wizard']['steps'][page]
-        if 'name' in data:
-            data['campaign_name'] = data['name']
+        steps = request.session.get("cms.form.crowdfunding.wizard", {}).get("steps", {})
+        if "name" in steps.get(page, {}):
+            steps[page]["campaign_name"] = steps[page]["name"]
 
         form = request.httprequest.form
 
         # This allows the translation to still work on the page
         project_creation_form = self.get_form(
-            "crowdfunding.project", int(project_id), **values)
+            "crowdfunding.project", int(project_id), **values
+        )
 
-        if 'wiz_submit' in form and form['wiz_submit'] == 'prev':
+        if "wiz_submit" in form and form["wiz_submit"] == "prev":
             return local_redirect(project_creation_form.form_next_url(
-                project_creation_form.main_object))
+                project_creation_form.main_object)
+            )
+
+        if "keep_values" in kwargs:
+            request.session["cms.form.crowdfunding.wizard"] = {"steps": steps}
 
         try:
-            project_creation_form.form_process(data)
+            project_creation_form.form_process(steps.get(page, {}))
+        except InvalidDateException:
+            request.website.add_status_message(_("Please select a valid date"),
+                                               type_="danger")
         except NoGoalException:
             request.website.add_status_message(_("Please define a goal"),
-                                               type_='danger')
+                                               type_="danger")
         except NegativeGoalException:
             request.website.add_status_message(_("Please define a positive goal"),
-                                               type_='danger')
+                                               type_="danger")
         values.update({
             "user": request.env.user,
             "form": project_creation_form,
@@ -75,7 +84,8 @@ class ProjectsController(Controller, FormControllerMixin):
             # Force saving session, otherwise we lose values between steps
             request.session.save_request_data()
             return local_redirect(project_creation_form.form_next_url(
-                project_creation_form.main_object))
+                project_creation_form.main_object)
+            )
         else:
             return request.render(
                 "crowdfunding_compassion.project_creation_view_template", values,

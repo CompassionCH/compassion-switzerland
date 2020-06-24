@@ -6,6 +6,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from datetime import datetime
+
 import logging
 from base64 import b64encode
 
@@ -22,6 +24,8 @@ class ProjectCreationWizard(models.AbstractModel):
     _form_model_fields = []
     _form_extra_css_klass = "crowdfunding_project_creation_from"
     _wiz_name = _name
+
+
 
     def _wiz_base_url(self):
         return "/projects/create"
@@ -56,6 +60,7 @@ class ProjectCreationWizard(models.AbstractModel):
                 values[field] = data[field]
 
         self.form_render_values['form_data'] = values
+
 
 class ProjectCreationFormStep1(models.AbstractModel):
     _name = "cms.form.crowdfunding.project.step1"
@@ -124,6 +129,21 @@ class ProjectCreationFormStep1(models.AbstractModel):
             del self._wiz_storage[self._wiz_storage_key]
         super().wiz_init(page, **kw)
 
+    def form_get_widget(self, fname, field, **kw):
+        """Retrieve and initialize widget."""
+        if fname == "deadline":
+            if kw is None:
+                kw = {}
+            kw["min_date"] = datetime.now().isoformat()
+        return self.env[self.form_get_widget_model(fname, field)].widget_init(
+            self, fname, field, **kw
+        )
+
+    def form_after_create_or_update(self, values, extra_values):
+        if values["deadline"] < datetime.now().date():
+            raise InvalidDateException
+        super().form_after_create_or_update(values, extra_values)
+
     @property
     def form_widgets(self):
         res = super().form_widgets
@@ -134,6 +154,12 @@ class ProjectCreationFormStep1(models.AbstractModel):
         return res
 
     def form_before_create_or_update(self, values, extra_values):
+        '''
+        Test not to lose the image, but it doesn't work so far, TODO or TO REMOVE
+        extra_values["mimetype"] = ""
+        if self.request.files.get("cover_photo"):
+            extra_values["mimetype"] = self.request.files["cover_photo"].mimetype
+        '''
         super().form_before_create_or_update(values, extra_values)
         # Put name of campaign in correct field
         values["name"] = extra_values.pop("campaign_name")
@@ -142,6 +168,31 @@ class ProjectCreationFormStep1(models.AbstractModel):
         """ Holds the creation for the last step. The values will be passed
         to the next steps. """
         pass
+
+    '''
+    Test not to lose the image, but it doesn't work so far, TODO or TO REMOVE
+    def form_process(self, data):
+        super().form_process(data)
+
+        values = self.form_render_values['form_data']
+
+        wizard = self.request.session["cms.form.crowdfunding.wizard"]["steps"][1]
+        if "cover_photo" in values and values["cover_photo"] == {} and wizard["cover_photo"]:
+            mimetype = wizard["mimetype"]
+            content = wizard["cover_photo"]
+            values["cover_photo"] = {
+                "value": f"data:{mimetype};base64,{content}",
+                "mimetype": mimetype,
+                "from_request": True
+            }
+
+        self.form_render_values['form_data'] = values
+    '''
+
+
+class InvalidDateException(Exception):
+    def __init__(self):
+        super().__init__("Invalid date")
 
 
 class NoGoalException(Exception):
@@ -259,6 +310,16 @@ class ProjectCreationStep3(models.AbstractModel):
             })
         return fieldset
 
+    def form_get_widget(self, fname, field, **kw):
+        """Retrieve and initialize widget."""
+        if fname == "partner_birthdate":
+            if kw is None:
+                kw = {}
+            kw["max_date"] = datetime.now().isoformat()
+        return self.env[self.form_get_widget_model(fname, field)].widget_init(
+            self, fname, field, **kw
+        )
+
     @property
     def form_widgets(self):
         res = super().form_widgets
@@ -282,6 +343,9 @@ class ProjectCreationStep3(models.AbstractModel):
     #################
     def form_before_create_or_update(self, values, extra_values):
         # Put a default spoken language
+        if "partner_birthdate" in extra_values and \
+                extra_values["partner_birthdate"] > datetime.now().date():
+            raise InvalidDateException
         language = self.env["res.lang.compassion"].search([
             ("lang_id.code", "=", self.env.lang)], limit=1)
         values["partner_spoken_lang_ids"] = [(4, language.id)]
@@ -359,4 +423,8 @@ class ProjectCreationStep3(models.AbstractModel):
             )
 
     def form_next_url(self, main_object):
-        return f"/projects/create/confirm/{main_object.id}"
+        direction = self.request.form.get('wiz_submit', 'next')
+        if direction == 'next':
+            return f"/projects/create/confirm/{main_object.id}"
+        else:
+            return super().form_next_url(main_object)
