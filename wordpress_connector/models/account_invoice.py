@@ -191,7 +191,7 @@ class AccountInvoice(models.Model):
                 "quantity": 1,
                 "price_unit": amount,
                 "account_analytic_id": analytic_id,
-                "analytic_tag_ids": analytic_tag_ids,
+                "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
                 "source_id": utms["source"],
                 "medium_id": utms.get("medium", internet_id),
                 "campaign_id": utms["campaign"],
