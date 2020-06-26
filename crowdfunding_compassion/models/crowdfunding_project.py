@@ -130,18 +130,19 @@ class CrowdfundingProject(models.Model):
     # create an embedded version of the user input of presentation_video
     @api.onchange("presentation_video")
     def _compute_presentation_video_embed(self):
-        url_data = urlparse.urlparse(self.presentation_video)
-        if "youtube" in url_data.hostname and "embed" not in url_data.path:
-            query = urlparse.parse_qs(url_data.query)
-            self.presentation_video_embed = \
-                "/".join([url_data.scheme + "://" + url_data.hostname, "embed",
-                          query["v"][0]])
-        elif "vimeo" in url_data.hostname and "video" not in url_data.path:
-            self.presentation_video_embed = \
-                "/".join([url_data.scheme + "://player." + url_data.hostname, "video",
-                          url_data.path.lstrip("/")])
-        else:
-            self.presentation_video_embed = self.presentation_video
+        if self.presentation_video:
+            url_data = urlparse.urlparse(self.presentation_video)
+            if "youtube" in url_data.hostname and "embed" not in url_data.path:
+                query = urlparse.parse_qs(url_data.query)
+                self.presentation_video_embed = \
+                    "/".join([url_data.scheme + "://" + url_data.hostname, "embed",
+                              query["v"][0]])
+            elif "vimeo" in url_data.hostname and "video" not in url_data.path:
+                self.presentation_video_embed = \
+                    "/".join([url_data.scheme + "://player." + url_data.hostname, "video",
+                              url_data.path.lstrip("/")])
+            else:
+                self.presentation_video_embed = self.presentation_video
 
     @api.multi
     def _compute_product_number_goal(self):
