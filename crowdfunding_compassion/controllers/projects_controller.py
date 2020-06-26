@@ -79,8 +79,7 @@ class ProjectsController(Controller, FormControllerMixin):
             # Force saving session, otherwise we lose values between steps
             request.session.save_request_data()
             return local_redirect(project_creation_form.form_next_url(
-                project_creation_form.main_object)
-            )
+                project_creation_form.main_object))
         else:
             return request.render(
                 "crowdfunding_compassion.project_creation_view_template", values,
