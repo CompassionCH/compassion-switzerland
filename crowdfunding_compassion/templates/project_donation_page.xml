@@ -82,6 +82,9 @@
                                     <t t-if="selected_participant and int(selected_participant) == participant.id">
                                         <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id" checked="checked"/>
                                     </t>
+                                    <t t-if="selected_participant is None and len(project.participant_ids) == 1">
+                                        <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id" checked="checked"/>
+                                    </t>
                                     <t t-else="">
                                         <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id"/>
                                     </t>
