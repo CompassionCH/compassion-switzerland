@@ -512,7 +512,7 @@ class RecurringContract(models.Model):
     def action_sub_reject(self):
         res = super().action_sub_reject()
         no_sub_config = self.env.ref("partner_communication_switzerland.planned_no_sub")
-        self.send_communication.with_context({})(no_sub_config, correspondent=False)
+        self.with_context({}).send_communication(no_sub_config, correspondent=False)
         return res
 
     ##########################################################################
@@ -583,7 +583,7 @@ class RecurringContract(models.Model):
         # Send new dossier for write&pray sponsorships
         self.filtered(lambda s: s.type == "SC").with_context({}).send_communication(
             self.env.ref(
-                "partner_communication_switzerland" ".sponsorship_dossier_wrpr"
+                "partner_communication_switzerland.sponsorship_dossier_wrpr"
             )
         )
         return super().contract_active()
