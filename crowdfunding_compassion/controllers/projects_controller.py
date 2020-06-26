@@ -50,13 +50,11 @@ class ProjectsController(Controller, FormControllerMixin):
 
         # This allows the translation to still work on the page
         project_creation_form = self.get_form(
-            "crowdfunding.project", int(project_id), **values
-        )
+            "crowdfunding.project", int(project_id), **values)
 
         if direction == "prev":
             return local_redirect(project_creation_form.form_next_url(
-                    project_creation_form.main_object)
-                )
+                project_creation_form.main_object))
 
         try:
             project_creation_form.form_process()
@@ -81,13 +79,11 @@ class ProjectsController(Controller, FormControllerMixin):
             # Force saving session, otherwise we lose values between steps
             request.session.save_request_data()
             return local_redirect(project_creation_form.form_next_url(
-                project_creation_form.main_object)
-            )
+                project_creation_form.main_object))
         else:
             return request.render(
                 "crowdfunding_compassion.project_creation_view_template", values,
-                headers={'Cache-Control': 'no-cache'}
-            )
+                headers={'Cache-Control': 'no-cache'})
 
     @route("/projects/create/confirm/<model('crowdfunding.project'):project>",
            auth="public",
@@ -97,6 +93,7 @@ class ProjectsController(Controller, FormControllerMixin):
     def project_validation(self, project, **kwargs):
         return request.render(
             "crowdfunding_compassion.project_creation_confirmation_view_template",
-            {"project": project.sudo(),
-             "is_new": len(project.participant_ids) == 1}
-        )
+            {
+                "project": project.sudo(),
+                "is_new": len(project.participant_ids) == 1
+            })

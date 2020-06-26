@@ -21,11 +21,8 @@ class ProjectCreationWizard(models.AbstractModel):
     _name = "cms.form.crowdfunding.wizard"
     _inherit = "cms.form.wizard"
     _form_model = "crowdfunding.project"
-    _form_model_fields = []
     _form_extra_css_klass = "crowdfunding_project_creation_from"
     _wiz_name = _name
-
-
 
     def _wiz_base_url(self):
         return "/projects/create"
@@ -64,11 +61,10 @@ class ProjectCreationWizard(models.AbstractModel):
 
     def form_next_url(self, main_object=None):
         direction = self.request.form.get("wiz_submit")
-        if direction != "next":
+        if direction == "prev":
             step_values = self._prepare_step_values_to_store(self.request.form, {})
             self.wiz_save_step(step_values)
         return super().form_next_url(main_object) + "?save"
-
 
 
 class ProjectCreationFormStep1(models.AbstractModel):
@@ -163,12 +159,6 @@ class ProjectCreationFormStep1(models.AbstractModel):
         return res
 
     def form_before_create_or_update(self, values, extra_values):
-        '''
-        Test not to lose the image, but it doesn't work so far, TODO or TO REMOVE
-        extra_values["mimetype"] = ""
-        if self.request.files.get("cover_photo"):
-            extra_values["mimetype"] = self.request.files["cover_photo"].mimetype
-        '''
         super().form_before_create_or_update(values, extra_values)
         # Put name of campaign in correct field
         values["name"] = extra_values.pop("campaign_name")
@@ -177,26 +167,6 @@ class ProjectCreationFormStep1(models.AbstractModel):
         """ Holds the creation for the last step. The values will be passed
         to the next steps. """
         pass
-
-    '''
-    Test not to lose the image, but it doesn't work so far, TODO or TO REMOVE
-    def form_process(self, data):
-        super().form_process(data)
-
-        values = self.form_render_values['form_data']
-
-        wizard = self.request.session["cms.form.crowdfunding.wizard"]["steps"][1]
-        if "cover_photo" in values and values["cover_photo"] == {} and wizard["cover_photo"]:
-            mimetype = wizard["mimetype"]
-            content = wizard["cover_photo"]
-            values["cover_photo"] = {
-                "value": f"data:{mimetype};base64,{content}",
-                "mimetype": mimetype,
-                "from_request": True
-            }
-
-        self.form_render_values['form_data'] = values
-    '''
 
 
 class InvalidDateException(Exception):
