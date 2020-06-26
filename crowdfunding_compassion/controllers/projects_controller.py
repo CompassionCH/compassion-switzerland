@@ -42,27 +42,24 @@ class ProjectsController(Controller, FormControllerMixin):
             "page": page
         }
 
-        steps = request.session.get("cms.form.crowdfunding.wizard", {}).get("steps", {})
-        if "name" in steps.get(page, {}):
-            steps[page]["campaign_name"] = steps[page]["name"]
-
         form = request.httprequest.form
+        direction = form.get("wiz_submit")
+
+        if not direction and not "save" in kwargs:
+            values.update({"refresh": True})
 
         # This allows the translation to still work on the page
         project_creation_form = self.get_form(
             "crowdfunding.project", int(project_id), **values
         )
 
-        if "wiz_submit" in form and form["wiz_submit"] == "prev":
+        if direction == "prev":
             return local_redirect(project_creation_form.form_next_url(
-                project_creation_form.main_object)
-            )
-
-        if "keep_values" in kwargs:
-            request.session["cms.form.crowdfunding.wizard"] = {"steps": steps}
+                    project_creation_form.main_object)
+                )
 
         try:
-            project_creation_form.form_process(steps.get(page, {}))
+            project_creation_form.form_process()
         except InvalidDateException:
             request.website.add_status_message(_("Please select a valid date"),
                                                type_="danger")

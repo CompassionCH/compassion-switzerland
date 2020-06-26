@@ -51,15 +51,24 @@ class ProjectCreationWizard(models.AbstractModel):
         # Dismiss default status message
         self.o_request.website.get_status_message()
 
-    def form_process(self, data):
+    def form_process(self):
         super().form_process()
 
-        values = self.form_load_defaults()
-        for field in data.keys():
-            if field in values:
-                values[field] = data[field]
+        storage = self.wiz_storage_get()
+        curr_step = storage.get("current")
+        if curr_step:
+            step_data = storage.get("steps")[curr_step]
+            if step_data.get("name"):
+                step_data["campaign_name"] = step_data["name"]
+            self.form_render_values['form_data'] = step_data
 
-        self.form_render_values['form_data'] = values
+    def form_next_url(self, main_object=None):
+        direction = self.request.form.get("wiz_submit")
+        if direction != "next":
+            step_values = self._prepare_step_values_to_store(self.request.form, {})
+            self.wiz_save_step(step_values)
+        return super().form_next_url(main_object) + "?save"
+
 
 
 class ProjectCreationFormStep1(models.AbstractModel):
@@ -125,7 +134,7 @@ class ProjectCreationFormStep1(models.AbstractModel):
 
     def wiz_init(self, page=1, **kw):
         # Flush storage to avoid using old values from previous session
-        if self._wiz_storage_key in self._wiz_storage:
+        if kw.get("refresh") and self._wiz_storage_key in self._wiz_storage:
             del self._wiz_storage[self._wiz_storage_key]
         super().wiz_init(page, **kw)
 
@@ -221,17 +230,18 @@ class ProjectCreationStep2(models.AbstractModel):
     def form_before_create_or_update(self, values, extra_values):
         product_goal = extra_values.get('participant_product_number_goal')
         sponsorship_goal = extra_values.get('participant_number_sponsorships_goal')
-        # New projects must have at least either a sponsorship or a fund objective
-        if not product_goal and not sponsorship_goal:
-            raise NoGoalException
-        elif product_goal and int(product_goal) < 0 or sponsorship_goal and int(sponsorship_goal) < 0:
-            raise NegativeGoalException
 
         # Existing projects with sponsorship and fund chosen must have both
         if self.main_object:
             if self.main_object.product_id and self.main_object.number_sponsorships_goal:
                 if not product_goal or not sponsorship_goal:
                     raise NoGoalException
+        else:
+            # New projects must have at least either a sponsorship or a fund objective
+            if not product_goal and not sponsorship_goal:
+                raise NoGoalException
+            elif product_goal and int(product_goal) < 0 or sponsorship_goal and int(sponsorship_goal) < 0:
+                raise NegativeGoalException
 
         if not product_goal:
             values["product_id"] = False
