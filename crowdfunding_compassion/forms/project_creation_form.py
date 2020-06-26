@@ -24,8 +24,6 @@ class ProjectCreationWizard(models.AbstractModel):
     _form_extra_css_klass = "crowdfunding_project_creation_from"
     _wiz_name = _name
 
-
-
     def _wiz_base_url(self):
         return "/projects/create"
 
@@ -169,11 +167,6 @@ class ProjectCreationFormStep1(models.AbstractModel):
         """ Holds the creation for the last step. The values will be passed
         to the next steps. """
         pass
-
-
-class InvalidDateException(Exception):
-    def __init__(self):
-        super().__init__("Invalid date")
 
 
 class InvalidDateException(Exception):
