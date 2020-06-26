@@ -22,7 +22,6 @@
         <field name="arch" type="xml">
             <field name="selection_domain" position="attributes">
                 <attribute name="context">{'search_default_active': 1, 'search_default_corr_compassion': 1}</attribute>
-                <attribute name="widget">basic_domain</attribute>
             </field>
         </field>
     </record>
