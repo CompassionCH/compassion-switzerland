@@ -261,7 +261,7 @@ class PartnerCommunication(models.Model):
             children = self.get_objects()
             attachments = self.env["ir.attachment"]
             for child in children:
-                name = child.local_id + " " + child.last_photo_date + ".jpg"
+                name = child.local_id + " " + str(child.last_photo_date) + ".jpg"
                 attachments += attachments.create(
                     {
                         "name": name,
