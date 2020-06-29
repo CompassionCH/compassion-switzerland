@@ -254,6 +254,7 @@
                     <p t-raw="o.get_date('birthdate', 'date_short')" class="summary_field birthday"/>
                     <p t-field="o.project_id.country_id.name" class="summary_field country"/>
                 </div>
+                <p style="page-break-after:always;"/>
             </div>
         </template>
 
@@ -325,6 +326,7 @@
                             <br/>
                             <span t-field="o.local_id" class="ref"/>
                         </div>
+                        <p style="page-break-after:always;"/>
                     </div>
                 </t>
             </div>

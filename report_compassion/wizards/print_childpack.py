@@ -11,8 +11,9 @@ import base64
 from datetime import date
 
 from odoo.tools import relativedelta
+from odoo.exceptions import Warning as odooWarning
 
-from odoo import api, models, fields
+from odoo import _, api, models, fields
 
 
 class PrintChildpack(models.TransientModel):
@@ -73,6 +74,8 @@ class PrintChildpack(models.TransientModel):
                     not c.completion_date or c.completion_date > in_two_years)
                 ).with_context(lang=self.lang)
         )
+        if not records:
+            raise odooWarning(_("None of the children from the childpack can be printed !"))
         data = {
             "lang": self.lang,
             "doc_ids": records.ids,
