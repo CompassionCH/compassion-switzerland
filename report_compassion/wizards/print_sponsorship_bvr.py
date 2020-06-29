@@ -116,7 +116,9 @@ class PrintSponsorshipBvr(models.TransientModel):
         report_ref = self.env.ref(report_name)
         if self.pdf:
             data["background"] = True
-            pdf_data = report_ref.render_qweb_pdf(data["doc_ids"], data=data)[0]
+            pdf_data = report_ref.with_context(
+                must_skip_send_to_printer=True
+            ).render_qweb_pdf(data["doc_ids"], data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {
@@ -128,7 +130,7 @@ class PrintSponsorshipBvr(models.TransientModel):
                 "target": "new",
                 "context": self.env.context,
             }
-        return report_ref.report_action(self, data=data, config=False)
+        return report_ref.report_action(data["doc_ids"], data=data, config=False)
 
 
 class PrintBvrDue(models.TransientModel):
@@ -162,7 +164,9 @@ class PrintBvrDue(models.TransientModel):
         report_ref = self.env.ref("report_compassion.report_bvr_due")
         if self.pdf:
             data["background"] = True
-            pdf_data = report_ref.render_qweb_pdf(records.ids, data=data)[0]
+            pdf_data = report_ref.with_context(
+                must_skip_send_to_printer=True
+            ).render_qweb_pdf(records.ids, data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {
@@ -174,4 +178,4 @@ class PrintBvrDue(models.TransientModel):
                 "target": "new",
                 "context": self.env.context,
             }
-        return report_ref.report_action(self, data=data, config=False)
+        return report_ref.report_action(data["doc_ids"], data=data, config=False)
