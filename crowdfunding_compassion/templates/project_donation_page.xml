@@ -10,8 +10,8 @@
                 <section class="donation-type">
                     <div class="container">
                         <h1 class="hero-title">I want to</h1>
-                        <p class="text-white">Select your type of support</p>
-                        <p class="text-white">Below, select which person you support</p>
+                        <h5 class="text-white text-uppercase">Select your type of support</h5>
+                        <h5 class="text-white text-uppercase">Below, select which person you support</h5>
                         <div class="row pb-5">
                             <!-- Fund selectable card -->
                             <!-- Show fund option only if one is selected -->
