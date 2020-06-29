@@ -51,10 +51,6 @@ class BvrSponsorship(models.AbstractModel):
         report = self._get_report()
         final_data = self._get_default_data()
         if data:
-            if data["date_start"] and isinstance(data["date_start"], str):
-                data["date_start"] = fields.Date.from_string(data["date_start"])
-            if data["date_stop"] and isinstance(data["date_stop"], str):
-                data["date_stop"] = fields.Date.from_string(data["date_stop"])
             final_data.update(data)
             if not docids and data["doc_ids"]:
                 docids = data["doc_ids"]
