@@ -40,18 +40,18 @@
                                         <t t-set="class3">inactive</t>
                                     </t>
                                     <t t-if="page == 2">
-                                        <t t-set="class1">completed</t>
+                                        <t t-set="class1">inactive</t>
                                         <t t-set="class2">active</t>
                                         <t t-set="class3">inactive</t>
                                     </t>
                                     <t t-if="page == 3">
-                                        <t t-set="class1">completed</t>
-                                        <t t-set="class2">completed</t>
+                                        <t t-set="class1">inactive</t>
+                                        <t t-set="class2">inactive</t>
                                         <t t-set="class3">active</t>
                                     </t>
                                     <!-- First Step -->
                                     <li t-att-class="class1">
-                                        <a t-att-href="'/projects/create/' if page != 1 else '#!'">
+                                        <a>
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">1</span></div>
                                                 <div class="col-sm-12"><span class="label">Your project</span></div>
@@ -61,7 +61,7 @@
 
                                     <!-- Second Step -->
                                     <li t-att-class="class2">
-                                        <a t-att-href="'/projects/create/page/2' if page >= 2 else '#!'">
+                                        <a>
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">2</span></div>
                                                 <div class="col-sm-12"><span class="label" t-if="not product">Your fund</span></div>
@@ -72,7 +72,7 @@
 
                                     <!-- Third Step -->
                                     <li t-att-class="class3">
-                                        <a t-att-href="'/projects/create/page/2' if page >= 3 else '#!'">
+                                        <a>
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">3</span></div>
                                                 <div class="col-sm-12"><span class="label">Your personal information</span></div>

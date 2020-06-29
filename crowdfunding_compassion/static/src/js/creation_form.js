@@ -24,10 +24,20 @@ odoo.define('crowdfunding_compassion.creation_form', function (require) {
                 $("#product_id").val(product_id);
             });
 
+            // If the number of participant is set, it should appear in the corresponding widget
+            if ($("#participant_product_number_goal").val()) {
+                $("[id^=fund-number-]").val($("#participant_product_number_goal").val());
+            }
+
             $("[id^=fund-number-]").change(function () {
                 // Copy fund amount to real form
                 $("#participant_product_number_goal").val($(this).val());
             });
+
+            // If the number of sponsorship is set, it should appear in the corresponding widget
+            if ($("#participant_number_sponsorships_goal").val()) {
+                $("#number-sponsorships").val($("#participant_number_sponsorships_goal").val());
+            }
 
             $("#number-sponsorships").change(function () {
                 // Copy sponsorship goal to real form
