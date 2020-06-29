@@ -157,7 +157,7 @@ class BankStatementLine(models.Model):
         if invoice:
             invoice.action_invoice_cancel()
             invoice.action_invoice_draft()
-            invoice.env.invalidate_all()
+            invoice.env.clear()
             invoice.write({"origin": self.statement_id.name})
 
         else:
