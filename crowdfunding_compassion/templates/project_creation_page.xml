@@ -35,19 +35,19 @@
                             <div class="col-11">
                                 <ul class="stepper stepper-horizontal">
                                     <t t-if="page == 1">
-                                        <t t-set="class1">active</t>
-                                        <t t-set="class2">inactive</t>
-                                        <t t-set="class3">inactive</t>
+                                        <t t-set="class1">inactive</t>
+                                        <t t-set="class2">empty</t>
+                                        <t t-set="class3">empty</t>
                                     </t>
                                     <t t-if="page == 2">
-                                        <t t-set="class1">completed</t>
-                                        <t t-set="class2">active</t>
-                                        <t t-set="class3">inactive</t>
+                                        <t t-set="class1">active</t>
+                                        <t t-set="class2">inactive</t>
+                                        <t t-set="class3">empty</t>
                                     </t>
                                     <t t-if="page == 3">
-                                        <t t-set="class1">completed</t>
-                                        <t t-set="class2">completed</t>
-                                        <t t-set="class3">active</t>
+                                        <t t-set="class1">active</t>
+                                        <t t-set="class2">active</t>
+                                        <t t-set="class3">inactive</t>
                                     </t>
                                     <!-- First Step -->
                                     <li t-att-class="class1">
