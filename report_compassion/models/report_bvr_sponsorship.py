@@ -10,6 +10,7 @@
 
 import logging
 
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields, api, models, _
@@ -62,7 +63,9 @@ class BvrSponsorship(models.AbstractModel):
         months = list()
         while start <= stop:
             months.append(start)
-            start = start + relativedelta(months=1)
+            start_dt = datetime.strptime(start, "%Y-%m-%d")
+            start_dt = start_dt + relativedelta(months=1)
+            start = start_dt.strftime("%Y-%m-%d")
 
         sponsorships = self.env["recurring.contract"].browse(docids)
         sponsorships = sponsorships.filtered(
