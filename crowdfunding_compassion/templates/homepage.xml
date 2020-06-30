@@ -147,7 +147,7 @@
                                 <t t-set="fund_icon" t-value="impact[fund]['icon_image']" />
                                 <t t-set="fund_name" t-value="impact[fund]['name']" />
                                 <t t-set="fund_description" t-value="impact[fund]['description']" />
-                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
                                     <t t-call="crowdfunding_compassion.fund_card"/>
                                 </div>
                             </t>

@@ -51,7 +51,7 @@
                                     </t>
                                     <!-- First Step -->
                                     <li t-att-class="class1">
-                                        <a t-att-href="'/projects/create/' if page != 1 else '#!'">
+                                        <a>
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">1</span></div>
                                                 <div class="col-sm-12"><span class="label">Your project</span></div>
@@ -61,7 +61,7 @@
 
                                     <!-- Second Step -->
                                     <li t-att-class="class2">
-                                        <a t-att-href="'/projects/create/page/2' if page >= 2 else '#!'">
+                                        <a>
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">2</span></div>
                                                 <div class="col-sm-12"><span class="label" t-if="not product">Your fund</span></div>
@@ -72,7 +72,7 @@
 
                                     <!-- Third Step -->
                                     <li t-att-class="class3">
-                                        <a t-att-href="'/projects/create/page/2' if page >= 3 else '#!'">
+                                        <a>
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">3</span></div>
                                                 <div class="col-sm-12"><span class="label">Your personal information</span></div>
@@ -154,7 +154,7 @@
                                                         <span class="white">Indicate the amount in the above box. 1</span>
                                                         <t t-esc="fund.crowdfunding_quantity_singular" class="white"/>
                                                         <span class="white">is equivalent to CHF</span>
-                                                        <t t-esc="fund.standard_price" class="white"/>.-
+                                                        <t t-esc="int(fund.standard_price)" class="white"/>.-
                                                     </p>
                                                 </div>
                                             </div>

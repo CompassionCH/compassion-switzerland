@@ -10,8 +10,8 @@
                 <section class="donation-type">
                     <div class="container">
                         <h1 class="hero-title">I want to</h1>
-                        <p class="text-white">Select your type of support</p>
-                        <p class="text-white">Below, select which person you support</p>
+                        <h5 class="text-white text-uppercase">Select your type of support</h5>
+                        <h5 class="text-white text-uppercase">Below, select which person you support</h5>
                         <div class="row pb-5">
                             <!-- Fund selectable card -->
                             <!-- Show fund option only if one is selected -->
@@ -80,6 +80,9 @@
                                 <label>
                                     <!-- If the query parameter [participant_id] matches the currently displayed participant, check it -->
                                     <t t-if="selected_participant and int(selected_participant) == participant.id">
+                                        <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id" checked="checked"/>
+                                    </t>
+                                    <t t-if="selected_participant is None and len(project.participant_ids) == 1">
                                         <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id" checked="checked"/>
                                     </t>
                                     <t t-else="">

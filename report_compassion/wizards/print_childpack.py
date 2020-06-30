@@ -11,8 +11,9 @@ import base64
 from datetime import date
 
 from odoo.tools import relativedelta
+from odoo.exceptions import Warning as odooWarning
 
-from odoo import api, models, fields
+from odoo import _, api, models, fields
 
 
 class PrintChildpack(models.TransientModel):
@@ -73,6 +74,8 @@ class PrintChildpack(models.TransientModel):
                     not c.completion_date or c.completion_date > in_two_years)
                 ).with_context(lang=self.lang)
         )
+        if not records:
+            raise odooWarning(_("None of the children from the childpack can be printed !"))
         data = {
             "lang": self.lang,
             "doc_ids": records.ids,
@@ -84,7 +87,9 @@ class PrintChildpack(models.TransientModel):
         if self.pdf:
             name = records.local_id if len(records) == 1 else "dossiers"
             self.pdf_name = name + ".pdf"
-            pdf_data = report_ref.render_qweb_pdf(records.ids, data=data)
+            pdf_data = report_ref.with_context(
+                must_skip_send_to_printer=True
+            ).render_qweb_pdf(records.ids, data=data)
             self.pdf_download = base64.encodebytes(pdf_data[0])
             self.state = "pdf"
             return {
@@ -96,4 +101,4 @@ class PrintChildpack(models.TransientModel):
                 "target": "new",
                 "context": self.env.context,
             }
-        return report_ref.report_action(self, data=data, config=False)
+        return report_ref.report_action(records.ids, data=data, config=False)
