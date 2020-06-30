@@ -44,8 +44,8 @@ class ProjectsController(Controller, FormControllerMixin):
 
         form = request.httprequest.form
         direction = form.get("wiz_submit")
-
-        if not direction and not "save" in kwargs:
+        save = kwargs.get("save")
+        if not direction and not save:
             values.update({"refresh": True})
 
         # This allows the translation to still work on the page

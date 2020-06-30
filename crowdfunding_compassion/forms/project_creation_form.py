@@ -64,7 +64,7 @@ class ProjectCreationWizard(models.AbstractModel):
         if direction == "prev":
             step_values = self._prepare_step_values_to_store(self.request.form, {})
             self.wiz_save_step(step_values)
-        return super().form_next_url(main_object) + "?save"
+        return super().form_next_url(main_object) + "?save=True"
 
 
 class ProjectCreationFormStep1(models.AbstractModel):
@@ -228,7 +228,7 @@ class ProjectCreationStep2(models.AbstractModel):
     def form_next_url(self, main_object=None):
         url = super().form_next_url(main_object)
         if main_object:
-            url += f"?project_id={main_object.id}"
+            url += f"&project_id={main_object.id}"
         return url
 
 

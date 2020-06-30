@@ -199,6 +199,13 @@
                     </div>
                 </div>
             </t>
+
+            <!-- If the project is joined, disable the back button to step 1 -->
+            <t t-if="form.main_object">
+                <script>
+                    document.querySelector("button[value='prev']").style.visibility = 'hidden';
+                </script>
+            </t>
         </template>
 
         <record id="project_creation_page" model="website.page">
