@@ -66,6 +66,8 @@
         "templates/project_donation_page.xml",
         "templates/presentation_page.xml",
         "templates/projects_list_page.xml",
+        "templates/faq_page.xml",
+        "templates/about_page.xml",
     ],
     "demo": ["demo/demo.xml"],
     "installable": True,
