@@ -261,7 +261,7 @@ class BankStatementLine(models.Model):
         )
         analytic = invl_vals.get("account_analytic_id")
         if not analytic and default_analytic:
-            invl_vals["account_analytic_id"] = default_analytic.id
+            invl_vals["account_analytic_id"] = default_analytic.analytic_id.id
 
         return invl_vals
 
