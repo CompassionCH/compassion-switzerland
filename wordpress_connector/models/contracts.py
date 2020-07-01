@@ -141,12 +141,14 @@ class Contracts(models.Model):
             if not partner_location:
                 partner_location = res_city_zip_obj.search([
                     ("name", '=', partner_infos.get('zip', None))
-                ])
+                ], limit=1)
             if len(partner_location) == 1:
                 partner_infos.update({
+                    "zip": partner_location.name,
                     "zip_id": partner_location.id,
                     "city": partner_location.city_id.name,
                     "city_id": partner_location.city_id.id,
+                    "state": partner_location.city_id.state_id.name,
                     "state_id": partner_location.city_id.state_id.id,
                 })
             else:
