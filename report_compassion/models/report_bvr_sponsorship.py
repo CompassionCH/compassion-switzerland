@@ -63,7 +63,7 @@ class BvrSponsorship(models.AbstractModel):
         months = list()
         while start <= stop:
             months.append(start)
-            start_dt = datetime.strptime(start, "%Y-%m-%d")
+            start_dt = datetime.strptime(str(start), "%Y-%m-%d")
             start_dt = start_dt + relativedelta(months=1)
             start = start_dt.strftime("%Y-%m-%d")
 
