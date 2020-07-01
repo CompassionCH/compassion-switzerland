@@ -136,7 +136,7 @@ class Contracts(models.Model):
             res_city_zip_obj = self.env["res.city.zip"]
             partner_location = res_city_zip_obj.search([
                 ("name", '=', partner_infos.get("zip", None)),
-                ("city_id.name", '=ilike', partner_infos.get("city"))
+                ("city_id.name", 'ilike', partner_infos.get("city"))
             ], limit=1)
             if not partner_location:
                 partner_location = res_city_zip_obj.search([
