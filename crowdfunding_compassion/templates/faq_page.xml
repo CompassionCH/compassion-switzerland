@@ -12,8 +12,9 @@
                               <div class="tab">
                                  <input type="checkbox" id="rd1" name="rd"/>
                                  <label class="tab-label" for="rd1">How will my donation be used?</label>
+                                  <t t-set="annual_report_link">https://compassion.ch/telechargements/?filter=rapports-annuels</t>
                                  <div class="tab-content">
-                                    Your donation will be used for the selected fund, and we guarantee its rigorous management. We are committed to investing 80 to 100% of donations for the benefit of children. You will find all the information in our <a href="https://compassion.ch/telechargements/?filter=rapports-annuels" target="_blank" class="underline">annual report</a>.
+                                    Your donation will be used for the selected fund, and we guarantee its rigorous management. We are committed to investing 80 to 100% of donations for the benefit of children. You will find all the information in our <a t-att-href="annual_report_link" target="_blank" class="underline">annual report</a>.
                                  </div>
                               </div>
                               <div class="tab">
@@ -47,8 +48,9 @@
                               <div class="tab">
                                  <input type="checkbox" id="rd6" name="rd"/>
                                  <label class="tab-label" for="rd6">What about my personal data?</label>
-                                 <div class="tab-content">
-                                    Compassion Switzerland takes <a href="https://compassion.ch/protection-des-donnees/" target="_blank" class="underline">data protection</a> seriously. Compassion Switzerland does not share your personal data with any third parties and does not use it for any other purpose than for internal communication. Compassion has its own database and manages its own contacts.
+                                 <t t-set="data_policy_url">https://compassion.ch/protection-des-donnees/</t>
+                                  <div class="tab-content">
+                                    Compassion Switzerland takes <a t-att-href="data_policy_url" target="_blank" class="underline">data protection</a> seriously. Compassion Switzerland does not share your personal data with any third parties and does not use it for any other purpose than for internal communication. Compassion has its own database and manages its own contacts.
                                  </div>
                               </div>
                               <div class="tab">
