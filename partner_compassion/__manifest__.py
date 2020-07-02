@@ -37,7 +37,6 @@
     "depends": [
         "geoengine_base_geolocalize",  # geospatialslac
         "account_banking_mandate",  # oca_addons/bank-payment
-        'account_bank_statement_import_camt_details',
         "sbc_compassion",  # compassion-modules
         "thankyou_letters",  # compassion-modules
         "mail_sendgrid",
@@ -64,7 +63,6 @@
         "data/res_partner_actions.xml",
         "data/gist_indexes.xml",
         "views/advocate_details.xml",
-        'views/search_bank_address_wizard.xml',
         "views/survey_user_input_action.xml",
         "views/partner_compassion_view.xml",
         "views/product_view.xml",

@@ -77,13 +77,6 @@
                 <field name="street3"/>
             </field>
 
-            <!-- Add a optional search for address on bank data if missing-->
-            <field name="street" position="before">
-                <div attrs="{'invisible': [('street', '!=', False)]}">
-                    <button name="search_bank_address" string="search address from banks data" type="object"/>
-                </div>
-            </field>
-
             <!-- Add invalid email fields -->
             <field name="email" position="after">
                 <field name="invalid_mail" attrs="{'invisible': [('invalid_mail', '=', False)]}"/>
