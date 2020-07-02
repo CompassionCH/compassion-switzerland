@@ -5,6 +5,7 @@
         <!-- ===  Homepage === -->
         <template id="homepage_template">
             <t t-call="crowdfunding_compassion.layout">
+                <t t-set="title">TOGETHER - Compassion Switzerland Crowdfunding</t>
                 <header class="masthead">
                     <h1 class="display-1 text-white uppercase font-weight-bold pt-4">Together</h1>
                 </header>

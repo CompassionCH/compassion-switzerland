@@ -312,8 +312,8 @@
                                 <a class="nav-link" href="/projects">Browse active projects</a>
                             </li>
 
-                            <li class="nav-item" style="display: none;">
-                                <a class="nav-link" href="#about">About</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/about">About</a>
                             </li>
 
                             <li class="nav-item dropdown mr-5">
@@ -374,20 +374,20 @@
 
                             <div class="col-sm-12 col-md-4 pt-2">
                                 <ul class="nav flex-column">
-                                    <li class="nav-item" style="display: none;">
-                                        <a class="nav-link active" href="#">About this platform</a>
+                                    <!--  This page is not translated in Italian yet-->
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/faq">Frequently Asked Questions</a>
+                                    </li>
+
+                                    <!--  This page is not translated in Italian yet-->
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/about">About</a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#" style="display: none;">>FAQ</a>
-                                    </li>
-
-                                    <li class="nav-item" style="display: none;">
-                                        <a class="nav-link" href="#">Fundraising tools</a>
-                                    </li>
-
-                                    <li class="nav-item" style="display: none;">
-                                        <a class="nav-link " href="#">Contact</a>
+                                        <a t-if="request.lang == 'fr_CH'" class="nav-link active" href="https://compassion.ch/" target="_blank">Compassion Suisse</a>
+                                        <a t-if="request.lang == 'de_DE'" class="nav-link active" href="https://compassion.ch/de/" target="_blank">Compassion Schweiz</a>
+                                        <a t-if="request.lang == 'it_IT'" class="nav-link active" href="https://compassion.ch/it/" target="_blank">Compassion Svizzera</a>
                                     </li>
                                 </ul>
                             </div>
@@ -396,10 +396,6 @@
                                 <ul class="nav flex-column">
                                     <li class="nav-item" style="display: none;">
                                         <a class="nav-link active" href="#">About this platform</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" style="display: none;">FAQ</a>
                                     </li>
 
                                     <li class="nav-item" style="display: none;">

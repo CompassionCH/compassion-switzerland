@@ -1,0 +1,82 @@
+<odoo>
+   <data>
+      <template id="faq_page_template" name="FAQ page">
+         <t t-call="crowdfunding_compassion.layout">
+            <section class="container">
+               <div class="my-5 py-5">
+                  <h1 class="display-4 blue uppercase mb-5 pb-5 text-center">Frequently Asked Questions</h1>
+                  <div class="faq text-left">
+                     <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                           <div class="tabs">
+                              <div class="tab">
+                                 <input type="checkbox" id="rd1" name="rd"/>
+                                 <label class="tab-label" for="rd1">How will my donation be used?</label>
+                                  <t t-set="annual_report_link">https://compassion.ch/telechargements/?filter=rapports-annuels</t>
+                                 <div class="tab-content">
+                                    Your donation will be used for the selected fund, and we guarantee its rigorous management. We are committed to investing 80 to 100% of donations for the benefit of children. You will find all the information in our <a t-att-href="annual_report_link" target="_blank" class="underline">annual report</a>.
+                                 </div>
+                              </div>
+                              <div class="tab">
+                                 <input type="checkbox" id="rd2" name="rd"/>
+                                 <label class="tab-label" for="rd2">Is my donation tax deductible?</label>
+                                 <div class="tab-content">
+                                    Compassion is an organisation recognised as being of public utility. In all Swiss cantons, donations made to Compassion can be tax-deductible. In January, Compassion will send you a donation certificate.
+                                 </div>
+                              </div>
+                              <div class="tab">
+                                 <input type="checkbox" id="rd3" name="rd"/>
+                                 <label class="tab-label" for="rd3">Can I pay by payment slip?</label>
+                                 <div class="tab-content">
+                                    Of course you can. Just send us an email to <a href="mailto:together@compassion.ch" class="underline">together@compassion.ch</a> and we will send you the necessary material by post.
+                                 </div>
+                              </div>
+                              <div class="tab">
+                                 <input type="checkbox" id="rd4" name="rd"/>
+                                 <label class="tab-label" for="rd4">What happens when I reach my goal?</label>
+                                 <div class="tab-content">
+                                    First thing: We celebrate! Second thing: your project can continue to exist and thus collect more donations and find other sponsors for the children. It remains visible on the platform to inspire future project creators.
+                                 </div>
+                              </div>
+                              <div class="tab">
+                                 <input type="checkbox" id="rd5" name="rd"/>
+                                 <label class="tab-label" for="rd5">What happens if I don't reach my goal?</label>
+                                 <div class="tab-content">
+                                    It doesn't matter: we celebrate! All donations will be allocated to the chosen fund, just as the children can look forward to finding a sponsor.
+                                 </div>
+                              </div>
+                              <div class="tab">
+                                 <input type="checkbox" id="rd6" name="rd"/>
+                                 <label class="tab-label" for="rd6">What about my personal data?</label>
+                                 <t t-set="data_policy_url">https://compassion.ch/protection-des-donnees/</t>
+                                  <div class="tab-content">
+                                    Compassion Switzerland takes <a t-att-href="data_policy_url" target="_blank" class="underline">data protection</a> seriously. Compassion Switzerland does not share your personal data with any third parties and does not use it for any other purpose than for internal communication. Compassion has its own database and manages its own contacts.
+                                 </div>
+                              </div>
+                              <div class="tab">
+                                 <input type="checkbox" id="rd7" name="rd"/>
+                                 <label class="tab-label" for="rd7">Do you have any further questions?</label>
+                                 <div class="tab-content">
+                                    If you have any further questions, you can simply write an email to <a href="mailto:together@compassion.ch" class="underline">together@compassion.ch</a>.
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
+         </t>
+      </template>
+
+      <record id="faq_page" model="website.page">
+         <field name="name">Frequently Asked Question</field>
+         <field name="website_published">True</field>
+         <field name="url">/faq</field>
+         <field name="type">qweb</field>
+         <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
+         <field name="view_id" ref="crowdfunding_compassion.faq_page_template"/>
+      </record>
+   </data>
+</odoo>
+

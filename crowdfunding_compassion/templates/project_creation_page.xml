@@ -3,8 +3,8 @@
     <data>
         <!--        Creation page-->
         <template id="project_creation_view_template">
-            <t t-set="title" t-if="not form.main_object">Project creation</t>
-            <t t-set="title" t-if="form.main_object">I want to join this project:</t>
+            <t t-set="title" t-if="not form.main_object">Project creation | TOGETHER - Compassion Switzerland Crowdfunding</t>
+            <t t-set="title" t-if="form.main_object"><t t-esc="form.main_object.name"/> | TOGETHER - Compassion Switzerland Crowdfunding</t>
             <t t-call="crowdfunding_compassion.layout">
                 <header>
                     <div class="container">
@@ -29,7 +29,7 @@
                     </t>
                     <t t-else="">
                         <h1 class="blue uppercase center-text" t-esc="title"/>
-                        <h2 class="center-text" t-field="form.main_object.description"/>
+                        <h2 class="center-text" t-field="form.main_object.name"/>
                     </t>
                         <div class="row justify-content-center">
                             <div class="col-11">
@@ -199,6 +199,13 @@
                     </div>
                 </div>
             </t>
+
+            <!-- If the project is joined, disable the back button to step 1 -->
+            <t t-if="form.main_object">
+                <script>
+                    document.querySelector("button[value='prev']").style.visibility = 'hidden';
+                </script>
+            </t>
         </template>
 
         <record id="project_creation_page" model="website.page">
@@ -223,7 +230,7 @@
         <!-- Confirmation page -->
         <template id="project_creation_confirmation_view_template">
             <t t-call="crowdfunding_compassion.layout">
-                <t t-set="title" t-value="project.name"/>
+                <t t-set="title"><t t-esc="project.name"/> | TOGETHER - Compassion Switzerland Crowdfunding</t>
                 <div id="confirmation" class="text-center"
                      t-attf-style="background-image:url('data:image/jpg;base64,crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg')">
                     <br/>
