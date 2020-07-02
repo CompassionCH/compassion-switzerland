@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-30 14:00+0000\n"
-"PO-Revision-Date: 2020-06-30 14:00+0000\n"
+"POT-Creation-Date: 2020-07-02 08:57+0000\n"
+"PO-Revision-Date: 2020-07-02 11:11+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -614,12 +614,6 @@ msgid "Donate now"
 msgstr "Jetzt Spenden"
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
-msgid "Donate to"
-msgstr "Spenden für "
-
-#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_successful
 msgid "Donation Succesful"
 msgstr "Spende erfolgreich"
@@ -703,6 +697,11 @@ msgstr ""
 #: model:ir.model.fields,help:crowdfunding_compassion.field_product_template__crowdfunding_impact_text_passive
 msgid "Ex: toilets built"
 msgstr ""
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
+msgid "FAQ"
+msgstr "FAQ"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
@@ -814,11 +813,6 @@ msgstr "Ich möchte keine E-Mail mit Infos über den Impact meiner Spenden und d
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "I want to"
 msgstr "Ich möchte:"
-
-#. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
-msgid "I want to join this project:"
-msgstr "Ich möchte mich diesem Kollektiv-Projekt anschliessen:"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,help:crowdfunding_compassion.field_cms_form_crowdfunding_donation__anonymous_donation
@@ -1069,7 +1063,11 @@ msgid "My Account"
 msgstr "Mein Konto"
 
 #. module: crowdfunding_compassion
-#: code:addons/compassion/12.0/odoo/compassion/compassion-switzerland/crowdfunding_compassion/forms/project_creation_form.py:111
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_crowdfunding_view_template
+msgid "My Account | TOGETHER - Compassion Switzerland Crowdfunding"
+msgstr "My Account | TOGETHER - Compassion Schweiz Crowdfunding"
+
+#. module: crowdfunding_compassion
 #: code:addons/crowdfunding_compassion/forms/project_creation_form.py:111
 #, python-format
 msgid "My project is"
@@ -1134,6 +1132,11 @@ msgstr ""
 #: model_terms:website.page,arch_db:crowdfunding_compassion.faq_page
 msgid "Of course you can. Just send us an email to"
 msgstr "Ja klar. Sende uns einfach ein E-Mail an "
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_list_page
+msgid "Our Projects | TOGETHER - Compassion Switzerland Crowdfunding"
+msgstr "Unsere Projekte | TOGETHER - Compassion Schweiz Crowdfunding"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__owner_participant_id
@@ -1329,14 +1332,14 @@ msgid "Project Published"
 msgstr ""
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
-msgid "Project creation"
-msgstr "Starte dein Projekt"
-
-#. module: crowdfunding_compassion
 #: model:website.menu,name:crowdfunding_compassion.project_creation_menu
 msgid "Project creation menu"
 msgstr ""
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
+msgid "Project creation | TOGETHER - Compassion Switzerland Crowdfunding"
+msgstr "Starte dein Projekt | TOGETHER - Compassion Schweiz Crowdfunding"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__description
@@ -1551,6 +1554,12 @@ msgid "TOGETHER is a community funding platform of Compassion, the child develop
 msgstr "TOGETHER ist eine Spenden-Plattform des Kinderhilfswerks Compassion Schweiz. Einzelpersonen oder Gruppen erstellen eigene Fundraising-Aktionen für ausgewählte Entwicklungsprojekte, die von Compassion umgesetzt werden.<br/><br/>\n"
 "                            Together funktioniert simpel und unkompliziert. Mit wenigen Klicks startest du dein eigenes Projekt. Du setzt dir ein Ziel und legst das Enddatum fest. Dann lädst du deine Familie und Freunde per E-Mail, Facebook oder Instagram dazu ein, dein Sammelziel mit ihren Spenden zu unterstützen.<br/><br/>\n"
 "                            Gespendet werden kann mit Kreditkarten, Postcard oder TWINT. Die Spenden fliessen direkt an Compassion und werden ausschliesslich für die gewählten Projekte verwendet. <b>Alle Spenden an Compassion können in der Schweiz vom steuerbaren Einkommen abgezogen werden.</b>"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
+#: model_terms:website.page,arch_db:crowdfunding_compassion.homepage
+msgid "TOGETHER - Compassion Switzerland Crowdfunding"
+msgstr "TOGETHER - Compassion Schweiz Crowdfunding"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,help:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__participant_personal_motivation
@@ -1911,7 +1920,7 @@ msgstr "."
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 msgid "inactive"
-msgstr ""
+msgstr "inactive"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
@@ -1972,3 +1981,11 @@ msgstr "verbleibend"
 msgid "together@compassion.ch"
 msgstr ""
 
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_confirmation_view_template
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "| TOGETHER - Compassion Switzerland Crowdfunding"
+msgstr "| TOGETHER - Compassion Schweiz Crowdfunding"

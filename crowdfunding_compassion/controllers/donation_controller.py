@@ -80,9 +80,11 @@ class DonationController(PaymentFormController, FormControllerMixin):
             config = request.env.ref(
                 "crowdfunding_compassion.config_donation_successful_email_template"
             )
-            comm_obj.create(
-                {"config_id": config.id, "partner_id": invoice.partner_id.id}
-            )
+            comm_obj.create({
+                "config_id": config.id,
+                "partner_id": invoice.partner_id.id,
+                "object_ids": invoice.ids
+            })
 
             # Send email to inform participant of new donation
             config = request.env.ref("crowdfunding_compassion.config_donation_received")
@@ -90,6 +92,7 @@ class DonationController(PaymentFormController, FormControllerMixin):
                 {
                     "config_id": config.id,
                     "partner_id": invoice.invoice_line_ids[0].user_id.id,
+                    "object_ids": invoice.ids
                 }
             )
 

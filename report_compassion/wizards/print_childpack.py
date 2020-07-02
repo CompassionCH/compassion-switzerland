@@ -64,11 +64,13 @@ class PrintChildpack(models.TransientModel):
         :return: Generated report
         """
         model = "compassion.child"
+        children = self.env[model].browse(self.env.context.get("active_ids"))
+        # Update children information before filtering them
+        children.get_infos()
         # Prevent printing dossier if completion date is in less than 2 years
         in_two_years = date.today() + relativedelta(years=2)
         records = (
-            self.env[model].browse(self.env.context.get("active_ids"))
-            .filtered(
+            children.filtered(
                 lambda c: c.state in ("N", "I", "P")
                 and c.desc_en and (
                     not c.completion_date or c.completion_date > in_two_years)
