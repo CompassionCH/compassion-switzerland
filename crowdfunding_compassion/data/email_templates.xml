@@ -130,7 +130,7 @@
             <field name="send_mode_pref_field">global_communication_delivery_preference</field>
             <field name="print_if_not_email">False</field>
             <field name="email_template_id" ref="donation_successful_email_template"/>
-            <field name="model_id" ref="model_crowdfunding_project"/>
+            <field name="model_id" ref="account.model_account_invoice"/>
         </record>
 
          <!--Donation received communication-->
@@ -161,7 +161,7 @@
             <field name="send_mode_pref_field">global_communication_delivery_preference</field>
             <field name="print_if_not_email">False</field>
             <field name="email_template_id" ref="donation_received_email_template"/>
-            <field name="model_id" ref="model_crowdfunding_project"/>
+            <field name="model_id" ref="account.model_account_invoice"/>
         </record>
     </data>
 </odoo>
