@@ -57,6 +57,7 @@ class ProjectController(Controller):
 
         return {
             "project": project,
+            "main_object": project,
             "impact": self.get_impact(sponsorships, donations),
             "fund": project.product_id,
             "participant": participant,
