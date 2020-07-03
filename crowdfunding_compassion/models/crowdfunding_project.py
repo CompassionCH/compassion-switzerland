@@ -12,7 +12,7 @@ import urllib.parse as urlparse
 
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
-    _inherit = "website.published.mixin"
+    _inherit = ["website.published.mixin", "website.seo.metadata"]
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 
@@ -40,6 +40,7 @@ class CrowdfundingProject(models.Model):
         "Cover Photo",
         help="Upload a cover photo that represents your project. Best size: 900x400px",
         attachment=True)
+    cover_photo_url = fields.Char(compute="_compute_cover_photo_url")
     presentation_video = fields.Char(
         help="Paste any video link that showcase your project"
              " (e.g. https://vimeo.com/jlkj34ek5)"
@@ -196,6 +197,12 @@ class CrowdfundingProject(models.Model):
             ).id
 
     @api.multi
+    def _compute_cover_photo_url(self):
+        domain = self.env['website'].get_current_website()._get_http_domain()
+        for project in self:
+            project.cover_photo_url = f"{domain}/web/content/crowdfunding.project/{project.id}/cover_photo"
+
+    @api.multi
     def validate(self):
         self.write({"state": "active"})
         comm_obj = self.env["partner.communication.job"]
@@ -223,3 +230,9 @@ class CrowdfundingProject(models.Model):
         return self.search(
             [("state", "!=", "draft")], limit=limit, order="deadline ASC"
         )
+
+    def _default_website_meta(self):
+        res = super()._default_website_meta()
+        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.description
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.cover_photo_url
+        return res
