@@ -203,11 +203,12 @@ class AccountReconcileModel(models.Model):
         full_query += " UNION ALL ".join(queries)
         # Current month, then oldest due dates come first.
         full_query += """
-            ORDER BY CASE 
-                   WHEN EXTRACT(MONTH from aml.date_maturity) = EXTRACT(MONTH from NOW())
-                    AND EXTRACT(YEAR from aml.date_maturity) = EXTRACT(YEAR from NOW()) THEN 0
-                   ELSE 1
-                 END, aml_date_maturity, aml_id;
+            ORDER BY CASE
+                WHEN EXTRACT(MONTH from aml.date_maturity) = EXTRACT(MONTH from NOW())
+                AND EXTRACT(YEAR from aml.date_maturity) = EXTRACT(YEAR from NOW())
+                THEN 0
+                ELSE 1
+            END, aml_date_maturity, aml_id;
         """
         return full_query, all_params
 
