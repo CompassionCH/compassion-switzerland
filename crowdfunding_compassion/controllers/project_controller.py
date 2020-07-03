@@ -87,7 +87,7 @@ class ProjectController(Controller):
                 "text": f"{int(donation.quantity)} "
                 f"{donation.product_id.crowdfunding_impact_text_passive}",
                 "image": donation.product_id.image_medium,
-                "benefactor": donation.invoice_id.partner_id.name,
+                "benefactor": donation.invoice_id.partner_id.firstname,
                 "date": donation.invoice_id.create_date,
                 "time_ago": self.get_time_ago(donation.invoice_id.create_date),
                 "anonymous": donation.is_anonymous,
