@@ -90,6 +90,7 @@ class ProjectController(Controller):
                 "date": donation.invoice_id.create_date,
                 "time_ago": self.get_time_ago(donation.invoice_id.create_date),
                 "anonymous": donation.is_anonymous,
+                "quantity": int(donation.quantity)
             }
             for donation in invoice_line_ids.filtered(
                 lambda l: l.state == "paid")

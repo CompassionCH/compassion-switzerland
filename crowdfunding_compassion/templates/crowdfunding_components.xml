@@ -110,15 +110,23 @@
             <div t-attf-class="impact-tile impact-tile--#{ impact_tile['color'] }">
                 <img class="impact-tile__image" t-attf-src="data:image;base64, #{impact_tile['image']}" alt="Impact image"/>
                 <span class="text--bold">
-                    <t t-esc="impact_tile['text']"/>
-                </span>
-                <span class="text--faded">
-                    by
-                    <t t-if="impact_tile['anonymous']">
-                        Anonymous
+                    <t t-if="impact_tile['quantity']>=1">
+                        <t t-esc="impact_tile['text']"/>
                     </t>
                     <t t-else="">
                         <t t-esc="impact_tile['benefactor']"/>
+                        supported this project
+                    </t>
+                </span>
+                <span class="text--faded">
+                    <t t-if="impact_tile['quantity']>=1">
+                        by
+                        <t t-if="impact_tile['anonymous']">
+                            Anonymous
+                        </t>
+                        <t t-else="">
+                            <t t-esc="impact_tile['benefactor']"/>
+                        </t>
                     </t>
                     <t t-esc="impact_tile['time_ago']"/>
                 </span>

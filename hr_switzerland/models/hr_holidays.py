@@ -26,7 +26,7 @@ class HrHolidays(models.Model):
                 partner_id = holidays.employee_id.address_home_id.id
                 holidays.meeting_id.write(
                     {
-                        "allday": holidays.date_from[0:10] != holidays.date_to[0:10],
+                        "allday": holidays.date_from.date() != holidays.date_to.date(),
                         "partner_ids": [(6, 0, [partner_id])] if partner_id else False,
                         "start": holidays.date_from,
                         "stop": holidays.date_to,
