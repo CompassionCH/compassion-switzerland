@@ -85,7 +85,10 @@ class ProjectController(Controller):
                 "type": "donation",
                 "color": "grey",
                 "text": f"{int(donation.quantity)} "
-                f"{donation.product_id.crowdfunding_impact_text_passive}",
+                f"{donation.product_id.crowdfunding_impact_text_passive_plural}"
+                if int(donation.quantity) > 1 else
+                f"{int(donation.quantity)} "
+                f"{donation.product_id.crowdfunding_impact_text_passive_singular}",
                 "image": donation.product_id.image_medium,
                 "benefactor": donation.invoice_id.partner_id.firstname,
                 "date": donation.invoice_id.create_date,

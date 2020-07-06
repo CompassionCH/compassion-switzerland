@@ -41,7 +41,12 @@
         <template id="project_progress" name="Project progress">
             <!-- Setup data and display the sponsorship progress -->
             <t t-if="project.number_sponsorships_goal">
-                <t t-set="goal_name">sponsored children</t>
+                <t t-if="project.number_sponsorships_reached > 1">
+                    <t t-set="goal_name">sponsored children</t>
+                </t>
+                <t t-else="">
+                    <t t-set="goal_name">sponsored child</t>
+                </t>
                 <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
                 <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
                 <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
@@ -50,7 +55,12 @@
 
             <!-- Setup data and display the fund progress -->
             <t t-if="project.product_id">
-                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
+                <t t-if="project.product_number_reached > 1">
+                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_plural"/>
+                </t>
+                <t t-else="">
+                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_singular"/>
+                </t>
                 <t t-set="goal_reached" t-value="project.product_number_reached"/>
                 <t t-set="goal_objective" t-value="project.product_number_goal"/>
                 <t t-set="goal_image"
@@ -97,14 +107,24 @@
                     </h4>
 
                     <!-- Setup data and display the sponsorship progress -->
-                    <t t-set="goal_name">sponsored children</t>
+                    <t t-if="participant.number_sponsorships_reached > 1">
+                        <t t-set="goal_name">sponsored children</t>
+                    </t>
+                    <t t-else="">
+                        <t t-set="goal_name">sponsored child</t>
+                    </t>
                     <t t-set="goal_reached" t-value="participant.number_sponsorships_reached"/>
                     <t t-set="goal_objective" t-value="participant.number_sponsorships_goal"/>
                     <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
                     <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
 
                     <!-- Setup data and display the fund progress -->
-                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
+                    <t t-if="project.product_number_reached > 1">
+                        <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_plural"/>
+                    </t>
+                    <t t-else="">
+                        <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_singular"/>
+                    </t>
                     <t t-set="goal_reached" t-value="participant.product_number_reached"/>
                     <t t-set="goal_objective" t-value="participant.product_number_goal"/>
                     <t t-set="goal_image"
