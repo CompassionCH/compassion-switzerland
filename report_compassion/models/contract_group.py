@@ -68,6 +68,10 @@ class ContractGroup(models.Model):
             if isinstance(month, datetime):
                 months[i] = month.date()
 
+        # check if first invoice is after last month
+        if first_invoice_date > months[-1]:
+            raise odooWarning(_(f"First invoice is after Date Stop"))
+
         # Only keep unpaid months
         valid_months = [
             fields.Date.to_string(month) for month in months
@@ -88,13 +92,11 @@ class ContractGroup(models.Model):
                 if count < freq:
                     count += 1
                 else:
-                    result.append(fields.Date.to_string(month_start) + " - " +
-                                  fields.Date.to_string(month))
+                    result.append(month_start + " - " + month)
                     month_start = ""
                     count = 1
             if not result:
-                result.append(fields.Date.to_string(month_start) + " - " +
-                              fields.Date.to_string(month))
+                result.append(month_start + " - " + month)
             return result
 
     @api.multi
