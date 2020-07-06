@@ -2057,7 +2057,7 @@ msgstr "prendre contact avec nous"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
 msgid "contact us."
-msgstr "contactes-nous."
+msgstr "nous contacter."
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.faq_page_ir_ui_view

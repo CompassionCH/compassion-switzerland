@@ -95,7 +95,7 @@ msgid ""
 "If you wish to give by bank tranfer (IBAN), do not hesitate to"
 msgstr ""
 "<br/>Sarai reindirizzato/a al nostro sistema di pagamento online. Se "
-"desideri donare tramite bonifico bancario (IBAN), non esitare a contattarci. "
+"desideri donare tramite bonifico bancario (IBAN), non esitare a "
 
 #. module: crowdfunding_compassion
 #: model:mail.template,body_html:crowdfunding_compassion.project_join
