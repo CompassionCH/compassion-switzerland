@@ -59,9 +59,22 @@
             </t>
 
             <span class="text--faded">
-                <i class="fa fa-clock-o"/>
-                <t t-esc="project.time_left"/>
-                to go
+                <t t-if="datetime.date.today() == project.deadline">
+                    <i class="fa fa-clock-o"/>
+                    ends today
+                </t>
+                <t t-elif="datetime.date.today() > project.deadline">
+                    <p style="background-color: green; color: white; display: inline;
+                    padding: 6px">
+                        <i class="fa fa-clock-o"/>
+                        project has ended
+                    </p>
+                </t>
+                <t t-else="">
+                    <i class="fa fa-clock-o"/>
+                    <t t-esc="project.time_left"/>
+                    to go
+                </t>
             </span>
         </template>
 
@@ -235,8 +248,10 @@
                         </p>
                         <t t-call="crowdfunding_compassion.project_progress"/>
 
-                        <a t-attf-href="/project/#{project.id}/donation" class="btn btn-primary btn-block mt-auto">Donate</a>
-                        <t t-if="project.type == 'collective'">
+                        <t t-if="project.deadline >= datetime.date.today()">
+                            <a t-attf-href="/project/#{project.id}/donation" class="btn btn-primary btn-block mt-auto">Donate</a>
+                        </t>
+                        <t t-if="project.type == 'collective' and project.deadline >= datetime.date.today()">
                             <a t-attf-href="/projects/join/#{project.id}" class="btn btn-primary btn-block mt-auto">Participate</a>
                         </t>
                     </div>

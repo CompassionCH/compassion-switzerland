@@ -226,10 +226,22 @@ class CrowdfundingProject(models.Model):
                     ("deadline", "<=", datetime(year, 12, 31)),
                 ]
             )
-
-        return self.search(
-            [("state", "!=", "draft")], limit=limit, order="deadline ASC"
+        # get active projects, from most urgent to least urgent
+        active_projects = self.search(
+            [
+                ("state", "!=", "draft"),
+                ("deadline", ">=", date.today()),
+            ], limit=limit, order="deadline ASC"
         )
+        # get finished projects, from most recent to oldest expiring date
+        finished_projects = self.search(
+            [
+                ("state", "!=", "draft"),
+                ("deadline", "<", date.today()),
+            ], limit=limit, order="deadline DESC"
+        )
+
+        return active_projects + finished_projects
 
     def _default_website_meta(self):
         res = super()._default_website_meta()
