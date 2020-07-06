@@ -55,12 +55,14 @@
                                             <t t-call="crowdfunding_compassion.project_progress"/>
                                         </div>
                                         <div class="project-hero__card-cta">
-                                            <a t-attf-href="/project/#{ project.id }/donation">
-                                                <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
-                                            </a>
-                                            <a t-if="project.type == 'collective'" t-attf-href="/projects/join/#{project.id}">
-                                                <button type="button" class="btn btn-white btn-lg btn-block mb-2">Join the project</button>
-                                            </a>
+                                            <t t-if="project.deadline >= datetime.date.today()">
+                                                <a t-attf-href="/project/#{ project.id }/donation">
+                                                    <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
+                                                </a>
+                                                <a t-if="project.type == 'collective'" t-attf-href="/projects/join/#{project.id}">
+                                                    <button type="button" class="btn btn-white btn-lg btn-block mb-2">Join the project</button>
+                                                </a>
+                                            </t>
                                             <div class="row">
                                                 <div class="col project-hero__card-share-text align-self-center">Share with your friends</div>
                                                 <div class="col align-self-center">
