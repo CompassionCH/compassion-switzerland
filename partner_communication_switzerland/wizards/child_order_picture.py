@@ -91,7 +91,8 @@ class CompassionHold(models.TransientModel):
         """
         zip_buffer = BytesIO()
         with ZipFile(zip_buffer, "w") as zip_data:
-            report_ref = self.env.ref("report_child_picture")
+            report_ref = self.env.ref(
+                "partner_communication_switzerland.report_child_picture")
             pdf_data = report_ref.render_qweb_pdf(
                 self.mapped("sponsorship_ids.child_id.id"),
                 data={"doc_ids": self.mapped("sponsorship_ids.child_id.id")}
