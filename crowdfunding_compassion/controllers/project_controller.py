@@ -76,6 +76,7 @@ class ProjectController(Controller):
                 "date": sponsorship.create_date,
                 "time_ago": self.get_time_ago(sponsorship.create_date),
                 "anonymous": False,
+                "quantity": 1,
             }
             for sponsorship in sponsorship_ids
         ]
