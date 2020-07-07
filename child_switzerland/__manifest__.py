@@ -39,6 +39,7 @@
         "data/lang_data.xml",
         "views/res_country_view.xml",
         "views/field_office_view.xml",
+        "views/child_or_fcp_property_view.xml",
         "data/ir.advanced.translation.csv",
     ],
     "demo": [],

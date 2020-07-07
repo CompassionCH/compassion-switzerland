@@ -203,14 +203,16 @@ class ProjectCreationStep2(models.AbstractModel):
 
         # Existing projects with sponsorship and fund chosen must have both
         if self.main_object:
-            if self.main_object.product_id and self.main_object.number_sponsorships_goal:
+            if self.main_object.product_id and \
+                    self.main_object.number_sponsorships_goal:
                 if not product_goal or not sponsorship_goal:
                     raise NoGoalException
         else:
             # New projects must have at least either a sponsorship or a fund objective
             if not product_goal and not sponsorship_goal:
                 raise NoGoalException
-            elif product_goal and int(product_goal) < 0 or sponsorship_goal and int(sponsorship_goal) < 0:
+            elif product_goal and int(product_goal) < 0 or sponsorship_goal and int(
+                    sponsorship_goal) < 0:
                 raise NegativeGoalException
 
         if not product_goal:
