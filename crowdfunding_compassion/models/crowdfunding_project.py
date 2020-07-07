@@ -235,13 +235,18 @@ class CrowdfundingProject(models.Model):
                 ("deadline", ">=", date.today()),
             ], limit=limit, order="deadline ASC"
         )
-        # get finished projects, from most recent to oldest expiring date
-        finished_projects = self.search(
-            [
-                ("state", "!=", "draft"),
-                ("deadline", "<", date.today()),
-            ], limit=limit, order="deadline DESC"
-        )
+        finished_projects = self.env[self._name]
+        if not limit or (limit and len(active_projects) < limit):
+            # get finished projects, from most recent to oldest expiring date
+            finish_limit = None
+            if limit:
+                finish_limit = limit-len(active_projects)
+            finished_projects = self.search(
+                [
+                    ("state", "!=", "draft"),
+                    ("deadline", "<", date.today()),
+                ], limit=finish_limit, order="deadline DESC"
+            )
 
         return active_projects + finished_projects
 
