@@ -8,12 +8,8 @@
 #
 ##############################################################################
 import base64
-from datetime import date
 
-from odoo.tools import relativedelta
-from odoo.exceptions import Warning as odooWarning
-
-from odoo import _, api, models, fields
+from odoo import api, models, fields
 
 
 class PrintChildpack(models.TransientModel):

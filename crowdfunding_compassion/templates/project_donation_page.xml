@@ -4,7 +4,7 @@
         <!-- === Project Donation Page === -->
         <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
         <template id="project_donation_page">
-            <t t-set="title"><t t-esc="project.name"/> | TOGETHER - Compassion Switzerland Crowdfunding</t>
+            <t t-set="title"><t t-esc="project.name"/> | TOGETHER - Compassion Switzerland Fundraising</t>
             <t t-call="crowdfunding_compassion.layout">
                 <!-- Donation type selection -->
                 <section class="donation-type">

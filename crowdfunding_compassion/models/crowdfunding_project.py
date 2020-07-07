@@ -139,9 +139,10 @@ class CrowdfundingProject(models.Model):
                     "/".join([url_data.scheme + "://" + url_data.hostname, "embed",
                               query["v"][0]])
             elif "vimeo" in url_data.hostname and "video" not in url_data.path:
-                self.presentation_video_embed = \
-                    "/".join([url_data.scheme + "://player." + url_data.hostname, "video",
-                              url_data.path.lstrip("/")])
+                self.presentation_video_embed = "/".join([
+                    url_data.scheme + "://player." + url_data.hostname, "video",
+                    url_data.path.lstrip("/")
+                ])
             else:
                 self.presentation_video_embed = self.presentation_video
 
@@ -200,7 +201,8 @@ class CrowdfundingProject(models.Model):
     def _compute_cover_photo_url(self):
         domain = self.env['website'].get_current_website()._get_http_domain()
         for project in self:
-            project.cover_photo_url = f"{domain}/web/content/crowdfunding.project/{project.id}/cover_photo"
+            project.cover_photo_url = \
+                f"{domain}/web/content/crowdfunding.project/{project.id}/cover_photo"
 
     @api.multi
     def validate(self):
@@ -226,13 +228,31 @@ class CrowdfundingProject(models.Model):
                     ("deadline", "<=", datetime(year, 12, 31)),
                 ]
             )
-
-        return self.search(
-            [("state", "!=", "draft")], limit=limit, order="deadline ASC"
+        # get active projects, from most urgent to least urgent
+        active_projects = self.search(
+            [
+                ("state", "!=", "draft"),
+                ("deadline", ">=", date.today()),
+            ], limit=limit, order="deadline ASC"
         )
+        # get finished projects, from most recent to oldest expiring date
+        finished_projects = self.search(
+            [
+                ("state", "!=", "draft"),
+                ("deadline", "<", date.today()),
+            ], limit=limit, order="deadline DESC"
+        )
+
+        return active_projects + finished_projects
 
     def _default_website_meta(self):
         res = super()._default_website_meta()
-        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.description
-        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.cover_photo_url
+        res['default_opengraph']['og:description'] = res[
+            'default_twitter']['twitter:description'] = self.description
+        res['default_opengraph']['og:image'] = res[
+            'default_twitter']['twitter:image'] = self.cover_photo_url
+        res['default_opengraph']['og:image:secure_url'] = self.cover_photo_url
+        res['default_opengraph']['og:image:type'] = "image/jpeg"
+        res['default_opengraph']['og:image:width'] = "640"
+        res['default_opengraph']['og:image:height'] = "442"
         return res

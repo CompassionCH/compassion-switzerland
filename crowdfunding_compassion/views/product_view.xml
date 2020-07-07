@@ -14,7 +14,8 @@
                         <field name="crowdfunding_description"/>
                         <field name="crowdfunding_quantity_singular"/>
                         <field name="crowdfunding_quantity_plural"/>
-                        <field name="crowdfunding_impact_text_passive"/>
+                        <field name="crowdfunding_impact_text_passive_singular"/>
+                        <field name="crowdfunding_impact_text_passive_plural"/>
                         <field name="crowdfunding_impact_text_active"/>
                         <field name="fund_selector_pre_description"/>
                         <field name="fund_selector_post_description"/>

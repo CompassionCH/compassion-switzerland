@@ -14,7 +14,10 @@ class ProductTemplate(models.Model):
     crowdfunding_impact_text_active = fields.Char(
         translate=True, help="Ex: buildling toilets"
     )
-    crowdfunding_impact_text_passive = fields.Char(
+    crowdfunding_impact_text_passive_singular = fields.Char(
+        translate=True, help="Ex: toilet built"
+    )
+    crowdfunding_impact_text_passive_plural = fields.Char(
         translate=True, help="Ex: toilets built"
     )
     fund_selector_pre_description = fields.Char(
