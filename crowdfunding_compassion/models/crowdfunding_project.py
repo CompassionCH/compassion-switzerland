@@ -251,4 +251,8 @@ class CrowdfundingProject(models.Model):
             'default_twitter']['twitter:description'] = self.description
         res['default_opengraph']['og:image'] = res[
             'default_twitter']['twitter:image'] = self.cover_photo_url
+        res['default_opengraph']['og:image:secure_url'] = self.cover_photo_url
+        res['default_opengraph']['og:image:type'] = "image/jpeg"
+        res['default_opengraph']['og:image:width'] = "640"
+        res['default_opengraph']['og:image:height'] = "442"
         return res
