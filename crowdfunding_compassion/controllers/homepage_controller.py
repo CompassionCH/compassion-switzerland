@@ -69,7 +69,6 @@ For 42 francs a month, you're opening the way out of poverty for a child. Sponso
                 impact[fund.name]["text"] = fund.crowdfunding_impact_text_passive_plural
 
         if impact["sponsorship"]["value"] > 1:
-            impact["sponsorship"]["name"] = _("Sponsor children")
             impact["sponsorship"]["text"] = _("sponsored children")
 
         return {
