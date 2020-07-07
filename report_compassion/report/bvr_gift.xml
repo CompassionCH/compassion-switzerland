@@ -62,31 +62,13 @@
                 <t t-foreach="products" t-as="product">
                     <div style="position:relative">
                         <t t-set="communication" t-value="o.get_gift_communication(product)"/>
-                        <t t-if="product_index % 2 == 0">
-                            <t t-call="report_compassion.report_sponsorship_single_slip">
-                                <t t-set="margin" t-value="0"/>
-                                <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
-                                <t t-set="amount" t-value="False"/>
-                                <t t-set="scan_line" t-value="o.group_id.get_scan_line(company_account, reference)"/>
-                            </t>
-                            <h4 style="position: absolute; top: 104mm; padding: 5mm; text-align: center; width: 100%">
-                                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2191'"/>
-                                <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
-                                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2191'"/>
-                            </h4>
+                        <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
+                        <t t-set="scan_line" t-value="o.group_id.get_scan_line(company_account, reference)"/>
+                        <t t-if="product_even">
+                             <t t-call="report_compassion.report_sponsorship_2bvr_top_slip"/>
                         </t>
                         <t t-else="">
-                            <h4 style="position: absolute; bottom: 106mm; padding: 5mm; text-align: center; width: 100%">
-                                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2193'"/>
-                                <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
-                                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2193'"/>
-                            </h4>
-                            <t t-call="report_compassion.report_sponsorship_single_slip">
-                                <t t-set="margin" t-value="85"/>
-                                <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
-                                <t t-set="amount" t-value="False"/>
-                                <t t-set="scan_line" t-value="o.group_id.get_scan_line(company_account, reference)"/>
-                            </t>
+                            <t t-call="report_compassion.report_sponsorship_2bvr_bottom_slip"/>
                         </t>
                     </div>
                 </t>
