@@ -62,6 +62,8 @@ class PrintChildpack(models.TransientModel):
         children = self.env["compassion.child"].browse(
             self.env.context.get("active_ids")
         ).with_context(lang=self.lang)
+        # Always retrieve latest information before printing dossier
+        children.get_infos()
         data = {
             "lang": self.lang,
             "doc_ids": children.ids,
