@@ -559,7 +559,9 @@ class RecurringContract(models.Model):
             lambda c: "S" in c.type and not c.is_active and c not in mandates_valid
         ).with_context({})._new_dossier()
 
-        csp = self.filtered(lambda s: "CSP" in s.name)
+        csp_product = self.env.ref("sponsorship_switzerland.product_template_fund_csp")
+        csp = self.filtered(lambda s: csp_product in s.contract_line_ids.mapped(
+            "product_id.product_tmpl_id"))
         if csp:
             module = "partner_communication_switzerland."
             selected_config = self.env.ref(module + "csp_mail")
