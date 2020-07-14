@@ -58,13 +58,13 @@ class GenerateGiftWizard(models.TransientModel):
             company_bank = bank_obj.search(
                 [
                     ("partner_id", "=", user.company_id.partner_id.id),
-                    ("isr_adherent_num", "!=", False),
+                    ("l10n_ch_isr_subscription_chf", "!=", False),
                     ("acc_type", "=", "iban"),
                 ],
                 limit=1,
             )
             if company_bank:
-                bvr_reference = company_bank.bvr_adherent_num + bvr_reference[9:]
+                bvr_reference = company_bank.l10n_ch_postal + bvr_reference[9:]
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
