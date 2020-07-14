@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="event_faq" name="Event FAQ">
-        <t t-call="website.layout">
+        <t t-call="theme_compassion.layout">
             <t t-set="title" t-value="event.name"/>
             <div id="wrap">
                 <!-- Full width banner -->
