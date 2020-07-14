@@ -5,8 +5,8 @@ odoo.define('account_reconcile_compassion.relational_fields', function (require)
 
     FieldMany2One.include({
         _search: function (search_val) {
-            // We force add coloration if we deal with sponsorship_id. We are forced to do
-            // so because this is a QWeb form (we have no template to set options on)
+            // We add coloration by force if we deal with sponsorship_id. We have to do
+            // so because this is a QWeb form (we have no template to set options="" on)
             if (this.name === "sponsorship_id") {
                 this.nodeOptions.colors = {'draft':'blue', 'waiting':'green', 'cancelled':'grey', 'terminated':'grey', 'mandate':'red'};
                 this.nodeOptions.field_color = 'state';
