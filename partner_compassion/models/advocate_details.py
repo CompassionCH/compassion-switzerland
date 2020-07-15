@@ -135,7 +135,8 @@ class AdvocateDetails(models.Model):
             lastname = details.partner_id.lastname
             html_vals = {
                 "img_alt": details.display_name,
-                "image_data": details.partner_id.with_context(bin_size=False).image,
+                "image_data": details.partner_id.with_context(bin_size=False)
+                    .image.decode("utf-8"),
                 "text": details.quote or "",
                 "attribution": _("Quote from %s %s"
                                  % (firstname, lastname))
@@ -233,7 +234,7 @@ class AdvocateDetails(models.Model):
         )
         birthday_advocates = birthday_advocates.filtered(
             lambda a: a.engagement_ids
-            != self.env.ref("partner_compassion.engagement_sport")
+                      != self.env.ref("partner_compassion.engagement_sport")
         )
         for advocate in birthday_advocates:
             lang = advocate.partner_id.lang[:2]
