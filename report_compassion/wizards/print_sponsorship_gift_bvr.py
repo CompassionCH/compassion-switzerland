@@ -94,7 +94,9 @@ class PrintSponsorshipBvr(models.TransientModel):
         if self.pdf:
             name = records.name if len(records) == 1 else _("gift payment slips")
             self.pdf_name = name + ".pdf"
-            pdf_data = report_ref.render_qweb_pdf(data["doc_ids"], data=data)[0]
+            pdf_data = report_ref.with_context(
+                must_skip_send_to_printer=True
+            ).render_qweb_pdf(data["doc_ids"], data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {
@@ -106,4 +108,4 @@ class PrintSponsorshipBvr(models.TransientModel):
                 "target": "new",
                 "context": self.env.context,
             }
-        return report_ref.report_action(self, data=data, config=False)
+        return report_ref.report_action(data["doc_ids"], data=data, config=False)

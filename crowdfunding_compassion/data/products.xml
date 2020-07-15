@@ -5,7 +5,8 @@
             <field name="activate_for_crowdfunding" eval="True"/>
             <field name="standard_price">70</field>
             <field name="crowdfunding_description">The Child Survival Program is designed to support pregnant women and their newborns. This fund helps to take care of their health, economic and social needs.</field>
-            <field name="crowdfunding_impact_text_passive">mothers and babies supported</field>
+            <field name="crowdfunding_impact_text_passive_singular">mother and baby supported</field>
+            <field name="crowdfunding_impact_text_passive_plural">mothers and babies supported</field>
             <field name="crowdfunding_impact_text_active">supporting mothers and babies</field>
             <field name="crowdfunding_quantity_singular">mother and baby</field>
             <field name="crowdfunding_quantity_plural">mothers and babies</field>
@@ -19,7 +20,8 @@
             <field name="activate_for_crowdfunding" eval="True"/>
             <field name="standard_price">25</field>
             <field name="crowdfunding_description">38% of the world population does not have daily access to a decent toilet. Compassion is committed to building and sanitizing toilets for children.</field>
-            <field name="crowdfunding_impact_text_passive">access to toilets</field>
+            <field name="crowdfunding_impact_text_passive_singular">access to toilets</field>
+            <field name="crowdfunding_impact_text_passive_plural">access to toilets</field>
             <field name="crowdfunding_impact_text_active">giving access to toilets</field>
             <field name="crowdfunding_quantity_singular">toilet access</field>
             <field name="crowdfunding_quantity_plural">toilet accesses</field>
@@ -33,7 +35,8 @@
             <field name="activate_for_crowdfunding" eval="True"/>
             <field name="standard_price">40</field>
             <field name="crowdfunding_description">To meet the significant costs of this pandemic, our 8,000 partner churches need your support. Every donation, large or small, saves lives and will enable us to provide effective and committed support to sponsored children and their families.</field>
-            <field name="crowdfunding_impact_text_passive">families helped during covid pandemic</field>
+            <field name="crowdfunding_impact_text_passive_singular">family helped during covid pandemic</field>
+            <field name="crowdfunding_impact_text_passive_plural">families helped during covid pandemic</field>
             <field name="crowdfunding_impact_text_active">helping families during covid pandemic</field>
             <field name="crowdfunding_quantity_singular">family</field>
             <field name="crowdfunding_quantity_plural">families</field>

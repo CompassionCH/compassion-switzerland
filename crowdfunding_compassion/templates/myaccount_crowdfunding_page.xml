@@ -2,6 +2,7 @@
     <data>
         <template id="myaccount_crowdfunding_view_template" name="MyAccount crowdfunding template">
             <t t-call="crowdfunding_compassion.layout">
+                <t t-set="title">My Account | TOGETHER - Compassion Switzerland Fundraising</t>
 
                 <h2 class="blue my-2 center">Personal data</h2>
                 <section class="center">

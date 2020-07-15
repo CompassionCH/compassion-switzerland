@@ -20,4 +20,3 @@ from . import report_bvr_sponsorship_gift
 from . import report_bvr_fund
 from . import report_childpack
 from . import report_tax_receipt
-from . import ir_actions_report

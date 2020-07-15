@@ -4,6 +4,7 @@
         <xpath expr="link[last()]" position="after">
             <link href="/theme_crowdfunding/static/src/style/custom.scss" rel="stylesheet" type="text/scss"/>
             <link href="/theme_crowdfunding/static/src/style/stepper.scss" rel="stylesheet" type="text/scss"/>
+            <link href="/theme_crowdfunding/static/src/style/faq.scss" rel="stylesheet" type="text/scss"/>
         </xpath>
     </template>
 </odoo>

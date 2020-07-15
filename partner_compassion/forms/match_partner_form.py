@@ -19,9 +19,6 @@ class MatchPartnerForm(models.AbstractModel):
         titles = (
             self.env.ref("base.res_partner_title_mister") +
             self.env.ref("base.res_partner_title_madam") +
-            self.env.ref("partner_compassion.res_partner_title_family") +
-            self.env.ref("partner_compassion.res_partner_title_mister_miss") +
-            self.env.ref("partner_compassion.res_partner_title_ladies") +
-            self.env.ref("partner_compassion.res_partner_title_men")
+            self.env.ref("partner_compassion.res_partner_title_family")
         )
         return [("id", "in", titles.ids)]

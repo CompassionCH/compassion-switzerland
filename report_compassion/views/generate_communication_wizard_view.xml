@@ -8,9 +8,6 @@
                 <field name="product_id" attrs="{'invisible': [('send_mode', '=', 'digital')]}"/>
                 <field name="preprinted" attrs="{'invisible': [('product_id', '=', False)]}"/>
             </field>
-            <field name="selection_domain" position="attributes">
-                <attribute name="widget">basic_domain</attribute>
-            </field>
         </field>
     </record>
 </odoo>

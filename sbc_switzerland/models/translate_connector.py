@@ -35,7 +35,7 @@ class TranslateConnect(MysqlConnector):
         sponsor = correspondence.partner_id
 
         self.letter_name = file_name
-        child_age = datetime.date.today().year - int(child.birthdate[:4])
+        child_age = datetime.date.today().year - child.birthdate.year
 
         text_type_id = (
             2 if correspondence.direction == "Supporter To Beneficiary" else 1

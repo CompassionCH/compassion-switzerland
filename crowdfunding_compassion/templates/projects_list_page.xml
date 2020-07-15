@@ -2,6 +2,7 @@
     <data>
         <template id="project_list_page" name="Project list page">
             <t t-call="crowdfunding_compassion.layout">
+                <t t-set="title">Our Projects | TOGETHER - Compassion Switzerland Fundraising</t>
                 <section class="container">
                     <div class="text-center my-5 py-5">
                         <h1 class="display-3 blue uppercase">Join a great project</h1>
