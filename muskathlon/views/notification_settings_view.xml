@@ -10,7 +10,7 @@
         <field name="name">staff.notification.settings.muskathlon.form</field>
         <field name="model">res.config.settings</field>
         <field name="priority" eval="25"/>
-        <field name="inherit_id" ref="message_center_compassion.notification_settings"/>
+        <field name="inherit_id" ref="child_compassion.notification_settings"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='right_group']">
                 <separator/>

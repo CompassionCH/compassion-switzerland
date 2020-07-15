@@ -91,15 +91,14 @@ class CompassionHold(models.TransientModel):
         """
         zip_buffer = BytesIO()
         with ZipFile(zip_buffer, "w") as zip_data:
-            report_ref = self.env.ref(
-                "partner_communication_switzerland.report_child_picture"
-            ).with_context(must_skip_send_to_printer=True)
+            report_ref = self.env.ref("report_child_picture")
             pdf_data = report_ref.render_qweb_pdf(
                 self.mapped("sponsorship_ids.child_id.id"),
                 data={"doc_ids": self.mapped("sponsorship_ids.child_id.id")}
             )[0]
+            pdf = base64.encodebytes(pdf_data)
             pdf_temp_file, pdf_temp_file_name = tempfile.mkstemp()
-            os.write(pdf_temp_file, pdf_data)
+            os.write(pdf_temp_file, pdf)
             pages = convert_from_path(pdf_temp_file_name)
             for page_id, page in enumerate(pages):
                 child = self.env["compassion.child"].browse(
@@ -108,7 +107,7 @@ class CompassionHold(models.TransientModel):
                 fname = str(child.sponsor_ref) + "_" + str(child.local_id) + ".jpg"
 
                 page.save(os.path.join("/tmp/", fname), "JPEG")
-                file_byte = open(os.path.join("/tmp/", fname), "br").read()
+                file_byte = open(os.path.join("/tmp/", fname), "r").read()
                 zip_data.writestr(fname, file_byte)
 
         zip_buffer.seek(0)

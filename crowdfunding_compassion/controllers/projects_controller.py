@@ -11,8 +11,7 @@ from odoo import _
 from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
-from ..forms.project_creation_form import NoGoalException,\
-    NegativeGoalException, InvalidDateException
+from ..forms.project_creation_form import NoGoalException
 
 
 class ProjectsController(Controller, FormControllerMixin):
@@ -41,32 +40,14 @@ class ProjectsController(Controller, FormControllerMixin):
             "is_published": False,
             "page": page
         }
-
-        form = request.httprequest.form
-        direction = form.get("wiz_submit")
-        save = kwargs.get("save")
-        if not direction and not save:
-            values.update({"refresh": True})
-
         # This allows the translation to still work on the page
         project_creation_form = self.get_form(
             "crowdfunding.project", int(project_id), **values)
-
-        if direction == "prev":
-            return local_redirect(project_creation_form.form_next_url(
-                project_creation_form.main_object))
-
         try:
             project_creation_form.form_process()
-        except InvalidDateException:
-            request.website.add_status_message(_("Please select a valid date"),
-                                               type_="danger")
         except NoGoalException:
             request.website.add_status_message(_("Please define a goal"),
-                                               type_="danger")
-        except NegativeGoalException:
-            request.website.add_status_message(_("Please define a positive goal"),
-                                               type_="danger")
+                                               type_='danger')
         values.update({
             "user": request.env.user,
             "form": project_creation_form,
@@ -83,7 +64,8 @@ class ProjectsController(Controller, FormControllerMixin):
         else:
             return request.render(
                 "crowdfunding_compassion.project_creation_view_template", values,
-                headers={'Cache-Control': 'no-cache'})
+                headers={'Cache-Control': 'no-cache'}
+            )
 
     @route("/projects/create/confirm/<model('crowdfunding.project'):project>",
            auth="public",
@@ -93,7 +75,6 @@ class ProjectsController(Controller, FormControllerMixin):
     def project_validation(self, project, **kwargs):
         return request.render(
             "crowdfunding_compassion.project_creation_confirmation_view_template",
-            {
-                "project": project.sudo(),
-                "is_new": len(project.participant_ids) == 1
-            })
+            {"project": project.sudo(),
+             "is_new": len(project.participant_ids) == 1}
+        )

@@ -5,7 +5,7 @@
         <!-- The corresponding [crowdfunding.project] or [crowdfunding.participant] is passed to this template
          as context in variable [project] or [participant] -->
         <template id="presentation_page">
-            <t t-set="title"><t t-esc="project.name"/> | TOGETHER - Compassion Switzerland Fundraising</t>
+            <t t-set="title"><t t-esc="project.name"/></t>
             <t t-call="crowdfunding_compassion.layout">
 
                 <!-- Hero -->
@@ -27,24 +27,14 @@
                                             </h3>
                                             <div class="project-hero__card-content">
                                                 <!-- Setup data and display the sponsorship progress -->
-                                                <t t-if="participant.number_sponsorships_reached > 1">
-                                                    <t t-set="goal_name">sponsored children</t>
-                                                </t>
-                                                <t t-else="">
-                                                    <t t-set="goal_name">sponsored child</t>
-                                                </t>
+                                                <t t-set="goal_name">sponsored children</t>
                                                 <t t-set="goal_reached" t-value="participant.number_sponsorships_reached"/>
                                                 <t t-set="goal_objective" t-value="participant.number_sponsorships_goal"/>
                                                 <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
                                                 <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
 
                                                 <!-- Setup data and display the fund progress -->
-                                                <t t-if="project.product_number_reached > 1">
-                                                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_plural"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_singular"/>
-                                                </t>
+                                                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
                                                 <t t-set="goal_reached" t-value="participant.product_number_reached"/>
                                                 <t t-set="goal_objective" t-value="participant.product_number_goal"/>
                                                 <t t-set="goal_image"
@@ -65,14 +55,12 @@
                                             <t t-call="crowdfunding_compassion.project_progress"/>
                                         </div>
                                         <div class="project-hero__card-cta">
-                                            <t t-if="project.deadline >= datetime.date.today()">
-                                                <a t-attf-href="/project/#{ project.id }/donation">
-                                                    <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
-                                                </a>
-                                                <a t-if="project.type == 'collective'" t-attf-href="/projects/join/#{project.id}">
-                                                    <button type="button" class="btn btn-white btn-lg btn-block mb-2">Join the project</button>
-                                                </a>
-                                            </t>
+                                            <a t-attf-href="/project/#{ project.id }/donation">
+                                                <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
+                                            </a>
+                                            <a t-if="project.type == 'collective'" t-attf-href="/projects/join/#{project.id}">
+                                                <button type="button" class="btn btn-white btn-lg btn-block mb-2">Join the project</button>
+                                            </a>
                                             <div class="row">
                                                 <div class="col project-hero__card-share-text align-self-center">Share with your friends</div>
                                                 <div class="col align-self-center">
@@ -126,14 +114,10 @@
                                     <!-- Project description and video -->
                                     <h3 class="blue my-4">About the project</h3>
                                     <p>
-                                        <t t-set="description_lines" t-value="project.description.split('\n')" />
-                                            <t t-foreach="description_lines" t-as="description_line">
-                                                <span t-esc="description_line"/>
-                                                <br />
-                                            </t>
+                                        <t t-esc="project.description"/>
                                     </p>
-                                    <t t-if="project.presentation_video_embed">
-                                        <iframe class="my-3" width="100%" height="400px" t-att-src="project.presentation_video_embed" frameborder="0"/>
+                                    <t t-if="project.presentation_video">
+                                        <iframe class="my-3" width="100%" height="400px" t-att-src="project.presentation_video" frameborder="0"/>
                                     </t>
                                 </t>
 

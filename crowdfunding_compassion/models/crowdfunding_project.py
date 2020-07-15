@@ -7,12 +7,10 @@ from babel.dates import format_timedelta
 
 from odoo import models, api, fields
 
-import urllib.parse as urlparse
-
 
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
-    _inherit = ["website.published.mixin", "website.seo.metadata"]
+    _inherit = "website.published.mixin"
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 
@@ -40,13 +38,9 @@ class CrowdfundingProject(models.Model):
         "Cover Photo",
         help="Upload a cover photo that represents your project. Best size: 900x400px",
         attachment=True)
-    cover_photo_url = fields.Char(compute="_compute_cover_photo_url")
     presentation_video = fields.Char(
         help="Paste any video link that showcase your project"
              " (e.g. https://vimeo.com/jlkj34ek5)"
-    )
-    presentation_video_embed = fields.Char(
-        compute="_compute_presentation_video_embed"
     )
     facebook_url = fields.Char("Facebook link")
     twitter_url = fields.Char("Twitter link")
@@ -128,24 +122,6 @@ class CrowdfundingProject(models.Model):
                 }
                 project.write({"participant_ids": [(0, 0, participant)]})
 
-    # create an embedded version of the user input of presentation_video
-    @api.onchange("presentation_video")
-    def _compute_presentation_video_embed(self):
-        if self.presentation_video:
-            url_data = urlparse.urlparse(self.presentation_video)
-            if "youtube" in url_data.hostname and "embed" not in url_data.path:
-                query = urlparse.parse_qs(url_data.query)
-                self.presentation_video_embed = \
-                    "/".join([url_data.scheme + "://" + url_data.hostname, "embed",
-                              query["v"][0]])
-            elif "vimeo" in url_data.hostname and "video" not in url_data.path:
-                self.presentation_video_embed = "/".join([
-                    url_data.scheme + "://player." + url_data.hostname, "video",
-                    url_data.path.lstrip("/")
-                ])
-            else:
-                self.presentation_video_embed = self.presentation_video
-
     @api.multi
     def _compute_product_number_goal(self):
         for project in self:
@@ -198,13 +174,6 @@ class CrowdfundingProject(models.Model):
             ).id
 
     @api.multi
-    def _compute_cover_photo_url(self):
-        domain = self.env['website'].get_current_website()._get_http_domain()
-        for project in self:
-            project.cover_photo_url = \
-                f"{domain}/web/content/crowdfunding.project/{project.id}/cover_photo"
-
-    @api.multi
     def validate(self):
         self.write({"state": "active"})
         comm_obj = self.env["partner.communication.job"]
@@ -228,36 +197,7 @@ class CrowdfundingProject(models.Model):
                     ("deadline", "<=", datetime(year, 12, 31)),
                 ]
             )
-        # get active projects, from most urgent to least urgent
-        active_projects = self.search(
-            [
-                ("state", "!=", "draft"),
-                ("deadline", ">=", date.today()),
-            ], limit=limit, order="deadline ASC"
+
+        return self.search(
+            [("state", "!=", "draft")], limit=limit, order="deadline ASC"
         )
-        finished_projects = self.env[self._name]
-        if not limit or (limit and len(active_projects) < limit):
-            # get finished projects, from most recent to oldest expiring date
-            finish_limit = None
-            if limit:
-                finish_limit = limit-len(active_projects)
-            finished_projects = self.search(
-                [
-                    ("state", "!=", "draft"),
-                    ("deadline", "<", date.today()),
-                ], limit=finish_limit, order="deadline DESC"
-            )
-
-        return active_projects + finished_projects
-
-    def _default_website_meta(self):
-        res = super()._default_website_meta()
-        res['default_opengraph']['og:description'] = res[
-            'default_twitter']['twitter:description'] = self.description
-        res['default_opengraph']['og:image'] = res[
-            'default_twitter']['twitter:image'] = self.cover_photo_url
-        res['default_opengraph']['og:image:secure_url'] = self.cover_photo_url
-        res['default_opengraph']['og:image:type'] = "image/jpeg"
-        res['default_opengraph']['og:image:width'] = "640"
-        res['default_opengraph']['og:image:height'] = "442"
-        return res

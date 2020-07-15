@@ -194,7 +194,7 @@ class RecurringContracts(models.Model):
         Update partner to add the 'Sponsor' category
         """
         super().contract_active()
-        # TODO CO-3284 Replace this check by looking if mail.activity exists
+        # Check if partner is active
         need_validation = self.filtered(lambda s: s.partner_id.state != "active")
         if need_validation:
             raise UserError(
@@ -284,7 +284,7 @@ class RecurringContracts(models.Model):
         sponsorship.
         """
         partners = self.mapped("partner_id") | self.mapped("correspondent_id")
-        # TODO CO-3284 Replace check with mail.activity exists
+        # Partner should be active
         need_validation = partners.filtered(lambda p: p.state != "active")
         if need_validation:
             raise UserError(
@@ -414,17 +414,13 @@ class RecurringContracts(models.Model):
         group = self.env["recurring.contract.group"].browse(group_id)
         payment_name = group.payment_mode_id.name
         if group and ("LSV" in payment_name or "Postfinance" in payment_name):
-            self.filtered(
-                lambda s: s.state in ["waiting", "active"]).contract_waiting_mandate()
+            self.contract_waiting_mandate()
         else:
             # Check if old payment_mode was LSV or DD
             for contract in self.filtered("group_id"):
                 payment_name = contract.payment_mode_id.name
                 if "LSV" in payment_name or "Postfinance" in payment_name:
-                    if contract.is_active:
-                        contract.contract_active()
-                    else:
-                        contract.contract_waiting()
+                    contract.contract_active()
 
     @api.multi
     def _update_invoice_lines(self, invoices):

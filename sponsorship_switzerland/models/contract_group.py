@@ -98,6 +98,7 @@ class ContractGroup(models.Model):
             invoices = inv_lines.mapped("invoice_id")
             invoices.action_invoice_cancel()
             invoices.action_invoice_draft()
+            # invoices.env.invalidate_all()
             invoices.env.clear()
             invoices.write(inv_vals)
             invoices.action_invoice_open()

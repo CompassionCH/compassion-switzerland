@@ -9,7 +9,7 @@
     <record id="view_notification_settings_website_form" model="ir.ui.view">
         <field name="name">staff.notification.website.form</field>
         <field name="model">res.config.settings</field>
-        <field name="inherit_id" ref="message_center_compassion.notification_settings"/>
+        <field name="inherit_id" ref="child_compassion.notification_settings"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='right_group']">
                 <h3>Sponsorships made from the website</h3>

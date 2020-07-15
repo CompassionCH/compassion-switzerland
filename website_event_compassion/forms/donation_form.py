@@ -116,7 +116,7 @@ class EventDonationForm(models.AbstractModel):
         product = event.odoo_event_id.donation_product_id
         ambassador = self.ambassador_id.sudo()
         name = f"[{event.name}] Donation for {ambassador.name}"
-        return self.env["account.invoice"].sudo().create(
+        return self.env["account.invoice"].create(
             {
                 "name": name,
                 "origin": name,
@@ -140,7 +140,7 @@ class EventDonationForm(models.AbstractModel):
                 "payment_term_id": self.env.ref(
                     "account.account_payment_term_immediate"
                 ).id,
-                "partner_id": self.partner_id.sudo().id,
+                "partner_id": self.partner_id.id,
             }
         )
 

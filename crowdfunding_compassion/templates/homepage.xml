@@ -5,7 +5,6 @@
         <!-- ===  Homepage === -->
         <template id="homepage_template">
             <t t-call="crowdfunding_compassion.layout">
-                <t t-set="title">TOGETHER - Compassion Switzerland Fundraising</t>
                 <header class="masthead">
                     <h1 class="display-1 text-white uppercase font-weight-bold pt-4">Together</h1>
                 </header>
@@ -148,7 +147,7 @@
                                 <t t-set="fund_icon" t-value="impact[fund]['icon_image']" />
                                 <t t-set="fund_name" t-value="impact[fund]['name']" />
                                 <t t-set="fund_description" t-value="impact[fund]['description']" />
-                                <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+                                <div class="col-sm-12 col-md-6 col-lg-4">
                                     <t t-call="crowdfunding_compassion.fund_card"/>
                                 </div>
                             </t>

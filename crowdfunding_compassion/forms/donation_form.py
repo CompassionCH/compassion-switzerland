@@ -16,10 +16,7 @@ class CrowdfundingDonationForm(models.AbstractModel):
     anonymous_donation = fields.Boolean(
         help="I would like to donate anonymously."
     )
-    partner_opt_out = fields.Boolean(
-        "Unsubscribe from e-mails",
-        help="I don't want to receive emails about the impact \
-        of my donation and the work of Compassion")
+    partner_opt_out = fields.Boolean("Unsubscribe from e-mails")
 
     @property
     def _form_fieldsets(self):

@@ -163,9 +163,6 @@ class ImportLettersHistory(models.Model):
         done folder on the NAS and remove image attachment (Web letter case)
         """
         try:
-            # Create the letters
-            super().button_save()
-            # Move PDF files on the NAS
             for import_letters in self:
                 if (
                         import_letters.config_id.name
@@ -235,17 +232,18 @@ class ImportLettersHistory(models.Model):
                                         )
                                     except Exception as inst:
                                         logger.info(
-                                            f"Failed to delete attached image {inst}"
+                                            "Failed to delete attached " f"image {inst}"
                                         )
 
                 if import_letters.manual_import:
                     self._manage_all_imported_files()
 
+            super().button_save()
+
         except Exception as e:
             logger.info("Exception during letter import: {}", exc_info=True)
             # bug during import, so we remove letter sent on translation
             # platform
-            self.env.clear()
             for letters in self:
                 for corresp in letters.letters_ids:
                     if corresp.state == "Global Partner translation queue":

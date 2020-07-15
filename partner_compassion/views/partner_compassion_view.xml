@@ -57,9 +57,9 @@
             </field>
             <xpath expr="//form/*[1]" position="before">
                 <header>
-                    <button name="validate_partner" type="object" class="oe_highlight" string="Validate" states="pending"/>  <!-- TODO CO-3284 remove me -->
+                    <button name="validate_partner" type="object" class="oe_highlight" string="Validate" states="pending"/>
                     <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
-                    <field name="state" widget="statusbar" states="pending"/>  <!-- TODO CO-3284 remove me -->
+                    <field name="state" widget="statusbar" states="pending"/>
                 </header>
             </xpath>
             <!-- Move some fields -->

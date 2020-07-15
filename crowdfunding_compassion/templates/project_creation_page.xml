@@ -3,8 +3,8 @@
     <data>
         <!--        Creation page-->
         <template id="project_creation_view_template">
-            <t t-set="title" t-if="not form.main_object">Project creation | TOGETHER - Compassion Switzerland Fundraising</t>
-            <t t-set="title" t-if="form.main_object"><t t-esc="form.main_object.name"/> | TOGETHER - Compassion Switzerland Fundraising</t>
+            <t t-set="title" t-if="not form.main_object">Project creation</t>
+            <t t-set="title" t-if="form.main_object">I want to join this project:</t>
             <t t-call="crowdfunding_compassion.layout">
                 <header>
                     <div class="container">
@@ -29,29 +29,29 @@
                     </t>
                     <t t-else="">
                         <h1 class="blue uppercase center-text" t-esc="title"/>
-                        <h2 class="center-text" t-field="form.main_object.name"/>
+                        <h2 class="center-text" t-field="form.main_object.description"/>
                     </t>
                         <div class="row justify-content-center">
                             <div class="col-11">
                                 <ul class="stepper stepper-horizontal">
                                     <t t-if="page == 1">
-                                        <t t-set="class1">inactive</t>
-                                        <t t-set="class2">empty</t>
-                                        <t t-set="class3">empty</t>
-                                    </t>
-                                    <t t-if="page == 2">
                                         <t t-set="class1">active</t>
                                         <t t-set="class2">inactive</t>
-                                        <t t-set="class3">empty</t>
+                                        <t t-set="class3">inactive</t>
                                     </t>
-                                    <t t-if="page == 3">
-                                        <t t-set="class1">active</t>
+                                    <t t-if="page == 2">
+                                        <t t-set="class1">completed</t>
                                         <t t-set="class2">active</t>
                                         <t t-set="class3">inactive</t>
                                     </t>
+                                    <t t-if="page == 3">
+                                        <t t-set="class1">completed</t>
+                                        <t t-set="class2">completed</t>
+                                        <t t-set="class3">active</t>
+                                    </t>
                                     <!-- First Step -->
                                     <li t-att-class="class1">
-                                        <a>
+                                        <a t-att-href="'/projects/create/' if page != 1 else '#!'">
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">1</span></div>
                                                 <div class="col-sm-12"><span class="label">Your project</span></div>
@@ -61,7 +61,7 @@
 
                                     <!-- Second Step -->
                                     <li t-att-class="class2">
-                                        <a>
+                                        <a t-att-href="'/projects/create/page/2' if page >= 2 else '#!'">
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">2</span></div>
                                                 <div class="col-sm-12"><span class="label" t-if="not product">Your fund</span></div>
@@ -72,7 +72,7 @@
 
                                     <!-- Third Step -->
                                     <li t-att-class="class3">
-                                        <a>
+                                        <a t-att-href="'/projects/create/page/2' if page >= 3 else '#!'">
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">3</span></div>
                                                 <div class="col-sm-12"><span class="label">Your personal information</span></div>
@@ -154,7 +154,7 @@
                                                         <span class="white">Indicate the amount in the above box. 1</span>
                                                         <t t-esc="fund.crowdfunding_quantity_singular" class="white"/>
                                                         <span class="white">is equivalent to CHF</span>
-                                                        <t t-esc="int(fund.standard_price)" class="white"/>.-
+                                                        <t t-esc="fund.standard_price" class="white"/>.-
                                                     </p>
                                                 </div>
                                             </div>
@@ -199,13 +199,6 @@
                     </div>
                 </div>
             </t>
-
-            <!-- If the project is joined, disable the back button to step 1 -->
-            <t t-if="form.main_object">
-                <script>
-                    document.querySelector("button[value='prev']").style.visibility = 'hidden';
-                </script>
-            </t>
         </template>
 
         <record id="project_creation_page" model="website.page">
@@ -230,7 +223,7 @@
         <!-- Confirmation page -->
         <template id="project_creation_confirmation_view_template">
             <t t-call="crowdfunding_compassion.layout">
-                <t t-set="title"><t t-esc="project.name"/> | TOGETHER - Compassion Switzerland Fundraising</t>
+                <t t-set="title" t-value="project.name"/>
                 <div id="confirmation" class="text-center"
                      t-attf-style="background-image:url('data:image/jpg;base64,crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg')">
                     <br/>

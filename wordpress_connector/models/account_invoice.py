@@ -176,10 +176,6 @@ class AccountInvoice(models.Model):
         analytic_id = (
             self.env["account.analytic.default"].account_get(product.id).analytic_id.id
         )
-        analytic_tag_ids = (
-            self.env["account.analytic.default"].account_get(product.id
-                                                             ).analytic_tag_ids.ids
-        )
         gift_account = self.env["account.account"].search([("code", "=", "6003")])
         self.env["account.invoice.line"].create(
             {
@@ -191,7 +187,6 @@ class AccountInvoice(models.Model):
                 "quantity": 1,
                 "price_unit": amount,
                 "account_analytic_id": analytic_id,
-                "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
                 "source_id": utms["source"],
                 "medium_id": utms.get("medium", internet_id),
                 "campaign_id": utms["campaign"],
@@ -201,9 +196,11 @@ class AccountInvoice(models.Model):
             "invoice_line_ids.product_id.categ_name"
         )
         partner.set_privacy_statement(origin="new_gift")
+        new_partner = partner.state != "active"
         if (
                 analytic_id
                 and (not requires_sponsorship or sponsorship)
+                and not new_partner
         ):
             invoice.action_invoice_open()
             payment_vals = {

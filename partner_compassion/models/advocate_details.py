@@ -154,7 +154,7 @@ class AdvocateDetails(models.Model):
                 ]
             )
             details.number_events = len(details.event_ids)
-            details.last_event = details.event_ids[:1].end_date.date()
+            details.last_event = details.event_ids[:1].end_date
 
     @api.multi
     def _compute_formation(self):

@@ -57,7 +57,6 @@ class ProjectController(Controller):
 
         return {
             "project": project,
-            "main_object": project,
             "impact": self.get_impact(sponsorships, donations),
             "fund": project.product_id,
             "participant": participant,
@@ -76,7 +75,6 @@ class ProjectController(Controller):
                 "date": sponsorship.create_date,
                 "time_ago": self.get_time_ago(sponsorship.create_date),
                 "anonymous": False,
-                "quantity": 1,
             }
             for sponsorship in sponsorship_ids
         ]
@@ -86,16 +84,12 @@ class ProjectController(Controller):
                 "type": "donation",
                 "color": "grey",
                 "text": f"{int(donation.quantity)} "
-                f"{donation.product_id.crowdfunding_impact_text_passive_plural}"
-                if int(donation.quantity) > 1 else
-                f"{int(donation.quantity)} "
-                f"{donation.product_id.crowdfunding_impact_text_passive_singular}",
+                f"{donation.product_id.crowdfunding_impact_text_passive}",
                 "image": donation.product_id.image_medium,
-                "benefactor": donation.invoice_id.partner_id.firstname,
+                "benefactor": donation.invoice_id.partner_id.name,
                 "date": donation.invoice_id.create_date,
                 "time_ago": self.get_time_ago(donation.invoice_id.create_date),
                 "anonymous": donation.is_anonymous,
-                "quantity": int(donation.quantity)
             }
             for donation in invoice_line_ids.filtered(
                 lambda l: l.state == "paid")

@@ -6,8 +6,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import datetime
-
 import logging
 from base64 import b64encode
 
@@ -47,24 +45,6 @@ class ProjectCreationWizard(models.AbstractModel):
         super().form_after_create_or_update(values, extra_values)
         # Dismiss default status message
         self.o_request.website.get_status_message()
-
-    def form_process(self):
-        super().form_process()
-
-        storage = self.wiz_storage_get()
-        curr_step = storage.get("current")
-        if curr_step:
-            step_data = storage.get("steps")[curr_step]
-            if step_data.get("name"):
-                step_data["campaign_name"] = step_data["name"]
-            self.form_render_values['form_data'] = step_data
-
-    def form_next_url(self, main_object=None):
-        direction = self.request.form.get("wiz_submit")
-        if direction == "prev":
-            step_values = self._prepare_step_values_to_store(self.request.form, {})
-            self.wiz_save_step(step_values)
-        return super().form_next_url(main_object) + "?save=True"
 
 
 class ProjectCreationFormStep1(models.AbstractModel):
@@ -130,24 +110,9 @@ class ProjectCreationFormStep1(models.AbstractModel):
 
     def wiz_init(self, page=1, **kw):
         # Flush storage to avoid using old values from previous session
-        if kw.get("refresh") and self._wiz_storage_key in self._wiz_storage:
+        if self._wiz_storage_key in self._wiz_storage:
             del self._wiz_storage[self._wiz_storage_key]
         super().wiz_init(page, **kw)
-
-    def form_get_widget(self, fname, field, **kw):
-        """Retrieve and initialize widget."""
-        if fname == "deadline":
-            if kw is None:
-                kw = {}
-            kw["min_date"] = datetime.now().isoformat()
-        return self.env[self.form_get_widget_model(fname, field)].widget_init(
-            self, fname, field, **kw
-        )
-
-    def form_after_create_or_update(self, values, extra_values):
-        if values["deadline"] < datetime.now().date():
-            raise InvalidDateException
-        super().form_after_create_or_update(values, extra_values)
 
     @property
     def form_widgets(self):
@@ -169,19 +134,9 @@ class ProjectCreationFormStep1(models.AbstractModel):
         pass
 
 
-class InvalidDateException(Exception):
-    def __init__(self):
-        super().__init__("Invalid date")
-
-
 class NoGoalException(Exception):
     def __init__(self):
         super().__init__("No goal")
-
-
-class NegativeGoalException(Exception):
-    def __init__(self):
-        super().__init__("Negative goal")
 
 
 class ProjectCreationStep2(models.AbstractModel):
@@ -200,21 +155,14 @@ class ProjectCreationStep2(models.AbstractModel):
     def form_before_create_or_update(self, values, extra_values):
         product_goal = extra_values.get('participant_product_number_goal')
         sponsorship_goal = extra_values.get('participant_number_sponsorships_goal')
-
+        # New projects must have at least either a sponsorship or a fund objective
+        if not product_goal and not sponsorship_goal:
+            raise NoGoalException
         # Existing projects with sponsorship and fund chosen must have both
         if self.main_object:
-            if self.main_object.product_id and \
-                    self.main_object.number_sponsorships_goal:
+            if self.main_object.product_id and self.main_object.number_sponsorships_goal:
                 if not product_goal or not sponsorship_goal:
                     raise NoGoalException
-        else:
-            # New projects must have at least either a sponsorship or a fund objective
-            if not product_goal and not sponsorship_goal:
-                raise NoGoalException
-            elif product_goal and int(product_goal) < 0 or sponsorship_goal and int(
-                    sponsorship_goal) < 0:
-                raise NegativeGoalException
-
         if not product_goal:
             values["product_id"] = False
         super().form_before_create_or_update(values, extra_values)
@@ -230,7 +178,7 @@ class ProjectCreationStep2(models.AbstractModel):
     def form_next_url(self, main_object=None):
         url = super().form_next_url(main_object)
         if main_object:
-            url += f"&project_id={main_object.id}"
+            url += f"?project_id={main_object.id}"
         return url
 
 
@@ -292,16 +240,6 @@ class ProjectCreationStep3(models.AbstractModel):
             })
         return fieldset
 
-    def form_get_widget(self, fname, field, **kw):
-        """Retrieve and initialize widget."""
-        if fname == "partner_birthdate":
-            if kw is None:
-                kw = {}
-            kw["max_date"] = datetime.now().isoformat()
-        return self.env[self.form_get_widget_model(fname, field)].widget_init(
-            self, fname, field, **kw
-        )
-
     @property
     def form_widgets(self):
         res = super().form_widgets
@@ -325,9 +263,6 @@ class ProjectCreationStep3(models.AbstractModel):
     #################
     def form_before_create_or_update(self, values, extra_values):
         # Put a default spoken language
-        if "partner_birthdate" in extra_values and \
-                extra_values["partner_birthdate"] > datetime.now().date():
-            raise InvalidDateException
         language = self.env["res.lang.compassion"].search([
             ("lang_id.code", "=", self.env.lang)], limit=1)
         values["partner_spoken_lang_ids"] = [(4, language.id)]
@@ -405,8 +340,4 @@ class ProjectCreationStep3(models.AbstractModel):
             )
 
     def form_next_url(self, main_object):
-        direction = self.request.form.get('wiz_submit', 'next')
-        if direction == 'next':
-            return f"/projects/create/confirm/{main_object.id}"
-        else:
-            return super().form_next_url(main_object)
+        return f"/projects/create/confirm/{main_object.id}"

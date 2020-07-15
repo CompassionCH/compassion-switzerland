@@ -120,7 +120,6 @@ class ResPartner(models.Model):
         domain=["|", ("active", "=", False), ("active", "=", True)],
         readonly=False,
     )
-    # TODO CO-3284 remove the field and replace with mail.activity
     state = fields.Selection(
         [("pending", "Waiting for validation"), ("active", "Active")],
         default="active",
@@ -180,7 +179,6 @@ class ResPartner(models.Model):
             }
         )
 
-    # TODO CO-3284 remove me
     @api.multi
     def validate_partner(self):
         return self.write({"state": "active"})

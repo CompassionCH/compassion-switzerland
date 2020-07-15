@@ -159,7 +159,6 @@
                 }
                 .summary_field.name {
                     font-size: 17pt;
-                    white-space: nowrap;
                     left: -7mm;
                 }
                 .summary_field.birthday {
@@ -207,54 +206,53 @@
                 }
             </t>
             <t t-call="web.html_container">
+            <div class="article">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="report_compassion.childpack_document" t-lang="lang"/>
                 </t>
+            </div>
             </t>
         </template>
 
         <template id="childpack_document">
             <t t-set="o" t-value="o.with_context({'lang': lang})" />
-            <div class="article">
-                <div class="page">
-                    <t t-if="is_pdf">
-                        <div id="background">
-                            <img t-attf-src="/report_compassion/static/img/#{ type }/1904_dossier_#{ lang }.jpg"/>
-                        </div>
-                    </t>
-                    <t t-call="report_compassion.style"/>
-                    <t t-if="formMargin">
-                        <div class="local_id">
-                            <span>Childpack available until: </span><span t-raw="o.get_date('childpack_expiration')" id="due_date"/>
-                            <span t-field="o.local_id"/>
-                        </div>
-                    </t>
-                    <div t-attf-class="desc #{'boy' if o.gender == 'M' else 'girl'}">
-                        <div class="left">
-                            <t t-raw="o.description_left"/>
-                            <h6 t-if="o.project_id.description_left">
-                                <span t-field="o.project_title"/>
-                            </h6>
-                            <t t-raw="o.project_id.description_left"/>
-                        </div>
-                        <div class="right">
-                            <t t-raw="o.description_right"/>
-                            <h6 t-if="not o.project_id.description_left">
-                                <span t-field="o.project_title"/>
-                            </h6>
-                            <t t-raw="o.project_id.description_right"/>
-                        </div>
+            <div class="page">
+                <t t-if="is_pdf">
+                    <div id="background">
+                        <img t-attf-src="/report_compassion/static/img/#{ type }/1904_dossier_#{ lang }.jpg"/>
                     </div>
-                    <div class="photo">
-                        <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
-                        <p t-field="o.local_id" id="child-ref"/>
+                </t>
+                <t t-call="report_compassion.style"/>
+                <t t-if="formMargin">
+                    <div class="local_id">
+                        <span>Childpack available until: </span><span t-raw="o.get_date('childpack_expiration')" id="due_date"/>
+                        <span t-field="o.local_id"/>
                     </div>
-                    <div class="summary">
-                        <p t-field="o.preferred_name" class="summary_field name"/>
-                        <p t-raw="o.get_date('birthdate', 'date_short')" class="summary_field birthday"/>
-                        <p t-field="o.project_id.country_id.name" class="summary_field country"/>
+                </t>
+                <div t-attf-class="desc #{'boy' if o.gender == 'M' else 'girl'}">
+                    <div class="left">
+                        <t t-raw="o.description_left"/>
+                        <h6 t-if="o.project_id.description_left">
+                            <span t-field="o.project_title"/>
+                        </h6>
+                        <t t-raw="o.project_id.description_left"/>
                     </div>
-                    <p style="page-break-after:always;"/>
+                    <div class="right">
+                        <t t-raw="o.description_right"/>
+                        <h6 t-if="not o.project_id.description_left">
+                            <span t-field="o.project_title"/>
+                        </h6>
+                        <t t-raw="o.project_id.description_right"/>
+                    </div>
+                </div>
+                <div class="photo">
+                    <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
+                    <p t-field="o.local_id" id="child-ref"/>
+                </div>
+                <div class="summary">
+                    <p t-field="o.preferred_name" class="summary_field name"/>
+                    <p t-raw="o.get_date('birthdate', 'date_short')" class="summary_field birthday"/>
+                    <p t-field="o.project_id.country_id.name" class="summary_field country"/>
                 </div>
             </div>
         </template>
@@ -304,33 +302,32 @@
                 }
             </t>
             <t t-call="web.html_container">
+                <div class="article">
                 <t t-foreach="docs" t-as="o">
-                    <div class="article">
-                        <div class="page">
-                            <t t-call="report_compassion.style"/>
-                            <div class="local_id">
-                                <span t-field="o.local_id"/>
-                            </div>
-                            <div class="photo">
-                                <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
-                            </div>
-                            <div class="summary">
-                                <span t-field="o.preferred_name" class="name"/>, <span t-field="o.age" class="age"/> years, <!-- keep space -->
-                                <t t-if="o.gender == 'M'">
-                                    boy
-                                </t>
-                                <t t-if="o.gender == 'F'">
-                                    girl
-                                </t>
-                                <br/>
-                                <span t-field="o.project_id.country_id.name"/>
-                                <br/>
-                                <span t-field="o.local_id" class="ref"/>
-                            </div>
-                            <p style="page-break-after:always;"/>0
+                    <div class="page">
+                        <t t-call="report_compassion.style"/>
+                        <div class="local_id">
+                            <span t-field="o.local_id"/>
+                        </div>
+                        <div class="photo">
+                            <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
+                        </div>
+                        <div class="summary">
+                            <span t-field="o.preferred_name" class="name"/>, <span t-field="o.age" class="age"/> years, <!-- keep space -->
+                            <t t-if="o.gender == 'M'">
+                                boy
+                            </t>
+                            <t t-if="o.gender == 'F'">
+                                girl
+                            </t>
+                            <br/>
+                            <span t-field="o.project_id.country_id.name"/>
+                            <br/>
+                            <span t-field="o.local_id" class="ref"/>
                         </div>
                     </div>
                 </t>
+            </div>
             </t>
         </template>
     </data>

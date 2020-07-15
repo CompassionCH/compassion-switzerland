@@ -516,7 +516,7 @@ class RecurringContract(models.Model):
     def action_sub_reject(self):
         res = super().action_sub_reject()
         no_sub_config = self.env.ref("partner_communication_switzerland.planned_no_sub")
-        self.with_context({}).send_communication(no_sub_config, correspondent=False)
+        self.send_communication.with_context({})(no_sub_config, correspondent=False)
         return res
 
     ##########################################################################
@@ -563,9 +563,7 @@ class RecurringContract(models.Model):
             lambda c: "S" in c.type and not c.is_active and c not in mandates_valid
         ).with_context({})._new_dossier()
 
-        csp_product = self.env.ref("sponsorship_switzerland.product_template_fund_csp")
-        csp = self.filtered(lambda s: csp_product in s.contract_line_ids.mapped(
-            "product_id.product_tmpl_id"))
+        csp = self.filtered(lambda s: "CSP" in s.name)
         if csp:
             module = "partner_communication_switzerland."
             selected_config = self.env.ref(module + "csp_mail")
@@ -589,7 +587,7 @@ class RecurringContract(models.Model):
         # Send new dossier for write&pray sponsorships
         self.filtered(lambda s: s.type == "SC").with_context({}).send_communication(
             self.env.ref(
-                "partner_communication_switzerland.sponsorship_dossier_wrpr"
+                "partner_communication_switzerland" ".sponsorship_dossier_wrpr"
             )
         )
         return super().contract_active()

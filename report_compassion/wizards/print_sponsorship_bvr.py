@@ -8,10 +8,10 @@
 #
 ##############################################################################
 import base64
-from datetime import date
+from datetime import datetime
 
 from odoo import api, models, fields, _
-from odoo.exceptions import UserError
+from odoo.exceptions import Warning as odooWarning
 
 
 class PrintSponsorshipBvr(models.TransientModel):
@@ -27,8 +27,8 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     def _compute_default_period_selection(self):
         # After december 15th choose next year by default, to avoid blank BVRs
-        today = date.today()
-        return "next_year" if today >= date(today.year, 12, 15) else "this_year"
+        today = datetime.today()
+        return "next_year" if today >= datetime(today.year, 12, 15) else "this_year"
 
     period_selection = fields.Selection(
         [("this_year", "Current year"), ("next_year", "Next year"), ],
@@ -57,7 +57,7 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     @api.model
     def default_start(self):
-        today = date.today()
+        today = datetime.today()
         start = today.replace(day=1, month=1)
         # Exception in December, we want to print for next year.
         if today.month == 12 and today.day > 10:
@@ -66,7 +66,7 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     @api.model
     def default_stop(self):
-        today = date.today()
+        today = datetime.today()
         stop = today.replace(day=31, month=12)
         # Exception in December, we want to print for next year.
         if today.month == 12 and today.day > 10:
@@ -75,7 +75,7 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     @api.onchange("period_selection")
     def onchange_period(self):
-        today = date.today()
+        today = datetime.today()
         start = self.date_start
         stop = self.date_stop
         if self.period_selection == "this_year":
@@ -103,7 +103,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         :return: Generated report
         """
         if self.date_start >= self.date_stop:
-            raise UserError(_("Date stop must be after date start."))
+            raise odooWarning(_("Date stop must be after date start."))
         data = {
             "date_start": self.date_start,
             "date_stop": self.date_stop,
@@ -116,9 +116,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         report_ref = self.env.ref(report_name)
         if self.pdf:
             data["background"] = True
-            pdf_data = report_ref.with_context(
-                must_skip_send_to_printer=True
-            ).render_qweb_pdf(data["doc_ids"], data=data)[0]
+            pdf_data = report_ref.render_qweb_pdf(data["doc_ids"], data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {
@@ -130,7 +128,7 @@ class PrintSponsorshipBvr(models.TransientModel):
                 "target": "new",
                 "context": self.env.context,
             }
-        return report_ref.report_action(data["doc_ids"], data=data, config=False)
+        return report_ref.report_action(self, data=data, config=False)
 
 
 class PrintBvrDue(models.TransientModel):
@@ -164,9 +162,7 @@ class PrintBvrDue(models.TransientModel):
         report_ref = self.env.ref("report_compassion.report_bvr_due")
         if self.pdf:
             data["background"] = True
-            pdf_data = report_ref.with_context(
-                must_skip_send_to_printer=True
-            ).render_qweb_pdf(records.ids, data=data)[0]
+            pdf_data = report_ref.render_qweb_pdf(records.ids, data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {
@@ -178,4 +174,4 @@ class PrintBvrDue(models.TransientModel):
                 "target": "new",
                 "context": self.env.context,
             }
-        return report_ref.report_action(data["doc_ids"], data=data, config=False)
+        return report_ref.report_action(self, data=data, config=False)

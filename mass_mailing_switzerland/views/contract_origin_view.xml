@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <field name="analytic_id" position="after">
                 <field name="campaign_id" attrs="{'invisible': [('type', 'not in', ('marketing','partner', 'event'))],
-                                                  'required': [('type', '=', 'marketing')]}" options="{'no_create': True}"/>
+                                                  'required': [('type', '=', 'marketing')]}"/>
             </field>
         </field>
     </record>

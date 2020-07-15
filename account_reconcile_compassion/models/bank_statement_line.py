@@ -157,7 +157,7 @@ class BankStatementLine(models.Model):
         if invoice:
             invoice.action_invoice_cancel()
             invoice.action_invoice_draft()
-            invoice.env.clear()
+            invoice.env.invalidate_all()
             invoice.write({"origin": self.statement_id.name})
 
         else:
@@ -261,7 +261,7 @@ class BankStatementLine(models.Model):
         )
         analytic = invl_vals.get("account_analytic_id")
         if not analytic and default_analytic:
-            invl_vals["account_analytic_id"] = default_analytic.analytic_id.id
+            invl_vals["account_analytic_id"] = default_analytic.id
 
         return invl_vals
 

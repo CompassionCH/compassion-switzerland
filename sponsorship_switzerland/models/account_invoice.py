@@ -44,6 +44,12 @@ class AccountInvoice(models.Model):
               set.
             - Prevent validating invoices missing related contract.
         """
+        to_validate = self.filtered(lambda i: i.partner_id.state != "active")
+        if to_validate:
+            raise UserError(
+                _("Please verify the partner before validating the invoice.")
+            )
+
         for invoice in self.filtered("payment_mode_id"):
             if "LSV" in invoice.payment_mode_id.name and not invoice.reference:
                 seq = self.env["ir.sequence"]

@@ -203,12 +203,11 @@ class AccountReconcileModel(models.Model):
         full_query += " UNION ALL ".join(queries)
         # Current month, then oldest due dates come first.
         full_query += """
-            ORDER BY CASE
-                WHEN EXTRACT(MONTH from aml.date_maturity) = EXTRACT(MONTH from NOW())
-                AND EXTRACT(YEAR from aml.date_maturity) = EXTRACT(YEAR from NOW())
-                THEN 0
-                ELSE 1
-            END, aml_date_maturity, aml_id;
+            ORDER BY CASE 
+                   WHEN EXTRACT(MONTH from aml.date_maturity) = EXTRACT(MONTH from NOW())
+                    AND EXTRACT(YEAR from aml.date_maturity) = EXTRACT(YEAR from NOW()) THEN 0
+                   ELSE 1
+                 END, aml_date_maturity, aml_id;
         """
         return full_query, all_params
 
@@ -229,6 +228,6 @@ class AccountReconcileModel(models.Model):
 
         # Keep only account.move.lines with a ref containing the statement_line ref
         # strpos() > 0 is an efficient way to check if a substring exists
-        query += " AND strpos(aml.ref, st_line.ref)>0"
+        query += " AND strpos(st_line.ref, aml.ref) > 0"
 
         return query, params

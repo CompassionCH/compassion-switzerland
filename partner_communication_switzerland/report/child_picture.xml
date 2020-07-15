@@ -27,36 +27,39 @@
 
     <template id="child_picture">
         <t t-call="web.html_container">
-            <div class="article">
-                <t t-foreach="docs" t-as="o">
-                    <div class="page" style="position: relative">
-                        <t t-call="report_compassion.style"/>
-                        <style type="text/css">
-                            img {
-                                width: 101mm;
-                                height: 153mm;
-                                object-fit: cover;
-                            }
-                            #child-ref {
-                                position: absolute;
-                                top: 130mm;
-                                left : 10mm;
-                                right: 10mm;
-                                padding: 2mm;
-                                background-color: rgba(255, 255, 255, 0.3);
-                                border-radius: 2mm;
-                                text-align: center;
-                            }
-                        </style>
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <t t-call="report_compassion.style"/>
+                    <style type="text/css">
+                        #background {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        }
+                        #background img {
+                            width: 101mm;
+                            height: 153mm;
+                        }
+                        #child-ref {
+                            position: relative;
+                            top: 135mm;
+                            margin: 0 5mm auto;
+                            padding: 2mm;
+                            background-color: rgba(255, 255, 255, 0.3);
+                            border-radius: 2mm;
+                            display: table;
+                        }
+                    </style>
+                    <div id="background">
                         <img t-attf-src="data:image/jpeg;base64,#{ o.fullshot }"/>
-                        <div id="child-ref">
-                            <span t-field="o.local_id"/>
-                            <span> </span>
-                            <span t-field="o.preferred_name"/>
-                        </div>
                     </div>
-                </t>
-            </div>
+                    <div id="child-ref">
+                        <span t-field="o.local_id"/>
+                        <span></span>
+                        <span t-field="o.name"/>
+                    </div>
+                </div>
+            </t>
         </t>
     </template>
 </odoo>

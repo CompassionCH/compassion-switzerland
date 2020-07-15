@@ -8,6 +8,9 @@
 #
 ##############################################################################
 import base64
+from datetime import date
+
+from odoo.tools import relativedelta
 
 from odoo import api, models, fields
 
@@ -59,23 +62,29 @@ class PrintChildpack(models.TransientModel):
         Print selected child dossier
         :return: Generated report
         """
-        children = self.env["compassion.child"].browse(
-            self.env.context.get("active_ids")
-        ).with_context(lang=self.lang)
+        model = "compassion.child"
+        # Prevent printing dossier if completion date is in less than 2 years
+        in_two_years = date.today() + relativedelta(years=2)
+        records = (
+            self.env[model].browse(self.env.context.get("active_ids"))
+            .filtered(
+                lambda c: c.state in ("N", "I", "P")
+                and c.desc_en and (
+                    not c.completion_date or c.completion_date > in_two_years)
+                ).with_context(lang=self.lang)
+        )
         data = {
             "lang": self.lang,
-            "doc_ids": children.ids,
+            "doc_ids": records.ids,
             "is_pdf": self.pdf,
             "type": self.type,
         }
         report_name = "report_compassion.report_" + self.type.split(".")[1]
         report_ref = self.env.ref(report_name).with_context(lang=self.lang)
         if self.pdf:
-            name = children.local_id if len(children) == 1 else "dossiers"
+            name = records.local_id if len(records) == 1 else "dossiers"
             self.pdf_name = name + ".pdf"
-            pdf_data = report_ref.with_context(
-                must_skip_send_to_printer=True
-            ).render_qweb_pdf(children.ids, data=data)
+            pdf_data = report_ref.render_qweb_pdf(records.ids, data=data)
             self.pdf_download = base64.encodebytes(pdf_data[0])
             self.state = "pdf"
             return {
@@ -87,4 +96,4 @@ class PrintChildpack(models.TransientModel):
                 "target": "new",
                 "context": self.env.context,
             }
-        return report_ref.report_action(children.ids, data=data, config=False)
+        return report_ref.report_action(self, data=data, config=False)

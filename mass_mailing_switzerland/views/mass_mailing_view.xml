@@ -122,12 +122,6 @@
                 <attribute name="name">open_clicks</attribute>
                 <attribute name="type">object</attribute>
             </xpath>
-            <field name="name" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="name" position="after">
-                <field name="campaign_id" string="Name"/>
-            </field>
             <!-- Add tracking -->
             <xpath expr="//notebook/page[1]">
                 <group>

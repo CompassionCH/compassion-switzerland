@@ -41,12 +41,7 @@
         <template id="project_progress" name="Project progress">
             <!-- Setup data and display the sponsorship progress -->
             <t t-if="project.number_sponsorships_goal">
-                <t t-if="project.number_sponsorships_reached > 1">
-                    <t t-set="goal_name">sponsored children</t>
-                </t>
-                <t t-else="">
-                    <t t-set="goal_name">sponsored child</t>
-                </t>
+                <t t-set="goal_name">sponsored children</t>
                 <t t-set="goal_reached" t-value="project.number_sponsorships_reached"/>
                 <t t-set="goal_objective" t-value="project.number_sponsorships_goal"/>
                 <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
@@ -55,12 +50,7 @@
 
             <!-- Setup data and display the fund progress -->
             <t t-if="project.product_id">
-                <t t-if="project.product_number_reached > 1">
-                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_plural"/>
-                </t>
-                <t t-else="">
-                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_singular"/>
-                </t>
+                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
                 <t t-set="goal_reached" t-value="project.product_number_reached"/>
                 <t t-set="goal_objective" t-value="project.product_number_goal"/>
                 <t t-set="goal_image"
@@ -69,22 +59,9 @@
             </t>
 
             <span class="text--faded">
-                <t t-if="datetime.date.today() == project.deadline">
-                    <i class="fa fa-clock-o"/>
-                    ends today
-                </t>
-                <t t-elif="datetime.date.today() > project.deadline">
-                    <p style="background-color: green; color: white; display: inline;
-                    padding: 6px">
-                        <i class="fa fa-clock-o"/>
-                        project has ended
-                    </p>
-                </t>
-                <t t-else="">
-                    <i class="fa fa-clock-o"/>
-                    <t t-esc="project.time_left"/>
-                    to go
-                </t>
+                <i class="fa fa-clock-o"/>
+                <t t-esc="project.time_left"/>
+                to go
             </span>
         </template>
 
@@ -107,24 +84,14 @@
                     </h4>
 
                     <!-- Setup data and display the sponsorship progress -->
-                    <t t-if="participant.number_sponsorships_reached > 1">
-                        <t t-set="goal_name">sponsored children</t>
-                    </t>
-                    <t t-else="">
-                        <t t-set="goal_name">sponsored child</t>
-                    </t>
+                    <t t-set="goal_name">sponsored children</t>
                     <t t-set="goal_reached" t-value="participant.number_sponsorships_reached"/>
                     <t t-set="goal_objective" t-value="participant.number_sponsorships_goal"/>
                     <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
                     <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
 
                     <!-- Setup data and display the fund progress -->
-                    <t t-if="project.product_number_reached > 1">
-                        <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_plural"/>
-                    </t>
-                    <t t-else="">
-                        <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_singular"/>
-                    </t>
+                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive"/>
                     <t t-set="goal_reached" t-value="participant.product_number_reached"/>
                     <t t-set="goal_objective" t-value="participant.product_number_goal"/>
                     <t t-set="goal_image"
@@ -143,23 +110,15 @@
             <div t-attf-class="impact-tile impact-tile--#{ impact_tile['color'] }">
                 <img class="impact-tile__image" t-attf-src="data:image;base64, #{impact_tile['image']}" alt="Impact image"/>
                 <span class="text--bold">
-                    <t t-if="impact_tile['quantity']>=1">
-                        <t t-esc="impact_tile['text']"/>
+                    <t t-esc="impact_tile['text']"/>
+                </span>
+                <span class="text--faded">
+                    by
+                    <t t-if="impact_tile['anonymous']">
+                        Anonymous
                     </t>
                     <t t-else="">
                         <t t-esc="impact_tile['benefactor']"/>
-                        supported this project
-                    </t>
-                </span>
-                <span class="text--faded">
-                    <t t-if="impact_tile['quantity']>=1">
-                        by
-                        <t t-if="impact_tile['anonymous']">
-                            Anonymous
-                        </t>
-                        <t t-else="">
-                            <t t-esc="impact_tile['benefactor']"/>
-                        </t>
                     </t>
                     <t t-esc="impact_tile['time_ago']"/>
                 </span>
@@ -268,10 +227,8 @@
                         </p>
                         <t t-call="crowdfunding_compassion.project_progress"/>
 
-                        <t t-if="project.deadline >= datetime.date.today()">
-                            <a t-attf-href="/project/#{project.id}/donation" class="btn btn-primary btn-block mt-auto">Donate</a>
-                        </t>
-                        <t t-if="project.type == 'collective' and project.deadline >= datetime.date.today()">
+                        <a t-attf-href="/project/#{project.id}/donation" class="btn btn-primary btn-block mt-auto">Donate</a>
+                        <t t-if="project.type == 'collective'">
                             <a t-attf-href="/projects/join/#{project.id}" class="btn btn-primary btn-block mt-auto">Participate</a>
                         </t>
                     </div>
@@ -356,7 +313,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/about">About</a>
+                                <a class="nav-link" href="#about">About</a>
                             </li>
 
                             <li class="nav-item dropdown mr-5">
@@ -417,35 +374,39 @@
 
                             <div class="col-sm-12 col-md-4 pt-2">
                                 <ul class="nav flex-column">
-                                    <!--  This page is not translated in Italian yet-->
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/faq">Frequently Asked Questions</a>
-                                    </li>
-
-                                    <!--  This page is not translated in Italian yet-->
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/about">About</a>
+                                        <a class="nav-link active" href="#">About this platform</a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a t-if="request.lang == 'fr_CH'" class="nav-link active" href="https://compassion.ch/" target="_blank">Compassion Suisse</a>
-                                        <a t-if="request.lang == 'de_DE'" class="nav-link active" href="https://compassion.ch/de/" target="_blank">Compassion Schweiz</a>
-                                        <a t-if="request.lang == 'it_IT'" class="nav-link active" href="https://compassion.ch/it/" target="_blank">Compassion Svizzera</a>
+                                        <a class="nav-link" href="#">FAQ</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Fundraising tools</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="#">Contact</a>
                                     </li>
                                 </ul>
                             </div>
 
                             <div class="col-sm-12 col-md-4 pt-2">
                                 <ul class="nav flex-column">
-                                    <li class="nav-item" style="display: none;">
+                                    <li class="nav-item">
                                         <a class="nav-link active" href="#">About this platform</a>
                                     </li>
 
-                                    <li class="nav-item" style="display: none;">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">FAQ</a>
+                                    </li>
+
+                                    <li class="nav-item">
                                         <a class="nav-link" href="#">Fundraising tools</a>
                                     </li>
 
-                                    <li class="nav-item" style="display: none;">
+                                    <li class="nav-item">
                                         <a class="nav-link " href="#">Contact</a>
                                     </li>
                                 </ul>

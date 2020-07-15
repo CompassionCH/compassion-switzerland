@@ -62,9 +62,9 @@ class MysqlConnector(object):
         """
         if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
-        self._cur.execute(statement, args)
-        self._con.commit()
-        return self._cur.lastrowid or True
+        with self._con:
+            self._cur.execute(statement, args)
+            return self._cur.lastrowid or True
 
     def select_one(self, statement, args=None):
         """ Performs a MySQL SELECT statement and returns one single row.
@@ -83,8 +83,9 @@ class MysqlConnector(object):
         """
         if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
-        self._cur.execute(statement, args)
-        return self._cur.fetchone() or dict()
+        with self._con:
+            self._cur.execute(statement, args)
+            return self._cur.fetchone() or dict()
 
     def select_all(self, statement, args=None):
         """ Performs a MySQL SELECT statement and returns all rows.
@@ -105,8 +106,9 @@ class MysqlConnector(object):
         """
         if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
-        self._cur.execute(statement, args)
-        return self._cur.fetchall() or list()
+        with self._con:
+            self._cur.execute(statement, args)
+            return self._cur.fetchall() or list()
 
     def is_alive(self):
         """ Test if the connection is alive. """

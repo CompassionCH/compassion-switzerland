@@ -4,27 +4,21 @@
         <!-- === Project Donation Page === -->
         <!-- The corresponding [crowdfunding.project] is passed to this template as context in variable [project] -->
         <template id="project_donation_page">
-            <t t-set="title"><t t-esc="project.name"/> | TOGETHER - Compassion Switzerland Fundraising</t>
+            <t t-set="title">Donate to <t t-esc="project.name"/></t>
             <t t-call="crowdfunding_compassion.layout">
                 <!-- Donation type selection -->
                 <section class="donation-type">
                     <div class="container">
                         <h1 class="hero-title">I want to</h1>
-                        <h5 class="text-white text-uppercase">Select your type of support</h5>
-                        <h5 class="text-white text-uppercase">Below, select which person you support</h5>
+                        <p class="text-white">Select your type of support</p>
+                        <p class="text-white">Below, select which person you support</p>
                         <div class="row pb-5">
                             <!-- Fund selectable card -->
                             <!-- Show fund option only if one is selected -->
                             <t t-if="project.product_id">
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="h-100 w-100">
-                                        <!-- If there is no sponsorship, select fund by default -->
-                                        <t t-if="project.number_sponsorships_goal">
-                                            <input type="radio" name="donation-type" value="fund" class="card-input-element d-none" />
-                                        </t>
-                                        <t t-else="">
-                                            <input type="radio" name="donation-type" value="fund" class="card-input-element d-none" checked="checked" />
-                                        </t>
+                                        <input type="radio" name="donation-type" value="fund" class="card-input-element d-none" />
 
                                         <div class="card h-100 card-body d-flex justify-content-around align-items-center">
                                             <img class="donation-type__card-icon" t-attf-src="data:image/png;base64, #{ project.product_id.image_medium }" t-if="isinstance(project.product_id.image_medium, bytes)"/>
@@ -32,7 +26,7 @@
                                                  src="/crowdfunding_compassion/static/src/img/icn_children.png"
                                                  t-else=""/>
                                             <h4 class="blue text-center uppercase">
-                                                <t t-esc="project.product_id.crowdfunding_impact_text_active"/>
+                                                Create impact by <t t-esc="project.product_id.crowdfunding_impact_text_active"/>
                                             </h4>
                                             <span class="fake-btn my-3 uppercase">Select</span>
                                         </div>
@@ -41,31 +35,29 @@
                             </t>
 
                             <!-- Sponsorship selectable card -->
-                            <t t-if="project.number_sponsorships_goal">
-                                <div class="col-sm-12 col-md-4 mb-3">
-                                    <label class="h-100 w-100">
-                                        <!-- If there is no product id, select sponsorship by default -->
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="h-100 w-100">
+                                    <!-- If there is no product id, select sponsorship by default -->
+                                    <t t-if="project.product_id">
+                                        <input type="radio" name="donation-type" value="sponsorship" class="card-input-element d-none" />
+                                    </t>
+                                    <t t-else="">
+                                        <input type="radio" name="donation-type" value="sponsorship" class="card-input-element d-none" checked="checked" />
+                                    </t>
+
+                                    <div class="card h-100 card-body d-flex justify-content-around align-items-center">
+                                        <img class="donation-type__card-icon"
+                                             src="/crowdfunding_compassion/static/src/img/icn_children.png"/>
+                                        <h4 class="blue text-center uppercase">Sponsor children</h4>
+                                        <h6 class="blue text-center uppercase">(You will be redirected to compassion switzerland website)</h6>
+
+                                        <!-- Show the select button also if there is a fund option-->
                                         <t t-if="project.product_id">
-                                            <input type="radio" name="donation-type" value="sponsorship" class="card-input-element d-none" />
+                                            <span class="fake-btn my-3 uppercase">Select</span>
                                         </t>
-                                        <t t-else="">
-                                            <input type="radio" name="donation-type" value="sponsorship" class="card-input-element d-none" checked="checked" />
-                                        </t>
-
-                                        <div class="card h-100 card-body d-flex justify-content-around align-items-center">
-                                            <img class="donation-type__card-icon"
-                                                 src="/crowdfunding_compassion/static/src/img/icn_children.png"/>
-                                            <h4 class="blue text-center uppercase">Sponsor a child</h4>
-                                            <h6 class="blue text-center uppercase">(You will be redirected to compassion switzerland website)</h6>
-
-                                            <!-- Show the select button also if there is a fund option-->
-                                            <t t-if="project.product_id">
-                                                <span class="fake-btn my-3 uppercase">Select</span>
-                                            </t>
-                                        </div>
-                                    </label>
-                                </div>
-                            </t>
+                                    </div>
+                                </label>
+                            </div>
 
                             <!-- Project impact card without progress bars -->
                                 <div class="col-sm-12 col-md-4 mb-3">
@@ -88,9 +80,6 @@
                                 <label>
                                     <!-- If the query parameter [participant_id] matches the currently displayed participant, check it -->
                                     <t t-if="selected_participant and int(selected_participant) == participant.id">
-                                        <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id" checked="checked"/>
-                                    </t>
-                                    <t t-if="selected_participant is None and len(project.participant_ids) == 1">
                                         <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id" checked="checked"/>
                                     </t>
                                     <t t-else="">
