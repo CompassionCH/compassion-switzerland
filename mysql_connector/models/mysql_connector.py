@@ -63,6 +63,7 @@ class MysqlConnector(object):
         if args and not isinstance(args, (list, tuple, dict)):
             args = [args]
         self._cur.execute(statement, args)
+        self._con.commit()
         return self._cur.lastrowid or True
 
     def select_one(self, statement, args=None):
