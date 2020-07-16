@@ -234,7 +234,7 @@ class AdvocateDetails(models.Model):
         )
         birthday_advocates = birthday_advocates.filtered(
             lambda a: a.engagement_ids
-                      != self.env.ref("partner_compassion.engagement_sport")
+            != self.env.ref("partner_compassion.engagement_sport")
         )
         for advocate in birthday_advocates:
             lang = advocate.partner_id.lang[:2]
