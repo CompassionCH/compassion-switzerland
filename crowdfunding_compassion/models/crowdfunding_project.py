@@ -68,7 +68,7 @@ class CrowdfundingProject(models.Model):
         compute="_compute_sponsorships"
     )
     invoice_line_ids = fields.One2many(
-        "account.invoice.line", "crowdfunding_project_id", string="Donations"
+        "account.invoice.line", "crowdfunding_participant_id", string="Donations"
     )
     project_owner_id = fields.Many2one("res.partner", "Project owner", required=True)
     owner_participant_id = fields.Many2one(
@@ -110,9 +110,12 @@ class CrowdfundingProject(models.Model):
             }
         )
         res.event_id = event
-
+        self.env["recurring.contract.origin"].create({
+            "type": "crowdfunding",
+            "event_id": event.id,
+            "analytic_id": event.analytic_id.id,
+        })
         res.add_owner2participants()
-
         return res
 
     @api.multi
