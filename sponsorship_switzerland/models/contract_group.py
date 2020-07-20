@@ -73,14 +73,10 @@ class ContractGroup(models.Model):
             payment_name = payment_mode.name
             contracts |= self.mapped("contract_ids")
             for group in self:
-                old_term = group.payment_mode_id.name
                 if "LSV" in payment_name or "Postfinance" in payment_name:
-                    group.contract_ids.contract_waiting_mandate()
                     # LSV/DD Contracts need no reference
                     if group.bvr_reference and "multi-months" not in payment_name:
                         vals["bvr_reference"] = False
-                elif "LSV" in old_term or "Postfinance" in old_term:
-                    group.contract_ids.contract_active()
         if "bvr_reference" in vals:
             inv_vals["reference"] = vals["bvr_reference"]
             contracts |= self.mapped("contract_ids")
@@ -101,6 +97,26 @@ class ContractGroup(models.Model):
             invoices.env.clear()
             invoices.write(inv_vals)
             invoices.action_invoice_open()
+
+        # When the payment mode changes to LSV or DD, we need to update the related open
+        # invoices (block above) and raise any errors first before changing the status
+        # of the contracts (block below). Otherwise if an error occurs, we have an
+        # undesirable situation where the status of the contracts are modified and the
+        # payment method did not successfully change.
+        if "payment_mode_id" in vals:
+            payment_mode = (
+                self.env["account.payment.mode"]
+                    .with_context(lang="en_US")
+                    .browse(vals["payment_mode_id"])
+            )
+            payment_name = payment_mode.name
+            for group in self:
+                old_term = group.payment_mode_id.name
+                if "LSV" in payment_name or "Postfinance" in payment_name:
+                    group.contract_ids.contract_waiting_mandate()
+                elif "LSV" in old_term or "Postfinance" in old_term:
+                    group.contract_ids.contract_active()
+
         return res
 
     ##########################################################################
