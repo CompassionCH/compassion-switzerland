@@ -108,18 +108,12 @@
                             <!-- Main content -->
                             <div class="col-12 col-lg-8 mb-5">
                                 <div class="project-content__owner mb-4">
-                                    <t t-if="model == 'project'">
-                                        <img class="profile-pic" t-attf-src="data:image/png;base64, #{ project.owner_participant_id.profile_photo }" alt="Project owner"/>
-                                        <h5>
-                                            <t t-esc="project.project_owner_id.name" />
-                                        </h5>
-                                    </t>
-                                    <t t-else="">
-                                        <img class="profile-pic" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Participant"/>
-                                        <h5>
-                                            <t t-esc="participant.partner_id.name" />
-                                        </h5>
-                                    </t>
+                                    <t t-set="participant" t-value="project.owner_participant_id" t-if="model == 'project'" />
+                                    <img class="profile-pic" t-att-src="participant.profile_photo_url" alt="Project owner" t-if="participant.profile_photo_url"/>
+                                    <h5>
+                                        <t t-esc="project.project_owner_id.name" t-if="model == 'project'"/>
+                                        <t t-esc="participant.partner_id.name" t-else=""/>
+                                    </h5>
                                 </div>
 
                                 <t t-if="model == 'project'">

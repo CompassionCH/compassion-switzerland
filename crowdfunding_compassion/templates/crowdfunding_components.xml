@@ -96,7 +96,7 @@
             <div class="card participants__card">
                 <a t-attf-href="/participant/#{participant.id}">
                     <div>
-                        <img class="participants__image" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Participant image"/>
+                        <img class="participants__image" t-att-src="participant.profile_photo_url" alt="Participant image" t-if="participant.profile_photo_url"/>
                     </div>
                 </a>
                 <div class="participants__content">
@@ -177,7 +177,7 @@
 
         <template id="participant_picture" name="Participant picture">
             <div class="card card-body d-flex justify-content-between align-items-center" style="border: none;">
-                <img class="profile-pic rounded-circle" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Project participant"/>
+                <img class="profile-pic rounded-circle" t-att-src="participant.profile_photo_url" alt="Project participant" t-if="participant.profile_photo_url"/>
 
                 <h6 class="uppercase mt-3">
                     <t t-esc="participant.partner_id.name"/>
