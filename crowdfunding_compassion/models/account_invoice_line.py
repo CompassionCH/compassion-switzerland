@@ -10,7 +10,4 @@ class AccountInvoiceLine(models.Model):
     crowdfunding_participant_id = fields.Many2one(
         "crowdfunding.participant", "Crowdfunding participant"
     )
-    crowdfunding_project_id = fields.Many2one(
-        "crowdfunding.project", "Crowdfunding project"
-    )
     is_anonymous = fields.Boolean(default=False)

@@ -672,7 +672,6 @@ msgid "Crowdfunding participant"
 msgstr ""
 
 #. module: crowdfunding_compassion
-#: model:ir.model.fields,field_description:crowdfunding_compassion.field_account_invoice_line__crowdfunding_project_id
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crm_event_compassion__crowdfunding_project_id
 msgid "Crowdfunding project"
 msgstr ""

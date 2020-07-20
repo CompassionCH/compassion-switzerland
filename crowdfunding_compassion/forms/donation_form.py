@@ -60,6 +60,7 @@ class CrowdfundingDonationForm(models.AbstractModel):
         event = project.event_id
         product = project.product_id
         name = f"[{project.name}] Donation for {participant.partner_id.name}"
+        medium = self.env.ref("crowdfunding_compassion.utm_medium_crowdfunding")
         partner = self.partner_id.sudo()
         partner.write({"state": "active"})
 
@@ -84,8 +85,11 @@ class CrowdfundingDonationForm(models.AbstractModel):
                                 "account_analytic_id": event.analytic_id.id,
                                 "user_id": participant.partner_id.id,
                                 "crowdfunding_participant_id": participant.id,
-                                "crowdfunding_project_id": project.id,
                                 "is_anonymous": self.is_anonymous,
+                                "source_id": participant.source_id.id,
+                                "medium_id": medium.id,
+                                "campaign_id": project.campaign_id.id,
+                                "account_analytic_id": event.analytic_id.id,
                             },
                         )
                     ],
