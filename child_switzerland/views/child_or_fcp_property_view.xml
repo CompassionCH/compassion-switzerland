@@ -24,6 +24,10 @@
         <field name="model">child.hobby</field>
         <field name="inherit_id" ref="view_child_property_form"/>
     </record>
+    <record id="child_compassion.view_child_school_subject_form" model="ir.ui.view">
+        <field name="model">child.school.subject</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
     <record id="child_compassion.view_child_christian_activity_form" model="ir.ui.view">
         <field name="model">child.christian.activity</field>
         <field name="inherit_id" ref="view_child_property_form"/>
