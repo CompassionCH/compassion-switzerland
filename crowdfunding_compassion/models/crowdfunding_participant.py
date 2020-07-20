@@ -39,6 +39,7 @@ class CrowdfundingParticipant(models.Model):
     instagram_url = fields.Char(string="Instagram link")
     personal_web_page_url = fields.Char(string="Personal web page")
     profile_photo = fields.Binary(related="partner_id.image")
+    profile_photo_url = fields.Binary(compute="_compute_profile_photo_url")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
 
     @api.model
@@ -84,3 +85,18 @@ class CrowdfundingParticipant(models.Model):
     def _compute_number_sponsorships_reached(self):
         for participant in self:
             participant.number_sponsorships_reached = len(participant.sponsorship_ids)
+
+    @api.multi
+    def _compute_profile_photo_url(self):
+        domain = self.env['website'].get_current_website()._get_http_domain()
+        for participant in self:
+            if participant.profile_photo:
+                path = f"web/content/crowdfunding.participant/{participant.id}/profile_photo"
+            elif participant.sudo().partner_id.title.name == "Mister":
+                path = "crowdfunding_compassion/static/src/img/guy.png"
+            elif participant.sudo().partner_id.title.name == "Madam":
+                path = "crowdfunding_compassion/static/src/img/lady.png"
+            else:
+                path = None
+
+            participant.profile_photo_url = f"{domain}/{path}" if path else path
