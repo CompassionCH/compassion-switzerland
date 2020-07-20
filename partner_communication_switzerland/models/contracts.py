@@ -128,7 +128,7 @@ class RecurringContract(models.Model):
                     lang="en_US"
                 ).filtered(
                     lambda i: i.state == "open"
-                    and fields.Date.from_string(i.due_date) < this_month
+                    and i.due_date < this_month
                     and i.invoice_id.invoice_type == "sponsorship"
                 )
                 contract.due_invoice_ids = invoice_lines.mapped("invoice_id")
