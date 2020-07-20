@@ -22,3 +22,16 @@ class ThankYouConfig(models.Model):
             # Will return the largest donation configuration
             return self.sorted()[-1]
         return super().for_donation(invoice_lines)
+
+    def build_inform_mode(self, partner, print_if_not_email=False):
+        """ Returns how the partner should be informed for the given
+        thank you letter (digital, physical or False).
+        It makes the product of the thank you preference and the partner
+        :returns: send_mode (physical/digital/False), auto_mode (True/False)
+        """
+        return self.env["partner.communication.config"].build_inform_mode(
+            partner,
+            self.send_mode,
+            print_if_not_email=print_if_not_email,
+            send_mode_pref_field="thankyou_preference",
+        )
