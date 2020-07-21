@@ -9,7 +9,9 @@
 from datetime import datetime
 
 import logging
-from base64 import b64encode
+from base64 import b64encode, b64decode
+from PIL import Image
+from io import BytesIO
 
 from odoo import models, fields, _
 from odoo.tools import file_open
@@ -65,6 +67,57 @@ class ProjectCreationWizard(models.AbstractModel):
             step_values = self._prepare_step_values_to_store(self.request.form, {})
             self.wiz_save_step(step_values)
         return super().form_next_url(main_object) + "?save=True"
+
+    @staticmethod
+    def compress_big_images(b64_data):
+        """
+        Method that tries to compress an image receveived as parameter if this
+        image is too big (greater than 200KB). If the image is small enough or
+        if the compression does not improve the results, we simply return the
+        old version of the image.
+
+        :param b64_data: the data of the image to compress, expressed as a
+        base64 string.
+        :return: either the original image, if it is small enough (<200KB)
+        or if the compression does not reduce size, or a new image that has
+        been compressed.
+        """
+        def resize(image):
+            """
+            Resize a PIL image to a new image the closest to 900x400px (the
+            recommended size) while preserving the ratios.
+
+            :param image: the PIL image to resize.
+            :return: a new PIL image, resized and with preserved ratios.
+            """
+            width, height = image.size
+            min_width, min_height = min(width, 900), min(height, 400)
+            factor = max(min_width / width, min_height / height)
+            return image.resize((int(width * factor), int(height * factor)))
+
+        def compress(image):
+            """
+            Compress a PIL image by using optimized JPEG format and returns
+            its corresponding base64 string representation.
+
+            :param image: The PIL image to compress.
+            :return: A base64 string representation of the compressed image.
+            """
+            buffer = BytesIO()
+            image.convert("RGB").save(buffer, format='JPEG', optimize=True)
+            return b64encode(buffer.getvalue())
+
+        old_image = b64_data
+        # If length in byte is greater than 200KB
+        max_bytes_size, bytes_len = 2e5, 3 * (len(b64_data) / 4)
+        if bytes_len > max_bytes_size:
+            bytes_data = BytesIO(b64decode(b64_data))
+            img = Image.open(bytes_data)
+            new_image = compress(resize(img))
+            new_bytes_len = 3 * (len(new_image) * 4)
+            # We don't change the image if there is no improvement
+            return new_image if bytes_len > new_bytes_len else old_image
+        return old_image
 
 
 class ProjectCreationFormStep1(models.AbstractModel):
@@ -147,6 +200,10 @@ class ProjectCreationFormStep1(models.AbstractModel):
     def form_after_create_or_update(self, values, extra_values):
         if values["deadline"] < datetime.now().date():
             raise InvalidDateException
+        if values.get("cover_photo"):
+            values["cover_photo"] = ProjectCreationWizard\
+                .compress_big_images(values["cover_photo"])
+
         super().form_after_create_or_update(values, extra_values)
 
     @property
@@ -366,7 +423,9 @@ class ProjectCreationStep3(models.AbstractModel):
             partner = self.main_object.sudo().project_owner_id.sudo()
 
         if extra_values.get('partner_image'):
-            partner.write({"image": extra_values.get('partner_image')})
+            extra_values["partner_image"] = ProjectCreationWizard.\
+                compress_big_images(extra_values["partner_image"])
+            partner.write({"image": extra_values["partner_image"]})
         if not partner.image:
             partner.write({
                 "image": b64encode(file_open(
