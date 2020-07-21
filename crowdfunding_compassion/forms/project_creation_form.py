@@ -409,8 +409,8 @@ class ProjectCreationStep3(models.AbstractModel):
             partner = self.main_object.sudo().project_owner_id.sudo()
 
         if extra_values.get('partner_image'):
-            extra_values["partner_image"] = ProjectCreationWizard.\
-                compress_big_images(extra_values["partner_image"])
+            extra_values["partner_image"] = ProjectCreationWizard\
+                .compress_big_images(extra_values["partner_image"])
             partner.write({"image": extra_values["partner_image"]})
         if not partner.image:
             partner.write({
