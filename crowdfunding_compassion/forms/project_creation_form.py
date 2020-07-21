@@ -80,29 +80,15 @@ class ProjectCreationWizard(models.AbstractModel):
         base64 string.
         :return: either the original image, if it is small enough (<200KB)
         or if the compression does not reduce size, or a new image that has
-        been compressed.
+        been compressed, again as a base64 string.
         """
         def resize(image):
-            """
-            Resize a PIL image to a new image the closest to 900x400px (the
-            recommended size) while preserving the ratios.
-
-            :param image: the PIL image to resize.
-            :return: a new PIL image, resized and with preserved ratios.
-            """
             width, height = image.size
             min_width, min_height = min(width, 900), min(height, 400)
             factor = max(min_width / width, min_height / height)
             return image.resize((int(width * factor), int(height * factor)))
 
         def compress(image):
-            """
-            Compress a PIL image by using optimized JPEG format and returns
-            its corresponding base64 string representation.
-
-            :param image: The PIL image to compress.
-            :return: A base64 string representation of the compressed image.
-            """
             buffer = BytesIO()
             image.convert("RGB").save(buffer, format='JPEG', optimize=True)
             return b64encode(buffer.getvalue())
