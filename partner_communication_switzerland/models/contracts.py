@@ -429,7 +429,7 @@ class RecurringContract(models.Model):
             default_auto_send=False,
             default_print_header=True,
         )
-        fifty_ago = today - relativedelta(days=50)
+        ninety_ago = today - relativedelta(days=90)
         twenty_ago = today - relativedelta(days=20)
         comm_obj = self.env["partner.communication.job"]
         search_domain = [
@@ -461,7 +461,7 @@ class RecurringContract(models.Model):
             # reminder in that case)
             has_first_reminder = comm_obj.search_count(
                 reminder_search
-                + [("sent_date", ">=", fifty_ago), ("sent_date", "<", twenty_ago)]
+                + [("sent_date", ">=", ninety_ago), ("sent_date", "<", twenty_ago)]
             )
             if has_first_reminder:
                 second_reminder += sponsorship
