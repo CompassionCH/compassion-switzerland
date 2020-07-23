@@ -159,7 +159,8 @@ class Event(models.Model):
     emergency_ok = fields.Boolean(compute="_compute_step2_tasks")
     criminal_record_uploaded = fields.Boolean(compute="_compute_step2_tasks")
     criminal_record = fields.Binary(
-        compute="_compute_criminal_record", inverse="_inverse_criminal_record"
+        compute="_compute_criminal_record", inverse="_inverse_criminal_record",
+        groups="website_event_compassion.group_criminal_record"
     )
     medical_discharge = fields.Binary(attachment=True, copy=False)
     medical_survey_id = fields.Many2one(

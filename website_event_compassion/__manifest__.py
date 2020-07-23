@@ -46,6 +46,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/access_rules.xml",
+        "security/criminal_record_groups.xml",
         "data/event_type.xml",
         "data/event_registration_stage.xml",
         "data/event_registration_task.xml",
