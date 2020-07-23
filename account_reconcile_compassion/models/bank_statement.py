@@ -15,7 +15,8 @@ from odoo import api, fields, models
 class AccountStatement(models.Model):
     """ Adds a relation to a recurring invoicer. """
 
-    _inherit = "account.bank.statement"
+    _name = "account.bank.statement"
+    _inherit = ["account.bank.statement", "mail.thread"]
 
     ##########################################################################
     #                                 FIELDS                                 #
