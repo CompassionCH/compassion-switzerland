@@ -156,7 +156,8 @@ class CrowdfundingProject(models.Model):
     def _compute_product_number_reached(self):
         for project in self:
             invl = project.invoice_line_ids.filtered(lambda l: l.state == "paid")
-            project.product_number_reached = int(sum(invl.mapped("quantity")))
+            project.product_number_reached = int(sum(invl.mapped("price_total")) /
+                                                 project.product_id.standard_price)
 
     @api.multi
     def _compute_number_sponsorships_goal(self):
