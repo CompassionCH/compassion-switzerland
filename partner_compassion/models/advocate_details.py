@@ -136,7 +136,7 @@ class AdvocateDetails(models.Model):
             html_vals = {
                 "img_alt": details.display_name,
                 "image_data": details.partner_id.with_context(bin_size=False)
-                    .image.decode("utf-8"),
+                .image.decode("utf-8"),
                 "text": details.quote or "",
                 "attribution": _("Quote from %s %s"
                                  % (firstname, lastname))
