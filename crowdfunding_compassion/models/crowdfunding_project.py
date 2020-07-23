@@ -220,35 +220,34 @@ class CrowdfundingProject(models.Model):
             )
 
     @api.model
-    def get_active_projects(self, limit=None, year=None):
-        if year:
-            self = self.search(
-                [
-                    ("deadline", ">=", datetime(year, 1, 1)),
-                    ("deadline", "<=", datetime(year, 12, 31)),
-                ]
-            )
-        # get active projects, from most urgent to least urgent
+    def get_active_projects(self, limit=None, year=None, type=None):
+        # Get active projects, from most urgent to least urgent
         active_projects = self.search(
             [
-                ("state", "!=", "draft"),
                 ("deadline", ">=", date.today()),
             ], limit=limit, order="deadline ASC"
         )
+
+        # Get finished projects, from most recent to oldest expiring date
         finished_projects = self.env[self._name]
         if not limit or (limit and len(active_projects) < limit):
-            # get finished projects, from most recent to oldest expiring date
-            finish_limit = None
-            if limit:
-                finish_limit = limit-len(active_projects)
+            finish_limit = limit-len(active_projects) if limit else None
             finished_projects = self.search(
                 [
-                    ("state", "!=", "draft"),
                     ("deadline", "<", date.today()),
                 ], limit=finish_limit, order="deadline DESC"
             )
 
-        return active_projects + finished_projects
+        projects = active_projects + finished_projects
+
+        filters = [
+            ("state", "!=", "draft"),
+            ("deadline", ">=", datetime(year, 1, 1)) if year else None,
+            ("deadline", "<=", datetime(year, 12, 31)) if year else None,
+            ("type", "=", type) if type else None
+        ]
+
+        return projects.search(list(filter(None, filters)))
 
     def _default_website_meta(self):
         res = super()._default_website_meta()

@@ -17,13 +17,13 @@ from ..forms.project_creation_form import NoGoalException,\
 
 class ProjectsController(Controller, FormControllerMixin):
     @route("/projects", auth="public", website=True)
-    def get_projects_list(self, **kwargs):
+    def get_projects_list(self, type=None, **kwargs):
         project_obj = request.env["crowdfunding.project"]
 
         # TODO connect pagination to backend -> CO-3213
         return request.render(
             "crowdfunding_compassion.project_list_page",
-            {"projects": project_obj.sudo().get_active_projects()},
+            {"projects": project_obj.sudo().get_active_projects(type=type)},
         )
 
     @route(['/projects/create', '/projects/create/page/<int:page>',
