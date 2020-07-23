@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="group_visit_party_invitation" name="Group Visit Info Party invitation">
-        <t t-call="website.layout">
+        <t t-call="theme_compassion.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex"/>
             </t>
@@ -69,7 +69,7 @@
     </template>
 
     <template id="group_visit_party_confirm" name="Group Visit Info Party confirmed">
-        <t t-call="website.layout">
+        <t t-call="theme_compassion.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex"/>
             </t>
@@ -99,7 +99,7 @@
     </template>
 
     <template id="group_visit_party_decline" name="Group Visit Info Party declined">
-        <t t-call="website.layout">
+        <t t-call="theme_compassion.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex"/>
             </t>
