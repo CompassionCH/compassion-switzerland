@@ -89,14 +89,14 @@
                     <br/>
                     % if len(donors) == 1:
                         Your donor is ${donors.preferred_name} from ${donors.city}.
-                        % if donors.email and donors.thankyou_letter != 'no':
+                        % if donors.email and donors.thankyou_preference != 'none':
                     You can personally thank ${donors.get('him')} if you wish by sending ${donors.get('him')} an e-mail at <a href="mailto:${donors.email}" style="color: skyblue; text-decoration: underline;">${donors.email}</a>. In any case, ${donors.get('he')} will receive a thank you letter from us.
                         % endif
                     % else:
                         You received this from the following people. You may contact them by e-mail if you wish to thank them personally.
                         <ul>
                             % for donor in donors:
-                            <li>${donor.preferred_name} from ${donor.city} ${'(<a href="{}" style="color: skyblue; text-decoration: underline;">{}</a>)'.format(donor.email, donor.email) if donor.email and donor.thankyou_letter != 'no' else ''}</li>
+                            <li>${donor.preferred_name} from ${donor.city} ${'(<a href="{}" style="color: skyblue; text-decoration: underline;">{}</a>)'.format(donor.email, donor.email) if donor.email and donor.thankyou_preference != 'none' else ''}</li>
                             % endfor
                         </ul>
                     % endif
