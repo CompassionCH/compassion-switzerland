@@ -70,6 +70,10 @@ class WPSync(object):
         count_insert = 0
 
         for child in children:
+            _logger.info(
+                "Pushing child %s/%s",
+                count_insert + 1, len(children)
+            )
             try:
                 child_values = {
                     "local_id": child.local_id,
@@ -96,7 +100,9 @@ class WPSync(object):
                 ):
                     count_insert += 1
                     child.state = "I"
+                    children.env.cr.commit()
             except:
+                children.env.clear()
                 _logger.error("Child Upload failed: ", exc_info=True)
 
         if count_insert == len(children):
