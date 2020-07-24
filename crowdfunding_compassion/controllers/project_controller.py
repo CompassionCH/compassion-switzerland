@@ -72,7 +72,7 @@ class ProjectController(Controller):
                 "color": "blue",
                 "text": _("%s was sponsored") % sponsorship.child_id.preferred_name,
                 "image": sponsorship.child_id.portrait,
-                "benefactor": sponsorship.correspondent_id.name,
+                "benefactor": sponsorship.correspondent_id.firstname,
                 "date": sponsorship.create_date,
                 "time_ago": self.get_time_ago(sponsorship.create_date),
                 "anonymous": False,
