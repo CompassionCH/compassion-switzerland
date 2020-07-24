@@ -68,7 +68,7 @@ class PartnerCommunication(models.Model):
 
         if bvr_to_print:
             for bvr in bvr_to_print:
-                if bvr.report_id != self.env.ref("report_compassion.report_a4_bvr"):
+                if bvr.report_id.report_name != "report_compassion.a4_bvr":
                     self._put_bvr_in_attachments(bvr, background=False)
             super(PartnerCommunication, bvr_to_print).send()
 
@@ -102,7 +102,9 @@ class PartnerCommunication(models.Model):
             "background": background,
         }
         report_ref = self.env.ref("report_compassion.report_a4_bvr")
-        pdf_data = report_ref.render_qweb_pdf(bvr.id, data=data)[0]
+        pdf_data = report_ref.with_context(
+            must_skip_send_to_printer=True
+        ).render_qweb_pdf(bvr.id, data=data)[0]
         return base64.encodebytes(pdf_data)
 
     @api.model
