@@ -278,6 +278,9 @@
                     <field name="customer" invisible="True"/>
                 </sheet>
             </xpath>
+            <xpath expr="//field[@name='other_contact_ids']/kanban" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
         </field>
     </record>
 
