@@ -19,3 +19,4 @@ from . import advocate_engagement
 from . import match_partner
 from . import calendar_attendee
 from . import survey_user_input_line
+from . import mail_activity
