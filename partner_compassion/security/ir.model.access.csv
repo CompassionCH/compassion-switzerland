@@ -5,3 +5,4 @@ create_access_advocate_details,Create access on ambassador details,model_advocat
 full_access_advocate_details,Full access on ambassador details,model_advocate_details,base.group_system,1,1,1,1
 translation_access,Write access on translations,base.model_ir_translation,base.group_portal,1,1,0,0
 full_access_advocate_engagement,Full access on advocate engagement,model_advocate_engagement,child_compassion.group_sponsorship,1,1,1,1
+ir_model_access_cityzip_portal,res_city_zip group_portal,base_location.model_res_city_zip,base.group_portal,1,0,0,0
