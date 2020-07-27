@@ -11,6 +11,9 @@ import logging
 import tempfile
 import uuid
 
+from odoo.addons.website_event_compassion.models.\
+    event_registration import _get_file_type
+
 from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
 from odoo.tools.config import config
@@ -140,6 +143,11 @@ class ResPartner(models.Model):
         help="The date and time when the partner has agreed to the child"
              "protection charter."
     )
+    criminal_record = fields.Binary(
+        compute="_compute_criminal_record", inverse="_inverse_criminal_record",
+        groups="partner_compassion.group_criminal_record"
+    )
+    criminal_record_write_date = fields.Date()
 
     # add track on fields from module base
     email = fields.Char(track_visibility="onchange")
@@ -214,6 +222,71 @@ class ResPartner(models.Model):
     def _compute_survey_input_count(self):
         for survey in self:
             survey.survey_input_count = len(survey.survey_inputs)
+
+    def _compute_criminal_record(self):
+        for partner in self:
+            partner.criminal_record = (
+                self.env["ir.attachment"].sudo()
+                    .search(
+                    [
+                        ("name", "like", "Criminal record"),
+                        ("res_id", "=", partner.id),
+                        ("res_model", "=", partner._name),
+                    ],
+                    limit=1,
+                )
+                .datas
+            )
+
+    def _inverse_criminal_record(self):
+        attachment_obj = self.env["ir.attachment"].sudo()
+        for partner in self:
+            criminal_record = partner.criminal_record
+            if criminal_record:
+                name = (
+                    "Criminal record "
+                    + partner.name
+                    + _get_file_type(criminal_record)
+                )
+                attachment_obj.create(
+                    {
+                        "datas_fname": name,
+                        "res_model": partner._name,
+                        "res_id": partner.id,
+                        "datas": criminal_record,
+                        "name": name,
+                    }
+                )
+                # search for all registrations and write completed task
+                registrations = self.env["event.registration"].sudo().search([
+                    ("partner_id", "=", partner.id)
+                ])
+                for registration in registrations:
+                    if registration:
+                        registration.write(
+                            {
+                                "completed_task_ids": [
+                                    (
+                                        4,
+                                        registration.env.ref(
+                                            "website_event_compassion.task_criminal"
+                                        ).id,
+                                    ),
+                                ]
+                            }
+                        )
+                # update date of new criminal record
+                partner.criminal_record_write_date = fields.Date.today()
+            else:
+                attachment_obj.search(
+                    [
+                        ("name", "like", "Criminal record"),
+                        ("res_id", "=", partner.id),
+                        ("res_model", "=", partner._name),
+                    ]
+                ).unlink()
+                # if the criminal record is deleted, update its date to False
+                partner.criminal_record_write_date = False
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -388,6 +461,33 @@ class ResPartner(models.Model):
         action["domain"].append(("type", "in", ["out_invoice", "out_refund"]))
         action["context"] = {"search_default_partner_id": self.id}
         return action
+
+    @api.multi
+    def notify_event_responsible_criminal_record_expiration(self):
+        """
+        Action rule called when a criminal record expires. A notification is sent
+        to the event responsible.
+        """
+        # search for event responsible(s) of all events attended by partner
+        for partner in self:
+            registrations = self.env['event.registration'].sudo().search([
+                ("partner_id", "=", partner.id)
+            ])
+            for registration in registrations:
+                # get responsible
+                event = registration.event_id
+                responsible = event.user_id
+                if responsible:
+                    partner.activity_schedule(
+                        "mail.mail_activity_data_warning",
+                        summary=_("A criminal record is expiring today"),
+                        note=_("The criminal record of {} expires today. This person "
+                               "is an attendee of event {} for which you are "
+                               "responsible.".
+                               format(partner.name, event.name)
+                               ),
+                        user_id=responsible.id
+                    )
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #

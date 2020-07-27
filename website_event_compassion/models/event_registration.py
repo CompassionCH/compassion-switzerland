@@ -160,7 +160,7 @@ class Event(models.Model):
     criminal_record_uploaded = fields.Boolean(compute="_compute_step2_tasks")
     criminal_record = fields.Binary(
         compute="_compute_criminal_record", inverse="_inverse_criminal_record",
-        groups="website_event_compassion.group_criminal_record"
+        groups="partner_compassion.group_criminal_record"
     )
     medical_discharge = fields.Binary(attachment=True, copy=False)
     medical_survey_id = fields.Many2one(
@@ -482,8 +482,8 @@ class Event(models.Model):
                     .search(
                     [
                         ("name", "like", "Criminal record"),
-                        ("res_id", "=", registration.id),
-                        ("res_model", "=", self._name),
+                        ("res_id", "=", registration.partner_id_id),
+                        ("res_model", "=", registration.partner_id._name),
                     ],
                     limit=1,
                 )
@@ -497,14 +497,14 @@ class Event(models.Model):
             if criminal_record:
                 name = (
                     "Criminal record "
-                    + registration.name
+                    + registration.partner_name
                     + _get_file_type(criminal_record)
                 )
                 attachment_obj.create(
                     {
                         "datas_fname": name,
-                        "res_model": self._name,
-                        "res_id": registration.id,
+                        "res_model": registration.partner_id._name,
+                        "res_id": registration.partner_id_id,
                         "datas": criminal_record,
                         "name": name,
                     }
@@ -521,14 +521,18 @@ class Event(models.Model):
                         ]
                     }
                 )
+                # update date of new criminal record
+                registration.partner_id.criminal_record_write_date = fields.Date.today()
             else:
                 attachment_obj.search(
                     [
                         ("name", "like", "Criminal record"),
-                        ("res_id", "=", registration.id),
-                        ("res_model", "=", self._name),
+                        ("res_id", "=", registration.partner_id_id),
+                        ("res_model", "=", registration.partner_id._name),
                     ]
                 ).unlink()
+                # if the criminal record is deleted, update its date to False
+                registration.partner_id.criminal_record_write_date = False
 
     ##########################################################################
     #                              ORM METHODS                               #

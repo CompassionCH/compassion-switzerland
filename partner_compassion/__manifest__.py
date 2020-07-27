@@ -54,6 +54,7 @@
     "external_dependencies": {"python": ["pandas", "pyminizip", "sendgrid"]},
     "data": [
         "security/ir.model.access.csv",
+        "security/criminal_record_groups.xml",
         "data/partner_category_data.xml",
         "data/partner_title_data.xml",
         "data/advocate_engagement_data.xml",
@@ -62,6 +63,7 @@
         "data/mail_channel.xml",
         "data/res_partner_actions.xml",
         "data/gist_indexes.xml",
+        "data/partner_action_rules.xml",
         "views/advocate_details.xml",
         "views/survey_user_input_action.xml",
         "views/partner_compassion_view.xml",
