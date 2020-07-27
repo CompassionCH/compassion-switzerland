@@ -436,7 +436,40 @@
                             </div>
 
                             <div class="col-sm-12 col-md-4 pt-2">
+                                <style type="text/css">
+                                    .social-link, .social-link:visited, .social-link:link {
+                                        color: #202020 !important;
+                                        font-size: small;
+                                    }
+
+                                    .social-title {
+                                        text-transform: uppercase;
+                                    }
+                                </style>
                                 <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link social-title">Follow us</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a t-if="request.lang == 'fr_CH'" class="nav-link social-link" href="https://www.facebook.com/compassionsuisse/" target="_blank">Facebook</a>
+                                        <a t-if="request.lang == 'de_DE'" class="nav-link social-link" href="https://www.facebook.com/compassionschweiz/" target="_blank">Facebook</a>
+                                        <a t-if="request.lang == 'it_IT'" class="nav-link social-link" href="https://www.facebook.com/compassionsvizzera/" target="_blank">Facebook</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link social-link" href="https://vimeo.com/compassionswitzerland" target="_blank">Vimeo</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a t-if="request.lang == 'fr_CH'" class="nav-link social-link" href="https://www.youtube.com/c/compassionsuisse" target="_blank">YouTube</a>
+                                        <a t-if="request.lang == 'de_DE'" class="nav-link social-link" href="https://www.youtube.com/channel/UChVNRRvihHG0AYPsdEFfasQ" target="_blank">YouTube</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link social-link" href="https://www.instagram.com/compassionswiss/" target="_blank">Instagram</a>
+                                    </li>
+
                                     <li class="nav-item" style="display: none;">
                                         <a class="nav-link active" href="#">About this platform</a>
                                     </li>

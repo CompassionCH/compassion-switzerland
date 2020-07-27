@@ -868,6 +868,12 @@ msgid "Follow my project on"
 msgstr "Folge meinem projeKt auf"
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_navbar
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
+msgid "Follow us"
+msgstr "Folge uns"
+
+#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_donation_board
 msgid "For"
 msgstr "für"
