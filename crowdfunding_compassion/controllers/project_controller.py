@@ -30,9 +30,9 @@ class ProjectController(Controller):
         project = participant.project_id.sudo()
         sponsorships, donations = self.get_sponsorships_and_donations(
             project.sponsorship_ids.filtered(
-                lambda s: s.partner_id == participant.partner_id),
+                lambda s: s.user_id == participant.partner_id),
             project.invoice_line_ids.filtered(
-                lambda line: line.partner_id == participant.partner_id
+                lambda line: line.user_id == participant.partner_id
             )
         )
         values = {
