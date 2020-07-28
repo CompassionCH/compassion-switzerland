@@ -27,6 +27,8 @@ class EventCompassion(models.Model):
         res = super().write(vals)
         for new_event in self:
             if new_event.campaign_id:
-                new_event.analytic_id.campaign_id = new_event.campaign_id
-                new_event.origin_id.campaign_id = new_event.campaign_id
+                if new_event.analytic_id:
+                    new_event.analytic_id.campaign_id = new_event.campaign_id
+                if new_event.origin_id:
+                    new_event.origin_id.campaign_id = new_event.campaign_id
         return res

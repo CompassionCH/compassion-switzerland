@@ -25,6 +25,7 @@ class PrintBvrFund(models.TransientModel):
         "product.product",
         domain=[
             ("fund_id", "!=", False),
+            ("fund_id", "!=", 0),
             # exclude Sponsorship category
             ("categ_id", "!=", 3),
             # exclude Sponsor gifts category

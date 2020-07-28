@@ -135,7 +135,8 @@ class AdvocateDetails(models.Model):
             lastname = details.partner_id.lastname
             html_vals = {
                 "img_alt": details.display_name,
-                "image_data": details.partner_id.with_context(bin_size=False).image,
+                "image_data": details.partner_id.with_context(bin_size=False)
+                .image.decode("utf-8"),
                 "text": details.quote or "",
                 "attribution": _("Quote from %s %s"
                                  % (firstname, lastname))
@@ -154,7 +155,7 @@ class AdvocateDetails(models.Model):
                 ]
             )
             details.number_events = len(details.event_ids)
-            details.last_event = details.event_ids[:1].end_date
+            details.last_event = details.event_ids[:1].end_date.date()
 
     @api.multi
     def _compute_formation(self):
