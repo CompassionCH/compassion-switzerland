@@ -221,11 +221,18 @@ class CrowdfundingProject(models.Model):
 
     @api.model
     def get_active_projects(self, limit=None, year=None, type=None):
+        filters = list(filter(None, [
+            ("state", "!=", "draft"),
+            ("deadline", ">=", datetime(year, 1, 1)) if year else None,
+            ("deadline", "<=", datetime(year, 12, 31)) if year else None,
+            ("type", "=", type) if type else None
+        ]))
+
         # Get active projects, from most urgent to least urgent
         active_projects = self.search(
             [
                 ("deadline", ">=", date.today()),
-            ], limit=limit, order="deadline ASC"
+            ] + filters, limit=limit, order="deadline ASC"
         )
 
         # Get finished projects, from most recent to oldest expiring date
@@ -235,19 +242,10 @@ class CrowdfundingProject(models.Model):
             finished_projects = self.search(
                 [
                     ("deadline", "<", date.today()),
-                ], limit=finish_limit, order="deadline DESC"
+                ] + filters, limit=finish_limit, order="deadline DESC"
             )
 
-        projects = active_projects + finished_projects
-
-        filters = [
-            ("state", "!=", "draft"),
-            ("deadline", ">=", datetime(year, 1, 1)) if year else None,
-            ("deadline", "<=", datetime(year, 12, 31)) if year else None,
-            ("type", "=", type) if type else None
-        ]
-
-        return projects.search(list(filter(None, filters)))
+        return active_projects + finished_projects
 
     def _default_website_meta(self):
         res = super()._default_website_meta()
