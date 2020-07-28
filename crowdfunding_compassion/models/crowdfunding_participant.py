@@ -39,7 +39,7 @@ class CrowdfundingParticipant(models.Model):
     instagram_url = fields.Char(string="Instagram link")
     personal_web_page_url = fields.Char(string="Personal web page")
     profile_photo = fields.Binary(related="partner_id.image")
-    profile_photo_url = fields.Binary(compute="_compute_profile_photo_url")
+    profile_photo_url = fields.Char(compute="_compute_profile_photo_url")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
 
     @api.model
