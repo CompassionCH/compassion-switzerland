@@ -69,8 +69,12 @@ class WPSync(object):
         """
         count_insert = 0
 
-        try:
-            for child in children:
+        for child in children:
+            _logger.info(
+                "Pushing child %s/%s",
+                count_insert + 1, len(children)
+            )
+            try:
                 child_values = {
                     "local_id": child.local_id,
                     "number": child.local_id,
@@ -96,25 +100,26 @@ class WPSync(object):
                 ):
                     count_insert += 1
                     child.state = "I"
+                    children.env.cr.commit()
+            except:
+                children.env.clear()
+                _logger.error("Child Upload failed: ", exc_info=True)
 
-            if count_insert == len(children):
-                _logger.info(
-                    f"Child Upload on Wordpress finished: {count_insert} children "
-                    "imported "
+        if count_insert == len(children):
+            _logger.info(
+                f"Child Upload on Wordpress finished: {count_insert} children "
+                "imported "
+            )
+        else:
+            if (count_insert > 0) and (count_insert < len(children)):
+                _logger.warning(
+                    "Child Upload partially failed."
+                    + str(count_insert)
+                    + " of "
+                    + len(children)
                 )
-                return count_insert
             else:
-                if (count_insert > 0) and (count_insert < len(children)):
-                    _logger.error(
-                        "Child Upload partially failed."
-                        + str(count_insert)
-                        + " of "
-                        + len(children)
-                    )
-                else:
-                    _logger.error("Child Upload failed." + str(count_insert))
-        except Exception as error:
-            _logger.error("Child Upload failed: " + error.message)
+                _logger.error("Child Upload failed.")
 
         return count_insert
 

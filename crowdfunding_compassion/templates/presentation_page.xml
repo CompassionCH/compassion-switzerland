@@ -126,7 +126,11 @@
                                     <!-- Project description and video -->
                                     <h3 class="blue my-4">About the project</h3>
                                     <p>
-                                        <t t-esc="project.description"/>
+                                        <t t-set="description_lines" t-value="project.description.split('\n')" />
+                                            <t t-foreach="description_lines" t-as="description_line">
+                                                <span t-esc="description_line"/>
+                                                <br />
+                                            </t>
                                     </p>
                                     <t t-if="project.presentation_video_embed">
                                         <iframe class="my-3" width="100%" height="400px" t-att-src="project.presentation_video_embed" frameborder="0"/>

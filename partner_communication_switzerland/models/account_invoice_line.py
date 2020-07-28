@@ -21,6 +21,7 @@ class AccountInvoiceLine(models.Model):
         Gets a tuple for thank_you communication
         If more than one product, product_name is False
         :return: (total_donation_amount, product_name)
+        override thankyou_letters.get_donations()
         """
         res_name = False
         total = sum(self.mapped("price_subtotal"))

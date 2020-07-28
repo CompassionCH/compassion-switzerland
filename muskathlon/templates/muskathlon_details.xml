@@ -5,7 +5,7 @@
             <t t-set="object" t-value="event"/>
             <t t-set="publish_edit" t-value="True"/>
         </t>
-        <t t-call="website.layout">
+        <t t-call="theme_compassion.layout">
             <div id="muskathlon_details">
                 <t t-set="background_color_class" t-value="'muskathlon_background_red'"/>
                 <t t-call="website_event_compassion.event_header"/>
