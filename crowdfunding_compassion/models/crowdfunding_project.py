@@ -68,7 +68,7 @@ class CrowdfundingProject(models.Model):
         compute="_compute_sponsorships"
     )
     invoice_line_ids = fields.One2many(
-        "account.invoice.line", "crowdfunding_participant_id", string="Donations"
+        "account.invoice.line", compute="_compute_invoice_line_ids", string="Donations"
     )
     project_owner_id = fields.Many2one("res.partner", "Project owner", required=True)
     owner_participant_id = fields.Many2one(
@@ -206,6 +206,13 @@ class CrowdfundingProject(models.Model):
         for project in self:
             project.cover_photo_url = \
                 f"{domain}/web/content/crowdfunding.project/{project.id}/cover_photo"
+
+    @api.multi
+    def _compute_invoice_line_ids(self):
+        for project in self:
+            project.invoice_line_ids = self.env["account.invoice.line"].search([
+                ("crowdfunding_participant_id", "in", project.participant_ids.ids)
+            ])
 
     @api.multi
     def validate(self):

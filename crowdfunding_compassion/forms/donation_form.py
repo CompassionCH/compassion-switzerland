@@ -89,7 +89,6 @@ class CrowdfundingDonationForm(models.AbstractModel):
                                 "source_id": participant.source_id.id,
                                 "medium_id": medium.id,
                                 "campaign_id": project.campaign_id.id,
-                                "account_analytic_id": event.analytic_id.id,
                             },
                         )
                     ],
