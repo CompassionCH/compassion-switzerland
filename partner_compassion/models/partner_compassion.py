@@ -78,9 +78,7 @@ class ResPartner(models.Model):
             ("paper", _("On paper")),
         ],
         "Thank you letter",
-        required=True,
         compute="_compute_thankyou_letter",
-        store=True
     )
     calendar = fields.Boolean(
         help="Indicates if the partner wants to receive the Compassion " "calendar.",
