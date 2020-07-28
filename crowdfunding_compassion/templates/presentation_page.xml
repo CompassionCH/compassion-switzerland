@@ -191,6 +191,18 @@
                                             </div>
                                         </div>
                                     </t>
+
+                                    <t t-if="project.number_sponsorships_goal > 0">
+                                        <t t-set="fund_image" t-value="sponsorship_card_content['header_image']"/>
+                                        <t t-set="fund_icon" t-value="sponsorship_card_content['icon_image']" />
+                                        <t t-set="fund_name" t-value="sponsorship_card_content['name']" />
+                                        <t t-set="fund_description" t-value="sponsorship_card_content['description']" />
+                                        <div class="row justify-content-center">
+                                            <div class="col-sm-12 col-md-8 my-5">
+                                                <t t-call="crowdfunding_compassion.fund_card"/>
+                                            </div>
+                                        </div>
+                                    </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="participant.facebook_url or participant.instagram_url or participant.twitter_url or participant.personal_web_page_url">
