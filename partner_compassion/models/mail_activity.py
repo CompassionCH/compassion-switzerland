@@ -14,7 +14,4 @@ class MailActivity(models.Model):
 
     # Override domain to consider only internal users
     user_id = fields.Many2one(
-        "res.users", "Assigned to",
-        default=lambda self: self.env.user,
-        index=True, required=True,
         domain="[('share', '=', False)]")
