@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap');
 // @import "compass/css3";
 //Colors
 
@@ -41,7 +41,7 @@ $display4-size: 2.5rem; //40px
 
 $font-size-sm: $font-size-base * 0.75;
 
-$font-family-base: "Montserrat", sans-serif;
+$font-family-base: 'Montserrat', sans-serif;
 $body-color: #333;
 
 body {
@@ -68,26 +68,25 @@ h6,
   color: #707070;
 }
 
-
-  @media (max-width: 700px) {
-    .display-1 {
-      font-size: 4rem;
-    }
-
-    .display-4 {
-      font-size: 2.5rem;
-    }
+@media (max-width: 700px) {
+  .display-1 {
+    font-size: 4rem;
   }
 
-  @media (max-width: 425px) {
-    .display-1 {
-      font-size: 3rem;
-    }
-
-    .display-4 {
-      font-size: 2rem;
-    }
+  .display-4 {
+    font-size: 2.5rem;
   }
+}
+
+@media (max-width: 425px) {
+  .display-1 {
+    font-size: 3rem;
+  }
+
+  .display-4 {
+    font-size: 2rem;
+  }
+}
 
 .bg-compassion {
   background-color: $blue-compassion;
@@ -132,7 +131,7 @@ section {
 
     a,
     a.button:hover {
-        text-decoration: none;
+      text-decoration: none;
     }
     a:hover {
       color: $white;
@@ -155,7 +154,6 @@ button {
     background-color: darken($blue-compassion, 15%) !important;
   }
 }
-
 
 .uppercase {
   text-transform: uppercase;
@@ -209,16 +207,23 @@ button {
   color: $white !important;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:active:focus, .open>.dropdown-toggle.btn-primary {
-    background-color: lighten($blue-compassion, 7.5%);
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.btn-primary:active:focus,
+.open > .dropdown-toggle.btn-primary {
+  background-color: lighten($blue-compassion, 7.5%);
 }
 
 .btn-white:hover {
-    background-color: $gray-100 !important;
+  background-color: $gray-100 !important;
 }
 
-.dropdown-item:active, .dropdown-item.active, .dropdown-item:active:focus {
-    background-color: lighten($blue-compassion, 25%);
+.dropdown-item:active,
+.dropdown-item.active,
+.dropdown-item:active:focus {
+  background-color: lighten($blue-compassion, 25%);
 }
 
 .btn-white {
@@ -230,22 +235,51 @@ button {
 $enable-rounded: false;
 
 .project-card {
-    &__header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+  &__header {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    min-height: 3.5rem;
+    padding: 0.3rem;
+    align-items: center;
 
-      &-align-right {
-        justify-self: end;
-      }
+    &-align-right {
+      justify-self: end;
+    }
 
-      @media (max-width: 400px) {
-        grid-template-columns: 1fr;
+    &-title {
+      grid-column-start: span 2;
 
-        &-align-right {
-          justify-self: start;
-        }
+      // Clamp to 1 line
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+
+      h5 {
+        font-size: 0.95rem;
       }
     }
+  }
+  &__body {
+    position: relative;
+    min-height: 24rem;
+
+    &-description {
+      // Clamp to 2 lines
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    &-cta {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem;
+    }
+  }
 }
 .fund-card {
   text-align: center;
@@ -315,22 +349,22 @@ $enable-rounded: false;
   color: $gray-300;
   padding: 5rem 0;
 
-  background-image: url("/theme_crowdfunding/static/src/img/head.jpg");
+  background-image: url('/theme_crowdfunding/static/src/img/head.jpg');
   background-size: cover;
   min-height: 200px;
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     min-height: 350px;
   }
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     min-height: 500px;
   }
 }
 
 .masthead h1 {
-    position: absolute;
-    text-align: center;
-    width: 100%;
-    bottom: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
 }
 
 //footer
@@ -472,7 +506,7 @@ footer {
   background: linear-gradient(180deg, $blue-compassion 95%, $white 95%);
 
   &__image {
-    height:100%;
+    height: 100%;
     min-height: 35vh;
     width: 100%;
     object-fit: cover;
@@ -526,8 +560,8 @@ footer {
 
   &__icon {
     margin-right: 10px;
-    height: 35px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
   }
 
   &__bar {
@@ -647,7 +681,6 @@ footer {
   &__card-icon {
     height: 120px;
     width: 120px;
-
     margin: 1rem auto;
   }
 
@@ -660,7 +693,7 @@ footer {
 .donation-form-amount {
   background: linear-gradient(180deg, $blue-compassion 90%, $white 90%);
 
-  input[type="number"] {
+  input[type='number'] {
     width: 80%;
     border: 2px solid $blue-compassion;
     border-radius: 4px;
@@ -688,7 +721,7 @@ footer {
 .field-boolean {
   width: 100%;
 
-  & input[type="checkbox"] {
+  & input[type='checkbox'] {
     display: inline;
     width: initial;
     height: initial;
@@ -741,17 +774,15 @@ footer {
 }
 
 hr.blue {
-    border-top: 1px solid $blue-compassion;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+  border-top: 1px solid $blue-compassion;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 .bg-blue {
-    background-color: $blue-compassion !important;
+  background-color: $blue-compassion !important;
 }
-
-
 
 .rounded-img {
   display: inline-block;
@@ -769,25 +800,27 @@ hr.blue {
 }
 
 .creation-form {
-    button {
-        margin-right: 1rem;
-    }
+  button {
+    margin-right: 1rem;
+  }
 
-    .fieldset-description {
-        width: 75%;
-    }
+  .fieldset-description {
+    width: 75%;
+  }
 }
 
-.status_message{
+.status_message {
   width: 50%;
-  position:fixed;
+  position: fixed;
   top: 50%; // half of width
   left: 25%; // half of height
   z-index: 1;
 }
 
 // Bootstrap overrides
-.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
   background-color: $blue-compassion;
   border-color: $blue-compassion;
 }
