@@ -18,7 +18,7 @@ odoo.define('crowdfunding_compassion.creation_form', function (require) {
             var count_div = document.createElement("div");
             count_div.style.cssText = 'text-align:right';
             count_div.setAttribute("id", "count_div");
-            var count_text = $("#campaign_name").val().length+"/"+MAX_CAMPAIGN_NAME_LEN
+            var count_text = $("#campaign_name").val().length+"/"+MAX_CAMPAIGN_NAME_LEN;
             var count_text_node = document.createTextNode(count_text);
             count_div.appendChild(count_text_node);
             $("#campaign_name").after(count_div);
