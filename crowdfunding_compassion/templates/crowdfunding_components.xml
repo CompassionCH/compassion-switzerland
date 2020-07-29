@@ -18,7 +18,7 @@
                     </span>
                 </div>
             </div>
-            <div class="goal-progress__bar mb-2">
+            <div class="goal-progress__bar mb-3 mt-1">
 
                 <!-- Compute goal progress percentage -->
                 <t t-set="progress_percentage" t-value="int(goal_reached / goal_objective * 100)"/>
@@ -204,34 +204,18 @@
         </template>
 
         <template id="project_card" name="Project card">
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-                <div class="card mb-4 h-100">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100">
                     <div class="card-header">
                         <div class="project-card__header">
-                            <div>
+                            <div class="project-card__header-title">
                                 <h5 class="card-title">
                                     <a t-attf-href="/project/#{project.id}" style="color: white">
                                         <t t-esc="project.name"/>
                                     </a>
                                 </h5>
                             </div>
-                            <div class="project-card__header-align-right">
-                                <p>
-                                    <t t-if="project.type == 'collective'">
-                                        <small>
-                                            <i class="fa fa-users white"/>
-                                            collective
-                                        </small>
-                                    </t>
-                                    <t t-else="">
-                                        <small>
-                                            <i class="fa fa-user white"/>
-                                            individual
-                                        </small>
-                                    </t>
-                                </p>
-                            </div>
-                            <div>
+                            <div class="project-card__header-icons">
                                 <t t-if="project.type == 'collective'">
                                     <p>
                                         <small>
@@ -253,27 +237,44 @@
                                     </p>
                                 </t>
                             </div>
+                            <div class="project-card__header-align-right project-card__header-icons">
+                                <p>
+                                    <t t-if="project.type == 'collective'">
+                                        <small>
+                                            <i class="fa fa-users white"/>
+                                            collective
+                                        </small>
+                                    </t>
+                                    <t t-else="">
+                                        <small>
+                                            <i class="fa fa-user white"/>
+                                            individual
+                                        </small>
+                                    </t>
+                                </p>
+                            </div>
                         </div>
-
-
                     </div>
+
                     <a t-attf-href="/project/#{project.id}">
                         <img class="card-img-top" t-attf-src="data:image/png;base64, #{ project.cover_photo }" alt="Project image"/>
                     </a>
-                    <br/>
 
-                    <div class="card-body d-flex flex-column">
-                        <p class="mb-4">
-                            <t t-esc="project.description[:100] + ' ...'"/>
-                        </p>
-                        <t t-call="crowdfunding_compassion.project_progress"/>
-
-                        <t t-if="project.deadline >= datetime.date.today()">
-                            <a t-attf-href="/project/#{project.id}/donation" class="btn btn-primary btn-block mt-auto">Donate</a>
-                        </t>
-                        <t t-if="project.type == 'collective' and project.deadline >= datetime.date.today()">
-                            <a t-attf-href="/projects/join/#{project.id}" class="btn btn-primary btn-block mt-auto">Participate</a>
-                        </t>
+                    <div class="card-body project-card__body">
+                        <div>
+                            <p class="mb-4 project-card__body-description">
+                                <t t-esc="project.description"/>
+                            </p>
+                            <t t-call="crowdfunding_compassion.project_progress"/>
+                        </div>
+                        <div class="project-card__body-cta">
+                            <t t-if="project.deadline >= datetime.date.today()">
+                                <a t-attf-href="/project/#{project.id}/donation" class="btn btn-primary btn-block mt-5">Donate</a>
+                            </t>
+                            <t t-if="project.type == 'collective' and project.deadline >= datetime.date.today()">
+                                <a t-attf-href="/projects/join/#{project.id}" class="btn btn-primary btn-block mt-2">Participate</a>
+                            </t>
+                        </div>
                     </div>
                 </div>
             </div>
