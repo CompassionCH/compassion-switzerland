@@ -17,31 +17,13 @@ from odoo.addons.website.models.website import slugify as slug
 from odoo.tools import file_open
 
 from odoo.addons.queue_job.job import job
+from odoo.addons.partner_compassion.models.partner_compassion import get_file_type
 
 _logger = logging.getLogger(__name__)
 
 # kanban colors
 RED = 2
 GREEN = 5
-
-try:
-    import magic
-except ImportError:
-    _logger.error("Please install magic to use website_event_compassion")
-
-
-def _get_file_type(data):
-    ftype = magic.from_buffer(base64.b64decode(data), True)
-    if "pdf" in ftype:
-        return ".pdf"
-    elif "tiff" in ftype:
-        return ".tiff"
-    elif "jpeg" in ftype:
-        return ".jpg"
-    elif "png" in ftype:
-        return ".png"
-    else:
-        return ""
 
 
 class Event(models.Model):
@@ -444,7 +426,7 @@ class Event(models.Model):
         for registration in self:
             passport = registration.passport
             if passport:
-                name = "Passport " + registration.name + _get_file_type(passport)
+                name = "Passport " + registration.name + get_file_type(passport)
                 attachment_obj.create(
                     {
                         "datas_fname": name,
@@ -498,7 +480,7 @@ class Event(models.Model):
                 name = (
                     "Criminal record "
                     + registration.partner_name
-                    + _get_file_type(criminal_record)
+                    + get_file_type(criminal_record)
                 )
                 attachment_obj.create(
                     {

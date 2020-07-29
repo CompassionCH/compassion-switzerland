@@ -10,9 +10,7 @@
 import logging
 import tempfile
 import uuid
-
-from odoo.addons.website_event_compassion.models.\
-    event_registration import _get_file_type
+import base64
 
 from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
@@ -38,6 +36,25 @@ try:
     from smb.smb_structs import OperationFailure
 except ImportError:
     logger.warning("Please install python dependencies.", exc_info=True)
+
+try:
+    import magic
+except ImportError:
+    logger.error("Please install magic to use website_event_compassion")
+
+
+def get_file_type(data):
+    ftype = magic.from_buffer(base64.b64decode(data), True)
+    if "pdf" in ftype:
+        return ".pdf"
+    elif "tiff" in ftype:
+        return ".tiff"
+    elif "jpeg" in ftype:
+        return ".jpg"
+    elif "png" in ftype:
+        return ".png"
+    else:
+        return ""
 
 
 class ResPartner(models.Model):
@@ -246,7 +263,7 @@ class ResPartner(models.Model):
                 name = (
                     "Criminal record "
                     + partner.name
-                    + _get_file_type(criminal_record)
+                    + get_file_type(criminal_record)
                 )
                 attachment_obj.create(
                     {
