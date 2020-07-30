@@ -530,12 +530,12 @@ class PartnerCommunication(models.Model):
             ).env.context
         return res
 
-    def get_new_dossier_attachments(self):
+    def get_new_dossier_attachments(self, payment=True):
         """
         Returns pdfs for the New Dossier Communication, including:
         - Sponsorship payment slips (if payment is True)
         - Small Childpack
-        - Sponsorship labels (if correspondence is True)
+        - Sponsorship labels
         - Child picture
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
@@ -579,7 +579,7 @@ class PartnerCommunication(models.Model):
         )
 
         # Payment slips
-        if bv_sponsorships:
+        if bv_sponsorships and payment:
             report_name = "report_compassion.3bvr_sponsorship"
             report_ref = self.env.ref("report_compassion.report_3bvr_sponsorship")
             if bv_sponsorships.mapped("payment_mode_id") == permanent_order:
@@ -633,6 +633,10 @@ class PartnerCommunication(models.Model):
                     }
                 )
         return attachments
+
+    def get_new_dossier_attachments_for_wrpr(self):
+        # Don't include payment slip for write and pray dossiers
+        self.get_new_dossier_attachments(payment=False)
 
     def get_csp_attachment(self):
         self.ensure_one()
