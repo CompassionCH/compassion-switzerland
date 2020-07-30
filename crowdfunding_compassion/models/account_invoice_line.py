@@ -8,11 +8,20 @@ class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
     crowdfunding_participant_id = fields.Many2one(
-        "crowdfunding.participant", "Crowdfunding participant"
+        "crowdfunding.participant", "Crowdfunding participant",
+        domain=[("project_id.state", "=", "active"),
+                ("project_id.active", "=", True),
+                ("project_id.deadline", ">=", fields.Date.today())]
     )
     is_anonymous = fields.Boolean(default=False)
 
     @api.onchange("crowdfunding_participant_id")
     def _update_utm_data(self):
-        self.source_id = self.crowdfunding_participant_id.source_id.id
-        self.campaign_id =  self.crowdfunding_participant_id.project_id.campaign_id.id
+        if self.crowdfunding_participant_id:
+            self.source_id = self.crowdfunding_participant_id.source_id
+            self.campaign_id =\
+                self.crowdfunding_participant_id.project_id.campaign_id
+            self.medium_id = self.env.ref(
+                "crowdfunding_compassion.utm_medium_crowdfunding")
+            self.account_analytic_id = \
+                self.crowdfunding_participant_id.project_id.event_id.analytic_id
