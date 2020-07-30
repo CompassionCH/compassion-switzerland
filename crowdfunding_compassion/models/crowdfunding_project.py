@@ -101,7 +101,7 @@ class CrowdfundingProject(models.Model):
                 ).id,
                 "crowdfunding_project_id": res.id,
                 "company_id": self.env.user.company_id.id,
-                "start_date": date.today(),
+                "start_date": vals.get("deadline"),
                 "end_date": vals.get("deadline"),
                 "hold_start_date": date.today(),
                 "number_allocate_children": vals.get("product_number_goal"),
