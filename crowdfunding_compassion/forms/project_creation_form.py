@@ -399,8 +399,8 @@ class ProjectCreationStep3(models.AbstractModel):
         if self.participant_id:
             config = self.env.ref(
                 "crowdfunding_compassion.config_project_join").sudo()
-            participant = self.participant_id
-            partner = self.participant_id.partner_id.sudo()
+            participant = self.participant_id.sudo()
+            partner = participant.partner_id.sudo()
 
         else:
             config = self.env.ref(
