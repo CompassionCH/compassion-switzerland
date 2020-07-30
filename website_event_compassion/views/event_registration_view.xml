@@ -54,7 +54,7 @@
                     <field name="flight_ids"/>
                     <field name="comments"/>
                     <field name="birth_name"/>
-                    <field name="criminal_record"/>
+                    <field name="criminal_record" groups="partner_compassion.group_criminal_record"/>
                 </group>
                 <group name="trip_2">
                     <field name="passport"/>
