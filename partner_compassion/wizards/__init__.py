@@ -11,3 +11,4 @@ from . import portal_wizard
 from . import partner_check_double
 from . import partner_merge_wizard
 from . import staff_notification_settings
+from . import tag_merge_wizard
