@@ -110,4 +110,10 @@ class CrowdfundingDonationForm(models.AbstractModel):
         # Get the extra values of the form
         self.amount = extra_values.get("amount")
         self.is_anonymous = extra_values.get("anonymous_donation")
+        # Skip invoice validation in super to avoid having the analytic of product
+        extra_values["skip_invoice_validation"] = True
         super().form_after_create_or_update(values, extra_values)
+        event = self.main_object.sudo().project_id.event_id
+        invoice = self.invoice_id.sudo()
+        invoice.invoice_line_ids.account_analytic_id = event.analytic_id
+        invoice.action_invoice_open()
