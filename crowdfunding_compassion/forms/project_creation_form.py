@@ -412,12 +412,12 @@ class ProjectCreationStep3(models.AbstractModel):
             extra_values["partner_image"] = ProjectCreationWizard\
                 .compress_big_images(extra_values["partner_image"])
             partner.write({"image": extra_values["partner_image"]})
-        if not partner.image:
+        else:
+            path = "crowdfunding_compassion/static/src/img/guy.png"
+            if partner.title.gender == "F":
+                path = "crowdfunding_compassion/static/src/img/lady.png"
             partner.write({
-                "image": b64encode(file_open(
-                    "crowdfunding_compassion/static/src/img/default_user_icon.png",
-                    "rb"
-                ).read())})
+                "image": b64encode(file_open(path, "rb").read())})
 
         extra_values.update(values)
         participant_values = {

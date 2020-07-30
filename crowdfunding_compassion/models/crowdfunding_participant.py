@@ -90,11 +90,13 @@ class CrowdfundingParticipant(models.Model):
     def _compute_profile_photo_url(self):
         domain = self.env['website'].get_current_website()._get_http_domain()
         for participant in self:
+            title = participant.sudo().partner_id.title.with_context(lang="en_US")
             if participant.profile_photo:
-                path = f"web/content/crowdfunding.participant/{participant.id}/profile_photo"
-            elif participant.sudo().partner_id.title.name == "Mister":
+                path = f"web/content/crowdfunding.participant" \
+                    f"/{participant.id}/profile_photo"
+            elif title.name == "Mister":
                 path = "crowdfunding_compassion/static/src/img/guy.png"
-            elif participant.sudo().partner_id.title.name == "Madam":
+            elif title.name == "Madam":
                 path = "crowdfunding_compassion/static/src/img/lady.png"
             else:
                 path = None
