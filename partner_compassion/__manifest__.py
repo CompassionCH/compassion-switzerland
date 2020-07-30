@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Upgrade Partners for Compassion Suisse",
-    "version": "12.0.1.0.1",
+    "version": "12.0.1.1.0",
     "category": "Partner",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -54,9 +54,10 @@
         "auditlog",
         "l10n_ch_zip",  # oca_addon/l10n_switzerland
     ],
-    "external_dependencies": {"python": ["pandas", "pyminizip", "sendgrid"]},
+    "external_dependencies": {"python": ["pandas", "pyminizip", "sendgrid", "magic"]},
     "data": [
         "security/ir.model.access.csv",
+        "security/criminal_record_groups.xml",
         "data/partner_category_data.xml",
         "data/partner_title_data.xml",
         "data/advocate_engagement_data.xml",
@@ -65,6 +66,7 @@
         "data/mail_channel.xml",
         "data/res_partner_actions.xml",
         "data/gist_indexes.xml",
+        "data/partner_action_rules.xml",
         "views/advocate_details.xml",
         'views/search_bank_address_wizard.xml',
         "views/survey_user_input_action.xml",

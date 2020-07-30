@@ -41,7 +41,6 @@ class StaffNotificationSettings(models.TransientModel):
         domain=[("user_ids", "!=", False), ("user_ids.share", "=", False), ],
         readonly=False,
     )
-
     share_on_nas = fields.Text()
     store_path = fields.Text()
 

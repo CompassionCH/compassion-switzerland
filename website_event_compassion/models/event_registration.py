@@ -17,31 +17,13 @@ from odoo.addons.website.models.website import slugify as slug
 from odoo.tools import file_open
 
 from odoo.addons.queue_job.job import job
+from odoo.addons.partner_compassion.models.partner_compassion import get_file_type
 
 _logger = logging.getLogger(__name__)
 
 # kanban colors
 RED = 2
 GREEN = 5
-
-try:
-    import magic
-except ImportError:
-    _logger.error("Please install magic to use website_event_compassion")
-
-
-def _get_file_type(data):
-    ftype = magic.from_buffer(base64.b64decode(data), True)
-    if "pdf" in ftype:
-        return ".pdf"
-    elif "tiff" in ftype:
-        return ".tiff"
-    elif "jpeg" in ftype:
-        return ".jpg"
-    elif "png" in ftype:
-        return ".png"
-    else:
-        return ""
 
 
 class Event(models.Model):
@@ -159,8 +141,7 @@ class Event(models.Model):
     emergency_ok = fields.Boolean(compute="_compute_step2_tasks")
     criminal_record_uploaded = fields.Boolean(compute="_compute_step2_tasks")
     criminal_record = fields.Binary(
-        compute="_compute_criminal_record", inverse="_inverse_criminal_record"
-    )
+        related="partner_id.criminal_record", readonly=False)
     medical_discharge = fields.Binary(attachment=True, copy=False)
     medical_survey_id = fields.Many2one(
         "survey.user_input", "Medical survey", copy=False, readonly=False
@@ -443,7 +424,7 @@ class Event(models.Model):
         for registration in self:
             passport = registration.passport
             if passport:
-                name = "Passport " + registration.name + _get_file_type(passport)
+                name = "Passport " + registration.name + get_file_type(passport)
                 attachment_obj.create(
                     {
                         "datas_fname": name,
@@ -469,61 +450,6 @@ class Event(models.Model):
                 attachment_obj.search(
                     [
                         ("name", "like", "Passport"),
-                        ("res_id", "=", registration.id),
-                        ("res_model", "=", self._name),
-                    ]
-                ).unlink()
-
-    def _compute_criminal_record(self):
-        for registration in self:
-            registration.criminal_record = (
-                self.env["ir.attachment"].sudo()
-                    .search(
-                    [
-                        ("name", "like", "Criminal record"),
-                        ("res_id", "=", registration.id),
-                        ("res_model", "=", self._name),
-                    ],
-                    limit=1,
-                )
-                .datas
-            )
-
-    def _inverse_criminal_record(self):
-        attachment_obj = self.env["ir.attachment"].sudo()
-        for registration in self:
-            criminal_record = registration.criminal_record
-            if criminal_record:
-                name = (
-                    "Criminal record "
-                    + registration.name
-                    + _get_file_type(criminal_record)
-                )
-                attachment_obj.create(
-                    {
-                        "datas_fname": name,
-                        "res_model": self._name,
-                        "res_id": registration.id,
-                        "datas": criminal_record,
-                        "name": name,
-                    }
-                )
-                self.write(
-                    {
-                        "completed_task_ids": [
-                            (
-                                4,
-                                self.env.ref(
-                                    "website_event_compassion.task_criminal"
-                                ).id,
-                            ),
-                        ]
-                    }
-                )
-            else:
-                attachment_obj.search(
-                    [
-                        ("name", "like", "Criminal record"),
                         ("res_id", "=", registration.id),
                         ("res_model", "=", self._name),
                     ]
