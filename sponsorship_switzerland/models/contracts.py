@@ -101,10 +101,11 @@ class RecurringContracts(models.Model):
     def write(self, vals):
         """ Perform various checks when a contract is modified. """
         if "group_id" in vals:
-            self._on_change_group_id(vals["group_id"])
-
-        # Write the changes
-        return super().write(vals)
+            old_payment_modes = [g.payment_mode_id for g in self.mapped('group_id')]
+        super().write(vals)
+        if "group_id" in vals:
+            self.check_mandate_needed(old_payment_modes)
+        return True
 
     @api.onchange("child_id")
     def onchange_child_id(self):
@@ -219,19 +220,8 @@ class RecurringContracts(models.Model):
 
     @api.multi
     def contract_waiting_mandate(self):
-        self._check_sponsorship_is_valid()
-        self.write({"state": "mandate", "mandate_date": fields.Datetime.now()})
-        for contract in self.filtered(lambda s: "S" in s.type and s.child_id.hold_id):
-            # Update the hold of the child to No Money Hold
-            hold = contract.child_id.hold_id
-            hold.write(
-                {
-                    "type": HoldType.NO_MONEY_HOLD.value,
-                    "expiration_date": hold.get_default_hold_expiration(
-                        HoldType.NO_MONEY_HOLD
-                    ),
-                }
-            )
+        need_mandate = self.filtered(lambda s: not s.partner_id.valid_mandate_id)
+        need_mandate.write({"state": "mandate", "mandate_date": fields.Datetime.now()})
         return True
 
     @api.multi
@@ -248,10 +238,7 @@ class RecurringContracts(models.Model):
                     and contract.total_amount != 0
             ):
                 # Check mandate
-                if not contract.partner_id.mapped("bank_ids.mandate_ids").filtered(
-                        lambda m: m.state == "valid"
-                ):
-                    needs_mandate += contract
+                needs_mandate += contract
                 # Recompute next_invoice_date
                 today = datetime.date.today()
                 old_invoice_date = contract.next_invoice_date
@@ -408,23 +395,23 @@ class RecurringContracts(models.Model):
                 lambda i: i.state == "open"
             ).action_cancel()
 
-    def _on_change_group_id(self, group_id):
+    def check_mandate_needed(self, old_payment_modes):
         """ Change state of contract if payment is changed to/from LSV or DD.
         """
-        group = self.env["recurring.contract.group"].browse(group_id)
-        payment_name = group.payment_mode_id.name
-        if group and ("LSV" in payment_name or "Postfinance" in payment_name):
-            self.filtered(
-                lambda s: s.state in ["waiting", "active"]).contract_waiting_mandate()
-        else:
-            # Check if old payment_mode was LSV or DD
-            for contract in self.filtered("group_id"):
-                payment_name = contract.payment_mode_id.name
-                if "LSV" in payment_name or "Postfinance" in payment_name:
-                    if contract.is_active:
-                        contract.contract_active()
-                    else:
-                        contract.contract_waiting()
+        for i, contract in enumerate(self):
+            group = contract.group_id.with_context(lang="en_US")
+            payment_name = group.payment_mode_id.name
+            old_payment_name = old_payment_modes[i].with_context(lang="en_US").name
+            if ("LSV" in payment_name or "Postfinance" in payment_name) and not (
+                    "LSV" in old_payment_name or "Postfinance" in old_payment_name
+            ):
+                self.filtered(
+                    lambda s: s.state in ["waiting", "active"]
+                ).contract_waiting_mandate()
+            elif ("LSV" in old_payment_name or "Postfinance"
+                  in old_payment_name) and not ("LSV" in payment_name or
+                                                "Postfinance" in payment_name):
+                contract.mandate_valid()
 
     @api.multi
     def _update_invoice_lines(self, invoices):

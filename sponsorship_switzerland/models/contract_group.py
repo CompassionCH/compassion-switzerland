@@ -102,20 +102,16 @@ class ContractGroup(models.Model):
         # undesirable situation where the status of the contracts are modified and the
         # payment method did not successfully change.
         if "payment_mode_id" in vals:
-            payment_mode = (
-                self.env["account.payment.mode"]
-                    .with_context(lang="en_US")
-                    .browse(vals["payment_mode_id"])
-            )
-            payment_name = payment_mode.name
+            old_modes = []
             for group in self:
-                old_term = group.payment_mode_id.name
-                if "LSV" in payment_name or "Postfinance" in payment_name:
-                    group.contract_ids.contract_waiting_mandate()
-                elif "LSV" in old_term or "Postfinance" in old_term:
-                    group.contract_ids.contract_active()
+                old_mode = group.payment_mode_id.with_context(lang="en_US")
+                old_modes.append([old_mode] * len(group.contract_ids))
 
         res = super().write(vals)
+
+        if "payment_mode_id" in vals:
+            for i, group in enumerate(self):
+                group.contract_ids.check_mandate_needed(old_modes[i])
 
         return res
 

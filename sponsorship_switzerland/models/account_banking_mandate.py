@@ -35,12 +35,14 @@ class AccountMandate(models.Model):
     @api.multi
     def _trigger_contracts(self, state):
         """ Fires a given transition on contracts in selected state. """
-        contracts = self.env["recurring.contract"]
+        contracts = self.env["recurring.contract"].with_context(lang="en_US")
         for mandate in self:
             contracts |= contracts.search(
                 [
                     ("partner_id", "child_of", mandate.partner_id.id),
                     ("state", "=", state),
+                    "|", ("payment_mode_id.name", "ilike", "LSV"),
+                    ("payment_mode_id", "ilike", "Postfinance")
                 ]
             )
         return contracts
