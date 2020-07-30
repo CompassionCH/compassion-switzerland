@@ -41,7 +41,7 @@ BEGIN
         '<span>' || text3 || '</span><br>' ||
         '<span>' || text4 || '</span><br>' ||
         '<span><a style="color:#0054a6" href="https://www.compassion.ch/" target="_blank">www.compassion.ch</a></span><br>' ||
-        '<span><a href="' || email_banner_url_open || '" target="_blank"><img height="158px" width="640px" src="' || email_banner_url || wLang || '.png"></img></a></span>' as value,
+        '<span><a href="' || email_banner_url_open || '" target="_blank"><img height="24.69%" width="100%" max-width="640px" max-height="158" src="' || email_banner_url || wLang || '.png"></img></a></span>' as value,
         'model' as model
     FROM res_users users
     INNER JOIN res_partner p
