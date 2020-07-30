@@ -460,33 +460,6 @@ class ResPartner(models.Model):
         action["context"] = {"search_default_partner_id": self.id}
         return action
 
-    @api.multi
-    def notify_event_responsible_criminal_record_expiration(self):
-        """
-        Action rule called when a criminal record expires. A notification is sent
-        to the event responsible.
-        """
-        # search for event responsible(s) of all events attended by partner
-        for partner in self:
-            registrations = self.env['event.registration'].sudo().search([
-                ("partner_id", "=", partner.id)
-            ])
-            for registration in registrations:
-                # get responsible
-                event = registration.event_id
-                responsible = event.user_id
-                if responsible:
-                    partner.activity_schedule(
-                        "mail.mail_activity_data_warning",
-                        summary=_("A criminal record is expiring today"),
-                        note=_("The criminal record of {} expires today. This person "
-                               "is an attendee of event {} for which you are "
-                               "responsible.".
-                               format(partner.name, event.name)
-                               ),
-                        user_id=responsible.id
-                    )
-
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################

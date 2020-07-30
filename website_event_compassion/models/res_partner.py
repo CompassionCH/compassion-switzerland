@@ -6,7 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields
+from odoo import api, models, fields, _
 
 
 class ResPartner(models.Model):
@@ -20,7 +20,6 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-
     def _inverse_criminal_record(self):
         super()._inverse_criminal_record()
         attachment_obj = self.env["ir.attachment"].sudo()
@@ -42,3 +41,30 @@ class ResPartner(models.Model):
                                 ]
                             }
                         )
+
+    ##########################################################################
+    #                             PUBLIC METHODS                             #
+    ##########################################################################
+    @api.multi
+    def notify_criminal_record_expiration(self):
+        """
+        Action rule called when a criminal record expires. A notification is sent
+        to the responsible defined in Compassion Settings.
+        """
+        # search for responsible of criminal record expiration in settings
+        notify_ids = (
+            self.env["res.config.settings"].sudo().get_param(
+                "criminal_record_expiration_ids")
+        )
+        # send notifications
+        if notify_ids:
+            for user_id in notify_ids[0][2]:
+                for partner in self:
+                    partner.activity_schedule(
+                        "mail.mail_activity_data_warning",
+                        summary=_("A criminal record is expiring today"),
+                        note=_("The criminal record of {} expires today.".
+                               format(partner.name)
+                               ),
+                        user_id=user_id
+                    )

@@ -42,8 +42,39 @@ class StaffNotificationSettings(models.TransientModel):
         readonly=False,
     )
 
+    criminal_record_expiration_ids = fields.Many2many(
+        "res.partner",
+        "Criminal record expiration",
+        domain=[("user_ids", "!=", False), ("user_ids.share", "=", False), ],
+        compute="_compute_relation_criminal_record_expiration_ids",
+        inverse="_inverse_relation_criminal_record_expiration_ids",
+        readonly=False
+    )
+
     share_on_nas = fields.Text()
     store_path = fields.Text()
+
+    def _compute_relation_criminal_record_expiration_ids(self):
+        self.criminal_record_expiration_ids = self.\
+            _get_criminal_record_expiration_ids()
+
+    @api.model
+    def _get_criminal_record_expiration_ids(self):
+        param_obj = self.env["ir.config_parameter"].sudo()
+        partners = param_obj.get_param(
+            "partner_compassion.criminal_record_expiration_ids",
+            False
+        )
+        if partners:
+            return [(6, 0, list(map(int, partners.split(","))))]
+        else:
+            return False
+
+    def _inverse_relation_criminal_record_expiration_ids(self):
+        self.env["ir.config_parameter"].sudo().set_param(
+            "partner_compassion.criminal_record_expiration_ids",
+            ",".join(map(str, self.criminal_record_expiration_ids.ids)),
+        )
 
     @api.multi
     def set_values(self):
@@ -127,6 +158,8 @@ class StaffNotificationSettings(models.TransientModel):
                 "store_path": str(
                     param_obj.get_param("partner_compassion.store_path", "")
                 ),
+                "criminal_record_expiration_ids":
+                    self._get_criminal_record_expiration_ids(),
             }
         )
         return res

@@ -24,6 +24,10 @@
                     <label for="advocate_birthday_en_id" class="o_light_label"/>
                     <field name="advocate_birthday_en_id" widget="many2one"/>
                 </div>
+                <div name="criminal_records">
+                    <label for="criminal_record_expiration_ids" class="o_light_label"/>
+                    <field name="criminal_record_expiration_ids" widget="many2many_tags"/>
+                </div>
             </xpath>
             <xpath expr="//div[@name='compassion_settings']">
                 <h2>NAS Settings</h2>

@@ -9,6 +9,6 @@
         <field name="trg_date_range">36</field>
         <field name="trg_date_range_type">month</field>
         <field name="state">code</field>
-        <field name="code">records.notify_event_responsible_criminal_record_expiration()</field>
+        <field name="code">records.notify_criminal_record_expiration()</field>
     </record>
 </odoo>
