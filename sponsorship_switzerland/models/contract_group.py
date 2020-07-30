@@ -81,8 +81,6 @@ class ContractGroup(models.Model):
             inv_vals["reference"] = vals["bvr_reference"]
             contracts |= self.mapped("contract_ids")
 
-        res = super().write(vals)
-
         if contracts:
             # Update related open invoices to reflect the changes
             inv_lines = self.env["account.invoice.line"].search(
@@ -116,6 +114,8 @@ class ContractGroup(models.Model):
                     group.contract_ids.contract_waiting_mandate()
                 elif "LSV" in old_term or "Postfinance" in old_term:
                     group.contract_ids.contract_active()
+
+        res = super().write(vals)
 
         return res
 
