@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id='tag_merge_wizard_form' model='ir.ui.view'>
+        <field name='name'>Tag merge wizard form view</field>
+        <field name='model'>res.partner.category.merge</field>
+        <field name='arch' type='xml'>
+            <form string="Merge Tags">
+                <sheet>
+                    <group>
+                    <field name='new_name'/>
+                    </group>
+                    <group>
+                    <field name='tag_ids'/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string='Merge' type='object'
+                    name='action_merge'
+                    class='btn-primary'/>
+                    <button string='Cancel' class='btn-default' special='cancel'/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="tag_merge_wizard_action" model="ir.actions.act_window">
+        <field name="src_model">res.partner.category</field>
+        <field name="res_model">res.partner.category.merge</field>
+        <field name="name">Merge Tags</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+         <field name="target">new</field>
+    </record>
+</odoo>
+
