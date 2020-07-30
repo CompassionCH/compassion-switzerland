@@ -42,9 +42,7 @@ class ResPartner(models.Model):
     @api.multi
     def _compute_salutation(self):
         # Special salutation for companies
-        company = self.filtered(
-            lambda p: not (p.title and p.firstname and not p.is_company)
-        )
+        company = self.filtered('is_company')
         for p in company:
             p.salutation = _("Dear friends of Compassion")
             p.short_salutation = p.salutation
@@ -55,6 +53,19 @@ class ResPartner(models.Model):
         # Family shouldn't be used with informal salutation
         family = self.env.ref("partner_compassion.res_partner_title_family")
         for partner in self.filtered(lambda p: p.title == family):
+            # The family salutation have a problem here. As it is defined in the
+            # previous loop, it is considered as company
+            title = partner.title
+            title_salutation = (
+                partner.env["ir.advanced.translation"]
+                    .get("salutation", female=title.gender == "F",
+                         plural=title.plural)
+                    .title()
+            )
+            title_name = title.name
+            partner.salutation = (
+                    title_salutation + " " + title_name + " " + partner.lastname
+            )
             partner.informal_salutation = partner.salutation
             partner.full_salutation = partner.salutation
 
