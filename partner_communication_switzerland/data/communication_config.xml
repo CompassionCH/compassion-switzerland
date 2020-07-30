@@ -388,7 +388,7 @@
             <field name="email_template_id" ref="email_wrpr_dossier"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="send_mode">physical</field>
-            <field name="attachments_function">get_new_dossier_attachments</field>
+            <field name="attachments_function">get_new_dossier_attachments_for_wrpr</field>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>
         <record id="sponsorship_wrpr_reminder" model="partner.communication.config">
