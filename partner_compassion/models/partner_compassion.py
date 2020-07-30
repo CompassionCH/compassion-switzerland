@@ -274,25 +274,6 @@ class ResPartner(models.Model):
                         "name": name,
                     }
                 )
-                # search for all registrations and write completed task
-                registrations = self.env["event.registration"].sudo().search([
-                    ("partner_id", "=", partner.id)
-                ])
-                for registration in registrations:
-                    if registration:
-                        registration.write(
-                            {
-                                "completed_task_ids": [
-                                    (
-                                        4,
-                                        registration.env.ref(
-                                            "website_event_compassion.task_criminal"
-                                        ).id,
-                                    ),
-                                ]
-                            }
-                        )
-                # update date of new criminal record
                 partner.criminal_record_write_date = fields.Date.today()
             else:
                 attachment_obj.search(
