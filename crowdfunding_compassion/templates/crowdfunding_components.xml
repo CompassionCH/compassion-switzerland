@@ -439,7 +439,7 @@
                             <div class="col-sm-12 col-md-4 pt-2">
                                 <style type="text/css">
                                     .social-link, .social-link:visited, .social-link:link {
-                                        color: #202020 !important;
+                                        color: #c0c0c0 !important;
                                         font-size: small;
                                     }
 
@@ -454,7 +454,7 @@
 
                                     <li class="nav-item">
                                         <a t-if="request.lang == 'fr_CH'" class="nav-link social-link" href="https://www.facebook.com/compassionsuisse/" target="_blank">Facebook</a>
-                                        <a t-if="request.lang == 'it_IT'" class="nav-link social-link" href="https://www.facebook.com/compassionsvizzera/" target="_blank">Facebook</a>
+                                        <a t-elif="request.lang == 'it_IT'" class="nav-link social-link" href="https://www.facebook.com/compassionsvizzera/" target="_blank">Facebook</a>
                                         <a t-else="" class="nav-link social-link" href="https://www.facebook.com/compassionschweiz/" target="_blank">Facebook</a>
                                     </li>
 
