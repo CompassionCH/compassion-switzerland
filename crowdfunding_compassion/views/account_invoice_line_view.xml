@@ -8,7 +8,6 @@
             <field name="arch" type="xml">
                 <field name="invoice_line_tax_ids" position="after">
                     <field name="crowdfunding_participant_id" widget="many2one"/>
-                    <field name="crowdfunding_project_id" widget="many2one"/>
                 </field>
             </field>
         </record>

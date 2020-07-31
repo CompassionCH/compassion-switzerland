@@ -68,6 +68,8 @@ class ResPartner(models.Model):
         required=True,
         default="default",
     )
+
+    # Obsolete, rather use thankyou_preference kept for old template
     thankyou_letter = fields.Selection(
         [
             ("no", _("No receipt")),
@@ -76,8 +78,7 @@ class ResPartner(models.Model):
             ("paper", _("On paper")),
         ],
         "Thank you letter",
-        required=True,
-        default="default",
+        compute="_compute_thankyou_letter",
     )
     calendar = fields.Boolean(
         help="Indicates if the partner wants to receive the Compassion " "calendar.",
@@ -214,6 +215,24 @@ class ResPartner(models.Model):
     def _compute_survey_input_count(self):
         for survey in self:
             survey.survey_input_count = len(survey.survey_inputs)
+
+    @api.multi
+    @api.depends("thankyou_preference")
+    def _compute_thankyou_letter(self):
+        """
+        Keep the old way of preferences updated
+        """
+        thankyou_mapping = {
+            "none": "no",
+            "auto_digital": "default",
+            "auto_digital_only": "only_email",
+            "auto_physical": "paper",
+            "digital": "default",
+            "digital_only": "only_email",
+            "physical": "paper",
+        }
+        for partner in self:
+            partner.thankyou_letter = thankyou_mapping[partner.thankyou_preference]
 
     ##########################################################################
     #                              ORM METHODS                               #

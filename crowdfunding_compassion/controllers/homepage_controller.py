@@ -5,6 +5,29 @@ from odoo import _
 from odoo.http import request, route, Controller
 from odoo.tools.misc import file_open
 
+SPONSOR_HEADER = base64.b64encode(file_open(
+    "crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg", "rb"
+).read())
+SPONSOR_ICON = base64.b64encode(file_open(
+    "crowdfunding_compassion/static/src/img/icn_children.png", "rb").read())
+
+
+def sponsorship_card_content():
+    return {"type": "sponsorship",
+            "value": 0,
+            "name": _("Sponsor children"),
+            "text": _("sponsored child"),
+            "description": _("""
+For 42 francs a month, you're opening the way out of poverty for a child. Sponsorship
+ ensures that the child is known, loved and protected. In particular, it gives the child
+ access to schooling, tutoring, regular balanced meals, medical care and training in the
+ spiritual field, hygiene, etc. Every week, the child participates in the activities of
+ one of the project center of the 8,000 local churches that are partners of
+ Compassion. They allow him or her to discover and develop his or her talents."""),
+            "icon_image": SPONSOR_ICON,
+            "header_image": SPONSOR_HEADER
+            }
+
 
 class HomepageController(Controller):
     @route("/homepage", auth="public", website=True)
@@ -22,28 +45,9 @@ class HomepageController(Controller):
         active_funds = fund_obj.sudo().search(
             [("activate_for_crowdfunding", "=", True)]
         )
-        sponsor_banner = base64.b64encode(file_open(
-            "crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg", "rb"
-        ).read())
-        sponsor_icon = base64.b64encode(file_open(
-            "crowdfunding_compassion/static/src/img/icn_children.png", "rb").read())
 
         impact = {
-            "sponsorship": {
-                "type": "sponsorship",
-                "value": 0,
-                "name": _("Sponsor children"),
-                "text": _("sponsored child"),
-                "description": _("""
-For 42 francs a month, you're opening the way out of poverty for a child. Sponsorship
- ensures that the child is known, loved and protected. In particular, it gives the child
- access to schooling, tutoring, regular balanced meals, medical care and training in the
- spiritual field, hygiene, etc. Every week, the child participates in the activities of
- one of the project center of the 8,000 local churches that are partners of
- Compassion. They allow him or her to discover and develop his or her talents."""),
-                "icon_image": sponsor_icon,
-                "header_image": sponsor_banner
-            }
+            "sponsorship": sponsorship_card_content()
         }
 
         for fund in active_funds:
@@ -53,8 +57,8 @@ For 42 francs a month, you're opening the way out of poverty for a child. Sponso
                 "name": fund.crowdfunding_impact_text_active,
                 "text": fund.crowdfunding_impact_text_passive_singular,
                 "description": fund.crowdfunding_description,
-                "icon_image": fund.image_medium or sponsor_icon,
-                "header_image": fund.image_large or sponsor_banner,
+                "icon_image": fund.image_medium or SPONSOR_ICON,
+                "header_image": fund.image_large or SPONSOR_HEADER,
             }
 
         for project in current_year_projects:

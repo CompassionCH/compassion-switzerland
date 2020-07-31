@@ -4,6 +4,8 @@ from babel.dates import format_timedelta
 
 from odoo import _
 from odoo.http import request, route, Controller
+from odoo.addons.crowdfunding_compassion.controllers.\
+    homepage_controller import sponsorship_card_content
 
 
 class ProjectController(Controller):
@@ -30,9 +32,9 @@ class ProjectController(Controller):
         project = participant.project_id.sudo()
         sponsorships, donations = self.get_sponsorships_and_donations(
             project.sponsorship_ids.filtered(
-                lambda s: s.partner_id == participant.partner_id),
+                lambda s: s.user_id == participant.partner_id),
             project.invoice_line_ids.filtered(
-                lambda line: line.partner_id == participant.partner_id
+                lambda line: line.user_id == participant.partner_id
             )
         )
         values = {
@@ -60,6 +62,7 @@ class ProjectController(Controller):
             "main_object": project,
             "impact": self.get_impact(sponsorships, donations),
             "fund": project.product_id,
+            "sponsorship_card_content": sponsorship_card_content(),
             "participant": participant,
             "model": "project",
             "base_url": request.website.domain

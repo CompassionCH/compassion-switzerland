@@ -409,6 +409,7 @@ class RecurringContract(models.Model):
                         "sds_state": "active", "welcome_active_letter_sent": True
                     })
                 except:
+                    to_send.env.clear()
                     logger.error("Error during sending welcome active communication",
                                  exc_info=True)
 

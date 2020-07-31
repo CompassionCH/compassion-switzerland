@@ -90,7 +90,8 @@ class PrintSponsorshipBvr(models.TransientModel):
             "preprinted": self.preprinted,
         }
         records = self.env[self.env.context.get("active_model")].browse(data["doc_ids"])
-        report_ref = self.env.ref("report_compassion.report_bvr_gift_sponsorship")
+        report_name = "report_compassion.report_" + self.paper_format.split(".")[1]
+        report_ref = self.env.ref(report_name)
         if self.pdf:
             name = records.name if len(records) == 1 else _("gift payment slips")
             self.pdf_name = name + ".pdf"

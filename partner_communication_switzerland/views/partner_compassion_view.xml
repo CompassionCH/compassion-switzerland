@@ -1,13 +1,4 @@
 <odoo>
-    <record id="view_partner_letter_delivery_remove" model="ir.ui.view">
-        <field name="name">res.partner.letter.delivery</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="thankyou_letters.view_partner_donation"/>
-        <field name="arch" type="xml">
-            <field name="thankyou_preference" position="replace"/>
-        </field>
-    </record>
-
     <!-- Add letter delivery preference and ambassador quote -->
     <record id="view_partner_letter_delivery" model="ir.ui.view">
         <field name="name">res.partner.letter.delivery</field>

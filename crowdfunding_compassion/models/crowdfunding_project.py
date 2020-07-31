@@ -68,7 +68,7 @@ class CrowdfundingProject(models.Model):
         compute="_compute_sponsorships"
     )
     invoice_line_ids = fields.One2many(
-        "account.invoice.line", "crowdfunding_project_id", string="Donations"
+        "account.invoice.line", compute="_compute_invoice_line_ids", string="Donations"
     )
     project_owner_id = fields.Many2one("res.partner", "Project owner", required=True)
     owner_participant_id = fields.Many2one(
@@ -101,7 +101,7 @@ class CrowdfundingProject(models.Model):
                 ).id,
                 "crowdfunding_project_id": res.id,
                 "company_id": self.env.user.company_id.id,
-                "start_date": date.today(),
+                "start_date": vals.get("deadline"),
                 "end_date": vals.get("deadline"),
                 "hold_start_date": date.today(),
                 "number_allocate_children": vals.get("product_number_goal"),
@@ -110,9 +110,12 @@ class CrowdfundingProject(models.Model):
             }
         )
         res.event_id = event
-
+        self.env["recurring.contract.origin"].create({
+            "type": "crowdfunding",
+            "event_id": event.id,
+            "analytic_id": event.analytic_id.id,
+        })
         res.add_owner2participants()
-
         return res
 
     @api.multi
@@ -156,7 +159,9 @@ class CrowdfundingProject(models.Model):
     def _compute_product_number_reached(self):
         for project in self:
             invl = project.invoice_line_ids.filtered(lambda l: l.state == "paid")
-            project.product_number_reached = int(sum(invl.mapped("quantity")))
+            project.product_number_reached = int(
+                sum(invl.mapped("price_total")) / project.product_id.standard_price
+            ) if project.product_id.standard_price else 0
 
     @api.multi
     def _compute_number_sponsorships_goal(self):
@@ -205,6 +210,13 @@ class CrowdfundingProject(models.Model):
                 f"{domain}/web/content/crowdfunding.project/{project.id}/cover_photo"
 
     @api.multi
+    def _compute_invoice_line_ids(self):
+        for project in self:
+            project.invoice_line_ids = self.env["account.invoice.line"].search([
+                ("crowdfunding_participant_id", "in", project.participant_ids.ids)
+            ])
+
+    @api.multi
     def validate(self):
         self.write({"state": "active"})
         comm_obj = self.env["partner.communication.job"]
@@ -220,32 +232,29 @@ class CrowdfundingProject(models.Model):
             )
 
     @api.model
-    def get_active_projects(self, limit=None, year=None):
-        if year:
-            self = self.search(
-                [
-                    ("deadline", ">=", datetime(year, 1, 1)),
-                    ("deadline", "<=", datetime(year, 12, 31)),
-                ]
-            )
-        # get active projects, from most urgent to least urgent
+    def get_active_projects(self, limit=None, year=None, type=None):
+        filters = list(filter(None, [
+            ("state", "!=", "draft"),
+            ("deadline", ">=", datetime(year, 1, 1)) if year else None,
+            ("deadline", "<=", datetime(year, 12, 31)) if year else None,
+            ("type", "=", type) if type else None
+        ]))
+
+        # Get active projects, from most urgent to least urgent
         active_projects = self.search(
             [
-                ("state", "!=", "draft"),
                 ("deadline", ">=", date.today()),
-            ], limit=limit, order="deadline ASC"
+            ] + filters, limit=limit, order="deadline ASC"
         )
+
+        # Get finished projects, from most recent to oldest expiring date
         finished_projects = self.env[self._name]
         if not limit or (limit and len(active_projects) < limit):
-            # get finished projects, from most recent to oldest expiring date
-            finish_limit = None
-            if limit:
-                finish_limit = limit-len(active_projects)
+            finish_limit = limit-len(active_projects) if limit else None
             finished_projects = self.search(
                 [
-                    ("state", "!=", "draft"),
                     ("deadline", "<", date.today()),
-                ], limit=finish_limit, order="deadline DESC"
+                ] + filters, limit=finish_limit, order="deadline DESC"
             )
 
         return active_projects + finished_projects

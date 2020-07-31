@@ -110,7 +110,7 @@
                         </group>
                         <group>
                             <field name="tax_certificate"/>
-                            <field name="thankyou_letter"/>
+                            <field name="thankyou_preference"/>
                         </group>
                     </group>
                 </page>
@@ -222,7 +222,7 @@
                     'default_photo_delivery_preference':'none',
                     'default_letter_delivery_preference':'none',
                     'default_tax_certificate':'no',
-                    'default_thankyou_letter':'no',
+                    'default_thankyou_preference':'none',
                     'default_nbmag':0,
                     'default_calendar':0,
                     'default_christmas_card':0,
@@ -269,7 +269,7 @@
                             <field name="global_communication_delivery_preference" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
                             <field name="photo_delivery_preference" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
                             <field name="tax_certificate" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
-                            <field name="thankyou_letter" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="thankyou_preference" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
                             <field name="email_copy"/>
                             <field name="active" invisible="1"/>
                         </group>
@@ -277,6 +277,9 @@
                     <field name="supplier" invisible="True"/>
                     <field name="customer" invisible="True"/>
                 </sheet>
+            </xpath>
+            <xpath expr="//field[@name='other_contact_ids']/kanban" position="attributes">
+                <attribute name="create">true</attribute>
             </xpath>
         </field>
     </record>
