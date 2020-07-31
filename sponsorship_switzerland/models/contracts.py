@@ -15,8 +15,6 @@ from dateutil.relativedelta import relativedelta
 
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
-from odoo.addons.child_compassion.models.compassion_hold import HoldType
-
 from odoo import api, models, fields, _
 
 logger = logging.getLogger(__name__)
