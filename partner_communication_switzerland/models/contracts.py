@@ -405,13 +405,16 @@ class RecurringContract(models.Model):
             for ts in to_send:
                 try:
                     ts.send_communication(welcome, both=True).send()
+                except:
+                    to_send.env.clear()
+                    ts.env.clear()
+                    logger.error("Error during sending welcome active communication",
+                                 exc_info=True)
+                finally:
+                    # Mark as send in any case to avoid sending multiple times
                     ts.write({
                         "sds_state": "active", "welcome_active_letter_sent": True
                     })
-                except:
-                    to_send.env.clear()
-                    logger.error("Error during sending welcome active communication",
-                                 exc_info=True)
 
     @api.model
     def send_sponsorship_reminders(self):
