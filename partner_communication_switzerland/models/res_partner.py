@@ -62,9 +62,8 @@ class ResPartner(models.Model):
                          plural=title.plural)
                     .title()
             )
-            title_name = title.name
             partner.salutation = (
-                    title_salutation + " " + title_name + " " + partner.lastname
+                    title_salutation + " " + title.name + " " + partner.lastname
             )
             partner.informal_salutation = partner.salutation
             partner.full_salutation = partner.salutation
