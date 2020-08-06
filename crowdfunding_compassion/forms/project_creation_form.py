@@ -13,6 +13,8 @@ from base64 import b64encode, b64decode
 from PIL import Image
 from io import BytesIO
 
+import urllib.parse as urlparse
+
 from odoo import models, fields, _
 from odoo.tools import file_open
 
@@ -105,6 +107,14 @@ class ProjectCreationWizard(models.AbstractModel):
             return new_image if bytes_len > new_bytes_len else old_image
         return old_image
 
+    def sanitized_url(self, values, key):
+        # Prevent the URL to be considered as a route if necessary
+        if values.get(key):
+            url = values[key]
+            if not url.startswith("http"):
+                return "http://" + url
+        return None
+
 
 class ProjectCreationFormStep1(models.AbstractModel):
     _name = "cms.form.crowdfunding.project.step1"
@@ -189,6 +199,16 @@ class ProjectCreationFormStep1(models.AbstractModel):
         if values.get("cover_photo"):
             values["cover_photo"] = ProjectCreationWizard\
                 .compress_big_images(values["cover_photo"])
+        if values.get("presentation_video"):
+            url_data = urlparse.urlparse(values["presentation_video"])
+            if not url_data.hostname or not url_data.path:
+                raise InvalidVideoLinkException
+        for key in ["presentation_video",
+                    "facebook_url",
+                    "twitter_url",
+                    "instagram_url",
+                    "personal_web_page_url"]:
+            values[key] = self.sanitized_url(values, key)
 
         super().form_after_create_or_update(values, extra_values)
 
@@ -210,6 +230,11 @@ class ProjectCreationFormStep1(models.AbstractModel):
         """ Holds the creation for the last step. The values will be passed
         to the next steps. """
         pass
+
+
+class InvalidVideoLinkException(Exception):
+    def __init__(self):
+        super().__init__("Invalid video link")
 
 
 class InvalidDateException(Exception):
@@ -395,6 +420,12 @@ class ProjectCreationStep3(models.AbstractModel):
         })
 
     def form_after_create_or_update(self, values, extra_values):
+        for key in ["participant_facebook_url",
+                    "participant_twitter_url",
+                    "participant_instagram_url",
+                    "participant_personal_web_page_url"]:
+            values[key] = self.sanitized_url(values, key)
+
         super().form_after_create_or_update(values, extra_values)
         if self.participant_id:
             config = self.env.ref(
