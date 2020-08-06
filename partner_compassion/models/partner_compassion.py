@@ -26,6 +26,16 @@ ADDRESS_FIELDS = [
     "country_id",
 ]
 
+THANKYOU_MAPPING = {
+    "none": "no",
+    "auto_digital": "default",
+    "auto_digital_only": "only_email",
+    "auto_physical": "paper",
+    "digital": "default",
+    "digital_only": "only_email",
+    "physical": "paper",
+}
+
 logger = logging.getLogger(__name__)
 
 try:
@@ -222,17 +232,9 @@ class ResPartner(models.Model):
         """
         Keep the old way of preferences updated
         """
-        thankyou_mapping = {
-            "none": "no",
-            "auto_digital": "default",
-            "auto_digital_only": "only_email",
-            "auto_physical": "paper",
-            "digital": "default",
-            "digital_only": "only_email",
-            "physical": "paper",
-        }
         for partner in self:
-            partner.thankyou_letter = thankyou_mapping[partner.thankyou_preference]
+            partner.thankyou_letter = \
+                THANKYOU_MAPPING[partner.thankyou_preference]
 
     ##########################################################################
     #                              ORM METHODS                               #
