@@ -232,7 +232,8 @@ class ResPartner(models.Model):
             "physical": "paper",
         }
         for partner in self:
-            partner.thankyou_letter = thankyou_mapping[partner.thankyou_preference]
+            partner.thankyou_letter = \
+                thankyou_mapping[partner.thankyou_preference]
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -471,6 +472,18 @@ class ResPartner(models.Model):
             "view_type": "form",
             "view_mode": "form",
             "target": "new",
+        }
+
+    @api.multi
+    def search_bank_address(self):
+        return {
+            'name': _('Search address in banks data'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'search.bank.address.wizard',
+            'view_mode': 'form',
+            'view_id': self.env.ref(
+                'partner_compassion.search_bank_address_wizard_form').id,
+            'target': 'new'
         }
 
     ##########################################################################
