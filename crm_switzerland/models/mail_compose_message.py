@@ -27,7 +27,6 @@ class MailComposer(models.TransientModel):
         # Clear previous attachments
         self.attachment_ids = None
 
-
         # Add gift payment slips
         template = self.env["mail.template"].browse(template_id)
         template_name = template.with_context(lang="en_US").name
