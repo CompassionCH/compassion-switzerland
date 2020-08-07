@@ -330,7 +330,7 @@ class RecurringContracts(models.Model):
             if pay_line:
                 lsv_dd_invoices += invoice
 
-            # If a draft payment order exitst, we remove the payment line.
+            # If a draft payment order exist, we remove the payment line.
             pay_line = self.env["account.payment.line"].search(
                 [
                     ("move_line_id", "in", invoice.move_id.line_ids.ids),
@@ -388,10 +388,13 @@ class RecurringContracts(models.Model):
                 sponsorship.correspondent_id.write(
                     {"category_id": [(3, sponsor_cat_id), (4, old_sponsor_cat_id)]}
                 )
+
             # Deactivate pending invoice lines.
-            sponsorship.invoice_line_ids.mapped("invoice_id").filtered(
+            opened = sponsorship.invoice_line_ids.mapped("invoice_id").filtered(
                 lambda i: i.state == "open"
-            ).action_cancel()
+            )
+            lsv_dd_invoices = self._get_lsv_dd_invoices(opened)
+            (opened - lsv_dd_invoices).action_cancel()
 
     def check_mandate_needed(self, old_payment_modes):
         """ Change state of contract if payment is changed to/from LSV or DD.
