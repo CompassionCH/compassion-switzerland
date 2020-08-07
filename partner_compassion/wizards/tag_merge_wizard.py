@@ -18,8 +18,20 @@ class TagMergeWizard(models.TransientModel):
     _name = "res.partner.category.merge"
     _description = "Tag Merge Wizard"
 
-    new_name = fields.Char(required=True)
-    tag_ids = fields.Many2many("res.partner.category", string="Tags")
+    dest_tag_id = fields.Many2one(
+        "res.partner.category", "Destination tag",
+        default=lambda s: s._default_dest(), required=True)
+    tag_ids = fields.Many2many(
+        "res.partner.category", string="Tags", default=lambda s: s._default_tags())
+
+    @api.model
+    def _default_tags(self):
+        return self.env.context.get("active_ids")
+
+    @api.model
+    def _default_dest(self):
+        return self.env.context.get("active_id") or self.env.context.get(
+            "active_ids", [0])[0]
 
     @api.multi
     def action_merge(self):
@@ -27,21 +39,10 @@ class TagMergeWizard(models.TransientModel):
         if len(self.tag_ids) < 2:
             raise UserError(_("Please select at least 2 tags."))
 
-        merged_partners = [tag.partner_ids for tag in self.tag_ids]
-        merged_partners_ids = [partner.id for x in merged_partners for partner in x]
-
-        # Create a tag with the new name and all unique partner_ids of the merged ones
-        self.env["res.partner.category"].create({
-            "name": self.new_name,
-            "partner_ids": [(6, 0, list(set(merged_partners_ids)))]
+        merged_partners = self.tag_ids.mapped("partner_ids")
+        tags_to_remove = self.tag_ids - self.dest_tag_id
+        tags_to_remove.unlink()
+        merged_partners.write({
+            "category_id": [(4, self.dest_tag_id.id)]
         })
-
-        # Delete the merged tags
-        self.tag_ids.unlink()
-
-    @api.model
-    def default_get(self, fields):
-        res = super().default_get(fields)
-        # Populate wizard tag ids from selected tags stored in context
-        res.update({'tag_ids': self.env.context.get('active_ids', [])})
-        return res
+        return True
