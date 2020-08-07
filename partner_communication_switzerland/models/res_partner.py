@@ -55,12 +55,11 @@ class ResPartner(models.Model):
             title = partner.title
             title_salutation = (
                 partner.env["ir.advanced.translation"]
-                    .get("salutation", female=title.gender == "F",
-                         plural=title.plural)
-                    .title()
+                .get("salutation", female=title.gender == "F", plural=title.plural)
+                .title()
             )
             partner.salutation = (
-                    title_salutation + " " + title.name + " " + partner.lastname
+                title_salutation + " " + title.name + " " + partner.lastname
             )
             partner.informal_salutation = partner.salutation
             partner.full_salutation = partner.salutation

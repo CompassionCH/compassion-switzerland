@@ -10,6 +10,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
+
 class TagMergeWizard(models.TransientModel):
     """
     Merge 2 or more tags into a single one.
