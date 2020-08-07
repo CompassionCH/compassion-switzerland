@@ -443,7 +443,7 @@ class RecurringContracts(models.Model):
         )
         number_to_reconcile = int(sum(move_lines.mapped("credit") or [0])) // int(
             self.total_amount
-        )
+        ) if self.total_amount else 0
         if number_to_reconcile:
             self.button_generate_invoices()
             invoices = self.invoice_line_ids.mapped("invoice_id").sorted("date_invoice")

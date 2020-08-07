@@ -535,7 +535,7 @@ class PartnerCommunication(models.Model):
         Returns pdfs for the New Dossier Communication, including:
         - Sponsorship payment slips (if payment is True)
         - Small Childpack
-        - Sponsorship labels (if correspondence is True)
+        - Sponsorship labels
         - Child picture
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
@@ -559,13 +559,12 @@ class PartnerCommunication(models.Model):
             and
             # 2. Permanent Order are always included
             s.payment_mode_id == permanent_order
-            or (
-                # 3. LSV/DD are never included
-                s.payment_mode_id not in lsv_dd_modes
-                and
-                # 4. If already paid they are not included
-                not s.period_paid
-            )
+            # The sponsorship amount must be set
+            and s.total_amount
+            # 3. LSV/DD are never included
+            and s.payment_mode_id not in lsv_dd_modes
+            # 4. If already paid they are not included
+            and not s.period_paid
         )
         write_sponsorships = sponsorships.filtered(
             lambda s: s.correspondent_id == self.partner_id
