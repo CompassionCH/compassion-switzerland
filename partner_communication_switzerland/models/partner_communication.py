@@ -530,7 +530,7 @@ class PartnerCommunication(models.Model):
             ).env.context
         return res
 
-    def get_new_dossier_attachments(self, payment=True):
+    def get_new_dossier_attachments(self):
         """
         Returns pdfs for the New Dossier Communication, including:
         - Sponsorship payment slips (if payment is True)
@@ -559,13 +559,12 @@ class PartnerCommunication(models.Model):
             and
             # 2. Permanent Order are always included
             s.payment_mode_id == permanent_order
-            or (
-                # 3. LSV/DD are never included
-                s.payment_mode_id not in lsv_dd_modes
-                and
-                # 4. If already paid they are not included
-                not s.period_paid
-            )
+            # The sponsorship amount must be set
+            and s.total_amount
+            # 3. LSV/DD are never included
+            and s.payment_mode_id not in lsv_dd_modes
+            # 4. If already paid they are not included
+            and not s.period_paid
         )
         write_sponsorships = sponsorships.filtered(
             lambda s: s.correspondent_id == self.partner_id
@@ -579,7 +578,7 @@ class PartnerCommunication(models.Model):
         )
 
         # Payment slips
-        if bv_sponsorships and payment:
+        if bv_sponsorships:
             report_name = "report_compassion.3bvr_sponsorship"
             report_ref = self.env.ref("report_compassion.report_3bvr_sponsorship")
             if bv_sponsorships.mapped("payment_mode_id") == permanent_order:
@@ -633,10 +632,6 @@ class PartnerCommunication(models.Model):
                     }
                 )
         return attachments
-
-    def get_new_dossier_attachments_for_wrpr(self):
-        # Don't include payment slip for write and pray dossiers
-        self.get_new_dossier_attachments(payment=False)
 
     def get_csp_attachment(self):
         self.ensure_one()

@@ -624,8 +624,9 @@ class RecurringContract(models.Model):
         # This prevents sending welcome e-mail if it's already active
         self.write({"sds_state": "active"})
         # Send new dossier for write&pray sponsorships
+        # that didn't get through waiting state (would already have the communication)
         self.filtered(
-            lambda s: s.type == "SC" and s.total_amount == 0
+            lambda s: s.type == "SC" and s.state == "draft"
         ).with_context({}).send_communication(
             self.env.ref(
                 "partner_communication_switzerland.sponsorship_dossier_wrpr"
