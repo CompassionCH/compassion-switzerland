@@ -475,6 +475,18 @@ class ResPartner(models.Model):
             "target": "new",
         }
 
+    @api.multi
+    def search_bank_address(self):
+        return {
+            'name': _('Search address in banks data'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'search.bank.address.wizard',
+            'view_mode': 'form',
+            'view_id': self.env.ref(
+                'partner_compassion.search_bank_address_wizard_form').id,
+            'target': 'new'
+        }
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
