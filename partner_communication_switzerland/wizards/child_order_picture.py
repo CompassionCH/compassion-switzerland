@@ -63,9 +63,10 @@ class CompassionHold(models.TransientModel):
         :return: Window Action
         """
         if _print:
-            res = self.env["ir.actions.report"].get_action(
-                self.mapped("sponsorship_ids.child_id"),
-                "partner_communication_switzerland.child_picture",
+            report = self.env.ref(
+                "partner_communication_switzerland.report_child_picture")
+            res = report.report_action(
+                self.mapped("sponsorship_ids.child_id.id"), config=False
             )
         else:
             self.download_data = self._make_zip()
