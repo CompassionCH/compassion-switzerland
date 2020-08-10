@@ -414,6 +414,24 @@ class RecurringContracts(models.Model):
                                                 "Postfinance" in payment_name):
                 contract.mandate_valid()
 
+    def _on_contract_lines_changed(self):
+        inv_lines = self.env['account.invoice.line'].search(
+            [('contract_id', 'in', self.ids),
+             ('state', 'not in', ('paid', 'cancel'))]
+        )
+
+        invoices = inv_lines.mapped('invoice_id')
+        opened = invoices.filtered(
+            lambda i: i.state == "open"
+        )
+        lsv_dd_invoices = self._get_lsv_dd_invoices(opened)
+        invoices_to_clean = invoices - lsv_dd_invoices
+        invoices_to_clean.action_invoice_cancel()
+        invoices_to_clean.action_invoice_draft()
+        invoices_to_clean.env.clear()
+        if self._update_invoice_lines(invoices_to_clean):
+            invoices_to_clean.action_invoice_open()
+
     @api.multi
     def _update_invoice_lines(self, invoices):
         """ Update bvr_reference of invoices """
