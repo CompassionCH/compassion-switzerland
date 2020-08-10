@@ -112,7 +112,7 @@ class ProjectCreationWizard(models.AbstractModel):
         if values.get(key):
             url = values[key]
             if not url.startswith("http"):
-                return "http://" + url
+                return "https://" + url
         return None
 
 
