@@ -12,7 +12,7 @@ from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
 from ..forms.project_creation_form import NoGoalException,\
-    NegativeGoalException, InvalidDateException, InvalidVideoLinkException
+    NegativeGoalException, InvalidDateException, InvalidLinkException
 
 
 class ProjectsController(Controller, FormControllerMixin):
@@ -58,9 +58,9 @@ class ProjectsController(Controller, FormControllerMixin):
 
         try:
             project_creation_form.form_process()
-        except InvalidVideoLinkException:
+        except InvalidLinkException:
             request.website.add_status_message(
-                _("The video link you entered is incorrect"), type_="danger"
+                _("A link you entered is incorrect"), type_="danger"
             )
         except InvalidDateException:
             request.website.add_status_message(
