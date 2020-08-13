@@ -1,44 +1,76 @@
 <odoo>
     <data noupdate="1">
-        <record id="sponsorship_daily_communication_cron" model="ir.cron">
-            <field name="name">Send daily sponsorship communication</field>
-            <field name="interval_number">1</field>
-            <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field name="model_id" ref="model_recurring_contract"/>
-            <field name="state">code</field>
-            <field name="code">model.send_daily_communication()</field>
-            <field name="active" eval="False"/>
-        </record>
-        <record id="sponsorship_monthly_communication_cron" model="ir.cron">
-            <field name="name">Send monthly sponsorship communication</field>
-            <field name="interval_number">1</field>
-            <field name="interval_type">months</field>
-            <field name="numbercall">-1</field>
-            <field name="model_id" ref="model_recurring_contract"/>
-            <field name="state">code</field>
-            <field name="code">model.send_monthly_communication()</field>
-            <field name="active" eval="False"/>
-        </record>
-        <record id="sponsorship_reminders_cron" model="ir.cron">
-            <field name="name">Send sponsorship reminders</field>
-            <field name="interval_number">1</field>
-            <field name="interval_type">months</field>
-            <field name="numbercall">-1</field>
-            <field name="model_id" ref="model_recurring_contract"/>
-            <field name="state">code</field>
-            <field name="code">model.send_sponsorship_reminders()</field>
-            <field name="active" eval="False"/>
-        </record>
-        <record id="yearly_tax_receipt_cron" model="ir.cron">
-            <field name="name">Generate tax receipts</field>
-            <field name="interval_number">12</field>
-            <field name="interval_type">months</field>
-            <field name="numbercall">-1</field>
-            <field name="model_id" ref="model_res_partner"/>
-            <field name="state">code</field>
-            <field name="code">model.generate_tax_receipts()</field>
-            <field name="active" eval="False"/>
-        </record>
+        <template>
+            <!-- Reccuring CRONs that cannot be replaced by automated actions -->
+            <record id="sponsorship_daily_communication_cron" model="ir.cron">
+                <field name="name">Send daily sponsorship communication</field>
+                <field name="interval_number">1</field>
+                <field name="interval_type">days</field>
+                <field name="numbercall">-1</field>
+                <field name="model_id" ref="model_recurring_contract"/>
+                <field name="state">code</field>
+                <field name="code">model.send_daily_communication()</field>
+                <field name="active" eval="False"/>
+            </record>
+            <record id="sponsorship_reminders_cron" model="ir.cron">
+                <field name="name">Send sponsorship reminders</field>
+                <field name="interval_number">1</field>
+                <field name="interval_type">months</field>
+                <field name="numbercall">-1</field>
+                <field name="model_id" ref="model_recurring_contract"/>
+                <field name="state">code</field>
+                <field name="code">model.send_sponsorship_reminders()</field>
+                <field name="active" eval="False"/>
+            </record>
+            <record id="yearly_tax_receipt_cron" model="ir.cron">
+                <field name="name">Generate tax receipts</field>
+                <field name="interval_number">12</field>
+                <field name="interval_type">months</field>
+                <field name="numbercall">-1</field>
+                <field name="model_id" ref="model_res_partner"/>
+                <field name="state">code</field>
+                <field name="code">model.generate_tax_receipts()</field>
+                <field name="active" eval="False"/>
+            </record>
+
+            <!-- Sponsorship anniversaries (1, 3, 5, 10 and 15 years) -->
+            <t t-foreach="[1,3,5,10,15]" t-as="year">
+                <t t-set="record_id" t-value="'sponsorship_anniversary_%d_communication' % year"/>
+                <t t-set="record_name" t-value="'Send sponsorship anniversary %d year %s communication' % (year, 's' if year != 1 else '')"/>
+                <t t-set="config_id" t-value="'planned_anniversary_%d' % year"/>
+                <t t-set="date_range" t-value="12 * year"/>
+                <t t-set="min_date" t-value="Datetime.now() + relativedelta(years=years)"/>
+                <!-- Record creation -->
+                <record id="record_id" model="base.automation">
+                    <field name="name">record_name</field>
+                    <field name="model_id" ref="model_recurring_contract"/>
+                    <field name="config_id" ref="config_id"/>
+                    <field name="state">Send Communication</field>
+                    <field name="partner_field">partner_id</field>
+                    <field name="filter_domain">[("start_date", ">=", min_date)]</field>
+                    <field name="trigger">on_time</field>
+                    <field name="trg_date_id">start_date</field>
+                    <field name="trg_date_range">date_range</field>
+                    <field name="trg_date_range_type">month</field>
+                    <field name="active" eval="False"/>
+                </record>
+            </t>
+
+            <!-- Write and pray reminders -->
+            <t t-set="min_date" t-value="Datetime.now() + relativedelta(months=3)"/>
+            <record id="wrpr_sponsorship_reminder" model="base.automation">
+                <field name="name">Write and Pray sponsorship reminder</field>
+                <field name="model_id" ref="model_recurring_contract"/>
+                <field name="config_id" ref="sponsorship_wrpr_reminder"/>
+                <field name="state">Send Communication</field>
+                <field name="partner_field">partner_id</field>
+                <field name="filter_domain">[("activation_date", ">=", min_date)]</field>
+                <field name="trigger">on_time</field>
+                <field name="trg_date_id">activation_date</field>
+                <field name="trg_date_range">3</field>
+                <field name="trg_date_range_type">month</field>
+                <field name="active" eval="False"/>
+            </record>
+        </template>
     </data>
 </odoo>
