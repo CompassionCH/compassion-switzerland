@@ -330,7 +330,7 @@ class RecurringContracts(models.Model):
             if pay_line:
                 lsv_dd_invoices += invoice
 
-            # If a draft payment order exitst, we remove the payment line.
+            # If a draft payment order exist, we remove the payment line.
             pay_line = self.env["account.payment.line"].search(
                 [
                     ("move_line_id", "in", invoice.move_id.line_ids.ids),
@@ -388,10 +388,13 @@ class RecurringContracts(models.Model):
                 sponsorship.correspondent_id.write(
                     {"category_id": [(3, sponsor_cat_id), (4, old_sponsor_cat_id)]}
                 )
+
             # Deactivate pending invoice lines.
-            sponsorship.invoice_line_ids.mapped("invoice_id").filtered(
+            opened = sponsorship.invoice_line_ids.mapped("invoice_id").filtered(
                 lambda i: i.state == "open"
-            ).action_cancel()
+            )
+            lsv_dd_invoices = self._get_lsv_dd_invoices(opened)
+            (opened - lsv_dd_invoices).action_cancel()
 
     def check_mandate_needed(self, old_payment_modes):
         """ Change state of contract if payment is changed to/from LSV or DD.
@@ -410,6 +413,24 @@ class RecurringContracts(models.Model):
                   in old_payment_name) and not ("LSV" in payment_name or
                                                 "Postfinance" in payment_name):
                 contract.mandate_valid()
+
+    def _on_contract_lines_changed(self):
+        inv_lines = self.env['account.invoice.line'].search(
+            [('contract_id', 'in', self.ids),
+             ('state', 'not in', ('paid', 'cancel'))]
+        )
+
+        invoices = inv_lines.mapped('invoice_id')
+        opened = invoices.filtered(
+            lambda i: i.state == "open"
+        )
+        lsv_dd_invoices = self._get_lsv_dd_invoices(opened)
+        invoices_to_clean = invoices - lsv_dd_invoices
+        invoices_to_clean.action_invoice_cancel()
+        invoices_to_clean.action_invoice_draft()
+        invoices_to_clean.env.clear()
+        if self._update_invoice_lines(invoices_to_clean):
+            invoices_to_clean.action_invoice_open()
 
     @api.multi
     def _update_invoice_lines(self, invoices):
