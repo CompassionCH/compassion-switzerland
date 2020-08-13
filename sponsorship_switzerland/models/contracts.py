@@ -435,7 +435,7 @@ class RecurringContracts(models.Model):
     @api.multi
     def _update_invoice_lines(self, invoices):
         """ Update bvr_reference of invoices """
-        super()._update_invoice_lines(invoices)
+        success = super()._update_invoice_lines(invoices)
         for contract in self:
             ref = False
             bank_modes = (
@@ -450,6 +450,7 @@ class RecurringContracts(models.Model):
                 seq = self.env["ir.sequence"]
                 ref = mod10r(seq.next_by_code("contract.bvr.ref"))
             invoices.write({"reference": ref})
+        return success
 
     def _reconcile_open_amount(self):
         # Reconcile open amount of partner with contract invoices
