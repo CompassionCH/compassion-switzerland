@@ -324,7 +324,7 @@ class RecurringContracts(models.Model):
             pay_line = self.env["account.payment.line"].search(
                 [
                     ("move_line_id", "in", invoice.move_id.line_ids.ids),
-                    ("order_id.state", "in", ("open", "done")),
+                    ("order_id.state", "not in", ("draft", "cancel")),
                 ]
             )
             if pay_line:
