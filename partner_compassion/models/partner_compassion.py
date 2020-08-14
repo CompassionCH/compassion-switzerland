@@ -179,6 +179,7 @@ class ResPartner(models.Model):
         string="Survey number", compute="_compute_survey_input_count", store=True
     )
 
+    city_id = fields.Many2one(related="zip_id.city_id", store=True)
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
