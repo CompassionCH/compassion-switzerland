@@ -109,10 +109,12 @@ class ProjectCreationWizard(models.AbstractModel):
 
     def sanitized_url(values, key):
         def validate_url(url):
-            """ Reference: https://github.com/django/django/blob/master/django/core/validators.py """
+            """ Reference:
+            https://github.com/django/django/blob/master/django/core/validators.py """
             url_regex = re.compile(
                 r'^https?://'  # http:// or https://
-                r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+                r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+'
+                r'(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
                 r'localhost|'  # localhost...
                 r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # ...or ipv4
                 r'\[?[A-F0-9]*:[A-F0-9:]+\]?)'  # ...or ipv6
