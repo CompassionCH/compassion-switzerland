@@ -178,6 +178,7 @@ class ResPartner(models.Model):
     survey_input_count = fields.Integer(
         string="Survey number", compute="_compute_survey_input_count", store=True
     )
+    city_id = fields.Many2one(related="zip_id.city_id", store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -283,6 +284,36 @@ class ResPartner(models.Model):
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
             self.compute_geopoint()
+        return res
+
+    @api.multi
+    @api.returns(None, lambda value: value[0])
+    def copy_data(self, default=None):
+        """
+        Fix bug changing the firstname and lastname because of automatic name
+        computations. We remove the name value in the copy fields.
+        """
+        res = super().copy_data(default)
+        res[0].pop("name", False)
+        return res
+
+    def _contact_fields(self):
+        """
+        Fix bug changing the firstname and lastname because of automatic name
+        computations. We remove the name value in the contact fields.
+        """
+        res = super()._contact_fields()
+        res.remove("name")
+        return res
+
+    @api.model
+    def _add_missing_default_values(self, values):
+        """
+        Fix bug changing the firstname and lastname because of automatic name
+        computations. We remove the name value in the default values.
+        """
+        res = super()._add_missing_default_values(values)
+        res.pop("name", False)
         return res
 
     @api.model

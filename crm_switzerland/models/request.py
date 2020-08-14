@@ -27,6 +27,8 @@ class CrmClaim(models.Model):
                             "email": email_alias,
                             "contact_id": partner.id,
                             "active": False,
+                            "lastname": partner.lastname,
+                            "firstname": partner.firstname,
                         }
                     )
 

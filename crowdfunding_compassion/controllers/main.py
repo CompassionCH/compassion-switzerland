@@ -24,8 +24,12 @@ class CrowdFundingWebsite(EventsController):
                 ("project_id.project_owner_id", "!=", partner.id),
             ]
         )
-        donations = participations.mapped("invoice_line_ids").filtered(
-            lambda l: l.state == "paid")
+        donations = request.env["account.invoice.line"].sudo().search(
+            [
+                ("crowdfunding_participant_id.partner_id", "=", partner.id),
+                ("state", "=", "paid"),
+            ]
+        )
 
         owned_projects = request.env["crowdfunding.project"].search(
             [("project_owner_id", "=", partner.id)]

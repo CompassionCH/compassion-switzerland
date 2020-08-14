@@ -13,6 +13,8 @@ from base64 import b64encode, b64decode
 from PIL import Image
 from io import BytesIO
 
+import re
+
 from odoo import models, fields, _
 from odoo.tools import file_open
 
@@ -105,6 +107,31 @@ class ProjectCreationWizard(models.AbstractModel):
             return new_image if bytes_len > new_bytes_len else old_image
         return old_image
 
+    def sanitized_url(values, key):
+        def validate_url(url):
+            """ Reference:
+            https://github.com/django/django/blob/master/django/core/validators.py """
+            url_regex = re.compile(
+                r'^https?://'  # http:// or https://
+                r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+'
+                r'(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+                r'localhost|'  # localhost...
+                r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # ...or ipv4
+                r'\[?[A-F0-9]*:[A-F0-9:]+\]?)'  # ...or ipv6
+                r'(?::\d+)?'  # optional port
+                r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+            return url_regex.match(url)
+
+        # Prevent the URL to be considered as a route if necessary
+        if values.get(key):
+            url = values[key]
+            if not url.startswith("http"):
+                url = "https://" + url
+            if not validate_url(url):
+                raise InvalidLinkException
+            return url
+        return None
+
 
 class ProjectCreationFormStep1(models.AbstractModel):
     _name = "cms.form.crowdfunding.project.step1"
@@ -189,7 +216,12 @@ class ProjectCreationFormStep1(models.AbstractModel):
         if values.get("cover_photo"):
             values["cover_photo"] = ProjectCreationWizard\
                 .compress_big_images(values["cover_photo"])
-
+        for key in ["presentation_video",
+                    "facebook_url",
+                    "twitter_url",
+                    "instagram_url",
+                    "personal_web_page_url"]:
+            values[key] = ProjectCreationWizard.sanitized_url(values, key)
         super().form_after_create_or_update(values, extra_values)
 
     @property
@@ -210,6 +242,11 @@ class ProjectCreationFormStep1(models.AbstractModel):
         """ Holds the creation for the last step. The values will be passed
         to the next steps. """
         pass
+
+
+class InvalidLinkException(Exception):
+    def __init__(self):
+        super().__init__("Invalid link")
 
 
 class InvalidDateException(Exception):
@@ -371,6 +408,12 @@ class ProjectCreationStep3(models.AbstractModel):
         if "partner_birthdate" in extra_values and \
                 extra_values["partner_birthdate"] > datetime.now().date():
             raise InvalidDateException
+        for key in ["participant_facebook_url",
+                    "participant_twitter_url",
+                    "participant_instagram_url",
+                    "participant_personal_web_page_url"]:
+            extra_values[key] = ProjectCreationWizard\
+                .sanitized_url(extra_values, key)
         language = self.env["res.lang.compassion"].search([
             ("lang_id.code", "=", self.env.lang)], limit=1)
         values["partner_spoken_lang_ids"] = [(4, language.id)]
