@@ -10,7 +10,7 @@
                 <field name="user_id"/>
                 <field name="sponsorship_id"/>
                 <field name="comment"/>
-                <field name="avoid_mobile_donation_notification"/>
+                <field name="avoid_thankyou_letter"/>
             </field>
         </field>
     </record>
