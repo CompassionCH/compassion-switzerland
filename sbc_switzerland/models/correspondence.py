@@ -329,6 +329,20 @@ class Correspondence(models.Model):
         gmc_letter.unlink()
         return our_letter.write(vals)
 
+    @api.multi
+    def resubmit_to_translation(self):
+        for letter in self:
+            if letter.state != "Translation check unsuccessful":
+                raise UserError(
+                    _("Letter must be in state 'Translation check unsuccessful'"))
+
+            letter.write({
+                "kit_identifier": False,
+                "resubmit_id": letter.resubmit_id + 1,
+                "state": "Received in the system"
+            })
+            letter.send_local_translate()
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
