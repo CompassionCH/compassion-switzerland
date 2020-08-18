@@ -155,10 +155,6 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         sponsorships = self.get_objects()
 
-        # Verify big due periods
-        if len(sponsorships.mapped("months_due")) > 3:
-            self.need_call = "before_sending"
-
         payment_mode = sponsorships.with_context(lang="en_US").mapped(
             "payment_mode_id.name"
         )[0]
@@ -166,11 +162,7 @@ class PartnerCommunication(models.Model):
         if "Waiting Reminder" in self.config_id.name and (
                 "LSV" in payment_mode or "Postfinance" in payment_mode
         ):
-            if self.partner_id.bank_ids:
-                # We received the bank info but withdrawal didn't work.
-                # Mark to call in order to verify the situation.
-                self.need_call = "before_sending"
-            else:
+            if not self.partner_id.bank_ids or not self.partner_id.valid_mandate_id:
                 # Don't put payment slip if we just wait the authorization form
                 return dict()
 
