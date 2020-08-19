@@ -37,9 +37,8 @@ class IrActionsServer(models.Model):
                 ])
                 vals = {
                     "partner_id": partner.id,
-                    "object_ids": records.mapped("id"),
+                    "object_ids": records.ids,
                     "config_id": action.config_id.id,
-                    "auto_send": False,
                 }
                 comm_job.create(vals)
-        return False
+        return True

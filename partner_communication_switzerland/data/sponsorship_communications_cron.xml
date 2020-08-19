@@ -39,9 +39,10 @@
             <field name="config_id" ref="planned_anniversary_1"/>
             <field name="state">communication</field>
             <field name="partner_field">correspondent_id</field>
-            <field name="filter_domain">[("start_date", ">=", Datetime.now() - relativedelta(years=1)), ("state", "=", "active"), ("child_id", "!=", False")]</field>
+            <field name="filter_domain">[("state", "=", "active"), ("child_id", "!=", False)]</field>
+            <field name="last_run" eval="datetime.now()"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id">start_date</field>
+            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
             <field name="trg_date_range">12</field>
             <field name="trg_date_range_type">month</field>
             <field name="active" eval="False"/>
@@ -52,9 +53,10 @@
             <field name="config_id" ref="planned_anniversary_3"/>
             <field name="state">communication</field>
             <field name="partner_field">correspondent_id</field>
-            <field name="filter_domain">[("start_date", ">=", Datetime.now() - relativedelta(years=3)), ("state", "=", "active"), ("child_id", "!=", False")]</field>
+            <field name="filter_domain">[("state", "=", "active"), ("child_id", "!=", False)]</field>
+            <field name="last_run" eval="datetime.now()"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id">start_date</field>
+            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
             <field name="trg_date_range">36</field>
             <field name="trg_date_range_type">month</field>
             <field name="active" eval="False"/>
@@ -65,9 +67,10 @@
             <field name="config_id" ref="planned_anniversary_5"/>
             <field name="state">communication</field>
             <field name="partner_field">correspondent_id</field>
-            <field name="filter_domain">[("start_date", ">=", Datetime.now() - relativedelta(years=5)), ("state", "=", "active"), ("child_id", "!=", False")]</field>
+            <field name="filter_domain">[("state", "=", "active"), ("child_id", "!=", False)]</field>
+            <field name="last_run" eval="datetime.now()"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id">start_date</field>
+            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
             <field name="trg_date_range">60</field>
             <field name="trg_date_range_type">month</field>
             <field name="active" eval="False"/>
@@ -78,9 +81,10 @@
             <field name="config_id" ref="planned_anniversary_10"/>
             <field name="state">communication</field>
             <field name="partner_field">correspondent_id</field>
-            <field name="filter_domain">[("start_date", ">=", Datetime.now() - relativedelta(years=10)), ("state", "=", "active"), ("child_id", "!=", False")]</field>
+            <field name="filter_domain">[("state", "=", "active"), ("child_id", "!=", False)]</field>
+            <field name="last_run" eval="datetime.now()"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id">start_date</field>
+            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
             <field name="trg_date_range">120</field>
             <field name="trg_date_range_type">month</field>
             <field name="active" eval="False"/>
@@ -91,9 +95,10 @@
             <field name="config_id" ref="planned_anniversary_15"/>
             <field name="state">communication</field>
             <field name="partner_field">correspondent_id</field>
-            <field name="filter_domain">[("start_date", ">=", Datetime.now() - relativedelta(years=15)), ("state", "=", "active"), ("child_id", "!=", False")]</field>
+            <field name="filter_domain">[("state", "=", "active"), ("child_id", "!=", False)]</field>
+            <field name="last_run" eval="datetime.now()"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id">start_date</field>
+            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
             <field name="trg_date_range">180</field>
             <field name="trg_date_range_type">month</field>
             <field name="active" eval="False"/>
@@ -104,11 +109,12 @@
             <field name="name">Write and Pray sponsorship reminder</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="config_id" ref="sponsorship_wrpr_reminder"/>
-            <field name="state">Send Communication</field>
+            <field name="state">communication</field>
             <field name="partner_field">correspondent_id</field>
-            <field name="filter_domain">[("activation_date", ">=", Datetime.now() - relativedelta(months=3)), ("state", "=", "active"), ("type", "=", "SC"), ("last_sponsor_letter", "=", False)]</field>
+            <field name="filter_domain">[("state", "=", "active"), ("type", "=", "SC"), ("last_sponsor_letter", "=", False)]</field>
+            <field name="last_run" eval="datetime.now()"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id">activation_date</field>
+            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__activation_date"/>
             <field name="trg_date_range">3</field>
             <field name="trg_date_range_type">month</field>
             <field name="active" eval="False"/>
