@@ -16,5 +16,5 @@ def migrate(env, installed_version):
             if hasattr(attached_record, "partner_id"):
                 attached_record.partner_id.criminal_record_date = \
                     attached_record.create_date.date()
-                to_del += attached_record
+                to_del += crimi
     to_del.unlink()
