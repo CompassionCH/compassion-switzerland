@@ -12,5 +12,6 @@ def migrate(env, installed_version):
         attached_record = env[crimi.res_model].browse(crimi.res_id)
         if attached_record.exists() and crimi.datas:
             attached_record.partner_id.criminal_record = crimi.datas
-            attached_record.partner_id.criminal_record_date = attached_record.create_date
+            attached_record.partner_id.criminal_record_date = \
+                attached_record.create_date
     crimis.unlink()

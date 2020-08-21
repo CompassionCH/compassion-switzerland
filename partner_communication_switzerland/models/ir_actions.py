@@ -23,7 +23,8 @@ class IrActionsServer(models.Model):
 
     @api.model
     def run_action_communication(self, action, eval_context=None):
-        if not action.config_id or not self._context.get('active_id') or self._is_recompute(action):
+        if not action.config_id or not self._context.get('active_id') or \
+                self._is_recompute(action):
             return False
 
         comm_job = self.env["partner.communication.job"]

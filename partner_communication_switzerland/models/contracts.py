@@ -8,7 +8,6 @@
 #
 ##############################################################################
 import base64
-import calendar
 import logging
 from datetime import datetime, date, timedelta
 
