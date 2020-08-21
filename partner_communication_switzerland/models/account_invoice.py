@@ -121,6 +121,7 @@ class AccountInvoice(models.Model):
         """
         return self.filtered(
             lambda i: i.type == "out_invoice"
+            and not i.avoid_thankyou_letter
             and (
                 not i.communication_id
                 or i.communication_id.state in ("call", "pending")

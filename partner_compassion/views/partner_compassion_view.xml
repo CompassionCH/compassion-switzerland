@@ -454,6 +454,11 @@
                     <field string="Has agreed" name="has_agreed_child_protection_charter" readonly="1"/>
                     <field string="Date agreed" name="date_agreed_child_protection_charter" readonly="1"/>
                 </group>
+                <group string="Other" name="other_fields">
+                    <field name="criminal_record_name" invisible="1"/>
+                    <field name="criminal_record" filename="criminal_record_name" groups="partner_compassion.group_criminal_record"/>
+                    <field name="criminal_record_date"/>
+                </group>
             </field>
         </field>
     </record>

@@ -176,4 +176,4 @@ class MailTrackingEvent(models.Model):
                 _("ConfigError"), _("Missing sendgrid_api_key in conf file")
             )
 
-        return SendGridAPIClient(apikey=api_key)
+        return SendGridAPIClient(api_key=api_key)
