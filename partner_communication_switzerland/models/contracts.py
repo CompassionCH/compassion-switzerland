@@ -229,51 +229,6 @@ class RecurringContract(models.Model):
         return communications
 
     @api.model
-    def send_monthly_communication(self):
-        """ Go through active sponsorships and send all planned
-        communications.
-        """
-        module = "partner_communication_switzerland."
-        logger.info("Sponsorship Planned Communications started!")
-
-        # Sponsorship anniversary
-        today = datetime.now()
-        logger.info("....Creating Anniversary Communications")
-        for year in [1, 3, 5, 10, 15]:
-            year_lookup = today - relativedelta(years=year)
-            start = year_lookup.replace(day=1)
-            stop = year_lookup.replace(
-                day=calendar.monthrange(year_lookup.year, year_lookup.month)[1]
-            )
-            anniversary = self.search(
-                [
-                    ("start_date", ">=", start),
-                    ("start_date", "<=", stop),
-                    ("state", "=", "active"),
-                    ("type", "like", "S"),
-                ]
-            )
-            config = self.env.ref(module + "planned_anniversary_" + str(year))
-            anniversary.send_communication(config)
-
-        # Write & Pray reminders after 3 months of activation
-        logger.info("....Creating Write&Pray Reminders")
-        three_month_ago = today - relativedelta(months=3)
-        four_month_ago = today - relativedelta(months=4)
-        wrpr_sponsorships = self.search(
-            [
-                ("state", "=", "active"),
-                ("type", "=", "SC"),
-                ("activation_date", "<", three_month_ago),
-                ("activation_date", ">=", four_month_ago),
-            ]
-        )
-        config = self.env.ref(module + "sponsorship_wrpr_reminder")
-        for sponsorship in wrpr_sponsorships:
-            if not sponsorship.sponsor_letter_ids:
-                sponsorship.send_communication(config)
-
-    @api.model
     def send_daily_communication(self):
         """
         Prepare daily communications to send.
