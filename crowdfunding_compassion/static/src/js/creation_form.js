@@ -12,6 +12,32 @@ odoo.define('crowdfunding_compassion.creation_form', function (require) {
          * Called when widget is started.
          */
         start: function () {
+            // limit the number of characters of campaign name
+            if ($("#campaign_name").length) {
+                const MAX_CAMPAIGN_NAME_LEN = 100;
+                // create div element and insert number of characters written
+                var count_div = document.createElement("div");
+                count_div.style.cssText = 'text-align:right';
+                count_div.setAttribute("id", "count_div");
+                var count_text = $("#campaign_name").val().length+"/"+MAX_CAMPAIGN_NAME_LEN;
+                var count_text_node = document.createTextNode(count_text);
+                count_div.appendChild(count_text_node);
+                $("#campaign_name").after(count_div);
+                // handle number of characters at keypress
+                $("#campaign_name").on("keydown keyup", function (e) {
+                    var campaign_name = $(this).val();
+                    var len = campaign_name.length;
+                    if (len > MAX_CAMPAIGN_NAME_LEN && e.keyCode !== 8 && e.keyCode !== 46
+                    && e.keyCode !== 37 && e.keyCode !== 39) {
+                        e.preventDefault();
+                        var res = campaign_name.substring(0, MAX_CAMPAIGN_NAME_LEN);
+                        $(this).val(res);
+                    } else {
+                        $("#count_div").html(len+"/"+MAX_CAMPAIGN_NAME_LEN);
+                    }
+                });
+            }
+
             $("[id^=product-choose-]").click(function () {
                 // Show the product settings
                 var button_id = this.getAttribute("id");

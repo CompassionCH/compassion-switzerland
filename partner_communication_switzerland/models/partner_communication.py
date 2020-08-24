@@ -155,10 +155,6 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         sponsorships = self.get_objects()
 
-        # Verify big due periods
-        if len(sponsorships.mapped("months_due")) > 3:
-            self.need_call = "before_sending"
-
         payment_mode = sponsorships.with_context(lang="en_US").mapped(
             "payment_mode_id.name"
         )[0]
@@ -166,11 +162,7 @@ class PartnerCommunication(models.Model):
         if "Waiting Reminder" in self.config_id.name and (
                 "LSV" in payment_mode or "Postfinance" in payment_mode
         ):
-            if self.partner_id.bank_ids:
-                # We received the bank info but withdrawal didn't work.
-                # Mark to call in order to verify the situation.
-                self.need_call = "before_sending"
-            else:
+            if not self.partner_id.bank_ids or not self.partner_id.valid_mandate_id:
                 # Don't put payment slip if we just wait the authorization form
                 return dict()
 
@@ -535,7 +527,7 @@ class PartnerCommunication(models.Model):
         Returns pdfs for the New Dossier Communication, including:
         - Sponsorship payment slips (if payment is True)
         - Small Childpack
-        - Sponsorship labels (if correspondence is True)
+        - Sponsorship labels
         - Child picture
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
@@ -559,13 +551,12 @@ class PartnerCommunication(models.Model):
             and
             # 2. Permanent Order are always included
             s.payment_mode_id == permanent_order
-            or (
-                # 3. LSV/DD are never included
-                s.payment_mode_id not in lsv_dd_modes
-                and
-                # 4. If already paid they are not included
-                not s.period_paid
-            )
+            # The sponsorship amount must be set
+            and s.total_amount
+            # 3. LSV/DD are never included
+            and s.payment_mode_id not in lsv_dd_modes
+            # 4. If already paid they are not included
+            and not s.period_paid
         )
         write_sponsorships = sponsorships.filtered(
             lambda s: s.correspondent_id == self.partner_id

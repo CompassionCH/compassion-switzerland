@@ -66,11 +66,3 @@ class CrmWordpressRequest(models.Model):
 
         partner = match_obj.match_partner_to_infos(fm, options={"skip_create": True})
         values["partner_id"] = partner.id
-
-        # TODO CO-3280 This won't work as crm.claim.type is no more used in v12
-        if "claim_type" in fm:
-            type_name = fm["claim_type"]
-            type_obj = self.env["crm.claim.type"]
-            ct = type_obj.search([("name", "=ilike", type_name)], limit=1)
-            if ct:
-                values["claim_type"] = ct.id

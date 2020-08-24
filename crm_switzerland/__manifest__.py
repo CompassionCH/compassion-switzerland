@@ -40,6 +40,7 @@
         "crm_request",  # compassion_modules/crm_request
         "crm_compassion",  # compassion_modules/crm_compassion
         "partner_compassion",  # compassion_switzerland/partner_compassion
+        "report_compassion",  # compassion_switzerland/report_compassion
     ],
     "data": [
         "views/crm_phonecall.xml",

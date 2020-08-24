@@ -80,10 +80,14 @@ class StatementCompletionRule(models.Model):
             ref = st_line["ref"]
         res = {}
 
-        ref_index = 9  # position of the partner ref inside the BVR number.
-        partner_ref = ref[ref_index:16]
+        ref_index_start = 9  # position where the partner ref starts in the BVR
+        ref_index_end = 16  # position where the partner ref ends in the BVR
+        partner_ref = ref[ref_index_end-7:ref_index_end]  # get standard 7 numbers ref
+        old_partner_ref = ref[ref_index_end-6:ref_index_end]  # get legacy 6 numbers ref
         partner_obj = self.env["res.partner"]
-        partner = partner_obj.search([("ref", "=", partner_ref)])
+        partner = partner_obj.search(["|",
+                                      ("ref", "=", partner_ref),
+                                      ("ref", "=", old_partner_ref)])
         if not partner:
             # Some bvr reference have a wrong number of leading zeros,
             # resulting in the partner reference to be offset.
@@ -93,7 +97,7 @@ class StatementCompletionRule(models.Model):
                 if int(flexible_ref) != int(partner_ref):
                     logger.warning(f"The partner reference might be misaligned: {ref}")
                     partner = partner_obj.search([("ref", "=", str(int(flexible_ref)))])
-                    ref_index = flexible_ref_match.start(1)
+                    ref_index_start = flexible_ref_match.start(1)
         if len(partner) > 1:
             # Take only those who have active sponsorships
             sponsor = partner.filtered(
@@ -113,7 +117,7 @@ class StatementCompletionRule(models.Model):
                 # no open invoice corresponding to the payment. We may need to
                 # generate one depending on the payment type.
                 line_vals, new_invoice = self._generate_invoice(
-                    stmts_vals, st_line, partner, ref_index
+                    stmts_vals, st_line, partner, ref_index_start
                 )
                 res.update(line_vals)
                 # Get the accounting partner (company)

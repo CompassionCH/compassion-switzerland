@@ -2,21 +2,25 @@
 <odoo>
     <data>
         <!-- Customize header  -->
-        <template id="custom_header" inherit_id="website.layout" name="Custom Header" priority="1000">
-            <xpath expr="//div[@id='wrapwrap']/header" position="inside">
-                <!--<span class="compassion-wp" style="display:  block; margin-bottom: 140px;">
-                    <header class="site-header background-blue" style="background-color: #0054a6; position: absolute; width: 100%;">
-                        <div class="static">
-                            <div class="logo medium-3 column" style="position: relative; bottom: 80px;">
-                                <a href="https://compassion.ch">
-                                    <object type="image/svg+xml" class="dark-logo" data="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.svg">
-                                        <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-fr.png" alt="No SVG support"/>
-                                    </object>
-                                </a>
-                            </div>
-                        </div>
-                    </header>
-                </span>-->
+        <template id="layout" inherit_id="website.layout" name="Custom Header" priority="1000">
+            <xpath expr="//header//ul[@id='top_menu']/li[hasclass('dropdown')]" position="before">
+                <!-- Add language selector-->
+                <li class="nav-item">
+                    <a role="menuitem" class="nav-link" t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='fr_CH')">
+                    FR
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a role="menuitem" class="nav-link" t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='de_DE')">
+                    DE
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a role="menuitem" class="nav-link" t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang='it_IT')">
+                    IT
+                    </a>
+                </li>
+                <li class="nav-item divider" />
             </xpath>
         </template>
     </data>

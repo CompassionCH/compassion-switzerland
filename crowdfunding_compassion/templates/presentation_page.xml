@@ -108,25 +108,23 @@
                             <!-- Main content -->
                             <div class="col-12 col-lg-8 mb-5">
                                 <div class="project-content__owner mb-4">
-                                    <t t-if="model == 'project'">
-                                        <img class="profile-pic" t-attf-src="data:image/png;base64, #{ project.owner_participant_id.profile_photo }" alt="Project owner"/>
-                                        <h5>
-                                            <t t-esc="project.project_owner_id.name" />
-                                        </h5>
-                                    </t>
-                                    <t t-else="">
-                                        <img class="profile-pic" t-attf-src="data:image/png;base64, #{ participant.profile_photo }" alt="Participant"/>
-                                        <h5>
-                                            <t t-esc="participant.partner_id.name" />
-                                        </h5>
-                                    </t>
+                                    <t t-set="participant" t-value="project.owner_participant_id" t-if="model == 'project'" />
+                                    <img class="profile-pic" t-att-src="participant.profile_photo_url" alt="Project owner" t-if="participant.profile_photo_url"/>
+                                    <h5>
+                                        <t t-esc="project.project_owner_id.name" t-if="model == 'project'"/>
+                                        <t t-esc="participant.partner_id.name" t-else=""/>
+                                    </h5>
                                 </div>
 
                                 <t t-if="model == 'project'">
                                     <!-- Project description and video -->
                                     <h3 class="blue my-4">About the project</h3>
                                     <p>
-                                        <t t-esc="project.description"/>
+                                        <t t-set="description_lines" t-value="project.description.split('\n')" />
+                                            <t t-foreach="description_lines" t-as="description_line">
+                                                <span t-esc="description_line"/>
+                                                <br />
+                                            </t>
                                     </p>
                                     <t t-if="project.presentation_video_embed">
                                         <iframe class="my-3" width="100%" height="400px" t-att-src="project.presentation_video_embed" frameborder="0"/>
@@ -181,6 +179,18 @@
                                         <t t-set="fund_icon" t-value="project.product_id.image_medium" />
                                         <t t-set="fund_name" t-value="project.product_id.crowdfunding_impact_text_active" />
                                         <t t-set="fund_description" t-value="project.product_id.crowdfunding_description" />
+                                        <div class="row justify-content-center">
+                                            <div class="col-sm-12 col-md-8 my-5">
+                                                <t t-call="crowdfunding_compassion.fund_card"/>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                    <t t-if="project.number_sponsorships_goal > 0">
+                                        <t t-set="fund_image" t-value="sponsorship_card_content['header_image']"/>
+                                        <t t-set="fund_icon" t-value="sponsorship_card_content['icon_image']" />
+                                        <t t-set="fund_name" t-value="sponsorship_card_content['name']" />
+                                        <t t-set="fund_description" t-value="sponsorship_card_content['description']" />
                                         <div class="row justify-content-center">
                                             <div class="col-sm-12 col-md-8 my-5">
                                                 <t t-call="crowdfunding_compassion.fund_card"/>

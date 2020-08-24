@@ -12,18 +12,18 @@ from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
 from ..forms.project_creation_form import NoGoalException,\
-    NegativeGoalException, InvalidDateException
+    NegativeGoalException, InvalidDateException, InvalidLinkException
 
 
 class ProjectsController(Controller, FormControllerMixin):
     @route("/projects", auth="public", website=True)
-    def get_projects_list(self, **kwargs):
+    def get_projects_list(self, type=None, **kwargs):
         project_obj = request.env["crowdfunding.project"]
 
         # TODO connect pagination to backend -> CO-3213
         return request.render(
             "crowdfunding_compassion.project_list_page",
-            {"projects": project_obj.sudo().get_active_projects()},
+            {"projects": project_obj.sudo().get_active_projects(type=type)},
         )
 
     @route(['/projects/create', '/projects/create/page/<int:page>',
@@ -58,15 +58,22 @@ class ProjectsController(Controller, FormControllerMixin):
 
         try:
             project_creation_form.form_process()
+        except InvalidLinkException:
+            request.website.add_status_message(
+                _("A link you entered is incorrect"), type_="danger"
+            )
         except InvalidDateException:
-            request.website.add_status_message(_("Please select a valid date"),
-                                               type_="danger")
+            request.website.add_status_message(
+                _("Please select a valid date"), type_="danger"
+            )
         except NoGoalException:
-            request.website.add_status_message(_("Please define a goal"),
-                                               type_="danger")
+            request.website.add_status_message(
+                _("Please define a goal"), type_="danger"
+            )
         except NegativeGoalException:
-            request.website.add_status_message(_("Please define a positive goal"),
-                                               type_="danger")
+            request.website.add_status_message(
+                _("Please define a positive goal"), type_="danger"
+            )
         values.update({
             "user": request.env.user,
             "form": project_creation_form,

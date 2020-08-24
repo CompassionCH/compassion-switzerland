@@ -8,7 +8,6 @@
 #
 ##############################################################################
 import base64
-import calendar
 import logging
 from datetime import datetime, date, timedelta
 
@@ -35,12 +34,14 @@ class RecurringContract(models.Model):
         help="Indicates that the child has a new picture to be ordered with "
              "Smartphoto."
     )
-    payment_type_attachment = fields.Char(compute="_compute_payment_type_attachment")
+    payment_type_attachment = fields.Char(
+        compute="_compute_payment_type_attachment")
     birthday_paid = fields.Many2many(
         "sponsorship.gift", compute="_compute_birthday_paid", readonly=False
     )
     due_invoice_ids = fields.Many2many(
-        "account.invoice", compute="_compute_due_invoices", store=True, readonly=False
+        "account.invoice", compute="_compute_due_invoices",
+        store=True, readonly=False
     )
     period_paid = fields.Boolean(
         compute="_compute_period_paid",
@@ -66,7 +67,8 @@ class RecurringContract(models.Model):
     def _do_not_send_letter_to_transfer(self):
         if self.origin_id.type == "transfer":
             self.send_introduction_letter = False
-        # If origin is switched back from a transer, field should be reset to default
+        # If origin is switched back from a transer,
+        # field should be reset to default
         else:
             self.send_introduction_letter = True
 
@@ -94,7 +96,8 @@ class RecurringContract(models.Model):
             else:
                 freq = contract.group_id.recurring_value
                 if freq == 12:
-                    phrase = _("1 payment slip for the annual sponsorship " "payment")
+                    phrase = _("1 payment slip for the annual sponsorship "
+                               "payment")
                 else:
                     phrase = _("payment slips for the sponsorship payment")
             contract.payment_type_attachment = phrase
@@ -128,11 +131,12 @@ class RecurringContract(models.Model):
                     lang="en_US"
                 ).filtered(
                     lambda i: i.state == "open"
-                    and fields.Date.from_string(i.due_date) < this_month
+                    and i.due_date < this_month
                     and i.invoice_id.invoice_type == "sponsorship"
                 )
                 contract.due_invoice_ids = invoice_lines.mapped("invoice_id")
-                contract.amount_due = int(sum(invoice_lines.mapped("price_subtotal")))
+                contract.amount_due = \
+                    int(sum(invoice_lines.mapped("price_subtotal")))
                 months = set()
                 for invoice in invoice_lines.mapped("invoice_id"):
                     idate = invoice.date
@@ -167,7 +171,8 @@ class RecurringContract(models.Model):
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    def send_communication(self, communication, correspondent=True, both=False):
+    def send_communication(self, communication,
+                           correspondent=True, both=False):
         """
         Sends a communication to selected sponsorships.
         :param communication: the communication config to use
@@ -193,16 +198,16 @@ class RecurringContract(models.Model):
                     }
                 )
                 if contract.correspondent_id != contract.partner_id:
-                    communications += self.env["partner.communication.job"].create(
-                        {
+                    communications += \
+                        self.env["partner.communication.job"].create({
                             "config_id": communication.id,
                             "partner_id": contract.correspondent_id.id,
                             "object_ids": self.env.context.get(
                                 "default_object_ids", contract.id
                             ),
                             "user_id": communication.user_id.id,
-                        }
-                    )
+                            }
+                        )
         else:
             for partner in partners:
                 objects = self.filtered(
@@ -221,51 +226,6 @@ class RecurringContract(models.Model):
                     }
                 )
         return communications
-
-    @api.model
-    def send_monthly_communication(self):
-        """ Go through active sponsorships and send all planned
-        communications.
-        """
-        module = "partner_communication_switzerland."
-        logger.info("Sponsorship Planned Communications started!")
-
-        # Sponsorship anniversary
-        today = datetime.now()
-        logger.info("....Creating Anniversary Communications")
-        for year in [1, 3, 5, 10, 15]:
-            year_lookup = today - relativedelta(years=year)
-            start = year_lookup.replace(day=1)
-            stop = year_lookup.replace(
-                day=calendar.monthrange(year_lookup.year, year_lookup.month)[1]
-            )
-            anniversary = self.search(
-                [
-                    ("start_date", ">=", start),
-                    ("start_date", "<=", stop),
-                    ("state", "=", "active"),
-                    ("type", "like", "S"),
-                ]
-            )
-            config = self.env.ref(module + "planned_anniversary_" + str(year))
-            anniversary.send_communication(config)
-
-        # Write & Pray reminders after 3 months of activation
-        logger.info("....Creating Write&Pray Reminders")
-        three_month_ago = today - relativedelta(months=3)
-        four_month_ago = today - relativedelta(months=4)
-        wrpr_sponsorships = self.search(
-            [
-                ("state", "=", "active"),
-                ("type", "=", "SC"),
-                ("activation_date", "<", three_month_ago),
-                ("activation_date", ">=", four_month_ago),
-            ]
-        )
-        config = self.env.ref(module + "sponsorship_wrpr_reminder")
-        for sponsorship in wrpr_sponsorships:
-            if not sponsorship.sponsor_letter_ids:
-                sponsorship.send_communication(config)
 
     @api.model
     def send_daily_communication(self):
@@ -305,17 +265,19 @@ class RecurringContract(models.Model):
         sponsorships_to_avoid = self.env["recurring.contract"]
 
         for sponsorship in sponsorships_with_birthday_tomorrow:
-            sponsorship_correspondences = self.env["correspondence"].search_count(
-                [
-                    ("sponsorship_id", "=", sponsorship.id),
-                    ("direction", "=", "Supporter To Beneficiary"),
-                    (
-                        "scanned_date",
-                        ">=",
-                        fields.Date.to_string(datetime.now() - relativedelta(months=2)),
-                    ),
-                ]
-            )
+            sponsorship_correspondences = \
+                self.env["correspondence"].search_count(
+                    [
+                        ("sponsorship_id", "=", sponsorship.id),
+                        ("direction", "=", "Supporter To Beneficiary"),
+                        (
+                            "scanned_date",
+                            ">=",
+                            fields.Date.to_string(
+                                datetime.now() - relativedelta(months=2)),
+                        ),
+                    ]
+                )
 
             if sponsorship_correspondences:
                 sponsorships_to_avoid += sponsorship
@@ -327,7 +289,8 @@ class RecurringContract(models.Model):
                     (
                         "date_partner_paid",
                         ">=",
-                        fields.Date.to_string(datetime.now() - relativedelta(months=2)),
+                        fields.Date.to_string(
+                            datetime.now() - relativedelta(months=2)),
                     ),
                 ]
             )
@@ -359,7 +322,8 @@ class RecurringContract(models.Model):
 
     @api.model
     def _get_sponsorships_with_child_birthday_on(self, birth_day):
-        corresp_compass_tag = "partner_compassion.res_partner_category_corresp_compass"
+        corresp_compass_tag = \
+            "partner_compassion.res_partner_category_corresp_compass"
         return self.search(
             [
                 ("child_id.birthdate", "like", birth_day.strftime("%%-%m-%d")),
@@ -371,7 +335,8 @@ class RecurringContract(models.Model):
                 ("partner_id.email", "!=", False),
                 ("state", "=", "active"),
                 ("type", "like", "S"),
-                ("partner_id.ref", "!=", "1502623"),  # if partner is not Demaurex
+                ("partner_id.ref", "!=", "1502623"),
+                # (above) if partner is not Demaurex
                 (
                     "partner_id.category_id",
                     "not in",
@@ -387,9 +352,12 @@ class RecurringContract(models.Model):
 
     @api.model
     def _send_welcome_active_letters_for_activated_sponsorships(self):
-        welcome = self.env.ref("partner_communication_switzerland.welcome_activation")
-        yesterday = fields.Datetime.to_string(datetime.today() - timedelta(days=1))
-        five_days_diff = fields.Datetime.to_string(datetime.today() - timedelta(days=5))
+        welcome = self.env.ref(
+            "partner_communication_switzerland.welcome_activation")
+        yesterday = fields.Datetime.to_string(
+            datetime.today() - timedelta(days=1))
+        five_days_diff = fields.Datetime.to_string(
+            datetime.today() - timedelta(days=5))
         # problem -> all records don't have field welcome_active_letter_sent
         to_send = self.env["recurring.contract"].search(
             [
@@ -402,8 +370,21 @@ class RecurringContract(models.Model):
             ]
         )
         if to_send:
-            to_send.send_communication(welcome, both=True).send()
-            to_send.write({"sds_state": "active", "welcome_active_letter_sent": True})
+            for ts in to_send:
+                try:
+                    ts.send_communication(welcome, both=True).send()
+                except:
+                    to_send.env.clear()
+                    ts.env.clear()
+                    logger.error(
+                        "Error during sending welcome active communication",
+                        exc_info=True)
+                finally:
+                    # Mark as send in any case to avoid sending multiple times
+                    ts.write({
+                        "sds_state": "active",
+                        "welcome_active_letter_sent": True
+                    })
 
     @api.model
     def send_sponsorship_reminders(self):
@@ -425,7 +406,7 @@ class RecurringContract(models.Model):
             default_auto_send=False,
             default_print_header=True,
         )
-        fifty_ago = today - relativedelta(days=50)
+        ninety_ago = today - relativedelta(days=90)
         twenty_ago = today - relativedelta(days=20)
         comm_obj = self.env["partner.communication.job"]
         search_domain = [
@@ -443,7 +424,8 @@ class RecurringContract(models.Model):
             search_domain + [("group_id.advance_billing_months", ">", 3)]
         )
         multi_month.compute_due_invoices()
-        for sponsorship in self.search(search_domain + [("months_due", ">", 1)]):
+        for sponsorship in self.search(
+                search_domain + [("months_due", ">", 1)]):
             reminder_search = [
                 (
                     "config_id",
@@ -457,7 +439,8 @@ class RecurringContract(models.Model):
             # reminder in that case)
             has_first_reminder = comm_obj.search_count(
                 reminder_search
-                + [("sent_date", ">=", fifty_ago), ("sent_date", "<", twenty_ago)]
+                + [("sent_date", ">=", ninety_ago),
+                   ("sent_date", "<", twenty_ago)]
             )
             if has_first_reminder:
                 second_reminder += sponsorship
@@ -469,8 +452,10 @@ class RecurringContract(models.Model):
                 )
                 if not has_first_reminder:
                     first_reminder += sponsorship
-        first_reminder.send_communication(first_reminder_config, correspondent=False)
-        second_reminder.send_communication(second_reminder_config, correspondent=False)
+        first_reminder.send_communication(
+            first_reminder_config, correspondent=False)
+        second_reminder.send_communication(
+            second_reminder_config, correspondent=False)
         logger.info("Sponsorship Reminders created!")
         return True
 
@@ -485,7 +470,8 @@ class RecurringContract(models.Model):
         attachments = dict()
         partner_lang = self.mapped("correspondent_id")[0].lang
         product_name = products[0].with_context(lang=partner_lang).name
-        report_ref = self.env.ref("report_compassion.report_bvr_gift_sponsorship")
+        report_ref = self.env.ref(
+            "report_compassion.report_bvr_gift_sponsorship")
         pdf_data = report_ref.render_qweb_pdf(
             self.ids,
             data={
@@ -511,8 +497,10 @@ class RecurringContract(models.Model):
     @api.multi
     def action_sub_reject(self):
         res = super().action_sub_reject()
-        no_sub_config = self.env.ref("partner_communication_switzerland.planned_no_sub")
-        self.with_context({}).send_communication(no_sub_config, correspondent=False)
+        no_sub_config = self.env.ref(
+            "partner_communication_switzerland.planned_no_sub")
+        self.with_context({}).send_communication(
+            no_sub_config, correspondent=False)
         return res
 
     ##########################################################################
@@ -528,7 +516,10 @@ class RecurringContract(models.Model):
             and s.sds_state == "draft"
             and s.partner_id.ref != "1502623"
             and not s.welcome_active_letter_sent
-        ).write({"sds_state": "waiting_welcome", "sds_state_date": fields.Date.today()})
+        ).write({
+            "sds_state": "waiting_welcome",
+            "sds_state_date": fields.Date.today()
+        })
         csp = self.filtered(
             lambda s: "6014" in s.mapped(
                 "contract_line_ids.product_id.property_account_income_id.code")
@@ -556,12 +547,16 @@ class RecurringContract(models.Model):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
         res = super().contract_waiting()
         self.filtered(
-            lambda c: "S" in c.type and not c.is_active and c not in mandates_valid
+            lambda c: "S" in c.type
+                      and not c.is_active
+                      and c not in mandates_valid
         ).with_context({})._new_dossier()
 
-        csp_product = self.env.ref("sponsorship_switzerland.product_template_fund_csp")
-        csp = self.filtered(lambda s: csp_product in s.contract_line_ids.mapped(
-            "product_id.product_tmpl_id"))
+        csp_product = self.env.ref(
+            "sponsorship_switzerland.product_template_fund_csp")
+        csp = self.filtered(
+            lambda s: csp_product in s.contract_line_ids.mapped(
+                "product_id.product_tmpl_id"))
         if csp:
             module = "partner_communication_switzerland."
             selected_config = self.env.ref(module + "csp_mail")
@@ -583,7 +578,10 @@ class RecurringContract(models.Model):
         # This prevents sending welcome e-mail if it's already active
         self.write({"sds_state": "active"})
         # Send new dossier for write&pray sponsorships
-        self.filtered(lambda s: s.type == "SC").with_context({}).send_communication(
+        # that didn't get through waiting state (would already have the communication)
+        self.filtered(
+            lambda s: s.type == "SC" and s.state == "draft"
+        ).with_context({}).send_communication(
             self.env.ref(
                 "partner_communication_switzerland.sponsorship_dossier_wrpr"
             )

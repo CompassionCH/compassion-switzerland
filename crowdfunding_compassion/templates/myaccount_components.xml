@@ -96,13 +96,13 @@
                         </thead>
 
                         <t t-foreach="donations" t-as="donation">
-                            <t t-set="project_name" t-value="donation.crowdfunding_project_id.name"/>
+                            <t t-set="project_name" t-value="donation.crowdfunding_participant_id.project_id.name"/>
                             <t t-set="partner_name" t-value="donation.partner_id.name"/>
                             <t t-set="price_subtotal" t-value="donation.price_subtotal"/>
                             <t t-set="due_date" t-value="donation.due_date"/>
                             <t t-set="ambassador" t-value="donation.user_id.sudo().name"/>
                             <t t-set="is_owner"
-                               t-value="donation.crowdfunding_project_id.project_owner_id == donation.partner_id"/>
+                               t-value="donation.crowdfunding_participant_id.project_id.project_owner_id == donation.partner_id"/>
                             <t t-call="crowdfunding_compassion.myaccount_donation_tbody"/>
                         </t>
                     </table>

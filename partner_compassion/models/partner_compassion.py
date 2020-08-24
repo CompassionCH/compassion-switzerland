@@ -10,6 +10,7 @@
 import logging
 import tempfile
 import uuid
+import base64
 
 from odoo import api, registry, fields, models, _
 from odoo.tools import mod10r
@@ -26,15 +27,44 @@ ADDRESS_FIELDS = [
     "country_id",
 ]
 
+THANKYOU_MAPPING = {
+    "none": "no",
+    "auto_digital": "default",
+    "auto_digital_only": "only_email",
+    "auto_physical": "paper",
+    "digital": "default",
+    "digital_only": "only_email",
+    "physical": "paper",
+}
+
 logger = logging.getLogger(__name__)
+MAGIC_INSTALLED = False
 
 try:
+    import magic
+    MAGIC_INSTALLED = True
     import pyminizip
     import csv
     from smb.SMBConnection import SMBConnection
     from smb.smb_structs import OperationFailure
 except ImportError:
     logger.warning("Please install python dependencies.", exc_info=True)
+
+
+def get_file_type(data):
+    ftype = ""
+    if MAGIC_INSTALLED:
+        ftype = magic.from_buffer(base64.b64decode(data), True)
+    if "pdf" in ftype:
+        return ".pdf"
+    elif "tiff" in ftype:
+        return ".tiff"
+    elif "jpeg" in ftype:
+        return ".jpg"
+    elif "png" in ftype:
+        return ".png"
+    else:
+        return ""
 
 
 class ResPartner(models.Model):
@@ -68,6 +98,8 @@ class ResPartner(models.Model):
         required=True,
         default="default",
     )
+
+    # Obsolete, rather use thankyou_preference kept for old template
     thankyou_letter = fields.Selection(
         [
             ("no", _("No receipt")),
@@ -76,8 +108,7 @@ class ResPartner(models.Model):
             ("paper", _("On paper")),
         ],
         "Thank you letter",
-        required=True,
-        default="default",
+        compute="_compute_thankyou_letter",
     )
     calendar = fields.Boolean(
         help="Indicates if the partner wants to receive the Compassion " "calendar.",
@@ -140,6 +171,14 @@ class ResPartner(models.Model):
         help="The date and time when the partner has agreed to the child"
              "protection charter."
     )
+    criminal_record = fields.Binary(
+        attachment=True,
+
+    )
+    criminal_record_name = fields.Char(
+        compute="_compute_criminal_record_name"
+    )
+    criminal_record_date = fields.Date()
 
     # add track on fields from module base
     email = fields.Char(track_visibility="onchange")
@@ -167,6 +206,7 @@ class ResPartner(models.Model):
     survey_input_count = fields.Integer(
         string="Survey number", compute="_compute_survey_input_count", store=True
     )
+    city_id = fields.Many2one(related="zip_id.city_id", store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -215,6 +255,23 @@ class ResPartner(models.Model):
         for survey in self:
             survey.survey_input_count = len(survey.survey_inputs)
 
+    def _compute_criminal_record_name(self):
+        for partner in self:
+            if partner.criminal_record:
+                ftype = get_file_type(
+                    partner.with_context(bin_size=False).criminal_record)
+                partner.criminal_record_name = f"Criminal record {partner.name}{ftype}"
+
+    @api.multi
+    @api.depends("thankyou_preference")
+    def _compute_thankyou_letter(self):
+        """
+        Keep the old way of preferences updated
+        """
+        for partner in self:
+            partner.thankyou_letter = \
+                THANKYOU_MAPPING[partner.thankyou_preference]
+
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
@@ -258,10 +315,42 @@ class ResPartner(models.Model):
         email = vals.get("email")
         if email:
             vals["email"] = email.strip()
+        if vals.get("criminal_record"):
+            vals["criminal_record_date"] = fields.Date.today()
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
             self.compute_geopoint()
+        return res
+
+    @api.multi
+    @api.returns(None, lambda value: value[0])
+    def copy_data(self, default=None):
+        """
+        Fix bug changing the firstname and lastname because of automatic name
+        computations. We remove the name value in the copy fields.
+        """
+        res = super().copy_data(default)
+        res[0].pop("name", False)
+        return res
+
+    def _contact_fields(self):
+        """
+        Fix bug changing the firstname and lastname because of automatic name
+        computations. We remove the name value in the contact fields.
+        """
+        res = super()._contact_fields()
+        res.remove("name")
+        return res
+
+    @api.model
+    def _add_missing_default_values(self, values):
+        """
+        Fix bug changing the firstname and lastname because of automatic name
+        computations. We remove the name value in the default values.
+        """
+        res = super()._add_missing_default_values(values)
+        res.pop("name", False)
         return res
 
     @api.model
@@ -452,6 +541,18 @@ class ResPartner(models.Model):
             "view_type": "form",
             "view_mode": "form",
             "target": "new",
+        }
+
+    @api.multi
+    def search_bank_address(self):
+        return {
+            'name': _('Search address in banks data'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'search.bank.address.wizard',
+            'view_mode': 'form',
+            'view_id': self.env.ref(
+                'partner_compassion.search_bank_address_wizard_form').id,
+            'target': 'new'
         }
 
     ##########################################################################

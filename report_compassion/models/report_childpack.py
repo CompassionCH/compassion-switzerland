@@ -44,7 +44,7 @@ class ReportChildpackFull(models.AbstractModel):
 
         data.update({"doc_model": report.model, "docs": docs.with_context(lang=lang)})
         # Update project information if data is old
-        date_limit = date.today() - relativedelta(days=30)
+        date_limit = date.today() - relativedelta(days=30*6)
         for project in docs.mapped("project_id").filtered(
                 lambda p: not p.last_update_date or p.last_update_date < date_limit
                 or not p.country_id

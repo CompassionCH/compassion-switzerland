@@ -15,8 +15,6 @@ from dateutil.relativedelta import relativedelta
 
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
-from odoo.addons.child_compassion.models.compassion_hold import HoldType
-
 from odoo import api, models, fields, _
 
 logger = logging.getLogger(__name__)
@@ -101,10 +99,11 @@ class RecurringContracts(models.Model):
     def write(self, vals):
         """ Perform various checks when a contract is modified. """
         if "group_id" in vals:
-            self._on_change_group_id(vals["group_id"])
-
-        # Write the changes
-        return super().write(vals)
+            old_payment_modes = [g.payment_mode_id for g in self.mapped('group_id')]
+        super().write(vals)
+        if "group_id" in vals:
+            self.check_mandate_needed(old_payment_modes)
+        return True
 
     @api.onchange("child_id")
     def onchange_child_id(self):
@@ -219,19 +218,8 @@ class RecurringContracts(models.Model):
 
     @api.multi
     def contract_waiting_mandate(self):
-        self._check_sponsorship_is_valid()
-        self.write({"state": "mandate", "mandate_date": fields.Datetime.now()})
-        for contract in self.filtered(lambda s: "S" in s.type and s.child_id.hold_id):
-            # Update the hold of the child to No Money Hold
-            hold = contract.child_id.hold_id
-            hold.write(
-                {
-                    "type": HoldType.NO_MONEY_HOLD.value,
-                    "expiration_date": hold.get_default_hold_expiration(
-                        HoldType.NO_MONEY_HOLD
-                    ),
-                }
-            )
+        need_mandate = self.filtered(lambda s: not s.partner_id.valid_mandate_id)
+        need_mandate.write({"state": "mandate", "mandate_date": fields.Datetime.now()})
         return True
 
     @api.multi
@@ -248,10 +236,7 @@ class RecurringContracts(models.Model):
                     and contract.total_amount != 0
             ):
                 # Check mandate
-                if not contract.partner_id.mapped("bank_ids.mandate_ids").filtered(
-                        lambda m: m.state == "valid"
-                ):
-                    needs_mandate += contract
+                needs_mandate += contract
                 # Recompute next_invoice_date
                 today = datetime.date.today()
                 old_invoice_date = contract.next_invoice_date
@@ -339,13 +324,13 @@ class RecurringContracts(models.Model):
             pay_line = self.env["account.payment.line"].search(
                 [
                     ("move_line_id", "in", invoice.move_id.line_ids.ids),
-                    ("order_id.state", "in", ("open", "done")),
+                    ("order_id.state", "not in", ("draft", "cancel")),
                 ]
             )
             if pay_line:
                 lsv_dd_invoices += invoice
 
-            # If a draft payment order exitst, we remove the payment line.
+            # If a draft payment order exist, we remove the payment line.
             pay_line = self.env["account.payment.line"].search(
                 [
                     ("move_line_id", "in", invoice.move_id.line_ids.ids),
@@ -403,33 +388,54 @@ class RecurringContracts(models.Model):
                 sponsorship.correspondent_id.write(
                     {"category_id": [(3, sponsor_cat_id), (4, old_sponsor_cat_id)]}
                 )
-            # Deactivate pending invoice lines.
-            sponsorship.invoice_line_ids.mapped("invoice_id").filtered(
-                lambda i: i.state == "open"
-            ).action_cancel()
 
-    def _on_change_group_id(self, group_id):
+            # Deactivate pending invoice lines.
+            opened = sponsorship.invoice_line_ids.mapped("invoice_id").filtered(
+                lambda i: i.state == "open"
+            )
+            lsv_dd_invoices = self._get_lsv_dd_invoices(opened)
+            (opened - lsv_dd_invoices).action_cancel()
+
+    def check_mandate_needed(self, old_payment_modes):
         """ Change state of contract if payment is changed to/from LSV or DD.
         """
-        group = self.env["recurring.contract.group"].browse(group_id)
-        payment_name = group.payment_mode_id.name
-        if group and ("LSV" in payment_name or "Postfinance" in payment_name):
-            self.filtered(
-                lambda s: s.state in ["waiting", "active"]).contract_waiting_mandate()
-        else:
-            # Check if old payment_mode was LSV or DD
-            for contract in self.filtered("group_id"):
-                payment_name = contract.payment_mode_id.name
-                if "LSV" in payment_name or "Postfinance" in payment_name:
-                    if contract.is_active:
-                        contract.contract_active()
-                    else:
-                        contract.contract_waiting()
+        for i, contract in enumerate(self):
+            group = contract.group_id.with_context(lang="en_US")
+            payment_name = group.payment_mode_id.name
+            old_payment_name = old_payment_modes[i].with_context(lang="en_US").name
+            if ("LSV" in payment_name or "Postfinance" in payment_name) and not (
+                    "LSV" in old_payment_name or "Postfinance" in old_payment_name
+            ):
+                self.filtered(
+                    lambda s: s.state in ["waiting", "active"]
+                ).contract_waiting_mandate()
+            elif ("LSV" in old_payment_name or "Postfinance"
+                  in old_payment_name) and not ("LSV" in payment_name or
+                                                "Postfinance" in payment_name):
+                contract.mandate_valid()
+
+    def _on_contract_lines_changed(self):
+        inv_lines = self.env['account.invoice.line'].search(
+            [('contract_id', 'in', self.ids),
+             ('state', 'not in', ('paid', 'cancel'))]
+        )
+
+        invoices = inv_lines.mapped('invoice_id')
+        opened = invoices.filtered(
+            lambda i: i.state == "open"
+        )
+        lsv_dd_invoices = self._get_lsv_dd_invoices(opened)
+        invoices_to_clean = invoices - lsv_dd_invoices
+        invoices_to_clean.action_invoice_cancel()
+        invoices_to_clean.action_invoice_draft()
+        invoices_to_clean.env.clear()
+        if self._update_invoice_lines(invoices_to_clean):
+            invoices_to_clean.action_invoice_open()
 
     @api.multi
     def _update_invoice_lines(self, invoices):
         """ Update bvr_reference of invoices """
-        super()._update_invoice_lines(invoices)
+        success = super()._update_invoice_lines(invoices)
         for contract in self:
             ref = False
             bank_modes = (
@@ -444,6 +450,7 @@ class RecurringContracts(models.Model):
                 seq = self.env["ir.sequence"]
                 ref = mod10r(seq.next_by_code("contract.bvr.ref"))
             invoices.write({"reference": ref})
+        return success
 
     def _reconcile_open_amount(self):
         # Reconcile open amount of partner with contract invoices
@@ -458,7 +465,7 @@ class RecurringContracts(models.Model):
         )
         number_to_reconcile = int(sum(move_lines.mapped("credit") or [0])) // int(
             self.total_amount
-        )
+        ) if self.total_amount else 0
         if number_to_reconcile:
             self.button_generate_invoices()
             invoices = self.invoice_line_ids.mapped("invoice_id").sorted("date_invoice")

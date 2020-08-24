@@ -55,6 +55,30 @@
             </div>
         </template>
 
+        <template id="report_sponsorship_2bvr_top_slip">
+            <t t-call="report_compassion.report_sponsorship_single_slip">
+                <t t-set="margin" t-value="0"/>
+                <t t-set="amount" t-value="False"/>
+            </t>
+            <h4 style="position: absolute; top: 104mm; padding: 5mm; text-align: center; width: 100%">
+                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2191'"/>
+                <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
+                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2191'"/>
+            </h4>
+        </template>
+
+        <template id="report_sponsorship_2bvr_bottom_slip">
+            <h4 style="position: absolute; bottom: 106mm; padding: 5mm; text-align: center; width: 100%">
+                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2193'"/>
+                <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
+                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2193'"/>
+            </h4>
+            <t t-call="report_compassion.report_sponsorship_single_slip">
+                <t t-set="margin" t-value="85"/>
+                <t t-set="amount" t-value="False"/>
+            </t>
+        </template>
+
         <!-- Style css rules for BVR -->
         <template id="bvr_style">
             <t t-set="custom_css_2">

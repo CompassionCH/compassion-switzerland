@@ -143,7 +143,7 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
                     },
                     {
                         type: "boolean",
-                        name: "avoid_mobile_donation_notification",
+                        name: "avoid_thankyou_letter",
                     }
                 ],
 
@@ -172,8 +172,8 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
                     comment: {
                         string: _t("Gift instructions"),
                     },
-                    avoid_mobile_donation_notification: {
-                        string: _t("Disable mobile notification")
+                    avoid_thankyou_letter: {
+                        string: _t("Disable thank you letter")
                     }
                 }
             )
@@ -283,7 +283,7 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
                         mode: "edit",
                     });
 
-                    self.fields.avoid_mobile_donation_notification = new basic_fields.FieldBoolean(self, "avoid_mobile_donation_notification", record, {
+                    self.fields.avoid_thankyou_letter = new basic_fields.FieldBoolean(self, "avoid_thankyou_letter", record, {
                         mode: "edit",
                     });
 
@@ -328,8 +328,8 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
                     );
                     self.fields.user_id.appendTo($create.find(".create_user_id .o_td_field"));
                     self.fields.comment.appendTo($create.find(".create_comment .o_td_field"));
-                    self.fields.avoid_mobile_donation_notification.appendTo(
-                    $create.find(".create_avoid_mobile_donation_notification .o_td_field"));
+                    self.fields.avoid_thankyou_letter.appendTo(
+                    $create.find(".create_avoid_thankyou_letter .o_td_field"));
 
                     self.$(".create").append($create);
 
@@ -354,7 +354,7 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
             "tax_id",
             "force_tax_included",
             "analytic_tag_ids",
-            "avoid_mobile_donation_notification",
+            "avoid_thankyou_letter",
         ],
 
         createProposition: function (handle) {
@@ -506,7 +506,7 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
             result.sponsorship_id = prop.sponsorship_id ? prop.sponsorship_id.id : null;
             result.user_id = prop.user_id ? prop.user_id.id : null;
             result.comment = prop.comment;
-            result.avoid_mobile_donation_notification = prop.avoid_mobile_donation_notification ? prop.avoid_mobile_donation_notification : false;
+            result.avoid_thankyou_letter = prop.avoid_thankyou_letter ? prop.avoid_thankyou_letter : false;
             result.analytic_account_id = prop.analytic_account_id ? prop.analytic_account_id.id : null;
             return result;
         },

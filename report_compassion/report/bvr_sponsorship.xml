@@ -77,14 +77,14 @@
                     <t t-call="report_compassion.bvr_style"/>
                     <t t-foreach="o.get_months(months, docs.get(o))" t-as="date">
                         <t t-call="report_compassion.report_sponsorship_single_slip">
+                            <t t-set="date_split" t-value="date.split(' - ')"/>
                             <t t-set="margin" t-value="0"/>
                             <t t-set="reference" t-value="o.format_ref"/>
                             <t t-set="communication"
-                               t-value="o.get_communication(date_start, date_stop, docs.get(o))"/>
+                               t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
                             <t t-set="amount" t-value="False"/>
                             <t t-set="scan_line" t-value="o.scan_line"/>
                         </t>
-
                     </t>
                 </div>
             </t>
@@ -120,11 +120,12 @@
             <t t-call="web.html_container">
             <div class="article">
                 <t t-foreach="docs" t-as="doc">
-                    <t t-call="report_compassion.report_bvr_sponsorship_document_2bvr"
-                       t-lang="doc.partner_id.lang"/>
+                    <t t-call="report_compassion.report_bvr_sponsorship_document_2bvr" t-lang="doc.partner_id.lang"/>
                     <t t-if="gifts">
-                        <t t-call="report_compassion.report_gift_document_2bvr"
-                           t-lang="doc.partner_id.lang"/>
+                        <t t-call="report_compassion.report_gift_document_2bvr" t-lang="doc.partner_id.lang">
+                            <t t-set="number_of_sponsorship_bvrs" t-value="len(doc.get_months(months, docs.get(doc)))"/>
+                            <t t-set="start_at" t-value="'top' if number_of_sponsorship_bvrs % 2 == 0 else 'bottom'"/>
+                        </t>
                     </t>
                 </t>
             </div>
@@ -147,38 +148,14 @@
                     <t t-foreach="o.get_months(months, docs.get(o))" t-as="date">
                         <div style="position:relative">
                             <t t-set="date_split" t-value="date.split(' - ')"/>
-                            <t t-set="communication"
-                               t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
-                            <t t-if="date_index % 2 == 0">
-                                <t t-call="report_compassion.report_sponsorship_single_slip">
-                                    <t t-set="margin" t-value="0"/>
-                                    <t t-set="reference" t-value="o.format_ref"/>
-                                    <t t-set="amount" t-value="False"/>
-                                    <t t-set="scan_line" t-value="o.scan_line"/>
-                                </t>
-                                <h4 style="position: absolute; top: 104mm; padding: 5mm; text-align: center; width: 100%">
-                                    <span style="font-size: 40px; font-family: monospace; font-weight: 400"
-                                          t-esc="u'\u2191'"/>
-                                    <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
-                                    <span style="font-size: 40px; font-family: monospace; font-weight: 400"
-                                          t-esc="u'\u2191'"/>
-                                </h4>
+                            <t t-set="communication" t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
+                            <t t-set="reference" t-value="o.format_ref"/>
+                            <t t-set="scan_line" t-value="o.scan_line"/>
+                            <t t-if="date_even">
+                                <t t-call="report_compassion.report_sponsorship_2bvr_top_slip" />
                             </t>
                             <t t-else="">
-                                <h4 style="position: absolute; bottom: 106mm; padding: 5mm; text-align: center; width: 100%">
-                                    <span style="font-size: 40px; font-family: monospace; font-weight: 400"
-                                          t-esc="u'\u2193'"/>
-                                    <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
-                                    <span style="font-size: 40px; font-family: monospace; font-weight: 400"
-                                          t-esc="u'\u2193'"/>
-                                </h4>
-                                <t t-call="report_compassion.report_sponsorship_single_slip">
-                                    <t t-set="margin" t-value="85"/>
-                                    <t t-set="date_split" t-value="date.split(' - ')"/>
-                                    <t t-set="reference" t-value="o.format_ref"/>
-                                    <t t-set="amount" t-value="False"/>
-                                    <t t-set="scan_line" t-value="o.scan_line"/>
-                                </t>
+                                <t t-call="report_compassion.report_sponsorship_2bvr_bottom_slip"/>
                             </t>
                         </div>
                     </t>
@@ -198,36 +175,16 @@
                 <t t-foreach="docs.get(o)" t-as="sponsorship">
                     <t t-foreach="sponsorship.get_sponsorship_gift_products()" t-as="gift">
                         <div style="position:relative">
+                            <t t-set="reference" t-value="sponsorship.generate_bvr_reference(gift)"/>
+                            <t t-set="scan_line" t-value="o.get_scan_line(company_account, reference)"/>
                             <t t-set="communication" t-value="sponsorship.get_gift_communication(gift)"/>
-                            <t t-if="gift_index % 2 == 0">
-                                <t t-call="report_compassion.report_sponsorship_single_slip">
-                                    <t t-set="margin" t-value="0"/>
-                                    <t t-set="reference" t-value="sponsorship.generate_bvr_reference(gift)"/>
-                                    <t t-set="amount" t-value="False"/>
-                                    <t t-set="scan_line" t-value="o.get_scan_line(company_account, reference)"/>
-                                </t>
-                                <h4 style="position: absolute; top: 104mm; padding: 5mm; text-align: center; width: 100%">
-                                    <span style="font-size: 40px; font-family: monospace; font-weight: 400"
-                                          t-esc="u'\u2191'"/>
-                                    <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
-                                    <span style="font-size: 40px; font-family: monospace; font-weight: 400"
-                                          t-esc="u'\u2191'"/>
-                                </h4>
+                            <!-- Gift is called after sponsorship BVRs so the current page might-->
+                            <!-- be empty if start_at == top or be half full if start_at == bottom-->
+                            <t t-if="gift_even if start_at == 'top' else gift_odd">
+                                <t t-call="report_compassion.report_sponsorship_2bvr_top_slip"/>
                             </t>
                             <t t-else="">
-                                <h4 style="position: absolute; bottom: 106mm; padding: 5mm; text-align: center; width: 100%">
-                                    <span style="font-size: 40px; font-family: monospace; font-weight: 400"
-                                          t-esc="u'\u2193'"/>
-                                    <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
-                                    <span style="font-size: 40px; font-family: monospace; font-weight: 400"
-                                          t-esc="u'\u2193'"/>
-                                </h4>
-                                <t t-call="report_compassion.report_sponsorship_single_slip">
-                                    <t t-set="margin" t-value="85"/>
-                                    <t t-set="reference" t-value="sponsorship.generate_bvr_reference(gift)"/>
-                                    <t t-set="amount" t-value="False"/>
-                                    <t t-set="scan_line" t-value="o.get_scan_line(company_account, reference)"/>
-                                </t>
+                                <t t-call="report_compassion.report_sponsorship_2bvr_bottom_slip"/>
                             </t>
                         </div>
                     </t>

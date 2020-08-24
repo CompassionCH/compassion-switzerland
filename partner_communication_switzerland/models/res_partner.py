@@ -29,9 +29,6 @@ class ResPartner(models.Model):
         required=True,
         help="Delivery preference for Child Letters",
     )
-    thankyou_preference = fields.Selection(
-        compute="_compute_thankyou_preference", store=True
-    )
     tax_receipt_preference = fields.Selection(
         selection="_get_delivery_preference",
         compute="_compute_tax_receipt_preference",
@@ -42,9 +39,7 @@ class ResPartner(models.Model):
     @api.multi
     def _compute_salutation(self):
         # Special salutation for companies
-        company = self.filtered(
-            lambda p: not (p.title and p.firstname and not p.is_company)
-        )
+        company = self.filtered('is_company')
         for p in company:
             p.salutation = _("Dear friends of Compassion")
             p.short_salutation = p.salutation
@@ -55,23 +50,19 @@ class ResPartner(models.Model):
         # Family shouldn't be used with informal salutation
         family = self.env.ref("partner_compassion.res_partner_title_family")
         for partner in self.filtered(lambda p: p.title == family):
+            # The family salutation have a problem here. As it is defined in the
+            # previous loop, it is considered as company
+            title = partner.title
+            title_salutation = (
+                partner.env["ir.advanced.translation"]
+                .get("salutation", female=title.gender == "F", plural=title.plural)
+                .title()
+            )
+            partner.salutation = (
+                title_salutation + " " + title.name + " " + partner.lastname
+            )
             partner.informal_salutation = partner.salutation
             partner.full_salutation = partner.salutation
-
-    @api.multi
-    @api.depends("thankyou_letter")
-    def _compute_thankyou_preference(self):
-        """
-        Converts old preference into communication preference.
-        """
-        thankyou_mapping = {
-            "no": "none",
-            "default": "auto_digital",
-            "only_email": "auto_digital_only",
-            "paper": "physical",
-        }
-        for partner in self:
-            partner.thankyou_preference = thankyou_mapping[partner.thankyou_letter]
 
     @api.multi
     @api.depends("tax_certificate", "birthdate_date")

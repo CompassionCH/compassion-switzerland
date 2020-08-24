@@ -51,7 +51,7 @@ class Contract(models.Model):
     @api.multi
     def get_gift_communication(self, product):
         self.ensure_one()
-        lang = self.partner_id.lang
+        lang = self.mapped(self.send_gifts_to).lang
         child = self.child_id.with_context(lang=lang)
         born = {
             "en_US": "Born in",
@@ -65,7 +65,7 @@ class Contract(models.Model):
             "local_id": child.local_id,
             "product": product.with_context(lang=lang).name,
             "birthdate": born[lang] + " " + birthdate
-            if "Birthday" in product.name
+            if "Birthday" in product.with_context(lang="en_US").name
             else "",
         }
         communication = (

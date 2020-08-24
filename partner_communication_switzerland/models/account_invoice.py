@@ -69,9 +69,10 @@ class AccountInvoice(models.Model):
         """
         Creates a thank you letter communication separating events thank you
         and regular thank you.
+        override thankyou_letters.generate_thank_you()
         """
         partners = self.mapped("partner_id").filtered(
-            lambda p: p.thankyou_letter != "no"
+            lambda p: p.thankyou_preference != "none"
         )
         gift_category = self.env.ref("sponsorship_compassion.product_category_gift")
         for partner in partners:
@@ -116,9 +117,11 @@ class AccountInvoice(models.Model):
         Given a recordset of paid invoices, return only those that have
         to be thanked.
         :return: account.invoice recordset
+        override thankyou_letters._filter_invoice_to_thanks()
         """
         return self.filtered(
             lambda i: i.type == "out_invoice"
+            and not i.avoid_thankyou_letter
             and (
                 not i.communication_id
                 or i.communication_id.state in ("call", "pending")
