@@ -26,7 +26,10 @@ class AdvocateDetails(models.Model):
     _name = "advocate.details"
     _description = "Advocate Details"
     _rec_name = "partner_id"
-    _inherit = "mail.thread"
+    _inherit = [
+        "mail.thread",
+        "mail.activity.mixin"
+    ]
 
     partner_id = fields.Many2one(
         "res.partner", "Partner", required=True, ondelete="cascade", readonly=False
@@ -247,16 +250,12 @@ class AdvocateDetails(models.Model):
             preferred_name = advocate.partner_id.preferred_name
             date = advocate.partner_id.get_date("birthdate_date", "d MMMM")
             display_name = advocate.display_name
-            advocate.message_post(
-                body=_(
-                    "This is a reminder that %s will have birthday on %s."
-                ) % (preferred_name, date),
-                subject=_("[%s] Advocate birthday reminder") % display_name,
-                partner_ids=[notify_partner_id],
-                type="comment",
-                subtype="mail.mt_comment",
-                content_subtype="html",
-            )
+            advocate.activity_schedule("mail.mail_activity_data_todo",
+                                       summary=f"{display_name} Advocate birthday\
+                                        reminder",
+                                       note=f"This is a reminder that {preferred_name}\
+                                        will have birthday on {date}.",
+                                       user_id=self._uid)
         break_advocates = self.search(
             [
                 ("state", "=", "on_break"),
