@@ -121,6 +121,16 @@
         </field>
     </record>
 
+    <record id="view_link_tracker_form_update" model="ir.ui.view">
+        <field name="name">link.tracker.form</field>
+        <field name="model">link.tracker</field>
+        <field name="inherit_id" ref="link_tracker.view_link_tracker_form" />
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/group[2]/field[@name='campaign_id']" position="replace">
+                <field name="campaign_id" options="{'create': false, 'create_edit': false}"/>
+            </xpath>
+        </field>
+    </record>
     <!-- Move menuitems for Mass mailing users -->
     <menuitem id="utm.menu_link_tracker_root" groups="mass_mailing.group_mass_mailing_campaign" parent="mass_mailing.mass_mailing_menu_root" name="Link Tracker"/>
 
