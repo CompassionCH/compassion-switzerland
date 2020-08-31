@@ -272,6 +272,10 @@ class ResPartner(models.Model):
             partner.thankyou_letter = \
                 THANKYOU_MAPPING[partner.thankyou_preference]
 
+    @api.onchange('email')
+    def _change_users_email(self):
+        self.user_ids.write({"login": self.email})
+
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
