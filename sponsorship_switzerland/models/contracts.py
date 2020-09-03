@@ -288,7 +288,7 @@ class RecurringContracts(models.Model):
         # Since we are in workflow, the user is not set in environment.
         # We take then the last write user on the records
         if special_categories:
-            self.mapped("write_uid")[:1].notify_warning(
+            self.env.user.notify_warning(
                 ", ".join(special_categories.mapped("name")),
                 title=_("The sponsor has special categories"),
                 sticky=True,
