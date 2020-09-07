@@ -25,6 +25,9 @@ class EventRegistrationForm(models.AbstractModel):
         "partner_lastname",
         "partner_firstname",
         "partner_email",
+        "partner_street",
+        "partner_city",
+        "partner_zip",
     ]
 
     form_buttons_template = "cms_form_compassion.modal_form_buttons"

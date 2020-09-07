@@ -25,6 +25,11 @@ class EventDonationForm(models.AbstractModel):
     gtc_accept = fields.Boolean("Terms and conditions", required=True)
     partner_opt_out = fields.Boolean("Unsubscribe from e-mails")
 
+    # Make address fields mandatory
+    partner_street = fields.Char(required=True)
+    partner_zip = fields.Char(required=True)
+    partner_city = fields.Char(required=True)
+
     @property
     def _payment_success_redirect(self):
         return f"/event/payment/validate/{self.invoice_id.id}?payment=success"

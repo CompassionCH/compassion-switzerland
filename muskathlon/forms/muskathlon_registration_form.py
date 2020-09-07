@@ -33,6 +33,9 @@ class MuskathlonRegistrationForm(models.AbstractModel):
         "emergency_phone",
         "birth_name",
         "partner_birthdate",
+        "partner_street",
+        "partner_zip",
+        "partner_city",
     ]
     _payment_success_redirect = "/muskathlon_registration/payment/validate"
 

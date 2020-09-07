@@ -21,6 +21,11 @@ class CrowdfundingDonationForm(models.AbstractModel):
         help="I don't want to receive emails about the impact \
         of my donation and the work of Compassion")
 
+    # Make address fields mandatory
+    partner_street = fields.Char(required=True)
+    partner_zip = fields.Char(required=True)
+    partner_city = fields.Char(required=True)
+
     @property
     def _form_fieldsets(self):
         return [

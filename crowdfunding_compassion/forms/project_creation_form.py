@@ -334,6 +334,11 @@ class ProjectCreationStep3(models.AbstractModel):
     participant_personal_web_page_url = fields.Char("Personal web page")
     participant_id = fields.Many2one("crowdfunding.participant")
 
+    # Make address fields mandatory
+    partner_street = fields.Char(required=True)
+    partner_zip = fields.Char(required=True)
+    partner_city = fields.Char(required=True)
+
     @property
     def _form_fieldsets(self):
         fieldset = [{
