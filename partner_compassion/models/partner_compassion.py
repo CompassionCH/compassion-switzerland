@@ -87,7 +87,25 @@ class ResPartner(models.Model):
              " can not correctly be determined and linked.",
     )
     deathdate = fields.Date("Death date", track_visibility="onchange")
-    nbmag = fields.Integer("Number of Magazines", size=2, required=True, default=1)
+    nbmag = fields.Selection(
+        [
+            ("email", _("Email")),
+            ("no_mag", _("No magazine")),
+            ("one", "1"),
+            ("two", "2"),
+            ("three", "3"),
+            ("four", "4"),
+            ("five", "5"),
+            ("six", "6"),
+            ("seven", "7"),
+            ("eight", "8"),
+            ("nine", "9"),
+            ("ten", "10"),
+            ("fifteen", "15"),
+            ("twenty", "20"),
+            ("twenty_five", "25"),
+            ("fifty", "50"),
+        ], string="Number of Magazines", required=True)
     tax_certificate = fields.Selection(
         [
             ("no", _("No receipt")),
