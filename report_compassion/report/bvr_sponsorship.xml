@@ -83,7 +83,7 @@
                             <t t-set="communication"
                                t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
                             <t t-set="amount" t-value="False"/>
-                            <t t-set="scan_line" t-value="o.scan_line"/>
+                            <t t-set="scan_line" t-value="o.compute_scan_line(date_split[0], date_split[-1], docs.get(o))"/>
                         </t>
                     </t>
                 </div>
@@ -150,7 +150,7 @@
                             <t t-set="date_split" t-value="date.split(' - ')"/>
                             <t t-set="communication" t-value="o.get_communication(date_split[0], date_split[-1], docs.get(o))"/>
                             <t t-set="reference" t-value="o.format_ref"/>
-                            <t t-set="scan_line" t-value="o.scan_line"/>
+                            <t t-set="scan_line" t-value="o.compute_scan_line(date_split[0], date_split[-1], docs.get(o))"/>
                             <t t-if="date_even">
                                 <t t-call="report_compassion.report_sponsorship_2bvr_top_slip" />
                             </t>
