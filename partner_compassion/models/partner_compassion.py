@@ -169,12 +169,6 @@ class ResPartner(models.Model):
         domain=["|", ("active", "=", False), ("active", "=", True)],
         readonly=False,
     )
-    # TODO CO-3284 remove the field and replace with mail.activity
-    state = fields.Selection(
-        [("pending", "Waiting for validation"), ("active", "Active")],
-        default="active",
-        track_visibility="onchange",
-    )
 
     email_copy = fields.Boolean(string="CC e-mails sent to main partner")
     type = fields.Selection(selection_add=[("email_alias", "Email alias")])
@@ -237,11 +231,6 @@ class ResPartner(models.Model):
                 "date_agreed_child_protection_charter": fields.Datetime.now(),
             }
         )
-
-    # TODO CO-3284 remove me
-    @api.multi
-    def validate_partner(self):
-        return self.write({"state": "active"})
 
     @api.multi
     def get_unreconciled_amount(self):
