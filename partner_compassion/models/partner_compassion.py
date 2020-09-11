@@ -105,7 +105,7 @@ class ResPartner(models.Model):
             ("twenty", "20"),
             ("twenty_five", "25"),
             ("fifty", "50"),
-        ], string="Number of Magazines", required=True)
+        ], string="Number of Magazines", required=True, default="one")
     tax_certificate = fields.Selection(
         [
             ("no", _("No receipt")),
