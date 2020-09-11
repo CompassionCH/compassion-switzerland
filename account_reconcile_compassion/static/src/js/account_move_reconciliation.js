@@ -363,55 +363,57 @@ odoo.define("account_reconcile_compassion.reconciliation", function (require) {
 
             // Try to prefill fields from the customer payment
             var line_name = line.st_line.name;
-            var child_gift_match = line_name.match(/\[.+\]/);
-            if (child_gift_match) {
-                // Search gift product
-                var gift_name = line_name.replace(child_gift_match[0], '');
-                rpc.query({
-                    model: "product.product",
-                    method: "search",
-                    args: [[["name", "like", gift_name]]],
-                }).then(function (product_ids) {
-                    if (product_ids !== "undefined" && product_ids.length > 0) {
-                        // This emits a custom event handled by
-                        // _onUpdatePropositionProgrammaticaly()
-                        // It is done this way because only StatementAction
-                        // has access to the mode for updating the data and
-                        // the renderer for refreshing the interface
-                        self.trigger_up("update_proposition_programmaticaly", {
-                            data: {
-                                product_id: {
-                                    id: product_ids[0],
+            if (line_name) {
+                var child_gift_match = line_name.match(/\[.+\]/);
+                if (child_gift_match) {
+                    // Search gift product
+                    var gift_name = line_name.replace(child_gift_match[0], '');
+                    rpc.query({
+                        model: "product.product",
+                        method: "search",
+                        args: [[["name", "like", gift_name]]],
+                    }).then(function (product_ids) {
+                        if (product_ids !== "undefined" && product_ids.length > 0) {
+                            // This emits a custom event handled by
+                            // _onUpdatePropositionProgrammaticaly()
+                            // It is done this way because only StatementAction
+                            // has access to the mode for updating the data and
+                            // the renderer for refreshing the interface
+                            self.trigger_up("update_proposition_programmaticaly", {
+                                data: {
+                                    product_id: {
+                                        id: product_ids[0],
+                                    },
+                                    handle: handle,
                                 },
-                                handle: handle,
-                            },
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
 
-                // Search sponsorship
-                var child_code = child_gift_match[0].replace('[', '').replace(']', '').match(/\w+/)[0];
-                rpc.query({
-                    model: "recurring.contract",
-                    method: "search",
-                    args: [[
-                        ["child_code", "like", child_code],
-                        '|',
-                        ["correspondent_id", "=", line.partner_id],
-                        ["partner_id", "=", line.partner_id],
-                    ]],
-                }).then(function (sponsorship_ids) {
-                    if (typeof sponsorship_ids !== "undefined" && sponsorship_ids.length > 0) {
-                        self.trigger_up("update_proposition_programmaticaly", {
-                            data: {
-                                sponsorship_id: {
-                                    id: sponsorship_ids[0],
+                    // Search sponsorship
+                    var child_code = child_gift_match[0].replace('[', '').replace(']', '').match(/\w+/)[0];
+                    rpc.query({
+                        model: "recurring.contract",
+                        method: "search",
+                        args: [[
+                            ["child_code", "like", child_code],
+                            '|',
+                            ["correspondent_id", "=", line.partner_id],
+                            ["partner_id", "=", line.partner_id],
+                        ]],
+                    }).then(function (sponsorship_ids) {
+                        if (typeof sponsorship_ids !== "undefined" && sponsorship_ids.length > 0) {
+                            self.trigger_up("update_proposition_programmaticaly", {
+                                data: {
+                                    sponsorship_id: {
+                                        id: sponsorship_ids[0],
+                                    },
+                                    handle: handle,
                                 },
-                                handle: handle,
-                            },
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
+                }
             }
 
             return this._super(handle);
