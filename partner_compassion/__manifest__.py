@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Upgrade Partners for Compassion Suisse",
-    "version": "12.0.1.1.0",
+    "version": "12.0.1.1.1",
     "category": "Partner",
     "author": "Compassion CH",
     "license": "AGPL-3",
