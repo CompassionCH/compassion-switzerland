@@ -193,7 +193,7 @@ class RecurringContracts(models.Model):
         Update partner to add the 'Sponsor' category
         """
         super().contract_active()
-        if self.partner_id.activity_ids or self.correspondent_id.activity_ids:
+        if self.mapped("partner_id.activity_ids") or self.mapped("correspondent_id.activity_ids"):
             raise UserError(
                 _("Please verify the partner before validating the sponsorship")
             )
@@ -266,7 +266,7 @@ class RecurringContracts(models.Model):
         Called at contract validation to ensure we can validate the
         sponsorship.
         """
-        if self.partner_id.activity_ids or self.correspondent_id.activity_ids:
+        if self.mapped("partner_id.activity_ids") or self.mapped("correspondent_id.activity_ids"):
             raise UserError(
                 _("Please verify the partner before validating the sponsorship")
             )
