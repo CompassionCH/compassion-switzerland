@@ -193,9 +193,8 @@ class RecurringContracts(models.Model):
         Update partner to add the 'Sponsor' category
         """
         super().contract_active()
-        # TODO CO-3284 Replace this check by looking if mail.activity exists
-        need_validation = self.filtered(lambda s: s.partner_id.state != "active")
-        if need_validation:
+        if self.mapped("partner_id.activity_ids") or self.mapped(
+                "correspondent_id.activity_ids"):
             raise UserError(
                 _("Please verify the partner before validating the sponsorship")
             )
@@ -268,14 +267,13 @@ class RecurringContracts(models.Model):
         Called at contract validation to ensure we can validate the
         sponsorship.
         """
-        partners = self.mapped("partner_id") | self.mapped("correspondent_id")
-        # TODO CO-3284 Replace check with mail.activity exists
-        need_validation = partners.filtered(lambda p: p.state != "active")
-        if need_validation:
+        if self.mapped("partner_id.activity_ids") or self.mapped(
+                "correspondent_id.activity_ids"):
             raise UserError(
                 _("Please verify the partner before validating the sponsorship")
             )
         # Partner shouldn't be restricted
+        partners = self.mapped("partner_id") | self.mapped("correspondent_id")
         if partners.filtered("is_restricted"):
             raise UserError(
                 _(

@@ -116,6 +116,7 @@ class ReconcileFundWizard(models.TransientModel):
         )
         if analytic and analytic.analytic_id:
             inv_line_data["account_analytic_id"] = analytic.analytic_id.id
+            inv_line_data["analytic_tag_ids"] = [(6, 0, analytic.analytic_tag_ids.ids)]
 
         for contract_id in self.contract_ids.ids:
             inv_line_data["contract_id"] = contract_id

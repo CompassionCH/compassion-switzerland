@@ -42,6 +42,9 @@ class EventsController(PaymentFormController, FormControllerMixin):
         '/event/<model("crm.event.compassion"):event>/', auth="public", website=True
     )
     def event_page(self, event, **kwargs):
+        if not event.is_published:
+            return request.redirect("/events")
+
         values = self.get_event_page_values(event, **kwargs)
         registration_form = values["form"]
         if registration_form.form_success:
@@ -72,6 +75,9 @@ class EventsController(PaymentFormController, FormControllerMixin):
         '/event/<model("crm.event.compassion"):event>/faq', auth="public", website=True
     )
     def event_faq(self, event, **kwargs):
+        if not event.is_published:
+            return request.redirect("/events")
+
         return request.render("website_event_compassion.event_faq", {"event": event})
 
     @http.route(
@@ -95,6 +101,9 @@ class EventsController(PaymentFormController, FormControllerMixin):
         website=True,
     )
     def confirmation_page(self, event, **kwargs):
+        if not event.is_published:
+            return request.redirect("/events")
+
         values = {
             "confirmation_title": kwargs.get("title"),
             "confirmation_message": kwargs.get("message"),
@@ -161,6 +170,9 @@ class EventsController(PaymentFormController, FormControllerMixin):
         :param reg_id: the registration record
         :return:the rendered page
         """
+        if not event.is_published:
+            return request.redirect("/events")
+
         reg_obj = request.env["event.registration"].sudo()
         registration = reg_obj.browse(reg_id).exists().filtered("website_published")
         if not registration:

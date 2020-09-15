@@ -36,6 +36,14 @@ class ContractGroup(models.Model):
             group.scan_line = self.get_scan_line(acc_number, group.bvr_reference)
 
     @api.multi
+    def compute_scan_line(self, start, stop, sponsorships):
+        """ Generate a scan line for contract group. """
+        self.ensure_one()
+        acc_number = self.get_company_bvr_account()
+        amount = self._get_amount(start, stop, sponsorships)
+        return self.get_scan_line(acc_number, self.bvr_reference, amount)
+
+    @api.multi
     def _compute_format_ref(self):
         slip_obj = self.env["l10n_ch.payment_slip"]
         for group in self:
@@ -111,7 +119,7 @@ class ContractGroup(models.Model):
         """
         self.ensure_one()
         payment_mode = self.with_context(lang="en_US").payment_mode_id
-        amount = sum(sponsorships.mapped("total_amount"))
+        amount = self._get_amount(start, stop, sponsorships)
         valid = sponsorships
         number_sponsorship = len(sponsorships)
         date_start = fields.Date.to_date(start)
@@ -186,3 +194,8 @@ class ContractGroup(models.Model):
     def get_company_bvr_account(self):
         """ Utility to find the bvr account of the company. """
         return COMPASSION_BVR
+
+    def _get_amount(self, start, stop, sponsorships):
+        amount = sum(sponsorships.mapped("total_amount"))
+        months = int(stop.split("-")[1]) - int(start.split("-")[1]) + 1
+        return amount * months
