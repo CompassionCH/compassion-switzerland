@@ -31,20 +31,22 @@ class BvrFundReport(models.AbstractModel):
             "report_compassion.bvr_fund"
         )
         if data is None:
-            # By default, prepare a report with background and try to read
-            # product from context
-            product_id = self.env.context.get("report_product_id")
-            if not product_id:
-                raise UserError(
-                    _("You must give a product in data to print this " "report.")
-                )
             data = {
-                "background": True,
-                "product_id": product_id,
-                "preprinted": False,
                 "amount": False,
                 "communication": False,
             }
+        if "product_id" not in data:
+            # try to read product from context
+            product_id = self.env.context.get("report_product_id")
+            if not product_id:
+                raise UserError(
+                    _("You must give a product in data to print this report.")
+                )
+            data["product_id"] = product_id
+        if "background" not in data:
+            # By default, prepare a report with background
+            data["background"] = True
+            data["preprinted"] = False
 
         if not docids and data["doc_ids"]:
             docids = data["doc_ids"]
