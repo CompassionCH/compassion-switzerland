@@ -68,7 +68,8 @@ class SmsRequest(models.Model):
             self.write({"child_id": child.id, "state": "child_reserved"})
             child.hold_id.sms_request_id = self.id
             child.remove_from_wordpress()
-            child.write({"state": "S"})
+            if self.type == "sms":
+                child.write({"state": "S"})
 
             child.hold_id.with_delay().update_expiration_date(
                 fields.Datetime.to_string(datetime.now() + relativedelta(days=1))
@@ -99,3 +100,10 @@ class SmsRequest(models.Model):
         )
         valid_new_children.add_to_wordpress(company_id)
         return super().cancel_request()
+
+    @api.multi
+    def change_child(self):
+        if self.type == "sms":
+            self.child_id.write({"state": "N"})
+        self.child_id.add_to_wordpress()
+        return super(SmsRequest, self).change_child()
