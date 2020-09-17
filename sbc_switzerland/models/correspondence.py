@@ -418,8 +418,6 @@ class Correspondence(models.Model):
                     "sbc_switzerland.nas_letters_store_path").value + file_name
             )
             smb_conn.storeFile(nas_share_name, nas_letters_store_path, file_)
-
-            logger.info(f"File {self.file_name} store on NAS with success")
         else:
             raise UserError(_("Connection to NAS failed"))
 

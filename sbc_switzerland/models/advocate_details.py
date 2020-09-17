@@ -56,10 +56,6 @@ class AdvocateDetails(models.Model):
 
             if was_translator and not is_translator:
                 tc = translate_connector.TranslateConnect()
-                _logger.info(
-                    "translator tag removed, we delete any user in "
-                    "translation platform with that ref as number"
-                )
                 try:
                     tc.remove_user(advocate.partner_id)
                 except Exception:
@@ -83,9 +79,6 @@ class AdvocateDetails(models.Model):
         ):
             tc = translate_connector.TranslateConnect()
             goodbye_config = self.env.ref("sbc_switzerland.translator_goodbye")
-            _logger.info(
-                "translator put inactive, we inactivate in " "translation platform."
-            )
             try:
                 tc.disable_user(self.partner_id)
             except Exception:
@@ -106,9 +99,6 @@ class AdvocateDetails(models.Model):
                 "skip_translation_platform_update"
         ):
             tc = translate_connector.TranslateConnect()
-            _logger.info(
-                "translator activated, put it again " "in translation platform"
-            )
             tc.upsert_user(self.partner_id, create=False)
         return super().set_active()
 
@@ -117,10 +107,6 @@ class AdvocateDetails(models.Model):
         translation = self.env.ref("partner_compassion.engagement_translation")
         tc = translate_connector.TranslateConnect()
         goodbye_config = self.env.ref("sbc_switzerland.translator_goodbye")
-        _logger.info(
-            "translator deleted, we delete any user in "
-            "translation platform with that ref as number"
-        )
         for advocate in self:
             if translation in advocate.engagement_ids and not self.env.context.get(
                     "skip_translation_platform_update"
@@ -161,7 +147,6 @@ class AdvocateDetails(models.Model):
     ##########################################################################
     def _insert_new_translator(self):
         tc = translate_connector.TranslateConnect()
-        _logger.info("Insert translator on platform.")
         try:
             tc.upsert_user(self.partner_id, create=True)
         except:

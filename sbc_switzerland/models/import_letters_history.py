@@ -80,14 +80,14 @@ class ImportLettersHistory(models.Model):
                     try:
                         list_paths = smb_conn.listPath(share_nas, imported_letter_path)
                     except OperationFailure:
-                        logger.info("--------------- PATH NOT CORRECT ---------------")
+                        logger.error("--------------- PATH NOT CORRECT ---------------")
                         list_paths = []
 
                     for shared_file in list_paths:
                         if func.check_file(shared_file.filename) == 1:
                             tmp += 1
                         elif func.is_zip(shared_file.filename):
-                            logger.info(
+                            logger.debug(
                                 "File to retrieve:"
                                 f" {imported_letter_path + shared_file.filename}"
                             )
@@ -122,7 +122,7 @@ class ImportLettersHistory(models.Model):
                                 )
                     smb_conn.close()
                 else:
-                    logger.info(
+                    logger.error(
                         f"""Failed to list files in imported folder \
                     Imports oh the NAS in emplacement: {imported_letter_path}"""
                     )
@@ -219,7 +219,7 @@ class ImportLettersHistory(models.Model):
                                         share_nas, imported_letter_path + filename
                                     )
                                 except Exception as inst:
-                                    logger.info(
+                                    logger.warning(
                                         f"Failed to delete pdf web letter {inst}"
                                     )
 
@@ -234,7 +234,7 @@ class ImportLettersHistory(models.Model):
                                             + image_ext,
                                         )
                                     except Exception as inst:
-                                        logger.info(
+                                        logger.warning(
                                             f"Failed to delete attached image {inst}"
                                         )
 
@@ -242,14 +242,13 @@ class ImportLettersHistory(models.Model):
                     self._manage_all_imported_files()
 
         except Exception as e:
-            logger.info("Exception during letter import: {}", exc_info=True)
+            logger.error("Exception during letter import: {}", exc_info=True)
             # bug during import, so we remove letter sent on translation
             # platform
             self.env.clear()
             for letters in self:
                 for corresp in letters.letters_ids:
                     if corresp.state == "Global Partner translation queue":
-                        logger.info("LETTER DELETE FROM TRANSLATION PLATFORM")
                         tc = translate_connector.TranslateConnect()
                         tc.remove_translation_with_odoo_id(corresp.id)
             raise e
@@ -321,7 +320,7 @@ class ImportLettersHistory(models.Model):
                             progress += 1
                 smb_conn.close()
             else:
-                logger.info(
+                logger.error(
                     f"Failed to list files in Imports on the NAS in \
                 emplacement: {imported_letter_path}"
                 )
@@ -345,12 +344,9 @@ class ImportLettersHistory(models.Model):
         # Copy file in the imported letter folder
         smb_conn = self._get_smb_connection()
         if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
-            logger.info(f"Try to save file {attachment.name} !")
-
             file_ = BytesIO(
                 base64.b64decode(attachment.with_context(bin_size=False).datas)
             )
-
             share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
 
             if self.manual_import:
@@ -433,7 +429,7 @@ class ImportLettersHistory(models.Model):
                 try:
                     smb_conn.delete_files(share_nas, imported_letter_path + filename)
                 except Exception as inst:
-                    logger.info(f"Failed to delete zip file on NAS: {inst}")
+                    logger.warning(f"Failed to delete zip file on NAS: {inst}")
             smb_conn.close()
 
     def is_in_list_letter(self, filename):
@@ -457,8 +453,6 @@ class ImportLettersHistory(models.Model):
         """
         smb_conn = self._get_smb_connection()
         if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
-            logger.info(f"Try to copy file {filename} !")
-
             # Copy file in attachment in the done letter folder
             share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
 
@@ -494,7 +488,7 @@ class ImportLettersHistory(models.Model):
                 try:
                     smb_conn.deleteFiles(share_nas, imported_letter_path)
                 except Exception as inst:
-                    logger.info("Failed to delete a file on NAS : {}".format(inst))
+                    logger.warning("Failed to delete a file on NAS : {}".format(inst))
 
             smb_conn.close()
         return True

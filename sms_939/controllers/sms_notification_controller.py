@@ -22,7 +22,7 @@ _logger = logging.getLogger(__name__)
 class RestController(http.Controller):
     @http.route("/sms/mnc/", type="http", auth="public", methods=["GET"], csrf=False)
     def sms_notification(self, **parameters):
-        _logger.info(f"SMS Request received : {json.dumps(parameters)}")
+        _logger.debug(f"SMS Request received : {json.dumps(parameters)}")
 
         notification_env = request.env["sms.notification"].sudo()
         (

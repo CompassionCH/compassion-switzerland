@@ -104,7 +104,7 @@ class AccountInvoice(models.Model):
         :return: invoice_id
         """
         _logger.info(
-            "New donation of CHF %s from Wordpress for partner %s and " "child %s",
+            "New donation of CHF %s from Wordpress for partner %s and child %s",
             amount,
             partner_id,
             child_code,

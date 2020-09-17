@@ -166,7 +166,6 @@ class ImportLettersHistory(models.Model):
             self.env["import.letter.line"].create(line_vals)
 
             import_config.import_completed = True
-            logger.info("Try to copy file {} !".format(filename))
             # Copy file in attachment in the done letter folder
             share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
             import_letter_path = (
@@ -181,8 +180,6 @@ class ImportLettersHistory(models.Model):
 
                 # save eventual attachment
                 if attachment_url:
-                    logger.info("Try save attachment {} !".format(filename_attachment))
-
                     import_letter_path = (
                         self.env.ref("sbc_switzerland.scan_letter_imported").value
                         + filename_attachment

@@ -46,7 +46,7 @@ class TestSponsorship(TransactionCase):
             }
         )
         sms_text = communication.send_by_sms()[0]
-        logger.info("SMS text result: \n" + sms_text)
+        logger.debug("SMS text result: \n" + sms_text)
         self.assertTrue(sms_text)
         self.assertNotIn("<p>", sms_text)
         self.assertNotIn("testing is fun", sms_text)
