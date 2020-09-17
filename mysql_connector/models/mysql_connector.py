@@ -137,5 +137,5 @@ class MysqlConnector(object):
         sql_query = query_string.format(table, col_string, val_string, update_string)
         values = list(vals.values())
         log_string = "UPSERT {0}({1}) WITH VALUES ({2})"
-        logger.info(log_string.format(table, col_string, val_string) % tuple(values))
+        logger.debug(log_string.format(table, col_string, val_string) % tuple(values))
         return self.query(sql_query, values)

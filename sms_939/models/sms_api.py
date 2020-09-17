@@ -50,8 +50,8 @@ class SmsApi(models.AbstractModel):
         endpoint = config["endpoint"]
         request_server = http.client.HTTPConnection(server, port, timeout=10)
         url = endpoint + "?" + urllib.parse.urlencode(request)
-        _logger.info(f"Sending SMS message: {url}")
+        _logger.debug(f"Sending SMS message: {url}")
         request_server.request("GET", url, headers=headers)
         response = request_server.getresponse()
-        _logger.info(f"SMS response status: {response.status}")
+        _logger.debug(f"SMS response status: {response.status}")
         _logger.debug(response.read())
