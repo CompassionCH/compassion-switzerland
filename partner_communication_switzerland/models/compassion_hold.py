@@ -8,10 +8,7 @@
 #
 ##############################################################################
 from datetime import datetime
-
 from odoo import api, models, fields
-
-from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
 
 class CompassionHold(models.Model):
@@ -82,29 +79,43 @@ class CompassionHold(models.Model):
         :return: None
         """
         failed = self.env[self._name]
-        # Last reminder: cancellation notice
-        communication_type = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_3"
+        first_reminder_config = self.env.ref(
+            "partner_communication_switzerland.sponsorship_waiting_reminder_1"
         )
-        failed += self.filtered(lambda h: h.no_money_extension > 1)._send_hold_reminder(
-            communication_type
+        second_reminder_config = self.env.ref(
+            "partner_communication_switzerland.sponsorship_waiting_reminder_2"
+        )
+        third_reminder_config = self.env.ref(
+            "partner_communication_switzerland.sponsorship_waiting_reminder_3"
         )
 
-        # Second reminder
-        communication_type = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_2"
-        )
+        # Check communications already pending and put them back to their state
+        first_pending_holds = self.env["partner.communication.job"].search([
+            ("config_id", "=", first_reminder_config.id),
+            ("state", "=", "pending")
+        ]).get_objects().mapped("child_id.hold_id")
+        (first_pending_holds & self).write({"no_money_extension": 0})
+        second_pending_holds = self.env["partner.communication.job"].search([
+            ("config_id", "=", second_reminder_config.id),
+            ("state", "=", "pending")
+        ]).get_objects().mapped("child_id.hold_id")
+        (second_pending_holds & self).write({"no_money_extension": 1})
+        third_pending_holds = self.env["partner.communication.job"].search([
+            ("config_id", "=", third_reminder_config.id),
+            ("state", "=", "pending")
+        ]).get_objects().mapped("child_id.hold_id")
+        (third_pending_holds & self).write({"no_money_extension": 2})
+
+        # Generate reminders while postponing the hold expiration
+        failed += self.filtered(
+            lambda h: h.no_money_extension > 1
+        )._send_hold_reminder(third_reminder_config)
         failed += self.filtered(
             lambda h: h.no_money_extension == 1
-        )._send_hold_reminder(communication_type)
-
-        # First reminder
-        communication_type = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_1"
-        )
+        )._send_hold_reminder(second_reminder_config)
         failed += self.filtered(
             lambda h: h.no_money_extension == 0
-        )._send_hold_reminder(communication_type)
+        )._send_hold_reminder(first_reminder_config)
 
         if failed:
             # Send warning to Admin users
@@ -140,15 +151,12 @@ class CompassionHold(models.Model):
             "\n\nA reminder has been prepared for the " "sponsor {} ({})"
         )
         failed = self.env[self._name]
-        for hold in self.filtered(
-                lambda h: h.child_id.sponsorship_ids and h.type in (
-                    HoldType.NO_MONEY_HOLD.value, HoldType.SUB_CHILD_HOLD.value)
-        ).with_context(
+        for hold in self.with_context(
             default_auto_send=False,
             default_print_subject=False,
             default_print_header=True,
         ):
-            sponsorship = hold.child_id.sponsorship_ids[0]
+            sponsorship = hold.child_id.sponsorship_ids[:1]
             sponsor = hold.child_id.sponsor_id
             # Filter draft sponsorships and where we wait for
             # the bank authorization
@@ -156,18 +164,17 @@ class CompassionHold(models.Model):
                     sponsorship.state == "mandate" and sponsor.bank_ids
             ):
                 try:
-                    super().postpone_no_money_hold()
+                    super(CompassionHold, hold).postpone_no_money_hold()
                     hold.no_money_extension -= 1
                     continue
                 except:
                     failed += hold
                     continue
             # Cancel old invoices
-            if len(sponsorship.due_invoice_ids) > 1:
-                for invoice in sponsorship.due_invoice_ids[:-1]:
-                    invoice.action_invoice_cancel()
             try:
-                super().postpone_no_money_hold(
+                if len(sponsorship.due_invoice_ids) > 1:
+                    sponsorship.due_invoice_ids[:-1].action_invoice_cancel()
+                super(CompassionHold, hold).postpone_no_money_hold(
                     notification_text.format(sponsor.name, sponsor.ref)
                 )
                 sponsorship.send_communication(communication, correspondent=False)
