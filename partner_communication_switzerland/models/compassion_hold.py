@@ -90,21 +90,30 @@ class CompassionHold(models.Model):
         )
 
         # Check communications already pending and put them back to their state
-        first_pending_holds = self.env["partner.communication.job"].search([
+        first_reminders = self.env["partner.communication.job"].search([
             ("config_id", "=", first_reminder_config.id),
             ("state", "=", "pending")
-        ]).get_objects().mapped("child_id.hold_id")
-        (first_pending_holds & self).write({"no_money_extension": 0})
-        second_pending_holds = self.env["partner.communication.job"].search([
+        ])
+        if first_reminders:
+            first_pending_holds = first_reminders.get_objects().mapped(
+                "child_id.hold_id")
+            (first_pending_holds & self).write({"no_money_extension": 0})
+        second_reminders = self.env["partner.communication.job"].search([
             ("config_id", "=", second_reminder_config.id),
             ("state", "=", "pending")
-        ]).get_objects().mapped("child_id.hold_id")
-        (second_pending_holds & self).write({"no_money_extension": 1})
-        third_pending_holds = self.env["partner.communication.job"].search([
+        ])
+        if second_reminders:
+            second_pending_holds = second_reminders.get_objects().mapped(
+                "child_id.hold_id")
+            (second_pending_holds & self).write({"no_money_extension": 1})
+        third_reminders = self.env["partner.communication.job"].search([
             ("config_id", "=", third_reminder_config.id),
             ("state", "=", "pending")
-        ]).get_objects().mapped("child_id.hold_id")
-        (third_pending_holds & self).write({"no_money_extension": 2})
+        ])
+        if third_reminders:
+            third_pending_holds = third_reminders.get_objects().mapped(
+                "child_id.hold_id")
+            (third_pending_holds & self).write({"no_money_extension": 2})
 
         # Generate reminders while postponing the hold expiration
         failed += self.filtered(
