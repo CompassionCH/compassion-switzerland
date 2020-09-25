@@ -287,11 +287,12 @@ class RecurringContract(models.Model):
                 [
                     ("sponsorship_id", "=", sponsorship.id),
                     (
-                        "date_partner_paid",
+                        "gift_date",
                         ">=",
                         fields.Date.to_string(
                             datetime.now() - relativedelta(months=2)),
                     ),
+                    ("sponsorship_gift_type", "=", "Birthday"),
                 ]
             )
 

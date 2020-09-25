@@ -197,35 +197,28 @@ class AccountInvoice(models.Model):
                 "campaign_id": utms["campaign"],
             }
         )
-        requires_sponsorship = GIFT_CATEGORY in invoice.mapped(
-            "invoice_line_ids.product_id.categ_name"
-        )
         partner.set_privacy_statement(origin="new_gift")
-        if (
-                analytic_id
-                and (not requires_sponsorship or sponsorship)
-        ):
-            invoice.action_invoice_open()
-            payment_vals = {
-                "journal_id": self.env["account.journal"]
-                .search(
-                    [("name", "=", "Web"), ("company_id", "=", partner.company_id.id)]
-                )
-                .id,
-                "payment_method_id": self.env["account.payment.method"]
-                .search([("code", "=", "sepa_direct_debit")])
-                .id,
-                "payment_date": invoice.date,
-                "communication": invoice.reference,
-                "invoice_ids": [(6, 0, invoice.ids)],
-                "payment_type": "inbound",
-                "amount": invoice.amount_total,
-                "currency_id": invoice.currency_id.id,
-                "partner_id": invoice.partner_id.id,
-                "partner_type": "customer",
-                "payment_difference_handling": "reconcile",
-                "payment_difference": invoice.amount_total,
-            }
-            account_payment = self.env["account.payment"].create(payment_vals)
-            account_payment.post()
+        invoice.action_invoice_open()
+        payment_vals = {
+            "journal_id": self.env["account.journal"]
+            .search(
+                [("name", "=", "Web"), ("company_id", "=", partner.company_id.id)]
+            )
+            .id,
+            "payment_method_id": self.env["account.payment.method"]
+            .search([("code", "=", "sepa_direct_debit")])
+            .id,
+            "payment_date": invoice.date,
+            "communication": invoice.reference,
+            "invoice_ids": [(6, 0, invoice.ids)],
+            "payment_type": "inbound",
+            "amount": invoice.amount_total,
+            "currency_id": invoice.currency_id.id,
+            "partner_id": invoice.partner_id.id,
+            "partner_type": "customer",
+            "payment_difference_handling": "reconcile",
+            "payment_difference": invoice.amount_total,
+        }
+        account_payment = self.env["account.payment"].create(payment_vals)
+        account_payment.post()
         return invoice.id
