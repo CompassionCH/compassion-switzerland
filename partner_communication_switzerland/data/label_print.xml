@@ -24,7 +24,7 @@
             <field name="type">normal</field>
             <field name="python_expression" eval="True"/>
             <field name="fontsize">12.0</field>
-            <field name="python_field">obj.partner_codega + ' - ' + obj.correspondent_id.name</field>
+            <field name="python_field">obj.partner_codega + ' - ' + obj.correspondent_id.preferred_name</field>
         </record>
         <record id="label_print_field_child_name" model="label.print.field">
             <field name="report_id" ref="label_print_sponsorship"/>
