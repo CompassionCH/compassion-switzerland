@@ -99,7 +99,7 @@ class SmsRequest(models.Model):
             new_children
         )
         valid_new_children.add_to_wordpress(company_id)
-        return super().cancel_request()
+        return True
 
     @api.multi
     def change_child(self):
