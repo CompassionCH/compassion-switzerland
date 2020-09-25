@@ -197,9 +197,6 @@ class AccountInvoice(models.Model):
                 "campaign_id": utms["campaign"],
             }
         )
-        requires_sponsorship = GIFT_CATEGORY in invoice.mapped(
-            "invoice_line_ids.product_id.categ_name"
-        )
         partner.set_privacy_statement(origin="new_gift")
         invoice.action_invoice_open()
         payment_vals = {
