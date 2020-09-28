@@ -16,57 +16,6 @@
                 <attribute name="context">{'search_default_not_opt_out': 1, 'search_default_has_email': 1}</attribute>
             </field>
 
-            <!-- Add button for resending pending e-mails -->
-            <field name="state" position="before">
-                <button name="send_pending" string="Send Pending" type="object" states="done"/>
-            </field>
-
-            <!-- Replace replied button by Clicks button and Unsub -->
-            <xpath expr="//div[@name='button_box']/button[5]" position="attributes">
-                <attribute name="type">object</attribute>
-                <attribute name="name">open_clicks</attribute>
-            </xpath>
-            <xpath expr="//div[@name='button_box']/button[4]" position="replace">
-                <button name="open_unsub" type="object" class="oe_stat_button">
-                    <field name="unsub_ratio" string="Unsubscribe" widget="percentpie"/>
-                </button>
-            </xpath>
-            <!-- Add button to recompute stats -->
-            <xpath expr="//div[@name='button_box']">
-                <button name="recompute_events" type="object" icon="fa-refresh" string="Compute ratios" class="oe_stat_button"/>
-            </xpath>
-
-            <!-- Replace actions of buttons to open tracking email view instead -->
-            <xpath expr="//div[@name='button_box']/button[2]" position="attributes">
-                <attribute name="name">open_received</attribute>
-                <attribute name="type">object</attribute>
-            </xpath>
-            <xpath expr="//div[@name='button_box']/button[3]" position="attributes">
-                <attribute name="name">open_opened</attribute>
-                <attribute name="type">object</attribute>
-            </xpath>
-            <xpath expr="//div[@name='button_box']/button[1]" position="attributes">
-                <attribute name="name">open_emails</attribute>
-                <attribute name="type">object</attribute>
-            </xpath>
-
-            <!-- Remove mail_server_id field (we always send with Sendgrid) -->
-            <field name="mail_server_id" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-        </field>
-    </record>
-
-    <record id="view_partner_test_sendgrid_form" model="ir.ui.view">
-        <field name="name">mass.mailing.partner.test.form</field>
-        <field name="model">mail.mass_mailing</field>
-        <field name="inherit_id" ref="mail_sendgrid_mass_mailing.view_email_template_sendgrid_form"/>
-        <field name="arch" type="xml">
-            <field name="body_sendgrid" position="before">
-                <group string="Test preview">
-                    <field name="partner_test_sendgrid_id" string="Test partner"/>
-                </group>
-            </field>
         </field>
     </record>
 
@@ -80,31 +29,6 @@
                      [<field name="internal_name" />]
                 </span>
             </field>
-            <xpath expr="//div[hasclass('row')][2]" position="replace">
-                <div class="row">
-                    <div class="col-xs-8">
-                        <a>Unsubscribe</a>
-                    </div>
-                    <div class="col-xs-4 text-right">
-                        <field name="unsub_ratio"/> %
-                    </div>
-                </div>
-            </xpath>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="view_mail_mass_mailing_campaign_kanban_swiss">
-        <field name="name">mail.mass_mailing.campaign.kanban.swiss</field>
-        <field name="model">mail.mass_mailing.campaign</field>
-        <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_campaign_kanban"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('oe_kanban_content')]/div[last()]/div[last()]" position="replace">
-                <div style="display: inline-block; vertical-align: top;">
-                    <strong>Opened</strong> <field name="opened_ratio"/> %<br />
-                    <strong>Click</strong> <field name="clicks_ratio"/> %<br />
-                    <strong>Unsubscribe</strong> <field name="unsub_ratio"/> %
-                </div>
-            </xpath>
         </field>
     </record>
 
@@ -113,15 +37,6 @@
         <field name="model">mail.mass_mailing.campaign</field>
         <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_campaign_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']/button[5]" position="replace">
-                <button name="open_unsub" type="object" class="oe_stat_button">
-                    <field name="unsub_ratio" widget="percentpie" string="Unsubscribe"/>
-                </button>
-            </xpath>
-            <xpath expr="//div[@name='button_box']/button[6]" position="attributes">
-                <attribute name="name">open_clicks</attribute>
-                <attribute name="type">object</attribute>
-            </xpath>
             <field name="name" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>

@@ -45,7 +45,6 @@
         "python": [
             "wand",
             "detectlanguage",
-            "sendgrid",
             "bs4",
             "pdf2image",
             "babel",

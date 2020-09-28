@@ -9,12 +9,10 @@
 ##############################################################################
 from . import mass_mailing
 from . import mail_tracking_event
-from . import queue_job
 from . import correspondence_metadata
 from . import mass_mailing_campaign
 from . import mail_template
 from . import utm
-from . import sendgrid_substitution
 from . import recurring_contract
 from . import correspondence
 from . import account_invoice_line

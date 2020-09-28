@@ -26,7 +26,6 @@ pytz
 pyzbar
 regex
 requests
-sendgrid
 Shapely
 simplejson
 sphinx

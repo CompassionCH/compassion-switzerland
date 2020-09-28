@@ -22,14 +22,6 @@ class MailMessage(models.Model):
     ancestor = fields.Many2one(
         "mail.message", compute="_compute_ancestor", readonly=False
     )
-    tracking_ids = fields.Many2many(
-        "mail.message",
-        "mail_message_to_mail_message_tracking",
-        "message_id",
-        "tracking_message_id",
-        "Related tracked messages",
-        readonly=False,
-    )
 
     @api.multi
     def _compute_ancestor(self):
@@ -67,13 +59,5 @@ class MailMessage(models.Model):
             search_messages += message.child_ids
             mess_results = super(MailMessage, search_messages).tracking_status()
             tracking = mess_results.get(message.id)
-            if not tracking and len(mess_results) > 1:
-                tracking_ids = list()
-                for m_id, m_tracking in list(mess_results.items()):
-                    if m_tracking:
-                        for mm_tracking in m_tracking:
-                            if mm_tracking[1] not in tracking_ids:
-                                tracking.append(mm_tracking)
-                                tracking_ids.append(mm_tracking[1])
             res[message.id] = tracking
         return res

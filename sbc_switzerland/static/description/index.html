@@ -388,19 +388,7 @@ multiple letters on import.</p>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#id1">Usage</a></h1>
 <p>Used by the onramp_compassion module to send an email on reception of a new
-child letter.</p>
-<p>The letter is sent to the sponsor’s email address, using a SendGrid email
-template corresponding to the sponsor’s language. Templates for every language
-have to be registered in the TemplateList model after creating them on the
-<a class="reference external" href="https://sendgrid.com/templates">SendGrid web interface</a>.</p>
-<p>The template should contain the following substitution variables which will be
-replaced with corresponding values:</p>
-<ul class="simple">
-<li><tt class="docutils literal">{sponsor}</tt> Full name of the sponsor</li>
-<li><tt class="docutils literal">{child}</tt> First name of the child</li>
-<li><tt class="docutils literal">{letter_url}</tt> URL where the letter can be viewed/downloaded</li>
-</ul>
-</div>
+child letter.</p><p>The letter is sent to the sponsor’s email address.</p>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#id2">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/compassionCH/compassion-switzerland/issues">GitHub Issues</a>.

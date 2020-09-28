@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Mass Mailing Switzerland",
-    "version": "12.0.1.0.0",
+    "version": "12.0.2.0.0",
     "category": "Mailing",
     "author": "Emanuel Cino",
     "license": "AGPL-3",
@@ -42,10 +42,9 @@
         "views/mail_tracking_event_view.xml",
         "views/partner_view.xml",
         "views/account_invoice_line_view.xml",
-        "data/refresh_sendgrid_tracking_cron.xml",
     ],
     "depends": [
-        "mail_sendgrid_mass_mailing",  # oca_addons/social
+        "mail_tracking",  # oca_addons/social
         "partner_communication_switzerland",  # compassion-switzerland
         "cms_form_compassion",  # compassion-modules
     ],
