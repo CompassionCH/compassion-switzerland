@@ -29,7 +29,8 @@
 # pylint: disable=C8101
 {
     "name": "Crowdfunding Compassion Theme",
-    "version": "12.0.1.0.0",
+    "version": "1.0",
+    "category": "Theme",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
@@ -39,7 +40,5 @@
     "data": [
         "views/assets.xml"
     ],
-    'category': 'Theme',
-    "installable": True,
-    "auto_install": False,
+    "application": False,
 }
