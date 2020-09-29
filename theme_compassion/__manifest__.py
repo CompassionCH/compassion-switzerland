@@ -29,7 +29,8 @@
 # pylint: disable=C8101
 {
     "name": "Main Compassion Theme",
-    "version": "12.0.1.0.0",
+    "version": "1.0",
+    "category": "Theme",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
@@ -43,8 +44,6 @@
         "views/assets.xml",
         "views/homepage.xml",
     ],
-    'css': ['static/src/scss/custom.scss'],
-    'category': 'Theme',
-    "installable": True,
-    "auto_install": False,
+    "css": ["static/src/scss/custom.scss"],
+    "application": False,
 }
