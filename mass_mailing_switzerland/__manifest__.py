@@ -42,11 +42,13 @@
         "views/mail_tracking_event_view.xml",
         "views/partner_view.xml",
         "views/account_invoice_line_view.xml",
+        "views/mass_mailing_contact_view.xml",
     ],
     "depends": [
-        "mail_tracking",  # oca_addons/social
+        "mail_tracking",                      # oca_addons/social
         "partner_communication_switzerland",  # compassion-switzerland
-        "cms_form_compassion",  # compassion-modules
+        "cms_form_compassion",                # compassion-modules
+        "mailchimp"                           # paid-addons
     ],
     "external_dependencies": {"python": ["pysftp"]},
     "demo": [],

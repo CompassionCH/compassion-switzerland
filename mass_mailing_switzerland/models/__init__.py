@@ -19,3 +19,4 @@ from . import account_invoice_line
 from . import analytic_account
 from . import crm_event_compassion
 from . import res_partner
+from . import mass_mailing_contact
