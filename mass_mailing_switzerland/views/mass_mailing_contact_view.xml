@@ -6,7 +6,7 @@
             <field name="model">mail.mass_mailing.contact</field>
             <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_contact_form"/>
             <field name="arch" type="xml">
-                <field name="email" position="before">
+                <field name="is_blacklisted" position="after">
                     <field name="partner_id" domain="[('email', '=', email)]"/>
                 </field>
             </field>

@@ -8,6 +8,7 @@
 #
 ##############################################################################
 from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 
 
 class MassMailing(models.Model):
@@ -20,6 +21,28 @@ class MassMailing(models.Model):
         'base.model_res_partner').id)
     enable_unsubscribe = fields.Boolean(default=True)
     unsubscribe_tag = fields.Char(default="[unsub]")
+    mailchimp_country_filter = fields.Char(
+        compute="_compute_has_mailchimp_filter")
+    mailchimp_donation_filter = fields.Char(
+        compute="_compute_has_mailchimp_filter"
+    )
+
+    @api.multi
+    def _compute_has_mailchimp_filter(self):
+        country_name = False
+        fund_name = False
+        country_filter_id = self.env["res.config.settings"].get_param(
+            "mass_mailing_country_filter_id")
+        if country_filter_id:
+            country_name = self.env[
+                "compassion.field.office"].browse(country_filter_id).name
+        fund_id = self.env["res.config.settings"].get_param(
+            "mass_mailing_donation_fund_id")
+        if fund_id:
+            fund_name = self.env["product.template"].sudo().browse(fund_id).name
+        for mailing in self:
+            mailing.mailchimp_country_filter = country_name
+            mailing.mailchimp_donation_filter = fund_name
 
     @api.multi
     def name_get(self):
@@ -43,3 +66,15 @@ class MassMailing(models.Model):
         else:
             mailing_domain = super()._onchange_model_and_list()
         self.mailing_domain = mailing_domain
+
+    def send_now_mailchimp(self, account=False):
+        queue_job = self.env["queue.job"].search([
+            ("channel", "=", "root.mass_mailing_switzerland.update_mailchimp"),
+            ("state", "!=", "done")
+        ], limit=1)
+        if queue_job:
+            raise UserError(_(
+                "Mailchimp is updating its MERGE FIELDS right now. "
+                "You should wait for the process to finish before sending the mailing."
+            ))
+        return super().send_now_mailchimp(account)

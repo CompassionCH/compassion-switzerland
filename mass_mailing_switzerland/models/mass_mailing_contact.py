@@ -8,6 +8,7 @@
 #
 ##############################################################################
 from odoo import api, models, fields
+from odoo.addons.queue_job.job import job
 
 
 class MassMailingContact(models.Model):
@@ -34,3 +35,14 @@ class MassMailingContact(models.Model):
             return self.partner_id.id
         else:
             return super().get_partner(email)
+
+    @job(default_channel="root.mass_mailing_switzerland.update_mailchimp")
+    @api.model
+    def update_all_merge_fields_job(self):
+        """ Update all contacts merge fields
+
+        :return:
+        """
+        self.search([
+            ("partner_id", "!=", False)]).action_update_to_mailchimp()
+        return True
