@@ -182,7 +182,7 @@
                                     <span>Indicate the amount in the above box. 1</span>
                                     <span t-esc="product.crowdfunding_quantity_singular"/>
                                     <span>is equivalent to CHF</span>
-                                    <span t-esc="product.standard_price"/>.-
+                                    <span t-esc="int(product.standard_price)"/>.-
                                 </p>
                             </div>
                         </t>

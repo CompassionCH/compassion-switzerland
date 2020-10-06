@@ -6,4 +6,11 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import models
+from odoo import models
+
+
+class ThemeCompassion(models.AbstractModel):
+    _inherit = 'theme.utils'
+
+    def _theme_compassion_post_copy(self, mod):
+        self.disable_view('website_theme_install.customize_modal')
