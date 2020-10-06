@@ -42,6 +42,11 @@ class CrowdfundingParticipant(models.Model):
     profile_photo_url = fields.Char(compute="_compute_profile_photo_url")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
 
+    _sql_constraints = [
+        ('registration_unique', "unique(project_id,partner_id)",
+         "Only one registration per participant/project is allowed!")
+    ]
+
     @api.model
     def create(self, vals):
         partner = self.env["res.partner"].browse(vals.get("partner_id"))
