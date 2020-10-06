@@ -78,12 +78,12 @@
             </xpath>
         </template>
 
-        <!-- Displayed after sucessful payment by [EventsController] -->
+        <!-- Displayed after successful payment by [EventsController] -->
         <template id="donation_successful" name="Crowdfunding donation success">
             <t t-call="crowdfunding_compassion.layout">
                 <section>
                     <div class="jumbotron center-page mt-5">
-                        <h1>Donation Succesful</h1>
+                        <h1>Donation Successful</h1>
                         <p>Thank you! Your donation helps release children from poverty!</p>
                         <a href="/homepage">
                             <button class="btn btn-primary">Back to Homepage</button>

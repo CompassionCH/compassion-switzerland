@@ -12,18 +12,18 @@
                         <h1 class="hero-title">I want to</h1>
                         <h5 class="text-white text-uppercase">Select your type of support</h5>
                         <h5 class="text-white text-uppercase">Below, select which person you support</h5>
-                        <div class="row pb-5">
-                            <!-- Fund selectable card -->
-                            <!-- Show fund option only if one is selected -->
+                        <div id="sponsorship_product_cards" class="row pb-5">
+                            <!-- Product selectable card -->
+                            <!-- Show product option only if one is selected -->
                             <t t-if="project.product_id">
-                                <div class="col-sm-12 col-md-4 mb-3">
+                                <div id="product_card" class="col-sm-12 col-md-4 mb-3">
                                     <label class="h-100 w-100">
-                                        <!-- If there is no sponsorship, select fund by default -->
+                                        <!-- If there is no sponsorship, select product by default -->
                                         <t t-if="project.number_sponsorships_goal">
-                                            <input type="radio" name="donation-type" value="fund" class="card-input-element d-none" />
+                                            <input type="radio" name="donation-type" value="product" class="card-input-element d-none" />
                                         </t>
                                         <t t-else="">
-                                            <input type="radio" name="donation-type" value="fund" class="card-input-element d-none" checked="checked" />
+                                            <input type="radio" name="donation-type" value="product" class="card-input-element d-none" checked="checked" />
                                         </t>
 
                                         <div class="card h-100 card-body d-flex justify-content-around align-items-center">
@@ -42,7 +42,7 @@
 
                             <!-- Sponsorship selectable card -->
                             <t t-if="project.number_sponsorships_goal">
-                                <div class="col-sm-12 col-md-4 mb-3">
+                                <div id="sponsorship_card" class="col-sm-12 col-md-4 mb-3">
                                     <label class="h-100 w-100">
                                         <!-- If there is no product id, select sponsorship by default -->
                                         <t t-if="project.product_id">
@@ -58,7 +58,7 @@
                                             <h4 class="blue text-center uppercase">Sponsor a child</h4>
                                             <h6 class="blue text-center uppercase">(You will be redirected to compassion switzerland website)</h6>
 
-                                            <!-- Show the select button also if there is a fund option-->
+                                            <!-- Show the select button also if there is a product option-->
                                             <t t-if="project.product_id">
                                                 <span class="fake-btn my-3 uppercase">Select</span>
                                             </t>
@@ -68,12 +68,12 @@
                             </t>
 
                             <!-- Project impact card without progress bars -->
-                                <div class="col-sm-12 col-md-4 mb-3">
-                                    <a t-attf-href="/project/#{project.id}">
-                                        <t t-set="display_impact" t-value="False" />
-                                        <t t-call="crowdfunding_compassion.project_impact_card" />
-                                    </a>
-                                </div>
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <a t-attf-href="/project/#{project.id}">
+                                    <t t-set="display_impact" t-value="False"/>
+                                    <t t-call="crowdfunding_compassion.project_impact_card"/>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -90,14 +90,16 @@
                                     <t t-if="selected_participant and int(selected_participant) == participant.id">
                                         <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id" checked="checked"/>
                                     </t>
-                                    <t t-if="selected_participant is None and len(project.participant_ids) == 1">
+                                    <t t-elif="selected_participant is None and len(project.participant_ids) == 1">
                                         <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id" checked="checked"/>
                                     </t>
                                     <t t-else="">
                                         <input type="radio" name="participant" class="card-input-element d-none" t-att-value="participant.id"/>
                                     </t>
                                     <t t-call="crowdfunding_compassion.participant_picture" />
-                                    <input name="sponsorship_url" type="hidden" t-att-value="participant.sponsorship_url"/>
+                                    <input t-att-name="'sponsorship_url_%s' % participant.id" type="hidden" t-att-value="participant.sponsorship_url"/>
+                                    <input t-att-name="'sponsorship_goal_%s' % participant.id" type="hidden" t-att-value="participant.number_sponsorships_goal"/>
+                                    <input t-att-name="'product_goal_%s' % participant.id" type="hidden" t-att-value="participant.product_number_goal"/>
                                 </label>
                             </t>
                         </div>
