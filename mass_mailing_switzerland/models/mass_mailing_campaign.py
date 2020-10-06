@@ -9,8 +9,6 @@
 ##############################################################################
 from odoo import api, models, fields
 
-from odoo.addons.queue_job.job import job, related_action
-
 
 class MassMailingCampaign(models.Model):
     _inherit = "mail.mass_mailing.campaign"
@@ -35,4 +33,3 @@ class MassMailingCampaign(models.Model):
             campaign.invoice_line_ids = campaign.campaign_id.invoice_line_ids.filtered(
                 lambda invl: invl.medium_id == mass_medium
             )
-

@@ -74,8 +74,8 @@ class ResPartner(models.Model):
                 f"https://{wp_host}/ecrire#email={partner.email}" \
                 f"&pname={partner.preferred_name}&sponsor_ref={partner.ref}"
             donate_link = \
-                f"https://{wp_host}/formulaire-pour-dons#last_name={partner.lastname}&" \
-                f"first_name={partner.firstname}&street={partner.street}" \
+                f"https://{wp_host}/formulaire-pour-dons#last_name={partner.lastname}"\
+                f"&first_name={partner.firstname}&street={partner.street}" \
                 f"&zipcode={partner.zip}&city={partner.city}&email={partner.email}"
             if fund_id:
                 donation_code = self.env[

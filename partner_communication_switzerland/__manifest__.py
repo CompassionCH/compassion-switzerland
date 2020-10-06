@@ -49,7 +49,6 @@
             "pdf2image",
             "babel",
             "PyPDF2",
-            "python_http_client",
         ]
     },
     "data": [
