@@ -25,3 +25,17 @@ class AccountInvoiceLine(models.Model):
                 "crowdfunding_compassion.utm_medium_crowdfunding")
             self.account_analytic_id = \
                 self.crowdfunding_participant_id.project_id.event_id.analytic_id
+
+    @api.multi
+    def _get_ambassador_receipt_config(self):
+        """
+        Check if donation is linked to a crowdfunding event.
+        :return: partner.communication.config record
+        """
+        # ambassador = self.mapped("user_id")
+        crowdfunding_event = self.mapped("event_id.crowdfunding_project_id")
+        if crowdfunding_event:
+            return self.env.ref(
+                "crowdfunding_compassion.config_donation_received"
+            )
+        return super()._get_ambassador_receipt_config()

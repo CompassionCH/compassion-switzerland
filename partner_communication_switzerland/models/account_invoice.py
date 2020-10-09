@@ -87,13 +87,7 @@ class AccountInvoice(models.Model):
                 other_thank.generate_thank_you()
 
         # Send confirmation to ambassadors
-        ambassador_config = self.env.ref(
-            "partner_communication_switzerland."
-            "ambassador_donation_confirmation_config"
-        )
-        ambassadors = self.mapped("invoice_line_ids.user_id").filtered(
-            "advocate_details_id.mail_copy_when_donation"
-        )
+        ambassadors = self.mapped("invoice_line_ids.user_id")
         for ambassador in ambassadors:
             # Filter only donations not for made for himself and filter
             # gifts that are thanked but not directly for ambassador.
@@ -103,13 +97,7 @@ class AccountInvoice(models.Model):
                 and l.product_id.categ_id != gift_category
             )
             if ambassador_lines:
-                self.env["partner.communication.job"].create(
-                    {
-                        "partner_id": ambassador.id,
-                        "object_ids": ambassador_lines.ids,
-                        "config_id": ambassador_config.id,
-                    }
-                )
+                ambassador_lines.send_receipt_to_ambassador()
 
     @api.multi
     def _filter_invoice_to_thank(self):

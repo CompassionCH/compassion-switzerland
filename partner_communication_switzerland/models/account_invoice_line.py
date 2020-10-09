@@ -80,6 +80,34 @@ class AccountInvoiceLine(models.Model):
         gift = "gift" in self.mapped("invoice_id.invoice_type")
         if self.mapped("event_id") and not gift:
             return self.env.ref(
-                "partner_communication_switzerland." "config_event_standard"
+                "partner_communication_switzerland.config_event_standard"
             )
         return super().get_default_thankyou_config()
+
+    @api.multi
+    def send_receipt_to_ambassador(self):
+        """
+        Generates a receipt for the ambassador informing him or her that he or she
+        received a donation.
+        :return: True
+        """
+        ambassador = self.mapped("user_id")
+        ambassador.ensure_one()
+        ambassador_config = self._get_ambassador_receipt_config()
+        if ambassador_config:
+            self.env["partner.communication.job"].create(
+                {
+                    "partner_id": ambassador.id,
+                    "object_ids": self.ids,
+                    "config_id": ambassador_config.id,
+                }
+            )
+        return True
+
+    @api.multi
+    def _get_ambassador_receipt_config(self):
+        """
+        Returns the correct receipt for ambassador given the donations.
+        :return: partner.communication.config record
+        """
+        return False

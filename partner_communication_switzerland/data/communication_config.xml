@@ -518,15 +518,6 @@
             <field name="send_mode">digital</field>
             <field name="model_id" ref="base.model_res_users"/>
         </record>
-        <record id="ambassador_donation_confirmation_config" model="partner.communication.config">
-            <field name="name">Ambassador Donation Confirmation</field>
-            <field name="send_mode">digital</field>
-            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
-            <field name="email_template_id" ref="ambassador_donation_confirmation_template"/>
-            <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="model_id" ref="model_account_invoice_line"/>
-            <field name="user_id" search="[('name', 'like', 'Maglo Rachel')]"/>
-        </record>
 
         <!-- SMS sponsorship communication config -->
         <record id="sms_registration_confirmation_1" model="partner.communication.config">

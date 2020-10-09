@@ -21,5 +21,64 @@
                 </p>
             </field>
         </record>
+
+        <!-- Ambassador receipt -->
+        <record id="ambassador_donation_confirmation_template" model="mail.template">
+            <field name="name">Ambassador Donation Confirmation</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">You received a donation!</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set invoice_lines = object.get_objects()
+                    % set donations = invoice_lines.get_donations()
+                    % set partner = object.partner_id
+                    % set donors = invoice_lines.mapped('partner_id')
+                    % set muskathlon = partner.registration_ids[:1]
+                </div>
+                <div>
+                    ${partner.salutation},
+                    <br/>
+                    <br/>
+                    Compassion Switzerland is glad to inform you that you just received a donation of CHF ${donations[0]}.-
+                    % if donations[1]:
+                        for the ${donations[1]}.
+                    % endif
+                    <br/>
+                    <br/>
+                    % if len(donors) == 1:
+                        Your donor is ${donors.preferred_name} from ${donors.city}.
+                        % if donors.email and donors.thankyou_preference != 'none':
+                    You can personally thank ${donors.get('him')} if you wish by sending ${donors.get('him')} an e-mail at <a href="mailto:${donors.email}" style="color: skyblue; text-decoration: underline;">${donors.email}</a>. In any case, ${donors.get('he')} will receive a thank you letter from us.
+                        % endif
+                    % else:
+                        You received this from the following people. You may contact them by e-mail if you wish to thank them personally.
+                        <ul>
+                            % for donor in donors:
+                            <li>${donor.preferred_name} from ${donor.city} ${'(<a href="{}" style="color: skyblue; text-decoration: underline;">{}</a>)'.format(donor.email, donor.email) if donor.email and donor.thankyou_preference != 'none' else ''}</li>
+                            % endfor
+                        </ul>
+                    % endif
+                    % if muskathlon:
+                        You currently have raised CHF ${muskathlon.amount_raised}.- You can check your barometer at anytime
+                        <a href="${muskathlon.website_url}" style="color: skyblue; text-decoration: underline;">on your sport profile page</a>.
+                    % endif
+                    <br/>
+                    <br/>
+                    Yours sincerely
+                </div>
+            </field>
+        </record>
+        <record id="ambassador_donation_confirmation_config" model="partner.communication.config">
+            <field name="name">Ambassador Donation Confirmation</field>
+            <field name="send_mode">digital</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="email_template_id" ref="ambassador_donation_confirmation_template"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="model_id" ref="model_account_invoice_line"/>
+            <field name="user_id" search="[('name', 'like', 'Maglo Rachel')]"/>
+        </record>
     </data>
 </odoo>

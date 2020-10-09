@@ -35,7 +35,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         return result
 
     @route(
-        '/my/muskathlon/<model("event.registration"):registration>/' "donations",
+        '/my/muskathlon/<model("event.registration"):registration>/donations',
         auth="user",
         website=True,
     )

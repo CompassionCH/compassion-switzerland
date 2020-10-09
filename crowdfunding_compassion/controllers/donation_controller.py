@@ -86,14 +86,4 @@ class DonationController(PaymentFormController, FormControllerMixin):
                 "object_ids": invoice.ids
             })
 
-            # Send email to inform participant of new donation
-            config = request.env.ref("crowdfunding_compassion.config_donation_received")
-            comm_obj.create(
-                {
-                    "config_id": config.id,
-                    "partner_id": invoice.invoice_line_ids[0].user_id.id,
-                    "object_ids": invoice.ids
-                }
-            )
-
         return request.render("crowdfunding_compassion.donation_successful")
