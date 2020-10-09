@@ -59,27 +59,48 @@ class AccountInvoiceLine(models.Model):
         as the default thanker.
         """
         event = self.mapped("event_id")[:1]
-        user = event.mapped("staff_ids.user_ids")[:1] or event.create_uid
+        default_communication_config = False
+        # Special case for gifts : never put in event donation
+        gift = "gift" in self.mapped("invoice_id.invoice_type")
+        if event and not gift:
+            default_communication_config = self.env.ref(
+                "partner_communication_switzerland.config_event_standard"
+            )
         return super(
             AccountInvoiceLine,
             self.with_context(
                 same_job_search=[("event_id", "=", event.id)],
                 default_event_id=event.id,
-                default_user_id=user.id,
+                default_user_id=event.mapped("staff_ids.user_ids")[:1],
+                default_ambassador_id=self.mapped("user_id")[:1].id,
+                default_communication_config=default_communication_config
             ),
         ).generate_thank_you()
 
     @api.multi
-    def get_default_thankyou_config(self):
+    def send_receipt_to_ambassador(self):
         """
-        Returns the default communication configuration.
-        Choose event communication if the donations are linked to an event
+        Generates a receipt for the ambassador informing him or her that he or she
+        received a donation.
+        :return: True
+        """
+        ambassador = self.mapped("user_id")
+        ambassador.ensure_one()
+        ambassador_config = self._get_ambassador_receipt_config()
+        if ambassador_config:
+            self.env["partner.communication.job"].create(
+                {
+                    "partner_id": ambassador.id,
+                    "object_ids": self.ids,
+                    "config_id": ambassador_config.id,
+                }
+            )
+        return True
+
+    @api.multi
+    def _get_ambassador_receipt_config(self):
+        """
+        Returns the correct receipt for ambassador given the donations.
         :return: partner.communication.config record
         """
-        # Special case for gifts : never put in event donation
-        gift = "gift" in self.mapped("invoice_id.invoice_type")
-        if self.mapped("event_id") and not gift:
-            return self.env.ref(
-                "partner_communication_switzerland." "config_event_standard"
-            )
-        return super().get_default_thankyou_config()
+        return False

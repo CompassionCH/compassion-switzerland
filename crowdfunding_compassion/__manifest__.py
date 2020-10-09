@@ -29,14 +29,14 @@
 # pylint: disable=C8101
 {
     "name": "Crowdfunding Compassion",
-    "version": "12.0.1.0.6",
+    "version": "12.0.1.0.7",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
         "cms_form_compassion",  # compassion-modules
         "theme_crowdfunding",  # compassion-switzerland
-        "sponsorship_switzerland",  # compassion-switzerland
+        "partner_communication_switzerland",  # compassion-switzerland
         "crm_compassion",  # compassion-modules
         "event",  # odoo base modules
         "wordpress_configuration",  # compassion-modules

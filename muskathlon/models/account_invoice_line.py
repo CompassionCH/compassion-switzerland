@@ -21,3 +21,17 @@ class AccountInvoiceLine(models.Model):
     def _compute_amount_cents(self):
         for line in self:
             line.price_cents = line.price_subtotal * 100
+
+    @api.multi
+    def _get_ambassador_receipt_config(self):
+        """
+        Check if donation is linked to a Muskathlon event.
+        :return: partner.communication.config record
+        """
+        ambassador = self.mapped("user_id")
+        muskathlon_event = self.mapped("event_id").filtered("website_muskathlon")
+        if muskathlon_event and ambassador.advocate_details_id.mail_copy_when_donation:
+            return self.env.ref(
+                "muskathlon.ambassador_donation_confirmation_config"
+            )
+        return super()._get_ambassador_receipt_config()
