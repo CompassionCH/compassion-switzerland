@@ -68,9 +68,13 @@ h6,
   color: #707070;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .display-1 {
     font-size: 4rem;
+  }
+
+  .display-2 {
+    font-size: 2.4375rem;
   }
 
   .display-4 {
