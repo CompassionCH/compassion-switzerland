@@ -26,6 +26,7 @@ geospatial https://github.com/CompassionCH/geospatial 12.0-everything-migrated
 hr
 l10n-switzerland https://github.com/CompassionCH/l10n-switzerland 12.0-everything-migrated
 mis-builder
+paid-addons https://github.com/CompassionCH/paid-addons.git master
 partner-contact https://github.com/CompassionCH/partner-contact.git 12.0-smart-tag
 queue
 report-print-send https://github.com/CompassionCH/report-print-send 12.0-everything-migrated
