@@ -52,12 +52,12 @@ clickHandler();
 
 function enableOrDisableDiv(supportType, quantity, autoSelect) {
   const element = document.getElementById(supportType + "_card");
-  if (quantity && quantity !== "0") {
+  if (element && quantity && quantity !== "0") {
     if (autoSelect) {
         element.querySelector('input[name="donation-type"').checked = true;
     }
     element.style.display = "block";
-  } else {
+  } else if (element) {
     // We uncheck elements that are hidden
     element.querySelector('input[name="donation-type"]').checked = false;
     element.style.display = "none";
