@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from urllib.parse import urlencode
 
 from odoo import models, api, fields
 from odoo.http import request
@@ -21,8 +22,7 @@ class ResPartner(models.Model):
 
     # Add some computed fields to be used in mailchimp merge fields
     partner_image_url = fields.Char(compute="_compute_partner_image_url")
-    write_link = fields.Char(compute="_compute_wp_links")
-    donate_link = fields.Char(compute="_compute_wp_links")
+    wordpress_form_data = fields.Char(compute="_compute_wp_formdata")
 
     sponsored_child_name = fields.Char(compute="_compute_sponsored_child_fields")
     sponsored_child_image = fields.Char(compute="_compute_sponsored_child_fields")
@@ -58,34 +58,29 @@ class ResPartner(models.Model):
                     f"{base_url}/web/image/res.partner/{partner.id}/image/profile.jpg"
 
     @api.multi
-    def _compute_wp_links(self):
-        wp_host = self.env["wordpress.configuration"].sudo().get_host()
+    def _compute_wp_formdata(self):
         country_filter_id = self.env["res.config.settings"].get_param(
             "mass_mailing_country_filter_id")
-        fund_id = self.env["res.config.settings"].get_param(
-            "mass_mailing_donation_fund_id")
         for partner in self:
+            locale_partner = partner.with_context(lang=partner.lang)
             child = self.env.context.get("mailchimp_child",
                                          partner.mapped("sponsored_child_ids"))
             if country_filter_id:
                 child = child.filtered(
                     lambda c: c.field_office_id.id == country_filter_id)
-            write_link =\
-                f"https://{wp_host}/ecrire#email={partner.email}" \
-                f"&pname={partner.preferred_name}&sponsor_ref={partner.ref}"
-            donate_link = \
-                f"https://{wp_host}/formulaire-pour-dons#last_name={partner.lastname}"\
-                f"&first_name={partner.firstname}&street={partner.street}" \
-                f"&zipcode={partner.zip}&city={partner.city}&email={partner.email}"
-            if fund_id:
-                donation_code = self.env[
-                    "product.template"].sudo().browse(fund_id).default_code
-                donate_link += f"&fonds={donation_code}"
-            if len(child) == 1:
-                write_link += f"&child_ref={child.local_id}"
-                donate_link += f"&refenfant={child.local_id}"
-            partner.write_link = write_link
-            partner.donate_link = donate_link
+            data = {
+                "firstname": locale_partner.preferred_name,
+                "pname": locale_partner.name,
+                "email": locale_partner.email,
+                "pstreet": locale_partner.street,
+                "pcity": locale_partner.city,
+                "pzip": locale_partner.zip,
+                "pcountry": locale_partner.country_id.name,
+                "sponsor_ref": locale_partner.ref,
+                "child_ref": child.local_id if len(child) == 1 else False,
+            }
+            filter_data = {key: val for key, val in data.items() if val}
+            partner.wordpress_form_data = urlencode(filter_data)
 
     @api.multi
     def _compute_sponsored_child_fields(self):
