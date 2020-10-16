@@ -59,10 +59,11 @@
                     <field name="contract_ids"/>
                     <field name="invoice_line_ids">
                         <tree>
+                            <field name="due_date"/>
                             <field name="partner_id" groups="base.group_user" string="Sponsor"/>
-                            <field name="price_subtotal" string="Total" sum="Total"/>
                             <field name="state"/>
                             <field name="name"/>
+                            <field name="price_subtotal" string="Total" sum="Total"/>
                         </tree>
                     </field>
                     <field name="correspondence_ids"/>
@@ -90,5 +91,13 @@
     <!-- Put campaign menu at first-->
     <record id="mass_mailing.menu_email_campaigns" model="ir.ui.menu">
         <field name="sequence">0</field>
+    </record>
+
+    <!--  Remove my mailings filter  -->
+    <record id="mass_mailing.action_view_mass_mailings" model="ir.actions.act_window">
+        <field name="context">{
+                'default_user_id': uid,
+            'search_default_group_state': 1
+        }</field>
     </record>
 </odoo>
