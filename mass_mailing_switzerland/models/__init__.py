@@ -20,3 +20,5 @@ from . import analytic_account
 from . import crm_event_compassion
 from . import res_partner
 from . import mass_mailing_contact
+from . import email_lang_template
+from . import mail_thread

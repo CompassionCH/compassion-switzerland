@@ -9,3 +9,4 @@
 
 from . import mass_mailing_settings
 from . import generate_wordpress_lik_wizard
+from . import mail_compose_message

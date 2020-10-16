@@ -8,6 +8,18 @@
             <field name="report_name" position="after">
                 <field name="report_product_id" attrs="{'invisible':[('report_template','=',False)]}"/>
             </field>
+            <xpath expr="//field[@name='email_from']/ancestor::page" position="after">
+                <page string="Mailchimp">
+                    <group>
+                        <field name="mailchimp_template_ids">
+                            <tree editable="top">
+                                <field name="lang"/>
+                                <field name="mailchimp_template"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 </odoo>

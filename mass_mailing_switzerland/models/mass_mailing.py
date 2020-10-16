@@ -27,7 +27,6 @@ class MassMailing(models.Model):
     @api.multi
     def _compute_has_mailchimp_filter(self):
         country_name = False
-        fund_name = False
         country_filter_id = self.env["res.config.settings"].get_param(
             "mass_mailing_country_filter_id")
         if country_filter_id:
