@@ -23,9 +23,6 @@ class MassMailing(models.Model):
     unsubscribe_tag = fields.Char(default="[unsub]")
     mailchimp_country_filter = fields.Char(
         compute="_compute_has_mailchimp_filter")
-    mailchimp_donation_filter = fields.Char(
-        compute="_compute_has_mailchimp_filter"
-    )
 
     @api.multi
     def _compute_has_mailchimp_filter(self):
@@ -36,13 +33,8 @@ class MassMailing(models.Model):
         if country_filter_id:
             country_name = self.env[
                 "compassion.field.office"].browse(country_filter_id).name
-        fund_id = self.env["res.config.settings"].get_param(
-            "mass_mailing_donation_fund_id")
-        if fund_id:
-            fund_name = self.env["product.template"].sudo().browse(fund_id).name
         for mailing in self:
             mailing.mailchimp_country_filter = country_name
-            mailing.mailchimp_donation_filter = fund_name
 
     @api.multi
     def name_get(self):

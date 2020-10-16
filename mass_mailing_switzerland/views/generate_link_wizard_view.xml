@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="generate_wordpress_link_wizard" model="ir.ui.view">
+        <field name="name">generate.wordpress.link.wizard.form</field>
+        <field name="model">res.partner.generate.wp.link.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_form_box_info bg-danger oe_text_center" attrs="{'invisible': [('country_filter', '=', False)]}">
+                        <p>
+                            Warning: Sponsorships are filtered for country <field name="country_filter" class="oe_inline"/>
+                        </p>
+                    </div>
+                    <group>
+                        <field name="base_url"/>
+                    </group>
+                    <group>
+                        <group string="Form autofill options">
+                            <field name="partner_id"/>
+                            <field name="sponsorship_id" domain="[('child_id', '!=', False), ('state', 'not in', ['terminated', 'cancelled']), '|', ('partner_id', '=', partner_id), ('correspondent_id', '=', partner_id)]"/>
+                            <field name="donation_type"/>
+                            <field name="product_id" domain="[('categ_name', '=', donation_type)]" attrs="{'invisible': [('donation_type', '=', False)]}"/>
+                            <field name="donation_amount" attrs="{'invisible': [('donation_type', '=', False)]}"/>
+                        </group>
+                        <group string="Tracking options">
+                            <field name="utm_source"/>
+                            <field name="utm_campaign"/>
+                            <field name="utm_medium"/>
+                        </group>
+                    </group>
+                    <group string="Your generated link">
+                        <field name="website_link"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="generate_link" type="object" string="Generate the link" class="btn-primary"/>
+                    <button name="short_link" type="object" string="Generate a short link" class="btn-default"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_generate_link_from_partner"
+                key2="client_action_multi" name="Generate wordpress link"
+                res_model="res.partner.generate.wp.link.wizard" src_model="res.partner"
+                view_mode="form" target="new" view_type="form" context="{'default_partner_id': context['active_id']}"
+    />
+    <record id="open_generate_link_wizard" model="ir.actions.act_window">
+        <field name="name">Generate wordpress link</field>
+        <field name="res_model">res.partner.generate.wp.link.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_generate_wordpress_link"
+              parent="utm.menu_link_tracker_root"
+              name="Generate wordpress link"
+              action="open_generate_link_wizard"
+              sequence="2"/>
+</odoo>

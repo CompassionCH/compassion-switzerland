@@ -24,11 +24,6 @@
                         Mailchimp MERGE TAGS: Sponsorships are filtered for country <field name="mailchimp_country_filter" class="oe_inline"/>
                     </p>
                 </div>
-                <div class="oe_form_box_info bg-danger oe_text_center" attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('mailchimp_donation_filter', '=', False)]}">
-                    <p>
-                        Mailchimp MERGE TAGS: Donation links will prefill with <field name="mailchimp_donation_filter" class="oe_inline"/>
-                    </p>
-                </div>
             </xpath>
 
         </field>

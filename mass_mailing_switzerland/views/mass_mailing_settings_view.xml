@@ -16,17 +16,6 @@
                     <div class="o_setting_left_pane" >
                     </div>
                     <div class="o_setting_right_pane">
-                        <label for="mass_mailing_donation_fund_id"/>
-                        <div class="text-muted">
-                            Use this product to generate donation links
-                        </div>
-                        <field name="mass_mailing_donation_fund_id"/>
-                    </div>
-                </div>
-                <div class="col-lg-6 o_setting_box col-12">
-                    <div class="o_setting_left_pane" >
-                    </div>
-                    <div class="o_setting_right_pane">
                         <label for="mass_mailing_country_filter_id"/>
                         <div class="text-muted">
                             Use this to only include children from this country
