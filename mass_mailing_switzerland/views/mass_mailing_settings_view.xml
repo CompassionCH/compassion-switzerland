@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2020 Compassion (http://www.compassion.ch)
+    @author Emanuel Cino <ecino@compassion.ch>
+    The licence is in the file __manifest__.py
+-->
+<odoo>
+    <!-- Configuration View -->
+    <record id="view_settings_mass_mailing" model="ir.ui.view">
+        <field name="name">mass.mailing.switzerland.settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="mass_mailing.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='mass_mailing']/div[hasclass('row')]">
+                <div class="col-lg-6 o_setting_box col-12">
+                    <div class="o_setting_left_pane" >
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="mass_mailing_country_filter_id"/>
+                        <div class="text-muted">
+                            Use this to only include children from this country
+                        </div>
+                        <field name="mass_mailing_country_filter_id"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

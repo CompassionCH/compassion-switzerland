@@ -134,15 +134,4 @@
     <!-- Move menuitems for Mass mailing users -->
     <menuitem id="utm.menu_link_tracker_root" groups="mass_mailing.group_mass_mailing_campaign" parent="mass_mailing.mass_mailing_menu_root" name="Link Tracker"/>
 
-    <record model="ir.actions.server" id="update_sendgrid_tracking">
-        <field name="name">Refresh Sendgrid URLs</field>
-        <field name="model_id" ref="model_mail_template"/>
-        <field name="state">code</field>
-        <field name="code">env['mail.template'].refresh_sendgrid_tracking()</field>
-    </record>
-    <menuitem name="Refresh Sendgrid URLs" id="menu_update_sendgrid_tracking"
-              parent="mass_mailing.mass_mailing_menu_root"
-              sequence="9"
-              action="update_sendgrid_tracking"/>
-
 </odoo>

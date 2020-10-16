@@ -39,10 +39,9 @@
         "geoengine_base_geolocalize",  # geospatialslac
         "account_banking_mandate",  # oca_addons/bank-payment
         "account_bank_statement_import_camt_details",
-        # oca_addons/bank-statement-import
         "sbc_compassion",  # compassion-modules
         "thankyou_letters",  # compassion-modules
-        "mail_sendgrid",
+        "mail_tracking",
         "partner_contact_birthdate",  # oca_addons/partner-contact
         "web_notify",  # oca_addons/web
         "partner_contact_in_several_companies",  # oca_addons/partner-contact
@@ -54,7 +53,7 @@
         "auditlog",
         "l10n_ch_zip",  # oca_addon/l10n_switzerland
     ],
-    "external_dependencies": {"python": ["pandas", "pyminizip", "sendgrid", "magic"]},
+    "external_dependencies": {"python": ["pandas", "pyminizip", "magic"]},
     "data": [
         "security/ir.model.access.csv",
         "security/criminal_record_groups.xml",
@@ -75,6 +74,7 @@
         "views/partner_check_double.xml",
         "views/notification_settings_view.xml",
         "views/tag_merge_wizard_action.xml",
+        "views/mail_mail.xml",
         "templates/child_protection_charter.xml",
     ],
     "qweb": ["static/src/xml/thread_custom.xml"],
