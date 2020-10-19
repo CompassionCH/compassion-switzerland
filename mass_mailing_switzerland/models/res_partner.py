@@ -108,7 +108,7 @@ class ResPartner(models.Model):
                     f"/{last_image.child_id.local_id}-portrait.jpg"
             partner.sponsored_child_name = child.get_list(
                 "preferred_name", 3,
-                child.get("many children"),
+                child.get_number(),
                 translate=False)
             partner.sponsored_child_is = child.get("is")
             partner.sponsored_child_was = child.get("was")
