@@ -38,13 +38,12 @@ class MassMailingContact(models.Model):
 
     @job(default_channel="root.mass_mailing_switzerland.update_mailchimp")
     @api.model
-    def update_all_merge_fields_job(self):
+    def update_all_merge_fields_job(self, partner_ids=None):
         """ Update all contacts merge fields
 
         :return:
         """
         search_criterias = [("partner_id", "!=", False)]
-        partner_ids = self.env.context.get("partner_ids")
         if partner_ids:
             search_criterias.append(("partner_id", "in", partner_ids))
         self.search(search_criterias).action_update_to_mailchimp()

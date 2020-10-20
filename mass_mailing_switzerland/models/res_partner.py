@@ -89,7 +89,6 @@ class ResPartner(models.Model):
         except AttributeError:
             base_url = self.env["ir.config_parameter"].sudo().get_param(
                 "web.external.url")
-        base_url += "/web/image/compassion.child.pictures"
         country_filter_id = self.env["res.config.settings"].get_param(
             "mass_mailing_country_filter_id")
         for partner in self:
@@ -104,8 +103,12 @@ class ResPartner(models.Model):
             last_image = child.mapped("pictures_ids")[:1]
             if last_image:
                 partner.sponsored_child_image = \
-                    f"{base_url}/{last_image.id}/headshot" \
+                    f"{base_url}/web/image/compassion.child.pictures" \
+                    f"/{last_image.id}/headshot" \
                     f"/{last_image.child_id.local_id}-portrait.jpg"
+            else:
+                partner.sponsored_child_image = \
+                    f"{base_url}/web/static/src/img/placeholder.png"
             partner.sponsored_child_name = child.get_list(
                 "preferred_name", 3,
                 child.get_number(),
@@ -167,8 +170,7 @@ class ResPartner(models.Model):
                 update_partner_ids.append(contact.id)
         if update_partner_ids:
             self.env["mail.mass_mailing.contact"]\
-                .with_context(partner_ids=update_partner_ids)\
-                .with_delay().update_all_merge_fields_job()
+                .with_delay().update_all_merge_fields_job(update_partner_ids)
         return True
 
     @api.multi
