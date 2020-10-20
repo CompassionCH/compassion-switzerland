@@ -43,6 +43,9 @@ class MassMailingContact(models.Model):
 
         :return:
         """
-        self.search([
-            ("partner_id", "!=", False)]).action_update_to_mailchimp()
+        search_criterias = [("partner_id", "!=", False)]
+        partner_ids = self.env.context.get("partner_ids")
+        if partner_ids:
+            search_criterias.append(("partner_id", "in", partner_ids))
+        self.search(search_criterias).action_update_to_mailchimp()
         return True

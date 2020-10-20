@@ -44,8 +44,7 @@ class ResPartner(models.Model):
             with api.Environment.manage():
                 lang_partner = p.with_context(lang=p.lang)
                 # this will enable translation of "Dear friends of Compassion"
-                # pylint: disable=unused-variable
-                env = api.Environment(self.env.cr, self.env.uid,
+                env = api.Environment(self.env.cr, self.env.uid,  # noqa: F841
                                       lang_partner.env.context)
                 p.salutation = _("Dear friends of Compassion")
                 p.short_salutation = lang_partner.salutation

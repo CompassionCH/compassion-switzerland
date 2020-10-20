@@ -138,11 +138,38 @@ class ResPartner(models.Model):
 
     @api.multi
     def write(self, vals):
+        """
+        - Check if contact needs update in mailchimp.
+        - Update opt_out date
+        - Opt_out from all mailing lists if general opt_out is checked.
+        """
         if vals.get("opt_out"):
             vals["date_opt_out"] = fields.Date.today()
         elif "opt_out" in vals:
             vals["date_opt_out"] = False
-        return super().write(vals)
+        super().write(vals)
+        base_mailchimp_fields = [
+            "category_id", "email", "lastname", "firstname", "name",
+            "number_sponsorships", "opt_out"]
+        update_partner_ids = []
+        for contact in self.filtered(lambda c: c.mailing_contact_ids):
+            if "opt_out" in vals:
+                contact.mailing_contact_ids.mapped("subscription_list_ids").write({
+                    "opt_out": vals["opt_out"]})
+            if "category_id" in vals:
+                contact.mailing_contact_ids.write({
+                    "tag_ids": vals["category_id"]
+                })
+            mailchimp_fields = contact.mailing_contact_ids.mapped(
+                "list_ids.mailchimp_list_id.merge_field_ids.field_id.name")
+            mailchimp_fields += base_mailchimp_fields
+            if set(vals.keys()) & set(mailchimp_fields):
+                update_partner_ids.append(contact.id)
+        if update_partner_ids:
+            self.env["mail.mass_mailing.contact"]\
+                .with_context(partner_ids=update_partner_ids)\
+                .with_delay().update_all_merge_fields_job()
+        return True
 
     @api.multi
     def update_selected_child_for_mailchimp(self, child):
