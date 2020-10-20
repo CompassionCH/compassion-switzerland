@@ -48,3 +48,19 @@ class MassMailingContact(models.Model):
             search_criterias.append(("partner_id", "in", partner_ids))
         self.search(search_criterias).action_update_to_mailchimp()
         return True
+
+    @api.multi
+    def action_export_to_mailchimp(self):
+        """
+        Always export in english so that all tags are set in English
+        """
+        return super(MassMailingContact,
+                     self.with_context(lang="en_US")).action_export_to_mailchimp()
+
+    @api.multi
+    def action_update_to_mailchimp(self):
+        """
+        Always export in english so that all tags are set in English
+        """
+        return super(MassMailingContact,
+                     self.with_context(lang="en_US")).action_update_to_mailchimp()
