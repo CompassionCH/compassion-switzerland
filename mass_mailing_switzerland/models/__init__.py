@@ -22,3 +22,5 @@ from . import res_partner
 from . import mass_mailing_contact
 from . import email_lang_template
 from . import mail_thread
+from . import queue_job
+from . import sendgrid_substitution

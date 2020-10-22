@@ -9,6 +9,8 @@
 ##############################################################################
 from odoo import api, models, fields
 
+from odoo.addons.queue_job.job import job, related_action
+
 
 class MassMailingCampaign(models.Model):
     _inherit = "mail.mass_mailing.campaign"
@@ -33,3 +35,18 @@ class MassMailingCampaign(models.Model):
             campaign.invoice_line_ids = campaign.campaign_id.invoice_line_ids.filtered(
                 lambda invl: invl.medium_id == mass_medium
             )
+
+
+class Mail(models.Model):
+    _inherit = "mail.mail"
+
+    @job(default_channel="root.mass_mailing")
+    @related_action(action="related_action_emails")
+    @api.multi
+    def send_sendgrid_job(self, mass_mailing_ids=False):
+        # Make send method callable in a job
+        self.send_sendgrid()
+        if mass_mailing_ids:
+            mass_mailings = self.env["mail.mass_mailing"].browse(mass_mailing_ids)
+            mass_mailings.write({"state": "done"})
+        return True
