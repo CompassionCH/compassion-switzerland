@@ -10,16 +10,8 @@
 import logging
 
 from odoo import models, api, _
-from odoo.exceptions import UserError
-from odoo.tools.config import config
 
 _logger = logging.getLogger(__name__)
-
-try:
-    from sendgrid import SendGridAPIClient
-    from python_http_client import NotFoundError
-except ImportError:
-    _logger.warning("Please install sendgrid and python_http_client")
 
 
 class MailTrackingEvent(models.Model):
@@ -65,15 +57,6 @@ class MailTrackingEvent(models.Model):
             )
             partner.write(to_write)
 
-    def _remove_address_from_sendgrid_bounce_list(self, tracking_email):
-        tracking_email.partner_id.message_post(
-            body=_("The email was bounced and not delivered to the partner"),
-            subject=tracking_email.name,
-        )
-        self._get_sendgrid().client.suppression.bounces._(
-            tracking_email.recipient
-        ).delete()
-
     @api.model
     def process_hard_bounce(self, tracking_email, metadata):
         body = (
@@ -95,19 +78,14 @@ class MailTrackingEvent(models.Model):
     @api.model
     def process_unsub(self, tracking_email, metadata):
         """
-        Opt out partners when they unsubscribe from Sendgrid.
-        Remove unsub from Sendgrid
+        Opt out partners when they unsubscribe.
         """
         tracking_email.partner_id.opt_out = True
         tracking_email.partner_id.message_post(
             body=_("Partner Unsubscribed from marketing e-mails"),
             subject=_("Opt-out")
         )
-        sg = self._get_sendgrid()
-        try:
-            sg.client.suppression.unsubscribes._(tracking_email.recipient).delete()
-        finally:
-            return super().process_unsub(tracking_email, metadata)
+        return super().process_unsub(tracking_email, metadata)
 
     @api.model
     def process_reject(self, tracking_email, metadata):
@@ -137,27 +115,6 @@ class MailTrackingEvent(models.Model):
             body=_("The email couldn't be sent due to invalid address"),
             subject=tracking_email.name
         )
-        try:
-            self._get_sendgrid().client.suppression.invalid_emails._(
-                tracking_email.recipient
-            ).delete()
-            found = True
-        except NotFoundError:
-            try:
-                self._get_sendgrid().client.suppression.blocks._(
-                    tracking_email.recipient
-                ).delete()
-                found = True
-            except NotFoundError:
-                try:
-                    self._remove_address_from_sendgrid_bounce_list(tracking_email)
-                    found = True
-                except NotFoundError:
-                    found = False
-        if found:
-            _logger.info("The recipient was removed from the Sendgrid supression lists")
-        else:
-            _logger.error("The recipient is not in the supression lists of sendgrid.")
 
     @api.model
     def process_spam(self, tracking_email, metadata):
@@ -165,15 +122,3 @@ class MailTrackingEvent(models.Model):
             body=_("The email was marked as spam by the partner"),
             subject=tracking_email.name
         )
-        self._get_sendgrid().client.suppression.spam_reports.delete(
-            request_body={"emails": [tracking_email.recipient]}
-        )
-
-    def _get_sendgrid(self):
-        api_key = config.get("sendgrid_api_key")
-        if not api_key:
-            raise UserError(
-                _("ConfigError"), _("Missing sendgrid_api_key in conf file")
-            )
-
-        return SendGridAPIClient(api_key=api_key)

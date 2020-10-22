@@ -93,7 +93,7 @@ class Correspondence(models.Model):
                     )
 
     @api.multi
-    @api.depends("communication_id.email_id.tracking_event_ids")
+    @api.depends("communication_id.email_id.mail_tracking_ids.tracking_event_ids")
     def _compute_email_read(self):
         for mail in self:
             dates = [
@@ -101,9 +101,8 @@ class Correspondence(models.Model):
                 for x in mail.communication_id.email_id.tracking_event_ids
                 if x.event_type == "open"
             ]
-            if mail.communication_id.email_id.opened:
-                if dates:
-                    mail.email_read = max(dates)
+            if dates:
+                mail.email_read = max(dates)
 
     ##########################################################################
     #                             PUBLIC METHODS                             #

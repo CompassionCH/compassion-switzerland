@@ -546,10 +546,4 @@
             <field name="user_id" search="[('name', 'like', 'Maglo Rachel')]"/>
         </record>
     </data>
-
-    <!-- Init sendgrid templates -->
-    <data noupdate="1">
-        <function model="init.sendgrid.template" name="init_templates"/>
-    </data>
-
 </odoo>

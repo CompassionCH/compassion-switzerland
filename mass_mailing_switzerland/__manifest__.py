@@ -29,12 +29,13 @@
 # pylint: disable=C8101
 {
     "name": "Mass Mailing Switzerland",
-    "version": "12.0.1.0.0",
+    "version": "12.0.2.0.0",
     "category": "Mailing",
     "author": "Emanuel Cino",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "data": [
+        "security/ir.model.access.csv",
         "views/mass_mailing_view.xml",
         "views/mail_template_view.xml",
         "views/utm_view.xml",
@@ -42,12 +43,15 @@
         "views/mail_tracking_event_view.xml",
         "views/partner_view.xml",
         "views/account_invoice_line_view.xml",
-        "data/refresh_sendgrid_tracking_cron.xml",
+        "views/mass_mailing_contact_view.xml",
+        "views/mass_mailing_settings_view.xml",
+        "views/generate_link_wizard_view.xml",
     ],
     "depends": [
-        "mail_sendgrid_mass_mailing",  # oca_addons/social
+        "mail_tracking",                      # oca_addons/social
         "partner_communication_switzerland",  # compassion-switzerland
-        "cms_form_compassion",  # compassion-modules
+        "cms_form_compassion",                # compassion-modules
+        "mailchimp"                           # paid-addons
     ],
     "external_dependencies": {"python": ["pysftp"]},
     "demo": [],

@@ -8,25 +8,14 @@
 #
 ##############################################################################
 from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 
 
 class MassMailing(models.Model):
-    """ Add the mailing domain to be viewed in a text field
-    """
-
     _inherit = "mail.mass_mailing"
 
     internal_name = fields.Char("Internal Variant Name")
-    total = fields.Integer(compute="_compute_statistics")
 
-    clicks_ratio = fields.Integer(compute=False)
-    click_event_ids = fields.Many2many(
-        "mail.tracking.event", compute="_compute_events", readonly=False
-    )
-    unsub_ratio = fields.Integer()
-    unsub_event_ids = fields.Many2many(
-        "mail.tracking.event", compute="_compute_events", readonly=False
-    )
     partner_test_sendgrid_id = fields.Many2one(
         "res.partner", "Test Partner", readonly=False
     )
@@ -36,6 +25,19 @@ class MassMailing(models.Model):
         'base.model_res_partner').id)
     enable_unsubscribe = fields.Boolean(default=True)
     unsubscribe_tag = fields.Char(default="[unsub]")
+    mailchimp_country_filter = fields.Char(
+        compute="_compute_has_mailchimp_filter")
+
+    @api.multi
+    def _compute_has_mailchimp_filter(self):
+        country_name = False
+        country_filter_id = self.env["res.config.settings"].get_param(
+            "mass_mailing_country_filter_id")
+        if country_filter_id:
+            country_name = self.env[
+                "compassion.field.office"].browse(country_filter_id).name
+        for mailing in self:
+            mailing.mailchimp_country_filter = country_name
 
     @api.multi
     def name_get(self):
@@ -48,35 +50,6 @@ class MassMailing(models.Model):
                 res.append((_id, _name))
         return res
 
-    def compute_clicks_ratio(self):
-        for mass_mail in self.filtered("statistics_ids.tracking_event_ids"):
-            clicks = self.env["mail.mail.statistics"].search_count(
-                [
-                    ("tracking_event_ids.event_type", "=", "click"),
-                    ("mass_mailing_id", "=", mass_mail.id),
-                ]
-            )
-            mass_mail.clicks_ratio = 100 * (
-                float(clicks) / len(mass_mail.statistics_ids)
-            )
-
-    def compute_unsub_ratio(self):
-        for mass_mail in self.filtered("statistics_ids.tracking_event_ids"):
-            unsub = self.env["mail.mail.statistics"].search_count(
-                [
-                    ("tracking_event_ids.event_type", "=", "unsub"),
-                    ("mass_mailing_id", "=", mass_mail.id),
-                ]
-            )
-            mass_mail.unsub_ratio = 100 * (float(unsub) / len(mass_mail.statistics_ids))
-
-    def recompute_states(self):
-        self.env["mail.mail.statistics"].search(
-            [("mass_mailing_id", "in", self.ids)]
-        )._compute_state()
-
-        self._compute_statistics()
-
     @api.onchange('mailing_model_id', 'contact_list_ids')
     def _onchange_model_and_list(self):
         if self.mailing_model_name == 'res.partner':
@@ -88,61 +61,6 @@ class MassMailing(models.Model):
         else:
             mailing_domain = super()._onchange_model_and_list()
         self.mailing_domain = mailing_domain
-
-    def _compute_statistics(self):
-        self.env.cr.execute(
-            """
-            SELECT
-                m.id as mailing_id,
-                COUNT(CASE WHEN s.state != 'outgoing'
-                    THEN 1 ELSE null END) AS sent,
-                COUNT(CASE WHEN s.state = 'outgoing'
-                    THEN 1 ELSE null END) AS scheduled,
-                COUNT(CASE WHEN t.state = 'rejected'
-                    THEN 1 ELSE null END) AS failed,
-                COUNT(CASE WHEN t.state = 'delivered' OR
-                    t.state = 'opened'
-                    THEN 1 ELSE null END) AS delivered,
-                COUNT(CASE WHEN t.state = 'opened'
-                    THEN 1 ELSE null END) AS opened,
-                COUNT(CASE WHEN s.replied is not null
-                    THEN 1 ELSE null END) AS replied,
-                COUNT(CASE WHEN t.state = 'bounced' OR
-                    t.state = 'spam'
-                    THEN 1 ELSE null END) AS bounced
-            FROM
-                mail_tracking_email t
-            RIGHT JOIN
-                mail_mass_mailing m
-                ON (m.id = t.mass_mailing_id)
-            RIGHT JOIN
-                mail_mail_statistics s
-                ON (m.id = s.mass_mailing_id AND t.mail_stats_id = s.id)
-            WHERE
-                m.id IN %s
-            GROUP BY m.id
-        """,
-            (tuple(self.ids),),
-        )
-
-        for row in self.env.cr.dictfetchall():
-            row["total"] = row["sent"]
-            row["received_ratio"] = 100.0 * row["delivered"] / row["total"]
-            row["opened_ratio"] = 100.0 * row["opened"] / row["total"]
-            row["replied_ratio"] = 100.0 * row["replied"] / row["total"]
-            row["bounced_ratio"] = 100.0 * row["bounced"] / row["total"]
-            self.browse(row.pop("mailing_id")).update(row)
-
-    def _compute_events(self):
-        for mass_mail in self:
-            unsub = self.env["mail.tracking.event"].search(
-                [("event_type", "=", "unsub"), ("mass_mailing_id", "=", mass_mail.id)]
-            )
-            clicks = self.env["mail.tracking.event"].search(
-                [("event_type", "=", "click"), ("mass_mailing_id", "=", mass_mail.id)]
-            )
-            mass_mail.click_event_ids = clicks
-            mass_mail.unsub_event_ids = unsub
 
     @api.depends("email_template_id", "partner_test_sendgrid_id")
     def _compute_sendgrid_view(self):
@@ -177,13 +95,6 @@ class MassMailing(models.Model):
         self.with_context(
             {"lang": self.lang.code or self.partner_test_sendgrid_id.lang}
         )._compute_sendgrid_view()
-
-    @api.multi
-    def recompute_events(self):
-        self.recompute_states()
-        self.compute_unsub_ratio()
-        self.compute_clicks_ratio()
-        return True
 
     @api.multi
     def send_mail(self):
@@ -250,60 +161,6 @@ class MassMailing(models.Model):
         emails.with_delay().send_sendgrid_job(self.ids)
         return True
 
-    @api.multi
-    def open_clicks(self):
-        return {
-            "type": "ir.actions.act_window",
-            "name": _("Click Events"),
-            "view_type": "form",
-            "res_model": "mail.tracking.event",
-            "domain": [("id", "in", self.mapped("click_event_ids").ids)],
-            "view_mode": "graph,tree,form",
-            "target": "current",
-            "context": self.with_context(group_by="url").env.context,
-        }
-
-    @api.multi
-    def open_unsub(self):
-        return {
-            "type": "ir.actions.act_window",
-            "name": _("Unsubscribe Events"),
-            "view_type": "form",
-            "res_model": "mail.tracking.event",
-            "domain": [("id", "in", self.mapped("unsub_event_ids").ids)],
-            "view_mode": "tree,form",
-            "target": "current",
-            "context": self.env.context,
-        }
-
-    @api.multi
-    def open_emails(self):
-        return self._open_tracking_emails([])
-
-    @api.multi
-    def open_received(self):
-        return self._open_tracking_emails([("state", "in", ("delivered", "opened"))])
-
-    @api.multi
-    def open_opened(self):
-        return self._open_tracking_emails([("state", "=", "opened")])
-
-    def _open_tracking_emails(self, domain):
-        return {
-            "type": "ir.actions.act_window",
-            "name": _("Tracking Emails"),
-            "view_type": "form",
-            "res_model": "mail.tracking.email",
-            "domain": [
-                ("mass_mailing_id", "in", self.ids),
-                ("mail_stats_id", "!=", None),
-            ]
-            + domain,
-            "view_mode": "tree,form",
-            "target": "current",
-            "context": self.env.context,
-        }
-
     @api.model
     def _process_mass_mailing_queue(self):
         """
@@ -325,3 +182,15 @@ class MassMailing(models.Model):
                 mass_mailing.send_mail()
             else:
                 mass_mailing.state = "done"
+
+    def send_now_mailchimp(self, account=False):
+        queue_job = self.env["queue.job"].search([
+            ("channel", "=", "root.mass_mailing_switzerland.update_mailchimp"),
+            ("state", "!=", "done")
+        ], limit=1)
+        if queue_job:
+            raise UserError(_(
+                "Mailchimp is updating its MERGE FIELDS right now. "
+                "You should wait for the process to finish before sending the mailing."
+            ))
+        return super().send_now_mailchimp(account)

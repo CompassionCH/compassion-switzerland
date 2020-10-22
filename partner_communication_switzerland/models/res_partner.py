@@ -41,10 +41,15 @@ class ResPartner(models.Model):
         # Special salutation for companies
         company = self.filtered('is_company')
         for p in company:
-            p.salutation = _("Dear friends of Compassion")
-            p.short_salutation = p.salutation
-            p.informal_salutation = _("Dear friend of Compassion")
-            p.full_salutation = p.salutation
+            with api.Environment.manage():
+                lang_partner = p.with_context(lang=p.lang)
+                # this will enable translation of "Dear friends of Compassion"
+                env = api.Environment(self.env.cr, self.env.uid,  # noqa: F841
+                                      lang_partner.env.context)
+                p.salutation = _("Dear friends of Compassion")
+                p.short_salutation = lang_partner.salutation
+                p.informal_salutation = _("Dear friend of Compassion")
+                p.full_salutation = lang_partner.salutation
         super(ResPartner, self - company)._compute_salutation()
 
         # Family shouldn't be used with informal salutation
@@ -52,17 +57,18 @@ class ResPartner(models.Model):
         for partner in self.filtered(lambda p: p.title == family):
             # The family salutation have a problem here. As it is defined in the
             # previous loop, it is considered as company
-            title = partner.title
+            lang_partner = partner.with_context(lang=partner.lang)
+            title = lang_partner.title
             title_salutation = (
-                partner.env["ir.advanced.translation"]
+                lang_partner.env["ir.advanced.translation"]
                 .get("salutation", female=title.gender == "F", plural=title.plural)
                 .title()
             )
             partner.salutation = (
-                title_salutation + " " + title.name + " " + partner.lastname
+                title_salutation + " " + title.name + " " + lang_partner.lastname
             )
-            partner.informal_salutation = partner.salutation
-            partner.full_salutation = partner.salutation
+            partner.informal_salutation = lang_partner.salutation
+            partner.full_salutation = lang_partner.salutation
 
     @api.multi
     @api.depends("tax_certificate", "birthdate_date")

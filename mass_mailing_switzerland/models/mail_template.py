@@ -17,6 +17,9 @@ class MailTemplate(models.Model):
     report_product_id = fields.Many2one(
         "product.product", "Product for report", readonly=False
     )
+    mailchimp_template_ids = fields.One2many(
+        "mailchimp.email.lang.template", "email_template_id", "Mailchimp templates"
+    )
 
     @api.multi
     def generate_email(self, res_ids, fields=None):

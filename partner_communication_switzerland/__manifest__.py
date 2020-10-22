@@ -45,12 +45,10 @@
         "python": [
             "wand",
             "detectlanguage",
-            "sendgrid",
             "bs4",
             "pdf2image",
             "babel",
             "PyPDF2",
-            "python_http_client",
         ]
     },
     "data": [

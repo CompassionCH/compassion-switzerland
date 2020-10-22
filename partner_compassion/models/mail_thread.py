@@ -23,14 +23,14 @@ class MailThread(models.AbstractModel):
     def message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None):
         partners = self.env["res.partner"].browse(partner_ids)
         allowed = partners.mapped("user_ids").filtered(lambda u: not u.share)
-        partner_ids = allowed.mapped("partner_id.id")
+        partner_ids = allowed.mapped("partner_id").ids
         return super().message_subscribe(partner_ids, channel_ids, subtype_ids)
 
     @api.multi
     def _message_auto_subscribe_notify(self, partner_ids, template):
         partners = self.env["res.partner"].browse(partner_ids)
         allowed = partners.mapped("user_ids").filtered(lambda u: not u.share)
-        partner_ids = allowed.mapped("partner_id.id")
+        partner_ids = allowed.mapped("partner_id").ids
         super()._message_auto_subscribe_notify(partner_ids, template)
 
     @api.multi
