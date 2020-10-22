@@ -21,8 +21,10 @@ class Email(models.Model):
     @api.multi
     def send(self, auto_commit=False, raise_exception=False):
         """
+        Prevents deleting emails for better control.
         Sends a CC to all linked contacts that have option activated.
         """
+        self.write({"auto_delete": False})
         for mail in self:
             cc = mail.recipient_ids.mapped("other_contact_ids").filtered("email_copy")
             email_cc = []
