@@ -37,7 +37,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
     @route(
         '/my/muskathlon/<model("event.registration"):registration>/donations',
         auth="user",
-        website=True,
+        website=True, noindex=['robots', 'meta', 'header']
     )
     def my_muskathlon_details(self, registration, **kwargs):
         reports = request.env["muskathlon.report"].search(
@@ -136,7 +136,8 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             result = request.render("muskathlon.custom_portal_my_home", values)
         return self._form_redirect(result, full_page=True)
 
-    @route(["/my/api"], type="http", auth="user", website=True)
+    @route(["/my/api"], type="http", auth="user", website=True,
+           noindex=['robots', 'meta', 'header'])
     def save_ambassador_picture(self, **post):
         user = request.env.user
         partner = user.partner_id
@@ -152,9 +153,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
 
     @route(
         "/muskathlon_registration/payment/validate",
-        type="http",
-        auth="public",
-        website=True,
+        type="http", auth="public", website=True, noindex=['robots', 'meta', 'header']
     )
     def registration_payment_validate(self, **post):
         """ Method that should be called by the server when receiving an update
@@ -187,8 +186,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
 
     @route(
         '/my/muskathlon/<model("event.registration"):registration>',
-        auth="user",
-        website=True,
+        auth="user", website=True, noindex=['robots', 'meta', 'header']
     )
     def muskathlon_order_material(self, registration, form_id=None, **kw):
         # Load forms
@@ -217,9 +215,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
     @route(
         "/muskathlon_registration/"
         '<model("event.registration"):registration>/success',
-        type="http",
-        auth="public",
-        website=True,
+        type="http", auth="public", website=True, noindex=['robots', 'meta', 'header']
     )
     def muskathlon_registration_successful(self, registration, **kwargs):
         if validity_checker.is_expired(registration):

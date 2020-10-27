@@ -72,7 +72,8 @@ class EventsController(PaymentFormController, FormControllerMixin):
         return self._form_redirect(result, full_page=True)
 
     @http.route(
-        '/event/<model("crm.event.compassion"):event>/faq', auth="public", website=True
+        '/event/<model("crm.event.compassion"):event>/faq', auth="public", website=True,
+        noindex=['robots', 'meta', 'header']
     )
     def event_faq(self, event, **kwargs):
         if not event.is_published:
@@ -84,7 +85,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         '/event/<model("event.event"):event>/registration/'
         '<model("event.registration"):registration>/success',
         auth="public",
-        website=True,
+        website=True, noindex=['robots', 'meta', 'header']
     )
     def registration_success(self, event, registration, **kwargs):
         if validity_checker.is_expired(registration):
@@ -98,7 +99,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
     @http.route(
         '/event/<model("crm.event.compassion"):event>/confirmation/',
         auth="public",
-        website=True,
+        website=True, noindex=['robots', 'meta', 'header']
     )
     def confirmation_page(self, event, **kwargs):
         if not event.is_published:
@@ -158,11 +159,10 @@ class EventsController(PaymentFormController, FormControllerMixin):
     ###################################################
     @http.route(
         [
-            '/event/<model("crm.event.compassion"):event>' "/<reg_string>-<int:reg_id>",
-            '/event/<model("crm.event.compassion"):event>/<int:reg_id>',
+            "/event/<model('crm.event.compassion'):event>/<reg_string>-<int:reg_id>",
+            "/event/<model('crm.event.compassion'):event>/<int:reg_id>",
         ],
-        auth="public",
-        website=True,
+        auth="public", website=True, noindex=['robots', 'meta', 'header']
     )
     def participant_details(self, event, reg_id, **kwargs):
         """
@@ -223,7 +223,8 @@ class EventsController(PaymentFormController, FormControllerMixin):
     # Methods for after donation redirection
     ########################################
     @http.route("/event/payment/validate/<int:invoice_id>",
-                type="http", auth="public", website=True)
+                type="http", auth="public", website=True,
+                noindex=['robots', 'meta', 'header'])
     def donation_payment_validate(self, invoice_id=None, **kwargs):
         """ Method that should be called by the server when receiving an update
         for a transaction.
@@ -257,7 +258,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
 
     @http.route(
         "/event/payment/gpv_payment_validate/<int:invoice_id>", type="http",
-        auth="public", website=True
+        auth="public", website=True, noindex=['robots', 'meta', 'header']
     )
     def down_payment_validate(self, invoice_id=None, **post):
         """ Method that should be called by the server when receiving an update

@@ -20,7 +20,8 @@ class GroupVisitController(EventsController):
     All the route controllers for group visit registration pages.
     """
 
-    @http.route("/event/<string:reg_uid>/agreements", auth="public", website=True)
+    @http.route("/event/<string:reg_uid>/agreements", auth="public", website=True,
+                noindex=['robots', 'meta', 'header'])
     def group_visit_step2(self, reg_uid, form_id=None, **kwargs):
         registration = request.env["event.registration"].sudo().search(
             [("uuid", "=", reg_uid)]
@@ -89,12 +90,14 @@ class GroupVisitController(EventsController):
                 "website_event_compassion.event_confirmation_page", values
             )
 
-    @http.route("/event/<string:reg_uid>/down_payment", auth="public", website=True)
+    @http.route("/event/<string:reg_uid>/down_payment", auth="public", website=True,
+                noindex=['robots', 'meta', 'header'])
     def group_visit_down_payment(self, reg_uid, **kwargs):
         kwargs["event_step"] = 3
         return self.get_payment_form(reg_uid, "cms.form.event.down.payment", **kwargs)
 
-    @http.route("/event/<string:reg_uid>/gpv_payment", auth="public", website=True)
+    @http.route("/event/<string:reg_uid>/gpv_payment", auth="public", website=True,
+                noindex=['robots', 'meta', 'header'])
     def group_visit_payment(self, reg_uid, **kwargs):
         return self.get_payment_form(
             reg_uid, "cms.form.event.group.visit.payment", **kwargs
@@ -113,7 +116,8 @@ class GroupVisitController(EventsController):
         return request.render("website_event_compassion.event_full_page_form", values)
 
     @http.route(
-        "/event/<string:reg_uid>/medical_checklist", auth="public", website=True
+        "/event/<string:reg_uid>/medical_checklist", auth="public", website=True,
+        noindex=['robots', 'meta', 'header']
     )
     def medical_checklist(self, reg_uid, **kwargs):
         values = self._get_group_visit_page_values(reg_uid, **kwargs)
@@ -125,7 +129,8 @@ class GroupVisitController(EventsController):
         )
 
     @http.route(
-        "/event/<string:reg_uid>/medical_discharge", auth="public", website=True
+        "/event/<string:reg_uid>/medical_discharge", auth="public", website=True,
+        noindex=['robots', 'meta', 'header']
     )
     def medical_discharge(self, reg_uid, **kwargs):
         kwargs["form_model_key"] = "cms.form.group.visit.medical.discharge"
@@ -139,20 +144,22 @@ class GroupVisitController(EventsController):
         return request.render("website_event_compassion.event_full_page_form", values)
 
     @http.route(
-        '/event/<model("crm.event.compassion"):event>/' "practical_information",
-        auth="public",
-        website=True,
+        "/event/<model('crm.event.compassion'):event>/practical_information",
+        auth="public", website=True, noindex=['robots', 'meta', 'header']
     )
     def group_visit_practical_info(self, event, **kwargs):
         values = kwargs.copy()
         values.pop("edit_translations", False)
         values["event"] = event
+        if not event.website_published:
+            return request.redirect("/events")
         return request.render(
             "website_event_compassion.group_visit_practical_info", values
         )
 
     @http.route(
-        "/event/<string:reg_uid>/meeting_invitation", auth="public", website=True
+        "/event/<string:reg_uid>/meeting_invitation", auth="public", website=True,
+        noindex=['robots', 'meta', 'header']
     )
     def party_invitation(self, reg_uid, **kwargs):
         values = self._get_group_visit_page_values(
@@ -167,12 +174,14 @@ class GroupVisitController(EventsController):
             "website_event_compassion.group_visit_party_invitation", values
         )
 
-    @http.route("/event/<string:reg_uid>/after_party", auth="public", website=True)
+    @http.route("/event/<string:reg_uid>/after_party", auth="public", website=True,
+                noindex=['robots', 'meta', 'header'])
     def after_party(self, reg_uid, **kwargs):
         kwargs["meeting"] = "after_party"
         return self.party_invitation(reg_uid, **kwargs)
 
-    @http.route("/event/<string:reg_uid>/meeting_confirm", auth="public", website=True)
+    @http.route("/event/<string:reg_uid>/meeting_confirm", auth="public", website=True,
+                noindex=['robots', 'meta', 'header'])
     def meeting_confirm(self, reg_uid, **kwargs):
         values = self._get_group_visit_page_values(
             reg_uid, "event.registration", **kwargs
@@ -189,7 +198,8 @@ class GroupVisitController(EventsController):
             "website_event_compassion.group_visit_party_confirm", values
         )
 
-    @http.route("/event/<string:reg_uid>/meeting_decline", auth="public", website=True)
+    @http.route("/event/<string:reg_uid>/meeting_decline", auth="public", website=True,
+                noindex=['robots', 'meta', 'header'])
     def meeting_decline(self, reg_uid, **kwargs):
         values = self._get_group_visit_page_values(
             reg_uid, "event.registration", **kwargs

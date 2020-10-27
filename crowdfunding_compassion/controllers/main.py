@@ -13,7 +13,8 @@ from odoo.addons.website_event_compassion.controllers.events_controller import (
 
 
 class CrowdFundingWebsite(EventsController):
-    @route(["/my_account"], type="http", auth="user", website=True)
+    @route(["/my_account"], type="http", auth="user", website=True,
+           noindex=['robots', 'meta', 'header'])
     def my_account(self, form_id=None, **kw):
         """ Inject data for forms. """
         values = {}
@@ -55,7 +56,8 @@ class CrowdFundingWebsite(EventsController):
         )
         return result
 
-    @route(["/my_account/project/update/"], type="http", auth="user", website=True)
+    @route(["/my_account/project/update/"], type="http", auth="user", website=True,
+           noindex=['robots', 'meta', 'header'])
     def my_account_projects_update(self, project_id=None, **kw):
         project = request.env["crowdfunding.project"].search([("id", "=", project_id)])
         kw["form_model_key"] = "cms.form.crowdfunding.project.update"
@@ -74,7 +76,8 @@ class CrowdFundingWebsite(EventsController):
         return result
 
     @route(
-        ["/my_account/participation/update/"], type="http", auth="user", website=True
+        ["/my_account/participation/update/"], type="http", auth="user", website=True,
+        noindex=['robots', 'meta', 'header']
     )
     def my_account_participants_update(self, participant_id=None, **kw):
         participant = request.env["crowdfunding.participant"].search(

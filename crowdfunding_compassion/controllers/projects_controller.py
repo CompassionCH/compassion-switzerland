@@ -96,7 +96,7 @@ class ProjectsController(Controller, FormControllerMixin):
            auth="public",
            type="http",
            method='POST',
-           website=True)
+           website=True, noindex=['robots', 'meta', 'header'])
     def project_validation(self, project, **kwargs):
         return request.render(
             "crowdfunding_compassion.project_creation_confirmation_view_template",
