@@ -42,7 +42,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         '/event/<model("crm.event.compassion"):event>/', auth="public", website=True
     )
     def event_page(self, event, **kwargs):
-        if not event.is_published:
+        if not event.is_published and request.env.user.share:
             return request.redirect("/events")
 
         values = self.get_event_page_values(event, **kwargs)
