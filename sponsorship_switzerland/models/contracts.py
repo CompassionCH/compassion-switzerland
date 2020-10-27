@@ -101,7 +101,7 @@ class RecurringContracts(models.Model):
         if "group_id" in vals:
             old_payment_modes = [g.payment_mode_id for g in self.mapped('group_id')]
         super().write(vals)
-        if "group_id" in vals:
+        if "group_id" in vals and old_payment_modes:
             self.check_mandate_needed(old_payment_modes)
         return True
 
