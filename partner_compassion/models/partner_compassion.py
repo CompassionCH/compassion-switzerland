@@ -322,8 +322,8 @@ class ResPartner(models.Model):
         email = vals.get("email")
         if email:
             vals["email"] = email.strip()
-            # Push email to users
-            user_ids = self.mapped("user_ids").ids
+            # Push email to non-internal users
+            user_ids = self.mapped("user_ids").filtered("share").ids
             self.env.cr.execute("""
                 UPDATE res_users
                 SET login=%s
