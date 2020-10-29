@@ -5,9 +5,9 @@
         <template id="participant_details" name="Muskathlon participant page">
             <!-- Add social share information for Facebook and Twitter -->
             <t t-set="sport" t-value="registration.sport_discipline_id"/>
-            <t t-set="share_url">https://muskathlon-kenya.ch/en_US<t t-esc="registration.website_url"/></t>
+            <t t-set="share_url"><t t-esc="request.httprequest.host"/><t t-esc="registration.website_url"/></t>
             <t t-set="share_content">Support me! <t t-esc="sport.page_title"/><t t-if="registration.compassion_event_id.country_id"> in <t t-esc="registration.compassion_event_id.country_id.name"/></t> - <t t-esc="registration.partner_display_name"/></t>
-            <t t-set="image_url">https://muskathlon-kenya.ch/en_US/web/image/event.registration/<t t-esc="registration.id"/>/ambassador_picture_1</t>
+            <t t-set="image_url"><t t-esc="request.httprequest.host"/>/web/image/event.registration/<t t-esc="registration.id"/>/ambassador_picture_1</t>
             <t t-set="head">
                 <meta property="og:title"  t-att-content="share_content" />
                 <meta property="og:url"    t-att-content="share_url" />
