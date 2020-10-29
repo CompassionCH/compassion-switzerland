@@ -88,7 +88,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         website=True, noindex=['robots', 'meta', 'header']
     )
     def registration_success(self, event, registration, **kwargs):
-        if validity_checker.is_expired(registration):
+        if validity_checker.is_expired(registration.sudo()):
             return request.redirect("/events")
 
         values = {"event": event, "attendees": registration}

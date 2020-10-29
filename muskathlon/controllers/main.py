@@ -218,7 +218,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         type="http", auth="public", website=True, noindex=['robots', 'meta', 'header']
     )
     def muskathlon_registration_successful(self, registration, **kwargs):
-        if validity_checker.is_expired(registration):
+        if validity_checker.is_expired(registration.sudo()):
             return request.redirect("/events")
 
         values = {
