@@ -14,7 +14,7 @@ class SportDiscipline(models.Model):
     _name = "sport.discipline"
     _description = "Sport Discipline"
 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, translate=True)
     sport = fields.Char(required=True, translate=True)
     distance = fields.Integer(string="Distance (m)", required=True)
     distance_km = fields.Integer(compute="_compute_distance_km")
