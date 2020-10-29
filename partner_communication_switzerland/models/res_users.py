@@ -1,16 +1,17 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import logging
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 from odoo.addons.auth_signup.models.res_partner import now
+from odoo.tools import file_open
 
 _logger = logging.getLogger(__name__)
 
 
 class ResUsers(models.Model):
     _inherit = "res.users"
-    signature = fields.Html(translate=True)
+    signature = fields.Html(compute="_compute_signature")
 
     @api.multi
     def action_reset_password(self):
@@ -34,6 +35,26 @@ class ResUsers(models.Model):
                         "auto_send": True,
                     }
                 )
+
+    @api.multi
+    def _compute_signature(self):
+        with file_open("partner_communication_switzerland/static/html/signature.html")\
+                as tfile:
+            template = tfile.read()
+            for user in self:
+                values = {
+                    "user": user,
+                    "name":
+                    f"{user.preferred_name} {user.lastname}" if user.firstname else _(
+                        "The team of Compassion"),
+                    "email": user.email if user.firstname else "info@compassion.ch",
+                    "lang": self.env.lang,
+                    "lang_short": self.env.lang[:2],
+                    "team": _("and the team of Compassion") if user.firstname else "",
+                    "office_hours": _("mo-fri / 8am-4pm"),
+                    "company_name": user.company_id.address_name
+                }
+                user.signature = template.format(**values)
 
     @api.multi
     def _compute_signature_letter(self):
