@@ -10,11 +10,11 @@
 from datetime import datetime, timedelta
 
 import werkzeug
+from dateutil.relativedelta import relativedelta
 
 from odoo import http, _, fields
 from odoo.http import request
 
-from odoo.addons.cms_form_compassion.tools import validity_checker
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController,
@@ -83,12 +83,14 @@ class EventsController(PaymentFormController, FormControllerMixin):
 
     @http.route(
         '/event/<model("event.event"):event>/registration/'
-        '<model("event.registration"):registration>/success',
+        '<int:registration_id>/success',
         auth="public",
         website=True, noindex=['robots', 'meta', 'header']
     )
-    def registration_success(self, event, registration, **kwargs):
-        if validity_checker.is_expired(registration.sudo()):
+    def registration_success(self, event, registration_id, **kwargs):
+        limit_date = datetime.now() - relativedelta(days=1)
+        registration = request.env["event.registration"].sudo().browse(registration_id)
+        if not registration.exists() or registration.create_date < limit_date:
             return request.redirect("/events")
 
         values = {"event": event, "attendees": registration}

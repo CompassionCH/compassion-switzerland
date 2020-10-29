@@ -11,8 +11,10 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from base64 import b64encode
+from datetime import datetime
 
-from odoo.addons.cms_form_compassion.tools import validity_checker
+from dateutil.relativedelta import relativedelta
+
 from odoo.addons.payment.models.payment_acquirer import ValidationError
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.website_event_compassion.controllers.events_controller import (
@@ -214,11 +216,13 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
 
     @route(
         "/muskathlon_registration/"
-        '<model("event.registration"):registration>/success',
+        '<int:registration_id>/success',
         type="http", auth="public", website=True, noindex=['robots', 'meta', 'header']
     )
-    def muskathlon_registration_successful(self, registration, **kwargs):
-        if validity_checker.is_expired(registration.sudo()):
+    def muskathlon_registration_successful(self, registration_id, **kwargs):
+        limit_date = datetime.now() - relativedelta(days=1)
+        registration = request.env["event.registration"].sudo().browse(registration_id)
+        if not registration.exists() or registration.create_date < limit_date:
             return request.redirect("/events")
 
         values = {
