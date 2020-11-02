@@ -7,6 +7,7 @@
 #
 ##############################################################################
 from odoo import models, fields, _
+from odoo.http import request
 
 
 class PartnerCoordinatesForm(models.AbstractModel):
@@ -98,3 +99,6 @@ class PartnerCoordinatesForm(models.AbstractModel):
                     f"Please check if the information is good enough.",
                     user_id=user.id
                 )
+
+    def form_cancel_url(self, main_object=None):
+        return request.redirect("/my_account")
