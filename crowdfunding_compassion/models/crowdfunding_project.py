@@ -12,7 +12,8 @@ import urllib.parse as urlparse
 
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
-    _inherit = ["website.published.mixin", "website.seo.metadata"]
+    _inherit = ["website.published.mixin", "website.seo.metadata", "mail.thread",
+                "mail.activity.mixin"]
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 
