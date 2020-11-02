@@ -145,7 +145,6 @@ class ProjectCreationFormStep1(models.AbstractModel):
 
     _form_model_fields = [
         "description",
-        "personal_motivation",
         "deadline",
         "cover_photo",
         "presentation_video",
@@ -167,7 +166,6 @@ class ProjectCreationFormStep1(models.AbstractModel):
             "fields": [
                 "campaign_name",
                 "description",
-                "personal_motivation",
                 "deadline",
                 "cover_photo",
                 "presentation_video",

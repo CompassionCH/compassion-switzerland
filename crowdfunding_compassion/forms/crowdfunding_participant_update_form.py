@@ -19,7 +19,6 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
     _form_model_fields = [
         "personal_motivation",
         "profile_photo",
-        "presentation_video",
         "facebook_url",
         "twitter_url",
         "instagram_url",
@@ -40,7 +39,6 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
                 "id": "social_medias",
                 "title": _("Social Medias"),
                 "fields": [
-                    "presentation_video",
                     "facebook_url",
                     "twitter_url",
                     "instagram_url",
