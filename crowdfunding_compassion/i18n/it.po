@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-07 14:02+0000\n"
-"PO-Revision-Date: 2020-07-07 16:03+0200\n"
+"POT-Creation-Date: 2020-11-02 15:22+0000\n"
+"PO-Revision-Date: 2020-11-02 16:42+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -15,52 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #. module: crowdfunding_compassion
-#: model:mail.template,body_html:crowdfunding_compassion.donation_received_email_template
-msgid ""
-"\n"
-"  <span>\n"
-"   % set invoice = object.get_objects()\n"
-"\n"
-"% set project = invoice.mapped('invoice_line_ids.crowdfunding_project_id')\n"
-"\n"
-"% set partner = object.partner_id\n"
-"\n"
-"% set donor = invoice.partner_id\n"
-"\n"
-"% set anonymous = invoice.invoice_line_ids[0].is_anonymous\n"
-"  </span>\n"
-"  <div>\n"
-"   ${partner.informal_salutation}\n"
-"   <br/>\n"
-"   <br/>\n"
-"   Let’s celebrate! Du hast soeben\n"
-"\n"
-"% if not anonymous:\n"
-"\n"
-"   von ${donor.name}\n"
-"   % if donor.email:\n"
-"\n"
-"       (${donor.email})\n"
-"   % endif\n"
-"\n"
-"% endif\n"
-"\n"
-"einen Spendenbetrag von ${invoice.amount_total} Fr. für dein Projekt "
-"${project.name} erhalten. Wir freuen uns mit dir über diese Spende! Damit "
-"kann noch mehr Kindern in Armut geholfen werden. Lass uns die Welt "
-"verändern, Schritt für Schritt – zusammen.\n"
-"   <br/>\n"
-"   <br/>\n"
-"   Dein «together»-Team von Compassion Schweiz\n"
-"  </div>\n"
-" "
-msgstr ""
-
-#. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:37
+#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:20
 #, python-format
 msgid ""
 "\n"
@@ -76,7 +34,6 @@ msgid ""
 " Compassion. They allow him or her to discover and develop his or her "
 "talents."
 msgstr ""
-"\n"
 "Con 42.-CHF al mese, offri ad un bambino la possibilità di sfuggire dalla "
 "povertà. Il sostegno a distanza assicura al bambino un posto sicuro, dove "
 "sentirsi amato e protetto. In particolare fornisce accesso alla scuola e "
@@ -86,18 +43,10 @@ msgstr ""
 "scoprire e sviluppare i propri talenti."
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:396
-#, python-format
-msgid ""
-"%s created or joined a project. A user may need to be created if he doesn't "
-"have access"
-msgstr ""
-
-#. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/project_controller.py:73
+#: code:addons/crowdfunding_compassion/controllers/project_controller.py:80
 #, python-format
 msgid "%s was sponsored"
-msgstr "%s ha trovato un sostenitore"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
@@ -137,82 +86,10 @@ msgid ""
 "If you wish to give by bank tranfer (IBAN), do not hesitate to"
 msgstr ""
 "<br/>Sarai reindirizzato/a al nostro sistema di pagamento online. Se "
-"desideri donare tramite bonifico bancario (IBAN), non esitare a "
+"desideri donare tramite bonifico bancario (IBAN), non esitare a contattarci. "
 
 #. module: crowdfunding_compassion
-#: model:mail.template,body_html:crowdfunding_compassion.project_join
-msgid ""
-"<div>\n"
-"                    % set project = object\n"
-"                </div>\n"
-"                <div>\n"
-"                    Dear Compassion member,\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Thank you very much for having joined a crowdfunding "
-"project!\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Yours sincerely\n"
-"                </div>\n"
-"            "
-msgstr ""
-
-#. module: crowdfunding_compassion
-#: model:mail.template,body_html:crowdfunding_compassion.project_confirmation_email_template
-msgid ""
-"<div>\n"
-"                    % set project = object\n"
-"                </div>\n"
-"                <div>\n"
-"                    Dear Compassion member,\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Thank you very much for having started a crowdfunding "
-"project with us !\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Yours sincerely\n"
-"                </div>\n"
-"            "
-msgstr ""
-
-#. module: crowdfunding_compassion
-#: model:mail.template,body_html:crowdfunding_compassion.project_published_email_template
-msgid ""
-"<div>\n"
-"                    % set project = object\n"
-"                </div>\n"
-"                <div>\n"
-"                    Dear Compassion member,\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Your project has now been published by our staff !\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Yours sincerely\n"
-"                </div>\n"
-"            "
-msgstr ""
-
-#. module: crowdfunding_compassion
-#: model:mail.template,body_html:crowdfunding_compassion.donation_successful_email_template
-msgid ""
-"<div>\n"
-"                    Dear Compassion member,\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Your donation has been received. Thank your for "
-"supporting Compassion.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Yours sincerely\n"
-"                </div>\n"
-"            "
-msgstr ""
-
-#. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_progress
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_deadline_widget
 msgid ""
 "<i class=\"fa fa-clock-o\"/>\n"
 "                        project has ended"
@@ -221,7 +98,7 @@ msgstr ""
 "                        progetto si è concluso"
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_progress
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_deadline_widget
 msgid ""
 "<i class=\"fa fa-clock-o\"/>\n"
 "                    ends today"
@@ -289,6 +166,319 @@ msgid "<span class=\"white\">is equivalent to CHF</span>"
 msgstr "<span class=\"white\">è equivalente a CHF</span>"
 
 #. module: crowdfunding_compassion
+#: model:mail.template,body_html:crowdfunding_compassion.donation_successful_email_template
+#, fuzzy
+#| msgid ""
+#| "<span>\n"
+#| "   % set invoice = object.get_objects().mapped(\"invoice_id\")\n"
+#| "\n"
+#| "% set project = invoice.mapped('invoice_line_ids."
+#| "crowdfunding_participant_id.project_id')\n"
+#| "\n"
+#| "% set partner = object.partner_id\n"
+#| "\n"
+#| "% set donor = invoice.partner_id\n"
+#| "\n"
+#| "% set anonymous = invoice.invoice_line_ids[0].is_anonymous\n"
+#| "  </span>\n"
+#| "  <div>\n"
+#| "   ${partner.informal_salutation}\n"
+#| "   <br>\n"
+#| "   <br>\n"
+#| "   Let's celebrate! You just received a donation of CHF ${invoice."
+#| "amount_total | int}\n"
+#| "% if not anonymous:\n"
+#| "\tfrom ${donor.name}\n"
+#| "% if donor.email:\n"
+#| "\t(${donor.email})\n"
+#| "% endif \n"
+#| "\n"
+#| "% endif \n"
+#| "   . What a great news. You are one step closer to your goal. We share "
+#| "the joy to know that thanks to your efforts, more children living in "
+#| "extreme poverty can be helped.\n"
+#| "   <br>\n"
+#| "   <br>\n"
+#| "   Together, we want to change the world, one child at a time.\n"
+#| "   <br>\n"
+#| "   <br>\n"
+#| "   The Together team of Compassion Switzerland\n"
+#| "   <br>\n"
+#| "  </div>\n"
+#| " "
+msgid ""
+"<span>\n"
+"   % set invoice = object.get_objects()\n"
+"\n"
+"% set project = invoice.mapped('invoice_line_ids.crowdfunding_participant_id."
+"project_id')\n"
+"\n"
+"% set partner = object.partner_id\n"
+"  </span>\n"
+"  <div>\n"
+"   ${partner.informal_salutation}\n"
+"   <br>\n"
+"   <br>\n"
+"   We thank you for the donation of CHF ${invoice.amount_total} you made for "
+"the project ${project.name}.\n"
+"   <br>\n"
+"   <br>\n"
+"   Your generosity will help release more children from extreme poverty, by "
+"giving them a better future. This is marvelous! Together, let's change the "
+"world, step by step.\n"
+"   <br>\n"
+"   <br>\n"
+"   The Together team of Compassion Switzerland\n"
+"  </div>\n"
+" "
+msgstr ""
+"<span>\n"
+"   % set invoice = object.get_objects().mapped(\"invoice_id\")\n"
+"\n"
+"% set project = invoice.mapped('invoice_line_ids.crowdfunding_participant_id."
+"project_id')\n"
+"\n"
+"% set partner = object.partner_id\n"
+"\n"
+"% set donor = invoice.partner_id\n"
+"\n"
+"% set anonymous = invoice.invoice_line_ids[0].is_anonymous\n"
+"  </span>\n"
+"  <div>\n"
+"   ${partner.informal_salutation}\n"
+"   <br>\n"
+"   <br>\n"
+"   È una festa! Hai appena ricevuto una donazione di CHF ${invoice."
+"amount_total | int}\n"
+"% if not anonymous:\n"
+"    da ${donor.name}\n"
+"% if donor.email:\n"
+"\t(${donor.email})\n"
+"% endif \n"
+"% endif\n"
+"per il progetto ${project.name}. E' un'ottima notizia. La tua sfida va "
+"avanti. Siamo lieti che un numero maggiore di bambini che vivono in povertà "
+"possa essere sostenuto grazie al tuo impegno!\n"
+"   <br>\n"
+"   <br>\n"
+"   Insieme vogliamo cambiare il mondo, un bambino alla volta.\n"
+"   <br>\n"
+"   <br>\n"
+"   Il team Together di Compassion Svizzera.\n"
+"  </div>\n"
+" "
+
+#. module: crowdfunding_compassion
+#: model:mail.template,body_html:crowdfunding_compassion.donation_received_email_template
+msgid ""
+"<span>\n"
+"   % set invoice = object.get_objects().mapped(\"invoice_id\")\n"
+"\n"
+"% set project = invoice.mapped('invoice_line_ids.crowdfunding_participant_id."
+"project_id')\n"
+"\n"
+"% set partner = object.partner_id\n"
+"\n"
+"% set donor = invoice.partner_id\n"
+"\n"
+"% set anonymous = invoice.invoice_line_ids[0].is_anonymous\n"
+"  </span>\n"
+"  <div>\n"
+"   ${partner.informal_salutation}\n"
+"   <br>\n"
+"   <br>\n"
+"   Let's celebrate! You just received a donation of CHF ${invoice."
+"amount_total | int}\n"
+"% if not anonymous:\n"
+"\tfrom ${donor.name}\n"
+"% if donor.email:\n"
+"\t(${donor.email})\n"
+"% endif \n"
+"\n"
+"% endif \n"
+"   . What a great news. You are one step closer to your goal. We share the "
+"joy to know that thanks to your efforts, more children living in extreme "
+"poverty can be helped.\n"
+"   <br>\n"
+"   <br>\n"
+"   Together, we want to change the world, one child at a time.\n"
+"   <br>\n"
+"   <br>\n"
+"   The Together team of Compassion Switzerland\n"
+"   <br>\n"
+"  </div>\n"
+" "
+msgstr ""
+"<span>\n"
+"   % set invoice = object.get_objects().mapped(\"invoice_id\")\n"
+"\n"
+"% set project = invoice.mapped('invoice_line_ids.crowdfunding_participant_id."
+"project_id')\n"
+"\n"
+"% set partner = object.partner_id\n"
+"\n"
+"% set donor = invoice.partner_id\n"
+"\n"
+"% set anonymous = invoice.invoice_line_ids[0].is_anonymous\n"
+"  </span>\n"
+"  <div>\n"
+"   ${partner.informal_salutation}\n"
+"   <br>\n"
+"   <br>\n"
+"   È una festa! Hai appena ricevuto una donazione di CHF ${invoice."
+"amount_total | int}\n"
+"% if not anonymous:\n"
+"    da ${donor.name}\n"
+"% if donor.email:\n"
+"\t(${donor.email})\n"
+"% endif \n"
+"% endif\n"
+"per il progetto ${project.name}. E' un'ottima notizia. La tua sfida va "
+"avanti. Siamo lieti che un numero maggiore di bambini che vivono in povertà "
+"possa essere sostenuto grazie al tuo impegno!\n"
+"   <br>\n"
+"   <br>\n"
+"   Insieme vogliamo cambiare il mondo, un bambino alla volta.\n"
+"   <br>\n"
+"   <br>\n"
+"   Il team Together di Compassion Svizzera.\n"
+"  </div>\n"
+" "
+
+#. module: crowdfunding_compassion
+#: model:mail.template,body_html:crowdfunding_compassion.project_published_email_template
+msgid ""
+"<span>\n"
+"   % set project = object.get_objects()\n"
+"\n"
+"% set partner = object.partner_id\n"
+"  </span>\n"
+"  <div>\n"
+"   ${partner.informal_salutation}\n"
+"   <br>\n"
+"   <br>\n"
+"   Great news! Your project ${project.name} is now active on Together. "
+"Thanks to your project, more children will be released from extreme "
+"poverty.\n"
+"   <br>\n"
+"   <br>\n"
+"   You can start fundraising or motivate your network to sponsor a child. "
+"You just can share the link of your project to invite people to join you in "
+"your efforts to change the world.\n"
+"   <br>\n"
+"   <br>\n"
+"   We wish you great success in your adventure!\n"
+"   <br>\n"
+"   <br>\n"
+"   The Together team of Compassion Switzerland\n"
+"  </div>\n"
+" "
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:mail.template,body_html:crowdfunding_compassion.project_confirmation_email_template
+msgid ""
+"<span>\n"
+"   % set project = object.get_objects()\n"
+"\n"
+"% set partner = object.partner_id\n"
+"  </span>\n"
+"  <div>\n"
+"   ${partner.informal_salutation}\n"
+"   <br>\n"
+"   <br>\n"
+"   Thank you for launching your project on the Together platform. After we "
+"validate your project, you will receive a confirmation and your project will "
+"be visible on our platform.\n"
+"   <br>\n"
+"   <br>\n"
+"   In order to manage your project, you can use your Compassion login on the "
+"platform. If you don't have an account, you will get it in a separate e-"
+"mail. In case you have more questions, don't hesitate to write to us at "
+"together@compassion.ch\n"
+"   <br>\n"
+"   <br>\n"
+"   Thank you for your commitment to release more children from extreme "
+"poverty. Before the start of your project, we send you our best greetings "
+"and encouragements for your fundraising.\n"
+"   <br>\n"
+"   <br>\n"
+"   The Together team of Compassion Switzerland\n"
+"  </div>\n"
+" "
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:mail.template,body_html:crowdfunding_compassion.project_join
+msgid ""
+"<span>\n"
+"   % set project = object.get_objects()\n"
+"\n"
+"% set partner = object.partner_id\n"
+"  </span>\n"
+"  <div>\n"
+"   ${partner.informal_salutation}\n"
+"   <br>\n"
+"   <br>\n"
+"   You joined the project ${project.name}. Amazing! Thanks to this project, "
+"more children will be released from extreme poverty.\n"
+"   <br>\n"
+"   <br>\n"
+"   In order to manage your project, you can use your Compassion login on the "
+"platform. If you don't have an account, you will get it in a separate e-"
+"mail. In case you have more questions, don't hesitate to write to us at "
+"together@compassion.ch\n"
+"   <br>\n"
+"   <br>\n"
+"    Thank you for your commitment to release more children from extreme "
+"poverty. Before the start of your project, we send you our best greetings "
+"and encouragements for your fundraising.\n"
+"   <br>\n"
+"   <br>\n"
+"   The Together team of Compassion Switzerland\n"
+"  </div>\n"
+" "
+msgstr ""
+"<span>\n"
+"   % set project = object.get_objects()\n"
+"\n"
+"% set partner = object.partner_id\n"
+"  </span>\n"
+"  <div>\n"
+"   ${partner.informal_salutation}\n"
+"   <br>\n"
+"   <br>\n"
+"   Hai aderito con successo al progetto ${project.name}. È fantastico: "
+"grazie a questa tua iniziativa, sempre più bambini potranno essere liberati "
+"dalla povertà per un futuro migliore.\n"
+"   <br>\n"
+"   <br>\n"
+"   Per seguire e gestire questo progetto, tutto quello che devi fare è usare "
+"il tuo Compassion Account. Se non ne hai ancora uno, te lo invieremo in un'e-"
+"mail separata. In caso di problemi o domande relative a questo accesso, non "
+"esitare a contattare together@compassion.ch.\n"
+"   <br>\n"
+"   <br>\n"
+"    Cominciamo! Da ora, potrai iniziare la raccolta di fondi o motivare "
+"amici,famiglia, perchè no colleghi e compagni di scuola forse? A sostenere "
+"un bambino in difficoltà. In pratica, tutto quello che dovrai fare è inviare "
+"il link del tuo progetto ed invitare i tuoi contatti a rendere il mondo un "
+"posto migliore.\n"
+"  <br>\n"
+"   <br>\n"
+"   Together: il nome della nostra piattaforma è chiaro. Insieme, zusammen, "
+"ensemble, possiamo portare speranza alle vite più disperate.\n"
+"   <br>\n"
+"   <br>\n"
+"   Ti auguriamo tanti momenti incoraggianti, sorprendenti ed emozionanti "
+"attraverso questa avventura!\n"
+"   <br>\n"
+"   <br>\n"
+"   Il team Together di Compassion Svizzera.\n"
+"  </div>\n"
+" "
+
+#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_card
 msgid "<span> friends</span>"
 msgstr "<span> amici</span>"
@@ -309,10 +499,16 @@ msgid "<span>sponsorships</span>"
 msgstr "<span>sostegni</span>"
 
 #. module: crowdfunding_compassion
+#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:63
+#, python-format
+msgid "A link you entered is incorrect"
+msgstr ""
+
+#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_navbar
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 msgid "About"
-msgstr "Info"
+msgstr "chi siamo"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
@@ -323,6 +519,12 @@ msgstr "Il progetto"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 msgid "About this platform"
 msgstr "A proposito di questa piattaforma"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_needaction
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_needaction
+msgid "Action Needed"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_product_product__activate_for_crowdfunding
@@ -344,6 +546,18 @@ msgid "Active projects"
 msgstr "Progetti attivi"
 
 #. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__activity_ids
+#| msgid "Active"
+msgid "Activities"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__activity_state
+#| msgid "Active"
+msgid "Activity State"
+msgstr ""
+
+#. module: crowdfunding_compassion
 #: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__description
 msgid ""
 "Aim of the project, why you want to create it, for which purpose and any "
@@ -353,6 +567,11 @@ msgstr ""
 "sono le fasi del tuo progetto (ad esempio, durante un viaggio in "
 "bicicletta)? Qual è l'obiettivo del tuo progetto? Quali sono le informazioni "
 "importanti che i tuoi donatori devono conoscere?"
+
+#. module: crowdfunding_compassion
+#: model:mail.template,subject:crowdfunding_compassion.project_confirmation_email_template
+msgid "Almost done!"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_donation__amount
@@ -374,6 +593,13 @@ msgstr "Donazione anonima"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
 msgid "Another amount"
 msgstr "Altro importo "
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_attachment_count
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_attachment_count
+#| msgid "Another amount"
+msgid "Attachment Count"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_successful
@@ -401,12 +627,12 @@ msgstr "Data di nascita"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_navbar
 msgid "Browse active projects"
-msgstr "scopri i progetti attivi"
+msgstr "guarda i progetti attivi"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
 msgid "By making a donation, you agree on our"
-msgstr "Con la donazione sei d'accordo alla nostra&amp;nbsp;"
+msgstr "Effettuando una donazione, sei d'accordo sulla nostra"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
@@ -453,14 +679,12 @@ msgid "Choose for what you want to invest in"
 msgstr "Scegli un fondo"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:112
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:176
 #, python-format
 msgid ""
 "Choose if you are doing your project alone, or if you want to open it to "
 "other fundraisers (ie: collective sport projects)"
 msgstr ""
-"Clicca qui se vuoi aprire il tuo progetto ad altri partecipanti per "
-"consentire loro di farne parte."
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
@@ -526,7 +750,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
 #: model_terms:website.page,arch_db:crowdfunding_compassion.homepage
 msgid "Compassion interactive project platform"
-msgstr "La piattaforma interattiva del progetto Compassion"
+msgstr "La piattaforma interattiva dei progetti Compassion"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.faq_page_ir_ui_view
@@ -544,7 +768,7 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: selection:crm.event.compassion,type:0
 msgid "Concert"
-msgstr "Concerto"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
@@ -554,10 +778,10 @@ msgid ""
 "safe toilets, ensuring the survival of mothers and their babies? Or find "
 "sponsors for children in extreme poverty?"
 msgstr ""
-"Scegli concretamente la causa che vuoi sostenere con il tuo progetto. "
-"Costruire dei servizi igienici sicuri, sostenere il programma \"mamme e "
-"neonati\" Oppure trovare dei nuovi sostenitori per i bambini in condizioni "
-"di povertà estrema."
+"Scegli concretamente il fondo che vuoi sostenere con il tuo progetto. "
+"Costruire dei servizi igienici sicuri, garantire la sopravvivenza delle "
+"madri e dei loro bambini ? Oppure trovare dei nuovi sostenitori per i "
+"bambini in condizioni di povertà estrema."
 
 #. module: crowdfunding_compassion
 #: model:ir.model,name:crowdfunding_compassion.model_res_config_settings
@@ -584,12 +808,12 @@ msgstr "Nazione"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__cover_photo
 msgid "Cover Photo"
-msgstr "Immagine del profilo"
+msgstr "Foto di copertina"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__cover_photo_url
 msgid "Cover Photo Url"
-msgstr "Immagine del progetto"
+msgstr "Foto di copertina"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
@@ -597,10 +821,10 @@ msgid "Create a new project"
 msgstr "Crea il tuo progetto"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:95
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:160
 #, python-format
 msgid "Create your project"
-msgstr "Crea il tuo progetto"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__create_uid
@@ -689,7 +913,7 @@ msgstr "Scadenza"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__deadline
 msgid "Deadline of project"
-msgstr "Durata della raccolta fondi"
+msgstr "Durata del progetto"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
@@ -701,11 +925,11 @@ msgid ""
 "get involved in a project that makes sense. In this way, you will bring more "
 "people together to make a difference in the fight against extreme poverty."
 msgstr ""
-"Decidi il tipo di progetto (corsa, festa di compleanno, ecc.), presentalo "
-"insieme alle tue motivazioni. Con questo nuovo progetto, avrai davanti a te "
-"un nuovo obiettivo, e darai la possibilità alle persone che ti conoscono di "
-"essere coinvolte, in un obbiettivo che ha senso. In questo modo, riunisci "
-"più persone per fare la differenza nella lotta contro la povertà estrema. "
+"Decidi il tipo di progetto (corsa, festa di Compleanno, ecc.), presentalo "
+"insieme alle tue motivazioni. Avrai davanti a te un nuovo obiettivo, e darai "
+"la possibilità alle persone che ti conoscono di essere coinvolte, in una "
+"causa che ha senso. In questo modo, riunisci più persone per fare la "
+"differenza nella lotta contro la povertà estrema. "
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
@@ -734,7 +958,7 @@ msgstr "Hai altre domande?"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_card
 msgid "Donate"
-msgstr "Sostieni"
+msgstr "Donare"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
@@ -743,17 +967,7 @@ msgstr "Sostieni"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_successful
-msgid "Donation Succesful"
-msgstr "Donazione inoltrata con successo!"
-
-#. module: crowdfunding_compassion
-#: model:mail.template,subject:crowdfunding_compassion.donation_received_email_template
-msgid "Donation received"
-msgstr "Donazione Successo"
-
-#. module: crowdfunding_compassion
-#: model:mail.template,subject:crowdfunding_compassion.donation_successful_email_template
-msgid "Donation successful"
+msgid "Donation Successful"
 msgstr "Donazione Successo"
 
 #. module: crowdfunding_compassion
@@ -762,15 +976,16 @@ msgstr "Donazione Successo"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_project_view
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_crowdfunding_view_template
 msgid "Donations"
-msgstr "Donazioni"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: selection:crowdfunding.project,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Bozza"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_participation_board
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_project_board
 msgid "Edit participation"
 msgstr "Modifica partecipazione"
 
@@ -833,6 +1048,7 @@ msgid "Ex: toilets built"
 msgstr ""
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
 msgid "Facebook"
 msgstr ""
@@ -842,6 +1058,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__facebook_url
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__facebook_url
 msgid "Facebook link"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__failed_message_ids
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__failed_message_ids
+msgid "Failed Messages"
 msgstr ""
 
 #. module: crowdfunding_compassion
@@ -874,10 +1096,28 @@ msgid "Follow my project on"
 msgstr "Segui il mio progetto su"
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_navbar
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 msgid "Follow us"
 msgstr "Seguici"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_follower_ids
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_follower_ids
+#| msgid "Follow us"
+msgid "Followers"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_channel_ids
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_partner_ids
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_donation_board
@@ -889,7 +1129,7 @@ msgstr "Per"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 #: model_terms:website.page,arch_db:crowdfunding_compassion.faq_page
 msgid "Frequently Asked Questions"
-msgstr "Frequently Asked Questions"
+msgstr "domande frequenti"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_donation_board
@@ -936,7 +1176,7 @@ msgid ""
 "                            The countdown has begun."
 msgstr ""
 "Qui sotto le idee già in corso. <br/>Puoi aderire ad una di queste "
-"amplificandone così il suo impatto!<br/> Il conto alla rovescia è iniziato. "
+"amplificandone così il suo impatto.<br/> Il conto alla rovescia è iniziato!"
 "<br/>"
 
 #. module: crowdfunding_compassion
@@ -963,7 +1203,7 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "I want to"
-msgstr "Vorrei:"
+msgstr "DESIDERO:"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,help:crowdfunding_compassion.field_cms_form_crowdfunding_donation__anonymous_donation
@@ -984,8 +1224,26 @@ msgid "ID"
 msgstr ""
 
 #. module: crowdfunding_compassion
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_participant__message_unread
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__message_unread
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_participant__message_needaction
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_participant__message_has_error
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: crowdfunding_compassion
 #. openerp-web
-#: code:addons/crowdfunding_compassion/static/src/js/creation_form.js:62
+#: code:addons/crowdfunding_compassion/static/src/js/creation_form.js:88
 #, python-format
 msgid ""
 "If there is any social media pages for your event, you can link them on the "
@@ -1001,16 +1259,14 @@ msgstr "Se hai altre domande, puoi semplicemente scriverci un'e-mail a"
 
 #. module: crowdfunding_compassion
 #. openerp-web
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:119
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:283
-#: code:addons/crowdfunding_compassion/static/src/js/creation_form.js:57
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:183
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:359
+#: code:addons/crowdfunding_compassion/static/src/js/creation_form.js:83
 #, python-format
 msgid ""
 "If you have any social media account that you use to promote your project, "
 "you can link them to your personal page."
 msgstr ""
-"Hai intenzione di condividere le tue avventure sui social network, su un "
-"blog o su YouTube? In caso affermativo, indicare qui i link:"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
@@ -1061,6 +1317,7 @@ msgid "Individual"
 msgstr "Individuale"
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
 msgid "Instagram"
 msgstr ""
@@ -1085,6 +1342,13 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_account_invoice_line__is_anonymous
 msgid "Is Anonymous"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_is_follower
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_is_follower
+#| msgid "Follow me on"
+msgid "Is Follower"
 msgstr ""
 
 #. module: crowdfunding_compassion
@@ -1113,7 +1377,7 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_list_page
 msgid "Join a great project"
-msgstr "Unisciti a un progetto!"
+msgstr "Unisciti a un Progetto"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
@@ -1167,7 +1431,7 @@ msgstr "Ultima modifica il"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
 #: model_terms:website.page,arch_db:crowdfunding_compassion.homepage
 msgid "Launch a project"
-msgstr "Lancia un progetto"
+msgstr "Lanciare un progetto"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
@@ -1176,14 +1440,19 @@ msgid "Launch your project"
 msgstr "Lancia il tuo progetto"
 
 #. module: crowdfunding_compassion
+#: model:mail.template,subject:crowdfunding_compassion.project_join
+msgid "Let's get started!"
+msgstr "È partito!"
+
+#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_project_board
 msgid "Link to project"
-msgstr ""
+msgstr "Link al progetto"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_participation_board
 msgid "Link to registration"
-msgstr ""
+msgstr "Link per donazioni"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_navbar
@@ -1194,6 +1463,12 @@ msgstr "Accedi"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_navbar
 msgid "Logout"
 msgstr "Esci"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_main_attachment_id
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
@@ -1207,9 +1482,8 @@ msgid ""
 "Make your project known around you! Share the link of your project on social "
 "networks, via WhatsApp or e-mail and motivate others to support you!"
 msgstr ""
-"Fai conoscere il tuo progetto intorno a te!  Condividi il link del tuo "
-"progetto sui social network, su WhatsApp o per e-mail e motiva gli altri a "
-"sostenerti !"
+"Fai conoscere il tuo progetto intorno a te! Condividendone il link sui "
+"social network, su WhatsApp o per e-mail e motiva gli altri a sostenerti !"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
@@ -1234,28 +1508,46 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: selection:crm.event.compassion,type:0
 msgid "Meeting"
+msgstr "Riunione"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_has_error
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_ids
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_ids
+msgid "Messages"
 msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_navbar
 msgid "My Account"
-msgstr "Il mio account"
+msgstr "Il mio Profilo"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_crowdfunding_view_template
 msgid "My Account | TOGETHER - Compassion Switzerland Fundraising"
-msgstr "My Account | TOGETHER - Compassion Svizzera Fundraising"
+msgstr "My Account | TOGETHER - Compassion Svizzera Crowdfunding"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:111
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:175
 #, python-format
 msgid "My project is"
-msgstr "Il mio progetto è"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
 msgid "My website"
 msgstr "Il mio sito web"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_update__name
+#| msgid "Last Name"
+msgid "Name"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step1__campaign_name
@@ -1268,12 +1560,6 @@ msgid "Navigate through projects"
 msgstr ""
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:395
-#, python-format
-msgid "New Crowdfunding participant"
-msgstr ""
-
-#. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_res_config_settings__new_participant_notify_ids
 msgid "New crowdfunding participant"
 msgstr ""
@@ -1282,6 +1568,21 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_projects_pagination
 msgid "Next"
 msgstr "Successivo"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
@@ -1306,6 +1607,36 @@ msgid "Number Sponsorships Reached"
 msgstr ""
 
 #. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_needaction_counter
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_has_error_counter
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_has_error_counter
+msgid "Number of error"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_participant__message_needaction_counter
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_participant__message_has_error_counter
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_participant__message_unread_counter
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.faq_page_ir_ui_view
 #: model_terms:website.page,arch_db:crowdfunding_compassion.faq_page
 msgid "Of course you can. Just send us an email to"
@@ -1314,9 +1645,19 @@ msgstr ""
 "ch e ti invieremo il materiale necessario per posta."
 
 #. module: crowdfunding_compassion
+#: sql_constraint:crowdfunding.participant:0
+msgid "Only one registration per participant/project is allowed!"
+msgstr ""
+
+#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_list_page
 msgid "Our Projects | TOGETHER - Compassion Switzerland Fundraising"
-msgstr "I nostri progetti  | TOGETHER - Compassion Svizzera Fundraising"
+msgstr "I nostri progetti  | TOGETHER - Compassion Svizzera Crowdfunding"
+
+#. module: crowdfunding_compassion
+#: selection:crowdfunding.project,activity_state:0
+msgid "Overdue"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__owner_participant_id
@@ -1326,7 +1667,6 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__participant_id
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_participant_view
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
 msgid "Participant"
 msgstr "Partecipante"
 
@@ -1372,7 +1712,6 @@ msgid "Partner"
 msgstr ""
 
 #. module: crowdfunding_compassion
-#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_participant__presentation_video
 #: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__presentation_video
 msgid ""
 "Paste any video link that showcase your project (e.g. https://vimeo.com/"
@@ -1384,11 +1723,10 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
 msgid "Payment Aborted"
-msgstr "Pagamento abortito"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__personal_motivation
-#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__personal_motivation
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_participation_board
 msgid "Personal Motivation"
 msgstr "Motivazione personale"
@@ -1396,7 +1734,7 @@ msgstr "Motivazione personale"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_crowdfunding_view_template
 msgid "Personal data"
-msgstr "Dati personali"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__participant_personal_motivation
@@ -1405,7 +1743,7 @@ msgstr "Motivazione personale"
 
 #. module: crowdfunding_compassion
 #. openerp-web
-#: code:addons/crowdfunding_compassion/static/src/js/creation_form.js:58
+#: code:addons/crowdfunding_compassion/static/src/js/creation_form.js:84
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__participant_personal_web_page_url
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__personal_web_page_url
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__personal_web_page_url
@@ -1420,13 +1758,18 @@ msgid "Phone"
 msgstr "Telefono"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:65
+#: selection:crowdfunding.project,activity_state:0
+msgid "Planned"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:71
 #, python-format
 msgid "Please define a goal"
 msgstr "Si prega di definire un obiettivo"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:68
+#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:75
 #, python-format
 msgid "Please define a positive goal"
 msgstr "Si prega di definire un obiettivo positivo"
@@ -1442,7 +1785,7 @@ msgstr ""
 "possibilità di modificarli in seguito."
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:62
+#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:67
 #, python-format
 msgid "Please select a valid date"
 msgstr "Seleziona una data valida"
@@ -1453,7 +1796,6 @@ msgid "Presentation"
 msgstr ""
 
 #. module: crowdfunding_compassion
-#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__presentation_video
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__presentation_video
 msgid "Presentation Video"
 msgstr "Video di presentazione"
@@ -1486,9 +1828,19 @@ msgid "Product Template"
 msgstr "Modello Prodotto"
 
 #. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_participant_update__profile_photo
+msgid "Profile Photo"
+msgstr "Profilo immagine"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__profile_photo_url
+msgid "Profile Photo Url"
+msgstr ""
+
+#. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__partner_image
 msgid "Profile picture"
-msgstr ""
+msgstr "Foto profilo"
 
 #. module: crowdfunding_compassion
 #: model:ir.actions.act_window,name:crowdfunding_compassion.open_view_crowdfunding_project_tree
@@ -1501,21 +1853,6 @@ msgid "Project"
 msgstr "Progetti"
 
 #. module: crowdfunding_compassion
-#: model:mail.template,subject:crowdfunding_compassion.project_confirmation_email_template
-msgid "Project Creation"
-msgstr ""
-
-#. module: crowdfunding_compassion
-#: model:mail.template,subject:crowdfunding_compassion.project_join
-msgid "Project Joined"
-msgstr ""
-
-#. module: crowdfunding_compassion
-#: model:mail.template,subject:crowdfunding_compassion.project_published_email_template
-msgid "Project Published"
-msgstr ""
-
-#. module: crowdfunding_compassion
 #: model:website.menu,name:crowdfunding_compassion.project_creation_menu
 msgid "Project creation menu"
 msgstr ""
@@ -1523,7 +1860,7 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 msgid "Project creation | TOGETHER - Compassion Switzerland Fundraising"
-msgstr "Creazione di un progetto | TOGETHER - Compassion Svizzera Fundraising"
+msgstr "Creazione di un progetto | TOGETHER - Compassion Svizzera Crowdfunding"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__description
@@ -1549,18 +1886,18 @@ msgid "Project participant"
 msgstr "Partecipante al progetto"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/crowdfunding_participant_update_form.py:71
-#: code:addons/crowdfunding_compassion/forms/project_update_form.py:71
+#: code:addons/crowdfunding_compassion/forms/crowdfunding_participant_update_form.py:73
+#: code:addons/crowdfunding_compassion/forms/project_update_form.py:75
 #, python-format
 msgid "Project updated."
 msgstr ""
 
 #. module: crowdfunding_compassion
 #. openerp-web
-#: code:addons/crowdfunding_compassion/static/src/js/creation_form.js:65
+#: code:addons/crowdfunding_compassion/static/src/js/creation_form.js:91
 #, python-format
 msgid "Project web page"
-msgstr "Pagina web personale"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.ui.menu,name:crowdfunding_compassion.menu_crowdfunding_project
@@ -1571,13 +1908,18 @@ msgstr "Progetti"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_crowdfunding_view_template
 msgid "Projects you participate to"
-msgstr "Progetti a cui si partecipa"
+msgstr "Progetti collettivi a cui partecipi"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_participant_view
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_project_view
 msgid "Promotion"
 msgstr "Promozione"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__activity_user_id
+msgid "Responsible User"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_rounded_image
@@ -1599,10 +1941,10 @@ msgstr "Ottimizzato SEO"
 
 #. module: crowdfunding_compassion
 #: code:addons/crowdfunding_compassion/forms/crowdfunding_participant_update_form.py:58
-#: code:addons/crowdfunding_compassion/forms/project_update_form.py:58
+#: code:addons/crowdfunding_compassion/forms/project_update_form.py:62
 #, python-format
 msgid "Save"
-msgstr "Salva"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
@@ -1626,13 +1968,13 @@ msgid "Share with your friends"
 msgstr "Condividi il progetto con le persone a te vicino "
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/crowdfunding_participant_update_form.py:41
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:118
-#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:282
-#: code:addons/crowdfunding_compassion/forms/project_update_form.py:41
+#: code:addons/crowdfunding_compassion/forms/crowdfunding_participant_update_form.py:42
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:182
+#: code:addons/crowdfunding_compassion/forms/project_creation_form.py:358
+#: code:addons/crowdfunding_compassion/forms/project_update_form.py:45
 #, python-format
 msgid "Social Medias"
-msgstr "Media sociali"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
@@ -1650,14 +1992,14 @@ msgstr "Nome Origine"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "Sponsor a child"
-msgstr "Sostieni un bambino"
+msgstr "Sostegno un bambino"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:35
+#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:18
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 #, python-format
 msgid "Sponsor children"
-msgstr "Sponsor bambini"
+msgstr "Sostegno a distanza dei bambini"
 
 #. module: crowdfunding_compassion
 #: selection:crm.event.compassion,type:0
@@ -1693,6 +2035,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__state
 msgid "State"
 msgstr "Stato"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_donation__partner_street
@@ -1761,7 +2112,6 @@ msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,help:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__participant_personal_motivation
-#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__personal_motivation
 msgid "Tell the others what is inspiring you, why it matters to you."
 msgstr ""
 "Cosa ti motiva a realizzare questo progetto? Quale progetto (e quale fondo "
@@ -1771,6 +2121,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_confirmation_view_template
 msgid "Thank you for"
 msgstr "Grazie per"
+
+#. module: crowdfunding_compassion
+#: model:mail.template,subject:crowdfunding_compassion.donation_successful_email_template
+msgid "Thank you for your generous donation!"
+msgstr "Grazie per la tua generosa donazione!"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_successful
@@ -1800,6 +2155,11 @@ msgstr "Tempo rimanente"
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__partner_title
 msgid "Title"
 msgstr "Qualifica"
+
+#. module: crowdfunding_compassion
+#: selection:crowdfunding.project,activity_state:0
+msgid "Today"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
@@ -1842,6 +2202,18 @@ msgid "UTM Source"
 msgstr ""
 
 #. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_unread
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_unread_counter
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_donation__partner_opt_out
 msgid "Unsubscribe from e-mails"
 msgstr "Annullare l'iscrizione alle e-mail"
@@ -1854,17 +2226,27 @@ msgstr "Carica una foto per il tuo progetto"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,help:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__partner_image
 msgid "Upload a profile picture, square 800 x 800px"
-msgstr "Foto del profilo (caricare una foto nel formato 800x800px)"
+msgstr "caricare una foto nel formato 800x800px"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,help:crowdfunding_compassion.field_cms_form_crowdfunding_project_step1__campaign_name
 msgid "Use a catchy name that is accurate to your idea."
-msgstr ""
+msgstr "Usa per il tuo progetto un nome convincente!"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_project_view
 msgid "Validate project"
 msgstr "Convalidare il progetto"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
+msgid "View the project"
+msgstr "Al progetto"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
+msgid "Vimeo"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__website_published
@@ -1875,13 +2257,26 @@ msgstr "Visibile nel sito web corrente"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__website_id
 msgid "Website"
-msgstr "Sito web"
+msgstr "Sito Web"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__website_message_ids
+#: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__website_message_ids
+#| msgid "Website meta keywords"
+msgid "Website Messages"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__website_url
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__website_url
 msgid "Website URL"
 msgstr "URL sito web"
+
+#. module: crowdfunding_compassion
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_participant__website_message_ids
+#: model:ir.model.fields,help:crowdfunding_compassion.field_crowdfunding_project__website_message_ids
+msgid "Website communication history"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__website_meta_description
@@ -1945,27 +2340,35 @@ msgstr "Perché mi impegno in questo progetto"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_impact_card
 msgid "You are actually creating impact for:"
-msgstr "Vuoi creare un impatto per:"
+msgstr "Stai contribuendo al progetto:"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 msgid ""
 "You are only 3 steps away from releasing children from extreme\n"
 "                            poverty thanks to your project!"
-msgstr ""
-"Non sei che a 3 passi dal liberare i bambini dalla povertà estrema grazie al "
-"tuo progetto!"
+msgstr "Solo 3 passi per fare una grande differenza con la tua idea!"
+
+#. module: crowdfunding_compassion
+#: model:mail.template,subject:crowdfunding_compassion.donation_received_email_template
+msgid "You received a donation"
+msgstr "Hai ricevuto una donazione!"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
 #: model_terms:website.page,arch_db:crowdfunding_compassion.homepage
 msgid "You're just 3 steps from the launch of your project"
-msgstr "Solo più 3 passi per lanciare il tuo progetto "
+msgstr "Solo più 3 passaggi per lanciare il tuo progetto "
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
+msgid "YouTube"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
 msgid "Your billing information"
-msgstr "I TUOI dati di fatturazione"
+msgstr "I tuoi dati"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.faq_page_ir_ui_view
@@ -2000,7 +2403,7 @@ msgstr "Il tuo&amp;nbsp; goal"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
 #: model_terms:website.page,arch_db:crowdfunding_compassion.homepage
 msgid "Your impact can do a lot"
-msgstr "Il tuo impatto può fare molto"
+msgstr "Il tuo impatto può fare molto in questi fondi:"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__owner_lastname
@@ -2010,7 +2413,7 @@ msgstr "Il tuo cognome"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_crowdfunding_view_template
 msgid "Your own projects"
-msgstr "I vostri progetti"
+msgstr "I tuoi progetti"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
@@ -2018,13 +2421,18 @@ msgid "Your personal information"
 msgstr "Inserisci i tuoi dati personali"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/forms/crowdfunding_participant_update_form.py:33
+#: code:addons/crowdfunding_compassion/forms/crowdfunding_participant_update_form.py:34
 #: code:addons/crowdfunding_compassion/forms/crowdfunding_participant_update_form.py:54
-#: code:addons/crowdfunding_compassion/forms/project_update_form.py:33
-#: code:addons/crowdfunding_compassion/forms/project_update_form.py:54
+#: code:addons/crowdfunding_compassion/forms/project_update_form.py:36
+#: code:addons/crowdfunding_compassion/forms/project_update_form.py:58
 #, python-format
 msgid "Your project"
-msgstr "Il tuo progetto"
+msgstr ""
+
+#. module: crowdfunding_compassion
+#: model:mail.template,subject:crowdfunding_compassion.project_published_email_template
+msgid "Your project has started!"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_donation__partner_zip
@@ -2036,7 +2444,10 @@ msgstr "CAP"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_confirmation_view_template
 msgid ""
 "a project ! You will receive an email with all the necessary information"
-msgstr "un progetto! Riceverai una e-mail con tutte le informazioni necessarie"
+msgstr ""
+"un progetto! Riceverai una e-mail con tutte le informazioni necessarie.<br/"
+"><br/><br/>Se hai domande non esitare a contattarci, facciamo il tifo per te!"
+"<br/>"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
@@ -2098,7 +2509,7 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
 msgid "contact us"
-msgstr "contattaci"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
@@ -2137,7 +2548,7 @@ msgstr "https://compassion.ch/it/download/?filter=rapporto-annuale"
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
 msgid "if you need any further assistance."
-msgstr "se avete bisogno di ulteriore assistenza."
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
@@ -2148,17 +2559,17 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
 #: model_terms:website.page,arch_db:crowdfunding_compassion.homepage
 msgid "join an existing collective project"
-msgstr "unisciti ad uno già esistente, progetto collettivo"
+msgstr "unisciti ad uno&amp;nbsp; collettivo,&amp;nbsp; già esistente!"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_confirmation_view_template
 msgid "joining"
-msgstr ""
+msgstr "unirti a"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_confirmation_view_template
 msgid "launching"
-msgstr ""
+msgstr "iniziare"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.impact_tile_empty
@@ -2189,7 +2600,7 @@ msgstr ""
 "quale gestisce i propri contatti."
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:36
+#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:19
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.participant_card
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_progress
@@ -2198,13 +2609,13 @@ msgid "sponsored child"
 msgstr "bambino sponsorizzato"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:72
+#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:76
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.participant_card
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_progress
 #, python-format
 msgid "sponsored children"
-msgstr "bambini sponsorizzati"
+msgstr "bambini sostenuti"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.impact_tile
@@ -2212,9 +2623,9 @@ msgid "supported this project"
 msgstr "ha sostenuto questo progetto"
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_progress
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_deadline_widget
 msgid "to go"
-msgstr "per terminare"
+msgstr "al termine"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.faq_page_ir_ui_view
@@ -2230,6 +2641,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "| TOGETHER - Compassion Switzerland Fundraising"
 msgstr "| TOGETHER - Compassion Svizzera Fundraising"
-
-#~ msgid "Donate to"
-#~ msgstr "Sostieni "
