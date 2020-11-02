@@ -13,6 +13,7 @@
                                 <th>Deadline</th>
                                 <th>Type</th>
                                 <th>Link to project</th>
+                                <th>Edit participation</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,6 +32,11 @@
                                     <td>
                                         <a t-attf-href="/my_account/project/update?project_id={{project.id}}">
                                             Edit project
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a t-attf-href="/my_account/participation/update?participant_id={{project.owner_participant_id.id}}">
+                                            Edit participation
                                         </a>
                                     </td>
                                 </tr>
