@@ -124,9 +124,7 @@ class Correspondence(models.Model):
         to the first letter, so that he can only download this zip.
         :return: True
         """
-        if len(self) == 1:
-            letter_attach = self
-        else:
+        if len(self) > 5:
             _zip = (
                 self.env["correspondence.download.wizard"]
                     .with_context(active_model=self._name, active_ids=self.ids)
@@ -138,8 +136,9 @@ class Correspondence(models.Model):
             letter_attach.write(
                 {"zip_file": _zip.download_data, "letter_format": "zip"}
             )
-        base_url = self.env["ir.config_parameter"].sudo().get_param("web.external.url")
-        self.write({"read_url": f"{base_url}/b2s_image?id={letter_attach.uuid}"})
+            base_url = self.env["ir.config_parameter"].sudo().get_param(
+                "web.external.url")
+            self.write({"read_url": f"{base_url}/b2s_image?id={letter_attach.uuid}"})
         return True
 
     @api.multi

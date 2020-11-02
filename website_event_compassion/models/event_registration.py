@@ -104,8 +104,7 @@ class Event(models.Model):
     amount_raised_percents = fields.Integer(
         readonly=True, compute="_compute_amount_raised_percent"
     )
-    website_published = fields.Boolean(
-        oldname="is_published", compute="_compute_is_published", store=True)
+    is_published = fields.Boolean(compute="_compute_is_published")
     website_url = fields.Char(compute="_compute_website_url")
     host_url = fields.Char(compute="_compute_host_url")
     wordpress_host = fields.Char(compute="_compute_wordpress_host")
@@ -261,10 +260,9 @@ class Event(models.Model):
             registration.wordpress_host = wp_obj.get_host(registration.company_id.id)
 
     @api.multi
-    @api.depends("state", "event_id.state")
     def _compute_is_published(self):
         for registration in self:
-            registration.website_published = (
+            registration.is_published = (
                 registration.state in ("open", "done")
                 and registration.event_id.state == "confirm"
             )
