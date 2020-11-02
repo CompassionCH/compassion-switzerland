@@ -50,8 +50,9 @@
                                                 <t t-set="goal_image"
                                                    t-value="participant.project_id.product_id.image_medium or '/crowdfunding_compassion/static/src/img/icn_children.png'"/>
                                                 <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
+                                                <t t-call="crowdfunding_compassion.project_deadline_widget"/>
                                             </div>
-                                            <div class="project-hero__card-cta">
+                                            <div class="project-hero__card-cta" t-if="project.deadline >= datetime.date.today()">
                                                 <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
                                                     <button type="button" class="btn btn-primary btn-lg btn-block mb-2">
                                                         Donate now
@@ -64,37 +65,35 @@
                                         <div class="project-hero__card-content">
                                             <t t-call="crowdfunding_compassion.project_progress"/>
                                         </div>
-                                        <div class="project-hero__card-cta">
-                                            <t t-if="project.deadline >= datetime.date.today()">
-                                                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
-                                                    <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
-                                                </a>
-                                                <a t-if="project.type == 'collective'" t-attf-href="/projects/join/#{project.id}">
-                                                    <button type="button" class="btn btn-white btn-lg btn-block mb-2">Join the project</button>
-                                                </a>
-                                            </t>
-                                            <div class="row">
-                                                <div class="col project-hero__card-share-text align-self-center">Share with your friends</div>
-                                                <div class="col align-self-center">
-                                                    <div class="row project-hero__card-share-icons mx-auto">
-                                                        <t t-set="compassion_project_base_url" t-value="base_url + '/project'"/>
-                                                        <a t-attf-href="https://www.facebook.com/sharer.php?u=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
-                                                            <i class="fa fa-facebook-official"/>
-                                                        </a>
-                                                        <a t-attf-href="https://twitter.com/intent/tweet?url=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
-                                                            <i class="fa fa-twitter-square"/>
-                                                        </a>
-                                                        <a t-attf-href="https://www.linkedin.com/sharing/share-offsite/?url=#{ compassion_project_base_url }/#{ project.id }" target="_blank">
-                                                            <i class="fa fa-linkedin"/>
-                                                        </a>
-                                                        <a t-attf-href="mailto:?subject=I wanted you to see this project&amp;body=Check out this project #{ compassion_project_base_url }/#{ project.id }.">
-                                                            <i class="fa fa-at"/>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div class="project-hero__card-cta" t-if="project.deadline >= datetime.date.today()">
+                                            <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
+                                                <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
+                                            </a>
+                                            <a t-if="project.type == 'collective'" t-attf-href="/projects/join/#{project.id}">
+                                                <button type="button" class="btn btn-white btn-lg btn-block mb-2">Join the project</button>
+                                            </a>
                                         </div>
                                     </t>
+                                    <div class="row">
+                                        <div class="col project-hero__card-share-text align-self-center">Share with your friends</div>
+                                        <div class="col align-self-center">
+                                            <div class="row project-hero__card-share-icons mx-auto">
+                                                <t t-set="share_url" t-value="request.httprequest.url"/>
+                                                <a t-attf-href="https://www.facebook.com/sharer.php?u=#{ share_url }" target="_blank">
+                                                    <i class="fa fa-facebook-official"/>
+                                                </a>
+                                                <a t-attf-href="https://twitter.com/intent/tweet?url=#{ share_url }" target="_blank">
+                                                    <i class="fa fa-twitter-square"/>
+                                                </a>
+                                                <a t-attf-href="https://www.linkedin.com/sharing/share-offsite/?url=#{ share_url }" target="_blank">
+                                                    <i class="fa fa-linkedin"/>
+                                                </a>
+                                                <a t-attf-href="mailto:?subject=I wanted you to see this project&amp;body=Check out this project #{ share_url }.">
+                                                    <i class="fa fa-at"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -226,6 +225,7 @@
                                     <t t-if="project.presentation_video_embed">
                                         <iframe class="my-3" width="100%" height="400px" t-att-src="project.presentation_video_embed" frameborder="0"/>
                                     </t>
+                                    <a t-att-href="project.website_url">View the project</a>
                                 </t>
                             </div>
 

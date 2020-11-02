@@ -183,7 +183,7 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def _compute_website_url(self):
         for project in self:
-            project.website_url = "/projects/create/confirm"
+            project.website_url = f"/project/{project.id}"
 
     @api.multi
     def _compute_time_left(self):
@@ -215,7 +215,7 @@ class CrowdfundingProject(models.Model):
 
     @api.multi
     def validate(self):
-        self.write({"state": "active"})
+        self.write({"state": "active", "is_published": True})
         comm_obj = self.env["partner.communication.job"]
         config = self.env.ref("crowdfunding_compassion.config_project_published")
         for project in self:
@@ -228,10 +228,17 @@ class CrowdfundingProject(models.Model):
                 }
             )
 
+    @api.multi
+    def toggle_website_published(self):
+        self.ensure_one()
+        self.website_published = not self.website_published
+        return True
+
     @api.model
     def get_active_projects(self, limit=None, year=None, type=None):
         filters = list(filter(None, [
             ("state", "!=", "draft"),
+            ("website_published", "=", True),
             ("deadline", ">=", datetime(year, 1, 1)) if year else None,
             ("deadline", "<=", datetime(year, 12, 31)) if year else None,
             ("type", "=", type) if type else None

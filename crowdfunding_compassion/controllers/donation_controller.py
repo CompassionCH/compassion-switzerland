@@ -16,7 +16,8 @@ class DonationController(PaymentFormController, FormControllerMixin):
     )
     def project_donation_page(self, project, **kwargs):
         """ To preselect a participant, pass its id as particpant query parameter """
-
+        if not project.website_published:
+            return request.redirect("/projects")
         participant = kwargs.get("participant")
 
         return request.render(
@@ -33,6 +34,8 @@ class DonationController(PaymentFormController, FormControllerMixin):
         website=True, noindex=['robots', 'meta', 'header']
     )
     def project_donation_form_page(self, project, participant, **kwargs):
+        if not project.website_published:
+            return request.redirect("/projects")
         kwargs["form_model_key"] = "cms.form.crowdfunding.donation"
 
         donation_form = self.get_form(

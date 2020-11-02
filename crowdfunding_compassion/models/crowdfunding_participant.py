@@ -38,6 +38,7 @@ class CrowdfundingParticipant(models.Model):
     profile_photo = fields.Binary(related="partner_id.image")
     profile_photo_url = fields.Char(compute="_compute_profile_photo_url")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
+    is_published = fields.Boolean(related="project_id.is_published")
 
     _sql_constraints = [
         ('registration_unique', "unique(project_id,partner_id)",
@@ -104,3 +105,20 @@ class CrowdfundingParticipant(models.Model):
                 path = None
 
             participant.profile_photo_url = f"{domain}/{path}" if path else path
+
+    @api.multi
+    def _compute_website_url(self):
+        for participant in self:
+            participant.website_url = f"/participant/{participant.id}"
+
+    def _default_website_meta(self):
+        res = super()._default_website_meta()
+        res['default_opengraph']['og:description'] = res[
+            'default_twitter']['twitter:description'] = self.personal_motivation
+        res['default_opengraph']['og:image'] = res[
+            'default_twitter']['twitter:image'] = self.profile_photo_url
+        res['default_opengraph']['og:image:secure_url'] = self.profile_photo_url
+        res['default_opengraph']['og:image:type'] = "image/jpeg"
+        res['default_opengraph']['og:image:width'] = "640"
+        res['default_opengraph']['og:image:height'] = "442"
+        return res
