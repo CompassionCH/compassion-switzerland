@@ -477,17 +477,14 @@ class ProjectCreationStep3(models.AbstractModel):
         settings = self.env["res.config.settings"].sudo()
         notify_ids = settings.get_param("new_participant_notify_ids")
         if notify_ids:
-            participant.partner_id.message_post(
-                subject=_("New Crowdfunding participant"),
-                body=_(
-                    "%s created or joined a project. "
-                    "A user may need to be created if he doesn't have access"
-                )
-                % participant.partner_id.name,
-                partner_ids=notify_ids,
-                type="comment",
-                subtype="mail.mt_comment",
-                content_subtype="plaintext",
+            user = self.env["res.partner"].sudo().browse(notify_ids[0][2]) \
+                       .mapped("user_ids")[:1]
+            participant.partner_id.sudo().activity_schedule(
+                'mail.mail_activity_data_todo',
+                summary="New Crowdfunding participant",
+                note=f"{participant.partner_id.name} created or joined a project. "
+                     f"A user may need to be created if he doesn't have access",
+                user_id=user.id
             )
 
     def form_next_url(self, main_object):
