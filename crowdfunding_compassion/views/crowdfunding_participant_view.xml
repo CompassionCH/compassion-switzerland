@@ -19,7 +19,6 @@
                         </group>
 
                         <group string="Promotion" name="participant_link">
-                            <field name="presentation_video" widget="char"/>
                             <field name="facebook_url" widget="char"/>
                             <field name="twitter_url" widget="char"/>
                             <field name="instagram_url" widget="char"/>
