@@ -11,7 +11,7 @@
 
         <record id="muskathlon_page" model="website.page">
             <field name="website_published">True</field>
-            <field name="url">/my/home/muskathlon</field>
+            <field name="url">/my/muskathlon</field>
             <field name="view_id" ref="muskathlon.muskathlon_page_template"/>
         </record>
 
