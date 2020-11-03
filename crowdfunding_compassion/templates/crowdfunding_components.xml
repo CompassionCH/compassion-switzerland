@@ -373,7 +373,7 @@
                                         <li><a class="dropdown-item" href="/web/session/logout?redirect=/homepage">Logout</a></li>
                                     </t>
                                     <t t-else="">
-                                        <li><a class="dropdown-item" href="/web/login?redirect=/homepage">Login</a></li>
+                                        <li><a class="dropdown-item" href="/web/login?redirect=/my_account">Login</a></li>
                                     </t>
                                 </ul>
                             </li>
