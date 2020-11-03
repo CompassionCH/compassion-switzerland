@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="custom_portal_my_home" name="Custom My Portal">
-        <t t-call="portal.frontend_layout">
+        <t t-call="website_compassion.my_account_layout">
             <!-- hides navbar from my portal -->
             <style>.o_portal.container { display: none !important; }</style>
 
             <!-- Page content -->
-            <div id="muskathlon_my_home" class="container mb64">
+            <div id="muskathlon_my_home" class="container">
                 <!-- Load modals for forms -->
                 <t t-call="cms_form_compassion.modal_form">
                     <t t-set="form" t-value="coordinates_form"/>

@@ -104,6 +104,98 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             **post
         )
 
+    @route("/my/muskathlon", type="http", auth="user", website=True)
+    def muskathlon_my_account(self, form_id=None, **kw):
+        if not request.env.user.partner_id.muskathlon_participant_id:
+            return request.redirect("/my/home")
+
+        """ Inject data for forms. """
+        values = self._prepare_portal_layout_values()
+
+        partner = values["partner"]
+        advocate_details_id = partner.advocate_details_id.id
+        registration = partner.registration_ids[:1]
+        form_success = False
+
+        # Load forms
+        kw["form_model_key"] = "cms.form.muskathlon.trip.information"
+        trip_info_form = self.get_form("event.registration", registration.id, **kw)
+        if form_id is None or form_id == trip_info_form.form_id:
+            trip_info_form.form_process()
+            form_success = trip_info_form.form_success
+
+        kw["form_model_key"] = "cms.form.partner.coordinates"
+        coordinates_form = self.get_form("res.partner", partner.id, **kw)
+        if form_id is None or form_id == coordinates_form.form_id:
+            coordinates_form.form_process()
+            form_success = coordinates_form.form_success
+
+        kw["form_model_key"] = "cms.form.advocate.details"
+        about_me_form = self.get_form("advocate.details", advocate_details_id, **kw)
+        if form_id is None or form_id == about_me_form.form_id:
+            about_me_form.form_process()
+            form_success = about_me_form.form_success
+
+        kw["form_model_key"] = "cms.form.muskathlon.large.picture"
+        large_picture_form = self.get_form(
+            "advocate.details", advocate_details_id, **kw
+        )
+        if form_id is None or form_id == large_picture_form.form_id:
+            large_picture_form.form_process()
+            form_success = large_picture_form.form_success
+
+        kw["form_model_key"] = "cms.form.muskathlon.passport"
+        passport_form = self.get_form("event.registration", registration.id, **kw)
+        if form_id is None or form_id == passport_form.form_id:
+            passport_form.form_process()
+            form_success = passport_form.form_success
+
+        kw["form_model_key"] = "cms.form.muskathlon.flight.details"
+        kw["registration_id"] = registration.id
+        flight_type = kw.get("flight_type")
+        kw["flight_type"] = "outbound"
+        flight = registration.flight_ids.filtered(lambda f: f.flight_type == "outbound")
+        outbound_flight_form = self.get_form("event.flight", flight.id, **kw)
+        if form_id is None or (
+                form_id == outbound_flight_form.form_id
+                and (not flight_type or flight_type == "outbound")
+        ):
+            outbound_flight_form.form_process(**kw)
+            form_success = outbound_flight_form.form_success
+        kw["flight_type"] = "return"
+        flight = registration.flight_ids.filtered(lambda f: f.flight_type == "return")
+        return_flight_form = self.get_form("event.flight", flight.id, **kw)
+        if form_id is None or (
+                form_id == return_flight_form.form_id
+                and (not flight_type or flight_type == "return")
+        ):
+            return_flight_form.form_process(**kw)
+            form_success = return_flight_form.form_success
+
+        values.update(
+            {
+                "trip_info_form": trip_info_form,
+                "coordinates_form": coordinates_form,
+                "about_me_form": about_me_form,
+                "large_picture_form": large_picture_form,
+                "passport_form": passport_form,
+                "outbound_flight_form": outbound_flight_form,
+                "return_flight_form": return_flight_form,
+            }
+        )
+        values.update(kw)
+        if "registrations" not in values.keys():
+            registrations_array = []
+            for reg in partner.registration_ids:
+                registrations_array.append(reg)
+            values['registrations'] = registrations_array
+        # This fixes an issue that forms fail after first submission
+        if form_success:
+            result = request.redirect("/my/home")
+        else:
+            result = request.render("muskathlon.custom_portal_my_home", values)
+        return self._form_redirect(result, full_page=True)
+
     @route(
         '/my/muskathlon/<model("event.registration"):registration>',
         auth="user",
