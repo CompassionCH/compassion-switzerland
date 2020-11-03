@@ -11,7 +11,7 @@
                         <div class="collapse navbar-collapse" id="top_menu_collapse">
                             <ul class="nav navbar-nav mr-auto text-left">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/my/home/personal_info">Personal information</a>
+                                    <a class="nav-link" href="/my/personal_info">Personal information</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/my/home/my_children">My children</a>
