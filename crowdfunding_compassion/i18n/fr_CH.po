@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-02 15:22+0000\n"
-"PO-Revision-Date: 2020-11-02 16:38+0100\n"
+"POT-Creation-Date: 2020-11-03 09:15+0000\n"
+"PO-Revision-Date: 2020-11-03 10:16+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -493,13 +493,11 @@ msgstr "Projets actifs"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__activity_ids
-#| msgid "Active"
 msgid "Activities"
 msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__activity_state
-#| msgid "Active"
 msgid "Activity State"
 msgstr ""
 
@@ -543,7 +541,6 @@ msgstr "Autre montant"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_attachment_count
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_attachment_count
-#| msgid "Another amount"
 msgid "Attachment Count"
 msgstr ""
 
@@ -1050,7 +1047,6 @@ msgstr "Suis-nous"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_follower_ids
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_follower_ids
-#| msgid "Follow us"
 msgid "Followers"
 msgstr ""
 
@@ -1301,7 +1297,6 @@ msgstr "Est anonyme"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__message_is_follower
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__message_is_follower
-#| msgid "Follow me on"
 msgid "Is Follower"
 msgstr ""
 
@@ -1398,16 +1393,6 @@ msgid "Let's get started!"
 msgstr "C'est parti!"
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_project_board
-msgid "Link to project"
-msgstr "Liens ver le projet"
-
-#. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.myaccount_participation_board
-msgid "Link to registration"
-msgstr "Lien pour les dons"
-
-#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.crowdfunding_navbar
 msgid "Login"
 msgstr "Connexion"
@@ -1497,7 +1482,6 @@ msgstr "Mon site"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_update__name
-#| msgid "Last Name"
 msgid "Name"
 msgstr ""
 
@@ -1903,6 +1887,13 @@ msgid "See more projects"
 msgstr "Voir plus de projets"
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
+#, fuzzy
+#| msgid "View the project"
+msgid "See the project"
+msgstr "Voir le projet"
+
+#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "Select your type of support"
 msgstr "Choisis le type de soutien"
@@ -2199,11 +2190,6 @@ msgid "Validate project"
 msgstr "Valider le projet"
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
-msgid "View the project"
-msgstr "Voir le projet"
-
-#. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 msgid "Vimeo"
 msgstr ""
@@ -2222,7 +2208,6 @@ msgstr "Site Web"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__website_message_ids
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__website_message_ids
-#| msgid "Website meta keywords"
 msgid "Website Messages"
 msgstr ""
 
@@ -2598,3 +2583,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "| TOGETHER - Compassion Switzerland Fundraising"
 msgstr "| TOGETHER - Compassion Suisse Fundraising"
+
+#~ msgid "Link to project"
+#~ msgstr "Liens ver le projet"
+
+#~ msgid "Link to registration"
+#~ msgstr "Lien pour les dons"
