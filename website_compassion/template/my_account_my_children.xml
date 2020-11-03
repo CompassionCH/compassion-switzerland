@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="my_children_page_template" name="My children">
+            <t t-call="website_compassion.my_account_layout">
+                <div class="container m64">
+                    This will be my children view
+                </div>
+            </t>
+        </template>
+
+        <record id="my_children_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/my/children</field>
+            <field name="view_id" ref="website_compassion.my_children_page_template"/>
+        </record>
+    </data>
+</odoo>

@@ -53,10 +53,22 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         )
         return request.render("muskathlon.my_details", {"reports": reports})
 
+    # TODO This route should be moved in website_compassion module
     @route(["/my", "/my/home"], type="http", auth="user", website=True, sitemap=False)
     def account(self, form_id=None, **kw):
+        if not request.session.get('uid'):
+            return request.redirect("/web/login?redirect=/my/home")
+        result = request.render("website_compassion.my_account_layout", {})
+        return self._form_redirect(result, full_page=True)
+
+    @route("/my/muskathlon", type="http", auth="user", website=True)
+    def muskathlon_my_account(self, form_id=None, **kw):
+        if not request.env.user.partner_id.muskathlon_participant_id:
+            return request.redirect("/my/home")
+
         """ Inject data for forms. """
         values = self._prepare_portal_layout_values()
+
         partner = values["partner"]
         advocate_details_id = partner.advocate_details_id.id
         registration = partner.registration_ids[:1]

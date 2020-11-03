@@ -35,11 +35,17 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "data": [
+        "template/my_account_components.xml",
+        "template/my_account_personal_info.xml",
+        "template/my_account_payments.xml",
+        "template/my_account_my_children.xml",
+        "template/my_account_write_a_letter.xml",
         "views/robots.xml"
     ],
     "depends": [
         "theme_compassion",  # compassion-switzerland
         "cms_form_compassion",  # compassion-modules
+        "partner_compassion",  # compassion-switzerland
         "partner_contact_in_several_companies",  # OCA/partner_contact
     ],
     "demo": [],

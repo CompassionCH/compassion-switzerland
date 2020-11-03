@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="payments_page_template" name="Payments / Invoicing">
+            <t t-call="website_compassion.my_account_layout">
+                <div class="container m64">
+                    This will be the payments view
+                </div>
+            </t>
+        </template>
+
+        <record id="payments_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/my/donations</field>
+            <field name="view_id" ref="website_compassion.payments_page_template"/>
+        </record>
+    </data>
+</odoo>

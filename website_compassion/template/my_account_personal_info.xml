@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="personal_info_page_template" name="Personal information">
+            <t t-call="website_compassion.my_account_layout">
+                <div class="container m64">
+                    This will be the personal info view
+                </div>
+            </t>
+        </template>
+
+        <record id="personal_info_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/my/personal_info</field>
+            <field name="view_id" ref="website_compassion.personal_info_page_template"/>
+        </record>
+    </data>
+</odoo>

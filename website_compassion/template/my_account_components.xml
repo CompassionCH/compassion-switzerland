@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="my_account_layout" name="My Account layout">
+            <t t-call="portal.frontend_layout">
+                <!-- hides navbar from my portal -->
+                <style>.o_portal.container { display: none !important; }</style>
+
+                <nav class="navbar navbar-expand-md navbar-light bg-light">
+                    <div id="my_account_div" class="container">
+                        <div class="collapse navbar-collapse" id="top_menu_collapse">
+                            <ul class="nav navbar-nav mr-auto text-left">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/my/personal_info">Personal information</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/my/children">My children</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/my/donations">Payments / Invoicing</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/my/write_a_letter">Write a letter</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <t t-raw="0"/>
+            </t>
+        </template>
+    </data>
+</odoo>

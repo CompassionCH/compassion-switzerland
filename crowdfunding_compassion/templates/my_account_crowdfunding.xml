@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="crowdfunding_page_template" name="Together">
+            <t t-call="website_compassion.my_account_layout">
+                <div class="container m64">
+                    This will be the Crowdfunding view
+                </div>
+            </t>
+        </template>
+
+        <record id="crowdfunding_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/my/together</field>
+            <field name="view_id" ref="crowdfunding_compassion.crowdfunding_page_template"/>
+        </record>
+
+        <template id="my_account_crowdfunding" name="My account Crowdfunding" inherit_id="website_compassion.my_account_layout">
+            <xpath expr="//ul/li[4]" position="after">
+                <t t-if="request.session.get('uid') and request.env.user.partner_id.crowdfunding_project_count">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/my/together">Together</a>
+                    </li>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>

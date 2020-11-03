@@ -62,6 +62,7 @@
         "templates/muskathlon_registration_form.xml",
         "templates/muskathlon_views.xml",
         "templates/muskathlon_order_material.xml",
+        "templates/my_account_muskathlon.xml",
         "templates/assets.xml",
     ],
     "depends": [

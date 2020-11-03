@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="write_a_letter_page_template" name="Write a letter">
+            <t t-call="website_compassion.my_account_layout">
+                <div class="container m64">
+                    This will be the write a letter view
+                </div>
+            </t>
+        </template>
+
+        <record id="write_a_letter_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/my/write_a_letter</field>
+            <field name="view_id" ref="website_compassion.write_a_letter_page_template"/>
+        </record>
+    </data>
+</odoo>
