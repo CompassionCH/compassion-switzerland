@@ -136,7 +136,7 @@
                                 <!-- Project video and owner personal motivation  -->
                                 <t t-if="model == 'participant' or project.type == 'individual'">
                                     <h3 class="blue my-4">Why do I engage in this project</h3>
-                                    <p><t t-raw="project.owner_participant_id.personal_motivation"/></p>
+                                    <p><t t-raw="participant.personal_motivation"/></p>
                                 </t>
 
                                 <!-- Social sharing links -->
