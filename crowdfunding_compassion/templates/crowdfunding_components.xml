@@ -194,7 +194,7 @@
 
                 <div class="card-body text-center">
                     You are actually creating impact for:
-                    <h4 class="uppercase mt-2">
+                    <h4 class="uppercase mt-2 underline">
                         <t t-esc="project.name"/>
                     </h4>
 

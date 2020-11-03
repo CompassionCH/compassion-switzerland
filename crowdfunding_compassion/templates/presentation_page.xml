@@ -11,9 +11,12 @@
                 <!-- Hero -->
                 <section class="project-hero mb-5">
                     <div class="container">
-                        <h1 class="hero-title">
+                        <h1 class="hero-title mb-0">
                             <t t-esc="project.name"/>
                         </h1>
+                        <t t-if="model == 'participant'">
+                            <p><a class="white underline" t-att-href="project.website_url">See the project</a></p>
+                        </t>
                         <div class="row">
                             <div class="col-12 col-lg-8 mb-4 mb-lg-0">
                                 <img alt="Project image" t-attf-src="data:image/png;base64, #{ project.cover_photo }"
@@ -210,22 +213,6 @@
                                         <a t-att-href="participant.personal_web_page_url" target="_blank">My website</a>
                                         <br/>
                                     </t>
-                                </t>
-
-                                <!-- Project description below if participant page -->
-                                <t t-if="model == 'participant'">
-                                    <h3 class="blue my-4">About the project</h3>
-                                    <p>
-                                        <t t-set="description_lines" t-value="project.description.split('\n')" />
-                                            <t t-foreach="description_lines" t-as="description_line">
-                                                <span t-raw="description_line"/>
-                                                <br />
-                                            </t>
-                                    </p>
-                                    <t t-if="project.presentation_video_embed">
-                                        <iframe class="my-3" width="100%" height="400px" t-att-src="project.presentation_video_embed" frameborder="0"/>
-                                    </t>
-                                    <a t-att-href="project.website_url">View the project</a>
                                 </t>
                             </div>
 
