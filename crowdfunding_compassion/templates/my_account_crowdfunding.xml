@@ -19,7 +19,7 @@
             <xpath expr="//ul/li[4]" position="after">
                 <t t-if="request.session.get('uid') and request.env.user.partner_id.crowdfunding_project_count">
                     <li class="nav-item">
-                        <a class="nav-link" href="/my/home/together">Together</a>
+                        <a class="nav-link" href="/my/together">Together</a>
                     </li>
                 </t>
             </xpath>
