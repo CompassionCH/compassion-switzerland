@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_mailchimp_lang_template,Full access on mailchimp_lang_template,model_mailchimp_email_lang_template,base.group_user,1,1,1,1,
 access_mailing_contact_public,Read access on mailing_contact,model_mail_mass_mailing_contact,base.group_public,1,0,0,0,
 access_mailing_contact_portal,Write access on mailing_contact,model_mail_mass_mailing_contact,base.group_portal,1,1,0,0
+access_mailing_contact_user,Write access on mailing_contact,model_mail_mass_mailing_contact,base.group_user,1,1,0,0

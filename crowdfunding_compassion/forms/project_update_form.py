@@ -6,7 +6,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, _
+from odoo import models, fields, _
+from odoo.http import request
 
 
 class PartnerCoordinatesForm(models.AbstractModel):
@@ -17,7 +18,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
     form_id = "modal_crowdfunding_project_update"
     _form_model = "crowdfunding.project"
     _form_model_fields = [
-        "personal_motivation",
+        "description",
         "cover_photo",
         "presentation_video",
         "facebook_url",
@@ -26,13 +27,16 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "personal_web_page_url",
     ]
 
+    name = fields.Char()
+
     @property
     def _form_fieldsets(self):
         fieldset = [{
             "id": "project",
             "title": _("Your project"),
             "fields": [
-                "personal_motivation",
+                "name",
+                "description",
                 "cover_photo",
             ],
         },
@@ -74,4 +78,27 @@ class PartnerCoordinatesForm(models.AbstractModel):
         """ Dismiss any pending status message, to avoid multiple
         messages when multiple forms are present on same page.
         """
+        name = extra_values.get("name")
+        if name:
+            values["name"] = name
         self.o_request.website.get_status_message()
+
+    def form_after_create_or_update(self, values, extra_values):
+        if values.get("name") or values.get("description"):
+            # Notify responsible of the changes, for validation.
+            settings = self.env["res.config.settings"].sudo()
+            notify_ids = settings.get_param("new_participant_notify_ids")
+            if notify_ids:
+                user = self.env["res.partner"].sudo().browse(notify_ids[0][2]) \
+                    .mapped("user_ids")[:1]
+                self.main_object.sudo().activity_schedule(
+                    'mail.mail_activity_data_todo',
+                    summary="Verify project information.",
+                    note=f"{self.main_object.project_owner_id.name} updated the "
+                    f"name and description of the project. "
+                    f"Please check if the information is good enough.",
+                    user_id=user.id
+                )
+
+    def form_cancel_url(self, main_object=None):
+        return request.redirect("/my_account")

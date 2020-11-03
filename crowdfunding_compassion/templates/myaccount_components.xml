@@ -12,15 +12,16 @@
                                 <th>Project</th>
                                 <th>Deadline</th>
                                 <th>Type</th>
-                                <th>Link to project</th>
+                                <th>Edit project</th>
+                                <th>Edit participation</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-foreach="projects"
-                               t-as="project">
+                            <t t-foreach="projects" t-as="project">
+                                <t t-set="project_active" t-value="project.deadline >= datetime.date.today()"/>
                                 <tr>
                                     <td>
-                                        <t t-esc="project.name"/>
+                                        <a t-att-href="project.website_url" target="_blank"><t t-esc="project.name"/></a>
                                     </td>
                                     <td>
                                         <t t-esc="project.deadline"/>
@@ -28,9 +29,14 @@
                                     <td>
                                         <t t-esc="project.type"/>
                                     </td>
-                                    <td>
+                                    <td t-if="project_active">
                                         <a t-attf-href="/my_account/project/update?project_id={{project.id}}">
                                             Edit project
+                                        </a>
+                                    </td>
+                                    <td t-if="project_active">
+                                        <a t-attf-href="/my_account/participation/update?participant_id={{project.owner_participant_id.id}}">
+                                            Edit participation
                                         </a>
                                     </td>
                                 </tr>
@@ -52,20 +58,20 @@
                             <tr>
                                 <th>Project</th>
                                 <th>Personal Motivation</th>
-                                <th>Link to registration</th>
+                                <th>Edit participation</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-foreach="participations"
-                               t-as="participation">
+                            <t t-foreach="participations" t-as="participation">
+                                <t t-set="project_active" t-value="participation.project_id.deadline >= datetime.date.today()"/>
                                 <tr>
                                     <td>
-                                        <t t-esc="participation.project_id.name"/>
+                                        <a t-att-href="participation.website_url" target="_blank"><t t-esc="participation.project_id.name"/></a>
                                     </td>
                                     <td>
                                         <t t-esc="participation.personal_motivation"/>
                                     </td>
-                                    <td>
+                                    <td t-if="project_active">
                                         <a t-attf-href="/my_account/participation/update?participant_id={{participation.id}}">
                                             Edit participation
                                         </a>

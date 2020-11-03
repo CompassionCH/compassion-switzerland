@@ -1,17 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="crowdfunding_project_view" model="ir.ui.view">
-            <field name="name">Crowdfunding Project View</field>
-            <field name="model">crowdfunding.project</field>
-            <field name="arch" type="xml">
-                <form string="Projects">
-                    <header>
-                        <button name="validate" string="Validate project" type="object"
-                                class="btn-primary"
-                                attrs="{'invisible':[('state', '==', 'active')]}"/>
-                        <field name="state" widget="statusbar"/>
-                    </header>
+    <record id="crowdfunding_project_view" model="ir.ui.view">
+        <field name="name">Crowdfunding Project View</field>
+        <field name="model">crowdfunding.project</field>
+        <field name="arch" type="xml">
+            <form string="Projects">
+                <header>
+                    <button name="validate" string="Validate project" type="object"
+                            class="btn-primary"
+                            attrs="{'invisible':[('state', '==', 'active')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_website_published"
+                                    class="oe_stat_button"
+                                    type="object" icon="fa-globe">
+                                <field name="website_published" widget="boolean_button"
+                                    options='{"terminology": {"string_true": "Published", "hover_false": "Publish"}}'/>
+                            </button>
+                        <button name="toggle_active"
+                                    type="object" class="oe_stat_button"
+                                    icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                       options="{'terminology': 'archive'}"/>
+                            </button>
+                    </div>
                     <group>
                         <group string="Project" name="project_description">
                             <field name="name"/>
@@ -22,15 +35,6 @@
                             <field name="project_owner_id" widget="many2one"/>
                             <field name="event_id" widget="many2one"/>
                         </group>
-
-                        <div class="oe_button_box" name="button_box">
-                            <button name="toggle_active"
-                                    type="object" class="oe_stat_button"
-                                    icon="fa-archive">
-                                <field name="active" widget="boolean_button"
-                                       options="{'terminology': 'archive'}"/>
-                            </button>
-                        </div>
 
                         <group string="Goals" name="project_goals">
                             <field name="product_id" widget="many2one"/>
@@ -59,35 +63,40 @@
                             <field name="invoice_line_ids" widget="one2many"/>
                         </page>
                     </notebook>
-                </form>
-            </field>
-        </record>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
 
-        <!-- Tree view -->
-        <record id="view_crowdfunding_project_tree" model="ir.ui.view">
-            <field name="name">crowdfunding.project.tree</field>
-            <field name="model">crowdfunding.project</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/>
-                    <field name="deadline"/>
-                </tree>
-            </field>
-        </record>
+    <!-- Tree view -->
+    <record id="view_crowdfunding_project_tree" model="ir.ui.view">
+        <field name="name">crowdfunding.project.tree</field>
+        <field name="model">crowdfunding.project</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="deadline"/>
+            </tree>
+        </field>
+    </record>
 
-        <!-- Action opening the tree view -->
-        <record id="open_view_crowdfunding_project_tree" model="ir.actions.act_window">
-            <field name="name">Project</field>
-            <field name="res_model">crowdfunding.project</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,kanban,form</field>
-            <field name="context">{'search_default_available':1}</field>
-        </record>
+    <!-- Action opening the tree view -->
+    <record id="open_view_crowdfunding_project_tree" model="ir.actions.act_window">
+        <field name="name">Project</field>
+        <field name="res_model">crowdfunding.project</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{'search_default_available':1}</field>
+    </record>
 
-        <menuitem id="menu_crowdfunding_project"
-                  parent="menu_event_crowdfunding"
-                  name="Projects"
-                  action="open_view_crowdfunding_project_tree"
-                  sequence="1"/>
-    </data>
+    <menuitem id="menu_crowdfunding_project"
+              parent="menu_event_crowdfunding"
+              name="Projects"
+              action="open_view_crowdfunding_project_tree"
+              sequence="1"/>
 </odoo>

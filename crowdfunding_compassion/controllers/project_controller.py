@@ -19,6 +19,8 @@ class ProjectController(Controller):
         # access, for example res.partner or account.invoice.line. This is
         # simpler and less prone to error than defining custom access and
         # security rules for each of them.
+        if not project.website_published:
+            return request.redirect("/projects")
         return request.render(
             "crowdfunding_compassion.presentation_page",
             self._prepare_project_values(project.sudo(), **kwargs),
@@ -30,6 +32,8 @@ class ProjectController(Controller):
            website=True)
     def participant(self, participant=None, **kwargs):
         project = participant.project_id.sudo()
+        if not project.website_published:
+            return request.redirect("/projects")
         sponsorships, donations = self.get_sponsorships_and_donations(
             project.sponsorship_ids.filtered(
                 lambda s: s.user_id == participant.partner_id),
@@ -39,6 +43,7 @@ class ProjectController(Controller):
         )
         values = {
             "participant": participant.sudo(),
+            "main_object": participant.sudo(),
             "project": project,
             "impact": self.get_impact(sponsorships, donations),
             "model": "participant",

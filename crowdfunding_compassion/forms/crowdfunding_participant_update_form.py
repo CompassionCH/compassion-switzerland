@@ -6,7 +6,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, _
+from odoo import models, fields, _
+from odoo.http import request
 
 
 class CrowdfundingParticipatUpdateForm(models.AbstractModel):
@@ -18,13 +19,13 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
     _form_model = "crowdfunding.participant"
     _form_model_fields = [
         "personal_motivation",
-        "profile_photo",
-        "presentation_video",
         "facebook_url",
         "twitter_url",
         "instagram_url",
         "personal_web_page_url",
     ]
+
+    profile_photo = fields.Binary()
 
     @property
     def _form_fieldsets(self):
@@ -32,15 +33,14 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
             "id": "project",
             "title": _("Your project"),
             "fields": [
-                "personal_motivation",
                 "profile_photo",
+                "personal_motivation",
             ],
         },
             {
                 "id": "social_medias",
                 "title": _("Social Medias"),
                 "fields": [
-                    "presentation_video",
                     "facebook_url",
                     "twitter_url",
                     "instagram_url",
@@ -59,12 +59,14 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
 
     @property
     def form_widgets(self):
-        # Hide fields
         res = super().form_widgets
         res.update({
             "profile_photo": "cms_form_compassion.form.widget.simple.image"
         })
         return res
+
+    def form_cancel_url(self, main_object=None):
+        return request.redirect("/my_account")
 
     @property
     def form_msg_success_updated(self):
@@ -74,4 +76,6 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
         """ Dismiss any pending status message, to avoid multiple
         messages when multiple forms are present on same page.
         """
+        if extra_values.get("profile_photo"):
+            self.main_object.partner_id.image = extra_values["profile_photo"]
         self.o_request.website.get_status_message()

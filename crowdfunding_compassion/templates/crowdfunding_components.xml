@@ -68,6 +68,10 @@
                 <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
             </t>
 
+            <t t-call="crowdfunding_compassion.project_deadline_widget"/>
+        </template>
+
+        <template id="project_deadline_widget">
             <span class="text--faded">
                 <t t-if="datetime.date.today() == project.deadline">
                     <i class="fa fa-clock-o"/>
@@ -87,7 +91,6 @@
                 </t>
             </span>
         </template>
-
 
         <!-- Participant card -->
         <!-- This is a card shown on a project page with a participant personnal progress bars -->
@@ -191,7 +194,7 @@
 
                 <div class="card-body text-center">
                     You are actually creating impact for:
-                    <h4 class="uppercase mt-2">
+                    <h4 class="uppercase mt-2 underline">
                         <t t-esc="project.name"/>
                     </h4>
 
@@ -370,7 +373,7 @@
                                         <li><a class="dropdown-item" href="/web/session/logout?redirect=/homepage">Logout</a></li>
                                     </t>
                                     <t t-else="">
-                                        <li><a class="dropdown-item" href="/web/login?redirect=/homepage">Login</a></li>
+                                        <li><a class="dropdown-item" href="/web/login?redirect=/my_account">Login</a></li>
                                     </t>
                                 </ul>
                             </li>
