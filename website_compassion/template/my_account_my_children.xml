@@ -1,18 +1,217 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <template id="my_children_page_template" name="My children">
+        <template id="my_children_empty_page_content" name="My Children">
             <t t-call="website_compassion.my_account_layout">
-                <div class="container m64">
-                    This will be my children view
+                <div class="container text-center">
+                    <br/><br/><br/>
+                    You do not support any child yet. You can start a sponsorship by following <a href="https://compassion.ch/parrainer-un-enfant" target="_blank">this link</a>.
+                    <br/><br/><br/>
                 </div>
             </t>
         </template>
 
-        <record id="my_children_page" model="website.page">
-            <field name="website_published">True</field>
-            <field name="url">/my/children</field>
-            <field name="view_id" ref="website_compassion.my_children_page_template"/>
-        </record>
+        <!-- This templates creates the view "My Children". It receives the following arguments: -->
+        <!--     1. child_id, the record of the child that is currently selected -->
+        <template id="my_children_page_template" name="My Children">
+            <t t-call="website_compassion.my_account_layout">
+                <t t-call="website_compassion.my_children_navbar"/>
+
+                <t t-call="website_compassion.my_children_info"/>
+            </t>
+            <script type="text/javascript" src="/website_compassion/static/src/js/my_children.js"/>
+        </template>
+
+        <!-- Children pictures at the top of the view -->
+        <template id="my_children_navbar">
+            <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <div id="my_children_div" class="container" style="overflow-x:auto">
+                    <ul class="nav nav-tabs d-flex flex-nowrap">
+                        <!-- Finding children of the corresponding sponsor -->
+                        <t t-set="correspondant" t-value="request.env.user.partner_id.contracts_correspondant"/>
+                        <t t-set="fully_managed" t-value="request.env.user.partner_id.contracts_fully_managed"/>
+                        <t t-set="paid" t-value="request.env.user.partner_id.contracts_paid"/>
+                        <t t-set="children" t-value="(correspondant + fully_managed + paid).mapped('child_id').sorted('preferred_name')"/>
+                        <t t-foreach="children" t-as="child">
+                            <!-- Setting headshot for each child -->
+                            <t t-set="image_url" t-value="child.image_url"/>
+                            <t t-if="image_url">
+                                <t t-set="child_image" t-value="request.env[
+                                    'child.pictures.download.wizard'
+                                ].get_picture_url(image_url, 'headshot', 150, 150)"/>
+                            </t>
+                            <t t-elif="child.gender == 'M'">
+                                <t t-set="child_image" t-value="'/website_compassion/static/src/img/guy.png'"/>
+                            </t>
+                            <t t-else="">
+                                <t t-set="child_image" t-value="'/website_compassion/static/src/img/lady.png'"/>
+                            </t>
+
+                            <!-- Creating the actual card for each children -->
+                            <div t-attf-id="card_{{child.id}}" class="card card-clickable text-center bg-light m-1" style="width: 9rem;height: 10rem;">
+                                <li class="nav-item">
+                                    <a class="nav-link" t-attf-href="/my/child/{{child.id}}">
+                                        <!-- We add a border for the selected child -->
+                                        <t t-if="child.id == child_id.id">
+                                            <img t-att-id="child.id" class="rounded-circle border border-5 border-primary" t-att-src="child_image" alt="Child image" style="width:90%;height:90%;"/>
+                                        </t>
+                                        <t t-else="">
+                                            <img t-att-id="child.id" class="rounded-circle" t-att-src="child_image" alt="Child image" style="width:90%;height:90%;"/>
+                                        </t>
+                                        <t t-esc="child.preferred_name"/>
+                                    </a>
+                                </li>
+                            </div>
+                        </t>
+                    </ul>
+                </div>
+            </nav>
+        </template>
+
+        <!-- Children general information inside the view -->
+        <template id="my_children_info">
+            <div class="container">
+                <div class="row mt-4">
+                    <!-- General information -->
+                    <div class="col-md-6">
+                        <h3>General information</h3>
+                        <!-- Age -->
+                        <t t-set="key" t-value="'Age'"/>
+                        <t t-set="value" t-value="child_id.age"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Birthdate -->
+                        <t t-set="key" t-value="'Birthdate'"/>
+                        <t t-set="value" t-value="child_id.birthdate.strftime('%e %B %Y')"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Gender -->
+                        <t t-set="key" t-value="'Gender'"/>
+                        <t t-set="value" t-value="dict(child_id.fields_get(allfields=['gender'])['gender']['selection'])[child_id.gender]"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Hobbies -->
+                        <t t-set="key" t-value="'Hobbies'"/>
+                        <t t-set="value" t-value="', '.join(child_id.hobby_ids.mapped('value')).capitalize()"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+                    </div>
+
+                    <!-- Family information -->
+                    <div class="col-md-6">
+                        <h3>Family information</h3>
+                        <!-- Family members / caregivers -->
+                        <t t-set="key" t-value="'Family members/caregivers'"/>
+                        <t t-set="value" t-value=""/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- TODO : Unify with application -->
+                        <!-- Family members / caregivers jobs -->
+                        <t t-set="key" t-value="'Legal representatives\' job / mother\'s job / Father\'s job / Caregiver\'s job'"/>
+                        <t t-set="value" t-value=""/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Household duties -->
+                        <t t-set="key" t-value="'Household duties'"/>
+                        <t t-set="value" t-value="', '.join(child_id.duty_ids.mapped('value')).capitalize()"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <!-- Education information -->
+                    <div class="col-md-6">
+                        <h3>Education</h3>
+                        <!-- Education level -->
+                        <t t-set="key" t-value="'Education level'"/>
+                        <t t-set="value" t-value="child_id.education_level"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Academic performance -->
+                        <t t-set="key" t-value="'Academic performance'"/>
+                        <t t-set="value" t-value="child_id.academic_performance"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+                    </div>
+
+                    <!-- Compassion center information -->
+                    <div class="col-md-6">
+                        <h3>Compassion center</h3>
+                        <!-- Project name -->
+                        <t t-set="key" t-value="'Project name'"/>
+                        <t t-set="value" t-value="child_id.project_id.local_church_name"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Closest city -->
+                        <t t-set="key" t-value="'Closest city'"/>
+                        <t t-set="value" t-value="child_id.project_id.city"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Number of sponsor children -->
+                        <t t-set="key" t-value="'Number of sponsored children'"/>
+                        <t t-set="value" t-value="child_id.project_id.sponsorships_count"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- TODO : Do we keep this ? -->
+                        <!-- Project activities -->
+                        <t t-set="key" t-value="'Project activities'"/>
+                        <t t-set="value" t-value=""/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- TODO : Do we keep this ? -->
+                        <!-- Study plan -->
+                        <t t-set="key" t-value="'Study plan'"/>
+                        <t t-set="value" t-value=""/>
+                        <t t-call="website_compassion.fill_key_value"/>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <!-- My community information -->
+                    <div class="col-md-6">
+                        <h3>My community</h3>
+                        <!-- Location (city, country) -->
+                        <t t-set="key" t-value="'Location'"/>
+                        <t t-set="value" t-value=""/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Population -->
+                        <t t-set="key" t-value="'Population'"/>
+                        <t t-set="value" t-value="child_id.project_id.community_population"/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Language -->
+                        <t t-set="key" t-value="'Language'"/>
+                        <t t-set="value" t-value=""/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Common job -->
+                        <t t-set="key" t-value="'Common job'"/>
+                        <t t-set="value" t-value=""/>
+                        <t t-call="website_compassion.fill_key_value"/>
+
+                        <!-- Typical food -->
+                        <t t-set="key" t-value="'Typical food'"/>
+                        <t t-set="value" t-value=""/>
+                        <t t-call="website_compassion.fill_key_value"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Utility to create a row, given the key and its corresponding value -->
+        <template id="fill_key_value">
+            <div class="row">
+                <div class="col-6 border-right">
+                    <label><t t-esc="key"/></label><br/>
+                </div>
+                <div class="col-6">
+                    <t t-if="value">
+                        <label><t t-esc="value"/></label><br/>
+                    </t>
+                    <t t-else="">
+                        <label>-</label><br/>
+                    </t>
+                </div>
+            </div>
+        </template>
     </data>
 </odoo>

@@ -2,6 +2,9 @@
 <odoo>
     <template id="robots_disallow" name="Disallow indexing on robots.txt">
         <t t-name="website_compassion.robots_disallow">
+            Disallow: /my
+            Disallow: /my/home
+            Disallow: /my/home/*
             Disallow: /website_payment/confirm
             Disallow: /website_payment/pay
             Disallow: /web/reset_password
