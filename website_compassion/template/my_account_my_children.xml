@@ -142,7 +142,7 @@
 
                         <!-- Closest city -->
                         <t t-set="key" t-value="'Closest city'"/>
-                        <t t-set="value" t-value="child_id.project_id.city"/>
+                        <t t-set="value" t-value="child_id.project_id.closest_city"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- Number of sponsor children -->
@@ -153,7 +153,7 @@
                         <!-- TODO : Do we keep this ? -->
                         <!-- Project activities -->
                         <t t-set="key" t-value="'Project activities'"/>
-                        <t t-set="value" t-value=""/>
+                        <t t-set="value" t-value="', '.join(child_id.project_activity_ids.mapped('value')).capitalize()"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- TODO : Do we keep this ? -->
@@ -170,7 +170,7 @@
                         <h3>My community</h3>
                         <!-- Location (city, country) -->
                         <t t-set="key" t-value="'Location'"/>
-                        <t t-set="value" t-value=""/>
+                        <t t-set="value" t-value="child_id.project_id.city + ', ' + child_id.project_id.country_id.name"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- Population -->
@@ -180,17 +180,17 @@
 
                         <!-- Language -->
                         <t t-set="key" t-value="'Language'"/>
-                        <t t-set="value" t-value=""/>
+                        <t t-set="value" t-value="child_id.project_id.primary_language_id.name"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- Common job -->
-                        <t t-set="key" t-value="'Common job'"/>
-                        <t t-set="value" t-value=""/>
+                        <t t-set="key" t-value="'Common jobs'"/>
+                        <t t-set="value" t-value="', '.join(child_id.project_id.primary_adults_occupation_ids.mapped('value')).capitalize()"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- Typical food -->
-                        <t t-set="key" t-value="'Typical food'"/>
-                        <t t-set="value" t-value=""/>
+                        <t t-set="key" t-value="'Typical foods'"/>
+                        <t t-set="value" t-value="', '.join(child_id.project_id.primary_diet_ids.mapped('value')).capitalize()"/>
                         <t t-call="website_compassion.fill_key_value"/>
                     </div>
                 </div>
