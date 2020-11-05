@@ -82,37 +82,74 @@
 
                         <!-- Birthdate -->
                         <t t-set="key" t-value="'Birthdate'"/>
-                        <t t-set="value" t-value="child_id.birthdate.strftime('%e %B %Y')"/>
+                        <t t-set="value" t-value="child_id.get_date('birthdate', 'date_full')"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- Gender -->
                         <t t-set="key" t-value="'Gender'"/>
-                        <t t-set="value" t-value="dict(child_id.fields_get(allfields=['gender'])['gender']['selection'])[child_id.gender]"/>
+                        <t t-set="value" t-value="child_id.translate('gender')"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- Hobbies -->
                         <t t-set="key" t-value="'Hobbies'"/>
-                        <t t-set="value" t-value="', '.join(child_id.hobby_ids.mapped('value')).capitalize()"/>
+                        <t t-set="value" t-value="child_id.get_list('hobby_ids.value').capitalize()"/>
                         <t t-call="website_compassion.fill_key_value"/>
                     </div>
 
                     <!-- Family information -->
                     <div class="col-md-6">
                         <h3>Family information</h3>
-                        <!-- Family members / caregivers -->
-                        <t t-set="key" t-value="'Family members/caregivers'"/>
-                        <t t-set="value" t-value=""/>
+                        <!-- Legal representatives, not a single string so we have to construct it -->
+                        <div class="row">
+                            <div class="col-6 border-right">
+                                <label><t t-esc="'Legal representatives'"/></label><br/>
+                            </div>
+                            <div class="col-6">
+                                <t t-if="child_id.household_id.member_ids">
+                                    <t t-foreach="child_id.household_id.member_ids" t-as="member">
+                                        <t t-if="member.is_primary_caregiver">
+                                            <label><t t-esc="member.role"/></label><br/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <label>-</label><br/>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Family, not a single string so we have to construct it -->
+                        <div class="row">
+                            <div class="col-6 border-right">
+                                <label><t t-esc="'Family'"/></label><br/>
+                            </div>
+                            <div class="col-6">
+                                <t t-if="child_id.household_id.member_ids">
+                                    <t t-foreach="child_id.household_id.member_ids" t-as="member">
+                                        <t t-if="'Beneficiary' not in member.role">
+                                            <label><t t-esc="member.name + ', ' + member.role"/></label><br/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <label>-</label>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Father/representative's job -->
+                        <t t-set="key" t-value="'Father/representative\'s job'"/>
+                        <t t-set="value" t-value="child_id.household_id.male_guardian_job"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
-                        <!-- TODO : Unify with application -->
-                        <!-- Family members / caregivers jobs -->
-                        <t t-set="key" t-value="'Legal representatives\' job / mother\'s job / Father\'s job / Caregiver\'s job'"/>
-                        <t t-set="value" t-value=""/>
+                        <!-- Mother/representative's job -->
+                        <t t-set="key" t-value="'Mother/representative\'s job'"/>
+                        <t t-set="value" t-value="child_id.household_id.female_guardian_job"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- Household duties -->
                         <t t-set="key" t-value="'Household duties'"/>
-                        <t t-set="value" t-value="', '.join(child_id.duty_ids.mapped('value')).capitalize()"/>
+                        <t t-set="value" t-value="child_id.get_list('duty_ids.value').capitalize()"/>
                         <t t-call="website_compassion.fill_key_value"/>
                     </div>
                 </div>
@@ -140,26 +177,14 @@
                         <t t-set="value" t-value="child_id.project_id.local_church_name"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
-                        <!-- Closest city -->
-                        <t t-set="key" t-value="'Closest city'"/>
-                        <t t-set="value" t-value="child_id.project_id.closest_city"/>
-                        <t t-call="website_compassion.fill_key_value"/>
-
                         <!-- Number of sponsor children -->
                         <t t-set="key" t-value="'Number of sponsored children'"/>
                         <t t-set="value" t-value="child_id.project_id.sponsorships_count"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
-                        <!-- TODO : Do we keep this ? -->
                         <!-- Project activities -->
                         <t t-set="key" t-value="'Project activities'"/>
-                        <t t-set="value" t-value="', '.join(child_id.project_activity_ids.mapped('value')).capitalize()"/>
-                        <t t-call="website_compassion.fill_key_value"/>
-
-                        <!-- TODO : Do we keep this ? -->
-                        <!-- Study plan -->
-                        <t t-set="key" t-value="'Study plan'"/>
-                        <t t-set="value" t-value=""/>
+                        <t t-set="value" t-value="', '.join(child_id.project_id.get_activity_for_age(child_id.age).mapped('value')).capitalize()"/>
                         <t t-call="website_compassion.fill_key_value"/>
                     </div>
                 </div>
@@ -168,9 +193,9 @@
                     <!-- My community information -->
                     <div class="col-md-6">
                         <h3>My community</h3>
-                        <!-- Location (city, country) -->
+                        <!-- Location (city, country), one or both may be empty, so we handle properly -->
                         <t t-set="key" t-value="'Location'"/>
-                        <t t-set="value" t-value="child_id.project_id.city + ', ' + child_id.project_id.country_id.name"/>
+                        <t t-set="value" t-value="', '.join(list(filter(None, [child_id.project_id.closest_city, child_id.project_id.country_id.name])))"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- Population -->
@@ -185,12 +210,12 @@
 
                         <!-- Common job -->
                         <t t-set="key" t-value="'Common jobs'"/>
-                        <t t-set="value" t-value="', '.join(child_id.project_id.primary_adults_occupation_ids.mapped('value')).capitalize()"/>
+                        <t t-set="value" t-value="child_id.get_list('project_id.primary_adults_occupation_ids.value').capitalize()"/>
                         <t t-call="website_compassion.fill_key_value"/>
 
                         <!-- Typical food -->
-                        <t t-set="key" t-value="'Typical foods'"/>
-                        <t t-set="value" t-value="', '.join(child_id.project_id.primary_diet_ids.mapped('value')).capitalize()"/>
+                        <t t-set="key" t-value="'Typical food'"/>
+                        <t t-set="value" t-value="child_id.get_list('project_id.primary_diet_ids.value').capitalize()"/>
                         <t t-call="website_compassion.fill_key_value"/>
                     </div>
                 </div>
@@ -201,14 +226,14 @@
         <template id="fill_key_value">
             <div class="row">
                 <div class="col-6 border-right">
-                    <label><t t-esc="key"/></label><br/>
+                    <label><t t-esc="key"/></label>
                 </div>
                 <div class="col-6">
                     <t t-if="value">
-                        <label><t t-esc="value"/></label><br/>
+                        <label><t t-esc="value"/></label>
                     </t>
                     <t t-else="">
-                        <label>-</label><br/>
+                        <label>-</label>
                     </t>
                 </div>
             </div>

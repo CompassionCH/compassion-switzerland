@@ -6,8 +6,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import locale
-
 from odoo.http import request, route
 from odoo.addons.cms_form_compassion.controllers.payment_controller import PaymentFormController
 
@@ -37,9 +35,6 @@ class MyAccountController(PaymentFormController):
 
     @route("/my/child/<int:child_id>", type="http", auth="user", website=True)
     def my_child(self, child_id, **kwargs):
-        # Modify locale so that dates are printed in correct language
-        locale.setlocale(locale.LC_TIME, request.env.context['lang'] + '.utf8')
-
         partner = request.env.user.partner_id
         children = (partner.contracts_fully_managed +
                     partner.contracts_correspondant +
