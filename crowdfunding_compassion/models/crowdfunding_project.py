@@ -5,9 +5,11 @@ from datetime import date, datetime
 
 from babel.dates import format_timedelta
 
-from odoo import models, api, fields
+from odoo import models, api, fields, tools
 
 import urllib.parse as urlparse
+
+from odoo.odoo.release import description
 
 
 class CrowdfundingProject(models.Model):
@@ -21,8 +23,9 @@ class CrowdfundingProject(models.Model):
         "Project description",
         help="Aim of the project, why you want to create it, for which purpose and "
              "any useful information that the donors should know.",
-        required=True
+        required=True,
     )
+    description_short = fields.Text(compute="_compute_description_short")
     type = fields.Selection(
         [("individual", "Individual"), ("collective", "Collective")],
         required=True,
@@ -36,8 +39,26 @@ class CrowdfundingProject(models.Model):
     cover_photo = fields.Binary(
         "Cover Photo",
         help="Upload a cover photo that represents your project. Best size: 900x400px",
-        attachment=True)
-    cover_photo_url = fields.Char(compute="_compute_cover_photo_url")
+        attachment=True,
+        required=False)
+    image_variant2 = fields.Binary(
+        "Variant Image", attachment=True,
+        help="This field holds the image used as image for the product variant, limited to 1024x1024px.")
+    image_variant3 = fields.Binary(
+        "Variant Image", attachment=True,
+        help="This field holds the image used as image for the product variant, limited to 1024x1024px.")
+    image = fields.Binary(
+        "Big-sized image", compute='_compute_images', inverse='_set_image',
+        help="Image of the product variant (Big-sized image of product template if false). It is automatically "
+             "resized as a 1024x1024px image, with aspect ratio preserved.")
+    image_small = fields.Binary(
+        "Small-sized image", compute='_compute_images',
+        help="Image of the product variant (Small-sized image of product template if false).")
+    image_medium = fields.Binary(
+        "Medium-sized image", compute='_compute_images', inverse='_set_image_medium',
+        help="Image of the product variant (Medium-sized image of product template if false).")
+    image_variant_raw = fields.Binary()
+    cover_photo_url = fields.Char(compute="_compute_cover_photo_url", required=False)
     presentation_video = fields.Char(
         help="Paste any video link that showcase your project"
              " (e.g. https://vimeo.com/jlkj34ek5)"
@@ -54,12 +75,15 @@ class CrowdfundingProject(models.Model):
         domain=[("activate_for_crowdfunding", "=", True)])
     product_number_goal = fields.Integer(compute="_compute_product_number_goal")
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
-    number_sponsorships_goal = fields.Integer(
-        compute="_compute_number_sponsorships_goal"
-    )
-    number_sponsorships_reached = fields.Integer(
-        compute="_compute_number_sponsorships_reached"
-    )
+    number_sponsorships_goal = fields.Integer(string='sponsorships goal',
+                                              compute="_compute_number_sponsorships_goal", store=True)
+    number_sponsorships_reached = fields.Integer(string='sponsorships reached',
+                                                 compute="_compute_number_sponsorships_reached", store=True)
+    color_sponsorship = fields.Char("Color sponsorship", compute="_compute_color_sponsorship")
+    color_product = fields.Char("Color product", compute="_compute_color_product")
+    color = fields.Integer(string="Color index", compute="_compute_color")
+    donation_reached = fields.Float(string='Donation amount', compute="_compute_donation_reached", size=10, digits=(10, 0),
+                                    store=True)
     sponsorship_ids = fields.Many2many(
         "recurring.contract", string="Sponsorships",
         compute="_compute_sponsorships"
@@ -72,7 +96,7 @@ class CrowdfundingProject(models.Model):
         "crowdfunding.participant", compute="_compute_owner_participant_id"
     )
     participant_ids = fields.One2many(
-        "crowdfunding.participant", "project_id", string="Participants"
+        "crowdfunding.participant", "project_id", string="Participants", required=True
     )
     event_id = fields.Many2one("crm.event.compassion", "Event")
     campaign_id = fields.Many2one('utm.campaign', 'UTM Campaign',
@@ -86,6 +110,82 @@ class CrowdfundingProject(models.Model):
     owner_lastname = fields.Char(string="Your lastname")
     owner_firstname = fields.Char(string="Your firstname")
     active = fields.Boolean(default=True)
+
+    @api.one
+    @api.depends('cover_photo')
+    def _compute_images(self):
+        if self._context.get('bin_size'):
+            self.image_medium = self.cover_photo
+            self.image_small = self.cover_photo
+            self.image = self.cover_photo
+        else:
+            resized_images = tools.image_get_resized_images(self.cover_photo, return_big=True,
+                                                            avoid_resize_medium=True)
+            self.image_medium = resized_images['image_medium']
+            self.image_small = resized_images['image_small']
+            self.image = resized_images['image']
+
+    @api.one
+    def _set_image(self):
+        self.cover_photo = self.image_medium
+        self.image_variant2 = self.image_small
+        self.image_variant3 = self.image
+
+    @api.one
+    def _set_image_medium(self):
+        self.cover_photo = self.image_medium
+        self.image_variant2 = self.image_small
+        self.image_variant3 = self.image
+
+    @api.one
+    def _set_image_small(self):
+        self._set_image_value(self.image_small)
+
+    @api.one
+    def _set_image_value(self, value):
+        self.cover_photo = value
+
+    def _compute_description_short(self):
+        for project in self:
+            if len(project.description) > 200:
+                project.description_short = project.description[0:200] + '...'
+            else:
+                project.description_short = project.description
+
+    def _compute_color(self):
+        for project in self:
+            if project.website_published:
+                project.color = 10
+            else:
+                project.color = 1
+
+    def _compute_color_sponsorship(self):
+        for project in self:
+            if project.number_sponsorships_goal != 0:
+                tx_sponsorships = (project.number_sponsorships_reached / project.number_sponsorships_goal) * 100
+                if tx_sponsorships >= 75.0:
+                    project.color_sponsorship = 'badge badge-success'
+                else:
+                    if 50.0 <= tx_sponsorships < 75.0:
+                        project.color_sponsorship = 'badge badge-warning'
+                    else:
+                        project.color_sponsorship = 'badge badge-danger'
+            else:
+                project.color_sponsorship = 'badge badge-info'
+
+    def _compute_color_product(self):
+        for project in self:
+            if project.product_number_goal != 0:
+                tx_product = (project.product_number_reached / project.product_number_goal) * 100
+                if tx_product >= 75.0:
+                    project.color_product = 'badge badge-success'
+                else:
+                    if 50.0 <= tx_product < 75.0:
+                        project.color_product = 'badge badge-warning'
+                    else:
+                        project.color_product = 'badge badge-danger'
+            else:
+                project.color_product = 'badge badge-info'
 
     @api.model
     def create(self, vals):
@@ -147,6 +247,13 @@ class CrowdfundingProject(models.Model):
                 self.presentation_video_embed = self.presentation_video
 
     @api.multi
+    @api.depends('invoice_line_ids')
+    def _compute_donation_reached(self):
+        for project in self:
+            project.donation_reached = sum(
+                project.invoice_line_ids.mapped('price_subtotal'))
+
+    @api.multi
     def _compute_product_number_goal(self):
         for project in self:
             project.product_number_goal = sum(
@@ -155,7 +262,9 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def _compute_product_number_reached(self):
         for project in self:
-            invl = project.invoice_line_ids.filtered(lambda l: l.state == "paid")
+            #invl = project.invoice_line_ids.filtered(lambda l: l.state == "paid")
+            invl = self.env["account.invoice.line"].search([("state", "=", 'paid'),
+                                                            ("campaign_id", "=", project.campaign_id.id)])
             project.product_number_reached = int(
                 sum(invl.mapped("price_total")) / project.product_id.standard_price
             ) if project.product_id.standard_price else 0
@@ -254,7 +363,7 @@ class CrowdfundingProject(models.Model):
         # Get finished projects, from most recent to oldest expiring date
         finished_projects = self.env[self._name]
         if not limit or (limit and len(active_projects) < limit):
-            finish_limit = limit-len(active_projects) if limit else None
+            finish_limit = limit - len(active_projects) if limit else None
             finished_projects = self.search(
                 [
                     ("deadline", "<", date.today()),
