@@ -224,17 +224,12 @@
 
         <!-- Utility to create a row, given the key and its corresponding value -->
         <template id="fill_key_value">
-            <div class="row">
+            <div class="row" t-if="value">
                 <div class="col-6 border-right">
                     <label><t t-esc="key"/></label>
                 </div>
                 <div class="col-6">
-                    <t t-if="value">
-                        <label><t t-esc="value"/></label>
-                    </t>
-                    <t t-else="">
-                        <label>-</label>
-                    </t>
+                    <label><t t-esc="value"/></label>
                 </div>
             </div>
         </template>
