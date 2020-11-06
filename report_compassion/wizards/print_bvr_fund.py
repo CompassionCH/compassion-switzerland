@@ -33,6 +33,7 @@ class PrintBvrFund(models.TransientModel):
         ],
         readonly=False,
     )
+    amount = fields.Float()
     draw_background = fields.Boolean()
     state = fields.Selection([("new", "new"), ("pdf", "pdf")], default="new")
     pdf = fields.Boolean()
@@ -64,7 +65,7 @@ class PrintBvrFund(models.TransientModel):
             "product_id": self.product_id.id,
             "background": self.draw_background,
             "preprinted": self.preprinted,
-            "amount": False,
+            "amount": self.amount or False,
             "communication": False,
         }
         report_ref = self.env.ref("report_compassion.report_bvr_fund")
