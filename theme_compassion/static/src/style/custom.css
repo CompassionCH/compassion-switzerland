@@ -79,6 +79,22 @@ span[itemprop="name"]:before {
     margin-right: 5px;
 }
 
+/* Define new card class with special behaviours when hovered */
+.card-clickable {
+    border: none;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.card-clickable:hover {
+    transform: scale(1.03);
+}
+
+/* Define class with border width of 5 pixels */
+.border-5 {
+    border-width: 5px !important;
+}
+
 /* styling in surveys */
 .js_question-wrapper h2 {
     font-size: 15px;

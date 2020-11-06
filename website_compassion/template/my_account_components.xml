@@ -8,7 +8,7 @@
 
                 <nav class="navbar navbar-expand-md navbar-light bg-light">
                     <div id="my_account_div" class="container">
-                        <div class="collapse navbar-collapse" id="top_menu_collapse">
+                        <div class="collapse navbar-collapse" id="top_menu_my_account">
                             <ul class="nav navbar-nav mr-auto text-left">
                                 <li class="nav-item">
                                     <a class="nav-link" href="/my/personal_info">Personal information</a>
