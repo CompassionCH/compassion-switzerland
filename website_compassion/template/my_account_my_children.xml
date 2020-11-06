@@ -18,6 +18,8 @@
                 <t t-call="website_compassion.my_children_navbar"/>
 
                 <t t-call="website_compassion.my_children_info"/>
+
+                <t t-call="website_compassion.my_children_pictures"/>
             </t>
             <script type="text/javascript" src="/website_compassion/static/src/js/my_children.js"/>
         </template>
@@ -232,6 +234,44 @@
                     <label><t t-esc="value"/></label>
                 </div>
             </div>
+        </template>
+
+        <!-- Children pictures inside the view -->
+        <template id="my_children_pictures">
+            <div class="container">
+                <h3><t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures</h3>
+                <nav class="navbar navbar-expand-md">
+                    <ul class="nav nav-tabs">
+                        <t t-foreach="child_id.pictures_ids.sorted('date', reverse=True)" t-as="picture">
+                            <li class="m-2">
+                                <div class="card d-flex text-center border-0" style="width: 12rem; height: auto;">
+                                    <img class="mx-auto" t-att-src="picture.image_url" style="max-width: 120px; width: 100%; height: auto;"/>
+                                    <div class="card-body">
+                                        <t t-esc="picture.date.strftime('%e %B %Y')"/>
+                                        <br/>
+                                        <a t-attf-href="/my/download/picture?obj_id={{picture.id}}&amp;child_id={{child_id.id}}">Download</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </t>
+                    </ul>
+                </nav>
+                <div class="alert alert-info alert-dismissable text-center" style="display: none;">
+                    This may take a few minutes... Please wait
+                </div>
+                <a t-attf-href="/my/download/picture?child_id={{child_id.id}}">Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures</a>
+                <a t-attf-href="/my/download/picture" onclick="display_alert()" style="float: right;">Download all children's pictures</a>
+            </div>
+            <script>
+                let display_alert = function(){
+                    $(".alert").show("slow");
+                    setTimeout(
+                        function() {
+                            $(".alert").hide("slow");
+                        }, 7000
+                    );
+                };
+            </script>
         </template>
     </data>
 </odoo>
