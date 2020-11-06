@@ -12,8 +12,9 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='origin_id']" position="after">
                 <field name="origin_type" invisible="1"/>
-<!--                this field is there because the type of origin_id couldn't be reached with the xml file-->
-                <field name="send_introduction_letter" attrs="{'invisible': [('origin_type','!=','transfer')]}"/>
+                <field name="origin_name" invisible="1"/>
+                <!-- this field is there because the type of origin_id couldn't be reached with the xml file -->
+                <field name="send_introduction_letter" attrs="{'invisible': [('origin_type','!=','transfer'),('origin_name','!=','Reinstatement')]}"/>
             </xpath>
         </field>
      </record>
