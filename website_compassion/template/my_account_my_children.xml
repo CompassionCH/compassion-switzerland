@@ -18,6 +18,8 @@
                 <t t-call="website_compassion.my_children_navbar"/>
 
                 <t t-call="website_compassion.my_children_info"/>
+
+                <t t-call="website_compassion.my_children_letters"/>
             </t>
             <script type="text/javascript" src="/website_compassion/static/src/js/my_children.js"/>
         </template>
@@ -230,6 +232,41 @@
                 </div>
                 <div class="col-6">
                     <label><t t-esc="value"/></label>
+                </div>
+            </div>
+        </template>
+
+        <template id="my_children_letters">
+            <div class="container" t-if="letter_ids">
+                <h3>My letters</h3>
+                <div class="row">
+                    <div class="col-3">
+                        <label><b>From</b></label>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Date</b></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <t t-foreach="letter_ids" t-as="letter">
+                        <div class="col-3">
+                            <t t-if="letter.direction == 'Supporter To Beneficiary'">
+                                <label>Me</label>
+                            </t>
+                            <t t-else="">
+                                <label><t t-esc="child_id.preferred_name"/></label>
+                            </t>
+                        </div>
+                        <div class="col-3">
+                            <label><t t-esc="letter.status_date.strftime('%e %B %Y')"/></label>
+                        </div>
+                        <div class="col-3">
+                            <label><a t-attf-href="/my/download/letter?obj_id={{letter.id}}" target="_blank">View letter</a></label>
+                        </div>
+                        <div class="col-3">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download letter</a></label>
+                        </div>
+                    </t>
                 </div>
             </div>
         </template>

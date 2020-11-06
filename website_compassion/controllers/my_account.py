@@ -19,6 +19,20 @@ class MyAccountController(PaymentFormController):
     def account(self, redirect=None, **post):
         return request.render("website_compassion.my_account_layout", {})
 
+    @route("/my/download/<source>", type="http", auth="user", website=True)
+    def download_file(self, source, obj_id=None, child_id=None, **kw):
+        if source == "letter":
+            letter_id = request.env["correspondence"].browse(int(obj_id))
+            if letter_id.direction == "Beneficiary To Supporter":
+                data = letter_id.get_image()
+            else:
+                data = None
+            return request.make_response(
+                data,
+                [("Content-Type", "application/pdf"),
+                 ("Content-Disposition", "inline; filename='test.pdf'")]
+            )
+
     @route("/my/children", type="http", auth="user", website=True)
     def my_children(self, **kwargs):
         partner = request.env.user.partner_id
@@ -41,11 +55,18 @@ class MyAccountController(PaymentFormController):
                     partner.contracts_paid) \
             .mapped("child_id").sorted("preferred_name")
         child_id = children.filtered(lambda child: child.id == child_id)
+        sponsorship_ids = child_id.sponsorship_ids.filtered(
+            lambda contract: contract.partner_id == partner
+        )
+        letter_ids = request.env["correspondence"].search([
+            ("sponsorship_id", "=", sponsorship_ids[0].id),
+        ])
         if not child_id:
             return request.redirect(f"/my/children")
         else:
             child_id.get_infos()
             return request.render(
                 "website_compassion.my_children_page_template",
-                {"child_id": child_id},
+                {"child_id": child_id,
+                 "letter_ids": letter_ids},
             )
