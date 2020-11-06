@@ -6,7 +6,8 @@ from odoo import models, fields, api
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
-
+    state = fields.Selection(index=True)
+    campaign_id = fields.Many2one("utm.campaign", index=True)
     crowdfunding_participant_id = fields.Many2one(
         "crowdfunding.participant", "Crowdfunding participant",
         domain=[("project_id.state", "=", "active"),
