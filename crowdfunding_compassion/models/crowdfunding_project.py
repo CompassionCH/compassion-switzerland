@@ -41,22 +41,12 @@ class CrowdfundingProject(models.Model):
         help="Upload a cover photo that represents your project. Best size: 900x400px",
         attachment=True,
         required=False)
-    image_variant2 = fields.Binary(
-        "Variant Image", attachment=True,
-        help="This field holds the image used as image for the product variant, limited to 1024x1024px.")
-    image_variant3 = fields.Binary(
-        "Variant Image", attachment=True,
-        help="This field holds the image used as image for the product variant, limited to 1024x1024px.")
     image = fields.Binary(
-        "Big-sized image", compute='_compute_images', inverse='_set_image',
-        help="Image of the product variant (Big-sized image of product template if false). It is automatically "
-             "resized as a 1024x1024px image, with aspect ratio preserved.")
+        "Big-sized image", compute='_compute_images', inverse='_set_image')
     image_small = fields.Binary(
-        "Small-sized image", compute='_compute_images',
-        help="Image of the product variant (Small-sized image of product template if false).")
+        "Small-sized image", compute='_compute_images')
     image_medium = fields.Binary(
-        "Medium-sized image", compute='_compute_images', inverse='_set_image_medium',
-        help="Image of the product variant (Medium-sized image of product template if false).")
+        "Medium-sized image", compute='_compute_images', inverse='_set_image_medium')
     image_variant_raw = fields.Binary()
     cover_photo_url = fields.Char(compute="_compute_cover_photo_url", required=False)
     presentation_video = fields.Char(
@@ -111,35 +101,33 @@ class CrowdfundingProject(models.Model):
     owner_firstname = fields.Char(string="Your firstname")
     active = fields.Boolean(default=True)
 
-    @api.one
     @api.depends('cover_photo')
     def _compute_images(self):
-        if self._context.get('bin_size'):
-            self.image_medium = self.cover_photo
-            self.image_small = self.cover_photo
-            self.image = self.cover_photo
-        else:
-            resized_images = tools.image_get_resized_images(self.cover_photo, return_big=True,
-                                                            avoid_resize_medium=True)
-            self.image_medium = resized_images['image_medium']
-            self.image_small = resized_images['image_small']
-            self.image = resized_images['image']
+        for project in self:
+            if project._context.get('bin_size'):
+                project.image_medium = project.cover_photo
+                project.image_small = project.cover_photo
+                project.image = project.cover_photo
+            else:
+                resized_images = tools.image_get_resized_images(project.cover_photo, return_big=True,
+                                                                avoid_resize_medium=True)
+                project.image_medium = resized_images['image_medium']
+                project.image_small = resized_images['image_small']
+                project.image = resized_images['image']
 
-    @api.one
     def _set_image(self):
-        self.cover_photo = self.image_medium
-        self.image_variant2 = self.image_small
-        self.image_variant3 = self.image
+        for project in self:
+            project.cover_photo = project.image_medium
+            project.image_variant2 = project.image_small
+            project.image_variant3 = project.image
 
-    @api.one
     def _set_image_medium(self):
-        self.cover_photo = self.image_medium
-        self.image_variant2 = self.image_small
-        self.image_variant3 = self.image
+        for project in self:
+            project.cover_photo = project.image_medium
 
-    @api.one
     def _set_image_small(self):
-        self._set_image_value(self.image_small)
+        for project in self:
+            project._set_image_value(project.image_small)
 
     @api.one
     def _set_image_value(self, value):
