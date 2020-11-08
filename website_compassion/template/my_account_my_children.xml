@@ -20,6 +20,8 @@
                 <t t-call="website_compassion.my_children_info"/>
 
                 <t t-call="website_compassion.my_children_pictures"/>
+
+                <t t-call="website_compassion.my_children_gift_history"/>
             </t>
             <script type="text/javascript" src="/website_compassion/static/src/js/my_children.js"/>
         </template>
@@ -274,6 +276,37 @@
                         );
                     };
                 </script>
+            </div>
+        </template>
+
+        <template id="my_children_gift_history">
+            <div class="container" t-if="line_ids">
+                <h3>Gift history</h3>
+                <div class="row">
+                    <div class="col-4">
+                        <label><b>Fund</b></label>
+                    </div>
+                    <div class="col-4">
+                        <label><b>Date</b></label>
+                    </div>
+                    <div class="col-4">
+                        <label><b>Amount</b></label>
+                    </div>
+                </div>
+                <t t-foreach="line_ids" t-as="line">
+                    <div class="row">
+                        <div class="col-4">
+                            <label><t t-esc="line.product_id.name"/></label>
+                        </div>
+                        <div class="col-4">
+                            <label><t t-esc="line.get_date('create_date', 'date_full')"/></label>
+                        </div>
+                        <div class="col-4">
+                            <label><t t-esc="line.price_total"/></label>
+                        </div>
+                    </div>
+                </t>
+                <a href="https://compassion.ch/donations/" target="_blank">Make a donation</a>
             </div>
         </template>
     </data>

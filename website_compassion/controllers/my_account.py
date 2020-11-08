@@ -155,13 +155,22 @@ class MyAccountController(PaymentFormController):
 
     @route("/my/child/<int:child_id>", type="http", auth="user", website=True)
     def my_child(self, child_id, **kwargs):
+        partner = request.env.user.partner_id
         children = _get_user_children()
-        child = children.filtered(lambda c: c.id == child_id)
+        child = children.filtered(lambda child: child.id == child_id)
+        lines = request.env["account.invoice.line"].search([
+            ("partner_id", "=", partner.id),
+            ("state", "=", "paid"),
+            ("contract_id.child_id", "=", child_id.id),
+            ("product_id.categ_id.id", "=", 5),
+            ("price_total", "!=", 0),
+        ])
         if not child:
             return request.redirect(f"/my/children")
         else:
             child.get_infos()
             return request.render(
                 "website_compassion.my_children_page_template",
-                {"child_id": child},
+                {"child_id": child,
+                 "line_ids": lines},
             )
