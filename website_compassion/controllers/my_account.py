@@ -17,16 +17,21 @@ from odoo.addons.cms_form_compassion.controllers.payment_controller import (
 )
 
 
-def _get_user_children():
+def _get_user_children(only_active=False):
     """
-    Find all the children for which the connected user has a contract.
+    Find all the children for which the connected user has a contract. There is
+    the possibility to fetch all chidren from contracts or only those for which
+    a sponsorship is active.
     :return: a recordset of child.compassion which the connected user sponsors
     """
+    def filter_sponsorships(sponsorship):
+        return not only_active or sponsorship.state == "active"
+
     partner = request.env.user.partner_id
     return (
-        partner.contracts_fully_managed +
-        partner.contracts_correspondant +
-        partner.contracts_paid
+        partner.contracts_fully_managed.filtered(filter_sponsorships) +
+        partner.contracts_correspondant.filtered(filter_sponsorships) +
+        partner.contracts_paid.filtered(filter_sponsorships)
     ).mapped("child_id").sorted("preferred_name")
 
 
@@ -42,8 +47,8 @@ def _fetch_images_from_child(child):
     for image in child.pictures_ids:
         ext = image.image_url.split(".")[-1]
         filename = f"{child.preferred_name}_" \
-                   f"{image.date}_{child.code}.{ext}"
-        folder = f"{child.preferred_name}_{child.code}"
+                   f"{image.date}_{child.local_id}.{ext}"
+        folder = f"{child.preferred_name}_{child.local_id}"
         full_path = path.join(folder, filename)
         images.append((image, full_path))
     return images
@@ -58,7 +63,7 @@ def _create_archive(images, archive_name):
     :param archive_name: the name of the future archive
     :return: a response for the client to download the created archive
     """
-    with ZipFile(archive_name, 'w') as archive:
+    with ZipFile(archive_name, "w") as archive:
         for (img, full_path) in images:
             filename = path.basename(full_path)
 
@@ -68,9 +73,8 @@ def _create_archive(images, archive_name):
             remove(filename)
 
     # Get binary content of the archive, then delete the latter
-    archive = open(archive_name, "rb")
-    zip_data = archive.read()
-    archive.close()
+    with open(archive_name, "rb") as archive:
+        zip_data = archive.read()
     remove(archive_name)
 
     return request.make_response(
@@ -80,7 +84,7 @@ def _create_archive(images, archive_name):
     )
 
 
-def _download_image(type, obj_id, child_id):
+def _download_image(type, child_id=None, obj_id=None):
     """
     Download one or multiple images (in a .zip archive if more than one) and
     return a response for the user to download it.
@@ -102,7 +106,7 @@ def _download_image(type, obj_id, child_id):
     if type == "multiple":  # We want to download all images from one child
         return _create_archive(
             _fetch_images_from_child(child),
-            f"{child.preferred_name}_{child.code}.zip"
+            f"{child.preferred_name}_{child.local_id}.zip"
         )
 
     if type == "single":  # We want to download a single image from a child
@@ -129,39 +133,78 @@ class MyAccountController(PaymentFormController):
     def account(self, redirect=None, **post):
         return request.render("website_compassion.my_account_layout", {})
 
+    @route("/my/letter", type="http", auth="user", website=True)
+    def my_letter(self, child_id=None, template_id=None, **kwargs):
+        children = _get_user_children(only_active=True)
+        if len(children) == 0:
+            return request.render("website_compassion.sponsor_a_child", {})
+
+        if child_id:
+            child = children.filtered(lambda c: c.id == int(child_id))
+            if not child:  # The user does not sponsor this child_id
+                return request.redirect(
+                    f"/my/letter?child_id={children[0].id}"
+                )
+            templates = request.env["correspondence.template"].search([
+                ("active", "=", True),
+                ("website_published", "=", True),
+            ]).sorted("name")
+            if not template_id and len(templates) > 0:
+                template_id = templates[0].id
+            template = templates.filtered(lambda t: t.id == int(template_id))
+            return request.render(
+                "website_compassion.letter_page_template",
+                {"child_id": child,
+                 "template_id": template,
+                 "child_ids": children,
+                 "template_ids": templates},
+            )
+        else:
+            return request.redirect(f"/my/letter?child_id={children[0].id}")
+
+    @route("/my/children", type="http", auth="user", website=True)
+    def my_child(self, child_id=None, **kwargs):
+        children = _get_user_children()
+
+        if len(children) == 0:
+            return request.render("website_compassion.sponsor_a_child", {})
+
+        if child_id:
+            child = children.filtered(lambda c: c.id == int(child_id))
+            if not child:  # The user does not sponsor this child_id
+                return request.redirect(
+                    f"/my/children?child_id={children[0].id}"
+                )
+            partner = request.env.user.partner_id
+            letters = request.env["correspondence"].search([
+                ("partner_id", "=", partner.id),
+                ("child_id", "=", int(child_id)),
+            ])
+            gift_categ = request.env.ref("sponsorship_compassion.product_category_gift")
+            lines = request.env["account.invoice.line"].sudo().search([
+                ("partner_id", "=", partner.id),
+                ("state", "=", "paid"),
+                ("contract_id.child_id", "=", child.id),
+                ("product_id.categ_id", "=", gift_categ.id),
+                ("price_total", "!=", 0),
+            ])
+            child.get_infos()
+            return request.render(
+                "website_compassion.my_children_page_template",
+                {"child_id": child,
+                 "child_ids": children,
+                 "letter_ids": letters,
+                 "line_ids": lines}
+            )
+        else:
+            return request.redirect(f"/my/children?child_id={children[0].id}")
+
     @route("/my/download/<source>", type="http", auth="user", website=True)
     def download_file(self, source, obj_id=None, child_id=None, **kw):
         if source == "picture":
             if child_id and obj_id:
-                return _download_image("single", obj_id, child_id)
+                return _download_image("single", child_id, obj_id)
             elif child_id:
-                return _download_image("multiple", obj_id, child_id)
+                return _download_image("multiple", child_id)
             else:
-                return _download_image("all", obj_id, child_id)
-
-    @route("/my/children", type="http", auth="user", website=True)
-    def my_children(self, **kwargs):
-        partner = request.env.user.partner_id
-        children = (partner.contracts_fully_managed +
-                    partner.contracts_correspondant +
-                    partner.contracts_paid)\
-            .mapped("child_id").sorted("preferred_name")
-        if len(children) == 0:
-            return request.render(
-                "website_compassion.my_children_empty_page_content", {}
-            )
-        else:
-            return request.redirect(f"/my/child/{children[0].id}")
-
-    @route("/my/child/<int:child_id>", type="http", auth="user", website=True)
-    def my_child(self, child_id, **kwargs):
-        children = _get_user_children()
-        child = children.filtered(lambda c: c.id == child_id)
-        if not child:
-            return request.redirect(f"/my/children")
-        else:
-            child.get_infos()
-            return request.render(
-                "website_compassion.my_children_page_template",
-                {"child_id": child},
-            )
+                return _download_image("all")

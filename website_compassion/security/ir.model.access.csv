@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+read_access_product_portal,Read access product portal,partner_compassion.model_product_product,base.group_portal,1,0,0,0
+read_access_category_portal,Read access category portal,product.model_product_category,base.group_portal,1,0,0,0
