@@ -13,7 +13,7 @@ from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import
 import mock
 import datetime
 
-time_path = "odoo.addons.sponsorship_switzerland.models.contracts" ".datetime"
+time_path = "odoo.addons.sponsorship_switzerland.models.contracts.datetime"
 
 
 class TestContractsSwitzerland(BaseSponsorshipTest):
@@ -23,11 +23,12 @@ class TestContractsSwitzerland(BaseSponsorshipTest):
     @mock.patch(time_path)
     def test_on_change_group_id__recomputes_next_invoice_date(self, time_mock):
         sponsorship = self._create_sponsorship()
-        time_mock.today.return_value = datetime.date(2015, 2, 5)
+        fake_date = datetime.date(2015, 2, 5)
+        time_mock.date.today.return_value = fake_date
 
         sponsorship.on_change_group_id()
 
-        self.assertEqual(sponsorship.next_invoice_date, "2015-02-01")
+        self.assertEqual(sponsorship.next_invoice_date, fake_date.replace(day=1))
 
     def test_sponsorship_termination(self):
         sponsorship = self._create_sponsorship(contract_type="S")

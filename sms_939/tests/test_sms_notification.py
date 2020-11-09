@@ -118,9 +118,9 @@ class TestMobileAppConnector(HttpCase):
 
         xml = "<?xmlversion='1.0'encoding='utf-8'?>\n<NotificationReply/>"
         self.assertIn(response.replace(" ", ""), xml)
-        self.assertRegex(
-            str(self._get_sms_message(smsbox_send)),
-            r"this link: http://localhost:8069/r/\w",
+        self.assertIn(
+            "http://localhost:8069/r/",
+            str(self._get_sms_message(smsbox_send))
         )
 
     def _get_sms_message(self, smsbox_send):
