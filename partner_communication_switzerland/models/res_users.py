@@ -46,13 +46,13 @@ class ResUsers(models.Model):
                 "fr_CH": "+41 (0)24 434 21 24",
                 "de_DE": "+41 (0)31 552 21 21",
                 "it_IT": "+41 (0)31 552 21 24",
-                "en_US": "+41 (0)44 552 47 78"
+                "en_US": "+41 (0)31 552 21 25"
             }
             phone_link = {
                 "fr_CH": "+41244342124",
                 "de_DE": "+41315522121",
                 "it_IT": "+41315522124",
-                "en_US": "+41445524778"
+                "en_US": "+41315522125"
             }
             facebook = {
                 "fr_CH": "https://www.facebook.com/compassionsuisse/",
