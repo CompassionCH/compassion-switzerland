@@ -141,11 +141,7 @@ class MyAccountController(PaymentFormController):
 
     @route("/my/children", type="http", auth="user", website=True)
     def my_children(self, **kwargs):
-        partner = request.env.user.partner_id
-        children = (partner.contracts_fully_managed +
-                    partner.contracts_correspondant +
-                    partner.contracts_paid)\
-            .mapped("child_id").sorted("preferred_name")
+        children = _get_user_children()
         if len(children) == 0:
             return request.render(
                 "website_compassion.my_children_empty_page_content", {}
@@ -161,7 +157,7 @@ class MyAccountController(PaymentFormController):
         lines = request.env["account.invoice.line"].search([
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
-            ("contract_id.child_id", "=", child_id.id),
+            ("contract_id.child_id", "=", child.id),
             ("product_id.categ_id.id", "=", 5),
             ("price_total", "!=", 0),
         ])
