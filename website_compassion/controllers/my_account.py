@@ -19,20 +19,6 @@ class MyAccountController(PaymentFormController):
     def account(self, redirect=None, **post):
         return request.render("website_compassion.my_account_layout", {})
 
-    @route("/my/download/<source>", type="http", auth="user", website=True)
-    def download_file(self, source, obj_id=None, child_id=None, **kw):
-        if source == "letter":
-            letter_id = request.env["correspondence"].browse(int(obj_id))
-            if letter_id.direction == "Beneficiary To Supporter":
-                data = letter_id.get_image()
-            else:
-                data = None
-            return request.make_response(
-                data,
-                [("Content-Type", "application/pdf"),
-                 ("Content-Disposition", "inline; filename='test.pdf'")]
-            )
-
     @route("/my/children", type="http", auth="user", website=True)
     def my_children(self, **kwargs):
         partner = request.env.user.partner_id

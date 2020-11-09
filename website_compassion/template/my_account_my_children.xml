@@ -261,7 +261,7 @@
                             <label><t t-esc="letter.status_date.strftime('%e %B %Y')"/></label>
                         </div>
                         <div class="col-3">
-                            <label><a t-attf-href="/my/download/letter?obj_id={{letter.id}}" target="_blank">View letter</a></label>
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disposition=inline&amp;file_type=pdf" target="_blank">View letter</a></label>
                         </div>
                         <div class="col-3">
                             <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download letter</a></label>
