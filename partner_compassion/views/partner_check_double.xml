@@ -7,7 +7,9 @@
             <form>
                 <field name="mergeable_partner_ids"/>
                 <label for="selected_merge_partner_id"/>
-                <field name="selected_merge_partner_id" domain="[('id', 'in', mergeable_partner_ids[0][2])]" options="{'no_create': True}"/>
+                <field name="selected_merge_partner_id"
+                       domain="[('id', 'in', mergeable_partner_ids or False)]"
+                       options="{'no_create': True}"/>
                 <footer>
                     <button type='object' name='merge_with' string="Merge" attrs="{'invisible': [('selected_merge_partner_id', '=', False)]}" class="oe_highlight"/>
                     <button type='object' name='keep' string="Keep partners" />
