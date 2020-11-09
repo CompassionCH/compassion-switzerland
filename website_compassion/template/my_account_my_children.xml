@@ -18,6 +18,8 @@
                 <t t-call="website_compassion.my_children_navbar"/>
 
                 <t t-call="website_compassion.my_children_info"/>
+
+                <t t-call="website_compassion.my_children_pictures"/>
             </t>
             <script type="text/javascript" src="/website_compassion/static/src/js/my_children.js"/>
         </template>
@@ -72,151 +74,154 @@
         <template id="my_children_info">
             <div class="container">
                 <div class="row mt-4">
-                    <!-- General information -->
                     <div class="col-md-6">
-                        <h3>General information</h3>
-                        <!-- Age -->
-                        <t t-set="key" t-value="'Age'"/>
-                        <t t-set="value" t-value="child_id.age"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                        <!-- General information -->
+                        <t t-if="child_id.age or child_id.birthdate or child_id.gender or child_id.hobby_ids">
+                            <h3>General information</h3>
+                            <!-- Age -->
+                            <t t-set="key" t-value="'Age'"/>
+                            <t t-set="value" t-value="child_id.age"/>
+                            <t t-call="website_compassion.fill_key_value"/>
 
-                        <!-- Birthdate -->
-                        <t t-set="key" t-value="'Birthdate'"/>
-                        <t t-set="value" t-value="child_id.get_date('birthdate', 'date_full')"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                            <!-- Birthdate -->
+                            <t t-set="key" t-value="'Birthdate'"/>
+                            <t t-set="value" t-value="child_id.get_date('birthdate', 'date_full')"/>
+                            <t t-call="website_compassion.fill_key_value"/>
 
-                        <!-- Gender -->
-                        <t t-set="key" t-value="'Gender'"/>
-                        <t t-set="value" t-value="child_id.translate('gender')"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                            <!-- Gender -->
+                            <t t-set="key" t-value="'Gender'"/>
+                            <t t-set="value" t-value="child_id.translate('gender')"/>
+                            <t t-call="website_compassion.fill_key_value"/>
 
-                        <!-- Hobbies -->
-                        <t t-set="key" t-value="'Hobbies'"/>
-                        <t t-set="value" t-value="child_id.get_list('hobby_ids.value').capitalize()"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                            <!-- Hobbies -->
+                            <t t-set="key" t-value="'Hobbies'"/>
+                            <t t-set="value" t-value="child_id.get_list('hobby_ids.value').capitalize()"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <br/>
+                        </t>
+
+                        <!-- Education information -->
+                        <t t-if="child_id.education_level or child_id.academic_performance">
+                            <h3>Education</h3>
+                            <!-- Education level -->
+                            <t t-set="key" t-value="'Education level'"/>
+                            <t t-set="value" t-value="child_id.education_level"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <!-- Academic performance -->
+                            <t t-set="key" t-value="'Academic performance'"/>
+                            <t t-set="value" t-value="child_id.academic_performance"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <br/>
+                        </t>
+
+                        <!-- My community information -->
+                        <t t-if="child_id.project_id.closest_city or child_id.project_id.country_id.name or child_id.project_id.community_population or child_id.project_id.primary_language_id.name or child_id.project_id.primary_adults_occupation_ids or child_id.project_id.primary_diet_ids">
+                            <h3>My community</h3>
+                            <!-- Location (city, country), one or both may be empty, so we handle properly -->
+                            <t t-set="key" t-value="'Location'"/>
+                            <t t-set="value" t-value="', '.join(list(filter(None, [child_id.project_id.closest_city, child_id.project_id.country_id.name])))"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <!-- Population -->
+                            <t t-set="key" t-value="'Population'"/>
+                            <t t-set="value" t-value="child_id.project_id.community_population"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <!-- Language -->
+                            <t t-set="key" t-value="'Language'"/>
+                            <t t-set="value" t-value="child_id.project_id.primary_language_id.name"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <!-- Common job -->
+                            <t t-set="key" t-value="'Common jobs'"/>
+                            <t t-set="value" t-value="child_id.get_list('project_id.primary_adults_occupation_ids.value').capitalize()"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <!-- Typical food -->
+                            <t t-set="key" t-value="'Typical food'"/>
+                            <t t-set="value" t-value="child_id.get_list('project_id.primary_diet_ids.value').capitalize()"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <br/>
+                        </t>
                     </div>
 
-                    <!-- Family information -->
                     <div class="col-md-6">
-                        <h3>Family information</h3>
-                        <!-- Legal representatives, not a single string so we have to construct it -->
-                        <div class="row">
-                            <div class="col-6 border-right">
-                                <label><t t-esc="'Legal representatives'"/></label><br/>
-                            </div>
-                            <div class="col-6">
-                                <t t-if="child_id.household_id.member_ids">
+                        <!-- Family information -->
+                        <t t-if="child_id.household_id.member_ids or child_id.household_id.male_guardian_job or child_id.household_id.female_guardian_job or child_id.duty_ids">
+                            <h3>Family information</h3>
+                            <!-- Legal representatives, not a single string so we have to construct it -->
+                            <div class="row" t-if="child_id.household_id.member_ids">
+                                <div class="col-6 border-right">
+                                    <label><t t-esc="'Legal representatives'"/></label><br/>
+                                </div>
+                                <div class="col-6">
                                     <t t-foreach="child_id.household_id.member_ids" t-as="member">
                                         <t t-if="member.is_primary_caregiver">
                                             <label><t t-esc="member.role"/></label><br/>
                                         </t>
                                     </t>
-                                </t>
-                                <t t-else="">
-                                    <label>-</label><br/>
-                                </t>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Family, not a single string so we have to construct it -->
-                        <div class="row">
-                            <div class="col-6 border-right">
-                                <label><t t-esc="'Family'"/></label><br/>
-                            </div>
-                            <div class="col-6">
-                                <t t-if="child_id.household_id.member_ids">
+                            <!-- Family, not a single string so we have to construct it -->
+                            <div class="row" t-if="child_id.household_id.member_ids">
+                                <div class="col-6 border-right">
+                                    <label><t t-esc="'Family'"/></label><br/>
+                                </div>
+                                <div class="col-6">
                                     <t t-foreach="child_id.household_id.member_ids" t-as="member">
                                         <t t-if="'Beneficiary' not in member.role">
                                             <label><t t-esc="member.name + ', ' + member.role"/></label><br/>
                                         </t>
                                     </t>
-                                </t>
-                                <t t-else="">
-                                    <label>-</label>
-                                </t>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Father/representative's job -->
-                        <t t-set="key" t-value="'Father/representative\'s job'"/>
-                        <t t-set="value" t-value="child_id.household_id.male_guardian_job"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                            <!-- Father/representative's job -->
+                            <t t-set="key" t-value="'Father/representative\'s job'"/>
+                            <t t-set="value" t-value="child_id.household_id.male_guardian_job"/>
+                            <t t-call="website_compassion.fill_key_value"/>
 
-                        <!-- Mother/representative's job -->
-                        <t t-set="key" t-value="'Mother/representative\'s job'"/>
-                        <t t-set="value" t-value="child_id.household_id.female_guardian_job"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                            <!-- Mother/representative's job -->
+                            <t t-set="key" t-value="'Mother/representative\'s job'"/>
+                            <t t-set="value" t-value="child_id.household_id.female_guardian_job"/>
+                            <t t-call="website_compassion.fill_key_value"/>
 
-                        <!-- Household duties -->
-                        <t t-set="key" t-value="'Household duties'"/>
-                        <t t-set="value" t-value="child_id.get_list('duty_ids.value').capitalize()"/>
-                        <t t-call="website_compassion.fill_key_value"/>
-                    </div>
-                </div>
+                            <!-- Household duties -->
+                            <t t-set="key" t-value="'Household duties'"/>
+                            <t t-set="value" t-value="child_id.get_list('duty_ids.value').capitalize()"/>
+                            <t t-call="website_compassion.fill_key_value"/>
 
-                <div class="row mt-4">
-                    <!-- Education information -->
-                    <div class="col-md-6">
-                        <h3>Education</h3>
-                        <!-- Education level -->
-                        <t t-set="key" t-value="'Education level'"/>
-                        <t t-set="value" t-value="child_id.education_level"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                            <br/>
+                        </t>
 
-                        <!-- Academic performance -->
-                        <t t-set="key" t-value="'Academic performance'"/>
-                        <t t-set="value" t-value="child_id.academic_performance"/>
-                        <t t-call="website_compassion.fill_key_value"/>
-                    </div>
+                        <!-- Compassion center information -->
+                        <t t-set="child_activities" t-as="child_id.project_id.get_activity_for_age(child_id.age)"/>
+                        <t t-if="child_id.project_id.local_church_name or child_id.project_id.sponsorships_count or child_activities">
+                            <h3>Compassion center</h3>
+                            <!-- Project name -->
+                            <t t-set="key" t-value="'Project name'"/>
+                            <t t-set="value" t-value="child_id.project_id.local_church_name"/>
+                            <t t-call="website_compassion.fill_key_value"/>
 
-                    <!-- Compassion center information -->
-                    <div class="col-md-6">
-                        <h3>Compassion center</h3>
-                        <!-- Project name -->
-                        <t t-set="key" t-value="'Project name'"/>
-                        <t t-set="value" t-value="child_id.project_id.local_church_name"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                            <!-- Number of sponsor children -->
+                            <t t-set="key" t-value="'Number of sponsored children'"/>
+                            <t t-set="value" t-value="child_id.project_id.sponsorships_count"/>
+                            <t t-call="website_compassion.fill_key_value"/>
 
-                        <!-- Number of sponsor children -->
-                        <t t-set="key" t-value="'Number of sponsored children'"/>
-                        <t t-set="value" t-value="child_id.project_id.sponsorships_count"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                            <!-- Project activities -->
+                            <t t-if="child_activities">
+                                <t t-set="key" t-value="'Project activities'"/>
+                                <t t-set="value" t-value="', '.join(child_activities.mapped('value')).capitalize()"/>
+                                <t t-call="website_compassion.fill_key_value"/>
+                            </t>
 
-                        <!-- Project activities -->
-                        <t t-set="key" t-value="'Project activities'"/>
-                        <t t-set="value" t-value="', '.join(child_id.project_id.get_activity_for_age(child_id.age).mapped('value')).capitalize()"/>
-                        <t t-call="website_compassion.fill_key_value"/>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <!-- My community information -->
-                    <div class="col-md-6">
-                        <h3>My community</h3>
-                        <!-- Location (city, country), one or both may be empty, so we handle properly -->
-                        <t t-set="key" t-value="'Location'"/>
-                        <t t-set="value" t-value="', '.join(list(filter(None, [child_id.project_id.closest_city, child_id.project_id.country_id.name])))"/>
-                        <t t-call="website_compassion.fill_key_value"/>
-
-                        <!-- Population -->
-                        <t t-set="key" t-value="'Population'"/>
-                        <t t-set="value" t-value="child_id.project_id.community_population"/>
-                        <t t-call="website_compassion.fill_key_value"/>
-
-                        <!-- Language -->
-                        <t t-set="key" t-value="'Language'"/>
-                        <t t-set="value" t-value="child_id.project_id.primary_language_id.name"/>
-                        <t t-call="website_compassion.fill_key_value"/>
-
-                        <!-- Common job -->
-                        <t t-set="key" t-value="'Common jobs'"/>
-                        <t t-set="value" t-value="child_id.get_list('project_id.primary_adults_occupation_ids.value').capitalize()"/>
-                        <t t-call="website_compassion.fill_key_value"/>
-
-                        <!-- Typical food -->
-                        <t t-set="key" t-value="'Typical food'"/>
-                        <t t-set="value" t-value="child_id.get_list('project_id.primary_diet_ids.value').capitalize()"/>
-                        <t t-call="website_compassion.fill_key_value"/>
+                            <br/>
+                        </t>
                     </div>
                 </div>
             </div>
@@ -231,6 +236,44 @@
                 <div class="col-6">
                     <label><t t-esc="value"/></label>
                 </div>
+            </div>
+        </template>
+
+        <!-- Children pictures inside the view -->
+        <template id="my_children_pictures">
+            <div class="container" t-if="child_id.pictures_ids">
+                <h3><t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures</h3>
+                <nav class="navbar navbar-expand-md">
+                    <ul class="nav nav-tabs">
+                        <t t-foreach="child_id.pictures_ids.sorted('date', reverse=True)" t-as="picture">
+                            <li class="m-2">
+                                <div class="card d-flex text-center border-0" style="width: 12rem; height: auto;">
+                                    <img class="mx-auto" t-att-src="picture.image_url" style="max-width: 120px; width: 100%; height: auto;"/>
+                                    <div class="card-body">
+                                        <t t-esc="picture.date.strftime('%e %B %Y')"/>
+                                        <br/>
+                                        <a t-attf-href="/my/download/picture?obj_id={{picture.id}}&amp;child_id={{child_id.id}}">Download</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </t>
+                    </ul>
+                </nav>
+                <div class="alert alert-info alert-dismissable text-center" style="display: none;">
+                    This may take a few minutes... Please wait
+                </div>
+                <a t-attf-href="/my/download/picture?child_id={{child_id.id}}">Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures</a>
+                <a t-attf-href="/my/download/picture" onclick="display_alert()" style="float: right;">Download all children's pictures</a>
+                <script>
+                    let display_alert = function(){
+                        $(".alert").show("slow");
+                        setTimeout(
+                            function() {
+                                $(".alert").hide("slow");
+                            }, 7000
+                        );
+                    };
+                </script>
             </div>
         </template>
     </data>
