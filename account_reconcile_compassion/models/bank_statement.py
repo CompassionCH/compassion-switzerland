@@ -94,7 +94,7 @@ class AccountStatement(models.Model):
             [("rule_type", "!=", "writeoff_button")]
         )
 
-        for bank_statement in self:
+        for bank_statement in self.filtered("line_ids"):
             matching_amls = reconcile_model._apply_rules(bank_statement.line_ids)
 
             for line_id, result in matching_amls.items():

@@ -32,7 +32,9 @@ class TestAccountReconcile(TransactionCase):
         assigned to partner, the partner_bank is also assigned to the partner
         """
         acc_number = "77777777"
-        bank_account = self.env["res.partner.bank"].create({"acc_number": acc_number})
+        bank_account = self.env["res.partner.bank"].create({
+            "partner_id": self.asustek.id,
+            "acc_number": acc_number})
         line = self.env["account.bank.statement.line"].create(
             {
                 "statement_id": self.statement.id,

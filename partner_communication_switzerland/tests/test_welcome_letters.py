@@ -8,7 +8,7 @@
 #
 ##############################################################################
 import logging
-from datetime import date
+from datetime import date, datetime
 
 import mock
 from dateutil.relativedelta import relativedelta
@@ -97,7 +97,9 @@ class TestSponsorship(BaseSponsorshipTest):
         sponsorship.sds_state_date = eleven_days_ago
         self.env.ref(
             "partner_communication_switzerland.check_welcome_email"
-        ).last_run = eleven_days_ago
+        ).last_run = datetime(
+            year=eleven_days_ago.year, day=eleven_days_ago.day,
+            month=eleven_days_ago.month)
         sponsorship.send_welcome_letter()
         self.assertEqual(sponsorship.sds_state, "active")
 
@@ -117,7 +119,7 @@ class TestSponsorship(BaseSponsorshipTest):
         # Now test the welcome active communication
         sponsorship.force_activation()
         two_days_ago = date.today() - relativedelta(days=2)
-        sponsorship.activation_date = two_days_ago
+        sponsorship.activation_date = str(two_days_ago)
         sponsorship._send_welcome_active_letters_for_activated_sponsorships()
         welcome_active = self.env.ref(
             "partner_communication_switzerland.welcome_activation"
@@ -129,7 +131,7 @@ class TestSponsorship(BaseSponsorshipTest):
         self.assertFalse(sponsorship.welcome_active_letter_sent)
 
         # Now set the start date in the past and welcome active should be sent
-        sponsorship.start_date = eleven_days_ago
+        sponsorship.start_date = str(eleven_days_ago)
         sponsorship._send_welcome_active_letters_for_activated_sponsorships()
         partner_communications = self.env["partner.communication.job"].search(
             [
@@ -182,9 +184,9 @@ class TestSponsorship(BaseSponsorshipTest):
 
         # Now test the welcome active communication
         sponsorship.force_activation()
-        two_days_ago = date.today() - relativedelta(days=2)
+        two_days_ago = datetime.today() - relativedelta(days=2)
         sponsorship.activation_date = two_days_ago
-        sponsorship.start_date = eleven_days_ago
+        sponsorship.start_date = str(eleven_days_ago)
         sponsorship._send_welcome_active_letters_for_activated_sponsorships()
         welcome_active = self.env.ref(
             "partner_communication_switzerland.welcome_activation"
