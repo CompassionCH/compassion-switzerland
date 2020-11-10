@@ -9,8 +9,6 @@ from odoo import models, api, fields, tools
 
 import urllib.parse as urlparse
 
-from odoo.odoo.release import description
-
 
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
