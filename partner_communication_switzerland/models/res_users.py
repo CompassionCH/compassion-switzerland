@@ -13,6 +13,7 @@ _logger = logging.getLogger(__name__)
 class ResUsers(models.Model):
     _inherit = "res.users"
     signature = fields.Html(compute="_compute_signature")
+    short_signature = fields.Html(compute="_compute_short_signature")
 
     @api.multi
     def action_reset_password(self):
@@ -81,6 +82,12 @@ class ResUsers(models.Model):
                 else:
                     template.remove("#yverdon")
                 user.signature = template.html().format(**values)
+
+    @api.multi
+    def _compute_short_signature(self):
+        for user in self:
+            template = PyQuery(user.signature)
+            user.short_signature = template("#header").outerHtml()
 
     @api.multi
     def _compute_signature_letter(self):
