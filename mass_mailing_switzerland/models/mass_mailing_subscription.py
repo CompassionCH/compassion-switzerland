@@ -16,6 +16,6 @@ class MassMailingSubscriptionList(models.Model):
     @api.multi
     def write(self, vals):
         """ Push opt-out to partner """
-        if "opt_out" in vals:
+        if "opt_out" in vals and not self.env.context.get("opt_out_from_partner"):
             self.mapped("contact_id.partner_id").write({"opt_out": vals["opt_out"]})
         return super().write(vals)
