@@ -545,6 +545,10 @@ class ResPartner(models.Model):
 
     @api.multi
     def open_duplicates(self):
+        if not (self.partner_duplicate_ids - self):
+            # No more duplicates, we just remove them
+            self.partner_duplicate_ids = False
+            return True
         partner_wizard = self.env["res.partner.check.double"].create(
             {"partner_id": self.id, }
         )
