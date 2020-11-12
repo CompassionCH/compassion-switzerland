@@ -49,12 +49,9 @@ class ResPartner(models.Model):
         for p in company:
             with api.Environment.manage():
                 lang_partner = p.with_context(lang=p.lang)
-                # this will enable translation of "Dear friends of Compassion"
-                env = api.Environment(self.env.cr, self.env.uid,  # noqa: F841
-                                      lang_partner.env.context)
-                p.salutation = _("Dear friends of Compassion")
+                p.salutation = lang_partner.get(_("Dear friends of Compassion"))
                 p.short_salutation = lang_partner.salutation
-                p.informal_salutation = _("Dear friend of Compassion")
+                p.informal_salutation = lang_partner.get(_("Dear friend of Compassion"))
                 p.full_salutation = lang_partner.salutation
 
         for partner in family:
