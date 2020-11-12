@@ -5,7 +5,7 @@ from datetime import date, datetime
 
 from babel.dates import format_timedelta
 
-from odoo import models, api, fields, tools
+from odoo import models, api, fields, tools, _
 
 import urllib.parse as urlparse
 
@@ -61,17 +61,23 @@ class CrowdfundingProject(models.Model):
     product_id = fields.Many2one(
         "product.product", "Supported fund",
         domain=[("activate_for_crowdfunding", "=", True)])
-    product_number_goal = fields.Integer(compute="_compute_product_number_goal")
-    product_number_reached = fields.Integer(compute="_compute_product_number_reached")
-    number_sponsorships_goal = fields.Integer(string='sponsorships goal',
-                                              compute="_compute_number_sponsorships_goal", store=True)
-    number_sponsorships_reached = fields.Integer(string='sponsorships reached',
-                                                 compute="_compute_number_sponsorships_reached", store=True)
-    color_sponsorship = fields.Char("Color sponsorship", compute="_compute_color_sponsorship")
-    color_product = fields.Char("Color product", compute="_compute_color_product")
-    color = fields.Integer(string="Color index", compute="_compute_color")
-    donation_reached = fields.Float(string='Donation amount', compute="_compute_donation_reached", size=10, digits=(10, 0),
-                                    store=True)
+    product_number_goal = fields.Integer(
+        "Product goal", compute="_compute_product_number_goal")
+    product_number_reached = fields.Integer(
+        "Product reached", compute="_compute_product_number_reached")
+    number_sponsorships_goal = fields.Integer(
+        "Sponsorships goal", compute="_compute_number_sponsorships_goal")
+    number_sponsorships_reached = fields.Integer(
+        "Sponsorships reached", compute="_compute_number_sponsorships_reached")
+    product_crowdfunding_impact = fields.Char(
+        related="product_id.crowdfunding_impact_text_passive_plural")
+    color_sponsorship = fields.Char(compute="_compute_color_sponsorship")
+    color_product = fields.Char(compute="_compute_color_product")
+    color = fields.Integer(
+        compute="_compute_color", inverse="_inverse_color", store=True)
+    donation_reached = fields.Float(
+        string='Donation amount', compute="_compute_donation_reached",
+        size=10, digits=(10, 0), store=True)
     sponsorship_ids = fields.Many2many(
         "recurring.contract", string="Sponsorships",
         compute="_compute_sponsorships"
@@ -86,11 +92,12 @@ class CrowdfundingProject(models.Model):
     participant_ids = fields.One2many(
         "crowdfunding.participant", "project_id", string="Participants", required=True
     )
+    number_participants = fields.Integer(compute="_compute_number_participants")
     event_id = fields.Many2one("crm.event.compassion", "Event")
     campaign_id = fields.Many2one('utm.campaign', 'UTM Campaign',
                                   required=True, ondelete='cascade')
     state = fields.Selection(
-        [("draft", "Draft"), ("active", "Active")],
+        [("draft", "Draft"), ("active", "Active"), ("done", "Done")],
         required=True,
         default="draft",
         readonly=True,
@@ -133,17 +140,22 @@ class CrowdfundingProject(models.Model):
 
     def _compute_description_short(self):
         for project in self:
-            if len(project.description) > 200:
-                project.description_short = project.description[0:200] + '...'
+            if len(project.description) > 100:
+                project.description_short = project.description[0:100] + '...'
             else:
                 project.description_short = project.description
 
+    @api.depends("is_published")
     def _compute_color(self):
         for project in self:
             if project.website_published:
                 project.color = 10
             else:
                 project.color = 1
+
+    def _inverse_color(self):
+        # Allow setting manually a color
+        return True
 
     def _compute_color_sponsorship(self):
         for project in self:
@@ -172,6 +184,10 @@ class CrowdfundingProject(models.Model):
                         project.color_product = 'badge badge-danger'
             else:
                 project.color_product = 'badge badge-info'
+
+    def _compute_number_participants(self):
+        for project in self:
+            project.number_participants = len(project.participant_ids)
 
     @api.model
     def create(self, vals):
@@ -357,6 +373,20 @@ class CrowdfundingProject(models.Model):
             )
 
         return active_projects + finished_projects
+
+    def open_participants(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Participants'),
+            'view_type': 'form',
+            'view_mode': 'kanban,tree,form'
+            if self.type == "collective" else "form,tree",
+            'res_model': 'crowdfunding.participant',
+            "res_id": self.owner_participant_id.id,
+            'domain': [('project_id', '=', self.id)],
+            'target': 'current',
+            'context': self.env.context,
+        }
 
     def _default_website_meta(self):
         res = super()._default_website_meta()

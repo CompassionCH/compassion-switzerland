@@ -5,7 +5,7 @@
       <field name="name">Crowdfunding Project View</field>
       <field name="model">crowdfunding.project</field>
       <field name="arch" type="xml">
-         <form string="Projects">
+         <form>
             <header>
                <button name="validate" string="Validate project" type="object" class="btn-primary"
                        attrs="{'invisible':[('state', '==', 'active')]}" />
@@ -13,6 +13,14 @@
             </header>
             <sheet>
                <div class="oe_button_box" name="button_box">
+                  <button name="open_participants" type="object" class="oe_stat_button" icon="fa-group">
+                     <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                           <field name="number_participants"/>
+                        </span>
+                        <span class="o_stat_text">Participants</span>
+                     </div>
+                  </button>
                   <button name="toggle_website_published" class="oe_stat_button" type="object" icon="fa-globe">
                      <field name="website_published" widget="boolean_button"
                             options="{&quot;terminology&quot;: {&quot;string_true&quot;:
@@ -23,19 +31,15 @@
                   </button>
                </div>
                <div>
-                  <div class="row">
-                     <div class="col-1">
-                        <field name="image_medium" widget="image" class="oe_avatar" />
-                     </div>
-                     <div class="col">
+                     <field name="image_medium" widget="image" class="oe_avatar" />
+                     <div class="oe_title">
                         <h3>
                            <field name="type" />
                         </h3>
-                        <h1 class="display-4">
+                        <h1>
                            <field name="name" />
                         </h1>
                      </div>
-                  </div>
                </div>
                <notebook name="project_relation">
                   <page string="Details" name="project_description">
@@ -61,21 +65,14 @@
                               </h3>
                            </div>
                            <div class="col">
-                              <label for="product_number_goal" />
+                              <label for="product_number_reached"/>
                               <h3>
-                                 <field name="product_number_goal" />
-                              </h3>
-                              <label for="product_number_reached" />
-                              <h3>
-                                 <field name="product_number_reached" />
-                              </h3>
-                              <label for="number_sponsorships_goal" />
-                              <h3>
-                                 <field name="number_sponsorships_goal" />
+                                 <field name="product_number_reached"/> / <field name="product_number_goal"/>
+                                 <field name="product_crowdfunding_impact" style="margin-left: 0.5em; font-weight: normal"/>
                               </h3>
                               <label for="number_sponsorships_reached" />
                               <h3>
-                                 <field name="number_sponsorships_reached" />
+                                 <field name="number_sponsorships_reached" /> / <field name="number_sponsorships_goal" />
                               </h3>
                            </div>
                            <div class="col">
@@ -112,13 +109,35 @@
                      </div>
                   </page>
                   <page string="Participants" name="project_participants">
-                     <field name="participant_ids" widget="one2many" context="{'default_project_id': active_id}" />
-                  </page>
-                  <page string="Sponsorships">
-                     <field name="sponsorship_ids" widget="one2many" />
+                     <field name="participant_ids" widget="one2many" context="{'default_project_id': active_id}">
+                        <tree>
+                           <field name="partner_id"/>
+                           <field name="product_number_reached"/>
+                           <field name="number_sponsorships_reached"/>
+                        </tree>
+                     </field>
                   </page>
                   <page string="Donations">
-                     <field name="invoice_line_ids" widget="one2many" />
+                     <field name="invoice_line_ids" widget="one2many">
+                        <tree order="due_date desc">
+                           <field name="due_date"/>
+                           <field name="partner_id"/>
+                           <field name="user_id"/>
+                           <field name="price_subtotal"/>
+                        </tree>
+                     </field>
+                  </page>
+                  <page string="Sponsorships">
+                     <field name="sponsorship_ids" widget="one2many">
+                        <tree order="create_date desc">
+                           <field name="create_date"/>
+                           <field name="partner_id"/>
+                           <field name="child_id"/>
+                           <field name="user_id"/>
+                           <field name="total_amount"/>
+                           <field name="state"/>
+                        </tree>
+                     </field>
                   </page>
                </notebook>
             </sheet>
@@ -140,16 +159,14 @@
             <field name="name" />
             <field name="type" />
             <field name="create_date" />
+            <field name="deadline" />
+            <filter name="state_active" domain="[('state', '=', 'active')]" string="Active"/>
+            <filter name="state_draft" domain="[('state', '=', 'draft')]" string="Draft"/>
+            <filter name="state_done" domain="[('state', '=', 'done')]" string="Done"/>
             <group expand="0" string="Group By">
                <filter string="Type project" name="type" context="{'group_by':'type'}" />
-            </group>
-            <group expand="0" string="Group By">
                <filter string="Created" name="create_date" context="{'group_by':'create_date'}" />
-            </group>
-            <group expand="0" string="Group By">
                <filter string="Project owner" name="project_owner_id" context="{'group_by':'project_owner_id'}" />
-            </group>
-            <group expand="0" string="Group By">
                <filter string="Deadline" name="deadline" context="{'group_by':'deadline'}" />
             </group>
          </search>
@@ -161,22 +178,18 @@
       <field name="name">crowdfunding.project.tree</field>
       <field name="model">crowdfunding.project</field>
       <field name="arch" type="xml">
-         <tree decoration-info="website_published==False"
-                decoration-muted="active==False"
-                default_order="name">
+         <tree decoration-info="website_published==False or state=='draft'"
+                decoration-muted="active==False or state=='done'"
+                default_order="deadline desc">
              <field name="cover_photo" widget='image'/>
              <field name="name" />
-             <field name="event_id" />
-             <field name="campaign_id" />
-             <field name="project_owner_id" />
+             <field name="project_owner_id"/>
              <field name="deadline" />
-            <field name="product_number_goal" />
             <field name="product_number_reached" />
-            <field name="number_sponsorships_goal" />
             <field name="number_sponsorships_reached" />
              <field name="donation_reached" widget="monetary"/>
              <field name="website_published" invisible="1" />
-             <field name="state" invisible="1" />
+             <field name="state"/>
              <field name="active" invisible="1" />
          </tree>
       </field>
@@ -203,11 +216,11 @@
          <kanban default_order="name">
             <field name="id" />
             <field name="name" />
-            <field name="description" />
             <field name="description_short" />
             <field name="type" />
             <field name="deadline" widget="date" />
             <field name="cover_photo" widget="binary" required="1" />
+            <field name="project_owner_id" />
             <field name="product_number_goal" />
             <field name="product_number_reached" />
             <field name="number_sponsorships_goal" />
@@ -216,12 +229,9 @@
             <field name="color_product" />
             <field name="state" />
             <field name="color" />
-            <field name="facebook_url" />
-            <field name="instagram_url" />
-            <field name="twitter_url" />
             <templates>
                <t t-name="kanban-box">
-                  <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click card">
+                  <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click card o_kanban_record_has_image_fill">
                      <div class="o_dropdown_kanban dropdown">
                         <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown">
                            <span class="fa fa-ellipsis-v" />
@@ -239,10 +249,8 @@
                            <ul class="oe_kanban_colorpicker" data-field="color" />
                         </div>
                      </div>
-                     <div class="card-header border-0 ">
-                        <img t-att-src="kanban_image('crowdfunding.project', 'cover_photo', record.id.raw_value)"
-                             t-att-title="record.name.raw_value" t-att-alt="record.name.raw_value"
-                             class="card-img-top" />
+                     <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('crowdfunding.project', 'cover_photo', record.id.raw_value)}')">
+                        <img class="o_kanban_image_inner_pic" t-if="record.project_owner_id.raw_value" t-att-alt="record.project_owner_id.value" t-att-src="kanban_image('res.partner', 'image_small', record.project_owner_id.raw_value)"/>
                      </div>
                      <div class="card-body oe_kanban_details">
                         <h4 class="card-title" style="text-transform: uppercase;">
@@ -280,25 +288,14 @@
                            </span>
                         </h5>
                         <p class="card-text" data-toggle="tooltip" data-html="true"
-                           t-att-title="record.description.raw_value">
+                           t-att-title="record.description_short.raw_value">
                            <field name="description_short" />
                         </p>
                      </div>
-                     <div class="card-footer w-100 text-muted text-center"
-                          t-if="record.facebook_url.raw_value or record.instagram_url.raw_value
-                          or record.twitter_url.raw_value">
-                        <t t-if="record.facebook_url.raw_value">
-                           <a t-attf-href="#{record.facebook_url.raw_value}" target="_blank"
-                              class="btn btn-outline-info" role="button">FACEBOOK</a>
-                        </t>
-                        <t t-if="record.instagram_url.raw_value">
-                           <a t-attf-href="#{record.instagram_url.raw_value}" target="_blank"
-                              class="btn btn-outline-primary" role="button">INSTAGRAM</a>
-                        </t>
-                        <t t-if="record.twitter_url.raw_value">
-                           <a t-attf-href="#{record.twitter_url.raw_value}" target="_blank"
-                              class="btn btn-outline-secondary" role="button">TWITTER</a>
-                        </t>
+                     <div class="card-footer w-100 text-muted text-center">
+                        <a name="open_participants" type="object" class="btn btn-outline-info" role="button">
+                           <field name="number_participants"/> Participants
+                        </a>
                      </div>
                   </div>
                </t>

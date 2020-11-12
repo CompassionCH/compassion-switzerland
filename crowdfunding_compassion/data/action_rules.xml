@@ -1,0 +1,13 @@
+<odoo>
+    <!-- Rule for putting projects to done when deadline is passed. -->
+    <record id="check_project_done" model="base.automation">
+        <field name="name">Crowdfunding: Check Project Done</field>
+        <field name="model_id" ref="model_crowdfunding_project"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="crowdfunding_compassion.field_crowdfunding_project__deadline"/>
+        <field name="filter_domain">[('state', '=', 'active')]</field>
+        <field name="state">object_write</field>
+        <field name="fields_lines" eval="[(0, 0, {
+            'col1': ref('crowdfunding_compassion.field_crowdfunding_project__state'), 'type': 'value', 'value': 'done'})]"/>
+    </record>
+</odoo>
