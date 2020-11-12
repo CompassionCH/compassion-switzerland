@@ -40,6 +40,11 @@ class CrowdfundingParticipant(models.Model):
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
     is_published = fields.Boolean(related="project_id.is_published")
 
+    # kanban colors
+    color_sponsorship = fields.Char(compute="_compute_color_sponsorship")
+    color_product = fields.Char(compute="_compute_color_product")
+    color = fields.Integer()
+
     _sql_constraints = [
         ('registration_unique', "unique(project_id,partner_id)",
          "Only one registration per participant/project is allowed!")
@@ -110,6 +115,34 @@ class CrowdfundingParticipant(models.Model):
     def _compute_website_url(self):
         for participant in self:
             participant.website_url = f"/participant/{participant.id}"
+
+    def _compute_color_sponsorship(self):
+        for project in self:
+            if project.number_sponsorships_goal != 0:
+                tx_sponsorships = (project.number_sponsorships_reached / project.number_sponsorships_goal) * 100
+                if tx_sponsorships >= 75.0:
+                    project.color_sponsorship = 'badge badge-success'
+                else:
+                    if 50.0 <= tx_sponsorships < 75.0:
+                        project.color_sponsorship = 'badge badge-warning'
+                    else:
+                        project.color_sponsorship = 'badge badge-danger'
+            else:
+                project.color_sponsorship = 'badge badge-info'
+
+    def _compute_color_product(self):
+        for project in self:
+            if project.product_number_goal != 0:
+                tx_product = (project.product_number_reached / project.product_number_goal) * 100
+                if tx_product >= 75.0:
+                    project.color_product = 'badge badge-success'
+                else:
+                    if 50.0 <= tx_product < 75.0:
+                        project.color_product = 'badge badge-warning'
+                    else:
+                        project.color_product = 'badge badge-danger'
+            else:
+                project.color_product = 'badge badge-info'
 
     def _default_website_meta(self):
         res = super()._default_website_meta()

@@ -49,6 +49,7 @@
         "data/email_templates.xml",
         "data/utm_medium.xml",
         "data/products.xml",
+        "data/action_rules.xml",
         "views/account_invoice_line_view.xml",
         "views/crowdfunding_participant_view.xml",
         "views/crowdfunding_project_view.xml",

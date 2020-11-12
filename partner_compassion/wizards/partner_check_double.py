@@ -28,14 +28,17 @@ class PartnerCheckDouble(models.TransientModel):
         # Use base.partner.merge wizard
         self.env["base.partner.merge.automatic.wizard"].create(
             {
-                "partner_ids": [(6, 0, self.partner_id.ids)],
+                "partner_ids": [
+                    (6, 0, (self.partner_id + self.mergeable_partner_ids).ids)],
                 "dst_partner_id": self.selected_merge_partner_id.id,
             }
         ).action_merge()
+        self.selected_merge_partner_id.partner_duplicate_ids = False
         return {
             "type": "ir.actions.act_window",
             "res_model": "res.partner",
-            "views": [[None, "form"]],
+            "view_mode": "form",
+            "view_type": "form",
             "res_id": self.selected_merge_partner_id.id,
             "target": "main",
         }

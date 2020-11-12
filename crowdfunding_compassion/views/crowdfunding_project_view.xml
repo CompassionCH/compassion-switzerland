@@ -1,102 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="crowdfunding_project_view" model="ir.ui.view">
-        <field name="name">Crowdfunding Project View</field>
-        <field name="model">crowdfunding.project</field>
-        <field name="arch" type="xml">
-            <form string="Projects">
-                <header>
-                    <button name="validate" string="Validate project" type="object"
-                            class="btn-primary"
-                            attrs="{'invisible':[('state', '==', 'active')]}"/>
-                    <field name="state" widget="statusbar"/>
-                </header>
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="toggle_website_published"
-                                    class="oe_stat_button"
-                                    type="object" icon="fa-globe">
-                                <field name="website_published" widget="boolean_button"
-                                    options='{"terminology": {"string_true": "Published", "hover_false": "Publish"}}'/>
-                            </button>
-                        <button name="toggle_active"
-                                    type="object" class="oe_stat_button"
-                                    icon="fa-archive">
-                                <field name="active" widget="boolean_button"
-                                       options="{'terminology': 'archive'}"/>
-                            </button>
-                    </div>
-                    <group>
-                        <group string="Project" name="project_description">
-                            <field name="name"/>
-                            <field name="description"/>
-                            <field name="type"/>
-                            <field name="deadline" widget="date"/>
-                            <field name="cover_photo" widget="binary" required="1"/>
-                            <field name="project_owner_id" widget="many2one"/>
-                            <field name="event_id" widget="many2one"/>
-                        </group>
+   <!-- Form view-->
+   <record id="crowdfunding_project_view" model="ir.ui.view">
+      <field name="name">Crowdfunding Project View</field>
+      <field name="model">crowdfunding.project</field>
+      <field name="arch" type="xml">
+         <form>
+            <header>
+               <button name="validate" string="Validate project" type="object" class="btn-primary"
+                       attrs="{'invisible':[('state', '==', 'active')]}" />
+               <field name="state" widget="statusbar" />
+            </header>
+            <sheet>
+               <div class="oe_button_box" name="button_box">
+                  <button name="open_participants" type="object" class="oe_stat_button" icon="fa-group">
+                     <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                           <field name="number_participants"/>
+                        </span>
+                        <span class="o_stat_text">Participants</span>
+                     </div>
+                  </button>
+                  <button name="toggle_website_published" class="oe_stat_button" type="object" icon="fa-globe">
+                     <field name="website_published" widget="boolean_button"
+                            options="{&quot;terminology&quot;: {&quot;string_true&quot;:
+                            &quot;Published&quot;, &quot;hover_false&quot;: &quot;Publish&quot;}}" />
+                  </button>
+                  <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                     <field name="active" widget="boolean_button" options="{'terminology': 'archive'}" />
+                  </button>
+               </div>
+               <div>
+                     <field name="image_medium" widget="image" class="oe_avatar" />
+                     <div class="oe_title">
+                        <h3>
+                           <field name="type" />
+                        </h3>
+                        <h1>
+                           <field name="name" />
+                        </h1>
+                     </div>
+               </div>
+               <notebook name="project_relation">
+                  <page string="Details" name="project_description">
+                     <div class="container-fluid">
+                        <div class="row">
+                           <div class="col">
+                              <label for="deadline" />
+                              <h3>
+                                 <field name="deadline" widget="date" />
+                              </h3>
+                              <label for="project_owner_id" />
+                              <h3>
+                                 <field name="project_owner_id" widget="many2one" />
+                              </h3>
+                              <label for="event_id" attrs="{'readonly':True , 'invisible':[('event_id', '==', '')] }"/>
+                              <h3>
+                                 <field name="event_id" widget="many2one"
+                                        attrs="{'readonly':True , 'invisible':[('event_id', '=', '')] }"/>
+                              </h3>
+                              <label for="product_id" />
+                              <h3>
+                                 <field name="product_id" widget="many2one" />
+                              </h3>
+                           </div>
+                           <div class="col">
+                              <label for="product_number_reached"/>
+                              <h3>
+                                 <field name="product_number_reached"/> / <field name="product_number_goal"/>
+                                 <field name="product_crowdfunding_impact" style="margin-left: 0.5em; font-weight: normal"/>
+                              </h3>
+                              <label for="number_sponsorships_reached" />
+                              <h3>
+                                 <field name="number_sponsorships_reached" /> / <field name="number_sponsorships_goal" />
+                              </h3>
+                           </div>
+                           <div class="col">
+                              <label for="presentation_video" />
+                              <h3>
+                                 <field name="presentation_video" widget="char" />
+                              </h3>
+                              <label for="facebook_url" />
+                              <h3>
+                                 <field name="facebook_url" widget="char" />
+                              </h3>
+                              <label for="twitter_url" />
+                              <h3>
+                                 <field name="twitter_url" widget="char" />
+                              </h3>
+                              <label for="instagram_url" />
+                              <h3>
+                                 <field name="instagram_url" widget="char" />
+                              </h3>
+                              <label for="personal_web_page_url" />
+                              <h3>
+                                 <field name="personal_web_page_url" widget="char" />
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col">
+                              <label for="description" />
+                              <p>
+                                 <field name="description" nolabel="1" />
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                  </page>
+                  <page string="Participants" name="project_participants">
+                     <field name="participant_ids" widget="one2many" context="{'default_project_id': active_id}">
+                        <tree>
+                           <field name="partner_id"/>
+                           <field name="product_number_reached"/>
+                           <field name="number_sponsorships_reached"/>
+                        </tree>
+                     </field>
+                  </page>
+                  <page string="Donations">
+                     <field name="invoice_line_ids" widget="one2many">
+                        <tree order="due_date desc">
+                           <field name="due_date"/>
+                           <field name="partner_id"/>
+                           <field name="user_id"/>
+                           <field name="price_subtotal"/>
+                        </tree>
+                     </field>
+                  </page>
+                  <page string="Sponsorships">
+                     <field name="sponsorship_ids" widget="one2many">
+                        <tree order="create_date desc">
+                           <field name="create_date"/>
+                           <field name="partner_id"/>
+                           <field name="child_id"/>
+                           <field name="user_id"/>
+                           <field name="total_amount"/>
+                           <field name="state"/>
+                        </tree>
+                     </field>
+                  </page>
+               </notebook>
+            </sheet>
+            <div class="oe_chatter">
+               <field name="message_follower_ids" widget="mail_followers" />
+               <field name="activity_ids" widget="mail_activity" />
+               <field name="message_ids" widget="mail_thread" />
+            </div>
+         </form>
+      </field>
+   </record>
 
-                        <group string="Goals" name="project_goals">
-                            <field name="product_id" widget="many2one"/>
-                            <field name="product_number_goal"/>
-                            <field name="product_number_reached"/>
-                            <field name="number_sponsorships_goal"/>
-                            <field name="number_sponsorships_reached"/>
-                        </group>
+   <!-- Search view -->
+   <record id="crowdfunding_project_search_all" model="ir.ui.view">
+      <field name="name">crowdfunding.project.search</field>
+      <field name="model">crowdfunding.project</field>
+      <field name="arch" type="xml">
+         <search>
+            <field name="name" />
+            <field name="type" />
+            <field name="create_date" />
+            <field name="deadline" />
+            <filter name="state_active" domain="[('state', '=', 'active')]" string="Active"/>
+            <filter name="state_draft" domain="[('state', '=', 'draft')]" string="Draft"/>
+            <filter name="state_done" domain="[('state', '=', 'done')]" string="Done"/>
+            <group expand="0" string="Group By">
+               <filter string="Type project" name="type" context="{'group_by':'type'}" />
+               <filter string="Created" name="create_date" context="{'group_by':'create_date'}" />
+               <filter string="Project owner" name="project_owner_id" context="{'group_by':'project_owner_id'}" />
+               <filter string="Deadline" name="deadline" context="{'group_by':'deadline'}" />
+            </group>
+         </search>
+      </field>
+   </record>
 
-                        <group string="Promotion" name="project_link">
-                            <field name="presentation_video" widget="char"/>
-                            <field name="facebook_url" widget="char"/>
-                            <field name="twitter_url" widget="char"/>
-                            <field name="instagram_url" widget="char"/>
-                            <field name="personal_web_page_url" widget="char"/>
-                        </group>
-                    </group>
-                    <notebook name="project_relation">
-                        <page string="Participants" name="project_participants">
-                            <field name="participant_ids" widget="one2many"/>
-                        </page>
-                        <page string="Sponsorships">
-                            <field name="sponsorship_ids" widget="one2many"/>
-                        </page>
-                        <page string="Donations">
-                            <field name="invoice_line_ids" widget="one2many"/>
-                        </page>
-                    </notebook>
-                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
-            </form>
-        </field>
-    </record>
+   <!-- Tree view -->
+   <record id="view_crowdfunding_project_tree" model="ir.ui.view">
+      <field name="name">crowdfunding.project.tree</field>
+      <field name="model">crowdfunding.project</field>
+      <field name="arch" type="xml">
+         <tree decoration-info="website_published==False or state=='draft'"
+                decoration-muted="active==False or state=='done'"
+                default_order="deadline desc">
+             <field name="cover_photo" widget='image'/>
+             <field name="name" />
+             <field name="project_owner_id"/>
+             <field name="deadline" />
+            <field name="product_number_reached" />
+            <field name="number_sponsorships_reached" />
+             <field name="donation_reached" widget="monetary"/>
+             <field name="website_published" invisible="1" />
+             <field name="state"/>
+             <field name="active" invisible="1" />
+         </tree>
+      </field>
+   </record>
 
-    <!-- Tree view -->
-    <record id="view_crowdfunding_project_tree" model="ir.ui.view">
-        <field name="name">crowdfunding.project.tree</field>
-        <field name="model">crowdfunding.project</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
-                <field name="deadline"/>
-            </tree>
-        </field>
-    </record>
+    <!-- Graph view -->
+   <record id="crowdfunding_project_graph_view" model="ir.ui.view">
+      <field name="name">crowdfunding.project.graph</field>
+      <field name="model">crowdfunding.project</field>
+      <field name="arch" type="xml">
+         <graph type="bar" stacked="True">
+            <field name="create_date" interval="month" />
+            <field name="type" />
+            <field name="donation_reached" type="measure" />
+         </graph>
+      </field>
+   </record>
 
-    <!-- Action opening the tree view -->
-    <record id="open_view_crowdfunding_project_tree" model="ir.actions.act_window">
-        <field name="name">Project</field>
-        <field name="res_model">crowdfunding.project</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,kanban,form</field>
-        <field name="context">{'search_default_available':1}</field>
-    </record>
+   <!-- Kanban view -->
+   <record id="crowdfunding_project_kanban_view" model="ir.ui.view">
+      <field name="name">crowdfunding.project.kanban</field>
+      <field name="model">crowdfunding.project</field>
+      <field name="arch" type="xml">
+         <kanban default_order="name">
+            <field name="id" />
+            <field name="name" />
+            <field name="description_short" />
+            <field name="type" />
+            <field name="deadline" widget="date" />
+            <field name="cover_photo" widget="binary" required="1" />
+            <field name="project_owner_id" />
+            <field name="product_number_goal" />
+            <field name="product_number_reached" />
+            <field name="number_sponsorships_goal" />
+            <field name="number_sponsorships_reached" />
+            <field name="color_sponsorship" />
+            <field name="color_product" />
+            <field name="state" />
+            <field name="color" />
+            <templates>
+               <t t-name="kanban-box">
+                  <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click card o_kanban_record_has_image_fill">
+                     <div class="o_dropdown_kanban dropdown">
+                        <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown">
+                           <span class="fa fa-ellipsis-v" />
+                        </a>
+                        <div class="dropdown-menu" role="menu">
+                           <t t-if="widget.editable">
+                              <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                           </t>
+                           <t t-if="widget.deletable">
+                              <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                           </t>
+                           <t t-if="record.state.raw_value != 'active'">
+                              <a role="menuitem" name="validate" type="object" class="dropdown-item">Validate</a>
+                           </t>
+                           <ul class="oe_kanban_colorpicker" data-field="color" />
+                        </div>
+                     </div>
+                     <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('crowdfunding.project', 'cover_photo', record.id.raw_value)}')">
+                        <img class="o_kanban_image_inner_pic" t-if="record.project_owner_id.raw_value" t-att-alt="record.project_owner_id.value" t-att-src="kanban_image('res.partner', 'image_small', record.project_owner_id.raw_value)"/>
+                     </div>
+                     <div class="card-body oe_kanban_details">
+                        <h4 class="card-title" style="text-transform: uppercase;">
+                           <a type="open">
+                              <field name="name" />
+                           </a>
+                        </h4>
+                        <h5>
+                           <span class="badge badge-dark">
+                              <field name="type" />
+                           </span>
+                           <span class="badge badge-dark">
+                              <field name="deadline" />
+                              (
+                              <field name="time_left" />
+                              )
+                           </span>
+                           <span class="badge badge-primary" t-if="record.state.raw_value == 'active'">
+                              <field name="donation_reached" />
+                              .-CHF
+                           </span>
+                        </h5>
+                        <h5>
+                           <span t-attf-class="#{record.color_sponsorship.raw_value}">
+                              <field name="number_sponsorships_reached" />
+                              /
+                              <field name="number_sponsorships_goal" />
+                              sponsorship reached
+                           </span>
+                           <span t-attf-class="#{record.color_product.raw_value}">
+                              <field name="product_number_reached" />
+                              /
+                              <field name="product_number_goal" />
+                              product reached
+                           </span>
+                        </h5>
+                        <p class="card-text" data-toggle="tooltip" data-html="true"
+                           t-att-title="record.description_short.raw_value">
+                           <field name="description_short" />
+                        </p>
+                     </div>
+                     <div class="card-footer w-100 text-muted text-center">
+                        <a name="open_participants" type="object" class="btn btn-outline-info" role="button">
+                           <field name="number_participants"/> Participants
+                        </a>
+                     </div>
+                  </div>
+               </t>
+            </templates>
+         </kanban>
+      </field>
+   </record>
 
-    <menuitem id="menu_crowdfunding_project"
-              parent="menu_event_crowdfunding"
-              name="Projects"
-              action="open_view_crowdfunding_project_tree"
-              sequence="1"/>
+   <!-- Action opening the tree view -->
+   <record id="open_view_crowdfunding_project_tree" model="ir.actions.act_window">
+      <field name="name">Project</field>
+      <field name="res_model">crowdfunding.project</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,kanban,form,graph</field>
+      <field name="context">{'search_default_available':1}</field>
+   </record>
+
+   <!-- Menu -->
+   <menuitem id="menu_crowdfunding_project" parent="menu_event_crowdfunding" name="Projects"
+             action="open_view_crowdfunding_project_tree" sequence="1" />
 </odoo>
