@@ -34,3 +34,5 @@ sphinx-intl
 timezonefinder
 unidecode
 wand
+PyMuPDF
+boxdetect
