@@ -276,7 +276,6 @@ class ImportLettersHistory(models.Model):
         share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
 
         smb_conn = self._get_smb_connection()
-
         if not self.manual_import:
             imported_letter_path = self.check_path(self.import_folder_path)
             if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
@@ -548,7 +547,7 @@ class ImportLettersHistory(models.Model):
         args = [
             "-sDEVICE=pdfwrite",
             "-dCompatibilityLevel=1.4",
-            "-dPDFSETTINGS=/ebook",
+            "-dPDFSETTINGS=/default",
             "-dNOPAUSE",
             "-dQUIET",
             "-dBATCH",

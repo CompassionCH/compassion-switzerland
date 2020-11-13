@@ -39,7 +39,7 @@
         "partner_communication_switzerland",  # compassion-switzerland
         "child_switzerland",  # compassion-switzerland
     ],
-    "external_dependencies": {"python": ["smb", "PyPDF2", "pysftp", "wand"]},
+    "external_dependencies": {"python": ["smb", "PyPDF2", "pysftp", "wand", "PyMuPDF", "boxdetect"]},
     "data": [
         "security/ir.model.access.csv",
         "data/scan_letter_params.xml",
