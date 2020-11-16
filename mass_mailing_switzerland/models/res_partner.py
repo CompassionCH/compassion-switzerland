@@ -153,7 +153,7 @@ class ResPartner(models.Model):
         super().write(vals)
         base_mailchimp_fields = [
             "category_id", "email", "lastname", "firstname", "name",
-            "number_sponsorships", "opt_out"]
+            "number_sponsorships", "opt_out", "zip"]
         update_partner_ids = []
         for contact in self.filtered(lambda c: c.mailing_contact_ids):
             if "opt_out" in vals:
