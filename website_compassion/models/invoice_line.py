@@ -6,5 +6,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import compassion_project
-from . import invoice_line
+from odoo import models
+
+
+class AccountInvoiceLine(models.Model):
+    _name = "account.invoice.line"
+    _inherit = ["account.invoice.line", "translatable.model"]
