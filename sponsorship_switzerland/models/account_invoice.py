@@ -64,7 +64,8 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def show_transactions(self):
-        return self.partner_id.show_lines()
+        return self.partner_id.with_context(domain=[("invoice_id", "=", self.id)])\
+            .show_lines()
 
     @api.multi
     def show_move_lines(self):
