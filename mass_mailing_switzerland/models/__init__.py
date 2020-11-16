@@ -23,3 +23,4 @@ from . import mass_mailing_contact
 from . import email_lang_template
 from . import mail_thread
 from . import mass_mailing_subscription
+from . import mailchimp_lists

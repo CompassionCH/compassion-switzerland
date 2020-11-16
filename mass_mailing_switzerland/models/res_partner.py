@@ -169,7 +169,7 @@ class ResPartner(models.Model):
             mailchimp_fields += base_mailchimp_fields
             if set(vals.keys()) & set(mailchimp_fields):
                 update_partner_ids.append(contact.id)
-        if update_partner_ids:
+        if update_partner_ids and not self.env.context.get("import_from_mailchimp"):
             self.env["mail.mass_mailing.contact"]\
                 .with_delay().update_all_merge_fields_job(update_partner_ids)
         return True
