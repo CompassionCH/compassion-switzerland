@@ -38,51 +38,55 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         self.assertRegexpMatches(completion_result["name"], "Project Gift.*")
 
     def test_lookup_by_sponsor_name(self):
-        statement_line = {"name": u" EXPÉDITEUR: fost edward"}
+        statement_line = {"name": u" EXPÉDITEUR: Kim Snyder"}
 
         rule = self._fetch_rule_by_function_name("get_sponsor_name")
         completion_result = rule.auto_complete([], statement_line)
 
         self.assertTrue("partner_id" in completion_result)
-        self.assertEqual(completion_result["partner_id"], 9)
+        self.assertEqual(completion_result["partner_id"],
+                         self.env.ref("base.res_partner_4").id)
 
     def test_lookup_by_sponsor_name_with_multiple_matching(self):
         """
         Two partners match flexible search by name (User Demo and User
         Portal Demo) and the exact match should take precedence
         """
-        statement_line = {"name": u" EXPÉDITEUR: user demo"}
+        statement_line = {"name": u" EXPÉDITEUR: marc demo"}
 
         rule = self._fetch_rule_by_function_name("get_sponsor_name")
         completion_result = rule.auto_complete([], statement_line)
 
         self.assertTrue("partner_id" in completion_result)
-        self.assertEqual(completion_result["partner_id"], 6)
+        self.assertEqual(completion_result["partner_id"],
+                         self.env.ref("base.partner_demo").id)
 
     def test_lookup_by_sponsor_name_for_companies(self):
         """
         Looking up corporate partner 'Agrolait'
         Edge case of having a single word instead of first + last name
         """
-        statement_line = {"name": u" DONNEUR D'ORDRE: Grolai"}
+        statement_line = {"name": u" DONNEUR D'ORDRE: Gemini"}
 
         rule = self._fetch_rule_by_function_name("get_sponsor_name")
         completion_result = rule.auto_complete([], statement_line)
 
         self.assertTrue("partner_id" in completion_result)
-        self.assertEqual(completion_result["partner_id"], 9)
+        self.assertEqual(completion_result["partner_id"],
+                         self.env.ref("base.res_partner_3").id)
 
     def test_lookup_by_sponsor_name_with_wire_transfers(self):
         """
         The logic to split the names is slightly different
         """
-        statement_line = {"name": u"VIREMENT DU COMPTE CH01 edward fost"}
+        statement_line = {"name": u"VIREMENT DU COMPTE CH01 snyder kim"}
 
         rule = self._fetch_rule_by_function_name("get_sponsor_name")
         completion_result = rule.auto_complete([], statement_line)
 
         self.assertTrue("partner_id" in completion_result)
-        self.assertEqual(completion_result["partner_id"], 9)
+        self.assertEqual(completion_result["partner_id"],
+                         self.env.ref("base.res_partner_4").id)
 
     def test_lsv_dd_for_postfinance(self):
         statement_line = {"name": u"anything\nKREDITKARTEN\nanything", "amount": 200}

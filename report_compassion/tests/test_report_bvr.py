@@ -18,7 +18,7 @@ _logger = logging.getLogger(__name__)
 class TestReportBVRSponsorship(TestContractsSwitzerland):
     def setUp(self):
         super().setUp()
-        self.product = self.env.ref("product.service_order_01")
+        self.product = self.env.ref("product.product_product_10")
 
     def test_report_bvr_sponsorship__render_html(self):
         sponsorship = self._create_sponsorship()

@@ -9,6 +9,7 @@
                 <field name="state" invisible="1"/>
                 <group>
                     <field name="product_id"/>
+                    <field name="amount"/>
                     <field name="pdf"/>
                     <field name="draw_background" attrs="{'invisible': [('pdf', '=', False)]}"/>
                     <field name="preprinted" attrs="{'invisible': [('pdf', '=', True)]}"/>

@@ -9,6 +9,8 @@
 ##############################################################################
 import base64
 import logging
+from base64 import b64decode
+
 import mock
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (
     BaseSponsorshipTest,
@@ -37,24 +39,25 @@ class TestSponsorship(BaseSponsorshipTest):
         bank = self.env["res.bank"].create(
             {
                 "name": "BCV",
-                "bic": "BIC23423",
+                "bic": "BICBIC22123",
                 "clearing": "234234",
-                "ccp": "01-1234-1",
+                "acc_number": "01-044443-7",
             }
         )
         bank_account = self.env["res.partner.bank"].create(
             {
-                "partner_id": self.michel.id,
+                "partner_id": self.michel.commercial_partner_id.id,
                 "bank_id": bank.id,
-                "acc_number": "Bank/CCP 01-1234-1",
+                "acc_number": "01-044443-7",
+                "l10n_ch_isr_subscription_chf": "010444437",
             }
         )
         self.mandates = self.env["account.banking.mandate"].search(
-            [("partner_id", "=", self.michel.parent_id.id)]
+            [("partner_id", "=", self.michel.commercial_partner_id.id)]
         )
         self.mandates.write({"state": "draft"})
         bank_account.mandate_ids = self.mandates
-        self.michel.bank_ids = bank_account
+        self.michel.commercial_partner_id.bank_ids = bank_account
 
         payment_mode_lsv = self.env.ref("sponsorship_switzerland.payment_mode_lsv")
         self.sp_group = self.create_group(
@@ -72,7 +75,7 @@ class TestSponsorship(BaseSponsorshipTest):
 
         f_path = "addons/partner_communication_switzerland/static/src/test.pdf"
         with file_open(f_path, "rb") as pdf_file:
-            get_pdf.return_value = pdf_file.read()
+            get_pdf.return_value = (pdf_file.read(), "pdf")
 
         # Creation of the sponsorship contract
         child = self.create_child(self.ref(11))
@@ -103,7 +106,7 @@ class TestSponsorship(BaseSponsorshipTest):
         partner_communications.unlink()
 
         # Validate a mandate to make the sponsorship in waiting state.
-        self.mandates[0].validate()
+        self.mandates.validate()
         self.assertEqual(sponsorship.state, "waiting")
 
         # Check that no new communication is generated
@@ -120,12 +123,12 @@ class TestSponsorship(BaseSponsorshipTest):
     @mock.patch(mock_get_pdf)
     def test_bvr_generation(self, get_pdf, update_hold):
         communications = self._create_communication(get_pdf, update_hold)
-
+        get_pdf.return_value = (b"pdf", "pdf")
         bvr = communications.get_birthday_bvr()
         self.assertTrue("Birthday Gift.pdf" in bvr)
         values = bvr["Birthday Gift.pdf"]
         self.assertEqual(values[0], "report_compassion.bvr_gift_sponsorship")
-        self.assertRegex(values[1].decode("utf-8"), r"^JVBERi0xLjIN.*")
+        self.assertEqual(b64decode(values[1]), get_pdf.return_value[0])
 
         graduation_bvr = communications.get_graduation_bvr()
         self.assertTrue("Graduation Gift.pdf" in graduation_bvr)
@@ -166,6 +169,7 @@ class TestSponsorship(BaseSponsorshipTest):
     @mock.patch(mock_get_pdf)
     def test_send(self, get_pdf, update_hold):
         self.env.user.firstname = "jason"
+        get_pdf.return_value = (b"pdf", "pdf")
         communications = self._create_communication(get_pdf, update_hold)
 
         before = fields.Datetime.now()
@@ -184,7 +188,7 @@ class TestSponsorship(BaseSponsorshipTest):
 
         f_path = "addons/partner_communication_switzerland/static/src/test.pdf"
         with file_open(f_path, "rb") as pdf_file:
-            get_pdf.return_value = pdf_file.read()
+            get_pdf.return_value = (pdf_file.read(), "pdf")
 
         child = self.create_child(self.ref(11))
         self.michel.letter_delivery_preference = "physical"
@@ -202,7 +206,7 @@ class TestSponsorship(BaseSponsorshipTest):
             "template_id": default_template.id,
             "original_text": "my text",
             "sponsorship_id": sponsorship.id,
-            "letter_image": base64.b64encode(get_pdf.return_value),
+            "letter_image": base64.b64encode(get_pdf.return_value[0]),
         }
         letter = self.env["correspondence"].create(correspondence_data)
 
@@ -227,5 +231,4 @@ class TestSponsorship(BaseSponsorshipTest):
         new_job = partner_communications.search([]) - jobs_before
         self.assertEqual(len(new_job), 1)
         self.assertTrue(new_job.send())
-        self.assertIn("Dear Demo User", new_job.body_html)
-        self.assertIn("Sent by YourCompany using", new_job.body_html)
+        self.assertIn("A password reset was requested", new_job.body_html)

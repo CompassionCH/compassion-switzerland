@@ -119,7 +119,8 @@ class CrowdfundingParticipant(models.Model):
     def _compute_color_sponsorship(self):
         for project in self:
             if project.number_sponsorships_goal != 0:
-                tx_sponsorships = (project.number_sponsorships_reached / project.number_sponsorships_goal) * 100
+                tx_sponsorships = (project.number_sponsorships_reached /
+                                   project.number_sponsorships_goal) * 100
                 if tx_sponsorships >= 75.0:
                     project.color_sponsorship = 'badge badge-success'
                 else:
@@ -133,7 +134,8 @@ class CrowdfundingParticipant(models.Model):
     def _compute_color_product(self):
         for project in self:
             if project.product_number_goal != 0:
-                tx_product = (project.product_number_reached / project.product_number_goal) * 100
+                tx_product = (project.product_number_reached /
+                              project.product_number_goal) * 100
                 if tx_product >= 75.0:
                     project.color_product = 'badge badge-success'
                 else:

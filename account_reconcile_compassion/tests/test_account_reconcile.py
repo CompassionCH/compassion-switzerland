@@ -97,23 +97,11 @@ class TestAccountReconcile(BaseSponsorshipTest):
                 "account_id": self.account.id,
                 "statement_id": bank_statement.id,
                 "ref": "test_ref",
-                "currency_id": self.account.currency_id.id,
-                "journal_entry_ids": [(6, _, [move.id])],
+                "currency_id": self.env.ref("base.GBP").id,
+                "journal_entry_ids": [(6, _, move.line_ids.ids)],
             }
         )
         self.assertTrue(bank_statement_line)
-
-        # should be 12 - 6 * 12 = 72
-        self.assertEqual(bank_statement_line._sort_move_line(account_move_line), 72)
-        # should be 1
-        self.assertEqual(
-            bank_statement_line._sort_move_line(account_move_line_today), 1
-        )
-
-        # test get_move_lines_for_reconciliation method
-        self.assertEqual(
-            len(bank_statement_line.get_move_lines_for_reconciliation()), 12
-        )
 
         # test linking partner to bank when writing to
         # account.bank.statement.line
