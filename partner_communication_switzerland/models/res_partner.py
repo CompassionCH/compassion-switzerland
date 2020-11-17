@@ -83,12 +83,12 @@ class ResPartner(models.Model):
                 title_salutation + " " + title_name + " " +
                 lang_partner.lastname
             )
-            partner.short_salutation = title_salutation + " " + \
-                lang_partner.preferred_name
-            partner.informal_salutation = title_salutation + " " + \
-                lang_partner.preferred_name
+            pref_name = lang_partner.preferred_name or lang_partner.firstname or \
+                lang_partner.name
+            partner.short_salutation = title_salutation + " " + pref_name
+            partner.informal_salutation = title_salutation + " " + pref_name
             partner.full_salutation = (
-                title_salutation + " " + lang_partner.preferred_name + " " +
+                title_salutation + " " + (lang_partner.preferred_name or "") + " " +
                 lang_partner.lastname
             )
 
