@@ -1,18 +1,130 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <template id="write_a_letter_page_template" name="Write a letter">
+        <template id="letter_page_template" name="Write a letter">
             <t t-call="website_compassion.my_account_layout">
-                <div class="container m64">
-                    This will be the write a letter view
+                <t t-call="website_compassion.letter_horizontal_pictures"/>
+
+                <div class="container" style="position: relative;">
+                    <div class="row" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0;">
+                        <div class="col-4">
+                            <t t-call="website_compassion.letter_templates"/>
+                        </div>
+
+                        <div class="col-6">
+                            <textarea id="letter_content" class="w-100 h-100" placeholder="Write your text here..." style="resize: none;"/>
+                        </div>
+
+                        <div class="col-2">
+                            <t t-call="website_compassion.letter_actions"/>
+                        </div>
+                    </div>
                 </div>
             </t>
+            <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
+            <script type="text/javascript" src="/website_compassion/static/src/js/write_a_letter.js"/>
         </template>
 
-        <record id="write_a_letter_page" model="website.page">
-            <field name="website_published">True</field>
-            <field name="url">/my/write_a_letter</field>
-            <field name="view_id" ref="website_compassion.write_a_letter_page_template"/>
-        </record>
+        <!-- Children pictures at the top of the view -->
+        <template id="letter_horizontal_pictures">
+            <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <div id="my_children_div" class="container" style="overflow-x:auto">
+                    <ul class="nav nav-tabs d-flex flex-nowrap">
+                        <!-- Finding children of the corresponding sponsor -->
+                        <t t-foreach="child_ids" t-as="child">
+                            <!-- Setting headshot for each child -->
+                            <t t-if="child.image_url">
+                                <t t-set="child_image" t-value="request.env[
+                                    'child.pictures.download.wizard'
+                                ].get_picture_url(child.image_url, 'headshot', 150, 150)"/>
+                            </t>
+                            <t t-elif="child.gender == 'M'">
+                                <t t-set="child_image" t-value="'/website_compassion/static/src/img/guy.png'"/>
+                            </t>
+                            <t t-else="">
+                                <t t-set="child_image" t-value="'/website_compassion/static/src/img/lady.png'"/>
+                            </t>
+
+                            <!-- Creating the actual card for each children -->
+                            <div t-attf-id="card_child_{{child.id}}" t-attf-onclick="selectElement('{{child.id}}', 'child')" class="card card-clickable text-center bg-light m-1" style="width: 9rem;height: 10rem;">
+                                <li class="nav-item">
+                                    <a class="nav-link border-0">
+                                        <!-- We add a border for the selected child -->
+                                        <t t-if="child.id == child_id.id">
+                                            <img t-attf-id="child_{{child.id}}" t-att-name="child.name" class="child-image rounded-circle border border-5 border-primary" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
+                                        </t>
+                                        <t t-else="">
+                                            <img t-attf-id="child_{{child.id}}" t-att-name="child.name" class="child-image rounded-circle" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
+                                        </t>
+                                        <span t-attf-id="child_name_{{child.id}}" t-att-value="child.name" style="display: none;"/>
+                                        <span t-attf-id="child_local_id_{{child.id}}" t-att-value="child.local_id" style="display: none;"/>
+                                        <t t-esc="child.preferred_name"/>
+                                    </a>
+                                </li>
+                            </div>
+                        </t>
+                    </ul>
+                </div>
+            </nav>
+        </template>
+
+        <template id="letter_templates">
+
+            <ul class="templates nav nav-tabs" style="height: 33rem; overflow-y: scroll">
+                <t t-foreach="template_ids" t-as="template">
+                    <div class="w-50 p-2">
+                        <div t-attf-id="card_template_{{template.id}}" t-attf-onclick="selectElement('{{template.id}}', 'template')" class="card card-clickable text-center">
+                            <li>
+                                <t t-if="template.id == template_id.id">
+                                    <img t-attf-id="template_{{template.id}}" t-att-name="template.name" class="template-image border border-5 border-primary" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
+                                </t>
+                                <t t-else="">
+                                    <img t-attf-id="template_{{template.id}}" t-att-name="template.name" class="template-image" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
+                                </t>
+                                <span t-attf-id="template_name_{{template.id}}" t-att-value="template.name" style="display: none;"/>
+                                <t t-esc="template.name"/>
+                            </li>
+                        </div>
+                    </div>
+                </t>
+            </ul>
+        </template>
+
+        <template id="letter_actions">
+            <input id="file_selector" type="file" accept="image/*" style="display: none;"/>
+            <button class="btn btn-primary w-100 mb-2" onclick="document.getElementById('file_selector').click();">
+                Add images
+            </button>
+            <!-- TODO CO-765: Use this warning when no image was added to list -->
+            <div id="letter_images_duplicated" class="alert alert-info alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
+                The images that are selected multiple times are ignored
+            </div>
+
+            <!-- Filled with javascript -->
+            <!-- TODO CI-765: Change overflow-y to scroll so that images are not resized once the element become scrollable -->
+            <ul id="image_display_table" class="templates w-100 nav d-block border border-gray" style="height: 18rem; overflow-y:auto;"/>
+            <span id="child_id" t-att-value="child_id.id" style="display: none;"/>
+            <span id="child_name" t-att-value="child_id.name" style="display: none;"/>
+            <span id="child_local_id" t-att-value="child_id.local_id" style="display: none;"/>
+            <span id="template_id" t-att-value="template_id.id" style="display: none;"/>
+            <span id="template_name" t-att-value="template_id.name" style="display: none;"/>
+            <button id="preview_normal" class="btn btn-primary w-100 mt-2 mb-2" t-attf-onclick="createLetter(preview=true)">
+                Preview
+            </button>
+            <button id="preview_loading" class="btn btn-primary w-100 mt-2 mb-2" type="button" disabled="true" style="display: none;">
+                <span class="spinner-border spinner-border-sm" role="status"/>
+                Creation...
+            </button>
+            <div id="letter_sent_correctly" class="alert alert-success alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
+                Your letter was correctly sent ! Thank you for writing
+            </div>
+            <button id="sending_normal" class="btn btn-primary w-100" t-attf-onclick="sendLetter('{{request.env.user.partner_id.firstname}}')">
+                Send
+            </button>
+            <button id="sending_loading" class="btn btn-primary w-100" type="button" disabled="true" style="display: none;">
+                <span class="spinner-border spinner-border-sm" role="status"/>
+                Sending...
+            </button>
+        </template>
     </data>
 </odoo>
