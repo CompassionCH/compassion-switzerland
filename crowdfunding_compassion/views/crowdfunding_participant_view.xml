@@ -33,6 +33,7 @@
                                    <field name="due_date"/>
                                    <field name="partner_id"/>
                                    <field name="price_subtotal"/>
+                                    <field name="state"/>
                                 </tree>
                             </field>
                         </page>
