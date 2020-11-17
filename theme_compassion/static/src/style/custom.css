@@ -79,7 +79,7 @@ span[itemprop="name"]:before {
     margin-right: 5px;
 }
 
-/* Define new card class with special behaviours when hovered */
+/* add new card class with special behaviours when hovered */
 .card-clickable {
     border: none;
     transition: .3s;
@@ -90,9 +90,44 @@ span[itemprop="name"]:before {
     transform: scale(1.03);
 }
 
-/* Define class with border width of 5 pixels */
+/* add class with border width of 5 pixels */
 .border-5 {
     border-width: 5px !important;
+}
+
+/* add class for the cross used to close an image */
+.close-image {
+    position: absolute;
+    width: 2em;
+    height: 2em;
+    top: 0;
+    right: 0;
+    text-align: center;
+    background: white;
+    background-clip: content-box;
+}
+
+@keyframes spinner-border {
+    to { transform: rotate(360deg); }
+}
+
+.spinner-border{
+    display: inline-block;
+    float: left;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: .25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: spinner-border .75s linear infinite;
+    animation: spinner-border .75s linear infinite;
+}
+
+.spinner-border-sm {
+    height: 1rem;
+    width: 1rem;
+    border-width: .2em;
 }
 
 /* styling in surveys */

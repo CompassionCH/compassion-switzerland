@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
+        <!-- Default layout for My Account, adding new menu in top -->
         <template id="my_account_layout" name="My Account layout">
             <t t-call="portal.frontend_layout">
                 <!-- hides navbar from my portal -->
                 <style>.o_portal.container { display: none !important; }</style>
+                <style>footer { display: none !important; }</style>
 
                 <nav class="navbar navbar-expand-md navbar-light bg-light">
-                    <div id="my_account_div" class="container">
-                        <div class="collapse navbar-collapse" id="top_menu_my_account">
+                    <div class="container">
+                        <div class="collapse navbar-collapse">
                             <ul class="nav navbar-nav mr-auto text-left">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/my/personal_info">Personal information</a>
+                                    <a class="nav-link" href="/my/information">Personal information</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/my/children">My children</a>
@@ -20,13 +22,24 @@
                                     <a class="nav-link" href="/my/donations">Payments / Invoicing</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/my/write_a_letter">Write a letter</a>
+                                    <a class="nav-link" href="/my/letter">Write a letter</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </nav>
                 <t t-raw="0"/>
+            </t>
+        </template>
+
+        <!-- Displayed when user sponsors no child on children related views  -->
+        <template id="sponsor_a_child" name="My Children">
+            <t t-call="website_compassion.my_account_layout">
+                <div class="container text-center">
+                    <br/><br/><br/>
+                    You do not support any child yet. You can start a sponsorship by following <a href="https://compassion.ch/parrainer-un-enfant" target="_blank">this link</a>.
+                    <br/><br/><br/>
+                </div>
             </t>
         </template>
     </data>
