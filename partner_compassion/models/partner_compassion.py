@@ -31,7 +31,6 @@ THANKYOU_MAPPING = {
     "none": "no",
     "auto_digital": "default",
     "auto_digital_only": "only_email",
-    "auto_physical": "paper",
     "digital": "default",
     "digital_only": "only_email",
     "physical": "paper",
