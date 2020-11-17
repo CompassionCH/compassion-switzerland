@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <template id="my_children_empty_page_content" name="My Children">
-            <t t-call="website_compassion.my_account_layout">
-                <div class="container text-center">
-                    <br/><br/><br/>
-                    You do not support any child yet. You can start a sponsorship by following <a href="https://compassion.ch/parrainer-un-enfant" target="_blank">this link</a>.
-                    <br/><br/><br/>
-                </div>
-            </t>
-        </template>
-
         <!-- This templates creates the view "My Children". It receives the following arguments: -->
         <!--     1. child_id, the record of the child that is currently selected -->
         <template id="my_children_page_template" name="My Children">
             <t t-call="website_compassion.my_account_layout">
-                <t t-call="website_compassion.my_children_navbar"/>
+                <t t-call="website_compassion.my_children_horizontal_pictures"/>
 
                 <t t-call="website_compassion.my_children_info"/>
 
@@ -23,26 +13,21 @@
 
                 <t t-call="website_compassion.my_children_gift_history"/>
             </t>
-            <script type="text/javascript" src="/website_compassion/static/src/js/my_children.js"/>
+            <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
         </template>
 
         <!-- Children pictures at the top of the view -->
-        <template id="my_children_navbar">
+        <template id="my_children_horizontal_pictures">
             <nav class="navbar navbar-expand-md navbar-light bg-light">
                 <div id="my_children_div" class="container" style="overflow-x:auto">
                     <ul class="nav nav-tabs d-flex flex-nowrap">
                         <!-- Finding children of the corresponding sponsor -->
-                        <t t-set="correspondant" t-value="request.env.user.partner_id.contracts_correspondant"/>
-                        <t t-set="fully_managed" t-value="request.env.user.partner_id.contracts_fully_managed"/>
-                        <t t-set="paid" t-value="request.env.user.partner_id.contracts_paid"/>
-                        <t t-set="children" t-value="(correspondant + fully_managed + paid).mapped('child_id').sorted('preferred_name')"/>
-                        <t t-foreach="children" t-as="child">
+                        <t t-foreach="child_ids" t-as="child">
                             <!-- Setting headshot for each child -->
-                            <t t-set="image_url" t-value="child.image_url"/>
-                            <t t-if="image_url">
+                            <t t-if="child.image_url">
                                 <t t-set="child_image" t-value="request.env[
                                     'child.pictures.download.wizard'
-                                ].get_picture_url(image_url, 'headshot', 150, 150)"/>
+                                ].get_picture_url(child.image_url, 'headshot', 150, 150)"/>
                             </t>
                             <t t-elif="child.gender == 'M'">
                                 <t t-set="child_image" t-value="'/website_compassion/static/src/img/guy.png'"/>
@@ -52,15 +37,15 @@
                             </t>
 
                             <!-- Creating the actual card for each children -->
-                            <div t-attf-id="card_{{child.id}}" class="card card-clickable text-center bg-light m-1" style="width: 9rem;height: 10rem;">
+                            <div t-attf-id="card_child_{{child.id}}" class="card card-clickable text-center bg-light m-1" style="width: 9rem;height: 10rem;">
                                 <li class="nav-item">
-                                    <a class="nav-link" t-attf-href="/my/child/{{child.id}}">
+                                    <a class="nav-link border-0" t-attf-href="/my/children?child_id={{child.id}}">
                                         <!-- We add a border for the selected child -->
                                         <t t-if="child.id == child_id.id">
-                                            <img t-att-id="child.id" class="rounded-circle border border-5 border-primary" t-att-src="child_image" alt="Child image" style="width:90%;height:90%;"/>
+                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle border border-5 border-primary" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
                                         </t>
                                         <t t-else="">
-                                            <img t-att-id="child.id" class="rounded-circle" t-att-src="child_image" alt="Child image" style="width:90%;height:90%;"/>
+                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
                                         </t>
                                         <t t-esc="child.preferred_name"/>
                                     </a>
@@ -261,21 +246,15 @@
                         </t>
                     </ul>
                 </nav>
-                <div class="alert alert-info alert-dismissable text-center" style="display: none;">
+                <div id="my_children_images" class="alert alert-info alert-dismissable text-center" style="display: none;">
                     This may take a few minutes... Please wait
                 </div>
-                <a t-attf-href="/my/download/picture?child_id={{child_id.id}}">Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures</a>
-                <a t-attf-href="/my/download/picture" onclick="display_alert()" style="float: right;">Download all children's pictures</a>
-                <script>
-                    let display_alert = function(){
-                        $(".alert").show("slow");
-                        setTimeout(
-                            function() {
-                                $(".alert").hide("slow");
-                            }, 7000
-                        );
-                    };
-                </script>
+                <a t-attf-href="/my/download/picture?child_id={{child_id.id}}">
+                    Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures
+                </a>
+                <a t-attf-href="/my/download/picture" onclick="displayAlert('my_children_images')" style="float: right;">
+                    Download all children's pictures
+                </a>
             </div>
         </template>
 
