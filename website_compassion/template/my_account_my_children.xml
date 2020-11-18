@@ -285,7 +285,7 @@
                         </div>
                     </div>
                 </t>
-                <a href="https://compassion.ch/donations/" target="_blank">Make a donation</a>
+                <a t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank">Make a donation</a>
             </div>
         </template>
     </data>
