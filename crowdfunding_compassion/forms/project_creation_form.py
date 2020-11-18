@@ -87,7 +87,7 @@ class ProjectCreationWizard(models.AbstractModel):
         def resize(image):
             width, height = image.size
             min_width, min_height = min(width, 900), min(height, 400)
-            factor = max(min_width / width, min_height / height)
+            factor = min(min_width / width, min_height / height)
             return image.resize((int(width * factor), int(height * factor)))
 
         def compress(image):
