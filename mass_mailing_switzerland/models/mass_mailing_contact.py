@@ -54,6 +54,8 @@ class MassMailingContact(models.Model):
         """
         Always export in english so that all tags are set in English
         """
+        if self.env.context.get("skip_mailchimp"):
+            return True
         return super(MassMailingContact,
                      self.with_context(lang="en_US")).action_export_to_mailchimp()
 
@@ -62,5 +64,7 @@ class MassMailingContact(models.Model):
         """
         Always export in english so that all tags are set in English
         """
+        if self.env.context.get("skip_mailchimp"):
+            return True
         return super(MassMailingContact,
                      self.with_context(lang="en_US")).action_update_to_mailchimp()
