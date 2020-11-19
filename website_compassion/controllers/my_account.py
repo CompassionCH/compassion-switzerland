@@ -153,14 +153,10 @@ class MyAccountController(PaymentFormController):
         partner = request.env.user.partner_id
         children = _get_user_children()
         child = children.filtered(lambda c: c.id == child_id)
-        sponsorship_ids = child.sponsorship_ids.filtered(
-            lambda contract: contract.partner_id == partner or
-            contract.correspondent_id == partner
-        )
-        letter_ids = request.env["correspondence"].search([
-            ("sponsorship_id", "=", sponsorship_ids[0].id),
+        letters = request.env["correspondence"].search([
+            ("partner_id", "=", partner.id),
+            ("child_id", "=", child_id),
         ])
-        child = children.filtered(lambda child: child.id == child_id)
         lines = request.env["account.invoice.line"].search([
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
@@ -175,6 +171,6 @@ class MyAccountController(PaymentFormController):
             return request.render(
                 "website_compassion.my_children_page_template",
                 {"child_id": child,
-                 "letter_ids": letter_ids,
+                 "letter_ids": letters,
                  "line_ids": lines},
             )
