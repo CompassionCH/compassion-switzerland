@@ -7,4 +7,5 @@
 #
 ##############################################################################
 from . import compassion_project
+from . import correspondence_template
 from . import invoice_line
