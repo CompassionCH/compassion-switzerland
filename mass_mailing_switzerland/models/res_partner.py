@@ -180,3 +180,8 @@ class ResPartner(models.Model):
         self.ensure_one()
         for contact in self.with_context(mailchimp_child=child).mailing_contact_ids:
             contact.action_update_to_mailchimp()
+
+    def get_mailing_contact_to_update(self):
+        # Only return directly linked contacts
+        self.ensure_one()
+        return self.mailing_contact_ids
