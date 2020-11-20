@@ -5,9 +5,20 @@
         <field name="model">res.partner.check.double</field>
         <field name="arch" type="xml">
             <form>
-                <field name="mergeable_partner_ids"/>
+                <field name="mergeable_partner_ids">
+                    <tree>
+                        <field name="name"/>
+                        <field name="ref"/>
+                        <field name="email"/>
+                        <field name="zip"/>
+                        <field name="city"/>
+                        <field name="number_sponsorships"/>
+                    </tree>
+                </field>
                 <label for="selected_merge_partner_id"/>
-                <field name="selected_merge_partner_id" domain="[('id', 'in', mergeable_partner_ids[0][2])]" options="{'no_create': True}"/>
+                <field name="selected_merge_partner_id"
+                       domain="[('id', 'in', mergeable_partner_ids or False)]"
+                       options="{'no_create': True}"/>
                 <footer>
                     <button type='object' name='merge_with' string="Merge" attrs="{'invisible': [('selected_merge_partner_id', '=', False)]}" class="oe_highlight"/>
                     <button type='object' name='keep' string="Keep partners" />

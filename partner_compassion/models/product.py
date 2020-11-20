@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 from odoo.exceptions import ValidationError
 
 
@@ -18,9 +18,9 @@ def check_fund_id(record):
     ])
     list_fund_id = [product.fund_id for product in products]
     if record.fund_id in list_fund_id:
-        raise ValidationError("The Fund already exists in database.")
+        raise ValidationError(_("The Fund already exists in database."))
     if record.fund_id < 0:
-        raise ValidationError("The Fund cannot have a negative value")
+        raise ValidationError(_("The Fund cannot have a negative value"))
 
 
 class ProductTemplate(models.Model):

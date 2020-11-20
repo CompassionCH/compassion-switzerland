@@ -5,6 +5,7 @@ from odoo import api, models, fields, _
 
 from odoo.addons.auth_signup.models.res_partner import now
 from odoo.tools import file_open
+from pyquery import PyQuery
 
 _logger = logging.getLogger(__name__)
 
@@ -12,6 +13,7 @@ _logger = logging.getLogger(__name__)
 class ResUsers(models.Model):
     _inherit = "res.users"
     signature = fields.Html(compute="_compute_signature")
+    short_signature = fields.Html(compute="_compute_short_signature")
 
     @api.multi
     def action_reset_password(self):
@@ -40,7 +42,25 @@ class ResUsers(models.Model):
     def _compute_signature(self):
         with file_open("partner_communication_switzerland/static/html/signature.html")\
                 as tfile:
-            template = tfile.read()
+            template = PyQuery(tfile.read())
+            phone = {
+                "fr_CH": "+41 (0)24 434 21 24",
+                "de_DE": "+41 (0)31 552 21 21",
+                "it_IT": "+41 (0)31 552 21 24",
+                "en_US": "+41 (0)31 552 21 25"
+            }
+            phone_link = {
+                "fr_CH": "+41244342124",
+                "de_DE": "+41315522121",
+                "it_IT": "+41315522124",
+                "en_US": "+41315522125"
+            }
+            facebook = {
+                "fr_CH": "https://www.facebook.com/compassionsuisse/",
+                "de_DE": "https://www.facebook.com/compassionschweiz/",
+                "it_IT": "https://www.facebook.com/compassionsvizzera/",
+                "en_US": "https://www.facebook.com/compassionsuisse/"
+            }
             for user in self:
                 values = {
                     "user": user,
@@ -51,10 +71,23 @@ class ResUsers(models.Model):
                     "lang": self.env.lang,
                     "lang_short": self.env.lang[:2],
                     "team": _("and the team of Compassion") if user.firstname else "",
-                    "office_hours": _("mo-fri / 8am-4pm"),
-                    "company_name": user.company_id.address_name
+                    "office_hours": _("mo-fri: 8am-4pm"),
+                    "company_name": user.company_id.address_name,
+                    "phone_link": phone_link.get(self.env.lang),
+                    "phone": phone.get(self.env.lang),
+                    "facebook": facebook.get(self.env.lang),
                 }
-                user.signature = template.format(**values)
+                if self.env.lang in ("fr_CH", "en_US"):
+                    template.remove("#bern")
+                else:
+                    template.remove("#yverdon")
+                user.signature = template.html().format(**values)
+
+    @api.multi
+    def _compute_short_signature(self):
+        for user in self:
+            template = PyQuery(user.signature)
+            user.short_signature = template("#header").outerHtml()
 
     @api.multi
     def _compute_signature_letter(self):

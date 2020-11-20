@@ -43,6 +43,7 @@ class ProjectController(Controller):
         )
         values = {
             "participant": participant.sudo(),
+            "main_object": participant.sudo(),
             "project": project,
             "impact": self.get_impact(sponsorships, donations),
             "model": "participant",

@@ -49,6 +49,7 @@
             "pdf2image",
             "babel",
             "PyPDF2",
+            "pyquery"
         ]
     },
     "data": [

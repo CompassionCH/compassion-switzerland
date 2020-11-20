@@ -38,25 +38,23 @@ class ResPartner(models.Model):
 
     @api.multi
     def _compute_salutation(self):
+        """ Redefine salutations for Switzerland. """
+        # Family shouldn't be used with informal salutation
+        family_title = self.env.ref("partner_compassion.res_partner_title_family")
+        family = self.filtered(lambda p: p.title == family_title)
         # Special salutation for companies
-        company = self.filtered('is_company')
+        company = (self - family).filtered(lambda p: p.is_company or not p.firstname
+                                           or not p.title)
+
         for p in company:
             with api.Environment.manage():
                 lang_partner = p.with_context(lang=p.lang)
-                # this will enable translation of "Dear friends of Compassion"
-                env = api.Environment(self.env.cr, self.env.uid,  # noqa: F841
-                                      lang_partner.env.context)
-                p.salutation = _("Dear friends of Compassion")
+                p.salutation = lang_partner.get(_("Dear friends of Compassion"))
                 p.short_salutation = lang_partner.salutation
-                p.informal_salutation = _("Dear friend of Compassion")
+                p.informal_salutation = lang_partner.get(_("Dear friend of Compassion"))
                 p.full_salutation = lang_partner.salutation
-        super(ResPartner, self - company)._compute_salutation()
 
-        # Family shouldn't be used with informal salutation
-        family = self.env.ref("partner_compassion.res_partner_title_family")
-        for partner in self.filtered(lambda p: p.title == family):
-            # The family salutation have a problem here. As it is defined in the
-            # previous loop, it is considered as company
+        for partner in family:
             lang_partner = partner.with_context(lang=partner.lang)
             title = lang_partner.title
             title_salutation = (
@@ -67,8 +65,32 @@ class ResPartner(models.Model):
             partner.salutation = (
                 title_salutation + " " + title.name + " " + lang_partner.lastname
             )
+            partner.short_salutation = lang_partner.salutation
             partner.informal_salutation = lang_partner.salutation
             partner.full_salutation = lang_partner.salutation
+
+        for partner in (self - family - company):
+            lang_partner = partner.with_context(lang=partner.lang)
+            title = lang_partner.title
+            title_salutation = (
+                lang_partner.env["ir.advanced.translation"]
+                .get("salutation", female=title.gender == "F",
+                     plural=title.plural)
+                .title()
+            )
+            title_name = title.name
+            partner.salutation = (
+                title_salutation + " " + title_name + " " +
+                lang_partner.lastname
+            )
+            pref_name = lang_partner.preferred_name or lang_partner.firstname or \
+                lang_partner.name
+            partner.short_salutation = title_salutation + " " + pref_name
+            partner.informal_salutation = title_salutation + " " + pref_name
+            partner.full_salutation = (
+                title_salutation + " " + (lang_partner.preferred_name or "") + " " +
+                lang_partner.lastname
+            )
 
     @api.multi
     @api.depends("tax_certificate", "birthdate_date")

@@ -153,12 +153,13 @@ class ResPartner(models.Model):
         super().write(vals)
         base_mailchimp_fields = [
             "category_id", "email", "lastname", "firstname", "name",
-            "number_sponsorships", "opt_out"]
+            "number_sponsorships", "opt_out", "zip"]
         update_partner_ids = []
         for contact in self.filtered(lambda c: c.mailing_contact_ids):
             if "opt_out" in vals:
-                contact.mailing_contact_ids.mapped("subscription_list_ids").write({
-                    "opt_out": vals["opt_out"]})
+                contact.mailing_contact_ids.mapped("subscription_list_ids")\
+                    .with_context(opt_out_from_partner=True).write({
+                        "opt_out": vals["opt_out"]})
             if "category_id" in vals:
                 contact.mailing_contact_ids.write({
                     "tag_ids": vals["category_id"]
@@ -168,7 +169,7 @@ class ResPartner(models.Model):
             mailchimp_fields += base_mailchimp_fields
             if set(vals.keys()) & set(mailchimp_fields):
                 update_partner_ids.append(contact.id)
-        if update_partner_ids:
+        if update_partner_ids and not self.env.context.get("import_from_mailchimp"):
             self.env["mail.mass_mailing.contact"]\
                 .with_delay().update_all_merge_fields_job(update_partner_ids)
         return True

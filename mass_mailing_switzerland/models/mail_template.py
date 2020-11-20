@@ -31,36 +31,3 @@ class MailTemplate(models.Model):
         return super(
             MailTemplate, self.with_context(report_product_id=self.report_product_id.id)
         ).generate_email(res_ids, fields)
-
-    @api.model
-    def refresh_sendgrid_tracking(self):
-        """
-        Method that refreshes the sendgrid templates and update
-        tracked url in the corresponding mail.templates
-        :return: True
-        """
-        self.env["sendgrid.template"].update_templates()
-        templates = self.search([("sendgrid_template_ids", "!=", False)])
-        templates.update_substitutions()
-        communication_campaign_id = self.env.ref(
-            "partner_communication_switzerland.utm_campaign_communication"
-        ).id
-        medium_id = self.env.ref("utm.utm_medium_email").id
-        for template in templates:
-            # Find wp substitutions without value
-            to_track = template.substitution_ids.filtered(
-                lambda s: "{wp" in s.key and not s.value
-            )
-            source = self.env["partner.communication.config"].search(
-                [
-                    ("email_template_id", "=", template.id),
-                    ("send_mode", "not in", ["physical", "auto_physical", "none"]),
-                ],
-                limit=1,
-            )
-            to_track.replace_tracking_link(
-                campaign_id=communication_campaign_id,
-                medium_id=medium_id,
-                source_id=source.source_id.id,
-            )
-        return True

@@ -137,9 +137,7 @@ class AdvocateDetails(models.Model):
             "res_model": "correspondence",
             "view_type": "form",
             "view_mode": "tree,form",
-            "context": self.with_context(
-                group_by=False, search_default_translator_id=self.partner_id.id
-            ).env.context,
+            "context": {"search_default_translator_id": self.partner_id.id},
         }
 
     ##########################################################################

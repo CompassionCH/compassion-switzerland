@@ -18,14 +18,14 @@ _logger = logging.getLogger(__name__)
 class TestContract(TestContractsSwitzerland):
     def setUp(self):
         super().setUp()
-        self.product = self.env.ref("product.service_order_01")
+        self.product = self.env.ref("product.product_product_10")
 
     def test_get_gift_communication(self):
         sponsorship = self._create_sponsorship()
 
         communication = sponsorship.get_gift_communication(self.product)
 
-        expected = u"Test (IO06790211)<br/>Prepaid Consulting<br/>"
+        expected = u"Test (IO06790211)<br/>Cabinet with Doors<br/>"
         self.assertEqual(communication, expected)
 
     def test_group__get_months__for_frequency_one(self):

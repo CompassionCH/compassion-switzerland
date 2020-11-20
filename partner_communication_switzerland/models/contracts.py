@@ -57,6 +57,7 @@ class RecurringContract(models.Model):
         string="Send B2S intro letter to sponsor", default=True
     )
     origin_type = fields.Selection(related="origin_id.type")
+    origin_name = fields.Char(related="origin_id.name")
     sds_state = fields.Selection(
         selection_add=[("waiting_welcome", _("Waiting welcome"))]
     )
@@ -65,12 +66,19 @@ class RecurringContract(models.Model):
 
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
-        if self.origin_id.type == "transfer":
+        if self.origin_id.type == "transfer" or self.origin_id.name == "Reinstatement":
             self.send_introduction_letter = False
         # If origin is switched back from a transer,
         # field should be reset to default
         else:
             self.send_introduction_letter = True
+
+    @api.multi
+    def _on_change_correspondant(self, correspondent_id):
+        # Don't send introduction letter when correspondent is changed
+        cancelled_sponsorships = super()._on_change_correspondant(correspondent_id)
+        cancelled_sponsorships.write({"send_introduction_letter": False})
+        return cancelled_sponsorships
 
     def _compute_payment_type_attachment(self):
         for contract in self:

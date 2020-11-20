@@ -233,6 +233,7 @@ class RecurringContracts(models.Model):
                     contract.type in ["S", "SC"]
                     and ("LSV" in payment_mode or "Postfinance" in payment_mode)
                     and contract.total_amount != 0
+                    and not contract.partner_id.valid_mandate_id
             ):
                 # Check mandate
                 needs_mandate += contract

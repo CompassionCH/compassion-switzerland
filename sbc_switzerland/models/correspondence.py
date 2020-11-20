@@ -170,6 +170,13 @@ class Correspondence(models.Model):
             }
         )
 
+        # Remove any pending GMC message (will be recreated after translation)
+        self.env["gmc.message"].search([
+            ("action_id", "=", self.env.ref("sbc_compassion.create_letter").id),
+            ("object_id", "=", self.id),
+            ("state", "!=", "success")
+        ]).unlink()
+
     @api.model
     def fix_priority(self):
         tc = translate_connector.TranslateConnect()

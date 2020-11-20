@@ -31,7 +31,6 @@ THANKYOU_MAPPING = {
     "none": "no",
     "auto_digital": "default",
     "auto_digital_only": "only_email",
-    "auto_physical": "paper",
     "digital": "default",
     "digital_only": "only_email",
     "physical": "paper",
@@ -545,6 +544,10 @@ class ResPartner(models.Model):
 
     @api.multi
     def open_duplicates(self):
+        if not (self.partner_duplicate_ids - self):
+            # No more duplicates, we just remove them
+            self.partner_duplicate_ids = False
+            return True
         partner_wizard = self.env["res.partner.check.double"].create(
             {"partner_id": self.id, }
         )
