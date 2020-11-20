@@ -12,6 +12,8 @@
                 <t t-call="website_compassion.my_children_pictures"/>
 
                 <t t-call="website_compassion.my_children_gift_history"/>
+
+                <t t-call="website_compassion.my_children_letters"/>
             </t>
             <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
         </template>
@@ -104,9 +106,9 @@
                             <br/>
                         </t>
 
-                        <!-- My community information -->
+                        <!-- Community information -->
                         <t t-if="child_id.project_id.closest_city or child_id.project_id.country_id.name or child_id.project_id.community_population or child_id.project_id.primary_language_id.name or child_id.project_id.primary_adults_occupation_ids or child_id.project_id.primary_diet_ids">
-                            <h3>My community</h3>
+                            <h3>Community</h3>
                             <!-- Location (city, country), one or both may be empty, so we handle properly -->
                             <t t-set="key" t-value="'Location'"/>
                             <t t-set="value" t-value="', '.join(list(filter(None, [child_id.project_id.closest_city, child_id.project_id.country_id.name])))"/>
@@ -254,6 +256,51 @@
                 </a>
                 <a t-attf-href="/my/download/picture" onclick="displayAlert('my_children_images')" style="float: right;">
                     Download all children's pictures
+                </a>
+            </div>
+        </template>
+
+        <template id="my_children_letters">
+            <div class="container" t-if="letter_ids">
+                <h3>Letters</h3>
+                <div class="row">
+                    <div class="col-3">
+                        <label><b>From</b></label>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Date</b></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <t t-foreach="letter_ids" t-as="letter">
+                        <div class="col-3">
+                            <t t-if="letter.direction == 'Supporter To Beneficiary'">
+                                <label>Me</label>
+                            </t>
+                            <t t-else="">
+                                <label><t t-esc="child_id.preferred_name"/></label>
+                            </t>
+                        </div>
+                        <div class="col-3">
+                            <label><t t-esc="letter.get_date('scanned_date', 'date_full')"/></label>
+                        </div>
+                        <div class="col-3">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View letter</a></label>
+                        </div>
+                        <div class="col-3">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download letter</a></label>
+                        </div>
+                    </t>
+                </div>
+                <hr/>
+                <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
+                    This may take a few minutes... Please wait
+                </div>
+                <a t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
+                    Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> correspondence
+                </a>
+                <a t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
+                    Download all children's correspondence
                 </a>
             </div>
         </template>
