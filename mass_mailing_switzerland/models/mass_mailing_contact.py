@@ -38,6 +38,11 @@ class MassMailingContact(models.Model):
         else:
             return super().get_partner(email)
 
+    @api.model
+    def launch_job_update_mailchimp(self, partner_ids=None):
+        self.with_delay().update_all_merge_fields_job(partner_ids)
+        return True
+
     @job(default_channel="root.mass_mailing_switzerland.update_mailchimp")
     @api.model
     def update_all_merge_fields_job(self, partner_ids=None):
