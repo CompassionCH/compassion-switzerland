@@ -180,11 +180,12 @@ class MyAccountController(PaymentFormController):
                 ("partner_id", "=", partner.id),
                 ("child_id", "=", int(child_id)),
             ])
-            lines = request.env["account.invoice.line"].search([
+            gift_categ = request.env.ref("sponsorship_compassion.product_category_gift")
+            lines = request.env["account.invoice.line"].sudo().search([
                 ("partner_id", "=", partner.id),
                 ("state", "=", "paid"),
                 ("contract_id.child_id", "=", child.id),
-                ("product_id.categ_id.id", "=", 5),
+                ("product_id.categ_id", "=", gift_categ.id),
                 ("price_total", "!=", 0),
             ])
             child.get_infos()
