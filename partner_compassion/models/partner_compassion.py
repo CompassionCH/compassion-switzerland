@@ -528,18 +528,21 @@ class ResPartner(models.Model):
                 "geo_point": False,
                 "partner_latitude": False,
                 "partner_longitude": False,
+                "birthdate_date": False,
+                "category_id": [(5, 0, 0)]
             }
         )
-        self.advocate_details_id.unlink()
-        self.survey_inputs.unlink()
-        self.env["mail.tracking.email"].search([("partner_id", "=", self.id)]).unlink()
-        self.env["auditlog.log"].search(
+        self._cr.execute("update res_partner set ref=NULL, global_id=NULL where id=%s", [self.id])
+        self.advocate_details_id.sudo().unlink()
+        self.survey_inputs.sudo().unlink()
+        self.env["mail.tracking.email"].sudo().search([("partner_id", "=", self.id)]).unlink()
+        self.env["auditlog.log"].sudo().search(
             [("model_id.model", "=", "res.partner"), ("res_id", "=", self.id)]
         ).unlink()
-        self.env["partner.communication.job"].search(
+        self.env["partner.communication.job"].sudo().search(
             [("partner_id", "=", self.id)]
         ).unlink()
-        self.message_ids.unlink()
+        self.message_ids.sudo().unlink()
         return True
 
     @api.multi
