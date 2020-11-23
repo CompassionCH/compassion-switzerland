@@ -529,9 +529,10 @@ class ResPartner(models.Model):
                 "partner_latitude": False,
                 "partner_longitude": False,
                 "birthdate_date": False,
+                "category_id": [(5, 0, 0)]
             }
         )
-        self._cr.execute("""update res_partner set ref='', global_id='' where id=""" + str(self.id))
+        self._cr.execute("update res_partner set ref=NULL, global_id=NULL where id=%s", [self.id])
         self.advocate_details_id.sudo().unlink()
         self.survey_inputs.sudo().unlink()
         self.env["mail.tracking.email"].sudo().search([("partner_id", "=", self.id)]).unlink()
@@ -542,7 +543,6 @@ class ResPartner(models.Model):
             [("partner_id", "=", self.id)]
         ).unlink()
         self.message_ids.sudo().unlink()
-        self.category_id.sudo().unlink()
         return True
 
     @api.multi
