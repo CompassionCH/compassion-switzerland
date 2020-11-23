@@ -57,6 +57,7 @@ class MassMailingContact(models.Model):
             try:
                 partner.action_update_to_mailchimp()
             except:
+                self.env.clear()
                 failed.append(partner.id)
                 # Allows network to recover
                 sleep(1)
