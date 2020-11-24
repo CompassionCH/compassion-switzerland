@@ -180,3 +180,9 @@ class ResPartner(models.Model):
         self.ensure_one()
         for contact in self.with_context(mailchimp_child=child).mailing_contact_ids:
             contact.action_update_to_mailchimp()
+
+    @api.multi
+    def forget_me(self):
+        self.mailing_contact_ids.unlink()
+        super().forget_me()
+        return True
