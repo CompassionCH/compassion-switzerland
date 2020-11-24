@@ -361,13 +361,45 @@
         </field>
     </record>
 
+    <!-- Map view for Partner -->
+    <record id="partner_google_map_view" model="ir.ui.view">
+        <field name="name">view.res.partner.map</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="web_view_google_map.view_res_partner_map"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='o_kanban_image']" position="replace">
+                <div class="o_kanban_image">
+                    <t t-if="record.image_small.raw_value">
+                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.raw_value)"/>
+                    </t>
+                    <t t-if="!record.image_small.raw_value">
+                        <t t-if="record.type.raw_value === 'delivery'">
+                            <img t-att-src='_s + "/base/static/img/truck.png"' class="o_kanban_image oe_kanban_avatar_smallbox"/>
+                        </t>
+                        <t t-if="record.type.raw_value === 'invoice'">
+                            <img t-att-src='_s + "/base/static/img/money.png"' class="o_kanban_image oe_kanban_avatar_smallbox"/>
+                        </t>
+                        <t t-if="record.type.raw_value != 'invoice' &amp;&amp; record.type.raw_value != 'delivery'">
+                            <t t-if="record.is_company.raw_value === true">
+                                <img t-att-src='_s + "/base/static/img/company_image.png"'/>
+                            </t>
+                            <t t-if="record.is_company.raw_value === false">
+                                <img t-att-src='_s + "/base/static/img/avatar.png"'/>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
     <!-- Redefine action of partners for sponsorship section -->
     <record id="action_partner_supporter_form" model="ir.actions.act_window">
         <field name="name">Supporters</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
         <field name="view_type">form</field>
-        <field name="view_mode">list,kanban,form</field>
+        <field name="view_mode">list,kanban,form,map</field>
         <field name="domain">[]</field>
         <field name="context">{'default_customer':1, 'search_default_customer':1, 'search_default_sponsor': 1}</field>
         <field name="filter" eval="True"/>
@@ -382,6 +414,7 @@
             </p>
         </field>
     </record>
+
     <!-- Redefine action of partners for Vendors section -->
     <record id="base.action_partner_supplier_form" model="ir.actions.act_window">
         <field name="context">{'search_default_supplier': 1,'default_customer': 0,'default_supplier': 1, 'default_opt_out': 1, 'default_nbmag': 0}</field>

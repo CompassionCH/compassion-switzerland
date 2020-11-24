@@ -185,3 +185,9 @@ class ResPartner(models.Model):
         # Only return directly linked contacts
         self.ensure_one()
         return self.mailing_contact_ids
+
+    @api.multi
+    def forget_me(self):
+        self.mailing_contact_ids.unlink()
+        super().forget_me()
+        return True
