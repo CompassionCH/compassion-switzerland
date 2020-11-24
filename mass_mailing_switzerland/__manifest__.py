@@ -52,7 +52,8 @@
         "mail_tracking",                      # oca_addons/social
         "partner_communication_switzerland",  # compassion-switzerland
         "cms_form_compassion",                # compassion-modules
-        "mailchimp"                           # paid-addons
+        "mailchimp",                          # paid-addons
+        "partner_tag_smart_assignation",      # oca_addons/partner-contact (fork)
     ],
     "external_dependencies": {"python": ["pysftp"]},
     "demo": [],

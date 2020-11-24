@@ -71,7 +71,7 @@ class AccountInvoiceLine(models.Model):
             self.with_context(
                 same_job_search=[("event_id", "=", event.id)],
                 default_event_id=event.id,
-                default_user_id=event.mapped("staff_ids.user_ids")[:1],
+                default_user_id=event.mapped("staff_ids.user_ids")[:1].id,
                 default_ambassador_id=self.mapped("user_id")[:1].id,
                 default_communication_config=default_communication_config
             ),

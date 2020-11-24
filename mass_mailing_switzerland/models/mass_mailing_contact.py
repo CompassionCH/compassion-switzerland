@@ -7,6 +7,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from time import sleep
+
 from odoo import api, models, fields
 from odoo.addons.queue_job.job import job
 
@@ -36,18 +38,30 @@ class MassMailingContact(models.Model):
         else:
             return super().get_partner(email)
 
+    @api.model
+    def launch_job_update_mailchimp(self, partner_ids=None):
+        self.with_delay().update_all_merge_fields_job(partner_ids)
+        return True
+
     @job(default_channel="root.mass_mailing_switzerland.update_mailchimp")
     @api.model
     def update_all_merge_fields_job(self, partner_ids=None):
         """ Update all contacts merge fields
-
-        :return:
+        :return: List of partner_ids that failed to update
         """
         search_criterias = [("partner_id", "!=", False)]
         if partner_ids:
             search_criterias.append(("partner_id", "in", partner_ids))
-        self.search(search_criterias).action_update_to_mailchimp()
-        return True
+        failed = []
+        for partner in self.search(search_criterias):
+            try:
+                partner.action_update_to_mailchimp()
+            except:
+                self.env.clear()
+                failed.append(partner.id)
+                # Allows network to recover
+                sleep(1)
+        return failed
 
     @api.multi
     def action_export_to_mailchimp(self):
