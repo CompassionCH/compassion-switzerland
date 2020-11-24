@@ -53,12 +53,12 @@ class MassMailingContact(models.Model):
         if partner_ids:
             search_criterias.append(("partner_id", "in", partner_ids))
         failed = []
-        for partner in self.search(search_criterias):
+        for mailing_contact in self.search(search_criterias):
             try:
-                partner.action_update_to_mailchimp()
+                mailing_contact.action_update_to_mailchimp()
             except:
                 self.env.clear()
-                failed.append(partner.id)
+                failed.append(mailing_contact.partner_id.id)
                 # Allows network to recover
                 sleep(1)
         return failed
