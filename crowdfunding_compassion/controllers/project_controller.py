@@ -6,24 +6,29 @@ from odoo import _
 from odoo.http import request, route, Controller
 from odoo.addons.crowdfunding_compassion.controllers.\
     homepage_controller import sponsorship_card_content
+import werkzeug
 
 
 class ProjectController(Controller):
     @route(
         ["/project/<model('crowdfunding.project'):project>"],
-        auth="public",
+        type='http',
+        auth="user",
         website=True,
     )
-    def project_page(self, project, **kwargs):
+    def project_page(self, project, **post):
         # Get project with sudo, otherwise some parts will be blocked from public
         # access, for example res.partner or account.invoice.line. This is
         # simpler and less prone to error than defining custom access and
         # security rules for each of them.
+
+        if not project.can_access_from_current_website():
+            raise werkzeug.exceptions.NotFound()
         if not project.website_published:
             return request.redirect("/projects")
         return request.render(
             "crowdfunding_compassion.presentation_page",
-            self._prepare_project_values(project.sudo(), **kwargs),
+            self._prepare_project_values(project.sudo(), **post),
         )
 
     @route(["/participant/<model('crowdfunding.participant'):participant>/"],
