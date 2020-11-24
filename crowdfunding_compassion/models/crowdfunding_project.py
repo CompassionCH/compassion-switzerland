@@ -1,11 +1,11 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
-
 from datetime import date, datetime
 
 from babel.dates import format_timedelta
 
 from odoo import models, api, fields, tools, _
+
 
 import urllib.parse as urlparse
 
@@ -13,7 +13,7 @@ import urllib.parse as urlparse
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
     _inherit = ["website.published.mixin", "website.seo.metadata", "mail.thread",
-                "mail.activity.mixin"]
+                "mail.activity.mixin", 'website.multi.mixin']
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 

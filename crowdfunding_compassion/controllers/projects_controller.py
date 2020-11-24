@@ -7,31 +7,52 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import _
+
+import werkzeug
+
+from odoo import _, http, models
 from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
 from ..forms.project_creation_form import NoGoalException,\
     NegativeGoalException, InvalidDateException, InvalidLinkException
+from odoo.addons.http_routing.models.ir_http import slug
+from odoo.addons.website.models.ir_http import sitemap_qs2dom
 
 
 class ProjectsController(Controller, FormControllerMixin):
-    @route("/projects", auth="public", website=True)
-    def get_projects_list(self, type=None, **kwargs):
-        project_obj = request.env["crowdfunding.project"]
+    def sitemap_projects(env, rule, qs):
+        projects = env['crowdfunding.project']
+        dom = sitemap_qs2dom(qs, '/projects', projects._rec_name)
+        dom += request.website.website_domain()
+        for f in projects.search(dom):
+            loc = '/project/%s' % slug(f)
+            if not qs or qs.lower() in loc:
+                yield {'loc': loc}
 
-        # TODO connect pagination to backend -> CO-3213
-        return request.render(
-            "crowdfunding_compassion.project_list_page",
-            {"projects": project_obj.sudo().get_active_projects(type=type)},
-        )
+    @route("/projects", auth="public", website=True, sitemap=sitemap_projects)
+    def get_projects_list(self, type=None, **kwargs):
+        if request.website:
+            website_id = request.website.id
+            if website_id != 1:  # only for other site
+                domain = request.website.website_domain()
+                project_obj = request.env["crowdfunding.project"]
+
+                # TODO connect pagination to backend -> CO-3213
+                return request.render(
+                    "crowdfunding_compassion.project_list_page",
+                    {"projects": project_obj.sudo().get_active_projects(type=type).search(domain)},
+                )
+            else:
+                raise werkzeug.exceptions.BadRequest()
 
     @route(['/projects/create', '/projects/create/page/<int:page>',
             '/projects/join/<int:project_id>'],
            auth="public",
            type="http",
            method='POST',
-           website=True)
+           website=True,
+           no_sitemap=True)
     def project_creation(self, page=1, project_id=0, **kwargs):
         if project_id and page == 1:
             # Joining project can skip directly to step2
@@ -96,7 +117,8 @@ class ProjectsController(Controller, FormControllerMixin):
            auth="public",
            type="http",
            method='POST',
-           website=True, noindex=['robots', 'meta', 'header'])
+           website=True, noindex=['robots', 'meta', 'header'],
+           no_sitemap=True)
     def project_validation(self, project, **kwargs):
         return request.render(
             "crowdfunding_compassion.project_creation_confirmation_view_template",

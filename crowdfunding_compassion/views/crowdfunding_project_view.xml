@@ -33,6 +33,10 @@
                <div>
                      <field name="image_medium" widget="image" class="oe_avatar" />
                      <div class="oe_title">
+                        <h4>
+                           <field name="website_id"/>
+                        </h4>
+
                         <h3>
                            <field name="type" />
                         </h3>
@@ -44,6 +48,7 @@
                <notebook name="project_relation">
                   <page string="Details" name="project_description">
                      <div class="container-fluid">
+
                         <div class="row">
                            <div class="col">
                               <label for="deadline" />
@@ -184,6 +189,7 @@
                 default_order="deadline desc">
              <field name="cover_photo" widget='image'/>
              <field name="name" />
+            <field name="website_id"/>
              <field name="project_owner_id"/>
              <field name="deadline" />
             <field name="product_number_reached" />
