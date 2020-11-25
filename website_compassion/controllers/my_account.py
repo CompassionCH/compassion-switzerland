@@ -47,8 +47,8 @@ def _fetch_images_from_child(child):
     for image in child.pictures_ids:
         ext = image.image_url.split(".")[-1]
         filename = f"{child.preferred_name}_" \
-                   f"{image.date}_{child.code}.{ext}"
-        folder = f"{child.preferred_name}_{child.code}"
+                   f"{image.date}_{child.local_id}.{ext}"
+        folder = f"{child.preferred_name}_{child.local_id}"
         full_path = path.join(folder, filename)
         images.append((image, full_path))
     return images
@@ -63,7 +63,7 @@ def _create_archive(images, archive_name):
     :param archive_name: the name of the future archive
     :return: a response for the client to download the created archive
     """
-    with ZipFile(archive_name, 'w') as archive:
+    with ZipFile(archive_name, "w") as archive:
         for (img, full_path) in images:
             filename = path.basename(full_path)
 
@@ -73,9 +73,8 @@ def _create_archive(images, archive_name):
             remove(filename)
 
     # Get binary content of the archive, then delete the latter
-    archive = open(archive_name, "rb")
-    zip_data = archive.read()
-    archive.close()
+    with open(archive_name, "rb") as archive:
+        zip_data = archive.read()
     remove(archive_name)
 
     return request.make_response(
@@ -107,7 +106,7 @@ def _download_image(type, child_id=None, obj_id=None):
     if type == "multiple":  # We want to download all images from one child
         return _create_archive(
             _fetch_images_from_child(child),
-            f"{child.preferred_name}_{child.code}.zip"
+            f"{child.preferred_name}_{child.local_id}.zip"
         )
 
     if type == "single":  # We want to download a single image from a child
@@ -126,13 +125,9 @@ def _download_image(type, child_id=None, obj_id=None):
 
 
 class MyAccountController(PaymentFormController):
-    @route("/my", type="http", auth="user", website=True)
-    def home(self, **kw):
-        return request.redirect("/my/home")
-
-    @route("/my/home", type="http", auth="user", website=True)
+    @route(["/my", "/my/home"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
-        return request.render("website_compassion.my_account_layout", {})
+        return request.redirect("/my/information")
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
@@ -157,39 +152,46 @@ class MyAccountController(PaymentFormController):
                 "website_compassion.letter_page_template",
                 {"child_id": child,
                  "template_id": template,
-                 "child_ids": children,
-                 "template_ids": templates},
+                 "children": children,
+                 "templates": templates},
             )
         else:
             return request.redirect(f"/my/letter?child_id={children[0].id}")
 
     @route("/my/children", type="http", auth="user", website=True)
     def my_child(self, child_id=None, **kwargs):
-        partner = request.env.user.partner_id
         children = _get_user_children()
+
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
 
         if child_id:
-            partner = request.env.user.partner_id
             child = children.filtered(lambda c: c.id == int(child_id))
             if not child:  # The user does not sponsor this child_id
                 return request.redirect(
                     f"/my/children?child_id={children[0].id}"
                 )
-            lines = request.env["account.invoice.line"].search([
+            partner = request.env.user.partner_id
+            letters = request.env["correspondence"].search([
+                ("partner_id", "=", partner.id),
+                ("child_id", "=", int(child_id)),
+            ])
+            gift_categ = request.env.ref(
+                "sponsorship_compassion.product_category_gift"
+            )
+            lines = request.env["account.invoice.line"].sudo().search([
                 ("partner_id", "=", partner.id),
                 ("state", "=", "paid"),
                 ("contract_id.child_id", "=", child.id),
-                ("product_id.categ_id.id", "=", 5),
+                ("product_id.categ_id", "=", gift_categ.id),
                 ("price_total", "!=", 0),
             ])
-            child.get_infos()
             return request.render(
                 "website_compassion.my_children_page_template",
                 {"child_id": child,
-                 "child_ids": children,
-                 "line_ids": lines}
+                 "children": children,
+                 "letters": letters,
+                 "lines": lines}
             )
         else:
             return request.redirect(f"/my/children?child_id={children[0].id}")

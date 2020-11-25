@@ -31,7 +31,7 @@
                 <div id="my_children_div" class="container" style="overflow-x:auto">
                     <ul class="nav nav-tabs d-flex flex-nowrap">
                         <!-- Finding children of the corresponding sponsor -->
-                        <t t-foreach="child_ids" t-as="child">
+                        <t t-foreach="children" t-as="child">
                             <!-- Setting headshot for each child -->
                             <t t-if="child.image_url">
                                 <t t-set="child_image" t-value="request.env[
@@ -69,9 +69,8 @@
         </template>
 
         <template id="letter_templates">
-
             <ul class="templates nav nav-tabs" style="height: 33rem; overflow-y: scroll">
-                <t t-foreach="template_ids" t-as="template">
+                <t t-foreach="templates" t-as="template">
                     <div class="w-50 p-2">
                         <div t-attf-id="card_template_{{template.id}}" t-attf-onclick="selectElement('{{template.id}}', 'template')" class="card card-clickable text-center">
                             <li>
@@ -82,7 +81,6 @@
                                     <img t-attf-id="template_{{template.id}}" t-att-name="template.name" class="template-image" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
                                 </t>
                                 <span t-attf-id="template_name_{{template.id}}" t-att-value="template.name" style="display: none;"/>
-                                <t t-esc="template.name"/>
                             </li>
                         </div>
                     </div>
@@ -95,7 +93,7 @@
             <button class="btn btn-primary w-100 mb-2" onclick="document.getElementById('file_selector').click();">
                 Add images
             </button>
-            <!-- TODO CO-765: Use this warning when no image was added to list -->
+            <!-- TODO CI-765: Use this warning when no image was added to list -->
             <div id="letter_images_duplicated" class="alert alert-info alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
                 The images that are selected multiple times are ignored
             </div>
