@@ -13,7 +13,7 @@ class ProjectController(Controller):
     @route(
         ["/project/<model('crowdfunding.project'):project>"],
         type='http',
-        auth="user",
+        auth="public",
         website=True,
     )
     def project_page(self, project, **post):

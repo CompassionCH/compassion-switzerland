@@ -41,7 +41,9 @@ class ProjectsController(Controller, FormControllerMixin):
                 # TODO connect pagination to backend -> CO-3213
                 return request.render(
                     "crowdfunding_compassion.project_list_page",
-                    {"projects": project_obj.sudo().get_active_projects(type=type).search(domain)},
+                    {"projects": project_obj.sudo().get_active_projects(type=type, domain=domain),
+                     "type": type,
+                     "has_no_filter": type is None},
                 )
             else:
                 raise werkzeug.exceptions.BadRequest()
