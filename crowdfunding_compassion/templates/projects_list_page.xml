@@ -4,7 +4,7 @@
             <t t-call="crowdfunding_compassion.layout">
                 <t t-set="title">Our Projects | TOGETHER - Compassion Switzerland Fundraising</t>
                 <section class="container">
-                    <div class="text-center my-5 py-5">
+                    <div class="text-center my-4 py-4" t-if="not has_no_filter">
                         <h1 class="display-3 blue uppercase">Join a great project</h1>
                         <h2 class="pb-4">
                             Here are the collective projects in progress.
@@ -12,11 +12,21 @@
                             You can join one of these projects and amplify its impact!
                             <br/>
                             The countdown has begun.
+
                         </h2>
                     </div>
 
                     <div id="project_cards">
-                        <h2 class="subheading blue text-center mb-5 uppercase">Active projects</h2>
+                        <t t-if="not has_no_filter">
+                            <h2 class="subheading blue text-center mb-5 uppercase">
+                                <t t-esc="type"/> projects
+                            </h2>
+                        </t>
+                        <t t-if="has_no_filter">
+                            <h2 class="subheading blue text-center mb-5 uppercase mt-4">
+                                All projects
+                            </h2>
+                        </t>
 
                         <div class="row">
                             <t t-foreach="projects" t-as="project">

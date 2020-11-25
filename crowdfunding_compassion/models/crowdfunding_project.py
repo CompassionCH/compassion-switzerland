@@ -349,7 +349,7 @@ class CrowdfundingProject(models.Model):
         return True
 
     @api.model
-    def get_active_projects(self, limit=None, year=None, type=None):
+    def get_active_projects(self, limit=None, year=None, type=None, domain=None):
         filters = list(filter(None, [
             ("state", "!=", "draft"),
             ("website_published", "=", True),
@@ -357,7 +357,9 @@ class CrowdfundingProject(models.Model):
             ("deadline", "<=", datetime(year, 12, 31)) if year else None,
             ("type", "=", type) if type else None
         ]))
-
+        # only for active website
+        if domain:
+            filters += domain
         # Get active projects, from most urgent to least urgent
         active_projects = self.search(
             [
