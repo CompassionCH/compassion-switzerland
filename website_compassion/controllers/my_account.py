@@ -125,13 +125,9 @@ def _download_image(type, child_id=None, obj_id=None):
 
 
 class MyAccountController(PaymentFormController):
-    @route("/my", type="http", auth="user", website=True)
-    def home(self, **kw):
-        return request.redirect("/my/home")
-
-    @route("/my/home", type="http", auth="user", website=True)
+    @route(["/my", "/my/home"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
-        return request.render("website_compassion.my_account_layout", {})
+        return request.redirect("/my/information")
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
@@ -156,8 +152,8 @@ class MyAccountController(PaymentFormController):
                 "website_compassion.letter_page_template",
                 {"child_id": child,
                  "template_id": template,
-                 "child_ids": children,
-                 "template_ids": templates},
+                 "children": children,
+                 "templates": templates},
             )
         else:
             return request.redirect(f"/my/letter?child_id={children[0].id}")
@@ -180,7 +176,9 @@ class MyAccountController(PaymentFormController):
                 ("partner_id", "=", partner.id),
                 ("child_id", "=", int(child_id)),
             ])
-            gift_categ = request.env.ref("sponsorship_compassion.product_category_gift")
+            gift_categ = request.env.ref(
+                "sponsorship_compassion.product_category_gift"
+            )
             lines = request.env["account.invoice.line"].sudo().search([
                 ("partner_id", "=", partner.id),
                 ("state", "=", "paid"),
@@ -188,13 +186,12 @@ class MyAccountController(PaymentFormController):
                 ("product_id.categ_id", "=", gift_categ.id),
                 ("price_total", "!=", 0),
             ])
-            child.get_infos()
             return request.render(
                 "website_compassion.my_children_page_template",
                 {"child_id": child,
-                 "child_ids": children,
-                 "letter_ids": letters,
-                 "line_ids": lines}
+                 "children": children,
+                 "letters": letters,
+                 "lines": lines}
             )
         else:
             return request.redirect(f"/my/children?child_id={children[0].id}")
