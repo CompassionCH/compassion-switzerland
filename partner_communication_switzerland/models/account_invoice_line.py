@@ -34,6 +34,8 @@ class AccountInvoiceLine(models.Model):
             res_name = event_names[0]
         elif not event_names and len(product_names) == 1 and not gift:
             res_name = product_names[0]
+        elif len(product_names) > 1:
+            res_name = ', '.join([str(elem) for elem in product_names])
         # Special case for gifts : mention it's a gift even if several
         # different gifts are made.
         else:
