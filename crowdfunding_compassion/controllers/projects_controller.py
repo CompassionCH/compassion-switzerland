@@ -34,10 +34,11 @@ class ProjectsController(Controller, FormControllerMixin):
                 yield {'loc': loc}
 
     @route(["/projects", "/projects/page/<int:page>"], auth="public", website=True, sitemap=sitemap_projects)
-    def get_projects_list(self, type=None, page=1, year=None, **opt):
+    def get_projects_list(self, type=None, page=1, year=None, status='all', **opt):
         if request.website:
             website_id = request.website.id
-            if website_id != 1:  # only for other site
+            if website_id == request.env.ref(
+                    "crowdfunding_compassion.crowdfunding_website").sudo().id:  # only for other site
                 domain = request.website.website_domain()
                 filters = list(filter(None, [
                     ("state", "!=", "draft"),
@@ -55,21 +56,20 @@ class ProjectsController(Controller, FormControllerMixin):
                     total=total,
                     page=page,
                     step=self._project_post_per_page,
-                    url_args={'type': type},
+                    url_args={'type': type, 'status': status}
                 )
-                # TODO connect pagination to backend -> CO-3213
+
                 projects = project_obj.sudo()\
                     .get_active_projects(type=type, domain=domain, offset=(page - 1) * self._project_post_per_page,
-                                             limit=self._project_post_per_page, page=page)
+                                             limit=self._project_post_per_page, page=page, status=status)
                 return request.render(
                     "crowdfunding_compassion.project_list_page",
                     {"projects": projects,
-
+                     "status": status,
                      "type": type,
                      "pager": pager},
                 )
-            else:
-                raise werkzeug.exceptions.BadRequest()
+            raise werkzeug.exceptions.BadRequest()
 
     @route(['/projects/create', '/projects/create/page/<int:page>',
             '/projects/join/<int:project_id>'],
@@ -142,7 +142,7 @@ class ProjectsController(Controller, FormControllerMixin):
            auth="public",
            type="http",
            method='POST',
-           website=True, noindex=['robots', 'meta', 'header'],
+           website=True,
            no_sitemap=True)
     def project_validation(self, project, **kwargs):
         return request.render(

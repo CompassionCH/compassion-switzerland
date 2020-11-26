@@ -353,35 +353,26 @@ class CrowdfundingProject(models.Model):
         return True
 
     @api.model
-    def get_active_projects(self, limit=None, year=None, type=None, domain=None, offset=1, page=1):
+    def get_active_projects(self, limit=None, year=None, type=None, domain=None, offset=1, page=1, status='all'):
         filters = list(filter(None, [
             ("state", "!=", "draft"),
             ("website_published", "=", True),
             ("deadline", ">=", datetime(year, 1, 1)) if year else None,
             ("deadline", "<=", datetime(year, 12, 31)) if year else None,
-            ("type", "=", type) if type else None
+            ("type", "=", type) if type else None,
+            ("deadline", ">=", date.today()) if status == 'active' else None,
+            ("deadline", "<", date.today()) if status == 'finish' else None,
+
         ]))
         # only for active website
         if domain:
             filters += domain
-        # Get active projects, from most urgent to least urgent
-        active_projects = self.search(
-            [
-                # ("deadline", ">=", date.today()),
-            ] + filters, offset=offset, limit=limit, order="deadline DESC"
+
+        projects = self.search(
+            filters, offset=offset, limit=limit, order="deadline DESC"
         )
 
-        # Get finished projects, from most recent to oldest expiring date
-        # finished_projects = self.env[self._name]
-        # if not limit or (limit and len(active_projects) < limit):
-        #     finish_limit = limit - len(active_projects) if limit else None
-        #     finished_projects = self.search(
-        #         [
-        #             ("deadline", "<", date.today()),
-        #         ] + filters, offset=offset, limit=finish_limit, order="deadline DESC"
-        #     )
-
-        return active_projects # + finished_projects
+        return projects
 
     def open_participants(self):
         return {
