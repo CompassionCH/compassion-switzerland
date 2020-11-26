@@ -21,6 +21,8 @@ from odoo.addons.website.models.ir_http import sitemap_qs2dom
 
 
 class ProjectsController(Controller, FormControllerMixin):
+    _project_post_per_page = 4
+
     def sitemap_projects(env, rule, qs):
         projects = env['crowdfunding.project']
         dom = sitemap_qs2dom(qs, '/projects', projects._rec_name)
@@ -30,20 +32,30 @@ class ProjectsController(Controller, FormControllerMixin):
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
 
-    @route("/projects", auth="public", website=True, sitemap=sitemap_projects)
-    def get_projects_list(self, type=None, **kwargs):
+    @route(["/projects", "/projects/page/<int:page>"], auth="public", website=True, sitemap=sitemap_projects)
+    def get_projects_list(self, type=None, page=1, **kwargs):
         if request.website:
             website_id = request.website.id
             if website_id != 1:  # only for other site
                 domain = request.website.website_domain()
                 project_obj = request.env["crowdfunding.project"]
+                total = project_obj.search_count(domain)
 
+                pager = request.website.pager(
+                    url='/projects',
+                    total=total,
+                    page=page,
+                    step=self._project_post_per_page,
+                )
                 # TODO connect pagination to backend -> CO-3213
                 return request.render(
                     "crowdfunding_compassion.project_list_page",
-                    {"projects": project_obj.sudo().get_active_projects(type=type, domain=domain),
+                    {"projects": project_obj.sudo()
+                        .get_active_projects(type=type, domain=domain, offset=(page - 1) * self._project_post_per_page,
+                                             limit=self._project_post_per_page),
+
                      "type": type,
-                     "has_no_filter": type is None},
+                     "pager": pager},
                 )
             else:
                 raise werkzeug.exceptions.BadRequest()

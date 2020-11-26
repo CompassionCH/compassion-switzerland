@@ -3,8 +3,8 @@
         <template id="project_list_page" name="Project list page">
             <t t-call="crowdfunding_compassion.layout">
                 <t t-set="title">Our Projects | TOGETHER - Compassion Switzerland Fundraising</t>
-                <section class="container">
-                    <div class="text-center my-4 py-4" t-if="not has_no_filter">
+                <section class="container-fluid px-xl-5">
+                    <div class="text-center my-4 py-4" t-if="type == 'collective'">
                         <h1 class="display-3 blue uppercase">Join a great project</h1>
                         <h2 class="pb-4">
                             Here are the collective projects in progress.
@@ -17,24 +17,38 @@
                     </div>
 
                     <div id="project_cards">
-                        <t t-if="not has_no_filter">
-                            <h2 class="subheading blue text-center mb-5 uppercase">
-                                <t t-esc="type"/> projects
+                        <div>
+                            <h2 class="subheading blue text-center mb-5 mt-4 uppercase">
+                                <t t-if="type is None">All</t> <t t-if="type is not None" t-esc="type"/> projects
                             </h2>
-                        </t>
-                        <t t-if="has_no_filter">
-                            <h2 class="subheading blue text-center mb-5 uppercase mt-4">
-                                All projects
-                            </h2>
-                        </t>
-
-                        <div class="row">
+                        </div>
+                        <div class="navbar navbar-expand-lg navbar-light justify-content-center my-3" style="background-color: #70a1ff !Important;">
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+                                  <li t-att-class="'nav-item' if request.params.get('type') != None else 'nav-item active'">
+                                    <a class="nav-link" href="/projects" >All</a>
+                                  </li>
+                                    <li t-att-class="'nav-item' if request.params.get('type') != 'collective' else 'nav-item active'">
+                                    <a class="nav-link" href="/projects?type=collective" >Collective</a>
+                                  </li>
+                                  <li t-att-class="'nav-item' if request.params.get('type') != 'individual' else 'nav-item active'">
+                                    <a class="nav-link" href="/projects?type=individual">Individual</a>
+                                  </li>
+                                </ul>
+                                <form class="form-inline">
+                                    <input id="myInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                              </form>
+                            </div>
+                        </div>
+                        <div id="myTable" class="row">
                             <t t-foreach="projects" t-as="project">
                                 <t t-call="crowdfunding_compassion.project_card"/>
                             </t>
                         </div>
                     </div>
-
+                    <div class="projects_pager">
+                        <t t-call="website.pager" />
+                    </div>
 <!--                    <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/> TODO CO-3212 -->
                 </section>
             </t>

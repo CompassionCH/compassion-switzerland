@@ -349,7 +349,7 @@ class CrowdfundingProject(models.Model):
         return True
 
     @api.model
-    def get_active_projects(self, limit=None, year=None, type=None, domain=None):
+    def get_active_projects(self, limit=None, year=None, type=None, domain=None, offset=1):
         filters = list(filter(None, [
             ("state", "!=", "draft"),
             ("website_published", "=", True),
@@ -364,7 +364,7 @@ class CrowdfundingProject(models.Model):
         active_projects = self.search(
             [
                 ("deadline", ">=", date.today()),
-            ] + filters, limit=limit, order="deadline ASC"
+            ] + filters, offset=offset, limit=limit, order="deadline ASC"
         )
 
         # Get finished projects, from most recent to oldest expiring date
@@ -374,7 +374,7 @@ class CrowdfundingProject(models.Model):
             finished_projects = self.search(
                 [
                     ("deadline", "<", date.today()),
-                ] + filters, limit=finish_limit, order="deadline DESC"
+                ] + filters, offset=offset, limit=finish_limit, order="deadline DESC"
             )
 
         return active_projects + finished_projects
