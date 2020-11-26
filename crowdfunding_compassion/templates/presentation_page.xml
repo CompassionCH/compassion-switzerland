@@ -193,7 +193,7 @@
                             </div>
 
                             <!-- Side content -->
-                            <div id="impacts" class="col-12 col-lg-4" style="overflow:auto;height:1280px;">
+                            <div id="impacts" class="col-12 col-lg-4" style="overflow:auto;max-height:1280px;">
 
                                 <t t-if="impact">
                                     <h3 class="blue text-center uppercase">Impact so far</h3>
