@@ -13,7 +13,14 @@
 
                 <t t-call="website_compassion.my_children_gift_history"/>
 
+                <h2>First version for letters (icons to be determined more properly)</h2>
                 <t t-call="website_compassion.my_children_letters"/>
+
+                <h2>Second version for letters (colors to be determined more properly)</h2>
+                <t t-call="website_compassion.my_children_letters_v2"/>
+
+                <h2>Third version for letters (download link position to be determined)</h2>
+                <t t-call="website_compassion.my_children_letters_v3"/>
             </t>
             <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
         </template>
@@ -24,7 +31,7 @@
                 <div id="my_children_div" class="container" style="overflow-x:auto">
                     <ul class="nav nav-tabs d-flex flex-nowrap">
                         <!-- Finding children of the corresponding sponsor -->
-                        <t t-foreach="child_ids" t-as="child">
+                        <t t-foreach="children" t-as="child">
                             <!-- Setting headshot for each child -->
                             <t t-if="child.image_url">
                                 <t t-set="child_image" t-value="request.env[
@@ -260,8 +267,39 @@
             </div>
         </template>
 
+        <template id="my_children_gift_history">
+            <div class="container" t-if="lines">
+                <h3>Gift history</h3>
+                <div class="row">
+                    <div class="col-4">
+                        <label><b>Fund</b></label>
+                    </div>
+                    <div class="col-4">
+                        <label><b>Date</b></label>
+                    </div>
+                    <div class="col-4">
+                        <label><b>Amount</b></label>
+                    </div>
+                </div>
+                <t t-foreach="lines" t-as="line">
+                    <div class="row">
+                        <div class="col-4">
+                            <label><t t-esc="line.product_id.name"/></label>
+                        </div>
+                        <div class="col-4">
+                            <label><t t-esc="line.get_date('create_date', 'date_full')"/></label>
+                        </div>
+                        <div class="col-4">
+                            <label><t t-esc="line.price_total"/></label>
+                        </div>
+                    </div>
+                </t>
+                <a t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank">Make a donation</a>
+            </div>
+        </template>
+
         <template id="my_children_letters">
-            <div class="container" t-if="letter_ids">
+            <div class="container" t-if="letters">
                 <h3>Letters</h3>
                 <div class="row">
                     <div class="col-3">
@@ -272,12 +310,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <t t-foreach="letter_ids" t-as="letter">
+                    <t t-foreach="letters" t-as="letter">
                         <div class="col-3">
                             <t t-if="letter.direction == 'Supporter To Beneficiary'">
+                                <span class="fa fa-arrow-right"/>
                                 <label>Me</label>
                             </t>
                             <t t-else="">
+                                <span class="fa fa-arrow-left"/>
                                 <label><t t-esc="child_id.preferred_name"/></label>
                             </t>
                         </div>
@@ -305,34 +345,92 @@
             </div>
         </template>
 
-        <template id="my_children_gift_history">
-            <div class="container" t-if="line_ids">
-                <h3>Gift history</h3>
+        <template id="my_children_letters_v2">
+            <div class="container" t-if="letters">
+                <h3>Letters</h3>
                 <div class="row">
-                    <div class="col-4">
-                        <label><b>Fund</b></label>
+                    <div class="col-3">
+                        <label><b>From</b></label>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <label><b>Date</b></label>
                     </div>
-                    <div class="col-4">
-                        <label><b>Amount</b></label>
-                    </div>
                 </div>
-                <t t-foreach="line_ids" t-as="line">
-                    <div class="row">
-                        <div class="col-4">
-                            <label><t t-esc="line.product_id.name"/></label>
+                <t t-foreach="letters" t-as="letter">
+                    <div class="row" t-attf-style="background: {{'lightgray' if letter.direction == 'Supporter To Beneficiary' else 'white'}}">
+                        <div class="col-3">
+                            <t t-if="letter.direction == 'Supporter To Beneficiary'">
+                                <label>Me</label>
+                            </t>
+                            <t t-else="">
+                                <label><t t-esc="child_id.preferred_name"/></label>
+                            </t>
                         </div>
-                        <div class="col-4">
-                            <label><t t-esc="line.get_date('create_date', 'date_full')"/></label>
+                        <div class="col-3">
+                            <label><t t-esc="letter.get_date('scanned_date', 'date_full')"/></label>
                         </div>
-                        <div class="col-4">
-                            <label><t t-esc="line.price_total"/></label>
+                        <div class="col-3">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View letter</a></label>
+                        </div>
+                        <div class="col-3">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download letter</a></label>
                         </div>
                     </div>
                 </t>
-                <a t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank">Make a donation</a>
+                <hr/>
+                <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
+                    This may take a few minutes... Please wait
+                </div>
+                <a t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
+                    Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> correspondence
+                </a>
+                <a t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
+                    Download all children's correspondence
+                </a>
+            </div>
+        </template>
+
+        <template id="my_children_letters_v3">
+            <t t-set="title" t-value="'My letters'"/>
+            <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Supporter To Beneficiary')"/>
+            <t t-call="website_compassion.display_letters"/>
+
+            <t t-set="title" t-value="child_id.preferred_name + ('\'' if child_id.preferred_name[-1] == 's' else '\'s') + ' letters'"/>
+            <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Beneficiary To Supporter')"/>
+            <t t-call="website_compassion.display_letters"/>
+        </template>
+
+        <template id="display_letters">
+            <div class="container" t-if="letters_to_display">
+                <h3><t t-esc="title"/></h3>
+                <div class="row">
+                    <div class="col-4">
+                        <label><b>Date</b></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <t t-foreach="letters_to_display" t-as="letter">
+                        <div class="col-4">
+                            <label><t t-esc="letter.get_date('scanned_date', 'date_full')"/></label>
+                        </div>
+                        <div class="col-4">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View letter</a></label>
+                        </div>
+                        <div class="col-4">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download letter</a></label>
+                        </div>
+                    </t>
+                </div>
+                <hr/>
+                <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
+                    This may take a few minutes... Please wait
+                </div>
+                <a t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
+                    Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> correspondence
+                </a>
+                <a t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
+                    Download all children's correspondence
+                </a>
             </div>
         </template>
     </data>

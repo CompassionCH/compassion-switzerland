@@ -243,6 +243,13 @@ const sendLetter = function(message_from) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             startStopLoading("sending");
+            // Empty images and text (to avoid duplicate)
+            document.getElementById("letter_content").value = ""
+            for (var i = 0 ; i < images_list.length ; i++) {
+                var image = images_list[i];
+                removeImage(image.name, image.size, image.type);
+            }
+
             displayAlert("letter_sent_correctly");
         }
     };
