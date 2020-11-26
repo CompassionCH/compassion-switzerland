@@ -15,7 +15,8 @@ from odoo.addons.mobile_app_connector.controllers.registration_controller import
 
 
 class RegistrationControllerCH(RegistrationController):
-    @http.route("/registration/confirm", type="http", auth="public", website=True)
+    @http.route("/registration/confirm", type="http", auth="public", website=True,
+                sitemap=False)
     def registration_confirm(self, **kw):
         hostname = request.env["wordpress.configuration"].sudo().get_host()
         return request.render(
@@ -23,7 +24,8 @@ class RegistrationControllerCH(RegistrationController):
             {"app_url": "https://" + hostname + "/app/Login"},
         )
 
-    @http.route("/registration/success", type="http", auth="public", website=True)
+    @http.route("/registration/success", type="http", auth="public", website=True,
+                sitemap=False)
     def registration_success(self, **kwargs):
         """
         Return registration form

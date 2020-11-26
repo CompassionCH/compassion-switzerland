@@ -13,7 +13,7 @@ class DonationController(PaymentFormController, FormControllerMixin):
         ["/project/<model('crowdfunding.project'):project>/donation"],
         auth="public",
         website=True,
-        no_sitemap=True
+        sitemap=False
     )
     def project_donation_page(self, project, **kwargs):
         """ To preselect a participant, pass its id as particpant query parameter """
@@ -33,7 +33,7 @@ class DonationController(PaymentFormController, FormControllerMixin):
         ],
         auth="public",
         website=True,
-        no_sitemap=True
+        sitemap=False
     )
     def project_donation_form_page(self, project, participant, **kwargs):
         if not project.website_published:
@@ -62,7 +62,7 @@ class DonationController(PaymentFormController, FormControllerMixin):
 
     @route(
         "/crowdfunding/payment/validate/<int:invoice_id>", auth="public", website=True,
-        no_sitemap=True
+        sitemap=False
     )
     def crowdfunding_donation_validate(self, invoice_id=None, **kwargs):
         """ Method called after a payment attempt """

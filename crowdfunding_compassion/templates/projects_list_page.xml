@@ -19,7 +19,7 @@
                     <div id="project_cards">
                         <div>
                             <h2 class="subheading blue text-center mb-5 mt-4 uppercase">
-                                <t t-if="type is None and status is None">All</t> <t t-if="type is not None" t-esc="type"/><t t-if="status is not None" t-esc="status"/> projects
+                                <t t-if="type is None and status is None">All</t> <t t-if="type is not None" t-esc="type"/> projects
                             </h2>
                         </div>
                         <div class="navbar navbar-expand-lg navbar-light justify-content-center my-3" style="background-color: #70a1ff !Important;">
@@ -65,5 +65,14 @@
                 </section>
             </t>
         </template>
+
+        <record id="projects_page" model="website.page">
+            <field name="name">Projects</field>
+            <field name="website_published">True</field>
+            <field name="url">/projects</field>
+            <field name="type">qweb</field>
+            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
+            <field name="view_id" ref="crowdfunding_compassion.project_list_page"/>
+        </record>
     </data>
 </odoo>

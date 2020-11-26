@@ -9,36 +9,25 @@
 ##############################################################################
 
 import werkzeug
-from datetime import date, datetime
+from datetime import datetime
 
-from odoo import _, http, models
+from odoo import _
 from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
 
 from ..forms.project_creation_form import NoGoalException,\
     NegativeGoalException, InvalidDateException, InvalidLinkException
-from odoo.addons.http_routing.models.ir_http import slug
-from odoo.addons.website.models.ir_http import sitemap_qs2dom
 
 
 class ProjectsController(Controller, FormControllerMixin):
     _project_post_per_page = 12
 
-    def sitemap_projects(env, rule, qs):
-        projects = env['crowdfunding.project']
-        dom = sitemap_qs2dom(qs, '/projects', projects._rec_name)
-        dom += request.website.website_domain()
-        for f in projects.search(dom):
-            loc = '/project/%s' % slug(f)
-            if not qs or qs.lower() in loc:
-                yield {'loc': loc}
-
-    @route(["/projects", "/projects/page/<int:page>"], auth="public", website=True, sitemap=sitemap_projects)
+    @route(["/projects", "/projects/page/<int:page>"], auth="public", website=True,
+           sitemap=False)
     def get_projects_list(self, type=None, page=1, year=None, status='all', **opt):
         if request.website:
-            website_id = request.website.id
-            if website_id == request.env.ref(
-                    "crowdfunding_compassion.crowdfunding_website").sudo().id:  # only for other site
+            if request.website == request.env.ref(
+                    "crowdfunding_compassion.crowdfunding_website").sudo():
                 domain = request.website.website_domain()
                 filters = list(filter(None, [
                     ("state", "!=", "draft"),
@@ -59,9 +48,9 @@ class ProjectsController(Controller, FormControllerMixin):
                     url_args={'type': type, 'status': status}
                 )
 
-                projects = project_obj.sudo()\
-                    .get_active_projects(type=type, domain=domain, offset=(page - 1) * self._project_post_per_page,
-                                             limit=self._project_post_per_page, page=page, status=status)
+                projects = project_obj.sudo().get_active_projects(
+                    offset=(page - 1) * self._project_post_per_page, type=type,
+                    domain=domain, limit=self._project_post_per_page, status=status)
                 return request.render(
                     "crowdfunding_compassion.project_list_page",
                     {"projects": projects,
@@ -77,7 +66,7 @@ class ProjectsController(Controller, FormControllerMixin):
            type="http",
            method='POST',
            website=True,
-           no_sitemap=True)
+           sitemap=False)
     def project_creation(self, page=1, project_id=0, **kwargs):
         if project_id and page == 1:
             # Joining project can skip directly to step2
@@ -143,7 +132,7 @@ class ProjectsController(Controller, FormControllerMixin):
            type="http",
            method='POST',
            website=True,
-           no_sitemap=True)
+           sitemap=False)
     def project_validation(self, project, **kwargs):
         return request.render(
             "crowdfunding_compassion.project_creation_confirmation_view_template",

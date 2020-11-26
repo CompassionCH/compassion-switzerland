@@ -32,6 +32,7 @@ class Event(models.Model):
         "website.seo.metadata",
         "event.registration",
         "mail.activity.mixin",
+        "website.multi.mixin"
     ]
     _name = "event.registration"
     _description = "Event registration"
@@ -104,7 +105,7 @@ class Event(models.Model):
     amount_raised_percents = fields.Integer(
         readonly=True, compute="_compute_amount_raised_percent"
     )
-    is_published = fields.Boolean(compute="_compute_is_published")
+    is_published = fields.Boolean(compute="_compute_is_published", store=True)
     website_url = fields.Char(compute="_compute_website_url")
     host_url = fields.Char(compute="_compute_host_url")
     wordpress_host = fields.Char(compute="_compute_wordpress_host")
@@ -190,6 +191,8 @@ class Event(models.Model):
 
     survey_count = fields.Integer(compute="_compute_survey_count")
     invoice_count = fields.Integer(compute="_compute_invoice_count")
+    website_id = fields.Many2one(
+        "website", related="compassion_event_id.website_id", store=True)
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -260,6 +263,7 @@ class Event(models.Model):
             registration.wordpress_host = wp_obj.get_host(registration.company_id.id)
 
     @api.multi
+    @api.depends("state", "event_id.state")
     def _compute_is_published(self):
         for registration in self:
             registration.is_published = (

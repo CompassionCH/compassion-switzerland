@@ -3,6 +3,8 @@ from datetime import datetime
 from babel.dates import format_timedelta
 
 from odoo import _
+from odoo.addons.http_routing.models.ir_http import slug
+from odoo.addons.website.models.ir_http import sitemap_qs2dom
 from odoo.http import request, route, Controller
 from odoo.addons.crowdfunding_compassion.controllers.\
     homepage_controller import sponsorship_card_content
@@ -10,11 +12,32 @@ import werkzeug
 
 
 class ProjectController(Controller):
+    def sitemap_projects(env, rule, qs):
+        projects = env["crowdfunding.project"]
+        dom = sitemap_qs2dom(qs, "/projects", projects._rec_name)
+        dom += request.website.website_domain()
+        dom += [("website_published", "=", True)]
+        for f in projects.search(dom):
+            loc = "/project/%s" % slug(f)
+            if not qs or qs.lower() in loc:
+                yield {"loc": loc}
+
+    def sitemap_participant(env, rule, qs):
+        projects = env["crowdfunding.participant"]
+        dom = sitemap_qs2dom(qs, "/participant", projects._rec_name)
+        dom += request.website.website_domain()
+        dom += [("website_published", "=", True)]
+        for f in projects.search(dom):
+            loc = "/participant/%s" % slug(f)
+            if not qs or qs.lower() in loc:
+                yield {"loc": loc}
+
     @route(
         ["/project/<model('crowdfunding.project'):project>"],
         type='http',
         auth="public",
         website=True,
+        sitemap=sitemap_projects
     )
     def project_page(self, project, **post):
         # Get project with sudo, otherwise some parts will be blocked from public
@@ -34,8 +57,11 @@ class ProjectController(Controller):
     @route(["/participant/<model('crowdfunding.participant'):participant>/"],
            type="http",
            auth="public",
-           website=True)
+           website=True,
+           sitemap=sitemap_participant)
     def participant(self, participant=None, **kwargs):
+        if not participant.can_access_from_current_website():
+            raise werkzeug.exceptions.NotFound()
         project = participant.project_id.sudo()
         if not project.website_published:
             return request.redirect("/projects")
