@@ -36,7 +36,11 @@ class MassMailingContact(models.Model):
         if self.partner_id:
             return self.partner_id.id
         else:
-            return super().get_partner(email)
+            return self.env["res.partner"].search([
+                ("email", "=ilike", email),
+                ("contact_type", "=", "standalone"),
+                ("opt_out", "!=", True)
+            ], limit=1).id
 
     @api.model
     def launch_job_update_mailchimp(self, partner_ids=None):
