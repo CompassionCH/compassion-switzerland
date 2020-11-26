@@ -207,7 +207,7 @@
         </template>
 
         <template id="project_card" name="Project card">
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <div class="project-card__header">
@@ -336,11 +336,10 @@
         </template>
 
         <template id="crowdfunding_navbar" name="Navbar for Crowdfunding page">
-            <nav class="navbar shadow navbar-expand-lg navbar-dark" id="mainNav">
-                <div class="container-fluid">
+            <nav t-att-class="'navbar shadow navbar-expand-lg navbar-dark' if website.user_id != user_id else 'navbar sticky-top shadow navbar-expand-lg navbar-dark'" id="mainNav">
                     <a class="navbar-brand js-scroll-trigger" href="/homepage">
                         <img t-attf-src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-#{env.lang[:2]}.svg"
-                            width="190" height="auto"/>
+                            width="150" height="auto"/>
                     </a>
                     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         data-target="#navbarResponsive" aria-controls="navbarResponsive"
@@ -393,7 +392,6 @@
                             </li>
                         </ul>
                     </div>
-                </div>
             </nav>
         </template>
 
