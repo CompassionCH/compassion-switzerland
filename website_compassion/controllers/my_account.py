@@ -12,6 +12,7 @@ from urllib.request import urlretrieve, urlopen
 
 from odoo.http import request, route
 from odoo.addons.web.controllers.main import content_disposition
+from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController
 )
@@ -124,7 +125,7 @@ def _download_image(type, child_id=None, obj_id=None):
         )
 
 
-class MyAccountController(PaymentFormController):
+class MyAccountController(PaymentFormController, CustomerPortal):
     @route("/my", type="http", auth="user", website=True)
     def home(self, **kw):
         return request.redirect("/my/home")
@@ -163,7 +164,7 @@ class MyAccountController(PaymentFormController):
             return request.redirect(f"/my/letter?child_id={children[0].id}")
 
     @route("/my/children", type="http", auth="user", website=True)
-    def my_child(self, child_id=None, **kwargs):
+    def my_children(self, child_id=None, **kwargs):
         children = _get_user_children()
 
         if len(children) == 0:
@@ -199,8 +200,50 @@ class MyAccountController(PaymentFormController):
         else:
             return request.redirect(f"/my/children?child_id={children[0].id}")
 
+    @route("/my/information", type="http", auth="user", website=True)
+    def my_information(self, form_id=None, **kw):
+        partner = request.env.user.partner_id
+
+        values = self._prepare_portal_layout_values()
+
+        # Load forms
+        form_success = False
+        kw["form_model_key"] = "cms.form.partner.coordinates"
+        coordinates_form = self.get_form("res.partner", partner.id, **kw)
+        if form_id is None or form_id == coordinates_form.form_id:
+            coordinates_form.form_process()
+            form_success = coordinates_form.form_success
+
+        kw["form_model_key"] = "cms.form.partner.delivery"
+        delivery_form = self.get_form("res.partner", partner.id, **kw)
+        if form_id is None or form_id == delivery_form.form_id:
+            delivery_form.form_process()
+            form_success = delivery_form.form_success
+
+        kw["form_model_key"] = "cms.form.users.credentials"
+        credentials_form = self.get_form("res.users", partner.user_id.id, **kw)
+        if form_id is None or form_id == credentials_form.form_id:
+            credentials_form.form_process()
+            form_success = credentials_form.form_success
+
+        values.update({
+            "partner": partner,
+            "coordinates_form": coordinates_form,
+            "delivery_form": delivery_form,
+            "credentials_form": credentials_form,
+        })
+
+        # This fixes an issue that forms fail after first submission
+        if form_success:
+            result = request.redirect("/my/information")
+        else:
+            result = request.render(
+                "website_compassion.my_information_page_template", values
+            )
+        return self._form_redirect(result, full_page=True)
+
     @route("/my/download/<source>", type="http", auth="user", website=True)
-    def download_file(self, source, obj_id=None, child_id=None, **kw):
+    def my_download(self, source, obj_id=None, child_id=None, **kw):
         if source == "picture":
             if child_id and obj_id:
                 return _download_image("single", child_id, obj_id)

@@ -1,18 +1,216 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <template id="personal_info_page_template" name="Personal information">
+        <template id="my_information_page_template" name="Personal information">
             <t t-call="website_compassion.my_account_layout">
-                <div class="container m64">
-                    This will be the personal info view
+                <div class="container">
+                    <!-- Load modals for forms -->
+                    <t t-call="cms_form_compassion.modal_form">
+                        <t t-set="form" t-value="coordinates_form"/>
+                    </t>
+                    <t t-call="cms_form_compassion.modal_form">
+                        <t t-set="form" t-value="delivery_form"/>
+                    </t>
+                    <t t-call="cms_form_compassion.modal_form">
+                        <t t-set="form" t-value="credentials_form"/>
+                    </t>
+                    <div class="row">
+                        <!-- Coordinates -->
+                        <div class="col-6">
+                            <t t-call="website_compassion.my_information_personal"/>
+                        </div>
+                        <!-- Communication preferences -->
+                        <div class="col-6">
+                            <t t-call="website_compassion.my_information_credentials"/>
+
+                            <t t-call="website_compassion.my_information_privacy_data"/>
+
+                            <t t-call="website_compassion.my_information_communication_pref"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Profile picture -->
+                        <div class="col-sm-6 col-md-5 col-lg-4">
+                            <h3 class="section-header" style="margin-top: 25px; margin-bottom: 10px;">
+                                Profile picture
+                                <label for="upload_picture_1" type="button" class="btn btn-default btn-xs">
+                                    Change
+                                </label>
+                            </h3>
+                            <form id="form_picture_1" action="/my/api" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="file"
+                                       name="picture_1"
+                                       id="upload_picture_1"
+                                       accept="image/*"
+                                       style="opacity: 0; position: absolute; z-index: -1;"/>
+                            </form>
+                            <div class="pictures-container" style="max-width: 600px;">
+                                <t t-call="website_compassion.picture_1_formatted"/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </t>
         </template>
 
-        <record id="personal_info_page" model="website.page">
-            <field name="website_published">True</field>
-            <field name="url">/my/information</field>
-            <field name="view_id" ref="website_compassion.personal_info_page_template"/>
-        </record>
+        <template id="my_information_personal">
+            <h3>Coordinates</h3>
+
+            <!-- Title -->
+            <t t-set="key" t-value="'Title'"/>
+            <t t-set="value" t-value="partner.title.name"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Name -->
+            <t t-set="key" t-value="'Name'"/>
+            <t t-set="value" t-value="partner.name"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Communication name -->
+            <t t-set="key" t-value="'Communication name'"/>
+            <t t-set="value" t-value="partner.preferred_name"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Birthdate -->
+            <t t-set="key" t-value="'Birthdate'"/>
+            <t t-set="value" t-value="partner.get_date('birthdate_date', 'date_full')"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Street -->
+            <t t-set="key" t-value="'Street'"/>
+            <t t-set="value" t-value="partner.street"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- City -->
+            <t t-set="key" t-value="'City'"/>
+            <t t-set="value" t-value="' '.join(list(filter(None, [partner.zip, partner.city])))"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Country -->
+            <t t-set="key" t-value="'Country'"/>
+            <t t-set="value" t-value="partner.country_id.name"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Phone -->
+            <t t-set="key" t-value="'Phone'"/>
+            <t t-set="value" t-value="partner.phone"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Mobile -->
+            <t t-set="key" t-value="'Mobile'"/>
+            <t t-set="value" t-value="partner.mobile"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Birthdate -->
+            <t t-set="key" t-value="'Birthdate'"/>
+            <t t-set="value" t-value="partner.get_date('birthdate_date', 'date_full')"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Email -->
+            <t t-set="key" t-value="'Email'"/>
+            <t t-set="value" t-value="partner.email"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Church -->
+            <t t-set="key" t-value="'Church'"/>
+            <t t-set="value" t-value="partner.church_id.name"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <button type="button"
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#modal_coordinates">
+                Change
+            </button>
+        </template>
+
+        <template id="my_information_credentials">
+            <h3>Credentials</h3>
+
+            <button type="button"
+                    class="btn btn-primary mb-4"
+                    data-toggle="modal"
+                    data-target="#modal_credentials">
+                Change
+            </button>
+        </template>
+
+        <template id="my_information_privacy_data">
+            <h3>Privacy data</h3>
+
+            <div class="row mb-2">
+                <div class="col-6 border-right">
+                    <label>Child protection charter</label>
+                </div>
+                <div class="col-6">
+                    <t t-if="partner.date_agreed_child_protection_charter">
+                        Signing date: <t t-esc="partner.get_date('date_agreed_child_protection_charter', 'date_full')"/>
+                    </t>
+                    <t t-else="">
+                        <a class="btn btn-primary w-100" t-attf-href="/partner/{{partner.uuid}}/child-protection-charter" target="_blank">
+                            Sign child protection charter
+                        </a>
+                    </t>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-6 border-right">
+                    <label>Data protection</label>
+                </div>
+                <div class="col-6">
+                    <t t-if="partner.privacy_statement_ids">
+                        Signing date: <t t-esc="partner.get_date('privacy_statement_ids.agreement_date', 'date_full')"/>
+                    </t>
+                    <t t-else="">
+                        <a class="btn btn-primary w-100" t-attf-href="#">
+                            Accept privacy policy
+                        </a>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+        <template id="my_information_communication_pref">
+            <h3>Communication preferences</h3>
+
+            <!-- Language -->
+            <t t-set="key" t-value="'Language'"/>
+            <t t-set="value" t-value="request.env['res.lang'].search([('code', '=', partner.lang)]).name"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Spoken languages -->
+            <t t-set="key" t-value="'Spoken languages'"/>
+            <t t-set="value" t-value="partner.get_list('spoken_lang_ids.name').capitalize()"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- TODO: Post or email, precise not ALL communications are impacted -->
+            <!-- Communication type preference -->
+            <t t-set="key" t-value="'Communication preference'"/>
+            <t t-set="value" t-value="'No' if partner.global_communication_delivery_preference == 'none' else 'Physical' if partner.global_communication_delivery_preference == 'physical' else 'Post and physical' if partner.global_communication_delivery_preference == 'both' else 'Email'"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Photo delivery type -->
+            <t t-set="key" t-value="'Photo delivery type'"/>
+            <t t-set="value" t-value="'No' if partner.photo_delivery_preference == 'none' else 'Physical' if partner.photo_delivery_preference == 'physical' else 'Email and physical' if partner.photo_delivery_preference == 'both' else 'Email'"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <!-- Magazine -->
+            <t t-set="key" t-value="'Magazine'"/>
+            <t t-set="value" t-value="'No' if partner.nbmag == 'no_mag' else 'Email' if partner.nbmag == 'email' else 'Physical'"/>
+            <t t-call="website_compassion.fill_key_value"/>
+
+            <button type="button"
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#modal_delivery">
+                Change
+            </button>
+        </template>
+
+        <template id="picture_1_formatted" name="My profile picture">
+            <div t-field="partner.image_medium" t-options='{"widget": "image"}'/>
+        </template>
     </data>
 </odoo>

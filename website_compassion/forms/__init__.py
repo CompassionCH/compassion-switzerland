@@ -8,3 +8,4 @@
 ##############################################################################
 
 from . import match_partner_form
+from . import partner_forms

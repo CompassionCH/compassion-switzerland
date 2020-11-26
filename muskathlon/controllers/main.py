@@ -70,12 +70,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             trip_info_form.form_process()
             form_success = trip_info_form.form_success
 
-        kw["form_model_key"] = "cms.form.partner.coordinates"
-        coordinates_form = self.get_form("res.partner", partner.id, **kw)
-        if form_id is None or form_id == coordinates_form.form_id:
-            coordinates_form.form_process()
-            form_success = coordinates_form.form_success
-
         kw["form_model_key"] = "cms.form.advocate.details"
         about_me_form = self.get_form("advocate.details", advocate_details_id, **kw)
         if form_id is None or form_id == about_me_form.form_id:
@@ -121,7 +115,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         values.update(
             {
                 "trip_info_form": trip_info_form,
-                "coordinates_form": coordinates_form,
                 "about_me_form": about_me_form,
                 "large_picture_form": large_picture_form,
                 "passport_form": passport_form,
@@ -137,7 +130,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             values['registrations'] = registrations_array
         # This fixes an issue that forms fail after first submission
         if form_success:
-            result = request.redirect("/my/home")
+            result = request.redirect("/my/muskathlon")
         else:
             result = request.render("muskathlon.custom_portal_my_home", values)
         return self._form_redirect(result, full_page=True)
@@ -150,7 +143,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         return_view = "muskathlon.custom_portal_my_home"
         picture_post = post.get("picture_1")
         if picture_post:
-            return_view = "muskathlon.picture_1_formatted"
+            return_view = "website_compassion.picture_1_formatted"
             image_value = b64encode(picture_post.stream.read())
             if not image_value:
                 return "no image uploaded"
