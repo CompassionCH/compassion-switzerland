@@ -19,7 +19,7 @@
                     <div id="project_cards">
                         <div>
                             <h2 class="subheading blue text-center mb-5 mt-4 uppercase">
-                                <t t-if="type is None">All</t> <t t-if="type is not None" t-esc="type"/> projects
+                                <t t-if="type is None and status is None">All</t> <t t-if="type is not None" t-esc="type"/><t t-if="status is not None" t-esc="status"/> projects
                             </h2>
                         </div>
                         <div class="navbar navbar-expand-lg navbar-light justify-content-center my-3" style="background-color: #70a1ff !Important;">
@@ -28,11 +28,23 @@
                                   <li t-att-class="'nav-item' if request.params.get('type') != None else 'nav-item active'">
                                     <a class="nav-link" href="/projects" >All</a>
                                   </li>
+                                    <span class="navbar-text">
+                                         |
+                                      </span>
                                     <li t-att-class="'nav-item' if request.params.get('type') != 'collective' else 'nav-item active'">
                                     <a class="nav-link" href="/projects?type=collective" >Collective</a>
                                   </li>
                                   <li t-att-class="'nav-item' if request.params.get('type') != 'individual' else 'nav-item active'">
                                     <a class="nav-link" href="/projects?type=individual">Individual</a>
+                                  </li>
+                                    <span class="navbar-text">
+                                         |
+                                      </span>
+                                    <li t-att-class="'nav-item' if request.params.get('status') != 'active' else 'nav-item active'">
+                                    <a class="nav-link" href="/projects?status=active">Active</a>
+                                  </li>
+                                    <li t-att-class="'nav-item' if request.params.get('status') != 'finish' else 'nav-item active'">
+                                    <a class="nav-link" href="/projects?status=finish">Finish</a>
                                   </li>
                                 </ul>
                                 <form class="form-inline">
