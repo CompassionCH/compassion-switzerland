@@ -36,7 +36,7 @@
                                   </li>
                                 </ul>
                                 <form class="form-inline">
-                                    <input id="myInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                                    <input id="myInput" class="form-control mr-sm-2" type="search" placeholder="Quick search" aria-label="Quick search" />
                               </form>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                     <div class="projects_pager">
                         <t t-call="website.pager" />
                     </div>
-<!--                    <t t-call="crowdfunding_compassion.crowdfunding_projects_pagination"/> TODO CO-3212 -->
+<!--                TODO CO-3212 -->
                 </section>
             </t>
         </template>

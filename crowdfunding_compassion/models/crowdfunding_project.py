@@ -17,6 +17,9 @@ class CrowdfundingProject(models.Model):
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 
+    website_id = fields.Many2one('website', default=lambda s: s.env.ref(
+        "crowdfunding_compassion.crowdfunding_website").id)
+
     description = fields.Text(
         "Project description",
         help="Aim of the project, why you want to create it, for which purpose and "
@@ -28,6 +31,7 @@ class CrowdfundingProject(models.Model):
         [("individual", "Individual"), ("collective", "Collective")],
         required=True,
         default="individual",
+        index=True
     )
     deadline = fields.Date(
         "Deadline of project",
@@ -349,7 +353,7 @@ class CrowdfundingProject(models.Model):
         return True
 
     @api.model
-    def get_active_projects(self, limit=None, year=None, type=None, domain=None, offset=1):
+    def get_active_projects(self, limit=None, year=None, type=None, domain=None, offset=1, page=1):
         filters = list(filter(None, [
             ("state", "!=", "draft"),
             ("website_published", "=", True),
@@ -363,21 +367,21 @@ class CrowdfundingProject(models.Model):
         # Get active projects, from most urgent to least urgent
         active_projects = self.search(
             [
-                ("deadline", ">=", date.today()),
-            ] + filters, offset=offset, limit=limit, order="deadline ASC"
+                # ("deadline", ">=", date.today()),
+            ] + filters, offset=offset, limit=limit, order="deadline DESC"
         )
 
         # Get finished projects, from most recent to oldest expiring date
-        finished_projects = self.env[self._name]
-        if not limit or (limit and len(active_projects) < limit):
-            finish_limit = limit - len(active_projects) if limit else None
-            finished_projects = self.search(
-                [
-                    ("deadline", "<", date.today()),
-                ] + filters, offset=offset, limit=finish_limit, order="deadline DESC"
-            )
+        # finished_projects = self.env[self._name]
+        # if not limit or (limit and len(active_projects) < limit):
+        #     finish_limit = limit - len(active_projects) if limit else None
+        #     finished_projects = self.search(
+        #         [
+        #             ("deadline", "<", date.today()),
+        #         ] + filters, offset=offset, limit=finish_limit, order="deadline DESC"
+        #     )
 
-        return active_projects + finished_projects
+        return active_projects # + finished_projects
 
     def open_participants(self):
         return {
