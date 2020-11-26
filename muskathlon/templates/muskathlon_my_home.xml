@@ -4,10 +4,8 @@
         <t t-call="website_compassion.my_account_layout">
             <!-- Page content -->
             <div id="muskathlon_my_home" class="container">
+                <t t-call="muskathlon.aboutme_formatted"/>
                 <!-- Load modals for forms -->
-                <t t-call="cms_form_compassion.modal_form">
-                    <t t-set="form" t-value="coordinates_form"/>
-                </t>
                 <t t-if="partner.advocate_details_id">
                     <t t-call="cms_form_compassion.modal_form">
                         <t t-set="form" t-value="about_me_form"/>
@@ -47,11 +45,7 @@
                         advocate_details
                     </div>
                 </t>
-                <div class="row mt-4">
-                    <!-- Profile page -->
-                    <div class="col-6" t-if="registrations">
-                        <t t-call="muskathlon.aboutme_formatted"/>
-                    </div>
+                <div class="row">
                     <!-- Muskathlon trip data -->
                     <div class="col-6" t-if="registrations">
                         <t t-call="muskathlon.tripinfos_formatted"/>

@@ -127,12 +127,6 @@
             </div>
         </template>
 
-        <template id="picture_1_formatted" name="My profile picture">
-            <div id="content_picture_1">
-                <div t-field="partner.image_medium" t-options='{"widget": "image"}'/>
-            </div>
-        </template>
-
         <template id="picture_2_formatted" name="Ambassador large picture">
             <t t-set="details_obj" t-value="partner.advocate_details_id"/>
             <t t-set="picture" t-value="details_obj.picture_large"/>

@@ -36,3 +36,7 @@ full_access_account_analytic_line_portal,Full access account analytic line porta
 full_access_line_portal,Full access line portal,account.model_account_invoice_line,base.group_portal,1,1,1,1
 full_access_move_line_portal,Full access move line portal,account.model_account_move_line,base.group_portal,1,1,1,1
 full_access_move_portal,Full access move portal,account.model_account_move,base.group_portal,1,1,1,1
+read_access_mapping_portal,Read access mapping portal,message_center_compassion.model_compassion_mapping,base.group_portal,1,0,0,0
+read_access_field_to_json_portal,Read access field to json portal,message_center_compassion.model_compassion_field_to_json,base.group_portal,1,0,0,0
+read_access_ir_model_portal,Read access ir model portal,base.model_ir_model,base.group_portal,1,0,0,0
+write_access_partner_portal,Write access partner portal,base.model_res_partner,base.group_portal,1,1,0,0
