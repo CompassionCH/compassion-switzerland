@@ -30,7 +30,7 @@ For 42 francs a month, you're opening the way out of poverty for a child. Sponso
 
 
 class HomepageController(Controller):
-    @route("/homepage", auth="public", website=True)
+    @route("/homepage", auth="public", website=True, sitemap=False)
     def homepage(self, **kwargs):
         return request.render(
             "crowdfunding_compassion.homepage_template",

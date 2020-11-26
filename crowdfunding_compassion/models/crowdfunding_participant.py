@@ -38,7 +38,8 @@ class CrowdfundingParticipant(models.Model):
     profile_photo = fields.Binary(related="partner_id.image")
     profile_photo_url = fields.Char(compute="_compute_profile_photo_url")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
-    is_published = fields.Boolean(related="project_id.is_published")
+    is_published = fields.Boolean(related="project_id.is_published", store=True)
+    website_id = fields.Many2one("website", related="project_id.website_id", store=True)
 
     # kanban colors
     color_sponsorship = fields.Char(compute="_compute_color_sponsorship")

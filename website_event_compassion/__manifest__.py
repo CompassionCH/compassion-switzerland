@@ -55,6 +55,7 @@
         "data/survey.xml",
         "data/action_rule_past_event.xml",
         "data/event_message_subtype.xml",
+        "data/website_page.xml",
         "views/event_compassion_open_wizard.xml",
         "views/event_compassion_view.xml",
         "views/event_event_view.xml",

@@ -353,7 +353,8 @@ class CrowdfundingProject(models.Model):
         return True
 
     @api.model
-    def get_active_projects(self, limit=None, year=None, type=None, domain=None, offset=1, page=1, status='all'):
+    def get_active_projects(self, limit=None, year=None, type=None, domain=None,
+                            offset=1, status='all'):
         filters = list(filter(None, [
             ("state", "!=", "draft"),
             ("website_published", "=", True),
