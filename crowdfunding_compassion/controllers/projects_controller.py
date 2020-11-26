@@ -9,6 +9,7 @@
 ##############################################################################
 
 import werkzeug
+from datetime import date, datetime
 
 from odoo import _, http, models
 from odoo.http import request, route, Controller, local_redirect
@@ -21,7 +22,7 @@ from odoo.addons.website.models.ir_http import sitemap_qs2dom
 
 
 class ProjectsController(Controller, FormControllerMixin):
-    _project_post_per_page = 4
+    _project_post_per_page = 12
 
     def sitemap_projects(env, rule, qs):
         projects = env['crowdfunding.project']
@@ -33,26 +34,36 @@ class ProjectsController(Controller, FormControllerMixin):
                 yield {'loc': loc}
 
     @route(["/projects", "/projects/page/<int:page>"], auth="public", website=True, sitemap=sitemap_projects)
-    def get_projects_list(self, type=None, page=1, **kwargs):
+    def get_projects_list(self, type=None, page=1, year=None, **opt):
         if request.website:
             website_id = request.website.id
             if website_id != 1:  # only for other site
                 domain = request.website.website_domain()
+                filters = list(filter(None, [
+                    ("state", "!=", "draft"),
+                    ("website_published", "=", True),
+                    ("deadline", ">=", datetime(year, 1, 1)) if year else None,
+                    ("deadline", "<=", datetime(year, 12, 31)) if year else None,
+                    ("type", "=", type) if type else None
+                ]))
+                filters += domain
                 project_obj = request.env["crowdfunding.project"]
-                total = project_obj.search_count(domain)
+                total = project_obj.search_count(filters)
 
                 pager = request.website.pager(
                     url='/projects',
                     total=total,
                     page=page,
                     step=self._project_post_per_page,
+                    url_args={'type': type},
                 )
                 # TODO connect pagination to backend -> CO-3213
+                projects = project_obj.sudo()\
+                    .get_active_projects(type=type, domain=domain, offset=(page - 1) * self._project_post_per_page,
+                                             limit=self._project_post_per_page, page=page)
                 return request.render(
                     "crowdfunding_compassion.project_list_page",
-                    {"projects": project_obj.sudo()
-                        .get_active_projects(type=type, domain=domain, offset=(page - 1) * self._project_post_per_page,
-                                             limit=self._project_post_per_page),
+                    {"projects": projects,
 
                      "type": type,
                      "pager": pager},
