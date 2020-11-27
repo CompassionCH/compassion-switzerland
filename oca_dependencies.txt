@@ -13,7 +13,6 @@
 #
 # To provide both the URL and a branch, use:
 
-# Uncomment when needed
 account-financial-tools
 account-payment
 bank-payment https://github.com/CompassionCH/bank-payment.git 12.0-sepa-non-sepa-orders
@@ -35,5 +34,5 @@ server-tools
 server-ux
 social
 web
-website https://github.com/CompassionCH/website 12.0
+website
 website-cms https://github.com/CompassionCH/website-cms 12.0

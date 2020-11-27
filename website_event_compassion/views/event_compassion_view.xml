@@ -28,6 +28,7 @@
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="type" position="before">
+                <field name="website_id" groups="website.group_website_publisher"/>
                 <field name="event_type_id" options="{'limit': 12}"/>
             </field>
 

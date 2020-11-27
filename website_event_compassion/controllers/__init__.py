@@ -10,3 +10,4 @@
 
 from . import events_controller
 from . import group_visit
+from . import survey_controller

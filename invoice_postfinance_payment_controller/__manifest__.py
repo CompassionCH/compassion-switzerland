@@ -37,7 +37,6 @@
     "depends": [
         "payment_ogone_compassion",  # compassion-switzerland
         "cms_form_compassion",  # compassion-modules
-        "website_no_index",  # website
         "partner_communication",  # compassion-modules
         "l10n_ch_payment_slip",  # l10n-switzerland
     ],

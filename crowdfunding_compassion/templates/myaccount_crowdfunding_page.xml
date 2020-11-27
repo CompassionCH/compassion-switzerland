@@ -28,14 +28,5 @@
                 </section>
             </t>
         </template>
-
-        <record id="myaccount_crowdfunding_page" model="website.page">
-            <field name="url">/my_account</field>
-            <field name="website_indexed" eval="True"/>
-            <field name="website_id" eval="ref('crowdfunding_compassion.crowdfunding_website')"/>
-            <field name="website_published">True</field>
-            <field name="name">MyAccount</field>
-            <field name="type">qweb</field>
-        </record>
     </data>
 </odoo>
