@@ -26,7 +26,7 @@
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav mr-auto">
                                   <li t-att-class="'nav-item' if type is not None and status is not None else 'nav-item active'">
-                                    <a class="nav-link" href="/projects" t-att-style="'color: #005EB8 !important' if type is None and status is None else 'color: #707070 !important'">All</a>
+                                    <a class="nav-link" href="/projects" t-att-style="'color: #005EB8 !important' if type is None and status == 'all' else 'color: #707070 !important'">All</a>
                                   </li>
                                     <span class="navbar-text">
                                          |
