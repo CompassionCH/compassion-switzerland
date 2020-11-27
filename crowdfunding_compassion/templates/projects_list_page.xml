@@ -19,32 +19,34 @@
                     <div id="project_cards">
                         <div>
                             <h2 class="subheading blue text-center mb-5 mt-4 uppercase">
-                                <t t-if="type is None and status is None">All</t> <t t-if="type is not None" t-esc="type"/> projects
+                                The projects
                             </h2>
                         </div>
                         <div class="navbar navbar-expand-lg navbar-light justify-content-center my-3" style="background-color: #70a1ff !Important;">
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <t t-set="filter_type" t-value="request.params.get('type')"/>
+                                <t t-set="filter_status" t-value="request.params.get('status')"/>
                                 <ul class="navbar-nav mr-auto">
-                                  <li t-att-class="'nav-item' if request.params.get('type') != None else 'nav-item active'">
-                                    <a class="nav-link" href="/projects" >All</a>
+                                  <li t-att-class="'nav-item' if filter_type is not None and filter_status is not None else 'nav-item active'">
+                                    <a class="nav-link" href="/projects" t-att-style="'color: yellow !important' if filter_type is None and filter_status is None else ''">All</a>
                                   </li>
                                     <span class="navbar-text">
                                          |
                                       </span>
                                     <li t-att-class="'nav-item' if request.params.get('type') != 'collective' else 'nav-item active'">
-                                    <a class="nav-link" href="/projects?type=collective" >Collective</a>
+                                    <a class="nav-link" t-attf-href="/projects?type=collective#{'&amp;status='+filter_status if filter_status else ''}" t-att-style="'color: yellow !important' if filter_type == 'collective'else ''">Collective</a>
                                   </li>
                                   <li t-att-class="'nav-item' if request.params.get('type') != 'individual' else 'nav-item active'">
-                                    <a class="nav-link" href="/projects?type=individual">Individual</a>
+                                    <a class="nav-link" t-attf-href="/projects?type=individual#{'&amp;status='+filter_status if filter_status else ''}" t-att-style="'color: yellow !important' if filter_type == 'individual' else ''">Individual</a>
                                   </li>
                                     <span class="navbar-text">
                                          |
                                       </span>
                                     <li t-att-class="'nav-item' if request.params.get('status') != 'active' else 'nav-item active'">
-                                    <a class="nav-link" href="/projects?status=active">Active</a>
+                                    <a class="nav-link" t-attf-href="/projects?status=active#{'&amp;type='+filter_type if filter_type else ''}" t-att-style="'color: yellow !important' if filter_status == 'active' else ''">Active</a>
                                   </li>
                                     <li t-att-class="'nav-item' if request.params.get('status') != 'finish' else 'nav-item active'">
-                                    <a class="nav-link" href="/projects?status=finish">Finish</a>
+                                    <a class="nav-link" t-attf-href="/projects?status=finish#{'&amp;type='+filter_type if filter_type else ''}" t-att-style="'color: yellow !important' if filter_status == 'finish' else ''">Finished</a>
                                   </li>
                                 </ul>
                                 <form class="form-inline">

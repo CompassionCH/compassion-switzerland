@@ -9,7 +9,7 @@
 ##############################################################################
 
 import werkzeug
-from datetime import datetime
+from datetime import datetime, date
 
 from odoo import _
 from odoo.http import request, route, Controller, local_redirect
@@ -34,7 +34,9 @@ class ProjectsController(Controller, FormControllerMixin):
                     ("website_published", "=", True),
                     ("deadline", ">=", datetime(year, 1, 1)) if year else None,
                     ("deadline", "<=", datetime(year, 12, 31)) if year else None,
-                    ("type", "=", type) if type else None
+                    ("type", "=", type) if type else None,
+                    ("deadline", ">=", date.today()) if status == 'active' else None,
+                    ("deadline", "<", date.today()) if status == 'finish' else None,
                 ]))
                 filters += domain
                 project_obj = request.env["crowdfunding.project"]
