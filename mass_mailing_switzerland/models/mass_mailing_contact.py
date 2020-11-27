@@ -42,11 +42,6 @@ class MassMailingContact(models.Model):
                 ("opt_out", "!=", True)
             ], limit=1).id
 
-    @api.model
-    def launch_job_update_mailchimp(self, partner_ids=None):
-        self.with_delay().update_all_merge_fields_job(partner_ids)
-        return True
-
     @job(default_channel="root.mass_mailing_switzerland.update_mailchimp")
     @api.model
     def update_all_merge_fields_job(self, partner_ids=None):
@@ -86,3 +81,22 @@ class MassMailingContact(models.Model):
             return True
         return super(MassMailingContact,
                      self.with_context(lang="en_US")).action_update_to_mailchimp()
+
+    @api.multi
+    def action_archive_from_mailchimp(self):
+        available_mailchimp_lists = self.env['mailchimp.lists'].search([])
+        lists = available_mailchimp_lists.mapped('odoo_list_id').ids
+        for record in self:
+            lists_to_export = record.subscription_list_ids.filtered(
+                lambda x: x.list_id.id in lists and x.mailchimp_id)
+            for list in lists_to_export:
+                mailchimp_list_id = list.list_id.mailchimp_list_id
+                mailchimp_list_id.account_id._send_request(
+                    'lists/%s/members/%s' % (mailchimp_list_id.list_id, list.md5_email),
+                    {}, method='DELETE')
+        return True
+
+    @api.multi
+    def unlink(self):
+        self.action_archive_from_mailchimp()
+        return super().unlink()

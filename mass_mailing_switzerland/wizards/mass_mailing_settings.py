@@ -25,14 +25,15 @@ class MassMailingSettings(models.TransientModel):
     @api.multi
     def set_values(self):
         super().set_values()
-        self.env["ir.config_parameter"].sudo().set_param(
-            "mass_mailing_switzerland.country_filter_id",
-            str(
-                self.mass_mailing_country_filter_id.id or 0
-            ),
-        )
-        # Recompute mailchimp merge fields
-        self.env["mail.mass_mailing.contact"].with_delay().update_all_merge_fields_job()
+        country_filter_id = self.mass_mailing_country_filter_id.id or 0
+        if country_filter_id != self.get_param("mass_mailing_country_filter_id"):
+            # Recompute mailchimp merge fields
+            self.env["mail.mass_mailing.contact"].with_delay()\
+                .update_all_merge_fields_job()
+            self.env["ir.config_parameter"].sudo().set_param(
+                "mass_mailing_switzerland.country_filter_id",
+                str(country_filter_id),
+            )
 
     @api.model
     def get_values(self):
