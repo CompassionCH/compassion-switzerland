@@ -4,7 +4,7 @@
             <t t-call="crowdfunding_compassion.layout">
                 <t t-set="title">Our Projects | TOGETHER - Compassion Switzerland Fundraising</t>
                 <section class="container-fluid px-xl-5">
-                    <div class="text-center my-4 py-4" t-if="type == 'collective'">
+                    <div class="text-center my-4 py-4" t-if="type == 'collective' and status=='active'">
                         <h1 class="display-3 blue uppercase">Join a great project</h1>
                         <h2 class="pb-4">
                             Here are the collective projects in progress.
@@ -17,36 +17,34 @@
                     </div>
 
                     <div id="project_cards">
-                        <div>
+                        <div t-if="not (type == 'collective' and status=='active')">
                             <h2 class="subheading blue text-center mb-5 mt-4 uppercase">
                                 The projects
                             </h2>
                         </div>
-                        <div class="navbar navbar-expand-lg navbar-light justify-content-center my-3" style="background-color: #70a1ff !Important;">
+                        <div class="navbar navbar-expand-lg navbar-light justify-content-center my-3" style="border: #005EB8 1px solid">
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <t t-set="filter_type" t-value="request.params.get('type')"/>
-                                <t t-set="filter_status" t-value="request.params.get('status')"/>
                                 <ul class="navbar-nav mr-auto">
-                                  <li t-att-class="'nav-item' if filter_type is not None and filter_status is not None else 'nav-item active'">
-                                    <a class="nav-link" href="/projects" t-att-style="'color: yellow !important' if filter_type is None and filter_status is None else ''">All</a>
+                                  <li t-att-class="'nav-item' if type is not None and status is not None else 'nav-item active'">
+                                    <a class="nav-link" href="/projects" t-att-style="'color: #005EB8 !important' if type is None and status is None else 'color: #707070 !important'">All</a>
                                   </li>
                                     <span class="navbar-text">
                                          |
                                       </span>
-                                    <li t-att-class="'nav-item' if request.params.get('type') != 'collective' else 'nav-item active'">
-                                    <a class="nav-link" t-attf-href="/projects?type=collective#{'&amp;status='+filter_status if filter_status else ''}" t-att-style="'color: yellow !important' if filter_type == 'collective'else ''">Collective</a>
+                                    <li t-att-class="'nav-item' if type != 'collective' else 'nav-item active'">
+                                    <a class="nav-link" t-attf-href="/projects?type=collective#{'&amp;status='+status if status else ''}" t-att-style="'color: #005EB8 !important' if type == 'collective'else 'color: #707070 !important'">Collective</a>
                                   </li>
-                                  <li t-att-class="'nav-item' if request.params.get('type') != 'individual' else 'nav-item active'">
-                                    <a class="nav-link" t-attf-href="/projects?type=individual#{'&amp;status='+filter_status if filter_status else ''}" t-att-style="'color: yellow !important' if filter_type == 'individual' else ''">Individual</a>
+                                  <li t-att-class="'nav-item' if type != 'individual' else 'nav-item active'">
+                                    <a class="nav-link" t-attf-href="/projects?type=individual#{'&amp;status='+status if status else ''}" t-att-style="'color: #005EB8 !important' if type == 'individual' else 'color: #707070 !important'">Individual</a>
                                   </li>
                                     <span class="navbar-text">
                                          |
                                       </span>
-                                    <li t-att-class="'nav-item' if request.params.get('status') != 'active' else 'nav-item active'">
-                                    <a class="nav-link" t-attf-href="/projects?status=active#{'&amp;type='+filter_type if filter_type else ''}" t-att-style="'color: yellow !important' if filter_status == 'active' else ''">Active</a>
+                                    <li t-att-class="'nav-item' if status != 'active' else 'nav-item active'">
+                                    <a class="nav-link" t-attf-href="/projects?status=active#{'&amp;type='+type if type else ''}" t-att-style="'color: #005EB8 !important' if status == 'active' else 'color: #707070 !important'">Active</a>
                                   </li>
-                                    <li t-att-class="'nav-item' if request.params.get('status') != 'finish' else 'nav-item active'">
-                                    <a class="nav-link" t-attf-href="/projects?status=finish#{'&amp;type='+filter_type if filter_type else ''}" t-att-style="'color: yellow !important' if filter_status == 'finish' else ''">Finished</a>
+                                    <li t-att-class="'nav-item' if status != 'finish' else 'nav-item active'">
+                                    <a class="nav-link" t-attf-href="/projects?status=finish#{'&amp;type='+type if type else ''}" t-att-style="'color: #005EB8 !important' if status == 'finish' else 'color: #707070 !important'">Finished</a>
                                   </li>
                                 </ul>
                                 <form class="form-inline">
