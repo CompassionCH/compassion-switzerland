@@ -197,39 +197,44 @@ const startStopLoading = function(type) {
     }
 }
 
-const createLetter = function(preview=false, with_loading=true) {
-    if (with_loading) {
-        startStopLoading("preview");
-    }
-    var form_data = new FormData();
-
-    form_data.append("letter-copy", document.getElementById('letter_content').value);
-    form_data.append("selected-child", document.getElementById('child_local_id').attributes.value.value);
-    form_data.append("selected-letter-id", document.getElementById('template_id').attributes.value.value);
-    form_data.append("source", "website");
-    // TODO CI-765: Handle properly multiple images
-    if (images_list.length > 0) {
-        form_data.append("file_upl", images_comp[0]);
-    }
-    // TODO CI-765: end of block
-
-    var xhr = new XMLHttpRequest();
-    var url = `${window.location.origin}/mobile-app-api/correspondence/get_preview`;
-    xhr.open("POST", url);
-    xhr.onreadystatechange = function () {
-        if (preview && xhr.readyState === 4 && xhr.status === 200) {
-            if (with_loading) {
-                startStopLoading("preview");
-            }
-            window.open(xhr.responseText.slice(1, -1), "_blank");
+const createLetter = async function(preview=false, with_loading=true) {
+    return new Promise(function(resolve) {
+        if (with_loading) {
+            startStopLoading("preview");
         }
-    };
-    xhr.send(form_data);
+        var form_data = new FormData();
+
+        form_data.append("letter-copy", document.getElementById('letter_content').value);
+        form_data.append("selected-child", document.getElementById('child_local_id').attributes.value.value);
+        form_data.append("selected-letter-id", document.getElementById('template_id').attributes.value.value);
+        form_data.append("source", "website");
+        // TODO CI-765: Handle properly multiple images
+        if (images_list.length > 0) {
+            form_data.append("file_upl", images_comp[0]);
+        }
+        // TODO CI-765: end of block
+
+        var xhr = new XMLHttpRequest();
+        var url = `${window.location.origin}/mobile-app-api/correspondence/get_preview`;
+        xhr.open("POST", url, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                if (preview) {
+                    if (with_loading) {
+                        startStopLoading("preview");
+                    }
+                    window.open(xhr.responseText.slice(1, -1), "_blank");
+                }
+                resolve();
+            }
+        };
+        xhr.send(form_data);
+    })
 }
 
-const sendLetter = function(message_from) {
+const sendLetter = async function(message_from) {
     startStopLoading("sending");
-    createLetter(preview=false, with_loading=false);
+    await createLetter(preview=false, with_loading=false);
 
     var json_data = JSON.parse(`{
         "TemplateID": "${document.getElementById('template_id').attributes.value.value}",
