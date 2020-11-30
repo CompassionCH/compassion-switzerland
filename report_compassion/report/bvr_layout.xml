@@ -116,6 +116,7 @@
                 position: absolute;
                 margin-top: 18mm;
                 height: 15mm;
+                line-height: 1.3;
                 }
                 .receipt .account {
                 position: absolute;

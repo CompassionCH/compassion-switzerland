@@ -59,6 +59,12 @@ class Contract(models.Model):
             "de_DE": "Geburtstag",
             "it_IT": "Compleanno",
         }
+        amount_limit = {
+            "en_US": "Limit amount",
+            "fr_CH": "Montant limite",
+            "de_DE": "Grenzbetrag",
+            "it_IT": "Importo limite",
+        }
         birthdate = child.birthdate.strftime("%d.%m.%Y")
         vals = {
             "firstname": child.preferred_name,
@@ -68,10 +74,22 @@ class Contract(models.Model):
             if "Birthday" in product.with_context(lang="en_US").name
             else "",
         }
-        communication = (
-            f"{vals['firstname']} ({vals['local_id']})"
-            f"<br/>{vals['product']}<br/>{vals['birthdate']}"
-        )
+        gift_threshold = self.env['gift.threshold.settings'].search([
+            ('product_id', '=', product.id)
+        ])
+        if "Birthday" in product.with_context(lang="en_US").name:
+            communication = (
+                f"{vals['firstname']} ({vals['local_id']})"
+                f"<br/>{vals['product']}"
+                f"<br/>{vals['birthdate']}"
+                f"<br/>{amount_limit[lang]} {int(gift_threshold.min_amount)}.- à {int(gift_threshold.max_amount)}.-"
+            )
+        else:
+            communication = (
+                f"{vals['firstname']} ({vals['local_id']})"
+                f"<br/>{vals['product']}"
+                f"<br/>{amount_limit[lang]} {int(gift_threshold.min_amount)}.- à {int(gift_threshold.max_amount)}.-"
+            )
         return communication
 
     @api.multi
