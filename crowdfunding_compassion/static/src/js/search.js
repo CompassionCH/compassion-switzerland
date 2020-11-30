@@ -12,4 +12,17 @@ $(document).ready(function(){
           }
     });
   });
+  $("#searchInputParticipant").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    var items = $(".card");
+    //show only those matching user input:
+      items.filter(function() {
+          var is_show = $(this).text().toLowerCase().indexOf(value) > -1
+          if (!is_show) {
+              $(this).css('display', 'none')
+          } else {
+              $(this).css('display', 'block')
+          }
+    });
+  });
 });
