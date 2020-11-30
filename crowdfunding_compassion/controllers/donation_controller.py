@@ -15,7 +15,7 @@ class DonationController(PaymentFormController, FormControllerMixin):
         website=True,
         sitemap=False
     )
-    def project_donation_page(self, project, **kwargs):
+    def project_donation_page(self, page=1, project=None, **kwargs):
         """ To preselect a participant, pass its id as particpant query parameter """
         if not project.website_published:
             return request.redirect("/projects")
@@ -23,7 +23,7 @@ class DonationController(PaymentFormController, FormControllerMixin):
 
         return request.render(
             "crowdfunding_compassion.project_donation_page",
-            {"project": project.sudo(), "selected_participant": participant},
+            {"project": project.sudo(), "selected_participant": participant, "page": page},
         )
 
     @route(
@@ -35,7 +35,7 @@ class DonationController(PaymentFormController, FormControllerMixin):
         website=True,
         sitemap=False
     )
-    def project_donation_form_page(self, project, participant, **kwargs):
+    def project_donation_form_page(self, page=3, project=None, participant=None, **kwargs):
         if not project.website_published:
             return request.redirect("/projects")
         kwargs["form_model_key"] = "cms.form.crowdfunding.donation"
@@ -54,10 +54,11 @@ class DonationController(PaymentFormController, FormControllerMixin):
             "participant": participant.sudo(),
             "form": donation_form,
             "main_object": participant.sudo(),
+            "page": page
         }
 
         return request.render(
-            "crowdfunding_compassion.project_donation_form_page", context,
+            "crowdfunding_compassion.project_donation_page", context,
         )
 
     @route(

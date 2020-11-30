@@ -39,19 +39,18 @@ class ProjectController(Controller):
         website=True,
         sitemap=sitemap_projects
     )
-    def project_page(self, project, **post):
+    def project_page(self, page=1, project=None, **post):
         # Get project with sudo, otherwise some parts will be blocked from public
         # access, for example res.partner or account.invoice.line. This is
         # simpler and less prone to error than defining custom access and
         # security rules for each of them.
-
         if not project.can_access_from_current_website():
             raise werkzeug.exceptions.NotFound()
         if not project.website_published:
             return request.redirect("/projects")
         return request.render(
             "crowdfunding_compassion.presentation_page",
-            self._prepare_project_values(project.sudo(), **post),
+            self._prepare_project_values(project.sudo(), page=page, **post),
         )
 
     @route(["/participant/<model('crowdfunding.participant'):participant>/"],
@@ -78,11 +77,12 @@ class ProjectController(Controller):
             "project": project,
             "impact": self.get_impact(sponsorships, donations),
             "model": "participant",
-            "base_url": request.website.domain
+            "base_url": request.website.domain,
+            "page": 2  # for jump to step 2 if donate from participant page
         }
         return request.render("crowdfunding_compassion.presentation_page", values)
 
-    def _prepare_project_values(self, project, **kwargs):
+    def _prepare_project_values(self, project, page, **kwargs):
         sponsorships, donations = self.get_sponsorships_and_donations(
             project.sponsorship_ids, project.invoice_line_ids)
 
@@ -101,7 +101,8 @@ class ProjectController(Controller):
             "sponsorship_card_content": sponsorship_card_content(),
             "participant": participant,
             "model": "project",
-            "base_url": request.website.domain
+            "base_url": request.website.domain,
+            "page": page
         }
 
     def get_sponsorships_and_donations(self, sponsorship_ids, invoice_line_ids):
