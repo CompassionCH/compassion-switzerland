@@ -269,7 +269,8 @@ class Correspondence(models.Model):
         self.ensure_one()
         translate_lang_id = (
             self.env["res.lang.compassion"]
-                .search([("code_iso", "=", translate_lang)])
+                .search([("code_iso", "=", translate_lang),
+                         ("translatable", "=", True)])
                 .id
         )
         src_lang_id = (
