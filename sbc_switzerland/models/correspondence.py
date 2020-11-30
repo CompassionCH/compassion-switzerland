@@ -274,7 +274,10 @@ class Correspondence(models.Model):
                 .id
         )
         src_lang_id = (
-            self.env["res.lang.compassion"].search([("code_iso", "=", src_lang)]).id
+            self.env["res.lang.compassion"].search([
+                ("code_iso", "=", src_lang),
+                ("translatable", "=", True)
+            ]).id
         )
         translator_partner = self.env["res.partner"].search([("ref", "=", translator)])
 
