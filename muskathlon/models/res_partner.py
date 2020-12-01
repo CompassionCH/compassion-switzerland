@@ -13,8 +13,6 @@ from odoo import api, models, fields
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    muskathlon_participant_id = fields.Char("Muskathlon participant ID")
-
     @api.multi
     def agree_to_child_protection_charter(self):
         res = super(ResPartner, self).agree_to_child_protection_charter()

@@ -7,9 +7,6 @@
         <field name="arch" type="xml">
             <field name="amount_objective" position="before">
                 <field name="is_muskathlon" invisible="1"/>
-                <field name="muskathlon_participant_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
-                <field name="muskathlon_event_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
-                <field name="reg_id" attrs="{'invisible': [('is_muskathlon', '=', False)]}"/>
                 <separator colspan="2"/>
             </field>
             <group name="fundraising" position="after">
