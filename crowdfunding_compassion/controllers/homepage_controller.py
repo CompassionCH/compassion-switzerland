@@ -41,7 +41,8 @@ class HomepageController(Controller):
         project_obj = request.env["crowdfunding.project"]
         fund_obj = request.env["product.product"]
 
-        current_year_projects = project_obj.sudo().get_active_projects(year=year)
+        current_year_projects = project_obj.sudo().get_active_projects(
+            year=year, limit=8)
         active_funds = fund_obj.sudo().search(
             [("activate_for_crowdfunding", "=", True)]
         )
@@ -76,7 +77,7 @@ class HomepageController(Controller):
             impact["sponsorship"]["text"] = _("sponsored children")
 
         return {
-            "projects": project_obj.sudo().get_active_projects(limit=6),
+            "projects": current_year_projects,
             "impact": impact,
             "base_url": request.website.domain
         }

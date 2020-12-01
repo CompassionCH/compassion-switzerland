@@ -354,12 +354,12 @@ class CrowdfundingProject(models.Model):
 
     @api.model
     def get_active_projects(self, limit=None, year=None, type=None, domain=None,
-                            offset=1, status='all'):
+                            offset=0, status='all'):
         filters = list(filter(None, [
             ("state", "!=", "draft"),
             ("website_published", "=", True),
             ("deadline", ">=", datetime(year, 1, 1)) if year else None,
-            ("deadline", "<=", datetime(year, 12, 31)) if year else None,
+            ("create_date", "<=", datetime(year, 12, 31)) if year else None,
             ("type", "=", type) if type else None,
             ("deadline", ">=", date.today()) if status == 'active' else None,
             ("deadline", "<", date.today()) if status == 'finish' else None,
