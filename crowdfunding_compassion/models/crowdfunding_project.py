@@ -1,11 +1,11 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
-
 from datetime import date, datetime
 
 from babel.dates import format_timedelta
 
 from odoo import models, api, fields, tools, _
+
 
 import urllib.parse as urlparse
 
@@ -13,9 +13,12 @@ import urllib.parse as urlparse
 class CrowdfundingProject(models.Model):
     _name = "crowdfunding.project"
     _inherit = ["website.published.mixin", "website.seo.metadata", "mail.thread",
-                "mail.activity.mixin"]
+                "mail.activity.mixin", 'website.multi.mixin']
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
+
+    website_id = fields.Many2one('website', default=lambda s: s.env.ref(
+        "crowdfunding_compassion.crowdfunding_website").id)
 
     description = fields.Text(
         "Project description",
@@ -28,6 +31,7 @@ class CrowdfundingProject(models.Model):
         [("individual", "Individual"), ("collective", "Collective")],
         required=True,
         default="individual",
+        index=True
     )
     deadline = fields.Date(
         "Deadline of project",
@@ -349,33 +353,27 @@ class CrowdfundingProject(models.Model):
         return True
 
     @api.model
-    def get_active_projects(self, limit=None, year=None, type=None):
+    def get_active_projects(self, limit=None, year=None, type=None, domain=None,
+                            offset=0, status='all'):
         filters = list(filter(None, [
             ("state", "!=", "draft"),
             ("website_published", "=", True),
             ("deadline", ">=", datetime(year, 1, 1)) if year else None,
-            ("deadline", "<=", datetime(year, 12, 31)) if year else None,
-            ("type", "=", type) if type else None
-        ]))
+            ("create_date", "<=", datetime(year, 12, 31)) if year else None,
+            ("type", "=", type) if type else None,
+            ("deadline", ">=", date.today()) if status == 'active' else None,
+            ("deadline", "<", date.today()) if status == 'finish' else None,
 
-        # Get active projects, from most urgent to least urgent
-        active_projects = self.search(
-            [
-                ("deadline", ">=", date.today()),
-            ] + filters, limit=limit, order="deadline ASC"
+        ]))
+        # only for active website
+        if domain:
+            filters += domain
+
+        projects = self.search(
+            filters, offset=offset, limit=limit, order="deadline DESC"
         )
 
-        # Get finished projects, from most recent to oldest expiring date
-        finished_projects = self.env[self._name]
-        if not limit or (limit and len(active_projects) < limit):
-            finish_limit = limit - len(active_projects) if limit else None
-            finished_projects = self.search(
-                [
-                    ("deadline", "<", date.today()),
-                ] + filters, limit=finish_limit, order="deadline DESC"
-            )
-
-        return active_projects + finished_projects
+        return projects
 
     def open_participants(self):
         return {

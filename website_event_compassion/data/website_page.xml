@@ -1,0 +1,10 @@
+<odoo>
+    <record id="events_page" model="website.page">
+        <field name="name">Events list</field>
+        <field name="website_published">True</field>
+        <field name="url">/events</field>
+        <field name="type">qweb</field>
+        <field name="website_id" eval="1"/>
+        <field name="view_id" ref="website_event_compassion.list"/>
+    </record>
+</odoo>

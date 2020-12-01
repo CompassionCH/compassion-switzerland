@@ -34,11 +34,6 @@ class MuskathlonRegistration(models.Model):
     t_shirt_type = fields.Selection(
         related="partner_id.advocate_details_id.t_shirt_type", store=True
     )
-    muskathlon_participant_id = fields.Char(
-        related="partner_id.muskathlon_participant_id"
-    )
-    muskathlon_event_id = fields.Char(related="compassion_event_id.muskathlon_event_id")
-    reg_id = fields.Char(string="Muskathlon registration ID", size=128)
 
     is_in_two_months = fields.Boolean(compute="_compute_is_in_two_months")
 

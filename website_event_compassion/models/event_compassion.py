@@ -17,10 +17,12 @@ class EventCompassion(models.Model):
         "website.published.mixin",
         "translatable.model",
         "website.seo.metadata",
+        "website.multi.mixin",
     ]
 
     name = fields.Char(translate=True)
     website_description = fields.Html(translate=True, sanitize=False)
+    website_id = fields.Many2one("website", default=1)
     thank_you_text = fields.Html(translate=True)
     picture_1 = fields.Binary("Banner image", attachment=True)
     filename_1 = fields.Char(compute="_compute_filenames")

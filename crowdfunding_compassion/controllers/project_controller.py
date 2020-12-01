@@ -3,34 +3,64 @@ from datetime import datetime
 from babel.dates import format_timedelta
 
 from odoo import _
+from odoo.addons.http_routing.models.ir_http import slug
+from odoo.addons.website.models.ir_http import sitemap_qs2dom
 from odoo.http import request, route, Controller
 from odoo.addons.crowdfunding_compassion.controllers.\
     homepage_controller import sponsorship_card_content
+import werkzeug
 
 
 class ProjectController(Controller):
+    def sitemap_projects(env, rule, qs):
+        projects = env["crowdfunding.project"]
+        dom = sitemap_qs2dom(qs, "/projects", projects._rec_name)
+        dom += request.website.website_domain()
+        dom += [("website_published", "=", True)]
+        for f in projects.search(dom):
+            loc = "/project/%s" % slug(f)
+            if not qs or qs.lower() in loc:
+                yield {"loc": loc}
+
+    def sitemap_participant(env, rule, qs):
+        projects = env["crowdfunding.participant"]
+        dom = sitemap_qs2dom(qs, "/participant", projects._rec_name)
+        dom += request.website.website_domain()
+        dom += [("website_published", "=", True)]
+        for f in projects.search(dom):
+            loc = "/participant/%s" % slug(f)
+            if not qs or qs.lower() in loc:
+                yield {"loc": loc}
+
     @route(
         ["/project/<model('crowdfunding.project'):project>"],
+        type='http',
         auth="public",
         website=True,
+        sitemap=sitemap_projects
     )
-    def project_page(self, project, **kwargs):
+    def project_page(self, page=1, project=None, **post):
         # Get project with sudo, otherwise some parts will be blocked from public
         # access, for example res.partner or account.invoice.line. This is
         # simpler and less prone to error than defining custom access and
         # security rules for each of them.
+        if not project.can_access_from_current_website():
+            raise werkzeug.exceptions.NotFound()
         if not project.website_published:
             return request.redirect("/projects")
         return request.render(
             "crowdfunding_compassion.presentation_page",
-            self._prepare_project_values(project.sudo(), **kwargs),
+            self._prepare_project_values(project.sudo(), page=page, **post),
         )
 
     @route(["/participant/<model('crowdfunding.participant'):participant>/"],
            type="http",
            auth="public",
-           website=True)
+           website=True,
+           sitemap=sitemap_participant)
     def participant(self, participant=None, **kwargs):
+        if not participant.can_access_from_current_website():
+            raise werkzeug.exceptions.NotFound()
         project = participant.project_id.sudo()
         if not project.website_published:
             return request.redirect("/projects")
@@ -47,11 +77,12 @@ class ProjectController(Controller):
             "project": project,
             "impact": self.get_impact(sponsorships, donations),
             "model": "participant",
-            "base_url": request.website.domain
+            "base_url": request.website.domain,
+            "page": 2  # for jump to step 2 if donate from participant page
         }
         return request.render("crowdfunding_compassion.presentation_page", values)
 
-    def _prepare_project_values(self, project, **kwargs):
+    def _prepare_project_values(self, project, page, **kwargs):
         sponsorships, donations = self.get_sponsorships_and_donations(
             project.sponsorship_ids, project.invoice_line_ids)
 
@@ -70,7 +101,8 @@ class ProjectController(Controller):
             "sponsorship_card_content": sponsorship_card_content(),
             "participant": participant,
             "model": "project",
-            "base_url": request.website.domain
+            "base_url": request.website.domain,
+            "page": page
         }
 
     def get_sponsorships_and_donations(self, sponsorship_ids, invoice_line_ids):

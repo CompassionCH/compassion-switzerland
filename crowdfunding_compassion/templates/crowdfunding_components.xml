@@ -179,12 +179,14 @@
         </template>
 
         <template id="participant_picture" name="Participant picture">
-            <div class="card card-body d-flex justify-content-between align-items-center" style="border: none;">
-                <img class="profile-pic rounded-circle" t-att-src="participant.profile_photo_url" alt="Project participant" t-if="participant.profile_photo_url"/>
+            <div class="card" style="border: none;">
+                <div class="card-body" >
+                    <img class="profile-pic rounded-circle" t-att-src="participant.profile_photo_url" alt="Project participant" t-if="participant.profile_photo_url"/>
 
-                <h6 class="uppercase mt-3">
-                    <t t-esc="participant.partner_id.name"/>
-                </h6>
+                    <h6 class="uppercase mt-3">
+                        <t t-esc="participant.partner_id.name"/>
+                    </h6>
+                </div>
             </div>
         </template>
 
@@ -207,7 +209,7 @@
         </template>
 
         <template id="project_card" name="Project card">
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <div class="project-card__header">
@@ -293,8 +295,8 @@
         <template id="fund_card" name="Fund card">
             <div class="card fund-card my-3">
                 <div class="fund-card__header">
-                    <img class="fund-card__image" t-attf-src="data:image/png;base64, #{ fund_image }"/>
-                    <img class="fund-card__icon" t-attf-src="data:image/png;base64, #{ fund_icon }" height="100"/>
+                    <img class="fund-card__image" t-attf-src="data:image/png;base64, #{ fund_image }" t-if="isinstance(fund_image, bytes)"/>
+                    <img class="fund-card__icon" t-attf-src="data:image/png;base64, #{ fund_icon }" height="100" t-if="isinstance(fund_icon, bytes)"/>
                 </div>
                 <div class="fund-card__content">
                     <h5 class="blue my-3 fund-card__title">
@@ -315,7 +317,7 @@
             <!-- Compute value -->
             <t t-set="current_value" t-value="project.product_id.standard_price * current_default_quantity"/>
 
-            <div class="col-6 col-lg-3 mb-3">
+            <div class="col-6 col-lg-6 mb-3">
                 <label class="h-100 w-100">
                     <input type="radio" name="amount" t-att-value="current_value" class="card-input-element d-none" />
                     <div class="card h-100 d-flex justify-content-around align-items-center text-center">
@@ -336,11 +338,10 @@
         </template>
 
         <template id="crowdfunding_navbar" name="Navbar for Crowdfunding page">
-            <nav class="navbar shadow navbar-expand-lg navbar-dark" id="mainNav">
-                <div class="container-fluid">
+            <nav t-att-class="'navbar shadow navbar-expand-lg navbar-dark' if website.user_id != user_id else 'navbar sticky-top shadow navbar-expand-lg navbar-dark'" id="mainNav">
                     <a class="navbar-brand js-scroll-trigger" href="/homepage">
                         <img t-attf-src="https://compassion.ch/wp-content/themes/compassion/assets/img/compassion-logo-#{env.lang[:2]}.svg"
-                            width="190" height="auto"/>
+                            width="150" height="auto"/>
                     </a>
                     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         data-target="#navbarResponsive" aria-controls="navbarResponsive"
@@ -356,7 +357,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/projects">Browse active projects</a>
+                                <a class="nav-link" href="/projects">Browse all projects</a>
                             </li>
 
                             <li class="nav-item">
@@ -393,7 +394,6 @@
                             </li>
                         </ul>
                     </div>
-                </div>
             </nav>
         </template>
 
@@ -522,27 +522,5 @@
         <record id="crowdfunding_compassion.layout" model="ir.ui.view">
             <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
         </record>
-
-        <template id="crowdfunding_projects_pagination" name="Pagination for Crowdfunding project list page">
-            <nav aria-label="Navigate through projects" class="text-xs-center">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Previous</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        </template>
     </data>
 </odoo>

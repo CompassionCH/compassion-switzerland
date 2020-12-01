@@ -25,7 +25,10 @@ from odoo.http import request, route
 
 
 class MuskathlonWebsite(EventsController, CustomerPortal):
-    @route('/event/<model("crm.event.compassion"):event>/', auth="public", website=True)
+    @route(
+        '/event/<model("crm.event.compassion"):event>/', auth="public", website=True,
+        sitemap=EventsController.sitemap_events
+    )
     def event_page(self, event, **kwargs):
         result = super(MuskathlonWebsite, self).event_page(event, **kwargs)
         if event.website_muskathlon and result.mimetype == "application/json":
@@ -39,7 +42,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
     @route(
         '/my/muskathlon/<model("event.registration"):registration>/donations',
         auth="user",
-        website=True, noindex=['robots', 'meta', 'header']
+        website=True, sitemap=False
     )
     def my_muskathlon_details(self, registration, **kwargs):
         reports = request.env["muskathlon.report"].search(
@@ -50,11 +53,10 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         )
         return request.render("muskathlon.my_details", {"reports": reports})
 
-    @route("/my/muskathlon", type="http", auth="user", website=True)
+    @route("/my/muskathlon", type="http", auth="user", website=True, sitemap=False)
     def muskathlon_my_account(self, form_id=None, **kw):
         if not request.env.user.partner_id.muskathlon_participant_id:
             return request.redirect("/my/home")
-
         """ Inject data for forms. """
         values = self._prepare_portal_layout_values()
 
@@ -143,7 +145,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         return self._form_redirect(result, full_page=True)
 
     @route(["/my/api"], type="http", auth="user", website=True,
-           noindex=['robots', 'meta', 'header'])
+           sitemap=False)
     def save_ambassador_picture(self, **post):
         user = request.env.user
         partner = user.partner_id
@@ -159,7 +161,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
 
     @route(
         "/muskathlon_registration/payment/validate",
-        type="http", auth="public", website=True, noindex=['robots', 'meta', 'header']
+        type="http", auth="public", website=True, sitemap=False
     )
     def registration_payment_validate(self, **post):
         """ Method that should be called by the server when receiving an update
@@ -192,7 +194,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
 
     @route(
         '/my/muskathlon/<model("event.registration"):registration>',
-        auth="user", website=True, noindex=['robots', 'meta', 'header']
+        auth="user", website=True, sitemap=False
     )
     def muskathlon_order_material(self, registration, form_id=None, **kw):
         # Load forms
@@ -221,7 +223,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
     @route(
         "/muskathlon_registration/"
         '<int:registration_id>/success',
-        type="http", auth="public", website=True, noindex=['robots', 'meta', 'header']
+        type="http", auth="public", website=True, sitemap=False
     )
     def muskathlon_registration_successful(self, registration_id, **kwargs):
         limit_date = datetime.now() - relativedelta(days=1)

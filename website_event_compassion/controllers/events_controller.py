@@ -13,6 +13,8 @@ import werkzeug
 from dateutil.relativedelta import relativedelta
 
 from odoo import http, _, fields
+from odoo.addons.http_routing.models.ir_http import slug
+from odoo.addons.website.models.ir_http import sitemap_qs2dom
 from odoo.http import request
 
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
@@ -22,7 +24,28 @@ from odoo.addons.cms_form_compassion.controllers.payment_controller import (
 
 
 class EventsController(PaymentFormController, FormControllerMixin):
-    @http.route("/events/", auth="public", website=True)
+    def sitemap_events(env, rule, qs):
+        today = fields.Date.to_string(datetime.today())
+        events = env["crm.event.compassion"]
+        dom = sitemap_qs2dom(qs, '/events', events._rec_name)
+        dom += request.website.website_domain()
+        dom += [("website_published", "=", True), ("end_date", ">=", today)]
+        for reg in events.search(dom):
+            loc = '/event/%s' % slug(reg)
+            if not qs or qs.lower() in loc:
+                yield {'loc': loc}
+
+    def sitemap_participants(env, rule, qs):
+        registrations = env["event.registration"]
+        dom = sitemap_qs2dom(qs, '/event', registrations._rec_name)
+        dom += request.website.website_domain()
+        dom += [("website_published", "=", True)]
+        for reg in registrations.search(dom):
+            loc = '/event/%s/%s' % (slug(reg.compassion_event_id), slug(reg))
+            if not qs or qs.lower() in loc:
+                yield {'loc': loc}
+
+    @http.route("/events/", auth="public", website=True, sitemap=False)
     def list(self, **kwargs):
         today = fields.Date.to_string(datetime.today())
         # Events that are set to finish after today
@@ -39,11 +62,15 @@ class EventsController(PaymentFormController, FormControllerMixin):
     # Methods for the event page and event registration
     ###################################################
     @http.route(
-        '/event/<model("crm.event.compassion"):event>/', auth="public", website=True
+        '/event/<model("crm.event.compassion"):event>/', auth="public", website=True,
+        sitemap=sitemap_events
     )
     def event_page(self, event, **kwargs):
         if not event.is_published and request.env.user.share:
             return request.redirect("/events")
+
+        if not event.can_access_from_current_website():
+            raise werkzeug.exceptions.NotFound()
 
         values = self.get_event_page_values(event, **kwargs)
         registration_form = values["form"]
@@ -73,7 +100,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
 
     @http.route(
         '/event/<model("crm.event.compassion"):event>/faq', auth="public", website=True,
-        noindex=['robots', 'meta', 'header']
+        sitemap=False
     )
     def event_faq(self, event, **kwargs):
         if not event.is_published:
@@ -85,7 +112,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         '/event/<model("event.event"):event>/registration/'
         '<int:registration_id>/success',
         auth="public",
-        website=True, noindex=['robots', 'meta', 'header']
+        website=True, sitemap=False
     )
     def registration_success(self, event, registration_id, **kwargs):
         limit_date = datetime.now() - relativedelta(days=1)
@@ -101,7 +128,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
     @http.route(
         '/event/<model("crm.event.compassion"):event>/confirmation/',
         auth="public",
-        website=True, noindex=['robots', 'meta', 'header']
+        website=True, sitemap=False
     )
     def confirmation_page(self, event, **kwargs):
         if not event.is_published:
@@ -164,7 +191,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
             "/event/<model('crm.event.compassion'):event>/<reg_string>-<int:reg_id>",
             "/event/<model('crm.event.compassion'):event>/<int:reg_id>",
         ],
-        auth="public", website=True, noindex=['robots', 'meta', 'header']
+        auth="public", website=True, sitemap=sitemap_participants
     )
     def participant_details(self, event, reg_id, **kwargs):
         """
@@ -178,12 +205,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         reg_obj = request.env["event.registration"].sudo()
         registration = reg_obj.browse(reg_id).exists().filtered("website_published")
         if not registration:
-            # This may be an old link. We can fetch the registration
-            registration = reg_obj.search(
-                [("backup_id", "=", reg_id), ("website_published", "=", True)]
-            )
-            if not registration:
-                return werkzeug.utils.redirect("/event/" + str(event.id), 301)
+            return werkzeug.utils.redirect("/event/" + str(event.id), 301)
         kwargs["form_model_key"] = "cms.form.event.donation"
         values = self.get_participant_page_values(event, registration, **kwargs)
         donation_form = values["form"]
@@ -226,7 +248,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
     ########################################
     @http.route("/event/payment/validate/<int:invoice_id>",
                 type="http", auth="public", website=True,
-                noindex=['robots', 'meta', 'header'])
+                sitemap=False)
     def donation_payment_validate(self, invoice_id=None, **kwargs):
         """ Method that should be called by the server when receiving an update
         for a transaction.
@@ -260,7 +282,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
 
     @http.route(
         "/event/payment/gpv_payment_validate/<int:invoice_id>", type="http",
-        auth="public", website=True, noindex=['robots', 'meta', 'header']
+        auth="public", website=True, sitemap=False
     )
     def down_payment_validate(self, invoice_id=None, **post):
         """ Method that should be called by the server when receiving an update
