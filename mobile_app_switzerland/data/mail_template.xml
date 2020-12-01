@@ -5,7 +5,7 @@
             <field name="name">Mobile App - New User</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
-            <field name="reply_to">reply@compassion.ch</field>
+            <field name="reply_to">info@compassion.ch</field>
             <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
             <field name="subject">Your Mobile App Account is ready</field>
             <field name="body_html">
