@@ -30,7 +30,8 @@ class ChildProtectionForm(models.AbstractModel):
 
     @property
     def form_msg_success_updated(self):
-        return _("Thank you for reading the child protection charter " "carefully.")
+        return _("Thank you for reading the child protection charter "
+                 "carefully.")
 
     @property
     def _form_fieldsets(self):

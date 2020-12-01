@@ -14,11 +14,11 @@ from odoo import models, fields, _
 
 
 class PartnerCoordinatesForm(models.AbstractModel):
-    _name = "cms.form.partner.coordinates"
+    _name = "cms.form.partner.my.coordinates"
     _inherit = "cms.form"
 
     form_buttons_template = "cms_form_compassion.modal_form_buttons"
-    form_id = "modal_coordinates"
+    form_id = "modal_my_coordinates"
     _form_model = "res.partner"
     _form_model_fields = [
         "title",
@@ -34,19 +34,6 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "birthdate_date",
         "email",
         "church_id",
-    ]
-    _form_required_fields = [
-        "title",
-        "firstname",
-        "lastname",
-        "preferred_name",
-        "street",
-        "zip",
-        "city",
-        "country_id",
-        "phone",
-        "mobile",
-        "email",
     ]
     _form_fields_order = [
         "title",
@@ -102,13 +89,6 @@ class PartnerCoordinatesForm(models.AbstractModel):
 
     def _form_validate_city(self, value, **req_values):
         return self._form_validate_alpha_field("city", value, accept="./")
-
-    # TODO: Handle addresses in a better way
-    def _form_validate_alpha_dot_field(self, field, value):
-        if value:
-            return self._form_validate_alpha_field(field, value.replace(".", ""))
-        else:
-            return self._form_validate_alpha_field(field, value)
 
     def _form_validate_alpha_field(self, field, value, accept=""):
         if value and not re.match(fr"^[\w\s'-{accept}]+$", value, re.UNICODE):
@@ -266,55 +246,4 @@ class PartnerDeliveryForm(models.AbstractModel):
                 values[key] = value
             if form_key in values:
                 del values[form_key]
-        return values
-
-
-class UserCredentialsForm(models.AbstractModel):
-    _name = "cms.form.users.credentials"
-    _inherit = "cms.form"
-
-    form_buttons_template = "cms_form_compassion.modal_form_buttons"
-    form_id = "modal_credentials"
-    _form_model = "res.users"
-
-    password_form = fields.Char(string="Password")
-
-    _form_model_fields = [
-        "login",
-        "password_form",
-        "password",
-    ]
-    _form_fields_order = [
-        "login",
-        "password_form",
-        "password",
-    ]
-
-    @property
-    def form_title(self):
-        return _("Credentials")
-
-    @property
-    def submit_text(self):
-        return _("Save")
-
-    @property
-    def form_msg_success_updated(self):
-        return _("Credentials updated.")
-
-    @property
-    def form_widgets(self):
-        # Hide fields
-        res = super().form_widgets
-        res["password"] = "cms_form_compassion.form.widget.hidden"
-        return res
-
-    def form_extract_values(self, **request_values):
-        form_key = "password_form"
-        values = super(UserCredentialsForm, self).form_extract_values(
-            **request_values
-        )
-        if form_key in values and values[form_key]:
-            values["password"] = values[form_key]
-            del values[form_key]
         return values
