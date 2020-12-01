@@ -17,7 +17,7 @@
 
         <template id="my_account_muskathlon" name="My Account Muskathlon" inherit_id="website_compassion.my_account_layout">
             <xpath expr="//ul/li[4]" position="after">
-                <t t-if="request.session.get('uid') and request.env.user.partner_id.muskathlon_participant_id">
+                <t t-if="request.session.get('uid') and request.env.user.partner_id.is_muskathlon">
                     <li class="nav-item">
                         <a class="nav-link" href="/my/muskathlon">Muskathlon</a>
                     </li>

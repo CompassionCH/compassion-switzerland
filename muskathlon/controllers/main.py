@@ -55,7 +55,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
 
     @route("/my/muskathlon", type="http", auth="user", website=True)
     def muskathlon_my_account(self, form_id=None, **kw):
-        if not request.env.user.partner_id.muskathlon_participant_id:
+        if not request.env.user.partner_id.is_muskathlon:
             return request.redirect("/my/home")
 
         """ Inject data for forms. """
