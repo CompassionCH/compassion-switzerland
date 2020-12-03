@@ -220,62 +220,6 @@
                             </div>
                         </div>
                     </section>
-
-                    <!-- Add Terms and Conditions to donation form -->
-                    <template id="donation_form_gtc" inherit_id="cms_form.base_form">
-                        <xpath expr="//div[@class='col-sm-9 col-sm-offset-3 above-controls']" position="inside">
-                            <div id="donation-gtc">
-                                <t t-set="terms_link">https://compassion.ch/protection-des-donnees/</t>
-                                <p>
-                                    By making a donation, you agree on our
-                                    <a t-att-href="terms_link" target="_blank">data protection policy, and general terms and conditions.</a>
-                                    <br/>
-                                    You will be redirected to our online payment system. If you wish to give by bank tranfer (IBAN), do not hesitate to
-                                    <a href="mailto:together@compassion.ch">contact us.</a>
-                                </p>
-                                <br/>
-                            </div>
-                            <script>
-                                const isCrowdfundingDonationForm = window.location.href.includes("donation/form");
-                                document.getElementById("donation-gtc").style.display = isCrowdfundingDonationForm ? 'block' : 'none';
-                            </script>
-                        </xpath>
-                    </template>
-
-                    <!-- Displayed after successful payment by [EventsController] -->
-                    <template id="donation_successful" name="Crowdfunding donation success">
-                        <t t-call="crowdfunding_compassion.layout">
-                            <section>
-                                <div class="jumbotron center-page mt-5">
-                                    <h1>Donation Successful</h1>
-                                    <p>Thank you! Your donation helps release children from poverty!</p>
-                                    <a href="/homepage">
-                                        <button class="btn btn-primary">Back to Homepage</button>
-                                    </a>
-                                </div>
-                            </section>
-                        </t>
-                    </template>
-
-                    <!-- Displayed after failure payment by [EventsController] -->
-                    <template id="donation_failure" name="Crowdfunding donation failure">
-                        <t t-call="crowdfunding_compassion.layout">
-                            <section>
-                                <div class="jumbotron center-page mt-5">
-                                    <h1>Payment Aborted</h1>
-                                    <t t-raw="(error_intro and error_intro + '&lt;br/&gt;&lt;br/&gt;') or ''"/>
-                                    Something went wrong during the payment process. Please try again.
-                                    <br/>
-                                    <br/>
-                                    <div class="alert alert-info" role="alert">
-                                        In case your payment was successful and you are seeing this message, you may experience some delay in the process of the transaction. Don't hesitate to
-                                        <a href="mailto:info@compassion.ch">contact us</a>
-                                        if you need any further assistance.
-                                    </div>
-                                </div>
-                            </section>
-                        </t>
-                    </template>
                 </t>
 
                 <!-- Pagination -->
@@ -299,6 +243,62 @@
                     <script type="text/javascript" src="/crowdfunding_compassion/static/src/js/donation_form_page.js"/>
                 </t>
 
+            </t>
+        </template>
+
+        <!-- Add Terms and Conditions to donation form -->
+        <template id="donation_form_gtc" inherit_id="cms_form.base_form">
+            <xpath expr="//div[@class='col-sm-9 col-sm-offset-3 above-controls']" position="inside">
+                <div id="donation-gtc">
+                    <t t-set="terms_link">https://compassion.ch/protection-des-donnees/</t>
+                    <p>
+                        By making a donation, you agree on our
+                        <a t-att-href="terms_link" target="_blank">data protection policy, and general terms and conditions.</a>
+                        <br/>
+                        You will be redirected to our online payment system. If you wish to give by bank tranfer (IBAN), do not hesitate to
+                        <a href="mailto:together@compassion.ch">contact us.</a>
+                    </p>
+                    <br/>
+                </div>
+                <script>
+                    const isCrowdfundingDonationForm = window.location.href.includes("donation/form");
+                    document.getElementById("donation-gtc").style.display = isCrowdfundingDonationForm ? 'block' : 'none';
+                </script>
+            </xpath>
+        </template>
+
+        <!-- Displayed after successful payment by [EventsController] -->
+        <template id="donation_successful" name="Crowdfunding donation success">
+            <t t-call="crowdfunding_compassion.layout">
+                <section>
+                    <div class="jumbotron center-page mt-5">
+                        <h1>Donation Successful</h1>
+                        <p>Thank you! Your donation helps release children from poverty!</p>
+                        <a href="/homepage">
+                            <button class="btn btn-primary">Back to Homepage</button>
+                        </a>
+                    </div>
+                </section>
+            </t>
+        </template>
+
+        <!-- Displayed after failure payment by [EventsController] -->
+        <template id="donation_failure" name="Crowdfunding donation failure">
+            <t t-call="crowdfunding_compassion.layout">
+                <section>
+                    <div class="jumbotron center-page mt-5">
+                        <h1>Payment Aborted</h1>
+                        <t t-raw="(error_intro and error_intro + '&lt;br/&gt;&lt;br/&gt;') or ''"/>
+                        Something went wrong during the payment process. Please try again.
+                        <br/>
+                        <br/>
+                        <div class="alert alert-info" role="alert">
+                            In case your payment was successful and you are seeing this message, you may experience some delay in the process of the transaction. Don't hesitate to
+                            <a href="mailto:info@compassion.ch">contact us</a>
+                            if you need any further assistance.
+                        </div>
+                    </div>
+                </section>
             </t>
         </template>
     </data>
