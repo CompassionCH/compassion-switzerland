@@ -19,11 +19,22 @@ class DonationController(PaymentFormController, FormControllerMixin):
         """ To preselect a participant, pass its id as particpant query parameter """
         if not project.website_published:
             return request.redirect("/projects")
-        participant = kwargs.get("participant")
+        participant = kwargs.pop("participant", False)
+        if int(page) == 1 and len(project.participant_ids) == 1:
+            page = 2
+            participant = project.participant_ids.id
+        if int(page) == 2 and not project.number_sponsorships_goal:
+            # Skip directly to donation page
+            participant = request.env["crowdfunding.participant"].browse(participant)
+            return self.project_donation_form_page(3, project, participant, **kwargs)
 
         return request.render(
-            "crowdfunding_compassion.project_donation_page",
-            {"project": project.sudo(), "selected_participant": participant, "page": page},
+            "crowdfunding_compassion.project_donation_page", {
+                "project": project.sudo(),
+                "selected_participant": participant,
+                "page": page,
+                "skip_type_selection": not project.number_sponsorships_goal,
+            },
         )
 
     @route(

@@ -9,50 +9,37 @@
                 <header>
                     <div class="container">
 
-                    <div class="row justify-content-center mt-3 mb-3">
-                        <div class="col-4 text-center">
-                            <t t-if="isinstance(project.image, bytes)">
-                                <img class="donation-type__project-card-image"
-                                     t-attf-src="data:image/png;base64, #{ project.image }"/>
-                            </t>
-                            <t t-else="">
-                                <img src="/crowdfunding_compassion/static/src/img/astronaut_600.jpg"
-                                     class="rounded-img img-fluid"/>
-                            </t>
+                        <div class="row justify-content-center mt-3 mb-3">
+                            <div class="col-4 text-center">
+                                <t t-if="isinstance(project.image, bytes)">
+                                    <img class="donation-type__project-card-image"
+                                         t-attf-src="data:image/png;base64, #{ project.image }"/>
+                                </t>
+                                <t t-else="">
+                                    <img src="/crowdfunding_compassion/static/src/img/astronaut_600.jpg"
+                                         class="rounded-img img-fluid"/>
+                                </t>
+                            </div>
                         </div>
-                    </div>
-                    <t t-if="isinstance(project.image_medium, bytes)">
-                        <h1 class="blue uppercase center-text">YOUR DONATION</h1>
-                        <h2 t-if="int(page) == 1" class="center-text">You are only 3 steps away from releasing children from extreme
-                            poverty thanks to your donation!
-                        </h2>
-                        <h2 t-if="int(page) == 2" class="center-text">You are only 2 steps away from releasing children from extreme
-                            poverty thanks to your donation!
-                        </h2>
-                        <h2 t-if="int(page) == 3" class="center-text">You are actually creating impact with your donation!
-                        </h2>
-                    </t>
-                    <t t-else="">
-                        <h1 class="blue uppercase center-text" t-esc="title"/>
-                        <h2 class="center-text" t-field="project.name"/>
-                    </t>
+                        <h1 class="blue uppercase center-text" t-esc="project.name"/>
+                        <h2 class="center-text">Make your donation</h2>
                         <div class="row justify-content-center">
                             <div class="col-11">
                                 <ul class="stepper stepper-horizontal">
                                     <t t-if="int(page) == 1">
-                                        <t t-set="class1">inactive</t>
-                                        <t t-set="class2">empty</t>
-                                        <t t-set="class3">empty</t>
+                                        <t t-set="class1" t-value="'inactive'"/>
+                                        <t t-set="class2" t-value="'empty'"/>
+                                        <t t-set="class3" t-value="'empty'"/>
                                     </t>
                                     <t t-if="int(page) == 2">
-                                        <t t-set="class1">active</t>
-                                        <t t-set="class2">inactive</t>
-                                        <t t-set="class3">empty</t>
+                                        <t t-set="class1" t-value="'active'"/>
+                                        <t t-set="class2" t-value="'inactive'"/>
+                                        <t t-set="class3" t-value="'empty'"/>
                                     </t>
                                     <t t-if="int(page) == 3">
-                                        <t t-set="class1">active</t>
-                                        <t t-set="class2">active</t>
-                                        <t t-set="class3">inactive</t>
+                                        <t t-set="class1" t-value="'active'"/>
+                                        <t t-set="class2" t-value="'active'"/>
+                                        <t t-set="class3" t-value="'inactive'"/>
                                     </t>
                                     <!-- First Step -->
                                     <li t-att-class="class1">
@@ -65,7 +52,7 @@
                                     </li>
 
                                     <!-- Second Step -->
-                                    <li t-att-class="class2">
+                                    <li t-att-class="class2" t-if="not skip_type_selection">
                                         <a>
                                             <div class="row">
                                                 <div class="col-sm-12"><span class="circle">2</span></div>
@@ -75,10 +62,10 @@
                                     </li>
 
                                     <!-- Third Step -->
-                                    <li t-att-class="class3">
+                                    <li t-att-class="class2 if skip_type_selection else class3">
                                         <a>
                                             <div class="row">
-                                                <div class="col-sm-12"><span class="circle">3</span></div>
+                                                <div class="col-sm-12"><span class="circle"><t t-esc="'2' if skip_type_selection else '3'"/></span></div>
                                                 <div class="col-sm-12"><span class="label">Your donation</span></div>
                                             </div>
                                         </a>
@@ -90,25 +77,17 @@
                 </header>
                 <!-- Title section -->
                 <section class="blue py-2 mb-3 text-center">
-                    <div t-if="int(page) == 1">
-                        <h1 class="center-text uppercase py-2">CHOOSE WHICH FUNDRAISER YOU WANT TO SUPPORT</h1>
-                    </div>
-                    <div t-if="int(page) == 2">
-                        <h1 class="center-text uppercase py-2">I want to</h1>
-                        <h5 class="center-text uppercase py-2">BELOW, SELECT WHICH PERSON YOU SUPPORT</h5>
-                    </div>
-                    <div t-if="int(page) == 3">
-                        <h1 class="center-text uppercase py-2">Make your donation</h1>
-                        <h5 class="center-text uppercase py-2">
-                            Choose your donation amount and enter your personal information below.
-                        </h5>
-                    </div>
+                    <h1 class="center-text uppercase py-2" t-if="int(page) == 1">Choose which fundraiser you want to support</h1>
+                    <h1 class="center-text uppercase py-2" t-if="int(page) == 2 and not skip_type_selection">Select your type of support</h1>
+                    <h1 class="center-text uppercase py-2" t-if="int(page) == 3 or (skip_type_selection and int(page) == 2)">Choose your donation amount and enter your personal information below</h1>
                 </section>
 
                 <!-- PAGE 1 - Participant selection-->
                 <section t-att-style="'' if int(page) == 1 else 'display: none;'">
                     <div class="container">
                         <input id="searchInputParticipant" class="form-control mr-sm-2 mb-3" type="search" placeholder="Quick search" aria-label="Quick search" />
+                        <input type="radio" id="direct_to_sponsorship" name="direct_to_sponsorship" style="display: none" t-att-checked="'checked' if skip_type_selection and project.number_sponsorships_goal else False"/>
+                        <input type="hidden" id="page" name="page" t-att-value="page"/>
                         <div>
                             <t t-foreach="project.participant_ids" t-as="participant">
                                 <label>
@@ -133,8 +112,9 @@
                 </section>
 
                 <!-- PAGE 2 - Donation type selection -->
-                <section t-att-style="'' if int(page) == 2 else 'display: none;'">
+                <section t-att-style="'' if int(page) == 2 and not skip_type_selection else 'display: none;'">
                     <div class="container">
+                        <input type="hidden" id="participant" name="participant" t-att-value="selected_participant"/>
                         <div id="sponsorship_product_cards" class="row pb-5">
                             <!-- Product selectable card -->
                             <!-- Show product option only if one is selected -->
@@ -190,19 +170,12 @@
                                 </div>
                             </t>
 
-                            <!-- Project impact card without progress bars -->
-                            <div class="col-sm-12 col-md-4 mb-3">
-                                <a t-attf-href="/project/#{project.id}">
-                                    <t t-set="display_impact" t-value="False"/>
-                                    <t t-call="crowdfunding_compassion.project_impact_card"/>
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </section>
 
                 <!-- PAGE 3 - Choose donation amount -->
-                <t t-if="int(page) == 3">
+                <t t-if="int(page) == 3 or (skip_type_selection and int(page) == 2)">
                     <section class="donation-form-amount pb-5">
                         <div class="container">
 
@@ -307,15 +280,15 @@
 
                 <!-- Pagination -->
                 <div class="container">
-                        <a  id="a_step_01" href="" t-att-project="project.id" t-att-style="'' if int(page) == 2 else 'display: none;'">
-                            <button id="btn_step_01" type="submit" class="btn btn-primary btn-lg mb-5 float-left uppercase">Previous step</button>
-                        </a>
-                        <a  id="a_step_02" href="" t-att-project="project.id" t-att-style="'' if int(page) == 1 else 'display: none;'">
-                            <button id="btn_step_02" type="submit" class="btn btn-primary btn-lg mb-5 float-right uppercase">Next step</button>
-                        </a>
-                        <a id="url" href="" t-att-project="project.id" t-att-style="'' if int(page) == 2 else 'display: none;'">
-                            <button id="submit" type="submit" class="btn btn-primary btn-lg mb-5 float-right uppercase">Next step</button>
-                        </a>
+                    <a  id="a_step_01" href="" t-att-project="project.id" t-att-style="'' if int(page) == 2 else 'display: none;'">
+                        <button id="btn_step_01" type="submit" class="btn btn-primary btn-lg mb-5 float-left uppercase">Previous step</button>
+                    </a>
+                    <a  id="a_step_02" href="" t-att-project="project.id" t-att-style="'' if int(page) == 1 else 'display: none;'">
+                        <button id="btn_step_02" type="submit" class="btn btn-primary btn-lg mb-5 float-right uppercase">Next step</button>
+                    </a>
+                    <a id="url" href="" t-att-project="project.id" t-att-style="'' if int(page) == 2 else 'display: none;'">
+                        <button id="submit" type="submit" class="btn btn-primary btn-lg mb-5 float-right uppercase">Next step</button>
+                    </a>
                 </div>
 
                 <!-- Scripts -->
