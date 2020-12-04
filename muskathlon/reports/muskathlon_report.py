@@ -41,10 +41,7 @@ class Muskathlon(models.Model):
     payment_method = fields.Char(
         "Paymentmethod", readonly=True, oldname="payment_methode"
     )
-    project_id = fields.Char("ProjectID", readonly=True)
     date = fields.Datetime("Date/time", readonly=True)
-    muskathlon_participant_id = fields.Char("ParticipantID", readonly=True)
-    registration_id = fields.Char("RegistrationID", readonly=True)
     sponsorship_name = fields.Char("Sponsorship name", readonly=True)
 
     # Fields for viewing related objects
@@ -83,15 +80,12 @@ class Muskathlon(models.Model):
                 rc.payment_mode_id,
                 rco.event_id,
                 NULL AS journal_id,
-                rp.muskathlon_participant_id,
                 rp2.name AS sponsorship_name,
                 rc.start_date AS date,
                 rc.start_date::date AS date_display,
                 'success' AS status,
                 'sponsor' AS type,
-                'transfer' AS payment_method,
-                cec.muskathlon_event_id AS project_id,
-                mr.reg_id AS registration_id
+                'transfer' AS payment_method
               FROM recurring_contract AS rc
               LEFT JOIN res_partner AS rp ON rp.id = rc.user_id
               LEFT JOIN res_partner AS rp2 ON rp2.id = rc.partner_id
@@ -99,7 +93,6 @@ class Muskathlon(models.Model):
                 ON rco.id = rc.origin_id
               LEFT JOIN crm_event_compassion AS cec ON cec.id = rco.event_id
               LEFT JOIN event_registration mr ON mr.id = rc.registration_id
-              WHERE cec.muskathlon_event_id IS NOT NULL
             )
             UNION ALL (
               SELECT
@@ -114,15 +107,12 @@ class Muskathlon(models.Model):
                 ai.payment_mode_id,
                 ail.event_id,
                 aml.journal_id AS journal_id,
-                rp.muskathlon_participant_id,
                 rp2.name AS sponsorship_name,
                 ai.date_invoice AS date,
                 ai.date_invoice AS date_display,
                 'success' AS status,
                 'sponsor' AS type,
-                'transfer' AS payment_method,
-                cec.muskathlon_event_id AS project_id,
-                mr.reg_id AS registration_id
+                'transfer' AS payment_method
               FROM account_invoice_line AS ail
               LEFT JOIN account_invoice AS ai ON ail.invoice_id = ai.id
               FULL OUTER JOIN account_move AS am ON ai.move_id = am.id
@@ -141,7 +131,6 @@ class Muskathlon(models.Model):
                 ON mr.partner_id = rp.id AND mr.event_id = cec.odoo_event_id
               WHERE ail.state IN ('draft', 'open', 'paid')
                 AND ail.account_id = 2775
-                AND cec.muskathlon_event_id IS NOT NULL
                 AND ail.user_id IS NOT NULL
             )
         """

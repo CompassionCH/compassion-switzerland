@@ -300,7 +300,8 @@ class PartnerCommunication(models.Model):
                 "background": self.send_mode != "physical",
             }
             pdf = self._get_pdf_from_data(
-                data, self.env.ref("report_compassion.report_3bvr_sponsorship")
+                data, self.env.ref(
+                    f"report_compassion.report_{bv_number}bvr_sponsorship")
             )
             attachments.update({_("sponsorship payment slips.pdf"): [report_name, pdf]})
         # Attach gifts for correspondents
@@ -309,10 +310,18 @@ class PartnerCommunication(models.Model):
             if sponsorship.mapped(sponsorship.send_gifts_to) == self.partner_id:
                 pays_gift += sponsorship
         if pays_gift:
-            report_name = "report_compassion.3bvr_gift_sponsorship"
-            data = {"doc_ids": pays_gift.ids}
+            nb_gifts = 4 if bv_number == 2 else 3
+            product_ids = self.env['product.product'].search([
+                ('default_code', 'in', GIFT_REF[:nb_gifts])
+            ]).ids
+            report_name = f"report_compassion.{bv_number}bvr_gift_sponsorship"
+            data = {
+                "doc_ids": pays_gift.ids,
+                "product_ids": product_ids
+            }
             pdf = self._get_pdf_from_data(
-                data, self.env.ref("report_compassion.report_3bvr_gift_sponsorship")
+                data, self.env.ref(
+                    f"report_compassion.report_{bv_number}bvr_gift_sponsorship"),
             )
             attachments.update({_("sponsorship gifts.pdf"): [report_name, pdf]})
         return attachments

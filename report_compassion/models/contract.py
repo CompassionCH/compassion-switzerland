@@ -68,10 +68,30 @@ class Contract(models.Model):
             if "Birthday" in product.with_context(lang="en_US").name
             else "",
         }
-        communication = (
-            f"{vals['firstname']} ({vals['local_id']})"
-            f"<br/>{vals['product']}<br/>{vals['birthdate']}"
-        )
+        if "Birthday" in product.with_context(lang="en_US").name:
+            communication = (
+                f"{vals['firstname']} ({vals['local_id']})"
+                f"<br/>{vals['product']}"
+                f"<br/>{vals['birthdate']}"
+            )
+        else:
+            communication = (
+                f"{vals['firstname']} ({vals['local_id']})"
+                f"<br/>{vals['product']}"
+            )
+        gift_threshold = self.env['gift.threshold.settings'].search([
+            ('product_id', '=', product.id)
+        ], limit=1)
+        if gift_threshold:
+            min = int(gift_threshold.min_amount)
+            max = int(gift_threshold.max_amount)
+            amount_limit = {
+                "en_US": f"CHF {min}.- to max {max}.- per year",
+                "fr_CH": f"CHF {min}.- à max. {max}.- par année",
+                "de_DE": f"CHF {min}.- bis max. {max}.- pro Jahr",
+                "it_IT": f"Importo tra CHF {min}.- e {max}.- per anno",
+            }
+            communication += f"<br/>{amount_limit[lang]}"
         return communication
 
     @api.multi

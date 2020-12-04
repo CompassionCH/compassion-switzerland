@@ -17,7 +17,6 @@
                         <field name="accepts_registrations" invisible="1" />
                         <group string="Registration" attrs="{'invisible': [('accepts_registrations', '!=', True)]}">
                             <field name="sport_discipline_ids"/>
-                            <field name="muskathlon_event_id"/>
                         </group>
                         <group string="Order material page">
                             <field name="website_my_introduction"/>

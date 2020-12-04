@@ -56,7 +56,7 @@
                                                 <t t-call="crowdfunding_compassion.project_deadline_widget"/>
                                             </div>
                                             <div class="project-hero__card-cta" t-if="project.deadline >= datetime.date.today()">
-                                                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
+                                                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }&amp;page=#{ page }">
                                                     <button type="button" class="btn btn-primary btn-lg btn-block mb-2">
                                                         Donate now
                                                     </button>
@@ -69,7 +69,7 @@
                                             <t t-call="crowdfunding_compassion.project_progress"/>
                                         </div>
                                         <div class="project-hero__card-cta" t-if="project.deadline >= datetime.date.today()">
-                                            <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
+                                            <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }&amp;page=#{ page }">
                                                 <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
                                             </a>
                                             <a t-if="project.type == 'collective'" t-attf-href="/projects/join/#{project.id}">

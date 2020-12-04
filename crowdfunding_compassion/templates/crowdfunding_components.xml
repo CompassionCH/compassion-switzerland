@@ -179,12 +179,14 @@
         </template>
 
         <template id="participant_picture" name="Participant picture">
-            <div class="card card-body d-flex justify-content-between align-items-center" style="border: none;">
-                <img class="profile-pic rounded-circle" t-att-src="participant.profile_photo_url" alt="Project participant" t-if="participant.profile_photo_url"/>
+            <div class="card" style="border: none;">
+                <div class="card-body" >
+                    <img class="profile-pic rounded-circle" t-att-src="participant.profile_photo_url" alt="Project participant" t-if="participant.profile_photo_url"/>
 
-                <h6 class="uppercase mt-3">
-                    <t t-esc="participant.partner_id.name"/>
-                </h6>
+                    <h6 class="uppercase mt-3">
+                        <t t-esc="participant.partner_id.name"/>
+                    </h6>
+                </div>
             </div>
         </template>
 
@@ -293,8 +295,8 @@
         <template id="fund_card" name="Fund card">
             <div class="card fund-card my-3">
                 <div class="fund-card__header">
-                    <img class="fund-card__image" t-attf-src="data:image/png;base64, #{ fund_image }"/>
-                    <img class="fund-card__icon" t-attf-src="data:image/png;base64, #{ fund_icon }" height="100"/>
+                    <img class="fund-card__image" t-attf-src="data:image/png;base64, #{ fund_image }" t-if="isinstance(fund_image, bytes)"/>
+                    <img class="fund-card__icon" t-attf-src="data:image/png;base64, #{ fund_icon }" height="100" t-if="isinstance(fund_icon, bytes)"/>
                 </div>
                 <div class="fund-card__content">
                     <h5 class="blue my-3 fund-card__title">
@@ -315,7 +317,7 @@
             <!-- Compute value -->
             <t t-set="current_value" t-value="project.product_id.standard_price * current_default_quantity"/>
 
-            <div class="col-6 col-lg-3 mb-3">
+            <div class="col-6 col-lg-6 mb-3">
                 <label class="h-100 w-100">
                     <input type="radio" name="amount" t-att-value="current_value" class="card-input-element d-none" />
                     <div class="card h-100 d-flex justify-content-around align-items-center text-center">

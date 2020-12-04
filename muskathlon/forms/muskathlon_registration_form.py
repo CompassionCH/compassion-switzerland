@@ -259,7 +259,6 @@ class MuskathlonRegistrationForm(models.AbstractModel):
             self.env["res.partner"].sudo().browse(values.get("partner_id")).exists()
         )
         partner.set_privacy_statement(origin="muskathlon_reg")
-        self.main_object.sudo().confirm_registration()
 
     def form_next_url(self, main_object=None):
         # Clean storage of picture

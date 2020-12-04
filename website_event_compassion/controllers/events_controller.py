@@ -205,12 +205,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         reg_obj = request.env["event.registration"].sudo()
         registration = reg_obj.browse(reg_id).exists().filtered("website_published")
         if not registration:
-            # This may be an old link. We can fetch the registration
-            registration = reg_obj.search(
-                [("backup_id", "=", reg_id), ("website_published", "=", True)]
-            )
-            if not registration:
-                return werkzeug.utils.redirect("/event/" + str(event.id), 301)
+            return werkzeug.utils.redirect("/event/" + str(event.id), 301)
         kwargs["form_model_key"] = "cms.form.event.donation"
         values = self.get_participant_page_values(event, registration, **kwargs)
         donation_form = values["form"]
