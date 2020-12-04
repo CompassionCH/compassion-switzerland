@@ -237,10 +237,10 @@
 
                 <!-- Scripts -->
                 <t t-if="int(page) != 3">
-                    <script type="text/javascript" src="/crowdfunding_compassion/static/src/js/donation_page.js"/>
+                    <script type="text/javascript" src="/crowdfunding_compassion/static/src/js/donation_page.js?20"/>
                 </t>
                 <t t-if="int(page) == 3">
-                    <script type="text/javascript" src="/crowdfunding_compassion/static/src/js/donation_form_page.js"/>
+                    <script type="text/javascript" src="/crowdfunding_compassion/static/src/js/donation_form_page.js?20"/>
                 </t>
 
             </t>
