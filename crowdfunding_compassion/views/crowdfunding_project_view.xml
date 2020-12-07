@@ -8,7 +8,7 @@
          <form>
             <header>
                <button name="validate" string="Validate project" type="object" class="btn-primary"
-                       attrs="{'invisible':[('state', '==', 'active')]}" />
+                       attrs="{'invisible':[('state', '!=', 'draft')]}" />
                <field name="state" widget="statusbar" />
             </header>
             <sheet>
@@ -19,6 +19,23 @@
                            <field name="number_participants"/>
                         </span>
                         <span class="o_stat_text">Participants</span>
+                     </div>
+                  </button>
+                  <button name="open_donations" type="object" class="oe_stat_button" icon="fa-money">
+                     <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                           <span class="oe_inline">CHF </span>
+                           <field name="amount_reached"/>
+                        </span>
+                        <span class="o_stat_text">Donations</span>
+                     </div>
+                  </button>
+                  <button name="open_sponsorships" type="object" class="oe_stat_button" icon="fa-child">
+                     <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                           <field name="number_sponsorships_reached"/>
+                        </span>
+                        <span class="o_stat_text">Sponsorships</span>
                      </div>
                   </button>
                   <button name="toggle_website_published" class="oe_stat_button" type="object" icon="fa-globe">
@@ -123,15 +140,7 @@
                      </field>
                   </page>
                   <page string="Donations">
-                     <field name="invoice_line_ids" widget="one2many">
-                        <tree order="due_date desc">
-                           <field name="due_date"/>
-                           <field name="partner_id"/>
-                           <field name="user_id"/>
-                           <field name="price_subtotal"/>
-                           <field name="state"/>
-                        </tree>
-                     </field>
+                     <field name="invoice_line_ids" widget="one2many" context="{'default_tree_view': %(crowdfunding_compassion.donation_tree_view)d}" domain="[('state','=','paid')]"/>
                   </page>
                   <page string="Sponsorships">
                      <field name="sponsorship_ids" widget="one2many">

@@ -1,15 +1,29 @@
 <odoo>
-    <data>
-        <!-- Invoice Line Form -->
-        <record model="ir.ui.view" id="view_invoice_line_form_crm_compassion">
-            <field name="name">account.invoice.line.crm.compassion.form</field>
-            <field name="model">account.invoice.line</field>
-            <field name="inherit_id" ref="account.view_invoice_line_form"/>
-            <field name="arch" type="xml">
-                <field name="invoice_line_tax_ids" position="after">
-                    <field name="crowdfunding_participant_id" widget="many2one"/>
-                </field>
+    <!-- Invoice Line Form -->
+    <record model="ir.ui.view" id="view_invoice_line_form_crm_compassion">
+        <field name="name">account.invoice.line.crm.compassion.form</field>
+        <field name="model">account.invoice.line</field>
+        <field name="inherit_id" ref="account.view_invoice_line_form"/>
+        <field name="arch" type="xml">
+            <field name="invoice_line_tax_ids" position="after">
+                <field name="crowdfunding_participant_id" widget="many2one"/>
             </field>
-        </record>
-    </data>
+        </field>
+    </record>
+
+    <record id="donation_tree_view" model="ir.ui.view">
+        <field name="name">account.invoice.line.crowdfunding.tree</field>
+        <field name="model">account.invoice.line</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree decoration-primary="state == 'draft'" decoration-muted="state in ('open', 'cancel')" default_order="due_date desc">
+               <field name="due_date"/>
+               <field name="partner_id"/>
+               <field name="user_id"/>
+               <field name="price_subtotal" sum="Total"/>
+               <field name="state"/>
+               <field name="is_anonymous"/>
+            </tree>
+        </field>
+    </record>
 </odoo>

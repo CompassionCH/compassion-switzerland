@@ -69,6 +69,7 @@ class CrowdfundingProject(models.Model):
         "Product goal", compute="_compute_product_number_goal")
     product_number_reached = fields.Integer(
         "Product reached", compute="_compute_product_number_reached")
+    amount_reached = fields.Integer(compute="_compute_product_number_reached")
     number_sponsorships_goal = fields.Integer(
         "Sponsorships goal", compute="_compute_number_sponsorships_goal")
     number_sponsorships_reached = fields.Integer(
@@ -277,6 +278,7 @@ class CrowdfundingProject(models.Model):
             project.product_number_reached = int(
                 sum(invl.mapped("price_total")) / project.product_id.standard_price
             ) if project.product_id.standard_price else 0
+            project.amount_reached = sum(invl.mapped("price_total"))
 
     @api.multi
     def _compute_number_sponsorships_goal(self):
@@ -387,6 +389,33 @@ class CrowdfundingProject(models.Model):
             'domain': [('project_id', '=', self.id)],
             'target': 'current',
             'context': self.env.context,
+        }
+
+    def open_donations(self):
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Participants"),
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "account.invoice.line",
+            "domain": [("campaign_id", "=", self.campaign_id.id)],
+            "target": "current",
+            "context": {
+                "default_tree_view": self.env.ref(
+                    "crowdfunding_compassion.donation_tree_view").id,
+                "search_default_paid": True},
+        }
+
+    def open_sponsorships(self):
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Participants"),
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "recurring.contract",
+            "domain": [("campaign_id", "=", self.campaign_id.id),
+                       ("type", "like", "S")],
+            "target": "current",
         }
 
     def _default_website_meta(self):
