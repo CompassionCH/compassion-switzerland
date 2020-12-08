@@ -80,9 +80,6 @@ class CrowdfundingProject(models.Model):
     color_product = fields.Char(compute="_compute_color_product")
     color = fields.Integer(
         compute="_compute_color", inverse="_inverse_color", store=True)
-    donation_reached = fields.Float(
-        string='Donation amount', compute="_compute_donation_reached",
-        size=10, digits=(10, 0), store=True)
     sponsorship_ids = fields.Many2many(
         "recurring.contract", string="Sponsorships",
         compute="_compute_sponsorships"
@@ -256,13 +253,6 @@ class CrowdfundingProject(models.Model):
                 self.presentation_video_embed = self.presentation_video
 
     @api.multi
-    @api.depends('invoice_line_ids')
-    def _compute_donation_reached(self):
-        for project in self:
-            project.donation_reached = sum(
-                project.invoice_line_ids.mapped('price_subtotal'))
-
-    @api.multi
     def _compute_product_number_goal(self):
         for project in self:
             project.product_number_goal = sum(
@@ -270,15 +260,21 @@ class CrowdfundingProject(models.Model):
 
     @api.multi
     def _compute_product_number_reached(self):
+        # Compute with SQL query for good performance
+        self.env.cr.execute("""
+            SELECT p.id, SUM(il.price_total), SUM(il.quantity)
+            FROM account_invoice_line il
+            JOIN crowdfunding_participant pa ON pa.id = il.crowdfunding_participant_id
+            JOIN crowdfunding_project p ON p.id = pa.project_id
+            WHERE il.state = 'paid'
+            AND p.id = ANY(%s)
+            GROUP BY p.id
+        """, [self.ids])
+        results = {r[0]: (r[1], r[2]) for r in self.env.cr.fetchall()}
         for project in self:
-            invl = self.env["account.invoice.line"].search([
-                ("state", "=", 'paid'),
-                ("campaign_id", "=", project.campaign_id.id)
-            ])
-            project.product_number_reached = int(
-                sum(invl.mapped("price_total")) / project.product_id.standard_price
-            ) if project.product_id.standard_price else 0
-            project.amount_reached = sum(invl.mapped("price_total"))
+            res = results.get(project.id, (0, 0))
+            project.amount_reached = round(res[0])
+            project.product_number_reached = round(res[1])
 
     @api.multi
     def _compute_number_sponsorships_goal(self):
@@ -398,7 +394,7 @@ class CrowdfundingProject(models.Model):
             "view_type": "form",
             "view_mode": "tree,form",
             "res_model": "account.invoice.line",
-            "domain": [("campaign_id", "=", self.campaign_id.id)],
+            "domain": [("crowdfunding_participant_id", "in", self.participant_ids.ids)],
             "target": "current",
             "context": {
                 "default_tree_view": self.env.ref(

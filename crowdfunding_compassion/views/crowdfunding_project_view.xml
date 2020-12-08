@@ -203,7 +203,7 @@
              <field name="deadline" />
             <field name="product_number_reached" />
             <field name="number_sponsorships_reached" />
-             <field name="donation_reached" widget="monetary"/>
+             <field name="amount_reached" widget="monetary"/>
              <field name="website_published" invisible="1" />
              <field name="state"/>
              <field name="active" invisible="1" />
@@ -219,7 +219,7 @@
          <graph type="bar" stacked="True">
             <field name="create_date" interval="month" />
             <field name="type" />
-            <field name="donation_reached" type="measure" />
+            <field name="amount_reached" type="measure" />
          </graph>
       </field>
    </record>
@@ -285,7 +285,7 @@
                               )
                            </span>
                            <span class="badge badge-primary" t-if="record.state.raw_value == 'active'">
-                              <field name="donation_reached" />
+                              <field name="amount_reached" />
                               .-CHF
                            </span>
                         </h5>
