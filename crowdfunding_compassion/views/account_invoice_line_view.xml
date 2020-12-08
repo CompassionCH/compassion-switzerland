@@ -20,6 +20,7 @@
                <field name="due_date"/>
                <field name="partner_id"/>
                <field name="user_id"/>
+               <field name="quantity" sum="Total"/>
                <field name="price_subtotal" sum="Total"/>
                <field name="state"/>
                <field name="is_anonymous"/>
