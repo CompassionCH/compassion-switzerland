@@ -101,4 +101,4 @@ class PartnerCoordinatesForm(models.AbstractModel):
                 )
 
     def form_cancel_url(self, main_object=None):
-        return request.redirect("/my_account")
+        return request.redirect("/my/together")

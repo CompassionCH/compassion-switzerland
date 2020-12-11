@@ -66,7 +66,7 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
         return res
 
     def form_cancel_url(self, main_object=None):
-        return request.redirect("/my_account")
+        return request.redirect("/my/together")
 
     @property
     def form_msg_success_updated(self):
