@@ -283,7 +283,7 @@ class ImportLettersHistory(models.Model):
                 for shared_file in list_paths:
                     if func.check_file(shared_file.filename) == 1:
                         logger.info(
-                            f"Analyzing letter {progress}" f"/{self.nber_letters}"
+                            f"Analyzing letter {progress}" f"/{len(list_paths)}"
                         )
 
                         with NamedTemporaryFile() as file_obj:
@@ -310,9 +310,10 @@ class ImportLettersHistory(models.Model):
                         zip_file.seek(0)
                         zip_ = zipfile.ZipFile(zip_file, "r")
                         # loop over files inside zip
-                        for f in zip_.namelist():
+                        files = len(zip_.namelist())
+                        for f in files:
                             logger.info(
-                                f"Analyzing letter {progress}/{self.nber_letters}"
+                                f"Analyzing letter {progress}/{len(files)}"
                             )
 
                             self._analyze_attachment(self._convert_pdf(zip_.open(f)), f)
