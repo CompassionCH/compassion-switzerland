@@ -50,7 +50,6 @@
         "cms_form_compassion",  # compassion-modules
         "partner_compassion",  # compassion-switzerland
         "partner_contact_in_several_companies",  # OCA/partner_contact
-        "website_no_index",  # OCA/website
     ],
     "demo": [],
     "installable": True,

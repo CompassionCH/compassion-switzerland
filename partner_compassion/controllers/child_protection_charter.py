@@ -23,6 +23,7 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
         route="/partner/<string:reg_uid>/child-protection-charter",
         auth="public",
         website=True,
+        sitemap=False
     )
     def child_protection_charter_agree(
             self, reg_uid, form_id=None, redirect=None, src=None, **kwargs

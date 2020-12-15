@@ -2,12 +2,8 @@
 <odoo>
     <template id="custom_portal_my_home" name="Custom My Portal">
         <t t-call="website_compassion.my_account_layout">
-            <!-- hides navbar from my portal -->
-            <style>.o_portal.container { display: none !important; }</style>
-
             <!-- Page content -->
             <div id="muskathlon_my_home" class="container">
-                <t t-call="muskathlon.aboutme_formatted"/>
                 <!-- Load modals for forms -->
                 <t t-if="partner.advocate_details_id">
                     <t t-call="cms_form_compassion.modal_form">
@@ -48,19 +44,25 @@
                         advocate_details
                     </div>
                 </t>
-                <div class="row">
+                <div class="row mt-4">
+                    <!-- Profile page -->
+                    <div class="col-6" t-if="registrations">
+                        <t t-call="muskathlon.aboutme_formatted"/>
+                    </div>
                     <!-- Muskathlon trip data -->
-                    <div class="col-sm-6 col-md-7 col-lg-8" t-if="registrations">
+                    <div class="col-6" t-if="registrations">
                         <t t-call="muskathlon.tripinfos_formatted"/>
                     </div>
                 </div>
+
+                <div class="row mt-4">
+                </div>
+
                 <t t-if="registrations">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <h3 class="section-header"
-                                style="margin-top: 25px; margin-bottom: 10px;">
-                                My events
-                            </h3>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h3>My events</h3>
+                            <section class="section-header" style="margin-top: 25px; margin-bottom: 10px;"/>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>

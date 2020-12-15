@@ -26,8 +26,8 @@ def _get_user_children(only_active=False):
     a sponsorship is active.
     :return: a recordset of child.compassion which the connected user sponsors
     """
-    def filter_sponsorships(sponsorship):
-        return not only_active or sponsorship.state == "active"
+    def filter_sponsorships(s):
+        return not only_active or s.state not in ["cancelled", "terminated"]
 
     partner = request.env.user.partner_id
     return (

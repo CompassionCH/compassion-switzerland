@@ -34,6 +34,8 @@ class AccountInvoiceLine(models.Model):
             res_name = event_names[0]
         elif not event_names and len(product_names) == 1 and not gift:
             res_name = product_names[0]
+        elif len(product_names) > 1:
+            res_name = ', '.join([str(elem) for elem in product_names])
         # Special case for gifts : mention it's a gift even if several
         # different gifts are made.
         else:
@@ -71,7 +73,7 @@ class AccountInvoiceLine(models.Model):
             self.with_context(
                 same_job_search=[("event_id", "=", event.id)],
                 default_event_id=event.id,
-                default_user_id=event.mapped("staff_ids.user_ids")[:1],
+                default_user_id=event.mapped("staff_ids.user_ids")[:1].id,
                 default_ambassador_id=self.mapped("user_id")[:1].id,
                 default_communication_config=default_communication_config
             ),

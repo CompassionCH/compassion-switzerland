@@ -7,6 +7,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from time import sleep
+
 from odoo import api, models, fields
 from odoo.addons.queue_job.job import job
 
@@ -34,20 +36,31 @@ class MassMailingContact(models.Model):
         if self.partner_id:
             return self.partner_id.id
         else:
-            return super().get_partner(email)
+            return self.env["res.partner"].search([
+                ("email", "=ilike", email),
+                ("contact_type", "=", "standalone"),
+                ("opt_out", "!=", True)
+            ], limit=1).id
 
     @job(default_channel="root.mass_mailing_switzerland.update_mailchimp")
     @api.model
     def update_all_merge_fields_job(self, partner_ids=None):
         """ Update all contacts merge fields
-
-        :return:
+        :return: List of partner_ids that failed to update
         """
         search_criterias = [("partner_id", "!=", False)]
         if partner_ids:
             search_criterias.append(("partner_id", "in", partner_ids))
-        self.search(search_criterias).action_update_to_mailchimp()
-        return True
+        failed = []
+        for mailing_contact in self.search(search_criterias):
+            try:
+                mailing_contact.action_update_to_mailchimp()
+            except:
+                self.env.clear()
+                failed.append(mailing_contact.partner_id.id)
+                # Allows network to recover
+                sleep(1)
+        return failed
 
     @api.multi
     def action_export_to_mailchimp(self):
@@ -68,3 +81,22 @@ class MassMailingContact(models.Model):
             return True
         return super(MassMailingContact,
                      self.with_context(lang="en_US")).action_update_to_mailchimp()
+
+    @api.multi
+    def action_archive_from_mailchimp(self):
+        available_mailchimp_lists = self.env['mailchimp.lists'].search([])
+        lists = available_mailchimp_lists.mapped('odoo_list_id').ids
+        for record in self:
+            lists_to_export = record.subscription_list_ids.filtered(
+                lambda x: x.list_id.id in lists and x.mailchimp_id)
+            for list in lists_to_export:
+                mailchimp_list_id = list.list_id.mailchimp_list_id
+                mailchimp_list_id.account_id._send_request(
+                    'lists/%s/members/%s' % (mailchimp_list_id.list_id, list.md5_email),
+                    {}, method='DELETE')
+        return True
+
+    @api.multi
+    def unlink(self):
+        self.action_archive_from_mailchimp()
+        return super().unlink()

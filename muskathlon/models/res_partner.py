@@ -13,7 +13,14 @@ from odoo import api, models, fields
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    muskathlon_participant_id = fields.Char("Muskathlon participant ID")
+    is_muskathlon = fields.Boolean(
+        compute="_compute_is_muskathlon", help="tells if it's a Muskathlon participant")
+
+    def _compute_is_muskathlon(self):
+        type_muskathlon = self.env.ref("muskathlon.event_type_muskathlon")
+        for partner in self:
+            partner.is_muskathlon = type_muskathlon in partner.registration_ids.mapped(
+                "compassion_event_id.event_type_id")
 
     @api.multi
     def agree_to_child_protection_charter(self):

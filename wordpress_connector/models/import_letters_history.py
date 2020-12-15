@@ -32,6 +32,12 @@ class ImportLetterLine(models.Model):
     email = fields.Char(help="Origin e-mail of submission", readonly=True)
     partner_name = fields.Char(help="Origin name of submission", readonly=True)
 
+    @api.multi
+    def detect_language(self):
+        for line in self:
+            line.letter_language_id = \
+                self.env["crm.claim"].detect_lang(line.original_text)
+
 
 class ImportLetterReview(models.TransientModel):
     _inherit = "import.letters.review"

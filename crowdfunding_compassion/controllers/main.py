@@ -13,8 +13,8 @@ from odoo.addons.website_event_compassion.controllers.events_controller import (
 
 
 class CrowdFundingWebsite(EventsController):
-    @route(["/my_account"], type="http", auth="user", website=True,
-           noindex=['robots', 'meta', 'header'])
+    @route(["/my/together"], type="http", auth="user", website=True,
+           sitemap=False)
     def my_account(self, form_id=None, **kw):
         """ Inject data for forms. """
         values = {}
@@ -36,28 +36,22 @@ class CrowdFundingWebsite(EventsController):
             [("project_owner_id", "=", partner.id)]
         )
 
-        kw["form_model_key"] = "cms.form.partner.coordinates"
-        coordinates_form = self.get_form("res.partner", partner.id, **kw)
-        if form_id is None or form_id == coordinates_form.form_id:
-            coordinates_form.form_process()
-
         values.update(
             {
                 "partner": partner,
                 "owned_projects": owned_projects,
                 "participating_projects": participations,
                 "donations": donations,
-                "coordinates_form": coordinates_form,
             }
         )
 
         result = request.render(
-            "crowdfunding_compassion.myaccount_crowdfunding_view_template", values
+            "crowdfunding_compassion.my_account_crowdfunding_view_template", values
         )
         return result
 
-    @route(["/my_account/project/update/"], type="http", auth="user", website=True,
-           noindex=['robots', 'meta', 'header'])
+    @route(["/my/together/project/update/"], type="http", auth="user", website=True,
+           sitemap=False)
     def my_account_projects_update(self, project_id=None, **kw):
         project = request.env["crowdfunding.project"].search([("id", "=", project_id)])
         kw["form_model_key"] = "cms.form.crowdfunding.project.update"
@@ -68,7 +62,7 @@ class CrowdFundingWebsite(EventsController):
             "form": project_update_form,
         }
         if project_update_form.form_success:
-            result = request.redirect("/my_account")
+            result = request.redirect("/my/together")
         else:
             result = request.render(
                 "crowdfunding_compassion.crowdfunding_form_template", values
@@ -76,8 +70,8 @@ class CrowdFundingWebsite(EventsController):
         return result
 
     @route(
-        ["/my_account/participation/update/"], type="http", auth="user", website=True,
-        noindex=['robots', 'meta', 'header']
+        ["/my/together/participation/update/"], type="http", auth="user", website=True,
+        sitemap=False
     )
     def my_account_participants_update(self, participant_id=None, **kw):
         participant = request.env["crowdfunding.participant"].search(
@@ -93,7 +87,7 @@ class CrowdFundingWebsite(EventsController):
             "form": participant_update_form,
         }
         if participant_update_form.form_success:
-            result = request.redirect("/my_account")
+            result = request.redirect("/my/together")
         else:
             result = request.render(
                 "crowdfunding_compassion.crowdfunding_form_template", values

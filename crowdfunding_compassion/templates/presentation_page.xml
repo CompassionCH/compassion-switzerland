@@ -56,7 +56,7 @@
                                                 <t t-call="crowdfunding_compassion.project_deadline_widget"/>
                                             </div>
                                             <div class="project-hero__card-cta" t-if="project.deadline >= datetime.date.today()">
-                                                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
+                                                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }&amp;page=#{ page }">
                                                     <button type="button" class="btn btn-primary btn-lg btn-block mb-2">
                                                         Donate now
                                                     </button>
@@ -69,7 +69,7 @@
                                             <t t-call="crowdfunding_compassion.project_progress"/>
                                         </div>
                                         <div class="project-hero__card-cta" t-if="project.deadline >= datetime.date.today()">
-                                            <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }">
+                                            <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }&amp;page=#{ page }">
                                                 <button type="button" class="btn btn-primary btn-lg btn-block mb-2">Donate now</button>
                                             </a>
                                             <a t-if="project.type == 'collective'" t-attf-href="/projects/join/#{project.id}">
@@ -164,30 +164,6 @@
                                         <a t-att-href="project.personal_web_page_url" target="_blank">My website</a>
                                         <br/>
                                     </t>
-
-                                    <t t-if="project.product_id">
-                                        <t t-set="fund_image" t-value="project.product_id.image_large"/>
-                                        <t t-set="fund_icon" t-value="project.product_id.image_medium" />
-                                        <t t-set="fund_name" t-value="project.product_id.crowdfunding_impact_text_active" />
-                                        <t t-set="fund_description" t-value="project.product_id.crowdfunding_description" />
-                                        <div class="row justify-content-center">
-                                            <div class="col-sm-12 col-md-8 my-5">
-                                                <t t-call="crowdfunding_compassion.fund_card"/>
-                                            </div>
-                                        </div>
-                                    </t>
-
-                                    <t t-if="project.number_sponsorships_goal > 0">
-                                        <t t-set="fund_image" t-value="sponsorship_card_content['header_image']"/>
-                                        <t t-set="fund_icon" t-value="sponsorship_card_content['icon_image']" />
-                                        <t t-set="fund_name" t-value="sponsorship_card_content['name']" />
-                                        <t t-set="fund_description" t-value="sponsorship_card_content['description']" />
-                                        <div class="row justify-content-center">
-                                            <div class="col-sm-12 col-md-8 my-5">
-                                                <t t-call="crowdfunding_compassion.fund_card"/>
-                                            </div>
-                                        </div>
-                                    </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="participant.facebook_url or participant.instagram_url or participant.twitter_url or participant.personal_web_page_url">
@@ -217,7 +193,7 @@
                             </div>
 
                             <!-- Side content -->
-                            <div class="col-12 col-lg-4">
+                            <div id="impacts" class="col-12 col-lg-4" style="overflow:auto;max-height:1280px;">
 
                                 <t t-if="impact">
                                     <h3 class="blue text-center uppercase">Impact so far</h3>
@@ -247,6 +223,29 @@
                                     </div>
                                 </div>
                             </t>
+
+                            <!-- Fund cards -->
+                            <div class="row justify-content-center">
+                                <t t-if="project.product_id">
+                                    <t t-set="fund_image" t-value="project.product_id.image_large"/>
+                                    <t t-set="fund_icon" t-value="project.product_id.image_medium" />
+                                    <t t-set="fund_name" t-value="project.product_id.crowdfunding_impact_text_active" />
+                                    <t t-set="fund_description" t-value="project.product_id.crowdfunding_description" />
+                                    <div class="col-md-6 col-sm-12 my-5">
+                                        <t t-call="crowdfunding_compassion.fund_card"/>
+                                    </div>
+                                </t>
+
+                                <t t-if="project.number_sponsorships_goal > 0">
+                                    <t t-set="fund_image" t-value="sponsorship_card_content['header_image']"/>
+                                    <t t-set="fund_icon" t-value="sponsorship_card_content['icon_image']" />
+                                    <t t-set="fund_name" t-value="sponsorship_card_content['name']" />
+                                    <t t-set="fund_description" t-value="sponsorship_card_content['description']" />
+                                    <div class="col-md-6 col-sm-12 my-5">
+                                        <t t-call="crowdfunding_compassion.fund_card"/>
+                                    </div>
+                                </t>
+                            </div>
                         </t>
                     </div>
                 </section>

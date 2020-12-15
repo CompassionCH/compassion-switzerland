@@ -37,16 +37,9 @@
 
         <template id="aboutme_formatted" name="Ambassador Details">
             <t t-set="details_obj" t-value="partner.advocate_details_id"/>
-            <h3 class="section-header"
-                style="margin-top: 25px; margin-bottom: 10px;">
-                Sport profile page
-                <button type="button"
-                        class="btn btn-default btn-xs"
-                        data-toggle="modal"
-                        data-target="#modal_advocate_details">
-                    Change
-                </button>
-            </h3>
+            <h3>Sport profile page</h3>
+            <section class="section-header" style="margin-top: 25px; margin-bottom: 10px;"/>
+
             <!-- Ambassador details -->
             <div class="row">
                 <div t-att-class="'col-md-6' if details_obj.picture_large else 'col-md-12'">
@@ -60,6 +53,12 @@
                         </p>
                     </t>
                 </div>
+                <button type="button"
+                        class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#modal_advocate_details">
+                    Change
+                </button>
                 <!-- Large picture -->
                 <t t-call="muskathlon.picture_2_formatted"/>
             </div>
@@ -69,6 +68,7 @@
             <t t-set="registration" t-value="partner.registration_ids[:1]"/>
             <t t-set="count_tasks" t-value="len(registration.incomplete_task_ids) - int(not registration.is_in_two_months)"/>
             <h3>Tasks <span class="badge compassion_background_blue" t-esc="count_tasks"/></h3>
+            <section class="section-header" style="margin-top: 25px; margin-bottom: 10px;"/>
             <div class="list-group">
                 <!-- Large picture -->
                 <a href="#" data-toggle="modal" data-target="#modal_large_picture"

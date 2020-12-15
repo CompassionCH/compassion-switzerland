@@ -78,6 +78,9 @@ class ResPartner(models.Model):
     ##########################################################################
     lang = fields.Selection(default=False)
     total_invoiced = fields.Monetary(groups=False)
+    # Track address changes
+    street = fields.Char(track_visibility="onchange")
+    city = fields.Char(track_visibility="onchange")
     street3 = fields.Char("Street3", size=128)
     invalid_mail = fields.Char("Invalid mail")
     church_unlinked = fields.Char(
@@ -518,18 +521,23 @@ class ResPartner(models.Model):
                 "geo_point": False,
                 "partner_latitude": False,
                 "partner_longitude": False,
+                "birthdate_date": False,
+                "invalid_mail": False,
             }
         )
-        self.advocate_details_id.unlink()
-        self.survey_inputs.unlink()
-        self.env["mail.tracking.email"].search([("partner_id", "=", self.id)]).unlink()
-        self.env["auditlog.log"].search(
+        self._cr.execute("update res_partner set ref=NULL, global_id=NULL where id=%s",
+                         [self.id])
+        self.advocate_details_id.sudo().unlink()
+        self.survey_inputs.sudo().unlink()
+        self.env["mail.tracking.email"].sudo().search([
+            ("partner_id", "=", self.id)]).unlink()
+        self.env["auditlog.log"].sudo().search(
             [("model_id.model", "=", "res.partner"), ("res_id", "=", self.id)]
         ).unlink()
-        self.env["partner.communication.job"].search(
+        self.env["partner.communication.job"].sudo().search(
             [("partner_id", "=", self.id)]
         ).unlink()
-        self.message_ids.unlink()
+        self.message_ids.sudo().unlink()
         return True
 
     @api.multi

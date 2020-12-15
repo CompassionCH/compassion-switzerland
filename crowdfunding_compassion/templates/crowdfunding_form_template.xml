@@ -1,31 +1,11 @@
 <odoo>
     <data>
         <template id="crowdfunding_form_template">
-            <t t-call="crowdfunding_compassion.layout">
-
-                <div t-attf-class="{{form.form_wrapper_css_klass}} center">
+            <t t-call="website_compassion.my_account_layout">
+                <div t-attf-class="container {{form.form_wrapper_css_klass}}">
                     <t t-raw="form.form_render()"/>
                 </div>
             </t>
         </template>
-
-<!--        Pages using the template above-->
-        <record id="participant_update_page" model="website.page">
-            <field name="url">/my_account/participant/update/</field>
-            <field name="website_indexed" eval="True"/>
-            <field name="website_published">True</field>
-            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
-            <field name="name">Participant Update</field>
-            <field name="type">qweb</field>
-        </record>
-
-        <record id="project_update_page" model="website.page">
-            <field name="url">/my_account/project/update/</field>
-            <field name="website_indexed" eval="True"/>
-            <field name="website_published">True</field>
-            <field name="website_id" ref="crowdfunding_compassion.crowdfunding_website"/>
-            <field name="name">Project Update</field>
-            <field name="type">qweb</field>
-        </record>
     </data>
 </odoo>

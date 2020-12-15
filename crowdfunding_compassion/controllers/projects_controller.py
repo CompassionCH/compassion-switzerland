@@ -7,6 +7,10 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+
+import werkzeug
+from datetime import datetime, date
+
 from odoo import _
 from odoo.http import request, route, Controller, local_redirect
 from odoo.addons.cms_form.controllers.main import FormControllerMixin
@@ -16,22 +20,55 @@ from ..forms.project_creation_form import NoGoalException,\
 
 
 class ProjectsController(Controller, FormControllerMixin):
-    @route("/projects", auth="public", website=True)
-    def get_projects_list(self, type=None, **kwargs):
-        project_obj = request.env["crowdfunding.project"]
+    _project_post_per_page = 12
 
-        # TODO connect pagination to backend -> CO-3213
-        return request.render(
-            "crowdfunding_compassion.project_list_page",
-            {"projects": project_obj.sudo().get_active_projects(type=type)},
-        )
+    @route(["/projects", "/projects/page/<int:page>"], auth="public", website=True,
+           sitemap=False)
+    def get_projects_list(self, type=None, page=1, year=None, status='all', **opt):
+        if request.website:
+            if request.website == request.env.ref(
+                    "crowdfunding_compassion.crowdfunding_website").sudo():
+                domain = request.website.website_domain()
+                filters = list(filter(None, [
+                    ("state", "!=", "draft"),
+                    ("website_published", "=", True),
+                    ("deadline", ">=", datetime(year, 1, 1)) if year else None,
+                    ("deadline", "<=", datetime(year, 12, 31)) if year else None,
+                    ("type", "=", type) if type else None,
+                    ("deadline", ">=", date.today()) if status == 'active' else None,
+                    ("deadline", "<", date.today()) if status == 'finish' else None,
+                ]))
+                filters += domain
+                project_obj = request.env["crowdfunding.project"]
+                total = project_obj.search_count(filters)
+
+                pager = request.website.pager(
+                    url='/projects',
+                    total=total,
+                    page=page,
+                    step=self._project_post_per_page,
+                    url_args={'type': type, 'status': status}
+                )
+
+                projects = project_obj.sudo().get_active_projects(
+                    offset=(page - 1) * self._project_post_per_page, type=type,
+                    domain=domain, limit=self._project_post_per_page, status=status)
+                return request.render(
+                    "crowdfunding_compassion.project_list_page",
+                    {"projects": projects,
+                     "status": status,
+                     "type": type,
+                     "pager": pager},
+                )
+            raise werkzeug.exceptions.BadRequest()
 
     @route(['/projects/create', '/projects/create/page/<int:page>',
             '/projects/join/<int:project_id>'],
            auth="public",
            type="http",
            method='POST',
-           website=True)
+           website=True,
+           sitemap=False)
     def project_creation(self, page=1, project_id=0, **kwargs):
         if project_id and page == 1:
             # Joining project can skip directly to step2
@@ -96,7 +133,8 @@ class ProjectsController(Controller, FormControllerMixin):
            auth="public",
            type="http",
            method='POST',
-           website=True, noindex=['robots', 'meta', 'header'])
+           website=True,
+           sitemap=False)
     def project_validation(self, project, **kwargs):
         return request.render(
             "crowdfunding_compassion.project_creation_confirmation_view_template",

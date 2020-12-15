@@ -21,7 +21,6 @@ class EventCompassion(models.Model):
         "website.seo.metadata",
     ]
 
-    muskathlon_event_id = fields.Char(string="Muskathlon event ID", size=128)
     registration_ids = fields.One2many(
         "event.registration",
         "compassion_event_id",
