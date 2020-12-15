@@ -72,7 +72,7 @@ class PrintTaxReceipt(models.TransientModel):
         if self.pdf:
             pdf_data = report_ref.with_context(
                 must_skip_send_to_printer=True
-            ).render_qweb_pdf(records.ids, data=data)[0]
+            ).sudo().render_qweb_pdf(records.ids, data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
 
             self.state = "pdf"

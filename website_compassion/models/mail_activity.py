@@ -6,7 +6,10 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import compassion_project
-from . import correspondence_template
-from . import invoice_line
-from . import mail_activity
+from odoo import models, fields
+
+
+class MailActivityMixin(models.AbstractModel):
+    _inherit = 'mail.activity.mixin'
+
+    activity_ids = fields.One2many(groups=False)

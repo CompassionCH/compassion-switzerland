@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="my_donations_page_template" name="Donations / Invoicing">
+            <t t-call="website_compassion.my_account_layout">
+                <!-- Load modals for forms -->
+                <t t-call="cms_form_compassion.modal_form">
+                    <t t-set="form" t-value="payment_options_form"/>
+                </t>
+
+                <t t-if="len(groups) > 1">
+                    <t t-call="website_compassion.my_donations_payment_options_multiple"/>
+                </t>
+                <t t-else="">
+                    <t t-call="website_compassion.my_donations_payment_options"/>
+                </t>
+
+                <t t-call="website_compassion.my_donations_tax_receipt"/>
+
+                <t t-call="website_compassion.my_donations_gift_history"/>
+            </t>
+        </template>
+
+        <template id="my_donations_payment_options_multiple">
+            <div class="container mt-4" t-if="groups">
+                <h3>Payment Groups</h3>
+                <div class="row">
+                    <ul class="nav nav-tabs w-100 mb-4">
+                        <t t-foreach="len(groups)" t-as="i">
+                            <div class="col-6 mb-2">
+                                <t t-set="group" t-value="groups[i]"/>
+                                <t t-set="sponsorships" t-value="sponsorships_by_group[i]"/>
+                                <li class="border border-blue p-2">
+                                    <!-- Payments option -->
+                                    <h4><t t-esc="group.display_name"></t></h4>
+                                    <!-- Payment mode -->
+                                    <t t-set="key" t-value="'Payment mode'"/>
+                                    <t t-set="value" t-value="group.payment_mode_id.name"/>
+                                    <t t-call="website_compassion.fill_key_value"/>
+
+                                    <!-- Payment amount -->
+                                    <t t-set="key" t-value="'Additional amount'"/>
+                                    <t t-set="value" t-value="str(amount_by_group[i]).replace('.0', '.-') + ' CHF'"/>
+                                    <t t-call="website_compassion.fill_key_value"/>
+
+                                    <!-- Payment frequency -->
+                                    <t t-set="key" t-value="'Payment frequency'"/>
+                                    <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.recurring_unit"/>
+                                    <t t-call="website_compassion.fill_key_value"/>
+
+                                    <!-- Number of fully paid children -->
+                                    <t t-set="key" t-value="'Number of fully paid children'"/>
+                                    <t t-set="value" t-value="paid_sponsor_count_by_group[i]"/>
+                                    <t t-call="website_compassion.fill_key_value"/>
+
+                                    <!-- Number of Write and Pray children -->
+                                    <t t-set="key" t-value="'Number of Write and Pray children'"/>
+                                    <t t-set="value" t-value="wp_sponsor_count_by_group[i]"/>
+                                    <t t-call="website_compassion.fill_key_value"/>
+                                </li>
+                            </div>
+                        </t>
+                    </ul>
+                </div>
+
+
+                <!-- Payment frequency -->
+                <t t-set="key" t-value="'Total additional amount'"/>
+                <t t-set="value" t-value="str(sum(amount_by_group)).replace('.0', '.-') + ' CHF'"/>
+                <div class="row" t-if="value">
+                    <div class="col-6 border-right">
+                        <label>
+                            <t t-esc="key"/>
+                            <i class="fa fa-info-circle ml-1" data-toggle="tooltip" title="This amount supports children that are not yet sponsored." id="amount_toggle"/>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <label><t t-esc="value"/></label>
+                    </div>
+                </div>
+
+                <button type="button"
+                        class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#modal_payment_options_multiple">
+                    Merge groups
+                </button>
+                <i class="fa fa-info-circle ml-1" data-toggle="tooltip" title="All groups will be merged in a single one that you will be able to personalize. This action cannot be undone." id="merge_toggle"/>
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#merge_toggle").tooltip();
+                    $("#amount_toggle").tooltip();
+                });
+            </script>
+        </template>
+
+        <template id="my_donations_payment_options">
+            <div class="container mt-4" t-if="groups">
+                <t t-set="group" t-value="groups[0]"/>
+                <t t-set="sponsorships" t-value="sponsorships_by_group[0]"/>
+                <!-- Payments option -->
+                <h3><t t-esc="group.display_name"></t></h3>
+                <!-- Payment mode -->
+                <t t-set="key" t-value="'Payment mode'"/>
+                <t t-set="value" t-value="group.payment_mode_id.name"/>
+                <t t-call="website_compassion.fill_key_value"/>
+
+                <!-- Payment frequency -->
+                <t t-set="key" t-value="'Payment frequency'"/>
+                <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.recurring_unit"/>
+                <t t-call="website_compassion.fill_key_value"/>
+
+                <t t-set="key" t-value="'Total additional amount'"/>
+                <t t-set="value" t-value="str(amount_by_group[0]).replace('.0', '.-') + ' CHF'"/>
+                <div class="row" t-if="value">
+                    <div class="col-6 border-right">
+                        <label>
+                            <t t-esc="key"/>
+                            <i class="fa fa-info-circle ml-1" data-toggle="tooltip" title="This amount supports children that are not yet sponsored." id="amount_toggle"/>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <label><t t-esc="value"/></label>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $("#amount_toggle").tooltip();
+                    });
+                </script>
+
+                <!-- Number of fully paid children -->
+                <t t-set="key" t-value="'Number of fully paid children'"/>
+                <t t-set="value" t-value="paid_sponsor_count_by_group[0]"/>
+                <t t-call="website_compassion.fill_key_value"/>
+
+                <!-- Number of Write and Pray children -->
+                <t t-set="key" t-value="'Number of Write and Pray children'"/>
+                <t t-set="value" t-value="wp_sponsor_count_by_group[0]"/>
+                <t t-call="website_compassion.fill_key_value"/>
+
+                <button type="button"
+                        class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#modal_payment_options">
+                    Change
+                </button>
+            </div>
+        </template>
+
+        <template id="my_donations_tax_receipt">
+            <div class="container mt-4">
+                <h3>Download your tax receipt</h3>
+                <div class="row m-2">
+                    <div class="col-3">
+                        <label for="year">Year: </label>
+                        <select name="year" id="year" form="tax_receipt_form">
+                            <option t-att-value="current_year" default="true"><t t-esc="current_year"/></option>
+                            <t t-foreach="range(int(current_year) - 1, first_year - 1, -1)" t-as="fiscal_year">
+                                <option t-att-value="fiscal_year"><t t-esc="fiscal_year"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <form id="tax_receipt_form" action="/my/download/tax_receipt">
+                            <input type="submit" class="btn btn-primary" value="Download"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="my_donations_gift_history">
+            <div class="container mt-4" t-if="invoices">
+                <h3>Gift history</h3>
+                <div class="row" style="backgroud: lightgray;">
+                    <div class="col-6">
+                        <label><b>Fund</b></label>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Date</b></label>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Amount</b></label>
+                    </div>
+                </div>
+                <t t-foreach="invoices" t-as="invoice">
+                    <div class="row">
+                        <div class="col-6">
+                            <label><t t-esc="invoice.invoice_line_ids.get_list('product_id.name')"/></label>
+                        </div>
+                        <div class="col-3">
+                            <label><t t-esc="invoice.get_date('date_invoice', 'date_full')"/></label>
+                        </div>
+                        <div class="col-3">
+                            <label><t t-esc="invoice.amount_total"/></label>
+                        </div>
+                    </div>
+                </t>
+                <a href="https://compassion.ch/donations/" target="_blank">Make a donation</a>
+            </div>
+        </template>
+    </data>
+</odoo>
