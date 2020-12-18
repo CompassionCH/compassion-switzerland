@@ -292,7 +292,7 @@ class PartnerCommunication(models.Model):
             today = date.today()
             date_start = today.replace(today.year + 1, 1, 1)
             date_stop = date_start.replace(month=12, day=31)
-            report_name = "report_compassion.3bvr_sponsorship"
+            report_name = f"report_compassion.{bv_number}bvr_sponsorship"
             data = {
                 "doc_ids": pay_bvr.ids,
                 "date_start": date_start,
