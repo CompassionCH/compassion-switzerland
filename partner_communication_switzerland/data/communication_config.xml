@@ -208,31 +208,6 @@
             <field name="user_id" search="[('name', 'like', 'Reber Rose-Marie')]"/>
         </record>
 
-        <!-- Sponsorship Planned Communications -->
-        <record id="planned_dossier" model="partner.communication.config">
-            <field name="name">Sponsorship - New Dossier</field>
-            <field name="email_template_id" ref="email_sponsorship_dossier"/>
-            <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">physical</field>
-            <field name="model_id" ref="model_recurring_contract"/>
-            <field name="attachments_function">get_new_dossier_attachments</field>
-        </record>
-        <record id="planned_welcome" model="partner.communication.config">
-            <field name="name">Sponsorship - Welcome Email</field>
-            <field name="email_template_id" ref="email_sponsorship_welcome"/>
-            <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">digital</field>
-            <field name="model_id" ref="model_recurring_contract"/>
-            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
-        </record>
-        <record id="welcome_activation" model="partner.communication.config">
-            <field name="name">Sponsorship - Welcome Active</field>
-            <field name="email_template_id" ref="email_sponsorship_welcome_activation"/>
-            <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">digital</field>
-            <field name="model_id" ref="model_recurring_contract"/>
-            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
-        </record>
         <record id="planned_birthday_reminder" model="partner.communication.config">
             <field name="name">Sponsorship - Birthday Reminder</field>
             <field name="email_template_id" ref="email_sponsorship_birthday_reminder"/>
@@ -524,13 +499,6 @@
             <field name="name">SMS sponsorship confirmation step 1</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="sms_confirmation_email_1"/>
-            <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="model_id" ref="model_recurring_contract"/>
-        </record>
-        <record id="sms_registration_confirmation_2" model="partner.communication.config">
-            <field name="name">SMS sponsorship confirmation step 2</field>
-            <field name="send_mode">auto_digital</field>
-            <field name="email_template_id" ref="sms_confirmation_email_2"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="model_id" ref="model_recurring_contract"/>
         </record>

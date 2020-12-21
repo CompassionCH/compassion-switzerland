@@ -202,18 +202,14 @@ class ResPartner(models.Model):
     def sms_send_step1_confirmation(self, child_request):
         # Override to use a communication instead of message_post
         config = self.env.ref(
-            "partner_communication_switzerland." "sms_registration_confirmation_1"
+            "partner_communication_switzerland.sms_registration_confirmation_1"
         )
         child_request.sponsorship_id.send_communication(config)
         return True
 
     @api.multi
     def sms_send_step2_confirmation(self, child_request):
-        # Override to use a communication instead of message_post
-        config = self.env.ref(
-            "partner_communication_switzerland." "sms_registration_confirmation_2"
-        )
-        child_request.sponsorship_id.send_communication(config)
+        # Override to avoid sending confirmation (handled by regular onboarding process)
         return True
 
     @api.multi
