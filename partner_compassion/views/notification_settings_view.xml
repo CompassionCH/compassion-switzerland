@@ -6,15 +6,15 @@
 -->
 <odoo>
     <!-- Configuration View -->
-    <record id="view_notification_settings_muskathlon_form" model="ir.ui.view">
+    <record id="view_notification_settings_partner_compassion_form" model="ir.ui.view">
         <field name="name">staff.notification.settings.muksathlon.form</field>
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="message_center_compassion.notification_settings"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='left_group']">
                 <separator/>
-                <h3>Advocate birthdays</h3>
-                <div name="advocate_birthdays">
+                <h3>Advocates</h3>
+                <div name="advocates_notification">
                     <label for="advocate_birthday_fr_id" class="o_light_label"/>
                     <field name="advocate_birthday_fr_id" widget="many2one"/>
                     <label for="advocate_birthday_de_id" class="o_light_label"/>
@@ -27,15 +27,11 @@
             </xpath>
             <xpath expr="//div[@name='compassion_settings']">
                 <h2>NAS Settings</h2>
-                <div class="row mt16 o_settings_container">
-                    <div class="col-xs-12 col-md-12 o_setting_box">
-                        <div name="nas_settings" class="o_setting_right_pane">
-                            <label for="share_on_nas" class="o_right_label"/>
-                            <field name="share_on_nas"/>
-                            <label for="store_path" class="o_right_label"/>
-                            <field name="store_path"/>
-                        </div>
-                    </div>
+                <div name="nas_settings" class="o_setting_right_pane">
+                    <label for="share_on_nas" class="o_right_label"/>
+                    <field name="share_on_nas"/>
+                    <label for="store_path" class="o_right_label"/>
+                    <field name="store_path"/>
                 </div>
             </xpath>
         </field>

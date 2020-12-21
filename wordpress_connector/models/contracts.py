@@ -42,6 +42,7 @@ class Contracts(models.Model):
     ##########################################################################
     group_id = fields.Many2one(required=False, readonly=False)
     partner_id = fields.Many2one(required=False, readonly=False)
+    web_info = fields.Html()
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
@@ -96,6 +97,7 @@ class Contracts(models.Model):
             child_local_id,
             str(form_data),
         )
+        partner = self.env["res.partner"]
         try:
             form_data["Child reference"] = child_local_id
 
@@ -164,6 +166,16 @@ class Contracts(models.Model):
 
             # Search for existing partner
             partner = match_obj.match_partner_to_infos(partner_infos)
+            if form_data.get("mithelfen", {}).get("checkbox") == "on":
+                advocate_lang = partner.lang[:2]
+                notify_user = self.env["ir.config_parameter"].get_param(
+                    f"potential_advocate_{advocate_lang}")
+                if notify_user:
+                    partner.activity_schedule(
+                        "mail.mail_activity_data_todo",
+                        summary="Potential volunteer",
+                        note="This person wants to ben involved with volunteering",
+                        user_id=notify_user)
 
             # Check origin
             internet_id = self.env.ref("utm.utm_medium_website").id
@@ -208,6 +220,7 @@ class Contracts(models.Model):
         except:
             # We catch any exception to make sure we don't lose any
             # sponsorship made from the website
+            self.env.clear()
             _logger.error("Error during wordpress sponsorship import", exc_info=True)
             child = self.env["compassion.child"].search([
                 ("local_id", "=", child_local_id)], limit=1)
@@ -248,6 +261,54 @@ class Contracts(models.Model):
         :return: <recurring.contract> record
         """
         sponsorship = self.env["recurring.contract"].create(values)
+        list_keys = [
+            "salutation",
+            "first_name",
+            "last_name",
+            "birthday",
+            "street",
+            "zipcode",
+            "city",
+            "land",
+            "email",
+            "phone",
+            "lang",
+            "language",
+            "kirchgemeinde",
+            "Beruf",
+            "zahlungsweise",
+            "consumer_source",
+            "consumer_source_text",
+            "patenschaftplus",
+            "mithelfen",
+            "childID",
+            "Child reference",
+        ]
+        web_info = ""
+        for key in list_keys:
+            web_info += (
+                    "<li>" + key + ": " + str(form_data.get(key, "")) + "</li>"
+            )
+        sponsorship.web_info = web_info
+        # Send confirmation to partner
+        try:
+            config = self.env.ref(
+                "partner_communication_switzerland"
+                ".config_onboarding_sponsorship_confirmation"
+            )
+            if not sponsorship.correspondent_id:
+                sponsorship.correspondent_id = self.env["res.partner"].create({
+                    "email": form_data.get("email"),
+                    "name": form_data.get("first_name", "") + " " + form_data.get(
+                        "last_name", ""),
+
+                })
+            sponsorship.send_communication(config)
+            self.env.cr.commit()
+        except:
+            self.env.clear()
+            _logger.error("No confirmation mail was sent to sponsor", exc_info=True)
+
         ambassador_match = re.match(
             r"^msk_(\d{1,8})", form_data.get("consumer_source_text", "")
         )
@@ -274,36 +335,7 @@ class Contracts(models.Model):
             "A new sponsorship was made on the website. Please "
             "verify all information and validate the sponsorship "
             "on Odoo: <br/><br/><ul>"
-        )
-
-        list_keys = [
-            "salutation",
-            "first_name",
-            "last_name",
-            "birthday",
-            "street",
-            "zipcode",
-            "city",
-            "land",
-            "email",
-            "phone",
-            "lang",
-            "language",
-            "kirchgemeinde",
-            "Beruf",
-            "zahlungsweise",
-            "consumer_source",
-            "consumer_source_text",
-            "patenschaftplus",
-            "mithelfen",
-            "childID",
-            "Child reference",
-        ]
-
-        for key in list_keys:
-            notify_text += (
-                "<li>" + key + ": " + str(form_data.get(key, "")) + "</li>"
-            )
+        ) + web_info
 
         title = _("New sponsorship from the website")
         if "writepray" in form_data:
