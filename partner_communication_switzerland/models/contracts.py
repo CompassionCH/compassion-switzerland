@@ -247,9 +247,6 @@ class RecurringContract(models.Model):
         logger.info("....Creating Birthday Reminder Communications")
         self._send_reminders_for_birthday_in_1day_or_2months()
 
-        logger.info("....Send Welcome Activations Letters")
-        self._send_welcome_active_letters_for_activated_sponsorships()
-
         logger.info("Sponsorship Planned Communications finished!")
 
     @api.model
@@ -358,42 +355,6 @@ class RecurringContract(models.Model):
                 and c.child_id.project_id.hold_s2b_letters
             )
         )
-
-    @api.model
-    def _send_welcome_active_letters_for_activated_sponsorships(self):
-        welcome = self.env.ref(
-            "partner_communication_switzerland.welcome_activation")
-        yesterday = fields.Datetime.to_string(
-            datetime.today() - timedelta(days=1))
-        five_days_diff = fields.Datetime.to_string(
-            datetime.today() - timedelta(days=5))
-        # problem -> all records don't have field welcome_active_letter_sent
-        to_send = self.env["recurring.contract"].search(
-            [
-                ("activation_date", "<=", yesterday),
-                ("start_date", "<=", five_days_diff),
-                ("child_id", "!=", False),
-                ("type", "=", "S"),
-                ("origin_id.type", "!=", "transfer"),
-                ("welcome_active_letter_sent", "=", False),
-            ]
-        )
-        if to_send:
-            for ts in to_send:
-                try:
-                    ts.send_communication(welcome, both=True).send()
-                except:
-                    to_send.env.clear()
-                    ts.env.clear()
-                    logger.error(
-                        "Error during sending welcome active communication",
-                        exc_info=True)
-                finally:
-                    # Mark as send in any case to avoid sending multiple times
-                    ts.write({
-                        "sds_state": "active",
-                        "welcome_active_letter_sent": True
-                    })
 
     @api.model
     def send_sponsorship_reminders(self):
@@ -598,26 +559,6 @@ class RecurringContract(models.Model):
         return super().contract_active()
 
     @api.multi
-    def send_welcome_letter(self):
-        logger.info("Creating Welcome Letters Communications")
-        config = self.env.ref("partner_communication_switzerland.planned_welcome")
-
-        if not self.origin_id or self.origin_id.type != "transfer":
-            communication = self.with_context({}).send_communication(config, both=True)
-            self.with_delay(
-                eta=datetime.now() + relativedelta(minutes=30)
-            ).send_welcome_communication(communication)
-
-        self.write({"sds_state": "active"})
-        return True
-
-    @job
-    def send_welcome_communication(self, communication):
-        self.ensure_one()
-        communication.send()
-        return True
-
-    @api.multi
     def contract_terminated(self):
         super().contract_terminated()
         if self.child_id:
@@ -662,17 +603,14 @@ class RecurringContract(models.Model):
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
-        correspondent. Separates the case where the new sponsorship is a
-        SUB proposal or if the sponsorship is selected by the sponsor.
+        correspondent.
         """
         module = "partner_communication_switzerland."
-        new_dossier = self.env.ref(module + "planned_dossier")
+        new_dossier = self.env.ref(module + "config_onboarding_step1")
+        child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
 
-        sub_sponsorships = self.filtered(lambda c: c.parent_id)
-        sub_proposal = self.env.ref(module + "planned_sub_dossier")
-        selected = self - sub_sponsorships
-
-        for spo in selected:
+        for spo in self:
+            spo.send_communication(child_picture)
             if spo.correspondent_id.id != spo.partner_id.id:
                 corresp = spo.correspondent_id
                 payer = spo.partner_id
@@ -680,13 +618,7 @@ class RecurringContract(models.Model):
                     spo._send_new_dossier(new_dossier)
                     spo._send_new_dossier(new_dossier, correspondent=False)
                     continue
-
             spo._send_new_dossier(new_dossier)
-
-        for sub in sub_sponsorships:
-            sub._send_new_dossier(sub_proposal)
-            if sub.correspondent_id.id != sub.partner_id.id:
-                sub._send_new_dossier(sub_proposal, correspondent=False)
 
     def _send_new_dossier(self, communication_config, correspondent=True):
         """
