@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Partner Communications",
-    "version": "12.0.1.0.4",
+    "version": "12.0.1.1.0",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -53,6 +53,7 @@
         ]
     },
     "data": [
+        "security/ir.model.access.csv",
         "data/major_revision_emails.xml",
         "data/child_letter_emails.xml",
         "data/lifecycle_emails.xml",
@@ -70,6 +71,7 @@
         "data/sponsorship_action_rules.xml",
         "data/utm_data.xml",
         "data/field_office_info_report.xml",
+        "data/onboarding_process.xml",
         "report/child_picture.xml",
         "views/communication_job_view.xml",
         "views/download_child_pictures_view.xml",
@@ -82,6 +84,7 @@
         "views/correspondence_view.xml",
         "views/generate_communication_wizard_view.xml",
         "views/staff_notifications_settings_view.xml",
+        "views/res_partner_zoom_session.xml",
         "wizards/res_partner_create_portal_wizard.xml",
     ],
     "demo": [],

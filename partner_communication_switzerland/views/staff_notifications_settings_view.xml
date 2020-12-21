@@ -5,11 +5,23 @@
         <field name="name">staff.notification.settings.invalid.mail.form</field>
         <field name="model">res.config.settings</field>
         <field name="priority" eval="30"/>
-        <field name="inherit_id" ref="message_center_compassion.notification_settings"/>
+        <field name="inherit_id" ref="partner_compassion.view_notification_settings_partner_compassion_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='left_group']">
                 <label for="invalid_mail_notify_ids" class="o_light_label"/>
                 <field name="invalid_mail_notify_ids" widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//div[@name='advocates_notification']">
+                <separator/>
+                <h3>Potential advocates</h3>
+                <div name="potential_advocates">
+                    <label for="potential_advocate_fr" class="o_light_label"/>
+                    <field name="potential_advocate_fr"/>
+                    <label for="potential_advocate_de" class="o_light_label"/>
+                    <field name="potential_advocate_de"/>
+                    <label for="potential_advocate_it" class="o_light_label"/>
+                    <field name="potential_advocate_it"/>
+                </div>
             </xpath>
         </field>
     </record>
