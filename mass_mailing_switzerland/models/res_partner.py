@@ -25,6 +25,7 @@ class ResPartner(models.Model):
     wordpress_form_data = fields.Char(compute="_compute_wp_formdata")
 
     sponsored_child_name = fields.Char(compute="_compute_sponsored_child_fields")
+    sponsored_child_reference = fields.Char(compute="_compute_sponsored_child_fields")
     sponsored_child_image = fields.Char(compute="_compute_sponsored_child_fields")
     sponsored_child_is = fields.Char(compute="_compute_sponsored_child_fields")
     sponsored_child_was = fields.Char(compute="_compute_sponsored_child_fields")
@@ -100,19 +101,13 @@ class ResPartner(models.Model):
             if country_filter_id:
                 child = child.filtered(
                     lambda c: c.field_office_id.id == country_filter_id)
-            last_image = child.mapped("pictures_ids")[:1]
-            if last_image:
-                partner.sponsored_child_image = \
-                    f"{base_url}/web/image/compassion.child.pictures" \
-                    f"/{last_image.id}/headshot" \
-                    f"/{last_image.child_id.local_id}-portrait.jpg"
-            else:
-                partner.sponsored_child_image = \
-                    f"{base_url}/web/static/src/img/placeholder.png"
+            partner.sponsored_child_image = child.filtered(
+                'image_url')[:1].image_url or ''
             partner.sponsored_child_name = child.get_list(
                 "preferred_name", 3,
                 child.get_number(),
                 translate=False)
+            partner.sponsored_child_reference = child.get_list("local_id")
             partner.sponsored_child_is = child.get("is")
             partner.sponsored_child_was = child.get("was")
             partner.sponsored_child_will_be = child.get("will be")
