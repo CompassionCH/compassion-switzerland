@@ -85,11 +85,6 @@ class ResPartner(models.Model):
 
     @api.multi
     def _compute_sponsored_child_fields(self):
-        try:
-            base_url = request.website.domain
-        except AttributeError:
-            base_url = self.env["ir.config_parameter"].sudo().get_param(
-                "web.external.url")
         country_filter_id = self.env["res.config.settings"].get_param(
             "mass_mailing_country_filter_id")
         for partner in self:
@@ -102,7 +97,7 @@ class ResPartner(models.Model):
                 child = child.filtered(
                     lambda c: c.field_office_id.id == country_filter_id)
             partner.sponsored_child_image = child.filtered(
-                'image_url')[:1].image_url or ''
+                'image_url')[:1].thumbnail_url or ''
             partner.sponsored_child_name = child.get_list(
                 "preferred_name", 3,
                 child.get_number(),
