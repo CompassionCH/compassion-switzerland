@@ -17,6 +17,7 @@ class ReconcileFundWizard(models.TransientModel):
     in the self and fully reconcile the credit line. """
 
     _name = "reconcile.fund.wizard"
+    _description = "Wizard reconcile fund"
 
     fund_id = fields.Many2one(
         "product.product",
