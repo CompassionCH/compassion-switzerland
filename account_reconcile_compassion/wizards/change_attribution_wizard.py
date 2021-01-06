@@ -20,6 +20,7 @@ class ChangeAttributionWizard(models.TransientModel):
     """
 
     _name = "unreconcile.change.attribution.wizard"
+    _description = "Wizard unreconcile change attribution"
 
     ##########################################################################
     #                                 FIELDS                                 #

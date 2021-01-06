@@ -22,6 +22,7 @@ _logger = logging.getLogger(__name__)
 
 class DatabaseCleanup(models.AbstractModel):
     _name = "database.cleanup.switzerland"
+    _description = "Clean switzerland database"
 
     ##########################################################################
     #                             FIELDS METHODS                             #

@@ -18,6 +18,7 @@ class ReconcileSplitPaymentWizard(models.TransientModel):
     the customer balance. """
 
     _name = "reconcile.split.payment.wizard"
+    _description = "Wizard reconcile split payment"
 
     comment = fields.Char("Indications on left amount", size=64)
     contract_ids = fields.Many2many(

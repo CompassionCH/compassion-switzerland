@@ -5,6 +5,7 @@ from odoo import models, fields, api, exceptions, _
 
 class GiftsPayments(models.TransientModel):
     _name = "gifts.payments"
+    _description = "Gift payments"
 
     gifts_ids_text = fields.Text("Gifts IDs")
     move_id = fields.Many2one(

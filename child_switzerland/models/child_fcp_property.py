@@ -3,6 +3,7 @@ from odoo import models, fields
 
 class TranslateProperty(models.AbstractModel):
     _name = "compassion.translate.property"
+    _description = "Compassion translate property"
 
     value = fields.Char("English value")
     value_fr = fields.Char(
