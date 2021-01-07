@@ -47,7 +47,8 @@ class ZoomSession(models.Model):
 
     @api.onchange("date_start")
     def onchange_date_start(self):
-        self.date_stop = self.date_start + relativedelta(hours=1)
+        if self.date_start:
+            self.date_stop = self.date_start + relativedelta(hours=1)
 
     @api.multi
     def post_attended(self):
@@ -77,3 +78,15 @@ class ZoomSession(models.Model):
                     "partner_id": participant.id,
                     "object_ids": zoom.id
                 })
+
+    @api.multi
+    def add_participant(self, partners):
+        """
+        Adds partners to the meeting
+        :param partners: <res.partner> recordset
+        :return: True
+        """
+        self.ensure_one()
+        if self.state == "planned":
+            self.invited_participant_ids += partners
+        return True

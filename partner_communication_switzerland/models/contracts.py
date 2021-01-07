@@ -9,12 +9,11 @@
 ##############################################################################
 import base64
 import logging
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
-from odoo.addons.queue_job.job import job
 
 logger = logging.getLogger(__name__)
 
@@ -48,21 +47,12 @@ class RecurringContract(models.Model):
         help="Tells if the advance billing period is already paid",
     )
     months_due = fields.Integer(compute="_compute_due_invoices", store=True)
-    welcome_active_letter_sent = fields.Boolean(
-        "Welcome letters sent",
-        default=False,
-        help="Tells if welcome active letter has been sent",
-    )
     send_introduction_letter = fields.Boolean(
         string="Send B2S intro letter to sponsor", default=True
     )
     origin_type = fields.Selection(related="origin_id.type")
     origin_name = fields.Char(related="origin_id.name")
-    sds_state = fields.Selection(
-        selection_add=[("waiting_welcome", _("Waiting welcome"))]
-    )
-
-    # this field is used to help the xml views to get the type of origin_id
+    is_first_sponsorship = fields.Boolean(readonly=True)
 
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
@@ -170,12 +160,6 @@ class RecurringContract(models.Model):
         self._compute_due_invoices()
         return True
 
-    def _get_sds_states(self):
-        """ Add waiting_welcome state """
-        res = super()._get_sds_states()
-        res.insert(1, ("waiting_welcome", _("Waiting welcome")))
-        return res
-
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
@@ -239,7 +223,6 @@ class RecurringContract(models.Model):
     def send_daily_communication(self):
         """
         Prepare daily communications to send.
-        - Welcome letters for started sponsorships since 1 day (only e-mail)
         - Birthday reminders
         """
         logger.info("Sponsorship Planned Communications started!")
@@ -481,15 +464,6 @@ class RecurringContract(models.Model):
         res = super().contract_waiting_mandate()
         new_spons = self.filtered(lambda c: "S" in c.type and not c.is_active)
         new_spons._new_dossier()
-        new_spons.filtered(
-            lambda s: s.correspondent_id.email
-            and s.sds_state == "draft"
-            and s.partner_id.ref != "1502623"
-            and not s.welcome_active_letter_sent
-        ).write({
-            "sds_state": "waiting_welcome",
-            "sds_state_date": fields.Date.today()
-        })
         csp = self.filtered(
             lambda s: "6014" in s.mapped(
                 "contract_line_ids.product_id.property_account_income_id.code")
@@ -504,16 +478,6 @@ class RecurringContract(models.Model):
 
     @api.multi
     def contract_waiting(self):
-        # Waiting welcome for partners with e-mail (except Demaurex)
-        welcome = self.filtered(
-            lambda s: "S" in s.type
-                      and s.sds_state == "draft"
-                      and s.correspondent_id.email
-                      and s.partner_id.ref != "1502623"
-                      and not s.welcome_active_letter_sent
-        )
-        welcome.write({"sds_state": "waiting_welcome"})
-
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
         res = super().contract_waiting()
         self.filtered(
@@ -533,11 +497,23 @@ class RecurringContract(models.Model):
             csp.with_context({}).send_communication(
                 selected_config, correspondent=False)
 
+        for contract in self:
+            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
+                lambda c: c.state != "cancelled" and c.start_date
+                and c.start_date < contract.start_date)
+            contract.is_first_sponsorship = not old_sponsorships
+            if not old_sponsorships:
+                # Invite partner for next zoom
+                zoom_session = self.env["res.partner.zoom.session"].with_context(
+                    lang=contract.correspondent_id.lang).get_next_session()
+                if zoom_session:
+                    zoom_session.add_participant(contract.correspondent_id)
+
         return res
 
     @api.multi
     def contract_active(self):
-        """ Remove waiting reminders if any, and send welcome """
+        """ Remove waiting reminders if any """
         self.env["partner.communication.job"].search(
             [
                 ("config_id.name", "ilike", "Waiting reminder"),
@@ -545,8 +521,6 @@ class RecurringContract(models.Model):
                 ("partner_id", "in", self.mapped("partner_id").ids),
             ]
         ).unlink()
-        # This prevents sending welcome e-mail if it's already active
-        self.write({"sds_state": "active"})
         # Send new dossier for write&pray sponsorships
         # that didn't get through waiting state (would already have the communication)
         self.filtered(
@@ -563,6 +537,36 @@ class RecurringContract(models.Model):
         super().contract_terminated()
         if self.child_id:
             self.child_id.sponsorship_ids[0].order_photo = False
+        return True
+
+    @api.multi
+    def contract_cancelled(self):
+        # Remove pending communications
+        for contract in self:
+            self.env["partner.communication.job"].search([
+                ("config_id.model_id.model", "=", self._name),
+                "|", ("partner_id", "=", contract.partner_id.id),
+                ("partner_id", "=", contract.correspondent_id.id),
+                ("object_ids", "like", contract.id),
+                ("state", "=", "pending")
+            ]).unlink()
+        super().contract_cancelled()
+        return True
+
+    @api.multi
+    def action_cancel_draft(self):
+        """ Cancel communication"""
+        super().action_cancel_draft()
+        cancel_config = self.env.ref(
+            "partner_communication_switzerland.sponsorship_cancellation")
+        for contract in self:
+            self.env["partner.communication.job"].search([
+                ("config_id", "=", cancel_config.id),
+                "|", ("partner_id", "=", contract.partner_id.id),
+                ("partner_id", "=", contract.correspondent_id.id),
+                ("object_ids", "like", contract.id),
+                ("state", "=", "pending")
+            ]).unlink()
         return True
 
     ##########################################################################
