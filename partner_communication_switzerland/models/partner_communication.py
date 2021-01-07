@@ -250,24 +250,20 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         res = dict()
-        if self.send_mode and "physical" not in self.send_mode:
+        photo_by_post = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_photo_by_post")
+        if self.send_mode and "physical" not in self.send_mode \
+                or self.config_id == photo_by_post:
             # Prepare attachments in case the communication is sent by e-mail
             children = self.get_objects()
+            if self.config_id == photo_by_post:
+                children = children.mapped("child_id")
             attachments = self.env["ir.attachment"]
             for child in children:
                 name = child.local_id + " " + str(child.last_photo_date) + ".jpg"
-                attachments += attachments.create(
-                    {
-                        "name": name,
-                        "datas_fname": name,
-                        "res_model": self._name,
-                        "res_id": self.id,
-                        "datas": child.fullshot,
-                    }
-                )
+                res[name] = ("partner_communication_switzerland.child_picture",
+                             child.fullshot)
             self.with_context(no_print=True).ir_attachment_ids = attachments
-        else:
-            self.ir_attachment_ids = False
         return res
 
     def get_yearly_payment_slips_2bvr(self):
@@ -586,8 +582,8 @@ class PartnerCommunication(models.Model):
         # Include all active sponsorships for Permanent Order
         bv_sponsorships |= (
             bv_sponsorships.filtered(lambda s: s.payment_mode_id == permanent_order)
-                .mapped("group_id.contract_ids")
-                .filtered(lambda s: s.state in ("active", "waiting"))
+            .mapped("group_id.contract_ids")
+            .filtered(lambda s: s.state in ("active", "waiting"))
         )
 
         attachments = {}
@@ -608,16 +604,15 @@ class PartnerCommunication(models.Model):
 
         lsv_dd_sponsorships = sponsorships.filtered(
             lambda s: s.payment_mode_id in lsv_dd_modes)
-        if lsv_dd_sponsorships:
+        if lsv_dd_sponsorships and not self.partner_id.valid_mandate_id:
             lang = self.env.lang[:2].upper() if self.env.lang != "en_US" else "DE"
-            pdf_form = requests.get(
+            pdf_form = base64.b64encode(requests.get(
                 f"https://compassion.ch/wp-content/uploads/documents_compassion/"
                 f"Formulaire_LSV_DD_{lang}.pdf"
-            )
+            ).content)
             attachments.update({_("bank authorization form.pdf"): [
-                "partner_communication.report_a4_no_margin", pdf_form.content]
+                "partner_communication.a4_no_margin", pdf_form]
             })
-            self.activity_schedule()
         return attachments
 
     def get_csp_attachment(self):

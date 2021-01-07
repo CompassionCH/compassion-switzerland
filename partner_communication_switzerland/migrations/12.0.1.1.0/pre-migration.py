@@ -35,7 +35,23 @@ def migrate(env, installed_version):
             env.cr, module, rule_ids[0], "partner.communication.config", rule.id)
         openupgrade.add_xmlid(
             env.cr, module, rule_ids[1], "mail.template", rule.email_template_id.id)
-    # Update data
-    openupgrade.load_xml(
-        env.cr, module, "/data/onboarding_process.xml"
-    )
+    # Remove old communications without deleting it from database (to keep history)
+    env.cr.execute("""
+        DELETE FROM ir_model_data
+        WHERE module = 'partner_communication_switzerland'
+        AND name IN (
+            'planned_dossier', 'planned_welcome', 'welcome_activation',
+            'sms_registration_confirmation_2'
+        );
+    """)
+    # Update sds_state.
+    env.cr.execute("""
+    UPDATE recurring_contract
+    SET sds_state = 'active'
+    WHERE sds_state = 'waiting_welcome';
+    """)
+    # Delete old view
+    env.cr.execute("""
+    DELETE FROM ir_ui_view
+    WHERE arch_db LIKE '%welcome_active_letter_sent%'
+    """)

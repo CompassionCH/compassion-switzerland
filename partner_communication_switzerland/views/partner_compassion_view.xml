@@ -11,18 +11,6 @@
         </field>
     </record>
 
-    <!-- Add welcome sent in view to allow users set it to true to avoid welcome letters being sent -->
-    <record id="view_recurring_contract_form_welcome" model="ir.ui.view">
-        <field name="name">recurring.contract.compassion.welcome</field>
-        <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="sponsorship_switzerland.view_recurring_contract_form_compassion"/>
-        <field name="arch" type="xml">
-            <field name="birthday_invoice" position="after">
-                <field name="welcome_active_letter_sent"/>
-            </field>
-        </field>
-    </record>
-
     <record id="view_partner_form_compassion_contact_com_inherit" model="ir.ui.view">
         <field name="name">res.partner.form.compassion.com.inherit</field>
         <field name="model">res.partner</field>
