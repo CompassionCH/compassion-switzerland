@@ -12,7 +12,6 @@ from urllib.request import urlretrieve, urlopen
 
 from odoo.http import request, route
 from odoo.addons.web.controllers.main import content_disposition
-from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController
 )
@@ -125,14 +124,10 @@ def _download_image(type, child_id=None, obj_id=None):
         )
 
 
-class MyAccountController(PaymentFormController, CustomerPortal):
-    @route("/my", type="http", auth="user", website=True)
-    def home(self, **kw):
-        return request.redirect("/my/home")
-
-    @route("/my/home", type="http", auth="user", website=True)
+class MyAccountController(PaymentFormController):
+    @route(["/my", "/my/home"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
-        return request.render("website_compassion.my_account_layout", {})
+        return request.redirect("/my/children")
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
@@ -157,14 +152,14 @@ class MyAccountController(PaymentFormController, CustomerPortal):
                 "website_compassion.letter_page_template",
                 {"child_id": child,
                  "template_id": template,
-                 "child_ids": children,
-                 "template_ids": templates},
+                 "children": children,
+                 "templates": templates},
             )
         else:
             return request.redirect(f"/my/letter?child_id={children[0].id}")
 
     @route("/my/children", type="http", auth="user", website=True)
-    def my_children(self, child_id=None, **kwargs):
+    def my_child(self, child_id=None, **kwargs):
         children = _get_user_children()
 
         if len(children) == 0:
@@ -181,7 +176,9 @@ class MyAccountController(PaymentFormController, CustomerPortal):
                 ("partner_id", "=", partner.id),
                 ("child_id", "=", int(child_id)),
             ])
-            gift_categ = request.env.ref("sponsorship_compassion.product_category_gift")
+            gift_categ = request.env.ref(
+                "sponsorship_compassion.product_category_gift"
+            )
             lines = request.env["account.invoice.line"].sudo().search([
                 ("partner_id", "=", partner.id),
                 ("state", "=", "paid"),
@@ -189,61 +186,18 @@ class MyAccountController(PaymentFormController, CustomerPortal):
                 ("product_id.categ_id", "=", gift_categ.id),
                 ("price_total", "!=", 0),
             ])
-            child.get_infos()
             return request.render(
                 "website_compassion.my_children_page_template",
                 {"child_id": child,
-                 "child_ids": children,
-                 "letter_ids": letters,
-                 "line_ids": lines}
+                 "children": children,
+                 "letters": letters,
+                 "lines": lines}
             )
         else:
             return request.redirect(f"/my/children?child_id={children[0].id}")
 
-    @route("/my/information", type="http", auth="user", website=True)
-    def my_information(self, form_id=None, **kw):
-        partner = request.env.user.partner_id
-
-        values = self._prepare_portal_layout_values()
-
-        # Load forms
-        form_success = False
-        kw["form_model_key"] = "cms.form.partner.coordinates"
-        coordinates_form = self.get_form("res.partner", partner.id, **kw)
-        if form_id is None or form_id == coordinates_form.form_id:
-            coordinates_form.form_process()
-            form_success = coordinates_form.form_success
-
-        kw["form_model_key"] = "cms.form.partner.delivery"
-        delivery_form = self.get_form("res.partner", partner.id, **kw)
-        if form_id is None or form_id == delivery_form.form_id:
-            delivery_form.form_process()
-            form_success = delivery_form.form_success
-
-        kw["form_model_key"] = "cms.form.users.credentials"
-        credentials_form = self.get_form("res.users", partner.user_id.id, **kw)
-        if form_id is None or form_id == credentials_form.form_id:
-            credentials_form.form_process()
-            form_success = credentials_form.form_success
-
-        values.update({
-            "partner": partner,
-            "coordinates_form": coordinates_form,
-            "delivery_form": delivery_form,
-            "credentials_form": credentials_form,
-        })
-
-        # This fixes an issue that forms fail after first submission
-        if form_success:
-            result = request.redirect("/my/information")
-        else:
-            result = request.render(
-                "website_compassion.my_information_page_template", values
-            )
-        return self._form_redirect(result, full_page=True)
-
     @route("/my/download/<source>", type="http", auth="user", website=True)
-    def my_download(self, source, obj_id=None, child_id=None, **kw):
+    def download_file(self, source, obj_id=None, child_id=None, **kw):
         if source == "picture":
             if child_id and obj_id:
                 return _download_image("single", child_id, obj_id)
