@@ -127,7 +127,7 @@ def _download_image(type, child_id=None, obj_id=None):
 class MyAccountController(PaymentFormController):
     @route(["/my", "/my/home"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
-        return request.redirect("/my/information")
+        return request.redirect("/my/children")
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):

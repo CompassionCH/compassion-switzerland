@@ -13,10 +13,10 @@
                         <div class="collapse navbar-collapse">
                             <ul class="nav navbar-nav mr-auto text-left">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/my/information">Personal information</a>
+                                    <a class="nav-link" href="/my/children">My children</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/my/children">My children</a>
+                                    <a class="nav-link" href="/my/information">Personal information</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/my/donations">Payments / Invoicing</a>
@@ -41,6 +41,18 @@
                     <br/><br/><br/>
                 </div>
             </t>
+        </template>
+
+        <!-- Utility to create a row, given the key and its corresponding value -->
+        <template id="fill_key_value">
+            <div class="row" t-if="value">
+                <div class="col-6 border-right">
+                    <label><t t-esc="key"/></label>
+                </div>
+                <div class="col-6">
+                    <label><t t-esc="value"/></label>
+                </div>
+            </div>
         </template>
     </data>
 </odoo>
