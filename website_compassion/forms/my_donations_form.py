@@ -175,6 +175,24 @@ class PaymentOptionsMultipleForm(models.AbstractModel):
     def form_msg_success_updated(self):
         return _("Payment groups merged.")
 
+    @property
+    def _form_fieldsets(self):
+        return [
+            {
+                "id": "modal_payment_options_multiple",
+                "description": _(
+                    "Note that merging is an operation that cannot be undone. "
+                    "Your different groups will be fused together with one "
+                    "payment method, payment frequency and additional amount."
+                ),
+                "fields": [
+                    "payment_mode",
+                    "payment_frequency",
+                    "additional_amount",
+                ]
+            }
+        ]
+
     def form_extract_values(self, **request_values):
         def filter_fun(c):
             return c.state not in ["cancelled", "terminated"] and \

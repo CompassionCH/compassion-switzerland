@@ -239,8 +239,9 @@ class MyAccountController(PaymentFormController):
         amount_by_group = [
             sum(list(filter(
                 lambda a: a != 42.0,
-                s.mapped("contract_line_ids").mapped("amount")
-            ))) for s in sponsorships_by_group
+                sponsor.filtered(lambda s: s.type == "S")
+                .mapped("contract_line_ids").mapped("amount")
+            ))) for sponsor in sponsorships_by_group
         ]
         paid_sponsor_count_by_group = [
             len(sponsorship.filtered(lambda s: s.type == "S"))
