@@ -5,21 +5,19 @@
             <t t-call="website_compassion.my_account_layout">
                 <div class="container">
                     <!-- Load modals for forms -->
-                    <t t-call="cms_form_compassion.modal_form">
-                        <t t-set="form" t-value="coordinates_form"/>
-                    </t>
-                    <t t-call="cms_form_compassion.modal_form">
-                        <t t-set="form" t-value="delivery_form"/>
-                    </t>
+                    <t t-set="form" t-value="coordinates_form"/>
+                    <t t-call="cms_form_compassion.modal_form"/>
+                    <t t-set="form" t-value="delivery_form"/>
+                    <t t-call="cms_form_compassion.modal_form"/>
                     <div class="row">
                         <!-- Coordinates -->
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <t t-call="website_compassion.my_information_personal"/>
 
                             <t t-call="website_compassion.my_information_credentials"/>
                         </div>
                         <!-- Communication preferences -->
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <t t-call="website_compassion.my_information_profile_picture"/>
 
                             <t t-call="website_compassion.my_information_privacy_data"/>

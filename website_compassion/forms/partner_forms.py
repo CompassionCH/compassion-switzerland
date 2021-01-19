@@ -155,10 +155,6 @@ class PartnerDeliveryForm(models.AbstractModel):
         "photo_delivery_preference",
         "nbmag",
     ]
-    _form_required_fields = [
-        "lang",
-        "spoken_lang_ids",
-    ]
     _form_fields_order = [
         "lang",
         "spoken_lang_ids",

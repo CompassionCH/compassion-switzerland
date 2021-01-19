@@ -321,6 +321,16 @@ class ResPartner(models.Model):
 
     @api.multi
     def write(self, vals):
+        email = vals.get("email")
+        if email:
+            vals["email"] = email.strip()
+            # Push email to non-internal users
+            user_ids = self.mapped("user_ids").filtered("share").ids
+            self.env.cr.execute("""
+                UPDATE res_users
+                SET login=%s
+                WHERE id=ANY(%s)
+            """, [vals["email"], user_ids])
         if vals.get("criminal_record"):
             vals["criminal_record_date"] = fields.Date.today()
         res = super().write(vals)

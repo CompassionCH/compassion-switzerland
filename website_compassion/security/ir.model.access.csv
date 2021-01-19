@@ -1,4 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 read_access_product_portal,Read access product portal,partner_compassion.model_product_product,base.group_portal,1,0,0,0
 read_access_category_portal,Read access category portal,product.model_product_category,base.group_portal,1,0,0,0
-read_access_partner_portal,Read access partner portal,base.model_res_partner,base.group_portal,1,0,0,0
+read_access_mapping_portal,Read access mapping portal,message_center_compassion.model_compassion_mapping,base.group_portal,1,0,0,0
+read_access_field_to_json_portal,Read access field to json portal,message_center_compassion.model_compassion_field_to_json,base.group_portal,1,0,0,0
+read_access_ir_model_portal,Read access ir model portal,base.model_ir_model,base.group_portal,1,0,0,0
+write_access_partner_portal,Write access partner portal,base.model_res_partner,base.group_portal,1,1,0,0
