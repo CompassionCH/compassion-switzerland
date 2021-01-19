@@ -4,7 +4,23 @@
         <!-- This templates creates the view "My Children". It receives the following arguments: -->
         <!--     1. child_id, the record of the child that is currently selected -->
         <template id="my_children_page_template" name="My Children">
+            <t t-set="selected" t-value="'child'"/>
             <t t-call="website_compassion.my_account_layout">
+                <t t-if="display_state">
+                    <nav class="navbar navbar-expand-md navbar-light bg-light">
+                        <div class="container">
+                            <ul class="nav navbar-nav mr-auto text-left">
+                                <li t-attf-class="nav-item#{' active' if state == 'active' else ''}">
+                                    <a class="nav-link" t-attf-href="/my/children?state=active&amp;child_id=#{child_id.id}">Active sponsorships</a>
+                                </li>
+                                <li t-attf-class="nav-item#{' active' if state == 'terminated' else ''}">
+                                    <a class="nav-link" t-attf-href="/my/children?state=terminated&amp;child_id=#{child_id.id}">Terminated sponsorships</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </t>
+
                 <t t-call="website_compassion.my_children_horizontal_pictures"/>
 
                 <body data-spy="scroll" data-target="#section_menu">
@@ -70,7 +86,7 @@
                             <!-- Creating the actual card for each children -->
                             <div t-attf-id="card_child_{{child.id}}" class="card card-clickable text-center bg-light m-1" style="width: 9rem;height: 10rem;">
                                 <li class="nav-item">
-                                    <a class="nav-link border-0" t-attf-href="/my/children?child_id={{child.id}}">
+                                    <a class="nav-link border-0" t-attf-href="/my/children?state={{state}}&amp;child_id={{child.id}}">
                                         <!-- We add a border for the selected child -->
                                         <t t-if="child.id == child_id.id">
                                             <img t-attf-id="child_{{child.id}}" class="rounded-circle border border-5 border-primary" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>

@@ -2,6 +2,7 @@
 <odoo>
     <data>
         <template id="letter_page_template" name="Write a letter">
+            <t t-set="selected" t-value="'letter'"/>
             <t t-call="website_compassion.my_account_layout">
                 <t t-call="website_compassion.letter_horizontal_pictures"/>
 

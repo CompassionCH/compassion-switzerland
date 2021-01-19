@@ -1,6 +1,7 @@
 <odoo>
     <data>
         <template id="my_account_crowdfunding_view_template" name="My Account Together">
+            <t t-set="selected" t-value="'together'"/>
             <t t-call="website_compassion.my_account_layout">
                 <t t-set="title">My Account | TOGETHER - Compassion Switzerland Fundraising</t>
 

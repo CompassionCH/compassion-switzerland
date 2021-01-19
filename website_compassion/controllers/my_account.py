@@ -6,33 +6,52 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from datetime import datetime
+from base64 import b64decode
 from os import path, remove
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
 
+from werkzeug.datastructures import Headers
+from werkzeug.wrappers import Response
+
 from odoo.http import request, route
 from odoo.addons.web.controllers.main import content_disposition
+from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.cms_form_compassion.controllers.payment_controller import (
-    PaymentFormController
+    PaymentFormController,
 )
 
 
-def _get_user_children(only_active=False):
+def _map_contracts(partner, mapping_val=None, sorting_val=None,
+                   filter_fun=lambda _: True):
+    return (
+        partner.contracts_fully_managed.filtered(filter_fun) +
+        partner.contracts_correspondant.filtered(filter_fun) +
+        partner.contracts_paid.filtered(filter_fun)
+    ).mapped(mapping_val).sorted(sorting_val)
+
+
+def _get_user_children(state=None):
     """
     Find all the children for which the connected user has a contract. There is
-    the possibility to fetch all chidren from contracts or only those for which
-    a sponsorship is active.
+    the possibility to fetch either only active chidren or only those that are
+    terminated / cancelled. By default, all sponsorships are returned
+
     :return: a recordset of child.compassion which the connected user sponsors
     """
     def filter_sponsorships(sponsorship):
-        return not only_active or sponsorship.state == "active"
+        if state == "active":
+            return sponsorship.state not in ["cancelled", "terminated"]
+        elif state == "terminated":
+            return sponsorship.state in ["cancelled", "terminated"]
+        else:
+            return True
 
-    partner = request.env.user.partner_id
-    return (
-        partner.contracts_fully_managed.filtered(filter_sponsorships) +
-        partner.contracts_correspondant.filtered(filter_sponsorships) +
-        partner.contracts_paid.filtered(filter_sponsorships)
-    ).mapped("child_id").sorted("preferred_name")
+    return _map_contracts(
+        partner, mapping_val="child_id", sorting_val="preferred_name",
+        filter_fun=filter_sponsorships
+    )
 
 
 def _fetch_images_from_child(child):
@@ -125,13 +144,13 @@ def _download_image(type, child_id=None, obj_id=None):
 
 
 class MyAccountController(PaymentFormController):
-    @route(["/my", "/my/home"], type="http", auth="user", website=True)
+    @route(["/my", "/my/home", "/my/account"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
         return request.redirect("/my/children")
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
-        children = _get_user_children(only_active=True)
+        children = _get_user_children("active")
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
 
@@ -159,8 +178,20 @@ class MyAccountController(PaymentFormController):
             return request.redirect(f"/my/letter?child_id={children[0].id}")
 
     @route("/my/children", type="http", auth="user", website=True)
-    def my_child(self, child_id=None, **kwargs):
-        children = _get_user_children()
+    def my_child(self, state="active", child_id=None, **kwargs):
+        actives = _get_user_children("active")
+        terminated = _get_user_children("terminated")
+
+        display_state = True
+        # User can choose among groups if none of the two is empty
+        if len(actives) == 0 or len(terminated) == 0:
+            display_state = False
+
+        # We get the children group that we want to display
+        if state == "active" and len(actives) > 0:
+            children = actives
+        else:
+            children = terminated
 
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
@@ -169,7 +200,7 @@ class MyAccountController(PaymentFormController):
             child = children.filtered(lambda c: c.id == int(child_id))
             if not child:  # The user does not sponsor this child_id
                 return request.redirect(
-                    f"/my/children?child_id={children[0].id}"
+                    f"/my/children?state={state}&child_id={children[0].id}"
                 )
             partner = request.env.user.partner_id
             letters = request.env["correspondence"].search([
@@ -191,17 +222,182 @@ class MyAccountController(PaymentFormController):
                 {"child_id": child,
                  "children": children,
                  "letters": letters,
-                 "lines": lines}
+                 "lines": lines,
+                 "state": state,
+                 "display_state": display_state}
             )
         else:
             return request.redirect(f"/my/children?child_id={children[0].id}")
 
+    @route("/my/donations", type="http", auth="user", website=True)
+    def my_donations(self, form_id=None, **kw):
+        partner = request.env.user.partner_id
+
+        invoices = request.env["account.invoice"].sudo().search([
+            ("partner_id", "=", partner.id),
+            ("state", "=", "paid"),
+            ("invoice_type", "in", ["sponsorship", "fund", "other"]),
+            ("type", "=", "out_invoice"),
+            ("amount_total", "!=", 0),
+        ])
+
+        # Group related parametersl10n_ch.payment_slip
+        groups = _map_contracts(
+            partner, "group_id", filter_fun=lambda s: s.state not in
+            ["cancelled", "terminated"] and partner == s.mapped("partner_id")
+        )
+        if not groups:
+            request.redirect("/my/home")
+
+        sponsorships_by_group = [
+            g.mapped("contract_ids").filtered(
+                lambda c: c.state not in ["cancelled", "terminated"] and
+                c.partner_id == partner
+            ) for g in groups
+        ]
+        amount_by_group = [
+            sum(list(filter(
+                lambda a: a != 42.0,
+                sponsor.filtered(lambda s: s.type == "S")
+                .mapped("contract_line_ids").mapped("amount")
+            ))) for sponsor in sponsorships_by_group
+        ]
+        paid_sponsor_count_by_group = [
+            len(sponsorship.filtered(lambda s: s.type == "S"))
+            for sponsorship in sponsorships_by_group
+        ]
+        wp_sponsor_count_by_group = [
+            len(sponsorship.filtered(lambda s: s.type == "SC"))
+            for sponsorship in sponsorships_by_group
+        ]
+        bvr_references = groups.mapped("bvr_reference")
+        bvr_reference = next((ref for ref in bvr_references if ref), None)
+        if not bvr_reference:
+            bvr_reference = groups[0].compute_partner_bvr_ref()
+
+        # Load forms
+        form_success = False
+        if len(groups) > 1:
+            kw["form_model_key"] = "cms.form.payment.options.multiple"
+        else:
+            kw["form_model_key"] = "cms.form.payment.options"
+        kw["total_amount"] = sum(amount_by_group)
+        kw["bvr_reference"] = bvr_reference
+        payment_options_form = self.get_form(
+            "recurring.contract.group", groups[0].id, **kw
+        )
+        if form_id is None or form_id == payment_options_form.form_id:
+            payment_options_form.form_process()
+            form_success = payment_options_form.form_success
+
+        first_year = request.env["account.invoice"].sudo().search([
+            ("partner_id", "=", partner.id),
+            ("state", "=", "paid"),
+            ("type", "=", "out_invoice"),
+            ("amount_total", "!=", 0),
+        ], limit=1, order="create_date asc").create_date.year
+        current_year = datetime.today().year
+
+        values = self._prepare_portal_layout_values()
+        values.update({
+            "partner": partner,
+            "payment_options_form": payment_options_form,
+            "invoices": invoices,
+            "groups": groups,
+            "sponsorships_by_group": sponsorships_by_group,
+            "amount_by_group": amount_by_group,
+            "paid_sponsor_count_by_group": paid_sponsor_count_by_group,
+            "wp_sponsor_count_by_group": wp_sponsor_count_by_group,
+            "first_year": first_year,
+            "current_year": current_year,
+        }
+
+        # This fixes an issue that forms fail after first submission
+        if form_success:
+            result = request.redirect("/my/donations")
+        else:
+            result = request.render(
+                "website_compassion.my_donations_page_template", values
+            )
+        return self._form_redirect(result, full_page=True)
+
+    @route("/my/information", type="http", auth="user", website=True)
+    def my_information(self, form_id=None, **kw):
+        partner = request.env.user.partner_id
+
+        # Load forms
+        form_success = False
+        kw["form_model_key"] = "cms.form.partner.my.coordinates"
+        coordinates_form = self.get_form("res.partner", partner.id, **kw)
+        if form_id is None or form_id == coordinates_form.form_id:
+            coordinates_form.form_process()
+            form_success = coordinates_form.form_success
+
+        kw["form_model_key"] = "cms.form.partner.delivery"
+        delivery_form = self.get_form("res.partner", partner.id, **kw)
+        if form_id is None or form_id == delivery_form.form_id:
+            delivery_form.form_process()
+            form_success = delivery_form.form_success
+
+        values = self._prepare_portal_layout_values()
+        values.update({
+            "partner": partner,
+            "coordinates_form": coordinates_form,
+            "delivery_form": delivery_form,
+        })
+
+        # This fixes an issue that forms fail after first submission
+        if form_success:
+            result = request.redirect("/my/information")
+        else:
+            result = request.render(
+                "website_compassion.my_information_page_template", values
+            )
+        return self._form_redirect(result, full_page=True)
+
+    @route(["/my/picture"], type="http", auth="user", website=True,
+           noindex=['robots', 'meta', 'header'])
+    def save_ambassador_picture(self, **post):
+        partner = request.env.user.partner_id
+        picture_post = post.get("picture")
+        if picture_post:
+            image_value = b64encode(picture_post.stream.read())
+            if not image_value:
+                return "no image uploaded"
+            partner.write({"image": image_value})
+        return request.redirect("/my/information")
+
     @route("/my/download/<source>", type="http", auth="user", website=True)
-    def download_file(self, source, obj_id=None, child_id=None, **kw):
+    def download_file(self, source, **kw):
+        def _get_required_param(key, params):
+            if key not in params:
+                raise ValueError("Required parameter {}".format(key))
+            return params[key]
+
         if source == "picture":
+            child_id = _get_required_param("child_id", kw)
+            obj_id = _get_required_param("obj_id", kw)
+
             if child_id and obj_id:
                 return _download_image("single", child_id, obj_id)
             elif child_id:
                 return _download_image("multiple", child_id)
             else:
                 return _download_image("all")
+        elif source == "tax_receipt":
+            partner = request.env.user.partner_id
+            year = _get_required_param("year", kw)
+
+            wizard = request.env["print.tax_receipt"]\
+                .with_context(active_ids=partner.ids).create({
+                    "pdf": True,
+                    "year": year,
+                    "pdf_name": f"tax_receipt_{year}.pdf",
+                })
+            wizard.get_report()
+            headers = Headers()
+            headers.add(
+                "Content-Disposition", "attachment", filename=wizard.pdf_name
+            )
+            data = b64decode(wizard.pdf_download)
+            return Response(data, content_type="application/pdf", headers=headers)
