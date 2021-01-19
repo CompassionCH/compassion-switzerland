@@ -310,12 +310,12 @@
 
         <template id="my_children_letters">
             <div id="letters_section" class="row mt-4">
-                <div class="col-6">
+                <div class="col-md-6">
                     <t t-set="title" t-value="'My letters'"/>
                     <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Supporter To Beneficiary')"/>
                     <t t-call="website_compassion.display_letters"/>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6">
                     <t t-set="title" t-value="child_id.preferred_name + ('\'' if child_id.preferred_name[-1] == 's' else '\'s') + ' letters'"/>
                     <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Beneficiary To Supporter')"/>
                     <t t-call="website_compassion.display_letters"/>
@@ -343,14 +343,14 @@
                 </div>
                 <div class="row">
                     <t t-foreach="letters_to_display" t-as="letter">
-                        <div class="col-4">
+                        <div class="col-6">
                             <label><t t-esc="letter.get_date('scanned_date', 'date_full')"/></label>
                         </div>
-                        <div class="col-4">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View letter</a></label>
+                        <div class="col-3">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View</a></label>
                         </div>
-                        <div class="col-4">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download letter</a></label>
+                        <div class="col-3">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download</a></label>
                         </div>
                     </t>
                 </div>
