@@ -27,7 +27,7 @@
                 <div class="row">
                     <ul class="nav nav-tabs w-100 mb-4">
                         <t t-foreach="len(groups)" t-as="i">
-                            <div class="col-6 mb-2">
+                            <div class="col-md-6 mb-2">
                                 <t t-set="group" t-value="groups[i]"/>
                                 <t t-set="sponsorships" t-value="sponsorships_by_group[i]"/>
                                 <li class="border border-blue p-2">
