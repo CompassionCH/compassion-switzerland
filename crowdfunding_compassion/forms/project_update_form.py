@@ -83,6 +83,18 @@ class PartnerCoordinatesForm(models.AbstractModel):
             values["name"] = name
         self.o_request.website.get_status_message()
 
+    def _form_write(self, values):
+        """Just write on the main object. Use sudo."""
+        # pass a copy to avoid pollution of initial values by odoo
+        project = self.main_object.sudo()
+        if "description" in values:
+            # Write the description in all languages
+            project.with_context(lang="en_US").description = values["description"]
+            project.with_context(lang="fr_CH").description = values["description"]
+            project.with_context(lang="de_DE").description = values["description"]
+            project.with_context(lang="it_IT").description = values["description"]
+        project.write(values.copy())
+
     def form_after_create_or_update(self, values, extra_values):
         if values.get("name") or values.get("description"):
             # Notify responsible of the changes, for validation.

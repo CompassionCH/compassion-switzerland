@@ -14,6 +14,7 @@ from odoo import api, models, fields
 
 class SendPostfinanceLinkWizard(models.TransientModel):
     _name = "account.invoice.send.postfinance.link.wizard"
+    _description = "Wizard send invoice postfinance"
 
     invoice_ids = fields.Many2many(
         "account.invoice",

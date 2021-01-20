@@ -65,6 +65,21 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
         })
         return res
 
+    def _form_write(self, values):
+        """Just write on the main object. Use sudo."""
+        participant = self.main_object
+        if "personal_motivation" in values:
+            # Write the description in all languages
+            participant.with_context(lang="en_US").personal_motivation = values[
+                "personal_motivation"]
+            participant.with_context(lang="fr_CH").personal_motivation = values[
+                "personal_motivation"]
+            participant.with_context(lang="de_DE").personal_motivation = values[
+                "personal_motivation"]
+            participant.with_context(lang="it_IT").personal_motivation = values[
+                "personal_motivation"]
+        participant.write(values.copy())
+
     def form_cancel_url(self, main_object=None):
         return request.redirect("/my_account")
 
