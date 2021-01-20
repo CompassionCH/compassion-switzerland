@@ -46,7 +46,8 @@ class DonationController(PaymentFormController, FormControllerMixin):
         website=True,
         sitemap=False
     )
-    def project_donation_form_page(self, page=3, project=None, participant=None, **kwargs):
+    def project_donation_form_page(self, page=3, project=None,
+                                   participant=None, **kwargs):
         if not project.website_published:
             return request.redirect("/projects")
         kwargs["form_model_key"] = "cms.form.crowdfunding.donation"

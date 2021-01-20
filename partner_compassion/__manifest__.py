@@ -52,7 +52,7 @@
         "base_phone",  # oca_addons/connector-telephony
         "auditlog",
         "l10n_ch_zip",  # oca_addon/l10n_switzerland
-        "web_view_google_map" # oca_addon/web_view_google_map
+        "web_view_google_map"  # oca_addon/web_view_google_map
     ],
     "external_dependencies": {"python": ["pandas", "pyminizip", "magic"]},
     "data": [

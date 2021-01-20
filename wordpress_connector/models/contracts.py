@@ -202,9 +202,9 @@ class Contracts(models.Model):
                                             'quantity': 1})
                 else:
                     partner_id = (
-                        partner.search([("name", "=", "Donors of Compassion")],
-                                       limit=1).id
-                        or partner.id
+                            partner.search([("name", "=", "Donors of Compassion")],
+                                           limit=1).id
+                            or partner.id
                     )
             sponsorship_vals = {
                 "partner_id": partner_id,
@@ -225,8 +225,8 @@ class Contracts(models.Model):
             sponsorship_vals = {
                 "type": "S" if utm_source != "wrpr" else "SC",
                 "child_id": self.env["compassion.child"]
-                .search([("local_id", "=", child_local_id)], limit=1)
-                .id,
+                    .search([("local_id", "=", child_local_id)], limit=1)
+                    .id,
             }
         finally:
             if not test_mode:
@@ -275,9 +275,7 @@ class Contracts(models.Model):
         ]
         web_info = ""
         for key in list_keys:
-            web_info += (
-                    "<li>" + key + ": " + str(form_data.get(key, "")) + "</li>"
-            )
+            web_info += ("<li>" + key + ": " + str(form_data.get(key, "")) + "</li>")
         sponsorship.web_info = web_info
         # Send confirmation to partner
         try:
@@ -311,8 +309,8 @@ class Contracts(models.Model):
                 {
                     "user_id": ambassador_id,
                     "origin_id": self.env["recurring.contract.origin"]
-                    .search([("event_id", "=", event_id)], limit=1)
-                    .id,
+                        .search([("event_id", "=", event_id)], limit=1)
+                        .id,
                 }
             )
 
@@ -321,10 +319,10 @@ class Contracts(models.Model):
         staff_param = "sponsorship_" + sponsor_lang + "_id"
         staff = self.env["res.config.settings"].sudo().get_param(staff_param)
         notify_text = (
-            "A new sponsorship was made on the website. Please "
-            "verify all information and validate the sponsorship "
-            "on Odoo: <br/><br/><ul>"
-        ) + web_info
+                          "A new sponsorship was made on the website. Please "
+                          "verify all information and validate the sponsorship "
+                          "on Odoo: <br/><br/><ul>"
+                      ) + web_info
 
         title = _("New sponsorship from the website")
         if "writepray" in form_data:
