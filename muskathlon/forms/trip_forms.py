@@ -107,7 +107,7 @@ class MuskathlonTripForm(models.AbstractModel):
         valid = True
         old = False
         try:
-            date = datetime.strptime(value, "%d.%m.%Y")
+            date = datetime.strptime(value, "%Y-%m-%d")
             today = datetime.now()
             old = date < today
             valid = not old
