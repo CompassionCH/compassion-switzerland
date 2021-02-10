@@ -7,20 +7,42 @@
             <t t-call="website_compassion.my_account_layout">
                 <t t-call="website_compassion.my_children_horizontal_pictures"/>
 
-                <t t-call="website_compassion.my_children_info"/>
+                <body data-spy="scroll" data-target="#section_menu">
+                    <div class="container">
+                        <nav class="navbar">
+                            <ul id="section_menu" class="nav navbar-nav">
+                                <li class="nav-item">
+                                    <a href="#info_section">
+                                        General information
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#pictures_section">
+                                        <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#gift_history_section">
+                                        Gift history
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#letters_section">
+                                        Letters
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
 
-                <t t-call="website_compassion.my_children_pictures"/>
+                        <t t-call="website_compassion.my_children_info"/>
 
-                <t t-call="website_compassion.my_children_gift_history"/>
+                        <t t-call="website_compassion.my_children_pictures"/>
 
-                <h2>First version for letters (icons to be determined more properly)</h2>
-                <t t-call="website_compassion.my_children_letters"/>
+                        <t t-call="website_compassion.my_children_gift_history"/>
 
-                <h2>Second version for letters (colors to be determined more properly)</h2>
-                <t t-call="website_compassion.my_children_letters_v2"/>
-
-                <h2>Third version for letters (download link position to be determined)</h2>
-                <t t-call="website_compassion.my_children_letters_v3"/>
+                        <t t-call="website_compassion.my_children_letters"/>
+                    </div>
+                </body>
             </t>
             <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
         </template>
@@ -68,7 +90,7 @@
 
         <!-- Children general information inside the view -->
         <template id="my_children_info">
-            <div class="container">
+            <div id="info_section">
                 <div class="row mt-4">
                     <div class="col-md-6">
                         <!-- General information -->
@@ -225,7 +247,7 @@
 
         <!-- Children pictures inside the view -->
         <template id="my_children_pictures">
-            <div class="container" t-if="child_id.pictures_ids">
+            <div id="pictures_section" t-if="child_id.pictures_ids">
                 <h3><t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures</h3>
                 <nav class="navbar navbar-expand-md">
                     <ul class="nav nav-tabs">
@@ -256,7 +278,7 @@
         </template>
 
         <template id="my_children_gift_history">
-            <div class="container" t-if="lines">
+            <div id="gift_history_section" class="mt-4" t-if="lines">
                 <h3>Gift history</h3>
                 <div class="row">
                     <div class="col-4">
@@ -287,105 +309,28 @@
         </template>
 
         <template id="my_children_letters">
-            <div class="container" t-if="letters">
-                <h3>Letters</h3>
-                <div class="row">
-                    <div class="col-3">
-                        <label><b>From</b></label>
-                    </div>
-                    <div class="col-3">
-                        <label><b>Date</b></label>
-                    </div>
+            <div id="letters_section" class="row mt-4">
+                <div class="col-md-6">
+                    <t t-set="title" t-value="'My letters'"/>
+                    <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Supporter To Beneficiary')"/>
+                    <t t-call="website_compassion.display_letters"/>
                 </div>
-                <div class="row">
-                    <t t-foreach="letters" t-as="letter">
-                        <div class="col-3">
-                            <t t-if="letter.direction == 'Supporter To Beneficiary'">
-                                <span class="fa fa-arrow-right"/>
-                                <label>Me</label>
-                            </t>
-                            <t t-else="">
-                                <span class="fa fa-arrow-left"/>
-                                <label><t t-esc="child_id.preferred_name"/></label>
-                            </t>
-                        </div>
-                        <div class="col-3">
-                            <label><t t-esc="letter.get_date('scanned_date', 'date_full')"/></label>
-                        </div>
-                        <div class="col-3">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View letter</a></label>
-                        </div>
-                        <div class="col-3">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download letter</a></label>
-                        </div>
-                    </t>
+                <div class="col-md-6">
+                    <t t-set="title" t-value="child_id.preferred_name + ('\'' if child_id.preferred_name[-1] == 's' else '\'s') + ' letters'"/>
+                    <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Beneficiary To Supporter')"/>
+                    <t t-call="website_compassion.display_letters"/>
                 </div>
-                <hr/>
-                <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
-                    This may take a few minutes... Please wait
-                </div>
-                <a t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
-                    Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> correspondence
-                </a>
-                <a t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
-                    Download all children's correspondence
-                </a>
             </div>
-        </template>
-
-        <template id="my_children_letters_v2">
-            <div class="container" t-if="letters">
-                <h3>Letters</h3>
-                <div class="row">
-                    <div class="col-3">
-                        <label><b>From</b></label>
-                    </div>
-                    <div class="col-3">
-                        <label><b>Date</b></label>
-                    </div>
-                </div>
-                <t t-foreach="letters" t-as="letter">
-                    <div class="row" t-attf-style="background: {{'lightgray' if letter.direction == 'Supporter To Beneficiary' else 'white'}}">
-                        <div class="col-3">
-                            <t t-if="letter.direction == 'Supporter To Beneficiary'">
-                                <label>Me</label>
-                            </t>
-                            <t t-else="">
-                                <label><t t-esc="child_id.preferred_name"/></label>
-                            </t>
-                        </div>
-                        <div class="col-3">
-                            <label><t t-esc="letter.get_date('scanned_date', 'date_full')"/></label>
-                        </div>
-                        <div class="col-3">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View letter</a></label>
-                        </div>
-                        <div class="col-3">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download letter</a></label>
-                        </div>
-                    </div>
-                </t>
-                <hr/>
-                <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
-                    This may take a few minutes... Please wait
-                </div>
-                <a t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
-                    Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> correspondence
-                </a>
-                <a t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
-                    Download all children's correspondence
-                </a>
+            <hr/>
+            <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
+                This may take a few minutes... Please wait
             </div>
-        </template>
-
-        <template id="my_children_letters_v3">
-            <t t-set="title" t-value="'My letters'"/>
-            <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Supporter To Beneficiary')"/>
-            <t t-call="website_compassion.display_letters"/>
-
-            <t t-set="title" t-value="child_id.preferred_name + ('\'' if child_id.preferred_name[-1] == 's' else '\'s') + ' letters'"/>
-            <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Beneficiary To Supporter')"/>
-            <t t-call="website_compassion.display_letters"/>
+            <a t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
+                Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> correspondence
+            </a>
+            <a t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
+                Download all children's correspondence
+            </a>
         </template>
 
         <template id="display_letters">
@@ -398,27 +343,17 @@
                 </div>
                 <div class="row">
                     <t t-foreach="letters_to_display" t-as="letter">
-                        <div class="col-4">
+                        <div class="col-6">
                             <label><t t-esc="letter.get_date('scanned_date', 'date_full')"/></label>
                         </div>
-                        <div class="col-4">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View letter</a></label>
+                        <div class="col-3">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View</a></label>
                         </div>
-                        <div class="col-4">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download letter</a></label>
+                        <div class="col-3">
+                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download</a></label>
                         </div>
                     </t>
                 </div>
-                <hr/>
-                <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
-                    This may take a few minutes... Please wait
-                </div>
-                <a t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
-                    Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> correspondence
-                </a>
-                <a t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
-                    Download all children's correspondence
-                </a>
             </div>
         </template>
     </data>
