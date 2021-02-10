@@ -82,7 +82,7 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
                 }
             )
             return request.render(
-                "partner_compassion." "child_protection_charter_confirmation_page",
+                "partner_compassion.child_protection_charter_confirmation_page",
                 values,
             )
         else:

@@ -9,6 +9,5 @@
 
 from . import muskathlon_registration_form
 from . import trip_forms
-# from . import partner_coordinates_form
 from . import advocate_details_form
 from . import order_material_form

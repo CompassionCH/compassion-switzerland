@@ -1,5 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 read_access_product_portal,Read access product portal,partner_compassion.model_product_product,base.group_portal,1,0,0,0
+read_access_field_to_json_portal,Read access field to json portal,message_center_compassion.model_compassion_field_to_json,base.group_portal,1,0,0,0
+read_access_ir_model_portal,Read access ir model portal,base.model_ir_model,base.group_portal,1,0,0,0
 read_access_product_pricelist_portal,Read access product pricelist portal,product.model_product_pricelist,base.group_portal,1,0,0,0
 read_access_contract_origin_portal,Read access contract origin portal,sponsorship_compassion.model_recurring_contract_origin,base.group_portal,1,0,0,0
 read_access_category_portal,Read access category portal,product.model_product_category,base.group_portal,1,0,0,0
@@ -24,11 +26,11 @@ read_access_compassion_mapping_portal,Read access compassion mapping portal,mess
 read_access_mail_activity_portal,Read access mail activity portal,mail.model_mail_activity,base.group_portal,1,0,0,0
 read_access_sponsorship_gift_portal,Read access sponsorship gift portal,gift_compassion.model_sponsorship_gift,base.group_portal,1,0,0,0
 read_access_compassion_event_portal,Read access compassion event portal,crm_compassion.model_crm_event_compassion,base.group_portal,1,0,0,0
-read_access_bank_portal,Read access bank portal,base.model_res_partner_bank,base.group_portal,1,0,0,0
 read_access_sequence_portal,Read access sequence portal,base.model_ir_sequence,base.group_portal,1,0,0,0
 read_create_access_payment_slip_portal,Read create access payment slip portal,l10n_ch_payment_slip.model_l10n_ch_payment_slip,base.group_portal,1,0,1,0
 read_create_access_invoicer_portal,Read create access invoicer portal,recurring_contract.model_recurring_invoicer,base.group_portal,1,0,1,0
 write_access_invoice_portal,Write access invoice portal,account.model_account_invoice,base.group_portal,1,1,0,0,0
+write_access_partner_portal,Write access partner portal,base.model_res_partner,base.group_portal,1,1,0,0
 read_unlink_access_partial_reconcile_portal,Read unlink access partial reconcile portal,account.model_account_partial_reconcile,base.group_portal,1,0,0,1
 read_unlink_access_full_reconcile_portal,Read unlink access full reconcile portal,account.model_account_full_reconcile,base.group_portal,1,0,0,1
 write_unlink_access_contract_group_portal,Write unlink access contract group portal,recurring_contract.model_recurring_contract_group,base.group_portal,1,1,0,1

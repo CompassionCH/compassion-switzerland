@@ -17,6 +17,7 @@ from werkzeug.wrappers import Response
 
 from odoo.http import request, route
 from odoo.addons.web.controllers.main import content_disposition
+from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController,
 )
@@ -38,8 +39,8 @@ def _get_children(partner, only_active=False):
     a sponsorship is active.
     :return: a recordset of child.compassion which the connected user sponsors
     """
-    def filter_sponsorships(sponsorship):
-        return not only_active or sponsorship.state == "active"
+    def filter_sponsorships(s):
+        return not only_active or s.state not in ["cancelled", "terminated"]
 
     return _map_contracts(
         partner, mapping_val="child_id", sorting_val="preferred_name",
@@ -278,7 +279,7 @@ class MyAccountController(PaymentFormController):
             ("amount_total", "!=", 0),
         ], limit=1, order="create_date asc").create_date.year
         current_year = datetime.today().year
-
+        
         values = self._prepare_portal_layout_values()
         values.update({
             "partner": partner,
@@ -291,7 +292,7 @@ class MyAccountController(PaymentFormController):
             "wp_sponsor_count_by_group": wp_sponsor_count_by_group,
             "first_year": first_year,
             "current_year": current_year,
-        })
+        }
 
         # This fixes an issue that forms fail after first submission
         if form_success:
@@ -302,13 +303,59 @@ class MyAccountController(PaymentFormController):
             )
         return self._form_redirect(result, full_page=True)
 
+    @route("/my/information", type="http", auth="user", website=True)
+    def my_information(self, form_id=None, **kw):
+        partner = request.env.user.partner_id
+
+        # Load forms
+        form_success = False
+        kw["form_model_key"] = "cms.form.partner.my.coordinates"
+        coordinates_form = self.get_form("res.partner", partner.id, **kw)
+        if form_id is None or form_id == coordinates_form.form_id:
+            coordinates_form.form_process()
+            form_success = coordinates_form.form_success
+
+        kw["form_model_key"] = "cms.form.partner.delivery"
+        delivery_form = self.get_form("res.partner", partner.id, **kw)
+        if form_id is None or form_id == delivery_form.form_id:
+            delivery_form.form_process()
+            form_success = delivery_form.form_success
+
+        values = self._prepare_portal_layout_values()
+        values.update({
+            "partner": partner,
+            "coordinates_form": coordinates_form,
+            "delivery_form": delivery_form,
+        })
+
+        # This fixes an issue that forms fail after first submission
+        if form_success:
+            result = request.redirect("/my/information")
+        else:
+            result = request.render(
+                "website_compassion.my_information_page_template", values
+            )
+        return self._form_redirect(result, full_page=True)
+
+    @route(["/my/picture"], type="http", auth="user", website=True,
+           noindex=['robots', 'meta', 'header'])
+    def save_ambassador_picture(self, **post):
+        partner = request.env.user.partner_id
+        picture_post = post.get("picture")
+        if picture_post:
+            image_value = b64encode(picture_post.stream.read())
+            if not image_value:
+                return "no image uploaded"
+            partner.write({"image": image_value})
+        return request.redirect("/my/information")
+          
     @route("/my/download/<source>", type="http", auth="user", website=True)
     def download_file(self, source, **kw):
         def _get_required_param(key, params):
             if key not in params:
                 raise ValueError("Required parameter {}".format(key))
             return params[key]
-
+          
         if source == "picture":
             child_id = _get_required_param("child_id", kw)
             obj_id = _get_required_param("obj_id", kw)

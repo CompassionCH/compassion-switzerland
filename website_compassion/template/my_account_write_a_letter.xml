@@ -22,7 +22,7 @@
                 </div>
             </t>
             <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
-            <script type="text/javascript" src="/website_compassion/static/src/js/write_a_letter.js"/>
+            <script type="text/javascript" src="/website_compassion/static/src/js/my_letter.js"/>
         </template>
 
         <!-- Children pictures at the top of the view -->

@@ -5,9 +5,6 @@
             <!-- Page content -->
             <div id="muskathlon_my_home" class="container">
                 <!-- Load modals for forms -->
-                <t t-call="cms_form_compassion.modal_form">
-                    <t t-set="form" t-value="coordinates_form"/>
-                </t>
                 <t t-if="partner.advocate_details_id">
                     <t t-call="cms_form_compassion.modal_form">
                         <t t-set="form" t-value="about_me_form"/>
