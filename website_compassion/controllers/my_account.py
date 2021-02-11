@@ -7,7 +7,7 @@
 #
 ##############################################################################
 from datetime import datetime
-from base64 import b64decode
+from base64 import b64decode, b64encode
 from os import path, remove
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
@@ -25,6 +25,14 @@ from odoo.addons.cms_form_compassion.controllers.payment_controller import (
 
 def _map_contracts(partner, mapping_val=None, sorting_val=None,
                    filter_fun=lambda _: True):
+    """
+    Map the contracts accordingly to the given values
+    :param partner: the partner to map contracts from
+    :param mapping_val: optional value to use for the mapping
+    :param sorting_val: optional sorting value to use
+    :param filter_fun: optional filter function
+    :return:
+    """
     return (
         partner.contracts_fully_managed.filtered(filter_fun) +
         partner.contracts_correspondant.filtered(filter_fun) +
@@ -34,9 +42,9 @@ def _map_contracts(partner, mapping_val=None, sorting_val=None,
 
 def _get_user_children(state=None):
     """
-    Find all the children for which the connected user has a contract. There is
-    the possibility to fetch either only active chidren or only those that are
-    terminated / cancelled. By default, all sponsorships are returned
+    Find all the children for which the connected user has a contract for.
+    There is the possibility to fetch either only active chidren or only those
+    that are terminated / cancelled. By default, all sponsorships are returned
 
     :return: a recordset of child.compassion which the connected user sponsors
     """
@@ -48,6 +56,7 @@ def _get_user_children(state=None):
         else:
             return True
 
+    partner = request.env.user.partner_id
     return _map_contracts(
         partner, mapping_val="child_id", sorting_val="preferred_name",
         filter_fun=filter_sponsorships
@@ -146,10 +155,18 @@ def _download_image(type, child_id=None, obj_id=None):
 class MyAccountController(PaymentFormController):
     @route(["/my", "/my/home", "/my/account"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
+        # All this paths needs to be redirected
         return request.redirect("/my/children")
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
+        """
+        The route to write new letters to a selected child
+        :param child_id: the id of the selected child
+        :param template_id: the id of the selected template
+        :param kwargs: additional arguments (optional)
+        :return: a redirection to a webpage
+        """
         children = _get_user_children("active")
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
@@ -179,6 +196,14 @@ class MyAccountController(PaymentFormController):
 
     @route("/my/children", type="http", auth="user", website=True)
     def my_child(self, state="active", child_id=None, **kwargs):
+        """
+        The route to see all the partner's children information
+        :param state: the state of the children's sponsorships (active or
+        terminated)
+        :param child_id: the id of the child
+        :param kwargs: optional additional arguments
+        :return: a redirection to a webpage
+        """
         actives = _get_user_children("active")
         terminated = _get_user_children("terminated")
 
@@ -193,9 +218,11 @@ class MyAccountController(PaymentFormController):
         else:
             children = terminated
 
+        # No sponsor children
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
 
+        # A child is selected
         if child_id:
             child = children.filtered(lambda c: c.id == int(child_id))
             if not child:  # The user does not sponsor this child_id
@@ -227,10 +254,17 @@ class MyAccountController(PaymentFormController):
                  "display_state": display_state}
             )
         else:
+            # No child is selected, we pick the first one by default
             return request.redirect(f"/my/children?child_id={children[0].id}")
 
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, form_id=None, **kw):
+        """
+        The route to the donations and invoicing page
+        :param form_id: the id of the filled form or None
+        :param kw: additional optional arguments
+        :return: a redirection to a webpage
+        """
         partner = request.env.user.partner_id
 
         invoices = request.env["account.invoice"].sudo().search([
@@ -241,20 +275,21 @@ class MyAccountController(PaymentFormController):
             ("amount_total", "!=", 0),
         ])
 
-        # Group related parametersl10n_ch.payment_slip
         groups = _map_contracts(
             partner, "group_id", filter_fun=lambda s: s.state not in
             ["cancelled", "terminated"] and partner == s.mapped("partner_id")
         )
+        # TODO : handle the case where there is no group in a better way
         if not groups:
             request.redirect("/my/home")
-
+        # List of recordset of sponsorships (one recordset for each group)
         sponsorships_by_group = [
             g.mapped("contract_ids").filtered(
                 lambda c: c.state not in ["cancelled", "terminated"] and
                 c.partner_id == partner
             ) for g in groups
         ]
+        # List of integers representing the total amount by group
         amount_by_group = [
             sum(list(filter(
                 lambda a: a != 42.0,
@@ -262,25 +297,32 @@ class MyAccountController(PaymentFormController):
                 .mapped("contract_line_ids").mapped("amount")
             ))) for sponsor in sponsorships_by_group
         ]
+        # List of recordset of paid sponsorships (one recordset for each group)
         paid_sponsor_count_by_group = [
             len(sponsorship.filtered(lambda s: s.type == "S"))
             for sponsorship in sponsorships_by_group
         ]
+        # List of recordset of write and pray sponsorships (one recordset for each group)
         wp_sponsor_count_by_group = [
             len(sponsorship.filtered(lambda s: s.type == "SC"))
             for sponsorship in sponsorships_by_group
         ]
+        # List of strings (one bvr reference for each group)
         bvr_references = groups.mapped("bvr_reference")
+        # Find the first non empty bvr reference in the groups
         bvr_reference = next((ref for ref in bvr_references if ref), None)
+        # If no bvr reference is found, we compute a new one
         if not bvr_reference:
             bvr_reference = groups[0].compute_partner_bvr_ref()
 
         # Load forms
         form_success = False
+        # Set the right form according to the number of groups
         if len(groups) > 1:
             kw["form_model_key"] = "cms.form.payment.options.multiple"
         else:
             kw["form_model_key"] = "cms.form.payment.options"
+        # We pass some arguments to the form
         kw["total_amount"] = sum(amount_by_group)
         kw["bvr_reference"] = bvr_reference
         payment_options_form = self.get_form(
@@ -304,13 +346,12 @@ class MyAccountController(PaymentFormController):
             "payment_options_form": payment_options_form,
             "invoices": invoices,
             "groups": groups,
-            "sponsorships_by_group": sponsorships_by_group,
             "amount_by_group": amount_by_group,
             "paid_sponsor_count_by_group": paid_sponsor_count_by_group,
             "wp_sponsor_count_by_group": wp_sponsor_count_by_group,
             "first_year": first_year,
             "current_year": current_year,
-        }
+        })
 
         # This fixes an issue that forms fail after first submission
         if form_success:
@@ -323,6 +364,12 @@ class MyAccountController(PaymentFormController):
 
     @route("/my/information", type="http", auth="user", website=True)
     def my_information(self, form_id=None, **kw):
+        """
+        The route to display the information about the partner
+        :param form_id: the form that has been filled or None
+        :param kw: the additional optional arguments
+        :return: a redirection to a webpage
+        """
         partner = request.env.user.partner_id
 
         # Load forms
@@ -358,6 +405,11 @@ class MyAccountController(PaymentFormController):
     @route(["/my/picture"], type="http", auth="user", website=True,
            noindex=['robots', 'meta', 'header'])
     def save_ambassador_picture(self, **post):
+        """
+        The route to change the profile picture of a partner
+        :param post: the argument received through the POST call
+        :return: a redirection to a webpage
+        """
         partner = request.env.user.partner_id
         picture_post = post.get("picture")
         if picture_post:
@@ -369,6 +421,13 @@ class MyAccountController(PaymentFormController):
 
     @route("/my/download/<source>", type="http", auth="user", website=True)
     def download_file(self, source, **kw):
+        """
+        The route to download a file, that is either the tax receipt or an
+        image
+        :param source: Tells whether we want an image or a tax receipt
+        :param kw: the additional optional arguments
+        :return: a response to download the file
+        """
         def _get_required_param(key, params):
             if key not in params:
                 raise ValueError("Required parameter {}".format(key))
