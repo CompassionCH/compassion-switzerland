@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
+        <!-- Utility to create a row, given the key and its corresponding value. Gets the following arguments: -->
+        <!--     1. partner, the partner that is connected -->
+        <!--     2. payment_options_form, A form to set the payment options of the partner, differs if there is -->
+        <!--        one or more groups for the partner -->
+        <!--     3. invoices, the list of paid invoices of the partner -->
+        <!--     4. groups, the groups of payment of the partner -->
+        <!--     5. amount_by_group, The additional amount that is payed, by group -->
+        <!--     6. paid_sponsor_count_by_group, the number of paid sponsorships, by group -->
+        <!--     7. wp_sponsor_count_by_group, the number of write and pray sponsorships, by group -->
+        <!--     8. first_year, the first year that the partner paid some invoices -->
+        <!--     9. current_year, the current year -->
         <template id="my_donations_page_template" name="Donations / Invoicing">
             <t t-call="website_compassion.my_account_layout">
                 <!-- Load modals for forms -->
@@ -21,6 +32,7 @@
             </t>
         </template>
 
+        <!-- Template that displays multiple groups for partners that have more than one -->
         <template id="my_donations_payment_options_multiple">
             <div class="container mt-4" t-if="groups">
                 <h3>Payment Groups</h3>
@@ -29,7 +41,6 @@
                         <t t-foreach="len(groups)" t-as="i">
                             <div class="col-md-6 mb-2">
                                 <t t-set="group" t-value="groups[i]"/>
-                                <t t-set="sponsorships" t-value="sponsorships_by_group[i]"/>
                                 <li class="border border-blue p-2">
                                     <!-- Payments option -->
                                     <h4><t t-esc="group.display_name"></t></h4>
@@ -63,8 +74,7 @@
                     </ul>
                 </div>
 
-
-                <!-- Payment frequency -->
+                <!-- Total additional amount (for all groups) -->
                 <t t-set="key" t-value="'Total additional amount'"/>
                 <t t-set="value" t-value="str(sum(amount_by_group)).replace('.0', '.-') + ' CHF'"/>
                 <div class="row" t-if="value">
@@ -79,6 +89,7 @@
                     </div>
                 </div>
 
+                <!-- Button to open the payment options form -->
                 <button type="button"
                         class="btn btn-primary"
                         data-toggle="modal"
@@ -87,6 +98,7 @@
                 </button>
                 <i class="fa fa-info-circle ml-1" data-toggle="tooltip" title="All groups will be merged in a single one that you will be able to personalize. This action cannot be undone." id="merge_toggle"/>
             </div>
+            <!-- Script to display the hints on the little "i" icons -->
             <script type="text/javascript">
                 $(document).ready(function() {
                     $("#merge_toggle").tooltip();
@@ -95,10 +107,10 @@
             </script>
         </template>
 
+        <!-- Template that displays the single group for partners that have only one -->
         <template id="my_donations_payment_options">
             <div class="container mt-4" t-if="groups">
                 <t t-set="group" t-value="groups[0]"/>
-                <t t-set="sponsorships" t-value="sponsorships_by_group[0]"/>
                 <!-- Payments option -->
                 <h3><t t-esc="group.display_name"></t></h3>
                 <!-- Payment mode -->
@@ -111,6 +123,7 @@
                 <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.recurring_unit"/>
                 <t t-call="website_compassion.fill_key_value"/>
 
+                <!-- Total additional amount -->
                 <t t-set="key" t-value="'Total additional amount'"/>
                 <t t-set="value" t-value="str(amount_by_group[0]).replace('.0', '.-') + ' CHF'"/>
                 <div class="row" t-if="value">
@@ -124,6 +137,7 @@
                         <label><t t-esc="value"/></label>
                     </div>
                 </div>
+            <!-- Script to display the hints on the little "i" icons -->
                 <script type="text/javascript">
                     $(document).ready(function() {
                         $("#amount_toggle").tooltip();
@@ -140,6 +154,7 @@
                 <t t-set="value" t-value="wp_sponsor_count_by_group[0]"/>
                 <t t-call="website_compassion.fill_key_value"/>
 
+                <!-- Button to open the payment options form -->
                 <button type="button"
                         class="btn btn-primary"
                         data-toggle="modal"
@@ -149,10 +164,12 @@
             </div>
         </template>
 
+        <!-- Allows the partner to download its tax receipt for a selected year -->
         <template id="my_donations_tax_receipt">
             <div class="container mt-4">
                 <h3>Download your tax receipt</h3>
                 <div class="row m-2">
+                    <!-- Construct the menu to select the year -->
                     <div class="col-3">
                         <label for="year">Year: </label>
                         <select name="year" id="year" form="tax_receipt_form">
@@ -162,6 +179,7 @@
                             </t>
                         </select>
                     </div>
+                    <!-- The actual button to download the tax receipt for the chosen year -->
                     <div class="col-3">
                         <form id="tax_receipt_form" action="/my/download/tax_receipt">
                             <input type="submit" class="btn btn-primary" value="Download"/>
@@ -171,6 +189,7 @@
             </div>
         </template>
 
+        <!-- view to display all the paid gift history -->
         <template id="my_donations_gift_history">
             <div class="container mt-4" t-if="invoices">
                 <h3>Gift history</h3>

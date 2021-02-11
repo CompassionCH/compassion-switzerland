@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
+        <!-- This templates creates the view "Personal information". It receives the following arguments: -->
+        <!--     1. partner, the partner that is logged in -->
+        <!--     2. coordinates_form, a form to modify the partner coordinates -->
+        <!--     3. delivery_form, a form to modify the partner delivery preferences -->
         <template id="my_information_page_template" name="Personal information">
             <t t-set="selected" t-value="'info'"/>
             <t t-call="website_compassion.my_account_layout">
@@ -30,6 +34,7 @@
             </t>
         </template>
 
+        <!-- The template that displays the personal information of the partner -->
         <template id="my_information_personal">
             <h3 class="mt-4">Coordinates</h3>
 
@@ -93,6 +98,7 @@
             <t t-set="value" t-value="partner.church_id.name"/>
             <t t-call="website_compassion.fill_key_value"/>
 
+            <!-- This button opens the form to modify the personal info -->
             <button type="button"
                     class="btn btn-primary"
                     data-toggle="modal"
@@ -101,6 +107,7 @@
             </button>
         </template>
 
+        <!-- This template allows the partner to modify its password -->
         <template id="my_information_credentials">
             <h3 class="mt-4">Credentials</h3>
             <form t-attf-action="/web/reset_password" method="POST">
@@ -116,6 +123,7 @@
             </form>
         </template>
 
+        <!-- Here the partner can modify its profile picture -->
         <template id="my_information_profile_picture">
             <h3 class="mt-4">Profile picture</h3>
             <form id="form_picture" action="/my/picture" method="POST" enctype="multipart/form-data">
@@ -126,10 +134,12 @@
             <button id="picture_normal" onclick="document.getElementById('upload_picture').click()" class="btn btn-primary mt-2" style="width: 200px;">
                 Change
             </button>
+            <!-- This appears only while loading the new profile picture, via JS -->
             <button id="picture_loading" class="btn btn-primary mt-2" type="button" disabled="true" style="display: none; width: 200px;">
                 <span class="spinner-border spinner-border-sm" role="status"/>
                 Changing...
             </button>
+            <!-- This script makes the buttons clickable or unclickable depending on loading -->
             <script type="text/javascript">
                 const startStopLoading = function(start) {
                     $("button").attr('disabled', start);
@@ -145,9 +155,11 @@
             </script>
         </template>
 
+        <!-- Display the date at which the partner signed some charters, otherwise propose to sign them -->
         <template id="my_information_privacy_data">
             <h3 class="mt-4">Privacy data</h3>
 
+            <!-- Child protection charter -->
             <div class="row mb-2">
                 <div class="col-6 border-right">
                     <label>Child protection charter</label>
@@ -165,6 +177,7 @@
                 </div>
             </div>
 
+            <!-- Data protection -->
             <div class="row">
                 <div class="col-6 border-right">
                     <label>Data protection</label>
@@ -183,6 +196,7 @@
             </div>
         </template>
 
+        <!-- Displays the communication preferences of the partner -->
         <template id="my_information_communication_pref">
             <h3 class="mt-4">Communication preferences</h3>
 
@@ -212,6 +226,7 @@
             <t t-set="value" t-value="'No' if partner.nbmag == 'no_mag' else 'Email' if partner.nbmag == 'email' else 'Physical'"/>
             <t t-call="website_compassion.fill_key_value"/>
 
+            <!-- Opens a form to modify the communication preferences -->
             <button type="button"
                     class="btn btn-primary"
                     data-toggle="modal"

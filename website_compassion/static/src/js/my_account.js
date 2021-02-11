@@ -1,3 +1,6 @@
+/**
+ * This function is used to display an alert when needed
+ */
 let displayAlert = function(id) {
     $(`#${id}`).show("slow");
     setTimeout(
@@ -7,6 +10,10 @@ let displayAlert = function(id) {
     );
 };
 
+/**
+ * This function finds the selected item (by searching for borders and scrolls
+ * to it)
+ */
 window.onload = function() {
     const selected_elems = document.querySelectorAll("img[class~='border']");
 
@@ -21,6 +28,10 @@ window.onload = function() {
     }
 }
 
+/**
+ * This function is used to jump to the right section, smoothly and with as
+ * chosen offset from the top
+ */
 const offset = 80;
 $('#section_menu li a').click(function(event) {
     if (this.hash !== "") {

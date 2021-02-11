@@ -2,10 +2,17 @@
 <odoo>
     <data>
         <!-- This templates creates the view "My Children". It receives the following arguments: -->
-        <!--     1. child_id, the record of the child that is currently selected -->
+        <!--     1. child, the record of the child that is currently selected -->
+        <!--     2. children, the records of the children of the current state -->
+        <!--     3. letters, the correspondence with the currently selected child -->
+        <!--     4. lines, the gifts that were done to the currently selected child -->
+        <!--     5. state, the state of the currently displayed children (either active or terminated) -->
+        <!--     6. display_state, determine whether we need to display the state (if the partner has -->
+        <!--        children in both states) -->
         <template id="my_children_page_template" name="My Children">
             <t t-set="selected" t-value="'child'"/>
             <t t-call="website_compassion.my_account_layout">
+                <!-- We allow the user to choose between active or terminated sponsorships if there are some -->
                 <t t-if="display_state">
                     <nav class="navbar navbar-expand-md navbar-light bg-light">
                         <div class="container">
@@ -21,8 +28,10 @@
                     </nav>
                 </t>
 
+                <!-- The horizontal pictures to select the child -->
                 <t t-call="website_compassion.my_children_horizontal_pictures"/>
 
+                <!-- Small menu to jump directly to the right section inside the view -->
                 <body data-spy="scroll" data-target="#section_menu">
                     <div class="container">
                         <nav class="navbar">
@@ -50,6 +59,7 @@
                             </ul>
                         </nav>
 
+                        <!-- The actual sections implementation -->
                         <t t-call="website_compassion.my_children_info"/>
 
                         <t t-call="website_compassion.my_children_pictures"/>
@@ -68,7 +78,6 @@
             <nav class="navbar navbar-expand-md navbar-light bg-light">
                 <div id="my_children_div" class="container" style="overflow-x:auto">
                     <ul class="nav nav-tabs d-flex flex-nowrap">
-                        <!-- Finding children of the corresponding sponsor -->
                         <t t-foreach="children" t-as="child">
                             <!-- Setting headshot for each child -->
                             <t t-if="child.image_url">
@@ -281,6 +290,7 @@
                         </t>
                     </ul>
                 </nav>
+                <!-- This appears only the button to download is clicked through JS -->
                 <div id="my_children_images" class="alert alert-info alert-dismissable text-center" style="display: none;">
                     This may take a few minutes... Please wait
                 </div>
@@ -293,6 +303,7 @@
             </div>
         </template>
 
+        <!-- Display the gift history for the selected child -->
         <template id="my_children_gift_history">
             <div id="gift_history_section" class="mt-4" t-if="lines">
                 <h3>Gift history</h3>
@@ -324,6 +335,7 @@
             </div>
         </template>
 
+        <!-- Display the correspondence with the selected child -->
         <template id="my_children_letters">
             <div id="letters_section" class="row mt-4">
                 <div class="col-md-6">
@@ -338,6 +350,7 @@
                 </div>
             </div>
             <hr/>
+            <!-- This appears only when the download button is clicked, through JS -->
             <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
                 This may take a few minutes... Please wait
             </div>
@@ -349,6 +362,8 @@
             </a>
         </template>
 
+        <!-- Actual implementation of letter displaying. It is called two times, one for the S2B -->
+        <!--  and one for the B2S-->
         <template id="display_letters">
             <div class="container" t-if="letters_to_display">
                 <h3><t t-esc="title"/></h3>
