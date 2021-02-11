@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <!-- Default layout for My Account, adding new menu in top -->
+        <!-- Default layout for My Account, adding new menu in top. It receives a single argument: -->
+        <!--     1. selected, the id of the selected navigation element, for highlight purposes -->
         <template id="my_account_layout" name="My Account layout">
             <t t-call="portal.frontend_layout">
                 <!-- hides navbar from my portal -->
                 <style>.o_portal.container { display: none !important; }</style>
                 <style>footer { display: none !important; }</style>
 
+                <!-- Actual navigation bar containing menus proposed by MyAccount -->
                 <nav class="navbar navbar-expand-md navbar-light bg-light">
                     <div class="container">
                         <div class="collapse navbar-collapse">
@@ -43,7 +45,9 @@
             </t>
         </template>
 
-        <!-- Utility to create a row, given the key and its corresponding value -->
+        <!-- Utility to create a row, given the key and its corresponding value. Gets the following arguments: -->
+        <!--     1. key, the key to fill in on the right -->
+        <!--     2. value, the value to fill in on the left, nothing is displayed if empty -->
         <template id="fill_key_value">
             <div class="row" t-if="value">
                 <div class="col-6 border-right">

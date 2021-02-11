@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
+        <!-- This templates creates the view "Write a letter". It receives the following arguments: -->
+        <!--     1. child, the selected child to write a letter to -->
+        <!--     2. template_id, the selected template to write the letter on -->
+        <!--     3. children, The list of children for the partner -->
+        <!--     4. templates, The proposed templates of the database -->
         <template id="letter_page_template" name="Write a letter">
             <t t-set="selected" t-value="'letter'"/>
             <t t-call="website_compassion.my_account_layout">
                 <t t-call="website_compassion.letter_horizontal_pictures"/>
 
+                <!-- TODO : fix container height to available size -->
                 <div class="container" style="position: relative;">
                     <div class="row" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0;">
                         <div class="col-md-4">
@@ -31,7 +37,6 @@
             <nav class="navbar navbar-expand-md navbar-light bg-light">
                 <div id="my_children_div" class="container" style="overflow-x:auto">
                     <ul class="nav nav-tabs d-flex flex-nowrap">
-                        <!-- Finding children of the corresponding sponsor -->
                         <t t-foreach="children" t-as="child">
                             <!-- Setting headshot for each child -->
                             <t t-if="child.image_url">
@@ -69,6 +74,7 @@
             </nav>
         </template>
 
+        <!-- Here are displayed all the available templates to write a letter -->
         <template id="letter_templates">
             <ul class="templates nav nav-tabs" style="height: 33rem; overflow-y: scroll">
                 <t t-foreach="templates" t-as="template">
@@ -89,6 +95,7 @@
             </ul>
         </template>
 
+        <!-- Display the text box to write the content of the letter -->
         <template id="letter_text_content">
             <div class="w-100x">
                 <a class="btn btn-primary mb-2" href="https://compassion.ch/de/was-soll-ich-meinem-patenkind-schreiben/" target="_blank" style="float: left;">
@@ -101,6 +108,7 @@
             <textarea id="letter_content" class="w-100" placeholder="Write your text here..." style="height: 30rem; resize: none;"/>
         </template>
 
+        <!-- Menu of available actions to do with you letter (image loading, preview, send, ...) -->
         <template id="letter_actions">
             <input id="file_selector" type="file" accept="image/*" style="display: none;"/>
             <button class="btn btn-primary w-100 mb-2" onclick="document.getElementById('file_selector').click();">

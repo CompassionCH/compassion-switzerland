@@ -226,12 +226,15 @@ class PartnerDeliveryForm(models.AbstractModel):
     def form_widgets(self):
         # Hide fields
         res = super().form_widgets
-        res["global_communication_delivery_preference"] = "cms_form_compassion.form.widget.hidden"
-        res["photo_delivery_preference"] = "cms_form_compassion.form.widget.hidden"
+        res["global_communication_delivery_preference"] =\
+            "cms_form_compassion.form.widget.hidden"
+        res["photo_delivery_preference"] =\
+            "cms_form_compassion.form.widget.hidden"
         res["nbmag"] = "cms_form_compassion.form.widget.hidden"
         return res
 
     def form_extract_values(self, **request_values):
+        # We need mappings to go from db to displayed field and vice-versa
         preference_mapping = {
             "Physical": "physical",
             "Email": "digital_only",
@@ -255,11 +258,13 @@ class PartnerDeliveryForm(models.AbstractModel):
         for form_key in key_mapping.keys():
             if form_key in values and values[form_key]:
                 key = key_mapping[form_key]
+                # The mapping is different only for the magazines for the value
                 if "magazine" in form_key:
                     value = magazine_mapping[values[form_key]]
                 else:
                     value = preference_mapping[values[form_key]]
                 values[key] = value
+            # We don't want those value to go farther as we already used them
             if form_key in values:
                 del values[form_key]
         return values
