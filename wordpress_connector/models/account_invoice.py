@@ -33,8 +33,7 @@ class AccountInvoice(models.Model):
         # Extract the partner infos
         partner_fields = {  # wp_field : odoo_field
             "email": "email",
-            "first_name": "firstname",
-            "last_name": "lastname",
+            "name": "name",
             "street": "street",
             "zipcode": "zip",
             "city": "city",
@@ -72,6 +71,7 @@ class AccountInvoice(models.Model):
             donnation_infos["utm_source"],
             donnation_infos["utm_medium"],
             donnation_infos["utm_campaign"],
+            donnation_infos["time"]
         )
 
     @api.model
@@ -87,6 +87,7 @@ class AccountInvoice(models.Model):
             utm_source,
             utm_medium,
             utm_campaign,
+            time
     ):
         """
          Utility for invoice donation creation.
@@ -100,6 +101,7 @@ class AccountInvoice(models.Model):
         :param utm_source: the utm identifier in wordpress
         :param utm_medium: the utm identifier in wordpress
         :param utm_campaign: the utm identifier in wordpress
+        :param time: datetime of donation
         :return: invoice_id
         """
         _logger.info(
@@ -156,8 +158,6 @@ class AccountInvoice(models.Model):
         internet_id = self.env.ref("utm.utm_medium_website").id
         payment_term_id = self.env.ref("account.account_payment_term_immediate").id
         account = self.env["account.account"].search([("code", "=", "1050")])
-        # Compute invoice date for birthday gifts
-        invoice_date = fields.Date.today()
         invoice = self.create(
             {
                 "partner_id": partner_id,
@@ -165,7 +165,7 @@ class AccountInvoice(models.Model):
                 "origin": origin,
                 "reference": str(pf_payid),
                 "transaction_id": str(pf_payid),
-                "date_invoice": invoice_date,
+                "date_invoice": fields.Date.from_string(time),
                 "currency_id": 6,  # Always in CHF
                 "account_id": account.id,
                 "name": "Postfinance payment " + str(pf_payid) + " for " + wp_origin,

@@ -13,6 +13,7 @@ from odoo import api, fields, models
 
 class SearchBankAddressWizard(models.TransientModel):
     _name = 'search.bank.address.wizard'
+    _description = 'Wizard search bank address'
 
     account_bank_statement_line = fields.Many2one(
         'account.bank.statement.line',

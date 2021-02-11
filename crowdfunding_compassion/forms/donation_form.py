@@ -67,7 +67,6 @@ class CrowdfundingDonationForm(models.AbstractModel):
         name = f"[{project.name}] Donation for {participant.partner_id.name}"
         medium = self.env.ref("crowdfunding_compassion.utm_medium_crowdfunding")
         partner = self.partner_id.sudo()
-        partner.write({"state": "active"})
 
         return (
             self.env["account.invoice"]

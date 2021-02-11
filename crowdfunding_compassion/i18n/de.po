@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-27 13:55+0000\n"
-"PO-Revision-Date: 2020-11-27 15:06+0100\n"
+"POT-Creation-Date: 2020-12-03 12:56+0000\n"
+"PO-Revision-Date: 2020-12-03 14:17+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -62,7 +62,7 @@ msgid ""
 msgstr ""
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/project_controller.py:112
+#: code:addons/crowdfunding_compassion/controllers/project_controller.py:113
 #, python-format
 msgid "%s was sponsored"
 msgstr "%s hat einen Paten bekommen"
@@ -94,6 +94,17 @@ msgstr "2. Zweck wählen"
 #: model_terms:website.page,arch_db:crowdfunding_compassion.homepage
 msgid "3. Publish and start sending love"
 msgstr "3. Motiviere deine Freunde"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid ""
+"<br/>\n"
+"                                    You will be redirected to our online "
+"payment system. If you wish to give by bank tranfer (IBAN), do not hesitate "
+"to"
+msgstr ""
+"<br/>Weiter geht es zur Online Überweisung. Wenn du anders spenden möchtest, "
+"melde dich doch direkt bei uns:"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.fund_amount_example
@@ -167,6 +178,21 @@ msgstr "<small>© 2020 Compassion Schweiz / Alle Rechte vorbehalten</small>"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "<span class=\"fake-btn my-3 uppercase\">Select</span>"
 msgstr "<span class=\"fake-btn my-3 uppercase\">Auswählen</span>"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "<span class=\"label\">Donation type selection</span>"
+msgstr "<span class=\"label\">Spendentypauswahl</span>"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "<span class=\"label\">Participant selection</span>"
+msgstr "<span class=\"label\">Teilnehmerauswahl</span>"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "<span class=\"label\">Your donation</span>"
+msgstr "<span class=\"label\">Deine Spende</span>"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
@@ -417,7 +443,7 @@ msgid "<span>sponsorships</span>"
 msgstr "<span> Patenschaften finden</span>"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:98
+#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:100
 #, python-format
 msgid "A link you entered is incorrect"
 msgstr "Ein von deinen eingegebener Link ist falsch"
@@ -512,6 +538,7 @@ msgstr "Anonyme Spende"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "Another amount"
 msgstr "Anderer Betrag"
 
@@ -523,6 +550,7 @@ msgstr "# Anhänge"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_successful
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "Back to Homepage"
 msgstr "Zurück zu together"
 
@@ -532,11 +560,6 @@ msgid ""
 "Be the first to show love for this project,\n"
 "                <br/>"
 msgstr "Sei die erste Person, die einen Impact ermöglicht <br/>"
-
-#. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
-msgid "Below, select which person you support"
-msgstr "Wähle unten aus, WEN du unterstützen möchtest"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__image
@@ -556,11 +579,13 @@ msgstr "Projekte ansehen"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "By making a donation, you agree on our"
 msgstr "Hier findest du die Erklärungen zum"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "CHF"
 msgstr "CHF"
 
@@ -627,6 +652,11 @@ msgstr "Wen Möchtest du unterstützen?"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
 msgid "Choose your donation amount"
 msgstr "Wähle deinen Spendenbetrag"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "Choose your donation amount and enter your personal information below."
+msgstr "Wähle deinen Spendenbetrag und gib unten deine persönlichen Daten ein"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_donation__partner_city
@@ -945,6 +975,7 @@ msgstr "Jetzt unterstützen"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_successful
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "Donation Successful"
 msgstr "Spende erfolgreich"
 
@@ -1051,7 +1082,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
 msgid "Facebook"
-msgstr "Facebook"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__participant_facebook_url
@@ -1210,11 +1241,6 @@ msgstr ""
 "Arbeit von Compassion erhalten."
 
 #. module: crowdfunding_compassion
-#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
-msgid "I want to"
-msgstr "Ich möchte:"
-
-#. module: crowdfunding_compassion
 #: model:ir.model.fields,help:crowdfunding_compassion.field_cms_form_crowdfunding_donation__anonymous_donation
 msgid "I would like to donate anonymously."
 msgstr ""
@@ -1324,6 +1350,7 @@ msgstr "impact bis Jetzt"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid ""
 "In case your payment was successful and you are seeing this message, you may "
 "experience some delay in the process of the transaction. Don't hesitate to"
@@ -1347,14 +1374,14 @@ msgstr "Einzelperson"
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.layout
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
 msgid "Instagram"
-msgstr "Instagram"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step3__participant_instagram_url
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__instagram_url
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__instagram_url
 msgid "Instagram link"
-msgstr "Instagram link"
+msgstr ""
 
 #. module: crowdfunding_compassion
 #: model:ir.model,name:crowdfunding_compassion.model_account_invoice_line
@@ -1488,6 +1515,7 @@ msgstr "Hauptanhänge"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "Make your donation"
 msgstr "Jetzt spenden"
 
@@ -1564,7 +1592,7 @@ msgstr "Meine Website"
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_update__name
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_project_step1__campaign_name
@@ -1734,6 +1762,7 @@ msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "Payment Aborted"
 msgstr "Überweisung abgebrochen"
 
@@ -1775,13 +1804,13 @@ msgid "Planned"
 msgstr "Geplant"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:106
+#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:108
 #, python-format
 msgid "Please define a goal"
 msgstr "Bitte setze dir ein Ziel"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:110
+#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:112
 #, python-format
 msgid "Please define a positive goal"
 msgstr "Bitte setze dir ein Ziel"
@@ -1797,7 +1826,7 @@ msgstr ""
 "späteren Zeitpunkt anpassen."
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:102
+#: code:addons/crowdfunding_compassion/controllers/projects_controller.py:104
 #, python-format
 msgid "Please select a valid date"
 msgstr "Bitte setze ein gültiges Datum"
@@ -1816,6 +1845,11 @@ msgstr "Präsentations-Video"
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__presentation_video_embed
 msgid "Presentation Video Embed"
 msgstr "Präsentations-Video"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid "Previous step"
+msgstr "Zurück"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_participant__product_number_goal
@@ -1926,6 +1960,7 @@ msgid "Promotion"
 msgstr ""
 
 #. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_list_page
 #: model_terms:website.page,arch_db:crowdfunding_compassion.projects_page
 msgid "Quick search"
@@ -2001,6 +2036,17 @@ msgstr "Miniaturbild"
 #, python-format
 msgid "Social Medias"
 msgstr ""
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
+msgid ""
+"Something went wrong during the payment process. Please try again.\n"
+"                                    <br/>\n"
+"                                    <br/>"
+msgstr ""
+"Bei der Übermittlung deiner Zahlung ist leider ein Fehler aufgetreten. Bitte "
+"versuche es erneut. Vielen Dank!                       <br/>\n"
+"                        <br/>"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
@@ -2174,6 +2220,7 @@ msgstr "Merci für deine Spende!"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_successful
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "Thank you! Your donation helps release children from poverty!"
 msgstr ""
 "Vielen Dank! Deine Spende hilft, Kinder aus extremer Armut zu befreien!"
@@ -2210,7 +2257,7 @@ msgstr ""
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_crowdfunding_project__time_left
 msgid "Time Left"
-msgstr ""
+msgstr "Zeit verbleibend"
 
 #. module: crowdfunding_compassion
 #: model:ir.model.fields,field_description:crowdfunding_compassion.field_cms_form_crowdfunding_donation__partner_title
@@ -2438,6 +2485,7 @@ msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_form_page
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "Your billing information"
 msgstr "Deine Spendeninformationen"
 
@@ -2520,7 +2568,7 @@ msgstr "Du wirst per E-Mail über die nächsten Schritte informiert."
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 msgid "active"
-msgstr "aktiv"
+msgstr "active"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.faq_page_ir_ui_view
@@ -2576,11 +2624,13 @@ msgstr ""
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "contact us"
 msgstr "Kontakt"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "contact us."
 msgstr ""
 "<span style=\"color: rgb(33, 37, 41);\">together@compassion.ch&amp;nbsp;</"
@@ -2594,17 +2644,19 @@ msgstr "Datenschutz"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "data protection policy, and general terms and conditions."
 msgstr "Datenschutz und die allgemeinen Geschäftsbedingungen"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 msgid "empty"
-msgstr "leer"
+msgstr "empty"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_form_gtc
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.faq_page_ir_ui_view
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 #: model_terms:website.page,arch_db:crowdfunding_compassion.faq_page
 msgid "https://compassion.ch/protection-des-donnees/"
 msgstr "https://compassion.ch/de/datenschutz/"
@@ -2617,13 +2669,14 @@ msgstr "https://compassion.ch/de/downloads/?filter=jahresberichte"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.donation_failure
+#: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_donation_page
 msgid "if you need any further assistance."
 msgstr "."
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_creation_view_template
 msgid "inactive"
-msgstr "inaktiv"
+msgstr "inactive"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.homepage_ir_ui_view
@@ -2685,7 +2738,7 @@ msgid "sponsored child"
 msgstr "Patenkind"
 
 #. module: crowdfunding_compassion
-#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:76
+#: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:77
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.participant_card
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.presentation_page
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.project_progress
@@ -2724,11 +2777,8 @@ msgstr ""
 msgid "| TOGETHER - Compassion Switzerland Fundraising"
 msgstr "| TOGETHER - Compassion Schweiz Fundraising"
 
-#~ msgid "Navigate through projects"
-#~ msgstr "Durch Projekte navigieren"
+#~ msgid "Below, select which person you support"
+#~ msgstr "Wähle unten aus, WEN du unterstützen möchtest"
 
-#~ msgid "Next"
-#~ msgstr "Weiter"
-
-#~ msgid "Previous"
-#~ msgstr "Vorherig"
+#~ msgid "I want to"
+#~ msgstr "Ich möchte:"

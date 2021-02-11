@@ -22,14 +22,21 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 function clickHandler() {
   console.log("clickHandler");
-  let page = getUrlParameter('page');
+  let page = $('#page').val();
   if(page == "1"){
     let participantId = document.querySelector('input[name="participant"]:checked');
     const a_step_02 = document.getElementById("a_step_02");
-    a_step_02.href = `/project/${a_step_02.getAttribute("project")}/donation?participant=${participantId.value}&page=2`;
-    a_step_02.target = "";
+    direct_to_sponsorship = $("#direct_to_sponsorship").attr("checked")
+    if (direct_to_sponsorship != "checked") {
+        a_step_02.href = `/project/${a_step_02.getAttribute("project")}/donation?participant=${participantId.value}&page=2`;
+        a_step_02.target = "";
+    } else {
+        a_step_02.href = document.querySelector('input[name="sponsorship_url_' + participantId.value + '"]').value;
+        a_step_02.target = "_blank";
+    }
+
   }else{
-    let participantId = getUrlParameter('participant');
+    let participantId = $('#participant').val();
     const a_step_01 = document.getElementById("a_step_01");
     a_step_01.href = `/project/${a_step_01.getAttribute("project")}/donation?participant=${participantId}&page=1`;
     a_step_01.target = "";

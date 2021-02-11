@@ -10,18 +10,19 @@
                     </div>
                     <div class="thank_you_text_container">
                         <h1>Thank you! Your gift helps release children from poverty!</h1>
-                        <p class="quote">
-                            It also brings
-                            <a style="color: #0054a6;" t-att-href="registration.website_url"> <t t-esc="registration.partner_preferred_name"/></a> closer to complete
-                            <t t-if="registration.partner_gender == 'F'">
-                                her
-                            </t>
-                            <t t-else="">
-                                his
-                            </t>
-                            goal for the
-                            <a t-att-href="event.website_url"><t t-esc="event.name"/></a>!
-                        </p>
+                        <!-- Merve asked to remove the sentence -->
+<!--                        <p class="quote">-->
+<!--                            It also brings-->
+<!--                            <a style="color: #0054a6;" t-att-href="registration.website_url"> <t t-esc="registration.partner_preferred_name"/></a> closer to complete-->
+<!--                            <t t-if="registration.partner_gender == 'F'">-->
+<!--                                her-->
+<!--                            </t>-->
+<!--                            <t t-else="">-->
+<!--                                his-->
+<!--                            </t>-->
+<!--                            goal for the-->
+<!--                            <a t-att-href="event.website_url"><t t-esc="event.name"/></a>!-->
+<!--                        </p>-->
                     </div>
                 </div>
             </div>

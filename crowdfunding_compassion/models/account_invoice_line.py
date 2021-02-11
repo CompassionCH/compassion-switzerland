@@ -12,7 +12,8 @@ class AccountInvoiceLine(models.Model):
         "crowdfunding.participant", "Crowdfunding participant",
         domain=[("project_id.state", "=", "active"),
                 ("project_id.active", "=", True),
-                ("project_id.deadline", ">=", fields.Date.today())]
+                ("project_id.deadline", ">=", fields.Date.today())],
+        index=True
     )
     is_anonymous = fields.Boolean(default=False)
 
