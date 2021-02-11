@@ -4,7 +4,7 @@
         <template id="my_account_crowdfunding" name="My account Crowdfunding" inherit_id="website_compassion.my_account_layout">
             <xpath expr="//ul/li[4]" position="after">
                 <t t-if="request.session.get('uid') and request.env.user.partner_id.crowdfunding_project_count">
-                    <li class="nav-item">
+                    <li t-attf-class="nav-item#{' active' if selected == 'together' else ''}">
                         <a class="nav-link" href="/my/together">Together</a>
                     </li>
                 </t>

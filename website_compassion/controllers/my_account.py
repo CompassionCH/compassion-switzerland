@@ -32,15 +32,21 @@ def _map_contracts(partner, mapping_val=None, sorting_val=None,
     ).mapped(mapping_val).sorted(sorting_val)
 
 
-def _get_children(partner, only_active=False):
+def _get_user_children(state=None):
     """
     Find all the children for which the connected user has a contract. There is
-    the possibility to fetch all chidren from contracts or only those for which
-    a sponsorship is active.
+    the possibility to fetch either only active chidren or only those that are
+    terminated / cancelled. By default, all sponsorships are returned
+
     :return: a recordset of child.compassion which the connected user sponsors
     """
-    def filter_sponsorships(s):
-        return not only_active or s.state not in ["cancelled", "terminated"]
+    def filter_sponsorships(sponsorship):
+        if state == "active":
+            return sponsorship.state not in ["cancelled", "terminated"]
+        elif state == "terminated":
+            return sponsorship.state in ["cancelled", "terminated"]
+        else:
+            return True
 
     return _map_contracts(
         partner, mapping_val="child_id", sorting_val="preferred_name",
@@ -108,8 +114,7 @@ def _download_image(type, child_id=None, obj_id=None):
     containing multiples
     """
     if type == "all":  # We want to download all the images of all children
-        partner = request.env.user.partner_id
-        children = _get_children(partner)
+        children = _get_user_children()
         images = []
         for child in children:
             images += _fetch_images_from_child(child)
@@ -139,14 +144,13 @@ def _download_image(type, child_id=None, obj_id=None):
 
 
 class MyAccountController(PaymentFormController):
-    @route(["/my", "/my/home", "/my/account"], type='http', auth="user", website=True)
+    @route(["/my", "/my/home", "/my/account"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
         return request.redirect("/my/children")
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
-        partner = request.env.user.partner_id
-        children = _get_children(partner, only_active=True)
+        children = _get_user_children("active")
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
 
@@ -174,9 +178,20 @@ class MyAccountController(PaymentFormController):
             return request.redirect(f"/my/letter?child_id={children[0].id}")
 
     @route("/my/children", type="http", auth="user", website=True)
-    def my_child(self, child_id=None, **kwargs):
-        partner = request.env.user.partner_id
-        children = _get_children(partner)
+    def my_child(self, state="active", child_id=None, **kwargs):
+        actives = _get_user_children("active")
+        terminated = _get_user_children("terminated")
+
+        display_state = True
+        # User can choose among groups if none of the two is empty
+        if len(actives) == 0 or len(terminated) == 0:
+            display_state = False
+
+        # We get the children group that we want to display
+        if state == "active" and len(actives) > 0:
+            children = actives
+        else:
+            children = terminated
 
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
@@ -185,8 +200,9 @@ class MyAccountController(PaymentFormController):
             child = children.filtered(lambda c: c.id == int(child_id))
             if not child:  # The user does not sponsor this child_id
                 return request.redirect(
-                    f"/my/children?child_id={children[0].id}"
+                    f"/my/children?state={state}&child_id={children[0].id}"
                 )
+            partner = request.env.user.partner_id
             letters = request.env["correspondence"].search([
                 ("partner_id", "=", partner.id),
                 ("child_id", "=", int(child_id)),
@@ -206,7 +222,9 @@ class MyAccountController(PaymentFormController):
                 {"child_id": child,
                  "children": children,
                  "letters": letters,
-                 "lines": lines}
+                 "lines": lines,
+                 "state": state,
+                 "display_state": display_state}
             )
         else:
             return request.redirect(f"/my/children?child_id={children[0].id}")
@@ -279,7 +297,7 @@ class MyAccountController(PaymentFormController):
             ("amount_total", "!=", 0),
         ], limit=1, order="create_date asc").create_date.year
         current_year = datetime.today().year
-        
+
         values = self._prepare_portal_layout_values()
         values.update({
             "partner": partner,
@@ -348,14 +366,14 @@ class MyAccountController(PaymentFormController):
                 return "no image uploaded"
             partner.write({"image": image_value})
         return request.redirect("/my/information")
-          
+
     @route("/my/download/<source>", type="http", auth="user", website=True)
     def download_file(self, source, **kw):
         def _get_required_param(key, params):
             if key not in params:
                 raise ValueError("Required parameter {}".format(key))
             return params[key]
-          
+
         if source == "picture":
             child_id = _get_required_param("child_id", kw)
             obj_id = _get_required_param("obj_id", kw)
