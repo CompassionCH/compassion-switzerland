@@ -7,6 +7,7 @@
 #
 ##############################################################################
 import logging
+from base64 import b64decode, b64encode
 
 from werkzeug.datastructures import FileStorage
 
@@ -40,7 +41,7 @@ class OrderMaterialForm(models.AbstractModel):
     @property
     def _form_fieldsets(self):
         fields = [
-            {"id": "flyers", "fields": ["flyer_number"]},
+            {"id": "flyers", "fields": ["flyer_number", "form_id"]},
         ]
         if not self.large_picture:
             fields.append(
@@ -53,6 +54,7 @@ class OrderMaterialForm(models.AbstractModel):
                     "fields": ["large_picture"],
                 }
             )
+        return fields
 
     @property
     def form_msg_success_created(self):
@@ -97,13 +99,13 @@ class OrderMaterialForm(models.AbstractModel):
             values, extra_values
         )
         self.o_request.website.get_status_message()
-        large_picture = extra_values.get("large_picture")
+        large_picture = self.o_request.params.get("large_picture")
         partner = self.partner_id.sudo()
         if large_picture:
             if isinstance(large_picture, FileStorage):
                 large_picture.stream.seek(0)
-                large_picture = large_picture.stream.read().encode("base64")
-            partner.advocate_details_id.picture_large = large_picture
+                large_picture = large_picture.stream.read()
+            partner.advocate_details_id.picture_large = b64encode(large_picture)
             partner.registration_ids[:1].write(
                 {
                     "completed_task_ids": [
@@ -111,6 +113,7 @@ class OrderMaterialForm(models.AbstractModel):
                     ]
                 }
             )
+            extra_values["large_picture"] = large_picture
         else:
             extra_values[
                 "large_picture"
@@ -173,7 +176,7 @@ class OrderMaterialFormFlyer(models.AbstractModel):
         ftype = "jpg"
         partner = self.main_object.partner_id
         image = partner.advocate_details_id.picture_large or partner.image
-        mimetype = magic.from_buffer(image.decode("base64"), True)
+        mimetype = magic.from_buffer(b64decode(image), True)
         if mimetype and "/" in mimetype:
             ftype = mimetype.split("/")[-1]
         filename = "{}.{}".format(partner.name, ftype)
