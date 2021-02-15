@@ -247,7 +247,7 @@
         </template>
 
         <!-- Add Terms and Conditions to donation form -->
-        <template id="donation_form_gtc" inherit_id="cms_form.base_form">
+        <template id="donation_form_gtc" inherit_id="cms_form.base_form" priority="1000" name="Donation Form Template with GTC">
             <xpath expr="//div[@class='col-sm-9 col-sm-offset-3 above-controls']" position="inside">
                 <div id="donation-gtc">
                     <t t-set="terms_link">https://compassion.ch/protection-des-donnees/</t>
