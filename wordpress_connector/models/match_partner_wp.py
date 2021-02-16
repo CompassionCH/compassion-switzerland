@@ -42,7 +42,7 @@ class MatchPartnerWP(models.AbstractModel):
         country = (
             self.env["res.country"]
             .with_context(lang=wp_lang)
-            .search([("name", "=ilike", wp_country), ])
+            .search([("name", "=ilike", wp_country.strip()), ])
         )
         return country
 
