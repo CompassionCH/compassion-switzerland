@@ -19,8 +19,9 @@ class PaymentOptionsForm(models.AbstractModel):
     _form_model = "recurring.contract.group"
 
     payment_mode = fields.Selection(selection=[
-        ("LSV", "LSV"),
-        ("Postfinance Direct Debit", "Postfinance Direct Debit"),
+        # CO-3574 TODO activate LSV/DD with bank authorization form
+        # ("LSV", "LSV"),
+        # ("Postfinance Direct Debit", "Postfinance Direct Debit"),
         ("Permanent Order", "Permanent Order"),
     ])
     payment_frequency = fields.Selection(selection=[
