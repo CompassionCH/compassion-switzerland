@@ -156,7 +156,10 @@ class MyAccountController(PaymentFormController):
     @route(["/my", "/my/home", "/my/account"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
         # All this paths needs to be redirected
-        return request.redirect("/my/children")
+        if request.env.user.partner_id.sponsorship_ids:
+            return request.redirect("/my/children")
+        else:
+            return request.redirect("/my/information")
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
@@ -312,8 +315,10 @@ class MyAccountController(PaymentFormController):
         # Find the first non empty bvr reference in the groups
         bvr_reference = next((ref for ref in bvr_references if ref), None)
         # If no bvr reference is found, we compute a new one
-        if not bvr_reference:
+        if not bvr_reference and groups:
             bvr_reference = groups[0].compute_partner_bvr_ref()
+        else:
+            bvr_reference = ""
 
         # Load forms
         form_success = False
@@ -326,7 +331,7 @@ class MyAccountController(PaymentFormController):
         kw["total_amount"] = sum(amount_by_group)
         kw["bvr_reference"] = bvr_reference
         payment_options_form = self.get_form(
-            "recurring.contract.group", groups[0].id, **kw
+            "recurring.contract.group", groups[:1].id, **kw
         )
         if form_id is None or form_id == payment_options_form.form_id:
             payment_options_form.form_process()
