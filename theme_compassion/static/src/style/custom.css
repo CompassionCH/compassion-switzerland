@@ -149,20 +149,9 @@ span[itemprop="name"]:before {
 
 #main_footer {
 	z-index: 20;
-	background: url(https://www.compassion.ch/wp-content/themes/compassion/assets/img/background-noise.png) left top;
-	position: relative;
+	background-color: #005eb8;
+	padding-top: 52px;
 }
-
-#main_footer:before {
-	content: '';
-    display: block;
-    width: 100%;
-    position: relative;
-    top: -23px;
-    height: 23px;
-    background: url(https://www.compassion.ch/wp-content/themes/compassion/assets/img/abgerissen-blau.png) left top;
-}
-
 
 /* footer styling */
 footer .social-links a {
@@ -220,7 +209,7 @@ header .navbar-brand img {
 #main_footer .footer_section_title {
     text-transform: uppercase;
     display: block;
-    font-family: "Miller";
+    font-weight: bold;
     font-size: 16px;
     line-height: 16px;
     margin-bottom: 10px;
@@ -229,7 +218,7 @@ header .navbar-brand img {
 
 #main_footer .footer_section_big_title {
     display: block;
-    font-family: "Miller";
+    font-weight: bold;
     font-size: 20px;
     line-height: 25px;
     margin-bottom: 6px;
@@ -243,7 +232,6 @@ header .navbar-brand img {
 
 #main_footer .end_footer_link {
     display: block;
-    font-family: "Miller";
     font-size: 15px;
     line-height: 15px;
     text-align: right;

@@ -38,30 +38,26 @@
         <template id="aboutme_formatted" name="Ambassador Details">
             <t t-set="details_obj" t-value="partner.advocate_details_id"/>
             <h3>Sport profile page</h3>
-            <section class="section-header" style="margin-top: 25px; margin-bottom: 10px;"/>
-
-            <!-- Ambassador details -->
-            <div class="row">
-                <div t-att-class="'col-md-6' if details_obj.picture_large else 'col-md-12'">
-                    <t t-if="details_obj.quote">
-                        <!--<h4>About me: <span t-esc="details_obj.description" style="font-size: smaller;"/></h4>-->
-                        <h4>My motto: <span t-esc="details_obj.quote" style="font-style: italic; font-size: smaller;"/></h4>
-                    </t>
-                    <t t-else="">
-                        <p style="margin-top: 13px;">
-                            Your profile is incomplete. Please fill in your data.
-                        </p>
-                    </t>
-                </div>
-                <button type="button"
+            <button type="button"
                         class="btn btn-primary"
                         data-toggle="modal"
                         data-target="#modal_advocate_details">
                     Change
                 </button>
-                <!-- Large picture -->
-                <t t-call="muskathlon.picture_2_formatted"/>
-            </div>
+            <section class="section-header" style="margin-top: 25px; margin-bottom: 10px;"/>
+
+            <!-- Ambassador details -->
+            <t t-if="details_obj.quote">
+                <!--<h4>About me: <span t-esc="details_obj.description" style="font-size: smaller;"/></h4>-->
+                <h4>My motto: <span t-esc="details_obj.quote" style="font-style: italic; font-size: smaller;"/></h4>
+            </t>
+            <t t-else="">
+                <p style="margin-top: 13px;">
+                    Your profile is incomplete. Please fill in your data.
+                </p>
+            </t>
+            <!-- Large picture -->
+            <t t-call="muskathlon.picture_2_formatted"/>
         </template>
 
         <template id="tripinfos_formatted" name="Muskathlon Trip Information">

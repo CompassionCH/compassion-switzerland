@@ -7,12 +7,15 @@
             <t t-call="portal.frontend_layout">
                 <!-- hides navbar from my portal -->
                 <style>.o_portal.container { display: none !important; }</style>
-                <style>footer { display: none !important; }</style>
 
                 <!-- Actual navigation bar containing menus proposed by MyAccount -->
                 <nav class="navbar navbar-expand-md navbar-light bg-light">
                     <div class="container">
-                        <div class="collapse navbar-collapse">
+                    <a class="navbar-brand" href="#">My account</a>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myAccountMenu" aria-controls="myAccountMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                        <div class="collapse navbar-collapse" id="myAccountMenu">
                             <ul class="nav navbar-nav mr-auto text-left">
                                 <li t-attf-class="nav-item#{' active' if selected == 'child' else ''}">
                                     <a class="nav-link" href="/my/children">My children</a>
