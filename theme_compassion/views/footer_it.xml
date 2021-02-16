@@ -43,7 +43,7 @@
                             </li>
                             <li>
                                 <a href="#" class="footer_section_title">
-                                    Contribuire
+                                    Fai la differenza
                                 </a>
                                 <ul>
                                     <li>
@@ -53,7 +53,12 @@
                                     </li>
                                     <li>
                                         <a href="https://compassion.ch/it/participer/">
-                                            Impegnarsi come volontario
+                                            Impegnati come volontario
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://together.compassion.ch/it_IT/homepage">
+                                            Inizia il tuo progetto
                                         </a>
                                     </li>
                                 </ul>
@@ -78,18 +83,23 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/compassion-dans-le-monde/">
-                                            Compassion nel mondo
+                                        <a href="https://compassion.ch/it/finanze/">
+                                            Finanze
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/finances/">
-                                            Finanze
+                                        <a href="https://compassion.ch/it/ambasciatori/">
+                                            Ambasciatori di Compassion
                                         </a>
                                     </li>
                                     <li>
                                         <a href="https://compassion.ch/it/telechargements/">
                                             Download
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://compassion.ch/it/category/press-it/">
+                                            Compassion nei media
                                         </a>
                                     </li>
                                 </ul>
@@ -117,6 +127,11 @@
                             <li>
                                 <a href="https://compassion.ch/it/agenda/"
                                    class="footer_section_title">Agenda
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://compassion.ch/it/lapp-di-compassion-svizzera/">
+                                    L'app di Compassion
                                 </a>
                             </li>
                         </ul>
@@ -156,22 +171,15 @@
                             <a href="mailto:info@compassion.ch">
                                 info@compassion.ch
                             </a>
-                        </p>
-
-                        <h5 class="footer_section_big_title">Coordinate
-                            bancarie
-                        </h5>
-                        <p>
-                            CCP: 17-312562-0
                             <br/>
-                            IBAN: CH07 0900 0000 1731 2562 0
+                            IBAN CH07 0900 0000 1731 2562 0
                         </p>
                     </div>
                 </div>
                 <div class="end_footer">
                     <div class="row">
                         <div class="col-sm-4">
-                            © 2018 Compassion Svizzera
+                            © 2021 Compassion Svizzera
                         </div>
                         <div class="col-sm-8 end_footer_links">
                             <ul>
@@ -181,20 +189,17 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://compassion.ch/it/protection-enfance/"
-                                       class="end_footer_link">Notre engagement
-                                        pour la protection de l’enfance
+                                    <a href="https://compassion.ch/it/privacy-e-termini/"
+                                       class="end_footer_link">Privacy e termini
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://compassion.ch/it/protection-des-donnees/"
-                                       class="end_footer_link">Protection des
-                                        données
-                                    </a>
+                                    <a href="https://compassion.ch/it/?page_id=17181"
+                                       class="end_footer_link">Dichiarazione di impegno per la protezione dell’infanzia</a>
                                 </li>
                                 <li>
-                                    <a href="https://compassion.ch/it/questions-frequentes/"
-                                       class="end_footer_link">FAQ
+                                    <a href="https://compassion.ch/it/domande-frequenti/"
+                                       class="end_footer_link">Domande frequenti
                                     </a>
                                 </li>
                             </ul>

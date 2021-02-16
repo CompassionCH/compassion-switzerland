@@ -47,11 +47,11 @@
                 </t>
                 <div class="row mt-4">
                     <!-- Profile page -->
-                    <div class="col-6" t-if="registrations">
+                    <div class="col-md-6" t-if="registrations">
                         <t t-call="muskathlon.aboutme_formatted"/>
                     </div>
                     <!-- Muskathlon trip data -->
-                    <div class="col-6" t-if="registrations">
+                    <div class="col-md-6" t-if="registrations">
                         <t t-call="muskathlon.tripinfos_formatted"/>
                     </div>
                 </div>

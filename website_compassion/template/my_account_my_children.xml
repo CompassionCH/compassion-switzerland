@@ -34,25 +34,25 @@
                 <!-- Small menu to jump directly to the right section inside the view -->
                 <body data-spy="scroll" data-target="#section_menu">
                     <div class="container">
-                        <nav class="navbar">
+                        <nav class="navbar navbar-expand">
                             <ul id="section_menu" class="nav navbar-nav">
                                 <li class="nav-item">
-                                    <a href="#info_section">
+                                    <a class="nav-link" href="#info_section">
                                         General information
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#pictures_section">
+                                    <a class="nav-link" href="#pictures_section">
                                         <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#gift_history_section">
+                                    <a class="nav-link" href="#gift_history_section">
                                         Gift history
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#letters_section">
+                                    <a class="nav-link" href="#letters_section">
                                         Letters
                                     </a>
                                 </li>
@@ -159,37 +159,6 @@
 
                             <br/>
                         </t>
-
-                        <!-- Community information -->
-                        <t t-if="child_id.project_id.closest_city or child_id.project_id.country_id.name or child_id.project_id.community_population or child_id.project_id.primary_language_id.name or child_id.project_id.primary_adults_occupation_ids or child_id.project_id.primary_diet_ids">
-                            <h3>Community</h3>
-                            <!-- Location (city, country), one or both may be empty, so we handle properly -->
-                            <t t-set="key" t-value="'Location'"/>
-                            <t t-set="value" t-value="', '.join(list(filter(None, [child_id.project_id.closest_city, child_id.project_id.country_id.name])))"/>
-                            <t t-call="website_compassion.fill_key_value"/>
-
-                            <!-- Population -->
-                            <t t-set="key" t-value="'Population'"/>
-                            <t t-set="value" t-value="child_id.project_id.community_population"/>
-                            <t t-call="website_compassion.fill_key_value"/>
-
-                            <!-- Language -->
-                            <t t-set="key" t-value="'Language'"/>
-                            <t t-set="value" t-value="child_id.project_id.primary_language_id.name"/>
-                            <t t-call="website_compassion.fill_key_value"/>
-
-                            <!-- Common job -->
-                            <t t-set="key" t-value="'Common jobs'"/>
-                            <t t-set="value" t-value="child_id.get_list('project_id.primary_adults_occupation_ids.value').capitalize()"/>
-                            <t t-call="website_compassion.fill_key_value"/>
-
-                            <!-- Typical food -->
-                            <t t-set="key" t-value="'Typical food'"/>
-                            <t t-set="value" t-value="child_id.get_list('project_id.primary_diet_ids.value').capitalize()"/>
-                            <t t-call="website_compassion.fill_key_value"/>
-
-                            <br/>
-                        </t>
                     </div>
 
                     <div class="col-md-6">
@@ -241,7 +210,42 @@
 
                             <br/>
                         </t>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Community information -->
+                        <t t-if="child_id.project_id.closest_city or child_id.project_id.country_id.name or child_id.project_id.community_population or child_id.project_id.primary_language_id.name or child_id.project_id.primary_adults_occupation_ids or child_id.project_id.primary_diet_ids">
+                            <h3>Community</h3>
+                            <!-- Location (city, country), one or both may be empty, so we handle properly -->
+                            <t t-set="key" t-value="'Location'"/>
+                            <t t-set="value" t-value="', '.join(list(filter(None, [child_id.project_id.closest_city, child_id.project_id.country_id.name])))"/>
+                            <t t-call="website_compassion.fill_key_value"/>
 
+                            <!-- Population -->
+                            <t t-set="key" t-value="'Population'"/>
+                            <t t-set="value" t-value="child_id.project_id.community_population"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <!-- Language -->
+                            <t t-set="key" t-value="'Language'"/>
+                            <t t-set="value" t-value="child_id.project_id.primary_language_id.name"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <!-- Common job -->
+                            <t t-set="key" t-value="'Common jobs'"/>
+                            <t t-set="value" t-value="child_id.get_list('project_id.primary_adults_occupation_ids.value').capitalize()"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <!-- Typical food -->
+                            <t t-set="key" t-value="'Typical food'"/>
+                            <t t-set="value" t-value="child_id.get_list('project_id.primary_diet_ids.value').capitalize()"/>
+                            <t t-call="website_compassion.fill_key_value"/>
+
+                            <br/>
+                        </t>
+                    </div>
+                    <div class="col-md-6">
                         <!-- Compassion center information -->
                         <t t-set="child_activities" t-as="child_id.project_id.get_activity_for_age(child_id.age)"/>
                         <t t-if="child_id.project_id.local_church_name or child_id.project_id.sponsorships_count or child_activities">

@@ -11,9 +11,8 @@
             <t t-call="website_compassion.my_account_layout">
                 <t t-call="website_compassion.letter_horizontal_pictures"/>
 
-                <!-- TODO : fix container height to available size -->
-                <div class="container" style="position: relative;">
-                    <div class="row" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0;">
+                <div class="container-fluid pr-5 pl-5 mb-5">
+                    <div class="row">
                         <div class="col-md-4">
                             <t t-call="website_compassion.letter_templates"/>
                         </div>
@@ -98,10 +97,10 @@
         <!-- Display the text box to write the content of the letter -->
         <template id="letter_text_content">
             <div class="w-100x">
-                <a class="btn btn-primary mb-2" href="https://compassion.ch/de/was-soll-ich-meinem-patenkind-schreiben/" target="_blank" style="float: left;">
+                <a class="btn btn-primary mb-2" href="https://compassion.ch/de/was-soll-ich-meinem-patenkind-schreiben/" target="_blank">
                     What should I write ?
                 </a>
-                <a class="btn btn-primary mb-2" href="https://compassion.ch/le-voyage-de-vos-lettres/" target="_blank" style="float: right;">
+                <a class="btn btn-primary mb-2" href="https://compassion.ch/le-voyage-de-vos-lettres/" target="_blank">
                     What happens to my letter ?
                 </a>
             </div>
