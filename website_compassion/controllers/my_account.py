@@ -6,7 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import datetime
+from datetime import datetime, timedelta
 from base64 import b64decode, b64encode
 from os import path, remove
 from zipfile import ZipFile
@@ -15,6 +15,7 @@ from urllib.request import urlretrieve, urlopen
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
 
+from odoo import fields
 from odoo.http import request, route
 from odoo.addons.web.controllers.main import content_disposition
 from odoo.addons.portal.controllers.portal import CustomerPortal
@@ -277,14 +278,20 @@ class MyAccountController(PaymentFormController):
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
         ])
+        in_one_month = datetime.today() + timedelta(days=30)
+        due_invoices = request.env["account.invoice"].sudo().search([
+            ("partner_id", "=", partner.id),
+            ("state", "=", "open"),
+            ("invoice_type", "=", "sponsorship"),
+            ("type", "=", "out_invoice"),
+            ("amount_total", "!=", 0),
+            ("date_invoice", "<", fields.Date.to_string(in_one_month))
+        ])
 
         groups = _map_contracts(
             partner, "group_id", filter_fun=lambda s: s.state not in
             ["cancelled", "terminated"] and partner == s.mapped("partner_id")
         )
-        # TODO : handle the case where there is no group in a better way
-        if not groups:
-            request.redirect("/my/home")
         # List of recordset of sponsorships (one recordset for each group)
         sponsorships_by_group = [
             g.mapped("contract_ids").filtered(
@@ -350,6 +357,7 @@ class MyAccountController(PaymentFormController):
             "partner": partner,
             "payment_options_form": payment_options_form,
             "invoices": invoices,
+            "due_invoices": due_invoices,
             "groups": groups,
             "amount_by_group": amount_by_group,
             "paid_sponsor_count_by_group": paid_sponsor_count_by_group,
