@@ -167,15 +167,18 @@ class Contracts(models.Model):
             # Search for existing partner
             partner = match_obj.match_partner_to_infos(partner_infos)
             if form_data.get("mithelfen", {}).get("checkbox") == "on":
-                advocate_lang = partner.lang[:2]
-                notify_user = self.env["ir.config_parameter"].get_param(
-                    f"potential_advocate_{advocate_lang}")
-                if notify_user:
-                    partner.activity_schedule(
-                        "mail.mail_activity_data_todo",
-                        summary="Potential volunteer",
-                        note="This person wants to ben involved with volunteering",
-                        user_id=notify_user)
+                if not partner.advocate_details_id and not \
+                        partner.interested_for_volunteering:
+                    partner.interested_for_volunteering = True
+                    advocate_lang = partner.lang[:2]
+                    notify_user = self.env["ir.config_parameter"].get_param(
+                        f"potential_advocate_{advocate_lang}")
+                    if notify_user:
+                        partner.activity_schedule(
+                            "mail.mail_activity_data_todo",
+                            summary="Potential volunteer",
+                            note="This person wants to ben involved with volunteering",
+                            user_id=notify_user)
 
             # Check origin
             internet_id = self.env.ref("utm.utm_medium_website").id
