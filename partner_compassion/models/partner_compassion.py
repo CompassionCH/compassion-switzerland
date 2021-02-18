@@ -179,6 +179,7 @@ class ResPartner(models.Model):
     advocate_details_id = fields.Many2one(
         "advocate.details", "Advocate details", copy=False, readonly=False
     )
+    interested_for_volunteering = fields.Boolean()
     engagement_ids = fields.Many2many(
         "advocate.engagement",
         related="advocate_details_id.engagement_ids",
