@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 class ZoomSession(models.Model):
     _name = "res.partner.zoom.session"
+    _inherit = "translatable.model"
     _description = "Zoom Session with partners"
     _rec_name = "date_start"
     _order = "date_start desc"
