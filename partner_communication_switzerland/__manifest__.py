@@ -72,6 +72,7 @@
         "data/utm_data.xml",
         "data/field_office_info_report.xml",
         "data/onboarding_process.xml",
+        "data/onboarding_survey.xml",
         "report/child_picture.xml",
         "views/communication_job_view.xml",
         "views/download_child_pictures_view.xml",
