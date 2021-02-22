@@ -8,10 +8,10 @@ def migrate(env, installed_version):
 
     # Link existing communication rules to XML ids.
     rules_mapping = {
-        "Sponsorship Onboarding - Sponsorship confirmation": (
+        "Sponsorship Onboarding - Welcome and payment information": (
             "config_onboarding_sponsorship_confirmation",
             "mail_onboarding_sponsorship_confirmation"),
-        "Sponsorship Onboarding Step 1 - Child and Payment Info": (
+        "Sponsorship Onboarding Step 1 - Child Information and Zoom invitation": (
             "config_onboarding_step1", "mail_onboarding_step1"),
         "Sponsorship Onboarding Step 2 - Video and Country Information": (
             "config_onboarding_step2", "mail_onboarding_step2"),
@@ -25,6 +25,8 @@ def migrate(env, installed_version):
             "config_onboarding_photo_by_post", "mail_onboarding_photo_by_post"),
         "Sponsorship Onboarding - Zoom Reminder": (
             "config_onboarding_zoom_reminder", "mail_onboarding_zoom_reminder"),
+        "Sponsorship Onboarding - First B2S Letter": (
+            "config_onboarding_first_letter", "mail_onboarding_first_letter"),
     }
     module = "partner_communication_switzerland"
     for rule_name, rule_ids in rules_mapping.items():
