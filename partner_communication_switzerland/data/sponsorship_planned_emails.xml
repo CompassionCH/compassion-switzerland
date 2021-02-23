@@ -724,5 +724,12 @@
                 </p>
             </field>
         </record>
+        <record id="email_sponsorship_transfer_dossier" model="mail.template">
+            <field name="name">Sponsorship Transfer - New Dossier</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+        </record>
     </data>
 </odoo>
