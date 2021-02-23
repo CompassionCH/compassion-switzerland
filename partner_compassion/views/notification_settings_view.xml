@@ -23,6 +23,16 @@
                     <field name="advocate_birthday_it_id" widget="many2one"/>
                     <label for="advocate_birthday_en_id" class="o_light_label"/>
                     <field name="advocate_birthday_en_id" widget="many2one"/>
+                    <separator/>
+                    <h3>Potential advocates</h3>
+                    <div name="potential_advocates">
+                        <label for="potential_advocate_fr" class="o_light_label"/>
+                        <field name="potential_advocate_fr"/>
+                        <label for="potential_advocate_de" class="o_light_label"/>
+                        <field name="potential_advocate_de"/>
+                        <label for="potential_advocate_it" class="o_light_label"/>
+                        <field name="potential_advocate_it"/>
+                    </div>
                 </div>
             </xpath>
             <xpath expr="//div[@name='compassion_settings']">
