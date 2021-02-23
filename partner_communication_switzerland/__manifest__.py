@@ -78,7 +78,6 @@
         "views/download_child_pictures_view.xml",
         "views/end_contract_wizard_view.xml",
         "views/disaster_alert_view.xml",
-        "views/ir_actions_view.xml",
         "views/partner_compassion_view.xml",
         "views/contract_view.xml",
         "views/change_text_wizard_view.xml",
