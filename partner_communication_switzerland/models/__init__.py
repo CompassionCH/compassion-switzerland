@@ -24,6 +24,5 @@ from . import staff_notifications_settings
 from . import sms_child_request
 from . import res_users
 from . import thankyou_config
-from . import ir_actions
 from . import res_partner_zoom_session
 from . import field_office
