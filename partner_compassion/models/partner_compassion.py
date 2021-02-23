@@ -359,6 +359,18 @@ class ResPartner(models.Model):
             """, [vals["email"], user_ids])
         if vals.get("criminal_record"):
             vals["criminal_record_date"] = fields.Date.today()
+        if vals.get("interested_for_volunteering"):
+            # Notify volunteer staff
+            for partner in self.filtered(lambda p: not p.advocate_details_id):
+                advocate_lang = partner.lang[:2]
+                notify_user = self.env["res.config.settings"].get_param(
+                    f"potential_advocate_{advocate_lang}")
+                if notify_user:
+                    partner.activity_schedule(
+                        "mail.mail_activity_data_todo",
+                        summary="Potential volunteer",
+                        note="This person wants to be involved with volunteering",
+                        user_id=notify_user)
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
