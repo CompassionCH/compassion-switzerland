@@ -76,6 +76,24 @@ class ResPartner(models.Model):
     ##########################################################################
     #                        NEW PARTNER FIELDS                              #
     ##########################################################################
+
+    primary_segment_id = fields.Many2one(
+        "res.partner.segment",
+        string="Primary segmentation category",
+        compute="_compute_segments",
+        store=True
+    )
+    secondary_segment_id = fields.Many2one(
+        "res.partner.segment",
+        string="Secondary segmentation category",
+        compute="_compute_segments",
+        store=True
+    )
+
+    all_segments = fields.Many2many(
+        "res.partner.segment.affinity",
+        string="Affinity for each segment")
+
     lang = fields.Selection(default=False)
     total_invoiced = fields.Monetary(groups=False)
     # Track address changes
@@ -280,6 +298,24 @@ class ResPartner(models.Model):
         for partner in self:
             partner.thankyou_letter = \
                 THANKYOU_MAPPING[partner.thankyou_preference]
+
+    @api.multi
+    @api.depends("all_segments", "all_segments.affinity")
+    def _compute_segments(self):
+        for partner in self:
+            affinity_for_segments = sorted([(s.affinity, s) for s in partner.all_segments])[::-1]
+
+            if affinity_for_segments and len(affinity_for_segments) > 1:
+                partner.primary_segment_id = affinity_for_segments[0][1].segment_id
+                partner.secondary_segment_id = affinity_for_segments[1][1].segment_id
+
+            elif affinity_for_segments and len(affinity_for_segments) > 0:
+                partner.primary_segment_id = affinity_for_segments[0][1].segment_id
+                partner.secondary_segment_id = None
+
+            else:
+                partner.primary_segment_id = None
+                partner.secondary_segment_id = None
 
     ##########################################################################
     #                              ORM METHODS                               #

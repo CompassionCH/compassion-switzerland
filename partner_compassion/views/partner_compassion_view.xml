@@ -125,6 +125,12 @@
                         <field name="engagement_ids" widget="many2many_tags"/>
                     </group>
                 </page>
+                <page string="Segmentation" name="segmentation_information">
+                    <group name="Segmentation">
+                        <field name="primary_segment_id" />
+                        <field name="secondary_segment_id" />
+                    </group>
+                </page>
             </xpath>
 
             <!-- Put reference fields at top -->
@@ -305,6 +311,8 @@
             </field>
             <xpath expr="//group">
                 <filter string="Language" name="language" context="{'group_by': 'lang'}"/>
+                <filter string="Primary Segment" name="primary_segment_id" context="{'group_by':'primary_segment_id'}"/>
+                <filter string="Secondary Segment" name="secondary_segment_id" context="{'group_by':'secondary_segment_id'}"/>
             </xpath>
             <field name="name" position="after">
                  <field name="advocate_details_id"
