@@ -616,10 +616,10 @@ class RecurringContract(models.Model):
         module = "partner_communication_switzerland."
         new_dossier = self.env.ref(
             module + "config_onboarding_sponsorship_confirmation")
-        transfer = self.env.ref(module + "")
+        transfer = self.env.ref(module + "new_dossier_transfer")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
 
-        for spo in self:
+        for spo in self.filtered(lambda s: s.origin_id.type != "transfer"):
             spo.send_communication(child_picture)
             if spo.correspondent_id.id != spo.partner_id.id:
                 corresp = spo.correspondent_id
@@ -629,6 +629,9 @@ class RecurringContract(models.Model):
                     spo._send_new_dossier(new_dossier, correspondent=False)
                     continue
             spo._send_new_dossier(new_dossier)
+
+        for spo in self.filtered(lambda s: s.origin_id.type == "transfer"):
+            spo._send_new_dossier(transfer)
 
     def _send_new_dossier(self, communication_config, correspondent=True):
         """

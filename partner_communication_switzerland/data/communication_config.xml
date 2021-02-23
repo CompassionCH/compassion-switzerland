@@ -493,6 +493,14 @@
             <field name="send_mode">digital</field>
             <field name="model_id" ref="base.model_res_users"/>
         </record>
+        <record id="new_dossier_transfer" model="partner.communication.config">
+            <field name="name">Sponsorship Transfer - New Dossier</field>
+            <field name="email_template_id" ref="email_sponsorship_transfer_dossier"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="send_mode">digital</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="attachments_function">get_new_dossier_attachments</field>
+        </record>
 
         <!-- SMS sponsorship communication config -->
         <record id="sms_registration_confirmation_1" model="partner.communication.config">
