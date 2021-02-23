@@ -11,18 +11,6 @@
                 <label for="invalid_mail_notify_ids" class="o_light_label"/>
                 <field name="invalid_mail_notify_ids" widget="many2many_tags"/>
             </xpath>
-            <xpath expr="//div[@name='advocates_notification']">
-                <separator/>
-                <h3>Potential advocates</h3>
-                <div name="potential_advocates">
-                    <label for="potential_advocate_fr" class="o_light_label"/>
-                    <field name="potential_advocate_fr"/>
-                    <label for="potential_advocate_de" class="o_light_label"/>
-                    <field name="potential_advocate_de"/>
-                    <label for="potential_advocate_it" class="o_light_label"/>
-                    <field name="potential_advocate_it"/>
-                </div>
-            </xpath>
         </field>
     </record>
 </odoo>
