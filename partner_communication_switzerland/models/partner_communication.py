@@ -535,16 +535,12 @@ class PartnerCommunication(models.Model):
     def get_new_dossier_attachments(self):
         """
         Returns pdfs for the New Dossier Communication, including:
-        - Sponsorship payment slips (if payment is True)
         - Small Childpack in PDF
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
         attachments = OrderedDict()
         sponsorships = self.get_objects()
-
-        # Payment slips
-        attachments.update(self.get_sponsorship_payment_slip_attachments())
 
         # Childpack if not a SUB of planned exit.
         lifecycle = sponsorships.mapped("parent_id.child_id.lifecycle_ids")
