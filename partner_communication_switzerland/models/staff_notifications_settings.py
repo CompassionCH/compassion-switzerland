@@ -48,13 +48,13 @@ class StaffNotificationSettings(models.TransientModel):
         self.set_invalid_mail_notify_ids()
         self.env["ir.config_parameter"].set_param(
             "partner_communication_switzerland.potential_advocate_fr",
-            (str, self.potential_advocate_fr.id or 0))
+            str(self.potential_advocate_fr.id or 0))
         self.env["ir.config_parameter"].set_param(
             "partner_communication_switzerland.potential_advocate_de",
-            (str, self.potential_advocate_de.id or 0))
+            str(self.potential_advocate_de.id or 0))
         self.env["ir.config_parameter"].set_param(
             "partner_communication_switzerland.potential_advocate_it",
-            (str, self.potential_advocate_it.id or 0))
+            str(self.potential_advocate_it.id or 0))
 
     @api.model
     def get_values(self):
