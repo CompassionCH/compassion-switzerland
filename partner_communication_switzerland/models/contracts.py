@@ -502,12 +502,6 @@ class RecurringContract(models.Model):
                 lambda c: c.state != "cancelled" and c.start_date
                 and c.start_date < contract.start_date)
             contract.is_first_sponsorship = not old_sponsorships
-            if not old_sponsorships:
-                # Invite partner for next zoom
-                zoom_session = self.env["res.partner.zoom.session"].with_context(
-                    lang=contract.correspondent_id.lang).get_next_session()
-                if zoom_session:
-                    zoom_session.add_participant(contract.correspondent_id)
 
         return res
 
@@ -610,7 +604,9 @@ class RecurringContract(models.Model):
         correspondent.
         """
         module = "partner_communication_switzerland."
-        new_dossier = self.env.ref(module + "config_onboarding_step1")
+        new_dossier = self.env.ref(
+            module + "config_onboarding_sponsorship_confirmation")
+        transfer = self.env.ref(module + "")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
 
         for spo in self:

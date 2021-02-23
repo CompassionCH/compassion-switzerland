@@ -177,7 +177,7 @@ class Contracts(models.Model):
                         partner.activity_schedule(
                             "mail.mail_activity_data_todo",
                             summary="Potential volunteer",
-                            note="This person wants to ben involved with volunteering",
+                            note="This person wants to be involved with volunteering",
                             user_id=notify_user)
 
             # Check origin
