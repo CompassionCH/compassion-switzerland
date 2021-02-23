@@ -27,6 +27,8 @@ def migrate(env, installed_version):
             "config_onboarding_zoom_reminder", "mail_onboarding_zoom_reminder"),
         "Sponsorship Onboarding - First B2S Letter": (
             "config_onboarding_first_letter", "mail_onboarding_first_letter"),
+        "Sponsorship Transfer - New Dossier": (
+            "new_dossier_transfer", "email_sponsorship_transfer_dossier"),
     }
     module = "partner_communication_switzerland"
     for rule_name, rule_ids in rules_mapping.items():
