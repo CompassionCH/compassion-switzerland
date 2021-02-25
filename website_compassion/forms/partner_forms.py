@@ -66,7 +66,10 @@ class PartnerCoordinatesForm(models.AbstractModel):
         return _("Coordinates updated.")
 
     def _form_load_church_unlinked(self, fname, field, value, **req_values):
-        return value or req_values.get(fname, self.main_object.church_id.name)
+        return value or req_values.get(
+            fname,
+            self.main_object.church_id.name or self.main_object.church_unlinked
+        )
 
     def _form_validate_phone(self, value, **req_values):
         if value and not re.match(r"^[+\d][\d\s]{7,}$", value, re.UNICODE):
@@ -128,6 +131,8 @@ class PartnerCoordinatesForm(models.AbstractModel):
             if church_record:
                 del values["church_unlinked"]
                 values["church_id"] = church_record.id
+            else:
+                values["church_id"] = False
 
 
 class PartnerDeliveryForm(models.AbstractModel):
