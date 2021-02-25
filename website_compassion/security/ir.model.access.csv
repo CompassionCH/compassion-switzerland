@@ -27,10 +27,11 @@ read_access_mail_activity_portal,Read access mail activity portal,mail.model_mai
 read_access_sponsorship_gift_portal,Read access sponsorship gift portal,gift_compassion.model_sponsorship_gift,base.group_portal,1,0,0,0
 read_access_compassion_event_portal,Read access compassion event portal,crm_compassion.model_crm_event_compassion,base.group_portal,1,0,0,0
 read_access_sequence_portal,Read access sequence portal,base.model_ir_sequence,base.group_portal,1,0,0,0
+read_access_partner_bank,Read access partner bank portal,account.model_res_partner_bank,base.group_portal,1,0,0,0
 read_create_access_payment_slip_portal,Read create access payment slip portal,l10n_ch_payment_slip.model_l10n_ch_payment_slip,base.group_portal,1,0,1,0
 read_create_access_invoicer_portal,Read create access invoicer portal,recurring_contract.model_recurring_invoicer,base.group_portal,1,0,1,0
 write_access_invoice_portal,Write access invoice portal,account.model_account_invoice,base.group_portal,1,1,0,0,0
-write_access_partner_portal,Write access partner portal,base.model_res_partner,base.group_portal,1,1,0,0
+base.access_res_partner_portal,res_partner group_portal,base.model_res_partner,base.group_portal,1,1,0,0
 read_unlink_access_partial_reconcile_portal,Read unlink access partial reconcile portal,account.model_account_partial_reconcile,base.group_portal,1,0,0,1
 read_unlink_access_full_reconcile_portal,Read unlink access full reconcile portal,account.model_account_full_reconcile,base.group_portal,1,0,0,1
 write_unlink_access_contract_group_portal,Write unlink access contract group portal,recurring_contract.model_recurring_contract_group,base.group_portal,1,1,0,1
