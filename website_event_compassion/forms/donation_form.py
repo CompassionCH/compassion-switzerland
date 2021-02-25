@@ -8,7 +8,6 @@
 ##############################################################################
 
 from odoo import models, fields, _
-from odoo.exceptions import UserError
 
 
 class EventDonationForm(models.AbstractModel):
