@@ -30,6 +30,11 @@ class EventDonationForm(models.AbstractModel):
     partner_zip = fields.Char(required=True)
     partner_city = fields.Char(required=True)
 
+    def _form_validate_amount(self, value, **kwargs):
+        if not value or float(value) < 1:
+            return "amount", _("Please set an amount")
+        return 0, 0
+
     @property
     def _payment_success_redirect(self):
         return f"/event/payment/validate/{self.invoice_id.id}?payment=success"
