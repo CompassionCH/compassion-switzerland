@@ -33,7 +33,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "mobile",
         "birthdate_date",
         "email",
-        "church_id",
+        "church_unlinked",
     ]
     _form_required_fields = [
         "title",
@@ -61,8 +61,10 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "mobile",
         "birthdate_date",
         "email",
-        "church_id",
+        "church_unlinked",
     ]
+
+    church_unlinked = fields.Char(string="Church")
 
     @property
     def form_title(self):
@@ -75,6 +77,12 @@ class PartnerCoordinatesForm(models.AbstractModel):
     @property
     def form_msg_success_updated(self):
         return _("Coordinates updated.")
+
+    def _form_load_church_unlinked(self, fname, field, value, **req_values):
+        return value or req_values.get(
+            fname,
+            self.main_object.church_id.name or self.main_object.church_unlinked
+        )
 
     def _form_validate_phone(self, value, **req_values):
         if value and not re.match(r"^[+\d][\d\s]{7,}$", value, re.UNICODE):
@@ -131,6 +139,20 @@ class PartnerCoordinatesForm(models.AbstractModel):
         return self.env[self.form_get_widget_model(fname, field)].widget_init(
             self, fname, field, **kw
         )
+
+    def form_before_create_or_update(self, values, extra_values):
+        super().form_before_create_or_update(values, extra_values)
+        church = values.get("church_unlinked")
+        if church:
+            church_record = self.env["res.partner"].search([
+                ("is_church", "=", True),
+                ("name", "%", church)
+            ], limit=1)
+            if church_record:
+                del values["church_unlinked"]
+                values["church_id"] = church_record.id
+            else:
+                values["church_id"] = False
 
 
 class PartnerDeliveryForm(models.AbstractModel):

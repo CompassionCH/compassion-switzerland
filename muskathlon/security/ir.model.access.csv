@@ -9,7 +9,6 @@ full_access_sports,Full access on sport discipline,model_sport_discipline,child_
 read_printer,Read access on printer for users,base_report_to_printer.model_printing_printer,base.group_user,1,0,0,0
 read_printer_action,Read access on printer action for users,base_report_to_printer.model_printing_action,base.group_user,1,0,0,0
 read_printer_report,Read access on printer report action for users,base_report_to_printer.model_printing_report_xml_action,base.group_user,1,0,0,0
-base.access_res_partner_portal,res_partner group_portal,model_res_partner,base.group_portal,1,1,0,0
 access_res_partner_title_portal,res_partner_title group_portal,base.model_res_partner_title,base.group_portal,1,0,0,0
 access_sponsorship_portal,recurring_contract group_portal,model_recurring_contract,base.group_portal,1,0,0,0
 access_sponsor_child_portal,child_compassion group_portal,sponsorship_compassion.model_compassion_child,base.group_portal,1,0,0,0
