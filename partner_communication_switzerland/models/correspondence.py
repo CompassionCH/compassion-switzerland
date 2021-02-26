@@ -177,11 +177,9 @@ class Correspondence(models.Model):
 
         for partner in partners:
             letters = self.filtered(lambda l: l.partner_id == partner)
-            is_first = len(letters) == self.search_count([
-                ("partner_id", "=", partner.id),
-                ("direction", "=", "Beneficiary To Supporter"),
-                ("state", "=", "Published to Global Partner")
-            ])
+            is_first = self.filtered(
+                lambda l: l.communication_type_ids == self.env.ref(
+                    "sbc_compassion.correspondence_type_new_sponsor"))
             no_comm = letters.filtered(lambda l: not l.communication_id)
             to_generate = letters if self.env.context.get("overwrite") else no_comm
 
